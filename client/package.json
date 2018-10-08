@@ -1,0 +1,39 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "proxy": "http://localhost:8000",
+  "dependencies": {
+    "emoji-mart": "^2.8.1",
+    "isomorphic-fetch": "^2.2.1",
+    "lodash": "^4.17.10",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.2",
+    "react-addons-shallow-compare": "^15.6.2",
+    "react-alert": "^4.0.4",
+    "react-alert-template-basic": "^1.0.0",
+    "react-avatar": "^3.2.0",
+    "react-cookie": "^0.4.9",
+    "react-desktop-notification": "^1.0.8",
+    "react-dom": "^16.4.2",
+    "react-dropzone": "^5.0.1",
+    "react-player": "^1.6.4",
+    "react-progressbar": "^15.4.1",
+    "react-redux": "^5.0.7",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "1.1.4",
+    "react-transition-group": "^2.4.0",
+    "recharts": "^1.2.0",
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.3.0",
+    "semantic-ui-react": "^0.82.3",
+    "tai-password-strength": "^1.1.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
