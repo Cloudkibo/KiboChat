@@ -7,7 +7,7 @@ const LiveChatDataLayer = require('../livechat/livechat.datalayer')
 const LiveChatLogicLayer = require('../livechat/livechat.logiclayer')
 const BotsDataLayer = require('../smart_replies/smart_replies.datalayer')
 const BotsLogicLayer = require('../smart_replies/smart_replies.logiclayer')
-const callApi = require('../utility')
+const utility = require('../utility')
 const needle = require('needle')
 const og = require('open-graph')
 
@@ -51,7 +51,7 @@ function createSession (page, subscriber, event) {
                         let payload = SessionsLogicLayer.prepareUserPayload(subscriber, page)
                         SessionsDataLayer.createSessionObject(payload)
                           .then(sessionSaved => {
-                            callApi(`featureusage/update`, 'put', {query: {companyId: page.companyId}, newPayload: { $inc: { sessions: 1 } }, options: {}})
+                            utility.callApi(`featureusage/update`, 'put', {query: {companyId: page.companyId}, newPayload: { $inc: { sessions: 1 } }, options: {}})
                               .then(updated => {
                               })
                               .catch(error => {
@@ -256,13 +256,13 @@ function sendautomatedmsg (req, page) {
           }
           unsubscribeResponse = true
         } else if (index === -111) {
-          callApi(`subscribers/query`, 'post', { senderId: req.sender.id, unSubscribedBy: 'subscriber' })
+          utility.callApi(`subscribers/query`, 'post', { senderId: req.sender.id, unSubscribedBy: 'subscriber' })
             .then(subscribers => {
               if (subscribers.length > 0) {
                 messageData = {
                   text: 'You have subscribed to our broadcasts. Send "stop" to unsubscribe'
                 }
-                callApi(`subscribers`, 'put', {query: { senderId: req.sender.id }, newPayload: { isSubscribed: true }, options: {}})
+                utility.callApi(`subscribers`, 'put', {query: { senderId: req.sender.id }, newPayload: { isSubscribed: true }, options: {}})
                   .then(updated => {
                   })
                   .catch(error => {
@@ -294,7 +294,7 @@ function sendautomatedmsg (req, page) {
             `https://graph.facebook.com/v2.6/me/messages?access_token=${response.body.access_token}`,
             data, (err4, respp) => {
               if (!unsubscribeResponse) {
-                callApi(`subscribers/query`, 'post', { senderId: req.sender.id })
+                utility.callApi(`subscribers/query`, 'post', { senderId: req.sender.id })
                   .then(subscribers => {
                     SessionsDataLayer.findOneSessionUsingQuery({subscriber_id: subscribers[0]._id, page_id: page._id, company_id: page.companyId})
                       .then(session => {
@@ -315,7 +315,7 @@ function sendautomatedmsg (req, page) {
                           }, // this where message content will go
                           status: 'unseen' // seen or unseen
                         }
-                        callApi(`webhooks`, 'post', { pageId: page.pageId })
+                        utility.callApi(`webhooks`, 'post', { pageId: page.pageId })
                           .then(webhooks => {
                             if (webhooks.length > 0 && webhooks[0].isEnabled) {
                               logger.serverLog(TAG, `webhook in live chat ${webhooks}`)
