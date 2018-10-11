@@ -1,0 +1,203 @@
+//
+   Created by sojharo on 24/04/2018.
+
+doctype html
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    title
+      | KiboPush | Sign In
+    meta(name="description" content="Latest updates and statistic charts")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
+    script(type='text/javascript').
+      window.__url_production = "https://kibochat.cloudkibo.com";
+      window.__url_staging = "https://skibochat.cloudkibo.com";
+    script(src="https://cdn.cloudkibo.com/public/scripts/kiboAuth.js")
+    //- script(type='text/javascript').
+    //-   window.__kibo_company_id = "5a71705eae76a333430b9f15";
+    //-   document.addEventListener("DOMContentLoaded", function () {
+    //-     console.log('running script')
+    //-     var wa = document.createElement('script');
+    //-     wa.type = 'text/javascript';
+    //-     wa.async = true;
+    //-     wa.src = 'https://cdn.cloudkibo.com/public/scripts/widgetAppSrc.js';
+    //-     var s = document.getElementsByTagName('script')[0];
+    //-     s.parentNode.insertBefore(wa, s);
+    //-     setTimeout(function() {
+    //-       console.log(window.__infoPayload)
+    //-       let plugin = document.getElementsByClassName('fb-customerchat')[0]
+    //-       plugin.setAttribute('ref', JSON.stringify(window.__infoPayload))
+    //-       console.log(plugin)
+    //-       // document.body.appendChild(plugin);
+    //-     }, 5000)
+    //-   });
+    // script(src="https://kibopush-sojharo.ngrok.io/scripts/widgetAppSrc.js" type="text/javascript")
+    // begin::Web font
+    // Facebook Pixel Code
+    script.
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '574448036263793');
+      fbq('track', 'PageView');
+    noscript
+      img(height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=574448036263793&ev=PageView&noscript=1")
+    // End Facebook Pixel Code
+    script.
+      fbq('track', 'CompleteRegistration');
+    script(src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js")
+    script.
+      WebFont.load({
+        google: {'families': ['Poppins:300,400,500,600,700', 'Roboto:300,400,500,600,700']},
+        active: function () {
+          sessionStorage.fonts = true
+        },
+      })
+    // end::Web font
+    if environment === 'production'
+      // LuckyOrange Code Start
+      script(type='text/javascript').
+        window.__lo_site_id = 114153;
+        (function() {
+        var wa = document.createElement('script'); wa.type = 'text/javascript'; wa.async = true;
+        wa.src = 'https://d10lpsik1i8c69.cloudfront.net/w.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(wa, s);
+        })();
+    link(rel="shortcut icon" href="https://cdn.cloudkibo.com/public/assets/demo/default/media/img/logo/favicon.ico")
+    // Slick Carousel
+    link(rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css")
+    link(rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css")
+    // begin::Base Styles
+    // begin::Page Vendors
+    link(href="https://cdn.cloudkibo.com/public/assets/vendors/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css")
+    link(href="https://cdn.cloudkibo.com/public/assets/vendors/base/vendors.bundle.css" rel="stylesheet" type="text/css")
+    link(href="https://cdn.cloudkibo.com/public/assets/demo/default/base/style.bundle.css" rel="stylesheet" type="text/css")
+    if environment === 'development'
+      // end::Page Vendors
+      link(href="https://cdn.cloudkibo.com/public/assets/vendors/custom/css/custom-style.css" rel="stylesheet" type="text/css")
+      // end::Base Styles
+      link(href="https://cdn.cloudkibo.com/public/Bootstrap/dist/css/latestBootstrap.css" rel="stylesheet" type="text/css")
+      // Emoji Mart CSS
+      link(href="https://cdn.cloudkibo.com/public/assets/Emoji/picker.css" rel="stylesheet" type="text/css")
+      // Dashboard custom CSS
+      link(href="https://cdn.cloudkibo.com/public/assets/dashboard/dashboard.css" rel="stylesheet" type="text/css")
+    if environment !== 'development'
+      link(href="https://cdn.cloudkibo.com/public/dist/kibopush.min.css" rel="stylesheet" type="text/css")
+      // end::Page Vendors
+        link(href="https://cdn.cloudkibo.com/public/dist/custom-style.min.css" rel="stylesheet" type="text/css")
+      // end::Base Styles
+      //  link(href="https://cdn.cloudkibo.com/public/dist/latestBootstrap.min.css" rel="stylesheet" type="text/css")
+      // Emoji Mart CSS
+      //  link(href="https://cdn.cloudkibo.com/public/dist/picker.min.css" rel="stylesheet" type="text/css")
+      // Dashboard custom CSS
+      //  link(href="https://cdn.cloudkibo.com/public/dist/dashboard.min.css" rel="stylesheet" type="text/css")
+    // React Select CSS
+    link(rel="stylesheet" href="https://unpkg.com/react-select@1.2.0/dist/react-select.css")
+    // Global site tag (gtag.js) - Google Analytics
+    script(async="" src="https://www.googletagmanager.com/gtag/js?id=UA-104907011-1")
+
+    script.
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-104907011-1');
+
+    //
+      <script type="text/javascript">
+      window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var r=t.forceSSL||"https:"===document.location.protocol,a=document.createElement("script");a.type="text/javascript",a.async=!0,a.src=(r?"https:":"http:")+"//cdn.heapanalytics.com/js/heap-"+e+".js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(a,n);for(var o=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["addEventProperties","addUserProperties","clearEventProperties","identify","removeEventProperty","setEventProperties","track","unsetEventProperty"],c=0;c<p.length;c++)heap[p[c]]=o(p[c])};
+      heap.load("1600770750");
+      </script>
+    // start Mixpanel
+    //
+      <script type="text/javascript">(function(e,a){if(!a.__SV){var b=window;try{var c,l,i,j=b.location,g=j.hash;c=function(a,b){return(l=a.match(RegExp(b+"=([^&]*)")))?l[1]:null};g&&c(g,"state")&&(i=JSON.parse(decodeURIComponent(c(g,"state"))),"mpeditor"===i.action&&(b.sessionStorage.setItem("_mpcehash",g),history.replaceState(i.desiredHash||"",e.title,j.pathname+j.search)))}catch(m){}var k,h;window.mixpanel=a;a._i=[];a.init=function(b,c,f){function e(b,a){var c=a.split(".");2==c.length&&(b=b[c[0]],a=c[1]);b[a]=function(){b.push([a].concat(Array.prototype.slice.call(arguments,
+      0)))}}var d=a;"undefined"!==typeof f?d=a[f]=[]:f="mixpanel";d.people=d.people||[];d.toString=function(b){var a="mixpanel";"mixpanel"!==f&&(a+="."+f);b||(a+=" (stub)");return a};d.people.toString=function(){return d.toString(1)+".people (stub)"};k="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config reset people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+      for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElement("script");b.type="text/javascript";b.async=!0;b.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";c=e.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c)}})(document,window.mixpanel||[]);
+      mixpanel.init("d2710a2ab5b80db305979b4780a4f0b4");</script>
+    // end Mixpanel
+    style.
+      .row:before, .row:after{
+        display: none;
+      }
+  // end::Head
+  body.m-page--fluid.m--skin-.m-content--skin-light2.m-aside-left--fixed.m-header--fixed.m-header--fixed-mobile.m-aside-left--enabled.m-aside-left--skin-dark.m-aside-left--offcanvas.m-footer--push.m-aside--offcanvas-default
+    #content.m-grid.m-grid--hor.m-grid--root.m-page
+    //- script.
+    //-   window.fbAsyncInit = function () {
+    //-     FB.init({
+    //-       appId: '132767517443810',
+    //-       autoLogAppEvents: true,
+    //-       xfbml: true,
+    //-       version: 'v2.12',
+    //-     })
+    //-   };
+    //-   (function (d, s, id) {
+    //-     var js, fjs = d.getElementsByTagName(s)[0]
+    //-     if (d.getElementById(id)) {return}
+    //-     js = d.createElement(s)
+    //-     js.id = id
+    //-     js.src = 'https://connect.facebook.net/en_US/sdk.js'
+    //-     fjs.parentNode.insertBefore(js, fjs)
+    //-   }(document, 'script', 'facebook-jssdk'))
+    if environment === 'production'
+      script(src="https://cdn.ravenjs.com/3.22.3/raven.min.js" crossorigin="anonymous")
+      script.
+        function readCookie(name) {
+          var nameEQ = name + "=";
+          var ca = document.cookie.split(';');
+          for(var i=0;i < ca.length;i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1,c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+          }
+          var env = readCookie("environment");
+          if (env !== "development") {
+            Raven.config('https://6c7958e0570f455381d6f17122fbd117@sentry.io/292307', {
+              autoBreadcrumbs: {
+              console: false
+            }
+          }).install()
+          }
+    script(src="js/bundle.js")
+    // Js effects for material design. + Tooltips
+    // <script src="https://cdn.cloudkibo.com/public/js/material.min.js"></script>
+    // Helper scripts (Tabs, Equal height, Scrollbar, etc)
+    // <script src="https://cdn.cloudkibo.com/public/js/theme-plugins.js"></script>
+    // Init functions
+    // <script src="https://cdn.cloudkibo.com/public/js/main.js"></script>
+    // Load more news AJAX script
+    // <script src="https://cdn.cloudkibo.com/public/js/ajax-pagination.js"></script>
+    // Select / Sorting script
+    // <script src="https://cdn.cloudkibo.com/public/js/selectize.min.js"></script>
+    // Datepicker input field script
+    // <script src="https://cdn.cloudkibo.com/public/js/moment.min.js"></script>
+    // <script src="https://cdn.cloudkibo.com/public/js/daterangepicker.min.js"></script>
+    // Lightbox plugin script
+    // <script src="https://cdn.cloudkibo.com/public/js/jquery.magnific-popup.min.js"></script>
+    // Widget with events script
+    // <script src="https://cdn.cloudkibo.com/public/js/simplecalendar.js"></script>
+    //
+      <script src="https://cdn.cloudkibo.com/public/js/mediaelement-and-player.min.js"></script>
+      <script src="https://cdn.cloudkibo.com/public/js/mediaelement-playlist-plugin.min.js"></script>
+    // Chart JS Generate scripts
+    //
+      <script src="https://cdn.cloudkibo.com/public/js/Chart.min.js"></script>
+      <script src="https://cdn.cloudkibo.com/public/js/chartjs-plugin-deferred.min.js"></script>
+      <script src="https://cdn.cloudkibo.com/public/js/circle-progress.min.js"></script>
+      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    // begin::Quick Nav
+    // begin::Base Scripts
+    script(src="https://cdn.cloudkibo.com/public/assets/vendors/base/vendors.bundle.js" type="text/javascript")
+    script(src="https://cdn.cloudkibo.com/public/assets/demo/default/base/scripts.bundle.js" type="text/javascript")
+    // end::Base Scripts
+    // begin::Page Vendors
+    script(src="https://cdn.cloudkibo.com/public/assets/vendors/custom/fullcalendar/fullcalendar.bundle.js" type="text/javascript")
+    // end::Page Vendors
+    // begin::Page Snippets
+    script(src="https://cdn.cloudkibo.com/public/assets/app/js/dashboard.js" type="text/javascript")
+    // end::Page Snippets
