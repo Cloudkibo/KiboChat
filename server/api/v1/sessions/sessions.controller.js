@@ -7,7 +7,7 @@ const LiveChatDataLayer = require('../livechat/livechat.datalayer')
 const needle = require('needle')
 
 exports.index = function (req, res) {
-  utility.callApi(`companyUser/${req.user.domain_email}`) // fetch company user
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
     .then(companyuser => {
       dataLayer.findSessionsUsingQuery({company_id: companyuser.companyId})
         .then(session => {
@@ -44,44 +44,17 @@ exports.index = function (req, res) {
     })
 }
 exports.getNewSessions = function (req, res) {
-  utility.callApi(`companyUser/${req.user.domain_email}`) // fetch company user
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
       let criteria = logicLayer.getNewSessionsCriteria(companyUser, req.body)
       dataLayer.findSessionsUsingQuery(criteria.countCriteria)
         .then(sessions => {
-          let sessionsData = logicLayer.prepareSessionsData(sessions, req.body)
-          dataLayer.aggregate(criteria.fetchCriteria)
-            .then(sessionss => {
-              let sessions = logicLayer.prepareSessionsData(sessionss, req.body)
-              if (sessions.length > 0) {
-                LiveChatDataLayer.aggregate(logicLayer.unreadCountCriteria(companyUser))
-                  .then(gotUnreadCount => {
-                    sessions = logicLayer.getUnreadCount(gotUnreadCount, sessions)
-                    LiveChatDataLayer.aggregate(logicLayer.lastMessageCriteria())
-                      .then(gotLastMessage => {
-                        sessions = logicLayer.getLastMessage(gotLastMessage, sessions)
-                        return res.status(200).json({
-                          status: 'success',
-                          payload: {openSessions: sessions, count: sessionsData.length}
-                        })
-                      })
-                      .catch(err => {
-                        res.status(500).json({status: 'failed', payload: `Failed to fetch last messsage ${JSON.stringify(err)}`})
-                      })
-                  })
-                  .catch(error => {
-                    return res.status(500).json({status: 'failed', payload: `Failed to fetch unread count ${JSON.stringify(error)}`})
-                  })
-              } else {
-                return res.status(200).json({
-                  status: 'success',
-                  payload: {openSessions: sessions, count: sessionsData.length}
-                })
-              }
-            })
-            .catch(error => {
-              return res.status(500).json({status: 'failed', payload: `Failed to aggregate sessions ${JSON.stringify(error)}`})
-            })
+          let result = UnreadCountAndLastMessage(sessions, req.body, criteria, companyUser)
+          if (result.status === 'success') {
+            return res.status(200).json(result)
+          } else {
+            return res.status(500).json(result)
+          }
         })
         .catch(error => {
           return res.status(500).json({status: 'failed', payload: `Failed to fetch sessions count ${JSON.stringify(error)}`})
@@ -92,44 +65,20 @@ exports.getNewSessions = function (req, res) {
     })
 }
 exports.getResolvedSessions = function (req, res) {
-  utility.callApi(`companyUser/${req.user.domain_email}`) // fetch company user
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
       let criteria = logicLayer.getResolvedSessionsCriteria(companyUser, req.body)
       dataLayer.findSessionsUsingQuery(criteria.countCriteria)
         .then(sessions => {
-          let sessionsData = logicLayer.prepareSessionsData(sessions, req.body)
-          dataLayer.aggregate(criteria.fetchCriteria)
-            .then(sessionss => {
-              let sessions = logicLayer.prepareSessionsData(sessionss, req.body)
-              if (sessions.length > 0) {
-                LiveChatDataLayer.aggregate(logicLayer.unreadCountCriteria(companyUser))
-                  .then(gotUnreadCount => {
-                    sessions = logicLayer.getUnreadCount(gotUnreadCount, sessions)
-                    LiveChatDataLayer.aggregate(logicLayer.lastMessageCriteria())
-                      .then(gotLastMessage => {
-                        sessions = logicLayer.getLastMessage(gotLastMessage, sessions)
-                        return res.status(200).json({
-                          status: 'success',
-                          payload: {closedSessions: sessions, count: sessionsData.length}
-                        })
-                      })
-                      .catch(err => {
-                        res.status(500).json({status: 'failed', payload: `Failed to fetch last messsage ${JSON.stringify(err)}`})
-                      })
-                  })
-                  .catch(error => {
-                    return res.status(500).json({status: 'failed', payload: `Failed to fetch unread count ${JSON.stringify(error)}`})
-                  })
-              } else {
-                return res.status(200).json({
-                  status: 'success',
-                  payload: {closedSessions: sessions, count: sessionsData.length}
-                })
-              }
+          let result = UnreadCountAndLastMessage(sessions, req.body, criteria, companyUser)
+          if (result.status === 'success') {
+            return res.status(200).json({
+              status: 'success',
+              payload: {closedSessions: result.payload.openSessions, count: result.payload.count}
             })
-            .catch(error => {
-              return res.status(500).json({status: 'failed', payload: `Failed to aggregate sessions ${JSON.stringify(error)}`})
-            })
+          } else {
+            return res.status(500).json(result)
+          }
         })
         .catch(error => {
           return res.status(500).json({status: 'failed', payload: `Failed to fetch sessions count ${JSON.stringify(error)}`})
@@ -140,7 +89,7 @@ exports.getResolvedSessions = function (req, res) {
     })
 }
 exports.markread = function (req, res) {
-  utility.callApi(`companyUser/${req.user.domain_email}`) // fetch company user
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
       dataLayer.findOneSessionUsingQuery({_id: req.params.id})
         .then(session => {
@@ -205,7 +154,7 @@ exports.markread = function (req, res) {
     })
 }
 exports.show = function (req, res) {
-  utility.callApi(`companyUser/${req.user.domain_email}`) // fetch company user
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
       dataLayer.findOneSessionUsingQuery({_id: req.params.id})
         .then(session => {
@@ -251,7 +200,7 @@ exports.show = function (req, res) {
     })
 }
 exports.changeStatus = function (req, res) {
-  utility.callApi(`companyUser/${req.user.domain_email}`) // fetch company user
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
       dataLayer.updateOne(req.body._id, {status: req.body.status})
         .then(updated => {
@@ -278,7 +227,7 @@ exports.changeStatus = function (req, res) {
     })
 }
 exports.assignAgent = function (req, res) {
-  utility.callApi(`companyUser/${req.user.domain_email}`) // fetch company user
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
       let assignedTo = {
         type: 'agent',
@@ -310,7 +259,7 @@ exports.assignAgent = function (req, res) {
     })
 }
 exports.assignTeam = function (req, res) {
-  utility.callApi(`companyUser/${req.user.domain_email}`) // fetch company user
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
       let assignedTo = {
         type: 'team',
@@ -342,7 +291,7 @@ exports.assignTeam = function (req, res) {
     })
 }
 exports.unSubscribe = function (req, res) {
-  utility.callApi(`companyUser/${req.user.domain_email}`) // fetch company user
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
       utility.callApi(`pages/${req.body.page_id}`)
         .then(userPage => {
@@ -440,5 +389,40 @@ function saveNotifications (companyUser, subscriber, user) {
     .catch(error => {
       logger.serverLog(TAG,
         `Failed to fetch company members ${JSON.stringify(error)}`)
+    })
+}
+function UnreadCountAndLastMessage (sessions, body, criteria, companyUser) {
+  let sessionsData = logicLayer.prepareSessionsData(sessions, body)
+  dataLayer.aggregate(criteria.fetchCriteria)
+    .then(sessionss => {
+      let sessions = logicLayer.prepareSessionsData(sessionss, body)
+      if (sessions.length > 0) {
+        LiveChatDataLayer.aggregate(logicLayer.unreadCountCriteria(companyUser))
+          .then(gotUnreadCount => {
+            sessions = logicLayer.getUnreadCount(gotUnreadCount, sessions)
+            LiveChatDataLayer.aggregate(logicLayer.lastMessageCriteria())
+              .then(gotLastMessage => {
+                sessions = logicLayer.getLastMessage(gotLastMessage, sessions)
+                return {
+                  status: 'success',
+                  payload: {openSessions: sessions, count: sessionsData.length}
+                }
+              })
+              .catch(err => {
+                return {status: 'failed', payload: `Failed to fetch last messsage ${JSON.stringify(err)}`}
+              })
+          })
+          .catch(error => {
+            return {status: 'failed', payload: `Failed to fetch unread count ${JSON.stringify(error)}`}
+          })
+      } else {
+        return {
+          status: 'success',
+          payload: {openSessions: sessions, count: sessionsData.length}
+        }
+      }
+    })
+    .catch(error => {
+      return {status: 'failed', payload: `Failed to aggregate sessions ${JSON.stringify(error)}`}
     })
 }
