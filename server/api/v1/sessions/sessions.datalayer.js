@@ -16,3 +16,11 @@ exports.updateSessionObject = (sessionId, payload) => {
   return SessionModel.updateOne({_id: sessionId}, payload)
     .exec()
 }
+exports.aggregate = (query) => {
+  return SessionModel.aggregate(query)
+    .exec()
+}
+exports.updateOne = (id, payload) => {
+  return SessionModel.updateOne({_id: id}, payload)
+    .exec()
+}
