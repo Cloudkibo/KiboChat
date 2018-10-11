@@ -4,10 +4,7 @@ const TAG = 'api/v1/messengerEvents/sessions.controller'
 const SessionsDataLayer = require('../sessions/sessions.datalayer')
 const SessionsLogicLayer = require('../sessions/sessions.logiclayer')
 const LiveChatDataLayer = require('../livechat/livechat.datalayer')
-const LiveChatLogicLayer = require('../livechat/livechat.logiclayer')
 const BotsDataLayer = require('../smart_replies/smart_replies.datalayer')
-const BotsLogicLayer = require('../smart_replies/smart_replies.logiclayer')
-const utility = require('../utility')
 const needle = require('needle')
 const og = require('open-graph')
 
