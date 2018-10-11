@@ -1,20 +1,21 @@
+/**
+ * Created by sojharo on 24/07/2017.
+ */
 'use strict'
 
 const config = require('../config/environment')
 const jwt = require('jsonwebtoken')
-const expressJwt = require('express-jwt')
 const compose = require('composable-middleware')
 const Users = require('../api/v1/user/Users.model')
-const CompanyProfile = require('../api/v1/companyprofile/companyprofile.model')
 const PlanFeatures = require('../api/v1/permissions_plan/permissions_plan.model')
 const Permissions = require('../api/v1/permissions/permissions.model')
 const ApiSettings = require('../api/v1/api_settings/api_settings.model')
 const apiCaller = require('../api/v2/utility')
-const validateJwt = expressJwt({secret: config.secrets.session})
 const needle = require('needle')
 const Pages = require('../api/v1/pages/Pages.model')
 const CompanyUsers = require('../api/v1/companyuser/companyuser.model')
 const _ = require('lodash')
+const util = require('util')
 
 // const PassportFacebookExtension = require('passport-facebook-extension')
 const logger = require('../components/logger')
@@ -32,6 +33,7 @@ function isAuthenticated () {
       if (req.headers.hasOwnProperty('app_id')) {
         validateApiKeys(req, res, next)
       } else {
+        logger.serverLog(TAG, `request ${util.inspect(req.headers)}`)
         // allow access_token to be passed through query parameter as well
         if (req.query && req.query.hasOwnProperty('access_token')) {
           req.headers.authorization = `Bearer ${req.query.access_token}`
@@ -39,23 +41,33 @@ function isAuthenticated () {
         // validateJwt(req, res, next)
         let headers = {
           'content-type': 'application/json',
-          'Authorization': `Bearer ${req.headers.Authorization}`
+          'Authorization': req.headers.authorization
         }
 
         apiCaller.callApi('auth/verify', 'get', {}, headers)
-        .then(result => {
-          if (result.status === 'success') {
-            req.user = result.user
-            next()
-          } else {
-            return res.status(401)
-            .json({status: 'failed', description: 'Unauthorized'})
-          }
-        })
-        .catch(err => {
-          return res.status(500)
-            .json({status: 'failed', description: `Internal Server Error: ${err}`})
-        })
+          .then(result => {
+            logger.serverLog(TAG, `response got ${result}`)
+            if (result.status === 'success') {
+              req.user = result.user
+              next()
+            } else {
+              return res.status(401)
+                .json({status: 'failed', description: 'Unauthorized'})
+            }
+
+          //           req.user.plan = company.planId
+          //           req.user.last4 = company.stripe.last4
+          //           logger.serverLog(TAG, `req.user in isAuthenticated ${JSON.stringify(req.user)}`)
+          //           if (!req.user.plan) {
+          //             return res.status(404)
+          //               .json({status: 'failed', description: 'No plan found. Contact support for more information.'})
+          //           }
+          // next()
+          })
+          .catch(err => {
+            return res.status(500)
+              .json({status: 'failed', description: `Internal Server Error: ${err}`})
+          })
       }
     })
 }
@@ -181,32 +193,32 @@ function validateApiKeys (req, res, next) {
       app_secret: req.headers['app_secret'],
       enabled: true
     },
-      (err, setting) => {
-        if (err) return next(err)
-        if (setting) {
-          // todo this is for now buyer user id but it should be company id as thought
-          Users.findOne({_id: setting.company_id, role: 'buyer'},
-            (err, user) => {
-              if (err) {
-                return res.status(500)
-                  .json({status: 'failed', description: 'Internal Server Error'})
-              }
-              if (!user) {
-                return res.status(401).json({
-                  status: 'failed',
-                  description: 'User not found for the API keys'
-                })
-              }
-              req.user = {_id: user._id}
-              next()
-            })
-        } else {
-          return res.status(401).json({
-            status: 'failed',
-            description: 'Unauthorized. No such API credentials found.'
+    (err, setting) => {
+      if (err) return next(err)
+      if (setting) {
+        // todo this is for now buyer user id but it should be company id as thought
+        Users.findOne({_id: setting.company_id, role: 'buyer'},
+          (err, user) => {
+            if (err) {
+              return res.status(500)
+                .json({status: 'failed', description: 'Internal Server Error'})
+            }
+            if (!user) {
+              return res.status(401).json({
+                status: 'failed',
+                description: 'User not found for the API keys'
+              })
+            }
+            req.user = {_id: user._id}
+            next()
           })
-        }
-      })
+      } else {
+        return res.status(401).json({
+          status: 'failed',
+          description: 'Unauthorized. No such API credentials found.'
+        })
+      }
+    })
   } else {
     return res.status(401).json({
       status: 'failed',
