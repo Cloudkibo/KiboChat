@@ -7,79 +7,83 @@ Now the middleware will automatically send error response if the payload fails
 exports.createPayload = {
   type: 'object',
   properties: {
-    sender_id: {
+    botname: {
       type: 'string',
       required: true
     },
-    recipient_id: {
-      type: 'string',
+    user: {
+      type: 'object',
       required: true
-    },
-    sender_fb_id: {
-      type: 'string',
-      required: true
-    },
-    recipient_fb_id: {
-      type: 'string',
-      required: true
-    },
-    session_id: {
-      type: 'string',
-      required: true
-    },
-    company_id: {
+    }
+  }
+}
+
+exports.editPayload = {
+  type: 'object',
+  properties: {
+    botId: {
       type: 'string',
       required: true
     },
     payload: {
+      type: 'object',
+      required: true
+    }
+  }
+}
+
+exports.updateStatusPayload = {
+  type: 'object',
+  properties: {
+    botId: {
       type: 'string',
       required: true
     },
-    replied_by: {
-      type: 'string',
+    isActive: {
+      type: 'boolean',
       required: true
     }
   }
 }
 
-exports.updatePayload = {
+exports.botDetailsPayload = {
   type: 'object',
   properties: {
-    id: {
-      type: 'string',
-      required: true
-    },
-    urlmeta: {
+    botId: {
       type: 'string',
       required: true
     }
   }
 }
 
-exports.urlMetaPayload = {
+exports.waitSubscribersPayload = {
   type: 'object',
   properties: {
-    url: {
+    botId: {
       type: 'string',
-      required: false
+      required: true
     }
   }
 }
 
-exports.searchPayload = {
+exports.unAnsweredQueriesPayload = {
   type: 'object',
   properties: {
-    session_id: {
-      type: 'string',
-      required: true
-    },
-    text: {
+    botId: {
       type: 'string',
       required: true
     }
   }
 }
-
+exports.removeWaitSubscribersPayload = {
+  type: 'object',
+  properties: {
+    _id: {
+      type: 'string',
+      required: true
+    }
+  }
+}
 exports.indexPayload = {
   type: 'object',
   properties: {

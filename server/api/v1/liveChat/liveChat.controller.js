@@ -1,13 +1,13 @@
 const logger = require('../../../components/logger')
 const dataLayer = require('./liveChat.datalayer')
 const sessionsDataLayer = require('../session/session.datalayer')
-const botsDataLayer = require('../session/session.datalayer')
+const botsDataLayer = require('../smartReplies/bots.datalayer')
 const logicLayer = require('./liveChat.logicLayer')
-const automationQueueDataLayer = require('./smartReplies/smartReplies.datalayer')
+const automationQueueDataLayer = require('./automationQueue/automationQueueDataLayer.datalayer')
 const TAG = '/api/v1/liveChat/liveChat.controller.js'
 const mongoose = require('mongoose')
 const og = require('open-graph')
-const callApi = '../utility'
+const utility = '../utility'
 const needle = require('needle')
 const request = require('request')
 
@@ -99,10 +99,10 @@ exports.geturlmeta = function (req, res) {
 * 6. Create AutomationQueue Object
 */
 exports.create = function (req, res) {
-  callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
       let fbMessageObject = logicLayer.prepareFbMessageObject(req.body)
-      callApi(`webhooks/query/`, 'post', { pageId: req.body.sender_fb_id })
+      utility.callApi(`webhooks/query/`, 'post', { pageId: req.body.sender_fb_id })
         .then(webhook => {
           if (webhook && webhook.isEnabled) {
             needle.get(webhook.webhook_url, (err, r) => {
@@ -132,7 +132,7 @@ exports.create = function (req, res) {
               session.agent_activity_time = Date.now()
               sessionsDataLayer.updateSessionObject(session._id, session)
                 .then(result => {
-                  callApi(`subscribers/${req.body.recipient_id}`)
+                  utility.callApi(`subscribers/${req.body.recipient_id}`)
                     .then(subscriber => {
                       logger.serverLog(TAG, `Payload from the client ${JSON.stringify(req.body.payload)}`)
                       let messageData = logicLayer.prepareSendAPIPayload(
@@ -158,13 +158,13 @@ exports.create = function (req, res) {
                             }
                           }
                         })
-                      botsDataLayer.findOneBotsObjectUsingQuery({ 'pageId': session.page_id._id })
+                      botsDataLayer.findOneBotObjectUsingQuery({ 'pageId': session.page_id._id })
                         .then(bot => {
                           let arr = bot.blockedSubscribers
                           arr.push(session.subscriber_id)
                           bot.blockedSubscribers = arr
                           logger.serverLog(TAG, 'going to add sub-bot in queue')
-                          botsDataLayer.updateBotsObject(bot._id, bot)
+                          botsDataLayer.updateBotObject(bot._id, bot)
                             .then(result => {
                               logger.serverLog(TAG,
                                 `subscriber id added to blockedList bot`)
