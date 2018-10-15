@@ -66,7 +66,7 @@ router.post('/unSubscribe',
   validate({body: validationSchema.unSubscribePayload}),
   controller.unSubscribe)
 
-router.post('/genericFind',
+router.post('/query',
   auth.isAuthenticated(),
   auth.doesPlanPermitsThisAction('livechat'),
   auth.doesRolePermitsThisAction('livechatPermission'),
