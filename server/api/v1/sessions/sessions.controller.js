@@ -202,7 +202,7 @@ exports.show = function (req, res) {
 exports.changeStatus = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
-      dataLayer.updateOne(req.body._id, {status: req.body.status})
+      dataLayer.updateSessionObject(req.body._id, {status: req.body.status})
         .then(updated => {
           require('./../../../config/socketio').sendMessageToClient({
             room_id: companyUser.companyId,
@@ -234,7 +234,7 @@ exports.assignAgent = function (req, res) {
         id: req.body.agentId,
         name: req.body.agentName
       }
-      dataLayer.updateOne(req.body.sessionId, {assigned_to: assignedTo, is_assigned: req.body.isAssigned})
+      dataLayer.updateSessionObject(req.body.sessionId, {assigned_to: assignedTo, is_assigned: req.body.isAssigned})
         .then(updated => {
           require('./../../../config/socketio').sendMessageToClient({
             room_id: companyUser.companyId,
@@ -266,7 +266,7 @@ exports.assignTeam = function (req, res) {
         id: req.body.teamId,
         name: req.body.teamName
       }
-      dataLayer.updateOne(req.body.sessionId, {assigned_to: assignedTo, is_assigned: req.body.isAssigned})
+      dataLayer.updateSessionObject(req.body.sessionId, {assigned_to: assignedTo, is_assigned: req.body.isAssigned})
         .then(updated => {
           require('./../../../config/socketio').sendMessageToClient({
             room_id: companyUser.companyId,
@@ -424,5 +424,17 @@ function UnreadCountAndLastMessage (sessions, body, criteria, companyUser) {
     })
     .catch(error => {
       return {status: 'failed', payload: `Failed to aggregate sessions ${JSON.stringify(error)}`}
+    })
+}
+exports.genericFind = function (req, res) {
+  dataLayer.findSessionsUsingQuery(req.body)
+    .then(session => {
+      return {
+        status: 'success',
+        payload: session
+      }
+    })
+    .catch(error => {
+      return {status: 'failed', payload: `Failed to fetch sessions ${JSON.stringify(error)}`}
     })
 }
