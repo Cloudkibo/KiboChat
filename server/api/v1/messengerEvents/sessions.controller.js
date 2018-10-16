@@ -7,6 +7,7 @@ const LiveChatDataLayer = require('../livechat/livechat.datalayer')
 const BotsDataLayer = require('../smart_replies/smart_replies.datalayer')
 const needle = require('needle')
 const og = require('open-graph')
+const notificationsUtility = require('../notifications/notifications.utility')
 
 exports.index = function (req, res) {
   res.status(200).json({
@@ -42,7 +43,7 @@ function createSession (page, subscriber, event) {
                   utility.callApi(`featureusage/companyusagequery`, 'post', {companyId: page.companyId})
                     .then(companyUsage => {
                       if (planUsage[0].sessions !== -1 && companyUsage[0].sessions >= planUsage[0].sessions) {
-                        //  webhookUtility.limitReachedNotification('sessions', company)
+                        notificationsUtility.limitReachedNotification('sessions', company)
                         logger.serverLog(TAG, `Sessions limit reached`)
                       } else {
                         let payload = SessionsLogicLayer.prepareUserPayload(subscriber, page)
@@ -151,7 +152,7 @@ function saveLiveChat (page, subscriber, session, event) {
                 })
             }
           } else {
-            //  webhookUtility.saveNotification(webhook)
+            notificationsUtility.saveNotification(webhook)
           }
         })
       }
@@ -340,7 +341,7 @@ function sendautomatedmsg (req, page) {
                                       })
                                   }
                                 } else {
-                                  //  webhookUtility.saveNotification(webhook)
+                                  notificationsUtility.saveNotification(webhook)
                                 }
                               })
                             }
