@@ -3,7 +3,7 @@ const logger = require('../../../components/logger')
 const TAG = 'api/v1/messengerEvents/sessions.controller'
 const SessionsDataLayer = require('../sessions/sessions.datalayer')
 const SessionsLogicLayer = require('../sessions/sessions.logiclayer')
-const LiveChatDataLayer = require('../livechat/livechat.datalayer')
+const LiveChatDataLayer = require('../liveChat/liveChat.datalayer')
 const BotsDataLayer = require('../smartReplies/bots.datalayer')
 const needle = require('needle')
 const og = require('open-graph')
@@ -341,6 +341,8 @@ function sendautomatedmsg (req, page) {
                                       })
                                   }
                                 } else {
+                                  /* do webhook work here */
+                                  var webhook = null
                                   notificationsUtility.saveNotification(webhook)
                                 }
                               })
