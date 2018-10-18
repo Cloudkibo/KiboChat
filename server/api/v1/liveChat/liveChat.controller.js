@@ -1,6 +1,6 @@
 const logger = require('../../../components/logger')
 const dataLayer = require('./liveChat.datalayer')
-const sessionsDataLayer = require('../session/session.datalayer')
+const sessionsDataLayer = require('../sessions/sessions.datalayer')
 const botsDataLayer = require('../smartReplies/bots.datalayer')
 const logicLayer = require('./liveChat.logicLayer')
 const TAG = '/api/v1/liveChat/liveChat.controller.js'
