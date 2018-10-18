@@ -4,13 +4,13 @@ module.exports = function (app) {
   // API middlewares go here
   const env = app.get('env')
 
-  app.use('/api/v1/test', require('./api/v1/test'))
-  app.use('/api/v1/messengerEvents', require('./api/v1/messengerEvents'))
+  app.use('/api/test', require('./api/v1/test'))
+  app.use('/api/messengerEvents', require('./api/v1/messengerEvents'))
   app.use('/api/subscribers', require('./api/v1/subscribers'))
   app.use('/api/users', require('./api/v1/user'))
-  app.use('/api/v1/sessions', require('./api/v1/sessions'))
-  app.use('/api/v1/notifications', require('./api/v1/notifications'))
-  app.use('/api/v1/livechat', require('./api/v1/liveChat'))
+  app.use('/api/sessions', require('./api/v1/sessions'))
+  app.use('/api/notifications', require('./api/v1/notifications'))
+  app.use('/api/livechat', require('./api/v1/liveChat'))
   app.use('/api/bots', require('./api/v1/smartReplies'))
   app.use('/api/company', require('./api/v1/companyprofile'))
   app.use('/api/teams', require('./api/v1/teams'))
