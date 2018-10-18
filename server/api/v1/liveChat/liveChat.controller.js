@@ -3,7 +3,6 @@ const dataLayer = require('./liveChat.datalayer')
 const sessionsDataLayer = require('../session/session.datalayer')
 const botsDataLayer = require('../smartReplies/bots.datalayer')
 const logicLayer = require('./liveChat.logicLayer')
-const automationQueueDataLayer = require('./automationQueue/automationQueueDataLayer.datalayer')
 const TAG = '/api/v1/liveChat/liveChat.controller.js'
 const mongoose = require('mongoose')
 const og = require('open-graph')
@@ -176,7 +175,7 @@ exports.create = function (req, res) {
                                 type: 'bot',
                                 scheduledTime: timeNow.setMinutes(timeNow.getMinutes() + 30)
                               }
-                              automationQueueDataLayer.createAutomationQueueObject(automationQueue)
+                              utility.callApi(`automationQueue/create/`, 'post', automationQueue)
                                 .then(result => {
                                   logger.serverLog(TAG,
                                     `Automation Queue object saved`)

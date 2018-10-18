@@ -3,7 +3,7 @@ const logger = require('../../../components/logger')
 const TAG = 'api/v1/sessions/sessions.controller'
 const dataLayer = require('./sessions.datalayer')
 const logicLayer = require('./sessions.logiclayer')
-const LiveChatDataLayer = require('../livechat/livechat.datalayer')
+const LiveChatDataLayer = require('../liveChat/liveChat.datalayer')
 const needle = require('needle')
 
 exports.index = function (req, res) {
