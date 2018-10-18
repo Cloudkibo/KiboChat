@@ -11,7 +11,11 @@ module.exports = function (app) {
   app.use('/api/v1/sessions', require('./api/v1/sessions'))
   app.use('/api/v1/notifications', require('./api/v1/notifications'))
   app.use('/api/v1/livechat', require('./api/v1/liveChat'))
-  app.use('/api/v1/bots', require('./api/v1/smartReplies'))
+  app.use('/api/bots', require('./api/v1/smartReplies'))
+  app.use('/api/company', require('./api/v1/companyprofile'))
+  app.use('/api/teams', require('./api/v1/teams'))
+  app.use('/api/pages', require('./api/v1/pages'))
+  app.use('/api/permissions', require('./api/v1/permissions'))
 
   // auth middleware go here if you authenticate on same server
   // app.use('/auth', require('./auth'))
