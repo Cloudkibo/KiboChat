@@ -6,11 +6,6 @@ module.exports = function (app) {
 
   app.use('/api/v1/test', require('./api/v1/test'))
   app.use('/api/v1/messengerEvents', require('./api/v1/messengerEvents'))
-  app.use('/api/v1/sessions', require('./api/v1/sessions'))
-  app.use('/api/v1/liveChat', require('./api/v1/liveChat'))
-  app.use('/api/v1/sessions', require('./api/v1/sessions'))
-  app.use('/api/v1/smartReplies', require('./api/v1/smartReplies'))
-  app.use('/api/v1/notifications', require('./api/v1/notifications'))
   app.use('/api/v1/subscribers', require('./api/v1/subscribers'))
   app.use('/api/v1/user', require('./api/v1/user'))
 
