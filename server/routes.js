@@ -8,6 +8,10 @@ module.exports = function (app) {
   app.use('/api/v1/messengerEvents', require('./api/v1/messengerEvents'))
   app.use('/api/subscribers', require('./api/v1/subscribers'))
   app.use('/api/users', require('./api/v1/user'))
+  app.use('/api/v1/sessions', require('./api/v1/sessions'))
+  app.use('/api/v1/notifications', require('./api/v1/notifications'))
+  app.use('/api/v1/livechat', require('./api/v1/liveChat'))
+  app.use('/api/v1/bots', require('./api/v1/smartReplies'))
 
   // auth middleware go here if you authenticate on same server
   // app.use('/auth', require('./auth'))
