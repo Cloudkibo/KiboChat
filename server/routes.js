@@ -6,8 +6,8 @@ module.exports = function (app) {
 
   app.use('/api/v1/test', require('./api/v1/test'))
   app.use('/api/v1/messengerEvents', require('./api/v1/messengerEvents'))
-  app.use('/api/v1/subscribers', require('./api/v1/subscribers'))
-  app.use('/api/v1/user', require('./api/v1/user'))
+  app.use('/api/subscribers', require('./api/v1/subscribers'))
+  app.use('/api/users', require('./api/v1/user'))
 
   // auth middleware go here if you authenticate on same server
   // app.use('/auth', require('./auth'))
