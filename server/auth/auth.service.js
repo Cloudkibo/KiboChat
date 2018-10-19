@@ -21,7 +21,6 @@ function isAuthenticated () {
   return compose()
   // Validate jwt or api keys
     .use((req, res, next) => {
-      logger.serverLog(TAG, `request ${util.inspect(req.headers)}`)
       if (req.headers.hasOwnProperty('app_id')) {
         validateApiKeys(req, res, next)
       } else {
