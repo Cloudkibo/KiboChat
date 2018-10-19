@@ -17,11 +17,11 @@ exports.index = function (req, res) {
   const event = req.body.entry[0].messaging[0]
   const sender = event.sender.id
   const pageId = event.recipient.id
-  utility.callApi(`pages/query`, 'post', {pageId: pageId, connected: true})
+  utility.callApi(`pages/query`, 'post', {pageId: pageId, connected: true}, req.headers.authorization)
     .then(page => {
-      utility.callApi(`subscribers/query`, 'post', {senderId: sender, pageId: page._id})
+      utility.callApi(`subscribers/query`, 'post', {senderId: sender, pageId: page._id}, req.headers.authorization)
         .then(subscriber => {
-          createSession(page[0], subscriber[0], event)
+          createSession(page[0], subscriber[0], event, req)
         })
         .catch(error => {
           logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(error)}`)
@@ -31,16 +31,16 @@ exports.index = function (req, res) {
       logger.serverLog(TAG, `Failed to fetch page ${JSON.stringify(error)}`)
     })
 }
-function createSession (page, subscriber, event) {
-  utility.callApi(`companyprofile/query`, 'post', { _id: page.companyId })
+function createSession (page, subscriber, event, req) {
+  utility.callApi(`companyprofile/query`, 'post', { _id: page.companyId }, req.headers.authorization)
     .then(company => {
       if (!(company.automated_options === 'DISABLE_CHAT')) {
         SessionsDataLayer.findOneSessionUsingQuery({ page_id: page._id, subscriber_id: subscriber._id })
           .then(session => {
             if (session === null) {
-              utility.callApi(`featureusage/planusagequery`, 'post', {planId: company.planId})
+              utility.callApi(`featureusage/planusagequery`, 'post', {planId: company.planId}, req.headers.authorization)
                 .then(planUsage => {
-                  utility.callApi(`featureusage/companyusagequery`, 'post', {companyId: page.companyId})
+                  utility.callApi(`featureusage/companyusagequery`, 'post', {companyId: page.companyId}, req.headers.authorization)
                     .then(companyUsage => {
                       if (planUsage[0].sessions !== -1 && companyUsage[0].sessions >= planUsage[0].sessions) {
                         notificationsUtility.limitReachedNotification('sessions', company)
@@ -49,13 +49,13 @@ function createSession (page, subscriber, event) {
                         let payload = SessionsLogicLayer.prepareUserPayload(subscriber, page)
                         SessionsDataLayer.createSessionObject(payload)
                           .then(sessionSaved => {
-                            utility.callApi(`featureusage/update`, 'put', {query: {companyId: page.companyId}, newPayload: { $inc: { sessions: 1 } }, options: {}})
+                            utility.callApi(`featureusage/update`, 'put', {query: {companyId: page.companyId}, newPayload: { $inc: { sessions: 1 } }, options: {}}, req.headers.authorization)
                               .then(updated => {
                               })
                               .catch(error => {
                                 logger.serverLog(TAG, `Failed to update company usage ${JSON.stringify(error)}`)
                               })
-                            saveLiveChat(page, subscriber, sessionSaved, event)
+                            saveLiveChat(page, subscriber, sessionSaved, event, req)
                           })
                           .catch(error => {
                             logger.serverLog(TAG, `Failed to create new session ${JSON.stringify(error)}`)
@@ -80,7 +80,7 @@ function createSession (page, subscriber, event) {
                 SessionsDataLayer.updateSessionObject(session._id, payload)
                   .then(updated => {
                     logger.serverLog(TAG, `Session updated successfully`)
-                    saveLiveChat(page, subscriber, session, event)
+                    saveLiveChat(page, subscriber, session, event, req)
                   })
                   .catch(error => {
                     logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`)
@@ -99,7 +99,7 @@ function createSession (page, subscriber, event) {
       logger.serverLog(TAG, `Failed to fetch company profile ${JSON.stringify(error)}`)
     })
 }
-function saveLiveChat (page, subscriber, session, event) {
+function saveLiveChat (page, subscriber, session, event, req) {
   let chatPayload = {
     format: 'facebook',
     sender_id: subscriber._id,
@@ -125,7 +125,7 @@ function saveLiveChat (page, subscriber, session, event) {
         logger.serverLog(TAG, `Failed to fetch bot ${JSON.stringify(error)}`)
       })
   }
-  utility.callApi(`webhooks/query`, 'post', {pageId: page.pageId})
+  utility.callApi(`webhooks/query`, 'post', {pageId: page.pageId}, req.headers.authorization)
     .then(webhook => {
       if (webhook.length > 0 && webhook[0].isEnabled) {
         logger.serverLog(TAG, `webhook in live chat ${webhook}`)
@@ -254,13 +254,13 @@ function sendautomatedmsg (req, page) {
           }
           unsubscribeResponse = true
         } else if (index === -111) {
-          utility.callApi(`subscribers/query`, 'post', { senderId: req.sender.id, unSubscribedBy: 'subscriber' })
+          utility.callApi(`subscribers/query`, 'post', { senderId: req.sender.id, unSubscribedBy: 'subscriber' }, req.headers.authorization)
             .then(subscribers => {
               if (subscribers.length > 0) {
                 messageData = {
                   text: 'You have subscribed to our broadcasts. Send "stop" to unsubscribe'
                 }
-                utility.callApi(`subscribers`, 'put', {query: { senderId: req.sender.id }, newPayload: { isSubscribed: true }, options: {}})
+                utility.callApi(`subscribers`, 'put', {query: { senderId: req.sender.id }, newPayload: { isSubscribed: true }, options: {}}, req.headers.authorization)
                   .then(updated => {
                   })
                   .catch(error => {
@@ -292,7 +292,7 @@ function sendautomatedmsg (req, page) {
             `https://graph.facebook.com/v2.6/me/messages?access_token=${response.body.access_token}`,
             data, (err4, respp) => {
               if (!unsubscribeResponse) {
-                utility.callApi(`subscribers/query`, 'post', { senderId: req.sender.id })
+                utility.callApi(`subscribers/query`, 'post', { senderId: req.sender.id }, req.headers.authorization)
                   .then(subscribers => {
                     SessionsDataLayer.findOneSessionUsingQuery({subscriber_id: subscribers[0]._id, page_id: page._id, company_id: page.companyId})
                       .then(session => {
@@ -313,7 +313,7 @@ function sendautomatedmsg (req, page) {
                           }, // this where message content will go
                           status: 'unseen' // seen or unseen
                         }
-                        utility.callApi(`webhooks`, 'post', { pageId: page.pageId })
+                        utility.callApi(`webhooks`, 'post', { pageId: page.pageId }, req.headers.authorization)
                           .then(webhooks => {
                             if (webhooks.length > 0 && webhooks[0].isEnabled) {
                               logger.serverLog(TAG, `webhook in live chat ${webhooks}`)
