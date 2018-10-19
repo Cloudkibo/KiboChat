@@ -10,7 +10,7 @@ exports.callApi = (endpoint, method = 'get', body, headers = {'content-type': 'a
       : config.env === 'staging' ? `https://saccounts.cloudkibo.com/${endpoint}`
         : `http://localhost:3000/${endpoint}`
   } else {
-    path = config.API_URL_ACCOUNTS
+    path = `${config.API_URL_ACCOUNTS}${endpoint}`
   }
   let options = {
     method: method.toUpperCase(),
