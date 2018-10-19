@@ -44,7 +44,7 @@ function isAuthenticated () {
           headers,
           json: true
         }
-        logger.serverLog(TAG, ` options ${options}`)
+
         requestPromise(options)
           .then(result => {
             logger.serverLog(TAG, `response got ${result}`)
