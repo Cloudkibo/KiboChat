@@ -7,7 +7,7 @@ const LiveChatDataLayer = require('../liveChat/liveChat.datalayer')
 const needle = require('needle')
 
 exports.index = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyuser => {
       dataLayer.findSessionsUsingQuery({company_id: companyuser.companyId})
         .then(session => {
@@ -44,7 +44,7 @@ exports.index = function (req, res) {
     })
 }
 exports.getNewSessions = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
       let criteria = logicLayer.getNewSessionsCriteria(companyUser, req.body)
       dataLayer.findSessionsUsingQuery(criteria.countCriteria)
@@ -65,7 +65,7 @@ exports.getNewSessions = function (req, res) {
     })
 }
 exports.getResolvedSessions = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
       let criteria = logicLayer.getResolvedSessionsCriteria(companyUser, req.body)
       dataLayer.findSessionsUsingQuery(criteria.countCriteria)
@@ -89,14 +89,14 @@ exports.getResolvedSessions = function (req, res) {
     })
 }
 exports.markread = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
       dataLayer.findOneSessionUsingQuery({_id: req.params.id})
         .then(session => {
-          utility.callApi(`pages/query`, 'post', {companyId: companyUser.companyId, connected: true})
+          utility.callApi(`pages/query`, 'post', {companyId: companyUser.companyId, connected: true}, req.headers.authorization)
             .then(userPage => {
               if (userPage[0] && userPage[0].userId) {
-                utility.callApi(`user/${userPage[0].userId}`)
+                utility.callApi(`user/${userPage[0].userId}`, 'get', {}, req.headers.authorization)
                   .then(connectedUser => {
                     let currentUser
                     if (req.user.facebookInfo) {
@@ -154,7 +154,7 @@ exports.markread = function (req, res) {
     })
 }
 exports.show = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
       dataLayer.findOneSessionUsingQuery({_id: req.params.id})
         .then(session => {
@@ -200,7 +200,7 @@ exports.show = function (req, res) {
     })
 }
 exports.changeStatus = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
       dataLayer.updateSessionObject(req.body._id, {status: req.body.status})
         .then(updated => {
@@ -227,7 +227,7 @@ exports.changeStatus = function (req, res) {
     })
 }
 exports.assignAgent = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
       let assignedTo = {
         type: 'agent',
@@ -259,7 +259,7 @@ exports.assignAgent = function (req, res) {
     })
 }
 exports.assignTeam = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
       let assignedTo = {
         type: 'team',
@@ -291,16 +291,16 @@ exports.assignTeam = function (req, res) {
     })
 }
 exports.unSubscribe = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
-      utility.callApi(`pages/${req.body.page_id}`)
+      utility.callApi(`pages/${req.body.page_id}`, 'get', {}, req.headers.authorization)
         .then(userPage => {
-          utility.callApi(`subscribers/${req.body.subscriber_id}`)
+          utility.callApi(`subscribers/${req.body.subscriber_id}`, 'get', {}, req.headers.authorization)
             .then(subscriber => {
-              utility.callApi(`subscribers/${req.body.subscriber_id}`, 'post', {isSubscribed: false, unSubscribedBy: 'agent'})
+              utility.callApi(`subscribers/${req.body.subscriber_id}`, 'post', {isSubscribed: false, unSubscribedBy: 'agent'}, req.headers.authorization)
                 .then(updated => {
-                  saveNotifications(companyUser, subscriber, req.user)
-                  utility.callApi(`user/${userPage.userId}`)
+                  saveNotifications(companyUser, subscriber, req)
+                  utility.callApi(`user/${userPage.userId}`, 'get', {}, req.headers.authorization)
                     .then(connectedUser => {
                       var currentUser
                       if (req.user.facebookInfo) {
@@ -367,8 +367,8 @@ exports.unSubscribe = function (req, res) {
       return res.status(500).json({status: 'failed', payload: `Failed to fetch company user ${JSON.stringify(error)}`})
     })
 }
-function saveNotifications (companyUser, subscriber, user) {
-  utility.callApi(`companyUser/query`, 'post', {companyId: companyUser.companyId})
+function saveNotifications (companyUser, subscriber, req) {
+  utility.callApi(`companyUser/query`, 'post', {companyId: companyUser.companyId}, req.headers.authorization)
     .then(members => {
       // members.forEach(member => {
       //   let notification = new Notifications({

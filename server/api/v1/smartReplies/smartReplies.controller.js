@@ -7,7 +7,7 @@ const utility = '../utility'
 const TAG = 'api/smart_replies/bots.controller.js'
 
 exports.index = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
       BotsDataLayer.findOneBotObjectUsingQuery({ companyId: companyUser.companyId })
         .then(bots => {
@@ -23,14 +23,14 @@ exports.index = function (req, res) {
 }
 
 exports.waitingReply = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
-      utility.callApi(`subscribers/query`, 'post', {companyId: companyUser.companyId, isEnabledByPage: true, isSubscribed: true})
+      utility.callApi(`subscribers/query`, 'post', {companyId: companyUser.companyId, isEnabledByPage: true, isSubscribed: true}, req.headers.authorization)
         .then(subscribers => {
           let obj = logicLayer.prepareSubscribersPayload(subscribers)
           let subsArray = obj.subsArray
           let subscribersPayload = obj.subscribersPayload
-          utility.callApi(`tagSubscribers/query`, 'post', { subscriberId: { $in: subsArray } })
+          utility.callApi(`tagSubscribers/query`, 'post', { subscriberId: { $in: subsArray } }, req.headers.authorization)
             .then(tags => {
               for (let i = 0; i < subscribers.length; i++) {
                 for (let j = 0; j < tags.length; j++) {
@@ -56,7 +56,7 @@ exports.waitingReply = function (req, res) {
 
 exports.create = function (req, res) {
   var uniquebotName = req.body.botName + req.user._id + Date.now()
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
       var witResponse = logicLayer.witRequest(uniquebotName)
       if (witResponse.status === 'failed') {

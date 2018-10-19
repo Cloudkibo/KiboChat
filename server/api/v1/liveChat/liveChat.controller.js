@@ -98,10 +98,10 @@ exports.geturlmeta = function (req, res) {
 * 6. Create AutomationQueue Object
 */
 exports.create = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
       let fbMessageObject = logicLayer.prepareFbMessageObject(req.body)
-      utility.callApi(`webhooks/query/`, 'post', { pageId: req.body.sender_fb_id })
+      utility.callApi(`webhooks/query/`, 'post', { pageId: req.body.sender_fb_id }, req.headers.authorization)
         .then(webhook => {
           if (webhook && webhook.isEnabled) {
             needle.get(webhook.webhook_url, (err, r) => {
@@ -131,7 +131,7 @@ exports.create = function (req, res) {
               session.agent_activity_time = Date.now()
               sessionsDataLayer.updateSessionObject(session._id, session)
                 .then(result => {
-                  utility.callApi(`subscribers/${req.body.recipient_id}`)
+                  utility.callApi(`subscribers/${req.body.recipient_id}`, 'get', {}, req.headers.authorization)
                     .then(subscriber => {
                       logger.serverLog(TAG, `Payload from the client ${JSON.stringify(req.body.payload)}`)
                       let messageData = logicLayer.prepareSendAPIPayload(
@@ -175,7 +175,7 @@ exports.create = function (req, res) {
                                 type: 'bot',
                                 scheduledTime: timeNow.setMinutes(timeNow.getMinutes() + 30)
                               }
-                              utility.callApi(`automationQueue/create/`, 'post', automationQueue)
+                              utility.callApi(`automationQueue/create/`, 'post', automationQueue, req.headers.authorization)
                                 .then(result => {
                                   logger.serverLog(TAG,
                                     `Automation Queue object saved`)

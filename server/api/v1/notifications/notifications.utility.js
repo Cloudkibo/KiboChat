@@ -4,7 +4,7 @@ const logger = require('../../../components/logger')
 const TAG = 'api/v1/notifications/notifications.utility.js'
 const config = require('./../../../config/environment/index')
 
-function saveNotification (webhook) {
+function saveNotification (webhook, req) {
   NotificationsDataLayer.createNotificationObject({
     message: `The server at the URL "${webhook.webhook_url}" is not live`,
     category: {type: 'webhookFailed', id: webhook.userId},
@@ -15,7 +15,7 @@ function saveNotification (webhook) {
     .catch(error => {
       logger.serverLog(TAG, `Failed to create notification ${JSON.stringify(error)}`)
     })
-  utility.callApi(`webhooks/${webhook._id}`, 'put', {isEnabled: false, error_message: 'URL not live'})
+  utility.callApi(`webhooks/${webhook._id}`, 'put', {isEnabled: false, error_message: 'URL not live'}, req.headers.authorization)
     .then(companyUser => {})
     .catch(error => {
       logger.serverLog(TAG, `Failed to update webhook ${JSON.stringify(error)}`)
