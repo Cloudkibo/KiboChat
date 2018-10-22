@@ -133,14 +133,14 @@ exports.getAll = function (req, res) {
       .catch(error => {
         return res.status(500).json({
           status: 'failed',
-          payload: `Failed to fetch subscribers ${JSON.stringify(error)}`
+          payload: `Failed to fetch connected pages ${JSON.stringify(error)}`
         })
       })
     })
     .catch(error => {
       return res.status(500).json({
         status: 'failed',
-        payload: `Failed to fetch subscriber count ${JSON.stringify(error)}`
+        payload: `Failed to fetch connected pages count ${JSON.stringify(error)}`
       })
     })
   })
