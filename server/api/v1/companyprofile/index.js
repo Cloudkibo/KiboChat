@@ -10,4 +10,8 @@ router.get('/members',
   auth.isAuthenticated(),
   controller.members)
 
+router.get('/getAutomatedOptions',
+  auth.isAuthenticated(),
+  controller.getAutomatedOptions)
+
 module.exports = router
