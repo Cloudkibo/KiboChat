@@ -18,7 +18,7 @@ exports.callApi = (endpoint, method = 'get', body, token) => {
   }
   logger.serverLog(TAG, `requestPromise body ${util.inspect(body)}`)
   return requestPromise(options).then(response => {
-    logger.serverLog(TAG, `response from accounts ${util.inspect(response)}`)
+    // logger.serverLog(TAG, `response from accounts ${util.inspect(response)}`)
     return new Promise((resolve, reject) => {
       if (response.status === 'success') {
         resolve(response.payload)

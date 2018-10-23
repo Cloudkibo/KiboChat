@@ -16,7 +16,7 @@ exports.findAllBotObjects = () => {
 }
 
 exports.findOneBotObjectUsingQuery = (queryObject) => {
-  return BotsModel.findOne(queryObject).populate('pageId')
+  return BotsModel.findOne(queryObject)
     .exec()
 }
 
