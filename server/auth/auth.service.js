@@ -270,9 +270,10 @@ function isItWebhookServer () {
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
       req.socket.remoteAddress || req.connection.socket.remoteAddress
     logger.serverLog(TAG, req.ip)
-    logger.serverLog(TAG, ip)
+    logger.serverLog(TAG, `ip from headers: ${ip}`)
     logger.serverLog(TAG, 'This is middleware')
     logger.serverLog(TAG, req.body)
+    logger.serverLog(TAG, `config.webhook_ip ${config.webhook_ip}`)
     if (ip === '::ffff:' + config.webhook_ip) next()
     else res.send(403)
   })
