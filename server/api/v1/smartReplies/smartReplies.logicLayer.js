@@ -71,9 +71,9 @@ const trainingPipline = (entities, payload, token) => {
         }
         logger.serverLog(`Response from Training Pipeline ${JSON.stringify(witres)}`)
         if (i === entities.length - 1) {
-          var res = trainBot(payload, token)
+          trainBot(payload, token)
         }
-        return res
+        logger.serverLog(`Response from Training Pipeline ${JSON.stringify(witres)}`)
       })
   }
 }
@@ -96,7 +96,6 @@ function trainBot (payload, token) {
         return logger.serverLog('Error Occured In Training WIT.AI app')
       }
       logger.serverLog(`WitAI bot trained successfully ${JSON.stringify(witres)}`)
-      return {status: 'success'}
     })
 }
 function transformPayload (payload) {
