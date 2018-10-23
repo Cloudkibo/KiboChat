@@ -3,7 +3,7 @@ const logicLayer = require('./smartReplies.logicLayer')
 const BotsDataLayer = require('./bots.datalayer')
 const UnAnsweredQuestions = require('./unansweredQuestions.datalayer')
 const WaitingSubscribers = require('./waitingSubscribers.datalayer')
-const utility = '../utility'
+const utility = require('../utility')
 const TAG = 'api/smart_replies/bots.controller.js'
 
 exports.index = function (req, res) {
