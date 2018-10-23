@@ -6,12 +6,12 @@ Thus we can use it from other non express callers like cron etc
 const BotsModel = require('./bots.model')
 
 exports.findOneBotObject = (botId) => {
-  return BotsModel.findOne({_id: botId}).populate('pageId')
+  return BotsModel.findOne({_id: botId})
     .exec()
 }
 
 exports.findAllBotObjects = () => {
-  return BotsModel.find({}).populate('pageId')
+  return BotsModel.find({})
     .exec()
 }
 
@@ -21,7 +21,7 @@ exports.findOneBotObjectUsingQuery = (queryObject) => {
 }
 
 exports.findAllBotObjectsUsingQuery = (queryObject) => {
-  return BotsModel.find(queryObject).populate('pageId')
+  return BotsModel.find(queryObject)
     .exec()
 }
 
