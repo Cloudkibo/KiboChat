@@ -10,6 +10,7 @@ const og = require('open-graph')
 const notificationsUtility = require('../notifications/notifications.utility')
 
 exports.index = function (req, res) {
+  logger.serverLog(TAG, `payload received in sessions ${JSON.stringify(req.body)}`)
   res.status(200).json({
     status: 'success',
     description: `received the payload`
