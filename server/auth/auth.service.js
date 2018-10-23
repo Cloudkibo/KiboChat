@@ -45,7 +45,7 @@ function isAuthenticated () {
 
         requestPromise(options)
           .then(result => {
-            logger.serverLog(TAG, `response got ${result}`)
+            // logger.serverLog(TAG, `response got ${result}`)
             if (result.status === 'success') {
               req.user = result.user
               next()
