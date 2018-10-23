@@ -15,7 +15,7 @@ const all = {
   port: process.env.PORT || 3000,
 
   // Secure Server port
-  secure_port: process.env.SECURE_PORT || 8444,
+  secure_port: process.env.SECURE_PORT || 8443,
 
   ip: process.env.IP || undefined,
 
