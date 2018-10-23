@@ -68,11 +68,12 @@ exports.create = function (req, res) {
       if (witResponse.status === 'success') {
         var witres = witResponse.payload
         if (witres.statusCode !== 200) {
-          logger.serverLog(`Error occurred in creating Wit ai app ${JSON.stringify(witres.body.errors)}`)
+          logger.serverLog(TAG, `Error occurred in creating Wit ai app ${JSON.stringify(witres.body.errors)}`)
           return res.status(500).json({ status: 'failed', payload: { error: witres.body.errors } })
         } else {
-          logger.serverLog('Wit.ai app created successfully', witres.body)
+          logger.serverLog(TAG, 'Wit.ai app created successfully', witres.body)
           var botPayload = logicLayer.createBotPayload(req, companyUser, witres, uniquebotName)
+          logger.serverLog(TAG, `BotPayload ${botPayload}`)
           BotsDataLayer.createBotObject(botPayload)
             .then(newBot => {
               return res.status(200).json({ status: 'success', payload: newBot })
