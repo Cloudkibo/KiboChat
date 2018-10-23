@@ -9,8 +9,10 @@ const TAG = 'api/smart_replies/bots.controller.js'
 exports.index = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
+      logger.serverLog(`Company User: ${companyUser}`)
       BotsDataLayer.findOneBotObjectUsingQuery({ companyId: companyUser.companyId })
         .then(bots => {
+          logger.serverLog(`Bots: ${bots}`)
           return res.status(200).json({ status: 'success', payload: bots })
         })
         .catch(err => {
