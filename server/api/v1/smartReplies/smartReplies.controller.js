@@ -32,7 +32,7 @@ exports.waitingReply = function (req, res) {
           let obj = logicLayer.prepareSubscribersPayload(subscribers)
           let subsArray = obj.subsArray
           let subscribersPayload = obj.subscribersPayload
-          utility.callApi(`tagSubscribers/query`, 'post', { subscriberId: { $in: subsArray } }, req.headers.authorization)
+          utility.callApi(`tags/query`, 'post', { subscriberId: { $in: subsArray } }, req.headers.authorization)
             .then(tags => {
               for (let i = 0; i < subscribers.length; i++) {
                 for (let j = 0; j < tags.length; j++) {
@@ -144,7 +144,7 @@ exports.details = function (req, res) {
   BotsDataLayer.findOneBotObject(req.body.botId)
     .then(bot => {
       logger.serverLog(`Returning Bot details ${JSON.stringify(bot)}`)
-      return res.status(200).json({ status: 'success', payload: bot[0] })
+      return res.status(200).json({ status: 'success', payload: bot })
     })
     .catch(err => {
       return res.status(500).json({
