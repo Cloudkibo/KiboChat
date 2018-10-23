@@ -56,6 +56,7 @@ exports.waitingReply = function (req, res) {
 
 exports.create = function (req, res) {
   var uniquebotName = req.body.botName + req.user._id + Date.now()
+  logger.serverLog(TAG, `Create Bot Request ${uniquebotName}}`)
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
       var witResponse = logicLayer.witRequest(uniquebotName)

@@ -7,12 +7,9 @@ Now the middleware will automatically send error response if the payload fails
 exports.createPayload = {
   type: 'object',
   properties: {
-    botname: {
+    botName: {
       type: 'string',
       required: true
-    },
-    user: {
-      type: 'object'
     }
   }
 }

@@ -15,7 +15,7 @@ const all = {
   port: process.env.PORT || 3000,
 
   // Secure Server port
-  secure_port: process.env.SECURE_PORT || 8443,
+  secure_port: process.env.SECURE_PORT || 8444,
 
   ip: process.env.IP || undefined,
 
@@ -30,7 +30,7 @@ const all = {
     }
   },
   webhook_ip: process.env.WEBHOOK_IP_ADDRESS || 'localhost',
-  API_URL_ACCOUNTS: process.env.NODE_ENV === 'production' ? 'https://accounts.cloudkibo.com/api/v1/' : process.env.NODE_ENV === 'staging' ? 'https://saccounts.cloudkibo.com/api/v1/' : 'http://localhost:3000/api/v1/'
+  API_URL_ACCOUNTS: process.env.NODE_ENV === 'production' ? 'https://accounts.cloudkibo.com/api/v1/' : process.env.NODE_ENV === 'staging' ? 'https://saccounts.cloudkibo.com/api/v1/' : 'http://localhost:3001/api/v1/'
 }
 
 module.exports = _.merge(
