@@ -1,4 +1,3 @@
-const WIT_AI_TOKEN = 'RQC4XBQNCBMPETVHBDV4A34WSP5G2PYL'
 const logger = require('../../../components/logger')
 let request = require('request')
 
@@ -30,30 +29,6 @@ const prepareSubscribersPayload = (subscribers) => {
     })
   }
   return {ids: subsArray, payload: subscribersPayload}
-}
-
-const witRequest = (botName) => {
-  request(
-    {
-      'method': 'POST',
-      'uri': 'https://api.wit.ai/apps?v=20170307',
-      headers: {
-        'Authorization': 'Bearer ' + WIT_AI_TOKEN,
-        'Content-Type': 'application/json'
-      },
-      body: {
-        'name': botName,
-        'lang': 'en',
-        'private': 'false'
-      },
-      json: true
-    },
-    (err, witres) => {
-      if (err) {
-        return {status: 'failed', payload: err}
-      }
-      return {status: 'success', payload: witres}
-    })
 }
 
 const createBotPayload = (req, companyUser, witres, uniquebotName) => {
@@ -141,6 +116,5 @@ function transformPayload (payload) {
 }
 exports.getEntities = getEntities
 exports.prepareSubscribersPayload = prepareSubscribersPayload
-exports.witRequest = witRequest
 exports.createBotPayload = createBotPayload
 exports.trainingPipline = trainingPipline
