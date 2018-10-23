@@ -106,14 +106,15 @@ exports.create = function (req, res) {
 
 exports.edit = function (req, res) {
   logger.serverLog(`Adding questions in edit bot ${JSON.stringify(req.body)}`)
-  BotsDataLayer.genericFindByIdAndUpdate({ _id: req.body.botId }, { $set: { payload: req.body.payload } })
+  BotsDataLayer.updateBotObject({ _id: req.body.botId }, { payload: req.body.payload })
     .then(bot => {
-      logger.serverLog(`Returning Bot details ${JSON.stringify(bot)}`)
-      var entities = logicLayer.getEntities(req.body.payload)
-      var res = logicLayer.trainingPipline(entities, req.body.payload, bot[0].witToken)
-      if (res.status === 'success') {
-        return res.status(200).json({ status: 'success' })
-      }
+      BotsDataLayer.findOneBotObject(req.body.botId)
+        .then(bot => {
+          logger.serverLog(`Returning Bot details ${JSON.stringify(bot)}`)
+          var entities = logicLayer.getEntities(req.body.payload)
+          logicLayer.trainingPipline(entities, req.body.payload, bot.witToken)
+        })
+      return res.status(200).json({ status: 'success' })
     })
     .catch((err) => {
       return res.status(500).json({

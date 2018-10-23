@@ -22,8 +22,8 @@ exports.editPayload = {
       required: true
     },
     payload: {
-      type: 'object',
-      required: true
+      type: 'array',
+      items: {}
     }
   }
 }
