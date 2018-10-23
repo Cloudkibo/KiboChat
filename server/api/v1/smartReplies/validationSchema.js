@@ -12,8 +12,7 @@ exports.createPayload = {
       required: true
     },
     user: {
-      type: 'object',
-      required: true
+      type: 'object'
     }
   }
 }
