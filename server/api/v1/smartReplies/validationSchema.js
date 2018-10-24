@@ -36,7 +36,7 @@ exports.updateStatusPayload = {
       required: true
     },
     isActive: {
-      type: 'boolean',
+      type: 'string',
       required: true
     }
   }
