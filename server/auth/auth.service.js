@@ -221,30 +221,37 @@ function fbConnectDone (req, res) {
       description: 'Something went wrong, please try again.'
     })
   }
-
-  apiCaller.callApi(`user/update`, 'put', {query: {_id: userid}, newPayload: {facebookInfo: fbPayload}, options: {}}, req.headers.authorization)
-    .then(user => {
-      if (!user) {
-        return res.status(401)
-          .json({status: 'failed', description: 'Unauthorized'})
-      }
-      req.user = user
-      // set permissionsRevoked to false to indicate that permissions were regranted
-      if (user.permissionsRevoked) {
-        apiCaller.callApi('user/update', 'put', {query: {'facebookInfo.fbId': user.facebookInfo.fbId}, newPayload: {permissionsRevoked: false}, options: {multi: true}}, req.headers.authorization)
-          .then(resp => {
-            logger.serverLog(TAG, `response for permissionsRevoked ${util.inspect(resp)}`)
-          })
-          .catch(err => {
-            return res.status(500)
-              .json({status: 'failed', description: `Internal Server Error: ${err}`})
-          })
-      }
-      fetchPages(`https://graph.facebook.com/v2.10/${
-        fbPayload.fbId}/accounts?access_token=${
-        fbPayload.fbToken}`, user, req)
-      res.cookie('next', 'addPages', {expires: new Date(Date.now() + 60000)})
-      res.redirect('/')
+  let token = `Bearer ${req.cookies.token}`
+  apiCaller.callApi(`user/update`, 'post', {query: {_id: userid}, newPayload: {facebookInfo: fbPayload}, options: {}}, token)
+    .then(updated => {
+      apiCaller.callApi(`user/query`, 'post', {_id: userid}, token)
+        .then(user => {
+          if (!user) {
+            return res.status(401)
+              .json({status: 'failed', description: 'Unauthorized'})
+          }
+          req.user = user[0]
+          // set permissionsRevoked to false to indicate that permissions were regranted
+          if (user.permissionsRevoked) {
+            apiCaller.callApi('user/update', 'post', {query: {'facebookInfo.fbId': user.facebookInfo.fbId}, newPayload: {permissionsRevoked: false}, options: {multi: true}}, token)
+              .then(resp => {
+                logger.serverLog(TAG, `response for permissionsRevoked ${util.inspect(resp)}`)
+              })
+              .catch(err => {
+                return res.status(500)
+                  .json({status: 'failed', description: `Internal Server Error: ${err}`})
+              })
+          }
+          fetchPages(`https://graph.facebook.com/v2.10/${
+            fbPayload.fbId}/accounts?access_token=${
+            fbPayload.fbToken}`, user[0], req, token)
+          res.cookie('next', 'addPages', {expires: new Date(Date.now() + 60000)})
+          res.redirect('/')
+        })
+        .catch(err => {
+          return res.status(500)
+            .json({status: 'failed', description: `Internal Server Error: ${err}`})
+        })
     })
     .catch(err => {
       return res.status(500)
@@ -298,7 +305,7 @@ exports.isItWebhookServer = isItWebhookServer
 // This functionality will be exposed in later stages
 // exports.isAuthorizedWebHookTrigger = isAuthorizedWebHookTrigger;
 
-function fetchPages (url, user, req) {
+function fetchPages (url, user, req, token) {
   const options = {
     headers: {
       'X-Custom-Header': 'CloudKibo Web Application'
@@ -314,7 +321,6 @@ function fetchPages (url, user, req) {
     }
     // logger.serverLog(TAG, 'resp from graph api to get pages list data: ')
     // logger.serverLogF(TAG, JSON.stringify(resp.body))
-
     const data = resp.body.data
     const cursor = resp.body.paging
     if (data) {
@@ -333,7 +339,7 @@ function fetchPages (url, user, req) {
           } else {
             // logger.serverLog(TAG, `Data by fb for page likes ${JSON.stringify(
             //   fanCount.body.fan_count)}`)
-            apiCaller.callApi(`companyUser/query`, 'post', {domain_email: user.domain_email}, req.headers.authorization)
+            apiCaller.callApi(`companyUser/query`, 'post', {domain_email: user.domain_email}, token)
               .then(companyUser => {
                 if (!companyUser) {
                   return logger.serverLog(TAG, {
@@ -341,7 +347,7 @@ function fetchPages (url, user, req) {
                     description: 'The user account does not belong to any company. Please contact support'
                   })
                 }
-                apiCaller.callApi(`page/query`, 'post', {pageId: item.id, userId: user._id, companyId: companyUser.companyId}, req.headers.authorization)
+                apiCaller.callApi(`pages/query`, 'post', {pageId: item.id, userId: user._id, companyId: companyUser.companyId}, token)
                   .then(pages => {
                     let page = pages[0]
                     if (!page) {
@@ -360,7 +366,7 @@ function fetchPages (url, user, req) {
                           {pageUserName: fanCount.body.username})
                       }
                       // save model to MongoDB
-                      apiCaller.callApi(`page`, 'post', payloadPage, req.headers.authorization)
+                      apiCaller.callApi(`pages`, 'post', payloadPage, token)
                         .then(page => {
                           logger.serverLog(TAG,
                             `Page ${item.name} created with id ${page.pageId}`)
@@ -379,7 +385,7 @@ function fetchPages (url, user, req) {
                         updatedPayload['pageUserName'] = fanCount.body.username
                       }
 
-                      apiCaller.callApi(`page/update`, 'put', {query: {_id: page._id}, newPayload: updatedPayload}, req.headers.authorization)
+                      apiCaller.callApi(`pages/update`, 'put', {query: {_id: page._id}, newPayload: updatedPayload}, token)
                         .then(updated => {
                           logger.serverLog(TAG,
                             `page updated successfuly ${JSON.stringify(updated)}`)
