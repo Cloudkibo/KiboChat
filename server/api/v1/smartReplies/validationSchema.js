@@ -7,12 +7,8 @@ Now the middleware will automatically send error response if the payload fails
 exports.createPayload = {
   type: 'object',
   properties: {
-    botname: {
+    botName: {
       type: 'string',
-      required: true
-    },
-    user: {
-      type: 'object',
       required: true
     }
   }
@@ -26,8 +22,8 @@ exports.editPayload = {
       required: true
     },
     payload: {
-      type: 'object',
-      required: true
+      type: 'array',
+      items: {}
     }
   }
 }
@@ -40,7 +36,7 @@ exports.updateStatusPayload = {
       required: true
     },
     isActive: {
-      type: 'boolean',
+      type: 'string',
       required: true
     }
   }
