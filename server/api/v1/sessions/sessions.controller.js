@@ -5,6 +5,7 @@ const dataLayer = require('./sessions.datalayer')
 const logicLayer = require('./sessions.logiclayer')
 const LiveChatDataLayer = require('../liveChat/liveChat.datalayer')
 const needle = require('needle')
+const mongoose = require('mongoose')
 
 exports.index = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
@@ -50,10 +51,13 @@ exports.getNewSessions = function (req, res) {
       dataLayer.findSessionsUsingQuery(criteria.countCriteria)
         .then(sessions => {
           for (let i = 0; i < sessions.length; i++) {
-            utility.callApi(`subscribers/${sessions[i].subscriber_id}`, 'get', {}, req.headers.authorization) // fetch subscribers of company
+            let subscriberId = mongoose.Types.ObjectId(sessions[i].subscriber_id)
+            let pageId = mongoose.Types.ObjectId(sessions[i].page_id)
+            utility.callApi(`subscribers/${subscriberId}`, 'get', {}, req.headers.authorization) // fetch subscribers of company
               .then(subscriber => {
+                console.log('fetchSubscriber', subscriber)
                 sessions[i].subscriber_id = subscriber
-                utility.callApi(`pages/${sessions[i].page_id}`, 'get', {}, req.headers.authorization) // fetch subscribers of company
+                utility.callApi(`pages/${pageId}`, 'get', {}, req.headers.authorization) // fetch subscribers of company
                   .then(page => {
                     sessions[i].page_id = page
                     if (i === sessions.length - 1) {
