@@ -24,7 +24,6 @@ function isAuthenticated () {
       if (req.headers.hasOwnProperty('app_id')) {
         validateApiKeys(req, res, next)
       } else {
-        logger.serverLog(TAG, `request ${util.inspect(req.headers)}`)
         // allow access_token to be passed through query parameter as well
         if (req.query && req.query.hasOwnProperty('access_token')) {
           req.headers.authorization = `Bearer ${req.query.access_token}`
