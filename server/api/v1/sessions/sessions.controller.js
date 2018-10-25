@@ -49,11 +49,29 @@ exports.getNewSessions = function (req, res) {
       let criteria = logicLayer.getNewSessionsCriteria(companyUser, req.body)
       dataLayer.findSessionsUsingQuery(criteria.countCriteria)
         .then(sessions => {
-          let result = UnreadCountAndLastMessage(sessions, req.body, criteria, companyUser)
-          if (result.status === 'success') {
-            return res.status(200).json(result)
-          } else {
-            return res.status(500).json(result)
+          for (let i = 0; i < sessions.length; i++) {
+            utility.callApi(`subscribers/${sessions[i].subscriber_id}`, 'get', {}, req.headers.authorization) // fetch subscribers of company
+              .then(subscriber => {
+                sessions[i].subscriber_id = subscriber
+                utility.callApi(`pages/${sessions[i].page_id}`, 'get', {}, req.headers.authorization) // fetch subscribers of company
+                  .then(page => {
+                    sessions[i].page_id = page
+                    if (i === sessions.length - 1) {
+                      let result = UnreadCountAndLastMessage(sessions, req.body, criteria, companyUser)
+                      if (result.status === 'success') {
+                        return res.status(200).json(result)
+                      } else {
+                        return res.status(500).json(result)
+                      }
+                    }
+                  })
+                  .catch(error => {
+                    return res.status(500).json({status: 'failed', payload: `Failed to fetch page ${JSON.stringify(error)}`})
+                  })
+              })
+              .catch(error => {
+                return res.status(500).json({status: 'failed', payload: `Failed to fetch subscriber ${JSON.stringify(error)}`})
+              })
           }
         })
         .catch(error => {
@@ -392,6 +410,7 @@ function saveNotifications (companyUser, subscriber, req) {
     })
 }
 function UnreadCountAndLastMessage (sessions, body, criteria, companyUser) {
+  console.log('UnreadCountAndLastMessage', sessions)
   let sessionsData = logicLayer.prepareSessionsData(sessions, body)
   dataLayer.aggregate(criteria.fetchCriteria)
     .then(sessionss => {

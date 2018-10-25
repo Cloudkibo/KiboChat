@@ -1,7 +1,7 @@
 const SessionModel = require('./sessions.model')
 
 exports.findSessionsUsingQuery = (queryObject) => {
-  return SessionModel.find(queryObject).populate('subscriber_id page_id')
+  return SessionModel.find(queryObject)
     .exec()
 }
 exports.findOneSessionUsingQuery = (queryObject) => {
