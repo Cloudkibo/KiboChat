@@ -5,6 +5,8 @@ const UnAnsweredQuestions = require('./unansweredQuestions.datalayer')
 const WaitingSubscribers = require('./waitingSubscribers.datalayer')
 const utility = require('../utility')
 const TAG = 'api/smart_replies/bots.controller.js'
+let request = require('request')
+const WIT_AI_TOKEN = 'RQC4XBQNCBMPETVHBDV4A34WSP5G2PYL'
 
 exports.index = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
@@ -30,7 +32,7 @@ exports.waitingReply = function (req, res) {
           let obj = logicLayer.prepareSubscribersPayload(subscribers)
           let subsArray = obj.subsArray
           let subscribersPayload = obj.subscribersPayload
-          utility.callApi(`tagSubscribers/query`, 'post', { subscriberId: { $in: subsArray } }, req.headers.authorization)
+          utility.callApi(`tags/query`, 'post', { subscriberId: { $in: subsArray } }, req.headers.authorization)
             .then(tags => {
               for (let i = 0; i < subscribers.length; i++) {
                 for (let j = 0; j < tags.length; j++) {
@@ -56,32 +58,43 @@ exports.waitingReply = function (req, res) {
 
 exports.create = function (req, res) {
   var uniquebotName = req.body.botName + req.user._id + Date.now()
+  logger.serverLog(TAG, `Create Bot Request ${JSON.stringify(req.user)} ${uniquebotName}}`)
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
-      var witResponse = logicLayer.witRequest(uniquebotName)
-      if (witResponse.status === 'failed') {
-        return res.status(500).json({
-          status: 'failed',
-          description: `Error Occured In Creating WIT.AI app ${JSON.stringify(witResponse.payload)}`
+      logger.serverLog(TAG, `Company User ${companyUser}}`)
+      request(
+        {
+          'method': 'POST',
+          'uri': 'https://api.wit.ai/apps?v=20170307',
+          headers: {
+            'Authorization': 'Bearer ' + WIT_AI_TOKEN,
+            'Content-Type': 'application/json'
+          },
+          body: {
+            'name': uniquebotName,
+            'lang': 'en',
+            'private': 'false'
+          },
+          json: true
+        },
+        (err, witres) => {
+          if (err) {
+            return logger.serverLog(TAG, 'Error Occured In Creating WIT.AI app')
+          } else {
+            if (witres.statusCode !== 200) {
+              return res.status(500).json({ status: 'failed', payload: { error: witres.body.errors } })
+            } else {
+              var botPayload = logicLayer.createBotPayload(req, companyUser, witres, uniquebotName)
+              BotsDataLayer.createBotObject(botPayload)
+                .then(newBot => {
+                  return res.status(200).json({ status: 'success', payload: newBot })
+                })
+                .catch(err => {
+                  return res.status(500).json({status: 'failed', description: `Error creating bot object ${err}`})
+                })
+            }
+          }
         })
-      }
-      if (witResponse.status === 'success') {
-        var witres = witResponse.payload
-        if (witres.statusCode !== 200) {
-          logger.serverLog(`Error occurred in creating Wit ai app ${JSON.stringify(witres.body.errors)}`)
-          return res.status(500).json({ status: 'failed', payload: { error: witres.body.errors } })
-        } else {
-          logger.serverLog('Wit.ai app created successfully', witres.body)
-          var botPayload = logicLayer.createBotPayload(req, companyUser, witres, uniquebotName)
-          BotsDataLayer.createBotObject(botPayload)
-            .then(newBot => {
-              return res.status(200).json({ status: 'success', payload: newBot })
-            })
-            .catch(err => {
-              return res.status(500).json({status: 'failed', description: `Error creating bot object ${err}`})
-            })
-        }
-      }
     })
     .catch(err => {
       return res.status(500).json({
@@ -93,14 +106,15 @@ exports.create = function (req, res) {
 
 exports.edit = function (req, res) {
   logger.serverLog(`Adding questions in edit bot ${JSON.stringify(req.body)}`)
-  BotsDataLayer.genericFindByIdAndUpdate({ _id: req.body.botId }, { $set: { payload: req.body.payload } })
+  BotsDataLayer.updateBotObject({ _id: req.body.botId }, { payload: req.body.payload })
     .then(bot => {
-      logger.serverLog(`Returning Bot details ${JSON.stringify(bot)}`)
-      var entities = logicLayer.getEntities(req.body.payload)
-      var res = logicLayer.trainingPipline(entities, req.body.payload, bot[0].witToken)
-      if (res.status === 'success') {
-        return res.status(200).json({ status: 'success' })
-      }
+      BotsDataLayer.findOneBotObject(req.body.botId)
+        .then(bot => {
+          logger.serverLog(`Returning Bot details ${JSON.stringify(bot)}`)
+          var entities = logicLayer.getEntities(req.body.payload)
+          logicLayer.trainingPipline(entities, req.body.payload, bot.witToken)
+        })
+      return res.status(200).json({ status: 'success' })
     })
     .catch((err) => {
       return res.status(500).json({
@@ -130,7 +144,7 @@ exports.details = function (req, res) {
   BotsDataLayer.findOneBotObject(req.body.botId)
     .then(bot => {
       logger.serverLog(`Returning Bot details ${JSON.stringify(bot)}`)
-      return res.status(200).json({ status: 'success', payload: bot[0] })
+      return res.status(200).json({ status: 'success', payload: bot })
     })
     .catch(err => {
       return res.status(500).json({

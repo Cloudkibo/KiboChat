@@ -2,9 +2,9 @@ let mongoose = require('mongoose')
 let Schema = mongoose.Schema
 
 const botSchema = new Schema({
-  pageId: {type: String, ref: 'pages'}, // TODO ENUMS
-  userId: {type: Schema.ObjectId, ref: 'users'},
-  companyId: {type: Schema.ObjectId, ref: 'companyprofiles'},
+  pageId: {type: String}, // TODO ENUMS
+  userId: {type: Schema.ObjectId},
+  companyId: {type: Schema.ObjectId},
   botName: String,
   witAppId: String,
   witToken: String,
