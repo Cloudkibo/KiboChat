@@ -51,8 +51,19 @@ exports.getNewSessions = function (req, res) {
       dataLayer.findSessionsUsingQuery(criteria.countCriteria)
         .then(sessions => {
           console.log('totalsessions', sessions)
-          let sessionsTosend = sessions
+          let sessionsTosend = []
           for (let i = 0; i < sessions.length; i++) {
+            sessionsTosend.push({
+              status: sessions[i].status,
+              is_assigned: sessions[i].is_assigned,
+              _id: sessions[i]._id,
+              subscriber_id: null,
+              page_id: null,
+              company_id: sessions[i].company_id,
+              last_activity_time: sessions[i].last_activity_time,
+              request_time: sessions[i].request_time,
+              agent_activity_time: sessions[i].agent_activity_time
+            })
             let subscriberId = sessions[i].subscriber_id
             let pageId = sessions[i].page_id
             console.log('subscriberIdForOpenSessions', subscriberId)
