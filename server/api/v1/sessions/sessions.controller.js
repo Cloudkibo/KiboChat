@@ -13,6 +13,7 @@ exports.index = function (req, res) {
       dataLayer.findSessionsUsingQuery({company_id: companyuser.companyId})
         .then(session => {
           let sessions = logicLayer.getSessions(session)
+          console.log('totalsessions', sessions)
           if (sessions.length > 0) {
             LiveChatDataLayer.aggregate([{$match: {status: 'unseen', format: 'facebook'}}, {$sort: { datetime: 1 }}])
               .then(gotUnreadCount => {
