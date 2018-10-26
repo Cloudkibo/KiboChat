@@ -60,6 +60,7 @@ exports.getNewSessions = function (req, res) {
                 sessions[i].subscriber_id = subscriber
                 utility.callApi(`pages/${pageId}`, 'get', {}, req.headers.authorization) // fetch subscribers of company
                   .then(page => {
+                    console.log('fetchPage', fetchPage)
                     sessions[i].page_id = page
                     if (i === sessions.length - 1) {
                       let result = UnreadCountAndLastMessage(sessions, req.body, criteria, companyUser)
