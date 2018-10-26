@@ -13,7 +13,6 @@ exports.index = function (req, res) {
       dataLayer.findSessionsUsingQuery({company_id: companyuser.companyId})
         .then(session => {
           let sessions = logicLayer.getSessions(session)
-          console.log('totalsessions', sessions)
           if (sessions.length > 0) {
             LiveChatDataLayer.aggregate([{$match: {status: 'unseen', format: 'facebook'}}, {$sort: { datetime: 1 }}])
               .then(gotUnreadCount => {
@@ -51,6 +50,7 @@ exports.getNewSessions = function (req, res) {
       let criteria = logicLayer.getNewSessionsCriteria(companyUser, req.body)
       dataLayer.findSessionsUsingQuery(criteria.countCriteria)
         .then(sessions => {
+          console.log('totalsessions', sessions)
           for (let i = 0; i < sessions.length; i++) {
             let subscriberId = mongoose.Types.ObjectId(sessions[i].subscriber_id)
             let pageId = mongoose.Types.ObjectId(sessions[i].page_id)
