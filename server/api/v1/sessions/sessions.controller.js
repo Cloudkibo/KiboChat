@@ -51,10 +51,10 @@ exports.getNewSessions = function (req, res) {
       dataLayer.findSessionsUsingQuery(criteria.countCriteria)
         .then(sessions => {
           console.log('totalsessions', sessions)
+          let sessionsTosend = sessions
           for (let i = 0; i < sessions.length; i++) {
-            let sessionsTosend = sessions
-            let subscriberId = mongoose.Types.ObjectId(sessions[i].subscriber_id)
-            let pageId = mongoose.Types.ObjectId(sessions[i].page_id)
+            let subscriberId = sessions[i].subscriber_id
+            let pageId = sessions[i].page_id
             console.log('subscriberIdForOpenSessions', subscriberId)
             console.log('pageIdForOpenSessions', pageId)
             utility.callApi(`subscribers/${subscriberId}`, 'get', {}, req.headers.authorization) // fetch subscribers of company
