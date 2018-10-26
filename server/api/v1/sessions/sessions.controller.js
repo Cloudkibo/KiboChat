@@ -52,6 +52,7 @@ exports.getNewSessions = function (req, res) {
         .then(sessions => {
           console.log('totalsessions', sessions)
           for (let i = 0; i < sessions.length; i++) {
+            let sessionsTosend = sessions
             let subscriberId = mongoose.Types.ObjectId(sessions[i].subscriber_id)
             let pageId = mongoose.Types.ObjectId(sessions[i].page_id)
             console.log('subscriberIdForOpenSessions', subscriberId)
@@ -59,13 +60,13 @@ exports.getNewSessions = function (req, res) {
             utility.callApi(`subscribers/${subscriberId}`, 'get', {}, req.headers.authorization) // fetch subscribers of company
               .then(subscriber => {
                 console.log('fetchSubscriber', subscriber)
-                sessions[i].subscriber_id = subscriber
+                sessionsTosend[i].subscriber_id = subscriber
                 utility.callApi(`pages/${pageId}`, 'get', {}, req.headers.authorization) // fetch subscribers of company
                   .then(page => {
                     console.log('fetchPage', page)
-                    sessions[i].page_id = page
+                    sessionsTosend[i].page_id = page
                     if (i === sessions.length - 1) {
-                      let result = UnreadCountAndLastMessage(sessions, req.body, criteria, companyUser)
+                      let result = UnreadCountAndLastMessage(sessionsTosend, req.body, criteria, companyUser)
                       if (result.status === 'success') {
                         return res.status(200).json(result)
                       } else {
