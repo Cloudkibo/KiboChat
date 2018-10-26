@@ -65,6 +65,7 @@ exports.getNewSessions = function (req, res) {
                   .then(page => {
                     console.log('fetchPage', page)
                     sessionsTosend[i].page_id = page
+                    console.log('sessionsTosend', sessionsTosend[i])
                     if (i === sessions.length - 1) {
                       let result = UnreadCountAndLastMessage(sessionsTosend, req.body, criteria, companyUser)
                       if (result.status === 'success') {
