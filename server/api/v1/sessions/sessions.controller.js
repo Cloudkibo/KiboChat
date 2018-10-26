@@ -467,7 +467,7 @@ function UnreadCountAndLastMessage (sessions, body, criteria, companyUser) {
     })
 }
 exports.genericFind = function (req, res) {
-  console.log('in genericFind' req.body)
+  console.log('in genericFind', req.body)
   dataLayer.findSessionsUsingQuery(req.body)
     .then(session => {
       return {
