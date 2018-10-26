@@ -54,13 +54,15 @@ exports.getNewSessions = function (req, res) {
           for (let i = 0; i < sessions.length; i++) {
             let subscriberId = mongoose.Types.ObjectId(sessions[i].subscriber_id)
             let pageId = mongoose.Types.ObjectId(sessions[i].page_id)
+            console.log('subscriberIdForOpenSessions', subscriberId)
+            console.log('pageIdForOpenSessions', pageId)
             utility.callApi(`subscribers/${subscriberId}`, 'get', {}, req.headers.authorization) // fetch subscribers of company
               .then(subscriber => {
                 console.log('fetchSubscriber', subscriber)
                 sessions[i].subscriber_id = subscriber
                 utility.callApi(`pages/${pageId}`, 'get', {}, req.headers.authorization) // fetch subscribers of company
                   .then(page => {
-                    console.log('fetchPage', fetchPage)
+                    console.log('fetchPage', page)
                     sessions[i].page_id = page
                     if (i === sessions.length - 1) {
                       let result = UnreadCountAndLastMessage(sessions, req.body, criteria, companyUser)
