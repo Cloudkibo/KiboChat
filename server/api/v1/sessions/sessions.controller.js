@@ -470,10 +470,7 @@ exports.genericFind = function (req, res) {
   console.log('in genericFind', req.body)
   dataLayer.findSessionsUsingQuery(req.body)
     .then(session => {
-      return {
-        status: 'success',
-        payload: session
-      }
+      return res.status(200).json({status: 'success', payload: session})
     })
     .catch(error => {
       return {status: 'failed', payload: `Failed to fetch sessions ${JSON.stringify(error)}`}
