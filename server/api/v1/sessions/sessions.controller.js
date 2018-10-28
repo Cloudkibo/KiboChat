@@ -47,10 +47,10 @@ exports.index = function (req, res) {
 exports.getNewSessions = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
-      let criteria = logicLayer.getNewSessionsCriteria(companyUser, req.body)
-      dataLayer.findSessionsUsingQuery(criteria.countCriteria)
+      let criteria = logicLayer.getNewSessionsCriteria(companyUser, req.body)  
       console.log('criteria.countCriteria', criteria.countCriteria)
       console.log('criteria.fetchCriteria', criteria.fetchCriteria)
+      dataLayer.findSessionsUsingQuery(criteria.countCriteria)
         .then(sessions => {
           console.log('totalsessions', sessions)
           let sessionsTosend = []
