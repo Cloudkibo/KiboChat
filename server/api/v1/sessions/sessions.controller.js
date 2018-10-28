@@ -14,10 +14,10 @@ exports.index = function (req, res) {
         .then(session => {
           let sessions = logicLayer.getSessions(session)
           if (sessions.length > 0) {
-            LiveChatDataLayer.aggregate([{$match: {status: 'unseen', format: 'facebook'}}, {$sort: { datetime: 1 }}])
+            LiveChatDataLayer.findFbMessageObjectUsingAggregate([{$match: {status: 'unseen', format: 'facebook'}}, {$sort: { datetime: 1 }}])
               .then(gotUnreadCount => {
                 sessions = logicLayer.getUnreadCount(gotUnreadCount, sessions)
-                LiveChatDataLayer.aggregate(logicLayer.lastMessageCriteria())
+                LiveChatDataLayer.findFbMessageObjectUsingAggregate(logicLayer.lastMessageCriteria())
                   .then(gotLastMessage => {
                     sessions = logicLayer.getLastMessage(gotLastMessage, sessions)
                     return res.status(200).json({
@@ -47,7 +47,7 @@ exports.index = function (req, res) {
 exports.getNewSessions = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
-      let criteria = logicLayer.getNewSessionsCriteria(companyUser, req.body)  
+      let criteria = logicLayer.getNewSessionsCriteria(companyUser, req.body)
       console.log('criteria.countCriteria', criteria.countCriteria)
       console.log('criteria.fetchCriteria', criteria.fetchCriteria)
       dataLayer.findSessionsUsingQuery(criteria.countCriteria)
@@ -186,7 +186,7 @@ exports.markread = function (req, res) {
     .catch(error => {
       return res.status(500).json({status: 'failed', payload: `Failed to fetch company user ${JSON.stringify(error)}`})
     })
-  LiveChatDataLayer.update({session_id: req.params.id}, {status: 'seen'}, {multi: true})
+  LiveChatDataLayer.genericUpdateFbMessageObject({session_id: req.params.id}, {status: 'seen'}, {multi: true})
     .then(updated => {
       res.status(200).json({status: 'success', payload: updated})
     })
@@ -200,13 +200,13 @@ exports.show = function (req, res) {
       dataLayer.findOneSessionUsingQuery({_id: req.params.id})
         .then(session => {
           if (session) {
-            LiveChatDataLayer.query({session_id: session._id})
+            LiveChatDataLayer.genericFind({session_id: session._id})
               .then(chats => {
                 session.set('chats', JSON.parse(JSON.stringify(chats)), {strict: false})
-                LiveChatDataLayer.aggregate(logicLayer.unreadCountCriteria(companyUser))
+                LiveChatDataLayer.findFbMessageObjectUsingAggregate(logicLayer.unreadCountCriteria(companyUser))
                   .then(gotUnreadCount => {
                     session = dataLayer.getUnreadCountData(gotUnreadCount, session)
-                    LiveChatDataLayer.aggregate(logicLayer.lastMessageCriteria())
+                    LiveChatDataLayer.findFbMessageObjectUsingAggregate(logicLayer.lastMessageCriteria())
                       .then(gotLastMessage => {
                         session = dataLayer.getLastMessageData(gotLastMessage, session)
                         return res.status(200).json({
@@ -439,10 +439,10 @@ function UnreadCountAndLastMessage (sessions, body, criteria, companyUser) {
     .then(sessionss => {
       let sessions = logicLayer.prepareSessionsData(sessionss, body)
       if (sessions.length > 0) {
-        LiveChatDataLayer.aggregate(logicLayer.unreadCountCriteria(companyUser))
+        LiveChatDataLayer.findFbMessageObjectUsingAggregate(logicLayer.unreadCountCriteria(companyUser))
           .then(gotUnreadCount => {
             sessions = logicLayer.getUnreadCount(gotUnreadCount, sessions)
-            LiveChatDataLayer.aggregate(logicLayer.lastMessageCriteria())
+            LiveChatDataLayer.findFbMessageObjectUsingAggregate(logicLayer.lastMessageCriteria())
               .then(gotLastMessage => {
                 sessions = logicLayer.getLastMessage(gotLastMessage, sessions)
                 return {

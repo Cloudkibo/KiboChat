@@ -15,6 +15,11 @@ exports.findAllFbMessageObject = () => {
     .exec()
 }
 
+exports.genericFind = (queryObject) => {
+  return LiveChatModel.find(queryObject)
+    .exec()
+}
+
 exports.findOneFbMessageObjectUsingQuery = (queryObject) => {
   return LiveChatModel.findOne(queryObject)
     .exec()
