@@ -49,6 +49,8 @@ exports.getNewSessions = function (req, res) {
     .then(companyUser => {
       let criteria = logicLayer.getNewSessionsCriteria(companyUser, req.body)
       dataLayer.findSessionsUsingQuery(criteria.countCriteria)
+      console.log('criteria.countCriteria', criteria.countCriteria)
+      console.log('criteria.fetchCriteria', criteria.fetchCriteria)
         .then(sessions => {
           console.log('totalsessions', sessions)
           let sessionsTosend = []
