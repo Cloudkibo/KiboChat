@@ -33,7 +33,9 @@ exports.index = function (req, res) {
   //   })
 }
 exports.index = function (req, res) {
-  logger.serverLog(TAG, `payload received in sessions ${JSON.stringify(req.body)}`)
+  logger.serverLog(TAG, `payload received in page ${JSON.stringify(req.body.page)}`)
+  logger.serverLog(TAG, `payload received in subscriber ${JSON.stringify(req.body.subscriber)}`)
+  logger.serverLog(TAG, `payload received in event ${JSON.stringify(req.body.event)}`)
   res.status(200).json({
     status: 'success',
     description: `received the payload`
