@@ -2,7 +2,6 @@ const utility = require('../utility')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1/messengerEvents/sessions.controller'
 const SessionsDataLayer = require('../sessions/sessions.datalayer')
-const SessionsLogicLayer = require('../sessions/sessions.logiclayer')
 const LiveChatDataLayer = require('../liveChat/liveChat.datalayer')
 const BotsDataLayer = require('../smartReplies/bots.datalayer')
 const needle = require('needle')
@@ -20,6 +19,7 @@ exports.index = function (req, res) {
   const pageId = event.recipient.id
   utility.callApi(`pages/query`, 'post', {pageId: pageId, connected: true}, req.headers.authorization)
     .then(page => {
+      page = page[0]
       utility.callApi(`subscribers/query`, 'post', {senderId: sender, pageId: page._id}, req.headers.authorization)
         .then(subscriber => {
           createSession(page[0], subscriber[0], event, req)
@@ -39,18 +39,23 @@ function createSession (page, subscriber, event, req) {
         SessionsDataLayer.findOneSessionUsingQuery({ page_id: page._id, subscriber_id: subscriber._id })
           .then(session => {
             if (session === null) {
-              utility.callApi(`featureusage/planusagequery`, 'post', {planId: company.planId}, req.headers.authorization)
+              utility.callApi(`featureUsage/planQuery`, 'post', {planId: company.planId}, req.headers.authorization)
                 .then(planUsage => {
-                  utility.callApi(`featureusage/companyusagequery`, 'post', {companyId: page.companyId}, req.headers.authorization)
+                  planUsage = planUsage[0]
+                  utility.callApi(`featureUsage/companyQuery`, 'post', {companyId: page.companyId}, req.headers.authorization)
                     .then(companyUsage => {
-                      if (planUsage[0].sessions !== -1 && companyUsage[0].sessions >= planUsage[0].sessions) {
+                      companyUsage = companyUsage[0]
+                      if (planUsage.sessions !== -1 && companyUsage.sessions >= planUsage.sessions) {
                         notificationsUtility.limitReachedNotification('sessions', company)
                         logger.serverLog(TAG, `Sessions limit reached`)
                       } else {
-                        let payload = SessionsLogicLayer.prepareUserPayload(subscriber, page)
-                        SessionsDataLayer.createSessionObject(payload)
+                        SessionsDataLayer.createSessionObject({
+                          subscriber_id: subscriber._id,
+                          page_id: page._id,
+                          company_id: page.companyId
+                        })
                           .then(sessionSaved => {
-                            utility.callApi(`featureusage/update`, 'put', {query: {companyId: page.companyId}, newPayload: { $inc: { sessions: 1 } }, options: {}}, req.headers.authorization)
+                            utility.callApi(`featureUsage/updateCompany`, 'put', {query: {companyId: page.companyId}, newPayload: { $inc: { sessions: 1 } }, options: {}}, req.headers.authorization)
                               .then(updated => {
                               })
                               .catch(error => {
@@ -71,24 +76,18 @@ function createSession (page, subscriber, event, req) {
                   logger.serverLog(TAG, `Failed to fetch plan usage ${JSON.stringify(error)}`)
                 })
             } else {
-              let payload
+              let updatePayload = { last_activity_time: Date.now() }
               if (session.status === 'resolved') {
-                payload = SessionsLogicLayer.prepareUpdateSessionPayload(Date.now())
-              } else {
-                payload = SessionsLogicLayer.prepareUpdateSessionPayload(Date.now(), 'new')
+                updatePayload.status = 'new'
               }
-              if (Object.keys(payload).length > 0) {
-                SessionsDataLayer.updateSessionObject(session._id, payload)
-                  .then(updated => {
-                    logger.serverLog(TAG, `Session updated successfully`)
-                    saveLiveChat(page, subscriber, session, event, req)
-                  })
-                  .catch(error => {
-                    logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`)
-                  })
-              } else {
-                logger.serverLog(TAG, `No field provided to update`)
-              }
+              SessionsDataLayer.updateSessionObject(session._id, updatePayload)
+                .then(updated => {
+                  logger.serverLog(TAG, `Session updated successfully`)
+                  saveLiveChat(page, subscriber, session, event, req)
+                })
+                .catch(error => {
+                  logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`)
+                })
             }
           })
           .catch(error => {
@@ -128,14 +127,15 @@ function saveLiveChat (page, subscriber, session, event, req) {
   }
   utility.callApi(`webhooks/query`, 'post', {pageId: page.pageId}, req.headers.authorization)
     .then(webhook => {
-      if (webhook.length > 0 && webhook[0].isEnabled) {
+      webhook = webhook[0]
+      if (webhook && webhook.isEnabled) {
         logger.serverLog(TAG, `webhook in live chat ${webhook}`)
-        needle.get(webhook[0].webhook_url, (err, r) => {
+        needle.get(webhook.webhook_url, (err, r) => {
           if (err) {
             logger.serverLog(TAG, err)
             logger.serverLog(TAG, `response ${r.statusCode}`)
           } else if (r.statusCode === 200) {
-            if (webhook[0].optIn.LIVE_CHAT_ACTIONS) {
+            if (webhook.optIn.LIVE_CHAT_ACTIONS) {
               var data = {
                 subscription_type: 'LIVE_CHAT_ACTIONS',
                 payload: JSON.stringify({
@@ -147,7 +147,7 @@ function saveLiveChat (page, subscriber, session, event, req) {
                   payload: event.message
                 })
               }
-              needle.post(webhook[0].webhook_url, data,
+              needle.post(webhook.webhook_url, data,
                 (error, response) => {
                   if (error) logger.serverLog(TAG, err)
                 })
@@ -177,20 +177,20 @@ function saveLiveChat (page, subscriber, session, event, req) {
 function saveChatInDb (page, session, chatPayload, subscriber, event) {
   LiveChatDataLayer.createLiveChatObject(chatPayload)
     .then(chat => {
-      require('./../../../config/socketio').sendMessageToClient({
-        room_id: page.companyId,
-        body: {
-          action: 'new_chat',
-          payload: {
-            session_id: session._id,
-            chat_id: chat._id,
-            text: chatPayload.payload.text,
-            name: subscriber.firstName + ' ' + subscriber.lastName,
-            subscriber: subscriber,
-            message: chat
-          }
-        }
-      })
+      // require('./../../../config/socketio').sendMessageToClient({
+      //   room_id: page.companyId,
+      //   body: {
+      //     action: 'new_chat',
+      //     payload: {
+      //       session_id: session._id,
+      //       chat_id: chat._id,
+      //       text: chatPayload.payload.text,
+      //       name: subscriber.firstName + ' ' + subscriber.lastName,
+      //       subscriber: subscriber,
+      //       message: chat
+      //     }
+      //   }
+      // })
       sendautomatedmsg(event, page)
     })
     .catch(error => {
@@ -354,18 +354,13 @@ function sendautomatedmsg (req, page) {
                           })
                         LiveChatDataLayer.createLiveChat(chatMessage)
                           .then(chatMessageSaved => {
-                            let payload = SessionsLogicLayer.prepareUpdateSessionPayload(Date.now())
-                            if (Object.keys(payload).length > 0) {
-                              SessionsDataLayer.updateSessionObject(session._id, payload)
-                                .then(updated => {
-                                  logger.serverLog(TAG, `Session updated successfully`)
-                                })
-                                .catch(error => {
-                                  logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`)
-                                })
-                            } else {
-                              logger.serverLog(TAG, `No field provided to update`)
-                            }
+                            SessionsDataLayer.updateSessionObject(session._id, {last_activity_time: Date.now()})
+                              .then(updated => {
+                                logger.serverLog(TAG, `Session updated successfully`)
+                              })
+                              .catch(error => {
+                                logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`)
+                              })
                           })
                       })
                       .catch(error => {
@@ -377,15 +372,15 @@ function sendautomatedmsg (req, page) {
                   })
               }
             })
-          require('./../../../config/socketio').sendMessageToClient({
-            room_id: page.companyId,
-            body: {
-              action: 'dashboard_updated',
-              payload: {
-                company_id: page.companyId
-              }
-            }
-          })
+          // require('./../../../config/socketio').sendMessageToClient({
+          //   room_id: page.companyId,
+          //   body: {
+          //     action: 'dashboard_updated',
+          //     payload: {
+          //       company_id: page.companyId
+          //     }
+          //   }
+          // })
         }
       })
   }

@@ -5,7 +5,7 @@ exports.findSessionsUsingQuery = (queryObject) => {
     .exec()
 }
 exports.findOneSessionUsingQuery = (queryObject) => {
-  return SessionModel.findOne(queryObject).populate('subscriber_id page_id')
+  return SessionModel.findOne(queryObject)
     .exec()
 }
 exports.createSessionObject = (payload) => {
