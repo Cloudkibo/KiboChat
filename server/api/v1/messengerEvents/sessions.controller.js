@@ -7,7 +7,6 @@ const BotsDataLayer = require('../smartReplies/bots.datalayer')
 const needle = require('needle')
 const og = require('open-graph')
 const notificationsUtility = require('../notifications/notifications.utility')
-
 exports.index = function (req, res) {
   // logger.serverLog(TAG, `payload received in sessions ${JSON.stringify(req.body)}`)
   // res.status(200).json({
@@ -177,7 +176,8 @@ function saveLiveChat (page, subscriber, session, event) {
       logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(error)}`)
     })
   if (event.message) {
-    let urlInText = utility.parseUrl(event.message.text)
+    console.log('event.message')
+    let urlInText = parseUrl(event.message.text)
     if (urlInText !== null && urlInText !== '') {
       og(urlInText, function (err, meta) {
         if (err) return logger.serverLog(TAG, err)
@@ -404,4 +404,14 @@ function sendautomatedmsg (req, page) {
         }
       })
   }
+}
+function parseUrl (text) {
+  // eslint-disable-next-line no-useless-escape
+  let urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig
+  let onlyUrl = ''
+  if (text) {
+    let testUrl = text.match(urlRegex)
+    onlyUrl = testUrl && testUrl[0]
+  }
+  return onlyUrl
 }
