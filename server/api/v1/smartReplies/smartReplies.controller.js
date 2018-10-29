@@ -11,7 +11,7 @@ const WIT_AI_TOKEN = 'RQC4XBQNCBMPETVHBDV4A34WSP5G2PYL'
 exports.index = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
-      BotsDataLayer.findOneBotObjectUsingQuery({ companyId: companyUser.companyId })
+      BotsDataLayer.findAllBotObjectsUsingQuery({ companyId: companyUser.companyId })
         .then(bots => {
           return res.status(200).json({ status: 'success', payload: bots })
         })
@@ -194,6 +194,58 @@ exports.removeWaitSubscribers = function (req, res) {
       return res.status(500).json({
         status: 'failed',
         description: `Error in removing waiting subscribers ${JSON.stringify(err)}`
+      })
+    })
+}
+
+exports.delete = function (req, res) {
+  BotsDataLayer.findOneBotObject(req.body.botId)
+    .then(bot => {
+      logger.serverLog(TAG, `Deleting Bot details on WitAI ${JSON.stringify(bot)}`)
+      if (!bot) {
+        return res.status(500).json({
+          status: 'failed',
+          description: `Bot not found ${JSON.stringify(bot)}`
+        })
+      }
+      request(
+        {
+          'method': 'DELETE',
+          'uri': 'https://api.wit.ai/apps/' + bot.witAppId,
+          headers: {
+            'Authorization': 'Bearer ' + WIT_AI_TOKEN
+          }
+        },
+        (err, witres) => {
+          if (err) {
+            logger.serverLog('Error Occured In Deleting WIT.AI app')
+            return res.status(500).json({ status: 'failed', payload: { error: err } })
+          } else {
+            if (witres.statusCode !== 200) {
+              logger.serverLog(TAG,
+                `Error Occured in deleting Wit ai app ${JSON.stringify(witres.body)}`)
+              return res.status(500).json({ status: 'failed', payload: { error: witres.body.errors } })
+            } else {
+              logger.serverLog(TAG,
+                'Wit.ai app deleted successfully', witres.body)
+              BotsDataLayer.deleteBotObject(req.body.botId)
+                .then((value) => {
+                  return res.status(200).json({ status: 'success', payload: value })
+                })
+                .catch((err) => {
+                  return res.status(500).json({
+                    status: 'failed',
+                    description: `Error in deleting bot object ${JSON.stringify(err)}`
+                  })
+                })
+            }
+          }
+        })
+    })
+    .catch(err => {
+      return res.status(500).json({
+        status: 'failed',
+        description: `Error in finding bot object ${JSON.stringify(err)}`
       })
     })
 }
