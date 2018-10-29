@@ -74,7 +74,7 @@ exports.getNewSessions = function (req, res) {
               .then(subscriber => {
                 console.log('fetchSubscriber', subscriber)
                 sessionsTosend[i].subscriber_id = subscriber
-                utility.callApi(`pages/${pageId}`, 'get', {}, req.headers.authorization) // fetch subscribers of company
+                utility.callApi(`pages/${pageId}`, 'get', {}, req.headers.authorization)
                   .then(page => {
                     console.log('fetchPage', page)
                     sessionsTosend[i].page_id = page
