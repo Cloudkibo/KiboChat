@@ -112,6 +112,7 @@ exports.index = function (req, res) {
     })
 }
 function saveLiveChat (page, subscriber, session, event) {
+  console.log('in saveLiveChat session', session)
   let chatPayload = {
     format: 'facebook',
     sender_id: subscriber._id,
@@ -139,9 +140,10 @@ function saveLiveChat (page, subscriber, session, event) {
       })
   }
   utility.callApi(`webhooks/query`, 'post', {pageId: page.pageId})
-    .then(webhook => {
-      webhook = webhook[0]
-      if (webhook && webhook.isEnabled) {
+    .then(webhooks => {
+      console.log('webhooks fetched', webhooks.length)
+      webhook = webhooks[0]
+      if (webhooks.length > 0 && webhook.isEnabled) {
         logger.serverLog(TAG, `webhook in live chat ${webhook}`)
         needle.get(webhook.webhook_url, (err, r) => {
           if (err) {
@@ -180,9 +182,11 @@ function saveLiveChat (page, subscriber, session, event) {
       og(urlInText, function (err, meta) {
         if (err) return logger.serverLog(TAG, err)
         chatPayload.url_meta = meta
+        console.log('in if event.message')
         saveChatInDb(page, session, chatPayload, subscriber, event)
       })
     } else {
+      console.log('in else event.message')
       saveChatInDb(page, session, chatPayload, subscriber, event)
     }
   }
