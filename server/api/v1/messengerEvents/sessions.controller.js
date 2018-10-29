@@ -17,10 +17,10 @@ exports.index = function (req, res) {
   const event = req.body.entry[0].messaging[0]
   const sender = event.sender.id
   const pageId = event.recipient.id
-  utility.callApi(`pages/query`, 'post', {pageId: pageId, connected: true}, req.headers.authorization)
+  utility.callApi(`pages/query`, 'post', {pageId: pageId, connected: true})
     .then(page => {
       page = page[0]
-      utility.callApi(`subscribers/query`, 'post', {senderId: sender, pageId: page._id}, req.headers.authorization)
+      utility.callApi(`subscribers/query`, 'post', {senderId: sender, pageId: page._id})
         .then(subscriber => {
           createSession(page[0], subscriber[0], event, req)
         })
@@ -33,16 +33,16 @@ exports.index = function (req, res) {
     })
 }
 function createSession (page, subscriber, event, req) {
-  utility.callApi(`companyprofile/query`, 'post', { _id: page.companyId }, req.headers.authorization)
+  utility.callApi(`companyprofile/query`, 'post', { _id: page.companyId })
     .then(company => {
       if (!(company.automated_options === 'DISABLE_CHAT')) {
         SessionsDataLayer.findOneSessionUsingQuery({ page_id: page._id, subscriber_id: subscriber._id })
           .then(session => {
             if (session === null) {
-              utility.callApi(`featureUsage/planQuery`, 'post', {planId: company.planId}, req.headers.authorization)
+              utility.callApi(`featureUsage/planQuery`, 'post', {planId: company.planId})
                 .then(planUsage => {
                   planUsage = planUsage[0]
-                  utility.callApi(`featureUsage/companyQuery`, 'post', {companyId: page.companyId}, req.headers.authorization)
+                  utility.callApi(`featureUsage/companyQuery`, 'post', {companyId: page.companyId})
                     .then(companyUsage => {
                       companyUsage = companyUsage[0]
                       if (planUsage.sessions !== -1 && companyUsage.sessions >= planUsage.sessions) {
@@ -55,7 +55,7 @@ function createSession (page, subscriber, event, req) {
                           company_id: page.companyId
                         })
                           .then(sessionSaved => {
-                            utility.callApi(`featureUsage/updateCompany`, 'put', {query: {companyId: page.companyId}, newPayload: { $inc: { sessions: 1 } }, options: {}}, req.headers.authorization)
+                            utility.callApi(`featureUsage/updateCompany`, 'put', {query: {companyId: page.companyId}, newPayload: { $inc: { sessions: 1 } }, options: {}})
                               .then(updated => {
                               })
                               .catch(error => {
@@ -125,7 +125,7 @@ function saveLiveChat (page, subscriber, session, event, req) {
         logger.serverLog(TAG, `Failed to fetch bot ${JSON.stringify(error)}`)
       })
   }
-  utility.callApi(`webhooks/query`, 'post', {pageId: page.pageId}, req.headers.authorization)
+  utility.callApi(`webhooks/query`, 'post', {pageId: page.pageId})
     .then(webhook => {
       webhook = webhook[0]
       if (webhook && webhook.isEnabled) {
@@ -255,13 +255,13 @@ function sendautomatedmsg (req, page) {
           }
           unsubscribeResponse = true
         } else if (index === -111) {
-          utility.callApi(`subscribers/query`, 'post', { senderId: req.sender.id, unSubscribedBy: 'subscriber' }, req.headers.authorization)
+          utility.callApi(`subscribers/query`, 'post', { senderId: req.sender.id, unSubscribedBy: 'subscriber' })
             .then(subscribers => {
               if (subscribers.length > 0) {
                 messageData = {
                   text: 'You have subscribed to our broadcasts. Send "stop" to unsubscribe'
                 }
-                utility.callApi(`subscribers`, 'put', {query: { senderId: req.sender.id }, newPayload: { isSubscribed: true }, options: {}}, req.headers.authorization)
+                utility.callApi(`subscribers`, 'put', {query: { senderId: req.sender.id }, newPayload: { isSubscribed: true }, options: {}})
                   .then(updated => {
                   })
                   .catch(error => {
@@ -293,7 +293,7 @@ function sendautomatedmsg (req, page) {
             `https://graph.facebook.com/v2.6/me/messages?access_token=${response.body.access_token}`,
             data, (err4, respp) => {
               if (!unsubscribeResponse) {
-                utility.callApi(`subscribers/query`, 'post', { senderId: req.sender.id }, req.headers.authorization)
+                utility.callApi(`subscribers/query`, 'post', { senderId: req.sender.id })
                   .then(subscribers => {
                     SessionsDataLayer.findOneSessionUsingQuery({subscriber_id: subscribers[0]._id, page_id: page._id, company_id: page.companyId})
                       .then(session => {
@@ -314,7 +314,7 @@ function sendautomatedmsg (req, page) {
                           }, // this where message content will go
                           status: 'unseen' // seen or unseen
                         }
-                        utility.callApi(`webhooks`, 'post', { pageId: page.pageId }, req.headers.authorization)
+                        utility.callApi(`webhooks`, 'post', { pageId: page.pageId })
                           .then(webhooks => {
                             if (webhooks.length > 0 && webhooks[0].isEnabled) {
                               logger.serverLog(TAG, `webhook in live chat ${webhooks}`)
