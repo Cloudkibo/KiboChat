@@ -52,6 +52,16 @@ exports.botDetailsPayload = {
   }
 }
 
+exports.deletePayload = {
+  type: 'object',
+  properties: {
+    botId: {
+      type: 'string',
+      required: true
+    }
+  }
+}
+
 exports.waitSubscribersPayload = {
   type: 'object',
   properties: {
