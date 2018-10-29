@@ -11,7 +11,7 @@ const WIT_AI_TOKEN = 'RQC4XBQNCBMPETVHBDV4A34WSP5G2PYL'
 exports.index = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
-      BotsDataLayer.findOneBotObjectUsingQuery({ companyId: companyUser.companyId })
+      BotsDataLayer.findAllBotObjectsUsingQuery({ companyId: companyUser.companyId })
         .then(bots => {
           return res.status(200).json({ status: 'success', payload: bots })
         })
