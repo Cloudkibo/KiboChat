@@ -48,6 +48,7 @@ exports.index = function (req, res) {
       if (!(company.automated_options === 'DISABLE_CHAT')) {
         SessionsDataLayer.findOneSessionUsingQuery({ page_id: page._id, subscriber_id: subscriber._id })
           .then(session => {
+            console.log('session fetched', session)
             if (session === null) {
               utility.callApi(`featureUsage/planQuery`, 'post', {planId: company.planId})
                 .then(planUsage => {
@@ -187,7 +188,8 @@ function saveLiveChat (page, subscriber, session, event) {
   }
 }
 function saveChatInDb (page, session, chatPayload, subscriber, event) {
-  LiveChatDataLayer.createLiveChatObject(chatPayload)
+  console.log('in saveChatInDb')
+  LiveChatDataLayer.createFbMessageObject(chatPayload)
     .then(chat => {
       // require('./../../../config/socketio').sendMessageToClient({
       //   room_id: page.companyId,
@@ -210,6 +212,7 @@ function saveChatInDb (page, session, chatPayload, subscriber, event) {
     })
 }
 function sendautomatedmsg (req, page) {
+  console.log('in sendautomatedmsg')
   if (req.message && req.message.text) {
     let index = -3
     if (req.message.text.toLowerCase() === 'stop' ||
@@ -326,15 +329,16 @@ function sendautomatedmsg (req, page) {
                           }, // this where message content will go
                           status: 'unseen' // seen or unseen
                         }
-                        utility.callApi(`webhooks`, 'post', { pageId: page.pageId })
-                          .then(webhooks => {
-                            if (webhooks.length > 0 && webhooks[0].isEnabled) {
+                        utility.callApi(`webhooks/query`, 'post', { pageId: page.pageId })
+                          .then(webhookss => {
+                            webhooks = webhookss[0]
+                            if (webhookss.length > 0 && webhooks.isEnabled) {
                               logger.serverLog(TAG, `webhook in live chat ${webhooks}`)
-                              needle.get(webhooks[0].webhook_url, (err, r) => {
+                              needle.get(webhooks.webhook_url, (err, r) => {
                                 if (err) {
                                   logger.serverLog(TAG, err)
                                 } else if (r.statusCode === 200) {
-                                  if (webhooks[0].optIn.POLL_CREATED) {
+                                  if (webhooks.optIn.LIVE_CHAT_ACTIONS) {
                                     var data = {
                                       subscription_type: 'LIVE_CHAT_ACTIONS',
                                       payload: JSON.stringify({
@@ -364,7 +368,7 @@ function sendautomatedmsg (req, page) {
                           .catch(error => {
                             logger.serverLog(TAG, `Failed to fetch webhook ${JSON.stringify(error)}`)
                           })
-                        LiveChatDataLayer.createLiveChat(chatMessage)
+                        LiveChatDataLayer.createFbMessageObject(chatMessage)
                           .then(chatMessageSaved => {
                             SessionsDataLayer.updateSessionObject(session._id, {last_activity_time: Date.now()})
                               .then(updated => {
