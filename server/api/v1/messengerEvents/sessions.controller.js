@@ -9,30 +9,38 @@ const og = require('open-graph')
 const notificationsUtility = require('../notifications/notifications.utility')
 
 exports.index = function (req, res) {
+  // logger.serverLog(TAG, `payload received in sessions ${JSON.stringify(req.body)}`)
+  // res.status(200).json({
+  //   status: 'success',
+  //   description: `received the payload`
+  // })
+  // const event = req.body.entry[0].messaging[0]
+  // const sender = event.sender.id
+  // const pageId = event.recipient.id
+  // utility.callApi(`pages/query`, 'post', {pageId: pageId, connected: true})
+  //   .then(page => {
+  //     page = page[0]
+  //     utility.callApi(`subscribers/query`, 'post', {senderId: sender, pageId: page._id})
+  //       .then(subscriber => {
+  //         createSession(page[0], subscriber[0], event, req)
+  //       })
+  //       .catch(error => {
+  //         logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(error)}`)
+  //       })
+  //   })
+  //   .catch(error => {
+  //     logger.serverLog(TAG, `Failed to fetch page ${JSON.stringify(error)}`)
+  //   })
+}
+exports.index = function (req, res) {
   logger.serverLog(TAG, `payload received in sessions ${JSON.stringify(req.body)}`)
   res.status(200).json({
     status: 'success',
     description: `received the payload`
   })
-  const event = req.body.entry[0].messaging[0]
-  const sender = event.sender.id
-  const pageId = event.recipient.id
-  utility.callApi(`pages/query`, 'post', {pageId: pageId, connected: true})
-    .then(page => {
-      page = page[0]
-      utility.callApi(`subscribers/query`, 'post', {senderId: sender, pageId: page._id})
-        .then(subscriber => {
-          createSession(page[0], subscriber[0], event, req)
-        })
-        .catch(error => {
-          logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(error)}`)
-        })
-    })
-    .catch(error => {
-      logger.serverLog(TAG, `Failed to fetch page ${JSON.stringify(error)}`)
-    })
-}
-function createSession (page, subscriber, event, req) {
+  let page = req.body.page
+  let subscriber = req.body.subscriber
+  let event = req.body.event
   utility.callApi(`companyprofile/query`, 'post', { _id: page.companyId })
     .then(company => {
       if (!(company.automated_options === 'DISABLE_CHAT')) {
@@ -61,7 +69,7 @@ function createSession (page, subscriber, event, req) {
                               .catch(error => {
                                 logger.serverLog(TAG, `Failed to update company usage ${JSON.stringify(error)}`)
                               })
-                            saveLiveChat(page, subscriber, sessionSaved, event, req)
+                            saveLiveChat(page, subscriber, sessionSaved, event)
                           })
                           .catch(error => {
                             logger.serverLog(TAG, `Failed to create new session ${JSON.stringify(error)}`)
@@ -99,7 +107,7 @@ function createSession (page, subscriber, event, req) {
       logger.serverLog(TAG, `Failed to fetch company profile ${JSON.stringify(error)}`)
     })
 }
-function saveLiveChat (page, subscriber, session, event, req) {
+function saveLiveChat (page, subscriber, session, event) {
   let chatPayload = {
     format: 'facebook',
     sender_id: subscriber._id,
