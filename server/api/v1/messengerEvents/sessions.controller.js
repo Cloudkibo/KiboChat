@@ -65,6 +65,7 @@ exports.index = function (req, res) {
                           company_id: page.companyId
                         })
                           .then(sessionSaved => {
+                            console.log('sessionSaved', sessionSaved)
                             utility.callApi(`featureUsage/updateCompany`, 'put', {query: {companyId: page.companyId}, newPayload: { $inc: { sessions: 1 } }, options: {}})
                               .then(updated => {
                               })
@@ -93,7 +94,7 @@ exports.index = function (req, res) {
               SessionsDataLayer.updateSessionObject(session._id, updatePayload)
                 .then(updated => {
                   logger.serverLog(TAG, `Session updated successfully`)
-                  saveLiveChat(page, subscriber, session, event, req)
+                  saveLiveChat(page, subscriber, session, event)
                 })
                 .catch(error => {
                   logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`)
@@ -122,8 +123,9 @@ function saveLiveChat (page, subscriber, session, event) {
     payload: event.message
   }
   if (subscriber) {
-    BotsDataLayer.findOneBotObjectUsingQuery({ 'pageId': subscriber.pageId.toString() })
+    BotsDataLayer.findOneBotObjectUsingQuery({ pageId: subscriber.pageId.toString() })
       .then(bot => {
+        console.log('bot fetched', bot)
         if (bot) {
           if (bot.blockedSubscribers.indexOf(subscriber._id) === -1) {
             logger.serverLog(TAG, 'going to send bot reply')
