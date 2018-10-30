@@ -52,15 +52,9 @@ const getLastMessage = (gotLastMessage, session) => {
     for (let b = 0; b < sessions.length; b++) {
       if (sessions[b]._id.toString() === gotLastMessage[a]._id.toString()) {
         console.log('condition matched')
-        sessions[b].set('lastPayload',
-          gotLastMessage[a].payload,
-          {strict: false})
-        sessions[b].set('lastRepliedBy',
-          gotLastMessage[a].replied_by,
-          {strict: false})
-        sessions[b].set('lastDateTime',
-          gotLastMessage[a].datetime,
-          {strict: false})
+        sessions[b].lastPayload = gotLastMessage[a].payload
+        sessions[b].lastRepliedBy = gotLastMessage[a].replied_by
+        sessions[b].lastDateTime = gotLastMessage[a].datetime
         console.log('sessions after set', sessions)
       }
     }
