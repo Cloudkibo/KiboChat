@@ -80,7 +80,7 @@ exports.getNewSessions = function (req, res) {
                       UnreadCountAndLastMessage(sessionsTosend, req, criteria, companyUser)
                         .then(result => {
                           console.log('returned result', result)
-                          return res.status(200).json(result)
+                          return res.status(200).json({status: 'success', payload: result})
                         })
                         .catch(error => {
                           return res.status(500).json({status: 'failed', payload: `Failed to fetch sessions ${JSON.stringify(error)}`})
@@ -474,10 +474,7 @@ function UnreadCountAndLastMessage (sessions, req, criteria, companyUser) {
                               console.log('gotLastMessage', gotLastMessage)
                               sessions = logicLayer.getLastMessage(gotLastMessage, sessions)
                               console.log('gotLastMessage sessions', sessions)
-                              resolve({
-                                status: 'success',
-                                payload: {openSessions: sessions, count: sessionsData.length}
-                              })
+                              resolve({openSessions: sessions, count: sessionsData.length})
                             })
                             .catch(err => {
                               reject(err)
