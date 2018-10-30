@@ -438,16 +438,16 @@ function UnreadCountAndLastMessage (sessions, req, criteria, companyUser) {
     .then(sessionss => {
       for (let i = 0; i < sessionss.length; i++) {
         sessionsTosend.push({
-          status: sessions[i].status,
-          is_assigned: sessions[i].is_assigned,
-          _id: sessions[i]._id,
-          company_id: sessions[i].company_id,
-          last_activity_time: sessions[i].last_activity_time,
-          request_time: sessions[i].request_time,
-          agent_activity_time: sessions[i].agent_activity_time
+          status: sessionss[i].status,
+          is_assigned: sessionss[i].is_assigned,
+          _id: sessionss[i]._id,
+          company_id: sessionss[i].company_id,
+          last_activity_time: sessionss[i].last_activity_time,
+          request_time: sessionss[i].request_time,
+          agent_activity_time: sessionss[i].agent_activity_time
         })
-        let subscriberId = sessions[i].subscriber_id
-        let pageId = sessions[i].page_id
+        let subscriberId = sessionss[i].subscriber_id
+        let pageId = sessionss[i].page_id
         console.log('subscriberIdForOpenSessions', subscriberId)
         console.log('pageIdForOpenSessions', pageId)
         utility.callApi(`subscribers/${subscriberId}`, 'get', {}, req.headers.authorization) // fetch subscribers of company
@@ -490,6 +490,12 @@ function UnreadCountAndLastMessage (sessions, req, criteria, companyUser) {
                   }
                 }
               })
+              .catch(error => {
+                return {status: 'failed', payload: `Failed to fetch page in unreadcount ${JSON.stringify(error)}`}
+              })
+          })
+          .catch(error => {
+            return {status: 'failed', payload: `Failed to fetch subscriber in unreadcount ${JSON.stringify(error)}`}
           })
       }
     })
