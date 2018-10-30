@@ -53,48 +53,52 @@ exports.getNewSessions = function (req, res) {
       dataLayer.findSessionsUsingQuery(criteria.countCriteria)
         .then(sessions => {
           console.log('totalsessions', sessions)
-          let sessionsTosend = []
-          for (let i = 0; i < sessions.length; i++) {
-            sessionsTosend.push({
-              status: sessions[i].status,
-              is_assigned: sessions[i].is_assigned,
-              _id: sessions[i]._id,
-              company_id: sessions[i].company_id,
-              last_activity_time: sessions[i].last_activity_time,
-              request_time: sessions[i].request_time,
-              agent_activity_time: sessions[i].agent_activity_time
-            })
-            let subscriberId = sessions[i].subscriber_id
-            let pageId = sessions[i].page_id
-            console.log('subscriberIdForOpenSessions', subscriberId)
-            console.log('pageIdForOpenSessions', pageId)
-            utility.callApi(`subscribers/${subscriberId}`, 'get', {}, req.headers.authorization) // fetch subscribers of company
-              .then(subscriber => {
-                console.log('fetchSubscriber', subscriber)
-                sessionsTosend[i].subscriber_id = subscriber
-                utility.callApi(`pages/${pageId}`, 'get', {}, req.headers.authorization)
-                  .then(page => {
-                    console.log('fetchPage', page)
-                    sessionsTosend[i].page_id = page
-                    console.log('sessionsTosend', sessionsTosend[i])
-                    if (i === sessions.length - 1) {
-                      UnreadCountAndLastMessage(sessionsTosend, req, criteria, companyUser)
-                        .then(result => {
-                          console.log('returned result', result)
-                          return res.status(200).json({status: 'success', payload: result})
-                        })
-                        .catch(error => {
-                          return res.status(500).json({status: 'failed', payload: `Failed to fetch sessions ${JSON.stringify(error)}`})
-                        })
-                    }
-                  })
-                  .catch(error => {
-                    return res.status(500).json({status: 'failed', payload: `Failed to fetch page ${JSON.stringify(error)}`})
-                  })
+          if (sessions.length > 0) {
+            let sessionsTosend = []
+            for (let i = 0; i < sessions.length; i++) {
+              sessionsTosend.push({
+                status: sessions[i].status,
+                is_assigned: sessions[i].is_assigned,
+                _id: sessions[i]._id,
+                company_id: sessions[i].company_id,
+                last_activity_time: sessions[i].last_activity_time,
+                request_time: sessions[i].request_time,
+                agent_activity_time: sessions[i].agent_activity_time
               })
-              .catch(error => {
-                return res.status(500).json({status: 'failed', payload: `Failed to fetch subscriber ${JSON.stringify(error)}`})
-              })
+              let subscriberId = sessions[i].subscriber_id
+              let pageId = sessions[i].page_id
+              console.log('subscriberIdForOpenSessions', subscriberId)
+              console.log('pageIdForOpenSessions', pageId)
+              utility.callApi(`subscribers/${subscriberId}`, 'get', {}, req.headers.authorization) // fetch subscribers of company
+                .then(subscriber => {
+                  console.log('fetchSubscriber', subscriber)
+                  sessionsTosend[i].subscriber_id = subscriber
+                  utility.callApi(`pages/${pageId}`, 'get', {}, req.headers.authorization)
+                    .then(page => {
+                      console.log('fetchPage', page)
+                      sessionsTosend[i].page_id = page
+                      console.log('sessionsTosend', sessionsTosend[i])
+                      if (i === sessions.length - 1) {
+                        UnreadCountAndLastMessage(sessionsTosend, req, criteria, companyUser)
+                          .then(result => {
+                            console.log('returned result', result)
+                            return res.status(200).json({status: 'success', payload: result})
+                          })
+                          .catch(error => {
+                            return res.status(500).json({status: 'failed', payload: `Failed to fetch sessions ${JSON.stringify(error)}`})
+                          })
+                      }
+                    })
+                    .catch(error => {
+                      return res.status(500).json({status: 'failed', payload: `Failed to fetch page ${JSON.stringify(error)}`})
+                    })
+                })
+                .catch(error => {
+                  return res.status(500).json({status: 'failed', payload: `Failed to fetch subscriber ${JSON.stringify(error)}`})
+                })
+            }
+          } else {
+            return res.status(200).json({status: 'success', payload: {openSessions: [], count: 0}})
           }
         })
         .catch(error => {
@@ -136,49 +140,53 @@ exports.getResolvedSessions = function (req, res) {
       console.log('criteria.fetchCriteria', criteria.fetchCriteria)
       dataLayer.findSessionsUsingQuery(criteria.countCriteria)
         .then(sessions => {
-          console.log('totalsessions', sessions)
-          let sessionsTosend = []
-          for (let i = 0; i < sessions.length; i++) {
-            sessionsTosend.push({
-              status: sessions[i].status,
-              is_assigned: sessions[i].is_assigned,
-              _id: sessions[i]._id,
-              company_id: sessions[i].company_id,
-              last_activity_time: sessions[i].last_activity_time,
-              request_time: sessions[i].request_time,
-              agent_activity_time: sessions[i].agent_activity_time
-            })
-            let subscriberId = sessions[i].subscriber_id
-            let pageId = sessions[i].page_id
-            console.log('subscriberIdForOpenSessions', subscriberId)
-            console.log('pageIdForOpenSessions', pageId)
-            utility.callApi(`subscribers/${subscriberId}`, 'get', {}, req.headers.authorization) // fetch subscribers of company
-              .then(subscriber => {
-                console.log('fetchSubscriber', subscriber)
-                sessionsTosend[i].subscriber_id = subscriber
-                utility.callApi(`pages/${pageId}`, 'get', {}, req.headers.authorization)
-                  .then(page => {
-                    console.log('fetchPage', page)
-                    sessionsTosend[i].page_id = page
-                    console.log('sessionsTosend', sessionsTosend[i])
-                    if (i === sessions.length - 1) {
-                      UnreadCountAndLastMessage(sessionsTosend, req, criteria, companyUser)
-                        .then(result => {
-                          console.log('returned result', result)
-                          return res.status(200).json({status: 'success', payload: {closedSessions: result.openSessions, count: result.count}})
-                        })
-                        .catch(error => {
-                          return res.status(500).json({status: 'failed', payload: `Failed to fetch sessions ${JSON.stringify(error)}`})
-                        })
-                    }
-                  })
-                  .catch(error => {
-                    return res.status(500).json({status: 'failed', payload: `Failed to fetch page ${JSON.stringify(error)}`})
-                  })
+          if (sessions.length > 0) {
+            console.log('totalsessions', sessions)
+            let sessionsTosend = []
+            for (let i = 0; i < sessions.length; i++) {
+              sessionsTosend.push({
+                status: sessions[i].status,
+                is_assigned: sessions[i].is_assigned,
+                _id: sessions[i]._id,
+                company_id: sessions[i].company_id,
+                last_activity_time: sessions[i].last_activity_time,
+                request_time: sessions[i].request_time,
+                agent_activity_time: sessions[i].agent_activity_time
               })
-              .catch(error => {
-                return res.status(500).json({status: 'failed', payload: `Failed to fetch subscriber ${JSON.stringify(error)}`})
-              })
+              let subscriberId = sessions[i].subscriber_id
+              let pageId = sessions[i].page_id
+              console.log('subscriberIdForOpenSessions', subscriberId)
+              console.log('pageIdForOpenSessions', pageId)
+              utility.callApi(`subscribers/${subscriberId}`, 'get', {}, req.headers.authorization) // fetch subscribers of company
+                .then(subscriber => {
+                  console.log('fetchSubscriber', subscriber)
+                  sessionsTosend[i].subscriber_id = subscriber
+                  utility.callApi(`pages/${pageId}`, 'get', {}, req.headers.authorization)
+                    .then(page => {
+                      console.log('fetchPage', page)
+                      sessionsTosend[i].page_id = page
+                      console.log('sessionsTosend', sessionsTosend[i])
+                      if (i === sessions.length - 1) {
+                        UnreadCountAndLastMessage(sessionsTosend, req, criteria, companyUser)
+                          .then(result => {
+                            console.log('returned result', result)
+                            return res.status(200).json({status: 'success', payload: {closedSessions: result.openSessions, count: result.count}})
+                          })
+                          .catch(error => {
+                            return res.status(500).json({status: 'failed', payload: `Failed to fetch sessions ${JSON.stringify(error)}`})
+                          })
+                      }
+                    })
+                    .catch(error => {
+                      return res.status(500).json({status: 'failed', payload: `Failed to fetch page ${JSON.stringify(error)}`})
+                    })
+                })
+                .catch(error => {
+                  return res.status(500).json({status: 'failed', payload: `Failed to fetch subscriber ${JSON.stringify(error)}`})
+                })
+            }
+          } else {
+            return res.status(200).json({status: 'success', payload: {closedSessions: [], count: 0}})
           }
         })
         .catch(error => {
@@ -477,23 +485,23 @@ exports.unSubscribe = function (req, res) {
     })
 }
 function saveNotifications (companyUser, subscriber, req) {
-  utility.callApi(`companyUser/query`, 'post', {companyId: companyUser.companyId}, req.headers.authorization)
-    .then(member => {
-      NotificationsDataLayer.createNotificationObject({
-        message: `Subscriber ${subscriber.firstName + ' ' + subscriber.lastName} has been unsubscribed by ${user.name}`,
-        category: {type: 'unsubscribe', id: subscriber._id},
-        agentId: member.userId._id,
-        companyId: subscriber.companyId
-      })
-        .then(savedNotification => {})
-        .catch(error => {
-          logger.serverLog(TAG, `Failed to create notification ${JSON.stringify(error)}`)
-        })
-    })
-    .catch(error => {
-      logger.serverLog(TAG,
-        `Failed to fetch company members ${JSON.stringify(error)}`)
-    })
+  // utility.callApi(`companyUser/query`, 'post', {companyId: companyUser.companyId}, req.headers.authorization)
+  //   .then(member => {
+  //     NotificationsDataLayer.createNotificationObject({
+  //       message: `Subscriber ${subscriber.firstName + ' ' + subscriber.lastName} has been unsubscribed by ${user.name}`,
+  //       category: {type: 'unsubscribe', id: subscriber._id},
+  //       agentId: member.userId._id,
+  //       companyId: subscriber.companyId
+  //     })
+  //       .then(savedNotification => {})
+  //       .catch(error => {
+  //         logger.serverLog(TAG, `Failed to create notification ${JSON.stringify(error)}`)
+  //       })
+  //   })
+  //   .catch(error => {
+  //     logger.serverLog(TAG,
+  //       `Failed to fetch company members ${JSON.stringify(error)}`)
+  //   })
 }
 function UnreadCountAndLastMessage (sessions, req, criteria, companyUser) {
   return new Promise((resolve, reject) => {
