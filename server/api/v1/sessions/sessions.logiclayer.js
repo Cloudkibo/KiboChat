@@ -61,6 +61,7 @@ const getLastMessage = (gotLastMessage, session) => {
         sessions[b].set('lastDateTime',
           gotLastMessage[a].datetime,
           {strict: false})
+        console.log('sessions after set', sessions)
       }
     }
   }
