@@ -105,28 +105,29 @@ exports.getNewSessions = function (req, res) {
     })
 }
 exports.getResolvedSessions = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
-    .then(companyUser => {
-      let criteria = logicLayer.getResolvedSessionsCriteria(companyUser, req.body)
-      dataLayer.findSessionsUsingQuery(criteria.countCriteria)
-        .then(sessions => {
-          let result = UnreadCountAndLastMessage(sessions, req.body, criteria, companyUser)
-          if (result.status === 'success') {
-            return res.status(200).json({
-              status: 'success',
-              payload: {closedSessions: result.payload.openSessions, count: result.payload.count}
-            })
-          } else {
-            return res.status(500).json(result)
-          }
-        })
-        .catch(error => {
-          return res.status(500).json({status: 'failed', payload: `Failed to fetch sessions count ${JSON.stringify(error)}`})
-        })
-    })
-    .catch(error => {
-      return res.status(500).json({status: 'failed', payload: `Failed to fetch company user ${JSON.stringify(error)}`})
-    })
+  // utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
+  //   .then(companyUser => {
+  //     let criteria = logicLayer.getResolvedSessionsCriteria(companyUser, req.body)
+  //     dataLayer.findSessionsUsingQuery(criteria.countCriteria)
+  //       .then(sessions => {
+  //         let result = UnreadCountAndLastMessage(sessions, req.body, criteria, companyUser)
+  //         if (result.status === 'success') {
+  //           return res.status(200).json({
+  //             status: 'success',
+  //             payload: {closedSessions: result.payload.openSessions, count: result.payload.count}
+  //           })
+  //         } else {
+  //           return res.status(500).json(result)
+  //         }
+  //       })
+  //       .catch(error => {
+  //         return res.status(500).json({status: 'failed', payload: `Failed to fetch sessions count ${JSON.stringify(error)}`})
+  //       })
+  //   })
+  //   .catch(error => {
+  //     return res.status(500).json({status: 'failed', payload: `Failed to fetch company user ${JSON.stringify(error)}`})
+  //   })
+  return res.status(200).json({status: 'success', payload: 'result'})
 }
 exports.markread = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
