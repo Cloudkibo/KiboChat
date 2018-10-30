@@ -432,81 +432,81 @@ function saveNotifications (companyUser, subscriber, req) {
     })
 }
 function UnreadCountAndLastMessage (sessions, req, criteria, companyUser) {
-  let sessionsTosend = []
-  console.log('UnreadCountAndLastMessage', sessions)
-  let sessionsData = logicLayer.prepareSessionsData(sessions, req.body)
-  dataLayer.aggregate(criteria.fetchCriteria)
-    .then(sessionss => {
-      for (let i = 0; i < sessionss.length; i++) {
-        sessionsTosend.push({
-          status: sessionss[i].status,
-          is_assigned: sessionss[i].is_assigned,
-          _id: sessionss[i]._id,
-          company_id: sessionss[i].company_id,
-          last_activity_time: sessionss[i].last_activity_time,
-          request_time: sessionss[i].request_time,
-          agent_activity_time: sessionss[i].agent_activity_time
-        })
-        let subscriberId = sessionss[i].subscriber_id
-        let pageId = sessionss[i].page_id
-        console.log('subscriberIdForOpenSessions', subscriberId)
-        console.log('pageIdForOpenSessions', pageId)
-        utility.callApi(`subscribers/${subscriberId}`, 'get', {}, req.headers.authorization) // fetch subscribers of company
-          .then(subscriber => {
-            console.log('fetchSubscriber', subscriber)
-            sessionsTosend[i].subscriber_id = subscriber
-            utility.callApi(`pages/${pageId}`, 'get', {}, req.headers.authorization)
-              .then(page => {
-                console.log('fetchPage', page)
-                sessionsTosend[i].page_id = page
-                console.log('sessions aggregate', sessionss)
-                if (i === sessionss.length - 1) {
-                  let sessions = logicLayer.prepareSessionsData(sessionsTosend, req.body)
-                  if (sessions.length > 0) {
-                    LiveChatDataLayer.findFbMessageObjectUsingAggregate(logicLayer.unreadCountCriteria(companyUser))
-                      .then(gotUnreadCount => {
-                        console.log('gotUnreadCount', gotUnreadCount)
-                        sessions = logicLayer.getUnreadCount(gotUnreadCount, sessions)
-                        console.log('sessions after gotUnreadCOunt', sessions)
-                        LiveChatDataLayer.findFbMessageObjectUsingAggregate(logicLayer.lastMessageCriteria())
-                          .then(gotLastMessage => {
-                            console.log('gotLastMessage', gotLastMessage)
-                            sessions = logicLayer.getLastMessage(gotLastMessage, sessions)
-                            console.log('gotLastMessage sessions', sessions)
-                            return new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
+    let sessionsTosend = []
+    console.log('UnreadCountAndLastMessage', sessions)
+    let sessionsData = logicLayer.prepareSessionsData(sessions, req.body)
+    dataLayer.aggregate(criteria.fetchCriteria)
+      .then(sessionss => {
+        for (let i = 0; i < sessionss.length; i++) {
+          sessionsTosend.push({
+            status: sessionss[i].status,
+            is_assigned: sessionss[i].is_assigned,
+            _id: sessionss[i]._id,
+            company_id: sessionss[i].company_id,
+            last_activity_time: sessionss[i].last_activity_time,
+            request_time: sessionss[i].request_time,
+            agent_activity_time: sessionss[i].agent_activity_time
+          })
+          let subscriberId = sessionss[i].subscriber_id
+          let pageId = sessionss[i].page_id
+          console.log('subscriberIdForOpenSessions', subscriberId)
+          console.log('pageIdForOpenSessions', pageId)
+          utility.callApi(`subscribers/${subscriberId}`, 'get', {}, req.headers.authorization) // fetch subscribers of company
+            .then(subscriber => {
+              console.log('fetchSubscriber', subscriber)
+              sessionsTosend[i].subscriber_id = subscriber
+              utility.callApi(`pages/${pageId}`, 'get', {}, req.headers.authorization)
+                .then(page => {
+                  console.log('fetchPage', page)
+                  sessionsTosend[i].page_id = page
+                  console.log('sessions aggregate', sessionss)
+                  if (i === sessionss.length - 1) {
+                    let sessions = logicLayer.prepareSessionsData(sessionsTosend, req.body)
+                    if (sessions.length > 0) {
+                      LiveChatDataLayer.findFbMessageObjectUsingAggregate(logicLayer.unreadCountCriteria(companyUser))
+                        .then(gotUnreadCount => {
+                          console.log('gotUnreadCount', gotUnreadCount)
+                          sessions = logicLayer.getUnreadCount(gotUnreadCount, sessions)
+                          console.log('sessions after gotUnreadCOunt', sessions)
+                          LiveChatDataLayer.findFbMessageObjectUsingAggregate(logicLayer.lastMessageCriteria())
+                            .then(gotLastMessage => {
+                              console.log('gotLastMessage', gotLastMessage)
+                              sessions = logicLayer.getLastMessage(gotLastMessage, sessions)
+                              console.log('gotLastMessage sessions', sessions)
                               resolve({
                                 status: 'success',
                                 payload: {openSessions: sessions, count: sessionsData.length}
                               })
                             })
-                          })
-                          .catch(err => {
-                            return {status: 'failed', payload: `Failed to fetch last messsage ${JSON.stringify(err)}`}
-                          })
-                      })
-                      .catch(error => {
-                        return {status: 'failed', payload: `Failed to fetch unread count ${JSON.stringify(error)}`}
-                      })
-                  } else {
-                    return {
-                      status: 'success',
-                      payload: {openSessions: sessions, count: sessionsData.length}
+                            .catch(err => {
+                              reject(err)
+                            })
+                        })
+                        .catch(err => {
+                          reject(err)
+                        })
+                    } else {
+                      return {
+                        status: 'success',
+                        payload: {openSessions: sessions, count: sessionsData.length}
+                      }
                     }
                   }
-                }
-              })
-              .catch(error => {
-                return {status: 'failed', payload: `Failed to fetch page in unreadcount ${JSON.stringify(error)}`}
-              })
-          })
-          .catch(error => {
-            return {status: 'failed', payload: `Failed to fetch subscriber in unreadcount ${JSON.stringify(error)}`}
-          })
-      }
-    })
-    .catch(error => {
-      return {status: 'failed', payload: `Failed to aggregate sessions ${JSON.stringify(error)}`}
-    })
+                })
+                .catch(err => {
+                  reject(err)
+                })
+            })
+            .catch(err => {
+              reject(err)
+            })
+        }
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
 }
 exports.genericFind = function (req, res) {
   console.log('in genericFind', req.body)
