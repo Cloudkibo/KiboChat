@@ -51,6 +51,7 @@ const getLastMessage = (gotLastMessage, session) => {
   for (let a = 0; a < gotLastMessage.length; a++) {
     for (let b = 0; b < sessions.length; b++) {
       if (sessions[b]._id.toString() === gotLastMessage[a]._id.toString()) {
+        console.log('condition matched')
         sessions[b].set('lastPayload',
           gotLastMessage[a].payload,
           {strict: false})
@@ -63,6 +64,7 @@ const getLastMessage = (gotLastMessage, session) => {
       }
     }
   }
+  console.log('sessions to return', sessions)
   return sessions
 }
 const getLastMessageData = (gotLastMessage, session) => {
