@@ -47,7 +47,6 @@ exports.index = function (req, res) {
       if (!(company.automated_options === 'DISABLE_CHAT')) {
         SessionsDataLayer.findOneSessionUsingQuery({ page_id: page._id, subscriber_id: subscriber._id })
           .then(session => {
-            console.log('session fetched', session)
             if (session === null) {
               utility.callApi(`featureUsage/planQuery`, 'post', {planId: company.planId})
                 .then(planUsage => {
@@ -65,7 +64,6 @@ exports.index = function (req, res) {
                           company_id: page.companyId
                         })
                           .then(sessionSaved => {
-                            console.log('sessionSaved', sessionSaved)
                             utility.callApi(`featureUsage/updateCompany`, 'put', {query: {companyId: page.companyId}, newPayload: { $inc: { sessions: 1 } }, options: {}})
                               .then(updated => {
                               })
@@ -111,7 +109,6 @@ exports.index = function (req, res) {
     })
 }
 function saveLiveChat (page, subscriber, session, event) {
-  console.log('in saveLiveChat session', session)
   let chatPayload = {
     format: 'facebook',
     sender_id: subscriber._id,
@@ -126,7 +123,6 @@ function saveLiveChat (page, subscriber, session, event) {
   if (subscriber) {
     BotsDataLayer.findOneBotObjectUsingQuery({ pageId: subscriber.pageId.toString() })
       .then(bot => {
-        console.log('bot fetched', bot)
         if (bot) {
           if (bot.blockedSubscribers.indexOf(subscriber._id) === -1) {
             logger.serverLog(TAG, 'going to send bot reply')
@@ -140,7 +136,6 @@ function saveLiveChat (page, subscriber, session, event) {
   }
   utility.callApi(`webhooks/query`, 'post', {pageId: page.pageId})
     .then(webhooks => {
-      console.log('webhooks fetched', webhooks.length)
       let webhook = webhooks[0]
       if (webhooks.length > 0 && webhook.isEnabled) {
         logger.serverLog(TAG, `webhook in live chat ${webhook}`)
@@ -176,23 +171,19 @@ function saveLiveChat (page, subscriber, session, event) {
       logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(error)}`)
     })
   if (event.message) {
-    console.log('event.message')
     let urlInText = parseUrl(event.message.text)
     if (urlInText !== null && urlInText !== '') {
       og(urlInText, function (err, meta) {
         if (err) return logger.serverLog(TAG, err)
         chatPayload.url_meta = meta
-        console.log('in if event.message')
         saveChatInDb(page, session, chatPayload, subscriber, event)
       })
     } else {
-      console.log('in else event.message')
       saveChatInDb(page, session, chatPayload, subscriber, event)
     }
   }
 }
 function saveChatInDb (page, session, chatPayload, subscriber, event) {
-  console.log('in saveChatInDb')
   LiveChatDataLayer.createFbMessageObject(chatPayload)
     .then(chat => {
       // require('./../../../config/socketio').sendMessageToClient({
@@ -216,7 +207,6 @@ function saveChatInDb (page, session, chatPayload, subscriber, event) {
     })
 }
 function sendautomatedmsg (req, page) {
-  console.log('in sendautomatedmsg')
   if (req.message && req.message.text) {
     let index = -3
     if (req.message.text.toLowerCase() === 'stop' ||

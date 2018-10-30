@@ -5,7 +5,6 @@ const dataLayer = require('./sessions.datalayer')
 const logicLayer = require('./sessions.logiclayer')
 const LiveChatDataLayer = require('../liveChat/liveChat.datalayer')
 const needle = require('needle')
-const mongoose = require('mongoose')
 
 exports.index = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
@@ -79,6 +78,7 @@ exports.getNewSessions = function (req, res) {
                     console.log('sessionsTosend', sessionsTosend[i])
                     if (i === sessions.length - 1) {
                       let result = UnreadCountAndLastMessage(sessionsTosend, req, criteria, companyUser)
+                      console.log('returned result', result)
                       if (result.status === 'success') {
                         return res.status(200).json(result)
                       } else {
@@ -470,6 +470,7 @@ function UnreadCountAndLastMessage (sessions, req, criteria, companyUser) {
                           .then(gotLastMessage => {
                             console.log('gotLastMessage', gotLastMessage)
                             sessions = logicLayer.getLastMessage(gotLastMessage, sessions)
+                            console.log('gotLastMessage sessions', sessions)
                             return {
                               status: 'success',
                               payload: {openSessions: sessions, count: sessionsData.length}
