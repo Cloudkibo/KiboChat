@@ -77,13 +77,14 @@ exports.getNewSessions = function (req, res) {
                     sessionsTosend[i].page_id = page
                     console.log('sessionsTosend', sessionsTosend[i])
                     if (i === sessions.length - 1) {
-                      let result = UnreadCountAndLastMessage(sessionsTosend, req, criteria, companyUser)
-                      console.log('returned result', result)
-                      if (result.status === 'success') {
-                        return res.status(200).json(result)
-                      } else {
-                        return res.status(500).json(result)
-                      }
+                      UnreadCountAndLastMessage(sessionsTosend, req, criteria, companyUser)
+                        .then(result => {
+                          console.log('returned result', result)
+                          return res.status(200).json(result)
+                        })
+                        .catch(error => {
+                          return res.status(500).json({status: 'failed', payload: `Failed to fetch sessions ${JSON.stringify(error)}`})
+                        })
                     }
                   })
                   .catch(error => {
@@ -472,10 +473,12 @@ function UnreadCountAndLastMessage (sessions, req, criteria, companyUser) {
                             console.log('gotLastMessage', gotLastMessage)
                             sessions = logicLayer.getLastMessage(gotLastMessage, sessions)
                             console.log('gotLastMessage sessions', sessions)
-                            return {
-                              status: 'success',
-                              payload: {openSessions: sessions, count: sessionsData.length}
-                            }
+                            return new Promise((resolve, reject) => {
+                              resolve({
+                                status: 'success',
+                                payload: {openSessions: sessions, count: sessionsData.length}
+                              })
+                            })
                           })
                           .catch(err => {
                             return {status: 'failed', payload: `Failed to fetch last messsage ${JSON.stringify(err)}`}
