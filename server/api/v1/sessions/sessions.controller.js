@@ -4,6 +4,7 @@ const TAG = 'api/v1/sessions/sessions.controller'
 const dataLayer = require('./sessions.datalayer')
 const logicLayer = require('./sessions.logiclayer')
 const LiveChatDataLayer = require('../liveChat/liveChat.datalayer')
+const NotificationsDataLayer = require('../notifications/notifications.datalayer')
 const needle = require('needle')
 
 exports.index = function (req, res) {
@@ -127,7 +128,66 @@ exports.getResolvedSessions = function (req, res) {
   //   .catch(error => {
   //     return res.status(500).json({status: 'failed', payload: `Failed to fetch company user ${JSON.stringify(error)}`})
   //   })
-  return res.status(200).json({status: 'success', payload: 'result'})
+  //  return res.status(200).json({status: 'success', payload: 'result'})
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
+    .then(companyUser => {
+      let criteria = logicLayer.getResolvedSessionsCriteria(companyUser, req.body)
+      console.log('criteria.countCriteria', criteria.countCriteria)
+      console.log('criteria.fetchCriteria', criteria.fetchCriteria)
+      dataLayer.findSessionsUsingQuery(criteria.countCriteria)
+        .then(sessions => {
+          console.log('totalsessions', sessions)
+          let sessionsTosend = []
+          for (let i = 0; i < sessions.length; i++) {
+            sessionsTosend.push({
+              status: sessions[i].status,
+              is_assigned: sessions[i].is_assigned,
+              _id: sessions[i]._id,
+              company_id: sessions[i].company_id,
+              last_activity_time: sessions[i].last_activity_time,
+              request_time: sessions[i].request_time,
+              agent_activity_time: sessions[i].agent_activity_time
+            })
+            let subscriberId = sessions[i].subscriber_id
+            let pageId = sessions[i].page_id
+            console.log('subscriberIdForOpenSessions', subscriberId)
+            console.log('pageIdForOpenSessions', pageId)
+            utility.callApi(`subscribers/${subscriberId}`, 'get', {}, req.headers.authorization) // fetch subscribers of company
+              .then(subscriber => {
+                console.log('fetchSubscriber', subscriber)
+                sessionsTosend[i].subscriber_id = subscriber
+                utility.callApi(`pages/${pageId}`, 'get', {}, req.headers.authorization)
+                  .then(page => {
+                    console.log('fetchPage', page)
+                    sessionsTosend[i].page_id = page
+                    console.log('sessionsTosend', sessionsTosend[i])
+                    if (i === sessions.length - 1) {
+                      UnreadCountAndLastMessage(sessionsTosend, req, criteria, companyUser)
+                        .then(result => {
+                          console.log('returned result', result)
+                          return res.status(200).json({status: 'success', payload: {closedSessions: result.openSessions, count: result.count}})
+                        })
+                        .catch(error => {
+                          return res.status(500).json({status: 'failed', payload: `Failed to fetch sessions ${JSON.stringify(error)}`})
+                        })
+                    }
+                  })
+                  .catch(error => {
+                    return res.status(500).json({status: 'failed', payload: `Failed to fetch page ${JSON.stringify(error)}`})
+                  })
+              })
+              .catch(error => {
+                return res.status(500).json({status: 'failed', payload: `Failed to fetch subscriber ${JSON.stringify(error)}`})
+              })
+          }
+        })
+        .catch(error => {
+          return res.status(500).json({status: 'failed', payload: `Failed to fetch sessions count ${JSON.stringify(error)}`})
+        })
+    })
+    .catch(error => {
+      return res.status(500).json({status: 'failed', payload: `Failed to fetch company user ${JSON.stringify(error)}`})
+    })
 }
 exports.markread = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
@@ -145,29 +205,35 @@ exports.markread = function (req, res) {
                     } else {
                       currentUser = connectedUser
                     }
-                    needle.get(
-                      `https://graph.facebook.com/v2.10/${session.page_id.pageId}?fields=access_token&access_token=${currentUser.facebookInfo.fbToken}`,
-                      (err, resp) => {
-                        if (err) {
-                          logger.serverLog(TAG, `Page accesstoken from graph api Error${JSON.stringify(err)}`)
-                        }
-                        const data = {
-                          messaging_type: 'UPDATE',
-                          recipient: {id: session.subscriber_id.senderId}, // this is the subscriber id
-                          sender_action: 'mark_seen'
-                        }
-                        if (resp && resp.body) {
-                          needle.post(
-                            `https://graph.facebook.com/v2.6/me/messages?access_token=${resp.body.access_token}`,
-                            data, (err, resp1) => {
-                              if (err) {
-                                logger.serverLog(TAG, err)
-                                logger.serverLog(TAG,
-                                  `Error occured at subscriber :${JSON.stringify(
-                                    session.subscriber_id)}`)
-                              }
-                            })
-                        }
+                    utility.callApi(`pages/query`, 'post', {_id: session.page_id}, req.headers.authorization)
+                      .then(page => {
+                        needle.get(
+                          `https://graph.facebook.com/v2.10/${page.pageId}?fields=access_token&access_token=${currentUser.facebookInfo.fbToken}`,
+                          (err, resp) => {
+                            if (err) {
+                              logger.serverLog(TAG, `Page accesstoken from graph api Error${JSON.stringify(err)}`)
+                            }
+                            const data = {
+                              messaging_type: 'UPDATE',
+                              recipient: {id: session.subscriber_id.senderId}, // this is the subscriber id
+                              sender_action: 'mark_seen'
+                            }
+                            if (resp && resp.body) {
+                              needle.post(
+                                `https://graph.facebook.com/v2.6/me/messages?access_token=${resp.body.access_token}`,
+                                data, (err, resp1) => {
+                                  if (err) {
+                                    logger.serverLog(TAG, err)
+                                    logger.serverLog(TAG,
+                                      `Error occured at subscriber :${JSON.stringify(
+                                        session.subscriber_id)}`)
+                                  }
+                                })
+                            }
+                          })
+                      })
+                      .catch(err => {
+                        res.status(500).json({status: 'failed', payload: `Failed to fetch session page ${JSON.stringify(err)}`})
                       })
                   })
                   .catch(err => {
@@ -205,7 +271,7 @@ exports.show = function (req, res) {
                 session.set('chats', JSON.parse(JSON.stringify(chats)), {strict: false})
                 LiveChatDataLayer.findFbMessageObjectUsingAggregate(logicLayer.unreadCountCriteria(companyUser))
                   .then(gotUnreadCount => {
-                    session = dataLayer.getUnreadCountData(gotUnreadCount, session)
+                    session = logicLayer.getUnreadCountData(gotUnreadCount, session)
                     LiveChatDataLayer.findFbMessageObjectUsingAggregate(logicLayer.lastMessageCriteria())
                       .then(gotLastMessage => {
                         session = dataLayer.getLastMessageData(gotLastMessage, session)
@@ -336,9 +402,11 @@ exports.unSubscribe = function (req, res) {
     .then(companyUser => {
       utility.callApi(`pages/${req.body.page_id}`, 'get', {}, req.headers.authorization)
         .then(userPage => {
+          userPage = userPage[0]
           utility.callApi(`subscribers/${req.body.subscriber_id}`, 'get', {}, req.headers.authorization)
             .then(subscriber => {
-              utility.callApi(`subscribers/${req.body.subscriber_id}`, 'post', {isSubscribed: false, unSubscribedBy: 'agent'}, req.headers.authorization)
+              subscriber = subscriber[0]
+              utility.callApi(`subscribers/${req.body.subscriber_id}`, 'put', {isSubscribed: false, unSubscribedBy: 'agent'}, req.headers.authorization)
                 .then(updated => {
                   saveNotifications(companyUser, subscriber, req)
                   utility.callApi(`user/${userPage.userId}`, 'get', {}, req.headers.authorization)
@@ -410,22 +478,17 @@ exports.unSubscribe = function (req, res) {
 }
 function saveNotifications (companyUser, subscriber, req) {
   utility.callApi(`companyUser/query`, 'post', {companyId: companyUser.companyId}, req.headers.authorization)
-    .then(members => {
-      // members.forEach(member => {
-      //   let notification = new Notifications({
-      //     message: `Subscriber ${subscriber.firstName + ' ' + subscriber.lastName} has been unsubscribed by ${user.name}`,
-      //     category: {type: 'unsubscribe', id: subscriber._id},
-      //     agentId: member.userId._id,
-      //     companyId: subscriber.companyId
-      //   })
-      //   notification.save((err, savedNotification) => {
-      //     if (err) {
-      //       logger.serverLog(TAG,
-      //         `Error at saving notification ${JSON.stringify(
-      //         err)}`)
-      //     }
-      //   })
-      // })
+    .then(member => {
+      NotificationsDataLayer.createNotificationObject({
+        message: `Subscriber ${subscriber.firstName + ' ' + subscriber.lastName} has been unsubscribed by ${user.name}`,
+        category: {type: 'unsubscribe', id: subscriber._id},
+        agentId: member.userId._id,
+        companyId: subscriber.companyId
+      })
+        .then(savedNotification => {})
+        .catch(error => {
+          logger.serverLog(TAG, `Failed to create notification ${JSON.stringify(error)}`)
+        })
     })
     .catch(error => {
       logger.serverLog(TAG,
