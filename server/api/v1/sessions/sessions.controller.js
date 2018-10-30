@@ -484,10 +484,7 @@ function UnreadCountAndLastMessage (sessions, req, criteria, companyUser) {
                           reject(err)
                         })
                     } else {
-                      return {
-                        status: 'success',
-                        payload: {openSessions: sessions, count: sessionsData.length}
-                      }
+                      resolve({openSessions: sessions, count: sessionsData.length})
                     }
                   }
                 })
