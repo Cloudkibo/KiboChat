@@ -466,6 +466,7 @@ function UnreadCountAndLastMessage (sessions, req, criteria, companyUser) {
                       .then(gotUnreadCount => {
                         console.log('gotUnreadCount', gotUnreadCount)
                         sessions = logicLayer.getUnreadCount(gotUnreadCount, sessions)
+                        console.log('sessions after gotUnreadCOunt', sessions)
                         LiveChatDataLayer.findFbMessageObjectUsingAggregate(logicLayer.lastMessageCriteria())
                           .then(gotLastMessage => {
                             console.log('gotLastMessage', gotLastMessage)
