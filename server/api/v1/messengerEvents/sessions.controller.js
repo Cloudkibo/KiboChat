@@ -141,7 +141,7 @@ function saveLiveChat (page, subscriber, session, event) {
   utility.callApi(`webhooks/query`, 'post', {pageId: page.pageId})
     .then(webhooks => {
       console.log('webhooks fetched', webhooks.length)
-      webhook = webhooks[0]
+      let webhook = webhooks[0]
       if (webhooks.length > 0 && webhook.isEnabled) {
         logger.serverLog(TAG, `webhook in live chat ${webhook}`)
         needle.get(webhook.webhook_url, (err, r) => {
@@ -335,7 +335,7 @@ function sendautomatedmsg (req, page) {
                         }
                         utility.callApi(`webhooks/query`, 'post', { pageId: page.pageId })
                           .then(webhookss => {
-                            webhooks = webhookss[0]
+                            let webhooks = webhookss[0]
                             if (webhookss.length > 0 && webhooks.isEnabled) {
                               logger.serverLog(TAG, `webhook in live chat ${webhooks}`)
                               needle.get(webhooks.webhook_url, (err, r) => {

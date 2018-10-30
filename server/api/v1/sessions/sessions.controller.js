@@ -78,7 +78,7 @@ exports.getNewSessions = function (req, res) {
                     sessionsTosend[i].page_id = page
                     console.log('sessionsTosend', sessionsTosend[i])
                     if (i === sessions.length - 1) {
-                      let result = UnreadCountAndLastMessage(sessionsTosend, req.body, criteria, companyUser)
+                      let result = UnreadCountAndLastMessage(sessionsTosend, req, criteria, companyUser)
                       if (result.status === 'success') {
                         return res.status(200).json(result)
                       } else {
@@ -430,39 +430,67 @@ function saveNotifications (companyUser, subscriber, req) {
         `Failed to fetch company members ${JSON.stringify(error)}`)
     })
 }
-function UnreadCountAndLastMessage (sessions, body, criteria, companyUser) {
+function UnreadCountAndLastMessage (sessions, req, criteria, companyUser) {
+  let sessionsTosend = []
   console.log('UnreadCountAndLastMessage', sessions)
-  let sessionsData = logicLayer.prepareSessionsData(sessions, body)
+  let sessionsData = logicLayer.prepareSessionsData(sessions, req.body)
   dataLayer.aggregate(criteria.fetchCriteria)
     .then(sessionss => {
-      console.log('sessions aggregate', sessionss)
-      let sessions = logicLayer.prepareSessionsData(sessionss, body)
-      if (sessions.length > 0) {
-        LiveChatDataLayer.findFbMessageObjectUsingAggregate(logicLayer.unreadCountCriteria(companyUser))
-          .then(gotUnreadCount => {
-            console.log('gotUnreadCount', gotUnreadCount)
-            sessions = logicLayer.getUnreadCount(gotUnreadCount, sessions)
-            LiveChatDataLayer.findFbMessageObjectUsingAggregate(logicLayer.lastMessageCriteria())
-              .then(gotLastMessage => {
-                console.log('gotLastMessage', gotLastMessage)
-                sessions = logicLayer.getLastMessage(gotLastMessage, sessions)
-                return {
-                  status: 'success',
-                  payload: {openSessions: sessions, count: sessionsData.length}
+      for (let i = 0; i < sessionss.length; i++) {
+        sessionsTosend.push({
+          status: sessions[i].status,
+          is_assigned: sessions[i].is_assigned,
+          _id: sessions[i]._id,
+          company_id: sessions[i].company_id,
+          last_activity_time: sessions[i].last_activity_time,
+          request_time: sessions[i].request_time,
+          agent_activity_time: sessions[i].agent_activity_time
+        })
+        let subscriberId = sessions[i].subscriber_id
+        let pageId = sessions[i].page_id
+        console.log('subscriberIdForOpenSessions', subscriberId)
+        console.log('pageIdForOpenSessions', pageId)
+        utility.callApi(`subscribers/${subscriberId}`, 'get', {}, req.headers.authorization) // fetch subscribers of company
+          .then(subscriber => {
+            console.log('fetchSubscriber', subscriber)
+            sessionsTosend[i].subscriber_id = subscriber
+            utility.callApi(`pages/${pageId}`, 'get', {}, req.headers.authorization)
+              .then(page => {
+                console.log('fetchPage', page)
+                sessionsTosend[i].page_id = page
+                console.log('sessions aggregate', sessionss)
+                if (i === sessionss.length - 1) {
+                  let sessions = logicLayer.prepareSessionsData(sessionsTosend, req.body)
+                  if (sessions.length > 0) {
+                    LiveChatDataLayer.findFbMessageObjectUsingAggregate(logicLayer.unreadCountCriteria(companyUser))
+                      .then(gotUnreadCount => {
+                        console.log('gotUnreadCount', gotUnreadCount)
+                        sessions = logicLayer.getUnreadCount(gotUnreadCount, sessions)
+                        LiveChatDataLayer.findFbMessageObjectUsingAggregate(logicLayer.lastMessageCriteria())
+                          .then(gotLastMessage => {
+                            console.log('gotLastMessage', gotLastMessage)
+                            sessions = logicLayer.getLastMessage(gotLastMessage, sessions)
+                            return {
+                              status: 'success',
+                              payload: {openSessions: sessions, count: sessionsData.length}
+                            }
+                          })
+                          .catch(err => {
+                            return {status: 'failed', payload: `Failed to fetch last messsage ${JSON.stringify(err)}`}
+                          })
+                      })
+                      .catch(error => {
+                        return {status: 'failed', payload: `Failed to fetch unread count ${JSON.stringify(error)}`}
+                      })
+                  } else {
+                    return {
+                      status: 'success',
+                      payload: {openSessions: sessions, count: sessionsData.length}
+                    }
+                  }
                 }
               })
-              .catch(err => {
-                return {status: 'failed', payload: `Failed to fetch last messsage ${JSON.stringify(err)}`}
-              })
           })
-          .catch(error => {
-            return {status: 'failed', payload: `Failed to fetch unread count ${JSON.stringify(error)}`}
-          })
-      } else {
-        return {
-          status: 'success',
-          payload: {openSessions: sessions, count: sessionsData.length}
-        }
       }
     })
     .catch(error => {
