@@ -27,6 +27,7 @@ const prepareFbMessageObject = (body) => {
   return fbMessageObject
 }
 const prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) => {
+  console.log('Prepare Send API Payload', body)
   let messageType = isResponse ? 'RESPONSE' : 'UPDATE'
   let payload = {}
   let text = body.text
@@ -53,6 +54,7 @@ const prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) => 
         'metadata': 'This is a meta data'
       })
     }
+    console.log('Payload', payload)
     return payload
   } else if (body.componentType === 'text' && body.buttons) {
     if (body.text.includes('{{user_full_name}}') || body.text.includes('[Username]')) {
