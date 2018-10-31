@@ -101,14 +101,14 @@ exports.geturlmeta = function (req, res) {
 exports.create = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
-      logger.serverLog('Company User', companyUser)
+      console.log('Company User', companyUser)
       let fbMessageObject = logicLayer.prepareFbMessageObject(req.body)
       utility.callApi(`webhooks/query/`, 'post', { pageId: req.body.sender_fb_id }, req.headers.authorization)
         .then(webhook => {
-          logger.serverLog('webhook', webhook)
+          console.log('webhook', webhook)
           if (webhook && webhook.isEnabled) {
             needle.get(webhook.webhook_url, (err, r) => {
-              logger.serverLog('webhook response', r)
+              console.log('webhook response', r)
               if (err) {
                 return res.status(500).json({
                   status: 'failed',
@@ -130,17 +130,17 @@ exports.create = function (req, res) {
         }) // webhook call ends
       dataLayer.createFbMessageObject(fbMessageObject)
         .then(chatMessage => {
-          logger.serverLog('chatMessage', chatMessage)
+          console.log('chatMessage', chatMessage)
           sessionsDataLayer.findOneSessionObject(req.body.session_id)
             .then(session => {
-              logger.serverLog('session', session)
+              console.log('session', session)
               session.agent_activity_time = Date.now()
               sessionsDataLayer.updateSessionObject(session._id, session)
                 .then(result => {
-                  logger.serverLog('result', result)
+                  console.log('result', result)
                   utility.callApi(`subscribers/${req.body.recipient_id}`, 'get', {}, req.headers.authorization)
                     .then(subscriber => {
-                      logger.serverLog(TAG, `Payload from the client ${JSON.stringify(req.body.payload)}`)
+                      console.log(TAG, `Payload from the client ${JSON.stringify(req.body.payload)}`)
                       let messageData = logicLayer.prepareSendAPIPayload(
                         subscriber.senderId,
                         req.body.payload, subscriber.firstName, subscriber.lastName, true)
@@ -169,7 +169,7 @@ exports.create = function (req, res) {
                           let arr = bot.blockedSubscribers
                           arr.push(session.subscriber_id)
                           bot.blockedSubscribers = arr
-                          logger.serverLog(TAG, 'going to add sub-bot in queue')
+                          console.log(TAG, 'going to add sub-bot in queue')
                           botsDataLayer.updateBotObject(bot._id, bot)
                             .then(result => {
                               logger.serverLog(TAG,
@@ -184,7 +184,7 @@ exports.create = function (req, res) {
                               }
                               utility.callApi(`automationQueue/create/`, 'post', automationQueue, req.headers.authorization)
                                 .then(result => {
-                                  logger.serverLog(TAG,
+                                  console.log(TAG,
                                     `Automation Queue object saved`)
                                 })
                                 .catch(err => {
