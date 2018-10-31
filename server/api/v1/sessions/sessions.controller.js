@@ -48,11 +48,8 @@ exports.getNewSessions = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
       let criteria = logicLayer.getNewSessionsCriteria(companyUser, req.body)
-      console.log('criteria.countCriteria', criteria.countCriteria)
-      console.log('criteria.fetchCriteria', criteria.fetchCriteria)
       dataLayer.findSessionsUsingQuery(criteria.countCriteria)
         .then(sessions => {
-          console.log('totalsessions', sessions)
           if (sessions.length > 0) {
             let sessionsTosend = []
             for (let i = 0; i < sessions.length; i++) {
@@ -67,21 +64,15 @@ exports.getNewSessions = function (req, res) {
               })
               let subscriberId = sessions[i].subscriber_id
               let pageId = sessions[i].page_id
-              console.log('subscriberIdForOpenSessions', subscriberId)
-              console.log('pageIdForOpenSessions', pageId)
               utility.callApi(`subscribers/${subscriberId}`, 'get', {}, req.headers.authorization) // fetch subscribers of company
                 .then(subscriber => {
-                  console.log('fetchSubscriber', subscriber)
                   sessionsTosend[i].subscriber_id = subscriber
                   utility.callApi(`pages/${pageId}`, 'get', {}, req.headers.authorization)
                     .then(page => {
-                      console.log('fetchPage', page)
                       sessionsTosend[i].page_id = page
-                      console.log('sessionsTosend', sessionsTosend[i])
                       if (i === sessions.length - 1) {
                         UnreadCountAndLastMessage(sessionsTosend, req, criteria, companyUser)
                           .then(result => {
-                            console.log('returned result', result)
                             return res.status(200).json({status: 'success', payload: result})
                           })
                           .catch(error => {
@@ -110,38 +101,12 @@ exports.getNewSessions = function (req, res) {
     })
 }
 exports.getResolvedSessions = function (req, res) {
-  // utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
-  //   .then(companyUser => {
-  //     let criteria = logicLayer.getResolvedSessionsCriteria(companyUser, req.body)
-  //     dataLayer.findSessionsUsingQuery(criteria.countCriteria)
-  //       .then(sessions => {
-  //         let result = UnreadCountAndLastMessage(sessions, req.body, criteria, companyUser)
-  //         if (result.status === 'success') {
-  //           return res.status(200).json({
-  //             status: 'success',
-  //             payload: {closedSessions: result.payload.openSessions, count: result.payload.count}
-  //           })
-  //         } else {
-  //           return res.status(500).json(result)
-  //         }
-  //       })
-  //       .catch(error => {
-  //         return res.status(500).json({status: 'failed', payload: `Failed to fetch sessions count ${JSON.stringify(error)}`})
-  //       })
-  //   })
-  //   .catch(error => {
-  //     return res.status(500).json({status: 'failed', payload: `Failed to fetch company user ${JSON.stringify(error)}`})
-  //   })
-  //  return res.status(200).json({status: 'success', payload: 'result'})
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
       let criteria = logicLayer.getResolvedSessionsCriteria(companyUser, req.body)
-      console.log('criteria.countCriteria', criteria.countCriteria)
-      console.log('criteria.fetchCriteria', criteria.fetchCriteria)
       dataLayer.findSessionsUsingQuery(criteria.countCriteria)
         .then(sessions => {
           if (sessions.length > 0) {
-            console.log('totalsessions', sessions)
             let sessionsTosend = []
             for (let i = 0; i < sessions.length; i++) {
               sessionsTosend.push({
@@ -155,21 +120,15 @@ exports.getResolvedSessions = function (req, res) {
               })
               let subscriberId = sessions[i].subscriber_id
               let pageId = sessions[i].page_id
-              console.log('subscriberIdForOpenSessions', subscriberId)
-              console.log('pageIdForOpenSessions', pageId)
               utility.callApi(`subscribers/${subscriberId}`, 'get', {}, req.headers.authorization) // fetch subscribers of company
                 .then(subscriber => {
-                  console.log('fetchSubscriber', subscriber)
                   sessionsTosend[i].subscriber_id = subscriber
                   utility.callApi(`pages/${pageId}`, 'get', {}, req.headers.authorization)
                     .then(page => {
-                      console.log('fetchPage', page)
                       sessionsTosend[i].page_id = page
-                      console.log('sessionsTosend', sessionsTosend[i])
                       if (i === sessions.length - 1) {
                         UnreadCountAndLastMessage(sessionsTosend, req, criteria, companyUser)
                           .then(result => {
-                            console.log('returned result', result)
                             return res.status(200).json({status: 'success', payload: {closedSessions: result.openSessions, count: result.count}})
                           })
                           .catch(error => {
@@ -204,9 +163,11 @@ exports.markread = function (req, res) {
         .then(session => {
           utility.callApi(`pages/query`, 'post', {companyId: companyUser.companyId, connected: true}, req.headers.authorization)
             .then(userPage => {
-              if (userPage[0] && userPage[0].userId) {
-                utility.callApi(`user/${userPage[0].userId}`, 'get', {}, req.headers.authorization)
+              userPage = userPage[0]
+              if (userPage && userPage.userId) {
+                utility.callApi(`user/query`, 'post', {_id: userPage.userId}, req.headers.authorization)
                   .then(connectedUser => {
+                    connectedUser = connectedUser[0]
                     let currentUser
                     if (req.user.facebookInfo) {
                       currentUser = req.user
@@ -215,6 +176,7 @@ exports.markread = function (req, res) {
                     }
                     utility.callApi(`pages/query`, 'post', {_id: session.page_id}, req.headers.authorization)
                       .then(page => {
+                        page = page[0]
                         needle.get(
                           `https://graph.facebook.com/v2.10/${page.pageId}?fields=access_token&access_token=${currentUser.facebookInfo.fbToken}`,
                           (err, resp) => {
@@ -241,20 +203,20 @@ exports.markread = function (req, res) {
                           })
                       })
                       .catch(err => {
-                        res.status(500).json({status: 'failed', payload: `Failed to fetch session page ${JSON.stringify(err)}`})
+                        logger.serverLog(TAG, `Failed to fetch session page ${JSON.stringify(err)}`)
                       })
                   })
                   .catch(err => {
-                    res.status(500).json({status: 'failed', payload: `Failed to fetch user ${JSON.stringify(err)}`})
+                    logger.serverLog(TAG, `Failed to fetch user ${JSON.stringify(err)}`)
                   })
               }
             })
             .catch(err => {
-              res.status(500).json({status: 'failed', payload: `Failed to fetch page ${JSON.stringify(err)}`})
+              logger.serverLog(TAG, `Failed to fetch page ${JSON.stringify(err)}`)
             })
         })
         .catch(err => {
-          res.status(500).json({status: 'failed', payload: `Failed to session ${JSON.stringify(err)}`})
+          logger.serverLog(TAG, `Failed to fetch session ${JSON.stringify(err)}`)
         })
     })
     .catch(error => {
@@ -485,88 +447,82 @@ exports.unSubscribe = function (req, res) {
     })
 }
 function saveNotifications (companyUser, subscriber, req) {
-  // utility.callApi(`companyUser/query`, 'post', {companyId: companyUser.companyId}, req.headers.authorization)
-  //   .then(member => {
-  //     NotificationsDataLayer.createNotificationObject({
-  //       message: `Subscriber ${subscriber.firstName + ' ' + subscriber.lastName} has been unsubscribed by ${user.name}`,
-  //       category: {type: 'unsubscribe', id: subscriber._id},
-  //       agentId: member.userId._id,
-  //       companyId: subscriber.companyId
-  //     })
-  //       .then(savedNotification => {})
-  //       .catch(error => {
-  //         logger.serverLog(TAG, `Failed to create notification ${JSON.stringify(error)}`)
-  //       })
-  //   })
-  //   .catch(error => {
-  //     logger.serverLog(TAG,
-  //       `Failed to fetch company members ${JSON.stringify(error)}`)
-  //   })
+  utility.callApi(`companyUser/query`, 'post', {companyId: companyUser.companyId}, req.headers.authorization)
+    .then(member => {
+      NotificationsDataLayer.createNotificationObject({
+        message: `Subscriber ${subscriber.firstName + ' ' + subscriber.lastName} has been unsubscribed by ${req.user.name}`,
+        category: {type: 'unsubscribe', id: subscriber._id},
+        agentId: member.userId._id,
+        companyId: subscriber.companyId
+      })
+        .then(savedNotification => {})
+        .catch(error => {
+          logger.serverLog(TAG, `Failed to create notification ${JSON.stringify(error)}`)
+        })
+    })
+    .catch(error => {
+      logger.serverLog(TAG,
+        `Failed to fetch company members ${JSON.stringify(error)}`)
+    })
 }
 function UnreadCountAndLastMessage (sessions, req, criteria, companyUser) {
-  return new Promise((resolve, reject) => {
+  return new Promise(function (resolve, reject) {
     let sessionsTosend = []
-    console.log('UnreadCountAndLastMessage', sessions)
     let sessionsData = logicLayer.prepareSessionsData(sessions, req.body)
     dataLayer.aggregate(criteria.fetchCriteria)
       .then(sessionss => {
-        for (let i = 0; i < sessionss.length; i++) {
-          sessionsTosend.push({
-            status: sessionss[i].status,
-            is_assigned: sessionss[i].is_assigned,
-            _id: sessionss[i]._id,
-            company_id: sessionss[i].company_id,
-            last_activity_time: sessionss[i].last_activity_time,
-            request_time: sessionss[i].request_time,
-            agent_activity_time: sessionss[i].agent_activity_time
-          })
-          let subscriberId = sessionss[i].subscriber_id
-          let pageId = sessionss[i].page_id
-          console.log('subscriberIdForOpenSessions', subscriberId)
-          console.log('pageIdForOpenSessions', pageId)
-          utility.callApi(`subscribers/${subscriberId}`, 'get', {}, req.headers.authorization) // fetch subscribers of company
-            .then(subscriber => {
-              console.log('fetchSubscriber', subscriber)
-              sessionsTosend[i].subscriber_id = subscriber
-              utility.callApi(`pages/${pageId}`, 'get', {}, req.headers.authorization)
-                .then(page => {
-                  console.log('fetchPage', page)
-                  sessionsTosend[i].page_id = page
-                  console.log('sessions aggregate', sessionss)
-                  if (i === sessionss.length - 1) {
-                    let sessions = logicLayer.prepareSessionsData(sessionsTosend, req.body)
-                    if (sessions.length > 0) {
-                      LiveChatDataLayer.findFbMessageObjectUsingAggregate(logicLayer.unreadCountCriteria(companyUser))
-                        .then(gotUnreadCount => {
-                          console.log('gotUnreadCount', gotUnreadCount)
-                          sessions = logicLayer.getUnreadCount(gotUnreadCount, sessions)
-                          console.log('sessions after gotUnreadCOunt', sessions)
-                          LiveChatDataLayer.findFbMessageObjectUsingAggregate(logicLayer.lastMessageCriteria())
-                            .then(gotLastMessage => {
-                              console.log('gotLastMessage', gotLastMessage)
-                              sessions = logicLayer.getLastMessage(gotLastMessage, sessions)
-                              console.log('gotLastMessage sessions', sessions)
-                              resolve({openSessions: sessions, count: sessionsData.length})
-                            })
-                            .catch(err => {
-                              reject(err)
-                            })
-                        })
-                        .catch(err => {
-                          reject(err)
-                        })
-                    } else {
-                      resolve({openSessions: sessions, count: sessionsData.length})
+        if (sessionss.length > 0) {
+          for (let i = 0; i < sessionss.length; i++) {
+            sessionsTosend.push({
+              status: sessionss[i].status,
+              is_assigned: sessionss[i].is_assigned,
+              _id: sessionss[i]._id,
+              company_id: sessionss[i].company_id,
+              last_activity_time: sessionss[i].last_activity_time,
+              request_time: sessionss[i].request_time,
+              agent_activity_time: sessionss[i].agent_activity_time
+            })
+            let subscriberId = sessionss[i].subscriber_id
+            let pageId = sessionss[i].page_id
+            utility.callApi(`subscribers/${subscriberId}`, 'get', {}, req.headers.authorization) // fetch subscribers of company
+              .then(subscriber => {
+                sessionsTosend[i].subscriber_id = subscriber
+                utility.callApi(`pages/${pageId}`, 'get', {}, req.headers.authorization)
+                  .then(page => {
+                    sessionsTosend[i].page_id = page
+                    if (i === sessionss.length - 1) {
+                      let sessions = logicLayer.prepareSessionsData(sessionsTosend, req.body)
+                      if (sessions.length > 0) {
+                        LiveChatDataLayer.findFbMessageObjectUsingAggregate(logicLayer.unreadCountCriteria(companyUser))
+                          .then(gotUnreadCount => {
+                            sessions = logicLayer.getUnreadCount(gotUnreadCount, sessions)
+                            LiveChatDataLayer.findFbMessageObjectUsingAggregate(logicLayer.lastMessageCriteria())
+                              .then(gotLastMessage => {
+                                sessions = logicLayer.getLastMessage(gotLastMessage, sessions)
+                                resolve({openSessions: sessions, count: sessionsData.length})
+                              })
+                              .catch(err => {
+                                reject(err)
+                              })
+                          })
+                          .catch(err => {
+                            reject(err)
+                          })
+                      } else {
+                        resolve({openSessions: sessions, count: sessionsData.length})
+                      }
                     }
-                  }
-                })
-                .catch(err => {
-                  reject(err)
-                })
-            })
-            .catch(err => {
-              reject(err)
-            })
+                  })
+                  .catch(err => {
+                    reject(err)
+                  })
+              })
+              .catch(err => {
+                reject(err)
+              })
+          }
+        } else {
+          resolve({openSessions: [], count: sessionsData.length})
         }
       })
       .catch(err => {
@@ -575,7 +531,6 @@ function UnreadCountAndLastMessage (sessions, req, criteria, companyUser) {
   })
 }
 exports.genericFind = function (req, res) {
-  console.log('in genericFind', req.body)
   dataLayer.findSessionsUsingQuery(req.body)
     .then(session => {
       return res.status(200).json({status: 'success', payload: session})
