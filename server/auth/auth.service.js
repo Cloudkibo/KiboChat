@@ -33,7 +33,7 @@ function isAuthenticated () {
           'content-type': 'application/json',
           'Authorization': req.headers.authorization
         }
-        let path = config.API_URL_ACCOUNTS.slice(0, config.API_URL_ACCOUNTS.length - 8)
+        let path = config.ACCOUNTS_URL.slice(0, config.ACCOUNTS_URL.length - 8)
         let options = {
           method: 'GET',
           uri: `${path}/auth/verify`,
