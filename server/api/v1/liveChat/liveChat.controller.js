@@ -143,13 +143,14 @@ exports.create = function (req, res) {
                   utility.callApi(`pages/query/`, 'post', {_id: session.page_id}, req.headers.authorization)
                     .then(page => {
                       console.log(TAG, `Page ${JSON.stringify(page)}`)
-                      utility.callApi(`subscribers/${req.body.recipient_id}`, 'get', {}, req.headers.authorization)
-                        .then(subscriber => {
-                          console.log('Subscriber', subscriber)
+                      utility.callApi(`subscribers/query`, 'post', {_id: req.body.recipient_id}, {}, req.headers.authorization)
+                        .then(subscribers => {
+                          let subscriber = subscribers[0]
+                          console.log('Subscriber', subscribers[0])
                           console.log(TAG, `Payload from the client ${JSON.stringify(req.body.payload)}`)
                           let messageData = logicLayer.prepareSendAPIPayload(
                             subscriber.senderId,
-                            req.body, subscriber.firstName, subscriber.lastName, true)
+                            req.body.payload, subscriber.firstName, subscriber.lastName, true)
                           console.log(TAG, `Message data ${JSON.stringify(messageData)}`)
                           request(
                             {
