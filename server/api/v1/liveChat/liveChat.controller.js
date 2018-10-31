@@ -141,12 +141,13 @@ exports.create = function (req, res) {
                   console.log('result', result)
                   utility.callApi(`pages/query/`, 'post', {id: session.page_id}, req.headers.authorization)
                     .then(page => {
+                      console.log(TAG, `Page ${JSON.stringify(page)}`)
                       utility.callApi(`subscribers/${req.body.recipient_id}`, 'get', {}, req.headers.authorization)
                         .then(subscriber => {
                           console.log(TAG, `Payload from the client ${JSON.stringify(req.body.payload)}`)
                           let messageData = logicLayer.prepareSendAPIPayload(
                             subscriber.senderId,
-                            req.body.payload, subscriber.firstName, subscriber.lastName, true)
+                            req.body, subscriber.firstName, subscriber.lastName, true)
                           console.log(TAG, `Message data ${JSON.stringify(messageData)}`)
                           request(
                             {
@@ -169,7 +170,7 @@ exports.create = function (req, res) {
                                 }
                               }
                             })
-                          botsDataLayer.findOneBotObjectUsingQuery({ 'pageId': session.page_id._id })
+                          botsDataLayer.findOneBotObjectUsingQuery({ 'pageId': page._id })
                             .then(bot => {
                               let arr = bot.blockedSubscribers
                               arr.push(session.subscriber_id)
