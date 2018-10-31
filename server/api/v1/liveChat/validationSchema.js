@@ -83,15 +83,5 @@ exports.searchPayload = {
 exports.indexPayload = {
   type: 'object',
   properties: {
-    last_id: {
-      type: 'string'
-    },
-    number: {
-      type: 'string',
-      required: true
-    },
-    page: {
-      type: 'string'
-    }
   }
 }

@@ -29,7 +29,7 @@ exports.index = function (req, res) {
           session_id: req.params.session_id
         }
       }
-      dataLayer.findAllFbMessageObjectsUsingQueryWithSortAndLimit(query, { datetime: -1 }, req.body.number)
+      dataLayer.findAllFbMessageObjectsUsingQueryWithSortAndLimit(query, { datetime: -1 }, mongoose.Types.Number(req.body.number))
         .then(chats => {
           let fbchats = chats.reverse()
           fbchats = logicLayer.setChatProperties(fbchats)
