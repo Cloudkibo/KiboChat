@@ -6,9 +6,10 @@ const logicLayer = require('./liveChat.logiclayer')
 const TAG = '/api/v1/liveChat/liveChat.controller.js'
 const mongoose = require('mongoose')
 const og = require('open-graph')
-const utility = '../utility'
+const utility = require('../utility')
 const needle = require('needle')
 const request = require('request')
+const webhookUtility = require('../notifications/notifications.utility')
 
 const util = require('util')
 
@@ -113,7 +114,7 @@ exports.create = function (req, res) {
               } else if (r.statusCode === 200) {
                 logicLayer.webhookPost(needle, webhook, req, res)
               } else {
-                // webhookUtility.saveNotification(webhook)
+                webhookUtility.saveNotification(webhook)
               }
             })
           }

@@ -36,8 +36,7 @@ exports.createPayload = {
       required: true
     },
     replied_by: {
-      type: 'string',
-      required: true
+      type: 'object'
     }
   }
 }
