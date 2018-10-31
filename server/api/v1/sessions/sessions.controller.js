@@ -215,6 +215,7 @@ exports.markread = function (req, res) {
                     }
                     utility.callApi(`pages/query`, 'post', {_id: session.page_id}, req.headers.authorization)
                       .then(page => {
+                        page = page[0]
                         needle.get(
                           `https://graph.facebook.com/v2.10/${page.pageId}?fields=access_token&access_token=${currentUser.facebookInfo.fbToken}`,
                           (err, resp) => {
