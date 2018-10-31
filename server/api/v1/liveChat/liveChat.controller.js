@@ -101,11 +101,14 @@ exports.geturlmeta = function (req, res) {
 exports.create = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
+      logger.serverLog('Company User', companyUser)
       let fbMessageObject = logicLayer.prepareFbMessageObject(req.body)
       utility.callApi(`webhooks/query/`, 'post', { pageId: req.body.sender_fb_id }, req.headers.authorization)
         .then(webhook => {
+          logger.serverLog('webhook', webhook)
           if (webhook && webhook.isEnabled) {
             needle.get(webhook.webhook_url, (err, r) => {
+              logger.serverLog('webhook response', r)
               if (err) {
                 return res.status(500).json({
                   status: 'failed',
@@ -127,11 +130,14 @@ exports.create = function (req, res) {
         }) // webhook call ends
       dataLayer.createFbMessageObject(fbMessageObject)
         .then(chatMessage => {
+          logger.serverLog('chatMessage', chatMessage)
           sessionsDataLayer.findOneSessionObject(req.body.session_id)
             .then(session => {
+              logger.serverLog('session', session)
               session.agent_activity_time = Date.now()
               sessionsDataLayer.updateSessionObject(session._id, session)
                 .then(result => {
+                  logger.serverLog('result', result)
                   utility.callApi(`subscribers/${req.body.recipient_id}`, 'get', {}, req.headers.authorization)
                     .then(subscriber => {
                       logger.serverLog(TAG, `Payload from the client ${JSON.stringify(req.body.payload)}`)
