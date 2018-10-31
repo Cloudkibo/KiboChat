@@ -139,7 +139,7 @@ exports.create = function (req, res) {
               sessionsDataLayer.updateSessionObject(session._id, session)
                 .then(result => {
                   console.log('result', result)
-                  utility.callApi(`pages/query/`, 'post', {id: session.page_id}, req.headers.authorization)
+                  utility.callApi(`pages/query/`, 'post', {_id: session.page_id}, req.headers.authorization)
                     .then(page => {
                       console.log(TAG, `Page ${JSON.stringify(page)}`)
                       utility.callApi(`subscribers/${req.body.recipient_id}`, 'get', {}, req.headers.authorization)
