@@ -106,6 +106,7 @@ exports.create = function (req, res) {
       utility.callApi(`webhooks/query/`, 'post', { pageId: req.body.sender_fb_id }, req.headers.authorization)
         .then(webhook => {
           console.log('webhook', webhook)
+          webhook = webhook[0]
           if (webhook && webhook.isEnabled) {
             needle.get(webhook.webhook_url, (err, r) => {
               console.log('webhook response', r)
@@ -131,7 +132,7 @@ exports.create = function (req, res) {
       dataLayer.createFbMessageObject(fbMessageObject)
         .then(chatMessage => {
           console.log('chatMessage', chatMessage)
-          sessionsDataLayer.findOneSessionObject(req.body.session_id)
+          sessionsDataLayer.findOneSessionUsingQuery({_id: req.body.session_id})
             .then(session => {
               console.log('session', session)
               session.agent_activity_time = Date.now()
