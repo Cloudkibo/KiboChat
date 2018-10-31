@@ -192,6 +192,7 @@ exports.create = function (req, res) {
                                     .then(result => {
                                       console.log(TAG,
                                         `Automation Queue object saved`)
+                                      return res.status(200).json({ status: 'success', payload: fbMessageObject })
                                     })
                                     .catch(err => {
                                       return res.status(500).json({
@@ -266,7 +267,6 @@ exports.create = function (req, res) {
                 description: `Internal Server Error ${JSON.stringify(err)}`
               })
             }) // find session call ends
-          return res.status(200).json({ status: 'success', payload: fbMessageObject })
         })
         .catch(err => {
           return res.status(500).json({

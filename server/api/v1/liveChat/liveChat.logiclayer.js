@@ -183,6 +183,7 @@ const prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) => 
       })
     }
   }
+  console.log('Prepare paylaod', payload)
   return payload
 }
 const webhookPost = (needle, webhook, req, res) => {
