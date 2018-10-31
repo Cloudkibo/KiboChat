@@ -144,9 +144,8 @@ exports.create = function (req, res) {
                     .then(page => {
                       console.log(TAG, `Page ${JSON.stringify(page)}`)
                       utility.callApi(`subscribers/${req.body.recipient_id}`, 'get', {}, req.headers.authorization)
-                        .then(subscribers => {
-                          let subscriber = subscribers[0]
-                          console.log('Subscriber', subscribers[0])
+                        .then(subscriber => {
+                          console.log('Subscriber', subscriber)
                           console.log(TAG, `Payload from the client ${JSON.stringify(req.body.payload)}`)
                           let messageData = logicLayer.prepareSendAPIPayload(
                             subscriber.senderId,
