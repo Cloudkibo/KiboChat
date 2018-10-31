@@ -151,14 +151,14 @@ exports.create = function (req, res) {
                             subscriber.senderId,
                             req.body.payload, subscriber.firstName, subscriber.lastName, true)
                           console.log(TAG, `Message data ${JSON.stringify(messageData)}`)
-                          console.log(TAG, `Access_token ${JSON.stringify(subscriber.pageId.access_token)}`)
+                          console.log(TAG, `Access_token ${JSON.stringify(subscriber.pageId.accessToken)}`)
                           request(
                             {
                               'method': 'POST',
                               'json': true,
                               'formData': messageData,
                               'uri': 'https://graph.facebook.com/v2.6/me/messages?access_token=' +
-                                subscriber.pageId.access_token
+                                subscriber.pageId.accessToken
                             },
                             (err, res) => {
                               console.log(TAG, `send message live chat${JSON.stringify(res)}`)
