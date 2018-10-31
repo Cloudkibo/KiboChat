@@ -32,7 +32,7 @@ exports.createPayload = {
       required: true
     },
     payload: {
-      type: 'string',
+      type: 'object',
       required: true
     },
     replied_by: {
