@@ -103,6 +103,7 @@ exports.create = function (req, res) {
     .then(companyUser => {
       console.log('Company User', companyUser)
       let fbMessageObject = logicLayer.prepareFbMessageObject(req.body)
+      console.log('FB Message Object', fbMessageObject)
       utility.callApi(`webhooks/query/`, 'post', { pageId: req.body.sender_fb_id }, req.headers.authorization)
         .then(webhook => {
           console.log('webhook', webhook)
@@ -144,6 +145,7 @@ exports.create = function (req, res) {
                       console.log(TAG, `Page ${JSON.stringify(page)}`)
                       utility.callApi(`subscribers/${req.body.recipient_id}`, 'get', {}, req.headers.authorization)
                         .then(subscriber => {
+                          console.log('Subscriber', subscriber)
                           console.log(TAG, `Payload from the client ${JSON.stringify(req.body.payload)}`)
                           let messageData = logicLayer.prepareSendAPIPayload(
                             subscriber.senderId,
