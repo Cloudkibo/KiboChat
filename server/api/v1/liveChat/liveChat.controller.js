@@ -139,82 +139,93 @@ exports.create = function (req, res) {
               sessionsDataLayer.updateSessionObject(session._id, session)
                 .then(result => {
                   console.log('result', result)
-                  utility.callApi(`subscribers/${req.body.recipient_id}`, 'get', {}, req.headers.authorization)
-                    .then(subscriber => {
-                      console.log(TAG, `Payload from the client ${JSON.stringify(req.body.payload)}`)
-                      let messageData = logicLayer.prepareSendAPIPayload(
-                        subscriber.senderId,
-                        req.body.payload, subscriber.firstName, subscriber.lastName, true)
-                      request(
-                        {
-                          'method': 'POST',
-                          'json': true,
-                          'formData': messageData,
-                          'uri': 'https://graph.facebook.com/v2.6/me/messages?access_token=' +
-                            session.page_id.accessToken
-                        },
-                        (err, res) => {
-                          if (err) {
-                            return logger.serverLog(TAG,
-                              `At send message live chat ${JSON.stringify(err)}`)
-                          } else {
-                            if (res.statusCode !== 200) {
-                              logger.serverLog(TAG,
-                                `At send message live chat response ${JSON.stringify(
-                                  res.body.error)}`)
-                            }
-                          }
-                        })
-                      botsDataLayer.findOneBotObjectUsingQuery({ 'pageId': session.page_id._id })
-                        .then(bot => {
-                          let arr = bot.blockedSubscribers
-                          arr.push(session.subscriber_id)
-                          bot.blockedSubscribers = arr
-                          console.log(TAG, 'going to add sub-bot in queue')
-                          botsDataLayer.updateBotObject(bot._id, bot)
-                            .then(result => {
-                              logger.serverLog(TAG,
-                                `subscriber id added to blockedList bot`)
-                              let timeNow = new Date()
-                              let automationQueue = {
-                                automatedMessageId: bot._id,
-                                subscriberId: subscriber._id,
-                                companyId: req.body.company_id,
-                                type: 'bot',
-                                scheduledTime: timeNow.setMinutes(timeNow.getMinutes() + 30)
+                  utility.callApi(`pages/query/`, 'post', {id: session.page_id}, req.headers.authorization)
+                    .then(page => {
+                      utility.callApi(`subscribers/${req.body.recipient_id}`, 'get', {}, req.headers.authorization)
+                        .then(subscriber => {
+                          console.log(TAG, `Payload from the client ${JSON.stringify(req.body.payload)}`)
+                          let messageData = logicLayer.prepareSendAPIPayload(
+                            subscriber.senderId,
+                            req.body.payload, subscriber.firstName, subscriber.lastName, true)
+                          console.log(TAG, `Message data ${JSON.stringify(messageData)}`)
+                          request(
+                            {
+                              'method': 'POST',
+                              'json': true,
+                              'formData': messageData,
+                              'uri': 'https://graph.facebook.com/v2.6/me/messages?access_token=' +
+                                page.accessToken
+                            },
+                            (err, res) => {
+                              console.log(TAG, `send message live chat${JSON.stringify(res)}`)
+                              if (err) {
+                                return logger.serverLog(TAG,
+                                  `At send message live chat ${JSON.stringify(err)}`)
+                              } else {
+                                if (res.statusCode !== 200) {
+                                  logger.serverLog(TAG,
+                                    `At send message live chat response ${JSON.stringify(
+                                      res.body.error)}`)
+                                }
                               }
-                              utility.callApi(`automationQueue/create/`, 'post', automationQueue, req.headers.authorization)
+                            })
+                          botsDataLayer.findOneBotObjectUsingQuery({ 'pageId': session.page_id._id })
+                            .then(bot => {
+                              let arr = bot.blockedSubscribers
+                              arr.push(session.subscriber_id)
+                              bot.blockedSubscribers = arr
+                              console.log(TAG, 'going to add sub-bot in queue')
+                              botsDataLayer.updateBotObject(bot._id, bot)
                                 .then(result => {
-                                  console.log(TAG,
-                                    `Automation Queue object saved`)
+                                  logger.serverLog(TAG,
+                                    `subscriber id added to blockedList bot`)
+                                  let timeNow = new Date()
+                                  let automationQueue = {
+                                    automatedMessageId: bot._id,
+                                    subscriberId: subscriber._id,
+                                    companyId: req.body.company_id,
+                                    type: 'bot',
+                                    scheduledTime: timeNow.setMinutes(timeNow.getMinutes() + 30)
+                                  }
+                                  utility.callApi(`automationQueue/create/`, 'post', automationQueue, req.headers.authorization, 'kiboengage')
+                                    .then(result => {
+                                      console.log(TAG,
+                                        `Automation Queue object saved`)
+                                    })
+                                    .catch(err => {
+                                      return res.status(500).json({
+                                        status: 'failed',
+                                        description: `Internal Server Error ${JSON.stringify(err)}`
+                                      })
+                                    }) // create automationQueue call ends
                                 })
                                 .catch(err => {
                                   return res.status(500).json({
                                     status: 'failed',
-                                    description: `Internal Server Error ${JSON.stringify(err)}`
+                                    description: `Internal Server Error at Updating Bot ${JSON.stringify(err)}`
                                   })
-                                }) // create automationQueue call ends
+                                }) // update Bot call ends
                             })
                             .catch(err => {
                               return res.status(500).json({
                                 status: 'failed',
-                                description: `Internal Server Error at Updating Bot ${JSON.stringify(err)}`
+                                description: `Internal Server Error at Finding Bot ${JSON.stringify(err)}`
                               })
-                            }) // update Bot call ends
+                            }) // find Bot call ends
                         })
                         .catch(err => {
                           return res.status(500).json({
                             status: 'failed',
-                            description: `Internal Server Error at Finding Bot ${JSON.stringify(err)}`
+                            description: `Internal Server Error at Finding Subscriber ${JSON.stringify(err)}`
                           })
-                        }) // find Bot call ends
+                        }) // find subscriber call ends
                     })
                     .catch(err => {
                       return res.status(500).json({
                         status: 'failed',
-                        description: `Internal Server Error at Finding Subscriber ${JSON.stringify(err)}`
+                        description: `Internal Server Error at fetching page ${JSON.stringify(err)}`
                       })
-                    }) // find subscriber call ends
+                    }) // page call ends
                   if (session.is_assigned && session.assigned_to.type === 'team') {
                     require('./../../../config/socketio').sendMessageToClient({
                       room_id: companyUser.companyId,

@@ -4,7 +4,7 @@ const logger = require('../../../components/logger')
 const TAG = 'api/v1/utility/index.js'
 const util = require('util')
 
-exports.callApi = (endpoint, method = 'get', body, token) => {
+exports.callApi = (endpoint, method = 'get', body, token, type = 'accounts') => {
   let headers
   if (token) {
     headers = {
@@ -17,9 +17,13 @@ exports.callApi = (endpoint, method = 'get', body, token) => {
       'is_kibo_product': true
     }
   }
+  let apiUrl = config.ACCOUNTS_URL
+  if (type === 'kiboengage') {
+    apiUrl = config.KIBOENGAGE_URL
+  }
   let options = {
     method: method.toUpperCase(),
-    uri: `${config.API_URL_ACCOUNTS}${endpoint}`,
+    uri: `${apiUrl}${endpoint}`,
     headers,
     body,
     json: true
