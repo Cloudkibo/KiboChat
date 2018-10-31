@@ -143,7 +143,7 @@ exports.create = function (req, res) {
                   utility.callApi(`pages/query/`, 'post', {_id: session.page_id}, req.headers.authorization)
                     .then(page => {
                       console.log(TAG, `Page ${JSON.stringify(page)}`)
-                      utility.callApi(`subscribers/query`, 'post', {_id: req.body.recipient_id}, {}, req.headers.authorization)
+                      utility.callApi(`subscribers/${req.body.recipient_id}`, 'get', {}, req.headers.authorization)
                         .then(subscribers => {
                           let subscriber = subscribers[0]
                           console.log('Subscriber', subscribers[0])
