@@ -30,13 +30,6 @@ exports.createPayload = {
     company_id: {
       type: 'string',
       required: true
-    },
-    payload: {
-      type: 'object',
-      required: true
-    },
-    replied_by: {
-      type: 'object'
     }
   }
 }
