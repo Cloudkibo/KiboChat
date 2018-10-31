@@ -204,15 +204,18 @@ exports.markread = function (req, res) {
         .then(session => {
           utility.callApi(`pages/query`, 'post', {companyId: companyUser.companyId, connected: true}, req.headers.authorization)
             .then(userPage => {
-              if (userPage[0] && userPage[0].userId) {
-                utility.callApi(`user/${userPage[0].userId}`, 'get', {}, req.headers.authorization)
+              userPage = userPage[0]
+              if (userPage && userPage.userId) {
+                utility.callApi(`user/query`, 'post', {_id: userPage.userId}, req.headers.authorization)
                   .then(connectedUser => {
+                    connectedUser = connectedUser[0]
                     let currentUser
                     if (req.user.facebookInfo) {
                       currentUser = req.user
                     } else {
                       currentUser = connectedUser
                     }
+                    console.log('connected User', connectedUser)
                     utility.callApi(`pages/query`, 'post', {_id: session.page_id}, req.headers.authorization)
                       .then(page => {
                         page = page[0]
