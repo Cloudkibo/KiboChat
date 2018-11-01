@@ -194,9 +194,9 @@ exports.create = function (req, res) {
                                       scheduledTime: timeNow.setMinutes(timeNow.getMinutes() + 30)
                                     }
                                     utility.callApi(`automationQueue/create/`, 'post', {payload: automationQueue}, req.headers.authorization, 'kiboengage')
-                                      .then(result => {
-                                        console.log(TAG,
-                                          `Automation Queue object saved`)
+                                      .then(automationObject => {
+                                        console.log(
+                                          `Automation Queue object saved`, automationObject, fbMessageObject)
                                         return res.status(200).json({ status: 'success', payload: fbMessageObject })
                                       })
                                       .catch(err => {
