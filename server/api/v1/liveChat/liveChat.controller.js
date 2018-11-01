@@ -193,7 +193,7 @@ exports.create = function (req, res) {
                                       type: 'bot',
                                       scheduledTime: timeNow.setMinutes(timeNow.getMinutes() + 30)
                                     }
-                                    utility.callApi(`automationQueue/create/`, 'post', automationQueue, req.headers.authorization, 'kiboengage')
+                                    utility.callApi(`automationQueue/create/`, 'post', {payload: automationQueue}, req.headers.authorization, 'kiboengage')
                                       .then(result => {
                                         console.log(TAG,
                                           `Automation Queue object saved`)
