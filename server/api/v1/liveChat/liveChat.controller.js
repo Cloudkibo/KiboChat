@@ -173,43 +173,48 @@ exports.create = function (req, res) {
                                 }
                               }
                             })
-                          botsDataLayer.findOneBotObjectUsingQuery({ 'pageId': page._id })
+                          botsDataLayer.findOneBotObjectUsingQuery({ 'pageId': subscriber.pageId._id })
                             .then(bot => {
-                              let arr = bot.blockedSubscribers
-                              arr.push(session.subscriber_id)
-                              bot.blockedSubscribers = arr
-                              console.log(TAG, 'going to add sub-bot in queue')
-                              botsDataLayer.updateBotObject(bot._id, bot)
-                                .then(result => {
-                                  logger.serverLog(TAG,
-                                    `subscriber id added to blockedList bot`)
-                                  let timeNow = new Date()
-                                  let automationQueue = {
-                                    automatedMessageId: bot._id,
-                                    subscriberId: subscriber._id,
-                                    companyId: req.body.company_id,
-                                    type: 'bot',
-                                    scheduledTime: timeNow.setMinutes(timeNow.getMinutes() + 30)
-                                  }
-                                  utility.callApi(`automationQueue/create/`, 'post', automationQueue, req.headers.authorization, 'kiboengage')
-                                    .then(result => {
-                                      console.log(TAG,
-                                        `Automation Queue object saved`)
-                                      return res.status(200).json({ status: 'success', payload: fbMessageObject })
-                                    })
-                                    .catch(err => {
-                                      return res.status(500).json({
-                                        status: 'failed',
-                                        description: `Internal Server Error ${JSON.stringify(err)}`
+                              if (bot) {
+                                console.log(TAG, `bot ${JSON.stringify(bot)}`)
+                                let arr = bot.blockedSubscribers
+                                arr.push(session.subscriber_id)
+                                bot.blockedSubscribers = arr
+                                console.log(TAG, 'going to add sub-bot in queue')
+                                botsDataLayer.updateBotObject(bot._id, bot)
+                                  .then(result => {
+                                    logger.serverLog(TAG,
+                                      `subscriber id added to blockedList bot`)
+                                    let timeNow = new Date()
+                                    let automationQueue = {
+                                      automatedMessageId: bot._id,
+                                      subscriberId: subscriber._id,
+                                      companyId: req.body.company_id,
+                                      type: 'bot',
+                                      scheduledTime: timeNow.setMinutes(timeNow.getMinutes() + 30)
+                                    }
+                                    utility.callApi(`automationQueue/create/`, 'post', automationQueue, req.headers.authorization, 'kiboengage')
+                                      .then(result => {
+                                        console.log(TAG,
+                                          `Automation Queue object saved`)
+                                        return res.status(200).json({ status: 'success', payload: fbMessageObject })
                                       })
-                                    }) // create automationQueue call ends
-                                })
-                                .catch(err => {
-                                  return res.status(500).json({
-                                    status: 'failed',
-                                    description: `Internal Server Error at Updating Bot ${JSON.stringify(err)}`
+                                      .catch(err => {
+                                        return res.status(500).json({
+                                          status: 'failed',
+                                          description: `Internal Server Error ${JSON.stringify(err)}`
+                                        })
+                                      }) // create automationQueue call ends
                                   })
-                                }) // update Bot call ends
+                                  .catch(err => {
+                                    return res.status(500).json({
+                                      status: 'failed',
+                                      description: `Internal Server Error at Updating Bot ${JSON.stringify(err)}`
+                                    })
+                                  }) // update Bot call ends
+                              } else {
+                                return res.status(200).json({ status: 'success', payload: fbMessageObject })
+                              }
                             })
                             .catch(err => {
                               return res.status(500).json({
