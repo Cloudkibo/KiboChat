@@ -197,7 +197,6 @@ exports.create = function (req, res) {
                                       .then(automationObject => {
                                         console.log(
                                           `Automation Queue object saved`, automationObject, fbMessageObject)
-                                        return res.status(200).json({ status: 'success', payload: fbMessageObject })
                                       })
                                       .catch(err => {
                                         return res.status(500).json({
