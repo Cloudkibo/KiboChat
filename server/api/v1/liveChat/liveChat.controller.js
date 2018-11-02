@@ -6,9 +6,10 @@ const logicLayer = require('./liveChat.logiclayer')
 const TAG = '/api/v1/liveChat/liveChat.controller.js'
 const mongoose = require('mongoose')
 const og = require('open-graph')
-const utility = '../utility'
+const utility = require('../utility')
 const needle = require('needle')
 const request = require('request')
+const webhookUtility = require('../notifications/notifications.utility')
 
 const util = require('util')
 
@@ -29,7 +30,7 @@ exports.index = function (req, res) {
           session_id: req.params.session_id
         }
       }
-      dataLayer.findAllFbMessageObjectsUsingQueryWithSortAndLimit(query, { datetime: -1 }, req.body.number)
+      dataLayer.findAllFbMessageObjectsUsingQueryWithSortAndLimit(query, { datetime: -1 }, parseInt(req.body.number, 10))
         .then(chats => {
           let fbchats = chats.reverse()
           fbchats = logicLayer.setChatProperties(fbchats)
@@ -100,11 +101,16 @@ exports.geturlmeta = function (req, res) {
 exports.create = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
+      console.log('Company User', companyUser)
       let fbMessageObject = logicLayer.prepareFbMessageObject(req.body)
+      console.log('FB Message Object', fbMessageObject)
       utility.callApi(`webhooks/query/`, 'post', { pageId: req.body.sender_fb_id }, req.headers.authorization)
         .then(webhook => {
+          console.log('webhook', webhook)
+          webhook = webhook[0]
           if (webhook && webhook.isEnabled) {
             needle.get(webhook.webhook_url, (err, r) => {
+              console.log('webhook response', r)
               if (err) {
                 return res.status(500).json({
                   status: 'failed',
@@ -113,7 +119,7 @@ exports.create = function (req, res) {
               } else if (r.statusCode === 200) {
                 logicLayer.webhookPost(needle, webhook, req, res)
               } else {
-                // webhookUtility.saveNotification(webhook)
+                webhookUtility.saveNotification(webhook)
               }
             })
           }
@@ -126,87 +132,110 @@ exports.create = function (req, res) {
         }) // webhook call ends
       dataLayer.createFbMessageObject(fbMessageObject)
         .then(chatMessage => {
-          sessionsDataLayer.findOneSessionObject(req.body.session_id)
+          console.log('chatMessage', chatMessage)
+          sessionsDataLayer.findOneSessionUsingQuery({_id: req.body.session_id})
             .then(session => {
+              console.log('session', session)
               session.agent_activity_time = Date.now()
               sessionsDataLayer.updateSessionObject(session._id, session)
                 .then(result => {
-                  utility.callApi(`subscribers/${req.body.recipient_id}`, 'get', {}, req.headers.authorization)
-                    .then(subscriber => {
-                      logger.serverLog(TAG, `Payload from the client ${JSON.stringify(req.body.payload)}`)
-                      let messageData = logicLayer.prepareSendAPIPayload(
-                        subscriber.senderId,
-                        req.body.payload, subscriber.firstName, subscriber.lastName, true)
-                      request(
-                        {
-                          'method': 'POST',
-                          'json': true,
-                          'formData': messageData,
-                          'uri': 'https://graph.facebook.com/v2.6/me/messages?access_token=' +
-                            session.page_id.accessToken
-                        },
-                        (err, res) => {
-                          if (err) {
-                            return logger.serverLog(TAG,
-                              `At send message live chat ${JSON.stringify(err)}`)
-                          } else {
-                            if (res.statusCode !== 200) {
-                              logger.serverLog(TAG,
-                                `At send message live chat response ${JSON.stringify(
-                                  res.body.error)}`)
-                            }
-                          }
-                        })
-                      botsDataLayer.findOneBotObjectUsingQuery({ 'pageId': session.page_id._id })
-                        .then(bot => {
-                          let arr = bot.blockedSubscribers
-                          arr.push(session.subscriber_id)
-                          bot.blockedSubscribers = arr
-                          logger.serverLog(TAG, 'going to add sub-bot in queue')
-                          botsDataLayer.updateBotObject(bot._id, bot)
-                            .then(result => {
-                              logger.serverLog(TAG,
-                                `subscriber id added to blockedList bot`)
-                              let timeNow = new Date()
-                              let automationQueue = {
-                                automatedMessageId: bot._id,
-                                subscriberId: subscriber._id,
-                                companyId: req.body.company_id,
-                                type: 'bot',
-                                scheduledTime: timeNow.setMinutes(timeNow.getMinutes() + 30)
-                              }
-                              utility.callApi(`automationQueue/create/`, 'post', automationQueue, req.headers.authorization)
-                                .then(result => {
+                  console.log('result', result)
+                  utility.callApi(`pages/query/`, 'post', {_id: session.page_id}, req.headers.authorization)
+                    .then(page => {
+                      console.log(TAG, `Page ${JSON.stringify(page)}`)
+                      utility.callApi(`subscribers/${req.body.recipient_id}`, 'get', {}, req.headers.authorization)
+                        .then(subscriber => {
+                          console.log('Subscriber', subscriber)
+                          console.log(TAG, `Payload from the client ${JSON.stringify(req.body.payload)}`)
+                          let messageData = logicLayer.prepareSendAPIPayload(
+                            subscriber.senderId,
+                            req.body.payload, subscriber.firstName, subscriber.lastName, true)
+                          console.log(TAG, `Message data ${JSON.stringify(messageData)}`)
+                          console.log(TAG, `Access_token ${JSON.stringify(subscriber.pageId.accessToken)}`)
+                          request(
+                            {
+                              'method': 'POST',
+                              'json': true,
+                              'formData': messageData,
+                              'uri': 'https://graph.facebook.com/v2.6/me/messages?access_token=' +
+                                subscriber.pageId.accessToken
+                            },
+                            (err, res) => {
+                              console.log(TAG, `send message live chat${JSON.stringify(res)}`)
+                              if (err) {
+                                return logger.serverLog(TAG,
+                                  `At send message live chat ${JSON.stringify(err)}`)
+                              } else {
+                                if (res.statusCode !== 200) {
                                   logger.serverLog(TAG,
-                                    `Automation Queue object saved`)
-                                })
-                                .catch(err => {
-                                  return res.status(500).json({
-                                    status: 'failed',
-                                    description: `Internal Server Error ${JSON.stringify(err)}`
+                                    `At send message live chat response ${JSON.stringify(
+                                      res.body.error)}`)
+                                }
+                              }
+                            })
+                          botsDataLayer.findOneBotObjectUsingQuery({ 'pageId': subscriber.pageId._id })
+                            .then(bot => {
+                              if (bot) {
+                                console.log(TAG, `bot ${JSON.stringify(bot)}`)
+                                let arr = bot.blockedSubscribers
+                                arr.push(session.subscriber_id)
+                                bot.blockedSubscribers = arr
+                                console.log(TAG, 'going to add sub-bot in queue')
+                                botsDataLayer.updateBotObject(bot._id, bot)
+                                  .then(result => {
+                                    logger.serverLog(TAG,
+                                      `subscriber id added to blockedList bot`)
+                                    let timeNow = new Date()
+                                    let automationQueue = {
+                                      automatedMessageId: bot._id,
+                                      subscriberId: subscriber._id,
+                                      companyId: req.body.company_id,
+                                      type: 'bot',
+                                      scheduledTime: timeNow.setMinutes(timeNow.getMinutes() + 30)
+                                    }
+                                    utility.callApi(`automationQueue/create/`, 'post', {payload: automationQueue}, req.headers.authorization, 'kiboengage')
+                                      .then(automationObject => {
+                                        console.log(
+                                          `Automation Queue object saved`, automationObject, fbMessageObject)
+                                        return res.status(200).json({ status: 'success', payload: fbMessageObject })
+                                      })
+                                      .catch(err => {
+                                        return res.status(500).json({
+                                          status: 'failed',
+                                          description: `Internal Server Error ${JSON.stringify(err)}`
+                                        })
+                                      }) // create automationQueue call ends
                                   })
-                                }) // create automationQueue call ends
+                                  .catch(err => {
+                                    return res.status(500).json({
+                                      status: 'failed',
+                                      description: `Internal Server Error at Updating Bot ${JSON.stringify(err)}`
+                                    })
+                                  }) // update Bot call ends
+                              } else {
+                                return res.status(200).json({ status: 'success', payload: fbMessageObject })
+                              }
                             })
                             .catch(err => {
                               return res.status(500).json({
                                 status: 'failed',
-                                description: `Internal Server Error at Updating Bot ${JSON.stringify(err)}`
+                                description: `Internal Server Error at Finding Bot ${JSON.stringify(err)}`
                               })
-                            }) // update Bot call ends
+                            }) // find Bot call ends
                         })
                         .catch(err => {
                           return res.status(500).json({
                             status: 'failed',
-                            description: `Internal Server Error at Finding Bot ${JSON.stringify(err)}`
+                            description: `Internal Server Error at Finding Subscriber ${JSON.stringify(err)}`
                           })
-                        }) // find Bot call ends
+                        }) // find subscriber call ends
                     })
                     .catch(err => {
                       return res.status(500).json({
                         status: 'failed',
-                        description: `Internal Server Error at Finding Subscriber ${JSON.stringify(err)}`
+                        description: `Internal Server Error at fetching page ${JSON.stringify(err)}`
                       })
-                    }) // find subscriber call ends
+                    }) // page call ends
                   if (session.is_assigned && session.assigned_to.type === 'team') {
                     require('./../../../config/socketio').sendMessageToClient({
                       room_id: companyUser.companyId,
@@ -246,7 +275,6 @@ exports.create = function (req, res) {
                 description: `Internal Server Error ${JSON.stringify(err)}`
               })
             }) // find session call ends
-          return res.status(200).json({ status: 'success', payload: fbMessageObject })
         })
         .catch(err => {
           return res.status(500).json({

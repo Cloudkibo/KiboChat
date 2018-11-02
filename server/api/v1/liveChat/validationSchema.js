@@ -30,14 +30,6 @@ exports.createPayload = {
     company_id: {
       type: 'string',
       required: true
-    },
-    payload: {
-      type: 'string',
-      required: true
-    },
-    replied_by: {
-      type: 'string',
-      required: true
     }
   }
 }
@@ -83,15 +75,5 @@ exports.searchPayload = {
 exports.indexPayload = {
   type: 'object',
   properties: {
-    last_id: {
-      type: 'string'
-    },
-    number: {
-      type: 'string',
-      required: true
-    },
-    page: {
-      type: 'string'
-    }
   }
 }
