@@ -101,16 +101,12 @@ exports.geturlmeta = function (req, res) {
 exports.create = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
-      console.log('Company User', companyUser)
       let fbMessageObject = logicLayer.prepareFbMessageObject(req.body)
-      console.log('FB Message Object', fbMessageObject)
       utility.callApi(`webhooks/query/`, 'post', { pageId: req.body.sender_fb_id }, req.headers.authorization)
         .then(webhook => {
-          console.log('webhook', webhook)
           webhook = webhook[0]
           if (webhook && webhook.isEnabled) {
             needle.get(webhook.webhook_url, (err, r) => {
-              console.log('webhook response', r)
               if (err) {
                 return res.status(500).json({
                   status: 'failed',
@@ -132,26 +128,18 @@ exports.create = function (req, res) {
         }) // webhook call ends
       dataLayer.createFbMessageObject(fbMessageObject)
         .then(chatMessage => {
-          console.log('chatMessage', chatMessage)
           sessionsDataLayer.findOneSessionUsingQuery({_id: req.body.session_id})
             .then(session => {
-              console.log('session', session)
               session.agent_activity_time = Date.now()
               sessionsDataLayer.updateSessionObject(session._id, session)
                 .then(result => {
-                  console.log('result', result)
                   utility.callApi(`pages/query/`, 'post', {_id: session.page_id}, req.headers.authorization)
                     .then(page => {
-                      console.log(TAG, `Page ${JSON.stringify(page)}`)
                       utility.callApi(`subscribers/${req.body.recipient_id}`, 'get', {}, req.headers.authorization)
                         .then(subscriber => {
-                          console.log('Subscriber', subscriber)
-                          console.log(TAG, `Payload from the client ${JSON.stringify(req.body.payload)}`)
                           let messageData = logicLayer.prepareSendAPIPayload(
                             subscriber.senderId,
                             req.body.payload, subscriber.firstName, subscriber.lastName, true)
-                          console.log(TAG, `Message data ${JSON.stringify(messageData)}`)
-                          console.log(TAG, `Access_token ${JSON.stringify(subscriber.pageId.accessToken)}`)
                           request(
                             {
                               'method': 'POST',
@@ -161,7 +149,6 @@ exports.create = function (req, res) {
                                 subscriber.pageId.accessToken
                             },
                             (err, res) => {
-                              console.log(TAG, `send message live chat${JSON.stringify(res)}`)
                               if (err) {
                                 return logger.serverLog(TAG,
                                   `At send message live chat ${JSON.stringify(err)}`)
@@ -176,11 +163,9 @@ exports.create = function (req, res) {
                           botsDataLayer.findOneBotObjectUsingQuery({ 'pageId': subscriber.pageId._id })
                             .then(bot => {
                               if (bot) {
-                                console.log(TAG, `bot ${JSON.stringify(bot)}`)
                                 let arr = bot.blockedSubscribers
                                 arr.push(session.subscriber_id)
                                 bot.blockedSubscribers = arr
-                                console.log(TAG, 'going to add sub-bot in queue')
                                 botsDataLayer.updateBotObject(bot._id, bot)
                                   .then(result => {
                                     logger.serverLog(TAG,
@@ -195,8 +180,6 @@ exports.create = function (req, res) {
                                     }
                                     utility.callApi(`automationQueue/create/`, 'post', {payload: automationQueue}, req.headers.authorization, 'kiboengage')
                                       .then(automationObject => {
-                                        console.log(
-                                          `Automation Queue object saved`, automationObject, fbMessageObject)
                                         return res.status(200).json({ status: 'success', payload: fbMessageObject })
                                       })
                                       .catch(err => {
