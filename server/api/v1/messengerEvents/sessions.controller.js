@@ -101,6 +101,8 @@ function createSession (page, subscriber, event, req) {
     })
 }
 function saveLiveChat (page, subscriber, session, event, req) {
+  logger.serverLog(TAG, `saveLiveChat method`)
+
   let chatPayload = {
     format: 'facebook',
     sender_id: subscriber._id,
@@ -126,8 +128,11 @@ function saveLiveChat (page, subscriber, session, event, req) {
         logger.serverLog(TAG, `Failed to fetch bot ${JSON.stringify(error)}`)
       })
   }
+  logger.serverLog(TAG, 'webhooks/query')
+
   utility.callApi(`webhooks/query`, 'post', {pageId: page.pageId}, req.headers.authorization)
     .then(webhook => {
+      logger.serverLog(TAG, 'webhooks/query', webhook)
       if (webhook.length > 0 && webhook[0].isEnabled) {
         logger.serverLog(TAG, `webhook in live chat ${webhook}`)
         needle.get(webhook[0].webhook_url, (err, r) => {
@@ -161,7 +166,8 @@ function saveLiveChat (page, subscriber, session, event, req) {
     .catch(error => {
       logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(error)}`)
     })
-  if (event.message) {
+    logger.serverLog(TAG, 'event.message', event.message)
+    if (event.message) {
     let urlInText = utility.parseUrl(event.message.text)
     if (urlInText !== null && urlInText !== '') {
       og(urlInText, function (err, meta) {
@@ -175,8 +181,10 @@ function saveLiveChat (page, subscriber, session, event, req) {
   }
 }
 function saveChatInDb (page, session, chatPayload, subscriber, event) {
+  logger.serverLog(TAG, 'saveChatInDb')
   LiveChatDataLayer.createLiveChatObject(chatPayload)
     .then(chat => {
+      logger.serverLog(TAG, 'send through socket io')
       require('./../../../config/socketio').sendMessageToClient({
         room_id: page.companyId,
         body: {
