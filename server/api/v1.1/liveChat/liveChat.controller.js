@@ -59,7 +59,7 @@ exports.search = function (req, res) {
 
 exports.update = function (req, res) {
   let updateData = logicLayer.getUpdateData('updateOne', { _id: req.body.id }, { $set: { urlmeta: req.body.urlmeta } }, false, false, true)
-  callApi(`livechat/update`, 'post', updateData, '', 'kibochat')
+  callApi(`livechat/update`, 'put', updateData, '', 'kibochat')
     .then(updated => {
       return res.status(201).json({
         status: 'success',
@@ -131,8 +131,8 @@ exports.create = function (req, res) {
           }
         })
       }
-      let sessionData = logicLayer.getUpdateData('', 'updateOne', {_id: req.body.session_id}, {agent_activity_time: Date.now()})
-      return callApi(`session/update`, 'post', sessionData, '', 'kibochat')
+      let sessionData = logicLayer.getUpdateData('updateOne', {_id: req.body.session_id}, {agent_activity_time: Date.now()})
+      return callApi(`session/update`, 'put', sessionData, '', 'kibochat')
     })
     .then(session => {
       logger.serverLog(TAG, `updated session ${util.inspect(session)}`)
