@@ -186,20 +186,20 @@ function saveLiveChat (page, subscriber, session, event) {
 function saveChatInDb (page, session, chatPayload, subscriber, event) {
   LiveChatDataLayer.createFbMessageObject(chatPayload)
     .then(chat => {
-      // require('./../../../config/socketio').sendMessageToClient({
-      //   room_id: page.companyId,
-      //   body: {
-      //     action: 'new_chat',
-      //     payload: {
-      //       session_id: session._id,
-      //       chat_id: chat._id,
-      //       text: chatPayload.payload.text,
-      //       name: subscriber.firstName + ' ' + subscriber.lastName,
-      //       subscriber: subscriber,
-      //       message: chat
-      //     }
-      //   }
-      // })
+      require('./../../../config/socketio').sendMessageToClient({
+        room_id: page.companyId,
+        body: {
+          action: 'new_chat',
+          payload: {
+            session_id: session._id,
+            chat_id: chat._id,
+            text: chatPayload.payload.text,
+            name: subscriber.firstName + ' ' + subscriber.lastName,
+            subscriber: subscriber,
+            message: chat
+          }
+        }
+      })
       sendautomatedmsg(event, page)
     })
     .catch(error => {

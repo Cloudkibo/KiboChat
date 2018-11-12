@@ -2,7 +2,36 @@
 const fs = require('fs')
 const path = require('path')
 
-const setChatProperties = (fbchats) => {
+exports.getQueryData = (type, purpose, match, skip, sort, limit) => {
+  if (type === 'count') {
+    return {
+      purpose,
+      match,
+      group: { _id: null, count: { $sum: 1 } }
+    }
+  } else {
+    return {
+      purpose,
+      match,
+      skip,
+      sort,
+      limit
+    }
+  }
+}
+
+exports.getUpdateData = (purpose, match, updated, upsert, multi, neww) => {
+  return {
+    purpose,
+    match,
+    updated,
+    upsert: upsert || false,
+    multi: multi || false,
+    new: neww || false
+  }
+}
+
+exports.setChatProperties = (fbchats) => {
   for (var i = 0; i < fbchats.length; i++) {
     fbchats[i].set('lastPayload', fbchats[fbchats.length - 1].payload, { strict: false })
     fbchats[i].set('lastRepliedBy', fbchats[fbchats.length - 1].replied_by, { strict: false })
@@ -11,7 +40,7 @@ const setChatProperties = (fbchats) => {
   return fbchats
 }
 
-const prepareFbMessageObject = (body) => {
+exports.prepareFbMessageObject = (body) => {
   let fbMessageObject = {
     sender_id: body.sender_id, // this is the page id: _id of Pageid
     recipient_id: body.recipient_id, // this is the subscriber id: _id of subscriberId
@@ -26,7 +55,8 @@ const prepareFbMessageObject = (body) => {
   }
   return fbMessageObject
 }
-const prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) => {
+
+exports.prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) => {
   let messageType = isResponse ? 'RESPONSE' : 'UPDATE'
   let payload = {}
   let text = body.text
@@ -185,7 +215,7 @@ const prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) => 
   }
   return payload
 }
-const webhookPost = (needle, webhook, req, res) => {
+exports.webhookPost = (needle, webhook, req, res) => {
   if (webhook && webhook.optIn.POLL_CREATED) {
     var data = {
       subscription_type: 'LIVE_CHAT_ACTIONS',
@@ -210,7 +240,3 @@ const webhookPost = (needle, webhook, req, res) => {
       })
   }
 }
-exports.setChatProperties = setChatProperties
-exports.prepareFbMessageObject = prepareFbMessageObject
-exports.prepareSendAPIPayload = prepareSendAPIPayload
-exports.webhookPost = webhookPost
