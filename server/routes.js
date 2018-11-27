@@ -17,6 +17,8 @@ module.exports = function (app) {
   app.use('/api/pages', require('./api/v1/pages'))
   app.use('/api/permissions', require('./api/v1/permissions'))
   app.use('/auth', require('./auth'))
+  app.use('/api/reset_password', require('./api/v1/passwordresettoken'))
+
   // auth middleware go here if you authenticate on same server
 
   app.get('/', (req, res) => {
