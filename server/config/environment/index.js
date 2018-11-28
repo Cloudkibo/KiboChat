@@ -19,6 +19,8 @@ const all = {
 
   ip: process.env.IP || undefined,
 
+  userRoles: ['buyer', 'admin', 'supervisor', 'agent'],
+
   domain: `${process.env.DOMAIN || 'http://localhost:3000'}`,
 
   // Mongo Options
