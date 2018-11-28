@@ -8,29 +8,29 @@ const controller = require('./api_settings.controller')
 router.post('/',
   auth.isAuthenticated(),
   validate({body: validationSchema.apiPayload}),
-  // auth.doesPlanPermitsThisAction('api'),
-  // auth.doesRolePermitsThisAction('apiPermission'),
+  auth.doesPlanPermitsThisAction('api'),
+  auth.doesRolePermitsThisAction('apiPermission'),
   controller.index)
 
 router.post('/enable',
   auth.isAuthenticated(),
   validate({body: validationSchema.enablePayload}),
-  // auth.doesPlanPermitsThisAction('api'),
-  // auth.doesRolePermitsThisAction('apiPermission'),
+  auth.doesPlanPermitsThisAction('api'),
+  auth.doesRolePermitsThisAction('apiPermission'),
   controller.enable)
 
 router.post('/disable',
   auth.isAuthenticated(),
   validate({body: validationSchema.disablePayload}),
-  // auth.doesPlanPermitsThisAction('api'),
-  // auth.doesRolePermitsThisAction('apiPermission'),
+  auth.doesPlanPermitsThisAction('api'),
+  auth.doesRolePermitsThisAction('apiPermission'),
   controller.disable)
 
 router.post('/reset',
   auth.isAuthenticated(),
   validate({body: validationSchema.apiPayload}),
-  // auth.doesPlanPermitsThisAction('api'),
-  // auth.doesRolePermitsThisAction('apiPermission'),
+  auth.doesPlanPermitsThisAction('api'),
+  auth.doesRolePermitsThisAction('apiPermission'),
   controller.reset)
 
 module.exports = router
