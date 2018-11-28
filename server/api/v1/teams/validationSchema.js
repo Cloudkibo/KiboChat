@@ -15,14 +15,6 @@ exports.teamPayload = {
       type: 'string',
       required: true
     },
-    created_by: {
-      type: 'string',
-      required: true
-    },
-    companyId: {
-      type: 'string',
-      required: true
-    },
     teamPages: {
       type: 'array',
       items: {
@@ -30,7 +22,14 @@ exports.teamPayload = {
         required: true
       }
     },
-    teamPagesIds: {
+    agentIds: {
+      type: 'array',
+      items: {
+        type: 'string',
+        required: true
+      }
+    },
+    pageIds: {
       type: 'array',
       items: {
         type: 'string',
