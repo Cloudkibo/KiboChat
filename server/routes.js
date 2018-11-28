@@ -16,6 +16,7 @@ module.exports = function (app) {
   app.use('/api/teams', require('./api/v1/teams'))
   app.use('/api/pages', require('./api/v1/pages'))
   app.use('/api/permissions', require('./api/v1/permissions'))
+  app.use('/api/api_settings', require('./api/v1/api_settings'))
   app.use('/auth', require('./auth'))
   app.use('/api/reset_password', require('./api/v1/passwordresettoken'))
 
