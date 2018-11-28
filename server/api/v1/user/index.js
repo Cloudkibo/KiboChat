@@ -20,29 +20,33 @@ router.get('/updateSkipConnect',
   controller.updateSkipConnect)
 
 router.post('/updateMode',
-    auth.isAuthenticated(),
-    validate({body: validationSchema.updateMode}),
-    controller.updateMode)
+  auth.isAuthenticated(),
+  validate({body: validationSchema.updateMode}),
+  controller.updateMode)
 
 router.get('/fbAppId',
-    auth.isAuthenticated(),
-    controller.fbAppId)
+  auth.isAuthenticated(),
+  controller.fbAppId)
 
 router.post('/authenticatePassword',
-    auth.isAuthenticated(),
-    validate({body: validationSchema.authenticatePassword}),
-    controller.authenticatePassword)
+  auth.isAuthenticated(),
+  validate({body: validationSchema.authenticatePassword}),
+  controller.authenticatePassword)
 
 router.get('/addAccountType',
-    controller.addAccountType)
+  controller.addAccountType)
 
 router.post('/enableDelete',
-    auth.isAuthenticated(),
-    validate({body: validationSchema.enableGDPRDelete}),
-    controller.enableDelete)
+  auth.isAuthenticated(),
+  validate({body: validationSchema.enableGDPRDelete}),
+  controller.enableDelete)
 
 router.get('/cancelDeletion',
-    auth.isAuthenticated(),
-    controller.cancelDeletion)
+  auth.isAuthenticated(),
+  controller.cancelDeletion)
+
+router.get('validateUserAccessToken',
+  auth.isAuthenticated(),
+  controller.validateUserAccessToken)
 
 module.exports = router
