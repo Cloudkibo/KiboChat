@@ -21,8 +21,9 @@ function isAuthenticated () {
   return compose()
   // Validate jwt or api keys
     .use((req, res, next) => {
-      if (req.headers.hasOwnProperty('app_id')) {
-        validateApiKeys(req, res, next)
+      if (req.headers.hasOwnProperty('is_kibo_product')) {
+        logger.serverLog(TAG, `going to validate ip`)
+        isAuthorizedWebHookTrigger(req, res, next)
       } else {
         // allow access_token to be passed through query parameter as well
         if (req.query && req.query.hasOwnProperty('access_token')) {
@@ -261,17 +262,16 @@ function fbConnectDone (req, res) {
 }
 
 // eslint-disable-next-line no-unused-vars
-function isAuthorizedWebHookTrigger () {
-  return compose().use((req, res, next) => {
-    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
-      req.socket.remoteAddress || req.connection.socket.remoteAddress
-    logger.serverLog(TAG, req.ip)
-    logger.serverLog(TAG, ip)
-    logger.serverLog(TAG, 'This is middleware')
-    logger.serverLog(TAG, req.body)
-    if (ip === '162.243.215.177') next()
-    else res.send(403)
-  })
+function isAuthorizedWebHookTrigger (req, res, next) {
+  const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
+    req.socket.remoteAddress || req.connection.socket.remoteAddress
+  logger.serverLog(TAG, req.ip)
+  logger.serverLog(TAG, ip)
+  logger.serverLog(TAG, 'This is middleware')
+  logger.serverLog(TAG, req.body)
+  // We need to change it to based on the requestee app
+  if (config.allowedIps.indexOf(ip) > -1) next()
+  else res.send(403)
 }
 
 function isItWebhookServer () {
