@@ -12,10 +12,10 @@ const all = {
   root: path.normalize(`${__dirname}/../../..`),
 
   // Server port
-  port: process.env.PORT || 3000,
+  port: process.env.PORT || 3002,
 
   // Secure Server port
-  secure_port: process.env.SECURE_PORT || 8443,
+  secure_port: process.env.SECURE_PORT || 8445,
 
   ip: process.env.IP || undefined,
 
