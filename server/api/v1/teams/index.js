@@ -20,7 +20,7 @@ router.get('/update',
   validate({body: validationSchema.teamUpdatePayload}),
   controller.updateTeam)
 
-router.get('/delete/:id',
+router.delete('/delete/:id',
   auth.isAuthenticated(),
   controller.deleteTeam)
 

@@ -68,8 +68,8 @@ router.post('/unSubscribe',
 
 router.post('/query',
   auth.isAuthenticated(),
-  auth.doesPlanPermitsThisAction('livechat'),
-  auth.doesRolePermitsThisAction('livechatPermission'),
+  // auth.doesPlanPermitsThisAction('livechat'),
+  // auth.doesRolePermitsThisAction('livechatPermission'),
   controller.genericFind)
 
 module.exports = router
