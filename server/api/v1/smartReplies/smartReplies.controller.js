@@ -13,7 +13,23 @@ exports.index = function (req, res) {
     .then(companyUser => {
       BotsDataLayer.findAllBotObjectsUsingQuery({ companyId: companyUser.companyId })
         .then(bots => {
-          return res.status(200).json({ status: 'success', payload: bots })
+          if (bots && bots.length > 0) {
+            for (let i = 0; i < bots.length; i++) {
+              utility.callApi(`pages/query`, 'post', {_id: bots[i].pageId}, req.headers.authorization)
+                .then(page => {
+                  bots[i].pageId = page[0]
+                  if (i === bots.length - 1) {
+                    console.log('bots', bots)
+                    return res.status(200).json({ status: 'success', payload: bots })
+                  }
+                })
+                .catch(err => {
+                  return res.status(500).json({status: 'failed', description: `Error fetching page ${err}`})
+                })
+            }
+          } else {
+            return res.status(200).json({ status: 'success', payload: [] })
+          }
         })
         .catch(err => {
           return res.status(500).json({status: 'failed', description: `Error fetching bots from companyId ${err}`})
