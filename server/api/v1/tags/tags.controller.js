@@ -310,7 +310,6 @@ exports.unassign = function (req, res) {
 }
 
 exports.subscribertags = function (req, res) {
-  console.log('in subscribertags', req.body)
   callApi.callApi(`tags_subscriber/query`, 'post', {subscriberId: req.body.subscriberId}, req.headers.authorization)
     .then(tagsSubscriber => {
       console.log('Tags SUbscriebr', tagsSubscriber)
