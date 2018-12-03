@@ -20,6 +20,7 @@ module.exports = function (app) {
   app.use('/auth', require('./auth'))
   app.use('/api/reset_password', require('./api/v1/passwordresettoken'))
   app.use('/api/tags', require('./api/v1/tags'))
+  app.use('/api/templates', require('./api/v1/templates'))
 
   // auth middleware go here if you authenticate on same server
 
