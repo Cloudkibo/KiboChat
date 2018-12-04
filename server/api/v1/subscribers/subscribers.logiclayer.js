@@ -18,7 +18,7 @@ exports.getSusbscribersPayload = function (subscribers, tags) {
   for (let i = 0; i < subscribers.length; i++) {
     subscribersPayload[i].tags = []
     for (let j = 0; j < tags.length; j++) {
-      if (subscribers[i]._id.toString() === tags[j].subscriberId.toString()) {
+      if (subscribers[i]._id.toString() === tags[j].subscriberId._id.toString()) {
         subscribersPayload[i].tags.push(tags[j].tagId.tag)
       }
     }
