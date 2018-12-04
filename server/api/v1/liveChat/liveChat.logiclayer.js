@@ -85,7 +85,7 @@ const prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) => 
     }
   } else if (['image', 'audio', 'file', 'video'].indexOf(
     body.componentType) > -1) {
-    let dir = path.resolve(__dirname, '../../../broadcastFiles/userfiles')
+    let dir = path.resolve(__dirname, '../../../../broadcastFiles/userfiles')
     let fileReaderStream
     if (body.componentType === 'file') {
       fileReaderStream = fs.createReadStream(dir + '/' + body.fileurl.name)
