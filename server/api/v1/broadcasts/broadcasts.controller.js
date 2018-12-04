@@ -88,17 +88,17 @@ exports.upload = function (req, res) {
       }
       // saving this file to send files with its original name
       // it will be deleted once it is successfully sent
+      let readData = fs.createReadStream(dir + '/userfiles/' + serverPath)
+      let writeData = fs.createWriteStream(dir + '/userfiles/' + req.files.file.name)
+      readData.pipe(writeData)
+      logger.serverLog(TAG,
+        `file uploaded on KiboPush, uploading it on Facebook: ${JSON.stringify({
+          id: serverPath,
+          url: `${config.domain}/api/broadcasts/download/${serverPath}`
+        })}`)
       if (req.body.pages && req.body.pages.length > 0) {
         let pages = JSON.parse(req.body.pages)
         logger.serverLog(TAG, `Pages in upload file ${pages}`)
-        let readData = fs.createReadStream(dir + '/userfiles/' + serverPath)
-        let writeData = fs.createWriteStream(dir + '/userfiles/' + req.files.file.name)
-        readData.pipe(writeData)
-        logger.serverLog(TAG,
-          `file uploaded on KiboPush, uploading it on Facebook: ${JSON.stringify({
-            id: serverPath,
-            url: `${config.domain}/api/broadcasts/download/${serverPath}`
-          })}`)
         utility.callApi(`pages/${mongoose.Types.ObjectId(pages[0])}`)
           .then(page => {
             needle.get(
