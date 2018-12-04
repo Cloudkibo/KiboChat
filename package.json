@@ -29,7 +29,7 @@
     "body-parser": "^1.18.3",
     "composable-middleware": "^0.3.0",
     "compression": "^1.7.3",
-    "connect-multiparty": "^2.2.0",
+    "connect-multiparty": "^2.1.1",
     "cookie-parser": "^1.4.3",
     "crypto": "^1.0.1",
     "csv-parser": "^1.12.1",
