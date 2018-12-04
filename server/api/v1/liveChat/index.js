@@ -6,6 +6,8 @@ const controller = require('./liveChat.controller')
 const auth = require('../../../auth/auth.service')
 const validate = require('express-jsonschema').validate
 const validationSchema = require('./validationSchema')
+const multiparty = require('connect-multiparty')
+const multipartyMiddleware = multiparty()
 
 router.post('/',
   auth.isAuthenticated(),
@@ -41,5 +43,10 @@ router.post('/:session_id',
   // auth.doesRolePermitsThisAction('livechatPermission'),
   // validate({body: validationSchema.indexPayload}),
   controller.index)
+
+router.post('/upload',
+  auth.isAuthenticated(),
+  multipartyMiddleware,
+  controller.upload)
 
 module.exports = router

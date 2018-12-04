@@ -10,8 +10,11 @@ const utility = require('../utility')
 const needle = require('needle')
 const request = require('request')
 const webhookUtility = require('../notifications/notifications.utility')
-
+const fs = require('fs')
+const crypto = require('crypto')
 const util = require('util')
+let config = require('./../../../config/environment')
+const path = require('path')
 
 exports.index = function (req, res) {
   dataLayer.findFbMessageObjectUsingAggregate([
@@ -269,4 +272,111 @@ exports.create = function (req, res) {
     .catch(err => {
       return res.status(500).json({status: 'failed', payload: err})
     }) // companyUser call ends
+}
+exports.upload = function (req, res) {
+  let pages = JSON.parse(req.body.pages)
+  logger.serverLog(TAG, `Pages in upload file ${pages}`)
+  var today = new Date()
+  var uid = crypto.randomBytes(5).toString('hex')
+  var serverPath = 'f' + uid + '' + today.getFullYear() + '' +
+    (today.getMonth() + 1) + '' + today.getDate()
+  serverPath += '' + today.getHours() + '' + today.getMinutes() + '' +
+    today.getSeconds()
+  let fext = req.files.file.name.split('.')
+  serverPath += '.' + fext[fext.length - 1].toLowerCase()
+
+  let dir = path.resolve(__dirname, '../../../../broadcastFiles/')
+
+  if (req.files.file.size === 0) {
+    return res.status(400).json({
+      status: 'failed',
+      description: 'No file submitted'
+    })
+  }
+  logger.serverLog(TAG,
+    `req.files.file ${JSON.stringify(req.files.file.path)}`)
+  logger.serverLog(TAG,
+    `req.files.file ${JSON.stringify(req.files.file.name)}`)
+  logger.serverLog(TAG,
+    `dir ${JSON.stringify(dir)}`)
+  logger.serverLog(TAG,
+    `serverPath ${JSON.stringify(serverPath)}`)
+  fs.rename(
+    req.files.file.path,
+    dir + '/userfiles/' + serverPath,
+    err => {
+      if (err) {
+        return res.status(500).json({
+          status: 'failed',
+          description: 'internal server error' + JSON.stringify(err)
+        })
+      }
+      // saving this file to send files with its original name
+      // it will be deleted once it is successfully sent
+      let readData = fs.createReadStream(dir + '/userfiles/' + serverPath)
+      let writeData = fs.createWriteStream(dir + '/userfiles/' + req.files.file.name)
+      readData.pipe(writeData)
+      logger.serverLog(TAG,
+        `file uploaded on KiboPush, uploading it on Facebook: ${JSON.stringify({
+          id: serverPath,
+          url: `${config.domain}/api/broadcasts/download/${serverPath}`
+        })}`)
+      utility.callApi(`pages/${mongoose.Types.ObjectId(pages[0])}`)
+        .then(page => {
+          needle.get(
+            `https://graph.facebook.com/v2.10/${page.pageId}?fields=access_token&access_token=${page.userId.facebookInfo.fbToken}`,
+            (err, resp2) => {
+              if (err) {
+                return res.status(500).json({
+                  status: 'failed',
+                  description: 'unable to get page access_token: ' + JSON.stringify(err)
+                })
+              }
+              let pageAccessToken = resp2.body.access_token
+              let fileReaderStream = fs.createReadStream(dir + '/userfiles/' + req.files.file.name)
+              const messageData = {
+                'message': JSON.stringify({
+                  'attachment': {
+                    'type': req.body.componentType,
+                    'payload': {
+                      'is_reusable': true
+                    }
+                  }
+                }),
+                'filedata': fileReaderStream
+              }
+              request(
+                {
+                  'method': 'POST',
+                  'json': true,
+                  'formData': messageData,
+                  'uri': 'https://graph.facebook.com/v2.6/me/message_attachments?access_token=' + pageAccessToken
+                },
+                function (err, resp) {
+                  if (err) {
+                    return res.status(500).json({
+                      status: 'failed',
+                      description: 'unable to upload attachment on Facebook, sending response' + JSON.stringify(err)
+                    })
+                  } else {
+                    logger.serverLog(TAG,
+                      `file uploaded on Facebook ${JSON.stringify(resp.body)}`)
+                    return res.status(201).json({
+                      status: 'success',
+                      payload: {
+                        id: serverPath,
+                        attachment_id: resp.body.attachment_id,
+                        name: req.files.file.name,
+                        url: `${config.domain}/api/broadcasts/download/${serverPath}`
+                      }
+                    })
+                  }
+                })
+            })
+        })
+        .catch(error => {
+          return res.status(500).json({status: 'failed', payload: `Failed to fetch page ${JSON.stringify(error)}`})
+        })
+    }
+  )
 }
