@@ -200,7 +200,17 @@ exports.enable = function (req, res) {
                 utility.callApi(`pages/${page._id}/connect`, 'get', {}, req.headers.authorization) // fetch connected page
                 .then(pageConnected => {
                   if (pageConnected !== {}) {
-                    utility.callApi(`pages/${req.body._id}`, 'put', {connected: true}, req.headers.authorization) // connect page
+                              let query = {
+                                connected: true,
+                                isWelcomeMessageEnabled: true,
+                                welcomeMessage: [
+                                  {
+                                    id: 0,
+                                    componentType: 'text',
+                                    text: 'Hi {{user_full_name}}! Thanks for getting in touch with us on Messenger. Please send us any questions you may have'
+                                  }]
+                              }
+                    utility.callApi(`pages/${req.body._id}`, 'put', query, req.headers.authorization) // connect page
                     .then(connectPage => {
                       utility.callApi(`featureUsage/updateCompany`, 'put', {
                         query: {companyId: req.body.companyId},

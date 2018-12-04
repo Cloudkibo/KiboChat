@@ -22,6 +22,8 @@ module.exports = function (app) {
   app.use('/api/broadcasts', require('./api/v1/broadcasts'))
   app.use('/api/sequenceMessaging', require('./api/v1/sequences'))
   app.use('/api/tags', require('./api/v1/tags'))
+  app.use('/api/templates', require('./api/v1/templates'))
+
   // auth middleware go here if you authenticate on same server
 
   app.get('/', (req, res) => {

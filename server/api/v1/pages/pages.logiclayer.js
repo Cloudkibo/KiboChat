@@ -23,17 +23,14 @@ exports.removeDuplicates = function (pages) {
 
 exports.getCriterias = function (body, companyUser) {
   let search = ''
-  let findCriteria = {}
+  let findCriteria = {
+    companyId: companyUser.companyId,
+    connected: true}
   let finalCriteria = {}
   let recordsToSkip = 0
-  if (!body.filter) {
-    findCriteria = {
-      companyId: companyUser.companyId,
-      connected: true
-    }
-  } else {
-    search = new RegExp('.*' + body.filter_criteria.search_value + '.*', 'i')
-    findCriteria = Object.assign(findCriteria, {pageName: body.filter_criteria.search_value !== '' ? {$regex: search} : {$exists: true}})
+  if (body.filter) {
+    search = '.*' + body.filter_criteria.search_value + '.*'
+    findCriteria = Object.assign(findCriteria, {pageName: body.filter_criteria.search_value !== '' ? {$regex: search, $options: 'i'} : {$exists: true}})
   }
   if (body.first_page === 'first') {
     finalCriteria = [
