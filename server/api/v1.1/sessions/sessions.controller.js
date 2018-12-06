@@ -67,6 +67,7 @@ exports.getNewSessions = function (req, res) {
     return callApi(`sessions/query`, 'post', countData, '', 'kibochat')
   })
     .then(sessions => {
+      console.log('sessions: ', sessions)
       if (sessions.length > 0) {
         let sessionsTosend = []
         for (let i = 0; i < sessions.length; i++) {
@@ -83,6 +84,7 @@ exports.getNewSessions = function (req, res) {
           let pageId = sessions[i].page_id
           callApi(`subscribers/${subscriberId}`, 'get', {}, req.headers.authorization)
             .then(subscriber => {
+              console.log('subscriber: ', subscriber)
               sessionsTosend[i].subscriber_id = subscriber
               return callApi(`pages/${pageId}`, 'get', {}, req.headers.authorization)
             })
