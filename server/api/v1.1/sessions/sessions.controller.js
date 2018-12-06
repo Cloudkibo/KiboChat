@@ -545,6 +545,8 @@ function UnreadCountAndLastMessage (sessions, req, criteria, companyUser) {
               }
             })
             .then(gotLastMessage => {
+              console.log('gotLastMessage: ', gotLastMessage)
+              console.log('sessions: ', sessions)
               if (i === sessionss.length - 1) {
                 sessions = logicLayer.getLastMessage(gotLastMessage, sessions)
                 resolve({openSessions: sessions, count: sessionsData.length})
