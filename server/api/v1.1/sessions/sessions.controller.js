@@ -63,7 +63,7 @@ exports.getNewSessions = function (req, res) {
   companyUserResponse.then(companyuser => {
     companyUser = companyuser
     criteria = logicLayer.getNewSessionsCriteria(companyUser, req.body)
-    let countData = logicLayer.getQueryData('count', 'aggregate', criteria.countCriteria)
+    let countData = logicLayer.getQueryData('', 'findAll', criteria.countCriteria)
     return callApi(`sessions/query`, 'post', countData, '', 'kibochat')
   })
     .then(sessions => {
@@ -121,7 +121,7 @@ exports.getResolvedSessions = function (req, res) {
   companyUserResponse.then(companyuser => {
     companyUser = companyuser
     criteria = logicLayer.getResolvedSessionsCriteria(companyUser, req.body)
-    let countData = logicLayer.getQueryData('count', 'findAll', criteria.countCriteria)
+    let countData = logicLayer.getQueryData('', 'findAll', criteria.countCriteria)
     return callApi(`sessions/query`, 'post', countData, '', 'kibochat')
   })
     .then(sessions => {
