@@ -6,9 +6,12 @@ exports.serverLog = function (label, data) {
 
   if (config.env === 'development' || config.env === 'test') {
     debug(data)
+    console.log(data)
     // todo use log levels like info, warn, error and debug
     // logger.info(`${namespace} - ${data}`)
   }
+  debug(data)
+  console.log(data)
 }
 
 exports.clientLog = function (label, data) {
