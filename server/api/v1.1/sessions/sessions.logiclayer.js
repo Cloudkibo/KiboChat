@@ -134,11 +134,11 @@ exports.getNewSessionsCriteria = (companyUser, body) => {
     countCriteria = Object.assign(countCriteria, {_id: {$gt: body.last_id}})
   }
 
-  fetchCriteria = [
-    { $match: countCriteria },
-    { $sort: sortCriteria },
-    { $limit: body.number_of_records }
-  ]
+  fetchCriteria = {
+    $match: countCriteria,
+    $sort: sortCriteria,
+    $limit: body.number_of_records
+  }
   return {
     countCriteria,
     fetchCriteria
