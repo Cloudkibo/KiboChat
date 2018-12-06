@@ -179,7 +179,7 @@ exports.markread = function (req, res) {
   let sessionResponse = callApi('sessions/query', 'post', sessionsData, '', 'kibochat')
 
   let updateData = logicLayer.getUpdateData('updateAll', {session_id: req.params.id}, {status: 'seen'}, false, true)
-  let readResponse = callApi('livechat/update', 'put', updateData, '', 'kibochat')
+  let readResponse = callApi('livechat', 'put', updateData, '', 'kibochat')
 
   companyUserResponse.then(company => {
     companyUser = company
@@ -229,12 +229,7 @@ exports.markread = function (req, res) {
                 }
               })
           }
-          readResponse.then(updated => {
-            res.status(200).json({status: 'success', payload: updated})
-          })
-            .catch(error => {
-              return res.status(500).json({status: 'failed', payload: `Failed to update live chat ${JSON.stringify(error)}`})
-            })
+          return readResponse
         })
     })
     .then(updated => {
@@ -304,7 +299,7 @@ exports.changeStatus = function (req, res) {
   let companyUserResponse = callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
 
   let updateData = logicLayer.getUpdateData('updateOne', {_id: req.body._id}, {status: req.body.status})
-  let updateSessionResponse = callApi('sessions/update', 'put', updateData, '', 'kibochat')
+  let updateSessionResponse = callApi('sessions', 'put', updateData, '', 'kibochat')
 
   companyUserResponse.then(company => {
     companyUser = company
@@ -343,7 +338,7 @@ exports.assignAgent = function (req, res) {
   companyUserResponse.then(company => {
     companyUser = company
     let updateData = logicLayer.getUpdateData('updateOne', {_id: req.body.sessionId}, {assigned_to: assignedTo, is_assigned: req.body.isAssigned})
-    return callApi('sessions/update', 'put', updateData, '', 'kibochat')
+    return callApi('sessions', 'put', updateData, '', 'kibochat')
   })
     .then(updated => {
       require('./../../../config/socketio').sendMessageToClient({
@@ -378,7 +373,7 @@ exports.assignTeam = function (req, res) {
   companyUserResponse.then(company => {
     companyUser = company
     let updateData = logicLayer.getUpdateData('updateOne', {_id: req.body.sessionId}, {assigned_to: assignedTo, is_assigned: req.body.isAssigned})
-    return callApi('sessions/update', 'put', updateData, '', 'kibochat')
+    return callApi('sessions', 'put', updateData, '', 'kibochat')
   })
     .then(updated => {
       require('./../../../config/socketio').sendMessageToClient({
@@ -541,10 +536,12 @@ function UnreadCountAndLastMessage (sessions, req, criteria, companyUser) {
               if (i === sessionss.length - 1) {
                 sessions = logicLayer.getUnreadCount(gotUnreadCount, sessions)
                 let lastMessageData = logicLayer.getQueryData('', 'aggregate', {}, 0, { datetime: 1 }, undefined, {_id: '$session_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
-                return callApi(`sessions/query`, 'post', lastMessageData, '', 'kibochat')
+                return callApi(`livechat/query`, 'post', lastMessageData, '', 'kibochat')
               }
             })
             .then(gotLastMessage => {
+              console.log('gotLastMessage: ', gotLastMessage)
+              console.log('sessions: ', sessions)
               if (i === sessionss.length - 1) {
                 sessions = logicLayer.getLastMessage(gotLastMessage, sessions)
                 resolve({openSessions: sessions, count: sessionsData.length})
