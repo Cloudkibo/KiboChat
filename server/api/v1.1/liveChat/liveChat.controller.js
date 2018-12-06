@@ -33,7 +33,7 @@ exports.index = function (req, res) {
       let chatCount = values[0]
       let fbchats = values[1].reverse()
       fbchats = logicLayer.setChatProperties(fbchats)
-      return res.status(500).json({ status: 'success',
+      return res.status(200).json({ status: 'success',
         payload: { chat: fbchats, count: chatCount.length > 0 ? chatCount[0].count : 0 }
       })
     })
