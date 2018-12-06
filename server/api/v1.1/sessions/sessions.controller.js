@@ -56,15 +56,18 @@ exports.index = function (req, res) {
 
 exports.getNewSessions = function (req, res) {
   let criteria = {}
+  let companyUser = {}
 
   const companyUserResponse = callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
 
-  companyUserResponse.then(companyUser => {
+  companyUserResponse.then(companyuser => {
+    companyUser = companyuser
     criteria = logicLayer.getNewSessionsCriteria(companyUser, req.body)
-    let countData = logicLayer.getQueryData('count', 'aggregate', criteria.countCriteria)
+    let countData = logicLayer.getQueryData('', 'findAll', criteria.countCriteria)
     return callApi(`sessions/query`, 'post', countData, '', 'kibochat')
   })
     .then(sessions => {
+      console.log('sessions: ', sessions)
       if (sessions.length > 0) {
         let sessionsTosend = []
         for (let i = 0; i < sessions.length; i++) {
@@ -81,6 +84,7 @@ exports.getNewSessions = function (req, res) {
           let pageId = sessions[i].page_id
           callApi(`subscribers/${subscriberId}`, 'get', {}, req.headers.authorization)
             .then(subscriber => {
+              console.log('subscriber: ', subscriber)
               sessionsTosend[i].subscriber_id = subscriber
               return callApi(`pages/${pageId}`, 'get', {}, req.headers.authorization)
             })
@@ -109,11 +113,15 @@ exports.getNewSessions = function (req, res) {
 }
 
 exports.getResolvedSessions = function (req, res) {
+  let companyUser = {}
+  let criteria = {}
+
   let companyUserResponse = callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
 
-  companyUserResponse.then(companyUser => {
-    let criteria = logicLayer.getResolvedSessionsCriteria(companyUser, req.body)
-    let countData = logicLayer.getQueryData('count', 'aggregate', criteria.countCriteria)
+  companyUserResponse.then(companyuser => {
+    companyUser = companyuser
+    criteria = logicLayer.getResolvedSessionsCriteria(companyUser, req.body)
+    let countData = logicLayer.getQueryData('', 'findAll', criteria.countCriteria)
     return callApi(`sessions/query`, 'post', countData, '', 'kibochat')
   })
     .then(sessions => {
@@ -221,6 +229,12 @@ exports.markread = function (req, res) {
                 }
               })
           }
+          readResponse.then(updated => {
+            res.status(200).json({status: 'success', payload: updated})
+          })
+            .catch(error => {
+              return res.status(500).json({status: 'failed', payload: `Failed to update live chat ${JSON.stringify(error)}`})
+            })
         })
     })
     .then(updated => {
@@ -272,7 +286,7 @@ exports.show = function (req, res) {
     })
     .then(gotLastMessage => {
       if (session) {
-        session = dataLayer.getLastMessageData(gotLastMessage, session)
+        session = logicLayer.getLastMessageData(gotLastMessage, session)
         return res.status(200).json({
           status: 'success',
           payload: session
@@ -548,4 +562,15 @@ function UnreadCountAndLastMessage (sessions, req, criteria, companyUser) {
         reject(err)
       })
   })
+}
+
+exports.genericFind = function (req, res) {
+  let messagesData = logicLayer.getQueryData('', 'findAll', req.body)
+  callApi('livechat/query', 'post', messagesData, '', 'kibochat')
+    .then(session => {
+      return res.status(200).json({status: 'success', payload: session})
+    })
+    .catch(error => {
+      return {status: 'failed', payload: `Failed to fetch sessions ${JSON.stringify(error)}`}
+    })
 }

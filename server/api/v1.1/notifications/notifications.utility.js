@@ -1,16 +1,17 @@
-const NotificationsDataLayer = require('./notifications.datalayer')
 const utility = require('../utility')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1/notifications/notifications.utility.js'
 const config = require('./../../../config/environment/index')
+const { callApi } = require('../utility')
 
 function saveNotification (webhook, req) {
-  NotificationsDataLayer.createNotificationObject({
+  let notificationsData = {
     message: `The server at the URL "${webhook.webhook_url}" is not live`,
     category: {type: 'webhookFailed', id: webhook.userId},
     agentId: webhook.userId,
     companyId: webhook.companyId
-  })
+  }
+  callApi(`notifications`, 'post', notificationsData, '', 'kibochat')
     .then(savedNotification => {})
     .catch(error => {
       logger.serverLog(TAG, `Failed to create notification ${JSON.stringify(error)}`)
@@ -57,11 +58,14 @@ function saveNotification (webhook, req) {
 }
 
 function limitReachedNotification (module, company) {
-  NotificationsDataLayer.createNotificationObject({message: `Your ${module} limit has reached. Please upgrade your plan to premium in order to increase your ${module} quota`,
+  let notificationsData = {
+    message: `Your ${module} limit has reached. Please upgrade your plan to premium in order to increase your ${module} quota`,
     category: {type: 'limit', id: company.ownerId},
     agentId: company.ownerId,
     companyId: company._id
-  }).then(savedNotification => {})
+  }
+  callApi(`notifications`, 'post', notificationsData, '', 'kibochat')
+    .then(savedNotification => {})
     .catch(error => {
       logger.serverLog(TAG, `Failed to create notification ${JSON.stringify(error)}`)
     })
