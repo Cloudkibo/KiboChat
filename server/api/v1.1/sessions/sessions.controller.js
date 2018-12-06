@@ -541,7 +541,7 @@ function UnreadCountAndLastMessage (sessions, req, criteria, companyUser) {
               if (i === sessionss.length - 1) {
                 sessions = logicLayer.getUnreadCount(gotUnreadCount, sessions)
                 let lastMessageData = logicLayer.getQueryData('', 'aggregate', {}, 0, { datetime: 1 }, undefined, {_id: '$session_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
-                return callApi(`sessions/query`, 'post', lastMessageData, '', 'kibochat')
+                return callApi(`livechat/query`, 'post', lastMessageData, '', 'kibochat')
               }
             })
             .then(gotLastMessage => {
