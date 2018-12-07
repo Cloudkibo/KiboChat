@@ -32,10 +32,11 @@ exports.getUpdateData = (purpose, match, updated, upsert, multi, neww) => {
 }
 
 exports.setChatProperties = (fbchats) => {
+  console.log('fbchats', fbchats)
   for (var i = 0; i < fbchats.length; i++) {
-    fbchats[i].set('lastPayload', fbchats[fbchats.length - 1].payload, { strict: false })
-    fbchats[i].set('lastRepliedBy', fbchats[fbchats.length - 1].replied_by, { strict: false })
-    fbchats[i].set('lastDateTime', fbchats[fbchats.length - 1].datetime, { strict: false })
+    fbchats[i].lastPayload = fbchats[fbchats.length - 1].payload
+    fbchats[i].lastRepliedBy = fbchats[fbchats.length - 1].replied_by
+    fbchats[i].lastDateTime = fbchats[fbchats.length - 1].datetime
   }
   return fbchats
 }
