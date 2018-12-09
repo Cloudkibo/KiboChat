@@ -5,7 +5,7 @@ module.exports = function (app) {
   const env = app.get('env')
 
   app.use('/api/test', require('./api/v1/test'))
-  app.use('/api/messengerEvents', require('./api/v1/messengerEvents'))
+  app.use('/api/messengerEvents', require('./api/v1.1/messengerEvents'))
   app.use('/api/subscribers', require('./api/v1/subscribers'))
   app.use('/api/users', require('./api/v1/user'))
   app.use('/api/sessions', require('./api/v1.1/sessions'))
