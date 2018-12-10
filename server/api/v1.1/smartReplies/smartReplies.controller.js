@@ -418,7 +418,7 @@ function getWitResponse (message, token, bot, pageId, senderId) {
                       }
                       // Increase the hit count
                       BotsDataLayer.genericUpdateBotObject({ _id: bot._id }, { $inc: { 'hitCount': 1 } })
-                        .the(dbRes => {
+                        .then(dbRes => {
                           logger.serverLog(TAG, 'bot updated successfully!')
                         })
                         .catch(err => {
