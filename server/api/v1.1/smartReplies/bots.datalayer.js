@@ -57,22 +57,18 @@ exports.updateBotObject = (queryObject, payload) => {
 
 exports.genericUpdateBotObject = (queryObject, updated, options) => {
   let query = {
-    purpose: 'updateAll',
     match: queryObject,
     updated: updated
   }
-  if (options.upsert) query.upsert = options.upsert
-  if (options.multi) query.multi = options.multi
-  if (options.new) query.new = options.new
-  return callApi(`smart_replies`, 'put', query, '', 'kibochat')
-}
+  if (options) {
+    query.purpose = 'updateAll'
+    if (options.upsert) query.upsert = options.upsert
+    if (options.multi) query.multi = options.multi
+    if (options.new) query.new = options.new
+  } else {
+    query.purpose = 'updateOne'
+  }
 
-exports.genericUpdateBotObject = (queryObject, updated) => {
-  let query = {
-    purpose: 'updateOne',
-    match: queryObject,
-    updated: updated
-  }
   return callApi(`smart_replies`, 'put', query, '', 'kibochat')
 }
 
