@@ -99,8 +99,9 @@ function saveLiveChat (page, subscriber, session, event) {
     status: 'unseen', // seen or unseen
     payload: event.message
   }
+  console.log('subscriber: ', util.inspect(subscriber))
   if (subscriber) {
-    BotsDataLayer.findOneBotObjectUsingQuery({ pageId: subscriber.pageId.toString() })
+    BotsDataLayer.findOneBotObjectUsingQuery({ pageId: subscriber.pageId._id.toString() })
       .then(bot => {
         console.log('bot: ', util.inspect(bot))
         if (bot) {
