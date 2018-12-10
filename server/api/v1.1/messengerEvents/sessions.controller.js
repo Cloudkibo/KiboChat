@@ -4,6 +4,7 @@ const TAG = 'api/v1/messengerEvents/sessions.controller'
 const SessionsDataLayer = require('../sessions/sessions.datalayer')
 const LiveChatDataLayer = require('../liveChat/liveChat.datalayer')
 const BotsDataLayer = require('../smartReplies/bots.datalayer')
+const botController = require('../smart_replies/smartReplies.controller')
 const needle = require('needle')
 const og = require('open-graph')
 const notificationsUtility = require('../notifications/notifications.utility')
@@ -103,7 +104,7 @@ function saveLiveChat (page, subscriber, session, event) {
         if (bot) {
           if (bot.blockedSubscribers.indexOf(subscriber._id) === -1) {
             logger.serverLog(TAG, 'going to send bot reply')
-            //  botController.respond(page.pageId, subscriber.senderId, event.message.text)
+            botController.respond(page.pageId, subscriber.senderId, event.message.text)
           }
         }
       })
