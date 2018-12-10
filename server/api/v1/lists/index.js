@@ -33,12 +33,4 @@ router.delete('/deleteList/:id',
   auth.isAuthenticated(),
   controller.deleteList)
 
-router.get('/repliedPollSubscribers',
-  auth.isAuthenticated(),
-  controller.repliedPollSubscribers)
-
-router.get('/repliedSurveySubscribers',
-  auth.isAuthenticated(),
-  controller.repliedSurveySubscribers)
-
 module.exports = router
