@@ -23,6 +23,8 @@ module.exports = function (app) {
   app.use('/api/sequenceMessaging', require('./api/v1/sequences'))
   app.use('/api/tags', require('./api/v1/tags'))
   app.use('/api/templates', require('./api/v1/templates'))
+  app.use('/api/lists', require('./api/v1/lists'))
+  app.use('/api/growthtools', require('./api/v1/phoneNumber'))
 
   // auth middleware go here if you authenticate on same server
 
