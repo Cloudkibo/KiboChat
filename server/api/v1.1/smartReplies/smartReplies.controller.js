@@ -445,28 +445,26 @@ function getWitResponse (message, token, bot, pageId, senderId) {
 
 exports.respond = function (pageId, senderId, text) {
   logger.serverLog(TAG, ' ' + pageId + ' ' + senderId + ' ' + text)
-  utility.callApi(`pages/query`, 'post', {pageId: pageId})
+  utility.callApi(`pages/query`, 'post', {_id: pageId})
     .then(page => {
       page = page[0]
       logger.serverLog(TAG, `PAGES FETCHED ${JSON.stringify(page)}`)
-      for (let i = 0; i < page.length; i++) {
-        if (page[i] && page[i]._id) {
-          BotsDataLayer.findAllBotObjectsUsingQuery({ pageId: page[i]._id })
-            .then(bot => {
-              bot = bot[0]
-              if (!bot) {
-                logger.serverLog(TAG, `Couldnt find the bot while trying to respond ${page[i]._id}`)
-              }
-              if (bot && bot.isActive === 'true') {
-                // Write the bot response logic here
-                logger.serverLog(TAG, 'Responding using the bot as status is Active')
-                getWitResponse(text, bot.witToken, bot, pageId, senderId)
-              }
-            })
-            .catch(err => {
-              logger.serverLog(TAG, `Failed to fetch bots ${err}`)
-            })
-        }
+      if (page) {
+        BotsDataLayer.findAllBotObjectsUsingQuery({ pageId: page._id })
+          .then(bot => {
+            bot = bot[0]
+            if (!bot) {
+              logger.serverLog(TAG, `Couldnt find the bot while trying to respond ${page._id}`)
+            }
+            if (bot && bot.isActive === 'true') {
+              // Write the bot response logic here
+              logger.serverLog(TAG, 'Responding using the bot as status is Active')
+              getWitResponse(text, bot.witToken, bot, page.pageId, senderId)
+            }
+          })
+          .catch(err => {
+            logger.serverLog(TAG, `Failed to fetch bots ${err}`)
+          })
       }
     })
     .catch(err => {

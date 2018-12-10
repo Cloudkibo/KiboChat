@@ -107,7 +107,7 @@ function saveLiveChat (page, subscriber, session, event) {
         if (bot) {
           if (bot.blockedSubscribers.indexOf(subscriber._id) === -1) {
             console.log(TAG, 'going to send bot reply')
-            botController.respond(page.pageId, subscriber.senderId, event.message.text)
+            botController.respond(subscriber.pageId._id.toString(), subscriber.senderId, event.message.text)
           }
         }
       })
