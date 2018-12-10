@@ -6,6 +6,7 @@ const WaitingSubscribers = require('./waitingSubscribers.datalayer')
 const utility = require('../utility')
 const TAG = 'api/smart_replies/bots.controller.js'
 let request = require('request')
+const util = require('util')
 const WIT_AI_TOKEN = 'RQC4XBQNCBMPETVHBDV4A34WSP5G2PYL'
 
 exports.index = function (req, res) {
@@ -85,6 +86,7 @@ exports.create = function (req, res) {
               return res.status(500).json({ status: 'failed', payload: { error: witres.body.errors } })
             } else {
               var botPayload = logicLayer.createBotPayload(req, companyUser, witres, uniquebotName)
+              console.log('botPayload: ', util.inspect(botPayload))
               BotsDataLayer.createBotObject(botPayload)
                 .then(newBot => {
                   return res.status(200).json({ status: 'success', payload: newBot })
