@@ -1,9 +1,5 @@
 const utility = require('../utility')
 const logicLayer = require('./lists.logiclayer')
-const PollDataLayer = require('../polls/polls.datalayer')
-const SurveyDataLayer = require('../surveys/surveys.datalayer')
-const PollResponseDataLayer = require('../polls/pollresponse.datalayer')
-const SurveyResponseDataLayer = require('../surveys/surveyresponse.datalayer')
 
 exports.allLists = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
@@ -278,90 +274,6 @@ exports.deleteList = function (req, res) {
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to delete list ${JSON.stringify(error)}`
-      })
-    })
-}
-exports.repliedPollSubscribers = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
-    .then(companyUser => {
-      PollDataLayer.genericFindForPolls({companyId: companyUser.companyId})
-        .then(polls => {
-          let criteria = logicLayer.pollResponseCriteria(polls)
-          PollResponseDataLayer.genericFindForPollResponse(criteria)
-            .then(responses => {
-              let subscriberCriteria = logicLayer.respondedSubscribersCriteria(responses)
-              utility.callApi(`subscribers/query`, 'post', subscriberCriteria, req.headers.authorization)
-                .then(subscribers => {
-                  let subscribersPayload = logicLayer.preparePayload(subscribers, responses)
-                  return res.status(200).json({status: 'success', payload: subscribersPayload})
-                })
-                .catch(error => {
-                  return res.status(500).json({
-                    status: 'failed',
-                    payload: `Failed to fetch subscribers ${JSON.stringify(error)}`
-                  })
-                })
-            })
-            .catch(error => {
-              return res.status(500).json({
-                status: 'failed',
-                payload: `Failed to fetch poll responses ${JSON.stringify(error)}`
-              })
-            })
-        })
-        .catch(error => {
-          return res.status(500).json({
-            status: 'failed',
-            payload: `Failed to fetch polls ${JSON.stringify(error)}`
-          })
-        })
-    })
-    .catch(error => {
-      return res.status(500).json({
-        status: 'failed',
-        payload: `Failed to fetch company user ${JSON.stringify(error)}`
-      })
-    })
-}
-exports.repliedSurveySubscribers = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
-    .then(companyUser => {
-      SurveyDataLayer.genericFind({companyId: companyUser.companyId})
-        .then(surveys => {
-          let criteria = logicLayer.pollResponseCriteria(surveys)
-          SurveyResponseDataLayer.genericFind(criteria)
-            .then(responses => {
-              let subscriberCriteria = logicLayer.respondedSubscribersCriteria(responses)
-              utility.callApi(`subscribers/query`, 'post', subscriberCriteria, req.headers.authorization)
-                .then(subscribers => {
-                  let subscribersPayload = logicLayer.preparePayload(subscribers, responses)
-                  return res.status(200).json({status: 'success', payload: subscribersPayload})
-                })
-                .catch(error => {
-                  return res.status(500).json({
-                    status: 'failed',
-                    payload: `Failed to fetch subscribers ${JSON.stringify(error)}`
-                  })
-                })
-            })
-            .catch(error => {
-              return res.status(500).json({
-                status: 'failed',
-                payload: `Failed to fetch survey responses ${JSON.stringify(error)}`
-              })
-            })
-        })
-        .catch(error => {
-          return res.status(500).json({
-            status: 'failed',
-            payload: `Failed to fetch surveys ${JSON.stringify(error)}`
-          })
-        })
-    })
-    .catch(error => {
-      return res.status(500).json({
-        status: 'failed',
-        payload: `Failed to fetch company user ${JSON.stringify(error)}`
       })
     })
 }
