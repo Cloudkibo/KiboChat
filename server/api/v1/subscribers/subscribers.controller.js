@@ -11,10 +11,8 @@ exports.index = function (req, res) {
       utility.callApi(`subscribers/query`, 'post', {companyId: companyuser.companyId, isEnabledByPage: true, isSubscribed: true}, req.headers.authorization) // fetch subscribers of company
         .then(subscribers => {
           let subscriberIds = logicLayer.getSubscriberIds(subscribers)
-          let tagSubscriberQuery = {subscriberId: {$in: subscriberIds}}
-          utility.callApi(`tags_subscriber/query`, 'post', tagSubscriberQuery, req.headers.authorization)
+          utility.callApi(`tags_subscriber/query`, 'post', {subscriberId: {$in: subscriberIds}}, req.headers.authorization)
             .then(tags => {
-              logger.serverLog(TAG, `Tag Subscriber response from accounts: ${util.inspect(tags)}`)
               let subscribersPayload = logicLayer.getSusbscribersPayload(subscribers, tags)
               return res.status(200).json({
                 status: 'success',
@@ -49,10 +47,8 @@ exports.allSubscribers = function (req, res) {
       utility.callApi(`subscribers/query`, 'post', {companyId: companyuser.companyId, isEnabledByPage: true}, req.headers.authorization) // fetch subscribers of company
         .then(subscribers => {
           let subscriberIds = logicLayer.getSubscriberIds(subscribers)
-          let tagSubscriberQuery = {subscriberId: {$in: subscriberIds}}
-          utility.callApi(`tags_subscriber/query`, 'post', tagSubscriberQuery, req.headers.authorization)
+          utility.callApi(`tags_subscriber/query`, 'post', {subscriberId: {$in: subscriberIds}}, req.headers.authorization)
             .then(tags => {
-              logger.serverLog(TAG, `Tag Subscriber response from accounts: ${util.inspect(tags)}`)
               let subscribersPayload = logicLayer.getSusbscribersPayload(subscribers, tags)
               return res.status(200).json({
                 status: 'success',
@@ -117,10 +113,9 @@ exports.getAll = function (req, res) {
             .then(subscribers => {
               let subscriberIds = logicLayer.getSubscriberIds(subscribers)
               logger.serverLog(TAG, `subscriberIds: ${util.inspect(subscriberIds)}`)
-              let tagSubscriberQuery = {subscriberId: {$in: subscriberIds}}
-              utility.callApi(`tags_subscriber/query`, 'post', tagSubscriberQuery, req.headers.authorization)
+              utility.callApi(`tags_subscriber/query`, 'post', {subscriberId: {$in: subscriberIds}}, req.headers.authorization)
                 .then(tags => {
-                  logger.serverLog(TAG, `Tag Subscriber response from accounts: ${util.inspect(tags)}`)
+                  logger.serverLog(TAG, `tags: ${util.inspect(tags)}`)
                   let subscribersPayload = logicLayer.getSusbscribersPayload(subscribers, tags)
                   logger.serverLog(TAG, `subscribersPayload: ${util.inspect(subscribersPayload)}`)
                   return res.status(200).json({

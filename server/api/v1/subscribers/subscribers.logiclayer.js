@@ -37,22 +37,32 @@ exports.getCriterias = function (body, companyUser) {
       isEnabledByPage: true
     }
   } else {
-    search = new RegExp('.*' + body.filter_criteria.search_value + '.*', 'i')
+    search = '.*' + body.filter_criteria.search_value + '.*'
     findCriteria = {
       companyId: mongoose.Types.ObjectId(companyUser.companyId),
       isEnabledByPage: true,
-      $or: [{firstName: {$regex: search}}, {lastName: {$regex: search}}],
+      $or: [{firstName: {$regex: search, $options: 'i'}}, {lastName: {$regex: search, $options: 'i'}}],
       gender: body.filter_criteria.gender_value !== '' ? body.filter_criteria.gender_value : {$exists: true},
       locale: body.filter_criteria.locale_value !== '' ? body.filter_criteria.locale_value : {$exists: true},
       isSubscribed: body.filter_criteria.status_value !== '' ? body.filter_criteria.status_value : {$exists: true},
       pageId: body.filter_criteria.page_value !== '' ? mongoose.Types.ObjectId(body.filter_criteria.page_value) : {$exists: true}
     }
   }
+  let countCriteria = [
+    {$match: findCriteria},
+    { $group: { _id: null, count: { $sum: 1 } } }
+  ]
+  // findCriteria is for the count
+  // here temp is the findcriteria for Payload
+  let temp = JSON.parse(JSON.stringify(findCriteria))
+  temp['pageId._id'] = temp.pageId
+  delete temp.pageId
+
   if (body.first_page === 'first') {
     finalCriteria = [
       { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
       { $unwind: '$pageId' },
-      { $match: findCriteria },
+      { $match: temp },
       { $skip: recordsToSkip },
       { $limit: body.number_of_records }
     ]
@@ -61,7 +71,7 @@ exports.getCriterias = function (body, companyUser) {
     finalCriteria = [
       { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
       { $unwind: '$pageId' },
-      { $match: { $and: [findCriteria, { _id: { $gt: mongoose.Types.ObjectId(body.last_id) } }] } },
+      { $match: { $and: [temp, { _id: { $gt: mongoose.Types.ObjectId(body.last_id) } }] } },
       { $skip: recordsToSkip },
       { $limit: body.number_of_records }
     ]
@@ -70,14 +80,10 @@ exports.getCriterias = function (body, companyUser) {
     finalCriteria = [
       { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
       { $unwind: '$pageId' },
-      { $match: { $and: [findCriteria, { _id: { $lt: mongoose.Types.ObjectId(body.last_id) } }] } },
+      { $match: { $and: [temp, { _id: { $lt: mongoose.Types.ObjectId(body.last_id) } }] } },
       { $skip: recordsToSkip },
       { $limit: body.number_of_records }
     ]
   }
-  let countCriteria = [
-    {$match: findCriteria},
-    { $group: { _id: null, count: { $sum: 1 } } }
-  ]
   return {countCriteria: countCriteria, fetchCriteria: finalCriteria}
 }

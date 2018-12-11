@@ -5,13 +5,13 @@ module.exports = function (app) {
   const env = app.get('env')
 
   app.use('/api/test', require('./api/v1/test'))
-  app.use('/api/messengerEvents', require('./api/v1/messengerEvents'))
+  app.use('/api/messengerEvents', require('./api/v1.1/messengerEvents'))
   app.use('/api/subscribers', require('./api/v1/subscribers'))
   app.use('/api/users', require('./api/v1/user'))
-  app.use('/api/sessions', require('./api/v1/sessions'))
-  app.use('/api/notifications', require('./api/v1/notifications'))
-  app.use('/api/livechat', require('./api/v1/liveChat'))
-  app.use('/api/bots', require('./api/v1/smartReplies'))
+  app.use('/api/sessions', require('./api/v1.1/sessions'))
+  app.use('/api/notifications', require('./api/v1.1/notifications'))
+  app.use('/api/livechat', require('./api/v1.1/liveChat'))
+  app.use('/api/bots', require('./api/v1.1/smartReplies'))
   app.use('/api/company', require('./api/v1/companyprofile'))
   app.use('/api/teams', require('./api/v1/teams'))
   app.use('/api/pages', require('./api/v1/pages'))
@@ -23,6 +23,8 @@ module.exports = function (app) {
   app.use('/api/sequenceMessaging', require('./api/v1/sequences'))
   app.use('/api/tags', require('./api/v1/tags'))
   app.use('/api/templates', require('./api/v1/templates'))
+  app.use('/api/lists', require('./api/v1/lists'))
+  app.use('/api/growthtools', require('./api/v1/phoneNumber'))
 
   // auth middleware go here if you authenticate on same server
 
