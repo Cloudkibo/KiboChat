@@ -5,6 +5,10 @@ exports.createPayload = {
       type: 'string',
       required: true
     },
+    title: {
+      type: 'string',
+      required: true
+    },
     initialState: {
       type: 'object',
       properties: {
@@ -68,6 +72,10 @@ exports.updatePayload = {
   type: 'object',
   properties: {
     _id: {
+      type: 'string',
+      required: true
+    },
+    title: {
       type: 'string',
       required: true
     },

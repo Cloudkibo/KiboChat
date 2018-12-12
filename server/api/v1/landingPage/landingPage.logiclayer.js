@@ -4,7 +4,8 @@ exports.preparePayload = function (body, landingPageState, companyUser, landingP
     pageId: body.pageId,
     initialState: landingPageState._id,
     submittedState: body.submittedState,
-    optInMessage: body.optInMessage
+    optInMessage: body.optInMessage,
+    title: body.title
   }
   if (landingPageSubmittedState) {
     payload.submittedState = {
@@ -17,7 +18,8 @@ exports.preparePayload = function (body, landingPageState, companyUser, landingP
 exports.prepareUpdatePayload = function (body) {
   let paylaod = {
     optInMessage: body.optInMessage,
-    isActive: body.isActive
+    isActive: body.isActive,
+    title: body.title
   }
   if (body.submittedState.state) {
     paylaod.submittedState = {
