@@ -26,6 +26,8 @@ module.exports = function (app) {
   app.use('/api/lists', require('./api/v1/lists'))
   app.use('/api/growthtools', require('./api/v1/phoneNumber'))
   app.use('/api/landingPage', require('./api/v1/landingPage'))
+  app.use('/api/invitations', require('./api/v1/invitations'))
+
 
   // auth middleware go here if you authenticate on same server
 
