@@ -25,7 +25,7 @@ exports.callApi = (endpoint, method = 'get', body, token, type = 'accounts') => 
   }
   let options = {
     method: method.toUpperCase(),
-    uri: `${apiUrl}${endpoint}`,
+    uri: `${apiUrl}/${endpoint}`,
     headers,
     body,
     json: true
