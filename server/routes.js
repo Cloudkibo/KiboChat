@@ -28,6 +28,7 @@ module.exports = function (app) {
   app.use('/api/landingPage', require('./api/v1/landingPage'))
   app.use('/api/invitations', require('./api/v1/invitations'))
   app.use('/api/menu', require('./api/v1/menu'))
+  app.use('/api/dashboard', require('./api/v1.1/dashboard'))
 
   // auth middleware go here if you authenticate on same server
 
