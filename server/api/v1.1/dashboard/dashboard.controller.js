@@ -3,7 +3,7 @@ const TAG = 'api/pages/dashboard.controller.js'
 // const mongoose = require('mongoose')
 const sortBy = require('sort-array')
 // const needle = require('needle')
-
+const util = require('util')
 const {callApi} = require('../utility')
 
 let _ = require('lodash')
@@ -56,6 +56,7 @@ exports.sentVsSeen = function (req, res) {
                     count: responded + notResponded,
                     responded
                   }
+                  console.log(`datacounts ${util.inspect(datacounts)}`)
                   res.status(200).json({
                     status: 'success',
                     payload: datacounts
