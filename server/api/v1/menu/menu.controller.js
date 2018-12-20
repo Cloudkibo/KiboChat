@@ -5,7 +5,6 @@ const logger = require('../../../components/logger')
 const TAG = 'api/menu/menu.controller.js'
 let Menu = require('./menu.model')
 const needle = require('needle')
-const _ = require('lodash')
 const MenuDataLayer = require('./menu.datalayer')
 const callApi = require('../utility')
 
@@ -233,4 +232,60 @@ exports.create = function (req, res) {
         })
       }
     })
+}
+exports.addWebview = function (req, res) {
+  isWhiteListedDomain(req.body.url, req.body.pageId, req.user)
+    .then(result => {
+      if (result.returnValue) {
+        return res.status(200).json({
+          status: 'success',
+          payload: {type: req.body.type, url: req.body.url, title: req.body.title}
+        })
+      } else {
+        return res.status(500).json({status: 'failed', payload: `The given domain is not whitelisted. Please add it to whitelisted domains.`})
+      }
+    })
+    .catch(error => {
+      return res.status(500).json({status: 'failed', payload: `Failed to find whitelisted_domains ${JSON.stringify(error)}`})
+    })
+}
+function isWhiteListedDomain (domain, pageId, user) {
+  return new Promise(function (resolve, reject) {
+    let returnValue = false
+    needle.get(`https://graph.facebook.com/v2.10/${pageId}?fields=access_token&access_token=${user.facebookInfo.fbToken}`,
+      (err, resp) => {
+        if (err) {
+          console.log('error in getting page access token', err)
+        }
+        needle.get(`https://graph.facebook.com/v2.10/me/messenger_profile?fields=whitelisted_domains&access_token=${resp.body.access_token}`,
+          (err, resp) => {
+            if (err) {
+              console.log('error in getting whitelisted_domains', err)
+            }
+            console.log('domain', domain)
+            console.log('reponse from whitelisted_domains', resp.body.data[0].whitelisted_domains)
+            if (resp.body.data && resp.body.data[0].whitelisted_domains) {
+              for (let i = 0; i < resp.body.data[0].whitelisted_domains.length; i++) {
+                console.log('hostName of whitelist', getHostName(resp.body.data[0].whitelisted_domains[i]))
+                console.log('hostName of domain', getHostName(domain))
+                if (domain.includes(getHostName(resp.body.data[0].whitelisted_domains[i]))) {
+                  returnValue = true
+                }
+                if (i === resp.body.data[0].whitelisted_domains.length - 1) {
+                  console.log('returnValue', returnValue)
+                  resolve({returnValue: returnValue})
+                }
+              }
+            }
+          })
+      })
+  })
+}
+function getHostName (url) {
+  var match = url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i)
+  if (match != null && match.length > 2 && typeof match[2] === 'string' && match[2].length > 0) {
+    return match[2]
+  } else {
+    return null
+  }
 }

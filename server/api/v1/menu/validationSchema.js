@@ -21,3 +21,28 @@ exports.findPayload = {
     }
   }
 }
+exports.webviewPayload = {
+  type: 'object',
+  properties: {
+    pageId: {
+      type: 'string',
+      required: true
+    },
+    type: {
+      type: 'string',
+      required: true
+    },
+    url: {
+      type: 'string',
+      required: true
+    },
+    messenger_extensions: {
+      type: 'boolean',
+      required: true
+    },
+    webview_height_ratio: {
+      type: 'string',
+      required: true
+    }
+  }
+}
