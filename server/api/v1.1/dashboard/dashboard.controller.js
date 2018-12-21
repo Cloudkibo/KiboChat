@@ -246,7 +246,7 @@ exports.graphData = function (req, res) {
     days = req.params.days
   }
 
-  callApi.callApi('companyUser/query', 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
+  callApi('companyUser/query', 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
     .then(companyUser => {
       if (!companyUser) {
         return res.status(404).json({
@@ -268,7 +268,7 @@ exports.graphData = function (req, res) {
         count: {$sum: 1}
       }
       console.log('match: ', util.inspect(match))
-      callApi.callApi('sessions/query', 'post', {purpose: 'aggregate', match, group}, '', 'kibochat')
+      callApi('sessions/query', 'post', {purpose: 'aggregate', match, group}, '', 'kibochat')
         .then(sessionsgraphdata => {
           console.log('sessionsgraphdata: ', util.inspect(sessionsgraphdata))
           return res.status(200)
