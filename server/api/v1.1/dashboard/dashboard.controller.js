@@ -267,8 +267,10 @@ exports.graphData = function (req, res) {
         _id: {'year': {$year: '$request_time'}, 'month': {$month: '$request_time'}, 'day': {$dayOfMonth: '$request_time'}, 'company': '$company_id'},
         count: {$sum: 1}
       }
+      console.log('match: ', util.inspect(match))
       callApi.callApi('sessions/query', 'post', {purpose: 'aggregate', match, group}, '', 'kibochat')
         .then(sessionsgraphdata => {
+          console.log('sessionsgraphdata: ', util.inspect(sessionsgraphdata))
           return res.status(200)
             .json({status: 'success', payload: {sessionsgraphdata}})
         })
