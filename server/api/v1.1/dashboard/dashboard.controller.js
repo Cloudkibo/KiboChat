@@ -237,3 +237,54 @@ exports.toppages = function (req, res) {
       }
     })
 }
+
+exports.graphData = function (req, res) {
+  var days = 0
+  if (req.params.days === '0') {
+    days = 10
+  } else {
+    days = req.params.days
+  }
+
+  callApi.callApi('companyUser/query', 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
+    .then(companyUser => {
+      if (!companyUser) {
+        return res.status(404).json({
+          status: 'failed',
+          description: 'The user account does not belong to any company. Please contact support'
+        })
+      }
+      let match = {
+        company_id: companyUser.companyId.toString(),
+        'request_time': {
+          $gte: new Date(
+            (new Date().getTime() - (days * 24 * 60 * 60 * 1000))),
+          $lt: new Date(
+            (new Date().getTime()))
+        }
+      }
+      let group = {
+        _id: {'year': {$year: '$request_time'}, 'month': {$month: '$request_time'}, 'day': {$dayOfMonth: '$request_time'}, 'company': '$company_id'},
+        count: {$sum: 1}
+      }
+      callApi.callApi('sessions/query', 'post', {purpose: 'aggregate', match, group}, '', 'kibochat')
+        .then(sessionsgraphdata => {
+          return res.status(200)
+            .json({status: 'success', payload: {sessionsgraphdata}})
+        })
+        .catch(err => {
+          return res.status(500).json({
+            status: 'failed',
+            description: `Error in getting sessions count ${JSON.stringify(err)}`
+          })
+        })
+    })
+    .catch(err => {
+      if (err) {
+        return res.status(500).json({
+          status: 'failed',
+          description: `Internal Server Error ${JSON.stringify(err)}`
+        })
+      }
+    })
+}
