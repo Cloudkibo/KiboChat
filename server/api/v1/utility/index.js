@@ -1,8 +1,8 @@
 const requestPromise = require('request-promise')
 const config = require('../../../config/environment/index')
-const logger = require('../../../components/logger')
-const TAG = 'api/v1/utility/index.js'
-const util = require('util')
+// const logger = require('../../../components/logger')
+// const TAG = 'api/v1/utility/index.js'
+// const util = require('util')
 
 exports.callApi = (endpoint, method = 'get', body, token, type = 'accounts') => {
   let headers
@@ -23,7 +23,7 @@ exports.callApi = (endpoint, method = 'get', body, token, type = 'accounts') => 
   }
   let options = {
     method: method.toUpperCase(),
-    uri: `${apiUrl}${endpoint}`,
+    uri: `${apiUrl}/${endpoint}`,
     headers,
     body,
     json: true

@@ -110,7 +110,7 @@ exports.create = function (req, res) {
     return callApi(`livechat`, 'post', fbMessageObject, '', 'kibochat')
   })
     .then(chatMessage => {
-      logger.serverLog(TAG, `chatMessage ${util.inspect(chatMessage)}`)
+      console.log('chat message', chatMessage)
       return webhookResponse
     })
     .then(webhook => {

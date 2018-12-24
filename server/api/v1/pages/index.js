@@ -48,4 +48,7 @@ router.post('/saveGreetingText',
   auth.isAuthenticated(),
   controller.saveGreetingText)
 
+router.post('/whitelistDomain',
+  auth.isAuthenticated(),
+  controller.whitelistDomain)
 module.exports = router
