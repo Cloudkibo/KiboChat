@@ -54,6 +54,9 @@ exports.updateSubscriptionPermission = function (req, res) {
                           .then(updated => {
                             console.log('updated', updated)
                           })
+                          .catch(err => {
+                            console.log('failed to update page', err)
+                          })
                       }
                     }
                   }
@@ -61,7 +64,7 @@ exports.updateSubscriptionPermission = function (req, res) {
             }
           })
       })
-      res.status(200).json({
+      return res.status(200).json({
         status: 'success'
       })
     })
