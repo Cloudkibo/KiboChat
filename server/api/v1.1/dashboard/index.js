@@ -33,5 +33,4 @@ router.get('/graphData/:days',
   auth.isAuthenticated(),
   controller.graphData)
 
-
 module.exports = router
