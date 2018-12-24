@@ -62,7 +62,7 @@ exports.create = function (req, res) {
       }
       utility.callApi(`landingPage/landingPageState`, 'post', req.body.initialState, req.headers.authorization)
         .then(landingPageState => {
-          if (req.body.submittedState && req.body.submittedState.state) {
+          if (req.body.submittedState.actionType === 'SHOW_NEW_MESSAGE') {
             console.log()
             utility.callApi(`landingPage/landingPageState`, 'post', req.body.submittedState.state, req.headers.authorization)
               .then(landingPageSubmittedState => {

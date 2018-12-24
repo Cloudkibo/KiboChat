@@ -7,7 +7,7 @@ exports.createPayload = {
     },
     title: {
       type: 'string',
-      required: true
+      required: false
     },
     initialState: {
       type: 'object',
@@ -71,13 +71,9 @@ exports.createPayload = {
 exports.updatePayload = {
   type: 'object',
   properties: {
-    _id: {
-      type: 'string',
-      required: true
-    },
     title: {
       type: 'string',
-      required: true
+      required: false
     },
     initialState: {
       type: 'object',
@@ -134,7 +130,7 @@ exports.updatePayload = {
     },
     optInMessage: {
       type: 'array',
-      required: true
+      required: false
     },
     isActive: {
       type: 'boolean',
