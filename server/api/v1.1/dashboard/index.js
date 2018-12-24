@@ -16,6 +16,10 @@ router.get('/stats',
   auth.isAuthenticated(),
   controller.stats)
 
+router.get('/updateSubscriptionPermission',
+  auth.isAuthenticated(),
+  controller.updateSubscriptionPermission)
+
 router.get('/toppages',
   auth.isAuthenticated(),
   controller.toppages)
@@ -29,8 +33,5 @@ router.get('/graphData/:days',
   auth.isAuthenticated(),
   controller.graphData)
 
-router.get('/updateSubscriptionPermission',
-  auth.isAuthenticated(),
-  controller.updateSubscriptionPermission)
 
 module.exports = router
