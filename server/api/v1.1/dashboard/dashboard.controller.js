@@ -5,7 +5,7 @@ const sortBy = require('sort-array')
 // const needle = require('needle')
 const util = require('util')
 const {callApi} = require('../utility')
-
+const needle = require('needle')
 let _ = require('lodash')
 
 exports.index = function (req, res) {
@@ -21,6 +21,55 @@ exports.index = function (req, res) {
         return res.status(500)
           .json({status: 'failed', description: JSON.stringify(err)})
       }
+    })
+}
+
+exports.updateSubscriptionPermission = function (req, res) {
+  callApi('pages/query', 'post', {userId: req.user._id})
+    .then(userPages => {
+      userPages.forEach((page) => {
+        needle.get(
+          `https://graph.facebook.com/v2.10/${page.pageId}?fields=access_token&access_token=${req.user.facebookInfo.fbToken}`,
+          (err, resp) => {
+            if (err) {
+              logger.serverLog(TAG,
+                `Page access token from graph api error ${JSON.stringify(
+                  err)}`)
+            }
+            if (resp && resp.body && resp.body.access_token) {
+              needle.get(
+                `https://graph.facebook.com/v2.11/me/messaging_feature_review?access_token=${resp.body.access_token}`,
+                (err, respp) => {
+                  if (err) {
+                    logger.serverLog(TAG,
+                      `Page access token from graph api error ${JSON.stringify(
+                        err)}`)
+                  }
+                  console.log('response from subscription_messaging', respp.body)
+                  if (respp.body && respp.body.data && respp.body.data.length > 0) {
+                    for (let a = 0; a < respp.body.data.length; a++) {
+                      if (respp.body.data[a].feature === 'subscription_messaging' && respp.body.data[a].status === 'approved') {
+                        console.log('inside if')
+                        callApi(`pages/${page._id}`, 'put', {gotPageSubscriptionPermission: true}, req.headers.authorization) // disconnect page
+                          .then(updated => {
+                            console.log('updated', updated)
+                          })
+                      }
+                    }
+                  }
+                })
+            }
+          })
+      })
+      res.status(200).json({
+        status: 'success'
+      })
+    })
+    .catch(err => {
+      return res.status(500).json({
+        status: 'failed to retrieve connected Pages',
+        description: `Internal Server Error ${JSON.stringify(err)}`
+      })
     })
 }
 

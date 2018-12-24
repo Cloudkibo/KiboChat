@@ -29,4 +29,8 @@ router.get('/graphData/:days',
   auth.isAuthenticated(),
   controller.graphData)
 
+router.get('/updateSubscriptionPermission',
+  auth.isAuthenticated(),
+  controller.updateSubscriptionPermission)
+
 module.exports = router
