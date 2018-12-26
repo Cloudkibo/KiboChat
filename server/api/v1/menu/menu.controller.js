@@ -3,14 +3,11 @@
  */
 const logger = require('../../../components/logger')
 const TAG = 'api/menu/menu.controller.js'
-let Menu = require('./menu.model')
 const needle = require('needle')
-const MenuDataLayer = require('./menu.datalayer')
 const callApi = require('../utility')
 
 // Get list of menu items
 exports.index = function (req, res) {
-  console.log('in index')
   callApi.callApi('companyuser/query', 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
     .then(companyUser => {
       if (!companyUser) {
@@ -41,7 +38,6 @@ exports.index = function (req, res) {
 }
 
 exports.indexByPage = function (req, res) {
-  console.log('req.body in indexByPage', req.body)
   callApi.callApi('companyuser/query', 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
     .then(companyUser => {
       if (!companyUser) {
@@ -55,7 +51,6 @@ exports.indexByPage = function (req, res) {
           page = page[0]
           callApi.callApi('menu/query', 'post', {companyId: companyUser.companyId, pageId: page._id}, req.headers.authorization)
             .then(menus => {
-              console.log('in menus', menus)
               return res.status(200).json({
                 status: 'success',
                 payload: menus
@@ -88,7 +83,6 @@ exports.indexByPage = function (req, res) {
 }
 
 exports.create = function (req, res) {
-  console.log('req.body in create', req.body)
   callApi.callApi('companyuser/query', 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
     .then(companyUser => {
       if (!companyUser) {
@@ -198,7 +192,6 @@ exports.create = function (req, res) {
                           callApi.callApi('menu/query', 'post', {pageId: page._id}, req.headers.authorization)
                             .then(info1 => {
                               info1 = info1[0]
-                              console.log('info1', info1)
                               res.status(201).json({status: 'success', payload: info1})
                             })
                             .catch(err => {
