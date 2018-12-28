@@ -16,7 +16,7 @@ const logger = new winston.Logger({
   ]
 })
 
-exports.serverLog = function (label, data, hideFromProduction, type = 'info') {
+exports.serverLog = function (label, data, type = 'info') {
   const namespace = `KiboChat:${label}`
   const debug = require('debug')(namespace)
 
@@ -25,9 +25,7 @@ exports.serverLog = function (label, data, hideFromProduction, type = 'info') {
     // todo use log levels like info, warn, error and debug
     // logger.info(`${namespace} - ${data}`)
   } else {
-    if (!hideFromProduction) {
-      logger.log(type, `${namespace} - ${data}`)
-    }
+    logger.log(type, `${namespace} - ${data}`)
   }
 }
 
