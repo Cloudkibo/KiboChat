@@ -29,6 +29,7 @@ module.exports = function (app) {
   app.use('/api/invitations', require('./api/v1/invitations'))
   app.use('/api/menu', require('./api/v1/menu'))
   app.use('/api/dashboard', require('./api/v1.1/dashboard'))
+  app.use('/api/pageReferrals', require('./api/v1.1/pageReferrals'))
 
   // auth middleware go here if you authenticate on same server
 
