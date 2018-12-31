@@ -8,7 +8,6 @@ const callApi = require('../utility')
 
 // Get list of menu items
 exports.index = function (req, res) {
-  console.log('in index')
   callApi.callApi('companyuser/query', 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
     .then(companyUser => {
       if (!companyUser) {
