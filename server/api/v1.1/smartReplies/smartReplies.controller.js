@@ -7,6 +7,7 @@ const utility = require('../utility')
 const TAG = 'api/smart_replies/bots.controller.js'
 let request = require('request')
 const WIT_AI_TOKEN = 'RQC4XBQNCBMPETVHBDV4A34WSP5G2PYL'
+const util = require('util')
 
 exports.index = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
@@ -395,6 +396,7 @@ function getWitResponse (message, token, bot, pageId, senderId) {
         return { found: false, intent_name: 'Not Found' }
       }
       var intent = JSON.parse(witres.body).entities.intent[0]
+      logger.serverLog(TAG, `intent ${util.inspect(intent)}`)
       if (intent.confidence > 0.80) {
         logger.serverLog(TAG, 'Responding using bot: ' + intent.value)
         utility.callApi(`subscribers/query`, 'post', { senderId: senderId })
