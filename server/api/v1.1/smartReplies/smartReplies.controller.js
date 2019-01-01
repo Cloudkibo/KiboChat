@@ -396,7 +396,7 @@ function getWitResponse (message, token, bot, pageId, senderId) {
         return { found: false, intent_name: 'Not Found' }
       }
       var intent = JSON.parse(witres.body).entities.intent[0]
-      logger.serverLog(TAG, `intent ${util.inspect(intent)}`, 'debug')
+      logger.serverLog(TAG, `intent ${util.inspect(intent)}`, 'error')
       if (intent.confidence > 0.80) {
         logger.serverLog(TAG, 'Responding using bot: ' + intent.value)
         utility.callApi(`subscribers/query`, 'post', { senderId: senderId })
