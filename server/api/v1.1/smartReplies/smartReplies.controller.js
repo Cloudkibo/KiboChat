@@ -210,8 +210,8 @@ exports.unAnsweredQueries = function (req, res) {
 }
 
 exports.waitSubscribers = function (req, res) {
-  logger.serverLog(TAG, `Fetching waiting subscribers ${JSON.stringify(req.body)}`)
-  WaitingSubscribers.findOneWaitingSubscriberObjectUsingQuery({botId: req.body.botId})
+  console.log(`Fetching waiting subscribers ${JSON.stringify(req.body)}`)
+  WaitingSubscribers.findAllWaitingSubscriberObjectsUsingQuery({botId: req.body.botId})
     .then(subscribers => {
       logger.serverLog(`Returning waiting subscribers ${JSON.stringify(subscribers)}`)
       return res.status(200).json({ status: 'success', payload: subscribers })
