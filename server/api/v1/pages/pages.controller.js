@@ -3,6 +3,8 @@ const utility = require('../utility')
 const needle = require('needle')
 const logger = require('../../../components/logger')
 const TAG = 'api/v2/pages/pages.controller.js'
+let config = require('./../../../config/environment')
+
 // const util = require('util')
 
 exports.index = function (req, res) {
@@ -214,6 +216,19 @@ exports.enable = function (req, res) {
                                   }
                                   utility.callApi(`pages/${req.body._id}`, 'put', query, req.headers.authorization) // connect page
                                     .then(connectPage => {
+                                      utility.callApi(`pages/whitelistDomain`, 'post', {page_id: page.pageId, whitelistDomains: [`${config.domain}`]}, req.headers.authorization)
+                                        .then(whitelistDomains => {
+                                          return res.status(200).json({
+                                            status: 'success',
+                                            payload: whitelistDomains
+                                          })
+                                        })
+                                        .catch(error => {
+                                          return res.status(500).json({
+                                            status: 'failed',
+                                            description: `Failed to save whitelist domains ${JSON.stringify(error)}`
+                                          })
+                                        })
                                       utility.callApi(`featureUsage/updateCompany`, 'put', {
                                         query: {companyId: req.body.companyId},
                                         newPayload: { $inc: { facebook_pages: 1 } },
