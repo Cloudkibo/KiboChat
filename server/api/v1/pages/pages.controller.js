@@ -218,16 +218,10 @@ exports.enable = function (req, res) {
                                     .then(connectPage => {
                                       utility.callApi(`pages/whitelistDomain`, 'post', {page_id: page.pageId, whitelistDomains: [`${config.domain}`]}, req.headers.authorization)
                                         .then(whitelistDomains => {
-                                          return res.status(200).json({
-                                            status: 'success',
-                                            payload: whitelistDomains
-                                          })
                                         })
                                         .catch(error => {
-                                          return res.status(500).json({
-                                            status: 'failed',
-                                            description: `Failed to save whitelist domains ${JSON.stringify(error)}`
-                                          })
+                                          logger.serverLog(TAG,
+                                            `Failed to whitelist domain ${JSON.stringify(error)}`)
                                         })
                                       utility.callApi(`featureUsage/updateCompany`, 'put', {
                                         query: {companyId: req.body.companyId},
