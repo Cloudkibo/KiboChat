@@ -196,7 +196,7 @@ exports.details = function (req, res) {
 
 exports.unAnsweredQueries = function (req, res) {
   logger.serverLog(TAG, `Fetching unanswered queries ${JSON.stringify(req.body)}`)
-  UnAnsweredQuestions.findOneUnansweredQuestionObjectUsingQuery({botId: req.body.botId})
+  UnAnsweredQuestions.findAllUnansweredQuestionObjectsUsingQuery({botId: req.body.botId})
     .then(queries => {
       logger.serverLog(`Returning UnAnswered Queries ${JSON.stringify(queries)}`)
       return res.status(200).json({ status: 'success', payload: queries })
