@@ -256,6 +256,26 @@ exports.enable = function (req, res) {
                                                 payload: JSON.stringify(error)
                                               })
                                             }
+                                            var valueForMenu = {
+                                              'get_started': {
+                                                'payload': '<GET_STARTED_PAYLOAD>'
+                                              },
+                                              'greeting': [
+                                                {
+                                                  'locale': 'default',
+                                                  'text': 'Hi {{user_full_name}}! Please tap on getting started to start the conversation.'
+                                                }]
+                                            }
+                                            const requesturl = `https://graph.facebook.com/v2.6/me/messenger_profile?access_token=${page.accessToken}`
+                                            needle.request('post', requesturl, valueForMenu,
+                                              {json: true}, function (err, resp) {
+                                                if (err) {
+                                                  logger.serverLog(TAG,
+                                                    `Internal Server Error ${JSON.stringify(
+                                                      err)}`)
+                                                }
+                                                console.log('response from gettingStarted', resp.body)
+                                              })
                                             require('./../../../config/socketio').sendMessageToClient({
                                               room_id: req.body.companyId,
                                               body: {
