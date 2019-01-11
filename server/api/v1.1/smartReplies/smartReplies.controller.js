@@ -456,6 +456,7 @@ function populateBot (bots, req) {
       utility.callApi(`pages/query`, 'post', {_id: bots[i].pageId}, req.headers.authorization)
         .then(page => {
           // bots[i].pageId = page[0]
+          console.log('pageFound')
           botsToSend.push({
             blockedSubscribers: bots[i].blockedSubscribers,
             _id: bots[i]._id,
@@ -472,8 +473,8 @@ function populateBot (bots, req) {
             payload: bots[i].payload,
             datetime: bots[i].datetime
           })
-          if (i === bots.length - 1) {
-            console.log('bots', bots)
+          if (botsToSend.length === bots.length) {
+            console.log('botsToSend', bots)
             resolve({bots: botsToSend})
           }
         })
