@@ -14,9 +14,11 @@ exports.index = function (req, res) {
     .then(companyUser => {
       BotsDataLayer.findAllBotObjectsUsingQuery({ companyId: companyUser.companyId })
         .then(bots => {
+          console.log('bots.length', bots.length)
           if (bots && bots.length > 0) {
             populateBot(bots, req)
               .then(result => {
+                console.log('result.bots.length', result.bots.length)
                 return res.status(200).json({ status: 'success', payload: result.bots })
               })
           } else {
