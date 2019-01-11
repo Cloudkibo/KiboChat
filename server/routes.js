@@ -30,6 +30,7 @@ module.exports = function (app) {
   app.use('/api/menu', require('./api/v1/menu'))
   app.use('/api/dashboard', require('./api/v1.1/dashboard'))
   app.use('/api/pageReferrals', require('./api/v1.1/pageReferrals'))
+  app.use('/api/jsonAd', require('./api/v1.1/jsonAd'))
   app.use('/api/scripts', require('./api/scripts'))
 
   // auth middleware go here if you authenticate on same server
