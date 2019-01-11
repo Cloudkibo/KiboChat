@@ -14,37 +14,11 @@ exports.index = function (req, res) {
     .then(companyUser => {
       BotsDataLayer.findAllBotObjectsUsingQuery({ companyId: companyUser.companyId })
         .then(bots => {
-          let botsToSend = []
           if (bots && bots.length > 0) {
-            for (let i = 0; i < bots.length; i++) {
-              utility.callApi(`pages/query`, 'post', {_id: bots[i].pageId}, req.headers.authorization)
-                .then(page => {
-                  // bots[i].pageId = page[0]
-                  botsToSend.push({
-                    blockedSubscribers: bots[i].blockedSubscribers,
-                    _id: bots[i]._id,
-                    pageId: page[0],
-                    userId: bots[i].userId,
-                    botName: bots[i].botName,
-                    companyId: bots[i].companyId,
-                    witAppId: bots[i].witAppId,
-                    witToken: bots[i].witToken,
-                    witAppName: bots[i].witAppName,
-                    isActive: bots[i].isActive,
-                    hitCount: bots[i].hitCount,
-                    missCount: bots[i].missCount,
-                    payload: bots[i].payload,
-                    datetime: bots[i].datetime
-                  })
-                  if (i === bots.length - 1) {
-                    console.log('bots', bots)
-                    return res.status(200).json({ status: 'success', payload: botsToSend })
-                  }
-                })
-                .catch(err => {
-                  return res.status(500).json({status: 'failed', description: `Error fetching page ${err}`})
-                })
-            }
+            populateBot(bots, req)
+              .then(result => {
+                return res.status(200).json({ status: 'success', payload: result.bots })
+              })
           } else {
             return res.status(200).json({ status: 'success', payload: [] })
           }
@@ -472,4 +446,39 @@ exports.respond = function (pageId, senderId, text) {
     .catch(err => {
       logger.serverLog(TAG, `Failed to fetch pages ${err}`)
     })
+}
+function populateBot (bots, req) {
+  return new Promise(function (resolve, reject) {
+    let botsToSend = []
+    for (let i = 0; i < bots.length; i++) {
+      utility.callApi(`pages/query`, 'post', {_id: bots[i].pageId}, req.headers.authorization)
+        .then(page => {
+          // bots[i].pageId = page[0]
+          botsToSend.push({
+            blockedSubscribers: bots[i].blockedSubscribers,
+            _id: bots[i]._id,
+            pageId: page[0],
+            userId: bots[i].userId,
+            botName: bots[i].botName,
+            companyId: bots[i].companyId,
+            witAppId: bots[i].witAppId,
+            witToken: bots[i].witToken,
+            witAppName: bots[i].witAppName,
+            isActive: bots[i].isActive,
+            hitCount: bots[i].hitCount,
+            missCount: bots[i].missCount,
+            payload: bots[i].payload,
+            datetime: bots[i].datetime
+          })
+          if (i === bots.length - 1) {
+            console.log('bots', bots)
+            resolve({bots: botsToSend})
+          }
+        })
+        .catch(err => {
+          logger.serverLog(TAG, `Failed to fetch bots ${JSON.stringify(err)}`)
+          reject(err)
+        })
+    }
+  })
 }
