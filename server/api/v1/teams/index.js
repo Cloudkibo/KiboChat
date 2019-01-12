@@ -10,12 +10,12 @@ router.get('/',
   auth.isAuthenticated(),
   controller.index)
 
-router.get('/create',
+router.post('/create',
   auth.isAuthenticated(),
   validate({body: validationSchema.teamPayload}),
   controller.createTeam)
 
-router.get('/update',
+router.post('/update',
   auth.isAuthenticated(),
   validate({body: validationSchema.teamUpdatePayload}),
   controller.updateTeam)
@@ -24,24 +24,22 @@ router.delete('/delete/:id',
   auth.isAuthenticated(),
   controller.deleteTeam)
 
-router.get('/addAgent',
+router.post('/addAgent',
   auth.isAuthenticated(),
   validate({body: validationSchema.agentPayload}),
   controller.addAgent)
 
-router.get('/addPage',
+router.post('/addPage',
   auth.isAuthenticated(),
   validate({body: validationSchema.pagePayload}),
   controller.addPage)
 
-router.get('/removeAgent',
+router.post('/removeAgent',
   auth.isAuthenticated(),
-  validate({body: validationSchema.agentPayload}),
   controller.removeAgent)
 
-router.get('/removePage',
+router.post('/removePage',
   auth.isAuthenticated(),
-  validate({body: validationSchema.pagePayload}),
   controller.removePage)
 
 router.get('/fetchAgents/:id',
