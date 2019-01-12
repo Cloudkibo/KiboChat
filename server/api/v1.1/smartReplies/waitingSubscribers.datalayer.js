@@ -43,7 +43,7 @@ exports.findWaitingSubscriberObjectsUsingAggregate = (aggregateObject) => {
 }
 
 exports.createWaitingSubscriberObject = (payload) => {
-  return callApi(`smart_replies/waiting/query`, 'post', payload, '', 'kibochat')
+  return callApi(`smart_replies/waiting`, 'post', payload, '', 'kibochat')
 }
 
 exports.updateWaitingSubscriberObject = (subscriberId, payload) => {
