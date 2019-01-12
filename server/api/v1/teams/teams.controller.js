@@ -6,16 +6,22 @@ const TAG = 'api/v2/pages/teams.controller.js'
 exports.index = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}, req.headers.authorization) // fetch company user
     .then(companyuser => {
+      console.log('companyUser fetched', companyuser)
       utility.callApi(`teams/query`, 'post', {companyId: companyuser.companyId}, req.headers.authorization) // fetch all teams of company
         .then(teams => {
+          console.log('teams fetched', teams)
           utility.callApi(`teams/agents/distinct`, 'post', {companyId: companyuser.companyId}, req.headers.authorization) // fetch distinct team agents
             .then(agentIds => {
+              console.log('agentIds fetched', agentIds)
               utility.callApi(`user/query`, 'post', {_id: {$in: agentIds}}, req.headers.authorization) // fetch unique agents info
                 .then(uniqueAgents => {
+                  console.log('uniqueAgents fetched', uniqueAgents)
                   utility.callApi(`teams/pages/distinct`, 'post', {companyId: companyuser.companyId}, req.headers.authorization) // fetch distinct team pages
                     .then(pageIds => {
+                      console.log('pageIds fetched', pageIds)
                       utility.callApi(`pages/query`, 'post', {_id: {$in: pageIds}}, req.headers.authorization) // fetch unique pages info
                         .then(uniquePages => {
+                          console.log('uniquePages fetched', uniquePages)
                           return res.status(200).json({
                             status: 'success',
                             payload: {teams: teams, teamUniqueAgents: uniqueAgents, teamUniquePages: uniquePages}
