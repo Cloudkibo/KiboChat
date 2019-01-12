@@ -8,6 +8,7 @@ const TAG = 'api/smart_replies/bots.controller.js'
 let request = require('request')
 const WIT_AI_TOKEN = 'RQC4XBQNCBMPETVHBDV4A34WSP5G2PYL'
 const util = require('util')
+const needle = require('needle')
 
 exports.index = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
@@ -276,7 +277,7 @@ exports.delete = function (req, res) {
     })
 }
 
-function sendMessenger (message, pageId, senderId, postbackPayload) {
+function sendMessenger (message, pageId, senderId, postbackPayload, botId) {
   logger.serverLog(TAG, `sendMessenger message is ${JSON.stringify(message)}`)
 
   utility.callApi(`subscribers/query`, 'post', { senderId: senderId })
@@ -313,6 +314,13 @@ function sendMessenger (message, pageId, senderId, postbackPayload) {
                           res.body.error)}`)
                     } else {
                       logger.serverLog(TAG, `Response sent to Messenger: ${JSON.stringify(messageData)}`)
+                      let talkToHumanPaylod = logicLayer.talkToHumanPaylod(botId, message, postbackPayload)
+                      needle.post(
+                        `https://graph.facebook.com/v2.6/me/messages?access_token=${page.accessToken}`, talkToHumanPaylod, (err, resp) => {
+                          if (err) {
+                            logger.serverLog(TAG, err)
+                          }
+                        })
                     }
                   }
                 })
@@ -413,7 +421,7 @@ function getWitResponse (message, token, bot, pageId, senderId) {
                           logger.serverLog(TAG, `Failed to update bot ${err}`)
                         })
                       // send the message to sub
-                      sendMessenger(bot.payload[i], pageId, senderId, postbackPayload)
+                      sendMessenger(bot.payload[i], pageId, senderId, postbackPayload, bot._id)
                     }
                   }
                 } else {
