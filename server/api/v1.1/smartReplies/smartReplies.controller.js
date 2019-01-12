@@ -159,8 +159,18 @@ exports.details = function (req, res) {
   logger.serverLog(`Bot details are following ${JSON.stringify(req.body)}`)
   BotsDataLayer.findOneBotObject(req.body.botId)
     .then(bot => {
-      logger.serverLog(`Returning Bot details ${JSON.stringify(bot)}`)
-      return res.status(200).json({ status: 'success', payload: bot })
+      utility.callApi(`pages/query`, 'post', {_id: bot.pageId}, req.headers.authorization)
+        .then(page => {
+          bot.pageId = page[0]
+          console.log('botDetails', bot)
+          return res.status(200).json({ status: 'success', payload: bot })
+        })
+        .catch(err => {
+          return res.status(500).json({
+            status: 'failed',
+            description: `Error in fetching page ${JSON.stringify(err)}`
+          })
+        })
     })
     .catch(err => {
       return res.status(500).json({
