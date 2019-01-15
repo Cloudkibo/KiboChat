@@ -3,6 +3,8 @@ const utility = require('../utility')
 const needle = require('needle')
 const logger = require('../../../components/logger')
 const TAG = 'api/v2/pages/pages.controller.js'
+let config = require('./../../../config/environment')
+
 // const util = require('util')
 
 exports.index = function (req, res) {
@@ -214,6 +216,13 @@ exports.enable = function (req, res) {
                                   }
                                   utility.callApi(`pages/${req.body._id}`, 'put', query, req.headers.authorization) // connect page
                                     .then(connectPage => {
+                                      utility.callApi(`pages/whitelistDomain`, 'post', {page_id: page.pageId, whitelistDomains: [`${config.domain}`]}, req.headers.authorization)
+                                        .then(whitelistDomains => {
+                                        })
+                                        .catch(error => {
+                                          logger.serverLog(TAG,
+                                            `Failed to whitelist domain ${JSON.stringify(error)}`)
+                                        })
                                       utility.callApi(`featureUsage/updateCompany`, 'put', {
                                         query: {companyId: req.body.companyId},
                                         newPayload: { $inc: { facebook_pages: 1 } },
@@ -241,6 +250,26 @@ exports.enable = function (req, res) {
                                                 payload: JSON.stringify(error)
                                               })
                                             }
+                                            var valueForMenu = {
+                                              'get_started': {
+                                                'payload': '<GET_STARTED_PAYLOAD>'
+                                              },
+                                              'greeting': [
+                                                {
+                                                  'locale': 'default',
+                                                  'text': 'Hi {{user_full_name}}! Please tap on getting started to start the conversation.'
+                                                }]
+                                            }
+                                            const requesturl = `https://graph.facebook.com/v2.6/me/messenger_profile?access_token=${page.accessToken}`
+                                            needle.request('post', requesturl, valueForMenu,
+                                              {json: true}, function (err, resp) {
+                                                if (err) {
+                                                  logger.serverLog(TAG,
+                                                    `Internal Server Error ${JSON.stringify(
+                                                      err)}`)
+                                                }
+                                                console.log('response from gettingStarted', resp.body)
+                                              })
                                             require('./../../../config/socketio').sendMessageToClient({
                                               room_id: req.body.companyId,
                                               body: {

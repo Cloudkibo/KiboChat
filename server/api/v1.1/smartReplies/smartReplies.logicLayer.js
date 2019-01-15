@@ -165,6 +165,27 @@ exports.getMessageData = (data) => {
   })
 }
 
+exports.talkToHumanPaylod = (botId, data, postbackPayload) => {
+  let messageData = {
+    text: 'This is an automated reply. If you wish to talk to a human agent, please click the button below:',
+    quick_replies: [
+      {
+        'content_type': 'text',
+        'title': 'Talk to Human',
+        'payload': JSON.stringify(
+          {bot_id: botId, option: 'talkToHuman', intentId: postbackPayload.intentId, question: postbackPayload.Question})
+      }
+    ]
+  }
+  let payload = {
+    messaging_type: 'UPDATE',
+    recipient: JSON.stringify({id: data.senderId}), // this is the subscriber id
+    message: JSON.stringify(messageData)
+    //  tag: req.body.fbMessageTag
+  }
+  return payload
+}
+
 exports.updatePayloadForVideo = (botId, payload, authToken) => {
   logger.serverLog(TAG, `payload receieved ${JSON.stringify(payload)}`)
   return new Promise((resolve, reject) => {

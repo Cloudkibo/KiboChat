@@ -8,43 +8,20 @@ const TAG = 'api/smart_replies/bots.controller.js'
 let request = require('request')
 const WIT_AI_TOKEN = 'RQC4XBQNCBMPETVHBDV4A34WSP5G2PYL'
 const util = require('util')
+const needle = require('needle')
 
 exports.index = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
       BotsDataLayer.findAllBotObjectsUsingQuery({ companyId: companyUser.companyId })
         .then(bots => {
-          let botsToSend = []
+          console.log('bots.length', bots.length)
           if (bots && bots.length > 0) {
-            for (let i = 0; i < bots.length; i++) {
-              utility.callApi(`pages/query`, 'post', {_id: bots[i].pageId}, req.headers.authorization)
-                .then(page => {
-                  // bots[i].pageId = page[0]
-                  botsToSend.push({
-                    blockedSubscribers: bots[i].blockedSubscribers,
-                    _id: bots[i]._id,
-                    pageId: page[0],
-                    userId: bots[i].userId,
-                    botName: bots[i].botName,
-                    companyId: bots[i].companyId,
-                    witAppId: bots[i].witAppId,
-                    witToken: bots[i].witToken,
-                    witAppName: bots[i].witAppName,
-                    isActive: bots[i].isActive,
-                    hitCount: bots[i].hitCount,
-                    missCount: bots[i].missCount,
-                    payload: bots[i].payload,
-                    datetime: bots[i].datetime
-                  })
-                  if (i === bots.length - 1) {
-                    console.log('bots', bots)
-                    return res.status(200).json({ status: 'success', payload: botsToSend })
-                  }
-                })
-                .catch(err => {
-                  return res.status(500).json({status: 'failed', description: `Error fetching page ${err}`})
-                })
-            }
+            populateBot(bots, req)
+              .then(result => {
+                console.log('result.bots.length', result.bots.length)
+                return res.status(200).json({ status: 'success', payload: result.bots })
+              })
           } else {
             return res.status(200).json({ status: 'success', payload: [] })
           }
@@ -183,8 +160,18 @@ exports.details = function (req, res) {
   logger.serverLog(`Bot details are following ${JSON.stringify(req.body)}`)
   BotsDataLayer.findOneBotObject(req.body.botId)
     .then(bot => {
-      logger.serverLog(`Returning Bot details ${JSON.stringify(bot)}`)
-      return res.status(200).json({ status: 'success', payload: bot })
+      utility.callApi(`pages/query`, 'post', {_id: bot.pageId}, req.headers.authorization)
+        .then(page => {
+          bot.pageId = page[0]
+          console.log('botDetails', bot)
+          return res.status(200).json({ status: 'success', payload: bot })
+        })
+        .catch(err => {
+          return res.status(500).json({
+            status: 'failed',
+            description: `Error in fetching page ${JSON.stringify(err)}`
+          })
+        })
     })
     .catch(err => {
       return res.status(500).json({
@@ -196,7 +183,7 @@ exports.details = function (req, res) {
 
 exports.unAnsweredQueries = function (req, res) {
   logger.serverLog(TAG, `Fetching unanswered queries ${JSON.stringify(req.body)}`)
-  UnAnsweredQuestions.findOneUnansweredQuestionObjectUsingQuery({botId: req.body.botId})
+  UnAnsweredQuestions.findAllUnansweredQuestionObjectsUsingQuery({botId: req.body.botId})
     .then(queries => {
       logger.serverLog(`Returning UnAnswered Queries ${JSON.stringify(queries)}`)
       return res.status(200).json({ status: 'success', payload: queries })
@@ -210,8 +197,8 @@ exports.unAnsweredQueries = function (req, res) {
 }
 
 exports.waitSubscribers = function (req, res) {
-  logger.serverLog(TAG, `Fetching waiting subscribers ${JSON.stringify(req.body)}`)
-  WaitingSubscribers.findOneWaitingSubscriberObjectUsingQuery({botId: req.body.botId})
+  console.log(`Fetching waiting subscribers ${JSON.stringify(req.body)}`)
+  WaitingSubscribers.findAllWaitingSubscriberObjectsUsingQuery({botId: req.body.botId})
     .then(subscribers => {
       logger.serverLog(`Returning waiting subscribers ${JSON.stringify(subscribers)}`)
       return res.status(200).json({ status: 'success', payload: subscribers })
@@ -290,7 +277,7 @@ exports.delete = function (req, res) {
     })
 }
 
-function sendMessenger (message, pageId, senderId, postbackPayload) {
+function sendMessenger (message, pageId, senderId, postbackPayload, botId) {
   logger.serverLog(TAG, `sendMessenger message is ${JSON.stringify(message)}`)
 
   utility.callApi(`subscribers/query`, 'post', { senderId: senderId })
@@ -327,6 +314,13 @@ function sendMessenger (message, pageId, senderId, postbackPayload) {
                           res.body.error)}`)
                     } else {
                       logger.serverLog(TAG, `Response sent to Messenger: ${JSON.stringify(messageData)}`)
+                      let talkToHumanPaylod = logicLayer.talkToHumanPaylod(botId, message, postbackPayload)
+                      needle.post(
+                        `https://graph.facebook.com/v2.6/me/messages?access_token=${page.accessToken}`, talkToHumanPaylod, (err, resp) => {
+                          if (err) {
+                            logger.serverLog(TAG, err)
+                          }
+                        })
                     }
                   }
                 })
@@ -427,7 +421,7 @@ function getWitResponse (message, token, bot, pageId, senderId) {
                           logger.serverLog(TAG, `Failed to update bot ${err}`)
                         })
                       // send the message to sub
-                      sendMessenger(bot.payload[i], pageId, senderId, postbackPayload)
+                      sendMessenger(bot.payload[i], pageId, senderId, postbackPayload, bot._id)
                     }
                   }
                 } else {
@@ -472,4 +466,40 @@ exports.respond = function (pageId, senderId, text) {
     .catch(err => {
       logger.serverLog(TAG, `Failed to fetch pages ${err}`)
     })
+}
+function populateBot (bots, req) {
+  return new Promise(function (resolve, reject) {
+    let botsToSend = []
+    for (let i = 0; i < bots.length; i++) {
+      utility.callApi(`pages/query`, 'post', {_id: bots[i].pageId}, req.headers.authorization)
+        .then(page => {
+          // bots[i].pageId = page[0]
+          console.log('pageFound')
+          botsToSend.push({
+            blockedSubscribers: bots[i].blockedSubscribers,
+            _id: bots[i]._id,
+            pageId: page[0],
+            userId: bots[i].userId,
+            botName: bots[i].botName,
+            companyId: bots[i].companyId,
+            witAppId: bots[i].witAppId,
+            witToken: bots[i].witToken,
+            witAppName: bots[i].witAppName,
+            isActive: bots[i].isActive,
+            hitCount: bots[i].hitCount,
+            missCount: bots[i].missCount,
+            payload: bots[i].payload,
+            datetime: bots[i].datetime
+          })
+          if (botsToSend.length === bots.length) {
+            console.log('botsToSend', bots)
+            resolve({bots: botsToSend})
+          }
+        })
+        .catch(err => {
+          logger.serverLog(TAG, `Failed to fetch bots ${JSON.stringify(err)}`)
+          reject(err)
+        })
+    }
+  })
 }

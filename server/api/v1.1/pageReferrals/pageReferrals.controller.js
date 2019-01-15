@@ -10,7 +10,7 @@ exports.index = function (req, res) {
           description: 'The user account does not belong to any company. Please contact support'
         })
       }
-      utility.callApi(`pageReferrals/query`, 'post', {companyId: '5c08c5e20464fb0fbc037a5d'}, req.headers.authorization)
+      utility.callApi(`pageReferrals/query`, 'post', {companyId: companyUser.companyId}, req.headers.authorization)
         .then(pageReferrals => {
           return res.status(200).json({status: 'success', payload: pageReferrals})
         })
