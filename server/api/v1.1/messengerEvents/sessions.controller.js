@@ -201,6 +201,7 @@ function sendautomatedmsg (req, page) {
 
     // user query matched with keywords, send response
     // sending response to sender
+    console.log('indexValue', index)
     needle.get(
       `https://graph.facebook.com/v2.10/${req.recipient.id}?fields=access_token&access_token=${page.userId.facebookInfo.fbToken}`,
       (err3, response) => {
@@ -208,6 +209,7 @@ function sendautomatedmsg (req, page) {
           logger.serverLog(TAG,
             `Page token error from graph api ${JSON.stringify(err3)}`)
         }
+        console.log('response from get', response.body)
         let messageData = {}
         const Yes = 'yes'
         const No = 'no'
@@ -259,7 +261,7 @@ function sendautomatedmsg (req, page) {
                   })
                 const data = {
                   messaging_type: 'RESPONSE',
-                  recipient: { id: req.sender.id }, // this is the subscriber id
+                  recipient: JSON.stringify({ id: req.sender.id }), // this is the subscriber id
                   message: messageData
                 }
                 needle.post(
@@ -275,13 +277,16 @@ function sendautomatedmsg (req, page) {
 
         const data = {
           messaging_type: 'RESPONSE',
-          recipient: { id: req.sender.id }, // this is the subscriber id
+          recipient: JSON.stringify({ id: req.sender.id }), // this is the subscriber id
           message: messageData
         }
+        console.log('messageData', data)
         if (messageData.text !== undefined || unsubscribeResponse) {
           needle.post(
             `https://graph.facebook.com/v2.6/me/messages?access_token=${response.body.access_token}`,
             data, (err4, respp) => {
+              console.log('respp.body', resp.body)
+              console.log('unsubscribeResponse', unsubscribeResponse)
               if (!unsubscribeResponse) {
                 utility.callApi(`subscribers/query`, 'post', { senderId: req.sender.id })
                   .then(subscribers => {
