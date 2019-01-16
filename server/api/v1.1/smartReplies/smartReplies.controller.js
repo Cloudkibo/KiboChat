@@ -200,8 +200,15 @@ exports.waitSubscribers = function (req, res) {
   console.log(`Fetching waiting subscribers ${JSON.stringify(req.body)}`)
   WaitingSubscribers.findAllWaitingSubscriberObjectsUsingQuery({botId: req.body.botId})
     .then(subscribers => {
-      logger.serverLog(`Returning waiting subscribers ${JSON.stringify(subscribers)}`)
-      return res.status(200).json({ status: 'success', payload: subscribers })
+      if (subscribers && subscribers.length > 0) {
+        populateSubscriber(subscribers, req)
+          .then(result => {
+            console.log('result.waitingSubscribers.length', result.waitingSubscribers.length)
+            return res.status(200).json({ status: 'success', payload: result.waitingSubscribers })
+          })
+      } else {
+        return res.status(200).json({ status: 'success', payload: [] })
+      }
     })
     .catch(err => {
       return res.status(500).json({
@@ -498,6 +505,41 @@ function populateBot (bots, req) {
         })
         .catch(err => {
           logger.serverLog(TAG, `Failed to fetch bots ${JSON.stringify(err)}`)
+          reject(err)
+        })
+    }
+  })
+}
+function populateSubscriber (waiting, req) {
+  return new Promise(function (resolve, reject) {
+    let sendPayload = []
+    for (let i = 0; i < waiting.length; i++) {
+      utility.callApi(`pages/query`, 'post', {_id: waiting[i].pageId}, req.headers.authorization)
+        .then(page => {
+          utility.callApi(`subscribers/query`, 'post', {_id: waiting[i].subscriberId}, req.headers.authorization)
+            .then(subscriber => {
+              console.log('pageFound')
+              sendPayload.push({
+                _id: waiting[i]._id,
+                botId: waiting[i].botId,
+                pageId: page[0],
+                subscriberId: subscriber[0],
+                intentId: waiting[i].intentId,
+                Question: waiting[i].Question,
+                datetime: waiting[i].datetime
+              })
+              if (sendPayload.length === waiting.length) {
+                console.log('sendPayload', sendPayload)
+                resolve({waitingSubscribers: sendPayload})
+              }
+            })
+            .catch(err => {
+              logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(err)}`)
+              reject(err)
+            })
+        })
+        .catch(err => {
+          logger.serverLog(TAG, `Failed to fetch page ${JSON.stringify(err)}`)
           reject(err)
         })
     }
