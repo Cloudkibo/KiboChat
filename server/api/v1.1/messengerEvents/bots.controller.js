@@ -45,9 +45,11 @@ exports.index = function (req, res) {
             intentId: resp.intentId,
             Question: resp.question})
             .then(created => {
+              console.log(`created waitingSubscriber ${JSON.stringify(created)}`)
             })
             .catch(err => {
               logger.serverLog(TAG, `Failed to create waitingSubscriber ${JSON.stringify(err)}`)
+              console.log(`Failed to create waitingSubscriber ${JSON.stringify(err)}`)
             })
         })
         .catch(err => {
