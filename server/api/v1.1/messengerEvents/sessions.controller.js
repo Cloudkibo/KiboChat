@@ -278,7 +278,7 @@ function sendautomatedmsg (req, page) {
         const data = {
           messaging_type: 'RESPONSE',
           recipient: JSON.stringify({ id: req.sender.id }), // this is the subscriber id
-          message: messageData
+          message: JSON.stringify(messageData)
         }
         console.log('messageData', data)
         console.log('unsubscribeResponse', unsubscribeResponse)
