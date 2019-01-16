@@ -39,6 +39,7 @@ exports.index = function (req, res) {
               console.log('response from talkToHuman', respp.body)
             })
           let resp = JSON.parse(req.body.entry[0].messaging[0].message.quick_reply.payload)
+          console.log('resp parse', resp)
           dataLayer.createWaitingSubscriberObject({botId: resp.botId,
             subscriberId: subscriber._id,
             pageId: req.body.entry[0].messaging[0].recipient.id,
