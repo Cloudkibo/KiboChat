@@ -15,11 +15,9 @@ exports.index = function (req, res) {
     .then(companyUser => {
       BotsDataLayer.findAllBotObjectsUsingQuery({ companyId: companyUser.companyId })
         .then(bots => {
-          console.log('bots.length', bots.length)
           if (bots && bots.length > 0) {
             populateBot(bots, req)
               .then(result => {
-                console.log('result.bots.length', result.bots.length)
                 return res.status(200).json({ status: 'success', payload: result.bots })
               })
           } else {
@@ -163,7 +161,6 @@ exports.details = function (req, res) {
       utility.callApi(`pages/query`, 'post', {_id: bot.pageId}, req.headers.authorization)
         .then(page => {
           bot.pageId = page[0]
-          console.log('botDetails', bot)
           return res.status(200).json({ status: 'success', payload: bot })
         })
         .catch(err => {
@@ -197,13 +194,11 @@ exports.unAnsweredQueries = function (req, res) {
 }
 
 exports.waitSubscribers = function (req, res) {
-  console.log(`Fetching waiting subscribers ${JSON.stringify(req.body)}`)
   WaitingSubscribers.findAllWaitingSubscriberObjectsUsingQuery({botId: req.body.botId})
     .then(subscribers => {
       if (subscribers && subscribers.length > 0) {
         populateSubscriber(subscribers, req)
           .then(result => {
-            console.log('result.waitingSubscribers.length', result.waitingSubscribers.length)
             return res.status(200).json({ status: 'success', payload: result.waitingSubscribers })
           })
       } else {
@@ -481,7 +476,6 @@ function populateBot (bots, req) {
       utility.callApi(`pages/query`, 'post', {_id: bots[i].pageId}, req.headers.authorization)
         .then(page => {
           // bots[i].pageId = page[0]
-          console.log('pageFound')
           botsToSend.push({
             blockedSubscribers: bots[i].blockedSubscribers,
             _id: bots[i]._id,
@@ -499,7 +493,6 @@ function populateBot (bots, req) {
             datetime: bots[i].datetime
           })
           if (botsToSend.length === bots.length) {
-            console.log('botsToSend', bots)
             resolve({bots: botsToSend})
           }
         })
@@ -518,7 +511,6 @@ function populateSubscriber (waiting, req) {
         .then(page => {
           utility.callApi(`subscribers/query`, 'post', {_id: waiting[i].subscriberId}, req.headers.authorization)
             .then(subscriber => {
-              console.log('pageFound')
               sendPayload.push({
                 _id: waiting[i]._id,
                 botId: waiting[i].botId,
@@ -529,7 +521,7 @@ function populateSubscriber (waiting, req) {
                 datetime: waiting[i].datetime
               })
               if (sendPayload.length === waiting.length) {
-                console.log('sendPayload', sendPayload)
+                logger.serverLog(TAG, `sendPayload ${JSON.stringify(sendPayload)}`)
                 resolve({waitingSubscribers: sendPayload})
               }
             })
