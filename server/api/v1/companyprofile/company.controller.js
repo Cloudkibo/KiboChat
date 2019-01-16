@@ -1,5 +1,5 @@
-// const logger = require('../../../components/logger')
-// const TAG = 'api/companyprofile/company.controller.js'
+const logger = require('../../../components/logger')
+const TAG = 'api/v1/companyprofile/company.controller.js'
 const utility = require('../utility')
 // const logicLayer = require('./commentCapture.logiclayer')
 
@@ -23,19 +23,19 @@ exports.getAutomatedOptions = function (req, res) {
 }
 
 exports.invite = function (req, res) {
-  console.log('email', req.body.email)
-  console.log('name', req.body.name)
-    utility.callApi('companyprofile/invite', 'post', {email: req.body.email, name: req.body.name}, req.headers.authorization)
+  logger.serverLog(TAG, `email ${req.body.email}`)
+  logger.serverLog(TAG, `name' ${req.body.name}`)
+  utility.callApi('companyprofile/invite', 'post', {email: req.body.email, name: req.body.name}, req.headers.authorization)
     .then((result) => {
-      console.log('result', result)
+      logger.serverLog(TAG, `invite result ${result}`)
       res.status(200).json({status: 'success', payload: result})
     })
     .catch((err) => {
-      console.log('err.status', err.error.status)
-      console.log('err.payload', err.error.payload)
+      logger.serverLog(TAG, `invite err.status ${err.error.status}`)
+      logger.serverLog(TAG, `invite err.payload ${err.error.payload}`)
       res.status(200).json({status: 'failed', payload: err.error.payload})
     })
-  }
+}
 exports.updateAutomatedOptions = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}, req.headers.authorization) // fetch company user
     .then(companyUser => {
