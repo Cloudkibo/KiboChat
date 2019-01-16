@@ -23,8 +23,7 @@ exports.getAutomatedOptions = function (req, res) {
 }
 
 exports.invite = function (req, res) {
-  logger.serverLog(TAG, `email ${req.body.email}`)
-  logger.serverLog(TAG, `name' ${req.body.name}`)
+  logger.serverLog(TAG, `invite request ${req.body}`)
   utility.callApi('companyprofile/invite', 'post', {email: req.body.email, name: req.body.name}, req.headers.authorization)
     .then((result) => {
       logger.serverLog(TAG, `invite result ${result}`)
