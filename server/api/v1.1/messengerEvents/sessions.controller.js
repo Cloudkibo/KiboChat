@@ -281,12 +281,12 @@ function sendautomatedmsg (req, page) {
           message: messageData
         }
         console.log('messageData', data)
+        console.log('unsubscribeResponse', unsubscribeResponse)
         if (messageData.text !== undefined || unsubscribeResponse) {
           needle.post(
             `https://graph.facebook.com/v2.6/me/messages?access_token=${response.body.access_token}`,
             data, (err4, respp) => {
-              console.log('respp.body', resp.body)
-              console.log('unsubscribeResponse', unsubscribeResponse)
+              console.log('respp.body', respp.body)
               if (!unsubscribeResponse) {
                 utility.callApi(`subscribers/query`, 'post', { senderId: req.sender.id })
                   .then(subscribers => {
