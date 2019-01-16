@@ -8,7 +8,6 @@ const botController = require('../smartReplies/smartReplies.controller')
 const needle = require('needle')
 const og = require('open-graph')
 const notificationsUtility = require('../notifications/notifications.utility')
-const util = require('util')
 
 exports.index = function (req, res) {
   logger.serverLog(TAG, `payload received in page ${JSON.stringify(req.body.page)}`)
@@ -99,14 +98,11 @@ function saveLiveChat (page, subscriber, session, event) {
     status: 'unseen', // seen or unseen
     payload: event.message
   }
-  console.log('subscriber: ', util.inspect(subscriber))
   if (subscriber) {
     BotsDataLayer.findOneBotObjectUsingQuery({ pageId: subscriber.pageId._id.toString() })
       .then(bot => {
-        console.log('bot: ', util.inspect(bot))
         if (bot) {
           if (bot.blockedSubscribers.indexOf(subscriber._id) === -1) {
-            console.log(TAG, 'going to send bot reply')
             botController.respond(subscriber.pageId._id.toString(), subscriber.senderId, event.message.text)
           }
         }
@@ -201,7 +197,6 @@ function sendautomatedmsg (req, page) {
 
     // user query matched with keywords, send response
     // sending response to sender
-    console.log('indexValue', index)
     needle.get(
       `https://graph.facebook.com/v2.10/${req.recipient.id}?fields=access_token&access_token=${page.userId.facebookInfo.fbToken}`,
       (err3, response) => {
@@ -209,7 +204,6 @@ function sendautomatedmsg (req, page) {
           logger.serverLog(TAG,
             `Page token error from graph api ${JSON.stringify(err3)}`)
         }
-        console.log('response from get', response.body)
         let messageData = {}
         const Yes = 'yes'
         const No = 'no'
@@ -280,13 +274,10 @@ function sendautomatedmsg (req, page) {
           recipient: JSON.stringify({ id: req.sender.id }), // this is the subscriber id
           message: JSON.stringify(messageData)
         }
-        console.log('messageData', data)
-        console.log('unsubscribeResponse', unsubscribeResponse)
         if (messageData.text !== undefined || unsubscribeResponse) {
           needle.post(
             `https://graph.facebook.com/v2.6/me/messages?access_token=${response.body.access_token}`,
             data, (err4, respp) => {
-              console.log('respp.body', respp.body)
               if (!unsubscribeResponse) {
                 utility.callApi(`subscribers/query`, 'post', { senderId: req.sender.id })
                   .then(subscribers => {
