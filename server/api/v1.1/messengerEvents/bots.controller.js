@@ -40,7 +40,7 @@ exports.index = function (req, res) {
             })
           let resp = JSON.parse(req.body.entry[0].messaging[0].message.quick_reply.payload)
           console.log('resp parse', resp)
-          dataLayer.createWaitingSubscriberObject({botId: resp.botId,
+          dataLayer.createWaitingSubscriberObject({botId: resp.bot_id,
             subscriberId: subscriber._id,
             pageId: req.body.entry[0].messaging[0].recipient.id,
             intentId: resp.intentId,
