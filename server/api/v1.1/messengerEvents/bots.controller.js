@@ -10,8 +10,10 @@ exports.index = function (req, res) {
     status: 'success',
     description: `received the payload`
   })
+  console.log('before api call')
   callApi(`subscribers/query`, 'post', { pageId: req.body.entry[0].messaging[0].recipient.id, senderId: req.body.entry[0].messaging[0].sender.id })
     .then(subscriber => {
+      console.log('after api call')
       subscriber = subscriber[0]
       const messageData = {
         text: 'Thank you. Our agent will get in touch with you soon.'
@@ -46,5 +48,6 @@ exports.index = function (req, res) {
     })
     .catch(err => {
       logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(err)}`)
+      console.log(`Failed to fetch subscriber ${JSON.stringify(err)}`)
     })
 }
