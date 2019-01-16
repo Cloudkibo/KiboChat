@@ -42,7 +42,7 @@ exports.index = function (req, res) {
           console.log('resp parse', resp)
           dataLayer.createWaitingSubscriberObject({botId: resp.bot_id,
             subscriberId: subscriber._id,
-            pageId: req.body.entry[0].messaging[0].recipient.id,
+            pageId: page._id,
             intentId: resp.intentId,
             Question: resp.question})
             .then(created => {
