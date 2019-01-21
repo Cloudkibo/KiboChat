@@ -63,6 +63,7 @@ exports.getCriterias = function (body, companyUser) {
       { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
       { $unwind: '$pageId' },
       { $match: temp },
+      { $sort: { datetime: -1 } },
       { $skip: recordsToSkip },
       { $limit: body.number_of_records }
     ]
@@ -71,16 +72,19 @@ exports.getCriterias = function (body, companyUser) {
     finalCriteria = [
       { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
       { $unwind: '$pageId' },
-      { $match: { $and: [temp, { _id: { $gt: mongoose.Types.ObjectId(body.last_id) } }] } },
+      { $match: { $and: [temp, { _id: { $lt: mongoose.Types.ObjectId(body.last_id) } }] } },
+      { $sort: { datetime: -1 } },
       { $skip: recordsToSkip },
       { $limit: body.number_of_records }
     ]
   } else if (body.first_page === 'previous') {
     recordsToSkip = Math.abs(((body.requested_page) - (body.current_page - 1))) * body.number_of_records
     finalCriteria = [
+      { $sort: { datetime: -1 } },
       { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
       { $unwind: '$pageId' },
-      { $match: { $and: [temp, { _id: { $lt: mongoose.Types.ObjectId(body.last_id) } }] } },
+      { $match: { $and: [temp, { _id: { $gt: mongoose.Types.ObjectId(body.last_id) } }] } },
+      { $sort: { datetime: -1 } },
       { $skip: recordsToSkip },
       { $limit: body.number_of_records }
     ]
