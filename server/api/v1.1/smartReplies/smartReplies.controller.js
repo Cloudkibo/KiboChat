@@ -283,18 +283,16 @@ exports.delete = function (req, res) {
 
 function sendMessenger (message, pageId, senderId, postbackPayload, botId) {
   logger.serverLog(TAG, `sendMessenger message is ${JSON.stringify(message)}`)
-
-  utility.callApi(`subscribers/query`, 'post', { senderId: senderId })
-    .then(subscriber => {
-      subscriber = subscriber[0]
-      if (subscriber === null) {
-        return
-      }
-      logger.serverLog(TAG, `Subscriber Info ${JSON.stringify(subscriber)}`)
-
-      utility.callApi(`pages/query`, 'post', {pageId: pageId})
-        .then(page => {
-          page = page[0]
+  utility.callApi(`pages/query`, 'post', {pageId: pageId, connected: true})
+    .then(page => {
+      page = page[0]
+      utility.callApi(`subscribers/query`, 'post', { senderId: senderId, pageId: page._id })
+        .then(subscriber => {
+          subscriber = subscriber[0]
+          if (subscriber === null) {
+            return
+          }
+          logger.serverLog(TAG, `Subscriber Info ${JSON.stringify(subscriber)}`)
           message.senderId = senderId
           logicLayer.getMessageData(message)
             .then(messageData => {
@@ -335,11 +333,11 @@ function sendMessenger (message, pageId, senderId, postbackPayload, botId) {
             })
         })
         .catch(err => {
-          logger.serverLog(TAG, `Failed to fetch pages ${err}`)
+          logger.serverLog(TAG, `Failed to fetch subscribers ${err}`)
         })
     })
     .catch(err => {
-      logger.serverLog(TAG, `Failed to fetch subscriber ${err}`)
+      logger.serverLog(TAG, `Failed to fetch page ${err}`)
     })
 }
 
