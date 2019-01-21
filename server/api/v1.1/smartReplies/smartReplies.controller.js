@@ -316,18 +316,17 @@ function sendMessenger (message, pageId, senderId, postbackPayload, botId) {
                       logger.serverLog(TAG,
                         `At send message live chat response ${JSON.stringify(
                           res.body.error)}`)
-                    } else {
-                      logger.serverLog(TAG, `Response sent to Messenger: ${JSON.stringify(messageData)}`)
-                      let talkToHumanPaylod = logicLayer.talkToHumanPaylod(botId, message, postbackPayload)
-                      console.log('talkToHumanPaylod', talkToHumanPaylod)
-                      console.log('botid in controller', botId)
-                      needle.post(
-                        `https://graph.facebook.com/v2.6/me/messages?access_token=${page.accessToken}`, talkToHumanPaylod, (err, resp) => {
-                          if (err) {
-                            logger.serverLog(TAG, err)
-                          }
-                        })
                     }
+                    logger.serverLog(TAG, `Response sent to Messenger: ${JSON.stringify(messageData)}`)
+                    let talkToHumanPaylod = logicLayer.talkToHumanPaylod(botId, message, postbackPayload)
+                    console.log('talkToHumanPaylod', talkToHumanPaylod)
+                    console.log('botid in controller', botId)
+                    needle.post(
+                      `https://graph.facebook.com/v2.6/me/messages?access_token=${page.accessToken}`, talkToHumanPaylod, (err, resp) => {
+                        if (err) {
+                          logger.serverLog(TAG, err)
+                        }
+                      })
                   }
                 })
             })
