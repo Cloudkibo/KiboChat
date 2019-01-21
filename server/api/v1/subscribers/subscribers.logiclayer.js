@@ -64,7 +64,8 @@ exports.getCriterias = function (body, companyUser) {
       { $unwind: '$pageId' },
       { $match: temp },
       { $skip: recordsToSkip },
-      { $limit: body.number_of_records }
+      { $limit: body.number_of_records },
+      { $sort: { datetime: -1 } }
     ]
   } else if (body.first_page === 'next') {
     recordsToSkip = Math.abs(((body.requested_page - 1) - (body.current_page))) * body.number_of_records
@@ -73,7 +74,8 @@ exports.getCriterias = function (body, companyUser) {
       { $unwind: '$pageId' },
       { $match: { $and: [temp, { _id: { $gt: mongoose.Types.ObjectId(body.last_id) } }] } },
       { $skip: recordsToSkip },
-      { $limit: body.number_of_records }
+      { $limit: body.number_of_records },
+      { $sort: { datetime: -1 } }
     ]
   } else if (body.first_page === 'previous') {
     recordsToSkip = Math.abs(((body.requested_page) - (body.current_page - 1))) * body.number_of_records
@@ -82,7 +84,8 @@ exports.getCriterias = function (body, companyUser) {
       { $unwind: '$pageId' },
       { $match: { $and: [temp, { _id: { $lt: mongoose.Types.ObjectId(body.last_id) } }] } },
       { $skip: recordsToSkip },
-      { $limit: body.number_of_records }
+      { $limit: body.number_of_records },
+      { $sort: { datetime: -1 } }
     ]
   }
   return {countCriteria: countCriteria, fetchCriteria: finalCriteria}
