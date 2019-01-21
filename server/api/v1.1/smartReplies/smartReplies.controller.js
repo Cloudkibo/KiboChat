@@ -282,6 +282,7 @@ exports.delete = function (req, res) {
 }
 
 function sendMessenger (message, pageId, senderId, postbackPayload, botId) {
+  console.log('in send messenger')
   logger.serverLog(TAG, `sendMessenger message is ${JSON.stringify(message)}`)
   utility.callApi(`pages/query`, 'post', {pageId: pageId, connected: true})
     .then(page => {
@@ -315,6 +316,7 @@ function sendMessenger (message, pageId, senderId, postbackPayload, botId) {
                         `At send message live chat response ${JSON.stringify(
                           res.body.error)}`)
                     }
+                    console.log('response sent to messenger', res.body)
                     logger.serverLog(TAG, `Response sent to Messenger: ${JSON.stringify(messageData)}`)
                     let talkToHumanPaylod = logicLayer.talkToHumanPaylod(botId, message, postbackPayload)
                     console.log('talkToHumanPaylod', talkToHumanPaylod)
@@ -324,6 +326,7 @@ function sendMessenger (message, pageId, senderId, postbackPayload, botId) {
                         if (err) {
                           logger.serverLog(TAG, err)
                         }
+                        console.log('resp.body', resp.body)
                       })
                   }
                 })
