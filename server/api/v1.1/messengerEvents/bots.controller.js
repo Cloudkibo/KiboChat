@@ -31,16 +31,32 @@ exports.index = function (req, res) {
               }
               logger.serverLog(TAG, `Response from talkToHuman ${JSON.stringify(respp.body)}`)
             })
-          let resp = JSON.parse(req.body.entry[0].messaging[0].message.quick_reply.payload)
-          dataLayer.createWaitingSubscriberObject({botId: resp.bot_id,
+          let payload = JSON.parse(req.body.entry[0].messaging[0].message.quick_reply.payload)
+          logger.serverLog(TAG, `payload value`, payload)
+          dataLayer.findAllWaitingSubscriberObjectsUsingQuery({botId: payload.bot_id,
             subscriberId: subscriber._id,
             pageId: page._id,
-            intentId: resp.intentId,
-            Question: resp.question})
-            .then(created => {
+            Question: payload.question})
+            .then(waitingSubscriber => {
+              logger.serverLog(TAG, `Waiting Subscriber fetched`, waitingSubscriber)
+              if (waitingSubscriber && waitingSubscriber.length > 0) {
+                logger.serverLog(TAG, `Waiting Subscriber already created`)
+              } else {
+                dataLayer.createWaitingSubscriberObject({botId: payload.bot_id,
+                  subscriberId: subscriber._id,
+                  pageId: page._id,
+                  intentId: payload.intentId,
+                  Question: payload.question})
+                  .then(created => {
+                    logger.serverLog(TAG, `Created waitingSubscriber ${JSON.stringify(created)}`)
+                  })
+                  .catch(err => {
+                    logger.serverLog(TAG, `Failed to create waitingSubscriber ${JSON.stringify(err)}`)
+                  })
+              }
             })
             .catch(err => {
-              logger.serverLog(TAG, `Failed to create waitingSubscriber ${JSON.stringify(err)}`)
+              logger.serverLog(TAG, `Failed to fetch waitingSubscriber ${JSON.stringify(err)}`)
             })
         })
         .catch(err => {
