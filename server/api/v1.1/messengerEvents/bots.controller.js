@@ -32,13 +32,13 @@ exports.index = function (req, res) {
               logger.serverLog(TAG, `Response from talkToHuman ${JSON.stringify(respp.body)}`)
             })
           let payload = JSON.parse(req.body.entry[0].messaging[0].message.quick_reply.payload)
-          logger.serverLog(TAG, `payload value`, payload)
+          console.log('payload value', payload)
           dataLayer.findAllWaitingSubscriberObjectsUsingQuery({botId: payload.bot_id,
             subscriberId: subscriber._id,
             pageId: page._id,
             Question: payload.question})
             .then(waitingSubscriber => {
-              logger.serverLog(TAG, `Waiting Subscriber fetched`, waitingSubscriber)
+              console.log('Waiting Subscriber fetched', waitingSubscriber)
               if (waitingSubscriber && waitingSubscriber.length > 0) {
                 logger.serverLog(TAG, `Waiting Subscriber already created`)
               } else {
