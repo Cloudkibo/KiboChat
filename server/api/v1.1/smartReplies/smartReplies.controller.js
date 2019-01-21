@@ -194,8 +194,10 @@ exports.unAnsweredQueries = function (req, res) {
 }
 
 exports.waitSubscribers = function (req, res) {
+  logger.serverLog(TAG, `waitSubscribers body ${JSON.stringify(req.body.botId)}`)
   WaitingSubscribers.findAllWaitingSubscriberObjectsUsingQuery({botId: req.body.botId})
     .then(subscribers => {
+      logger.serverLog(TAG, `waitSubscribers fetched ${JSON.stringify(subscribers)}`)
       if (subscribers && subscribers.length > 0) {
         populateSubscriber(subscribers, req)
           .then(result => {
