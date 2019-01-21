@@ -15,11 +15,9 @@ exports.index = function (req, res) {
     .then(companyUser => {
       BotsDataLayer.findAllBotObjectsUsingQuery({ companyId: companyUser.companyId })
         .then(bots => {
-          console.log('bots.length', bots.length)
           if (bots && bots.length > 0) {
             populateBot(bots, req)
               .then(result => {
-                console.log('result.bots.length', result.bots.length)
                 return res.status(200).json({ status: 'success', payload: result.bots })
               })
           } else {
@@ -163,7 +161,6 @@ exports.details = function (req, res) {
       utility.callApi(`pages/query`, 'post', {_id: bot.pageId}, req.headers.authorization)
         .then(page => {
           bot.pageId = page[0]
-          console.log('botDetails', bot)
           return res.status(200).json({ status: 'success', payload: bot })
         })
         .catch(err => {
@@ -197,11 +194,18 @@ exports.unAnsweredQueries = function (req, res) {
 }
 
 exports.waitSubscribers = function (req, res) {
-  console.log(`Fetching waiting subscribers ${JSON.stringify(req.body)}`)
+  console.log('waitSubscribers body', req.body.botId)
   WaitingSubscribers.findAllWaitingSubscriberObjectsUsingQuery({botId: req.body.botId})
     .then(subscribers => {
-      logger.serverLog(`Returning waiting subscribers ${JSON.stringify(subscribers)}`)
-      return res.status(200).json({ status: 'success', payload: subscribers })
+      logger.serverLog(TAG, `waitSubscribers fetched ${JSON.stringify(subscribers)}`)
+      if (subscribers && subscribers.length > 0) {
+        populateSubscriber(subscribers, req)
+          .then(result => {
+            return res.status(200).json({ status: 'success', payload: result.waitingSubscribers })
+          })
+      } else {
+        return res.status(200).json({ status: 'success', payload: [] })
+      }
     })
     .catch(err => {
       return res.status(500).json({
@@ -278,19 +282,18 @@ exports.delete = function (req, res) {
 }
 
 function sendMessenger (message, pageId, senderId, postbackPayload, botId) {
+  console.log('in send messenger')
   logger.serverLog(TAG, `sendMessenger message is ${JSON.stringify(message)}`)
-
-  utility.callApi(`subscribers/query`, 'post', { senderId: senderId })
-    .then(subscriber => {
-      subscriber = subscriber[0]
-      if (subscriber === null) {
-        return
-      }
-      logger.serverLog(TAG, `Subscriber Info ${JSON.stringify(subscriber)}`)
-
-      utility.callApi(`pages/query`, 'post', {pageId: pageId})
-        .then(page => {
-          page = page[0]
+  utility.callApi(`pages/query`, 'post', {pageId: pageId, connected: true})
+    .then(page => {
+      page = page[0]
+      utility.callApi(`subscribers/query`, 'post', { senderId: senderId, pageId: page._id })
+        .then(subscriber => {
+          subscriber = subscriber[0]
+          if (subscriber === null) {
+            return
+          }
+          logger.serverLog(TAG, `Subscriber Info ${JSON.stringify(subscriber)}`)
           message.senderId = senderId
           logicLayer.getMessageData(message)
             .then(messageData => {
@@ -312,16 +315,18 @@ function sendMessenger (message, pageId, senderId, postbackPayload, botId) {
                       logger.serverLog(TAG,
                         `At send message live chat response ${JSON.stringify(
                           res.body.error)}`)
-                    } else {
-                      logger.serverLog(TAG, `Response sent to Messenger: ${JSON.stringify(messageData)}`)
-                      let talkToHumanPaylod = logicLayer.talkToHumanPaylod(botId, message, postbackPayload)
-                      needle.post(
-                        `https://graph.facebook.com/v2.6/me/messages?access_token=${page.accessToken}`, talkToHumanPaylod, (err, resp) => {
-                          if (err) {
-                            logger.serverLog(TAG, err)
-                          }
-                        })
                     }
+                    logger.serverLog(TAG, `Response sent to Messenger: ${JSON.stringify(messageData)}`)
+                    let talkToHumanPaylod = logicLayer.talkToHumanPaylod(botId, message, postbackPayload)
+                    console.log('talkToHumanPaylod', talkToHumanPaylod)
+                    console.log('botid in controller', botId)
+                    needle.post(
+                      `https://graph.facebook.com/v2.6/me/messages?access_token=${page.accessToken}`, talkToHumanPaylod, (err, resp) => {
+                        if (err) {
+                          logger.serverLog(TAG, err)
+                        }
+                        console.log('resp.body', resp.body)
+                      })
                   }
                 })
             })
@@ -330,11 +335,11 @@ function sendMessenger (message, pageId, senderId, postbackPayload, botId) {
             })
         })
         .catch(err => {
-          logger.serverLog(TAG, `Failed to fetch pages ${err}`)
+          logger.serverLog(TAG, `Failed to fetch subscribers ${err}`)
         })
     })
     .catch(err => {
-      logger.serverLog(TAG, `Failed to fetch subscriber ${err}`)
+      logger.serverLog(TAG, `Failed to fetch page ${err}`)
     })
 }
 
@@ -474,7 +479,6 @@ function populateBot (bots, req) {
       utility.callApi(`pages/query`, 'post', {_id: bots[i].pageId}, req.headers.authorization)
         .then(page => {
           // bots[i].pageId = page[0]
-          console.log('pageFound')
           botsToSend.push({
             blockedSubscribers: bots[i].blockedSubscribers,
             _id: bots[i]._id,
@@ -492,12 +496,45 @@ function populateBot (bots, req) {
             datetime: bots[i].datetime
           })
           if (botsToSend.length === bots.length) {
-            console.log('botsToSend', bots)
             resolve({bots: botsToSend})
           }
         })
         .catch(err => {
           logger.serverLog(TAG, `Failed to fetch bots ${JSON.stringify(err)}`)
+          reject(err)
+        })
+    }
+  })
+}
+function populateSubscriber (waiting, req) {
+  return new Promise(function (resolve, reject) {
+    let sendPayload = []
+    for (let i = 0; i < waiting.length; i++) {
+      utility.callApi(`pages/query`, 'post', {_id: waiting[i].pageId}, req.headers.authorization)
+        .then(page => {
+          utility.callApi(`subscribers/query`, 'post', {_id: waiting[i].subscriberId}, req.headers.authorization)
+            .then(subscriber => {
+              sendPayload.push({
+                _id: waiting[i]._id,
+                botId: waiting[i].botId,
+                pageId: page[0],
+                subscriberId: subscriber[0],
+                intentId: waiting[i].intentId,
+                Question: waiting[i].Question,
+                datetime: waiting[i].datetime
+              })
+              if (sendPayload.length === waiting.length) {
+                logger.serverLog(TAG, `sendPayload ${JSON.stringify(sendPayload)}`)
+                resolve({waitingSubscribers: sendPayload})
+              }
+            })
+            .catch(err => {
+              logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(err)}`)
+              reject(err)
+            })
+        })
+        .catch(err => {
+          logger.serverLog(TAG, `Failed to fetch page ${JSON.stringify(err)}`)
           reject(err)
         })
     }

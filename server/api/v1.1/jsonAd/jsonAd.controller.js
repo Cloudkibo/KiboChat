@@ -16,7 +16,7 @@ exports.create = function (req, res) {
 
 exports.edit = function (req, res) {
   logger.serverLog(TAG, 'Hit the edit json ad endpoint')
-  callApi(`jsonAd/edit`, 'put', req.body, req.headers.authorization)
+  callApi(`jsonAd/edit`, 'post', req.body, req.headers.authorization)
     .then(jsonAd => {
       res.status(200).json({status: 'success', payload: jsonAd})
     })
@@ -27,12 +27,27 @@ exports.edit = function (req, res) {
 
 exports.getAll = function (req, res) {
   logger.serverLog(TAG, 'Hit the get all json ads endpoint')
-  callApi(`jsonAd/`, 'get', {}, req.headers.authorization)
-    .then(jsonAds => {
-      res.status(200).json({status: 'success', payload: jsonAds})
+  callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
+    .then(companyUser => {
+      if (!companyUser) {
+        return res.status(404).json({
+          status: 'failed',
+          description: 'The user account does not belong to any company. Please contact support'
+        })
+      }
+      callApi(`jsonAd/query`, 'post', {companyId: companyUser.companyId}, req.headers.authorization)
+        .then(jsonAds => {
+          res.status(200).json({status: 'success', payload: jsonAds})
+        })
+        .catch(err => {
+          res.status(500).json({status: 'failed', description: `Failed to fetch json Ads ${err}`})
+        })
     })
-    .catch(err => {
-      res.status(500).json({status: 'failed', description: `Failed to fetch json Ads ${err}`})
+    .catch(error => {
+      return res.status(500).json({
+        status: 'failed',
+        payload: `Failed to fetch company user ${JSON.stringify(error)}`
+      })
     })
 }
 
@@ -49,7 +64,7 @@ exports.getOne = function (req, res) {
 
 exports.deleteOne = function (req, res) {
   logger.serverLog(TAG, 'Hit the delete json ad endpoint')
-  callApi(`jsonAd/${req.params.id}`, 'get', req.headers.authorization)
+  callApi(`jsonAd/delete/${req.params.id}`, 'delete', {}, req.headers.authorization)
     .then(jsonAd => {
       res.status(200).json({status: 'success', payload: jsonAd})
     })

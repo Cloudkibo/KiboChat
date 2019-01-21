@@ -8,7 +8,6 @@ const botController = require('../smartReplies/smartReplies.controller')
 const needle = require('needle')
 const og = require('open-graph')
 const notificationsUtility = require('../notifications/notifications.utility')
-const util = require('util')
 
 exports.index = function (req, res) {
   logger.serverLog(TAG, `payload received in page ${JSON.stringify(req.body.page)}`)
@@ -99,14 +98,11 @@ function saveLiveChat (page, subscriber, session, event) {
     status: 'unseen', // seen or unseen
     payload: event.message
   }
-  console.log('subscriber: ', util.inspect(subscriber))
   if (subscriber) {
     BotsDataLayer.findOneBotObjectUsingQuery({ pageId: subscriber.pageId._id.toString() })
       .then(bot => {
-        console.log('bot: ', util.inspect(bot))
         if (bot) {
           if (bot.blockedSubscribers.indexOf(subscriber._id) === -1) {
-            console.log(TAG, 'going to send bot reply')
             botController.respond(subscriber.pageId._id.toString(), subscriber.senderId, event.message.text)
           }
         }
@@ -259,7 +255,7 @@ function sendautomatedmsg (req, page) {
                   })
                 const data = {
                   messaging_type: 'RESPONSE',
-                  recipient: { id: req.sender.id }, // this is the subscriber id
+                  recipient: JSON.stringify({ id: req.sender.id }), // this is the subscriber id
                   message: messageData
                 }
                 needle.post(
@@ -275,8 +271,8 @@ function sendautomatedmsg (req, page) {
 
         const data = {
           messaging_type: 'RESPONSE',
-          recipient: { id: req.sender.id }, // this is the subscriber id
-          message: messageData
+          recipient: JSON.stringify({ id: req.sender.id }), // this is the subscriber id
+          message: JSON.stringify(messageData)
         }
         if (messageData.text !== undefined || unsubscribeResponse) {
           needle.post(
