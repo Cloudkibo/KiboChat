@@ -344,7 +344,7 @@ exports.graphData = function (req, res) {
     })
 }
 exports.subscriberSummary = function (req, res) {
-  callApi.callApi('companyUser/query', 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
+  callApi('companyUser/query', 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
     .then(companyUser => {
       if (!companyUser) {
         return res.status(404).json({
@@ -352,14 +352,14 @@ exports.subscriberSummary = function (req, res) {
           description: 'The user account does not belong to any company. Please contact support'
         })
       }
-      callApi.callApi('subscribers/aggregate', 'post', LogicLayer.queryForSubscribers(req.body, companyUser, true), req.headers.authorization)
+      callApi('subscribers/aggregate', 'post', LogicLayer.queryForSubscribers(req.body, companyUser, true), req.headers.authorization)
         .then(subscribers => {
           console.log('subscribes', subscribers)
-          callApi.callApi('subscribers/aggregate', 'post', LogicLayer.queryForSubscribers(req.body, companyUser, false), req.headers.authorization)
+          callApi('subscribers/aggregate', 'post', LogicLayer.queryForSubscribers(req.body, companyUser, false), req.headers.authorization)
             .then(unsubscribes => {
               console.log('unsubscribes', unsubscribes)
               console.log('LogicLayer', JSON.stringify(LogicLayer.queryForSubscribersGraph(req.body, companyUser, true)))
-              callApi.callApi('subscribers/aggregate', 'post', LogicLayer.queryForSubscribersGraph(req.body, companyUser, true), req.headers.authorization)
+              callApi('subscribers/aggregate', 'post', LogicLayer.queryForSubscribersGraph(req.body, companyUser, true), req.headers.authorization)
                 .then(graphdata => {
                   let data = {
                     subscribes: subscribers.length > 0 ? subscribers[0].count : 0,
