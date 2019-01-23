@@ -73,7 +73,7 @@ exports.getNewSessions = function (req, res) {
           }
         }
       ]
-      return callApi(`pages/query`, 'post', pageData, req.headers.authorization)
+      return callApi(`pages/aggregate`, 'post', pageData, req.headers.authorization)
     })
     .then(pages => {
       let pageIds = pages.map((p) => p._id.toString())
@@ -89,7 +89,7 @@ exports.getNewSessions = function (req, res) {
           {$match: {companyId: companyUser.companyId, pageId: {$in: pageIds}, isSubscribed: true}}
         ]
       }
-      return callApi(`subscribers/query`, 'post', subscriberData, req.headers.authorization)
+      return callApi(`subscribers/aggregate`, 'post', subscriberData, req.headers.authorization)
     })
     .then(subscribers => {
       let subscriberIds = subscribers.map((s) => s._id.toString())
