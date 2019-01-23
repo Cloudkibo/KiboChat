@@ -105,6 +105,7 @@ exports.getNewSessions = function (req, res) {
       })
   })
     .then(sessionsCount => {
+      logger.serverLog(TAG, `criteria: ${criteria}`)
       logger.serverLog(TAG, `sessions count: ${sessionsCount}`)
       if (sessionsCount.length > 0 && sessionsCount[0].count > 0) {
         return sessionsWithUnreadCountAndLastMessage(sessionsCount.count, req, criteria, companyUser)
