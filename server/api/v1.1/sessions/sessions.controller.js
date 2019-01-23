@@ -3,6 +3,7 @@ const logger = require('../../../components/logger')
 const TAG = 'api/v1/sessions/sessions.controller'
 const logicLayer = require('./sessions.logiclayer')
 const needle = require('needle')
+const util = require('utuil')
 
 exports.index = function (req, res) {
   let sessions = []
@@ -74,6 +75,7 @@ exports.getNewSessions = function (req, res) {
     callApi(`pages/query`, 'post', pageData, req.headers.authorization)
       .then(pages => {
         let pageIds = pages.map((p) => p._id.toString())
+        logger.serverLog(TAG, `pageIds: ${util.inspect(pageIds)}`)
         let subscriberData = []
         if (req.body.filter && req.body.filter_criteria && req.body.filter_criteria.search_value !== '') {
           subscriberData = [
@@ -88,8 +90,10 @@ exports.getNewSessions = function (req, res) {
         callApi(`subscribers/query`, 'post', subscriberData, req.headers.authorization)
           .then(subscribers => {
             let subscriberIds = subscribers.map((s) => s._id.toString())
+            logger.serverLog(TAG, `subscriberIds: ${util.inspect(subscriberIds)}`)
             criteria = logicLayer.getNewSessionsCriteria(companyUser, req.body, subscriberIds)
             let countData = logicLayer.getQueryData('count', 'aggregate', criteria.match)
+            logger.serverLog(TAG, `countData: ${util.inspect(countData)}`)
             return callApi(`sessions/query`, 'post', countData, '', 'kibochat')
           })
           .catch(error => {
