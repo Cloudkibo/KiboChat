@@ -108,78 +108,69 @@ exports.getLastMessageData = (gotLastMessage, session) => {
   }
   return session
 }
-exports.getNewSessionsCriteria = (companyUser, body) => {
-  let countCriteria = {
+exports.getNewSessionsCriteria = (companyUser, body, subscriberIds) => {
+  let sortCriteria = {}
+
+  let findCriteria = {
     company_id: companyUser.companyId,
-    status: 'new'
+    status: 'new',
+    subscriber_id: {$in: subscriberIds}
   }
 
-  let fetchCriteria = []
-
-  let sortCriteria = {
-    last_activity_time: -1
-  }
-
-  if (body.filter && body.filter_criteria.page_value !== '') {
-    countCriteria = Object.assign(countCriteria, {page_id: body.filter_criteria.page_value})
-  }
-
-  if (body.filter) {
+  if (!body.filter) {
     sortCriteria = {
-      last_activity_time: body.filter_criteria.sort_value
+      last_activity_time: -1
+    }
+  } else {
+    if (body.filter_criteria && body.filter_criteria.sort_value !== '') {
+      sortCriteria = {
+        last_activity_time: body.filter_criteria.sort_value
+      }
     }
   }
 
   if (!body.first_page) {
-    countCriteria = Object.assign(countCriteria, {_id: {$gt: body.last_id}})
+    findCriteria = Object.assign(findCriteria, {_id: {$gt: body.last_id}})
   }
 
-  fetchCriteria = {
-    $match: countCriteria,
-    $sort: sortCriteria,
-    $limit: body.number_of_records
+  let fetchCriteria = {
+    match: findCriteria,
+    sort: sortCriteria,
+    limit: body.number_of_records
   }
-  return {
-    countCriteria,
-    fetchCriteria
-  }
+  return fetchCriteria
 }
-exports.getResolvedSessionsCriteria = (companyUser, body) => {
-  let countCriteria = {
+exports.getResolvedSessionsCriteria = (companyUser, body, subscriberIds) => {
+  let sortCriteria = {}
+
+  let findCriteria = {
     company_id: companyUser.companyId,
-    status: 'resolved'
+    status: 'resolved',
+    subscriber_id: {$in: subscriberIds}
   }
 
-  let fetchCriteria = []
-
-  let sortCriteria = {
-    request_time: 1
-  }
-
-  if (body.filter && body.filter_criteria.page_value !== '') {
-    countCriteria = Object.assign(countCriteria, {page_id: body.filter_criteria.page_value})
-  }
-
-  if (body.filter) {
+  if (!body.filter) {
     sortCriteria = {
-      request_time: body.filter_criteria.sort_value
+      last_activity_time: -1
+    }
+  } else {
+    if (body.filter_criteria && body.filter_criteria.sort_value !== '') {
+      sortCriteria = {
+        last_activity_time: body.filter_criteria.sort_value
+      }
     }
   }
 
   if (!body.first_page) {
-    countCriteria = Object.assign(countCriteria, {_id: {$gt: body.last_id}})
+    findCriteria = Object.assign(findCriteria, {_id: {$gt: body.last_id}})
   }
 
-  fetchCriteria = [
-    { $match: countCriteria },
-    { $sort: sortCriteria },
-    { $limit: body.number_of_records }
-  ]
-
-  return {
-    countCriteria,
-    fetchCriteria
+  let fetchCriteria = {
+    match: findCriteria,
+    sort: sortCriteria,
+    limit: body.number_of_records
   }
+  return fetchCriteria
 }
 exports.prepareSessionsData = (sessionsData, body) => {
   let tempSessionsData = []
