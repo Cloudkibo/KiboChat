@@ -122,46 +122,41 @@ exports.getResolvedSessions = function (req, res) {
 
   let companyUserResponse = callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
 
-  companyUserResponse.then(companyuser => {
-    companyUser = companyuser
-    let pageData = [
-      {
-        $match: {
-          _id: req.body.filter && req.body.filter_criteria && req.body.filter_criteria.page_value !== '' ? req.body.filter_criteria.page_value : {$exists: true},
-          companyId: companyUser.companyId,
-          connected: true
+  companyUserResponse
+    .then(companyuser => {
+      companyUser = companyuser
+      let pageData = [
+        {
+          $match: {
+            _id: req.body.filter && req.body.filter_criteria && req.body.filter_criteria.page_value !== '' ? req.body.filter_criteria.page_value : {$exists: true},
+            companyId: companyUser.companyId,
+            connected: true
+          }
         }
+      ]
+      return callApi(`pages/aggregate`, 'post', pageData, req.headers.authorization)
+    })
+    .then(pages => {
+      let pageIds = pages.map((p) => p._id.toString())
+      let subscriberData = []
+      if (req.body.filter && req.body.filter_criteria && req.body.filter_criteria.search_value !== '') {
+        subscriberData = [
+          {$project: {name: {$concat: ['$firstName', ' ', '$lastName']}, companyId: 1, pageId: 1}},
+          {$match: {companyId: companyUser.companyId, pageId: {$in: pageIds}, name: {$regex: '.*imran.*', $options: 'i'}, isSubscribed: true}}
+        ]
+      } else {
+        subscriberData = [
+          {$match: {companyId: companyUser.companyId, pageId: {$in: pageIds}, isSubscribed: true}}
+        ]
       }
-    ]
-    callApi(`pages/query`, 'post', pageData, req.headers.authorization)
-      .then(pages => {
-        let pageIds = pages.map((p) => p._id.toString())
-        let subscriberData = []
-        if (req.body.filter && req.body.filter_criteria && req.body.filter_criteria.search_value !== '') {
-          subscriberData = [
-            {$project: {name: {$concat: ['$firstName', ' ', '$lastName']}, companyId: 1, pageId: 1}},
-            {$match: {companyId: companyUser.companyId, pageId: {$in: pageIds}, name: {$regex: '.*imran.*', $options: 'i'}, isSubscribed: true}}
-          ]
-        } else {
-          subscriberData = [
-            {$match: {companyId: companyUser.companyId, pageId: {$in: pageIds}, isSubscribed: true}}
-          ]
-        }
-        callApi(`subscribers/query`, 'post', subscriberData, req.headers.authorization)
-          .then(subscribers => {
-            let subscriberIds = subscribers.map((s) => s._id.toString())
-            criteria = logicLayer.getResolvedSessionsCriteria(companyUser, req.body, subscriberIds)
-            let countData = logicLayer.getQueryData('count', 'aggregate', criteria.match)
-            return callApi(`sessions/query`, 'post', countData, '', 'kibochat')
-          })
-          .catch(error => {
-            return res.status(500).json({status: 'failed', payload: `Failed to fetch subscriberIds ${JSON.stringify(error)}`})
-          })
-      })
-      .catch(error => {
-        return res.status(500).json({status: 'failed', payload: `Failed to fetch pageIds ${JSON.stringify(error)}`})
-      })
-  })
+      return callApi(`subscribers/aggregate`, 'post', subscriberData, req.headers.authorization)
+    })
+    .then(subscribers => {
+      let subscriberIds = subscribers.map((s) => s._id.toString())
+      criteria = logicLayer.getResolvedSessionsCriteria(companyUser, req.body, subscriberIds)
+      let countData = logicLayer.getQueryData('count', 'aggregate', criteria.match)
+      return callApi(`sessions/query`, 'post', countData, '', 'kibochat')
+    })
     .then(sessionsCount => {
       if (sessionsCount.length > 0 && sessionsCount[0].count > 0) {
         return sessionsWithUnreadCountAndLastMessage(sessionsCount.count, req, criteria, companyUser)
