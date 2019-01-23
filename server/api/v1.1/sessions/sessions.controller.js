@@ -3,7 +3,7 @@ const logger = require('../../../components/logger')
 const TAG = 'api/v1/sessions/sessions.controller'
 const logicLayer = require('./sessions.logiclayer')
 const needle = require('needle')
-const util = require('utuil')
+const util = require('util')
 
 exports.index = function (req, res) {
   let sessions = []
