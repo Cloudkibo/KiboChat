@@ -103,7 +103,7 @@ exports.getNewSessions = function (req, res) {
       logger.serverLog(TAG, `criteria: ${util.inspect(criteria)}`)
       logger.serverLog(TAG, `sessions count: ${util.inspect(sessionsCount)}`)
       if (sessionsCount.length > 0 && sessionsCount[0].count > 0) {
-        return sessionsWithUnreadCountAndLastMessage(sessionsCount.count, req, criteria, companyUser)
+        return sessionsWithUnreadCountAndLastMessage(sessionsCount[0].count, req, criteria, companyUser)
       } else {
         return res.status(200).json({status: 'success', payload: {openSessions: [], count: 0}})
       }
@@ -159,7 +159,7 @@ exports.getResolvedSessions = function (req, res) {
     })
     .then(sessionsCount => {
       if (sessionsCount.length > 0 && sessionsCount[0].count > 0) {
-        return sessionsWithUnreadCountAndLastMessage(sessionsCount.count, req, criteria, companyUser)
+        return sessionsWithUnreadCountAndLastMessage(sessionsCount[0].count, req, criteria, companyUser)
       } else {
         return res.status(200).json({status: 'success', payload: {closedSessions: [], count: 0}})
       }
@@ -514,13 +514,15 @@ function sessionsWithUnreadCountAndLastMessage (count, req, criteria, companyUse
           .then(page => {
             sessions[i].page_id = page
             if (i === sessions.length - 1) {
-              sessions = logicLayer.prepareSessionsData(sessions, req.body)
+              // sessions = logicLayer.prepareSessionsData(sessions, req.body)
               if (sessions.length > 0) {
                 let messagesData = logicLayer.getQueryData('', 'aggregate', {company_id: companyUser.companyId.toString(), status: 'unseen', format: 'facebook'}, 0, { datetime: 1 })
                 return callApi('livechat/query', 'post', messagesData, '', 'kibochat')
               } else {
                 resolve({sessions, count})
               }
+            } else {
+              return 'next'
             }
           })
           .then(gotUnreadCount => {
@@ -528,12 +530,14 @@ function sessionsWithUnreadCountAndLastMessage (count, req, criteria, companyUse
               sessions = logicLayer.getUnreadCount(gotUnreadCount, sessions)
               let lastMessageData = logicLayer.getQueryData('', 'aggregate', {}, 0, { datetime: 1 }, undefined, {_id: '$session_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
               return callApi(`livechat/query`, 'post', lastMessageData, '', 'kibochat')
+            } else {
+              return 'next'
             }
           })
           .then(gotLastMessage => {
-            logger.serverLog(TAG, `gotLastMessage: ${gotLastMessage}`)
-            logger.serverLog(TAG, `sessions: ${sessions}`)
             if (i === sessions.length - 1) {
+              logger.serverLog(TAG, `gotLastMessage: ${gotLastMessage}`)
+              logger.serverLog(TAG, `sessions: ${sessions}`)
               sessions = logicLayer.getLastMessage(gotLastMessage, sessions)
               resolve({sessions, count})
             }
