@@ -7,6 +7,7 @@ const util = require('util')
 const {callApi} = require('../utility')
 const needle = require('needle')
 let _ = require('lodash')
+const LogicLayer = require('./logiclayer')
 
 exports.index = function (req, res) {
   callApi('pages/aggregate', 'post', [], req.headers.authorization)
@@ -340,5 +341,61 @@ exports.graphData = function (req, res) {
           description: `Internal Server Error ${JSON.stringify(err)}`
         })
       }
+    })
+}
+exports.subscriberSummary = function (req, res) {
+  callApi.callApi('companyUser/query', 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
+    .then(companyUser => {
+      if (!companyUser) {
+        return res.status(404).json({
+          status: 'failed',
+          description: 'The user account does not belong to any company. Please contact support'
+        })
+      }
+      callApi.callApi('subscribers/aggregate', 'post', LogicLayer.queryForSubscribers(req.body, companyUser, true), req.headers.authorization)
+        .then(subscribers => {
+          console.log('subscribes', subscribers)
+          callApi.callApi('subscribers/aggregate', 'post', LogicLayer.queryForSubscribers(req.body, companyUser, false), req.headers.authorization)
+            .then(unsubscribes => {
+              console.log('unsubscribes', unsubscribes)
+              console.log('LogicLayer', JSON.stringify(LogicLayer.queryForSubscribersGraph(req.body, companyUser, true)))
+              callApi.callApi('subscribers/aggregate', 'post', LogicLayer.queryForSubscribersGraph(req.body, companyUser, true), req.headers.authorization)
+                .then(graphdata => {
+                  let data = {
+                    subscribes: subscribers.length > 0 ? subscribers[0].count : 0,
+                    unsubscribes: unsubscribes.length > 0 ? unsubscribes[0].count : 0,
+                    graphdata: graphdata
+                  }
+                  return res.status(200).json({
+                    status: 'success',
+                    payload: data
+                  })
+                })
+                .catch(err => {
+                  return res.status(500).json({
+                    status: 'failed',
+                    description: `Error in getting graphdata ${JSON.stringify(err)}`
+                  })
+                })
+            })
+            .catch(err => {
+              return res.status(500).json({
+                status: 'failed',
+                description: `Error in getting unsubscribers ${JSON.stringify(err)}`
+              })
+            })
+        })
+        .catch(err => {
+          return res.status(500).json({
+            status: 'failed',
+            description: `Error in getting subscribers ${JSON.stringify(err)}`
+          })
+        })
+    })
+    .catch(err => {
+      return res.status(500).json({
+        status: 'failed',
+        description: `Internal Server Error ${JSON.stringify(err)}`
+      })
     })
 }
