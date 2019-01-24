@@ -503,24 +503,16 @@ function sessionsWithUnreadCountAndLastMessage (count, req, criteria, companyUse
 
     sessionsResponse.then(sessions => {
       for (let i = 0; i < sessions.length; i++) {
-        let subscriberId = sessions[i].subscriber_id
-        let pageId = sessions[i].page_id
-
-        callApi(`subscribers/${subscriberId}`, 'get', {}, req.headers.authorization)
+        callApi(`subscribers/${sessions[i].subscriber_id}`, 'get', {}, req.headers.authorization)
           .then(subscriber => {
             sessions[i].subscriber_id = subscriber
-            return callApi(`pages/${pageId}`, 'get', {}, req.headers.authorization)
+            return callApi(`pages/${sessions[i].page_id}`, 'get', {}, req.headers.authorization)
           })
           .then(page => {
             sessions[i].page_id = page
             if (i === sessions.length - 1) {
-              // sessions = logicLayer.prepareSessionsData(sessions, req.body)
-              if (sessions.length > 0) {
-                let messagesData = logicLayer.getQueryData('', 'aggregate', {company_id: companyUser.companyId.toString(), status: 'unseen', format: 'facebook'}, 0, { datetime: 1 })
-                return callApi('livechat/query', 'post', messagesData, '', 'kibochat')
-              } else {
-                resolve({sessions, count})
-              }
+              let messagesData = logicLayer.getQueryData('', 'aggregate', {company_id: companyUser.companyId.toString(), status: 'unseen', format: 'facebook'}, 0, { datetime: 1 })
+              return callApi('livechat/query', 'post', messagesData, '', 'kibochat')
             } else {
               return 'next'
             }
@@ -536,9 +528,8 @@ function sessionsWithUnreadCountAndLastMessage (count, req, criteria, companyUse
           })
           .then(gotLastMessage => {
             if (i === sessions.length - 1) {
-              logger.serverLog(TAG, `gotLastMessage: ${gotLastMessage}`)
-              logger.serverLog(TAG, `sessions: ${sessions}`)
               sessions = logicLayer.getLastMessage(gotLastMessage, sessions)
+              logger.serverLog(TAG, `sessions: ${sessions}`)
               resolve({sessions, count})
             }
           })
