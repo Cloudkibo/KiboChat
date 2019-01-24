@@ -82,7 +82,7 @@ exports.getNewSessions = function (req, res) {
       if (req.body.filter && req.body.filter_criteria && req.body.filter_criteria.search_value !== '') {
         subscriberData = [
           {$project: {name: {$concat: ['$firstName', ' ', '$lastName']}, companyId: 1, pageId: 1}},
-          {$match: {companyId: companyUser.companyId, pageId: {$in: pageIds}, name: {$regex: '.*imran.*', $options: 'i'}, isSubscribed: true}}
+          {$match: {companyId: companyUser.companyId, pageId: {$in: pageIds}, name: {$regex: '.*' + req.body.filter_criteria.search_value + '.*', $options: 'i'}, isSubscribed: true}}
         ]
       } else {
         subscriberData = [
