@@ -3,6 +3,7 @@ const logger = require('../../../components/logger')
 const TAG = 'api/v1/sessions/sessions.controller'
 const logicLayer = require('./sessions.logiclayer')
 const needle = require('needle')
+const util = require('util')
 
 exports.index = function (req, res) {
   let sessions = []
@@ -60,52 +61,55 @@ exports.getNewSessions = function (req, res) {
 
   const companyUserResponse = callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
 
-  companyUserResponse.then(companyuser => {
-    companyUser = companyuser
-    criteria = logicLayer.getNewSessionsCriteria(companyUser, req.body)
-    let countData = logicLayer.getQueryData('', 'findAll', criteria.countCriteria)
-    return callApi(`sessions/query`, 'post', countData, '', 'kibochat')
-  })
-    .then(sessions => {
-      console.log('sessions: ', sessions)
-      if (sessions.length > 0) {
-        let sessionsTosend = []
-        for (let i = 0; i < sessions.length; i++) {
-          sessionsTosend.push({
-            status: sessions[i].status,
-            is_assigned: sessions[i].is_assigned,
-            _id: sessions[i]._id,
-            company_id: sessions[i].company_id,
-            last_activity_time: sessions[i].last_activity_time,
-            request_time: sessions[i].request_time,
-            agent_activity_time: sessions[i].agent_activity_time
-          })
-          let subscriberId = sessions[i].subscriber_id
-          let pageId = sessions[i].page_id
-          callApi(`subscribers/${subscriberId}`, 'get', {}, req.headers.authorization)
-            .then(subscriber => {
-              console.log('subscriber: ', subscriber)
-              sessionsTosend[i].subscriber_id = subscriber
-              return callApi(`pages/${pageId}`, 'get', {}, req.headers.authorization)
-            })
-            .then(page => {
-              sessionsTosend[i].page_id = page
-              if (i === sessions.length - 1) {
-                return UnreadCountAndLastMessage(sessionsTosend, req, criteria, companyUser)
-              }
-            })
-            .then(result => {
-              if (i === sessions.length - 1) {
-                return res.status(200).json({status: 'success', payload: result})
-              }
-            })
-            .catch(error => {
-              return res.status(500).json({status: 'failed', payload: `Failed to fetch sessions ${JSON.stringify(error)}`})
-            })
+  companyUserResponse
+    .then(companyuser => {
+      companyUser = companyuser
+      let pageData = [
+        {
+          $match: {
+            _id: req.body.filter && req.body.filter_criteria && req.body.filter_criteria.page_value !== '' ? req.body.filter_criteria.page_value : {$exists: true},
+            companyId: companyUser.companyId,
+            connected: true
+          }
         }
+      ]
+      return callApi(`pages/aggregate`, 'post', pageData, req.headers.authorization)
+    })
+    .then(pages => {
+      let pageIds = pages.map((p) => p._id.toString())
+      logger.serverLog(TAG, `page Ids: ${util.inspect(pageIds)}`)
+      let subscriberData = []
+      if (req.body.filter && req.body.filter_criteria && req.body.filter_criteria.search_value !== '') {
+        subscriberData = [
+          {$project: {name: {$concat: ['$firstName', ' ', '$lastName']}, companyId: 1, pageId: 1, isSubscribed: 1}},
+          {$match: {companyId: companyUser.companyId, pageId: {$in: pageIds}, name: {$regex: '.*' + req.body.filter_criteria.search_value + '.*', $options: 'i'}, isSubscribed: true}}
+        ]
+      } else {
+        subscriberData = [
+          {$match: {companyId: companyUser.companyId, pageId: {$in: pageIds}, isSubscribed: true}}
+        ]
+      }
+      return callApi(`subscribers/aggregate`, 'post', subscriberData, req.headers.authorization)
+    })
+    .then(subscribers => {
+      let subscriberIds = subscribers.map((s) => s._id.toString())
+      logger.serverLog(TAG, `subscriber Ids: ${util.inspect(subscriberIds)}`)
+      criteria = logicLayer.getNewSessionsCriteria(companyUser, req.body, subscriberIds)
+      let countData = logicLayer.getQueryData('count', 'aggregate', criteria.match)
+      logger.serverLog(TAG, `count Data: ${util.inspect(countData)}`)
+      return callApi(`sessions/query`, 'post', countData, '', 'kibochat')
+    })
+    .then(sessionsCount => {
+      logger.serverLog(TAG, `criteria: ${util.inspect(criteria)}`)
+      logger.serverLog(TAG, `sessions count: ${util.inspect(sessionsCount)}`)
+      if (sessionsCount.length > 0 && sessionsCount[0].count > 0) {
+        return sessionsWithUnreadCountAndLastMessage(sessionsCount[0].count, req, criteria, companyUser)
       } else {
         return res.status(200).json({status: 'success', payload: {openSessions: [], count: 0}})
       }
+    })
+    .then(result => {
+      return res.status(200).json({status: 'success', payload: {openSessions: result.sessions, count: result.count}})
     })
     .catch(error => {
       return res.status(500).json({status: 'failed', payload: `Internal server error ${JSON.stringify(error)}`})
@@ -118,50 +122,50 @@ exports.getResolvedSessions = function (req, res) {
 
   let companyUserResponse = callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
 
-  companyUserResponse.then(companyuser => {
-    companyUser = companyuser
-    criteria = logicLayer.getResolvedSessionsCriteria(companyUser, req.body)
-    let countData = logicLayer.getQueryData('', 'findAll', criteria.countCriteria)
-    return callApi(`sessions/query`, 'post', countData, '', 'kibochat')
-  })
-    .then(sessions => {
-      if (sessions.length > 0) {
-        let sessionsTosend = []
-        for (let i = 0; i < sessions.length; i++) {
-          sessionsTosend.push({
-            status: sessions[i].status,
-            is_assigned: sessions[i].is_assigned,
-            _id: sessions[i]._id,
-            company_id: sessions[i].company_id,
-            last_activity_time: sessions[i].last_activity_time,
-            request_time: sessions[i].request_time,
-            agent_activity_time: sessions[i].agent_activity_time
-          })
-          let subscriberId = sessions[i].subscriber_id
-          let pageId = sessions[i].page_id
-          callApi(`subscribers/${subscriberId}`, 'get', {}, req.headers.authorization) // fetch subscribers of company
-            .then(subscriber => {
-              sessionsTosend[i].subscriber_id = subscriber
-              return callApi(`pages/${pageId}`, 'get', {}, req.headers.authorization)
-            })
-            .then(page => {
-              sessionsTosend[i].page_id = page
-              if (i === sessions.length - 1) {
-                return UnreadCountAndLastMessage(sessionsTosend, req, criteria, companyUser)
-              }
-            })
-            .then(result => {
-              if (i === sessions.length - 1) {
-                return res.status(200).json({status: 'success', payload: {closedSessions: result.openSessions, count: result.count}})
-              }
-            })
-            .catch(error => {
-              return res.status(500).json({status: 'failed', payload: `Failed to fetch sessions ${JSON.stringify(error)}`})
-            })
+  companyUserResponse
+    .then(companyuser => {
+      companyUser = companyuser
+      let pageData = [
+        {
+          $match: {
+            _id: req.body.filter && req.body.filter_criteria && req.body.filter_criteria.page_value !== '' ? req.body.filter_criteria.page_value : {$exists: true},
+            companyId: companyUser.companyId,
+            connected: true
+          }
         }
+      ]
+      return callApi(`pages/aggregate`, 'post', pageData, req.headers.authorization)
+    })
+    .then(pages => {
+      let pageIds = pages.map((p) => p._id.toString())
+      let subscriberData = []
+      if (req.body.filter && req.body.filter_criteria && req.body.filter_criteria.search_value !== '') {
+        subscriberData = [
+          {$project: {name: {$concat: ['$firstName', ' ', '$lastName']}, companyId: 1, pageId: 1}},
+          {$match: {companyId: companyUser.companyId, pageId: {$in: pageIds}, name: {$regex: '.*imran.*', $options: 'i'}, isSubscribed: true}}
+        ]
+      } else {
+        subscriberData = [
+          {$match: {companyId: companyUser.companyId, pageId: {$in: pageIds}, isSubscribed: true}}
+        ]
+      }
+      return callApi(`subscribers/aggregate`, 'post', subscriberData, req.headers.authorization)
+    })
+    .then(subscribers => {
+      let subscriberIds = subscribers.map((s) => s._id.toString())
+      criteria = logicLayer.getResolvedSessionsCriteria(companyUser, req.body, subscriberIds)
+      let countData = logicLayer.getQueryData('count', 'aggregate', criteria.match)
+      return callApi(`sessions/query`, 'post', countData, '', 'kibochat')
+    })
+    .then(sessionsCount => {
+      if (sessionsCount.length > 0 && sessionsCount[0].count > 0) {
+        return sessionsWithUnreadCountAndLastMessage(sessionsCount[0].count, req, criteria, companyUser)
       } else {
         return res.status(200).json({status: 'success', payload: {closedSessions: [], count: 0}})
       }
+    })
+    .then(result => {
+      return res.status(200).json({status: 'success', payload: {closedSessions: result.sessions, count: result.count}})
     })
     .catch(error => {
       return res.status(500).json({status: 'failed', payload: `Internal server error ${JSON.stringify(error)}`})
@@ -492,68 +496,47 @@ function saveNotifications (companyUser, subscriber, req) {
     })
 }
 
-function UnreadCountAndLastMessage (sessions, req, criteria, companyUser) {
+function sessionsWithUnreadCountAndLastMessage (count, req, criteria, companyUser) {
   return new Promise(function (resolve, reject) {
-    let sessionsTosend = []
-    let sessionsData = logicLayer.prepareSessionsData(sessions, req.body)
-
-    let data = logicLayer.getQueryData('', 'aggregate', criteria.fetchCriteria.$match, 0, criteria.fetchCriteria.$sort, criteria.fetchCriteria.$limit)
+    let data = logicLayer.getQueryData('', 'aggregate', criteria.match, 0, criteria.sort, criteria.limit)
     let sessionsResponse = callApi('sessions/query', 'post', data, '', 'kibochat')
 
-    sessionsResponse.then(sessionss => {
-      if (sessionss.length > 0) {
-        for (let i = 0; i < sessionss.length; i++) {
-          sessionsTosend.push({
-            status: sessionss[i].status,
-            is_assigned: sessionss[i].is_assigned,
-            _id: sessionss[i]._id,
-            company_id: sessionss[i].company_id,
-            last_activity_time: sessionss[i].last_activity_time,
-            request_time: sessionss[i].request_time,
-            agent_activity_time: sessionss[i].agent_activity_time
+    sessionsResponse.then(sessions => {
+      sessions.forEach((session, index) => {
+        callApi(`subscribers/${session.subscriber_id}`, 'get', {}, req.headers.authorization)
+          .then(subscriber => {
+            session.subscriber_id = subscriber
+            return callApi(`pages/${session.page_id}`, 'get', {}, req.headers.authorization)
           })
-          let subscriberId = sessionss[i].subscriber_id
-          let pageId = sessionss[i].page_id
-
-          callApi(`subscribers/${subscriberId}`, 'get', {}, req.headers.authorization)
-            .then(subscriber => {
-              sessionsTosend[i].subscriber_id = subscriber
-              return callApi(`pages/${pageId}`, 'get', {}, req.headers.authorization)
-            })
-            .then(page => {
-              sessionsTosend[i].page_id = page
-              if (i === sessionss.length - 1) {
-                let sessions = logicLayer.prepareSessionsData(sessionsTosend, req.body)
-                if (sessions.length > 0) {
-                  let messagesData = logicLayer.getQueryData('', 'aggregate', {company_id: companyUser.companyId.toString(), status: 'unseen', format: 'facebook'}, 0, { datetime: 1 })
-                  return callApi('livechat/query', 'post', messagesData, '', 'kibochat')
-                } else {
-                  resolve({openSessions: sessions, count: sessionsData.length})
-                }
-              }
-            })
-            .then(gotUnreadCount => {
-              if (i === sessionss.length - 1) {
-                sessions = logicLayer.getUnreadCount(gotUnreadCount, sessions)
-                let lastMessageData = logicLayer.getQueryData('', 'aggregate', {}, 0, { datetime: 1 }, undefined, {_id: '$session_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
-                return callApi(`livechat/query`, 'post', lastMessageData, '', 'kibochat')
-              }
-            })
-            .then(gotLastMessage => {
-              console.log('gotLastMessage: ', gotLastMessage)
-              console.log('sessions: ', sessions)
-              if (i === sessionss.length - 1) {
-                sessions = logicLayer.getLastMessage(gotLastMessage, sessions)
-                resolve({openSessions: sessions, count: sessionsData.length})
-              }
-            })
-            .catch(err => {
-              reject(err)
-            })
-        }
-      } else {
-        resolve({openSessions: [], count: sessionsData.length})
-      }
+          .then(page => {
+            session.page_id = page
+            if (index === sessions.length - 1) {
+              let messagesData = logicLayer.getQueryData('', 'aggregate', {company_id: companyUser.companyId.toString(), status: 'unseen', format: 'facebook'}, 0, { datetime: 1 })
+              return callApi('livechat/query', 'post', messagesData, '', 'kibochat')
+            } else {
+              return 'next'
+            }
+          })
+          .then(gotUnreadCount => {
+            if (index === sessions.length - 1) {
+              sessions = logicLayer.getUnreadCount(gotUnreadCount, sessions)
+              let lastMessageData = logicLayer.getQueryData('', 'aggregate', {}, 0, { datetime: 1 }, undefined, {_id: '$session_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+              return callApi(`livechat/query`, 'post', lastMessageData, '', 'kibochat')
+            } else {
+              return 'next'
+            }
+          })
+          .then(gotLastMessage => {
+            if (index === sessions.length - 1) {
+              sessions = logicLayer.getLastMessage(gotLastMessage, sessions)
+              logger.serverLog(TAG, `sessions: ${sessions}`)
+              resolve({sessions, count})
+            }
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
     })
       .catch(err => {
         reject(err)
