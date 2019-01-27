@@ -9,7 +9,7 @@ module.exports = {
   secure_port: process.env.SECURE_PORT || 8443,
 
   domain: `${process.env.DOMAIN || 'https://kibochat.cloudkibo.com'}`,
-  
+
   // MongoDB connection options
   mongo: {
     uri: process.env.MONGO_URI || 'mongodb://localhost/project-prod'

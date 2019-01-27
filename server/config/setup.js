@@ -34,7 +34,7 @@ module.exports = function (app, httpapp, config) {
 
   const socket = require('socket.io').listen(
     (config.env === 'production' || config.env === 'staging') ? httpsServer
-    : server)
+      : server)
 
   require('./socketio').setup(socket)
 
