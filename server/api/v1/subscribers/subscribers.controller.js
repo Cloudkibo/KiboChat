@@ -167,3 +167,19 @@ exports.subscribeBack = function (req, res) {
       })
     })
 }
+
+exports.updateData = function (req, res) {
+  utility.callApi('subscribers/updateData', 'get', {}, req.headers.authorization)
+    .then(updatedSubscribers => {
+      return res.status(200).json({
+        status: 'success',
+        payload: updatedSubscribers
+      })
+    })
+    .catch(err => {
+      return res.status(500).json({
+        status: 'failed',
+        payload: `Failed to fetch subscribers ${JSON.stringify(err)}`
+      })
+    })
+}
