@@ -146,6 +146,174 @@ exports.sentVsSeen = function (req, res) {
     })
 }
 
+exports.sentVsSeenNew = function (req, res) {
+  let datacounts = {}
+  callApi('companyUser/query', 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
+    .then(companyUser => {
+      if (!companyUser) {
+        return res.status(404).json({
+          status: 'failed',
+          description: 'The user account does not belong to any company. Please contact support'
+        })
+      }
+      if (req.body.pageId !== 'all') {
+        callApi('pages/query', 'post', {pageId: req.body.pageId}, req.headers.authorization)
+          .then(pages => {
+            const pagesArray = pages.map(page => page._id).map(String)
+            let matchAggregate = { company_id: companyUser.companyId.toString(),
+              'page_id': {$in: pagesArray},
+              'request_time': req.body.days === 'all' ? { $exists: true } : {
+                $gte: new Date(
+                  (new Date().getTime() - (req.body.days * 24 * 60 * 60 * 1000))),
+                $lt: new Date(
+                  (new Date().getTime()))
+              }
+            }
+            let matchAggregateForBots = { companyId: companyUser.companyId.toString(),
+              'pageId': {$in: pagesArray},
+              'datetime': req.body.days === 'all' ? { $exists: true } : {
+                $gte: new Date(
+                  (new Date().getTime() - (req.body.days * 24 * 60 * 60 * 1000))),
+                $lt: new Date(
+                  (new Date().getTime()))
+              }
+            }
+            callApi('sessions/query', 'post', {purpose: 'findAll', match: matchAggregate}, '', 'kibochat')
+              .then(sessions => {
+                const resolvedSessions = sessions.filter(session => session.status === 'resolved')
+                datacounts.sessions = {
+                  count: sessions.length,
+                  resolved: resolvedSessions.length
+                }
+                callApi('smart_replies/query', 'post', {purpose: 'findAll', match: matchAggregateForBots}, '', 'kibochat')
+                  .then(bots => {
+                    const hitCountArray = bots.map(bot => bot.hitCount)
+                    const missCountArray = bots.map(bot => bot.missCount)
+                    const responded = hitCountArray.reduce((a, b) => a + b, 0)
+                    const notResponded = missCountArray.reduce((a, b) => a + b, 0)
+                    datacounts.bots = {
+                      count: responded + notResponded,
+                      responded
+                    }
+                    graphDataNew(req.body, companyUser)
+                      .then(result => {
+                        return res.status(200).json({
+                          status: 'success',
+                          payload: {
+                            datacounts,
+                            graphDatas: result
+                          }
+                        })
+                      })
+                      .catch(err => {
+                        return res.status(500).json({
+                          status: 'failed',
+                          description: `Error in getting graphdaya ${JSON.stringify(
+                            err)}`
+                        })
+                      })
+                  })
+                  .catch(err => {
+                    return res.status(500).json({
+                      status: 'failed',
+                      description: `Failed to get bots ${err}}`
+                    })
+                  })
+              })
+              .catch(err => {
+                return res.status(500).json({
+                  status: 'failed',
+                  description: `Failed to get sessions ${err}}`
+                })
+              })
+          })
+          .catch(err => {
+            return res.status(500).json({
+              status: 'failed',
+              description: `Failed to get pages ${err}}`
+            })
+          })
+      }
+    })
+    .catch(err => {
+      if (err) {
+        return res.status(500).json({
+          status: 'failed',
+          description: `Internal Server Error ${JSON.stringify(err)}`
+        })
+      }
+    })
+}
+
+exports.sentVsSeen = function (req, res) {
+  let pageId = req.params.pageId
+  let datacounts = {}
+
+  callApi('companyUser/query', 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
+    .then(companyUser => {
+      if (!companyUser) {
+        return res.status(404).json({
+          status: 'failed',
+          description: 'The user account does not belong to any company. Please contact support'
+        })
+      }
+      callApi('pages/query', 'post', {pageId: pageId}, req.headers.authorization)
+        .then(pages => {
+          const pagesArray = pages.map(page => page._id).map(String)
+          callApi('sessions/query', 'post', {purpose: 'findAll', match: {company_id: companyUser.companyId.toString(), page_id: {$in: pagesArray}}}, '', 'kibochat')
+            .then(sessions => {
+              const resolvedSessions = sessions.filter(session => session.status === 'resolved')
+              datacounts.sessions = {
+                count: sessions.length,
+                resolved: resolvedSessions.length
+              }
+              callApi('smart_replies/query', 'post', {purpose: 'findAll', match: {companyId: companyUser.companyId.toString(), pageId: {$in: pagesArray}}}, '', 'kibochat')
+                .then(bots => {
+                  const hitCountArray = bots.map(bot => bot.hitCount)
+                  const missCountArray = bots.map(bot => bot.missCount)
+                  const responded = hitCountArray.reduce((a, b) => a + b, 0)
+                  const notResponded = missCountArray.reduce((a, b) => a + b, 0)
+                  datacounts.bots = {
+                    count: responded + notResponded,
+                    responded
+                  }
+                  console.log(`datacounts ${util.inspect(datacounts)}`)
+                  res.status(200).json({
+                    status: 'success',
+                    payload: datacounts
+                  })
+                })
+                .catch(err => {
+                  return res.status(500).json({
+                    status: 'failed',
+                    description: `Failed to get bots ${err}}`
+                  })
+                })
+            })
+            .catch(err => {
+              return res.status(500).json({
+                status: 'failed',
+                description: `Failed to get sessions ${err}}`
+              })
+            })
+        })
+        .catch(err => {
+          return res.status(500).json({
+            status: 'failed',
+            description: `Failed to get pages ${err}}`
+          })
+        })
+    })
+    .catch(err => {
+      if (err) {
+        return res.status(500).json({
+          status: 'failed',
+          description: `Internal Server Error ${JSON.stringify(err)}`
+        })
+      }
+    })
+}
+
 exports.stats = function (req, res) {
   let payload = {}
 
@@ -290,7 +458,33 @@ exports.toppages = function (req, res) {
       }
     })
 }
-
+function graphDataNew (body, companyUser) {
+  return new Promise(function (resolve, reject) {
+    let match = {
+      company_id: companyUser.companyId.toString(),
+      'page_id': body.pageId === 'all' ? { $exists: true } : body.pageId,
+      'request_time': body.days === 'all' ? { $exists: true } : {
+        $gte: new Date(
+          (new Date().getTime() - (body.days * 24 * 60 * 60 * 1000))),
+        $lt: new Date(
+          (new Date().getTime()))
+      }
+    }
+    let group = {
+      _id: {'year': {$year: '$request_time'}, 'month': {$month: '$request_time'}, 'day': {$dayOfMonth: '$request_time'}, 'company': '$company_id'},
+      count: {$sum: 1}
+    }
+    console.log('match: ', util.inspect(match))
+    callApi('sessions/query', 'post', {purpose: 'aggregate', match, group}, '', 'kibochat')
+      .then(sessionsgraphdata => {
+        console.log('sessionsgraphdata: ', util.inspect(sessionsgraphdata))
+        resolve({ sessionsgraphdata: sessionsgraphdata })
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
 exports.graphData = function (req, res) {
   var days = 0
   if (req.params.days === '0') {
