@@ -44,7 +44,7 @@ module.exports = function (app) {
   })
 
   app.get('/react-bundle', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../Staging/KiboPush/client/public/js', 'bundle.js'))
+    res.sendFile(path.join(__dirname, '../../KiboPush/client/public/js', 'bundle.js'))
   })
 
   app.get('/', (req, res) => {
