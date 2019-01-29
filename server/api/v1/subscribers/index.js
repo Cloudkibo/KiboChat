@@ -24,4 +24,8 @@ router.get('/subscribeBack/:id',
   auth.isAuthenticated(),
   controller.subscribeBack)
 
+router.get('/updateData',
+  auth.isAuthenticated(),
+  controller.updateData)
+
 module.exports = router

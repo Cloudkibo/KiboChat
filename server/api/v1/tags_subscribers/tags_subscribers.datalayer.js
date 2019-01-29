@@ -5,7 +5,6 @@ exports.genericfind = (query) => {
     .exec()
 }
 
-
 exports.genericRemove = (query) => {
   return TagSubscribers.remove(query)
     .exec()
