@@ -23,3 +23,25 @@ exports.deletePayload = {
     }
   }
 }
+
+exports.updatePayload = {
+  type: 'object',
+  properties: {
+    customFieldId: {
+      type: 'string',
+      required: true
+    },
+    name: {
+      type: 'string',
+      required: true
+    },
+    type: {
+      type: 'string',
+      required: true
+    },
+    description: {
+      type: 'string',
+      required: true
+    }
+  }
+}
