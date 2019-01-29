@@ -1,4 +1,5 @@
 const config = require('./config/environment/index')
+const Raven = require('raven')
 
 module.exports = function (app) {
   // API middlewares go here
@@ -57,4 +58,8 @@ module.exports = function (app) {
   }).post((req, res) => {
     res.redirect('/')
   })
+
+  if (env === 'production' || env === 'staging') {
+    app.use(Raven.errorHandler())
+  }
 }
