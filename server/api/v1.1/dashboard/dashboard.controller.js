@@ -233,6 +233,71 @@ exports.sentVsSeenNew = function (req, res) {
               description: `Failed to get pages ${err}}`
             })
           })
+      } else {
+        let matchAggregate = { company_id: companyUser.companyId.toString(),
+          'request_time': req.body.days === 'all' ? { $exists: true } : {
+            $gte: new Date(
+              (new Date().getTime() - (req.body.days * 24 * 60 * 60 * 1000))),
+            $lt: new Date(
+              (new Date().getTime()))
+          }
+        }
+        let matchAggregateForBots = { companyId: companyUser.companyId.toString(),
+          'datetime': req.body.days === 'all' ? { $exists: true } : {
+            $gte: new Date(
+              (new Date().getTime() - (req.body.days * 24 * 60 * 60 * 1000))),
+            $lt: new Date(
+              (new Date().getTime()))
+          }
+        }
+        callApi('sessions/query', 'post', {purpose: 'findAll', match: matchAggregate}, '', 'kibochat')
+          .then(sessions => {
+            const resolvedSessions = sessions.filter(session => session.status === 'resolved')
+            datacounts.sessions = {
+              count: sessions.length,
+              resolved: resolvedSessions.length
+            }
+            callApi('smart_replies/query', 'post', {purpose: 'findAll', match: matchAggregateForBots}, '', 'kibochat')
+              .then(bots => {
+                const hitCountArray = bots.map(bot => bot.hitCount)
+                const missCountArray = bots.map(bot => bot.missCount)
+                const responded = hitCountArray.reduce((a, b) => a + b, 0)
+                const notResponded = missCountArray.reduce((a, b) => a + b, 0)
+                datacounts.bots = {
+                  count: responded + notResponded,
+                  responded
+                }
+                graphDataNew(req.body, companyUser)
+                  .then(result => {
+                    return res.status(200).json({
+                      status: 'success',
+                      payload: {
+                        datacounts,
+                        graphDatas: result
+                      }
+                    })
+                  })
+                  .catch(err => {
+                    return res.status(500).json({
+                      status: 'failed',
+                      description: `Error in getting graphdaya ${JSON.stringify(
+                        err)}`
+                    })
+                  })
+              })
+              .catch(err => {
+                return res.status(500).json({
+                  status: 'failed',
+                  description: `Failed to get bots ${err}}`
+                })
+              })
+          })
+          .catch(err => {
+            return res.status(500).json({
+              status: 'failed',
+              description: `Failed to get sessions ${err}}`
+            })
+          })
       }
     })
     .catch(err => {
