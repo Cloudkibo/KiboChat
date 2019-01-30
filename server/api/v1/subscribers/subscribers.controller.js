@@ -1,9 +1,9 @@
 const logicLayer = require('./subscribers.logiclayer')
 const utility = require('../utility')
-const dataLayer = require('./subscribers.datalayer')
 const logger = require('../../../components/logger')
 const TAG = 'api/v2/subscribers/subscribers.controller.js'
 const util = require('util')
+const needle = require('needle')
 
 exports.index = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}, req.headers.authorization) // fetch company user
@@ -165,5 +165,122 @@ exports.subscribeBack = function (req, res) {
         status: 'failed',
         payload: `Failed to fetch subscriber ${JSON.stringify(error)}`
       })
+    })
+}
+
+exports.updateData = function (req, res) {
+  utility.callApi('subscribers/updateData', 'get', {}, req.headers.authorization)
+    .then(updatedSubscribers => {
+      return res.status(200).json({
+        status: 'success',
+        payload: updatedSubscribers
+      })
+    })
+    .catch(err => {
+      return res.status(500).json({
+        status: 'failed',
+        payload: `Failed to fetch subscribers ${JSON.stringify(err)}`
+      })
+    })
+}
+
+exports.unSubscribe = function (req, res) {
+  let companyUser = {}
+  let userPage = {}
+  let subscriber = {}
+  let updated = {}
+
+  let companyUserResponse = utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
+  let pageResponse = utility.callApi(`pages/${req.body.page_id}`, 'get', {}, req.headers.authorization)
+  let subscriberResponse = utility.callApi(`subscribers/${req.body.subscriber_id}`, 'get', {}, req.headers.authorization)
+  let updateSubscriberResponse = utility.callApi(`subscribers/update`, 'put', {
+    query: {_id: req.body.subscriber_id},
+    newPayload: {isSubscribed: false, unSubscribedBy: 'agent'},
+    options: {}
+  }, req.headers.authorization)
+
+  companyUserResponse.then(company => {
+    companyUser = company
+    return pageResponse
+  })
+    .then(page => {
+      userPage = page
+      return subscriberResponse
+    })
+    .then(subscriberData => {
+      subscriber = subscriberData
+      return updateSubscriberResponse
+    })
+    .then(updatedData => {
+      updated = updatedData
+      saveNotifications(companyUser, subscriber, req)
+      return utility.callApi(`user/query`, 'post', {_id: userPage.userId._id}, req.headers.authorization)
+    })
+    .then(connectedUser => {
+      connectedUser = connectedUser[0]
+      var currentUser
+      if (req.user.facebookInfo) {
+        currentUser = req.user
+      } else {
+        currentUser = connectedUser
+      }
+      needle.get(
+        `https://graph.facebook.com/v2.10/${userPage.pageId}?fields=access_token&access_token=${currentUser.facebookInfo.fbToken}`,
+        (err, resp) => {
+          if (err) {
+            logger.serverLog(TAG,
+              `Page access token from graph api error ${JSON.stringify(err)}`)
+          }
+          const messageData = {
+            text: 'We have unsubscribed you from our page. We will notify you when we subscribe you again. Thanks'
+          }
+          const data = {
+            messaging_type: 'UPDATE',
+            recipient: JSON.stringify({id: subscriber.senderId}), // this is the subscriber id
+            message: messageData
+          }
+          needle.post(
+            `https://graph.facebook.com/v2.6/me/messages?access_token=${resp.body.access_token}`,
+            data, (err, resp) => {
+              if (err) {
+                return res.status(500).json({
+                  status: 'failed',
+                  description: JSON.stringify(err)
+                })
+              }
+              require('./../../../config/socketio').sendMessageToClient({
+                room_id: companyUser.companyId,
+                body: {
+                  action: 'unsubscribe',
+                  payload: {
+                    subscriber_id: req.body.subscriber_id,
+                    user_id: req.user._id,
+                    user_name: req.user.name
+                  }
+                }
+              })
+              res.status(200).json({status: 'success', payload: updated})
+            })
+        })
+    })
+    .catch(err => {
+      res.status(500).json({status: 'failed', payload: `Failed to fetch user ${JSON.stringify(err)}`})
+    })
+}
+function saveNotifications (companyUser, subscriber, req) {
+  let companyUserResponse = utility.callApi(`companyUser/query`, 'post', {companyId: companyUser.companyId}, req.headers.authorization)
+
+  companyUserResponse.then(member => {
+    let notificationsData = {
+      message: `Subscriber ${subscriber.firstName + ' ' + subscriber.lastName} has been unsubscribed by ${req.user.name}`,
+      category: {type: 'unsubscribe', id: subscriber._id},
+      agentId: member.userId._id,
+      companyId: subscriber.companyId
+    }
+    return utility.callApi('notifications', 'post', notificationsData, '', 'kibochat')
+  })
+    .then(savedNotification => {})
+    .catch(error => {
+      logger.serverLog(TAG, `Failed to create notification ${JSON.stringify(error)}`)
     })
 }

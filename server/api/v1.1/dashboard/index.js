@@ -12,6 +12,12 @@ router.get('/sentVsSeen/:pageId',
   auth.isAuthenticated(),
   controller.sentVsSeen)
 
+router.post('/sentVsSeenNew',
+  auth.isAuthenticated(),
+  // auth.doesPlanPermitsThisAction('dashboard'),
+  // auth.doesRolePermitsThisAction('dashboardPermission'),
+  controller.sentVsSeenNew)
+
 router.get('/stats',
   auth.isAuthenticated(),
   controller.stats)

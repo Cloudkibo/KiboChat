@@ -9,7 +9,7 @@ import { contactsReducer } from './contacts.reducer'
 // Make a app reducer
 const appReducer = combineReducers({
   testReducer,
-  contactsReducer,
+  contactsReducer
 })
 
 export default appReducer

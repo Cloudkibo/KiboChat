@@ -7,21 +7,7 @@ Now the middleware will automatically send error response if the payload fails
 exports.createPayload = {
   type: 'object',
   properties: {
-    tag: {
-      type: 'string',
-      required: true
-    }
-  }
-}
-
-exports.renamePayload = {
-  type: 'object',
-  properties: {
-    tagId: {
-      type: 'string',
-      required: true
-    },
-    tagName: {
+    customField: {
       type: 'string',
       required: true
     }
@@ -31,44 +17,30 @@ exports.renamePayload = {
 exports.deletePayload = {
   type: 'object',
   properties: {
-    tagId: {
+    customFieldId: {
       type: 'string',
       required: true
     }
   }
 }
 
-exports.assignPayload = {
+exports.updatePayload = {
   type: 'object',
   properties: {
-    tagId: {
+    customFieldId: {
       type: 'string',
       required: true
     },
-    subscribers: {
-      type: 'array',
-      items: {
-        type: 'string'
-      }
-    }
-  }
-}
-
-exports.subscriberTagsPayload = {
-  type: 'object',
-  properties: {
-    subscriberId: {
+    name: {
       type: 'string',
       required: true
-    }
-  }
-}
-
-exports.queryPayload = {
-  type: 'object',
-  properties: {
-    query: {
-      type: 'object',
+    },
+    type: {
+      type: 'string',
+      required: true
+    },
+    description: {
+      type: 'string',
       required: true
     }
   }

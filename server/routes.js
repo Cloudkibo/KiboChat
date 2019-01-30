@@ -1,4 +1,6 @@
 const config = require('./config/environment/index')
+const Raven = require('raven')
+const path = require('path')
 
 module.exports = function (app) {
   // API middlewares go here
@@ -42,6 +44,10 @@ module.exports = function (app) {
     res.render('main', { environment: env })
   })
 
+  app.get('/react-bundle', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../KiboPush/client/public/js', 'bundle.js'))
+  })
+
   app.get('/', (req, res) => {
     res.sendFile('./../client/build/index.html')
   })
@@ -57,4 +63,8 @@ module.exports = function (app) {
   }).post((req, res) => {
     res.redirect('/')
   })
+
+  if (env === 'production' || env === 'staging') {
+    app.use(Raven.errorHandler())
+  }
 }

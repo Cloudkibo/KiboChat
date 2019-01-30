@@ -59,13 +59,6 @@ router.post('/assignTeam',
   validate({body: validationSchema.assignTeamPayload}),
   controller.assignTeam)
 
-router.post('/unSubscribe',
-  auth.isAuthenticated(),
-  auth.doesPlanPermitsThisAction('livechat'),
-  auth.doesRolePermitsThisAction('livechatPermission'),
-  validate({body: validationSchema.unSubscribePayload}),
-  controller.unSubscribe)
-
 router.post('/query',
   auth.isAuthenticated(),
   auth.doesPlanPermitsThisAction('livechat'),
