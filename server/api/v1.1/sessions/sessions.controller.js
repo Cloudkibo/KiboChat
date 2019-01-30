@@ -433,10 +433,11 @@ exports.unSubscribe = function (req, res) {
       updated = updatedData
       console.log('updatedData', updatedData)
       saveNotifications(companyUser, subscriber, req)
-      return callApi(`user/${userPage.userId._id}`, 'get', {}, req.headers.authorization)
+      return callApi(`user/query`, 'post', {_id: userPage.userId._id}, req.headers.authorization)
     })
     .then(connectedUser => {
       console.log('connectedUser', connectedUser)
+      connectedUser = connectedUser[0]
       var currentUser
       if (req.user.facebookInfo) {
         currentUser = req.user
