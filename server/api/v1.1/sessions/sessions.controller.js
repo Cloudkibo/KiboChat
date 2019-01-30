@@ -400,6 +400,7 @@ exports.assignTeam = function (req, res) {
 }
 
 exports.unSubscribe = function (req, res) {
+  console.log('unSubscribe body', req.body)
   let companyUser = {}
   let userPage = {}
   let subscriber = {}
@@ -415,6 +416,7 @@ exports.unSubscribe = function (req, res) {
     return pageResponse
   })
     .then(page => {
+      console.log('page fetched', page)
       userPage = page
       return subscriberResponse
     })
