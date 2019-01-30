@@ -425,15 +425,18 @@ exports.unSubscribe = function (req, res) {
       return subscriberResponse
     })
     .then(subscriberData => {
+      console.log('subscriberData', subscriberData)
       subscriber = subscriberData
       return updateSubscriberResponse
     })
     .then(updatedData => {
       updated = updatedData
+      console.log('updatedData', updatedData)
       saveNotifications(companyUser, subscriber, req)
       return callApi(`user/${userPage.userId}`, 'get', {}, req.headers.authorization)
     })
     .then(connectedUser => {
+      console.log('connectedUser', connectedUser)
       var currentUser
       if (req.user.facebookInfo) {
         currentUser = req.user
@@ -447,12 +450,13 @@ exports.unSubscribe = function (req, res) {
             logger.serverLog(TAG,
               `Page access token from graph api error ${JSON.stringify(err)}`)
           }
+          console.log('response from access_token', resp.body)
           const messageData = {
             text: 'We have unsubscribed you from our page. We will notify you when we subscribe you again. Thanks'
           }
           const data = {
             messaging_type: 'UPDATE',
-            recipient: {id: subscriber.senderId}, // this is the subscriber id
+            recipient: JSON.stringify({id: subscriber.senderId}), // this is the subscriber id
             message: messageData
           }
           needle.post(
@@ -464,6 +468,7 @@ exports.unSubscribe = function (req, res) {
                   description: JSON.stringify(err)
                 })
               }
+              console.log('response from sendmessage', resp.body)
               require('./../../../config/socketio').sendMessageToClient({
                 room_id: companyUser.companyId,
                 body: {
