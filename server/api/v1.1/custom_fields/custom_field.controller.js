@@ -76,6 +76,46 @@ exports.create = function (req, res) {
     })
 }
 
+exports.update = function (req, res) {
+  callApi.callApi('custom_fields/query', 'post', { purpose: 'findOne', match: { _id: req.body.customFieldId } }, req.headers.authorization)
+    .then(fieldPayload => {
+      if (!fieldPayload) {
+        return res.status(404).json({
+          status: 'failed',
+          description: 'No Custom field is available on server with given customFieldId.'
+        })
+      }
+      if (req.body.name) fieldPayload.name = req.body.name
+      if (req.body.type) fieldPayload.type = req.body.type
+      if (req.body.description) fieldPayload.description = req.body.description
+      callApi.callApi('custom_fields/', 'put', { purpose: 'updateOne', match: { _id: req.body.customFieldId }, updated: fieldPayload }, req.headers.authorization)
+        .then(updated => {
+          require('./../../../config/socketio').sendMessageToClient({
+            room_id: fieldPayload.companyId._id,
+            body: {
+              action: 'tag_rename',
+              payload: {
+                fieldPayload
+              }
+            }
+          })
+          return res.status(200).json({status: 'success', payload: updated})
+        })
+        .catch(err => {
+          return res.status(500).json({
+            status: 'failed',
+            description: `Internal Server Error in saving Tags${JSON.stringify(err)}`
+          })
+        })
+    })
+    .catch(err => {
+      return res.status(500).json({
+        status: 'failed',
+        description: `Internal Server Error in saving custom fields${JSON.stringify(err)}`
+      })
+    })
+}
+
 exports.delete = function (req, res) {
   callApi.callApi('custom_field_subscribers/', 'delete', {purpose: 'deleteMany', match: {customFieldId: req.body.customFieldId}}, req.headers.authorization)
     .then(() => {
