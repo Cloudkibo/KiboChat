@@ -64,10 +64,8 @@ exports.create = function (req, res) {
                     userId: req.user._id,
                     companyId: companyUser.companyId
                   }
-                  console.log('Tag Payload', tagPayload)
                   callApi.callApi('tags/', 'post', tagPayload, req.headers.authorization)
                     .then(newTag => {
-                      console.log('New Tag', newTag)
                       callApi.callApi('featureUsage/updateCompany', 'put', {query: {companyId: companyUser.companyId}, newPayload: { $inc: { labels: 1 } }, options: {}}, req.headers.authorization)
                         .then(updated => {
                           logger.serverLog(TAG, `Updated Feature Usage ${JSON.stringify(updated)}`)
@@ -145,7 +143,6 @@ exports.rename = function (req, res) {
       tagPayload.tag = req.body.tagName
       callApi.callApi('tags/update', 'put', {query: {_id: req.body.tagId}, newPayload: tagPayload, options: {}}, req.headers.authorization)
         .then(newTag => {
-          console.log('New tag', tagPayload)
           require('./../../../config/socketio').sendMessageToClient({
             room_id: tagPayload.companyId._id,
             body: {
@@ -178,38 +175,61 @@ exports.rename = function (req, res) {
 exports.delete = function (req, res) {
   callApi.callApi(`tags_subscriber/query`, 'post', {tagId: req.body.tagId}, req.headers.authorization)
     .then(tagsSubscriber => {
-      callApi.callApi(`tags_subscriber/${tagsSubscriber._id}`, 'delete', {}, req.headers.authorization)
-        .then(result => {
-          callApi.callApi(`tags/${req.body.tagId}`, 'delete', {}, req.headers.authorization)
-            .then(tagPayload => {
-              require('./../../../config/socketio').sendMessageToClient({
-                room_id: tagPayload.companyId,
-                body: {
-                  action: 'tag_remove',
-                  payload: {
-                    tag_id: req.body.tagId
+      if (tagsSubscriber[0]) {
+        callApi.callApi(`tags_subscriber/${tagsSubscriber[0]._id}`, 'delete', {}, req.headers.authorization)
+          .then(result => {
+            callApi.callApi(`tags/${req.body.tagId}`, 'delete', {}, req.headers.authorization)
+              .then(tagPayload => {
+                require('./../../../config/socketio').sendMessageToClient({
+                  room_id: tagPayload.companyId,
+                  body: {
+                    action: 'tag_remove',
+                    payload: {
+                      tag_id: req.body.tagId
+                    }
                   }
-                }
+                })
+                return res.status(200)
+                  .json({status: 'success', description: 'Tag removed successfully'})
               })
-              return res.status(200)
-                .json({status: 'success', description: 'Tag removed successfully'})
-            })
-            .catch(err => {
-              return res.status(404).json({
-                status: 'failed',
-                description: `Failed to remove tag ${err}`
+              .catch(err => {
+                return res.status(500).json({
+                  status: 'failed',
+                  description: `Failed to remove tag ${err}`
+                })
               })
-            })
-        })
-        .catch(err => {
-          return res.status(404).json({
-            status: 'failed',
-            description: `Failed to remove tag subscriber${err}`
           })
-        })
+          .catch(err => {
+            return res.status(500).json({
+              status: 'failed',
+              description: `Failed to remove tag subscriber${err}`
+            })
+          })
+      } else {
+        callApi.callApi(`tags/${req.body.tagId}`, 'delete', {}, req.headers.authorization)
+          .then(tagPayload => {
+            require('./../../../config/socketio').sendMessageToClient({
+              room_id: tagPayload.companyId,
+              body: {
+                action: 'tag_remove',
+                payload: {
+                  tag_id: req.body.tagId
+                }
+              }
+            })
+            return res.status(200)
+              .json({status: 'success', description: 'Tag removed successfully'})
+          })
+          .catch(err => {
+            return res.status(500).json({
+              status: 'failed',
+              description: `Failed to remove tag ${err}`
+            })
+          })
+      }
     })
     .catch(err => {
-      return res.status(404).json({
+      return res.status(500).json({
         status: 'failed',
         description: `Failed to find tagSubscriber ${err}`
       })
@@ -233,7 +253,6 @@ exports.assign = function (req, res) {
               subscriberId: subscriber._id,
               companyId: tagPayload.companyId._id
             }
-            console.log('TagPayload', subscriberTagsPayload)
             callApi.callApi(`tags_subscriber/`, 'post', subscriberTagsPayload, req.headers.authorization)
               .then(newRecord => {
                 require('./../../../config/socketio').sendMessageToClient({
@@ -312,7 +331,6 @@ exports.unassign = function (req, res) {
 exports.subscribertags = function (req, res) {
   callApi.callApi(`tags_subscriber/query`, 'post', {subscriberId: req.body.subscriberId}, req.headers.authorization)
     .then(tagsSubscriber => {
-      console.log('Tags SUbscriebr', tagsSubscriber)
       let payload = []
       for (let i = 0; i < tagsSubscriber.length; i++) {
         payload.push({
