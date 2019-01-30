@@ -433,7 +433,7 @@ exports.unSubscribe = function (req, res) {
       updated = updatedData
       console.log('updatedData', updatedData)
       saveNotifications(companyUser, subscriber, req)
-      return callApi(`user/${userPage.userId}`, 'get', {}, req.headers.authorization)
+      return callApi(`user/${userPage.userId._id}`, 'get', {}, req.headers.authorization)
     })
     .then(connectedUser => {
       console.log('connectedUser', connectedUser)
