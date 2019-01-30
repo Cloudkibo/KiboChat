@@ -28,3 +28,5 @@ router.post('/delete',
   auth.isAuthenticated(),
   validate({body: validationSchema.deletePayload}),
   controller.delete)
+
+module.exports = router
