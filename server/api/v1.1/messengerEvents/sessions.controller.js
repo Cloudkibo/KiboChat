@@ -88,7 +88,7 @@ exports.index = function (req, res) {
 }
 function saveLiveChat (page, subscriber, session, event) {
   let chatPayload = {
-    format: 'facebook',
+    format: event.message.is_echo ? 'convo' : 'facebook',
     sender_id: subscriber._id,
     recipient_id: page.userId._id,
     sender_fb_id: subscriber.senderId,
@@ -98,7 +98,7 @@ function saveLiveChat (page, subscriber, session, event) {
     status: 'unseen', // seen or unseen
     payload: event.message
   }
-  if (subscriber) {
+  if (subscriber && !event.message.is_echo) {
     BotsDataLayer.findOneBotObjectUsingQuery({ pageId: subscriber.pageId._id.toString() })
       .then(bot => {
         if (bot) {
