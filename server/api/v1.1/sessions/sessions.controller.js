@@ -409,7 +409,11 @@ exports.unSubscribe = function (req, res) {
   let companyUserResponse = callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
   let pageResponse = callApi(`pages/${req.body.page_id}`, 'get', {}, req.headers.authorization)
   let subscriberResponse = callApi(`subscribers/${req.body.subscriber_id}`, 'get', {}, req.headers.authorization)
-  let updateSubscriberResponse = callApi(`subscribers/${req.body.subscriber_id}`, 'put', {isSubscribed: false, unSubscribedBy: 'agent'}, req.headers.authorization)
+  let updateSubscriberResponse = callApi(`subscribers/update`, 'put', {
+    query: {_id: req.body.subscriber_id},
+    newPayload: {isSubscribed: false, unSubscribedBy: 'agent'},
+    options: {}
+  }, req.headers.authorization)
 
   companyUserResponse.then(company => {
     companyUser = company
