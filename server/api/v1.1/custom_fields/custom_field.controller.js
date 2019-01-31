@@ -35,7 +35,7 @@ exports.index = function (req, res) {
 }
 
 exports.create = function (req, res) {
-  callApi.callApi('companyUser/query', 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
+  callApi.callApi('companyUser/query', 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
       if (!companyUser) {
         return res.status(404).json({
@@ -44,7 +44,9 @@ exports.create = function (req, res) {
         })
       }
       let customFieldPayload = {
-        customField: req.body.customField,
+        name: req.body.name,
+        type: req.body.type,
+        description: req.body.description,
         companyId: companyUser.companyId,
         createdBy: req.user._id
       }
@@ -59,12 +61,12 @@ exports.create = function (req, res) {
               }
             }
           })
-          return res.status(201).json({status: 'success', payload: newCustomField})
+          return res.status(201).json({ status: 'success', payload: newCustomField })
         })
         .catch(err => {
           return res.status(500).json({
             status: 'failed',
-            description: `Internal Server Error in creating custom field${JSON.stringify(err)}`
+            description: err
           })
         })
     })
