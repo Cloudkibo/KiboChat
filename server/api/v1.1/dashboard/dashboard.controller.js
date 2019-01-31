@@ -613,8 +613,23 @@ exports.graphData = function (req, res) {
       }
     })
 }
+function populateIds (pages, subscriber) {
+  return new Promise(function (resolve, reject) {
+    let pageIds = []
+    for (let i = 0; i < pages.length; i++) {
+      if (subscriber) {
+        pageIds.push(pages[i]._id)
+      } else {
+        pageIds.push(pages[i].pageId)
+      }
+      if (pageIds.length === pages.length) {
+        resolve({pageIds: pageIds})
+      }
+    }
+  })
+}
 exports.subscriberSummary = function (req, res) {
-  callApi('companyUser/query', 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
+  callApi.callApi('companyUser/query', 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
     .then(companyUser => {
       if (!companyUser) {
         return res.status(404).json({
@@ -622,43 +637,51 @@ exports.subscriberSummary = function (req, res) {
           description: 'The user account does not belong to any company. Please contact support'
         })
       }
-      callApi('subscribers/aggregate', 'post', LogicLayer.queryForSubscribers(req.body, companyUser, true), req.headers.authorization)
-        .then(subscribers => {
-          console.log('subscribes', subscribers)
-          callApi('subscribers/aggregate', 'post', LogicLayer.queryForSubscribers(req.body, companyUser, false), req.headers.authorization)
-            .then(unsubscribes => {
-              console.log('unsubscribes', unsubscribes)
-              console.log('LogicLayer', JSON.stringify(LogicLayer.queryForSubscribersGraph(req.body, companyUser, true)))
-              callApi('subscribers/aggregate', 'post', LogicLayer.queryForSubscribersGraph(req.body, companyUser, true), req.headers.authorization)
-                .then(graphdata => {
-                  let data = {
-                    subscribes: subscribers.length > 0 ? subscribers[0].count : 0,
-                    unsubscribes: unsubscribes.length > 0 ? unsubscribes[0].count : 0,
-                    graphdata: graphdata
-                  }
-                  return res.status(200).json({
-                    status: 'success',
-                    payload: data
+      callApi.callApi(`pages/query`, 'post', {connected: true, companyId: companyUser.companyId}, req.headers.authorization) // fetch connected pages
+        .then(pages => {
+          populateIds(pages, true).then(result => {
+            callApi.callApi('subscribers/aggregate', 'post', LogicLayer.queryForSubscribers(req.body, companyUser, true, result.pageIds), req.headers.authorization)
+              .then(subscribers => {
+                callApi.callApi('subscribers/aggregate', 'post', LogicLayer.queryForSubscribers(req.body, companyUser, false, result.pageIds), req.headers.authorization)
+                  .then(unsubscribes => {
+                    callApi.callApi('subscribers/aggregate', 'post', LogicLayer.queryForSubscribersGraph(req.body, companyUser, true, result.pageIds), req.headers.authorization)
+                      .then(graphdata => {
+                        let data = {
+                          subscribes: subscribers.length > 0 ? subscribers[0].count : 0,
+                          unsubscribes: unsubscribes.length > 0 ? unsubscribes[0].count : 0,
+                          graphdata: graphdata
+                        }
+                        return res.status(200).json({
+                          status: 'success',
+                          payload: data
+                        })
+                      })
+                      .catch(err => {
+                        return res.status(500).json({
+                          status: 'failed',
+                          description: `Error in getting graphdata ${JSON.stringify(err)}`
+                        })
+                      })
                   })
-                })
-                .catch(err => {
-                  return res.status(500).json({
-                    status: 'failed',
-                    description: `Error in getting graphdata ${JSON.stringify(err)}`
+                  .catch(err => {
+                    return res.status(500).json({
+                      status: 'failed',
+                      description: `Error in getting unsubscribers ${JSON.stringify(err)}`
+                    })
                   })
-                })
-            })
-            .catch(err => {
-              return res.status(500).json({
-                status: 'failed',
-                description: `Error in getting unsubscribers ${JSON.stringify(err)}`
               })
-            })
+              .catch(err => {
+                return res.status(500).json({
+                  status: 'failed',
+                  description: `Error in getting subscribers ${JSON.stringify(err)}`
+                })
+              })
+          })
         })
         .catch(err => {
           return res.status(500).json({
             status: 'failed',
-            description: `Error in getting subscribers ${JSON.stringify(err)}`
+            description: `Internal Server Error ${JSON.stringify(err)}`
           })
         })
     })
