@@ -635,11 +635,15 @@ exports.subscriberSummary = function (req, res) {
       }
       callApi.callApi(`pages/query`, 'post', {connected: true, companyId: companyUser.companyId}, req.headers.authorization) // fetch connected pages
         .then(pages => {
-          populateIds(pages, true).then(result => {
+          console.log('pages.length', pages.length)
+          populateIds(pages).then(result => {
+            console.log('populateids', result.pageIds)
             callApi.callApi('subscribers/aggregate', 'post', LogicLayer.queryForSubscribers(req.body, companyUser, true, result.pageIds), req.headers.authorization)
               .then(subscribers => {
+                console.log('subscribers.length', subscribers.length)
                 callApi.callApi('subscribers/aggregate', 'post', LogicLayer.queryForSubscribers(req.body, companyUser, false, result.pageIds), req.headers.authorization)
                   .then(unsubscribes => {
+                    console.log('unsubscribes.length', unsubscribes.length)
                     callApi.callApi('subscribers/aggregate', 'post', LogicLayer.queryForSubscribersGraph(req.body, companyUser, true, result.pageIds), req.headers.authorization)
                       .then(graphdata => {
                         let data = {
