@@ -61,6 +61,7 @@ exports.updatePayload =
       }
     },
     'required': [
+      'customFieldId',
       'updated'
     ]
   }

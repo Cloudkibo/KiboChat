@@ -87,10 +87,11 @@ exports.update = function (req, res) {
           description: 'No Custom field is available on server with given customFieldId.'
         })
       }
-      if (req.body.name) fieldPayload.name = req.body.name
-      if (req.body.type) fieldPayload.type = req.body.type
-      if (req.body.description) fieldPayload.description = req.body.description
-      callApi.callApi('custom_fields/', 'put', { purpose: 'updateOne', match: { _id: req.body.customFieldId }, updated: fieldPayload }, req.headers.authorization)
+      let updatedPayload = {}
+      if (req.body.updated.name) updatedPayload.name = req.body.updated.name
+      if (req.body.updated.type) updatedPayload.type = req.body.updated.type
+      if (req.body.updated.description) updatedPayload.description = req.body.updated.description
+      callApi.callApi('custom_fields/', 'put', { purpose: 'updateOne', match: { _id: req.body.customFieldId }, updated: updatedPayload }, req.headers.authorization)
         .then(updated => {
           require('./../../../config/socketio').sendMessageToClient({
             room_id: fieldPayload.companyId._id,
@@ -101,19 +102,19 @@ exports.update = function (req, res) {
               }
             }
           })
-          return res.status(200).json({status: 'success', payload: updated})
+          return res.status(200).json({ status: 'success', payload: updated })
         })
         .catch(err => {
           return res.status(500).json({
             status: 'failed',
-            description: `Internal Server Error in saving Tags${JSON.stringify(err)}`
+            description: err
           })
         })
     })
     .catch(err => {
       return res.status(500).json({
         status: 'failed',
-        description: `Internal Server Error in saving custom fields${JSON.stringify(err)}`
+        description: `can not find custom field with given information${JSON.stringify(err)}`
       })
     })
 }
