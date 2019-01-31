@@ -3,7 +3,6 @@ This file will contain the functions for logic layer.
 By separating it from controller, we are separating the concerns.
 Thus we can use it from other non express callers like cron etc
 */
-const mongoose = require('mongoose')
 
 exports.getSubscriberIds = function (subscribers) {
   let subscriberIds = []
@@ -33,19 +32,19 @@ exports.getCriterias = function (body, companyUser) {
   let recordsToSkip = 0
   if (!body.filter) {
     findCriteria = {
-      companyId: mongoose.Types.ObjectId(companyUser.companyId),
+      companyId: companyUser.companyId,
       isEnabledByPage: true
     }
   } else {
     search = '.*' + body.filter_criteria.search_value + '.*'
     findCriteria = {
-      companyId: mongoose.Types.ObjectId(companyUser.companyId),
+      companyId: companyUser.companyId,
       isEnabledByPage: true,
       $or: [{firstName: {$regex: search, $options: 'i'}}, {lastName: {$regex: search, $options: 'i'}}],
       gender: body.filter_criteria.gender_value !== '' ? body.filter_criteria.gender_value : {$exists: true},
       locale: body.filter_criteria.locale_value !== '' ? body.filter_criteria.locale_value : {$exists: true},
       isSubscribed: body.filter_criteria.status_value !== '' ? body.filter_criteria.status_value : {$exists: true},
-      pageId: body.filter_criteria.page_value !== '' ? mongoose.Types.ObjectId(body.filter_criteria.page_value) : {$exists: true}
+      pageId: body.filter_criteria.page_value !== '' ? body.filter_criteria.page_value : {$exists: true}
     }
   }
   let countCriteria = [
@@ -72,7 +71,7 @@ exports.getCriterias = function (body, companyUser) {
     finalCriteria = [
       { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
       { $unwind: '$pageId' },
-      { $match: { $and: [temp, { _id: { $lt: mongoose.Types.ObjectId(body.last_id) } }] } },
+      { $match: { $and: [temp, { _id: { $lt: body.last_id } }] } },
       { $sort: { datetime: -1 } },
       { $skip: recordsToSkip },
       { $limit: body.number_of_records }
@@ -82,7 +81,7 @@ exports.getCriterias = function (body, companyUser) {
     finalCriteria = [
       { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
       { $unwind: '$pageId' },
-      { $match: { $and: [temp, { _id: { $gt: mongoose.Types.ObjectId(body.last_id) } }] } },
+      { $match: { $and: [temp, { _id: { $gt: body.last_id } }] } },
       { $sort: { datetime: -1 } },
       { $skip: recordsToSkip },
       { $limit: body.number_of_records }

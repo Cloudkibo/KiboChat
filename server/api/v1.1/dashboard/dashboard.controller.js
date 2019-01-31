@@ -1,6 +1,5 @@
 const logger = require('../../../components/logger')
 const TAG = 'api/pages/dashboard.controller.js'
-// const mongoose = require('mongoose')
 const sortBy = require('sort-array')
 // const needle = require('needle')
 const util = require('util')
