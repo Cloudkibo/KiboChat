@@ -5,7 +5,7 @@ const logicLayer = require('./phoneNumber.logiclayer')
 const fs = require('fs')
 const csv = require('csv-parser')
 let request = require('request')
-const notificationsUtility = require('../notifications/notifications.utility')
+const notificationsUtility = require('../../v1.1/notifications/notifications.utility')
 
 exports.upload = function (req, res) {
   let directory = logicLayer.directory(req)

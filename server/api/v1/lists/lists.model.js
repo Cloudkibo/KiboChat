@@ -1,5 +1,5 @@
-let mongoose = require('mongoose')
-let Schema = mongoose.Schema
+let  = require('')
+let Schema = .Schema
 
 const listSchema = new Schema({
   listName: {
@@ -15,4 +15,4 @@ const listSchema = new Schema({
   parentListName: { type: String }
 })
 
-module.exports = mongoose.model('lists', listSchema)
+module.exports = .model('lists', listSchema)

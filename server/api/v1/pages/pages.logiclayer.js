@@ -3,7 +3,6 @@ This file will contain the functions for logic layer.
 By separating it from controller, we are separating the concerns.
 Thus we can use it from other non express callers like cron etc
 */
-const mongoose = require('mongoose')
 
 exports.removeDuplicates = function (pages) {
   let pagesToSend = []
@@ -41,14 +40,14 @@ exports.getCriterias = function (body, companyUser) {
   } else if (body.first_page === 'next') {
     recordsToSkip = Math.abs(((body.requested_page - 1) - (body.current_page))) * body.number_of_records
     finalCriteria = [
-      { $match: { $and: [findCriteria, { _id: { $gt: mongoose.Types.ObjectId(body.last_id) } }] } },
+      { $match: { $and: [findCriteria, { _id: { $gt: body.last_id } }] } },
       { $skip: recordsToSkip },
       { $limit: body.number_of_records }
     ]
   } else if (body.first_page === 'previous') {
     recordsToSkip = Math.abs((body.requested_page * body.number_of_records) - body.number_of_records)
     finalCriteria = [
-      { $match: { $and: [findCriteria, { _id: { $lt: mongoose.Types.ObjectId(body.last_id) } }] } },
+      { $match: { $and: [findCriteria, { _id: { $lt: body.last_id } }] } },
       { $skip: recordsToSkip },
       { $limit: body.number_of_records }
     ]

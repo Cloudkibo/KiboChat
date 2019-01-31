@@ -4,7 +4,6 @@ const needle = require('needle')
 const path = require('path')
 const fs = require('fs')
 let config = require('./../../../config/environment')
-const mongoose = require('mongoose')
 let request = require('request')
 const crypto = require('crypto')
 const utility = require('../utility')
@@ -99,7 +98,7 @@ exports.upload = function (req, res) {
       if (req.body.pages && req.body.pages.length > 0) {
         let pages = JSON.parse(req.body.pages)
         logger.serverLog(TAG, `Pages in upload file ${pages}`)
-        utility.callApi(`pages/${mongoose.Types.ObjectId(pages[0])}`)
+        utility.callApi(`pages/${pages[0]}`)
           .then(page => {
             needle.get(
               `https://graph.facebook.com/v2.10/${page.pageId}?fields=access_token&access_token=${page.userId.facebookInfo.fbToken}`,

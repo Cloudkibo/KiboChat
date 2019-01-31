@@ -50,5 +50,7 @@ module.exports = function (app, httpapp, config) {
 
   if (config.env === 'production') {
     console.log('Project server STARTED on %s in %s mode', config.port, config.env)
+  } else {
+    console.log('started in other mode')
   }
 }
