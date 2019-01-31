@@ -11,7 +11,7 @@ exports.index = function (req, res) {
           description: 'The user account does not belong to any company. Please contact support'
         })
       }
-      callApi.callApi('custom_fields/query', 'post', {purpose: 'findAll', match: { companyId: companyUser.companyId }}, req.headers.authorization)
+      callApi.callApi('custom_fields/query', 'post', { purpose: 'findAll', match: { companyId: companyUser.companyId } }, req.headers.authorization)
         .then(customFields => {
           res.status(200).json({ status: 'success', payload: customFields })
         })
@@ -120,33 +120,65 @@ exports.update = function (req, res) {
 }
 
 exports.delete = function (req, res) {
-  callApi.callApi('custom_field_subscribers/', 'delete', {purpose: 'deleteMany', match: {customFieldId: req.body.customFieldId}}, req.headers.authorization)
-    .then(() => {
-      callApi.callApi('custom_fields/', 'post', {purpose: 'deleteOne', match: {_id: req.body.customFieldId}})
-        .then(fieldPayload => {
-          require('./../../../config/socketio').sendMessageToClient({
-            room_id: fieldPayload.companyId,
-            body: {
-              action: 'custom_field_remove',
-              payload: {
-                customFieldId: req.body.customFieldId
+  callApi.callApi('custom_field_subscribers/query', 'post', { purpose: 'findOne', match: { _id: req.body.customFieldId } }, req.headers.authorization)
+    .then(foundCustomField => {
+      if (foundCustomField) {
+        callApi.callApi('custom_field_subscribers/', 'delete', { purpose: 'deleteMany', match: { customFieldId: req.body.customFieldId } }, req.headers.authorization)
+          .then(() => {
+            callApi.callApi('custom_fields/', 'delete', { purpose: 'deleteOne', match: { _id: req.body.customFieldId } }, req.headers.authorization)
+              .then(fieldPayload => {
+                require('./../../../config/socketio').sendMessageToClient({
+                  room_id: fieldPayload.companyId,
+                  body: {
+                    action: 'custom_field_remove',
+                    payload: {
+                      customFieldId: req.body.customFieldId
+                    }
+                  }
+                })
+                return res.status(200)
+                  .json({ status: 'success', description: 'Custom Field removed successfully' })
+              })
+              .catch(err => {
+                return res.status(404).json({
+                  status: 'failed',
+                  description: `Failed to remove custom field ${err}`
+                })
+              })
+          })
+          .catch(err => {
+            return res.status(404).json({
+              status: 'failed',
+              description: `Failed to remove custom field subscriber${err}`
+            })
+          })
+      } else {
+        callApi.callApi('custom_fields/', 'delete', { purpose: 'deleteOne', match: { _id: req.body.customFieldId } }, req.headers.authorization)
+          .then(fieldPayload => {
+            require('./../../../config/socketio').sendMessageToClient({
+              room_id: fieldPayload.companyId,
+              body: {
+                action: 'custom_field_remove',
+                payload: {
+                  customFieldId: req.body.customFieldId
+                }
               }
-            }
+            })
+            return res.status(200)
+              .json({ status: 'success', description: 'Custom Field removed successfully' })
           })
-          return res.status(200)
-            .json({status: 'success', description: 'Custom Field removed successfully'})
-        })
-        .catch(err => {
-          return res.status(404).json({
-            status: 'failed',
-            description: `Failed to remove custom field ${err}`
+          .catch(err => {
+            return res.status(404).json({
+              status: 'failed',
+              description: `Failed to remove custom field ${err}`
+            })
           })
-        })
+      }
     })
     .catch(err => {
       return res.status(404).json({
         status: 'failed',
-        description: `Failed to remove custom field subscriber${err}`
+        description: `Failed to find custom field subsriber${err}`
       })
     })
 }
