@@ -613,15 +613,11 @@ exports.graphData = function (req, res) {
       }
     })
 }
-function populateIds (pages, subscriber) {
+function populateIds (pages) {
   return new Promise(function (resolve, reject) {
     let pageIds = []
     for (let i = 0; i < pages.length; i++) {
-      if (subscriber) {
-        pageIds.push(pages[i]._id)
-      } else {
-        pageIds.push(pages[i].pageId)
-      }
+      pageIds.push(pages[i]._id)
       if (pageIds.length === pages.length) {
         resolve({pageIds: pageIds})
       }
