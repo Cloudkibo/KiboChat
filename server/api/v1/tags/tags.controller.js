@@ -310,12 +310,14 @@ exports.subscribertags = function (req, res) {
     .then(tagsSubscriber => {
       let payload = []
       for (let i = 0; i < tagsSubscriber.length; i++) {
-        payload.push({
-          _id: tagsSubscriber[i].tagId._id,
-          tag: tagsSubscriber[i].tagId.tag,
-          subscriberId: tagsSubscriber[i].subscriberId
-        })
-        if (payload.length === tagsSubscriber.length) {
+        if (tagsSubscriber[i].tagId && tagsSubscriber[i].tagId._id) {
+          payload.push({
+            _id: tagsSubscriber[i].tagId._id,
+            tag: tagsSubscriber[i].tagId.tag,
+            subscriberId: tagsSubscriber[i].subscriberId
+          })
+        }
+        if (i === tagsSubscriber.length - 1) {
           return res.status(200).json({
             status: 'success',
             payload: payload
