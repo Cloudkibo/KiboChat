@@ -403,37 +403,39 @@ exports.stats = function (req, res) {
       }
       callApi('pages/query', 'post', {connected: true, companyId: companyUser.companyId}, req.headers.authorization)
         .then((pages) => {
-          payload.pages = pages.length
-          callApi('pages/query', 'post', {companyId: companyUser.companyId}, req.headers.authorization)
-            .then(allPages => {
-              let removeDuplicates = (myArr, prop) => {
-                return myArr.filter((obj, pos, arr) => {
-                  return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos
-                })
-              }
-              let allPagesWithoutDuplicates = removeDuplicates(allPages, 'pageId')
-              payload.totalPages = allPagesWithoutDuplicates.length
-              callApi('subscribers/query', 'post', {companyId: companyUser.companyId, isEnabledByPage: true, isSubscribed: true}, req.headers.authorization)
-                .then(subscribers => {
-                  logger.serverLog(TAG, `subscribers retrieved: ${subscribers}`)
-                  payload.subscribers = subscribers.length
-                  callApi('livechat/query', 'post', {purpose: 'findAll', match: {company_id: companyUser.companyId, status: 'unseen', format: 'facebook'}}, '', 'kibochat')
-                    .then(messages => {
-                      payload.unreadCount = messages.length
-                      res.status(200).json({
-                        status: 'success',
-                        payload
-                      })
-                    })
-                    .catch()
-                })
-                .catch(err => {
-                  return res.status(500).json({
-                    status: 'failed',
-                    description: `failed to get livechat messages ${err}`
+          populateIds(pages).then(result => {
+            payload.pages = pages.length
+            callApi('pages/query', 'post', {companyId: companyUser.companyId}, req.headers.authorization)
+              .then(allPages => {
+                let removeDuplicates = (myArr, prop) => {
+                  return myArr.filter((obj, pos, arr) => {
+                    return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos
                   })
-                })
-            })
+                }
+                let allPagesWithoutDuplicates = removeDuplicates(allPages, 'pageId')
+                payload.totalPages = allPagesWithoutDuplicates.length
+                callApi('subscribers/query', 'post', {companyId: companyUser.companyId, isSubscribed: true, pageId: {$in: result.pageIds}}, req.headers.authorization)
+                  .then(subscribers => {
+                    logger.serverLog(TAG, `subscribers retrieved: ${subscribers}`)
+                    payload.subscribers = subscribers.length
+                    callApi('livechat/query', 'post', {purpose: 'findAll', match: {company_id: companyUser.companyId, status: 'unseen', format: 'facebook'}}, '', 'kibochat')
+                      .then(messages => {
+                        payload.unreadCount = messages.length
+                        res.status(200).json({
+                          status: 'success',
+                          payload
+                        })
+                      })
+                      .catch()
+                  })
+                  .catch(err => {
+                    return res.status(500).json({
+                      status: 'failed',
+                      description: `failed to get livechat messages ${err}`
+                    })
+                  })
+              })
+          })
             .catch(err => {
               return res.status(500).json({
                 status: 'failed',
