@@ -324,6 +324,7 @@ exports.subscribertags = function (req, res) {
       }
     })
     .catch(err => {
+      console.log('error in tag subscribers', err)
       return res.status(500).json({
         status: 'failed',
         description: `Internal server error in fetching tag subscribers. ${err}`
