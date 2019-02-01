@@ -231,6 +231,7 @@ exports.assign = function (req, res) {
             }
             callApi.callApi(`tags_subscriber/`, 'post', subscriberTagsPayload, req.headers.authorization)
               .then(newRecord => {
+                console.log('newRecord', newRecord)
                 require('./../../../config/socketio').sendMessageToClient({
                   room_id: tagPayload.companyId._id,
                   body: {
