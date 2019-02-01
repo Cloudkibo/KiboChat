@@ -315,11 +315,13 @@ exports.subscribertags = function (req, res) {
           tag: tagsSubscriber[i].tagId.tag,
           subscriberId: tagsSubscriber[i].subscriberId
         })
+        if (payload.length === tagsSubscriber.length) {
+          return res.status(200).json({
+            status: 'success',
+            payload: payload
+          })
+        }
       }
-      return res.status(200).json({
-        status: 'success',
-        payload: payload
-      })
     })
     .catch(err => {
       return res.status(500).json({
