@@ -291,14 +291,14 @@ exports.unassign = function (req, res) {
           })
         })
         .catch(err => {
-          return res.status(500)({
+          return res.status(500).json({
             status: 'failed',
             description: `Internal server error in unassigning tags. ${err}`
           })
         })
     })
     .catch(err => {
-      return res.status(500)({
+      return res.status(500).json({
         status: 'failed',
         description: `Internal server error in fetching tags. ${err}`
       })
@@ -316,13 +316,13 @@ exports.subscribertags = function (req, res) {
           subscriberId: tagsSubscriber[i].subscriberId
         })
       }
-      res.status(200).json({
+      return res.status(200).json({
         status: 'success',
         payload: payload
       })
     })
     .catch(err => {
-      return res.status(500)({
+      return res.status(500).json({
         status: 'failed',
         description: `Internal server error in fetching tag subscribers. ${err}`
       })
