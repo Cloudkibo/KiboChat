@@ -1,71 +1,87 @@
 // const logger = require('../../../components/logger')
 // const CUSTOMFIELD = 'api/custom_field/custom_field.controller.js'
 const callApi = require('../utility')
+const logger = require('../../../components/logger')
+const customField = '/api/v1.1/custom_field_subscribers/custom_field_subscriber.controller.js'
+const util = require('util')
 
 exports.setCustomFieldValue = function (req, res) {
-  callApi.callApi('custom_fields/query', 'post', { purpose: 'findOne', match: {_id: req.body.customFieldId} }, req.headers.authorization)
-    .then(foundCustomField => {
-      callApi.callApi(`subscribers/${req.body.subscriberId}`, 'get', {}, req.headers.authorization)
-        .then(foundSubscriber => {
-          let subscribepayload = {
-            customFieldId: req.body.customFieldId,
-            subscriberId: req.body.subscriberId,
-            value: req.body.value
-          }
-          callApi.callApi('custom_field_subscribers/query', 'post', {purpose: 'findOne',
-            match: {customFieldId: req.body.customFieldId, subscriberId: req.body.subscriberId}},
-          req.headers.authorization)
-            .then(found => {
-              if (!found) {
-                callApi.callApi('custom_field_subscribers/', 'post', subscribepayload, req.headers.authorization)
-                  .then(created => {
-                    return res.status(200).json({
-                      status: 'created',
-                      payload: created
-                    })
-                  })
-                  .catch(err => {
-                    return res.status(500).json({
-                      status: 'failed',
-                      description: `internal server error in creating subscriber${JSON.stringify(err)}`
-                    })
-                  })
-              } else {
-                callApi.callApi('custom_field_subscribers/', 'put',
-                  {purpose: 'updateOne', match: {customFieldId: req.body.customFieldId, subscriberId: req.body.subscriberId}, updated: {value: req.body.value}},
-                  req.headers.authorization)
-                  .then(updated => {
-                    return res.status(200).json({
-                      status: 'updated',
-                      payload: updated
-                    })
-                  })
-                  .catch(err => {
-                    return res.status(500).json({
-                      status: 'failed',
-                      description: `can not update custom field subscriber value${JSON.stringify(err)}`
-                    })
-                  })
+  let cusomFieldResponse = callApi.callApi(
+    'custom_fields/query', 'post',
+    { purpose: 'findOne', match: { _id: req.body.customFieldId } },
+    req.headers.authorization
+  )
+  let foundSubscriberRespons = (subscriberId) => callApi.callApi(
+    `subscribers/${subscriberId}`,
+    'get',
+    {},
+    req.headers.authorization
+  )
+  let customFieldSubscribersRespons = (subscriberId) => callApi.callApi(
+    'custom_field_subscribers/query', 'post',
+    { purpose: 'findOne', match: { customFieldId: req.body.customFieldId, subscriberId: subscriberId } },
+    req.headers.authorization
+  )
+
+  cusomFieldResponse.then(foundCustomField => {
+    logger.serverLog(customField, `Custom Field ${util.inspect(foundCustomField)}`)
+    if (!foundCustomField) return new Promise((resolve, reject) => { reject(new Error('Custom Field Not Found With Given ID')) })
+    else {
+      req.body.subscriberId.forEach(element => {
+        new Promise((resolve, reject) => {
+          resolve(foundSubscriberRespons(element))
+        })
+          .then(foundSubscriber => {
+            logger.serverLog(customField, `found subscriber of a page ${util.inspect(foundSubscriber)}`)
+            if (!foundSubscriber) return new Promise((resolve, reject) => { reject(new Error('Subscriber Not Found With Given ID')) })
+            else return customFieldSubscribersRespons(element)
+          })
+          .then(foundCustomFieldSubscriber => {
+            console.log('----------------------------find me-------------------------')
+            console.log(foundCustomFieldSubscriber)
+            logger.serverLog(customField, `Custom Field subscriber ${util.inspect(foundCustomFieldSubscriber)}`)
+            let subscribepayload = {
+              customFieldId: req.body.customFieldId,
+              subscriberId: element,
+              value: req.body.value
+            }
+            if (!foundCustomFieldSubscriber) {
+              return callApi.callApi('custom_field_subscribers/', 'post', subscribepayload, req.headers.authorization)
+            } else {
+              return callApi.callApi('custom_field_subscribers/', 'put',
+                { purpose: 'updateOne', match: { customFieldId: req.body.customFieldId, subscriberId: element }, updated: { value: req.body.value } },
+                req.headers.authorization)
+            }
+          })
+          .then(setCustomFieldValue => {
+            logger.serverLog(customField, `set custom field value for subscriber ${util.inspect(setCustomFieldValue)}`)
+            require('./../../../config/socketio').sendMessageToClient({
+              room_id: req.user.companyId,
+              body: {
+                action: 'set_custom_field_value',
+                payload: {
+                  setCustomField: setCustomFieldValue
+                }
               }
             })
-            .catch(err => {
-              return res.status(500).json({
-                status: 'failed',
-                description: `internal server error finding custom field subscriber${JSON.stringify(err)}`
-              })
+            return res.status(200).json({
+              status: 'Success',
+              payload: setCustomFieldValue
             })
-        })
-        .catch(err => {
-          return res.status(500).json({
-            status: 'failed',
-            description: `subscriber does not exist with the given id${JSON.stringify(err)}`
           })
-        })
-    })
+          .catch(err => {
+            return res.status(500).json({
+              status: 'Failed',
+              description: `Internal Server ${(err)}`
+            })
+          })
+      })
+    }
+  })
     .catch(err => {
       return res.status(500).json({
-        status: 'failed',
-        description: `custom Field does not exist with the given id${JSON.stringify(err)}`
+        status: 'Failed',
+        description: `Internal Server ${(err)}`
       })
     })
 }

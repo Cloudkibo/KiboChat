@@ -7,7 +7,7 @@ exports.setCustomFieldValue =
         'type': 'string'
       },
       'subscriberId': {
-        'type': 'string'
+        'type': 'array'
       },
       'value': {
         'type': 'string'
