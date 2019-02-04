@@ -38,6 +38,12 @@ router.post('/editButton',
   validate({body: validationSchema.editButtonPayload}),
   controller.editButton)
 
+router.post('/sendConversation',
+  auth.isAuthenticated(),
+  auth.doesPlanPermitsThisAction('broadcasts'),
+  auth.doesRolePermitsThisAction('broadcastPermission'),
+  controller.sendConversation)
+
 router.delete('/deleteButton/:id',
   auth.isAuthenticated(),
   auth.doesPlanPermitsThisAction('broadcasts'),

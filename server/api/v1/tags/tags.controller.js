@@ -175,61 +175,37 @@ exports.rename = function (req, res) {
 exports.delete = function (req, res) {
   callApi.callApi(`tags_subscriber/query`, 'post', {tagId: req.body.tagId}, req.headers.authorization)
     .then(tagsSubscriber => {
-      if (tagsSubscriber[0]) {
-        callApi.callApi(`tags_subscriber/${tagsSubscriber[0]._id}`, 'delete', {}, req.headers.authorization)
+      for (let i = 0; i < tagsSubscriber.length; i++) {
+        callApi.callApi(`tags_subscriber/${tagsSubscriber[i]._id}`, 'delete', {}, req.headers.authorization)
           .then(result => {
-            callApi.callApi(`tags/${req.body.tagId}`, 'delete', {}, req.headers.authorization)
-              .then(tagPayload => {
-                require('./../../../config/socketio').sendMessageToClient({
-                  room_id: tagPayload.companyId,
-                  body: {
-                    action: 'tag_remove',
-                    payload: {
-                      tag_id: req.body.tagId
-                    }
-                  }
-                })
-                return res.status(200)
-                  .json({status: 'success', description: 'Tag removed successfully'})
-              })
-              .catch(err => {
-                return res.status(500).json({
-                  status: 'failed',
-                  description: `Failed to remove tag ${err}`
-                })
-              })
           })
           .catch(err => {
-            return res.status(500).json({
-              status: 'failed',
-              description: `Failed to remove tag subscriber${err}`
-            })
-          })
-      } else {
-        callApi.callApi(`tags/${req.body.tagId}`, 'delete', {}, req.headers.authorization)
-          .then(tagPayload => {
-            require('./../../../config/socketio').sendMessageToClient({
-              room_id: tagPayload.companyId,
-              body: {
-                action: 'tag_remove',
-                payload: {
-                  tag_id: req.body.tagId
-                }
-              }
-            })
-            return res.status(200)
-              .json({status: 'success', description: 'Tag removed successfully'})
-          })
-          .catch(err => {
-            return res.status(500).json({
-              status: 'failed',
-              description: `Failed to remove tag ${err}`
-            })
+            logger.serverLog(TAG, `Failed to delete tag subscriber ${JSON.stringify(err)}`)
           })
       }
+      callApi.callApi(`tags/${req.body.tagId}`, 'delete', {}, req.headers.authorization)
+        .then(tagPayload => {
+          require('./../../../config/socketio').sendMessageToClient({
+            room_id: tagPayload.companyId,
+            body: {
+              action: 'tag_remove',
+              payload: {
+                tag_id: req.body.tagId
+              }
+            }
+          })
+          return res.status(200)
+            .json({status: 'success', description: 'Tag removed successfully'})
+        })
+        .catch(err => {
+          return res.status(404).json({
+            status: 'failed',
+            description: `Failed to remove tag ${err}`
+          })
+        })
     })
     .catch(err => {
-      return res.status(500).json({
+      return res.status(404).json({
         status: 'failed',
         description: `Failed to find tagSubscriber ${err}`
       })
@@ -255,6 +231,7 @@ exports.assign = function (req, res) {
             }
             callApi.callApi(`tags_subscriber/`, 'post', subscriberTagsPayload, req.headers.authorization)
               .then(newRecord => {
+                console.log('newRecord', newRecord)
                 require('./../../../config/socketio').sendMessageToClient({
                   room_id: tagPayload.companyId._id,
                   body: {
@@ -314,14 +291,14 @@ exports.unassign = function (req, res) {
           })
         })
         .catch(err => {
-          return res.status(500)({
+          return res.status(500).json({
             status: 'failed',
             description: `Internal server error in unassigning tags. ${err}`
           })
         })
     })
     .catch(err => {
-      return res.status(500)({
+      return res.status(500).json({
         status: 'failed',
         description: `Internal server error in fetching tags. ${err}`
       })
@@ -333,19 +310,24 @@ exports.subscribertags = function (req, res) {
     .then(tagsSubscriber => {
       let payload = []
       for (let i = 0; i < tagsSubscriber.length; i++) {
-        payload.push({
-          _id: tagsSubscriber[i].tagId._id,
-          tag: tagsSubscriber[i].tagId.tag,
-          subscriberId: tagsSubscriber[i].subscriberId
-        })
+        if (tagsSubscriber[i].tagId && tagsSubscriber[i].tagId._id) {
+          payload.push({
+            _id: tagsSubscriber[i].tagId._id,
+            tag: tagsSubscriber[i].tagId.tag,
+            subscriberId: tagsSubscriber[i].subscriberId
+          })
+        }
+        if (i === tagsSubscriber.length - 1) {
+          return res.status(200).json({
+            status: 'success',
+            payload: payload
+          })
+        }
       }
-      res.status(200).json({
-        status: 'success',
-        payload: payload
-      })
     })
     .catch(err => {
-      return res.status(500)({
+      console.log('error in tag subscribers', err)
+      return res.status(500).json({
         status: 'failed',
         description: `Internal server error in fetching tag subscribers. ${err}`
       })
