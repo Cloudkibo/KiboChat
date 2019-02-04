@@ -231,6 +231,7 @@ exports.assign = function (req, res) {
             }
             callApi.callApi(`tags_subscriber/`, 'post', subscriberTagsPayload, req.headers.authorization)
               .then(newRecord => {
+                console.log('newRecord', newRecord)
                 require('./../../../config/socketio').sendMessageToClient({
                   room_id: tagPayload.companyId._id,
                   body: {
@@ -290,14 +291,14 @@ exports.unassign = function (req, res) {
           })
         })
         .catch(err => {
-          return res.status(500)({
+          return res.status(500).json({
             status: 'failed',
             description: `Internal server error in unassigning tags. ${err}`
           })
         })
     })
     .catch(err => {
-      return res.status(500)({
+      return res.status(500).json({
         status: 'failed',
         description: `Internal server error in fetching tags. ${err}`
       })
@@ -309,19 +310,24 @@ exports.subscribertags = function (req, res) {
     .then(tagsSubscriber => {
       let payload = []
       for (let i = 0; i < tagsSubscriber.length; i++) {
-        payload.push({
-          _id: tagsSubscriber[i].tagId._id,
-          tag: tagsSubscriber[i].tagId.tag,
-          subscriberId: tagsSubscriber[i].subscriberId
-        })
+        if (tagsSubscriber[i].tagId && tagsSubscriber[i].tagId._id) {
+          payload.push({
+            _id: tagsSubscriber[i].tagId._id,
+            tag: tagsSubscriber[i].tagId.tag,
+            subscriberId: tagsSubscriber[i].subscriberId
+          })
+        }
+        if (i === tagsSubscriber.length - 1) {
+          return res.status(200).json({
+            status: 'success',
+            payload: payload
+          })
+        }
       }
-      res.status(200).json({
-        status: 'success',
-        payload: payload
-      })
     })
     .catch(err => {
-      return res.status(500)({
+      console.log('error in tag subscribers', err)
+      return res.status(500).json({
         status: 'failed',
         description: `Internal server error in fetching tag subscribers. ${err}`
       })
