@@ -33,4 +33,5 @@ router.post('/addWebview',
   auth.doesRolePermitsThisAction('menuPermission'),
   validate({body: validationSchema.webviewPayload}),
   controller.addWebview)
+
 module.exports = router
