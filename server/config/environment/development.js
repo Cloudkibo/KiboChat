@@ -27,5 +27,5 @@ module.exports = {
   DBLAYER_URL_KIBOCHAT: `http://localhost:3030/api/v1`,
   DBLAYER_URL_KIBOENGAGE: `http://localhost:3031/api/v1`,
   ACCOUNTS_URL: 'http://localhost:3024/api/v1',
-  KIBOENGAGE_URL: 'http://localhost:3021/api/v1'
+  KIBOENGAGE_URL: 'http://localhost:3021/api'
 }
