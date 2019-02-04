@@ -48,7 +48,6 @@ exports.index = function (req, res) {
                               .catch(error => {
                                 logger.serverLog(TAG, `Failed to update company usage ${JSON.stringify(error)}`)
                               })
-                            subscriber.pageId = page
                             saveLiveChat(page, subscriber, sessionSaved, event)
                           })
                           .catch(error => {

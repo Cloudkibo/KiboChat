@@ -1,7 +1,7 @@
 const requestPromise = require('request-promise')
 const config = require('../../../config/environment/index')
-const logger = require('../../../components/logger')
-const TAG = 'api/v1/utility/index.js'
+// const logger = require('../../../components/logger')
+// const TAG = 'api/v1/utility/index.js'
 // const util = require('util')
 
 exports.callApi = (endpoint, method = 'get', body, token, type = 'accounts') => {
@@ -41,7 +41,4 @@ exports.callApi = (endpoint, method = 'get', body, token, type = 'accounts') => 
       }
     })
   })
-    .catch(err => {
-      logger.serverLog(TAG, err.toString())
-    })
 }
