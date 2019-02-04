@@ -27,5 +27,5 @@ module.exports = {
   DBLAYER_URL_KIBOCHAT: `${process.env.DB_LAYER_IP_KIBOCHAT}/api/v1`,
   DBLAYER_URL_KIBOENGAGE: `${process.env.DB_LAYER_IP_KIBOENGAGE}/api/v1`,
   ACCOUNTS_URL: 'https://saccounts.cloudkibo.com/api/v1',
-  KIBOENGAGE_URL: 'https://skiboengage.cloudkibo.com/api/v1'
+  KIBOENGAGE_URL: 'https://skiboengage.cloudkibo.com/api'
 }
