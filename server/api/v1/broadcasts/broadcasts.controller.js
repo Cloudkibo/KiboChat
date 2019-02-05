@@ -31,6 +31,15 @@ exports.addButton = function (req, res) {
       res.status(500).json({status: 'failed', description: `Failed to add button ${err}`})
     })
 }
+exports.sendConversation = function (req, res) {
+  utility.callApi(`broadcasts/sendConversation`, 'post', req.body, req.headers.authorization, 'kiboengage')
+    .then(result => {
+      res.status(200).json({status: 'success', payload: result})
+    })
+    .catch(err => {
+      res.status(500).json({status: 'failed', description: `Failed to send conversation ${err}`})
+    })
+}
 exports.editButton = function (req, res) {
   utility.callApi(`broadcasts/editButton`, 'post', req.body, req.headers.authorization, 'kiboengage')
     .then(buttonPayload => {
