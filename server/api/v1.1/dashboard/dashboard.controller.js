@@ -46,7 +46,7 @@ exports.updateSubscriptionPermission = function (req, res) {
                         err)}`)
                   }
                   console.log('response from subscription_messaging', respp.body)
-                  if (respp.body && respp.body.data && respp.body.data.length > 0) {
+                  if (respp && respp.body && respp.body.data && respp.body.data.length > 0) {
                     for (let a = 0; a < respp.body.data.length; a++) {
                       if (respp.body.data[a].feature === 'subscription_messaging' && respp.body.data[a].status === 'approved') {
                         console.log('inside if')
