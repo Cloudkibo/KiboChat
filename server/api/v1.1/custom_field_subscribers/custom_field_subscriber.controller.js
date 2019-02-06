@@ -6,12 +6,12 @@ const customField = '/api/v1.1/custom_field_subscribers/custom_field_subscriber.
 const util = require('util')
 
 exports.setCustomFieldValue = function (req, res) {
-  let cusomFieldResponse = callApi.callApi(
+  let customFieldResponse = callApi.callApi(
     'custom_fields/query', 'post',
     { purpose: 'findOne', match: { _id: req.body.customFieldId } },
     req.headers.authorization
   )
-  let foundSubscriberRespons = (subscriberId) => callApi.callApi(
+  let foundSubscriberResponse = (subscriberId) => callApi.callApi(
     `subscribers/${subscriberId}`,
     'get',
     {},
@@ -23,33 +23,29 @@ exports.setCustomFieldValue = function (req, res) {
     req.headers.authorization
   )
 
-  cusomFieldResponse.then(foundCustomField => {
+  customFieldResponse.then(foundCustomField => {
     logger.serverLog(customField, `Custom Field ${util.inspect(foundCustomField)}`)
     if (!foundCustomField) return new Promise((resolve, reject) => { reject(new Error('Custom Field Not Found With Given ID')) })
     else {
-      req.body.subscriberId.forEach(element => {
-        new Promise((resolve, reject) => {
-          resolve(foundSubscriberRespons(element))
-        })
+      req.body.subscriberIds.forEach((subscriberId, index) => {
+        foundSubscriberResponse(subscriberId)
           .then(foundSubscriber => {
             logger.serverLog(customField, `found subscriber of a page ${util.inspect(foundSubscriber)}`)
             if (!foundSubscriber) return new Promise((resolve, reject) => { reject(new Error('Subscriber Not Found With Given ID')) })
-            else return customFieldSubscribersRespons(element)
+            else return customFieldSubscribersRespons(subscriberId)
           })
           .then(foundCustomFieldSubscriber => {
-            console.log('----------------------------find me-------------------------')
-            console.log(foundCustomFieldSubscriber)
             logger.serverLog(customField, `Custom Field subscriber ${util.inspect(foundCustomFieldSubscriber)}`)
             let subscribepayload = {
               customFieldId: req.body.customFieldId,
-              subscriberId: element,
+              subscriberId: subscriberId,
               value: req.body.value
             }
             if (!foundCustomFieldSubscriber) {
               return callApi.callApi('custom_field_subscribers/', 'post', subscribepayload, req.headers.authorization)
             } else {
               return callApi.callApi('custom_field_subscribers/', 'put',
-                { purpose: 'updateOne', match: { customFieldId: req.body.customFieldId, subscriberId: element }, updated: { value: req.body.value } },
+                { purpose: 'updateOne', match: { customFieldId: req.body.customFieldId, subscriberId: subscriberId }, updated: { value: req.body.value } },
                 req.headers.authorization)
             }
           })
@@ -64,10 +60,12 @@ exports.setCustomFieldValue = function (req, res) {
                 }
               }
             })
-            return res.status(200).json({
-              status: 'Success',
-              payload: setCustomFieldValue
-            })
+            if (index === req.body.subscriberIds.length - 1) {
+              return res.status(200).json({
+                status: 'Success',
+                payload: setCustomFieldValue
+              })
+            }
           })
           .catch(err => {
             return res.status(500).json({

@@ -6,7 +6,7 @@ exports.setCustomFieldValue =
       'customFieldId': {
         'type': 'string'
       },
-      'subscriberId': {
+      'subscriberIds': {
         'type': 'array'
       },
       'value': {
@@ -15,7 +15,7 @@ exports.setCustomFieldValue =
     },
     'required': [
       'customFieldId',
-      'subscriberId',
+      'subscriberIds',
       'value'
     ]
   }
