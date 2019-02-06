@@ -26,6 +26,10 @@ router.get('/subscribeBack/:id',
   auth.isAuthenticated(),
   controller.subscribeBack)
 
+router.post('/updatePicture',
+  auth.isAuthenticated(),
+  controller.updatePicture)
+
 router.get('/updateData',
   auth.isAuthenticated(),
   controller.updateData)
