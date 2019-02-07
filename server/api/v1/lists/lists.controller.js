@@ -71,58 +71,50 @@ exports.getAll = function (req, res) {
     })
 }
 exports.createList = function (req, res) {
-  utility.callApi(`companyprofile/query`, 'post', {ownerId: req.user._id}, req.headers.authorization)
-    .then(companyProfile => {
-      utility.callApi(`featureUsage/planQuery`, 'post', {planId: companyProfile.planId}, req.headers.authorization)
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email, populate: 'companyId' }, req.headers.authorization)
+    .then(companyUser => {
+      utility.callApi(`featureUsage/planQuery`, 'post', {planId: companyUser.companyId.planId}, req.headers.authorization)
         .then(planUsage => {
           planUsage = planUsage[0]
-          utility.callApi(`featureUsage/companyQuery`, 'post', {companyId: companyProfile._id}, req.headers.authorization)
+          utility.callApi(`featureUsage/companyQuery`, 'post', {companyId: companyUser.companyId._id}, req.headers.authorization)
             .then(companyUsage => {
               companyUsage = companyUsage[0]
-              if (planUsage.segmentation_lists !== -1 && companyUsage.segmentation_lists >= planUsage.segmentation_lists) {
-                return res.status(500).json({
-                  status: 'failed',
-                  description: `Your lists limit has reached. Please upgrade your plan to premium in order to create more lists.`
-                })
-              }
-              utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
-                .then(companyUser => {
-                  utility.callApi(`lists`, 'post', {
-                    companyId: companyUser.companyId,
-                    userId: req.user._id,
-                    listName: req.body.listName,
-                    conditions: req.body.conditions,
-                    content: req.body.content,
-                    parentList: req.body.parentListId,
-                    parentListName: req.body.parentListName
+              // add paid plan check later
+              // if (planUsage.segmentation_lists !== -1 && companyUsage.segmentation_lists >= planUsage.segmentation_lists) {
+              //   return res.status(500).json({
+              //     status: 'failed',
+              //     description: `Your lists limit has reached. Please upgrade your plan to premium in order to create more lists.`
+              //   })
+              // }
+              utility.callApi(`lists`, 'post', {
+                companyId: companyUser.companyId._id,
+                userId: req.user._id,
+                listName: req.body.listName,
+                conditions: req.body.conditions,
+                content: req.body.content,
+                parentList: req.body.parentListId,
+                parentListName: req.body.parentListName
+              }, req.headers.authorization)
+                .then(listCreated => {
+                  utility.callApi(`featureUsage/updateCompany`, 'put', {
+                    query: {companyId: req.body.companyId},
+                    newPayload: { $inc: { segmentation_lists: 1 } },
+                    options: {}
                   }, req.headers.authorization)
-                    .then(listCreated => {
-                      utility.callApi(`featureUsage/updateCompany`, 'put', {
-                        query: {companyId: req.body.companyId},
-                        newPayload: { $inc: { segmentation_lists: 1 } },
-                        options: {}
-                      }, req.headers.authorization)
-                        .then(updated => {
-                        })
-                        .catch(error => {
-                          return res.status(500).json({
-                            status: 'failed',
-                            payload: `Failed to update company usage ${JSON.stringify(error)}`
-                          })
-                        })
-                      return res.status(201).json({status: 'success', payload: listCreated})
+                    .then(updated => {
                     })
                     .catch(error => {
                       return res.status(500).json({
                         status: 'failed',
-                        payload: `Failed to create list ${JSON.stringify(error)}`
+                        payload: `Failed to update company usage ${JSON.stringify(error)}`
                       })
                     })
+                  return res.status(201).json({status: 'success', payload: listCreated})
                 })
                 .catch(error => {
                   return res.status(500).json({
                     status: 'failed',
-                    payload: `Failed to fetch company user ${JSON.stringify(error)}`
+                    payload: `Failed to create list ${JSON.stringify(error)}`
                   })
                 })
             })

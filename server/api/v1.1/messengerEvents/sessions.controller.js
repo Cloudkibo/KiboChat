@@ -32,29 +32,29 @@ exports.index = function (req, res) {
                   utility.callApi(`featureUsage/companyQuery`, 'post', {companyId: page.companyId})
                     .then(companyUsage => {
                       companyUsage = companyUsage[0]
-                      if (planUsage.sessions !== -1 && companyUsage.sessions >= planUsage.sessions) {
-                        notificationsUtility.limitReachedNotification('sessions', company)
-                        logger.serverLog(TAG, `Sessions limit reached`)
-                      } else {
-                        SessionsDataLayer.createSessionObject({
-                          subscriber_id: subscriber._id,
-                          page_id: page._id,
-                          company_id: page.companyId
+                      // add paid plan check later
+                      // if (planUsage.sessions !== -1 && companyUsage.sessions >= planUsage.sessions) {
+                      //   notificationsUtility.limitReachedNotification('sessions', company)
+                      //   logger.serverLog(TAG, `Sessions limit reached`)
+                      // } else {
+                      SessionsDataLayer.createSessionObject({
+                        subscriber_id: subscriber._id,
+                        page_id: page._id,
+                        company_id: page.companyId
+                      })
+                        .then(sessionSaved => {
+                          utility.callApi(`featureUsage/updateCompany`, 'put', {query: {companyId: page.companyId}, newPayload: { $inc: { sessions: 1 } }, options: {}})
+                            .then(updated => {
+                            })
+                            .catch(error => {
+                              logger.serverLog(TAG, `Failed to update company usage ${JSON.stringify(error)}`)
+                            })
+                          subscriber.pageId = page
+                          saveLiveChat(page, subscriber, sessionSaved, event)
                         })
-                          .then(sessionSaved => {
-                            utility.callApi(`featureUsage/updateCompany`, 'put', {query: {companyId: page.companyId}, newPayload: { $inc: { sessions: 1 } }, options: {}})
-                              .then(updated => {
-                              })
-                              .catch(error => {
-                                logger.serverLog(TAG, `Failed to update company usage ${JSON.stringify(error)}`)
-                              })
-                            subscriber.pageId = page
-                            saveLiveChat(page, subscriber, sessionSaved, event)
-                          })
-                          .catch(error => {
-                            logger.serverLog(TAG, `Failed to create new session ${JSON.stringify(error)}`)
-                          })
-                      }
+                        .catch(error => {
+                          logger.serverLog(TAG, `Failed to create new session ${JSON.stringify(error)}`)
+                        })
                     })
                     .catch(error => {
                       logger.serverLog(TAG, `Failed to fetch company usage ${JSON.stringify(error)}`)
