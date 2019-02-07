@@ -175,4 +175,53 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
   }
   return payload
 }
+
+function prepareMessageData (message) {
+  let messageData = {}
+  if (message.text) {
+    messageData = {
+      componentType: message.attachments[0].type,
+      text: message.text
+    }
+  } else {
+    messageData = {
+      fileurl: message.attachments[0].payload,
+      componentType: message.attachments[0].type,
+      fileName: message.attachments[0].payload.url.split('?')[0].split('/')[message.attachments[0].payload.url.split('?')[0].split('/').length - 1]
+    }
+  }
+  return messageData
+}
+
+function prepareLiveChatPayload (message, subscriber, page, session) {
+  let payload = {}
+  if (message.is_echo) {
+    payload = {
+      format: 'convos',
+      sender_id: subscriber._id,
+      recipient_id: page.userId._id,
+      sender_fb_id: subscriber.senderId,
+      recipient_fb_id: page.pageId,
+      session_id: session && session._id ? session._id : '',
+      company_id: page.companyId,
+      status: 'unseen', // seen or unseen
+      payload: prepareMessageData(message)
+    }
+  } else {
+    payload = {
+      format: 'facebook',
+      sender_id: subscriber._id,
+      recipient_id: page.userId._id,
+      sender_fb_id: subscriber.senderId,
+      recipient_fb_id: page.pageId,
+      session_id: session && session._id ? session._id : '',
+      company_id: page.companyId,
+      status: 'unseen', // seen or unseen
+      payload: message
+    }
+  }
+  return payload
+}
+
 exports.prepareSendAPIPayload = prepareSendAPIPayload
+exports.prepareLiveChatPayload = prepareLiveChatPayload
