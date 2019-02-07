@@ -72,6 +72,9 @@ exports.getCriterias = function (body, companyUser) {
   // here temp is the findcriteria for Payload
   delete temp.pageId
   if (body.first_page === 'first') {
+    if (body.current_page) {
+      recordsToSkip = Math.abs(body.current_page * body.number_of_records)
+    }
     finalCriteria = [
       { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
       { $unwind: '$pageId' },

@@ -7,6 +7,7 @@ const BotsDataLayer = require('../smartReplies/bots.datalayer')
 const botController = require('../smartReplies/smartReplies.controller')
 const needle = require('needle')
 const og = require('open-graph')
+const logicLayer = require('./logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
 
 exports.index = function (req, res) {
@@ -88,17 +89,7 @@ exports.index = function (req, res) {
     })
 }
 function saveLiveChat (page, subscriber, session, event) {
-  let chatPayload = {
-    format: event.message.is_echo ? 'convo' : 'facebook',
-    sender_id: subscriber._id,
-    recipient_id: page.userId._id,
-    sender_fb_id: subscriber.senderId,
-    recipient_fb_id: page.pageId,
-    session_id: session && session._id ? session._id : '',
-    company_id: page.companyId,
-    status: 'unseen', // seen or unseen
-    payload: event.message
-  }
+  let chatPayload = logicLayer.prepareLiveChatPayload(event.message, subscriber, page, session)
   if (subscriber && !event.message.is_echo) {
     BotsDataLayer.findOneBotObjectUsingQuery({ pageId: subscriber.pageId._id.toString() })
       .then(bot => {
