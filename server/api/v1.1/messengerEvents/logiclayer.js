@@ -67,7 +67,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
         fileReaderStream = fs.createReadStream(dir + '/' + body.fileurl.name)
       }
     } else {
-      if (dir + '/' + body.fileurl.name) {
+      if (dir + '/' + body.fileurl.id) {
         fileReaderStream = fs.createReadStream(dir + '/' + body.fileurl.id)
       }
     }
