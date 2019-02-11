@@ -51,7 +51,7 @@ exports.getCriterias = function (body, companyUser) {
     search = '.*' + body.filter_criteria.search_value + '.*'
     findCriteria = {
       companyId: companyUser.companyId,
-      $or: [{firstName: {$regex: search, $options: 'i'}}, {lastName: {$regex: search, $options: 'i'}}],
+      fullName: {$regex: search, $options: 'i'},
       gender: body.filter_criteria.gender_value !== '' ? body.filter_criteria.gender_value : {$exists: true},
       locale: body.filter_criteria.locale_value !== '' ? body.filter_criteria.locale_value : {$exists: true},
       isSubscribed: body.filter_criteria.status_value !== '' ? body.filter_criteria.status_value : {$exists: true},
