@@ -63,9 +63,13 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
     let dir = path.resolve(__dirname, '../../../../broadcastFiles/userfiles')
     let fileReaderStream
     if (body.componentType === 'file') {
-      fileReaderStream = fs.createReadStream(dir + '/' + body.fileurl.name)
+      if (dir + '/' + body.fileurl.name) {
+        fileReaderStream = fs.createReadStream(dir + '/' + body.fileurl.name)
+      }
     } else {
-      fileReaderStream = fs.createReadStream(dir + '/' + body.fileurl.id)
+      if (dir + '/' + body.fileurl.id) {
+        fileReaderStream = fs.createReadStream(dir + '/' + body.fileurl.id)
+      }
     }
 
     payload = {
