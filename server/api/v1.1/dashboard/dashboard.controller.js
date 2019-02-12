@@ -46,7 +46,7 @@ exports.updateSubscriptionPermission = function (req, res) {
                         err)}`)
                   }
                   console.log('response from subscription_messaging', respp.body)
-                  if (respp.body && respp.body.data && respp.body.data.length > 0) {
+                  if (respp && respp.body && respp.body.data && respp.body.data.length > 0) {
                     for (let a = 0; a < respp.body.data.length; a++) {
                       if (respp.body.data[a].feature === 'subscription_messaging' && respp.body.data[a].status === 'approved') {
                         console.log('inside if')
@@ -146,6 +146,7 @@ exports.sentVsSeen = function (req, res) {
 }
 
 exports.sentVsSeenNew = function (req, res) {
+  console.log('in sentVsSeenNew')
   let datacounts = {}
   callApi('companyUser/query', 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
     .then(companyUser => {
@@ -187,9 +188,13 @@ exports.sentVsSeenNew = function (req, res) {
                 callApi('smart_replies/query', 'post', {purpose: 'findAll', match: matchAggregateForBots}, '', 'kibochat')
                   .then(bots => {
                     const hitCountArray = bots.map(bot => bot.hitCount)
+                    console.log('hitCountArray', hitCountArray)
                     const missCountArray = bots.map(bot => bot.missCount)
+                    console.log('missCountArray', missCountArray)
                     const responded = hitCountArray.reduce((a, b) => a + b, 0)
+                    console.log('responded', responded)
                     const notResponded = missCountArray.reduce((a, b) => a + b, 0)
+                    console.log('notResponded', notResponded)
                     datacounts.bots = {
                       count: responded + notResponded,
                       responded
@@ -254,6 +259,7 @@ exports.sentVsSeenNew = function (req, res) {
                   (new Date().getTime()))
               }
             }
+            console.log('matchAggregateForBots', matchAggregateForBots)
             callApi('sessions/query', 'post', {purpose: 'findAll', match: matchAggregate}, '', 'kibochat')
               .then(sessions => {
                 const resolvedSessions = sessions.filter(session => session.status === 'resolved')
@@ -264,9 +270,13 @@ exports.sentVsSeenNew = function (req, res) {
                 callApi('smart_replies/query', 'post', {purpose: 'findAll', match: matchAggregateForBots}, '', 'kibochat')
                   .then(bots => {
                     const hitCountArray = bots.map(bot => bot.hitCount)
+                    console.log('hitCountArray', hitCountArray)
                     const missCountArray = bots.map(bot => bot.missCount)
+                    console.log('missCountArray', missCountArray)
                     const responded = hitCountArray.reduce((a, b) => a + b, 0)
+                    console.log('responded', responded)
                     const notResponded = missCountArray.reduce((a, b) => a + b, 0)
+                    console.log('notResponded', notResponded)
                     datacounts.bots = {
                       count: responded + notResponded,
                       responded
@@ -418,9 +428,11 @@ exports.stats = function (req, res) {
                   .then(subscribers => {
                     logger.serverLog(TAG, `subscribers retrieved: ${subscribers}`)
                     payload.subscribers = subscribers.length
-                    callApi('livechat/query', 'post', {purpose: 'findAll', match: {company_id: companyUser.companyId, status: 'unseen', format: 'facebook'}}, '', 'kibochat')
+                    const pagesArray = pages.map(page => page.pageId).map(String)
+                    console.log('pagesArray', pagesArray)
+                    callApi('livechat/query', 'post', {purpose: 'findAll', match: {company_id: companyUser.companyId, status: 'unseen', format: 'facebook', recipient_fb_id: {$in: pagesArray}}}, '', 'kibochat')
                       .then(messages => {
-                        payload.unreadCount = messages.length
+                        payload.unreadCount = messages && messages.length > 0 ? messages.length : 0
                         res.status(200).json({
                           status: 'success',
                           payload
