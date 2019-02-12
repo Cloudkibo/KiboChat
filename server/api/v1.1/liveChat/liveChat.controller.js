@@ -9,38 +9,42 @@ const webhookUtility = require('../notifications/notifications.utility')
 const util = require('util')
 
 exports.index = function (req, res) {
-  let query = {}
+  if (req.params.session_id) {
+    let query = {}
 
-  if (req.body.page === 'next') {
-    query = {
-      session_id: req.params.session_id,
-      _id: { $lt: req.body.last_id }
+    if (req.body.page === 'next') {
+      query = {
+        session_id: req.params.session_id,
+        _id: { $lt: req.body.last_id }
+      }
+    } else {
+      query = {
+        session_id: req.params.session_id
+      }
     }
-  } else {
-    query = {
-      session_id: req.params.session_id
-    }
-  }
 
-  let messagesCountData = logicLayer.getQueryData('count', 'aggregate', { session_id: req.params.session_id })
-  let messagesData = logicLayer.getQueryData('', 'aggregate', query, 0, { datetime: -1 }, req.body.number)
+    let messagesCountData = logicLayer.getQueryData('count', 'aggregate', { session_id: req.params.session_id })
+    let messagesData = logicLayer.getQueryData('', 'aggregate', query, 0, { datetime: -1 }, req.body.number)
 
-  let messagesCount = callApi(`livechat/query`, 'post', messagesCountData, '', 'kibochat')
-  let messages = callApi(`livechat/query`, 'post', messagesData, '', 'kibochat')
+    let messagesCount = callApi(`livechat/query`, 'post', messagesCountData, '', 'kibochat')
+    let messages = callApi(`livechat/query`, 'post', messagesData, '', 'kibochat')
 
-  Promise.all([messagesCount, messages])
-    .then(values => {
-      let chatCount = values[0]
-      let fbchats = values[1].reverse()
-      fbchats = logicLayer.setChatProperties(fbchats)
-      return res.status(200).json({ status: 'success',
-        payload: { chat: fbchats, count: chatCount.length > 0 ? chatCount[0].count : 0 }
+    Promise.all([messagesCount, messages])
+      .then(values => {
+        let chatCount = values[0]
+        let fbchats = values[1].reverse()
+        fbchats = logicLayer.setChatProperties(fbchats)
+        return res.status(200).json({ status: 'success',
+          payload: { chat: fbchats, count: chatCount.length > 0 ? chatCount[0].count : 0 }
+        })
       })
-    })
-    .catch(err => {
-      logger.serverLog(TAG, `Error at index ${util.inspect(err)}`)
-      return res.status(500).json({status: 'failed', payload: err})
-    })
+      .catch(err => {
+        logger.serverLog(TAG, `Error at index ${util.inspect(err)}`)
+        return res.status(500).json({status: 'failed', payload: err})
+      })
+  } else {
+    return res.status(400).json({status: 'failed', payload: 'Parameter session_id is required!'})
+  }
 }
 
 exports.search = function (req, res) {
