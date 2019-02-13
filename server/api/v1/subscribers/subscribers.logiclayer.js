@@ -12,6 +12,28 @@ exports.getSubscriberIds = function (subscribers) {
   return subscriberIds
 }
 
+exports.getFinalPayload = (subscribers, customFields, customFieldSubscribers) => {
+  let subscribersPayload = subscribers
+  let data = {}
+  for (let i = 0; i < subscribers.length; i++) {
+    subscribersPayload[i].customFields = []
+    for (let j = 0; j < customFields.length; j++) {
+      data = {
+        _id: customFields[j]._id,
+        name: customFields[j].name,
+        value: ''
+      }
+      for (let k = 0; k < customFieldSubscribers.length; k++) {
+        if (customFieldSubscribers[k].subscriberId._id === subscribers[i]._id && customFieldSubscribers[k].customFieldId._id === customFields[j]._id) {
+          data.value = customFieldSubscribers[k].value
+        }
+      }
+      subscribersPayload[i].customFields.push(data)
+    }
+  }
+  return subscribersPayload
+}
+
 exports.getSusbscribersPayload = function (subscribers, tags, tagValue) {
   let subscribersPayload = subscribers
   let filteredTagSubscribers = []

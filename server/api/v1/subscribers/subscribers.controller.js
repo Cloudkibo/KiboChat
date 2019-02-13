@@ -118,10 +118,34 @@ exports.getAll = function (req, res) {
                   logger.serverLog(TAG, `tags: ${util.inspect(tags)}`)
                   let subscribersPayload = logicLayer.getSusbscribersPayload(subscribers, tags)
                   logger.serverLog(TAG, `subscribersPayload: ${util.inspect(subscribersPayload)}`)
-                  return res.status(200).json({
-                    status: 'success',
-                    payload: {subscribers: subscribersPayload, count: count.length > 0 ? count[0].count : 0}
-                  })
+                  // start append custom Fields
+                  utility.callApi('custom_fields/query', 'post', { purpose: 'findAll', match: { companyId: companyuser.companyId } }, req.headers.authorization)
+                    .then(customFields => {
+                      logger.serverLog(TAG, `customFields: ${util.inspect(customFields)}`)
+                      utility.callApi('custom_field_subscribers', 'get')
+                        .then(customFieldSubscribers => {
+                          logger.serverLog(TAG, `customFieldSubscribers: ${util.inspect(customFieldSubscribers)}`)
+                          let finalPayload = logicLayer.getFinalPayload(subscribersPayload, customFields, customFieldSubscribers)
+                          logger.serverLog(TAG, `subscribersFinalPayload: ${util.inspect(finalPayload)}`)
+                          return res.status(200).json({
+                            status: 'success',
+                            payload: {subscribers: finalPayload}
+                          })
+                        })
+                        .catch(error => {
+                          return res.status(500).json({
+                            status: 'failed',
+                            payload: `Failed to fetch custom_Field_subscribers ${JSON.stringify(error)}`
+                          })
+                        })
+                    })
+                    .catch(error => {
+                      return res.status(500).json({
+                        status: 'failed',
+                        payload: `Failed to fetch custom_Fields ${JSON.stringify(error)}`
+                      })
+                    })
+                // end append custom Fields
                 })
                 .catch(error => {
                   return res.status(500).json({
