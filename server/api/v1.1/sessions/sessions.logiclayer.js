@@ -1,3 +1,40 @@
+exports.getCount = (req, status, callback) => {
+  let aggregateData = [
+    { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
+    { $unwind: '$pageId' },
+    { $project: {name: {$concat: ['$firstName', ' ', '$lastName']}, companyId: 1, pageId: 1, isSubscribed: 1, status: 1} },
+    { $match: {
+      'companyId': req.body.companyId,
+      'isSubscribed': true,
+      'status': status,
+      'name': {$regex: '.*' + req.body.search_value + '.*', $options: 'i'},
+      'pageId._id': req.body.page_value !== '' ? req.body.page_value : {$exists: true},
+      'pageId.connected': true
+    } },
+    { $group: {_id: null, count: { $sum: 1 }} }
+  ]
+  return aggregateData
+}
+
+exports.getSessions = (req, status, callback) => {
+  let aggregateData = [
+    { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
+    { $unwind: '$pageId' },
+    { $project: {name: {$concat: ['$firstName', ' ', '$lastName']}, companyId: 1, pageId: 1, isSubscribed: 1, status: 1, last_activity_time: 1, _id: 1} },
+    { $match: {
+      'companyId': req.user.companyId,
+      'isSubscribed': true,
+      'status': status,
+      'name': {$regex: '.*' + req.body.search_value + '.*', $options: 'i'},
+      'pageId._id': req.body.page_value !== '' ? req.body.page_value : {$exists: true},
+      'pageId.connected': true,
+      '_id': req.body.first_page ? {$exists: true} : {$gt: req.body.last_id}
+    } },
+    { $sort: {last_activity_time: req.body.sort_value} }
+  ]
+  return aggregateData
+}
+
 exports.getQueryData = (type, purpose, match, skip, sort, limit, group) => {
   if (type === 'count') {
     return {
@@ -53,125 +90,33 @@ exports.getSessions = (sessions) => {
   }
   return tempSessions
 }
-exports.getUnreadCount = (gotUnreadCount, session) => {
-  let sessions = session
+exports.appendUnreadCountData = (gotUnreadCount, subscriber) => {
   for (let i = 0; i < gotUnreadCount.length; i++) {
-    for (let j = 0; j < sessions.length; j++) {
-      if (sessions[j]._id.toString() === gotUnreadCount[i]._id.toString()) {
-        sessions[j].set('unreadCount',
-          gotUnreadCount[i].count,
-          {strict: false})
-      }
-    }
-  }
-  return sessions
-}
-exports.getUnreadCountData = (gotUnreadCount, session) => {
-  for (let i = 0; i < gotUnreadCount.length; i++) {
-    if (session._id.toString() === gotUnreadCount[i].session_id.toString()) {
-      session.set('unreadCount',
+    if (subscriber._id.toString() === gotUnreadCount[i]._id.toString()) {
+      subscriber.set('unreadCount',
         gotUnreadCount[i].count,
         {strict: false})
     }
   }
-  return session
+  return subscriber
 }
-exports.getLastMessage = (gotLastMessage, session) => {
-  let sessions = session
+exports.appendLastMessageData = (gotLastMessage, subscriber) => {
   for (let a = 0; a < gotLastMessage.length; a++) {
-    for (let b = 0; b < sessions.length; b++) {
-      if (sessions[b]._id.toString() === gotLastMessage[a]._id.toString()) {
-        console.log('condition matched')
-        sessions[b].lastPayload = gotLastMessage[a].payload
-        sessions[b].lastRepliedBy = gotLastMessage[a].replied_by
-        sessions[b].lastDateTime = gotLastMessage[a].datetime
-        console.log('sessions after set', sessions)
-      }
-    }
-  }
-  console.log('sessions to return', sessions)
-  return sessions
-}
-exports.getLastMessageData = (gotLastMessage, session) => {
-  for (let a = 0; a < gotLastMessage.length; a++) {
-    if (session._id.toString() === gotLastMessage[a]._id.toString()) {
-      session.set('lastPayload',
+    if (subscriber._id.toString() === gotLastMessage[a]._id.toString()) {
+      subscriber.set('lastPayload',
         gotLastMessage[a].payload,
         {strict: false})
-      session.set('lastRepliedBy',
+      subscriber.set('lastRepliedBy',
         gotLastMessage[a].replied_by,
         {strict: false})
-      session.set('lastDateTime',
+      subscriber.set('lastDateTime',
         gotLastMessage[a].datetime,
         {strict: false})
     }
   }
-  return session
+  return subscriber
 }
-exports.getNewSessionsCriteria = (companyUser, body, subscriberIds) => {
-  let sortCriteria = {}
 
-  let findCriteria = {
-    company_id: companyUser.companyId,
-    status: 'new',
-    subscriber_id: {$in: subscriberIds}
-  }
-
-  if (!body.filter) {
-    sortCriteria = {
-      last_activity_time: -1
-    }
-  } else {
-    if (body.filter_criteria && body.filter_criteria.sort_value !== '') {
-      sortCriteria = {
-        last_activity_time: body.filter_criteria.sort_value
-      }
-    }
-  }
-
-  if (!body.first_page) {
-    findCriteria = Object.assign(findCriteria, {_id: {$gt: body.last_id}})
-  }
-
-  let fetchCriteria = {
-    match: findCriteria,
-    sort: sortCriteria,
-    limit: body.number_of_records
-  }
-  return fetchCriteria
-}
-exports.getResolvedSessionsCriteria = (companyUser, body, subscriberIds) => {
-  let sortCriteria = {}
-
-  let findCriteria = {
-    company_id: companyUser.companyId,
-    status: 'resolved',
-    subscriber_id: {$in: subscriberIds}
-  }
-
-  if (!body.filter) {
-    sortCriteria = {
-      last_activity_time: -1
-    }
-  } else {
-    if (body.filter_criteria && body.filter_criteria.sort_value !== '') {
-      sortCriteria = {
-        last_activity_time: body.filter_criteria.sort_value
-      }
-    }
-  }
-
-  if (!body.first_page) {
-    findCriteria = Object.assign(findCriteria, {_id: {$gt: body.last_id}})
-  }
-
-  let fetchCriteria = {
-    match: findCriteria,
-    sort: sortCriteria,
-    limit: body.number_of_records
-  }
-  return fetchCriteria
-}
 exports.prepareSessionsData = (sessionsData, body) => {
   let tempSessionsData = []
   for (var a = 0; a < sessionsData.length; a++) {
