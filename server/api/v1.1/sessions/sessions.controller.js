@@ -4,6 +4,7 @@ const TAG = 'api/v1/sessions/sessions.controller'
 const logicLayer = require('./sessions.logiclayer')
 const needle = require('needle')
 const util = require('util')
+const async = require('async')
 
 exports.index = function (req, res) {
   let sessions = []
@@ -55,122 +56,184 @@ exports.index = function (req, res) {
     })
 }
 
-exports.getNewSessions = function (req, res) {
-  let criteria = {}
-  let companyUser = {}
-
-  const companyUserResponse = callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
-
-  companyUserResponse
-    .then(companyuser => {
-      companyUser = companyuser
-      let pageData = [
-        {
-          $match: {
-            _id: req.body.filter && req.body.filter_criteria && req.body.filter_criteria.page_value !== '' ? req.body.filter_criteria.page_value : {$exists: true},
-            companyId: companyUser.companyId,
-            connected: true
-          }
-        }
-      ]
-      return callApi(`pages/aggregate`, 'post', pageData, req.headers.authorization)
-    })
-    .then(pages => {
-      let pageIds = pages.map((p) => p._id.toString())
-      logger.serverLog(TAG, `page Ids: ${util.inspect(pageIds)}`)
-      let subscriberData = []
-      if (req.body.filter && req.body.filter_criteria && req.body.filter_criteria.search_value !== '') {
-        subscriberData = [
-          {$project: {name: {$concat: ['$firstName', ' ', '$lastName']}, companyId: 1, pageId: 1, isSubscribed: 1}},
-          {$match: {companyId: companyUser.companyId, pageId: {$in: pageIds}, name: {$regex: '.*' + req.body.filter_criteria.search_value + '.*', $options: 'i'}, isSubscribed: true}}
-        ]
-      } else {
-        subscriberData = [
-          {$match: {companyId: companyUser.companyId, pageId: {$in: pageIds}, isSubscribed: true}}
-        ]
-      }
-      return callApi(`subscribers/aggregate`, 'post', subscriberData, req.headers.authorization)
-    })
-    .then(subscribers => {
-      let subscriberIds = subscribers.map((s) => s._id.toString())
-      logger.serverLog(TAG, `subscriber Ids: ${util.inspect(subscriberIds)}`)
-      criteria = logicLayer.getNewSessionsCriteria(companyUser, req.body, subscriberIds)
-      let countData = logicLayer.getQueryData('count', 'aggregate', criteria.match)
-      logger.serverLog(TAG, `count Data: ${util.inspect(countData)}`)
-      return callApi(`sessions/query`, 'post', countData, '', 'kibochat')
-    })
-    .then(sessionsCount => {
-      logger.serverLog(TAG, `criteria: ${util.inspect(criteria)}`)
-      logger.serverLog(TAG, `sessions count: ${util.inspect(sessionsCount)}`)
-      if (sessionsCount.length > 0 && sessionsCount[0].count > 0) {
-        return sessionsWithUnreadCountAndLastMessage(sessionsCount[0].count, req, criteria, companyUser)
-      } else {
-        return res.status(200).json({status: 'success', payload: {openSessions: [], count: 0}})
-      }
-    })
-    .then(result => {
-      return res.status(200).json({status: 'success', payload: {openSessions: result.sessions, count: result.count}})
-    })
-    .catch(error => {
-      return res.status(500).json({status: 'failed', payload: `Internal server error ${JSON.stringify(error)}`})
-    })
+exports.fetchOpenSessions = function (req, res) {
+  async.parallelLimit([
+    function (callback) {
+      let data = logicLayer.getCount(req, 'new', callback)
+      callApi('subscribers/aggregate', 'post', data, req.headers.authorization)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      let data = logicLayer.getSessions(req, 'new', callback)
+      callApi('subscribers/aggregate', 'post', data, req.headers.authorization)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    }
+  ], 10, function (err, results) {
+    if (err) {
+      res.status(500).json({status: 'failed', payload: err})
+    } else {
+      res.status(200).json({status: 'success', payload: {openSessions: results[1], count: results[0].length > 0 ? results[0].count : 0}})
+    }
+  })
 }
 
-exports.getResolvedSessions = function (req, res) {
-  let companyUser = {}
-  let criteria = {}
-
-  let companyUserResponse = callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
-
-  companyUserResponse
-    .then(companyuser => {
-      companyUser = companyuser
-      let pageData = [
-        {
-          $match: {
-            _id: req.body.filter && req.body.filter_criteria && req.body.filter_criteria.page_value !== '' ? req.body.filter_criteria.page_value : {$exists: true},
-            companyId: companyUser.companyId,
-            connected: true
-          }
-        }
-      ]
-      return callApi(`pages/aggregate`, 'post', pageData, req.headers.authorization)
-    })
-    .then(pages => {
-      let pageIds = pages.map((p) => p._id.toString())
-      let subscriberData = []
-      if (req.body.filter && req.body.filter_criteria && req.body.filter_criteria.search_value !== '') {
-        subscriberData = [
-          {$project: {name: {$concat: ['$firstName', ' ', '$lastName']}, companyId: 1, pageId: 1}},
-          {$match: {companyId: companyUser.companyId, pageId: {$in: pageIds}, name: {$regex: '.*imran.*', $options: 'i'}, isSubscribed: true}}
-        ]
-      } else {
-        subscriberData = [
-          {$match: {companyId: companyUser.companyId, pageId: {$in: pageIds}, isSubscribed: true}}
-        ]
-      }
-      return callApi(`subscribers/aggregate`, 'post', subscriberData, req.headers.authorization)
-    })
-    .then(subscribers => {
-      let subscriberIds = subscribers.map((s) => s._id.toString())
-      criteria = logicLayer.getResolvedSessionsCriteria(companyUser, req.body, subscriberIds)
-      let countData = logicLayer.getQueryData('count', 'aggregate', criteria.match)
-      return callApi(`sessions/query`, 'post', countData, '', 'kibochat')
-    })
-    .then(sessionsCount => {
-      if (sessionsCount.length > 0 && sessionsCount[0].count > 0) {
-        return sessionsWithUnreadCountAndLastMessage(sessionsCount[0].count, req, criteria, companyUser)
-      } else {
-        return res.status(200).json({status: 'success', payload: {closedSessions: [], count: 0}})
-      }
-    })
-    .then(result => {
-      return res.status(200).json({status: 'success', payload: {closedSessions: result.sessions, count: result.count}})
-    })
-    .catch(error => {
-      return res.status(500).json({status: 'failed', payload: `Internal server error ${JSON.stringify(error)}`})
-    })
+exports.fetchResolvedSessions = function (req, res) {
+  async.parallelLimit([
+    function (callback) {
+      let data = logicLayer.getCount(req, 'resolved', callback)
+      callApi('subscribers/aggregate', 'post', data, req.headers.authorization)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      let data = logicLayer.getSessions(req, 'resolved', callback)
+      callApi('subscribers/aggregate', 'post', data, req.headers.authorization)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    }
+  ], 10, function (err, results) {
+    if (err) {
+      res.status(500).json({status: 'failed', payload: err})
+    } else {
+      res.status(200).json({status: 'success', payload: {closedSessions: results[1], count: results[0].length > 0 ? results[0].count : 0}})
+    }
+  })
 }
+
+// exports.getNewSessions = function (req, res) {
+//   let criteria = {}
+//   let companyUser = {}
+//
+//   const companyUserResponse = callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
+//
+//   companyUserResponse
+//     .then(companyuser => {
+//       companyUser = companyuser
+//       let pageData = [
+//         {
+//           $match: {
+//             _id: req.body.filter && req.body.filter_criteria && req.body.filter_criteria.page_value !== '' ? req.body.filter_criteria.page_value : {$exists: true},
+//             companyId: companyUser.companyId,
+//             connected: true
+//           }
+//         }
+//       ]
+//       return callApi(`pages/aggregate`, 'post', pageData, req.headers.authorization)
+//     })
+//     .then(pages => {
+//       let pageIds = pages.map((p) => p._id.toString())
+//       logger.serverLog(TAG, `page Ids: ${util.inspect(pageIds)}`)
+//       let subscriberData = []
+//       if (req.body.filter && req.body.filter_criteria && req.body.filter_criteria.search_value !== '') {
+//         subscriberData = [
+//           {$project: {name: {$concat: ['$firstName', ' ', '$lastName']}, companyId: 1, pageId: 1, isSubscribed: 1}},
+//           {$match: {companyId: companyUser.companyId, pageId: {$in: pageIds}, name: {$regex: '.*' + req.body.filter_criteria.search_value + '.*', $options: 'i'}, isSubscribed: true}}
+//         ]
+//       } else {
+//         subscriberData = [
+//           {$match: {companyId: companyUser.companyId, pageId: {$in: pageIds}, isSubscribed: true}}
+//         ]
+//       }
+//       return callApi(`subscribers/aggregate`, 'post', subscriberData, req.headers.authorization)
+//     })
+//     .then(subscribers => {
+//       let subscriberIds = subscribers.map((s) => s._id.toString())
+//       logger.serverLog(TAG, `subscriber Ids: ${util.inspect(subscriberIds)}`)
+//       criteria = logicLayer.getNewSessionsCriteria(companyUser, req.body, subscriberIds)
+//       let countData = logicLayer.getQueryData('count', 'aggregate', criteria.match)
+//       logger.serverLog(TAG, `count Data: ${util.inspect(countData)}`)
+//       return callApi(`sessions/query`, 'post', countData, '', 'kibochat')
+//     })
+//     .then(sessionsCount => {
+//       logger.serverLog(TAG, `criteria: ${util.inspect(criteria)}`)
+//       logger.serverLog(TAG, `sessions count: ${util.inspect(sessionsCount)}`)
+//       if (sessionsCount.length > 0 && sessionsCount[0].count > 0) {
+//         return sessionsWithUnreadCountAndLastMessage(sessionsCount[0].count, req, criteria, companyUser)
+//       } else {
+//         return res.status(200).json({status: 'success', payload: {openSessions: [], count: 0}})
+//       }
+//     })
+//     .then(result => {
+//       return res.status(200).json({status: 'success', payload: {openSessions: result.sessions, count: result.count}})
+//     })
+//     .catch(error => {
+//       return res.status(500).json({status: 'failed', payload: `Internal server error ${JSON.stringify(error)}`})
+//     })
+// }
+//
+// exports.getResolvedSessions = function (req, res) {
+//   let companyUser = {}
+//   let criteria = {}
+//
+//   let companyUserResponse = callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
+//
+//   companyUserResponse
+//     .then(companyuser => {
+//       companyUser = companyuser
+//       let pageData = [
+//         {
+//           $match: {
+//             _id: req.body.filter && req.body.filter_criteria && req.body.filter_criteria.page_value !== '' ? req.body.filter_criteria.page_value : {$exists: true},
+//             companyId: companyUser.companyId,
+//             connected: true
+//           }
+//         }
+//       ]
+//       return callApi(`pages/aggregate`, 'post', pageData, req.headers.authorization)
+//     })
+//     .then(pages => {
+//       let pageIds = pages.map((p) => p._id.toString())
+//       let subscriberData = []
+//       if (req.body.filter && req.body.filter_criteria && req.body.filter_criteria.search_value !== '') {
+//         subscriberData = [
+//           {$project: {name: {$concat: ['$firstName', ' ', '$lastName']}, companyId: 1, pageId: 1}},
+//           {$match: {companyId: companyUser.companyId, pageId: {$in: pageIds}, name: {$regex: '.*imran.*', $options: 'i'}, isSubscribed: true}}
+//         ]
+//       } else {
+//         subscriberData = [
+//           {$match: {companyId: companyUser.companyId, pageId: {$in: pageIds}, isSubscribed: true}}
+//         ]
+//       }
+//       return callApi(`subscribers/aggregate`, 'post', subscriberData, req.headers.authorization)
+//     })
+//     .then(subscribers => {
+//       let subscriberIds = subscribers.map((s) => s._id.toString())
+//       criteria = logicLayer.getResolvedSessionsCriteria(companyUser, req.body, subscriberIds)
+//       let countData = logicLayer.getQueryData('count', 'aggregate', criteria.match)
+//       return callApi(`sessions/query`, 'post', countData, '', 'kibochat')
+//     })
+//     .then(sessionsCount => {
+//       if (sessionsCount.length > 0 && sessionsCount[0].count > 0) {
+//         return sessionsWithUnreadCountAndLastMessage(sessionsCount[0].count, req, criteria, companyUser)
+//       } else {
+//         return res.status(200).json({status: 'success', payload: {closedSessions: [], count: 0}})
+//       }
+//     })
+//     .then(result => {
+//       return res.status(200).json({status: 'success', payload: {closedSessions: result.sessions, count: result.count}})
+//     })
+//     .catch(error => {
+//       return res.status(500).json({status: 'failed', payload: `Internal server error ${JSON.stringify(error)}`})
+//     })
+// }
 
 exports.markread = function (req, res) {
   let session = {}

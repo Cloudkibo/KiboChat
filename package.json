@@ -24,7 +24,7 @@
   },
   "homepage": "repo_readme_path",
   "dependencies": {
-    "axios": "^0.18.0",
+    "async": "^2.6.1",
     "bluebird": "^3.5.2",
     "body-parser": "^1.18.3",
     "composable-middleware": "^0.3.0",
