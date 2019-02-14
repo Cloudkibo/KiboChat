@@ -1,3 +1,40 @@
+exports.getCount = (req, status, callback) => {
+  let aggregateData = [
+    { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
+    { $unwind: '$pageId' },
+    { $project: {name: {$concat: ['$firstName', ' ', '$lastName']}, companyId: 1, pageId: 1, isSubscribed: 1, status: 1} },
+    { $match: {
+      'companyId': req.body.companyId,
+      'isSubscribed': true,
+      'status': status,
+      'name': {$regex: '.*' + req.body.search_value + '.*', $options: 'i'},
+      'pageId._id': req.body.page_value !== '' ? req.body.page_value : {$exists: true},
+      'pageId.connected': true
+    } },
+    { $group: {_id: null, count: { $sum: 1 }} }
+  ]
+  return aggregateData
+}
+
+exports.getSessions = (req, status, callback) => {
+  let aggregateData = [
+    { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
+    { $unwind: '$pageId' },
+    { $project: {name: {$concat: ['$firstName', ' ', '$lastName']}, companyId: 1, pageId: 1, isSubscribed: 1, status: 1, last_activity_time: 1, _id: 1} },
+    { $match: {
+      'companyId': req.user.companyId,
+      'isSubscribed': true,
+      'status': status,
+      'name': {$regex: '.*' + req.body.search_value + '.*', $options: 'i'},
+      'pageId._id': req.body.page_value !== '' ? req.body.page_value : {$exists: true},
+      'pageId.connected': true,
+      '_id': req.body.first_page ? {$exists: true} : {$gt: req.body.last_id}
+    } },
+    { $sort: {last_activity_time: req.body.sort_value} }
+  ]
+  return aggregateData
+}
+
 exports.getQueryData = (type, purpose, match, skip, sort, limit, group) => {
   if (type === 'count') {
     return {
