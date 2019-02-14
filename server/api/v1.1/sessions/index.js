@@ -60,9 +60,6 @@ router.post('/assignTeam',
   controller.assignTeam)
 
 router.post('/query',
-  auth.isAuthenticated(),
-  auth.doesPlanPermitsThisAction('livechat'),
-  auth.doesRolePermitsThisAction('livechatPermission'),
   controller.genericFind)
 
 module.exports = router
