@@ -3,7 +3,7 @@ const logger = require('../../../components/logger')
 const TAG = 'api/v1/sessions/sessions.controller'
 const logicLayer = require('./sessions.logiclayer')
 const needle = require('needle')
-const util = require('util')
+// const util = require('util')
 const async = require('async')
 
 exports.index = function (req, res) {
@@ -236,128 +236,106 @@ exports.fetchResolvedSessions = function (req, res) {
 // }
 
 exports.markread = function (req, res) {
-  let session = {}
-  let currentUser = {}
-  let companyUser = {}
-
-  let companyUserResponse = callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
-
-  let sessionsData = logicLayer.getQueryData('', 'findOne', {_id: req.params.id})
-  let sessionResponse = callApi('sessions/query', 'post', sessionsData, '', 'kibochat')
-
-  let updateData = logicLayer.getUpdateData('updateAll', {session_id: req.params.id}, {status: 'seen'}, false, true)
-  let readResponse = callApi('livechat', 'put', updateData, '', 'kibochat')
-
-  companyUserResponse.then(company => {
-    companyUser = company
-    return sessionResponse
-  })
-    .then(sessionRes => {
-      session = sessionRes
-      return callApi(`pages/query`, 'post', {companyId: companyUser.companyId, connected: true}, req.headers.authorization)
-    })
-    .then(userPage => {
-      userPage = userPage[0]
-      if (userPage && userPage.userId) {
-        return callApi(`user/query`, 'post', {_id: userPage.userId}, req.headers.authorization)
+  if (req.params.id) {
+    async.parallelLimit([
+      function (callback) {
+        markreadFacebook(req.user, callback)
+      },
+      function (callback) {
+        markreadLocal(req, callback)
       }
-    })
-    .then(connectedUser => {
-      connectedUser = connectedUser[0]
-      if (req.user.facebookInfo) {
-        currentUser = req.user
+    ], 10, function (err, results) {
+      if (err) {
+        res.status(500).json({status: 'failed', payload: err})
       } else {
-        currentUser = connectedUser
+        res.status(200).json({status: 'success', payload: 'Chat has been marked read successfully!'})
       }
-      return callApi(`pages/query`, 'post', {_id: session.page_id}, req.headers.authorization)
     })
-    .then(page => {
-      page = page[0]
-      needle.get(
-        `https://graph.facebook.com/v2.10/${page.pageId}?fields=access_token&access_token=${currentUser.facebookInfo.fbToken}`,
-        (err, resp) => {
-          if (err) {
-            logger.serverLog(TAG, `Page accesstoken from graph api Error${JSON.stringify(err)}`)
-          }
-          const data = {
-            messaging_type: 'UPDATE',
-            recipient: {id: session.subscriber_id.senderId}, // this is the subscriber id
-            sender_action: 'mark_seen'
-          }
-          if (resp && resp.body) {
-            needle.post(
-              `https://graph.facebook.com/v2.6/me/messages?access_token=${resp.body.access_token}`,
-              data, (err, resp1) => {
-                if (err) {
-                  logger.serverLog(TAG, err)
-                  logger.serverLog(TAG,
-                    `Error occured at subscriber :${JSON.stringify(
-                      session.subscriber_id)}`)
-                }
-              })
-          }
-          return readResponse
-        })
-    })
+  } else {
+    return res.status(400).json({status: 'failed', payload: 'Parameter subscriber_id is required!'})
+  }
+}
+
+function markreadLocal (req, callback) {
+  let updateData = logicLayer.getUpdateData('updateAll', {subscriber_id: req.params.id}, {status: 'seen'}, false, true)
+  callApi('livechat', 'put', updateData, '', 'kibochat')
     .then(updated => {
-      res.status(200).json({status: 'success', payload: updated})
+      callback(null, updated)
     })
-    .catch(error => {
-      return res.status(500).json({status: 'failed', payload: `Failed to update live chat ${JSON.stringify(error)}`})
+    .catch(err => {
+      callback(err)
+    })
+}
+
+function markreadFacebook (req, callback) {
+  callApi(`subscribers/${req.params.id}`, 'get', {}, req.headers.authorization)
+    .then(subscriber => {
+      const data = {
+        messaging_type: 'UPDATE',
+        recipient: {id: subscriber.senderId}, // this is the subscriber id
+        sender_action: 'mark_seen'
+      }
+      return needle('post', `https://graph.facebook.com/v2.6/me/messages?access_token=${subscriber.pageId.accessToken}`, data)
+    })
+    .then(resp => {
+      if (resp.error) {
+        logger.serverLog(TAG, `marked read on Facebook error ${JSON.stringify(resp.error)}`)
+        callback(resp.error)
+      } else {
+        logger.serverLog(TAG, `marked read on Facebook response ${JSON.stringify(resp.body)}`)
+        callback(null, resp.body)
+      }
+    })
+    .catch(err => {
+      callback(err)
     })
 }
 
 exports.show = function (req, res) {
-  let companyUser = {}
-  let session = {}
-
-  let companyUserResponse = callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
-
-  let sessionData = logicLayer.getQueryData('', 'findOne', {_id: req.params.id})
-  let sessionResponse = callApi('sessions/query', 'post', sessionData, '', 'kibochat')
-
-  companyUserResponse.then(company => {
-    companyUser = company
-    return sessionResponse
-  })
-    .then(sessionData => {
-      session = sessionData
-      if (session) {
-        let messagesData = logicLayer.getQueryData('', 'findAll', {session_id: session._id})
-        return callApi('livechat/query', 'post', messagesData, '', 'kibochat')
+  if (req.params.id) {
+    async.parallelLimit([
+      function (callback) {
+        callApi(`subscribers/${req.params.id}`, 'get', {}, req.headers.authorization)
+          .then(subscriber => {
+            callback(null, subscriber)
+          })
+          .catch(err => {
+            callback(err)
+          })
+      },
+      function (callback) {
+        let unreadCountData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId.toString(), status: 'unseen', format: 'facebook'}, undefined, undefined, undefined, {_id: '$subscriber_id', count: {$sum: 1}})
+        callApi('livechat/query', 'post', unreadCountData, '', 'kibochat')
+          .then(data => {
+            callback(null, data)
+          })
+          .catch(err => {
+            callback(err)
+          })
+      },
+      function (callback) {
+        let lastMessageData = logicLayer.getQueryData('', 'aggregate', undefined, undefined, undefined, undefined, {_id: '$subscriber_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+        callApi(`sessions/query`, 'post', lastMessageData, '', 'kibochat')
+          .then(data => {
+            callback(null, data)
+          })
+          .catch(err => {
+            callback(err)
+          })
+      }
+    ], 10, function (err, results) {
+      if (err) {
+        res.status(500).json({status: 'failed', payload: err})
       } else {
-        return res.status(404).json({
-          status: 'failed',
-          description: 'Session with given id is not found on server.'
-        })
+        let subscriber = results[0]
+        let unreadCountResponse = results[1]
+        let lastMessageResponse = results[2]
+        let subscriberWithUnreadCount = logicLayer.appendUnreadCountData(unreadCountResponse, subscriber)
+        let finalSubscriber = logicLayer.appendLastMessageData(lastMessageResponse, subscriberWithUnreadCount)
+        res.status(200).json({status: 'success', payload: finalSubscriber})
       }
     })
-    .then(chats => {
-      if (session) {
-        session.set('chats', JSON.parse(JSON.stringify(chats)), {strict: false})
-        let messagesData = logicLayer.getQueryData('', 'aggregate', {company_id: companyUser.companyId.toString(), status: 'unseen', format: 'facebook'}, 0, { datetime: 1 })
-        return callApi('livechat/query', 'post', messagesData, '', 'kibochat')
-      }
-    })
-    .then(gotUnreadCount => {
-      if (session) {
-        session = logicLayer.getUnreadCountData(gotUnreadCount, session)
-        let lastMessageData = logicLayer.getQueryData('', 'aggregate', {}, 0, { datetime: 1 }, undefined, {_id: '$session_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
-        return callApi(`sessions/query`, 'post', lastMessageData, '', 'kibochat')
-      }
-    })
-    .then(gotLastMessage => {
-      if (session) {
-        session = logicLayer.getLastMessageData(gotLastMessage, session)
-        return res.status(200).json({
-          status: 'success',
-          payload: session
-        })
-      }
-    })
-    .catch(err => {
-      res.status(500).json({status: 'failed', payload: `Failed to fetch unread couunts ${JSON.stringify(err)}`})
-    })
+  }
 }
 
 exports.changeStatus = function (req, res) {
@@ -462,53 +440,53 @@ exports.assignTeam = function (req, res) {
     })
 }
 
-function sessionsWithUnreadCountAndLastMessage (count, req, criteria, companyUser) {
-  return new Promise(function (resolve, reject) {
-    let data = logicLayer.getQueryData('', 'aggregate', criteria.match, 0, criteria.sort, criteria.limit)
-    let sessionsResponse = callApi('sessions/query', 'post', data, '', 'kibochat')
-
-    sessionsResponse.then(sessions => {
-      sessions.forEach((session, index) => {
-        callApi(`subscribers/${session.subscriber_id}`, 'get', {}, req.headers.authorization)
-          .then(subscriber => {
-            session.subscriber_id = subscriber
-            return callApi(`pages/${session.page_id}`, 'get', {}, req.headers.authorization)
-          })
-          .then(page => {
-            session.page_id = page
-            if (index === sessions.length - 1) {
-              let messagesData = logicLayer.getQueryData('', 'aggregate', {company_id: companyUser.companyId.toString(), status: 'unseen', format: 'facebook'}, 0, { datetime: 1 })
-              return callApi('livechat/query', 'post', messagesData, '', 'kibochat')
-            } else {
-              return 'next'
-            }
-          })
-          .then(gotUnreadCount => {
-            if (index === sessions.length - 1) {
-              sessions = logicLayer.getUnreadCount(gotUnreadCount, sessions)
-              let lastMessageData = logicLayer.getQueryData('', 'aggregate', {}, 0, { datetime: 1 }, undefined, {_id: '$session_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
-              return callApi(`livechat/query`, 'post', lastMessageData, '', 'kibochat')
-            } else {
-              return 'next'
-            }
-          })
-          .then(gotLastMessage => {
-            if (index === sessions.length - 1) {
-              sessions = logicLayer.getLastMessage(gotLastMessage, sessions)
-              logger.serverLog(TAG, `sessions: ${sessions}`)
-              resolve({sessions, count})
-            }
-          })
-          .catch(err => {
-            reject(err)
-          })
-      })
-    })
-      .catch(err => {
-        reject(err)
-      })
-  })
-}
+// function sessionsWithUnreadCountAndLastMessage (count, req, criteria, companyUser) {
+//   return new Promise(function (resolve, reject) {
+//     let data = logicLayer.getQueryData('', 'aggregate', criteria.match, 0, criteria.sort, criteria.limit)
+//     let sessionsResponse = callApi('sessions/query', 'post', data, '', 'kibochat')
+//
+//     sessionsResponse.then(sessions => {
+//       sessions.forEach((session, index) => {
+//         callApi(`subscribers/${session.subscriber_id}`, 'get', {}, req.headers.authorization)
+//           .then(subscriber => {
+//             session.subscriber_id = subscriber
+//             return callApi(`pages/${session.page_id}`, 'get', {}, req.headers.authorization)
+//           })
+//           .then(page => {
+//             session.page_id = page
+//             if (index === sessions.length - 1) {
+//               let messagesData = logicLayer.getQueryData('', 'aggregate', {company_id: companyUser.companyId.toString(), status: 'unseen', format: 'facebook'}, 0, { datetime: 1 })
+//               return callApi('livechat/query', 'post', messagesData, '', 'kibochat')
+//             } else {
+//               return 'next'
+//             }
+//           })
+//           .then(gotUnreadCount => {
+//             if (index === sessions.length - 1) {
+//               sessions = logicLayer.getUnreadCount(gotUnreadCount, sessions)
+//               let lastMessageData = logicLayer.getQueryData('', 'aggregate', {}, 0, { datetime: 1 }, undefined, {_id: '$session_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+//               return callApi(`livechat/query`, 'post', lastMessageData, '', 'kibochat')
+//             } else {
+//               return 'next'
+//             }
+//           })
+//           .then(gotLastMessage => {
+//             if (index === sessions.length - 1) {
+//               sessions = logicLayer.getLastMessage(gotLastMessage, sessions)
+//               logger.serverLog(TAG, `sessions: ${sessions}`)
+//               resolve({sessions, count})
+//             }
+//           })
+//           .catch(err => {
+//             reject(err)
+//           })
+//       })
+//     })
+//       .catch(err => {
+//         reject(err)
+//       })
+//   })
+// }
 
 exports.genericFind = function (req, res) {
   let messagesData = logicLayer.getQueryData('', 'findAll', req.body)
