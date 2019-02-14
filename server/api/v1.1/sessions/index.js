@@ -17,14 +17,14 @@ router.post('/getOpenSessions',
   auth.doesPlanPermitsThisAction('livechat'),
   auth.doesRolePermitsThisAction('livechatPermission'),
   validate({body: validationSchema.openSessionsPayload}),
-  controller.getNewSessions)
+  controller.fetchOpenSessions)
 
 router.post('/getClosedSessions',
   auth.isAuthenticated(),
   auth.doesPlanPermitsThisAction('livechat'),
   auth.doesRolePermitsThisAction('livechatPermission'),
   validate({body: validationSchema.openSessionsPayload}),
-  controller.getResolvedSessions)
+  controller.fetchResolvedSessions)
 
 router.get('/markread/:id',
   auth.isAuthenticated(),
