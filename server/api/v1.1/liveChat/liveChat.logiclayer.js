@@ -47,7 +47,7 @@ exports.prepareFbMessageObject = (body) => {
     recipient_id: body.recipient_id, // this is the subscriber id: _id of subscriberId
     sender_fb_id: body.sender_fb_id, // this is the (facebook) :page id of pageId
     recipient_fb_id: body.recipient_fb_id, // this is the (facebook) subscriber id : pageid of subscriber id
-    session_id: body.session_id,
+    subscriber_id: body.subscriber_id,
     company_id: body.company_id, // this is admin id till we have companies
     payload: body.payload, // this where message content will go
     url_meta: body.url_meta,
@@ -238,7 +238,7 @@ exports.webhookPost = (needle, webhook, req, res) => {
       payload: JSON.stringify({ // this is the subscriber id: _id of subscriberId
         pageId: req.body.sender_fb_id, // this is the (facebook) :page id of pageId
         subscriberId: req.body.recipient_fb_id, // this is the (facebook) subscriber id : pageid of subscriber id
-        session_id: req.body.session_id,
+        session_id: req.body.subscriber_id,
         company_id: req.body.company_id, // this is admin id till we have companies
         payload: req.body.payload, // this where message content will go
         url_meta: req.body.url_meta,
