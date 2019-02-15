@@ -90,7 +90,21 @@ exports.getSessions = (sessions) => {
   }
   return tempSessions
 }
-exports.appendUnreadCountData = (gotUnreadCount, subscriber) => {
+exports.putUnreadCount = (gotUnreadCount, subscribers) => {
+  let temp = []
+  for (let i = 0; i < subscribers.length; i++) {
+    temp.push(appendUnreadCountData(gotUnreadCount, subscribers[i]))
+  }
+  return temp
+}
+exports.putLastMessage = (gotLastMessage, subscribers) => {
+  let temp = []
+  for (let i = 0; i < subscribers.length; i++) {
+    temp.push(appendLastMessageData(gotLastMessage, subscribers[i]))
+  }
+  return temp
+}
+const appendUnreadCountData = (gotUnreadCount, subscriber) => {
   for (let i = 0; i < gotUnreadCount.length; i++) {
     if (subscriber._id.toString() === gotUnreadCount[i]._id.toString()) {
       subscriber.set('unreadCount',
@@ -100,7 +114,7 @@ exports.appendUnreadCountData = (gotUnreadCount, subscriber) => {
   }
   return subscriber
 }
-exports.appendLastMessageData = (gotLastMessage, subscriber) => {
+const appendLastMessageData = (gotLastMessage, subscriber) => {
   for (let a = 0; a < gotLastMessage.length; a++) {
     if (subscriber._id.toString() === gotLastMessage[a]._id.toString()) {
       subscriber.set('lastPayload',
@@ -131,3 +145,6 @@ exports.prepareSessionsData = (sessionsData, body) => {
   }
   return tempSessionsData
 }
+
+exports.appendUnreadCountData = appendUnreadCountData
+exports.appendLastMessageData = appendLastMessageData
