@@ -100,7 +100,7 @@ exports.fetchOpenSessions = function (req, res) {
     }
   ], 10, function (err, results) {
     if (err) {
-      res.status(500).json({status: 'failed', payload: err})
+      return res.status(500).json({status: 'failed', payload: err})
     } else {
       let countResopnse = results[0]
       let sessionsResponse = results[1]
@@ -108,7 +108,7 @@ exports.fetchOpenSessions = function (req, res) {
       let lastMessageResponse = results[3]
       let sessionsWithUnreadCount = logicLayer.putUnreadCount(unreadCountResponse, sessionsResponse)
       let sessions = logicLayer.putLastMessage(lastMessageResponse, sessionsWithUnreadCount)
-      res.status(200).json({status: 'success', payload: {openSessions: sessions, count: countResopnse.length > 0 ? countResopnse.count : 0}})
+      return res.status(200).json({status: 'success', payload: {openSessions: sessions, count: countResopnse.length > 0 ? countResopnse.count : 0}})
     }
   })
 }
@@ -157,7 +157,7 @@ exports.fetchResolvedSessions = function (req, res) {
     }
   ], 10, function (err, results) {
     if (err) {
-      res.status(500).json({status: 'failed', payload: err})
+      return res.status(500).json({status: 'failed', payload: err})
     } else {
       let countResopnse = results[0]
       let sessionsResponse = results[1]
@@ -165,7 +165,7 @@ exports.fetchResolvedSessions = function (req, res) {
       let lastMessageResponse = results[3]
       let sessionsWithUnreadCount = logicLayer.putUnreadCount(unreadCountResponse, sessionsResponse)
       let sessions = logicLayer.putLastMessage(lastMessageResponse, sessionsWithUnreadCount)
-      res.status(200).json({status: 'success', payload: {closedSessions: sessions, count: countResopnse.length > 0 ? countResopnse.count : 0}})
+      return res.status(200).json({status: 'success', payload: {closedSessions: sessions, count: countResopnse.length > 0 ? countResopnse.count : 0}})
     }
   })
 }
@@ -181,9 +181,9 @@ exports.markread = function (req, res) {
       }
     ], 10, function (err, results) {
       if (err) {
-        res.status(500).json({status: 'failed', payload: err})
+        return res.status(500).json({status: 'failed', payload: err})
       } else {
-        res.status(200).json({status: 'success', payload: 'Chat has been marked read successfully!'})
+        return res.status(200).json({status: 'success', payload: 'Chat has been marked read successfully!'})
       }
     })
   } else {
@@ -260,14 +260,14 @@ exports.show = function (req, res) {
       }
     ], 10, function (err, results) {
       if (err) {
-        res.status(500).json({status: 'failed', payload: err})
+        return res.status(500).json({status: 'failed', payload: err})
       } else {
         let subscriber = results[0]
         let unreadCountResponse = results[1]
         let lastMessageResponse = results[2]
         let subscriberWithUnreadCount = logicLayer.appendUnreadCountData(unreadCountResponse, subscriber)
         let finalSubscriber = logicLayer.appendLastMessageData(lastMessageResponse, subscriberWithUnreadCount)
-        res.status(200).json({status: 'success', payload: finalSubscriber})
+        return res.status(200).json({status: 'success', payload: finalSubscriber})
       }
     })
   } else {
@@ -290,10 +290,10 @@ exports.changeStatus = function (req, res) {
           }
         }
       })
-      res.status(200).json({status: 'success', payload: 'Status has been updated successfully!'})
+      return res.status(200).json({status: 'success', payload: 'Status has been updated successfully!'})
     })
     .catch(err => {
-      res.status(500).json({status: 'failed', payload: err})
+      return res.status(500).json({status: 'failed', payload: err})
     })
 }
 
@@ -325,10 +325,10 @@ exports.assignAgent = function (req, res) {
           }
         }
       })
-      res.status(200).json({status: 'success', payload: 'Agent has been assigned successfully!'})
+      return res.status(200).json({status: 'success', payload: 'Agent has been assigned successfully!'})
     })
     .catch(err => {
-      res.status(500).json({status: 'failed', payload: err})
+      return res.status(500).json({status: 'failed', payload: err})
     })
 }
 
@@ -360,10 +360,10 @@ exports.assignTeam = function (req, res) {
           }
         }
       })
-      res.status(200).json({status: 'success', payload: 'Team has been assigned successfully!'})
+      return res.status(200).json({status: 'success', payload: 'Team has been assigned successfully!'})
     })
     .catch(err => {
-      res.status(500).json({status: 'failed', payload: err})
+      return res.status(500).json({status: 'failed', payload: err})
     })
 }
 
