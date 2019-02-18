@@ -1,7 +1,6 @@
 const utility = require('../utility')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1/messengerEvents/sessions.controller'
-const SessionsDataLayer = require('../sessions/sessions.datalayer')
 const LiveChatDataLayer = require('../liveChat/liveChat.datalayer')
 const BotsDataLayer = require('../smartReplies/bots.datalayer')
 const botController = require('../smartReplies/smartReplies.controller')
@@ -24,63 +23,17 @@ exports.index = function (req, res) {
   utility.callApi(`companyprofile/query`, 'post', { _id: page.companyId })
     .then(company => {
       if (!(company.automated_options === 'DISABLE_CHAT')) {
-        SessionsDataLayer.findOneSessionUsingQuery({ page_id: page._id, subscriber_id: subscriber._id })
-          .then(session => {
-            if (session === null) {
-              utility.callApi(`featureUsage/planQuery`, 'post', {planId: company.planId})
-                .then(planUsage => {
-                  planUsage = planUsage[0]
-                  utility.callApi(`featureUsage/companyQuery`, 'post', {companyId: page.companyId})
-                    .then(companyUsage => {
-                      companyUsage = companyUsage[0]
-                      // add paid plan check later
-                      // if (planUsage.sessions !== -1 && companyUsage.sessions >= planUsage.sessions) {
-                      //   notificationsUtility.limitReachedNotification('sessions', company)
-                      //   logger.serverLog(TAG, `Sessions limit reached`)
-                      // } else {
-                      SessionsDataLayer.createSessionObject({
-                        subscriber_id: subscriber._id,
-                        page_id: page._id,
-                        company_id: page.companyId
-                      })
-                        .then(sessionSaved => {
-                          utility.callApi(`featureUsage/updateCompany`, 'put', {query: {companyId: page.companyId}, newPayload: { $inc: { sessions: 1 } }, options: {}})
-                            .then(updated => {
-                            })
-                            .catch(error => {
-                              logger.serverLog(TAG, `Failed to update company usage ${JSON.stringify(error)}`)
-                            })
-                          subscriber.pageId = page
-                          saveLiveChat(page, subscriber, sessionSaved, event)
-                        })
-                        .catch(error => {
-                          logger.serverLog(TAG, `Failed to create new session ${JSON.stringify(error)}`)
-                        })
-                    })
-                    .catch(error => {
-                      logger.serverLog(TAG, `Failed to fetch company usage ${JSON.stringify(error)}`)
-                    })
-                })
-                .catch(error => {
-                  logger.serverLog(TAG, `Failed to fetch plan usage ${JSON.stringify(error)}`)
-                })
-            } else {
-              let updatePayload = { last_activity_time: Date.now() }
-              if (session.status === 'resolved') {
-                updatePayload.status = 'new'
-              }
-              SessionsDataLayer.updateSessionObject(session._id, updatePayload)
-                .then(updated => {
-                  logger.serverLog(TAG, `Session updated successfully`)
-                  saveLiveChat(page, subscriber, session, event)
-                })
-                .catch(error => {
-                  logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`)
-                })
-            }
+        let updatePayload = { last_activity_time: Date.now() }
+        if (subscriber.status === 'resolved') {
+          updatePayload.status = 'new'
+        }
+        utility.callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: updatePayload, options: {}})
+          .then(updated => {
+            logger.serverLog(TAG, `subscriber updated successfully`)
+            saveLiveChat(page, subscriber, event)
           })
           .catch(error => {
-            logger.serverLog(TAG, `Failed to fetch session ${JSON.stringify(error)}`)
+            logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`)
           })
       }
     })
@@ -88,8 +41,8 @@ exports.index = function (req, res) {
       logger.serverLog(TAG, `Failed to fetch company profile ${JSON.stringify(error)}`)
     })
 }
-function saveLiveChat (page, subscriber, session, event) {
-  let chatPayload = logicLayer.prepareLiveChatPayload(event.message, subscriber, page, session)
+function saveLiveChat (page, subscriber, event) {
+  let chatPayload = logicLayer.prepareLiveChatPayload(event.message, subscriber, page)
   if (subscriber && !event.message.is_echo) {
     BotsDataLayer.findOneBotObjectUsingQuery({ pageId: subscriber.pageId._id.toString() })
       .then(bot => {
@@ -120,7 +73,7 @@ function saveLiveChat (page, subscriber, session, event) {
                   format: 'facebook',
                   subscriberId: subscriber.senderId,
                   pageId: page.pageId,
-                  session_id: session._id,
+                  session_id: subscriber._id,
                   company_id: page.companyId,
                   payload: event.message
                 })
@@ -145,14 +98,14 @@ function saveLiveChat (page, subscriber, session, event) {
       og(urlInText, function (err, meta) {
         if (err) return logger.serverLog(TAG, err)
         chatPayload.url_meta = meta
-        saveChatInDb(page, session, chatPayload, subscriber, event)
+        saveChatInDb(page, chatPayload, subscriber, event)
       })
     } else {
-      saveChatInDb(page, session, chatPayload, subscriber, event)
+      saveChatInDb(page, chatPayload, subscriber, event)
     }
   }
 }
-function saveChatInDb (page, session, chatPayload, subscriber, event) {
+function saveChatInDb (page, chatPayload, subscriber, event) {
   LiveChatDataLayer.createFbMessageObject(chatPayload)
     .then(chat => {
       require('./../../../config/socketio').sendMessageToClient({
@@ -160,7 +113,7 @@ function saveChatInDb (page, session, chatPayload, subscriber, event) {
         body: {
           action: 'new_chat',
           payload: {
-            session_id: session._id,
+            subscriber_id: subscriber._id,
             chat_id: chat._id,
             text: chatPayload.payload.text,
             name: subscriber.firstName + ' ' + subscriber.lastName,
@@ -273,77 +226,67 @@ function sendautomatedmsg (req, page) {
               if (!unsubscribeResponse) {
                 utility.callApi(`subscribers/query`, 'post', { senderId: req.sender.id })
                   .then(subscribers => {
-                    SessionsDataLayer.findOneSessionUsingQuery({subscriber_id: subscribers[0]._id, page_id: page._id, company_id: page.companyId})
-                      .then(session => {
-                        if (!session) {
-                          return logger.serverLog(TAG,
-                            `No chat session was found for workflow`)
-                        }
-                        const chatMessage = {
-                          sender_id: page._id, // this is the page id: _id of Pageid
-                          recipient_id: subscribers[0]._id, // this is the subscriber id: _id of subscriberId
-                          sender_fb_id: page.pageId, // this is the (facebook) :page id of pageId
-                          recipient_fb_id: subscribers[0].senderId, // this is the (facebook) subscriber id : pageid of subscriber id
-                          session_id: session._id,
-                          company_id: page.companyId, // this is admin id till we have companies
-                          payload: {
-                            componentType: 'text',
-                            text: messageData.text
-                          }, // this where message content will go
-                          status: 'unseen' // seen or unseen
-                        }
-                        utility.callApi(`webhooks/query`, 'post', { pageId: page.pageId })
-                          .then(webhookss => {
-                            let webhooks = webhookss[0]
-                            if (webhookss.length > 0 && webhooks.isEnabled) {
-                              logger.serverLog(TAG, `webhook in live chat ${webhooks}`)
-                              needle.get(webhooks.webhook_url, (err, r) => {
-                                if (err) {
-                                  logger.serverLog(TAG, err)
-                                } else if (r.statusCode === 200) {
-                                  if (webhooks.optIn.LIVE_CHAT_ACTIONS) {
-                                    var data = {
-                                      subscription_type: 'LIVE_CHAT_ACTIONS',
-                                      payload: JSON.stringify({
-                                        pageId: page.pageId, // this is the (facebook) :page id of pageId
-                                        subscriberId: subscribers[0].senderId, // this is the (facebook) subscriber id : pageid of subscriber id
-                                        session_id: session._id,
-                                        company_id: page.companyId, // this is admin id till we have companies
-                                        payload: {
-                                          componentType: 'text',
-                                          text: messageData.text
-                                        }
-                                      })
+                    const chatMessage = {
+                      sender_id: page._id, // this is the page id: _id of Pageid
+                      recipient_id: subscribers[0]._id, // this is the subscriber id: _id of subscriberId
+                      sender_fb_id: page.pageId, // this is the (facebook) :page id of pageId
+                      recipient_fb_id: subscribers[0].senderId, // this is the (facebook) subscriber id : pageid of subscriber id
+                      session_id: subscribers[0]._id,
+                      company_id: page.companyId, // this is admin id till we have companies
+                      payload: {
+                        componentType: 'text',
+                        text: messageData.text
+                      }, // this where message content will go
+                      status: 'unseen' // seen or unseen
+                    }
+                    utility.callApi(`webhooks/query`, 'post', { pageId: page.pageId })
+                      .then(webhookss => {
+                        let webhooks = webhookss[0]
+                        if (webhookss.length > 0 && webhooks.isEnabled) {
+                          logger.serverLog(TAG, `webhook in live chat ${webhooks}`)
+                          needle.get(webhooks.webhook_url, (err, r) => {
+                            if (err) {
+                              logger.serverLog(TAG, err)
+                            } else if (r.statusCode === 200) {
+                              if (webhooks.optIn.LIVE_CHAT_ACTIONS) {
+                                var data = {
+                                  subscription_type: 'LIVE_CHAT_ACTIONS',
+                                  payload: JSON.stringify({
+                                    pageId: page.pageId, // this is the (facebook) :page id of pageId
+                                    subscriberId: subscribers[0].senderId, // this is the (facebook) subscriber id : pageid of subscriber id
+                                    session_id: subscribers[0]._id,
+                                    company_id: page.companyId, // this is admin id till we have companies
+                                    payload: {
+                                      componentType: 'text',
+                                      text: messageData.text
                                     }
-                                    needle.post(webhooks[0].webhook_url, data,
-                                      (error, response) => {
-                                        if (error) logger.serverLog(TAG, err)
-                                      })
-                                  }
-                                } else {
-                                  /* do webhook work here */
-                                  var webhook = null
-                                  notificationsUtility.saveNotification(webhook)
+                                  })
                                 }
-                              })
+                                needle.post(webhooks[0].webhook_url, data,
+                                  (error, response) => {
+                                    if (error) logger.serverLog(TAG, err)
+                                  })
+                              }
+                            } else {
+                              /* do webhook work here */
+                              var webhook = null
+                              notificationsUtility.saveNotification(webhook)
                             }
                           })
-                          .catch(error => {
-                            logger.serverLog(TAG, `Failed to fetch webhook ${JSON.stringify(error)}`)
-                          })
-                        LiveChatDataLayer.createFbMessageObject(chatMessage)
-                          .then(chatMessageSaved => {
-                            SessionsDataLayer.updateSessionObject(session._id, {last_activity_time: Date.now()})
-                              .then(updated => {
-                                logger.serverLog(TAG, `Session updated successfully`)
-                              })
-                              .catch(error => {
-                                logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`)
-                              })
-                          })
+                        }
                       })
                       .catch(error => {
-                        logger.serverLog(TAG, `Failed to fetch session ${JSON.stringify(error)}`)
+                        logger.serverLog(TAG, `Failed to fetch webhook ${JSON.stringify(error)}`)
+                      })
+                    LiveChatDataLayer.createFbMessageObject(chatMessage)
+                      .then(chatMessageSaved => {
+                        utility.callApi('subscribers/update', 'put', {query: {_id: subscribers[0]._id}, newPayload: {last_activity_time: Date.now()}, options: {}})
+                          .then(updated => {
+                            logger.serverLog(TAG, `subscriber updated successfully`)
+                          })
+                          .catch(error => {
+                            logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`)
+                          })
                       })
                   })
                   .catch(error => {
