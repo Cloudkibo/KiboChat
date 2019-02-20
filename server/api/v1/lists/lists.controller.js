@@ -209,7 +209,7 @@ exports.viewList = function (req, res) {
               })
           } else {
             utility.callApi(`subscribers/query`, 'post', {
-              isSubscribed: true, _id: {$in: list.content}}, req.headers.authorization)
+              isSubscribed: true, companyId: companyUser.companyId, _id: {$in: list.content}}, req.headers.authorization)
               .then(subscribers => {
                 return res.status(201)
                   .json({status: 'success', payload: subscribers})
