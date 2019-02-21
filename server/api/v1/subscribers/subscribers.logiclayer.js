@@ -21,6 +21,7 @@ exports.getFinalPayload = (subscribers, customFields, customFieldSubscribers) =>
       data = {
         _id: customFields[j]._id,
         name: customFields[j].name,
+        type: customFields[j].type,
         value: ''
       }
       for (let k = 0; k < customFieldSubscribers.length; k++) {

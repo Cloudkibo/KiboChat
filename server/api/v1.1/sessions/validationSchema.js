@@ -65,7 +65,7 @@ exports.assignAgentPayload = {
     'agentName': {
       'type': 'string'
     },
-    'sessionId': {
+    'subscriberId': {
       'type': 'string'
     },
     'isAssigned': {
@@ -75,7 +75,7 @@ exports.assignAgentPayload = {
   'required': [
     'agentId',
     'agentName',
-    'sessionId',
+    'subscriberId',
     'isAssigned'
   ]
 }
@@ -88,7 +88,7 @@ exports.assignTeamPayload = {
     'teamName': {
       'type': 'string'
     },
-    'sessionId': {
+    'subscriberId': {
       'type': 'string'
     },
     'isAssigned': {
@@ -98,7 +98,7 @@ exports.assignTeamPayload = {
   'required': [
     'agentId',
     'agentName',
-    'sessionId',
+    'subscriberId',
     'isAssigned'
   ]
 }

@@ -197,7 +197,7 @@ function prepareMessageData (message) {
   return messageData
 }
 
-function prepareLiveChatPayload (message, subscriber, page, session) {
+function prepareLiveChatPayload (message, subscriber, page) {
   let payload = {}
   if (message.is_echo) {
     payload = {
@@ -206,7 +206,7 @@ function prepareLiveChatPayload (message, subscriber, page, session) {
       recipient_id: page.userId._id,
       sender_fb_id: subscriber.senderId,
       recipient_fb_id: page.pageId,
-      session_id: session && session._id ? session._id : '',
+      subscriber_id: subscriber._id,
       company_id: page.companyId,
       status: 'unseen', // seen or unseen
       payload: prepareMessageData(message)
@@ -218,7 +218,7 @@ function prepareLiveChatPayload (message, subscriber, page, session) {
       recipient_id: page.userId._id,
       sender_fb_id: subscriber.senderId,
       recipient_fb_id: page.pageId,
-      session_id: session && session._id ? session._id : '',
+      session_id: subscriber._id,
       company_id: page.companyId,
       status: 'unseen', // seen or unseen
       payload: message

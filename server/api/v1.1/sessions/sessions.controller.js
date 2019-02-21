@@ -77,12 +77,38 @@ exports.fetchOpenSessions = function (req, res) {
         .catch(err => {
           callback(err)
         })
+    },
+    function (callback) {
+      let unreadCountData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId.toString(), status: 'unseen', format: 'facebook'}, undefined, undefined, undefined, {_id: '$subscriber_id', count: {$sum: 1}})
+      callApi('livechat/query', 'post', unreadCountData, '', 'kibochat')
+        .then(data => {
+          callback(null, data)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      let lastMessageData = logicLayer.getQueryData('', 'aggregate', undefined, undefined, undefined, undefined, {_id: '$subscriber_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+      callApi(`sessions/query`, 'post', lastMessageData, '', 'kibochat')
+        .then(data => {
+          callback(null, data)
+        })
+        .catch(err => {
+          callback(err)
+        })
     }
   ], 10, function (err, results) {
     if (err) {
-      res.status(500).json({status: 'failed', payload: err})
+      return res.status(500).json({status: 'failed', payload: err})
     } else {
-      res.status(200).json({status: 'success', payload: {openSessions: results[1], count: results[0].length > 0 ? results[0].count : 0}})
+      let countResopnse = results[0]
+      let sessionsResponse = results[1]
+      let unreadCountResponse = results[2]
+      let lastMessageResponse = results[3]
+      let sessionsWithUnreadCount = logicLayer.putUnreadCount(unreadCountResponse, sessionsResponse)
+      let sessions = logicLayer.putLastMessage(lastMessageResponse, sessionsWithUnreadCount)
+      return res.status(200).json({status: 'success', payload: {openSessions: sessions, count: countResopnse.length > 0 ? countResopnse.count : 0}})
     }
   })
 }
@@ -108,132 +134,41 @@ exports.fetchResolvedSessions = function (req, res) {
         .catch(err => {
           callback(err)
         })
+    },
+    function (callback) {
+      let unreadCountData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId.toString(), status: 'unseen', format: 'facebook'}, undefined, undefined, undefined, {_id: '$subscriber_id', count: {$sum: 1}})
+      callApi('livechat/query', 'post', unreadCountData, '', 'kibochat')
+        .then(data => {
+          callback(null, data)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      let lastMessageData = logicLayer.getQueryData('', 'aggregate', undefined, undefined, undefined, undefined, {_id: '$subscriber_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+      callApi(`sessions/query`, 'post', lastMessageData, '', 'kibochat')
+        .then(data => {
+          callback(null, data)
+        })
+        .catch(err => {
+          callback(err)
+        })
     }
   ], 10, function (err, results) {
     if (err) {
-      res.status(500).json({status: 'failed', payload: err})
+      return res.status(500).json({status: 'failed', payload: err})
     } else {
-      res.status(200).json({status: 'success', payload: {closedSessions: results[1], count: results[0].length > 0 ? results[0].count : 0}})
+      let countResopnse = results[0]
+      let sessionsResponse = results[1]
+      let unreadCountResponse = results[2]
+      let lastMessageResponse = results[3]
+      let sessionsWithUnreadCount = logicLayer.putUnreadCount(unreadCountResponse, sessionsResponse)
+      let sessions = logicLayer.putLastMessage(lastMessageResponse, sessionsWithUnreadCount)
+      return res.status(200).json({status: 'success', payload: {closedSessions: sessions, count: countResopnse.length > 0 ? countResopnse.count : 0}})
     }
   })
 }
-
-// exports.getNewSessions = function (req, res) {
-//   let criteria = {}
-//   let companyUser = {}
-//
-//   const companyUserResponse = callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
-//
-//   companyUserResponse
-//     .then(companyuser => {
-//       companyUser = companyuser
-//       let pageData = [
-//         {
-//           $match: {
-//             _id: req.body.filter && req.body.filter_criteria && req.body.filter_criteria.page_value !== '' ? req.body.filter_criteria.page_value : {$exists: true},
-//             companyId: companyUser.companyId,
-//             connected: true
-//           }
-//         }
-//       ]
-//       return callApi(`pages/aggregate`, 'post', pageData, req.headers.authorization)
-//     })
-//     .then(pages => {
-//       let pageIds = pages.map((p) => p._id.toString())
-//       logger.serverLog(TAG, `page Ids: ${util.inspect(pageIds)}`)
-//       let subscriberData = []
-//       if (req.body.filter && req.body.filter_criteria && req.body.filter_criteria.search_value !== '') {
-//         subscriberData = [
-//           {$project: {name: {$concat: ['$firstName', ' ', '$lastName']}, companyId: 1, pageId: 1, isSubscribed: 1}},
-//           {$match: {companyId: companyUser.companyId, pageId: {$in: pageIds}, name: {$regex: '.*' + req.body.filter_criteria.search_value + '.*', $options: 'i'}, isSubscribed: true}}
-//         ]
-//       } else {
-//         subscriberData = [
-//           {$match: {companyId: companyUser.companyId, pageId: {$in: pageIds}, isSubscribed: true}}
-//         ]
-//       }
-//       return callApi(`subscribers/aggregate`, 'post', subscriberData, req.headers.authorization)
-//     })
-//     .then(subscribers => {
-//       let subscriberIds = subscribers.map((s) => s._id.toString())
-//       logger.serverLog(TAG, `subscriber Ids: ${util.inspect(subscriberIds)}`)
-//       criteria = logicLayer.getNewSessionsCriteria(companyUser, req.body, subscriberIds)
-//       let countData = logicLayer.getQueryData('count', 'aggregate', criteria.match)
-//       logger.serverLog(TAG, `count Data: ${util.inspect(countData)}`)
-//       return callApi(`sessions/query`, 'post', countData, '', 'kibochat')
-//     })
-//     .then(sessionsCount => {
-//       logger.serverLog(TAG, `criteria: ${util.inspect(criteria)}`)
-//       logger.serverLog(TAG, `sessions count: ${util.inspect(sessionsCount)}`)
-//       if (sessionsCount.length > 0 && sessionsCount[0].count > 0) {
-//         return sessionsWithUnreadCountAndLastMessage(sessionsCount[0].count, req, criteria, companyUser)
-//       } else {
-//         return res.status(200).json({status: 'success', payload: {openSessions: [], count: 0}})
-//       }
-//     })
-//     .then(result => {
-//       return res.status(200).json({status: 'success', payload: {openSessions: result.sessions, count: result.count}})
-//     })
-//     .catch(error => {
-//       return res.status(500).json({status: 'failed', payload: `Internal server error ${JSON.stringify(error)}`})
-//     })
-// }
-//
-// exports.getResolvedSessions = function (req, res) {
-//   let companyUser = {}
-//   let criteria = {}
-//
-//   let companyUserResponse = callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
-//
-//   companyUserResponse
-//     .then(companyuser => {
-//       companyUser = companyuser
-//       let pageData = [
-//         {
-//           $match: {
-//             _id: req.body.filter && req.body.filter_criteria && req.body.filter_criteria.page_value !== '' ? req.body.filter_criteria.page_value : {$exists: true},
-//             companyId: companyUser.companyId,
-//             connected: true
-//           }
-//         }
-//       ]
-//       return callApi(`pages/aggregate`, 'post', pageData, req.headers.authorization)
-//     })
-//     .then(pages => {
-//       let pageIds = pages.map((p) => p._id.toString())
-//       let subscriberData = []
-//       if (req.body.filter && req.body.filter_criteria && req.body.filter_criteria.search_value !== '') {
-//         subscriberData = [
-//           {$project: {name: {$concat: ['$firstName', ' ', '$lastName']}, companyId: 1, pageId: 1}},
-//           {$match: {companyId: companyUser.companyId, pageId: {$in: pageIds}, name: {$regex: '.*imran.*', $options: 'i'}, isSubscribed: true}}
-//         ]
-//       } else {
-//         subscriberData = [
-//           {$match: {companyId: companyUser.companyId, pageId: {$in: pageIds}, isSubscribed: true}}
-//         ]
-//       }
-//       return callApi(`subscribers/aggregate`, 'post', subscriberData, req.headers.authorization)
-//     })
-//     .then(subscribers => {
-//       let subscriberIds = subscribers.map((s) => s._id.toString())
-//       criteria = logicLayer.getResolvedSessionsCriteria(companyUser, req.body, subscriberIds)
-//       let countData = logicLayer.getQueryData('count', 'aggregate', criteria.match)
-//       return callApi(`sessions/query`, 'post', countData, '', 'kibochat')
-//     })
-//     .then(sessionsCount => {
-//       if (sessionsCount.length > 0 && sessionsCount[0].count > 0) {
-//         return sessionsWithUnreadCountAndLastMessage(sessionsCount[0].count, req, criteria, companyUser)
-//       } else {
-//         return res.status(200).json({status: 'success', payload: {closedSessions: [], count: 0}})
-//       }
-//     })
-//     .then(result => {
-//       return res.status(200).json({status: 'success', payload: {closedSessions: result.sessions, count: result.count}})
-//     })
-//     .catch(error => {
-//       return res.status(500).json({status: 'failed', payload: `Internal server error ${JSON.stringify(error)}`})
-//     })
-// }
 
 exports.markread = function (req, res) {
   if (req.params.id) {
@@ -246,9 +181,9 @@ exports.markread = function (req, res) {
       }
     ], 10, function (err, results) {
       if (err) {
-        res.status(500).json({status: 'failed', payload: err})
+        return res.status(500).json({status: 'failed', payload: err})
       } else {
-        res.status(200).json({status: 'success', payload: 'Chat has been marked read successfully!'})
+        return res.status(200).json({status: 'success', payload: 'Chat has been marked read successfully!'})
       }
     })
   } else {
@@ -325,34 +260,26 @@ exports.show = function (req, res) {
       }
     ], 10, function (err, results) {
       if (err) {
-        res.status(500).json({status: 'failed', payload: err})
+        return res.status(500).json({status: 'failed', payload: err})
       } else {
         let subscriber = results[0]
         let unreadCountResponse = results[1]
         let lastMessageResponse = results[2]
         let subscriberWithUnreadCount = logicLayer.appendUnreadCountData(unreadCountResponse, subscriber)
         let finalSubscriber = logicLayer.appendLastMessageData(lastMessageResponse, subscriberWithUnreadCount)
-        res.status(200).json({status: 'success', payload: finalSubscriber})
+        return res.status(200).json({status: 'success', payload: finalSubscriber})
       }
     })
+  } else {
+    return res.status(400).json({status: 'failed', payload: 'Parameter subscriber_id is required!'})
   }
 }
 
 exports.changeStatus = function (req, res) {
-  let companyUser = {}
-
-  let companyUserResponse = callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
-
-  let updateData = logicLayer.getUpdateData('updateOne', {_id: req.body._id}, {status: req.body.status})
-  let updateSessionResponse = callApi('sessions', 'put', updateData, '', 'kibochat')
-
-  companyUserResponse.then(company => {
-    companyUser = company
-    return updateSessionResponse
-  })
+  callApi('subscribers/update', 'put', {query: {_id: req.body._id}, newPayload: {status: req.body.status}, options: {}})
     .then(updated => {
       require('./../../../config/socketio').sendMessageToClient({
-        room_id: companyUser.companyId,
+        room_id: req.user.companyId,
         body: {
           action: 'session_status',
           payload: {
@@ -363,31 +290,31 @@ exports.changeStatus = function (req, res) {
           }
         }
       })
-      res.status(200).json({status: 'success', payload: updated})
+      return res.status(200).json({status: 'success', payload: 'Status has been updated successfully!'})
     })
-    .catch(error => {
-      return res.status(500).json({status: 'failed', payload: `Failed to update session status ${JSON.stringify(error)}`})
+    .catch(err => {
+      return res.status(500).json({status: 'failed', payload: err})
     })
 }
 
 exports.assignAgent = function (req, res) {
-  let companyUser = {}
   let assignedTo = {
     type: 'agent',
     id: req.body.agentId,
     name: req.body.agentName
   }
-
-  let companyUserResponse = callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
-
-  companyUserResponse.then(company => {
-    companyUser = company
-    let updateData = logicLayer.getUpdateData('updateOne', {_id: req.body.sessionId}, {assigned_to: assignedTo, is_assigned: req.body.isAssigned})
-    return callApi('sessions', 'put', updateData, '', 'kibochat')
-  })
+  callApi(
+    'subscribers/update',
+    'put',
+    {
+      query: {_id: req.body.subscriberId},
+      newPayload: {assigned_to: assignedTo, is_assigned: req.body.isAssigned},
+      options: {}
+    }
+  )
     .then(updated => {
       require('./../../../config/socketio').sendMessageToClient({
-        room_id: companyUser.companyId,
+        room_id: req.user.companyId,
         body: {
           action: 'session_assign',
           payload: {
@@ -398,31 +325,31 @@ exports.assignAgent = function (req, res) {
           }
         }
       })
-      res.status(200).json({status: 'success', payload: updated})
+      return res.status(200).json({status: 'success', payload: 'Agent has been assigned successfully!'})
     })
-    .catch(error => {
-      return res.status(500).json({status: 'failed', payload: `Failed to update session ${JSON.stringify(error)}`})
+    .catch(err => {
+      return res.status(500).json({status: 'failed', payload: err})
     })
 }
 
 exports.assignTeam = function (req, res) {
-  let companyUser = {}
   let assignedTo = {
     type: 'team',
     id: req.body.teamId,
     name: req.body.teamName
   }
-
-  let companyUserResponse = callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
-
-  companyUserResponse.then(company => {
-    companyUser = company
-    let updateData = logicLayer.getUpdateData('updateOne', {_id: req.body.sessionId}, {assigned_to: assignedTo, is_assigned: req.body.isAssigned})
-    return callApi('sessions', 'put', updateData, '', 'kibochat')
-  })
+  callApi(
+    'subscribers/update',
+    'put',
+    {
+      query: {_id: req.body.subscriberId},
+      newPayload: {assigned_to: assignedTo, is_assigned: req.body.isAssigned},
+      options: {}
+    }
+  )
     .then(updated => {
       require('./../../../config/socketio').sendMessageToClient({
-        room_id: companyUser.companyId,
+        room_id: req.user.companyId,
         body: {
           action: 'session_assign',
           payload: {
@@ -433,60 +360,12 @@ exports.assignTeam = function (req, res) {
           }
         }
       })
-      res.status(200).json({status: 'success', payload: updated})
+      return res.status(200).json({status: 'success', payload: 'Team has been assigned successfully!'})
     })
-    .catch(error => {
-      return res.status(500).json({status: 'failed', payload: `Failed to update session ${JSON.stringify(error)}`})
+    .catch(err => {
+      return res.status(500).json({status: 'failed', payload: err})
     })
 }
-
-// function sessionsWithUnreadCountAndLastMessage (count, req, criteria, companyUser) {
-//   return new Promise(function (resolve, reject) {
-//     let data = logicLayer.getQueryData('', 'aggregate', criteria.match, 0, criteria.sort, criteria.limit)
-//     let sessionsResponse = callApi('sessions/query', 'post', data, '', 'kibochat')
-//
-//     sessionsResponse.then(sessions => {
-//       sessions.forEach((session, index) => {
-//         callApi(`subscribers/${session.subscriber_id}`, 'get', {}, req.headers.authorization)
-//           .then(subscriber => {
-//             session.subscriber_id = subscriber
-//             return callApi(`pages/${session.page_id}`, 'get', {}, req.headers.authorization)
-//           })
-//           .then(page => {
-//             session.page_id = page
-//             if (index === sessions.length - 1) {
-//               let messagesData = logicLayer.getQueryData('', 'aggregate', {company_id: companyUser.companyId.toString(), status: 'unseen', format: 'facebook'}, 0, { datetime: 1 })
-//               return callApi('livechat/query', 'post', messagesData, '', 'kibochat')
-//             } else {
-//               return 'next'
-//             }
-//           })
-//           .then(gotUnreadCount => {
-//             if (index === sessions.length - 1) {
-//               sessions = logicLayer.getUnreadCount(gotUnreadCount, sessions)
-//               let lastMessageData = logicLayer.getQueryData('', 'aggregate', {}, 0, { datetime: 1 }, undefined, {_id: '$session_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
-//               return callApi(`livechat/query`, 'post', lastMessageData, '', 'kibochat')
-//             } else {
-//               return 'next'
-//             }
-//           })
-//           .then(gotLastMessage => {
-//             if (index === sessions.length - 1) {
-//               sessions = logicLayer.getLastMessage(gotLastMessage, sessions)
-//               logger.serverLog(TAG, `sessions: ${sessions}`)
-//               resolve({sessions, count})
-//             }
-//           })
-//           .catch(err => {
-//             reject(err)
-//           })
-//       })
-//     })
-//       .catch(err => {
-//         reject(err)
-//       })
-//   })
-// }
 
 exports.genericFind = function (req, res) {
   let messagesData = logicLayer.getQueryData('', 'findAll', req.body)
