@@ -41,7 +41,7 @@ exports.waitingReply = function (req, res) {
           let obj = logicLayer.prepareSubscribersPayload(subscribers)
           let subsArray = obj.subsArray
           let subscribersPayload = obj.subscribersPayload
-          utility.callApi(`tags/query`, 'post', { subscriberId: { $in: subsArray } }, req.headers.authorization)
+          utility.callApi(`tags/query`, 'post', { subscriberId: { $in: subsArray }, companyId: companyUser.companyId }, req.headers.authorization)
             .then(tags => {
               for (let i = 0; i < subscribers.length; i++) {
                 for (let j = 0; j < tags.length; j++) {
@@ -287,7 +287,7 @@ function sendMessenger (message, pageId, senderId, postbackPayload, botId) {
   utility.callApi(`pages/query`, 'post', {pageId: pageId, connected: true})
     .then(page => {
       page = page[0]
-      utility.callApi(`subscribers/query`, 'post', { senderId: senderId, pageId: page._id })
+      utility.callApi(`subscribers/query`, 'post', { senderId: senderId, pageId: page._id, companyId: page.companyId })
         .then(subscriber => {
           subscriber = subscriber[0]
           if (subscriber === null) {
@@ -398,7 +398,7 @@ function getWitResponse (message, token, bot, pageId, senderId) {
       logger.serverLog(TAG, `intent ${util.inspect(intent)}`)
       if (intent.confidence > 0.80) {
         logger.serverLog(TAG, 'Responding using bot: ' + intent.value)
-        utility.callApi(`subscribers/query`, 'post', { senderId: senderId })
+        utility.callApi(`subscribers/query`, 'post', { senderId: senderId, companyId: bot.companyId })
           .then(subscriber => {
             subscriber = subscriber[0]
             // Bot will not respond if a subscriber is waiting subscriber
@@ -512,7 +512,7 @@ function populateSubscriber (waiting, req) {
     for (let i = 0; i < waiting.length; i++) {
       utility.callApi(`pages/query`, 'post', {_id: waiting[i].pageId}, req.headers.authorization)
         .then(page => {
-          utility.callApi(`subscribers/query`, 'post', {_id: waiting[i].subscriberId}, req.headers.authorization)
+          utility.callApi(`subscribers/query`, 'post', {_id: waiting[i].subscriberId, companyId: page[0].companyId}, req.headers.authorization)
             .then(subscriber => {
               sendPayload.push({
                 _id: waiting[i]._id,

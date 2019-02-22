@@ -186,7 +186,7 @@ function sendautomatedmsg (req, page) {
           }
           unsubscribeResponse = true
         } else if (index === -111) {
-          utility.callApi(`subscribers/query`, 'post', { senderId: req.sender.id, unSubscribedBy: 'subscriber' })
+          utility.callApi(`subscribers/query`, 'post', { senderId: req.sender.id, companyId: page.companyId, unSubscribedBy: 'subscriber' })
             .then(subscribers => {
               if (subscribers.length > 0) {
                 messageData = {
@@ -224,7 +224,7 @@ function sendautomatedmsg (req, page) {
             `https://graph.facebook.com/v2.6/me/messages?access_token=${response.body.access_token}`,
             data, (err4, respp) => {
               if (!unsubscribeResponse) {
-                utility.callApi(`subscribers/query`, 'post', { senderId: req.sender.id })
+                utility.callApi(`subscribers/query`, 'post', { senderId: req.sender.id, companyId: page.companyId })
                   .then(subscribers => {
                     const chatMessage = {
                       sender_id: page._id, // this is the page id: _id of Pageid
