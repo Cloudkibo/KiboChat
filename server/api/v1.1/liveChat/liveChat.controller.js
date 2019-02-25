@@ -13,10 +13,11 @@ exports.index = function (req, res) {
   if (req.params.session_id) {
     let query = {
       subscriber_id: req.params.subscriber_id,
+      company_id: req.user.companyId,
       _id: req.body.page === 'next' ? { $lt: req.body.last_id } : {$exists: true}
     }
 
-    let messagesCountData = logicLayer.getQueryData('count', 'aggregate', { subscriber_id: req.params.subscriber_id })
+    let messagesCountData = logicLayer.getQueryData('count', 'aggregate', { subscriber_id: req.params.subscriber_id, company_id: req.user.companyId })
     let messagesData = logicLayer.getQueryData('', 'aggregate', query, 0, { datetime: -1 }, req.body.number)
 
     async.parallerLimit([
@@ -56,7 +57,7 @@ exports.index = function (req, res) {
 }
 
 exports.search = function (req, res) {
-  let searchData = logicLayer.getQueryData('', 'findAll', { subscriber_id: req.body.subscriber_id, $text: { $search: req.body.text } })
+  let searchData = logicLayer.getQueryData('', 'findAll', { subscriber_id: req.body.subscriber_id, company_id: req.user.companyId, $text: { $search: req.body.text } })
   callApi(`livechat/query`, 'post', searchData, '', 'kibochat')
     .then(chats => {
       return res.status(200).json({
@@ -212,7 +213,7 @@ exports.create = function (req, res) {
       async.parallerLimit([
         // Update Bot Block list
         function (callback) {
-          let botsData = logicLayer.getQueryData('', 'findOne', { pageId: subscriber.pageId._id })
+          let botsData = logicLayer.getQueryData('', 'findOne', { pageId: subscriber.pageId._id, companyId: subscriber.companyId })
           callApi(`smart_replies/query`, 'post', botsData, '', 'kibochat')
             .then(bot => {
               if (!bot) {

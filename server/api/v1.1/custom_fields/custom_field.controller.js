@@ -79,7 +79,7 @@ exports.create = function (req, res) {
 }
 
 exports.update = function (req, res) {
-  callApi.callApi('custom_fields/query', 'post', { purpose: 'findOne', match: { _id: req.body.customFieldId } }, req.headers.authorization)
+  callApi.callApi('custom_fields/query', 'post', { purpose: 'findOne', match: { _id: req.body.customFieldId, companyId: req.user.companyId } }, req.headers.authorization)
     .then(fieldPayload => {
       if (!fieldPayload) {
         return res.status(404).json({

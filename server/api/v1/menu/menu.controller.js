@@ -104,7 +104,7 @@ exports.create = function (req, res) {
             })
           }
           logger.serverLog(TAG, `page retrieved for menu creation: ${JSON.stringify(page)}`)
-          callApi.callApi('menu/query', 'post', {pageId: page._id}, req.headers.authorization)
+          callApi.callApi('menu/query', 'post', {pageId: page._id, companyId: page.companyId}, req.headers.authorization)
             .then(info => {
               info = info[0]
               if (!info) {
@@ -190,7 +190,7 @@ exports.create = function (req, res) {
                             description: JSON.stringify(resp.body.error)
                           })
                         } else {
-                          callApi.callApi('menu/query', 'post', {pageId: page._id}, req.headers.authorization)
+                          callApi.callApi('menu/query', 'post', {pageId: page._id, companyId: page.companyId}, req.headers.authorization)
                             .then(info1 => {
                               info1 = info1[0]
                               res.status(201).json({status: 'success', payload: info1})
