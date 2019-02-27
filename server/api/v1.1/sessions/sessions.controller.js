@@ -89,8 +89,8 @@ exports.fetchOpenSessions = function (req, res) {
         })
     },
     function (callback) {
-      let lastMessageData = logicLayer.getQueryData('', 'aggregate', undefined, undefined, undefined, undefined, {_id: '$subscriber_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
-      callApi(`sessions/query`, 'post', lastMessageData, '', 'kibochat')
+      let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId}, undefined, undefined, undefined, {_id: '$subscriber_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+      callApi(`livechat/query`, 'post', lastMessageData, '', 'kibochat')
         .then(data => {
           callback(null, data)
         })
@@ -108,7 +108,7 @@ exports.fetchOpenSessions = function (req, res) {
       let lastMessageResponse = results[3]
       let sessionsWithUnreadCount = logicLayer.putUnreadCount(unreadCountResponse, sessionsResponse)
       let sessions = logicLayer.putLastMessage(lastMessageResponse, sessionsWithUnreadCount)
-      return res.status(200).json({status: 'success', payload: {openSessions: sessions, count: countResopnse.length > 0 ? countResopnse.count : 0}})
+      return res.status(200).json({status: 'success', payload: {openSessions: sessions, count: countResopnse.length > 0 ? countResopnse[0].count : 0}})
     }
   })
 }
@@ -146,8 +146,8 @@ exports.fetchResolvedSessions = function (req, res) {
         })
     },
     function (callback) {
-      let lastMessageData = logicLayer.getQueryData('', 'aggregate', undefined, undefined, undefined, undefined, {_id: '$subscriber_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
-      callApi(`sessions/query`, 'post', lastMessageData, '', 'kibochat')
+      let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId}, undefined, undefined, undefined, {_id: '$subscriber_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+      callApi(`livechat/query`, 'post', lastMessageData, '', 'kibochat')
         .then(data => {
           callback(null, data)
         })
@@ -165,7 +165,7 @@ exports.fetchResolvedSessions = function (req, res) {
       let lastMessageResponse = results[3]
       let sessionsWithUnreadCount = logicLayer.putUnreadCount(unreadCountResponse, sessionsResponse)
       let sessions = logicLayer.putLastMessage(lastMessageResponse, sessionsWithUnreadCount)
-      return res.status(200).json({status: 'success', payload: {closedSessions: sessions, count: countResopnse.length > 0 ? countResopnse.count : 0}})
+      return res.status(200).json({status: 'success', payload: {closedSessions: sessions, count: countResopnse.length > 0 ? countResopnse[0].count : 0}})
     }
   })
 }
@@ -174,7 +174,7 @@ exports.markread = function (req, res) {
   if (req.params.id) {
     async.parallelLimit([
       function (callback) {
-        markreadFacebook(req.user, callback)
+        markreadFacebook(req, callback)
       },
       function (callback) {
         markreadLocal(req, callback)
@@ -249,8 +249,8 @@ exports.show = function (req, res) {
           })
       },
       function (callback) {
-        let lastMessageData = logicLayer.getQueryData('', 'aggregate', undefined, undefined, undefined, undefined, {_id: '$subscriber_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
-        callApi(`sessions/query`, 'post', lastMessageData, '', 'kibochat')
+        let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId}, undefined, undefined, undefined, {_id: '$subscriber_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+        callApi(`livechat/query`, 'post', lastMessageData, '', 'kibochat')
           .then(data => {
             callback(null, data)
           })
