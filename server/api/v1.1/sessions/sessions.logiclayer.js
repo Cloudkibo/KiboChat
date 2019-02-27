@@ -1,14 +1,16 @@
+const util = require('util')
+
 exports.getCount = (req, status, callback) => {
   let aggregateData = [
     { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
     { $unwind: '$pageId' },
     { $project: {name: {$concat: ['$firstName', ' ', '$lastName']}, companyId: 1, pageId: 1, isSubscribed: 1, status: 1} },
     { $match: {
-      'companyId': req.body.companyId,
+      'companyId': req.user.companyId,
       'isSubscribed': true,
       'status': status,
-      'name': {$regex: '.*' + req.body.search_value + '.*', $options: 'i'},
-      'pageId._id': req.body.page_value !== '' ? req.body.page_value : {$exists: true},
+      'name': {$regex: '.*' + req.body.filter_criteria.search_value + '.*', $options: 'i'},
+      'pageId._id': req.body.filter_criteria.page_value !== '' ? req.body.filter_criteria.page_value : {$exists: true},
       'pageId.connected': true
     } },
     { $group: {_id: null, count: { $sum: 1 }} }
@@ -20,17 +22,17 @@ exports.getSessions = (req, status, callback) => {
   let aggregateData = [
     { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
     { $unwind: '$pageId' },
-    { $project: {name: {$concat: ['$firstName', ' ', '$lastName']}, companyId: 1, pageId: 1, isSubscribed: 1, status: 1, last_activity_time: 1, _id: 1} },
+    { $project: {name: {$concat: ['$firstName', ' ', '$lastName']}, companyId: 1, pageId: 1, isSubscribed: 1, status: 1, last_activity_time: 1, _id: 1, profilePic: 1} },
     { $match: {
       'companyId': req.user.companyId,
       'isSubscribed': true,
       'status': status,
-      'name': {$regex: '.*' + req.body.search_value + '.*', $options: 'i'},
-      'pageId._id': req.body.page_value !== '' ? req.body.page_value : {$exists: true},
+      'name': {$regex: '.*' + req.body.filter_criteria.search_value + '.*', $options: 'i'},
+      'pageId._id': req.body.filter_criteria.page_value !== '' ? req.body.filter_criteria.page_value : {$exists: true},
       'pageId.connected': true,
       '_id': req.body.first_page ? {$exists: true} : {$gt: req.body.last_id}
     } },
-    { $sort: {last_activity_time: req.body.sort_value} }
+    { $sort: {last_activity_time: req.body.filter_criteria.sort_value} }
   ]
   return aggregateData
 }
@@ -81,15 +83,15 @@ exports.prepareUpdateSessionPayload = (lastActivityTime, status) => {
   status ? temp.status = status : flag = false
   return temp
 }
-exports.getSessions = (sessions) => {
-  let tempSessions = []
-  for (var i = 0; i < sessions.length; i++) {
-    if (sessions[i].page_id && sessions[i].page_id.connected && sessions[i].subscriber_id && sessions[i].subscriber_id.isSubscribed) {
-      tempSessions.push(sessions[i])
-    }
-  }
-  return tempSessions
-}
+// exports.getSessions = (sessions) => {
+//   let tempSessions = []
+//   for (var i = 0; i < sessions.length; i++) {
+//     if (sessions[i].page_id && sessions[i].page_id.connected && sessions[i].subscriber_id && sessions[i].subscriber_id.isSubscribed) {
+//       tempSessions.push(sessions[i])
+//     }
+//   }
+//   return tempSessions
+// }
 exports.putUnreadCount = (gotUnreadCount, subscribers) => {
   let temp = []
   for (let i = 0; i < subscribers.length; i++) {
@@ -107,27 +109,21 @@ exports.putLastMessage = (gotLastMessage, subscribers) => {
 const appendUnreadCountData = (gotUnreadCount, subscriber) => {
   for (let i = 0; i < gotUnreadCount.length; i++) {
     if (subscriber._id.toString() === gotUnreadCount[i]._id.toString()) {
-      subscriber.set('unreadCount',
-        gotUnreadCount[i].count,
-        {strict: false})
+      subscriber.unreadCount = gotUnreadCount[i].count
     }
   }
   return subscriber
 }
 const appendLastMessageData = (gotLastMessage, subscriber) => {
+  console.log('gotLastMessage', util.inspect(gotLastMessage))
   for (let a = 0; a < gotLastMessage.length; a++) {
     if (subscriber._id.toString() === gotLastMessage[a]._id.toString()) {
-      subscriber.set('lastPayload',
-        gotLastMessage[a].payload,
-        {strict: false})
-      subscriber.set('lastRepliedBy',
-        gotLastMessage[a].replied_by,
-        {strict: false})
-      subscriber.set('lastDateTime',
-        gotLastMessage[a].datetime,
-        {strict: false})
+      subscriber.lastPayload = gotLastMessage[a].payload
+      subscriber.lastRepliedBy = gotLastMessage[a].replied_by
+      subscriber.lastDateTime = gotLastMessage[a].datetime
     }
   }
+  console.log('return subscriber', util.inspect(subscriber))
   return subscriber
 }
 

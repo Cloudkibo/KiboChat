@@ -10,7 +10,7 @@ const webhookUtility = require('../notifications/notifications.utility')
 const async = require('async')
 
 exports.index = function (req, res) {
-  if (req.params.session_id) {
+  if (req.params.subscriber_id) {
     let query = {
       subscriber_id: req.params.subscriber_id,
       company_id: req.user.companyId,
@@ -20,7 +20,7 @@ exports.index = function (req, res) {
     let messagesCountData = logicLayer.getQueryData('count', 'aggregate', { subscriber_id: req.params.subscriber_id, company_id: req.user.companyId })
     let messagesData = logicLayer.getQueryData('', 'aggregate', query, 0, { datetime: -1 }, req.body.number)
 
-    async.parallerLimit([
+    async.parallelLimit([
       function (callback) {
         callApi(`livechat/query`, 'post', messagesCountData, '', 'kibochat')
           .then(data => {
