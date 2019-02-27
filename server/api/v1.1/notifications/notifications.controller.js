@@ -2,7 +2,7 @@ const LogicLayer = require('./notifications.logiclayer')
 const { callApi } = require('../utility')
 
 exports.index = function (req, res) {
-  let notificationsData = LogicLayer.getQueryData('', 'findAll', {agentId: req.user._id})
+  let notificationsData = LogicLayer.getQueryData('', 'findAll', {agentId: req.user._id, companyId: req.user.companyId})
   callApi(`notifications/query`, 'post', notificationsData, '', 'kibochat')
     .then(notifications => {
       return res.status(201).json({status: 'success', payload: {notifications: notifications}})
