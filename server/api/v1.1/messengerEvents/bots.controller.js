@@ -12,7 +12,7 @@ exports.index = function (req, res) {
   callApi(`pages/query`, 'post', { pageId: req.body.entry[0].messaging[0].recipient.id, connected: true })
     .then(page => {
       page = page[0]
-      callApi(`subscribers/query`, 'post', { pageId: page._id, senderId: req.body.entry[0].messaging[0].sender.id })
+      callApi(`subscribers/query`, 'post', { pageId: page._id, companyId: page.companyId, senderId: req.body.entry[0].messaging[0].sender.id })
         .then(subscriber => {
           subscriber = subscriber[0]
           const messageData = {

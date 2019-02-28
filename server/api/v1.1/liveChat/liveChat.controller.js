@@ -6,45 +6,58 @@ const { callApi } = require('../utility')
 const needle = require('needle')
 const request = require('request')
 const webhookUtility = require('../notifications/notifications.utility')
-const util = require('util')
+// const util = require('util')
+const async = require('async')
 
 exports.index = function (req, res) {
-  let query = {}
-
-  if (req.body.page === 'next') {
-    query = {
-      session_id: req.params.session_id,
-      _id: { $lt: req.body.last_id }
+  if (req.params.subscriber_id) {
+    let query = {
+      subscriber_id: req.params.subscriber_id,
+      company_id: req.user.companyId,
+      _id: req.body.page === 'next' ? { $lt: req.body.last_id } : {$exists: true}
     }
+
+    let messagesCountData = logicLayer.getQueryData('count', 'aggregate', { subscriber_id: req.params.subscriber_id, company_id: req.user.companyId })
+    let messagesData = logicLayer.getQueryData('', 'aggregate', query, 0, { datetime: -1 }, req.body.number)
+
+    async.parallelLimit([
+      function (callback) {
+        callApi(`livechat/query`, 'post', messagesCountData, '', 'kibochat')
+          .then(data => {
+            callback(null, data)
+          })
+          .catch(err => {
+            callback(err)
+          })
+      },
+      function (callback) {
+        callApi(`livechat/query`, 'post', messagesData, '', 'kibochat')
+          .then(data => {
+            callback(null, data)
+          })
+          .catch(err => {
+            callback(err)
+          })
+      }
+    ], 10, function (err, results) {
+      if (err) {
+        return res.status(500).json({status: 'failed', payload: err})
+      } else {
+        let chatCount = results[0]
+        let fbchats = results[1].reverse()
+        fbchats = logicLayer.setChatProperties(fbchats)
+        return res.status(200).json({ status: 'success',
+          payload: { chat: fbchats, count: chatCount.length > 0 ? chatCount[0].count : 0 }
+        })
+      }
+    })
   } else {
-    query = {
-      session_id: req.params.session_id
-    }
+    return res.status(400).json({status: 'failed', payload: 'Parameter session_id is required!'})
   }
-
-  let messagesCountData = logicLayer.getQueryData('count', 'aggregate', { session_id: req.params.session_id })
-  let messagesData = logicLayer.getQueryData('', 'aggregate', query, 0, { datetime: -1 }, req.body.number)
-
-  let messagesCount = callApi(`livechat/query`, 'post', messagesCountData, '', 'kibochat')
-  let messages = callApi(`livechat/query`, 'post', messagesData, '', 'kibochat')
-
-  Promise.all([messagesCount, messages])
-    .then(values => {
-      let chatCount = values[0]
-      let fbchats = values[1].reverse()
-      fbchats = logicLayer.setChatProperties(fbchats)
-      return res.status(200).json({ status: 'success',
-        payload: { chat: fbchats, count: chatCount.length > 0 ? chatCount[0].count : 0 }
-      })
-    })
-    .catch(err => {
-      logger.serverLog(TAG, `Error at index ${util.inspect(err)}`)
-      return res.status(500).json({status: 'failed', payload: err})
-    })
 }
 
 exports.search = function (req, res) {
-  let searchData = logicLayer.getQueryData('', 'findAll', { session_id: req.body.session_id, $text: { $search: req.body.text } })
+  let searchData = logicLayer.getQueryData('', 'findAll', { subscriber_id: req.body.subscriber_id, company_id: req.user.companyId, $text: { $search: req.body.text } })
   callApi(`livechat/query`, 'post', searchData, '', 'kibochat')
     .then(chats => {
       return res.status(200).json({
@@ -87,149 +100,157 @@ exports.geturlmeta = function (req, res) {
 
 /*
 *  Create function has the following steps:
-* 1. Find company user
-* 2. Create Message Object and send webhook response
-* 3. update session object
+* 1. Create Message Object
+* 2. Send webhook response
+* 3. Update subscriber object
 * 4. Find subscriber details.
 * 5. Update Bot Block list
 * 6. Create AutomationQueue Object
 */
 exports.create = function (req, res) {
-  let subscriberId = ''
-  let fbMessageObject = {}
-  let botId = ''
-
-  let companyUserResponse = callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
-  let webhookResponse = callApi(`webhooks/query/`, 'post', { pageId: req.body.sender_fb_id }, req.headers.authorization)
-  let subscriberResponse = callApi(`subscribers/${req.body.recipient_id}`, 'get', {}, req.headers.authorization)
-
-  companyUserResponse.then(companyUser => {
-    logger.serverLog(TAG, `Company User ${util.inspect(companyUser)}`)
-    fbMessageObject = logicLayer.prepareFbMessageObject(req.body)
-    logger.serverLog(TAG, `FB Message Object ${util.inspect(fbMessageObject)}`)
-    return callApi(`livechat`, 'post', fbMessageObject, '', 'kibochat')
-  })
-    .then(chatMessage => {
-      console.log('chat message', chatMessage)
-      return webhookResponse
-    })
-    .then(webhook => {
-      logger.serverLog(TAG, `webhook ${util.inspect(webhook)}`)
-      webhook = webhook[0]
-      if (webhook && webhook.isEnabled) {
-        needle.get(webhook.webhook_url, (err, r) => {
-          logger.serverLog(TAG, `webhook response ${util.inspect(r)}`)
-          if (err) {
-            return res.status(500).json({
-              status: 'failed',
-              description: `Internal Server Error in Finding Webhooks${JSON.stringify(err)}`
+  async.parallerLimit([
+    // Create Message Object
+    function (callback) {
+      let fbMessageObject = logicLayer.prepareFbMessageObject(req.body)
+      callApi(`livechat`, 'post', fbMessageObject, '', 'kibochat')
+        .then(message => {
+          callback(null, message)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    // Send webhook response
+    function (callback) {
+      callApi(`webhooks/query/`, 'post', { pageId: req.body.sender_fb_id }, req.headers.authorization)
+        .then(webhook => {
+          webhook = webhook[0]
+          if (webhook && webhook.isEnabled) {
+            needle('get', webhook.webhook_url)
+              .then(r => {
+                if (r.statusCode === 200) {
+                  logicLayer.webhookPost(needle, webhook, req, res)
+                  callback(null, webhook)
+                } else {
+                  webhookUtility.saveNotification(webhook)
+                  callback(null, webhook)
+                }
+              })
+              .catch(err => {
+                callback(err)
+              })
+          }
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    // Update subscriber object
+    function (callback) {
+      let subscriberData = {
+        query: {_id: req.body.subscriber_id},
+        newPayload: {last_activity_time: Date.now(), agent_activity_time: Date.now()},
+        options: {}
+      }
+      callApi(`subscribers/update`, 'put', subscriberData, req.headers.authorization)
+        .then(updated => {
+          require('./../../../config/socketio').sendMessageToClient({
+            room_id: req.user.companyId,
+            body: {
+              action: 'agent_replied',
+              payload: {
+                session_id: req.body.subscriber_id,
+                user_id: req.user._id,
+                user_name: req.user.name
+              }
+            }
+          })
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    // Find subscriber details.
+    function (callback) {
+      callApi(`subscribers/${req.body.subscriber_id}`, 'get', {}, req.headers.authorization)
+        .then(subscriber => {
+          let messageData = logicLayer.prepareSendAPIPayload(
+            subscriber.senderId,
+            req.body.payload,
+            subscriber.firstName,
+            subscriber.lastName,
+            true
+          )
+          request(
+            {
+              'method': 'POST',
+              'json': true,
+              'formData': messageData,
+              'uri': 'https://graph.facebook.com/v2.6/me/messages?access_token=' +
+                subscriber.pageId.accessToken
+            },
+            (err, res) => {
+              if (err) {
+                callback(err)
+              } else if (res.statusCode !== 200) {
+                callback(res.error)
+              } else {
+                callback(null, subscriber)
+              }
             })
-          } else if (r.statusCode === 200) {
-            logicLayer.webhookPost(needle, webhook, req, res)
-          } else {
-            webhookUtility.saveNotification(webhook)
-          }
         })
-      }
-      let sessionData = logicLayer.getUpdateData('updateOne', {_id: req.body.session_id}, {agent_activity_time: Date.now()})
-      return callApi(`sessions`, 'put', sessionData, '', 'kibochat')
-    })
-    .then(session => {
-      logger.serverLog(TAG, `updated session ${util.inspect(session)}`)
-      if (session.is_assigned && session.assigned_to.type === 'team') {
-        require('./../../../config/socketio').sendMessageToClient({
-          room_id: req.user.companyId,
-          body: {
-            action: 'agent_replied',
-            payload: {
-              session_id: req.body.session_id,
-              user_id: req.user._id,
-              user_name: req.user.name
-            }
-          }
+        .catch(err => {
+          callback(err)
         })
-      } else if (!session.is_assigned) {
-        require('./../../../config/socketio').sendMessageToClient({
-          room_id: req.user.companyId,
-          body: {
-            action: 'agent_replied',
-            payload: {
-              session_id: req.body.session_id,
-              user_id: req.user._id,
-              user_name: req.user.name
-            }
-          }
-        })
-      }
-      return subscriberResponse
-    })
-    .then(subscriber => {
-      logger.serverLog(TAG, `Subscriber ${util.inspect(subscriber)}`)
-      logger.serverLog(TAG, `Payload from the client ${util.inspect(req.body.payload)}`)
-      subscriberId = subscriber._id
-      let messageData = logicLayer.prepareSendAPIPayload(
-        subscriber.senderId,
-        req.body.payload,
-        subscriber.firstName,
-        subscriber.lastName,
-        true
-      )
-      logger.serverLog(TAG, `Message data ${util.inspect(messageData)}`)
-      logger.serverLog(TAG, `Access_token ${util.inspect(subscriber.pageId.accessToken)}`)
-      request(
-        {
-          'method': 'POST',
-          'json': true,
-          'formData': messageData,
-          'uri': 'https://graph.facebook.com/v2.6/me/messages?access_token=' +
-            subscriber.pageId.accessToken
-        },
-        (err, res) => {
-          logger.serverLog(TAG, `send message live chat  ${util.inspect(res)}`)
-          if (err) {
-            return logger.serverLog(TAG, `At send message live chat ${JSON.stringify(err)}`)
-          } else {
-            if (res.statusCode !== 200) {
-              logger.serverLog(TAG, `At send message live chat response ${JSON.stringify(res.body.error)}`)
-            }
-          }
-        })
-      let botsData = logicLayer.getQueryData('', 'findOne', { pageId: subscriber.pageId._id })
-      return callApi(`smart_replies/query`, 'post', botsData, '', 'kibochat')
-    })
-    .then(bot => {
-      if (bot) {
-        logger.serverLog(TAG, `bot ${util.inspect(bot)}`)
-        botId = bot._id
-        let arr = bot.blockedSubscribers
-        arr.push(subscriberId)
-        logger.serverLog(TAG, 'going to add sub-bot in queue')
-        let updateBotData = logicLayer.getUpdateData('updateOne', {_id: botId}, {blockedSubscribers: arr})
-        return callApi(`smart_replies`, 'put', updateBotData, '', 'kibochat')
-      } else {
-        return res.status(200).json({ status: 'success', payload: fbMessageObject })
-      }
-    })
-    .then(result => {
-      logger.serverLog(TAG, `subscriber id added to blockedList bot`)
-      let timeNow = new Date()
-      let automationQueue = {
-        automatedMessageId: botId,
-        subscriberId: subscriberId,
-        companyId: req.body.company_id,
-        type: 'bot',
-        scheduledTime: timeNow.setMinutes(timeNow.getMinutes() + 30)
-      }
-      return callApi(`automation_queue/create`, 'post', automationQueue, '', 'kiboengage')
-    })
-    .then(automationObject => {
-      logger.serverLog(TAG, `Automation Queue object saved ${util.inspect(automationObject)}`)
-      return res.status(200).json({ status: 'success', payload: fbMessageObject })
-    })
-    .catch(err => {
-      return res.status(500).json({
-        status: 'failed',
-        description: `Internal Server Error ${JSON.stringify(err)}`
+    }
+  ], 10, function (err, results) {
+    if (err) {
+      return res.status(500).json({status: 'failed', payload: err})
+    } else {
+      let fbMessageObject = results[0]
+      let subscriber = results[3]
+      let botId = ''
+      async.parallerLimit([
+        // Update Bot Block list
+        function (callback) {
+          let botsData = logicLayer.getQueryData('', 'findOne', { pageId: subscriber.pageId._id, companyId: subscriber.companyId })
+          callApi(`smart_replies/query`, 'post', botsData, '', 'kibochat')
+            .then(bot => {
+              if (!bot) {
+                callback(null, 'No bot found!')
+              } else {
+                botId = bot._id
+                let arr = bot.blockedSubscribers
+                arr.push(subscriber._id)
+                let updateBotData = logicLayer.getUpdateData('updateOne', {_id: botId}, {blockedSubscribers: arr})
+                return callApi(`smart_replies`, 'put', updateBotData, '', 'kibochat')
+              }
+            })
+            .then(result => {
+              let timeNow = new Date()
+              let automationQueue = {
+                automatedMessageId: botId,
+                subscriberId: subscriber._id,
+                companyId: req.body.company_id,
+                type: 'bot',
+                scheduledTime: timeNow.setMinutes(timeNow.getMinutes() + 30)
+              }
+              return callApi(`automation_queue/create`, 'post', automationQueue, '', 'kiboengage')
+            })
+            .then(automationObject => {
+              callback(null, automationObject)
+            })
+            .catch(err => {
+              callback(err)
+            })
+        }
+      ], 10, function (err, values) {
+        if (err) {
+          return res.status(500).json({status: 'failed', payload: err})
+        } else {
+          return res.status(200).json({ status: 'success', payload: fbMessageObject })
+        }
       })
-    })
+    }
+  })
 }

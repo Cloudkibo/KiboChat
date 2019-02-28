@@ -26,7 +26,7 @@ exports.index = function (req, res) {
     })
 }
 exports.view = function (req, res) {
-  utility.callApi(`pageReferrals/query`, 'post', {_id: req.params.id}, req.headers.authorization)
+  utility.callApi(`pageReferrals/query`, 'post', {_id: req.params.id, companyId: req.user.companyId}, req.headers.authorization)
     .then(pageReferrals => {
       return res.status(200).json({status: 'success', payload: pageReferrals[0]})
     })
@@ -52,7 +52,7 @@ exports.create = function (req, res) {
           description: 'The user account does not belong to any company. Please contact support'
         })
       }
-      utility.callApi(`pageReferrals/query`, 'post', {pageId: req.body.pageId}, req.headers.authorization)
+      utility.callApi(`pageReferrals/query`, 'post', {pageId: req.body.pageId, companyId: companyUser.companyId}, req.headers.authorization)
         .then(pageReferrals => {
           if (pageReferrals && pageReferrals.length > 0) {
             isUnique(pageReferrals, req.body.ref_parameter)
@@ -99,7 +99,7 @@ exports.update = function (req, res) {
           description: 'The user account does not belong to any company. Please contact support'
         })
       }
-      utility.callApi(`pageReferrals/query`, 'post', {_id: req.body._id}, req.headers.authorization)
+      utility.callApi(`pageReferrals/query`, 'post', {_id: req.body._id, companyId: companyUser.companyId}, req.headers.authorization)
         .then(pageReferrals => {
           if (pageReferrals.length > 0 && req.body.ref_parameter) {
             isUniqueEdit(pageReferrals, req.body.ref_parameter)

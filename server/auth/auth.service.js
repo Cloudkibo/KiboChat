@@ -224,7 +224,7 @@ function fbConnectDone (req, res) {
     })
   }
   let token = `Bearer ${req.cookies.token}`
-  apiCaller.callApi(`user/update`, 'post', {query: {_id: userid}, newPayload: {facebookInfo: fbPayload}, options: {}}, token)
+  apiCaller.callApi(`user/update`, 'post', {query: {_id: userid}, newPayload: {facebookInfo: fbPayload, connectFacebook: true}, options: {}}, token)
     .then(updated => {
       apiCaller.callApi(`user/query`, 'post', {_id: userid}, token)
         .then(user => {

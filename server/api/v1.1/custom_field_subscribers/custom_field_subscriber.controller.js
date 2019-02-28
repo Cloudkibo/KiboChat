@@ -8,7 +8,7 @@ const util = require('util')
 exports.setCustomFieldValue = function (req, res) {
   let customFieldResponse = callApi.callApi(
     'custom_fields/query', 'post',
-    { purpose: 'findOne', match: { _id: req.body.customFieldId } },
+    { purpose: 'findOne', match: { _id: req.body.customFieldId, companyId: req.user.companyId } },
     req.headers.authorization
   )
   let foundSubscriberResponse = (subscriberId) => callApi.callApi(

@@ -45,6 +45,14 @@ router.get('/cancelDeletion',
   auth.isAuthenticated(),
   controller.cancelDeletion)
 
+router.post('/updateShowIntegrations',
+  auth.isAuthenticated(),
+  controller.updateShowIntegrations)
+
+router.get('/disconnectFacebook',
+  auth.isAuthenticated(),
+  controller.disconnectFacebook)
+
 router.get('validateUserAccessToken',
   auth.isAuthenticated(),
   controller.validateUserAccessToken)

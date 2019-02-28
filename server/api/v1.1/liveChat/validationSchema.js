@@ -23,7 +23,7 @@ exports.createPayload = {
       type: 'string',
       required: true
     },
-    session_id: {
+    subscriber_id: {
       type: 'string',
       required: true
     },
@@ -61,7 +61,7 @@ exports.urlMetaPayload = {
 exports.searchPayload = {
   type: 'object',
   properties: {
-    session_id: {
+    subscriber_id: {
       type: 'string',
       required: true
     },
