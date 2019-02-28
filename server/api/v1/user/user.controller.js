@@ -163,3 +163,30 @@ exports.validateUserAccessToken = function (req, res) {
     res.status(200).json({status: 'success', payload: 'Facebook account is not connected.'})
   }
 }
+
+exports.updateShowIntegrations = function (req, res) {
+  let showIntegrations = req.body.showIntegrations
+  utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: {showIntegrations}, options: {}})
+    .then(updated => {
+      return res.status(200).json({
+        status: 'success',
+        payload: 'Updated Successfully!'
+      })
+    })
+    .catch(err => {
+      res.status(500).json({status: 'failed', payload: err})
+    })
+}
+
+exports.disconnectFacebook = function (req, res) {
+  utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: {connectFacebook: false}, options: {}})
+    .then(updated => {
+      return res.status(200).json({
+        status: 'success',
+        payload: 'Updated Successfully!'
+      })
+    })
+    .catch(err => {
+      res.status(500).json({status: 'failed', payload: err})
+    })
+}
