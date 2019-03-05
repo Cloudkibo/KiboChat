@@ -213,51 +213,61 @@ function validateApiKeys (req, res, next) {
 
 /**
  * Set token cookie directly for oAuth strategies
- */
+*/
 function fbConnectDone (req, res) {
   let fbPayload = req.user
   let userid = req.cookies.userid
   if (!req.user) {
-    return res.status(404).json({
-      status: 'failed',
-      description: 'Something went wrong, please try again.'
-    })
+    logger.serverLog(TAG, '404: Something went wrong, please try again')
+    res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
   }
   let token = `Bearer ${req.cookies.token}`
-  apiCaller.callApi(`user/update`, 'post', {query: {_id: userid}, newPayload: {facebookInfo: fbPayload, connectFacebook: true}, options: {}}, token)
-    .then(updated => {
-      apiCaller.callApi(`user/query`, 'post', {_id: userid}, token)
-        .then(user => {
-          if (!user) {
-            return res.status(401)
-              .json({status: 'failed', description: 'Unauthorized'})
-          }
-          req.user = user[0]
-          // set permissionsRevoked to false to indicate that permissions were regranted
-          if (user.permissionsRevoked) {
-            apiCaller.callApi('user/update', 'post', {query: {'facebookInfo.fbId': user.facebookInfo.fbId}, newPayload: {permissionsRevoked: false}, options: {multi: true}}, token)
-              .then(resp => {
-                logger.serverLog(TAG, `response for permissionsRevoked ${util.inspect(resp)}`)
+  apiCaller.callApi('user', 'get', {}, token)
+    .then(user => {
+      if (user.facebookInfo && user.facebookInfo.fbId.toString() !== fbPayload.fbId.toString()) {
+        logger.serverLog(TAG, '403: Different Facebook Account Detected')
+        res.render('error', {status: 'failed', description: 'Different Facebook Account Detected. Please use the same account that you connected before.'})
+      } else {
+        apiCaller.callApi(`user/update`, 'post', {query: {_id: userid}, newPayload: {facebookInfo: fbPayload, connectFacebook: true}, options: {}}, token)
+          .then(updated => {
+            apiCaller.callApi(`user/query`, 'post', {_id: userid}, token)
+              .then(user => {
+                if (!user) {
+                  logger.serverLog(TAG, '401: Unauthorized')
+                  res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
+                }
+                req.user = user[0]
+                // set permissionsRevoked to false to indicate that permissions were regranted
+                if (user.permissionsRevoked) {
+                  apiCaller.callApi('user/update', 'post', {query: {'facebookInfo.fbId': user.facebookInfo.fbId}, newPayload: {permissionsRevoked: false}, options: {multi: true}}, token)
+                    .then(resp => {
+                      logger.serverLog(TAG, `response for permissionsRevoked ${util.inspect(resp)}`)
+                    })
+                    .catch(err => {
+                      logger.serverLog(TAG, `500: Internal server error ${err}`)
+                      res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
+                    })
+                }
+                fetchPages(`https://graph.facebook.com/v2.10/${
+                  fbPayload.fbId}/accounts?access_token=${
+                  fbPayload.fbToken}`, user[0], req, token)
+                res.cookie('next', 'addPages', {expires: new Date(Date.now() + 60000)})
+                res.redirect('/')
               })
               .catch(err => {
-                return res.status(500)
-                  .json({status: 'failed', description: `Internal Server Error: ${err}`})
+                logger.serverLog(TAG, `500: Internal server error ${err}`)
+                res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
               })
-          }
-          fetchPages(`https://graph.facebook.com/v2.10/${
-            fbPayload.fbId}/accounts?access_token=${
-            fbPayload.fbToken}`, user[0], req, token)
-          res.cookie('next', 'addPages', {expires: new Date(Date.now() + 60000)})
-          res.redirect('/')
-        })
-        .catch(err => {
-          return res.status(500)
-            .json({status: 'failed', description: `Internal Server Error: ${err}`})
-        })
+          })
+          .catch(err => {
+            logger.serverLog(TAG, `500: Internal server error ${err}`)
+            res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
+          })
+      }
     })
     .catch(err => {
-      return res.status(500)
-        .json({status: 'failed', description: `Internal Server Error: ${err}`})
+      logger.serverLog(TAG, `500: Internal server error ${err}`)
+      res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
     })
 }
 
