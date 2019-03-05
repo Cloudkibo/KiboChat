@@ -21,6 +21,8 @@ Structure: PlatformwiseAggregate
 exports.index = (req, res) => {
   callApi(`PlatformwiseData`, 'get', {}, req.headers.authorization, 'kibodash')
     .then((result) => {
+      console.log('PlatformwiseData', result)
+
       console.log('result', result)
       if (result.length === 1) {
         // The array length will always be 1
@@ -31,6 +33,7 @@ exports.index = (req, res) => {
     })
     .catch((err) => {
       logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`)
+      console.log(`Error in fetching data from KiboDash ${JSON.stringify(err)}`)
       return res.status(500).json({status: 'failed', description: err})
     })
 }
