@@ -6,12 +6,13 @@ const util = require('util')
 const needle = require('needle')
 
 exports.index = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}, req.headers.authorization) // fetch company user
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization) // fetch company user
     .then(companyuser => {
-      utility.callApi(`subscribers/query`, 'post', {companyId: companyuser.companyId, isEnabledByPage: true, isSubscribed: true}, req.headers.authorization) // fetch subscribers of company
+      utility.callApi(`subscribers/query`, 'post', { companyId: companyuser.companyId, isSubscribed: true }, req.headers.authorization) // fetch subscribers of company
         .then(subscribers => {
+          subscribers = subscribers.filter((subscriber) => subscriber.pageId.connected === true)
           let subscriberIds = logicLayer.getSubscriberIds(subscribers)
-          utility.callApi(`tags_subscriber/query`, 'post', {subscriberId: {$in: subscriberIds}}, req.headers.authorization)
+          utility.callApi(`tags_subscriber/query`, 'post', { subscriberId: { $in: subscriberIds } }, req.headers.authorization)
             .then(tags => {
               let subscribersPayload = logicLayer.getSusbscribersPayload(subscribers, tags)
               return res.status(200).json({
@@ -42,12 +43,12 @@ exports.index = function (req, res) {
 }
 
 exports.allSubscribers = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}, req.headers.authorization) // fetch company user
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization) // fetch company user
     .then(companyuser => {
-      utility.callApi(`subscribers/query`, 'post', {companyId: companyuser.companyId, isEnabledByPage: true}, req.headers.authorization) // fetch subscribers of company
+      utility.callApi(`subscribers/query`, 'post', { companyId: companyuser.companyId, isEnabledByPage: true }, req.headers.authorization) // fetch subscribers of company
         .then(subscribers => {
           let subscriberIds = logicLayer.getSubscriberIds(subscribers)
-          utility.callApi(`tags_subscriber/query`, 'post', {subscriberId: {$in: subscriberIds}}, req.headers.authorization)
+          utility.callApi(`tags_subscriber/query`, 'post', { subscriberId: { $in: subscriberIds } }, req.headers.authorization)
             .then(tags => {
               let subscribersPayload = logicLayer.getSusbscribersPayload(subscribers, tags)
               return res.status(200).json({
@@ -78,9 +79,9 @@ exports.allSubscribers = function (req, res) {
 }
 
 exports.allLocales = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}, req.headers.authorization) // fetch company user
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization) // fetch company user
     .then(companyuser => {
-      let aggregateObject = [{$group: {_id: null, locales: {$addToSet: '$locale'}}}]
+      let aggregateObject = [{ $group: { _id: null, locales: { $addToSet: '$locale' } } }]
       utility.callApi(`subscribers/aggregate`, 'post', aggregateObject, req.headers.authorization) // fetch subscribers locales
         .then(locales => {
           return res.status(200).json({
@@ -104,7 +105,7 @@ exports.allLocales = function (req, res) {
 }
 
 exports.getAll = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}, req.headers.authorization) // fetch company user
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization) // fetch company user
     .then(companyuser => {
       let criterias = logicLayer.getCriterias(req.body, companyuser)
       utility.callApi(`subscribers/aggregate`, 'post', criterias.countCriteria, req.headers.authorization) // fetch subscribers count
@@ -113,10 +114,10 @@ exports.getAll = function (req, res) {
             .then(subscribers => {
               let subscriberIds = logicLayer.getSubscriberIds(subscribers)
               logger.serverLog(TAG, `subscriberIds: ${util.inspect(subscriberIds)}`)
-              utility.callApi(`tags_subscriber/query`, 'post', {subscriberId: {$in: subscriberIds}}, req.headers.authorization)
+              utility.callApi(`tags_subscriber/query`, 'post', { subscriberId: { $in: subscriberIds } }, req.headers.authorization)
                 .then(tags => {
                   logger.serverLog(TAG, `tags: ${util.inspect(tags)}`)
-                  let subscribersPayload = logicLayer.getSusbscribersPayload(subscribers, tags)
+                  let subscribersPayload = logicLayer.getSusbscribersPayload(subscribers, tags, req.body.filter_criteria.tag_value)
                   logger.serverLog(TAG, `subscribersPayload: ${util.inspect(subscribersPayload)}`)
                   // start append custom Fields
                   utility.callApi('custom_fields/query', 'post', { purpose: 'findAll', match: { companyId: companyuser.companyId } }, req.headers.authorization)
@@ -145,8 +146,8 @@ exports.getAll = function (req, res) {
                         payload: `Failed to fetch custom_Fields ${JSON.stringify(error)}`
                       })
                     })
-                // end append custom Fields
                 })
+                // end append custom Fields
                 .catch(error => {
                   return res.status(500).json({
                     status: 'failed',
@@ -177,7 +178,7 @@ exports.getAll = function (req, res) {
 }
 
 exports.subscribeBack = function (req, res) {
-  utility.callApi(`subscribers/update`, 'put', {query: {_id: req.params.id, unSubscribedBy: 'agent'}, newPayload: {isSubscribed: true, unSubscribedBy: 'subscriber'}, options: {}}, req.headers.authorization) // fetch single subscriber
+  utility.callApi(`subscribers/update`, 'put', { query: { _id: req.params.id, unSubscribedBy: 'agent' }, newPayload: { isSubscribed: true, unSubscribedBy: 'subscriber' }, options: {} }, req.headers.authorization) // fetch single subscriber
     .then(subscriber => {
       return res.status(200).json({
         status: 'success',
@@ -224,7 +225,6 @@ exports.updateData = function (req, res) {
       })
     })
 }
-
 exports.unSubscribe = function (req, res) {
   let companyUser = {}
   let userPage = {}
@@ -235,8 +235,8 @@ exports.unSubscribe = function (req, res) {
   let pageResponse = utility.callApi(`pages/${req.body.page_id}`, 'get', {}, req.headers.authorization)
   let subscriberResponse = utility.callApi(`subscribers/${req.body.subscriber_id}`, 'get', {}, req.headers.authorization)
   let updateSubscriberResponse = utility.callApi(`subscribers/update`, 'put', {
-    query: {_id: req.body.subscriber_id},
-    newPayload: {isSubscribed: false, unSubscribedBy: 'agent'},
+    query: { _id: req.body.subscriber_id },
+    newPayload: { isSubscribed: false, unSubscribedBy: 'agent' },
     options: {}
   }, req.headers.authorization)
 
@@ -255,7 +255,7 @@ exports.unSubscribe = function (req, res) {
     .then(updatedData => {
       updated = updatedData
       saveNotifications(companyUser, subscriber, req)
-      return utility.callApi(`user/query`, 'post', {_id: userPage.userId._id}, req.headers.authorization)
+      return utility.callApi(`user/query`, 'post', { _id: userPage.userId._id }, req.headers.authorization)
     })
     .then(connectedUser => {
       connectedUser = connectedUser[0]
@@ -277,7 +277,7 @@ exports.unSubscribe = function (req, res) {
           }
           const data = {
             messaging_type: 'UPDATE',
-            recipient: JSON.stringify({id: subscriber.senderId}), // this is the subscriber id
+            recipient: JSON.stringify({ id: subscriber.senderId }), // this is the subscriber id
             message: messageData
           }
           needle.post(
@@ -300,27 +300,27 @@ exports.unSubscribe = function (req, res) {
                   }
                 }
               })
-              res.status(200).json({status: 'success', payload: updated})
+              res.status(200).json({ status: 'success', payload: updated })
             })
         })
     })
     .catch(err => {
-      res.status(500).json({status: 'failed', payload: `Failed to fetch user ${JSON.stringify(err)}`})
+      res.status(500).json({ status: 'failed', payload: `Failed to fetch user ${JSON.stringify(err)}` })
     })
 }
 function saveNotifications (companyUser, subscriber, req) {
-  let companyUserResponse = utility.callApi(`companyUser/query`, 'post', {companyId: companyUser.companyId}, req.headers.authorization)
+  let companyUserResponse = utility.callApi(`companyUser/query`, 'post', { companyId: companyUser.companyId }, req.headers.authorization)
 
   companyUserResponse.then(member => {
     let notificationsData = {
       message: `Subscriber ${subscriber.firstName + ' ' + subscriber.lastName} has been unsubscribed by ${req.user.name}`,
-      category: {type: 'unsubscribe', id: subscriber._id},
+      category: { type: 'unsubscribe', id: subscriber._id },
       agentId: member.userId._id,
       companyId: subscriber.companyId
     }
     return utility.callApi('notifications', 'post', notificationsData, '', 'kibochat')
   })
-    .then(savedNotification => {})
+    .then(savedNotification => { })
     .catch(error => {
       logger.serverLog(TAG, `Failed to create notification ${JSON.stringify(error)}`)
     })
