@@ -146,12 +146,6 @@ html(lang="en")
             }
           }).install()
           }
-    if environment === 'production'
-      script(src="https://cdn.cloudkibo.com/public/bundle.js")
-    if environment === 'staging'
-      script(src="https://cdn.cloudkibo.com/public/bundle_staging.js")
-    if environment === 'development'
-      script(src="http://localhost:3022/react-bundle")
     // Js effects for material design. + Tooltips
     // <script src="https://cdn.cloudkibo.com/public/js/material.min.js"></script>
     // Helper scripts (Tabs, Equal height, Scrollbar, etc)
@@ -189,3 +183,9 @@ html(lang="en")
     // begin::Page Snippets
     script(src="https://cdn.cloudkibo.com/public/assets/app/js/dashboard.js" type="text/javascript")
     // end::Page Snippets
+    if environment === 'production'
+      script(src="https://cdn.cloudkibo.com/public/bundle.js")
+    if environment === 'staging'
+      script(src="https://cdn.cloudkibo.com/public/bundle_staging.js")
+    if environment === 'development'
+      script(src="http://localhost:3022/react-bundle")
