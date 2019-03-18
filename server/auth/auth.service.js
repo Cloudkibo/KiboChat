@@ -34,6 +34,12 @@ function isAuthenticated () {
           'content-type': 'application/json',
           'Authorization': req.headers.authorization
         }
+        console.log('Headers from KiboAPI', req.headers)
+        if (req.headers.hasOwnProperty('consumer_id') && isAuthorizedKiboAPITrigger(req)) {
+          headers = _.merge(headers, {
+            consumer_id: req.headers.consumer_id
+          })
+        }
         let path = config.ACCOUNTS_URL.slice(0, config.ACCOUNTS_URL.length - 7)
         let options = {
           method: 'GET',
@@ -426,4 +432,17 @@ function fetchPages (url, user, req, token) {
       logger.serverLog(TAG, 'Undefined Cursor from graph API')
     }
   })
+}
+
+// eslint-disable-next-line no-unused-vars
+function isAuthorizedKiboAPITrigger (req) {
+  const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
+    req.socket.remoteAddress || req.connection.socket.remoteAddress
+  logger.serverLog(TAG, req.ip)
+  logger.serverLog(TAG, ip)
+  logger.serverLog(TAG, 'This call is from KIBOAPI')
+  logger.serverLog(TAG, req.body)
+  // We need to change it to based on the requestee app
+  if (config.kiboAPIIP.indexOf(ip) > -1) return true
+  else return false
 }

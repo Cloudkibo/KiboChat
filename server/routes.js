@@ -39,6 +39,7 @@ module.exports = function (app) {
   app.use('/api/messenger_code', require('./api/v1.1/messenger_code'))
   app.use('/api/post', require('./api/v1.1/commentCapture'))
   app.use('/api/operational', require('./api/v1.1/kiboDash'))
+  app.use('/api/smsChat', require('./api/v1.1/smsChat'))
 
   // auth middleware go here if you authenticate on same server
 
