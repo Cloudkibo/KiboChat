@@ -41,6 +41,7 @@ module.exports = function (app) {
   app.use('/api/operational', require('./api/v1.1/kiboDash'))
   app.use('/api/smsChat', require('./api/v1.1/smsChat'))
   app.use('/api/twilioEvents', require('./api/v1.1/twilioEvents'))
+  app.use('/api/contacts', require('./api/v1.1/contacts'))
 
   // auth middleware go here if you authenticate on same server
 
