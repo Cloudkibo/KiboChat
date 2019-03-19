@@ -14,8 +14,27 @@ exports.createPayload = {
       required: true
     },
     payload: {
-      type: 'string',
+      type: 'object',
       required: true
     }
   }
+}
+exports.getPayload = {
+  'type': 'object',
+  'properties': {
+    'first_page': {
+      'type': 'boolean'
+    },
+    'last_id': {
+      'type': 'string'
+    },
+    'number_of_records': {
+      'type': 'integer'
+    }
+  },
+  'required': [
+    'first_page',
+    'last_id',
+    'number_of_records'
+  ]
 }
