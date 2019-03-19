@@ -12,4 +12,17 @@ router.post('/',
   validate({body: validationSchema.createPayload}),
   controller.create)
 
+router.post('/getSessions',
+  auth.isAuthenticated(),
+  validate({body: validationSchema.getPayload}),
+  controller.fetchSessions)
+
+router.post('/getChat/:contactId',
+  auth.isAuthenticated(),
+  controller.index)
+
+router.get('/markread/:id',
+  auth.isAuthenticated(),
+  controller.markread)
+
 module.exports = router
