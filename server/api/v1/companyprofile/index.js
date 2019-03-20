@@ -1,9 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const auth = require('../../../auth/auth.service')
-// const validate = require('express-jsonschema').validate
-
-// const validationSchema = require('./validationSchema')
+const validate = require('express-jsonschema').validate
+const validationSchema = require('./validationSchema')
 const controller = require('./company.controller')
 
 router.get('/members',
@@ -20,5 +19,10 @@ router.post('/updateAutomatedOptions',
   auth.isAuthenticated(),
   auth.hasRole('buyer'),
   controller.updateAutomatedOptions)
+
+router.post('/updatePlatform',
+  auth.isAuthenticated(),
+  validate({body: validationSchema.updatePlatformPayload}),
+  controller.updatePlatform)
 
 module.exports = router
