@@ -105,3 +105,15 @@ exports.enableGDPRDelete = {
     }
   }
 }
+exports.platformPayload = {
+  '$schema': 'http://json-schema.org/draft-04/schema#',
+  'type': 'object',
+  'properties': {
+    'platform': {
+      'type': 'string'
+    }
+  },
+  'required': [
+    'platform'
+  ]
+}
