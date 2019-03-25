@@ -190,3 +190,15 @@ exports.disconnectFacebook = function (req, res) {
       res.status(500).json({status: 'failed', payload: err})
     })
 }
+exports.updatePlatform = function (req, res) {
+  utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: {platform: req.body.platform}, options: {}})
+    .then(updated => {
+      return res.status(200).json({
+        status: 'success',
+        payload: 'Updated Successfully!'
+      })
+    })
+    .catch(err => {
+      res.status(500).json({status: 'failed', payload: err})
+    })
+}
