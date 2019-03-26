@@ -81,6 +81,14 @@ exports.updatePlatform = function (req, res) {
           if (resp.statusCode === 200) {
             utility.callApi(`companyprofile/update`, 'put', {query: {_id: companyUser.companyId}, newPayload: {twilio: req.body.twilio}, options: {}}, req.headers.authorization)
               .then(updatedProfile => {
+                if (req.body.twilio.platform) {
+                  utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: {platform: req.body.twilio.platform}, options: {}})
+                    .then(updated => {
+                    })
+                    .catch(err => {
+                      res.status(500).json({status: 'failed', payload: err})
+                    })
+                }
                 let accountSid = req.body.twilio.accountSID
                 let authToken = req.body.twilio.authToken
                 let client = require('twilio')(accountSid, authToken)
