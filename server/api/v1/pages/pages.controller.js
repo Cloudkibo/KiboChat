@@ -5,7 +5,7 @@ const logger = require('../../../components/logger')
 const TAG = 'api/v2/pages/pages.controller.js'
 let config = require('./../../../config/environment')
 
-const util = require('util')
+// const util = require('util')
 
 exports.index = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}, req.headers.authorization) // fetch company user
@@ -200,10 +200,9 @@ exports.enable = function (req, res) {
                           payload: 'Page is not published.'
                         })
                       } else {
-                        utility.callApi(`pages/query`, 'post', {pageId: req.body.pageId, connected: true}, req.headers.authorization)
+                        utility.callApi(`pages/${page._id}/connect`, 'get', {}, req.headers.authorization) // fetch connected page
                           .then(pageConnected => {
-                            console.log('pageConnected', pageConnected)
-                            if (pageConnected.length === 0) {
+                            if (pageConnected !== {}) {
                               let query = {
                                 connected: true,
                                 isWelcomeMessageEnabled: true,
@@ -214,138 +213,97 @@ exports.enable = function (req, res) {
                                     text: 'Hi {{user_full_name}}! Thanks for getting in touch with us on Messenger. Please send us any questions you may have'
                                   }]
                               }
-                              utility.callApi('pages/query', 'post', {_id: req.body._id}, req.headers.authorization)
-                                .then(pages => {
-                                  let page = pages[0]
-                                  // create default tags
-                                  utility.callApi('tags/query', 'post', {defaultTag: true, pageId: req.params._id, companyId: req.user.companyId}, req.headers.authorization)
-                                    .then(defaultTags => {
-                                      defaultTags = defaultTags.map((t) => t.tag)
-                                      if (!defaultTags.includes(`_${page.pageId}_1`)) {
-                                        createTag(req.user, page, `_${page.pageId}_1`, req)
-                                      }
-                                      if (!defaultTags.includes('male')) {
-                                        createTag(req.user, page, 'male', req)
-                                      }
-                                      if (!defaultTags.includes('female')) {
-                                        createTag(req.user, page, 'female', req)
-                                      }
-                                      if (!defaultTags.includes('other')) {
-                                        createTag(req.user, page, 'other', req)
-                                      }
+                              utility.callApi(`pages/${req.body._id}`, 'put', query, req.headers.authorization) // connect page
+                                .then(connectPage => {
+                                  utility.callApi(`pages/whitelistDomain`, 'post', {page_id: page.pageId, whitelistDomains: [`${config.domain}`]}, req.headers.authorization)
+                                    .then(whitelistDomains => {
                                     })
-                                    .catch(err => {
-                                      logger.serverLog(TAG, `Error at find default tags ${err}`)
+                                    .catch(error => {
+                                      logger.serverLog(TAG,
+                                        `Failed to whitelist domain ${JSON.stringify(error)}`)
                                     })
-                                  // initiate reach estimation
-                                  needle('post', `https://graph.facebook.com/v2.11/me/broadcast_reach_estimations?access_token=${page.accessToken}`)
-                                    .then(reachEstimation => {
-                                      console.log(util.inspect(reachEstimation.body))
-                                      if (reachEstimation.body.reach_estimation_id) {
-                                        query.reachEstimationId = reachEstimation.body.reach_estimation_id
-                                        utility.callApi(`pages/${req.body._id}`, 'put', query, req.headers.authorization) // connect page
-                                          .then(connectPage => {
-                                            utility.callApi(`pages/whitelistDomain`, 'post', {page_id: page.pageId, whitelistDomains: [`${config.domain}`]}, req.headers.authorization)
-                                              .then(whitelistDomains => {
-                                              })
-                                              .catch(error => {
-                                                logger.serverLog(TAG,
-                                                  `Failed to whitelist domain ${JSON.stringify(error)}`)
-                                              })
-                                            utility.callApi(`featureUsage/updateCompany`, 'put', {
-                                              query: {companyId: req.body.companyId},
-                                              newPayload: { $inc: { facebook_pages: 1 } },
-                                              options: {}
-                                            }, req.headers.authorization)
-                                              .then(updated => {
-                                              })
-                                              .catch(error => {
-                                                return res.status(500).json({
-                                                  status: 'failed',
-                                                  payload: `Failed to update company usage ${JSON.stringify(error)}`
-                                                })
-                                              })
-                                            utility.callApi(`subscribers/update`, 'put', {query: {pageId: page._id}, newPayload: {isEnabledByPage: true}, options: {}}, req.headers.authorization) // update subscribers
-                                              .then(updatedSubscriber => {
-                                                const options = {
-                                                  url: `https://graph.facebook.com/v2.6/${page.pageId}/subscribed_apps?access_token=${page.accessToken}`,
-                                                  qs: {access_token: page.accessToken},
-                                                  method: 'POST'
-                                                }
-                                                needle.post(options.url, options, (error, response) => {
-                                                  if (error) {
-                                                    return res.status(500).json({
-                                                      status: 'failed',
-                                                      payload: JSON.stringify(error)
-                                                    })
-                                                  }
-                                                  var valueForMenu = {
-                                                    'get_started': {
-                                                      'payload': '<GET_STARTED_PAYLOAD>'
-                                                    },
-                                                    'greeting': [
-                                                      {
-                                                        'locale': 'default',
-                                                        'text': 'Hi {{user_full_name}}! Please tap on getting started to start the conversation.'
-                                                      }]
-                                                  }
-                                                  const requesturl = `https://graph.facebook.com/v2.6/me/messenger_profile?access_token=${page.accessToken}`
-                                                  needle.request('post', requesturl, valueForMenu,
-                                                    {json: true}, function (err, resp) {
-                                                      if (err) {
-                                                        logger.serverLog(TAG,
-                                                          `Internal Server Error ${JSON.stringify(
-                                                            err)}`)
-                                                      }
-                                                      console.log('response from gettingStarted', resp.body)
-                                                    })
-                                                  // require('./../../../config/socketio').sendMessageToClient({
-                                                  //   room_id: req.body.companyId,
-                                                  //   body: {
-                                                  //     action: 'page_connect',
-                                                  //     payload: {
-                                                  //       page_id: page.pageId,
-                                                  //       user_id: req.user._id,
-                                                  //       user_name: req.user.name,
-                                                  //       company_id: req.body.companyId
-                                                  //     }
-                                                  //   }
-                                                  // })
-                                                  return res.status(200).json({
-                                                    status: 'success',
-                                                    payload: 'Page connected successfully!'
-                                                  })
-                                                })
-                                              })
-                                              .catch(error => {
-                                                return res.status(500).json({
-                                                  status: 'failed',
-                                                  payload: `Failed to update subscriber ${JSON.stringify(error)}`
-                                                })
-                                              })
+                                  utility.callApi(`featureUsage/updateCompany`, 'put', {
+                                    query: {companyId: req.body.companyId},
+                                    newPayload: { $inc: { facebook_pages: 1 } },
+                                    options: {}
+                                  }, req.headers.authorization)
+                                    .then(updated => {
+                                    })
+                                    .catch(error => {
+                                      return res.status(500).json({
+                                        status: 'failed',
+                                        payload: `Failed to update company usage ${JSON.stringify(error)}`
+                                      })
+                                    })
+                                  utility.callApi(`subscribers/update`, 'put', {query: {pageId: page._id}, newPayload: {isEnabledByPage: true}, options: {}}, req.headers.authorization) // update subscribers
+                                    .then(updatedSubscriber => {
+                                      const options = {
+                                        url: `https://graph.facebook.com/v2.6/${page.pageId}/subscribed_apps?access_token=${page.accessToken}`,
+                                        qs: {access_token: page.accessToken},
+                                        method: 'POST'
+                                      }
+                                      needle.post(options.url, options, (error, response) => {
+                                        if (error) {
+                                          return res.status(500).json({
+                                            status: 'failed',
+                                            payload: JSON.stringify(error)
                                           })
-                                          .catch(error => {
-                                            return res.status(500).json({
-                                              status: 'failed',
-                                              payload: `Failed to connect page ${JSON.stringify(error)}`
-                                            })
+                                        }
+                                        var valueForMenu = {
+                                          'get_started': {
+                                            'payload': '<GET_STARTED_PAYLOAD>'
+                                          },
+                                          'greeting': [
+                                            {
+                                              'locale': 'default',
+                                              'text': 'Hi {{user_full_name}}! Please tap on getting started to start the conversation.'
+                                            }]
+                                        }
+                                        const requesturl = `https://graph.facebook.com/v2.6/me/messenger_profile?access_token=${page.accessToken}`
+                                        needle.request('post', requesturl, valueForMenu,
+                                          {json: true}, function (err, resp) {
+                                            if (err) {
+                                              logger.serverLog(TAG,
+                                                `Internal Server Error ${JSON.stringify(
+                                                  err)}`)
+                                            }
+                                            console.log('response from gettingStarted', resp.body)
                                           })
-                                      } else {
-                                        logger.serverLog(TAG, `Failed to start reach estimation`)
-                                      }
+                                        require('./../../../config/socketio').sendMessageToClient({
+                                          room_id: req.body.companyId,
+                                          body: {
+                                            action: 'page_connect',
+                                            payload: {
+                                              page_id: page.pageId,
+                                              user_id: req.user._id,
+                                              user_name: req.user.name,
+                                              company_id: req.body.companyId
+                                            }
+                                          }
+                                        })
+                                        return res.status(200).json({
+                                          status: 'success',
+                                          payload: 'Page connected successfully!'
+                                        })
+                                      })
                                     })
-                                    .catch(err => {
-                                      logger.serverLog(TAG, `Error at find page ${err}`)
+                                    .catch(error => {
+                                      return res.status(500).json({
+                                        status: 'failed',
+                                        payload: `Failed to update subscriber ${JSON.stringify(error)}`
+                                      })
                                     })
                                 })
-                                .catch(err => {
-                                  logger.serverLog(TAG, `Error at find page ${err}`)
-                                  res.status(500).json({status: 'failed', payload: err})
+                                .catch(error => {
+                                  return res.status(500).json({
+                                    status: 'failed',
+                                    payload: `Failed to connect page ${JSON.stringify(error)}`
+                                  })
                                 })
                             } else {
-                              res.status(200).json({
-                                status: 'success',
-                                payload: {msg: `Page is already connected by ${pageConnected[0].userId.facebookInfo.name} (${pageConnected[0].userId.email}).`}
+                              res.status(400).json({
+                                status: 'failed',
+                                payload: `Page is already connected by ${pageConnected.userId.facebookInfo.name}. In order to manage this page please ask ${pageConnected.userId.facebookInfo.name} to create a team account and invite you.`
                               })
                             }
                           })
@@ -604,34 +562,5 @@ exports.otherPages = function (req, res) {
         status: 'failed',
         payload: `Failed to fetch company user ${JSON.stringify(error)}`
       })
-    })
-}
-
-function createTag (user, page, tag, req) {
-  needle('post', `https://graph.facebook.com/v2.11/me/custom_labels?access_token=${page.accessToken}`, {'name': tag})
-    .then(label => {
-      console.log(`label response ${util.inspect(label.body)}`)
-      if (label.body.id) {
-        let tagData = {
-          tag: tag,
-          userId: user._id,
-          companyId: user.companyId,
-          pageId: page._id,
-          labelFbId: label.body.id,
-          defaultTag: true
-        }
-        utility.callApi('tags', 'post', tagData, req.headers.authorization)
-          .then(created => {
-            logger.serverLog(TAG, `default tag created successfully!`)
-          })
-          .catch(err => {
-            logger.serverLog(TAG, `Error at save tag ${err}`)
-          })
-      } else {
-        logger.serverLog(TAG, `Error at create tag on Facebook ${label.body.error}`)
-      }
-    })
-    .catch(err => {
-      logger.serverLog(TAG, `Error at create tag on Facebook ${err}`)
     })
 }
