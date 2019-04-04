@@ -362,6 +362,10 @@ function getWitResponse (message, token, bot, pageId, senderId) {
         logger.serverLog(TAG, 'Error Occured In Getting Response From WIT.AI app')
         return
       }
+      if (!JSON.parse(witres.body).entities) {
+        logger.serverLog(TAG, 'Error Occured In Getting Response From WIT.AI app')
+        return
+      }
       // logger.serverLog(TAG, `Response from Wit AI Bot ${witres.body}`)
       let temp = JSON.parse(witres.body)
       if (Object.keys(JSON.parse(witres.body).entities).length === 0 || temp.entities.intent[0].confidence < 0.80) {
