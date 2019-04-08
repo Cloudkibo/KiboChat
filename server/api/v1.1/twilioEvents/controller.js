@@ -9,7 +9,7 @@ exports.index = function (req, res) {
   })
   callApi(`contacts/query`, 'post', {number: req.body.From})
     .then(contact => {
-      console.log('contact in event', contact)
+      console.log('contact', contact)
       contact = contact[0]
       let MessageObject = {
         senderNumber: req.body.From,
