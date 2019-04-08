@@ -154,7 +154,7 @@ exports.validateUserAccessToken = function (req, res) {
       if (err) {
         res.status(500).json({status: 'failed', payload: JSON.stringify(err)})
       } else if (response.body.error) {
-        res.status(500).json({status: 'failed', payload: JSON.stringify(response.body)})
+        res.status(500).json({status: 'failed', payload: response.body})
       } else {
         res.status(200).json({status: 'success', payload: 'User Access Token validated successfully!'})
       }
