@@ -51,7 +51,7 @@ exports.whatsApp = function (req, res) {
   let from = req.body.From.substring(9)
   let to = req.body.To.substring(9)
   console.log('from', from)
-  callApi(`companyprofile/query`, 'post', {'twilioWhatsApp.sandboxNumber': to})
+  callApi(`companyprofile/query`, 'post', {'twilioWhatsApp.accountSID': req.body.AccountSid})
     .then(company => {
       console.log('company fetched', company)
       callApi(`whatsAppContacts/query`, 'post', {number: from, companyId: company._id})
