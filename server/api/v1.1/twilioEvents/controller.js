@@ -54,7 +54,7 @@ exports.whatsApp = function (req, res) {
   callApi(`companyprofile/query`, 'post', {'twilioWhatsApp.sandboxNumber': to})
     .then(company => {
       console.log('company fetched', company)
-      callApi(`whatsAppContacts/query`, 'post', {number: from})
+      callApi(`whatsAppContacts/query`, 'post', {number: from, companyId: company._id})
         .then(contact => {
           if (contact.length > 0) {
             contact = contact[0]
