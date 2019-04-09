@@ -43,3 +43,36 @@ exports.index = function (req, res) {
       logger.serverLog(TAG, `Failed to fetch contact ${JSON.stringify(error)}`)
     })
 }
+exports.whatsApp = function (req, res) {
+  res.status(200).json({
+    status: 'success',
+    description: `received the payload`
+  })
+  let from = req.body.From.substring(9)
+  let to = req.body.To.substring(9)
+  console.log('from', from)
+  callApi(`companyprofile/query`, 'post', {'twilioWhatsApp.sandboxNumber': to})
+    .then(company => {
+      console.log('company fetched', company)
+      callApi(`whatsAppContacts/query`, 'post', {number: req.body.From})
+        .then(contact => {
+          if (contact.length > 0) {
+            contact = contact[0]
+          } else {
+            callApi(`whatsAppContacts`, 'post', {
+              name: 'WhatsApp Contact',
+              number: from,
+              companyId: company._id})
+              .then(contact => {
+                console.log('saved contact', contact)
+              })
+          }
+        })
+        .catch(error => {
+          logger.serverLog(TAG, `Failed to fetch contact ${JSON.stringify(error)}`)
+        })
+    })
+    .catch(error => {
+      logger.serverLog(TAG, `Failed to company profile ${JSON.stringify(error)}`)
+    })
+}

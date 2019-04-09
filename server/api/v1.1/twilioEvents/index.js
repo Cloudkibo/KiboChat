@@ -10,4 +10,8 @@ router.post('/',
   validate({body: validationSchema.payload}),
   controller.index)
 
+router.post('/whatsApp',
+  validate({body: validationSchema.payload}),
+  controller.whatsApp)
+
 module.exports = router
