@@ -227,6 +227,10 @@ function fbConnectDone (req, res) {
     logger.serverLog(TAG, '404: Something went wrong, please try again')
     res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
   }
+  if (req.user.role !== 'buyer') {
+    logger.serverLog(TAG, `User is an ${req.user.role}. Only buyers can connect their Facebook account`)
+    res.render('error', {status: 'failed', description: `User is an ${req.user.role}. Only buyers can connect their Facebook account`})
+  }
   let token = `Bearer ${req.cookies.token}`
   apiCaller.callApi('user', 'get', {}, token)
     .then(user => {
