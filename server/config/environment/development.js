@@ -23,7 +23,7 @@ module.exports = {
     callbackURL: `${process.env.DOMAIN || 'https://kibopush-sojharo.ngrok.io'}/auth/facebook/callback`
   },
 
-  webhook_ip: 'https://kibopush-anisha.ngrok.io',
+  webhook_ip: 'http://localhost:3020',
   DBLAYER_URL_KIBOCHAT: `http://localhost:3030/api/v1`,
   DBLAYER_URL_KIBOENGAGE: `http://localhost:3031/api/v1`,
   ACCOUNTS_URL: 'http://localhost:3024/api/v1',
