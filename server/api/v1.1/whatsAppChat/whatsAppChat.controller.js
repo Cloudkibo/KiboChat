@@ -3,7 +3,6 @@ const logicLayer = require('./whatsAppChat.logiclayer')
 const TAG = '/api/v1/whatsAppChat/whatsAppChat.controller.js'
 const { callApi } = require('../utility')
 const async = require('async')
-let config = require('./../../../config/environment')
 
 exports.index = function (req, res) {
   if (req.params.contactId) {
@@ -74,13 +73,9 @@ exports.create = function (req, res) {
               let accountSid = companyUser.companyId.twilioWhatsApp.accountSID
               let authToken = companyUser.companyId.twilioWhatsApp.authToken
               let client = require('twilio')(accountSid, authToken)
+              let messageToSend = logicLayer.prepareSendMessagePayload(req.body, companyUser, message)
               client.messages
-                .create({
-                  body: req.body.payload.text,
-                  from: `whatsapp:${companyUser.companyId.twilioWhatsApp.sandboxNumber}`,
-                  to: `whatsapp:${req.body.recipientNumber}`,
-                  statusCallback: config.webhook_ip + `/webhooks/twilio/trackStatusWhatsAppChat/${message._id}`
-                })
+                .create(messageToSend)
                 .then(response => {
                   logger.serverLog(TAG, `response from twilio ${JSON.stringify(response)}`)
                   return res.status(200)
@@ -189,7 +184,7 @@ exports.markread = function (req, res) {
 }
 
 function markreadLocal (req, callback) {
-  let updateData = logicLayer.getUpdateData('updateAll', {contactId: req.params.id}, {status: 'seen'}, false, true)
+  let updateData = logicLayer.getUpdateData('updateAll', {contactId: req.params.id}, {status: 'seen', seenDateTime: Date.now}, false, true)
   callApi('whatsAppChat', 'put', updateData, '', 'kibochat')
     .then(updated => {
       callback(null, updated)
