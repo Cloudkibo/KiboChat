@@ -9,7 +9,6 @@ exports.index = function (req, res) {
   })
   callApi(`contacts/query`, 'post', {number: req.body.From})
     .then(contact => {
-      console.log('contact', contact)
       contact = contact[0]
       let MessageObject = {
         senderNumber: req.body.From,
@@ -22,7 +21,6 @@ exports.index = function (req, res) {
       }
       callApi(`smsChat`, 'post', MessageObject, '', 'kibochat')
         .then(message => {
-          console.log('message saved', message)
           let subscriberData = {
             query: {_id: contact._id},
             newPayload: {last_activity_time: Date.now(), hasChat: true},
@@ -50,10 +48,8 @@ exports.whatsApp = function (req, res) {
   })
   let from = req.body.From.substring(9)
   let to = req.body.To.substring(9)
-  console.log('from', from)
   callApi(`companyprofile/query`, 'post', {'twilioWhatsApp.accountSID': req.body.AccountSid})
     .then(company => {
-      console.log('company fetched', company)
       callApi(`whatsAppContacts/query`, 'post', {number: from, companyId: company._id})
         .then(contact => {
           if (contact.length > 0) {
@@ -62,9 +58,9 @@ exports.whatsApp = function (req, res) {
             callApi(`whatsAppContacts`, 'post', {
               name: 'WhatsApp Contact',
               number: from,
-              companyId: company._id})
+              companyId: company._id,
+              hasChat: true})
               .then(contact => {
-                console.log('saved contact', contact)
               })
           }
         })
