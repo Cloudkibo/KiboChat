@@ -1,3 +1,5 @@
+let config = require('./../../../config/environment')
+
 exports.prepareChat = (body, companyUser) => {
   let MessageObject = {
     senderNumber: companyUser.companyId.twilioWhatsApp.sandboxNumber,
@@ -6,6 +8,19 @@ exports.prepareChat = (body, companyUser) => {
     companyId: companyUser.companyId._id,
     payload: body.payload,
     repliedBy: body.repliedBy
+  }
+  return MessageObject
+}
+exports.prepareSendMessagePayload = (body, companyUser, message) => {
+  let MessageObject = {
+    from: `whatsapp:${companyUser.companyId.twilioWhatsApp.sandboxNumber}`,
+    to: `whatsapp:${body.recipientNumber}`,
+    statusCallback: config.webhook_ip + `/webhooks/twilio/trackStatusWhatsAppChat/${message._id}`
+  }
+  if (body.payload.componentType !== 'text') {
+    MessageObject.mediaUrl = body.payload.fileurl.url
+  } else {
+    MessageObject.body = body.payload.text
   }
   return MessageObject
 }

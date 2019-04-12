@@ -1,6 +1,7 @@
 const logger = require('../../../components/logger')
 const TAG = '/api/v1/twilioEvents/controller.js'
 const { callApi } = require('../utility')
+const logicLayer = require('./logiclayer')
 
 exports.index = function (req, res) {
   res.status(200).json({
@@ -54,6 +55,7 @@ exports.whatsApp = function (req, res) {
         .then(contact => {
           if (contact.length > 0) {
             contact = contact[0]
+            storeChat(from, to, req.body, contact)
           } else {
             callApi(`whatsAppContacts`, 'post', {
               name: 'WhatsApp Contact',
@@ -61,6 +63,7 @@ exports.whatsApp = function (req, res) {
               companyId: company._id,
               hasChat: true})
               .then(contact => {
+                storeChat(from, to, req.body, contact)
               })
           }
         })
@@ -71,4 +74,37 @@ exports.whatsApp = function (req, res) {
     .catch(error => {
       logger.serverLog(TAG, `Failed to company profile ${JSON.stringify(error)}`)
     })
+}
+function storeChat (from, to, body, contact) {
+  let messageData = logicLayer.prepareChat(from, to, body, contact)
+  callApi(`whatsAppChat`, 'post', messageData.messageObject, '', 'kibochat')
+    .then(message => {
+      let subscriberData = {
+        query: {_id: contact._id},
+        newPayload: {last_activity_time: Date.now(), hasChat: true},
+        options: {}
+      }
+      callApi(`whatsAppContacts/update`, 'put', subscriberData)
+        .then(updated => {
+        })
+        .catch(error => {
+          logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`)
+        })
+    })
+  if (messageData.otherPayload) {
+    callApi(`whatsAppChat`, 'post', messageData.otherPayload, '', 'kibochat')
+      .then(message => {
+        let subscriberData = {
+          query: {_id: contact._id},
+          newPayload: {last_activity_time: Date.now(), hasChat: true},
+          options: {}
+        }
+        callApi(`whatsAppContacts/update`, 'put', subscriberData)
+          .then(updated => {
+          })
+          .catch(error => {
+            logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`)
+          })
+      })
+  }
 }
