@@ -184,6 +184,7 @@ exports.markread = function (req, res) {
 }
 
 function markreadLocal (req, callback) {
+  console.log('in markreadLocal of whatsAppChat')
   let updateData = logicLayer.getUpdateData('updateAll', {contactId: req.params.id}, {status: 'seen', seenDateTime: Date.now}, false, true)
   callApi('whatsAppChat', 'put', updateData, '', 'kibochat')
     .then(updated => {

@@ -43,6 +43,7 @@ module.exports = function (app) {
   app.use('/api/twilioEvents', require('./api/v1.1/twilioEvents'))
   app.use('/api/contacts', require('./api/v1.1/contacts'))
   app.use('/api/whatsAppChat', require('./api/v1.1/whatsAppChat'))
+  app.use('/api/whatsAppContacts', require('./api/v1.1/whatsAppContacts'))
 
   // auth middleware go here if you authenticate on same server
 

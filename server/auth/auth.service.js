@@ -238,7 +238,7 @@ function fbConnectDone (req, res) {
         logger.serverLog(TAG, '403: Different Facebook Account Detected')
         res.render('error', {status: 'failed', description: 'Different Facebook Account Detected. Please use the same account that you connected before.'})
       } else {
-        apiCaller.callApi(`user/update`, 'post', {query: {_id: userid}, newPayload: {facebookInfo: fbPayload, connectFacebook: true, showIntegrations: false}, options: {}}, token)
+        apiCaller.callApi(`user/update`, 'post', {query: {_id: userid}, newPayload: {facebookInfo: fbPayload, connectFacebook: true, showIntegrations: false, platform: 'messenger'}, options: {}}, token)
           .then(updated => {
             apiCaller.callApi(`user/query`, 'post', {_id: userid}, token)
               .then(user => {

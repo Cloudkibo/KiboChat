@@ -2,8 +2,8 @@ let config = require('./../../../config/environment')
 
 exports.prepareChat = (body, companyUser) => {
   let MessageObject = {
-    senderNumber: companyUser.companyId.twilioWhatsApp.sandboxNumber,
-    recipientNumber: body.recipientNumber,
+    senderNumber: body.recipientNumber,
+    recipientNumber: companyUser.companyId.twilioWhatsApp.sandboxNumber,
     contactId: body.contactId,
     companyId: companyUser.companyId._id,
     payload: body.payload,
@@ -29,7 +29,7 @@ exports.getCount = (req) => {
     { $match: {
       'companyId': req.user.companyId,
       'hasChat': true,
-      'name': {$regex: '.*' + req.body.filter_criteria.search_value + '.*', $options: 'i'}
+      'number': {$regex: '.*' + req.body.filter_criteria.search_value + '.*', $options: 'i'}
     } },
     { $group: {_id: null, count: { $sum: 1 }} }
   ]
@@ -40,7 +40,7 @@ exports.getSessions = (req) => {
     { $match: {
       'companyId': req.user.companyId,
       'hasChat': true,
-      'name': {$regex: '.*' + req.body.filter_criteria.search_value + '.*', $options: 'i'},
+      'number': {$regex: '.*' + req.body.filter_criteria.search_value + '.*', $options: 'i'},
       '_id': req.body.first_page ? {$exists: true} : {$gt: req.body.last_id}
     } },
     { $sort: {last_activity_time: req.body.filter_criteria.sort_value} }

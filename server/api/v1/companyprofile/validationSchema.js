@@ -34,3 +34,24 @@ exports.updatePlatformPayload = {
     }
   }
 }
+exports.updatePlatformWhatsApp = {
+  'type': 'object',
+  'properties': {
+    accountSID: {
+      type: 'string',
+      required: true
+    },
+    authToken: {
+      type: 'string',
+      required: true
+    },
+    sandboxNumber: {
+      type: 'string',
+      required: true
+    },
+    sandboxCode: {
+      type: 'string',
+      required: true
+    }
+  }
+}
