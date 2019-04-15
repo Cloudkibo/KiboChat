@@ -1,17 +1,13 @@
-'use strict'
-
 const express = require('express')
 const router = express.Router()
-const controller = require('./controller')
+const auth = require('../../../auth/auth.service')
 const validate = require('express-jsonschema').validate
 const validationSchema = require('./validationSchema')
+const controller = require('./whatsAppContacts.controller')
 
 router.post('/',
+  auth.isAuthenticated(),
   validate({body: validationSchema.payload}),
   controller.index)
-
-router.post('/whatsApp',
-  validate({body: validationSchema.payload}),
-  controller.whatsApp)
 
 module.exports = router

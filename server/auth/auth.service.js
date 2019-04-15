@@ -227,6 +227,10 @@ function fbConnectDone (req, res) {
     logger.serverLog(TAG, '404: Something went wrong, please try again')
     res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
   }
+  if (req.user.role !== 'buyer') {
+    logger.serverLog(TAG, `User is an ${req.user.role}. Only buyers can connect their Facebook account`)
+    res.render('error', {status: 'failed', description: `User is an ${req.user.role}. Only buyers can connect their Facebook account`})
+  }
   let token = `Bearer ${req.cookies.token}`
   apiCaller.callApi('user', 'get', {}, token)
     .then(user => {
@@ -234,7 +238,7 @@ function fbConnectDone (req, res) {
         logger.serverLog(TAG, '403: Different Facebook Account Detected')
         res.render('error', {status: 'failed', description: 'Different Facebook Account Detected. Please use the same account that you connected before.'})
       } else {
-        apiCaller.callApi(`user/update`, 'post', {query: {_id: userid}, newPayload: {facebookInfo: fbPayload, connectFacebook: true, showIntegrations: false}, options: {}}, token)
+        apiCaller.callApi(`user/update`, 'post', {query: {_id: userid}, newPayload: {facebookInfo: fbPayload, connectFacebook: true, showIntegrations: false, platform: 'messenger'}, options: {}}, token)
           .then(updated => {
             apiCaller.callApi(`user/query`, 'post', {_id: userid}, token)
               .then(user => {

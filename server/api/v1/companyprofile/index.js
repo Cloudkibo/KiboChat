@@ -25,4 +25,9 @@ router.post('/updatePlatform',
   validate({body: validationSchema.updatePlatformPayload}),
   controller.updatePlatform)
 
+router.post('/updatePlatformWhatsApp',
+  auth.isAuthenticated(),
+  validate({body: validationSchema.updatePlatformWhatsApp}),
+  controller.updatePlatformWhatsApp)
+
 module.exports = router
