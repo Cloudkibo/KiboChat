@@ -11,7 +11,8 @@ const logger = new winston.Logger({
     new winston.transports.Papertrail({
       host: 'logs3.papertrailapp.com',
       port: 45576,
-      colorize: true
+      colorize: true,
+      attemptsBeforeDecay: 1
     })
   ]
 })
