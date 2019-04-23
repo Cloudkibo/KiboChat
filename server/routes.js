@@ -44,6 +44,12 @@ module.exports = function (app) {
   app.get('/', (req, res) => {
     res.cookie('environment', config.env,
       {expires: new Date(Date.now() + 900000)})
+    res.cookie('url_production', 'https://kibochat.cloudkibo.com',
+      {expires: new Date(Date.now() + 900000)})
+    res.cookie('url_staging', 'https://skibochat.cloudkibo.com',
+      {expires: new Date(Date.now() + 900000)})
+    res.cookie('url_development', 'http://localhost:3022',
+      {expires: new Date(Date.now() + 900000)})
     // res.sendFile(path.join(config.root, 'client/index.html'))
     res.render('main', { environment: env })
   })
