@@ -44,6 +44,8 @@ module.exports = function (app) {
   app.use('/api/contacts', require('./api/v1.1/contacts'))
   app.use('/api/whatsAppChat', require('./api/v1.1/whatsAppChat'))
   app.use('/api/whatsAppContacts', require('./api/v1.1/whatsAppContacts'))
+  app.use('/api/whatsAppDashboard', require('./api/v1.1/whatsAppDashboard'))
+  app.use('/api/smsDashboard', require('./api/v1.1/smsDashboard'))
 
   // auth middleware go here if you authenticate on same server
 
