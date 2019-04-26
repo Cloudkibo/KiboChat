@@ -63,9 +63,9 @@ module.exports = function (app) {
       {expires: new Date(Date.now() + 900000)})
     // res.sendFile(path.join(config.root, 'client/index.html'))
     if (env === 'staging' || env === 'development') {
-      res.render('main', { environment: env })
-    } else {
       res.sendFile(path.join(config.root, 'client/index.html'))
+    } else {
+      res.render('main', { environment: env })
     }
   })
 
