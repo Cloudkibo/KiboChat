@@ -15,6 +15,7 @@ exports.getCount = (req) => {
     { $match: {
       'companyId': req.user.companyId,
       'hasChat': true,
+      'isSubscribed': true,
       'name': {$regex: '.*' + req.body.filter_criteria.search_value + '.*', $options: 'i'}
     } },
     { $group: {_id: null, count: { $sum: 1 }} }
@@ -25,6 +26,7 @@ exports.getSessions = (req) => {
   let aggregateData = [
     { $match: {
       'companyId': req.user.companyId,
+      'isSubscribed': true,
       'hasChat': true,
       'name': {$regex: '.*' + req.body.filter_criteria.search_value + '.*', $options: 'i'},
       '_id': req.body.first_page ? {$exists: true} : {$gt: req.body.last_id}
