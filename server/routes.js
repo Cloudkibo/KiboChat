@@ -1,6 +1,9 @@
 const config = require('./config/environment/index')
 const Raven = require('raven')
 const path = require('path')
+const multiparty = require('connect-multiparty')
+const multipartyMiddleware = multiparty()
+const fs = require('fs')
 
 module.exports = function (app) {
   // API middlewares go here
@@ -59,8 +62,32 @@ module.exports = function (app) {
     res.cookie('url_development', 'http://localhost:3022',
       {expires: new Date(Date.now() + 900000)})
     // res.sendFile(path.join(config.root, 'client/index.html'))
-    res.render('main', { environment: env })
+    if (env === 'staging' || env === 'development') {
+      res.render('main', { environment: env })
+    } else {
+      res.sendFile(path.join(config.root, 'client/index.html'))
+    }
   })
+
+  app.post('/uploadHtml',
+    multipartyMiddleware,
+    (req, res) => {
+      let dir = path.resolve(__dirname, '../client/', req.files.bundle.name)
+
+      fs.rename(
+        req.files.bundle.path,
+        dir,
+        err => {
+          if (err) {
+            return res.status(500).json({
+              status: 'failed',
+              description: 'internal server error' + JSON.stringify(err)
+            })
+          }
+          return res.status(201).json({status: 'success', description: 'HTML uploaded'})
+        }
+      )
+    })
 
   app.get('/react-bundle', (req, res) => {
     res.sendFile(path.join(__dirname, '../../KiboPush/client/public/js', 'bundle.js'))
