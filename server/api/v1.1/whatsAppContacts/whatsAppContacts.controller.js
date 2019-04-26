@@ -36,3 +36,23 @@ exports.index = function (req, res) {
       })
     })
 }
+exports.update = function (req, res) {
+  let subsriberData = {
+    query: {_id: req.params.id},
+    newPayload: req.body,
+    options: {}
+  }
+  utility.callApi(`whatsAppContacts/update`, 'put', subsriberData, req.headers.authorization)
+    .then(updated => {
+      res.status(200).json({
+        status: 'success',
+        payload: updated
+      })
+    })
+    .catch(error => {
+      return res.status(500).json({
+        status: 'failed',
+        payload: `Failed to fetch company user ${JSON.stringify(error)}`
+      })
+    })
+}
