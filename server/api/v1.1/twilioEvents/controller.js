@@ -30,6 +30,13 @@ exports.index = function (req, res) {
                 }
                 callApi(`smsChat`, 'post', MessageObject, '', 'kibochat')
                   .then(message => {
+                    require('./../../../config/socketio').sendMessageToClient({
+                      room_id: contact.companyId,
+                      body: {
+                        action: 'new_chat_sms',
+                        payload: message
+                      }
+                    })
                     let subscriberData = {
                       query: {_id: contact._id},
                       newPayload: {last_activity_time: Date.now(), hasChat: true},
@@ -172,7 +179,7 @@ exports.whatsApp = function (req, res) {
             }
           } else {
             callApi(`whatsAppContacts`, 'post', {
-              name: 'WhatsApp Contact',
+              name: from,
               number: from,
               companyId: company._id,
               hasChat: true})
@@ -196,6 +203,13 @@ function storeChat (from, to, body, contact, company) {
       let messageData = logicLayer.prepareChat(from, to, body, contact)
       callApi(`whatsAppChat`, 'post', messageData.messageObject, '', 'kibochat')
         .then(message => {
+          require('./../../../config/socketio').sendMessageToClient({
+            room_id: contact.companyId,
+            body: {
+              action: 'new_chat_whatsapp',
+              payload: message
+            }
+          })
           let subscriberData = {
             query: {_id: contact._id},
             newPayload: {last_activity_time: Date.now(), hasChat: true},
