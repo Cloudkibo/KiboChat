@@ -81,7 +81,7 @@ exports.prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) =
       }),
       'message': JSON.stringify({
         'text': text,
-        'metadata': 'This is a meta data'
+        'metadata': 'SENT_FROM_KIBOPUSH'
       })
     }
     return payload
@@ -111,7 +111,8 @@ exports.prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) =
             'text': text,
             'buttons': body.buttons
           }
-        }
+        },
+        'metadata': 'SENT_FROM_KIBOPUSH'
       })
     }
   } else if (['image', 'audio', 'file', 'video'].indexOf(
@@ -133,7 +134,8 @@ exports.prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) =
         'attachment': {
           'type': body.componentType,
           'payload': {}
-        }
+        },
+        'metadata': 'SENT_FROM_KIBOPUSH'
       }),
       'filedata': fileReaderStream
     }
@@ -153,7 +155,8 @@ exports.prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) =
           'payload': {
             'url': body.fileurl
           }
-        }
+        },
+        'metadata': 'SENT_FROM_KIBOPUSH'
       })
     }
   } else if (body.componentType === 'card') {
@@ -176,7 +179,8 @@ exports.prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) =
               }
             ]
           }
-        }
+        },
+        'metadata': 'SENT_FROM_KIBOPUSH'
       })
     }
   } else if (body.componentType === 'gallery') {
@@ -207,7 +211,8 @@ exports.prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) =
             'template_type': 'generic',
             'elements': galleryCards
           }
-        }
+        },
+        'metadata': 'SENT_FROM_KIBOPUSH'
       })
     }
   } else if (body.componentType === 'list') {
@@ -225,7 +230,8 @@ exports.prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) =
             'elements': body.listItems,
             'buttons': body.buttons
           }
-        }
+        },
+        'metadata': 'SENT_FROM_KIBOPUSH'
       })
     }
   }

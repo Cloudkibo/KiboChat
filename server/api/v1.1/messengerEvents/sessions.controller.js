@@ -92,7 +92,7 @@ function saveLiveChat (page, subscriber, event) {
     .catch(error => {
       logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(error)}`)
     })
-  if (event.message) {
+  if ((event.message && !event.message.is_echo) || (event.message && event.message.is_echo && event.message.metadata !== 'SENT_FROM_KIBOPUSH')) {
     let urlInText = parseUrl(event.message.text)
     if (urlInText !== null && urlInText !== '') {
       og(urlInText, function (err, meta) {
