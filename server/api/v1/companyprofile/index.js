@@ -30,4 +30,9 @@ router.post('/updatePlatformWhatsApp',
   validate({body: validationSchema.updatePlatformWhatsApp}),
   controller.updatePlatformWhatsApp)
 
+router.post('/disconnect',
+  auth.isAuthenticated(),
+  validate({body: validationSchema.disconnect}),
+  controller.disconnect)
+
 module.exports = router

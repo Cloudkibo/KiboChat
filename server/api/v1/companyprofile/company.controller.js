@@ -1,9 +1,9 @@
 const logger = require('../../../components/logger')
 const TAG = 'api/v1/companyprofile/company.controller.js'
 const utility = require('../utility')
-// const logicLayer = require('./commentCapture.logiclayer')
 const config = require('../../../config/environment/index')
 const needle = require('needle')
+const logicLayer = require('./company.logiclayer.js')
 
 exports.members = function (req, res) {
   utility.callApi(`companyprofile/members`, 'get', {}, req.headers.authorization)
@@ -180,6 +180,42 @@ exports.updatePlatformWhatsApp = function (req, res) {
     })
     .catch(error => {
       console.log(`Failed to company user ${JSON.stringify(error)}`)
+      return res.status(500).json({status: 'failed', payload: `Failed to company user ${JSON.stringify(error)}`
+      })
+    })
+}
+exports.disconnect = function (req, res) {
+  utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}, req.headers.authorization) // fetch company user
+    .then(companyUser => {
+      if (!companyUser) {
+        return res.status(404).json({
+          status: 'failed',
+          description: 'The user account does not belong to any company. Please contact support'
+        })
+      }
+      let updated = {}
+      if (req.body.type === 'sms') {
+        updated = {$unset: {twilio: 1}}
+      } else {
+        updated = {$unset: {twilioWhatsApp: 1}}
+      }
+      let userUpdated = logicLayer.getPlatform(companyUser, req.body)
+      utility.callApi(`companyprofile/update`, 'put', {query: {_id: companyUser.companyId}, newPayload: updated, options: {}}, req.headers.authorization)
+        .then(updatedProfile => {
+          utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: userUpdated, options: {}})
+            .then(updated => {
+              return res.status(200).json({status: 'success', payload: updatedProfile})
+            })
+            .catch(err => {
+              res.status(500).json({status: 'failed', payload: err})
+            })
+          return res.status(200).json({status: 'success', payload: updatedProfile})
+        })
+        .catch(err => {
+          res.status(500).json({status: 'failed', payload: `Failed to update company profile ${err}`})
+        })
+    })
+    .catch(error => {
       return res.status(500).json({status: 'failed', payload: `Failed to company user ${JSON.stringify(error)}`
       })
     })

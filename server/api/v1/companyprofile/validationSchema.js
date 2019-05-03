@@ -55,3 +55,12 @@ exports.updatePlatformWhatsApp = {
     }
   }
 }
+exports.disconnect = {
+  'type': 'object',
+  'properties': {
+    type: {
+      type: 'string',
+      required: true
+    }
+  }
+}
