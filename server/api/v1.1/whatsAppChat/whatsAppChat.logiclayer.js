@@ -30,7 +30,7 @@ exports.getCount = (req) => {
       'companyId': req.user.companyId,
       'isSubscribed': true,
       'hasChat': true,
-      'number': {$regex: '.*' + req.body.filter_criteria.search_value + '.*', $options: 'i'}
+      'name': {$regex: '.*' + req.body.filter_criteria.search_value + '.*', $options: 'i'}
     } },
     { $group: {_id: null, count: { $sum: 1 }} }
   ]
@@ -42,7 +42,7 @@ exports.getSessions = (req) => {
       'companyId': req.user.companyId,
       'isSubscribed': true,
       'hasChat': true,
-      'number': {$regex: '.*' + req.body.filter_criteria.search_value + '.*', $options: 'i'},
+      'name': {$regex: '.*' + req.body.filter_criteria.search_value + '.*', $options: 'i'},
       '_id': req.body.first_page ? {$exists: true} : {$gt: req.body.last_id}
     } },
     { $sort: {last_activity_time: req.body.filter_criteria.sort_value} }
