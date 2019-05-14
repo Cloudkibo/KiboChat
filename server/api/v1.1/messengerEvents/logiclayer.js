@@ -184,17 +184,39 @@ function prepareMessageData (message) {
   let messageData = {}
   if (message.text) {
     messageData = {
-      componentType: message.attachments[0].type,
+      componentType: 'text',
       text: message.text
     }
-  } else {
-    messageData = {
-      fileurl: message.attachments[0].payload,
-      componentType: message.attachments[0].type,
-      fileName: message.attachments[0].payload.url.split('?')[0].split('/')[message.attachments[0].payload.url.split('?')[0].split('/').length - 1]
+    return messageData
+  } else if (message.attachments) {
+    if (message.attachments[0].payload.template_type === 'generic' && message.attachments[0].payload.elements.length === 1) {
+      messageData = message.attachments[0].payload.elements[0]
+      messageData.componentType = 'card'
+    } else if (message.attachments[0].payload.template_type === 'generic' && message.attachments[0].payload.elements.length > 1) {
+      messageData = {
+        componentType: 'gallery',
+        cards: message.attachments[0].payload.elements
+      }
+    } else if (message.attachments[0].payload.template_type === 'list') {
+      messageData = {
+        componentType: 'list',
+        top_element_style: message.attachments[0].payload.top_element_style ? message.attachments[0].payload.top_element_style : 'large',
+        elements: message.attachments[0].payload.elements,
+        buttons: message.attachments[0].payload.buttons
+      }
+    } else if (message.attachments[0].payload.template_type === 'media') {
+      // need to think how to get url from attachment_id
+    } else if (message.attachments[0].payload.template_type === 'button') {
+      messageData = message.attachments[0].payload
+    } else {
+      messageData = {
+        fileurl: message.attachments[0].payload,
+        componentType: message.attachments[0].type,
+        fileName: message.attachments[0].payload.url.split('?')[0].split('/')[message.attachments[0].payload.url.split('?')[0].split('/').length - 1]
+      }
     }
+    return messageData
   }
-  return messageData
 }
 
 function prepareLiveChatPayload (message, subscriber, page) {
@@ -202,8 +224,8 @@ function prepareLiveChatPayload (message, subscriber, page) {
   if (message.is_echo) {
     payload = {
       format: 'convos',
-      sender_id: subscriber._id,
-      recipient_id: page.userId._id,
+      sender_id: page._id,
+      recipient_id: subscriber._id,
       sender_fb_id: subscriber.senderId,
       recipient_fb_id: page.pageId,
       subscriber_id: subscriber._id,
@@ -211,11 +233,12 @@ function prepareLiveChatPayload (message, subscriber, page) {
       status: 'unseen', // seen or unseen
       payload: prepareMessageData(message)
     }
+    return payload
   } else {
     payload = {
       format: 'facebook',
       sender_id: subscriber._id,
-      recipient_id: page.userId._id,
+      recipient_id: page._id,
       sender_fb_id: subscriber.senderId,
       recipient_fb_id: page.pageId,
       session_id: subscriber._id,
@@ -223,8 +246,8 @@ function prepareLiveChatPayload (message, subscriber, page) {
       status: 'unseen', // seen or unseen
       payload: message
     }
+    return payload
   }
-  return payload
 }
 
 exports.prepareSendAPIPayload = prepareSendAPIPayload
