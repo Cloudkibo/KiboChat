@@ -108,7 +108,7 @@ exports.geturlmeta = function (req, res) {
 * 6. Create AutomationQueue Object
 */
 exports.create = function (req, res) {
-  async.parallerLimit([
+  async.parallelLimit([
     // Create Message Object
     function (callback) {
       let fbMessageObject = logicLayer.prepareFbMessageObject(req.body)
@@ -210,7 +210,7 @@ exports.create = function (req, res) {
       let fbMessageObject = results[0]
       let subscriber = results[3]
       let botId = ''
-      async.parallerLimit([
+      async.parallelLimit([
         // Update Bot Block list
         function (callback) {
           let botsData = logicLayer.getQueryData('', 'findOne', { pageId: subscriber.pageId._id, companyId: subscriber.companyId })
