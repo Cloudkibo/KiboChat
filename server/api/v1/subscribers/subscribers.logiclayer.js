@@ -32,7 +32,7 @@ exports.getFinalPayload = (subscribers, customFields, customFieldSubscribers) =>
   }
   return subscribersPayload
 }
-exports.getSusbscribersPayload = function (subscribers, tags, tagValue) {
+exports.getSusbscribersPayload = function (subscribers, tags, tagIds, tagValue) {
   let subscribersPayload = subscribers
   let filteredTagSubscribers = []
   for (let i = 0; i < subscribers.length; i++) {
@@ -41,7 +41,7 @@ exports.getSusbscribersPayload = function (subscribers, tags, tagValue) {
     for (let j = 0; j < tags.length; j++) {
       if (tags[j].tagId) {
         if (subscribers[i]._id.toString() === tags[j].subscriberId._id.toString()) {
-          if (tagValue === tags[j].tagId._id.toString()) {
+          if (tagIds.includes(tags[j].tagId._id.toString())) {
             isTaggedSubscriber = true
           }
           subscribersPayload[i].tags.push(tags[j].tagId.tag)

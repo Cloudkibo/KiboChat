@@ -17,11 +17,11 @@ exports.createPayload = {
 exports.renamePayload = {
   type: 'object',
   properties: {
-    tagId: {
+    tag: {
       type: 'string',
       required: true
     },
-    tagName: {
+    newTag: {
       type: 'string',
       required: true
     }
@@ -31,7 +31,7 @@ exports.renamePayload = {
 exports.deletePayload = {
   type: 'object',
   properties: {
-    tagId: {
+    tag: {
       type: 'string',
       required: true
     }
@@ -41,7 +41,7 @@ exports.deletePayload = {
 exports.assignPayload = {
   type: 'object',
   properties: {
-    tagId: {
+    tag: {
       type: 'string',
       required: true
     },
