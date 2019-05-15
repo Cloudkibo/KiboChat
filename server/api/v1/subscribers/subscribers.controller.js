@@ -105,53 +105,71 @@ exports.allLocales = function (req, res) {
 }
 
 exports.getAll = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization) // fetch company user
-    .then(companyuser => {
-      let criterias = logicLayer.getCriterias(req.body, companyuser)
+  let tagIDs = []
+  let tagValue = []
+  tagValue.push(req.body.filter_criteria.tag_value)
+  utility.callApi(`tags/query`, 'post', { companyId: req.user.companyId, tag: { $in: tagValue } }, req.headers.authorization)
+    .then(tags => {
+      for (let i = 0; i < tags.length; i++) { 
+        tagIDs.push(tags[i]._id)
+      }
+      let criterias = logicLayer.getCriterias(req,tagIDs)
       utility.callApi(`subscribers/aggregate`, 'post', criterias.countCriteria, req.headers.authorization) // fetch subscribers count
         .then(count => {
           utility.callApi(`subscribers/aggregate`, 'post', criterias.fetchCriteria, req.headers.authorization) // fetch subscribers
             .then(subscribers => {
+              console.log('subscribers in subscribers', subscribers)
               let subscriberIds = logicLayer.getSubscriberIds(subscribers)
               logger.serverLog(TAG, `subscriberIds: ${util.inspect(subscriberIds)}`)
-              utility.callApi(`tags_subscriber/query`, 'post', { subscriberId: { $in: subscriberIds } }, req.headers.authorization)
+              utility.callApi(`tags/query`, 'post', { companyId: req.user.companyId, isList: false, defaultTag: false }, req.headers.authorization)
                 .then(tags => {
-                  logger.serverLog(TAG, `tags: ${util.inspect(tags)}`)
-                  let subscribersPayload = logicLayer.getSusbscribersPayload(subscribers, tags, req.body.filter_criteria.tag_value)
-                  logger.serverLog(TAG, `subscribersPayload: ${util.inspect(subscribersPayload)}`)
-                  // start append custom Fields
-                  utility.callApi('custom_fields/query', 'post', { purpose: 'findAll', match: { companyId: companyuser.companyId } }, req.headers.authorization)
-                    .then(customFields => {
-                      logger.serverLog(TAG, `customFields: ${util.inspect(customFields)}`)
-                      utility.callApi('custom_field_subscribers', 'get')
-                        .then(customFieldSubscribers => {
-                          logger.serverLog(TAG, `customFieldSubscribers: ${util.inspect(customFieldSubscribers)}`)
-                          let finalPayload = logicLayer.getFinalPayload(subscribersPayload, customFields, customFieldSubscribers)
-                          logger.serverLog(TAG, `subscribersFinalPayload: ${util.inspect(finalPayload)}`)
-                          return res.status(200).json({
-                            status: 'success',
-                            payload: {subscribers: finalPayload, count: count.length > 0 ? count[0].count : 0}
-                          })
+                  let tagIds = tags.map((t) => t._id)
+                  utility.callApi(`tags_subscriber/query`, 'post', { subscriberId: { $in: subscriberIds }, tagId: {$in: tagIds} }, req.headers.authorization)
+                    .then(tagSubscribers => {
+                      logger.serverLog(TAG, `tags subscribers: ${util.inspect(tagSubscribers)}`)
+                      let subscribersPayload = logicLayer.getSusbscribersPayload(subscribers, tagSubscribers, tagIds, req.body.filter_criteria.tag_value)
+                      logger.serverLog(TAG, `subscribersPayload: ${util.inspect(subscribersPayload)}`)
+                      // start append custom Fields
+                      utility.callApi('custom_fields/query', 'post', { purpose: 'findAll', match: { companyId: req.user.companyId } }, req.headers.authorization)
+                        .then(customFields => {
+                          logger.serverLog(TAG, `customFields: ${util.inspect(customFields)}`)
+                          let customFieldIds = customFields.map((cf) => cf._id)
+                          utility.callApi('custom_field_subscribers/query', 'post', {purpose: 'findAll', match: {subscriberId: {$in: subscriberIds}, customFieldId: {$in: customFieldIds}}}, req.headers.authorization)
+                            .then(customFieldSubscribers => {
+                              logger.serverLog(TAG, `customFieldSubscribers: ${util.inspect(customFieldSubscribers)}`)
+                              let finalPayload = logicLayer.getFinalPayload(subscribersPayload, customFields, customFieldSubscribers)
+                              logger.serverLog(TAG, `subscribersFinalPayload: ${util.inspect(finalPayload)}`)
+                              return res.status(200).json({
+                                status: 'success',
+                                payload: {subscribers: finalPayload, count: count.length > 0 ? count[0].count : 0}
+                              })
+                            })
+                            .catch(error => {
+                              return res.status(500).json({
+                                status: 'failed',
+                                payload: `Failed to fetch custom_Field_subscribers ${JSON.stringify(error)}`
+                              })
+                            })
                         })
                         .catch(error => {
                           return res.status(500).json({
                             status: 'failed',
-                            payload: `Failed to fetch custom_Field_subscribers ${JSON.stringify(error)}`
+                            payload: `Failed to fetch custom_Fields ${JSON.stringify(error)}`
                           })
                         })
                     })
+                    // end append custom Fields
                     .catch(error => {
                       return res.status(500).json({
                         status: 'failed',
-                        payload: `Failed to fetch custom_Fields ${JSON.stringify(error)}`
+                        payload: `Failed to fetch tags subscribers ${JSON.stringify(error)}`
                       })
                     })
                 })
-                // end append custom Fields
                 .catch(error => {
                   return res.status(500).json({
                     status: 'failed',
-                    payload: `Failed to fetch tags subscribers ${JSON.stringify(error)}`
+                    payload: `Failed to fetch tags ${JSON.stringify(error)}`
                   })
                 })
             })
@@ -169,12 +187,10 @@ exports.getAll = function (req, res) {
           })
         })
     })
-    .catch(error => {
-      return res.status(500).json({
-        status: 'failed',
-        payload: `Failed to fetch company user ${JSON.stringify(error)}`
-      })
+    .catch(err => {
+      logger.serverLog(TAG, `Failed to fetch tag  ${JSON.stringify(err)}`)
     })
+
 }
 
 exports.subscribeBack = function (req, res) {
