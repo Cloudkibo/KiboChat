@@ -241,7 +241,7 @@ function prepareLiveChatPayload (message, subscriber, page) {
       recipient_id: page._id,
       sender_fb_id: subscriber.senderId,
       recipient_fb_id: page.pageId,
-      session_id: subscriber._id,
+      subscriber_id: subscriber._id,
       company_id: page.companyId,
       status: 'unseen', // seen or unseen
       payload: message
