@@ -22,7 +22,7 @@ exports.getSessions = (req, status, callback) => {
   let aggregateData = [
     { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
     { $unwind: '$pageId' },
-    { $project: {name: {$concat: ['$firstName', ' ', '$lastName']}, companyId: 1, pageId: 1, isSubscribed: 1, status: 1, last_activity_time: 1, _id: 1, profilePic: 1} },
+    { $project: {name: {$concat: ['$firstName', ' ', '$lastName']}, companyId: 1, pageId: 1, isSubscribed: 1, status: 1, last_activity_time: 1, _id: 1, profilePic: 1, senderId: 1} },
     { $match: {
       'companyId': req.user.companyId,
       'isSubscribed': true,
