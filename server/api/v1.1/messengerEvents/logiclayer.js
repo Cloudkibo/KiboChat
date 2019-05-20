@@ -182,13 +182,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
 
 function prepareMessageData (message) {
   let messageData = {}
-  if (message.text) {
-    messageData = {
-      componentType: 'text',
-      text: message.text
-    }
-    return messageData
-  } else if (message.attachments) {
+  if (message.attachments) {
     if (message.attachments[0].payload.template_type === 'generic' && message.attachments[0].payload.elements.length === 1) {
       messageData = message.attachments[0].payload.elements[0]
       messageData.componentType = 'card'
@@ -208,12 +202,19 @@ function prepareMessageData (message) {
       // need to think how to get url from attachment_id
     } else if (message.attachments[0].payload.template_type === 'button') {
       messageData = message.attachments[0].payload
+      messageData.text = message.text
     } else {
       messageData = {
         fileurl: message.attachments[0].payload,
         componentType: message.attachments[0].type,
         fileName: message.attachments[0].payload.url.split('?')[0].split('/')[message.attachments[0].payload.url.split('?')[0].split('/').length - 1]
       }
+    }
+    return messageData
+  } else if (message.text) {
+    messageData = {
+      componentType: 'text',
+      text: message.text
     }
     return messageData
   }
