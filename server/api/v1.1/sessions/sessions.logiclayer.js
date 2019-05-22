@@ -1,6 +1,6 @@
 const util = require('util')
 
-exports.getCount = (req, status, callback) => {
+exports.getCount = (req, status) => {
   let aggregateData = [
     { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
     { $unwind: '$pageId' },
@@ -18,7 +18,7 @@ exports.getCount = (req, status, callback) => {
   return aggregateData
 }
 
-exports.getSessions = (req, status, callback) => {
+exports.getSessions = (req, status) => {
   let aggregateData = [
     { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
     { $unwind: '$pageId' },
