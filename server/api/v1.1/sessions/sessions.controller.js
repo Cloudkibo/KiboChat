@@ -76,7 +76,7 @@ exports.fetchOpenSessions = function (req, res) {
           callback(null, result)
         })
         .catch(err => {
-          console.log('catch callback', JSON.stringify(err))
+          console.log('catch callback', err)
           callback(err)
         })
     },
