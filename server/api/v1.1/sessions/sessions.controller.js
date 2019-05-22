@@ -59,7 +59,7 @@ exports.index = function (req, res) {
 exports.fetchOpenSessions = function (req, res) {
   async.parallelLimit([
     function (callback) {
-      let data = logicLayer.getCount(req, 'new', callback)
+      let data = logicLayer.getCount(req, 'new')
       callApi('subscribers/aggregate', 'post', data, req.headers.authorization)
         .then(result => {
           callback(null, result)
@@ -69,7 +69,7 @@ exports.fetchOpenSessions = function (req, res) {
         })
     },
     function (callback) {
-      let data = logicLayer.getSessions(req, 'new', callback)
+      let data = logicLayer.getSessions(req, 'new')
       callApi('subscribers/aggregate', 'post', data, req.headers.authorization)
         .then(result => {
           callback(null, result)
@@ -116,7 +116,7 @@ exports.fetchOpenSessions = function (req, res) {
 exports.fetchResolvedSessions = function (req, res) {
   async.parallelLimit([
     function (callback) {
-      let data = logicLayer.getCount(req, 'resolved', callback)
+      let data = logicLayer.getCount(req, 'resolved')
       callApi('subscribers/aggregate', 'post', data, req.headers.authorization)
         .then(result => {
           callback(null, result)
@@ -126,7 +126,7 @@ exports.fetchResolvedSessions = function (req, res) {
         })
     },
     function (callback) {
-      let data = logicLayer.getSessions(req, 'resolved', callback)
+      let data = logicLayer.getSessions(req, 'resolved')
       callApi('subscribers/aggregate', 'post', data, req.headers.authorization)
         .then(result => {
           callback(null, result)
