@@ -72,9 +72,11 @@ exports.fetchOpenSessions = function (req, res) {
       let data = logicLayer.getSessions(req, 'new')
       callApi('subscribers/aggregate', 'post', data, req.headers.authorization)
         .then(result => {
+          console.log('then callback')
           callback(null, result)
         })
         .catch(err => {
+          console.log('catch callback', JSON.stringify(err))
           callback(err)
         })
     },
