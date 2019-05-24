@@ -57,8 +57,8 @@ exports.index = function (req, res) {
 }
 
 exports.search = function (req, res) {
-  let searchData = logicLayer.getQueryData('', 'findAll', { subscriber_id: req.body.subscriber_id, company_id: req.user.companyId, $text: { $search: req.body.text } })
-  callApi(`livechat/query`, 'post', searchData, '', 'kibochat')
+  let searchData = { subscriber_id: req.body.subscriber_id, company_id: req.user.companyId, $text: { $search: req.body.text } }
+  callApi(`livechat/search`, 'post', searchData, '', 'kibochat')
     .then(chats => {
       return res.status(200).json({
         status: 'success',
