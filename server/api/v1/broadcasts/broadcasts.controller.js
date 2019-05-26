@@ -9,7 +9,7 @@ const crypto = require('crypto')
 const utility = require('../utility')
 
 exports.delete = function (req, res) {
-  let dir = path.resolve(__dirname, '../../../broadcastFiles/userfiles')
+  let dir = path.resolve(__dirname, '../../../../broadcastFiles/userfiles')
   // unlink file
   fs.unlink(dir + '/' + req.params.id, function (err) {
     if (err) {
