@@ -192,6 +192,7 @@ exports.create = function (req, res) {
                 subscriber.pageId.accessToken
             },
             (err, res) => {
+              console.log(`response from send api ${JSON.stringify(res.body)}`)
               if (err) {
                 callback(err)
               } else if (res.statusCode !== 200) {
@@ -212,6 +213,7 @@ exports.create = function (req, res) {
       let fbMessageObject = results[0]
       let subscriber = results[3]
       let botId = ''
+      console.log('done with first parallelLimit ')
       async.parallelLimit([
         // Update Bot Block list
         function (callback) {
