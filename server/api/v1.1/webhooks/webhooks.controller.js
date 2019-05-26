@@ -45,7 +45,6 @@ exports.create = function (req, res) {
             var url = req.body.webhook_url + '?token=' + req.body.token
             needle.get(url, (err, r) => {
               if (err) {
-                console.log('error', err)
                 return res.status(404).json({status: 'failed', description: 'This URL contains an invalid domain or the server at the given URL is not live.'})
               } else {
                 if (r.statusCode === 200) {

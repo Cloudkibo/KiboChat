@@ -45,17 +45,13 @@ exports.updateSubscriptionPermission = function (req, res) {
                       `Page access token from graph api error ${JSON.stringify(
                         err)}`)
                   }
-                  console.log('response from subscription_messaging', respp.body)
                   if (respp && respp.body && respp.body.data && respp.body.data.length > 0) {
                     for (let a = 0; a < respp.body.data.length; a++) {
                       if (respp.body.data[a].feature === 'subscription_messaging' && respp.body.data[a].status === 'approved') {
-                        console.log('inside if')
                         callApi(`pages/${page._id}`, 'put', {gotPageSubscriptionPermission: true}, req.headers.authorization) // disconnect page
                           .then(updated => {
-                            console.log('updated', updated)
                           })
                           .catch(err => {
-                            console.log('failed to update page', err)
                           })
                       }
                     }
@@ -108,7 +104,6 @@ exports.sentVsSeen = function (req, res) {
                     count: responded + notResponded,
                     responded
                   }
-                  console.log(`datacounts ${util.inspect(datacounts)}`)
                   res.status(200).json({
                     status: 'success',
                     payload: datacounts
@@ -146,7 +141,6 @@ exports.sentVsSeen = function (req, res) {
 }
 
 exports.sentVsSeenNew = function (req, res) {
-  console.log('in sentVsSeenNew')
   let datacounts = {}
   callApi('companyUser/query', 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
     .then(companyUser => {
@@ -188,13 +182,9 @@ exports.sentVsSeenNew = function (req, res) {
                 callApi('smart_replies/query', 'post', {purpose: 'findAll', match: matchAggregateForBots}, '', 'kibochat')
                   .then(bots => {
                     const hitCountArray = bots.map(bot => bot.hitCount)
-                    console.log('hitCountArray', hitCountArray)
                     const missCountArray = bots.map(bot => bot.missCount)
-                    console.log('missCountArray', missCountArray)
                     const responded = hitCountArray.reduce((a, b) => a + b, 0)
-                    console.log('responded', responded)
                     const notResponded = missCountArray.reduce((a, b) => a + b, 0)
-                    console.log('notResponded', notResponded)
                     datacounts.bots = {
                       count: responded + notResponded,
                       responded
@@ -259,7 +249,6 @@ exports.sentVsSeenNew = function (req, res) {
                   (new Date().getTime()))
               }
             }
-            console.log('matchAggregateForBots', matchAggregateForBots)
             callApi('sessions/query', 'post', {purpose: 'findAll', match: matchAggregate}, '', 'kibochat')
               .then(sessions => {
                 const resolvedSessions = sessions.filter(session => session.status === 'resolved')
@@ -270,13 +259,9 @@ exports.sentVsSeenNew = function (req, res) {
                 callApi('smart_replies/query', 'post', {purpose: 'findAll', match: matchAggregateForBots}, '', 'kibochat')
                   .then(bots => {
                     const hitCountArray = bots.map(bot => bot.hitCount)
-                    console.log('hitCountArray', hitCountArray)
                     const missCountArray = bots.map(bot => bot.missCount)
-                    console.log('missCountArray', missCountArray)
                     const responded = hitCountArray.reduce((a, b) => a + b, 0)
-                    console.log('responded', responded)
                     const notResponded = missCountArray.reduce((a, b) => a + b, 0)
-                    console.log('notResponded', notResponded)
                     datacounts.bots = {
                       count: responded + notResponded,
                       responded
@@ -363,7 +348,6 @@ exports.sentVsSeen = function (req, res) {
                     count: responded + notResponded,
                     responded
                   }
-                  console.log(`datacounts ${util.inspect(datacounts)}`)
                   res.status(200).json({
                     status: 'success',
                     payload: datacounts
@@ -429,7 +413,6 @@ exports.stats = function (req, res) {
                     logger.serverLog(TAG, `subscribers retrieved: ${subscribers}`)
                     payload.subscribers = subscribers.length
                     const pagesArray = pages.map(page => page.pageId).map(String)
-                    console.log('pagesArray', pagesArray)
                     callApi('livechat/query', 'post', {purpose: 'findAll', match: {company_id: companyUser.companyId, status: 'unseen', format: 'facebook', recipient_fb_id: {$in: pagesArray}}}, '', 'kibochat')
                       .then(messages => {
                         payload.unreadCount = messages && messages.length > 0 ? messages.length : 0
@@ -564,10 +547,8 @@ function graphDataNew (body, companyUser, pagesArray) {
       _id: {'year': {$year: '$request_time'}, 'month': {$month: '$request_time'}, 'day': {$dayOfMonth: '$request_time'}, 'company': '$company_id'},
       count: {$sum: 1}
     }
-    console.log('match: ', util.inspect(match))
     callApi('sessions/query', 'post', {purpose: 'aggregate', match, group}, '', 'kibochat')
       .then(sessionsgraphdata => {
-        console.log('sessionsgraphdata: ', util.inspect(sessionsgraphdata))
         resolve({ sessionsgraphdata: sessionsgraphdata })
       })
       .catch(err => {
@@ -604,10 +585,8 @@ exports.graphData = function (req, res) {
         _id: {'year': {$year: '$request_time'}, 'month': {$month: '$request_time'}, 'day': {$dayOfMonth: '$request_time'}, 'company': '$company_id'},
         count: {$sum: 1}
       }
-      console.log('match: ', util.inspect(match))
       callApi('sessions/query', 'post', {purpose: 'aggregate', match, group}, '', 'kibochat')
         .then(sessionsgraphdata => {
-          console.log('sessionsgraphdata: ', util.inspect(sessionsgraphdata))
           return res.status(200)
             .json({status: 'success', payload: {sessionsgraphdata}})
         })
@@ -649,15 +628,11 @@ exports.subscriberSummary = function (req, res) {
       }
       callApi(`pages/query`, 'post', {connected: true, companyId: companyUser.companyId}, req.headers.authorization) // fetch connected pages
         .then(pages => {
-          console.log('pages.length', pages.length)
           populateIds(pages).then(result => {
-            console.log('populateids', result.pageIds)
             callApi('subscribers/aggregate', 'post', LogicLayer.queryForSubscribers(req.body, companyUser, true, result.pageIds), req.headers.authorization)
               .then(subscribers => {
-                console.log('subscribers.length', subscribers.length)
                 callApi('subscribers/aggregate', 'post', LogicLayer.queryForSubscribers(req.body, companyUser, false, result.pageIds), req.headers.authorization)
                   .then(unsubscribes => {
-                    console.log('unsubscribes.length', unsubscribes.length)
                     callApi('subscribers/aggregate', 'post', LogicLayer.queryForSubscribersGraph(req.body, companyUser, true, result.pageIds), req.headers.authorization)
                       .then(graphdata => {
                         let data = {

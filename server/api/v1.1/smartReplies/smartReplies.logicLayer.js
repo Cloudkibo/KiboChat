@@ -177,7 +177,6 @@ exports.talkToHumanPaylod = (botId, data, postbackPayload) => {
       }
     ]
   }
-  console.log('botid in logiclayer', botId)
   let payload = {
     messaging_type: 'UPDATE',
     recipient: JSON.stringify({id: data.senderId}), // this is the subscriber id

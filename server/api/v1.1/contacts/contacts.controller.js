@@ -46,11 +46,8 @@ exports.uploadFile = function (req, res) {
   let directory = phoneNumberLogicLayer.directory(req)
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
-      console.log('companyuser feched', companyUser)
       fs.rename(req.files.file.path, path.join(directory.dir, '/userfiles/', directory.serverPath), err => {
-        console.log('req.files.file.path', req.files.file.path)
         if (err) {
-          console.log('error', err)
           return res.status(500).json({
             status: 'failed',
             description: 'internal server error' + JSON.stringify(err)

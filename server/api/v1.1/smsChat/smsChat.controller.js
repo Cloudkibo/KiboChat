@@ -38,7 +38,6 @@ exports.index = function (req, res) {
       if (err) {
         return res.status(500).json({status: 'failed', payload: err})
       } else {
-        console.log('results from index', results)
         let chatCount = results[0]
         let fbchats = results[1].reverse()
         fbchats = logicLayer.setChatProperties(fbchats)
@@ -159,7 +158,6 @@ exports.fetchSessions = function (req, res) {
     if (err) {
       return res.status(500).json({status: 'failed', payload: err})
     } else {
-      console.log('responses', results)
       let countResopnse = results[0]
       let sessionsResponse = results[1]
       let chatCountResponse = results[2]
@@ -177,7 +175,6 @@ exports.markread = function (req, res) {
         markreadLocal(req, callback)
       }
     ], 10, function (err, results) {
-      console.log('results from marked', results)
       if (err) {
         return res.status(500).json({status: 'failed', payload: err})
       } else {

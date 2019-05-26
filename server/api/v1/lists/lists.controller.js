@@ -170,10 +170,8 @@ exports.viewList = function (req, res) {
               .then(number => {
                 if (number.length > 0) {
                   let criterias = logicLayer.getSubscriberCriteria(number, companyUser)
-                  console.log('Criterias', criterias)
                   utility.callApi(`subscribers/query`, 'post', criterias, req.headers.authorization)
                     .then(subscribers => {
-                      console.log('Subscribers', subscribers)
                       let content = logicLayer.getContent(subscribers)
                       utility.callApi(`lists/${req.params.id}`, 'put', {
                         content: content

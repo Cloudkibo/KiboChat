@@ -5,7 +5,6 @@ const logicLayer = require('./logiclayer')
 const request = require('request')
 
 exports.index = function (req, res) {
-  console.log('in menu controller')
   res.status(200).json({
     status: 'success',
     description: `received the payload`
@@ -19,7 +18,6 @@ exports.index = function (req, res) {
       callApi(`subscribers/query`, 'post', { pageId: page._id, companyId: page.companyId, senderId: sender })
         .then(subscriber => {
           subscriber = subscriber[0]
-          console.log('subscriber fetched', subscriber)
           logger.serverLog(TAG, `subscriber fetched ${JSON.stringify(subscriber)}`)
           if (subscriber) {
             sendMenuReplyToSubscriber(replyPayload, subscriber.senderId, subscriber.firstName, subscriber.lastName, subscriber.pageId.accessToken)
@@ -35,13 +33,10 @@ exports.index = function (req, res) {
 }
 
 function sendMenuReplyToSubscriber (replyPayload, senderId, firstName, lastName, accessToken) {
-  console.log('replyPayload', replyPayload)
   for (let i = 0; i < replyPayload.length; i++) {
-    console.log('function returning', logicLayer.prepareSendAPIPayload(senderId, replyPayload[i], firstName, lastName, true))
     // let messageData = logicLayer.prepareSendAPIPayload(senderId, replyPayload[i], firstName, lastName, true)
     // logger.serverLog(TAG, `messageData ${JSON.stringify(messageData)}`)
     // console.log('messageData in sendMenuReplyToSubscriber', messageData)
-    console.log('accessToken in sendMenuReplyToSubscriber', accessToken)
     request(
       {
         'method': 'POST',
@@ -50,9 +45,7 @@ function sendMenuReplyToSubscriber (replyPayload, senderId, firstName, lastName,
         'uri': 'https://graph.facebook.com/v2.6/me/messages?access_token=' + accessToken
       },
       (err, res) => {
-        console.log(`At sendMenuReplyToSubscriber response ${JSON.stringify(res)}`)
         if (err) {
-          console.log('error', err)
         } else {
           if (res.statusCode !== 200) {
             logger.serverLog(TAG,
@@ -60,7 +53,6 @@ function sendMenuReplyToSubscriber (replyPayload, senderId, firstName, lastName,
                 res.body.error)}`)
           }
           logger.serverLog(TAG, `At sendMenuReplyToSubscriber response ${JSON.stringify(res.body)}`)
-          console.log(`At sendMenuReplyToSubscriber response ${JSON.stringify(res.body)}`)
         }
       })
   }

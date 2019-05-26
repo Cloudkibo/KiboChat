@@ -194,7 +194,6 @@ exports.unAnsweredQueries = function (req, res) {
 }
 
 exports.waitSubscribers = function (req, res) {
-  console.log('waitSubscribers body', req.body.botId)
   WaitingSubscribers.findAllWaitingSubscriberObjectsUsingQuery({botId: req.body.botId})
     .then(subscribers => {
       logger.serverLog(TAG, `waitSubscribers fetched ${JSON.stringify(subscribers)}`)
@@ -282,7 +281,6 @@ exports.delete = function (req, res) {
 }
 
 function sendMessenger (message, pageId, senderId, postbackPayload, botId) {
-  console.log('in send messenger')
   logger.serverLog(TAG, `sendMessenger message is ${JSON.stringify(message)}`)
   utility.callApi(`pages/query`, 'post', {pageId: pageId, connected: true})
     .then(page => {
@@ -318,14 +316,11 @@ function sendMessenger (message, pageId, senderId, postbackPayload, botId) {
                     }
                     logger.serverLog(TAG, `Response sent to Messenger: ${JSON.stringify(messageData)}`)
                     let talkToHumanPaylod = logicLayer.talkToHumanPaylod(botId, message, postbackPayload)
-                    console.log('talkToHumanPaylod', talkToHumanPaylod)
-                    console.log('botid in controller', botId)
                     needle.post(
                       `https://graph.facebook.com/v2.6/me/messages?access_token=${page.accessToken}`, talkToHumanPaylod, (err, resp) => {
                         if (err) {
                           logger.serverLog(TAG, err)
                         }
-                        console.log('resp.body', resp.body)
                       })
                   }
                 })

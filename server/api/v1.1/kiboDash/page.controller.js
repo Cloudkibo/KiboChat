@@ -82,7 +82,6 @@ exports.onePageRanged = (req, res) => {
 exports.topPages = (req, res) => {
   callApi(`PagewiseData/topPages`, 'post', {limit: req.body.limit}, req.headers.authorization, 'kibodash')
     .then((result) => {
-      console.log('result', result)
       let pageIds = utility.getPageIdsFromTopPagesPayload(result)
       if (pageIds) {
         callApi(`pages/query`, 'post', {pageId: {$in: pageIds}}, req.headers.authorization)

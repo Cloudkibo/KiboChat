@@ -42,9 +42,7 @@ exports.index = function (req, res) {
     })
 }
 function saveLiveChat (page, subscriber, event) {
-  console.log('in saveLiveChat', JSON.stringify(event))
   let chatPayload = logicLayer.prepareLiveChatPayload(event.message, subscriber, page)
-  console.log('chatPayload', JSON.stringify(chatPayload))
   if (subscriber && !event.message.is_echo) {
     BotsDataLayer.findOneBotObjectUsingQuery({ pageId: subscriber.pageId._id.toString() })
       .then(bot => {
@@ -58,7 +56,6 @@ function saveLiveChat (page, subscriber, event) {
         logger.serverLog(TAG, `Failed to fetch bot ${JSON.stringify(error)}`)
       })
   }
-  console.log('before webhook')
   utility.callApi(`webhooks/query`, 'post', {pageId: page.pageId})
     .then(webhooks => {
       let webhook = webhooks[0]
@@ -95,9 +92,7 @@ function saveLiveChat (page, subscriber, event) {
     .catch(error => {
       logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(error)}`)
     })
-    console.log('before if condition')
   if ((event.message && !event.message.is_echo) || (event.message && event.message.is_echo && event.message.metadata !== 'SENT_FROM_KIBOPUSH')) {
-    console.log('inside if condition')
     let urlInText = parseUrl(event.message.text)
     if (urlInText !== null && urlInText !== '') {
       og(urlInText, function (err, meta) {
@@ -111,7 +106,6 @@ function saveLiveChat (page, subscriber, event) {
   }
 }
 function saveChatInDb (page, chatPayload, subscriber, event) {
-  console.log('in saveChatInDb')
   if (Object.keys(chatPayload.payload).length > 0 && chatPayload.payload.constructor === Object) {
     LiveChatDataLayer.createFbMessageObject(chatPayload)
       .then(chat => {

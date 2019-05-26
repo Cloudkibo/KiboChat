@@ -8,15 +8,12 @@ exports.index = function (req, res) {
     status: 'success',
     description: `received the payload`
   })
-  console.log('req.body', req.body)
   callApi(`companyprofile/query`, 'post', {'twilio.accountSID': req.body.AccountSid})
     .then(company => {
-      console.log('company found', company)
       callApi(`user/query`, 'post', {_id: company.ownerId})
         .then(user => {
           callApi(`contacts/query`, 'post', {number: req.body.From, companyId: company._id})
             .then(contact => {
-              console.log('contacts found', contact)
               contact = contact[0]
               if (contact.isSubscribed || req.body.Body.toLowerCase() === 'start') {
                 let MessageObject = {
@@ -83,7 +80,6 @@ function handleUnsub (user, company, contact, body) {
       to: contact.number
     })
     .then(response => {
-      console.log('response from smstwiliomsg', response)
       logger.serverLog(TAG, `response from twilio ${JSON.stringify(response)}`)
     })
     .catch(error => {
@@ -128,7 +124,6 @@ function handleSub (user, company, contact, body) {
       to: contact.number
     })
     .then(response => {
-      console.log('response from smstwiliomsg', response)
       logger.serverLog(TAG, `response from twilio ${JSON.stringify(response)}`)
     })
     .catch(error => {
