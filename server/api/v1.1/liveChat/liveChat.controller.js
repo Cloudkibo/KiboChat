@@ -139,6 +139,8 @@ exports.create = function (req, res) {
               .catch(err => {
                 callback(err)
               })
+          } else {
+            callback(null, webhook)
           }
         })
         .catch(err => {
