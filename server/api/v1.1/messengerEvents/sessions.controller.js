@@ -10,9 +10,9 @@ const logicLayer = require('./logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
 
 exports.index = function (req, res) {
-  logger.serverLog(TAG, `payload received in page ${JSON.stringify(req.body.page)}`)
-  logger.serverLog(TAG, `payload received in subscriber ${JSON.stringify(req.body.subscriber)}`)
-  logger.serverLog(TAG, `payload received in event ${JSON.stringify(req.body.event)}`)
+  logger.serverLog(TAG, `payload received in page ${JSON.stringify(req.body.page)}`, 'debug')
+  logger.serverLog(TAG, `payload received in subscriber ${JSON.stringify(req.body.subscriber)}`, 'debug')
+  logger.serverLog(TAG, `payload received in event ${JSON.stringify(req.body.event)}`, 'debug')
   res.status(200).json({
     status: 'success',
     description: `received the payload`
@@ -29,16 +29,16 @@ exports.index = function (req, res) {
         }
         utility.callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: updatePayload, options: {}})
           .then(updated => {
-            logger.serverLog(TAG, `subscriber updated successfully`)
+            logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
             saveLiveChat(page, subscriber, event)
           })
           .catch(error => {
-            logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`)
+            logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
           })
       }
     })
     .catch(error => {
-      logger.serverLog(TAG, `Failed to fetch company profile ${JSON.stringify(error)}`)
+      logger.serverLog(TAG, `Failed to fetch company profile ${JSON.stringify(error)}`, 'error')
     })
 }
 function saveLiveChat (page, subscriber, event) {
@@ -53,18 +53,18 @@ function saveLiveChat (page, subscriber, event) {
         }
       })
       .catch(error => {
-        logger.serverLog(TAG, `Failed to fetch bot ${JSON.stringify(error)}`)
+        logger.serverLog(TAG, `Failed to fetch bot ${JSON.stringify(error)}`, 'error')
       })
   }
   utility.callApi(`webhooks/query`, 'post', {pageId: page.pageId})
     .then(webhooks => {
       let webhook = webhooks[0]
       if (webhooks.length > 0 && webhook.isEnabled) {
-        logger.serverLog(TAG, `webhook in live chat ${webhook}`)
+        logger.serverLog(TAG, `webhook in live chat ${webhook}`, 'error')
         needle.get(webhook.webhook_url, (err, r) => {
           if (err) {
-            logger.serverLog(TAG, err)
-            logger.serverLog(TAG, `response ${r.statusCode}`)
+            logger.serverLog(TAG, err, 'error')
+            logger.serverLog(TAG, `response ${r.statusCode}`, 'error')
           } else if (r.statusCode === 200) {
             if (webhook.optIn.LIVE_CHAT_ACTIONS) {
               var data = {
@@ -80,7 +80,7 @@ function saveLiveChat (page, subscriber, event) {
               }
               needle.post(webhook.webhook_url, data,
                 (error, response) => {
-                  if (error) logger.serverLog(TAG, err)
+                  if (error) logger.serverLog(TAG, err, 'error')
                 })
             }
           } else {
@@ -90,13 +90,13 @@ function saveLiveChat (page, subscriber, event) {
       }
     })
     .catch(error => {
-      logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(error)}`)
+      logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(error)}`, 'error')
     })
   if ((event.message && !event.message.is_echo) || (event.message && event.message.is_echo && event.message.metadata !== 'SENT_FROM_KIBOPUSH')) {
     let urlInText = parseUrl(event.message.text)
     if (urlInText !== null && urlInText !== '') {
       og(urlInText, function (err, meta) {
-        if (err) return logger.serverLog(TAG, err)
+        if (err) return logger.serverLog(TAG, err, 'error')
         chatPayload.url_meta = meta
         saveChatInDb(page, chatPayload, subscriber, event)
       })
@@ -126,7 +126,7 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
         sendautomatedmsg(event, page)
       })
       .catch(error => {
-        logger.serverLog(TAG, `Failed to create live chate ${JSON.stringify(error)}`)
+        logger.serverLog(TAG, `Failed to create live chate ${JSON.stringify(error)}`, 'error')
       })
   }
 }
@@ -149,7 +149,7 @@ function sendautomatedmsg (req, page) {
       (err3, response) => {
         if (err3) {
           logger.serverLog(TAG,
-            `Page token error from graph api ${JSON.stringify(err3)}`)
+            `Page token error from graph api ${JSON.stringify(err3)}`, 'error')
         }
         let messageData = {}
         const Yes = 'yes'
@@ -198,7 +198,7 @@ function sendautomatedmsg (req, page) {
                   .then(updated => {
                   })
                   .catch(error => {
-                    logger.serverLog(TAG, `Failed to update subscriber ${JSON.stringify(error)}`)
+                    logger.serverLog(TAG, `Failed to update subscriber ${JSON.stringify(error)}`, 'error')
                   })
                 const data = {
                   messaging_type: 'RESPONSE',
@@ -212,7 +212,7 @@ function sendautomatedmsg (req, page) {
               }
             })
             .catch(error => {
-              logger.serverLog(TAG, `Failed to fetch subscribers ${JSON.stringify(error)}`)
+              logger.serverLog(TAG, `Failed to fetch subscribers ${JSON.stringify(error)}`, 'error')
             })
         }
 
@@ -245,10 +245,10 @@ function sendautomatedmsg (req, page) {
                       .then(webhookss => {
                         let webhooks = webhookss[0]
                         if (webhookss.length > 0 && webhooks.isEnabled) {
-                          logger.serverLog(TAG, `webhook in live chat ${webhooks}`)
+                          logger.serverLog(TAG, `webhook in live chat ${webhooks}`, 'debug')
                           needle.get(webhooks.webhook_url, (err, r) => {
                             if (err) {
-                              logger.serverLog(TAG, err)
+                              logger.serverLog(TAG, err, 'debug')
                             } else if (r.statusCode === 200) {
                               if (webhooks.optIn.LIVE_CHAT_ACTIONS) {
                                 var data = {
@@ -266,7 +266,7 @@ function sendautomatedmsg (req, page) {
                                 }
                                 needle.post(webhooks[0].webhook_url, data,
                                   (error, response) => {
-                                    if (error) logger.serverLog(TAG, err)
+                                    if (error) logger.serverLog(TAG, err, 'debug')
                                   })
                               }
                             } else {
@@ -278,21 +278,21 @@ function sendautomatedmsg (req, page) {
                         }
                       })
                       .catch(error => {
-                        logger.serverLog(TAG, `Failed to fetch webhook ${JSON.stringify(error)}`)
+                        logger.serverLog(TAG, `Failed to fetch webhook ${JSON.stringify(error)}`, 'debug')
                       })
                     LiveChatDataLayer.createFbMessageObject(chatMessage)
                       .then(chatMessageSaved => {
                         utility.callApi('subscribers/update', 'put', {query: {_id: subscribers[0]._id}, newPayload: {last_activity_time: Date.now()}, options: {}})
                           .then(updated => {
-                            logger.serverLog(TAG, `subscriber updated successfully`)
+                            logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
                           })
                           .catch(error => {
-                            logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`)
+                            logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
                           })
                       })
                   })
                   .catch(error => {
-                    logger.serverLog(TAG, `Failed to fetch subscribers ${JSON.stringify(error)}`)
+                    logger.serverLog(TAG, `Failed to fetch subscribers ${JSON.stringify(error)}`, 'error')
                   })
               }
             })

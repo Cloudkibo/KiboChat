@@ -22,7 +22,7 @@ function isAuthenticated () {
   // Validate jwt or api keys
     .use((req, res, next) => {
       if (req.headers.hasOwnProperty('is_kibo_product')) {
-        logger.serverLog(TAG, `going to validate ip`)
+        logger.serverLog(TAG, `going to validate ip`, 'debug')
         isAuthorizedWebHookTrigger(req, res, next)
       } else {
         // allow access_token to be passed through query parameter as well
@@ -224,18 +224,18 @@ function fbConnectDone (req, res) {
   let fbPayload = req.user
   let userid = req.cookies.userid
   if (!req.user) {
-    logger.serverLog(TAG, '404: Something went wrong, please try again')
+    logger.serverLog(TAG, '404: Something went wrong, please try again', 'error')
     res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
   }
   if (req.user.role !== 'buyer') {
-    logger.serverLog(TAG, `User is an ${req.user.role}. Only buyers can connect their Facebook account`)
+    logger.serverLog(TAG, `User is an ${req.user.role}. Only buyers can connect their Facebook account`, 'error')
     res.render('error', {status: 'failed', description: `User is an ${req.user.role}. Only buyers can connect their Facebook account`})
   }
   let token = `Bearer ${req.cookies.token}`
   apiCaller.callApi('user', 'get', {}, token)
     .then(user => {
       if (user.facebookInfo && user.facebookInfo.fbId.toString() !== fbPayload.fbId.toString()) {
-        logger.serverLog(TAG, '403: Different Facebook Account Detected')
+        logger.serverLog(TAG, '403: Different Facebook Account Detected', 'error')
         res.render('error', {status: 'failed', description: 'Different Facebook Account Detected. Please use the same account that you connected before.'})
       } else {
         apiCaller.callApi(`user/update`, 'post', {query: {_id: userid}, newPayload: {facebookInfo: fbPayload, connectFacebook: true, showIntegrations: false, platform: 'messenger'}, options: {}}, token)
@@ -243,7 +243,7 @@ function fbConnectDone (req, res) {
             apiCaller.callApi(`user/query`, 'post', {_id: userid}, token)
               .then(user => {
                 if (!user) {
-                  logger.serverLog(TAG, '401: Unauthorized')
+                  logger.serverLog(TAG, '401: Unauthorized', 'error')
                   res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
                 }
                 req.user = user[0]
@@ -254,7 +254,7 @@ function fbConnectDone (req, res) {
                       logger.serverLog(TAG, `response for permissionsRevoked ${util.inspect(resp)}`)
                     })
                     .catch(err => {
-                      logger.serverLog(TAG, `500: Internal server error ${err}`)
+                      logger.serverLog(TAG, `500: Internal server error ${err}`, 'error')
                       res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
                     })
                 }
@@ -265,18 +265,18 @@ function fbConnectDone (req, res) {
                 res.redirect('/')
               })
               .catch(err => {
-                logger.serverLog(TAG, `500: Internal server error ${err}`)
+                logger.serverLog(TAG, `500: Internal server error ${err}`, 'error')
                 res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
               })
           })
           .catch(err => {
-            logger.serverLog(TAG, `500: Internal server error ${err}`)
+            logger.serverLog(TAG, `500: Internal server error ${err}`, 'error')
             res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
           })
       }
     })
     .catch(err => {
-      logger.serverLog(TAG, `500: Internal server error ${err}`)
+      logger.serverLog(TAG, `500: Internal server error ${err}`, 'error')
       res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
     })
 }
@@ -285,10 +285,10 @@ function fbConnectDone (req, res) {
 function isAuthorizedWebHookTrigger (req, res, next) {
   const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
     req.socket.remoteAddress || req.connection.socket.remoteAddress
-  logger.serverLog(TAG, req.ip)
-  logger.serverLog(TAG, ip)
-  logger.serverLog(TAG, 'This is middleware')
-  logger.serverLog(TAG, req.body)
+  logger.serverLog(TAG, req.ip, 'debug')
+  logger.serverLog(TAG, ip, 'debug')
+  logger.serverLog(TAG, 'This is middleware', 'debug')
+  logger.serverLog(TAG, req.body, 'debug')
   // We need to change it to based on the requestee app
   if (config.allowedIps.indexOf(ip) > -1) next()
   else res.send(403)
@@ -298,11 +298,11 @@ function isItWebhookServer () {
   return compose().use((req, res, next) => {
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
       req.socket.remoteAddress || req.connection.socket.remoteAddress
-    logger.serverLog(TAG, req.ip)
-    logger.serverLog(TAG, `ip from headers: ${ip}`)
-    logger.serverLog(TAG, 'This is middleware')
-    logger.serverLog(TAG, req.body)
-    logger.serverLog(TAG, `config.webhook_ip ${config.webhook_ip}`)
+    logger.serverLog(TAG, req.ip, 'debug')
+    logger.serverLog(TAG, `ip from headers: ${ip}`, 'debug')
+    logger.serverLog(TAG, 'This is middleware', 'debug')
+    logger.serverLog(TAG, req.body, 'debug')
+    logger.serverLog(TAG, `config.webhook_ip ${config.webhook_ip}`, 'debug')
     if (ip === '::ffff:' + config.webhook_ip) next()
     else res.send(403)
   })
@@ -337,8 +337,8 @@ function fetchPages (url, user, req, token) {
   }
   needle.get(url, options, (err, resp) => {
     if (err !== null) {
-      logger.serverLog(TAG, 'error from graph api to get pages list data: ')
-      logger.serverLog(TAG, JSON.stringify(err))
+      logger.serverLog(TAG, 'error from graph api to get pages list data: ', 'error')
+      logger.serverLog(TAG, JSON.stringify(err), 'error')
       return
     }
     // logger.serverLog(TAG, 'resp from graph api to get pages list data: ')
@@ -391,11 +391,11 @@ function fetchPages (url, user, req, token) {
                       apiCaller.callApi(`pages`, 'post', payloadPage, token)
                         .then(page => {
                           logger.serverLog(TAG,
-                            `Page ${item.name} created with id ${page.pageId}`)
+                            `Page ${item.name} created with id ${page.pageId}`, 'debug')
                         })
                         .catch(err => {
                           logger.serverLog(TAG,
-                            `failed to create page ${JSON.stringify(err)}`)
+                            `failed to create page ${JSON.stringify(err)}`, 'error')
                         })
                     } else {
                       let updatedPayload = {
@@ -415,14 +415,14 @@ function fetchPages (url, user, req, token) {
                         })
                         .catch(err => {
                           logger.serverLog(TAG,
-                            `failed to update page ${JSON.stringify(err)}`)
+                            `failed to update page ${JSON.stringify(err)}`, 'error')
                         })
                     }
                   })
               })
               .catch(err => {
                 logger.serverLog(TAG,
-                  `Internal Server Error ${JSON.stringify(err)}`)
+                  `Internal Server Error ${JSON.stringify(err)}`, 'error')
               })
           }
         })
@@ -442,10 +442,10 @@ function fetchPages (url, user, req, token) {
 function isAuthorizedKiboAPITrigger (req) {
   const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
     req.socket.remoteAddress || req.connection.socket.remoteAddress
-  logger.serverLog(TAG, req.ip)
-  logger.serverLog(TAG, ip)
-  logger.serverLog(TAG, 'This call is from KIBOAPI')
-  logger.serverLog(TAG, req.body)
+  logger.serverLog(TAG, req.ip, 'debug')
+  logger.serverLog(TAG, ip, 'debug')
+  logger.serverLog(TAG, 'This call is from KIBOAPI', 'debug')
+  logger.serverLog(TAG, req.body, 'debug')
   // We need to change it to based on the requestee app
   if (config.kiboAPIIP.indexOf(ip) > -1) return true
   else return false

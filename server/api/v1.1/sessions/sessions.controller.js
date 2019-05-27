@@ -214,10 +214,10 @@ function markreadFacebook (req, callback) {
     })
     .then(resp => {
       if (resp.error) {
-        logger.serverLog(TAG, `marked read on Facebook error ${JSON.stringify(resp.error)}`)
+        logger.serverLog(TAG, `marked read on Facebook error ${JSON.stringify(resp.error)}`, 'error')
         callback(resp.error)
       } else {
-        logger.serverLog(TAG, `marked read on Facebook response ${JSON.stringify(resp.body)}`)
+        logger.serverLog(TAG, `marked read on Facebook response ${JSON.stringify(resp.body)}`, 'error')
         callback(null, resp.body)
       }
     })

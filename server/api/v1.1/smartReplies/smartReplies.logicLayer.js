@@ -16,9 +16,9 @@ const downloadVideo = (data) => {
     let stream
 
     video.on('info', (info) => {
-      logger.serverLog(TAG, 'Download started')
-      logger.serverLog(TAG, 'filename: ' + info.filename)
-      logger.serverLog(TAG, 'size: ' + info.size)
+      logger.serverLog(TAG, 'Download started', 'debug')
+      logger.serverLog(TAG, 'filename: ' + info.filename, 'debug')
+      logger.serverLog(TAG, 'size: ' + info.size, 'debug')
       let size = info.size
       if (size < 25000000) {
         stream = video.pipe(fs.createWriteStream(`${dir}/bot-video.mp4`))
@@ -42,7 +42,7 @@ const uploadVideo = (data) => {
       `https://graph.facebook.com/v2.10/${data.pageId}?fields=access_token&access_token=${data.userAccessToken}`,
       (err, resp2) => {
         if (err) {
-          logger.serverLog(TAG, `Failed to get page access_token ${JSON.stringify(err)}`)
+          logger.serverLog(TAG, `Failed to get page access_token ${JSON.stringify(err)}`, 'error')
           reject(util.inspect(err))
         }
         let pageAccessToken = resp2.body.access_token
@@ -67,7 +67,7 @@ const uploadVideo = (data) => {
           },
           function (err, resp) {
             if (err) {
-              logger.serverLog(TAG, `Failed to upload attachment on Facebook ${JSON.stringify(err)}`)
+              logger.serverLog(TAG, `Failed to upload attachment on Facebook ${JSON.stringify(err)}`, 'error')
               reject(util.inspect(err))
             } else {
               logger.serverLog(TAG, `video uploaded on Facebook ${JSON.stringify(resp.body)}`)
@@ -112,7 +112,7 @@ exports.getMessageData = (data) => {
   return new Promise((resolve, reject) => {
     let messageData = {}
     if (data.attachment_id) {
-      logger.serverLog(TAG, `video message`)
+      logger.serverLog(TAG, `video message`, 'debug')
       messageData = {
         'recipient': JSON.stringify({
           'id': data.senderId
@@ -128,7 +128,7 @@ exports.getMessageData = (data) => {
       }
       resolve(messageData)
     } else if (data.videoLink) {
-      logger.serverLog(TAG, `template message`)
+      logger.serverLog(TAG, `template message`, 'debug')
       messageData = {
         'recipient': JSON.stringify({
           'id': data.senderId
@@ -149,7 +149,7 @@ exports.getMessageData = (data) => {
       }
       resolve(messageData)
     } else {
-      logger.serverLog(TAG, `text message`)
+      logger.serverLog(TAG, `text message`, 'debug')
       messageData = {
         'messaging_type': 'RESPONSE',
         'recipient': JSON.stringify({
@@ -187,7 +187,7 @@ exports.talkToHumanPaylod = (botId, data, postbackPayload) => {
 }
 
 exports.updatePayloadForVideo = (botId, payload, authToken) => {
-  logger.serverLog(TAG, `payload receieved ${JSON.stringify(payload)}`)
+  logger.serverLog(TAG, `payload receieved ${JSON.stringify(payload)}`, 'debug')
   return new Promise((resolve, reject) => {
     /* eslint-disable no-useless-escape */
     let videoRegex = new RegExp(`^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$`, 'g')
@@ -195,10 +195,10 @@ exports.updatePayloadForVideo = (botId, payload, authToken) => {
     /* eslint-enable no-useless-escape */
     for (let i = 0; i < payload.length; i++) {
       if (videoRegex.test(payload[i].answer)) {
-        logger.serverLog(TAG, `answer is url`)
+        logger.serverLog(TAG, `answer is url`, 'debug')
         // Check if youtube url
         if (YouTubeRegex.test(payload[i].answer)) {
-          logger.serverLog(TAG, `answer is YouTube video`)
+          logger.serverLog(TAG, `answer is YouTube video`, 'debug')
           let data = {
             url: payload[i].answer
           }
@@ -206,13 +206,13 @@ exports.updatePayloadForVideo = (botId, payload, authToken) => {
           let fetchedPage = fetchPage(botId, authToken)
 
           fetchedPage.then(result => {
-            logger.serverLog(TAG, `fetchedPage result: ${JSON.stringify(result)}`)
+            logger.serverLog(TAG, `fetchedPage result: ${JSON.stringify(result)}`, 'debug')
             data.userAccessToken = result.userId.facebookInfo.fbToken
             data.pageId = result.pageId
             return downloadVideo(data)
           })
             .then(path => {
-              logger.serverLog(TAG, `downloadVideo response ${util.inspect(path)}`)
+              logger.serverLog(TAG, `downloadVideo response ${util.inspect(path)}`, 'debug')
               if (path === 'ERR_LIMIT_REACHED') {
                 payload[i].videoLink = payload[i].answer
                 return path
@@ -231,7 +231,7 @@ exports.updatePayloadForVideo = (botId, payload, authToken) => {
               }
             })
             .then(result => {
-              logger.serverLog(TAG, result)
+              logger.serverLog(TAG, result, 'debug')
               if (i === (payload.length - 1)) {
                 logger.serverLog(TAG, `returning updated payload ${JSON.stringify(payload)}`)
                 resolve(payload)
@@ -244,13 +244,13 @@ exports.updatePayloadForVideo = (botId, payload, authToken) => {
         } else {
           payload[i].videoLink = payload[i].answer
           if (i === (payload.length - 1)) {
-            logger.serverLog(TAG, `returning updated payload ${JSON.stringify(payload)}`)
+            logger.serverLog(TAG, `returning updated payload ${JSON.stringify(payload)}`, 'debug')
             resolve(payload)
           }
         }
       } else {
         if (i === (payload.length - 1)) {
-          logger.serverLog(TAG, `returning updated payload ${JSON.stringify(payload)}`)
+          logger.serverLog(TAG, `returning updated payload ${JSON.stringify(payload)}`, 'debug')
           resolve(payload)
         }
       }
@@ -308,7 +308,7 @@ const getEntities = (payload) => {
   for (var i = 0; i < payload.length; i++) {
     transformed.push(payload[i].intent_name)
   }
-  logger.serverLog(`Entities extracted ${JSON.stringify(transformed)}`)
+  logger.serverLog(`Entities extracted ${JSON.stringify(transformed)}`, 'debug')
   return transformed
 }
 const trainingPipline = (entities, payload, token) => {
@@ -324,19 +324,18 @@ const trainingPipline = (entities, payload, token) => {
       (err, witres) => {
         if (err) {
           return logger.serverLog(
-            'Error Occured In Training Pipeline in WIT.AI app')
+            'Error Occured In Training Pipeline in WIT.AI app', 'error')
         }
         logger.serverLog(`Response from Training Pipeline ${JSON.stringify(witres)}`)
         if (i === entities.length - 1) {
           trainBot(payload, token)
         }
-        logger.serverLog(`Response from Training Pipeline ${JSON.stringify(witres)}`)
       })
   }
 }
 function trainBot (payload, token) {
   var transformed = transformPayload(payload)
-  logger.serverLog(`Payload Transformed ${JSON.stringify(transformed)}`)
+  logger.serverLog(`Payload Transformed ${JSON.stringify(transformed)}`, 'debug')
   request(
     {
       'method': 'POST',
@@ -350,7 +349,7 @@ function trainBot (payload, token) {
     },
     (err, witres) => {
       if (err) {
-        return logger.serverLog('Error Occured In Training WIT.AI app')
+        return logger.serverLog('Error Occured In Training WIT.AI app', 'error')
       }
       logger.serverLog(`WitAI bot trained successfully ${JSON.stringify(witres)}`)
     })
