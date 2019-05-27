@@ -4,7 +4,7 @@ const TAG = '/api/v1.1/jsonAd/jsonAd.controller.js'
 const { callApi } = require('../utility')
 
 exports.create = function (req, res) {
-  logger.serverLog(TAG, 'Hit the create json ad endpoint')
+  logger.serverLog(TAG, 'Hit the create json ad endpoint', 'debug')
   callApi(`jsonAd/create`, 'post', req.body, req.headers.authorization)
     .then(jsonAd => {
       res.status(200).json({status: 'success', payload: jsonAd})
@@ -15,7 +15,7 @@ exports.create = function (req, res) {
 }
 
 exports.edit = function (req, res) {
-  logger.serverLog(TAG, 'Hit the edit json ad endpoint')
+  logger.serverLog(TAG, 'Hit the edit json ad endpoint', 'debug')
   callApi(`jsonAd/edit`, 'post', req.body, req.headers.authorization)
     .then(jsonAd => {
       res.status(200).json({status: 'success', payload: jsonAd})
@@ -26,7 +26,7 @@ exports.edit = function (req, res) {
 }
 
 exports.getAll = function (req, res) {
-  logger.serverLog(TAG, 'Hit the get all json ads endpoint')
+  logger.serverLog(TAG, 'Hit the get all json ads endpoint', 'debug')
   callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
       if (!companyUser) {
@@ -52,7 +52,7 @@ exports.getAll = function (req, res) {
 }
 
 exports.getOne = function (req, res) {
-  logger.serverLog(TAG, 'Hit the get one json ad endpoint')
+  logger.serverLog(TAG, 'Hit the get one json ad endpoint', 'debug')
   callApi(`jsonAd/${req.params.id}`, 'get', {}, req.headers.authorization)
     .then(jsonAd => {
       res.status(200).json({status: 'success', payload: jsonAd})
@@ -63,7 +63,7 @@ exports.getOne = function (req, res) {
 }
 
 exports.deleteOne = function (req, res) {
-  logger.serverLog(TAG, 'Hit the delete json ad endpoint')
+  logger.serverLog(TAG, 'Hit the delete json ad endpoint', 'debug')
   callApi(`jsonAd/delete/${req.params.id}`, 'delete', {}, req.headers.authorization)
     .then(jsonAd => {
       res.status(200).json({status: 'success', payload: jsonAd})

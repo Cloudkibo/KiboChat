@@ -27,9 +27,9 @@ exports.index = function (req, res) {
             `https://graph.facebook.com/v2.6/me/messages?access_token=${subscriber.pageId.accessToken}`,
             data, (err4, respp) => {
               if (err4) {
-                logger.serverLog(TAG, `Error at talkToHuman ${JSON.stringify(err4)}`)
+                logger.serverLog(TAG, `Error at talkToHuman ${JSON.stringify(err4)}`, 'error')
               }
-              logger.serverLog(TAG, `Response from talkToHuman ${JSON.stringify(respp.body)}`)
+              logger.serverLog(TAG, `Response from talkToHuman ${JSON.stringify(respp.body)}`, 'error')
             })
           let payload = JSON.parse(req.body.entry[0].messaging[0].message.quick_reply.payload)
           dataLayer.findAllWaitingSubscriberObjectsUsingQuery({botId: payload.bot_id,
@@ -38,7 +38,7 @@ exports.index = function (req, res) {
             Question: payload.question})
             .then(waitingSubscriber => {
               if (waitingSubscriber && waitingSubscriber.length > 0) {
-                logger.serverLog(TAG, `Waiting Subscriber already created`)
+                logger.serverLog(TAG, `Waiting Subscriber already created`, 'error')
               } else {
                 dataLayer.createWaitingSubscriberObject({botId: payload.bot_id,
                   subscriberId: subscriber._id,
@@ -49,19 +49,19 @@ exports.index = function (req, res) {
                     logger.serverLog(TAG, `Created waitingSubscriber ${JSON.stringify(created)}`)
                   })
                   .catch(err => {
-                    logger.serverLog(TAG, `Failed to create waitingSubscriber ${JSON.stringify(err)}`)
+                    logger.serverLog(TAG, `Failed to create waitingSubscriber ${JSON.stringify(err)}`, 'error')
                   })
               }
             })
             .catch(err => {
-              logger.serverLog(TAG, `Failed to fetch waitingSubscriber ${JSON.stringify(err)}`)
+              logger.serverLog(TAG, `Failed to fetch waitingSubscriber ${JSON.stringify(err)}`, 'error')
             })
         })
         .catch(err => {
-          logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(err)}`)
+          logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(err)}`, 'error')
         })
     })
     .catch(err => {
-      logger.serverLog(TAG, `Failed to fetch page ${JSON.stringify(err)}`)
+      logger.serverLog(TAG, `Failed to fetch page ${JSON.stringify(err)}`, 'error')
     })
 }

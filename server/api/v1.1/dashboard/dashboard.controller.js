@@ -34,7 +34,7 @@ exports.updateSubscriptionPermission = function (req, res) {
             if (err) {
               logger.serverLog(TAG,
                 `Page access token from graph api error ${JSON.stringify(
-                  err)}`)
+                  err)}`, 'error')
             }
             if (resp && resp.body && resp.body.access_token) {
               needle.get(
@@ -43,7 +43,7 @@ exports.updateSubscriptionPermission = function (req, res) {
                   if (err) {
                     logger.serverLog(TAG,
                       `Page access token from graph api error ${JSON.stringify(
-                        err)}`)
+                        err)}`, 'error')
                   }
                   if (respp && respp.body && respp.body.data && respp.body.data.length > 0) {
                     for (let a = 0; a < respp.body.data.length; a++) {
@@ -52,6 +52,7 @@ exports.updateSubscriptionPermission = function (req, res) {
                           .then(updated => {
                           })
                           .catch(err => {
+                            logger.serverLog(TAG, err, 'error')
                           })
                       }
                     }
@@ -410,7 +411,7 @@ exports.stats = function (req, res) {
                 payload.totalPages = allPagesWithoutDuplicates.length
                 callApi('subscribers/query', 'post', {companyId: companyUser.companyId, isSubscribed: true, pageId: {$in: result.pageIds}}, req.headers.authorization)
                   .then(subscribers => {
-                    logger.serverLog(TAG, `subscribers retrieved: ${subscribers}`)
+                    logger.serverLog(TAG, `subscribers retrieved: ${subscribers}`, 'error')
                     payload.subscribers = subscribers.length
                     const pagesArray = pages.map(page => page.pageId).map(String)
                     callApi('livechat/query', 'post', {purpose: 'findAll', match: {company_id: companyUser.companyId, status: 'unseen', format: 'facebook', recipient_fb_id: {$in: pagesArray}}}, '', 'kibochat')
@@ -471,8 +472,8 @@ exports.toppages = function (req, res) {
               }
             }], req.headers.authorization)
             .then(gotSubscribersCount => {
-              logger.serverLog(TAG, `pages: ${pages}`)
-              logger.serverLog(TAG, `gotSubscribersCount ${gotSubscribersCount}`)
+              logger.serverLog(TAG, `pages: ${pages}`, 'debug')
+              logger.serverLog(TAG, `gotSubscribersCount ${gotSubscribersCount}`, 'debug')
               let pagesPayload = []
               for (let i = 0; i < pages.length; i++) {
                 pagesPayload.push({
@@ -487,7 +488,7 @@ exports.toppages = function (req, res) {
                   subscribers: 0
                 })
               }
-              logger.serverLog(TAG, `pagesPayload: ${pagesPayload}`)
+              logger.serverLog(TAG, `pagesPayload: ${pagesPayload}`, 'debug')
               for (let i = 0; i < pagesPayload.length; i++) {
                 for (let j = 0; j < gotSubscribersCount.length; j++) {
                   if (pagesPayload[i]._id.toString() ===

@@ -69,12 +69,12 @@ exports.uploadFile = function (req, res) {
                       .then(saved => {
                       })
                       .catch(error => {
-                        logger.serverLog(TAG, `Failed to save contact ${JSON.stringify(error)}`)
+                        logger.serverLog(TAG, `Failed to save contact ${JSON.stringify(error)}`, 'error')
                       })
                   }
                 })
                 .catch(error => {
-                  logger.serverLog(TAG, `Failed to fetch contacts ${JSON.stringify(error)}`)
+                  logger.serverLog(TAG, `Failed to fetch contacts ${JSON.stringify(error)}`, 'error')
                 })
             }
           })
@@ -107,7 +107,7 @@ exports.uploadNumbers = function (req, res) {
                 .then(saved => {
                 })
                 .catch(error => {
-                  logger.serverLog(TAG, `Failed to save contact ${JSON.stringify(error)}`)
+                  logger.serverLog(TAG, `Failed to save contact ${JSON.stringify(error)}`, 'error')
                 })
             }
             if (i === req.body.numbers.length - 1) {
@@ -116,7 +116,7 @@ exports.uploadNumbers = function (req, res) {
             }
           })
           .catch(error => {
-            logger.serverLog(TAG, `Failed to fetch contact ${JSON.stringify(error)}`)
+            logger.serverLog(TAG, `Failed to fetch contact ${JSON.stringify(error)}`, 'error')
           })
       }
     })

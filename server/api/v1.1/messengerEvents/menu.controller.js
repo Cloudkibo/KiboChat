@@ -18,17 +18,17 @@ exports.index = function (req, res) {
       callApi(`subscribers/query`, 'post', { pageId: page._id, companyId: page.companyId, senderId: sender })
         .then(subscriber => {
           subscriber = subscriber[0]
-          logger.serverLog(TAG, `subscriber fetched ${JSON.stringify(subscriber)}`)
+          logger.serverLog(TAG, `subscriber fetched ${JSON.stringify(subscriber)}`, 'debug')
           if (subscriber) {
             sendMenuReplyToSubscriber(replyPayload, subscriber.senderId, subscriber.firstName, subscriber.lastName, subscriber.pageId.accessToken)
           }
         })
         .catch(err => {
-          logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(err)}`)
+          logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(err)}`, 'error')
         })
     })
     .catch(err => {
-      logger.serverLog(TAG, `Failed to fetch page ${JSON.stringify(err)}`)
+      logger.serverLog(TAG, `Failed to fetch page ${JSON.stringify(err)}`, 'error')
     })
 }
 
@@ -50,7 +50,7 @@ function sendMenuReplyToSubscriber (replyPayload, senderId, firstName, lastName,
           if (res.statusCode !== 200) {
             logger.serverLog(TAG,
               `At send message landingPage ${JSON.stringify(
-                res.body.error)}`)
+                res.body.error)}`, 'error')
           }
           logger.serverLog(TAG, `At sendMenuReplyToSubscriber response ${JSON.stringify(res.body)}`)
         }
