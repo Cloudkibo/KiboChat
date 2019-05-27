@@ -490,6 +490,25 @@ exports.whitelistDomain = function (req, res) {
       })
     })
 }
+
+exports.fetchWhitelistedDomains = function (req, res) {
+  const pageId = req.params._id
+
+  utility.callApi(`pages/whitelistDomain/${pageId}`, 'get', {}, req.headers.authorization)
+    .then(whitelistDomains => {
+      return res.status(200).json({
+        status: 'success',
+        payload: whitelistDomains
+      })
+    })
+    .catch(error => {
+      return res.status(500).json({
+        status: 'failed',
+        description: `Failed to fetch whitelist domains ${JSON.stringify(error)}`
+      })
+    })
+}
+
 exports.saveGreetingText = function (req, res) {
   const pageId = req.body.pageId
   const greetingText = req.body.greetingText
