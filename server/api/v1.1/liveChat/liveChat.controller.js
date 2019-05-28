@@ -177,7 +177,6 @@ exports.create = function (req, res) {
     function (callback) {
       callApi(`subscribers/${req.body.subscriber_id}`, 'get', {}, req.headers.authorization)
         .then(subscriber => {
-          console.log('subscriber found', JSON.stringify(subscriber))
           let messageData = logicLayer.prepareSendAPIPayload(
             subscriber.senderId,
             req.body.payload,
@@ -197,9 +196,8 @@ exports.create = function (req, res) {
               if (err) {
                 callback(err)
               } else if (res.statusCode !== 200) {
-                callback(res.error)
+                callback(res.body.error)
               } else {
-                console.log('in success subscriber callback')
                 callback(null, subscriber)
               }
             })
