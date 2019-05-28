@@ -167,6 +167,7 @@ exports.create = function (req, res) {
               }
             }
           })
+          callback(null, updated)
         })
         .catch(err => {
           callback(err)
