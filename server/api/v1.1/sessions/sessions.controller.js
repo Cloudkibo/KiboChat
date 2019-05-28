@@ -310,7 +310,8 @@ exports.assignAgent = function (req, res) {
       query: {_id: req.body.subscriberId},
       newPayload: {assigned_to: assignedTo, is_assigned: req.body.isAssigned},
       options: {}
-    }
+    },
+    req.headers.authorization
   )
     .then(updated => {
       require('./../../../config/socketio').sendMessageToClient({
@@ -345,7 +346,8 @@ exports.assignTeam = function (req, res) {
       query: {_id: req.body.subscriberId},
       newPayload: {assigned_to: assignedTo, is_assigned: req.body.isAssigned},
       options: {}
-    }
+    },
+    req.headers.authorization
   )
     .then(updated => {
       require('./../../../config/socketio').sendMessageToClient({
