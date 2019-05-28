@@ -177,6 +177,7 @@ exports.create = function (req, res) {
     function (callback) {
       callApi(`subscribers/${req.body.subscriber_id}`, 'get', {}, req.headers.authorization)
         .then(subscriber => {
+          console.log('subscriber found', JSON.stringify(subscriber))
           let messageData = logicLayer.prepareSendAPIPayload(
             subscriber.senderId,
             req.body.payload,
@@ -198,6 +199,7 @@ exports.create = function (req, res) {
               } else if (res.statusCode !== 200) {
                 callback(res.error)
               } else {
+                console.log('in success subscriber callback')
                 callback(null, subscriber)
               }
             })
@@ -213,7 +215,6 @@ exports.create = function (req, res) {
       let fbMessageObject = results[0]
       let subscriber = results[3]
       let botId = ''
-      console.log('subscriber', JSON.stringify(subscriber))
       async.parallelLimit([
         // Update Bot Block list
         function (callback) {
