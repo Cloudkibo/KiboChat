@@ -243,7 +243,7 @@ exports.delete = function (req, res) {
           'method': 'DELETE',
           'uri': 'https://api.wit.ai/apps/' + bot.witAppId,
           headers: {
-            'Authorization': 'Bearer ' + WIT_AI_TOKEN
+            'Authorization': 'Bearer ' + bot.witToken
           }
         },
         (err, witres) => {
