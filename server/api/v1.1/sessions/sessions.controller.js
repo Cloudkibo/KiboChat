@@ -319,7 +319,7 @@ exports.assignAgent = function (req, res) {
         body: {
           action: 'session_assign',
           payload: {
-            session_id: req.body.sessionId,
+            session_id: req.body.subscriberId,
             user_id: req.user._id,
             user_name: req.user.name,
             assigned_to: assignedTo
@@ -355,7 +355,7 @@ exports.assignTeam = function (req, res) {
         body: {
           action: 'session_assign',
           payload: {
-            session_id: req.body.sessionId,
+            session_id: req.body.subscriberId,
             user_id: req.user._id,
             user_name: req.user.name,
             assigned_to: assignedTo
