@@ -509,6 +509,25 @@ exports.fetchWhitelistedDomains = function (req, res) {
     })
 }
 
+exports.deleteWhitelistDomain = function (req, res) {
+  const pageId = req.body.page_id
+  const whitelistDomain = req.body.whitelistDomain
+
+  utility.callApi(`pages/deleteWhitelistDomain`, 'post', {page_id: pageId, whitelistDomain: whitelistDomain}, req.headers.authorization)
+    .then(whitelistDomains => {
+      return res.status(200).json({
+        status: 'success',
+        payload: whitelistDomains
+      })
+    })
+    .catch(error => {
+      return res.status(500).json({
+        status: 'failed',
+        description: `Failed to delete whitelist domains ${JSON.stringify(error)}`
+      })
+    })
+}
+
 exports.saveGreetingText = function (req, res) {
   const pageId = req.body.pageId
   const greetingText = req.body.greetingText
