@@ -3,6 +3,7 @@ const utility = require('../utility')
 const needle = require('needle')
 const logger = require('../../../components/logger')
 const TAG = 'api/v2/pages/pages.controller.js'
+const broadcastUtility = require('../broadcasts/broadcasts.utility')
 let config = require('./../../../config/environment')
 
 const util = require('util')
@@ -524,6 +525,17 @@ exports.deleteWhitelistDomain = function (req, res) {
       return res.status(500).json({
         status: 'failed',
         description: `Failed to delete whitelist domains ${JSON.stringify(error)}`
+      })
+    })
+}
+
+exports.isWhitelisted = function (req, res) {
+  console.log('req body brdut',req.user)
+  broadcastUtility.isWhiteListedDomain(req.body.domain, req.body.pageId, req.user)
+    .then(result => {
+      return res.status(200).json({
+        status: 'success',
+        payload: result.returnValue
       })
     })
 }
