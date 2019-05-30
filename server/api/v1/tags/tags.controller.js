@@ -194,7 +194,6 @@ exports.rename = function (req, res) {
                         .catch(err => callback(err))
                     }
                   ], 10, function (err, results) {
-                    console.log('results', JSON.stringify(results))
                     if (err) {
                       return res.status(500).json({
                         status: 'failed',
@@ -328,7 +327,6 @@ function deleteTagsFromFacebook (req, tags, callback) {
     callApi.callApi('pages/query', 'post', {_id: tag.pageId}, req.headers.authorization)
       .then(pages => {
         let page = pages[0]
-        console.log('tag.labelFbId',tag.labelFbId)
         facebookApiCaller('v2.11', `${tag.labelFbId}?access_token=${page.accessToken}`, 'delete', {})
           .then(label => {
             if (label.body.error) {
@@ -475,7 +473,6 @@ function unassignTagFromSubscribers (subscribers, tag, req, callback) {
               tags.push(tagPayload)
               facebookApiCaller('v2.11', `${tagPayload.labelFbId}/label?user=${subscriber.senderId}&access_token=${subscriber.pageId.accessToken}`, 'delete', {})
                 .then(unassignedLabel => {
-                  console.log('unassignedLabel response', JSON.stringify(unassignedLabel.body))
                   if (unassignedLabel.body.error) callback(unassignedLabel.body.error)
                   callApi.callApi(`tags_subscriber/deleteMany`, 'post', {tagId: tagPayload._id, subscriberId: subscriber._id}, req.headers.authorization)
                     .then(deleteRecord => {
@@ -491,7 +488,6 @@ function unassignTagFromSubscribers (subscribers, tag, req, callback) {
         }
       })
       .catch(err => {
-        console.log('caught subscriber in catch')
         callback(err) })
   })
 }

@@ -71,7 +71,6 @@ exports.updatePlatform = function (req, res) {
       needle.get(
         `https://${req.body.twilio.accountSID}:${req.body.twilio.authToken}@api.twilio.com/2010-04-01/Accounts`,
         (err, resp) => {
-          console.log('response from twiliostatus code', resp.statusCode)
           if (err) {
             return res.status(500).json({
               status: 'failed',
@@ -101,14 +100,12 @@ exports.updatePlatform = function (req, res) {
                           smsUrl: `${config.api_urls['webhook']}/webhooks/twilio/receiveSms`
                         })
                         .then(result => {
-                          console.log('result from updating webhook', result)
                         })
                     }
                   })
                 return res.status(200).json({status: 'success', payload: updatedProfile})
               })
               .catch(err => {
-                console.log(`Failed to update company profile ${err}`)
                 res.status(500).json({status: 'failed', payload: `Failed to update company profile ${err}`})
               })
           } else {
@@ -120,13 +117,11 @@ exports.updatePlatform = function (req, res) {
         })
     })
     .catch(error => {
-      console.log(`Failed to company user ${JSON.stringify(error)}`)
       return res.status(500).json({status: 'failed', payload: `Failed to company user ${JSON.stringify(error)}`
       })
     })
 }
 exports.updatePlatformWhatsApp = function (req, res) {
-  console.log('inside updatePlatformWhatsApp')
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}, req.headers.authorization) // fetch company user
     .then(companyUser => {
       if (!companyUser) {
@@ -138,7 +133,6 @@ exports.updatePlatformWhatsApp = function (req, res) {
       needle.get(
         `https://${req.body.accountSID}:${req.body.authToken}@api.twilio.com/2010-04-01/Accounts`,
         (err, resp) => {
-          console.log('response from twiliostatus code', resp.statusCode)
           if (err) {
             return res.status(500).json({
               status: 'failed',
@@ -157,17 +151,14 @@ exports.updatePlatformWhatsApp = function (req, res) {
                 if (req.body.platform) {
                   utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: {platform: req.body.platform}, options: {}})
                     .then(updated => {
-                      console.log('user updated', updated)
                     })
                     .catch(err => {
                       res.status(500).json({status: 'failed', payload: err})
                     })
                 }
-                console.log('returning', updatedProfile)
                 return res.status(200).json({status: 'success', payload: updatedProfile})
               })
               .catch(err => {
-                console.log(`Failed to update company profile ${err}`)
                 res.status(500).json({status: 'failed', payload: `Failed to update company profile ${err}`})
               })
           } else {
@@ -179,7 +170,6 @@ exports.updatePlatformWhatsApp = function (req, res) {
         })
     })
     .catch(error => {
-      console.log(`Failed to company user ${JSON.stringify(error)}`)
       return res.status(500).json({status: 'failed', payload: `Failed to company user ${JSON.stringify(error)}`
       })
     })

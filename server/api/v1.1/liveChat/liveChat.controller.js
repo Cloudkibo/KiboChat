@@ -87,13 +87,13 @@ exports.update = function (req, res) {
 
 exports.geturlmeta = function (req, res) {
   var url = req.body.url
-  logger.serverLog(TAG, `Url for Meta: ${url}`)
+  logger.serverLog(TAG, `Url for Meta: ${url}`, 'error')
   og(url, (err, meta) => {
     if (err) {
       return res.status(404)
         .json({ status: 'failed', description: 'Meta data not found' })
     }
-    logger.serverLog(TAG, `Url Meta: ${meta}`)
+    logger.serverLog(TAG, `Url Meta: ${meta}`, 'error')
     res.status(200).json({ status: 'success', payload: meta })
   })
 }
@@ -139,6 +139,8 @@ exports.create = function (req, res) {
               .catch(err => {
                 callback(err)
               })
+          } else {
+            callback(null, webhook)
           }
         })
         .catch(err => {
@@ -165,6 +167,7 @@ exports.create = function (req, res) {
               }
             }
           })
+          callback(null, updated)
         })
         .catch(err => {
           callback(err)
@@ -193,7 +196,7 @@ exports.create = function (req, res) {
               if (err) {
                 callback(err)
               } else if (res.statusCode !== 200) {
-                callback(res.error)
+                callback(res.body.error)
               } else {
                 callback(null, subscriber)
               }

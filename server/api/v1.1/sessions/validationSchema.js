@@ -96,8 +96,8 @@ exports.assignTeamPayload = {
     }
   },
   'required': [
-    'agentId',
-    'agentName',
+    'teamId',
+    'teamName',
     'subscriberId',
     'isAssigned'
   ]

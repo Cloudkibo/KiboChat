@@ -23,7 +23,7 @@ exports.getSessions = (req, status) => {
     { $match: {'companyId': req.user.companyId} },
     { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
     { $unwind: '$pageId' },
-    { $project: {name: {$concat: ['$firstName', ' ', '$lastName']}, companyId: 1, pageId: 1, isSubscribed: 1, status: 1, last_activity_time: 1, _id: 1, profilePic: 1, senderId: 1} },
+    { $project: {name: {$concat: ['$firstName', ' ', '$lastName']}, companyId: 1, pageId: 1, isSubscribed: 1, status: 1, last_activity_time: 1, _id: 1, profilePic: 1, senderId: 1, gender: 1, locale: 1} },
     { $match: {
       'isSubscribed': true,
       'status': status,
@@ -115,7 +115,6 @@ const appendUnreadCountData = (gotUnreadCount, subscriber) => {
   return subscriber
 }
 const appendLastMessageData = (gotLastMessage, subscriber) => {
-  console.log('gotLastMessage', util.inspect(gotLastMessage))
   for (let a = 0; a < gotLastMessage.length; a++) {
     if (subscriber._id.toString() === gotLastMessage[a]._id.toString()) {
       subscriber.lastPayload = gotLastMessage[a].payload
@@ -123,7 +122,6 @@ const appendLastMessageData = (gotLastMessage, subscriber) => {
       subscriber.lastDateTime = gotLastMessage[a].datetime
     }
   }
-  console.log('return subscriber', util.inspect(subscriber))
   return subscriber
 }
 

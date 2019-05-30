@@ -118,7 +118,6 @@ exports.getAll = function (req, res) {
         .then(count => {
           utility.callApi(`subscribers/aggregate`, 'post', criterias.fetchCriteria, req.headers.authorization) // fetch subscribers
             .then(subscribers => {
-              console.log('subscribers in subscribers', subscribers)
               let subscriberIds = logicLayer.getSubscriberIds(subscribers)
               logger.serverLog(TAG, `subscriberIds: ${util.inspect(subscriberIds)}`)
               utility.callApi(`tags/query`, 'post', { companyId: req.user.companyId, isList: false, defaultTag: false }, req.headers.authorization)

@@ -83,16 +83,15 @@ exports.create = function (req, res) {
                 (err, resp) => {
                   if (err) {
                     logger.serverLog(TAG,
-                      `Page accesstoken from graph api Error${JSON.stringify(err)}`)
+                      `Page accesstoken from graph api Error${JSON.stringify(err)}`, 'error')
                   }
-                  console.log('response from pageaccesstoken', resp.body)
                   let messageData = logicLayer.setMessage(req.body.payload)
                   if (messageData.image) {
                     needle.post(
                       `https://graph.facebook.com/${page.pageId}/photos?access_token=${resp.body.access_token}`,
                       messageData, (err, resp) => {
                         if (err) {
-                          logger.serverLog(TAG, err)
+                          logger.serverLog(TAG, err, 'error')
                         }
                         let postId = resp.body.post_id ? resp.body.post_id : resp.body.id
                         utility.callApi(`comment_capture/update`, 'put', {query: {_id: postCreated._id}, newPayload: {post_id: postId}, options: {}}, req.headers.authorization)
@@ -111,7 +110,7 @@ exports.create = function (req, res) {
                       `https://graph.facebook.com/${page.pageId}/videos?access_token=${resp.body.access_token}`,
                       messageData, (err, resp) => {
                         if (err) {
-                          logger.serverLog(TAG, err)
+                          logger.serverLog(TAG, err, 'error')
                         }
                         let postId = resp.body.post_id ? resp.body.post_id : resp.body.id
                         utility.callApi(`comment_capture/update`, 'put', {query: {_id: postCreated._id}, newPayload: {post_id: postId}, options: {}}, req.headers.authorization)
@@ -130,9 +129,8 @@ exports.create = function (req, res) {
                       `https://graph.facebook.com/${page.pageId}/feed?access_token=${resp.body.access_token}`,
                       messageData, (err, resp) => {
                         if (err) {
-                          logger.serverLog(TAG, err)
+                          logger.serverLog(TAG, err, 'error')
                         }
-                        console.log('response from post', resp.body)
                         let postId = resp.body.post_id ? resp.body.post_id : resp.body.id
                         utility.callApi(`comment_capture/update`, 'put', {query: {_id: postCreated._id}, newPayload: {post_id: postId}, options: {}}, req.headers.authorization)
                           .then(result => {

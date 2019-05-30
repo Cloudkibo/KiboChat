@@ -46,11 +46,8 @@ exports.uploadFile = function (req, res) {
   let directory = phoneNumberLogicLayer.directory(req)
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
-      console.log('companyuser feched', companyUser)
       fs.rename(req.files.file.path, path.join(directory.dir, '/userfiles/', directory.serverPath), err => {
-        console.log('req.files.file.path', req.files.file.path)
         if (err) {
-          console.log('error', err)
           return res.status(500).json({
             status: 'failed',
             description: 'internal server error' + JSON.stringify(err)
@@ -72,12 +69,12 @@ exports.uploadFile = function (req, res) {
                       .then(saved => {
                       })
                       .catch(error => {
-                        logger.serverLog(TAG, `Failed to save contact ${JSON.stringify(error)}`)
+                        logger.serverLog(TAG, `Failed to save contact ${JSON.stringify(error)}`, 'error')
                       })
                   }
                 })
                 .catch(error => {
-                  logger.serverLog(TAG, `Failed to fetch contacts ${JSON.stringify(error)}`)
+                  logger.serverLog(TAG, `Failed to fetch contacts ${JSON.stringify(error)}`, 'error')
                 })
             }
           })
@@ -110,7 +107,7 @@ exports.uploadNumbers = function (req, res) {
                 .then(saved => {
                 })
                 .catch(error => {
-                  logger.serverLog(TAG, `Failed to save contact ${JSON.stringify(error)}`)
+                  logger.serverLog(TAG, `Failed to save contact ${JSON.stringify(error)}`, 'error')
                 })
             }
             if (i === req.body.numbers.length - 1) {
@@ -119,7 +116,7 @@ exports.uploadNumbers = function (req, res) {
             }
           })
           .catch(error => {
-            logger.serverLog(TAG, `Failed to fetch contact ${JSON.stringify(error)}`)
+            logger.serverLog(TAG, `Failed to fetch contact ${JSON.stringify(error)}`, 'error')
           })
       }
     })

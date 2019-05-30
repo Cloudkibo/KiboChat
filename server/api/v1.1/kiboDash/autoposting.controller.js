@@ -34,7 +34,7 @@ exports.index = (req, res) => {
       return res.status(200).json({status: 'success', payload: result})
     })
     .catch((err) => {
-      logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`)
+      logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
       return res.status(500).json({status: 'failed', description: err})
     })
 }
@@ -45,7 +45,7 @@ exports.ranged = (req, res) => {
       return res.status(200).json({status: 'success', payload: result})
     })
     .catch((err) => {
-      logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`)
+      logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
       return res.status(500).json({status: 'failed', description: err})
     })
 }
@@ -56,7 +56,7 @@ exports.userwise = (req, res) => {
       return res.status(200).json({status: 'success', payload: result})
     })
     .catch((err) => {
-      logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`)
+      logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
       return res.status(500).json({status: 'failed', description: err})
     })
 }
@@ -68,7 +68,7 @@ exports.userwiseRanged = (req, res) => {
       return res.status(200).json({status: 'success', payload: result})
     })
     .catch((err) => {
-      logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`)
+      logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
       return res.status(500).json({status: 'failed', description: err})
     })
 }

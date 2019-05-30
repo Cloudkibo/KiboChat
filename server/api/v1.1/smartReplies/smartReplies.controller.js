@@ -67,10 +67,10 @@ exports.waitingReply = function (req, res) {
 
 exports.create = function (req, res) {
   var uniquebotName = req.body.botName + req.user._id + Date.now()
-  logger.serverLog(TAG, `Create Bot Request ${JSON.stringify(req.user)} ${uniquebotName}}`)
+  logger.serverLog(TAG, `Create Bot Request ${JSON.stringify(req.user)} ${uniquebotName}}`, 'debug')
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
     .then(companyUser => {
-      logger.serverLog(TAG, `Company User ${companyUser}}`)
+      logger.serverLog(TAG, `Company User ${companyUser}}`, 'debug')
       request(
         {
           'method': 'POST',
@@ -88,7 +88,7 @@ exports.create = function (req, res) {
         },
         (err, witres) => {
           if (err) {
-            return logger.serverLog(TAG, 'Error Occured In Creating WIT.AI app')
+            return logger.serverLog(TAG, 'Error Occured In Creating WIT.AI app', 'error')
           } else {
             if (witres.statusCode !== 200) {
               return res.status(500).json({ status: 'failed', payload: { error: witres.body.errors } })
@@ -114,17 +114,17 @@ exports.create = function (req, res) {
 }
 
 exports.edit = function (req, res) {
-  logger.serverLog(`Adding questions in edit bot ${JSON.stringify(req.body)}`)
+  logger.serverLog(`Adding questions in edit bot ${JSON.stringify(req.body)}`, 'debug')
   let payload = req.body.payload
   let botId = req.body.botId
   logicLayer.updatePayloadForVideo(botId, payload, req.headers.authorization)
     .then(updatedPayload => {
-      logger.serverLog(TAG, `updatedPayload ${JSON.stringify(updatedPayload)}`)
+      logger.serverLog(TAG, `updatedPayload ${JSON.stringify(updatedPayload)}`, 'debug')
       BotsDataLayer.updateBotObject({ _id: req.body.botId }, { payload: req.body.payload })
         .then(bot => {
           BotsDataLayer.findOneBotObject(req.body.botId)
             .then(bot => {
-              logger.serverLog(`Returning Bot details ${JSON.stringify(bot)}`)
+              logger.serverLog(`Returning Bot details ${JSON.stringify(bot)}`, 'error')
               var entities = logicLayer.getEntities(req.body.payload)
               logicLayer.trainingPipline(entities, req.body.payload, bot.witToken)
             })
@@ -140,10 +140,10 @@ exports.edit = function (req, res) {
 }
 
 exports.status = function (req, res) {
-  logger.serverLog(`Updating bot status ${JSON.stringify(req.body)}`)
+  logger.serverLog(`Updating bot status ${JSON.stringify(req.body)}`, 'debug')
   BotsDataLayer.genericUpdateBotObject({ _id: req.body.botId }, { isActive: req.body.isActive })
     .then(result => {
-      logger.serverLog(`affected rows ${result}`)
+      logger.serverLog(`affected rows ${result}`, 'debug')
       return res.status(200).json({ status: 'success' })
     })
     .catch(err => {
@@ -155,7 +155,7 @@ exports.status = function (req, res) {
 }
 
 exports.details = function (req, res) {
-  logger.serverLog(`Bot details are following ${JSON.stringify(req.body)}`)
+  logger.serverLog(`Bot details are following ${JSON.stringify(req.body)}`, 'debug')
   BotsDataLayer.findOneBotObject(req.body.botId)
     .then(bot => {
       utility.callApi(`pages/query`, 'post', {_id: bot.pageId}, req.headers.authorization)
@@ -179,10 +179,10 @@ exports.details = function (req, res) {
 }
 
 exports.unAnsweredQueries = function (req, res) {
-  logger.serverLog(TAG, `Fetching unanswered queries ${JSON.stringify(req.body)}`)
+  logger.serverLog(TAG, `Fetching unanswered queries ${JSON.stringify(req.body)}`, 'debug')
   UnAnsweredQuestions.findAllUnansweredQuestionObjectsUsingQuery({botId: req.body.botId})
     .then(queries => {
-      logger.serverLog(`Returning UnAnswered Queries ${JSON.stringify(queries)}`)
+      logger.serverLog(`Returning UnAnswered Queries ${JSON.stringify(queries)}`, 'debug')
       return res.status(200).json({ status: 'success', payload: queries })
     })
     .catch(err => {
@@ -194,10 +194,9 @@ exports.unAnsweredQueries = function (req, res) {
 }
 
 exports.waitSubscribers = function (req, res) {
-  console.log('waitSubscribers body', req.body.botId)
   WaitingSubscribers.findAllWaitingSubscriberObjectsUsingQuery({botId: req.body.botId})
     .then(subscribers => {
-      logger.serverLog(TAG, `waitSubscribers fetched ${JSON.stringify(subscribers)}`)
+      logger.serverLog(TAG, `waitSubscribers fetched ${JSON.stringify(subscribers)}`, 'debug')
       if (subscribers && subscribers.length > 0) {
         populateSubscriber(subscribers, req)
           .then(result => {
@@ -216,7 +215,7 @@ exports.waitSubscribers = function (req, res) {
 }
 
 exports.removeWaitSubscribers = function (req, res) {
-  logger.serverLog(TAG, `going to delete waiting subscribers ${JSON.stringify(req.body)}`)
+  logger.serverLog(TAG, `going to delete waiting subscribers ${JSON.stringify(req.body)}`, 'debug')
   WaitingSubscribers.deleteWaitingSubscriberObject(req.body._id)
     .then(result => {
       return res.status(200).json({ status: 'success', payload: result })
@@ -232,7 +231,7 @@ exports.removeWaitSubscribers = function (req, res) {
 exports.delete = function (req, res) {
   BotsDataLayer.findOneBotObject(req.body.botId)
     .then(bot => {
-      logger.serverLog(TAG, `Deleting Bot details on WitAI ${JSON.stringify(bot)}`)
+      logger.serverLog(TAG, `Deleting Bot details on WitAI ${JSON.stringify(bot)}`, 'debug')
       if (!bot) {
         return res.status(500).json({
           status: 'failed',
@@ -244,21 +243,21 @@ exports.delete = function (req, res) {
           'method': 'DELETE',
           'uri': 'https://api.wit.ai/apps/' + bot.witAppId,
           headers: {
-            'Authorization': 'Bearer ' + WIT_AI_TOKEN
+            'Authorization': 'Bearer ' + bot.witToken
           }
         },
         (err, witres) => {
           if (err) {
-            logger.serverLog('Error Occured In Deleting WIT.AI app')
+            logger.serverLog('Error Occured In Deleting WIT.AI app', 'error')
             return res.status(500).json({ status: 'failed', payload: { error: err } })
           } else {
             if (witres.statusCode !== 200) {
               logger.serverLog(TAG,
-                `Error Occured in deleting Wit ai app ${JSON.stringify(witres.body)}`)
+                `Error Occured in deleting Wit ai app ${JSON.stringify(witres.body)}`, 'error')
               return res.status(500).json({ status: 'failed', payload: { error: witres.body.errors } })
             } else {
               logger.serverLog(TAG,
-                'Wit.ai app deleted successfully', witres.body)
+                'Wit.ai app deleted successfully')
               BotsDataLayer.deleteBotObject(req.body.botId)
                 .then((value) => {
                   return res.status(200).json({ status: 'success', payload: value })
@@ -282,8 +281,7 @@ exports.delete = function (req, res) {
 }
 
 function sendMessenger (message, pageId, senderId, postbackPayload, botId) {
-  console.log('in send messenger')
-  logger.serverLog(TAG, `sendMessenger message is ${JSON.stringify(message)}`)
+  logger.serverLog(TAG, `sendMessenger message is ${JSON.stringify(message)}`, 'debug')
   utility.callApi(`pages/query`, 'post', {pageId: pageId, connected: true})
     .then(page => {
       page = page[0]
@@ -293,11 +291,11 @@ function sendMessenger (message, pageId, senderId, postbackPayload, botId) {
           if (subscriber === null) {
             return
           }
-          logger.serverLog(TAG, `Subscriber Info ${JSON.stringify(subscriber)}`)
+          logger.serverLog(TAG, `Subscriber Info ${JSON.stringify(subscriber)}`, 'debug')
           message.senderId = senderId
           logicLayer.getMessageData(message)
             .then(messageData => {
-              logger.serverLog(TAG, `messageData: ${JSON.stringify({messageData})}`)
+              logger.serverLog(TAG, `messageData: ${JSON.stringify({messageData})}`, 'debug')
               request(
                 {
                   'method': 'POST',
@@ -309,42 +307,39 @@ function sendMessenger (message, pageId, senderId, postbackPayload, botId) {
                 (err, res) => {
                   if (err) {
                     return logger.serverLog(TAG,
-                      `At send message live chat ${JSON.stringify(err)}`)
+                      `At send message live chat ${JSON.stringify(err)}`, 'error')
                   } else {
                     if (res.statusCode !== 200) {
                       logger.serverLog(TAG,
                         `At send message live chat response ${JSON.stringify(
-                          res.body.error)}`)
+                          res.body.error)}`, 'error')
                     }
-                    logger.serverLog(TAG, `Response sent to Messenger: ${JSON.stringify(messageData)}`)
+                    logger.serverLog(TAG, `Response sent to Messenger: ${JSON.stringify(messageData)}`, 'debug')
                     let talkToHumanPaylod = logicLayer.talkToHumanPaylod(botId, message, postbackPayload)
-                    console.log('talkToHumanPaylod', talkToHumanPaylod)
-                    console.log('botid in controller', botId)
                     needle.post(
                       `https://graph.facebook.com/v2.6/me/messages?access_token=${page.accessToken}`, talkToHumanPaylod, (err, resp) => {
                         if (err) {
                           logger.serverLog(TAG, err)
                         }
-                        console.log('resp.body', resp.body)
                       })
                   }
                 })
             })
             .catch(err => {
-              logger.serverLog(TAG, `Failed to send automated reply ${JSON.stringify(err)}`)
+              logger.serverLog(TAG, `Failed to send automated reply ${JSON.stringify(err)}`, 'error')
             })
         })
         .catch(err => {
-          logger.serverLog(TAG, `Failed to fetch subscribers ${err}`)
+          logger.serverLog(TAG, `Failed to fetch subscribers ${err}`, 'error')
         })
     })
     .catch(err => {
-      logger.serverLog(TAG, `Failed to fetch page ${err}`)
+      logger.serverLog(TAG, `Failed to fetch page ${err}`, 'error')
     })
 }
 
 function getWitResponse (message, token, bot, pageId, senderId) {
-  logger.serverLog(TAG, 'Trying to get a response from WIT AI')
+  logger.serverLog(TAG, 'Trying to get a response from WIT AI', 'debug')
   request(
     {
       'method': 'GET',
@@ -355,21 +350,21 @@ function getWitResponse (message, token, bot, pageId, senderId) {
     },
     (err, witres) => {
       if (err) {
-        logger.serverLog(TAG, 'Error Occured In Getting Response From WIT.AI app')
+        logger.serverLog(TAG, 'Error Occured In Getting Response From WIT.AI app', 'error')
         return
       }
       if (!witres.body) {
-        logger.serverLog(TAG, 'Error Occured In Getting Response From WIT.AI app')
+        logger.serverLog(TAG, 'Error Occured In Getting Response From WIT.AI app', 'error')
         return
       }
       if (!JSON.parse(witres.body).entities) {
-        logger.serverLog(TAG, 'Error Occured In Getting Response From WIT.AI app')
+        logger.serverLog(TAG, 'Error Occured In Getting Response From WIT.AI app', 'error')
         return
       }
       // logger.serverLog(TAG, `Response from Wit AI Bot ${witres.body}`)
       let temp = JSON.parse(witres.body)
       if (Object.keys(JSON.parse(witres.body).entities).length === 0 || temp.entities.intent[0].confidence < 0.80) {
-        logger.serverLog(TAG, 'No response found')
+        logger.serverLog(TAG, 'No response found', 'debug')
         BotsDataLayer.updateBotObject({ _id: bot._id }, { $inc: { 'missCount': 1 } })
           .then(dbRes => {
             // Will only run when the entities are not zero i.e. confidence is low
@@ -387,28 +382,28 @@ function getWitResponse (message, token, bot, pageId, senderId) {
             }
             UnAnsweredQuestions.createUnansweredQuestionObject(unansweredQuestion)
               .then(result => {
-                logger.serverLog(TAG, result)
+                logger.serverLog(TAG, result, 'debug')
               })
               .catch(err => {
-                logger.serverLog(TAG, `Failed to create unansweredQuestion ${err}`)
+                logger.serverLog(TAG, `Failed to create unansweredQuestion ${err}`, 'error')
               })
           })
           .catch(err => {
-            logger.serverLog(TAG, `Failed to update bot ${err}`)
+            logger.serverLog(TAG, `Failed to update bot ${err}`, 'error')
           })
         return { found: false, intent_name: 'Not Found' }
       }
       var intent = JSON.parse(witres.body).entities.intent[0]
-      logger.serverLog(TAG, `intent ${util.inspect(intent)}`)
+      logger.serverLog(TAG, `intent ${util.inspect(intent)}`, 'debug')
       if (intent.confidence > 0.80) {
-        logger.serverLog(TAG, 'Responding using bot: ' + intent.value)
+        logger.serverLog(TAG, 'Responding using bot: ' + intent.value, 'debug')
         utility.callApi(`subscribers/query`, 'post', { senderId: senderId, companyId: bot.companyId })
           .then(subscriber => {
             subscriber = subscriber[0]
             // Bot will not respond if a subscriber is waiting subscriber
             WaitingSubscribers.findOneWaitingSubscriberObjectUsingQuery({ 'subscriberId': subscriber._id })
               .then(sub => {
-                logger.serverLog(TAG, 'bot is ' + JSON.stringify(sub))
+                logger.serverLog(TAG, 'bot is ' + JSON.stringify(sub), 'debug')
                 // If sub not found, reply the answer
                 if (!sub) {
                   for (let i = 0; i < bot.payload.length; i++) {
@@ -427,7 +422,7 @@ function getWitResponse (message, token, bot, pageId, senderId) {
                           logger.serverLog(TAG, 'bot updated successfully!')
                         })
                         .catch(err => {
-                          logger.serverLog(TAG, `Failed to update bot ${err}`)
+                          logger.serverLog(TAG, `Failed to update bot ${err}`, 'error')
                         })
                       // send the message to sub
                       sendMessenger(bot.payload[i], pageId, senderId, postbackPayload, bot._id)
@@ -438,22 +433,22 @@ function getWitResponse (message, token, bot, pageId, senderId) {
                 }
               })
               .catch(err => {
-                logger.serverLog(TAG, `Failed to fetch waitingSubscriber ${err}`)
+                logger.serverLog(TAG, `Failed to fetch waitingSubscriber ${err}`, 'error')
               })
           })
           .catch(err => {
-            logger.serverLog(TAG, `Failed to fetch subscriber ${err}`)
+            logger.serverLog(TAG, `Failed to fetch subscriber ${err}`, 'error')
           })
       }
     })
 }
 
 exports.respond = function (pageId, senderId, text) {
-  logger.serverLog(TAG, ' ' + pageId + ' ' + senderId + ' ' + text)
+  logger.serverLog(TAG, ' ' + pageId + ' ' + senderId + ' ' + text, 'debug')
   utility.callApi(`pages/query`, 'post', {_id: pageId})
     .then(page => {
       page = page[0]
-      logger.serverLog(TAG, `PAGES FETCHED ${JSON.stringify(page)}`)
+      logger.serverLog(TAG, `PAGES FETCHED ${JSON.stringify(page)}`, 'debug')
       if (page) {
         BotsDataLayer.findAllBotObjectsUsingQuery({ pageId: page._id })
           .then(bot => {
@@ -463,17 +458,17 @@ exports.respond = function (pageId, senderId, text) {
             }
             if (bot && bot.isActive === 'true') {
               // Write the bot response logic here
-              logger.serverLog(TAG, 'Responding using the bot as status is Active')
+              logger.serverLog(TAG, 'Responding using the bot as status is Active', 'debug')
               getWitResponse(text, bot.witToken, bot, page.pageId, senderId)
             }
           })
           .catch(err => {
-            logger.serverLog(TAG, `Failed to fetch bots ${err}`)
+            logger.serverLog(TAG, `Failed to fetch bots ${err}`, 'error')
           })
       }
     })
     .catch(err => {
-      logger.serverLog(TAG, `Failed to fetch pages ${err}`)
+      logger.serverLog(TAG, `Failed to fetch pages ${err}`, 'error')
     })
 }
 function populateBot (bots, req) {
@@ -504,7 +499,7 @@ function populateBot (bots, req) {
           }
         })
         .catch(err => {
-          logger.serverLog(TAG, `Failed to fetch bots ${JSON.stringify(err)}`)
+          logger.serverLog(TAG, `Failed to fetch bots ${JSON.stringify(err)}`, 'error')
           reject(err)
         })
     }
@@ -528,17 +523,17 @@ function populateSubscriber (waiting, req) {
                 datetime: waiting[i].datetime
               })
               if (sendPayload.length === waiting.length) {
-                logger.serverLog(TAG, `sendPayload ${JSON.stringify(sendPayload)}`)
+                logger.serverLog(TAG, `sendPayload ${JSON.stringify(sendPayload)}`, 'debug')
                 resolve({waitingSubscribers: sendPayload})
               }
             })
             .catch(err => {
-              logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(err)}`)
+              logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(err)}`, 'error')
               reject(err)
             })
         })
         .catch(err => {
-          logger.serverLog(TAG, `Failed to fetch page ${JSON.stringify(err)}`)
+          logger.serverLog(TAG, `Failed to fetch page ${JSON.stringify(err)}`, 'error')
           reject(err)
         })
     }

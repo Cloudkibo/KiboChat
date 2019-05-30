@@ -194,7 +194,6 @@ exports.enable = function (req, res) {
                       } else {
                         utility.callApi(`pages/query`, 'post', {pageId: req.body.pageId, connected: true}, req.headers.authorization)
                           .then(pageConnected => {
-                            console.log('pageConnected', pageConnected)
                             if (pageConnected.length === 0) {
                               let query = {
                                 connected: true,
@@ -232,7 +231,6 @@ exports.enable = function (req, res) {
                                   // initiate reach estimation
                                   needle('post', `https://graph.facebook.com/v2.11/me/broadcast_reach_estimations?access_token=${page.accessToken}`)
                                     .then(reachEstimation => {
-                                      console.log(util.inspect(reachEstimation.body))
                                       if (reachEstimation.body.reach_estimation_id) {
                                         query.reachEstimationId = reachEstimation.body.reach_estimation_id
                                         utility.callApi(`pages/${req.body._id}`, 'put', query, req.headers.authorization) // connect page
@@ -289,7 +287,6 @@ exports.enable = function (req, res) {
                                                           `Internal Server Error ${JSON.stringify(
                                                             err)}`)
                                                       }
-                                                      console.log('response from gettingStarted', resp.body)
                                                     })
                                                   // require('./../../../config/socketio').sendMessageToClient({
                                                   //   room_id: req.body.companyId,
@@ -493,6 +490,44 @@ exports.whitelistDomain = function (req, res) {
       })
     })
 }
+
+exports.fetchWhitelistedDomains = function (req, res) {
+  const pageId = req.params._id
+
+  utility.callApi(`pages/whitelistDomain/${pageId}`, 'get', {}, req.headers.authorization)
+    .then(whitelistDomains => {
+      return res.status(200).json({
+        status: 'success',
+        payload: whitelistDomains
+      })
+    })
+    .catch(error => {
+      return res.status(500).json({
+        status: 'failed',
+        description: `Failed to fetch whitelist domains ${JSON.stringify(error)}`
+      })
+    })
+}
+
+exports.deleteWhitelistDomain = function (req, res) {
+  const pageId = req.body.page_id
+  const whitelistDomain = req.body.whitelistDomain
+
+  utility.callApi(`pages/deleteWhitelistDomain`, 'post', {page_id: pageId, whitelistDomain: whitelistDomain}, req.headers.authorization)
+    .then(whitelistDomains => {
+      return res.status(200).json({
+        status: 'success',
+        payload: whitelistDomains
+      })
+    })
+    .catch(error => {
+      return res.status(500).json({
+        status: 'failed',
+        description: `Failed to delete whitelist domains ${JSON.stringify(error)}`
+      })
+    })
+}
+
 exports.saveGreetingText = function (req, res) {
   const pageId = req.body.pageId
   const greetingText = req.body.greetingText
@@ -602,7 +637,6 @@ exports.otherPages = function (req, res) {
 function createTag (user, page, tag, req) {
   needle('post', `https://graph.facebook.com/v2.11/me/custom_labels?access_token=${page.accessToken}`, {'name': tag})
     .then(label => {
-      console.log(`label response ${util.inspect(label.body)}`)
       if (label.body.id) {
         let tagData = {
           tag: tag,

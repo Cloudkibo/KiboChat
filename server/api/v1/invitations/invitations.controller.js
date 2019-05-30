@@ -6,7 +6,6 @@ const callApi = require('../utility')
 exports.index = function (req, res) {
   callApi.callApi('invitations', 'get', {}, req.headers.authorization)
     .then(invitations => {
-      console.log('Invitations', invitations)
       res.status(200).json({
         status: 'success',
         payload: invitations
@@ -23,7 +22,6 @@ exports.index = function (req, res) {
 exports.cancel = function (req, res) {
   callApi.callApi('invitations/cancel', 'post', {email: req.body.email}, req.headers.authorization)
     .then(result => {
-      console.log('result', result)
       res.status(200).json({
         status: 'success',
         description: 'Invitation has been cancelled.'

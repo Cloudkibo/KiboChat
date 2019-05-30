@@ -29,7 +29,6 @@ exports.queryForSubscribers = function (body, companyUser, isSubscribed, pageIds
       count: {$sum: 1}}
     }
   ]
-  console.log('final query', query)
   return query
 }
 

@@ -2,7 +2,6 @@ const logicLayer = require('./logiclayer')
 const utility = require('../utility')
 
 exports.index = function (req, res) {
-  console.log('inside controller')
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization) // fetch company user
     .then(companyuser => {
       let criterias = logicLayer.getCriterias(req.body, companyuser)

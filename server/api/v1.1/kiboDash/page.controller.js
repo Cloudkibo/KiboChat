@@ -39,7 +39,7 @@ exports.index = (req, res) => {
       return res.status(200).json({status: 'success', payload: result})
     })
     .catch((err) => {
-      logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`)
+      logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
       return res.status(500).json({status: 'failed', description: err})
     })
 }
@@ -50,7 +50,7 @@ exports.ranged = (req, res) => {
       return res.status(200).json({status: 'success', payload: result})
     })
     .catch((err) => {
-      logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`)
+      logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
       return res.status(500).json({status: 'failed', description: err})
     })
 }
@@ -61,7 +61,7 @@ exports.onePage = (req, res) => {
       return res.status(200).json({status: 'success', payload: result})
     })
     .catch((err) => {
-      logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`)
+      logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
       return res.status(500).json({status: 'failed', description: err})
     })
 }
@@ -74,7 +74,7 @@ exports.onePageRanged = (req, res) => {
       return res.status(200).json({status: 'success', payload: result})
     })
     .catch((err) => {
-      logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`)
+      logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
       return res.status(500).json({status: 'failed', description: err})
     })
 }
@@ -82,7 +82,6 @@ exports.onePageRanged = (req, res) => {
 exports.topPages = (req, res) => {
   callApi(`PagewiseData/topPages`, 'post', {limit: req.body.limit}, req.headers.authorization, 'kibodash')
     .then((result) => {
-      console.log('result', result)
       let pageIds = utility.getPageIdsFromTopPagesPayload(result)
       if (pageIds) {
         callApi(`pages/query`, 'post', {pageId: {$in: pageIds}}, req.headers.authorization)
@@ -91,7 +90,7 @@ exports.topPages = (req, res) => {
             return res.status(200).json({status: 'success', payload: finalPayload})
           })
           .catch((err) => {
-            logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`)
+            logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
             return res.status(500).json({status: 'failed', description: err})
           })
       } else {
@@ -99,7 +98,7 @@ exports.topPages = (req, res) => {
       }
     })
     .catch((err) => {
-      logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`)
+      logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
       return res.status(500).json({status: 'failed', description: err})
     })
 }

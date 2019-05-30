@@ -8,15 +8,12 @@ exports.index = function (req, res) {
     status: 'success',
     description: `received the payload`
   })
-  console.log('req.body', req.body)
   callApi(`companyprofile/query`, 'post', {'twilio.accountSID': req.body.AccountSid})
     .then(company => {
-      console.log('company found', company)
       callApi(`user/query`, 'post', {_id: company.ownerId})
         .then(user => {
           callApi(`contacts/query`, 'post', {number: req.body.From, companyId: company._id})
             .then(contact => {
-              console.log('contacts found', contact)
               contact = contact[0]
               if (contact.isSubscribed || req.body.Body.toLowerCase() === 'start') {
                 let MessageObject = {
@@ -46,11 +43,11 @@ exports.index = function (req, res) {
                       .then(updated => {
                       })
                       .catch(error => {
-                        logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`)
+                        logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`, 'error')
                       })
                   })
                   .catch(error => {
-                    logger.serverLog(TAG, `Failed to create sms ${JSON.stringify(error)}`)
+                    logger.serverLog(TAG, `Failed to create sms ${JSON.stringify(error)}`, 'error')
                   })
                 if (req.body.Body !== '' && (req.body.Body.toLowerCase() === 'unsubscribe' || req.body.Body.toLowerCase() === 'stop')) {
                   handleUnsub(user, company, contact, req.body)
@@ -60,15 +57,15 @@ exports.index = function (req, res) {
               }
             })
             .catch(error => {
-              logger.serverLog(TAG, `Failed to fetch contact ${JSON.stringify(error)}`)
+              logger.serverLog(TAG, `Failed to fetch contact ${JSON.stringify(error)}`, 'error')
             })
         })
         .catch(error => {
-          logger.serverLog(TAG, `Failed to fetch user ${JSON.stringify(error)}`)
+          logger.serverLog(TAG, `Failed to fetch user ${JSON.stringify(error)}`, 'error')
         })
     })
     .catch(error => {
-      logger.serverLog(TAG, `Failed to fetch company ${JSON.stringify(error)}`)
+      logger.serverLog(TAG, `Failed to fetch company ${JSON.stringify(error)}`, 'error')
     })
 }
 function handleUnsub (user, company, contact, body) {
@@ -83,11 +80,10 @@ function handleUnsub (user, company, contact, body) {
       to: contact.number
     })
     .then(response => {
-      console.log('response from smstwiliomsg', response)
       logger.serverLog(TAG, `response from twilio ${JSON.stringify(response)}`)
     })
     .catch(error => {
-      logger.serverLog(TAG, `error at sending message ${error}`)
+      logger.serverLog(TAG, `error at sending message ${error}`, 'error')
     })
   let message = {
     senderNumber: company.twilioWhatsApp.sandboxNumber,
@@ -112,7 +108,7 @@ function handleUnsub (user, company, contact, body) {
         .then(updated => {
         })
         .catch(error => {
-          logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`)
+          logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`, 'error')
         })
     })
 }
@@ -128,11 +124,10 @@ function handleSub (user, company, contact, body) {
       to: contact.number
     })
     .then(response => {
-      console.log('response from smstwiliomsg', response)
       logger.serverLog(TAG, `response from twilio ${JSON.stringify(response)}`)
     })
     .catch(error => {
-      logger.serverLog(TAG, `error at sending message ${error}`)
+      logger.serverLog(TAG, `error at sending message ${error}`, 'error')
     })
   let message = {
     senderNumber: company.twilioWhatsApp.sandboxNumber,
@@ -157,7 +152,7 @@ function handleSub (user, company, contact, body) {
         .then(updated => {
         })
         .catch(error => {
-          logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`)
+          logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`, 'error')
         })
     })
 }
@@ -189,11 +184,11 @@ exports.whatsApp = function (req, res) {
           }
         })
         .catch(error => {
-          logger.serverLog(TAG, `Failed to fetch contact ${JSON.stringify(error)}`)
+          logger.serverLog(TAG, `Failed to fetch contact ${JSON.stringify(error)}`, 'error')
         })
     })
     .catch(error => {
-      logger.serverLog(TAG, `Failed to company profile ${JSON.stringify(error)}`)
+      logger.serverLog(TAG, `Failed to company profile ${JSON.stringify(error)}`, 'error')
     })
 }
 function storeChat (from, to, body, contact, company) {
@@ -219,7 +214,7 @@ function storeChat (from, to, body, contact, company) {
             .then(updated => {
             })
             .catch(error => {
-              logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`)
+              logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`, 'error')
             })
         })
       if (messageData.otherPayload) {
@@ -234,7 +229,7 @@ function storeChat (from, to, body, contact, company) {
               .then(updated => {
               })
               .catch(error => {
-                logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`)
+                logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`, 'error')
               })
           })
       }
@@ -245,7 +240,7 @@ function storeChat (from, to, body, contact, company) {
       }
     })
     .catch(error => {
-      logger.serverLog(TAG, `Failed to fetch user ${error}`)
+      logger.serverLog(TAG, `Failed to fetch user ${error}`, 'error')
     })
 }
 
@@ -264,7 +259,7 @@ function handleUnsubscribe (contact, company, user) {
       logger.serverLog(TAG, `response from twilio ${JSON.stringify(response)}`)
     })
     .catch(error => {
-      logger.serverLog(TAG, `error at sending message ${error}`)
+      logger.serverLog(TAG, `error at sending message ${error}`, 'error')
     })
   let message = {
     senderNumber: company.twilioWhatsApp.sandboxNumber,
@@ -289,7 +284,7 @@ function handleUnsubscribe (contact, company, user) {
         .then(updated => {
         })
         .catch(error => {
-          logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`)
+          logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`, 'error')
         })
     })
 }
@@ -309,7 +304,7 @@ function handleSubscribe (contact, company, user) {
       logger.serverLog(TAG, `response from twilio ${JSON.stringify(response)}`)
     })
     .catch(error => {
-      logger.serverLog(TAG, `error at sending message ${error}`)
+      logger.serverLog(TAG, `error at sending message ${error}`, 'error')
     })
   let message = {
     senderNumber: company.twilioWhatsApp.sandboxNumber,
@@ -334,7 +329,7 @@ function handleSubscribe (contact, company, user) {
         .then(updated => {
         })
         .catch(error => {
-          logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`)
+          logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`, 'error')
         })
     })
 }
