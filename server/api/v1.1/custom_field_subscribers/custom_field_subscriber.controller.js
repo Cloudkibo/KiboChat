@@ -83,3 +83,22 @@ exports.setCustomFieldValue = function (req, res) {
       })
     })
 }
+
+exports.getCustomFieldSubscriber = function (req, res) {
+  callApi.callApi('custom_field_subscribers/query', 'post',
+    { purpose: 'findOne', match: {subscriberId: req.params.subscriberId} },
+    req.headers.authorization
+  )
+    .then(foundCustomFieldSubscriber => {
+      return res.status(200).json({
+        status: 'success',
+        payload: foundCustomFieldSubscriber
+      })
+    })
+    .catch(err => {
+      return res.status(500).json({
+        status: 'Failed',
+        description: `Internal Server ${(err)}`
+      })
+    })
+}
