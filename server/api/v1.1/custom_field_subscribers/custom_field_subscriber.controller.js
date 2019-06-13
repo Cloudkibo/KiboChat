@@ -86,7 +86,7 @@ exports.setCustomFieldValue = function (req, res) {
 
 exports.getCustomFieldSubscriber = function (req, res) {
   callApi.callApi('custom_field_subscribers/query', 'post',
-    { purpose: 'findOne', match: {subscriberId: req.params.subscriberId} },
+    { purpose: 'findAll', match: {subscriberId: req.params.subscriberId} },
     req.headers.authorization
   )
     .then(foundCustomFieldSubscriber => {
