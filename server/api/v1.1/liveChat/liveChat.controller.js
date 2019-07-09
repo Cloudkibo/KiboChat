@@ -22,7 +22,7 @@ exports.index = function (req, res) {
 
     async.parallelLimit([
       function (callback) {
-        callApi(`livechat/query`, 'post', messagesCountData, '', 'kibochat')
+        callApi(`livechat/query`, 'post', messagesCountData, 'kibochat')
           .then(data => {
             callback(null, data)
           })
@@ -31,7 +31,7 @@ exports.index = function (req, res) {
           })
       },
       function (callback) {
-        callApi(`livechat/query`, 'post', messagesData, '', 'kibochat')
+        callApi(`livechat/query`, 'post', messagesData, 'kibochat')
           .then(data => {
             callback(null, data)
           })
@@ -58,7 +58,7 @@ exports.index = function (req, res) {
 
 exports.search = function (req, res) {
   let searchData = { subscriber_id: req.body.subscriber_id, company_id: req.user.companyId, $text: { $search: req.body.text } }
-  callApi(`livechat/search`, 'post', searchData, '', 'kibochat')
+  callApi(`livechat/search`, 'post', searchData, 'kibochat')
     .then(chats => {
       return res.status(200).json({
         status: 'success',
@@ -72,7 +72,7 @@ exports.search = function (req, res) {
 
 exports.update = function (req, res) {
   let updateData = logicLayer.getUpdateData('updateOne', { _id: req.body.id }, { $set: { urlmeta: req.body.urlmeta } }, false, false, true)
-  callApi(`livechat`, 'put', updateData, '', 'kibochat')
+  callApi(`livechat`, 'put', updateData, 'kibochat')
     .then(updated => {
       return res.status(201).json({
         status: 'success',
@@ -112,7 +112,7 @@ exports.create = function (req, res) {
     // Create Message Object
     function (callback) {
       let fbMessageObject = logicLayer.prepareFbMessageObject(req.body)
-      callApi(`livechat`, 'post', fbMessageObject, '', 'kibochat')
+      callApi(`livechat`, 'post', fbMessageObject, 'kibochat')
         .then(message => {
           callback(null, message)
         })
@@ -122,7 +122,7 @@ exports.create = function (req, res) {
     },
     // Send webhook response
     function (callback) {
-      callApi(`webhooks/query/`, 'post', { pageId: req.body.sender_fb_id }, req.headers.authorization)
+      callApi(`webhooks/query/`, 'post', { pageId: req.body.sender_fb_id })
         .then(webhook => {
           webhook = webhook[0]
           if (webhook && webhook.isEnabled) {
@@ -154,7 +154,7 @@ exports.create = function (req, res) {
         newPayload: {last_activity_time: Date.now(), agent_activity_time: Date.now()},
         options: {}
       }
-      callApi(`subscribers/update`, 'put', subscriberData, req.headers.authorization)
+      callApi(`subscribers/update`, 'put', subscriberData)
         .then(updated => {
           require('./../../../config/socketio').sendMessageToClient({
             room_id: req.user.companyId,
@@ -175,7 +175,7 @@ exports.create = function (req, res) {
     },
     // Find subscriber details.
     function (callback) {
-      callApi(`subscribers/${req.body.subscriber_id}`, 'get', {}, req.headers.authorization)
+      callApi(`subscribers/${req.body.subscriber_id}`, 'get', {}, 'accounts', req.headers.authorization)
         .then(subscriber => {
           let messageData = logicLayer.prepareSendAPIPayload(
             subscriber.senderId,
@@ -217,7 +217,7 @@ exports.create = function (req, res) {
         // Update Bot Block list
         function (callback) {
           let botsData = logicLayer.getQueryData('', 'findOne', { pageId: subscriber.pageId._id, companyId: subscriber.companyId })
-          callApi(`smart_replies/query`, 'post', botsData, '', 'kibochat')
+          callApi(`smart_replies/query`, 'post', botsData, 'kibochat')
             .then(bot => {
               if (!bot) {
                 callback(null, 'No bot found!')
@@ -238,7 +238,7 @@ exports.create = function (req, res) {
                 type: 'bot',
                 scheduledTime: timeNow.setMinutes(timeNow.getMinutes() + 30)
               }
-              return callApi(`automation_queue/create`, 'post', automationQueue, '', 'kiboengage')
+              return callApi(`automation_queue/create`, 'post', automationQueue, 'kiboengage')
             })
             .then(automationObject => {
               callback(null, automationObject)

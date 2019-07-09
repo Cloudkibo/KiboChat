@@ -8,12 +8,12 @@ const TAG = 'api/contacts/contacts.controller.js'
 const path = require('path')
 
 exports.index = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization) // fetch company user
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }) // fetch company user
     .then(companyuser => {
       let criterias = logicLayer.getCriterias(req.body, companyuser)
-      utility.callApi(`contacts/aggregate`, 'post', criterias.countCriteria, req.headers.authorization) // fetch subscribers count
+      utility.callApi(`contacts/aggregate`, 'post', criterias.countCriteria) // fetch subscribers count
         .then(count => {
-          utility.callApi(`contacts/aggregate`, 'post', criterias.fetchCriteria, req.headers.authorization) // fetch subscribers
+          utility.callApi(`contacts/aggregate`, 'post', criterias.fetchCriteria) // fetch subscribers
             .then(contacts => {
               res.status(200).json({
                 status: 'success',
@@ -44,7 +44,7 @@ exports.index = function (req, res) {
 
 exports.uploadFile = function (req, res) {
   let directory = phoneNumberLogicLayer.directory(req)
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
       fs.rename(req.files.file.path, path.join(directory.dir, '/userfiles/', directory.serverPath), err => {
         if (err) {
@@ -61,11 +61,11 @@ exports.uploadFile = function (req, res) {
             if (data[`${phoneColumn}`] && data[`${nameColumn}`]) {
               var result = data[`${phoneColumn}`].replace(/[- )(]+_/g, '')
               utility.callApi(`contacts/query`, 'post', {
-                number: result, companyId: companyUser.companyId}, req.headers.authorization)
+                number: result, companyId: companyUser.companyId})
                 .then(phone => {
                   if (phone.length === 0) {
                     let payload = logicLayer.preparePayload(req.body, companyUser, data, nameColumn, result)
-                    utility.callApi(`contacts`, 'post', payload, req.headers.authorization)
+                    utility.callApi(`contacts`, 'post', payload)
                       .then(saved => {
                       })
                       .catch(error => {
@@ -93,17 +93,17 @@ exports.uploadFile = function (req, res) {
     })
 }
 exports.uploadNumbers = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
       for (let i = 0; i < req.body.numbers.length; i++) {
         utility.callApi(`contacts/query`, 'post', {
-          number: req.body.numbers[i].number, companyId: companyUser.companyId}, req.headers.authorization)
+          number: req.body.numbers[i].number, companyId: companyUser.companyId})
           .then(phone => {
             if (phone.length === 0) {
               utility.callApi(`contacts`, 'post', {
                 name: req.body.numbers[i].name,
                 number: req.body.numbers[i].number,
-                companyId: companyUser.companyId}, req.headers.authorization)
+                companyId: companyUser.companyId})
                 .then(saved => {
                 })
                 .catch(error => {

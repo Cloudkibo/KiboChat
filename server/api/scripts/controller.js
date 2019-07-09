@@ -3,11 +3,11 @@ let config = require('../../config/environment')
 const needle = require('needle')
 
 exports.addWhitelistDomain = function (req, res) {
-  utility.callApi(`pages/query`, 'post', {connected: true}, req.headers.authorization) // fetch connected pages
+  utility.callApi(`pages/query`, 'post', {connected: true}) // fetch connected pages
     .then(pages => {
       for (let i = 0; i < pages.length; i++) {
         if (pages[i].userId && pages[i].userId._id) {
-          utility.callApi(`user/query`, 'post', {_id: pages[i].userId._id}, req.headers.authorization)
+          utility.callApi(`user/query`, 'post', {_id: pages[i].userId._id})
             .then(connectedUser => {
               connectedUser = connectedUser[0]
               if (connectedUser.facebookInfo) {

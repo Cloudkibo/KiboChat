@@ -29,7 +29,7 @@ Structure: {status: 'success', payload: {startDate, totalAutoposting, facebookAu
 */
 
 exports.index = (req, res) => {
-  callApi(`AutopostingData`, 'get', {}, req.headers.authorization, 'kibodash')
+  callApi(`AutopostingData`, 'get', {}, 'kibodash')
     .then((result) => {
       return res.status(200).json({status: 'success', payload: result})
     })
@@ -40,7 +40,7 @@ exports.index = (req, res) => {
 }
 
 exports.ranged = (req, res) => {
-  callApi(`AutopostingData/PlatformAutopostingDatewise`, 'post', {startDate: req.body.startDate}, req.headers.authorization, 'kibodash')
+  callApi(`AutopostingData/PlatformAutopostingDatewise`, 'post', {startDate: req.body.startDate}, 'kibodash')
     .then((result) => {
       return res.status(200).json({status: 'success', payload: result})
     })
@@ -51,7 +51,7 @@ exports.ranged = (req, res) => {
 }
 
 exports.userwise = (req, res) => {
-  callApi(`AutopostingData/UserTotalAutoposting`, 'post', {companyId: req.body.companyId}, req.headers.authorization, 'kibodash')
+  callApi(`AutopostingData/UserTotalAutoposting`, 'post', {companyId: req.body.companyId}, 'kibodash')
     .then((result) => {
       return res.status(200).json({status: 'success', payload: result})
     })
@@ -63,7 +63,7 @@ exports.userwise = (req, res) => {
 
 exports.userwiseRanged = (req, res) => {
   callApi(`AutopostingData/UserAutopostingDatewise`, 'post', {startDate: req.body.startDate,
-    companyId: req.body.companyId}, req.headers.authorization, 'kibodash')
+    companyId: req.body.companyId}, 'kibodash')
     .then((result) => {
       return res.status(200).json({status: 'success', payload: result})
     })

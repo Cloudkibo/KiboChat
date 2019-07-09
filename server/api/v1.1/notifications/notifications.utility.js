@@ -11,12 +11,12 @@ function saveNotification (webhook, req) {
     agentId: webhook.userId,
     companyId: webhook.companyId
   }
-  callApi(`notifications`, 'post', notificationsData, '', 'kibochat')
+  callApi(`notifications`, 'post', notificationsData, 'kibochat')
     .then(savedNotification => {})
     .catch(error => {
       logger.serverLog(TAG, `Failed to create notification ${JSON.stringify(error)}`, 'error')
     })
-  utility.callApi(`webhooks/${webhook._id}`, 'put', {isEnabled: false, error_message: 'URL not live'}, req.headers.authorization)
+  utility.callApi(`webhooks/${webhook._id}`, 'put', {isEnabled: false, error_message: 'URL not live'})
     .then(companyUser => {})
     .catch(error => {
       logger.serverLog(TAG, `Failed to update webhook ${JSON.stringify(error)}`, 'error')
@@ -64,7 +64,7 @@ function limitReachedNotification (module, company) {
     agentId: company.ownerId,
     companyId: company._id
   }
-  callApi(`notifications`, 'post', notificationsData, '', 'kibochat')
+  callApi(`notifications`, 'post', notificationsData, 'kibochat')
     .then(savedNotification => {})
     .catch(error => {
       logger.serverLog(TAG, `Failed to create notification ${JSON.stringify(error)}`, 'error')

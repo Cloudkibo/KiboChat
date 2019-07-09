@@ -25,7 +25,7 @@ exports.index = function (req, res) {
                   status: 'unseen',
                   format: 'twilio'
                 }
-                callApi(`smsChat`, 'post', MessageObject, '', 'kibochat')
+                callApi(`smsChat`, 'post', MessageObject, 'kibochat')
                   .then(message => {
                     require('./../../../config/socketio').sendMessageToClient({
                       room_id: contact.companyId,
@@ -97,7 +97,7 @@ function handleUnsub (user, company, contact, body) {
       type: 'agent'
     }
   }
-  callApi(`smsChat`, 'post', message, '', 'kibochat')
+  callApi(`smsChat`, 'post', message, 'kibochat')
     .then(message => {
       let subscriberData = {
         query: {_id: contact._id},
@@ -141,7 +141,7 @@ function handleSub (user, company, contact, body) {
       type: 'agent'
     }
   }
-  callApi(`smsChat`, 'post', message, '', 'kibochat')
+  callApi(`smsChat`, 'post', message, 'kibochat')
     .then(message => {
       let subscriberData = {
         query: {_id: contact._id},
@@ -196,7 +196,7 @@ function storeChat (from, to, body, contact, company) {
     .then(user => {
       user = user[0]
       let messageData = logicLayer.prepareChat(from, to, body, contact)
-      callApi(`whatsAppChat`, 'post', messageData.messageObject, '', 'kibochat')
+      callApi(`whatsAppChat`, 'post', messageData.messageObject, 'kibochat')
         .then(message => {
           require('./../../../config/socketio').sendMessageToClient({
             room_id: contact.companyId,
@@ -218,7 +218,7 @@ function storeChat (from, to, body, contact, company) {
             })
         })
       if (messageData.otherPayload) {
-        callApi(`whatsAppChat`, 'post', messageData.otherPayload, '', 'kibochat')
+        callApi(`whatsAppChat`, 'post', messageData.otherPayload, 'kibochat')
           .then(message => {
             let subscriberData = {
               query: {_id: contact._id},
@@ -273,7 +273,7 @@ function handleUnsubscribe (contact, company, user) {
       type: 'agent'
     }
   }
-  callApi(`whatsAppChat`, 'post', message, '', 'kibochat')
+  callApi(`whatsAppChat`, 'post', message, 'kibochat')
     .then(message => {
       let subscriberData = {
         query: {_id: contact._id},
@@ -318,7 +318,7 @@ function handleSubscribe (contact, company, user) {
       type: 'agent'
     }
   }
-  callApi(`whatsAppChat`, 'post', message, '', 'kibochat')
+  callApi(`whatsAppChat`, 'post', message, 'kibochat')
     .then(message => {
       let subscriberData = {
         query: {_id: contact._id},

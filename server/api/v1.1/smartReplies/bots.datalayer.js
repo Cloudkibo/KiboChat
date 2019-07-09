@@ -10,7 +10,7 @@ exports.findOneBotObject = (botId) => {
     purpose: 'findOne',
     match: {_id: botId}
   }
-  return callApi(`smart_replies/query`, 'post', query, '', 'kibochat')
+  return callApi(`smart_replies/query`, 'post', query, 'kibochat')
 }
 
 exports.findAllBotObjects = () => {
@@ -18,7 +18,7 @@ exports.findAllBotObjects = () => {
     purpose: 'findAll',
     match: {}
   }
-  return callApi(`smart_replies/query`, 'post', query, '', 'kibochat')
+  return callApi(`smart_replies/query`, 'post', query, 'kibochat')
 }
 
 exports.findOneBotObjectUsingQuery = (queryObject) => {
@@ -26,7 +26,7 @@ exports.findOneBotObjectUsingQuery = (queryObject) => {
     purpose: 'findOne',
     match: queryObject
   }
-  return callApi(`smart_replies/query`, 'post', query, '', 'kibochat')
+  return callApi(`smart_replies/query`, 'post', query, 'kibochat')
 }
 
 exports.findAllBotObjectsUsingQuery = (queryObject) => {
@@ -34,7 +34,7 @@ exports.findAllBotObjectsUsingQuery = (queryObject) => {
     purpose: 'findAll',
     match: queryObject
   }
-  return callApi(`smart_replies/query`, 'post', query, '', 'kibochat')
+  return callApi(`smart_replies/query`, 'post', query, 'kibochat')
 }
 
 exports.findBotObjectsUsingAggregate = (aggregateObject) => {
@@ -43,7 +43,7 @@ exports.findBotObjectsUsingAggregate = (aggregateObject) => {
 }
 
 exports.createBotObject = (payload) => {
-  return callApi(`smart_replies`, 'post', payload, '', 'kibochat')
+  return callApi(`smart_replies`, 'post', payload, 'kibochat')
 }
 
 exports.updateBotObject = (queryObject, payload) => {
@@ -52,7 +52,7 @@ exports.updateBotObject = (queryObject, payload) => {
     match: queryObject,
     updated: payload
   }
-  return callApi(`smart_replies`, 'put', query, '', 'kibochat')
+  return callApi(`smart_replies`, 'put', query, 'kibochat')
 }
 
 exports.genericUpdateBotObject = (queryObject, updated, options) => {
@@ -69,7 +69,7 @@ exports.genericUpdateBotObject = (queryObject, updated, options) => {
     query.purpose = 'updateOne'
   }
 
-  return callApi(`smart_replies`, 'put', query, '', 'kibochat')
+  return callApi(`smart_replies`, 'put', query, 'kibochat')
 }
 
 exports.genericFindByIdAndUpdate = (queryObject, updated) => {
@@ -78,7 +78,7 @@ exports.genericFindByIdAndUpdate = (queryObject, updated) => {
     match: queryObject,
     updated: updated
   }
-  return callApi(`smart_replies`, 'put', query, '', 'kibochat')
+  return callApi(`smart_replies`, 'put', query, 'kibochat')
 }
 
 exports.deleteBotObject = (botId) => {
@@ -86,7 +86,7 @@ exports.deleteBotObject = (botId) => {
     purpose: 'deleteOne',
     match: {_id: botId}
   }
-  return callApi(`smart_replies`, 'delete', query, '', 'kibochat')
+  return callApi(`smart_replies`, 'delete', query, 'kibochat')
 }
 
 exports.deleteBotObjectUsingQuery = (queryObject) => {
@@ -94,5 +94,5 @@ exports.deleteBotObjectUsingQuery = (queryObject) => {
     purpose: 'deleteOne',
     match: queryObject
   }
-  return callApi(`smart_replies`, 'delete', query, '', 'kibochat')
+  return callApi(`smart_replies`, 'delete', query, 'kibochat')
 }

@@ -17,7 +17,7 @@ exports.index = function (req, res) {
 
     async.parallelLimit([
       function (callback) {
-        callApi(`whatsAppChat/query`, 'post', messagesCountData, '', 'kibochat')
+        callApi(`whatsAppChat/query`, 'post', messagesCountData, 'kibochat')
           .then(data => {
             callback(null, data)
           })
@@ -26,7 +26,7 @@ exports.index = function (req, res) {
           })
       },
       function (callback) {
-        callApi(`whatsAppChat/query`, 'post', messagesData, '', 'kibochat')
+        callApi(`whatsAppChat/query`, 'post', messagesData, 'kibochat')
           .then(data => {
             callback(null, data)
           })
@@ -52,7 +52,7 @@ exports.index = function (req, res) {
 }
 
 exports.create = function (req, res) {
-  callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email, populate: 'companyId' }, req.headers.authorization)
+  callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email, populate: 'companyId' })
     .then(companyUser => {
       if (!companyUser) {
         return res.status(404).json({
@@ -61,14 +61,14 @@ exports.create = function (req, res) {
         })
       }
       let MessageObject = logicLayer.prepareChat(req.body, companyUser)
-      callApi(`whatsAppChat`, 'post', MessageObject, '', 'kibochat')
+      callApi(`whatsAppChat`, 'post', MessageObject, 'kibochat')
         .then(message => {
           let subscriberData = {
             query: {_id: req.body.contactId},
             newPayload: {last_activity_time: Date.now()},
             options: {}
           }
-          callApi(`whatsAppContacts/update`, 'put', subscriberData, req.headers.authorization)
+          callApi(`whatsAppContacts/update`, 'put', subscriberData)
             .then(updated => {
               let accountSid = companyUser.companyId.twilioWhatsApp.accountSID
               let authToken = companyUser.companyId.twilioWhatsApp.authToken
@@ -113,7 +113,7 @@ exports.fetchSessions = function (req, res) {
   async.parallelLimit([
     function (callback) {
       let data = logicLayer.getCount(req)
-      callApi('whatsAppContacts/aggregate', 'post', data, req.headers.authorization)
+      callApi('whatsAppContacts/aggregate', 'post', data)
         .then(result => {
           callback(null, result)
         })
@@ -123,7 +123,7 @@ exports.fetchSessions = function (req, res) {
     },
     function (callback) {
       let data = logicLayer.getSessions(req)
-      callApi('whatsAppContacts/aggregate', 'post', data, req.headers.authorization)
+      callApi('whatsAppContacts/aggregate', 'post', data)
         .then(result => {
           callback(null, result)
         })
@@ -133,7 +133,7 @@ exports.fetchSessions = function (req, res) {
     },
     function (callback) {
       let unreadCountData = logicLayer.getQueryData('', 'aggregate', {companyId: req.user.companyId.toString(), status: 'unseen'}, undefined, undefined, undefined, {_id: '$contactId', count: {$sum: 1}})
-      callApi('whatsAppChat/query', 'post', unreadCountData, '', 'kibochat')
+      callApi('whatsAppChat/query', 'post', unreadCountData, 'kibochat')
         .then(data => {
           callback(null, data)
         })
@@ -143,7 +143,7 @@ exports.fetchSessions = function (req, res) {
     },
     function (callback) {
       let lastMessageData = logicLayer.getQueryData('', 'aggregate', {companyId: req.user.companyId}, undefined, undefined, undefined, {_id: '$contactId', payload: { $last: '$payload' }, repliedBy: { $last: '$repliedBy' }, datetime: { $last: '$datetime' }})
-      callApi(`whatsAppChat/query`, 'post', lastMessageData, '', 'kibochat')
+      callApi(`whatsAppChat/query`, 'post', lastMessageData, 'kibochat')
         .then(data => {
           callback(null, data)
         })
@@ -185,7 +185,7 @@ exports.markread = function (req, res) {
 
 function markreadLocal (req, callback) {
   let updateData = logicLayer.getUpdateData('updateAll', {contactId: req.params.id}, {status: 'seen', seenDateTime: Date.now}, false, true)
-  callApi('whatsAppChat', 'put', updateData, '', 'kibochat')
+  callApi('whatsAppChat', 'put', updateData, 'kibochat')
     .then(updated => {
       callback(null, updated)
     })

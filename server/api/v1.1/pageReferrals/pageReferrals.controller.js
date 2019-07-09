@@ -2,7 +2,7 @@ const utility = require('../utility')
 const logicLayer = require('./pageReferrals.logiclayer')
 
 exports.index = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
       if (!companyUser) {
         return res.status(404).json({
@@ -10,7 +10,7 @@ exports.index = function (req, res) {
           description: 'The user account does not belong to any company. Please contact support'
         })
       }
-      utility.callApi(`pageReferrals/query`, 'post', {companyId: companyUser.companyId}, req.headers.authorization)
+      utility.callApi(`pageReferrals/query`, 'post', {companyId: companyUser.companyId})
         .then(pageReferrals => {
           return res.status(200).json({status: 'success', payload: pageReferrals})
         })
@@ -26,7 +26,7 @@ exports.index = function (req, res) {
     })
 }
 exports.view = function (req, res) {
-  utility.callApi(`pageReferrals/query`, 'post', {_id: req.params.id, companyId: req.user.companyId}, req.headers.authorization)
+  utility.callApi(`pageReferrals/query`, 'post', {_id: req.params.id, companyId: req.user.companyId})
     .then(pageReferrals => {
       return res.status(200).json({status: 'success', payload: pageReferrals[0]})
     })
@@ -35,7 +35,7 @@ exports.view = function (req, res) {
     })
 }
 exports.delete = function (req, res) {
-  utility.callApi(`pageReferrals/${req.params.id}`, 'delete', {}, req.headers.authorization)
+  utility.callApi(`pageReferrals/${req.params.id}`, 'delete', {})
     .then(result => {
       return res.status(200).json({status: 'success', payload: result})
     })
@@ -44,7 +44,7 @@ exports.delete = function (req, res) {
     })
 }
 exports.create = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
       if (!companyUser) {
         return res.status(404).json({
@@ -52,7 +52,7 @@ exports.create = function (req, res) {
           description: 'The user account does not belong to any company. Please contact support'
         })
       }
-      utility.callApi(`pageReferrals/query`, 'post', {pageId: req.body.pageId, companyId: companyUser.companyId}, req.headers.authorization)
+      utility.callApi(`pageReferrals/query`, 'post', {pageId: req.body.pageId, companyId: companyUser.companyId})
         .then(pageReferrals => {
           if (pageReferrals && pageReferrals.length > 0) {
             isUnique(pageReferrals, req.body.ref_parameter)
@@ -60,7 +60,7 @@ exports.create = function (req, res) {
                 if (!result.isUnique) {
                   return res.status(500).json({status: 'failed', payload: 'Please choose a unique Ref Parameter'})
                 } else {
-                  utility.callApi(`pageReferrals`, 'post', logicLayer.createPayload('companyUser', req.body), req.headers.authorization)
+                  utility.callApi(`pageReferrals`, 'post', logicLayer.createPayload('companyUser', req.body))
                     .then(craetedPageReferral => {
                       return res.status(200).json({status: 'success', payload: craetedPageReferral})
                     })
@@ -70,7 +70,7 @@ exports.create = function (req, res) {
                 }
               })
           } else {
-            utility.callApi(`pageReferrals`, 'post', logicLayer.createPayload(companyUser, req.body), req.headers.authorization)
+            utility.callApi(`pageReferrals`, 'post', logicLayer.createPayload(companyUser, req.body))
               .then(craetedPageReferral => {
                 return res.status(200).json({status: 'success', payload: craetedPageReferral})
               })
@@ -91,7 +91,7 @@ exports.create = function (req, res) {
     })
 }
 exports.update = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
       if (!companyUser) {
         return res.status(404).json({
@@ -99,7 +99,7 @@ exports.update = function (req, res) {
           description: 'The user account does not belong to any company. Please contact support'
         })
       }
-      utility.callApi(`pageReferrals/query`, 'post', {_id: req.body._id, companyId: companyUser.companyId}, req.headers.authorization)
+      utility.callApi(`pageReferrals/query`, 'post', {_id: req.body._id, companyId: companyUser.companyId})
         .then(pageReferrals => {
           if (pageReferrals.length > 0 && req.body.ref_parameter) {
             isUniqueEdit(pageReferrals, req.body.ref_parameter)
@@ -107,7 +107,7 @@ exports.update = function (req, res) {
                 if (!result.isUnique) {
                   return res.status(500).json({status: 'failed', payload: 'Please choose a unique Ref Parameter'})
                 } else {
-                  utility.callApi(`pageReferrals/${req.body._id}`, 'put', req.body, req.headers.authorization)
+                  utility.callApi(`pageReferrals/${req.body._id}`, 'put', req.body)
                     .then(updatedPageReferral => {
                       return res.status(200).json({status: 'success', payload: updatedPageReferral})
                     })
@@ -117,7 +117,7 @@ exports.update = function (req, res) {
                 }
               })
           } else {
-            utility.callApi(`pageReferrals/${req.body._id}`, 'put', req.body, req.headers.authorization)
+            utility.callApi(`pageReferrals/${req.body._id}`, 'put', req.body)
               .then(updatedPageReferral => {
                 return res.status(200).json({status: 'success', payload: updatedPageReferral})
               })

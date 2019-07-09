@@ -5,7 +5,7 @@ const { callApi } = require('../utility')
 
 exports.create = function (req, res) {
   logger.serverLog(TAG, 'Hit the create json ad endpoint', 'debug')
-  callApi(`jsonAd/create`, 'post', req.body, req.headers.authorization)
+  callApi(`jsonAd/create`, 'post', req.body)
     .then(jsonAd => {
       res.status(200).json({status: 'success', payload: jsonAd})
     })
@@ -16,7 +16,7 @@ exports.create = function (req, res) {
 
 exports.edit = function (req, res) {
   logger.serverLog(TAG, 'Hit the edit json ad endpoint', 'debug')
-  callApi(`jsonAd/edit`, 'post', req.body, req.headers.authorization)
+  callApi(`jsonAd/edit`, 'post', req.body)
     .then(jsonAd => {
       res.status(200).json({status: 'success', payload: jsonAd})
     })
@@ -27,7 +27,7 @@ exports.edit = function (req, res) {
 
 exports.getAll = function (req, res) {
   logger.serverLog(TAG, 'Hit the get all json ads endpoint', 'debug')
-  callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
+  callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
       if (!companyUser) {
         return res.status(404).json({
@@ -35,7 +35,7 @@ exports.getAll = function (req, res) {
           description: 'The user account does not belong to any company. Please contact support'
         })
       }
-      callApi(`jsonAd/query`, 'post', {companyId: companyUser.companyId}, req.headers.authorization)
+      callApi(`jsonAd/query`, 'post', {companyId: companyUser.companyId})
         .then(jsonAds => {
           res.status(200).json({status: 'success', payload: jsonAds})
         })
@@ -53,7 +53,7 @@ exports.getAll = function (req, res) {
 
 exports.getOne = function (req, res) {
   logger.serverLog(TAG, 'Hit the get one json ad endpoint', 'debug')
-  callApi(`jsonAd/${req.params.id}`, 'get', {}, req.headers.authorization)
+  callApi(`jsonAd/${req.params.id}`, 'get', {})
     .then(jsonAd => {
       res.status(200).json({status: 'success', payload: jsonAd})
     })
@@ -64,7 +64,7 @@ exports.getOne = function (req, res) {
 
 exports.deleteOne = function (req, res) {
   logger.serverLog(TAG, 'Hit the delete json ad endpoint', 'debug')
-  callApi(`jsonAd/delete/${req.params.id}`, 'delete', {}, req.headers.authorization)
+  callApi(`jsonAd/delete/${req.params.id}`, 'delete', {})
     .then(jsonAd => {
       res.status(200).json({status: 'success', payload: jsonAd})
     })

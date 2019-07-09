@@ -122,7 +122,7 @@ function doesPlanPermitsThisAction (action) {
   if (!action) throw new Error('Action needs to be set')
 
   return compose().use(function meetsRequirements (req, res, next) {
-    apiCaller.callApi(`permissions_plan/query`, 'post', {plan_id: req.user.plan.plan_id._id}, req.headers.authorization)
+    apiCaller.callApi(`permissions_plan/query`, 'post', {plan_id: req.user.plan.plan_id._id})
       .then(plan => {
         plan = plan[0]
         if (!plan) {
@@ -153,7 +153,7 @@ function doesRolePermitsThisAction (action) {
   if (!action) throw new Error('Action needs to be set')
 
   return compose().use(function meetsRequirements (req, res, next) {
-    apiCaller.callApi(`permissions/query`, 'post', {userId: req.user._id}, req.headers.authorization)
+    apiCaller.callApi(`permissions/query`, 'post', {userId: req.user._id})
       .then(plan => {
         plan = plan[0]
         if (!plan) {
@@ -186,11 +186,11 @@ function validateApiKeys (req, res, next) {
       app_id: req.headers['app_id'],
       app_secret: req.headers['app_secret'],
       enabled: true
-    }, req.headers.authorization)
+    })
       .then(setting => {
         if (setting) {
           // todo this is for now buyer user id but it should be company id as thought
-          apiCaller.callApi(`user/query`, 'post', {_id: setting.company_id, role: 'buyer'}, req.headers.authorization)
+          apiCaller.callApi(`user/query`, 'post', {_id: setting.company_id, role: 'buyer'})
             .then(user => {
               req.user = {_id: user._id}
               next()
@@ -232,15 +232,15 @@ function fbConnectDone (req, res) {
     res.render('error', {status: 'failed', description: `User is an ${req.user.role}. Only buyers can connect their Facebook account`})
   }
   let token = `Bearer ${req.cookies.token}`
-  apiCaller.callApi('user', 'get', {}, token)
+  apiCaller.callApi('user', 'get', {}, 'accounts', token)
     .then(user => {
       if (user.facebookInfo && user.facebookInfo.fbId.toString() !== fbPayload.fbId.toString()) {
         logger.serverLog(TAG, '403: Different Facebook Account Detected', 'error')
         res.render('error', {status: 'failed', description: 'Different Facebook Account Detected. Please use the same account that you connected before.'})
       } else {
-        apiCaller.callApi(`user/update`, 'post', {query: {_id: userid}, newPayload: {facebookInfo: fbPayload, connectFacebook: true, showIntegrations: false, platform: 'messenger'}, options: {}}, token)
+        apiCaller.callApi(`user/update`, 'post', {query: {_id: userid}, newPayload: {facebookInfo: fbPayload, connectFacebook: true, showIntegrations: false, platform: 'messenger'}, options: {}})
           .then(updated => {
-            apiCaller.callApi(`user/query`, 'post', {_id: userid}, token)
+            apiCaller.callApi(`user/query`, 'post', {_id: userid})
               .then(user => {
                 if (!user) {
                   logger.serverLog(TAG, '401: Unauthorized', 'error')
@@ -249,7 +249,7 @@ function fbConnectDone (req, res) {
                 req.user = user[0]
                 // set permissionsRevoked to false to indicate that permissions were regranted
                 if (user.permissionsRevoked) {
-                  apiCaller.callApi('user/update', 'post', {query: {'facebookInfo.fbId': user.facebookInfo.fbId}, newPayload: {permissionsRevoked: false}, options: {multi: true}}, token)
+                  apiCaller.callApi('user/update', 'post', {query: {'facebookInfo.fbId': user.facebookInfo.fbId}, newPayload: {permissionsRevoked: false}, options: {multi: true}})
                     .then(resp => {
                       logger.serverLog(TAG, `response for permissionsRevoked ${util.inspect(resp)}`)
                     })
@@ -361,7 +361,7 @@ function fetchPages (url, user, req, token) {
           } else {
             // logger.serverLog(TAG, `Data by fb for page likes ${JSON.stringify(
             //   fanCount.body.fan_count)}`)
-            apiCaller.callApi(`companyUser/query`, 'post', {domain_email: user.domain_email}, token)
+            apiCaller.callApi(`companyUser/query`, 'post', {domain_email: user.domain_email})
               .then(companyUser => {
                 if (!companyUser) {
                   return logger.serverLog(TAG, {
@@ -369,7 +369,7 @@ function fetchPages (url, user, req, token) {
                     description: 'The user account does not belong to any company. Please contact support'
                   })
                 }
-                apiCaller.callApi(`pages/query`, 'post', {pageId: item.id, userId: user._id, companyId: companyUser.companyId}, token)
+                apiCaller.callApi(`pages/query`, 'post', {pageId: item.id, userId: user._id, companyId: companyUser.companyId})
                   .then(pages => {
                     let page = pages[0]
                     if (!page) {
@@ -388,7 +388,7 @@ function fetchPages (url, user, req, token) {
                           {pageUserName: fanCount.body.username})
                       }
                       // save model to MongoDB
-                      apiCaller.callApi(`pages`, 'post', payloadPage, token)
+                      apiCaller.callApi(`pages`, 'post', payloadPage)
                         .then(page => {
                           logger.serverLog(TAG,
                             `Page ${item.name} created with id ${page.pageId}`, 'debug')
@@ -407,7 +407,7 @@ function fetchPages (url, user, req, token) {
                         updatedPayload['pageUserName'] = fanCount.body.username
                       }
 
-                      apiCaller.callApi(`pages/update`, 'put', {query: {_id: page._id}, newPayload: updatedPayload}, token)
+                      apiCaller.callApi(`pages/update`, 'put', {query: {_id: page._id}, newPayload: updatedPayload})
                         .then(updated => {
                           logger.serverLog(TAG,
                             `page updated successfuly ${JSON.stringify(updated)}`)

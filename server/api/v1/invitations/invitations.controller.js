@@ -4,7 +4,7 @@ const TAG = 'api/invitations/invitations.controller.js'
 const callApi = require('../utility')
 
 exports.index = function (req, res) {
-  callApi.callApi('invitations', 'get', {}, req.headers.authorization)
+  callApi.callApi('invitations', 'get', {}, 'accounts', req.headers.authorization)
     .then(invitations => {
       res.status(200).json({
         status: 'success',
@@ -20,7 +20,7 @@ exports.index = function (req, res) {
 }
 
 exports.cancel = function (req, res) {
-  callApi.callApi('invitations/cancel', 'post', {email: req.body.email}, req.headers.authorization)
+  callApi.callApi('invitations/cancel', 'post', {email: req.body.email})
     .then(result => {
       res.status(200).json({
         status: 'success',
@@ -36,7 +36,7 @@ exports.cancel = function (req, res) {
 }
 
 exports.invite = function (req, res) {
-  callApi.callApi('companyprofile/invite', 'post', {email: req.body.email, name: req.body.name}, req.headers.authorization)
+  callApi.callApi('companyprofile/invite', 'post', {email: req.body.email, name: req.body.name})
     .then((result) => {
       logger.serverLog(TAG, 'result from invite endpoint accounts')
       logger.serverLog(TAG, result)

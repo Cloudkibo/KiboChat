@@ -34,7 +34,7 @@ Structure: TotalPagewiseAnalytics
 */
 
 exports.index = (req, res) => {
-  callApi(`PagewiseData`, 'get', {}, req.headers.authorization, 'kibodash')
+  callApi(`PagewiseData`, 'get', {}, 'kibodash')
     .then((result) => {
       return res.status(200).json({status: 'success', payload: result})
     })
@@ -45,7 +45,7 @@ exports.index = (req, res) => {
 }
 
 exports.ranged = (req, res) => {
-  callApi(`PagewiseData/AggregateDatewise`, 'post', {startDate: req.body.startDate}, req.headers.authorization, 'kibodash')
+  callApi(`PagewiseData/AggregateDatewise`, 'post', {startDate: req.body.startDate}, 'kibodash')
     .then((result) => {
       return res.status(200).json({status: 'success', payload: result})
     })
@@ -56,7 +56,7 @@ exports.ranged = (req, res) => {
 }
 
 exports.onePage = (req, res) => {
-  callApi(`PagewiseData/OnePageAnalytics`, 'post', {pageId: req.body.pageId}, req.headers.authorization, 'kibodash')
+  callApi(`PagewiseData/OnePageAnalytics`, 'post', {pageId: req.body.pageId}, 'kibodash')
     .then((result) => {
       return res.status(200).json({status: 'success', payload: result})
     })
@@ -68,8 +68,7 @@ exports.onePage = (req, res) => {
 
 exports.onePageRanged = (req, res) => {
   callApi(`PagewiseData/OnePageAggregateDatewise`, 'post', {startDate: req.body.startDate,
-    pageId: req.body.pageId},
-  req.headers.authorization, 'kibodash')
+    pageId: req.body.pageId}, 'kibodash')
     .then((result) => {
       return res.status(200).json({status: 'success', payload: result})
     })
@@ -80,11 +79,11 @@ exports.onePageRanged = (req, res) => {
 }
 
 exports.topPages = (req, res) => {
-  callApi(`PagewiseData/topPages`, 'post', {limit: req.body.limit}, req.headers.authorization, 'kibodash')
+  callApi(`PagewiseData/topPages`, 'post', {limit: req.body.limit}, 'kibodash')
     .then((result) => {
       let pageIds = utility.getPageIdsFromTopPagesPayload(result)
       if (pageIds) {
-        callApi(`pages/query`, 'post', {pageId: {$in: pageIds}}, req.headers.authorization)
+        callApi(`pages/query`, 'post', {pageId: {$in: pageIds}})
           .then((results) => {
             let finalPayload = utility.mergePayload(results, result)
             return res.status(200).json({status: 'success', payload: finalPayload})
