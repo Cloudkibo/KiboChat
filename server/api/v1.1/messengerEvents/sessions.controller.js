@@ -181,7 +181,7 @@ function sendautomatedmsg (req, page) {
               type: 'template',
               payload: {
                 template_type: 'button',
-                text: 'Are you sure you want to unsubscribe?',
+                text: 'Are you sure you want to unsubscribe from local?',
                 buttons: buttonsInPayload
               }
             }
