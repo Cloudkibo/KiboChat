@@ -2,12 +2,12 @@ const logicLayer = require('./logiclayer')
 const utility = require('../utility')
 
 exports.index = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization) // fetch company user
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }) // fetch company user
     .then(companyuser => {
       let criterias = logicLayer.getCriterias(req.body, companyuser)
-      utility.callApi(`whatsAppContacts/aggregate`, 'post', criterias.countCriteria, req.headers.authorization) // fetch subscribers count
+      utility.callApi(`whatsAppContacts/aggregate`, 'post', criterias.countCriteria) // fetch subscribers count
         .then(count => {
-          utility.callApi(`whatsAppContacts/aggregate`, 'post', criterias.fetchCriteria, req.headers.authorization) // fetch subscribers
+          utility.callApi(`whatsAppContacts/aggregate`, 'post', criterias.fetchCriteria) // fetch subscribers
             .then(contacts => {
               res.status(200).json({
                 status: 'success',
@@ -41,7 +41,7 @@ exports.update = function (req, res) {
     newPayload: req.body,
     options: {}
   }
-  utility.callApi(`whatsAppContacts/update`, 'put', subsriberData, req.headers.authorization)
+  utility.callApi(`whatsAppContacts/update`, 'put', subsriberData)
     .then(updated => {
       res.status(200).json({
         status: 'success',

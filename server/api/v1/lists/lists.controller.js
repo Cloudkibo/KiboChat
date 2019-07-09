@@ -2,7 +2,7 @@ const utility = require('../utility')
 const logicLayer = require('./lists.logiclayer')
 
 exports.allLists = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
       if (!companyUser) {
         return res.status(404).json({
@@ -10,7 +10,7 @@ exports.allLists = function (req, res) {
           description: 'The user account does not belong to any company. Please contact support'
         })
       }
-      utility.callApi(`lists/query`, 'post', { companyId: companyUser.companyId }, req.headers.authorization)
+      utility.callApi(`lists/query`, 'post', { companyId: companyUser.companyId })
         .then(lists => {
           return res.status(201).json({status: 'success', payload: lists})
         })
@@ -30,12 +30,12 @@ exports.allLists = function (req, res) {
 }
 
 exports.getAll = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
     .then(companyuser => {
       let criterias = logicLayer.getCriterias(req.body, companyuser)
-      utility.callApi(`lists/aggregate`, 'post', criterias.countCriteria, req.headers.authorization) // fetch lists count
+      utility.callApi(`lists/aggregate`, 'post', criterias.countCriteria) // fetch lists count
         .then(count => {
-          utility.callApi(`lists/aggregate`, 'post', criterias.fetchCriteria, req.headers.authorization) // fetch lists
+          utility.callApi(`lists/aggregate`, 'post', criterias.fetchCriteria) // fetch lists
             .then(lists => {
               if (req.body.first_page === 'previous') {
                 res.status(200).json({
@@ -71,12 +71,12 @@ exports.getAll = function (req, res) {
     })
 }
 exports.createList = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email, populate: 'companyId' }, req.headers.authorization)
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email, populate: 'companyId' })
     .then(companyUser => {
-      utility.callApi(`featureUsage/planQuery`, 'post', {planId: companyUser.companyId.planId}, req.headers.authorization)
+      utility.callApi(`featureUsage/planQuery`, 'post', {planId: companyUser.companyId.planId})
         .then(planUsage => {
           planUsage = planUsage[0]
-          utility.callApi(`featureUsage/companyQuery`, 'post', {companyId: companyUser.companyId._id}, req.headers.authorization)
+          utility.callApi(`featureUsage/companyQuery`, 'post', {companyId: companyUser.companyId._id})
             .then(companyUsage => {
               companyUsage = companyUsage[0]
               // add paid plan check later
@@ -94,13 +94,13 @@ exports.createList = function (req, res) {
                 content: req.body.content,
                 parentList: req.body.parentListId,
                 parentListName: req.body.parentListName
-              }, req.headers.authorization)
+              })
                 .then(listCreated => {
                   utility.callApi(`featureUsage/updateCompany`, 'put', {
                     query: {companyId: req.body.companyId},
                     newPayload: { $inc: { segmentation_lists: 1 } },
                     options: {}
-                  }, req.headers.authorization)
+                  })
                     .then(updated => {
                     })
                     .catch(error => {
@@ -144,7 +144,7 @@ exports.editList = function (req, res) {
     listName: req.body.listName,
     conditions: req.body.conditions,
     content: req.body.content
-  }, req.headers.authorization)
+  })
     .then(savedList => {
       return res.status(200).json({status: 'success', payload: savedList})
     })
@@ -156,9 +156,9 @@ exports.editList = function (req, res) {
     })
 }
 exports.viewList = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
-      utility.callApi(`lists/${req.params.id}`, 'get', {}, req.headers.authorization)
+      utility.callApi(`lists/${req.params.id}`, 'get', {})
         .then(list => {
           if (list.initialList === true) {
             utility.callApi(`phone/query`, 'post', {
@@ -166,16 +166,16 @@ exports.viewList = function (req, res) {
               hasSubscribed: true,
               fileName: { $all: [list.listName] },
               pageId: { $exists: true, $ne: null }
-            }, req.headers.authorization)
+            })
               .then(number => {
                 if (number.length > 0) {
                   let criterias = logicLayer.getSubscriberCriteria(number, companyUser)
-                  utility.callApi(`subscribers/query`, 'post', criterias, req.headers.authorization)
+                  utility.callApi(`subscribers/query`, 'post', criterias)
                     .then(subscribers => {
                       let content = logicLayer.getContent(subscribers)
                       utility.callApi(`lists/${req.params.id}`, 'put', {
                         content: content
-                      }, req.headers.authorization)
+                      })
                         .then(savedList => {
                           return res.status(201).json({status: 'success', payload: subscribers})
                         })
@@ -207,7 +207,7 @@ exports.viewList = function (req, res) {
               })
           } else {
             utility.callApi(`subscribers/query`, 'post', {
-              isSubscribed: true, companyId: companyUser.companyId, _id: {$in: list.content}}, req.headers.authorization)
+              isSubscribed: true, companyId: companyUser.companyId, _id: {$in: list.content}})
               .then(subscribers => {
                 return res.status(201)
                   .json({status: 'success', payload: subscribers})
@@ -235,15 +235,15 @@ exports.viewList = function (req, res) {
     })
 }
 exports.deleteList = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
-      utility.callApi(`lists/${req.params.id}`, 'delete', {}, req.headers.authorization)
+      utility.callApi(`lists/${req.params.id}`, 'delete', {})
         .then(result => {
           utility.callApi(`featureUsage/updateCompany`, 'put', {
             query: {companyId: companyUser.companyId},
             newPayload: { $inc: { segmentation_lists: -1 } },
             options: {}
-          }, req.headers.authorization)
+          })
             .then(updated => {})
             .catch(error => {
               return res.status(500).json({

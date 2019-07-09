@@ -10,7 +10,7 @@ exports.findOneUnansweredQuestionObject = (questionId) => {
     purpose: 'findOne',
     match: {_id: questionId}
   }
-  return callApi(`smart_replies/unanswered/query`, 'post', query, '', 'kibochat')
+  return callApi(`smart_replies/unanswered/query`, 'post', query, 'kibochat')
 }
 
 exports.findAllUnansweredQuestionObjects = () => {
@@ -18,7 +18,7 @@ exports.findAllUnansweredQuestionObjects = () => {
     purpose: 'findAll',
     match: {}
   }
-  return callApi(`smart_replies/unanswered/query`, 'post', query, '', 'kibochat')
+  return callApi(`smart_replies/unanswered/query`, 'post', query, 'kibochat')
 }
 
 exports.findOneUnansweredQuestionObjectUsingQuery = (queryObject) => {
@@ -26,7 +26,7 @@ exports.findOneUnansweredQuestionObjectUsingQuery = (queryObject) => {
     purpose: 'findOne',
     match: queryObject
   }
-  return callApi(`smart_replies/unanswered/query`, 'post', query, '', 'kibochat')
+  return callApi(`smart_replies/unanswered/query`, 'post', query, 'kibochat')
 }
 
 exports.findAllUnansweredQuestionObjectsUsingQuery = (queryObject) => {
@@ -34,7 +34,7 @@ exports.findAllUnansweredQuestionObjectsUsingQuery = (queryObject) => {
     purpose: 'findAll',
     match: queryObject
   }
-  return callApi(`smart_replies/unanswered/query`, 'post', query, '', 'kibochat')
+  return callApi(`smart_replies/unanswered/query`, 'post', query, 'kibochat')
 }
 
 exports.findUnansweredQuestionObjectsUsingAggregate = (aggregateObject) => {
@@ -43,7 +43,7 @@ exports.findUnansweredQuestionObjectsUsingAggregate = (aggregateObject) => {
 }
 
 exports.createUnansweredQuestionObject = (payload) => {
-  return callApi(`smart_replies/unanswered`, 'post', payload, '', 'kibochat')
+  return callApi(`smart_replies/unanswered`, 'post', payload, 'kibochat')
 }
 
 exports.updateUnansweredQuestionObject = (questionId, payload) => {
@@ -52,7 +52,7 @@ exports.updateUnansweredQuestionObject = (questionId, payload) => {
     match: {_id: questionId},
     updated: payload
   }
-  return callApi(`smart_replies/unanswered/query`, 'put', query, '', 'kibochat')
+  return callApi(`smart_replies/unanswered/query`, 'put', query, 'kibochat')
 }
 
 exports.genericUpdateUnansweredQuestionObject = (queryObject, updated, options) => {
@@ -64,7 +64,7 @@ exports.genericUpdateUnansweredQuestionObject = (queryObject, updated, options) 
   if (options.upsert) query.upsert = options.upsert
   if (options.multi) query.multi = options.multi
   if (options.new) query.new = options.new
-  return callApi(`smart_replies/unanswered/query`, 'put', query, '', 'kibochat')
+  return callApi(`smart_replies/unanswered/query`, 'put', query, 'kibochat')
 }
 
 exports.genericUpdateUnansweredQuestionObject = (queryObject, updated) => {
@@ -73,7 +73,7 @@ exports.genericUpdateUnansweredQuestionObject = (queryObject, updated) => {
     match: queryObject,
     updated: updated
   }
-  return callApi(`smart_replies/unanswered/query`, 'put', query, '', 'kibochat')
+  return callApi(`smart_replies/unanswered/query`, 'put', query, 'kibochat')
 }
 
 exports.genericFindByIdAndUpdate = (queryObject, updated) => {
@@ -82,7 +82,7 @@ exports.genericFindByIdAndUpdate = (queryObject, updated) => {
     match: queryObject,
     updated: updated
   }
-  return callApi(`smart_replies/unanswered/query`, 'put', query, '', 'kibochat')
+  return callApi(`smart_replies/unanswered/query`, 'put', query, 'kibochat')
 }
 
 exports.deleteUnansweredQuestionObject = (questionId) => {
@@ -90,7 +90,7 @@ exports.deleteUnansweredQuestionObject = (questionId) => {
     purpose: 'deleteOne',
     match: {_id: questionId}
   }
-  return callApi(`smart_replies/unanswered/query`, 'delete', query, '', 'kibochat')
+  return callApi(`smart_replies/unanswered/query`, 'delete', query, 'kibochat')
 }
 
 exports.deleteUnansweredQuestionObjectUsingQuery = (queryObject) => {
@@ -98,5 +98,5 @@ exports.deleteUnansweredQuestionObjectUsingQuery = (queryObject) => {
     purpose: 'deleteOne',
     match: queryObject
   }
-  return callApi(`smart_replies/unanswered/query`, 'delete', query, '', 'kibochat')
+  return callApi(`smart_replies/unanswered/query`, 'delete', query, 'kibochat')
 }

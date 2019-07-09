@@ -1,7 +1,7 @@
 const utility = require('../utility')
 
 exports.allSequences = function (req, res) {
-  utility.callApi(`sequenceMessaging/allSequences`, 'get', {}, req.headers.authorization, 'kiboengage')
+  utility.callApi(`sequenceMessaging/allSequences`, 'get', {}, 'kiboengage')
     .then(sequences => {
       res.status(200).json({status: 'success', payload: sequences})
     })

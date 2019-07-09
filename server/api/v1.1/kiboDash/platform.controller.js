@@ -19,9 +19,8 @@ Structure: PlatformwiseAggregate
 */
 
 exports.index = (req, res) => {
-  callApi(`PlatformwiseData`, 'get', {}, req.headers.authorization, 'kibodash')
+  callApi(`PlatformwiseData`, 'get', {}, 'kibodash')
     .then((result) => {
-
       if (result.length === 1) {
         // The array length will always be 1
         return res.status(200).json({status: 'success', payload: result[0]})
@@ -36,7 +35,7 @@ exports.index = (req, res) => {
 }
 
 exports.ranged = (req, res) => {
-  callApi(`PlatformwiseData/AggregateDatewise`, 'post', {startDate: req.body.startDate}, req.headers.authorization, 'kibodash')
+  callApi(`PlatformwiseData/AggregateDatewise`, 'post', {startDate: req.body.startDate}, 'kibodash')
     .then((result) => {
       return res.status(200).json({status: 'success', payload: result})
     })

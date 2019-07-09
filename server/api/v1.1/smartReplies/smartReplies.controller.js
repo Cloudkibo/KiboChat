@@ -11,7 +11,7 @@ const util = require('util')
 const needle = require('needle')
 
 exports.index = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
       BotsDataLayer.findAllBotObjectsUsingQuery({ companyId: companyUser.companyId })
         .then(bots => {
@@ -34,14 +34,14 @@ exports.index = function (req, res) {
 }
 
 exports.waitingReply = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
-      utility.callApi(`subscribers/query`, 'post', {companyId: companyUser.companyId, isEnabledByPage: true, isSubscribed: true}, req.headers.authorization)
+      utility.callApi(`subscribers/query`, 'post', {companyId: companyUser.companyId, isEnabledByPage: true, isSubscribed: true})
         .then(subscribers => {
           let obj = logicLayer.prepareSubscribersPayload(subscribers)
           let subsArray = obj.subsArray
           let subscribersPayload = obj.subscribersPayload
-          utility.callApi(`tags/query`, 'post', { subscriberId: { $in: subsArray }, companyId: companyUser.companyId }, req.headers.authorization)
+          utility.callApi(`tags/query`, 'post', { subscriberId: { $in: subsArray }, companyId: companyUser.companyId })
             .then(tags => {
               for (let i = 0; i < subscribers.length; i++) {
                 for (let j = 0; j < tags.length; j++) {
@@ -68,7 +68,7 @@ exports.waitingReply = function (req, res) {
 exports.create = function (req, res) {
   var uniquebotName = req.body.botName + req.user._id + Date.now()
   logger.serverLog(TAG, `Create Bot Request ${JSON.stringify(req.user)} ${uniquebotName}}`, 'debug')
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
       logger.serverLog(TAG, `Company User ${companyUser}}`, 'debug')
       request(
@@ -158,7 +158,7 @@ exports.details = function (req, res) {
   logger.serverLog(`Bot details are following ${JSON.stringify(req.body)}`, 'debug')
   BotsDataLayer.findOneBotObject(req.body.botId)
     .then(bot => {
-      utility.callApi(`pages/query`, 'post', {_id: bot.pageId}, req.headers.authorization)
+      utility.callApi(`pages/query`, 'post', {_id: bot.pageId})
         .then(page => {
           bot.pageId = page[0]
           return res.status(200).json({ status: 'success', payload: bot })
@@ -475,7 +475,7 @@ function populateBot (bots, req) {
   return new Promise(function (resolve, reject) {
     let botsToSend = []
     for (let i = 0; i < bots.length; i++) {
-      utility.callApi(`pages/query`, 'post', {_id: bots[i].pageId}, req.headers.authorization)
+      utility.callApi(`pages/query`, 'post', {_id: bots[i].pageId})
         .then(page => {
           // bots[i].pageId = page[0]
           botsToSend.push({
@@ -509,9 +509,9 @@ function populateSubscriber (waiting, req) {
   return new Promise(function (resolve, reject) {
     let sendPayload = []
     for (let i = 0; i < waiting.length; i++) {
-      utility.callApi(`pages/query`, 'post', {_id: waiting[i].pageId}, req.headers.authorization)
+      utility.callApi(`pages/query`, 'post', {_id: waiting[i].pageId})
         .then(page => {
-          utility.callApi(`subscribers/query`, 'post', {_id: waiting[i].subscriberId, companyId: page[0].companyId}, req.headers.authorization)
+          utility.callApi(`subscribers/query`, 'post', {_id: waiting[i].subscriberId, companyId: page[0].companyId})
             .then(subscriber => {
               sendPayload.push({
                 _id: waiting[i]._id,

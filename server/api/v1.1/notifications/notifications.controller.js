@@ -3,7 +3,7 @@ const { callApi } = require('../utility')
 
 exports.index = function (req, res) {
   let notificationsData = LogicLayer.getQueryData('', 'findAll', {agentId: req.user._id, companyId: req.user.companyId})
-  callApi(`notifications/query`, 'post', notificationsData, '', 'kibochat')
+  callApi(`notifications/query`, 'post', notificationsData, 'kibochat')
     .then(notifications => {
       return res.status(201).json({status: 'success', payload: {notifications: notifications}})
     })
@@ -19,7 +19,7 @@ exports.create = function (req, res) {
       agentId: agentId,
       companyId: req.body.companyId
     }
-    callApi(`notifications`, 'post', notificationsData, '', 'kibochat')
+    callApi(`notifications`, 'post', notificationsData, 'kibochat')
       .then(savedNotification => {
         if (i === (req.body.agentIds.length - 1)) {
           return res.status(200).json({status: 'success', payload: savedNotification})
@@ -32,7 +32,7 @@ exports.create = function (req, res) {
 }
 exports.markRead = function (req, res) {
   let notificationUpdateData = LogicLayer.getUpdateData('updateOne', {_id: req.body.notificationId}, {seen: true})
-  callApi(`notifications/update`, 'put', notificationUpdateData, '', 'kibochat')
+  callApi(`notifications/update`, 'put', notificationUpdateData, 'kibochat')
     .then(updated => {
       res.status(200).json({status: 'success', payload: updated})
     })

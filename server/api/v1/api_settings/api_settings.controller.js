@@ -1,7 +1,7 @@
 const utility = require('../utility')
 
 exports.index = function (req, res) {
-  utility.callApi(`api_settings/`, 'post', {company_id: req.body.company_id}, req.headers.authorization)
+  utility.callApi(`api_settings/`, 'post', {company_id: req.body.company_id})
     .then(settings => {
       res.status(200).json({status: 'success', payload: settings})
     })
@@ -11,7 +11,7 @@ exports.index = function (req, res) {
 }
 
 exports.enable = function (req, res) {
-  utility.callApi(`api_settings/enable`, 'post', {company_id: req.body.company_id}, req.headers.authorization)
+  utility.callApi(`api_settings/enable`, 'post', {company_id: req.body.company_id})
     .then(settings => {
       res.status(200).json({status: 'success', payload: settings})
     })
@@ -21,7 +21,7 @@ exports.enable = function (req, res) {
 }
 
 exports.disable = function (req, res) {
-  utility.callApi(`api_settings/disable`, 'post', {company_id: req.body.company_id}, req.headers.authorization)
+  utility.callApi(`api_settings/disable`, 'post', {company_id: req.body.company_id})
     .then(settings => {
       res.status(200).json({status: 'success', payload: settings})
     })
@@ -31,7 +31,7 @@ exports.disable = function (req, res) {
 }
 
 exports.reset = function (req, res) {
-  utility.callApi(`api_settings/reset`, 'post', {company_id: req.body.company_id}, req.headers.authorization)
+  utility.callApi(`api_settings/reset`, 'post', {company_id: req.body.company_id})
     .then(settings => {
       res.status(200).json({status: 'success', payload: settings})
     })

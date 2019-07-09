@@ -8,19 +8,16 @@ const util = require('util')
 exports.setCustomFieldValue = function (req, res) {
   let customFieldResponse = callApi.callApi(
     'custom_fields/query', 'post',
-    { purpose: 'findOne', match: { _id: req.body.customFieldId, companyId: req.user.companyId } },
-    req.headers.authorization
+    { purpose: 'findOne', match: { _id: req.body.customFieldId, companyId: req.user.companyId } }
   )
   let foundSubscriberResponse = (subscriberId) => callApi.callApi(
     `subscribers/${subscriberId}`,
     'get',
-    {},
-    req.headers.authorization
+    {}
   )
   let customFieldSubscribersRespons = (subscriberId) => callApi.callApi(
     'custom_field_subscribers/query', 'post',
-    { purpose: 'findOne', match: { customFieldId: req.body.customFieldId, subscriberId: subscriberId } },
-    req.headers.authorization
+    { purpose: 'findOne', match: { customFieldId: req.body.customFieldId, subscriberId: subscriberId } }
   )
 
   customFieldResponse.then(foundCustomField => {
@@ -42,11 +39,10 @@ exports.setCustomFieldValue = function (req, res) {
               value: req.body.value
             }
             if (!foundCustomFieldSubscriber) {
-              return callApi.callApi('custom_field_subscribers/', 'post', subscribepayload, req.headers.authorization)
+              return callApi.callApi('custom_field_subscribers/', 'post', subscribepayload)
             } else {
               return callApi.callApi('custom_field_subscribers/', 'put',
-                { purpose: 'updateOne', match: { customFieldId: req.body.customFieldId, subscriberId: subscriberId }, updated: { value: req.body.value } },
-                req.headers.authorization)
+                { purpose: 'updateOne', match: { customFieldId: req.body.customFieldId, subscriberId: subscriberId }, updated: { value: req.body.value } })
             }
           })
           .then(setCustomFieldValue => {
@@ -86,8 +82,7 @@ exports.setCustomFieldValue = function (req, res) {
 
 exports.getCustomFieldSubscriber = function (req, res) {
   callApi.callApi('custom_field_subscribers/query', 'post',
-    { purpose: 'findAll', match: {subscriberId: req.params.subscriberId} },
-    req.headers.authorization
+    { purpose: 'findAll', match: {subscriberId: req.params.subscriberId} }
   )
     .then(foundCustomFieldSubscriber => {
       return res.status(200).json({

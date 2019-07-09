@@ -10,7 +10,7 @@ exports.findOneAnswerObject = (answerId) => {
     purpose: 'findOne',
     match: {_id: answerId}
   }
-  return callApi(`smart_replies/answers/query`, 'post', query, '', 'kibochat')
+  return callApi(`smart_replies/answers/query`, 'post', query, 'kibochat')
 }
 
 exports.findAllAnswerObjects = () => {
@@ -18,7 +18,7 @@ exports.findAllAnswerObjects = () => {
     purpose: 'findAll',
     match: {}
   }
-  return callApi(`smart_replies/answers/query`, 'post', query, '', 'kibochat')
+  return callApi(`smart_replies/answers/query`, 'post', query, 'kibochat')
 }
 
 exports.findOneAnswerObjectUsingQuery = (queryObject) => {
@@ -26,7 +26,7 @@ exports.findOneAnswerObjectUsingQuery = (queryObject) => {
     purpose: 'findOne',
     match: queryObject
   }
-  return callApi(`smart_replies/answers/query`, 'post', query, '', 'kibochat')
+  return callApi(`smart_replies/answers/query`, 'post', query, 'kibochat')
 }
 
 exports.findAllAnswerObjectsUsingQuery = (queryObject) => {
@@ -34,7 +34,7 @@ exports.findAllAnswerObjectsUsingQuery = (queryObject) => {
     purpose: 'findAll',
     match: queryObject
   }
-  return callApi(`smart_replies/answers/query`, 'post', query, '', 'kibochat')
+  return callApi(`smart_replies/answers/query`, 'post', query, 'kibochat')
 }
 
 exports.findAnswerObjectsUsingAggregate = (aggregateObject) => {
@@ -43,7 +43,7 @@ exports.findAnswerObjectsUsingAggregate = (aggregateObject) => {
 }
 
 exports.createAnswerObject = (payload) => {
-  return callApi(`smart_replies/answers/query`, 'post', payload, '', 'kibochat')
+  return callApi(`smart_replies/answers/query`, 'post', payload, 'kibochat')
 }
 
 exports.updateAnswerObject = (answerId, payload) => {
@@ -52,7 +52,7 @@ exports.updateAnswerObject = (answerId, payload) => {
     match: {_id: answerId},
     updated: payload
   }
-  return callApi(`smart_replies/answers`, 'put', query, '', 'kibochat')
+  return callApi(`smart_replies/answers`, 'put', query, 'kibochat')
 }
 
 exports.genericUpdateAnswerObject = (queryObject, updated, options) => {
@@ -64,7 +64,7 @@ exports.genericUpdateAnswerObject = (queryObject, updated, options) => {
   if (options.upsert) query.upsert = options.upsert
   if (options.multi) query.multi = options.multi
   if (options.new) query.new = options.new
-  return callApi(`smart_replies/answers`, 'put', query, '', 'kibochat')
+  return callApi(`smart_replies/answers`, 'put', query, 'kibochat')
 }
 
 exports.genericUpdateAnswerObject = (queryObject, updated) => {
@@ -73,7 +73,7 @@ exports.genericUpdateAnswerObject = (queryObject, updated) => {
     match: queryObject,
     updated: updated
   }
-  return callApi(`smart_replies/answers`, 'put', query, '', 'kibochat')
+  return callApi(`smart_replies/answers`, 'put', query, 'kibochat')
 }
 
 exports.genericFindByIdAndUpdate = (queryObject, updated) => {
@@ -82,7 +82,7 @@ exports.genericFindByIdAndUpdate = (queryObject, updated) => {
     match: queryObject,
     updated: updated
   }
-  return callApi(`smart_replies/answers`, 'put', query, '', 'kibochat')
+  return callApi(`smart_replies/answers`, 'put', query, 'kibochat')
 }
 
 exports.deleteAnswerObject = (answerId) => {
@@ -90,7 +90,7 @@ exports.deleteAnswerObject = (answerId) => {
     purpose: 'deleteOne',
     match: {_id: answerId}
   }
-  return callApi(`smart_replies/answers`, 'delete', query, '', 'kibochat')
+  return callApi(`smart_replies/answers`, 'delete', query, 'kibochat')
 }
 
 exports.deleteAnswerObjectUsingQuery = (queryObject) => {
@@ -98,5 +98,5 @@ exports.deleteAnswerObjectUsingQuery = (queryObject) => {
     purpose: 'deleteOne',
     match: queryObject
   }
-  return callApi(`smart_replies/answers`, 'delete', query, '', 'kibochat')
+  return callApi(`smart_replies/answers`, 'delete', query, 'kibochat')
 }
