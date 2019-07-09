@@ -547,7 +547,7 @@ exports.isWhitelisted = function (req, res) {
 exports.saveGreetingText = function (req, res) {
   const pageId = req.body.pageId
   const greetingText = req.body.greetingText
-  utility.callApi(`pages/${pageId}/greetingText`, 'put', {greetingText: greetingText})
+  utility.callApi(`pages/${pageId}/greetingText`, 'put', {greetingText: greetingText}, 'accounts', req.headers.authorization)
     .then(updatedGreetingText => {
       utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email})
         .then(companyuser => {
