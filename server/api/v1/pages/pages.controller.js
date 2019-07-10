@@ -481,7 +481,7 @@ exports.whitelistDomain = function (req, res) {
   const pageId = req.body.page_id
   const whitelistDomains = req.body.whitelistDomains
 
-  utility.callApi(`pages/whitelistDomain`, 'post', {page_id: pageId, whitelistDomains: whitelistDomains})
+  utility.callApi(`pages/whitelistDomain`, 'post', {page_id: pageId, whitelistDomains: whitelistDomains}, 'accounts', req.headers.authorization)
     .then(updatedwhitelistDomains => {
       return res.status(200).json({
         status: 'success',
