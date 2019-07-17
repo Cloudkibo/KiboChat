@@ -71,6 +71,7 @@ exports.update = function (req, res) {
       if (req.body.updated.name) updatedPayload.name = req.body.updated.name
       if (req.body.updated.type) updatedPayload.type = req.body.updated.type
       if (req.body.updated.description) updatedPayload.description = req.body.updated.description
+      if (req.user.companyId) updatedPayload.companyId = req.user.companyId
       callApi.callApi('custom_fields/', 'put', { purpose: 'updateOne', match: { _id: req.body.customFieldId }, updated: updatedPayload })
         .then(updated => {
           require('./../../../config/socketio').sendMessageToClient({
@@ -94,7 +95,7 @@ exports.update = function (req, res) {
 }
 
 exports.delete = function (req, res) {
-  callApi.callApi('custom_field_subscribers/query', 'post', { purpose: 'findOne', match: { _id: req.body.customFieldId } })
+  callApi.callApi('custom_field_subscribers/query', 'post', { purpose: 'findOne', match: { customFieldId: req.body.customFieldId } })
     .then(foundCustomField => {
       if (foundCustomField) {
         callApi.callApi('custom_field_subscribers/', 'delete', { purpose: 'deleteMany', match: { customFieldId: req.body.customFieldId } })
