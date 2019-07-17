@@ -128,7 +128,6 @@ exports.sentVsSeenNew = function (req, res) {
       if (req.body.pageId !== 'all') {
         callApi('pages/query', 'post', {pageId: req.body.pageId})
           .then(pages => {
-            console.log('pages', pages)
             const pagesArray = pages.map(page => page._id)
             let matchAggregate = { companyId: companyUser.companyId,
               'pageId': {$in: pagesArray},
@@ -139,7 +138,6 @@ exports.sentVsSeenNew = function (req, res) {
                   (new Date().getTime()))
               }
             }
-            console.log('matchAggregate', matchAggregate)
             let matchAggregateForBots = { companyId: companyUser.companyId.toString(),
               'pageId': {$in: pagesArray},
               'datetime': req.body.days === 'all' ? { $exists: true } : {
@@ -151,7 +149,6 @@ exports.sentVsSeenNew = function (req, res) {
             }
             callApi('subscribers/query', 'post', matchAggregate)
               .then(sessions => {
-                console.log('sessions', sessions)
                 const resolvedSessions = sessions.filter(session => session.status === 'resolved')
                 datacounts.sessions = {
                   count: sessions.length,
@@ -193,7 +190,6 @@ exports.sentVsSeenNew = function (req, res) {
       } else {
         callApi('pages/query', 'post', {connected: true, companyId: companyUser.companyId})
           .then(pages => {
-            console.log('pages', pages)
             const pagesArray = pages.map(page => page._id)
             let matchAggregate = { companyId: companyUser.companyId,
               'pageId': {$in: pagesArray},
@@ -204,7 +200,6 @@ exports.sentVsSeenNew = function (req, res) {
                   (new Date().getTime()))
               }
             }
-            console.log('matchAggregate', matchAggregate)
             let matchAggregateForBots = { companyId: companyUser.companyId.toString(),
               'pageId': {$in: pagesArray},
               'datetime': req.body.days === 'all' ? { $exists: true } : {
@@ -216,7 +211,6 @@ exports.sentVsSeenNew = function (req, res) {
             }
             callApi('subscribers/query', 'post', matchAggregate)
               .then(sessions => {
-                console.log('sessions', sessions)
                 const resolvedSessions = sessions.filter(session => session.status === 'resolved')
                 datacounts.sessions = {
                   count: sessions.length,
