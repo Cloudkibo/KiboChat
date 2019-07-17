@@ -9,17 +9,17 @@ const async = require('async')
 exports.index = function (req, res) {
   let sessions = []
 
-  const companyUserResponse = callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
+  const companyUserResponse = callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
 
   let messagesData = logicLayer.getQueryData('', 'aggregate', {status: 'unseen', format: 'facebook'}, 0, { datetime: 1 })
-  const messagesResponse = callApi(`sessions/query`, 'post', messagesData, '', 'kibochat')
+  const messagesResponse = callApi(`sessions/query`, 'post', messagesData, 'kibochat')
 
   let lastMessageData = logicLayer.getQueryData('', 'aggregate', {}, 0, { datetime: 1 }, undefined, {_id: '$session_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
-  const lastMessageResponse = callApi(`sessions/query`, 'post', lastMessageData, '', 'kibochat')
+  const lastMessageResponse = callApi(`sessions/query`, 'post', lastMessageData, 'kibochat')
 
   companyUserResponse.then(companyuser => {
     let sessionsData = logicLayer.getQueryData('', 'findAll', {company_id: companyuser.companyId})
-    return callApi(`sessions/query`, 'post', sessionsData, '', 'kibochat')
+    return callApi(`sessions/query`, 'post', sessionsData, 'kibochat')
   })
     .then(session => {
       sessions = logicLayer.getSessions(session)
@@ -60,7 +60,7 @@ exports.fetchOpenSessions = function (req, res) {
   async.parallelLimit([
     function (callback) {
       let data = logicLayer.getCount(req, 'new')
-      callApi('subscribers/aggregate', 'post', data, req.headers.authorization)
+      callApi('subscribers/aggregate', 'post', data)
         .then(result => {
           callback(null, result)
         })
@@ -70,7 +70,7 @@ exports.fetchOpenSessions = function (req, res) {
     },
     function (callback) {
       let data = logicLayer.getSessions(req, 'new')
-      callApi('subscribers/aggregate', 'post', data, req.headers.authorization)
+      callApi('subscribers/aggregate', 'post', data)
         .then(result => {
           callback(null, result)
         })
@@ -80,7 +80,7 @@ exports.fetchOpenSessions = function (req, res) {
     },
     function (callback) {
       let unreadCountData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId.toString(), status: 'unseen', format: 'facebook'}, undefined, undefined, undefined, {_id: '$subscriber_id', count: {$sum: 1}})
-      callApi('livechat/query', 'post', unreadCountData, '', 'kibochat')
+      callApi('livechat/query', 'post', unreadCountData, 'kibochat')
         .then(data => {
           callback(null, data)
         })
@@ -90,7 +90,7 @@ exports.fetchOpenSessions = function (req, res) {
     },
     function (callback) {
       let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId}, undefined, undefined, undefined, {_id: '$subscriber_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
-      callApi(`livechat/query`, 'post', lastMessageData, '', 'kibochat')
+      callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
         .then(data => {
           callback(null, data)
         })
@@ -117,7 +117,7 @@ exports.fetchResolvedSessions = function (req, res) {
   async.parallelLimit([
     function (callback) {
       let data = logicLayer.getCount(req, 'resolved')
-      callApi('subscribers/aggregate', 'post', data, req.headers.authorization)
+      callApi('subscribers/aggregate', 'post', data)
         .then(result => {
           callback(null, result)
         })
@@ -127,7 +127,7 @@ exports.fetchResolvedSessions = function (req, res) {
     },
     function (callback) {
       let data = logicLayer.getSessions(req, 'resolved')
-      callApi('subscribers/aggregate', 'post', data, req.headers.authorization)
+      callApi('subscribers/aggregate', 'post', data)
         .then(result => {
           callback(null, result)
         })
@@ -137,7 +137,7 @@ exports.fetchResolvedSessions = function (req, res) {
     },
     function (callback) {
       let unreadCountData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId.toString(), status: 'unseen', format: 'facebook'}, undefined, undefined, undefined, {_id: '$subscriber_id', count: {$sum: 1}})
-      callApi('livechat/query', 'post', unreadCountData, '', 'kibochat')
+      callApi('livechat/query', 'post', unreadCountData, 'kibochat')
         .then(data => {
           callback(null, data)
         })
@@ -147,7 +147,7 @@ exports.fetchResolvedSessions = function (req, res) {
     },
     function (callback) {
       let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId}, undefined, undefined, undefined, {_id: '$subscriber_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
-      callApi(`livechat/query`, 'post', lastMessageData, '', 'kibochat')
+      callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
         .then(data => {
           callback(null, data)
         })
@@ -193,7 +193,7 @@ exports.markread = function (req, res) {
 
 function markreadLocal (req, callback) {
   let updateData = logicLayer.getUpdateData('updateAll', {subscriber_id: req.params.id}, {status: 'seen'}, false, true)
-  callApi('livechat', 'put', updateData, '', 'kibochat')
+  callApi('livechat', 'put', updateData, 'kibochat')
     .then(updated => {
       callback(null, updated)
     })
@@ -203,7 +203,7 @@ function markreadLocal (req, callback) {
 }
 
 function markreadFacebook (req, callback) {
-  callApi(`subscribers/${req.params.id}`, 'get', {}, req.headers.authorization)
+  callApi(`subscribers/${req.params.id}`, 'get', {}, 'accounts', req.headers.authorization)
     .then(subscriber => {
       const data = {
         messaging_type: 'UPDATE',
@@ -230,7 +230,7 @@ exports.show = function (req, res) {
   if (req.params.id) {
     async.parallelLimit([
       function (callback) {
-        callApi(`subscribers/${req.params.id}`, 'get', {}, req.headers.authorization)
+        callApi(`subscribers/${req.params.id}`, 'get', {}, 'accounts', req.headers.authorization)
           .then(subscriber => {
             callback(null, subscriber)
           })
@@ -240,7 +240,7 @@ exports.show = function (req, res) {
       },
       function (callback) {
         let unreadCountData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId.toString(), status: 'unseen', format: 'facebook'}, undefined, undefined, undefined, {_id: '$subscriber_id', count: {$sum: 1}})
-        callApi('livechat/query', 'post', unreadCountData, '', 'kibochat')
+        callApi('livechat/query', 'post', unreadCountData, 'kibochat')
           .then(data => {
             callback(null, data)
           })
@@ -250,7 +250,7 @@ exports.show = function (req, res) {
       },
       function (callback) {
         let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId}, undefined, undefined, undefined, {_id: '$subscriber_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
-        callApi(`livechat/query`, 'post', lastMessageData, '', 'kibochat')
+        callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
           .then(data => {
             callback(null, data)
           })
@@ -310,8 +310,7 @@ exports.assignAgent = function (req, res) {
       query: {_id: req.body.subscriberId},
       newPayload: {assigned_to: assignedTo, is_assigned: req.body.isAssigned},
       options: {}
-    },
-    req.headers.authorization
+    }
   )
     .then(updated => {
       require('./../../../config/socketio').sendMessageToClient({
@@ -346,8 +345,7 @@ exports.assignTeam = function (req, res) {
       query: {_id: req.body.subscriberId},
       newPayload: {assigned_to: assignedTo, is_assigned: req.body.isAssigned},
       options: {}
-    },
-    req.headers.authorization
+    }
   )
     .then(updated => {
       require('./../../../config/socketio').sendMessageToClient({
@@ -371,7 +369,7 @@ exports.assignTeam = function (req, res) {
 
 exports.genericFind = function (req, res) {
   let messagesData = logicLayer.getQueryData('', 'findAll', req.body)
-  callApi('livechat/query', 'post', messagesData, '', 'kibochat')
+  callApi('livechat/query', 'post', messagesData, 'kibochat')
     .then(session => {
       return res.status(200).json({status: 'success', payload: session})
     })

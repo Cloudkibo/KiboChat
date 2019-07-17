@@ -23,7 +23,7 @@ exports.delete = function (req, res) {
   })
 }
 exports.addButton = function (req, res) {
-  utility.callApi(`broadcasts/addButton`, 'post', req.body, req.headers.authorization, 'kiboengage')
+  utility.callApi(`broadcasts/addButton`, 'post', req.body, 'kiboengage')
     .then(buttonPayload => {
       res.status(200).json({status: 'success', payload: buttonPayload})
     })
@@ -41,7 +41,7 @@ exports.sendConversation = function (req, res) {
     })
 }
 exports.editButton = function (req, res) {
-  utility.callApi(`broadcasts/editButton`, 'post', req.body, req.headers.authorization, 'kiboengage')
+  utility.callApi(`broadcasts/editButton`, 'post', req.body, 'kiboengage')
     .then(buttonPayload => {
       res.status(200).json({status: 'success', payload: buttonPayload})
     })
@@ -50,7 +50,7 @@ exports.editButton = function (req, res) {
     })
 }
 exports.deleteButton = function (req, res) {
-  utility.callApi(`broadcasts/deleteButton/${req.params.id}`, 'delete', {}, req.headers.authorization, 'kiboengage')
+  utility.callApi(`broadcasts/deleteButton/${req.params.id}`, 'delete', {}, 'kiboengage')
     .then(buttonPayload => {
       res.status(200).json({status: 'success', payload: buttonPayload})
     })
@@ -107,7 +107,7 @@ exports.upload = function (req, res) {
       if (req.body.pages && req.body.pages !== 'undefined' && req.body.pages.length > 0) {
         let pages = JSON.parse(req.body.pages)
         logger.serverLog(TAG, `Pages in upload file ${pages}`)
-        utility.callApi(`pages/${pages[0]}`)
+        utility.callApi(`pages/${pages[0]}`, 'get', {})
           .then(page => {
             needle.get(
               `https://graph.facebook.com/v2.10/${page.pageId}?fields=access_token&access_token=${page.userId.facebookInfo.fbToken}`,

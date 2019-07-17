@@ -2,15 +2,15 @@ const utility = require('../utility')
 const LogicLayer = require('./smsDashboard.logiclayer')
 
 exports.index = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }, req.headers.authorization) // fetch company user
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }) // fetch company user
     .then(companyuser => {
       let aggregateQuery = [
         { $match: { companyId: companyuser.companyId, isSubscribed: true } },
         { $group: { _id: null, count: { $sum: 1 } } }
       ]
-      utility.callApi(`contacts/aggregate`, 'post', aggregateQuery, req.headers.authorization) // fetch subscribers count
+      utility.callApi(`contacts/aggregate`, 'post', aggregateQuery) // fetch subscribers count
         .then(contacts => {
-          utility.callApi('smsChat/query', 'post', {purpose: 'aggregate', match: {companyId: companyuser.companyId, status: 'unseen', format: 'twilio'}, group: { _id: null, count: { $sum: 1 } }}, '', 'kibochat')
+          utility.callApi('smsChat/query', 'post', {purpose: 'aggregate', match: {companyId: companyuser.companyId, status: 'unseen', format: 'twilio'}, group: { _id: null, count: { $sum: 1 } }}, 'kibochat')
             .then(chats => {
               res.status(200).json({
                 status: 'success',
@@ -40,7 +40,7 @@ exports.index = function (req, res) {
     })
 }
 exports.subscriberSummary = function (req, res) {
-  utility.callApi('companyUser/query', 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
+  utility.callApi('companyUser/query', 'post', {domain_email: req.user.domain_email})
     .then(companyUser => {
       if (!companyUser) {
         return res.status(404).json({
@@ -48,11 +48,11 @@ exports.subscriberSummary = function (req, res) {
           description: 'The user account does not belong to any company. Please contact support'
         })
       }
-      utility.callApi('contacts/aggregate', 'post', LogicLayer.queryForSubscribers(req.body, companyUser, true), req.headers.authorization)
+      utility.callApi('contacts/aggregate', 'post', LogicLayer.queryForSubscribers(req.body, companyUser, true))
         .then(subscribers => {
-          utility.callApi('contacts/aggregate', 'post', LogicLayer.queryForSubscribers(req.body, companyUser, false), req.headers.authorization)
+          utility.callApi('contacts/aggregate', 'post', LogicLayer.queryForSubscribers(req.body, companyUser, false))
             .then(unsubscribes => {
-              utility.callApi('contacts/aggregate', 'post', LogicLayer.queryForSubscribersGraph(req.body, companyUser), req.headers.authorization)
+              utility.callApi('contacts/aggregate', 'post', LogicLayer.queryForSubscribersGraph(req.body, companyUser))
                 .then(graphdata => {
                   let data = {
                     subscribes: subscribers.length > 0 ? subscribers[0].count : 0,
@@ -93,7 +93,7 @@ exports.subscriberSummary = function (req, res) {
     })
 }
 exports.sentSeen = function (req, res) {
-  utility.callApi('companyUser/query', 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
+  utility.callApi('companyUser/query', 'post', {domain_email: req.user.domain_email})
     .then(companyUser => {
       if (!companyUser) {
         return res.status(404).json({
@@ -101,9 +101,9 @@ exports.sentSeen = function (req, res) {
           description: 'The user account does not belong to any company. Please contact support'
         })
       }
-      utility.callApi('contacts/aggregate', 'post', LogicLayer.queryForSessions(req.body, companyUser, true), req.headers.authorization)
+      utility.callApi('contacts/aggregate', 'post', LogicLayer.queryForSessions(req.body, companyUser, true))
         .then(sessions => {
-          utility.callApi('contacts/aggregate', 'post', LogicLayer.queryForSessionsGraph(req.body, companyUser), req.headers.authorization)
+          utility.callApi('contacts/aggregate', 'post', LogicLayer.queryForSessionsGraph(req.body, companyUser))
             .then(graphdata => {
               let data = {
                 sessions: sessions.length > 0 ? sessions[0].count : 0,

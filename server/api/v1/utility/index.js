@@ -4,7 +4,7 @@ const config = require('../../../config/environment/index')
 // const TAG = 'api/v1/utility/index.js'
 // const util = require('util')
 
-exports.callApi = (endpoint, method = 'get', body, token, type = 'accounts') => {
+exports.callApi = (endpoint, method = 'get', body, type = 'accounts', token) => {
   let headers
   if (token) {
     headers = {

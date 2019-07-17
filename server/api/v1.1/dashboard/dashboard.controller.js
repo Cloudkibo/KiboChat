@@ -9,7 +9,7 @@ let _ = require('lodash')
 const LogicLayer = require('./logiclayer')
 
 exports.index = function (req, res) {
-  callApi('pages/aggregate', 'post', [], req.headers.authorization)
+  callApi('pages/aggregate', 'post', [])
     .then(pages => {
       const data = {}
       let c = pages.length
@@ -48,7 +48,7 @@ exports.updateSubscriptionPermission = function (req, res) {
                   if (respp && respp.body && respp.body.data && respp.body.data.length > 0) {
                     for (let a = 0; a < respp.body.data.length; a++) {
                       if (respp.body.data[a].feature === 'subscription_messaging' && respp.body.data[a].status === 'approved') {
-                        callApi(`pages/${page._id}`, 'put', {gotPageSubscriptionPermission: true}, req.headers.authorization) // disconnect page
+                        callApi(`pages/${page._id}`, 'put', {gotPageSubscriptionPermission: true}) // disconnect page
                           .then(updated => {
                           })
                           .catch(err => {
@@ -77,7 +77,7 @@ exports.sentVsSeen = function (req, res) {
   let pageId = req.params.pageId
   let datacounts = {}
 
-  callApi('companyUser/query', 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
+  callApi('companyUser/query', 'post', {domain_email: req.user.domain_email})
     .then(companyUser => {
       if (!companyUser) {
         return res.status(404).json({
@@ -85,17 +85,17 @@ exports.sentVsSeen = function (req, res) {
           description: 'The user account does not belong to any company. Please contact support'
         })
       }
-      callApi('pages/query', 'post', {pageId: pageId}, req.headers.authorization)
+      callApi('pages/query', 'post', {pageId: pageId})
         .then(pages => {
           const pagesArray = pages.map(page => page._id).map(String)
-          callApi('sessions/query', 'post', {purpose: 'findAll', match: {company_id: companyUser.companyId.toString(), page_id: {$in: pagesArray}}}, '', 'kibochat')
+          callApi('sessions/query', 'post', {purpose: 'findAll', match: {company_id: companyUser.companyId.toString(), page_id: {$in: pagesArray}}}, 'kibochat')
             .then(sessions => {
               const resolvedSessions = sessions.filter(session => session.status === 'resolved')
               datacounts.sessions = {
                 count: sessions.length,
                 resolved: resolvedSessions.length
               }
-              callApi('smart_replies/query', 'post', {purpose: 'findAll', match: {companyId: companyUser.companyId.toString(), pageId: {$in: pagesArray}}}, '', 'kibochat')
+              callApi('smart_replies/query', 'post', {purpose: 'findAll', match: {companyId: companyUser.companyId.toString(), pageId: {$in: pagesArray}}}, 'kibochat')
                 .then(bots => {
                   const hitCountArray = bots.map(bot => bot.hitCount)
                   const missCountArray = bots.map(bot => bot.missCount)
@@ -143,7 +143,7 @@ exports.sentVsSeen = function (req, res) {
 
 exports.sentVsSeenNew = function (req, res) {
   let datacounts = {}
-  callApi('companyUser/query', 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
+  callApi('companyUser/query', 'post', {domain_email: req.user.domain_email})
     .then(companyUser => {
       if (!companyUser) {
         return res.status(404).json({
@@ -152,7 +152,7 @@ exports.sentVsSeenNew = function (req, res) {
         })
       }
       if (req.body.pageId !== 'all') {
-        callApi('pages/query', 'post', {pageId: req.body.pageId}, req.headers.authorization)
+        callApi('pages/query', 'post', {pageId: req.body.pageId})
           .then(pages => {
             const pagesArray = pages.map(page => page._id).map(String)
             let matchAggregate = { company_id: companyUser.companyId.toString(),
@@ -173,14 +173,14 @@ exports.sentVsSeenNew = function (req, res) {
                   (new Date().getTime()))
               }
             }
-            callApi('sessions/query', 'post', {purpose: 'findAll', match: matchAggregate}, '', 'kibochat')
+            callApi('sessions/query', 'post', {purpose: 'findAll', match: matchAggregate}, 'kibochat')
               .then(sessions => {
                 const resolvedSessions = sessions.filter(session => session.status === 'resolved')
                 datacounts.sessions = {
                   count: sessions.length,
                   resolved: resolvedSessions.length
                 }
-                callApi('smart_replies/query', 'post', {purpose: 'findAll', match: matchAggregateForBots}, '', 'kibochat')
+                callApi('smart_replies/query', 'post', {purpose: 'findAll', match: matchAggregateForBots}, 'kibochat')
                   .then(bots => {
                     const hitCountArray = bots.map(bot => bot.hitCount)
                     const missCountArray = bots.map(bot => bot.missCount)
@@ -229,7 +229,7 @@ exports.sentVsSeenNew = function (req, res) {
             })
           })
       } else {
-        callApi('pages/query', 'post', {connected: true, companyId: companyUser.companyId}, req.headers.authorization)
+        callApi('pages/query', 'post', {connected: true, companyId: companyUser.companyId})
           .then(pages => {
             const pagesArray = pages.map(page => page._id).map(String)
             let matchAggregate = { company_id: companyUser.companyId.toString(),
@@ -250,14 +250,14 @@ exports.sentVsSeenNew = function (req, res) {
                   (new Date().getTime()))
               }
             }
-            callApi('sessions/query', 'post', {purpose: 'findAll', match: matchAggregate}, '', 'kibochat')
+            callApi('sessions/query', 'post', {purpose: 'findAll', match: matchAggregate}, 'kibochat')
               .then(sessions => {
                 const resolvedSessions = sessions.filter(session => session.status === 'resolved')
                 datacounts.sessions = {
                   count: sessions.length,
                   resolved: resolvedSessions.length
                 }
-                callApi('smart_replies/query', 'post', {purpose: 'findAll', match: matchAggregateForBots}, '', 'kibochat')
+                callApi('smart_replies/query', 'post', {purpose: 'findAll', match: matchAggregateForBots}, 'kibochat')
                   .then(bots => {
                     const hitCountArray = bots.map(bot => bot.hitCount)
                     const missCountArray = bots.map(bot => bot.missCount)
@@ -321,7 +321,7 @@ exports.sentVsSeen = function (req, res) {
   let pageId = req.params.pageId
   let datacounts = {}
 
-  callApi('companyUser/query', 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
+  callApi('companyUser/query', 'post', {domain_email: req.user.domain_email})
     .then(companyUser => {
       if (!companyUser) {
         return res.status(404).json({
@@ -329,17 +329,17 @@ exports.sentVsSeen = function (req, res) {
           description: 'The user account does not belong to any company. Please contact support'
         })
       }
-      callApi('pages/query', 'post', {pageId: pageId}, req.headers.authorization)
+      callApi('pages/query', 'post', {pageId: pageId})
         .then(pages => {
           const pagesArray = pages.map(page => page._id).map(String)
-          callApi('sessions/query', 'post', {purpose: 'findAll', match: {company_id: companyUser.companyId.toString(), page_id: {$in: pagesArray}}}, '', 'kibochat')
+          callApi('sessions/query', 'post', {purpose: 'findAll', match: {company_id: companyUser.companyId.toString(), page_id: {$in: pagesArray}}}, 'kibochat')
             .then(sessions => {
               const resolvedSessions = sessions.filter(session => session.status === 'resolved')
               datacounts.sessions = {
                 count: sessions.length,
                 resolved: resolvedSessions.length
               }
-              callApi('smart_replies/query', 'post', {purpose: 'findAll', match: {companyId: companyUser.companyId.toString(), pageId: {$in: pagesArray}}}, '', 'kibochat')
+              callApi('smart_replies/query', 'post', {purpose: 'findAll', match: {companyId: companyUser.companyId.toString(), pageId: {$in: pagesArray}}}, 'kibochat')
                 .then(bots => {
                   const hitCountArray = bots.map(bot => bot.hitCount)
                   const missCountArray = bots.map(bot => bot.missCount)
@@ -388,7 +388,7 @@ exports.sentVsSeen = function (req, res) {
 exports.stats = function (req, res) {
   let payload = {}
 
-  callApi('companyUser/query', 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
+  callApi('companyUser/query', 'post', {domain_email: req.user.domain_email})
     .then(companyUser => {
       if (!companyUser) {
         return res.status(404).json({
@@ -396,11 +396,11 @@ exports.stats = function (req, res) {
           description: 'The user account does not belong to any company. Please contact support'
         })
       }
-      callApi('pages/query', 'post', {connected: true, companyId: companyUser.companyId}, req.headers.authorization)
+      callApi('pages/query', 'post', {connected: true, companyId: companyUser.companyId})
         .then((pages) => {
           populateIds(pages).then(result => {
             payload.pages = pages.length
-            callApi('pages/query', 'post', {companyId: companyUser.companyId}, req.headers.authorization)
+            callApi('pages/query', 'post', {companyId: companyUser.companyId})
               .then(allPages => {
                 let removeDuplicates = (myArr, prop) => {
                   return myArr.filter((obj, pos, arr) => {
@@ -409,12 +409,12 @@ exports.stats = function (req, res) {
                 }
                 let allPagesWithoutDuplicates = removeDuplicates(allPages, 'pageId')
                 payload.totalPages = allPagesWithoutDuplicates.length
-                callApi('subscribers/query', 'post', {companyId: companyUser.companyId, isSubscribed: true, pageId: {$in: result.pageIds}}, req.headers.authorization)
+                callApi('subscribers/query', 'post', {companyId: companyUser.companyId, isSubscribed: true, pageId: {$in: result.pageIds}})
                   .then(subscribers => {
                     logger.serverLog(TAG, `subscribers retrieved: ${subscribers}`, 'error')
                     payload.subscribers = subscribers.length
                     const pagesArray = pages.map(page => page.pageId).map(String)
-                    callApi('livechat/query', 'post', {purpose: 'findAll', match: {company_id: companyUser.companyId, status: 'unseen', format: 'facebook', recipient_fb_id: {$in: pagesArray}}}, '', 'kibochat')
+                    callApi('livechat/query', 'post', {purpose: 'findAll', match: {company_id: companyUser.companyId, status: 'unseen', format: 'facebook', recipient_fb_id: {$in: pagesArray}}}, 'kibochat')
                       .then(messages => {
                         payload.unreadCount = messages && messages.length > 0 ? messages.length : 0
                         res.status(200).json({
@@ -454,7 +454,7 @@ exports.stats = function (req, res) {
 }
 
 exports.toppages = function (req, res) {
-  callApi('companyUser/query', 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
+  callApi('companyUser/query', 'post', {domain_email: req.user.domain_email})
     .then(companyUser => {
       if (!companyUser) {
         return res.status(404).json({
@@ -462,7 +462,7 @@ exports.toppages = function (req, res) {
           description: 'The user account does not belong to any company. Please contact support'
         })
       }
-      callApi('pages/query', 'post', {connected: true, companyId: companyUser.companyId}, req.headers.authorization)
+      callApi('pages/query', 'post', {connected: true, companyId: companyUser.companyId})
         .then(pages => {
           callApi('subscribers/aggregate', 'post', [
             {$match: {companyId: companyUser.companyId}}, {
@@ -470,7 +470,7 @@ exports.toppages = function (req, res) {
                 _id: {pageId: '$pageId'},
                 count: {$sum: 1}
               }
-            }], req.headers.authorization)
+            }])
             .then(gotSubscribersCount => {
               logger.serverLog(TAG, `pages: ${pages}`, 'debug')
               logger.serverLog(TAG, `gotSubscribersCount ${gotSubscribersCount}`, 'debug')
@@ -548,7 +548,7 @@ function graphDataNew (body, companyUser, pagesArray) {
       _id: {'year': {$year: '$request_time'}, 'month': {$month: '$request_time'}, 'day': {$dayOfMonth: '$request_time'}, 'company': '$company_id'},
       count: {$sum: 1}
     }
-    callApi('sessions/query', 'post', {purpose: 'aggregate', match, group}, '', 'kibochat')
+    callApi('sessions/query', 'post', {purpose: 'aggregate', match, group}, 'kibochat')
       .then(sessionsgraphdata => {
         resolve({ sessionsgraphdata: sessionsgraphdata })
       })
@@ -565,7 +565,7 @@ exports.graphData = function (req, res) {
     days = req.params.days
   }
 
-  callApi('companyUser/query', 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
+  callApi('companyUser/query', 'post', {domain_email: req.user.domain_email})
     .then(companyUser => {
       if (!companyUser) {
         return res.status(404).json({
@@ -586,7 +586,7 @@ exports.graphData = function (req, res) {
         _id: {'year': {$year: '$request_time'}, 'month': {$month: '$request_time'}, 'day': {$dayOfMonth: '$request_time'}, 'company': '$company_id'},
         count: {$sum: 1}
       }
-      callApi('sessions/query', 'post', {purpose: 'aggregate', match, group}, '', 'kibochat')
+      callApi('sessions/query', 'post', {purpose: 'aggregate', match, group}, 'kibochat')
         .then(sessionsgraphdata => {
           return res.status(200)
             .json({status: 'success', payload: {sessionsgraphdata}})
@@ -619,7 +619,7 @@ function populateIds (pages) {
   })
 }
 exports.subscriberSummary = function (req, res) {
-  callApi('companyUser/query', 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
+  callApi('companyUser/query', 'post', {domain_email: req.user.domain_email})
     .then(companyUser => {
       if (!companyUser) {
         return res.status(404).json({
@@ -627,14 +627,14 @@ exports.subscriberSummary = function (req, res) {
           description: 'The user account does not belong to any company. Please contact support'
         })
       }
-      callApi(`pages/query`, 'post', {connected: true, companyId: companyUser.companyId}, req.headers.authorization) // fetch connected pages
+      callApi(`pages/query`, 'post', {connected: true, companyId: companyUser.companyId}) // fetch connected pages
         .then(pages => {
           populateIds(pages).then(result => {
-            callApi('subscribers/aggregate', 'post', LogicLayer.queryForSubscribers(req.body, companyUser, true, result.pageIds), req.headers.authorization)
+            callApi('subscribers/aggregate', 'post', LogicLayer.queryForSubscribers(req.body, companyUser, true, result.pageIds))
               .then(subscribers => {
-                callApi('subscribers/aggregate', 'post', LogicLayer.queryForSubscribers(req.body, companyUser, false, result.pageIds), req.headers.authorization)
+                callApi('subscribers/aggregate', 'post', LogicLayer.queryForSubscribers(req.body, companyUser, false, result.pageIds))
                   .then(unsubscribes => {
-                    callApi('subscribers/aggregate', 'post', LogicLayer.queryForSubscribersGraph(req.body, companyUser, true, result.pageIds), req.headers.authorization)
+                    callApi('subscribers/aggregate', 'post', LogicLayer.queryForSubscribersGraph(req.body, companyUser, true, result.pageIds))
                       .then(graphdata => {
                         let data = {
                           subscribes: subscribers.length > 0 ? subscribers[0].count : 0,

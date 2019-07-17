@@ -2,10 +2,10 @@ const utility = require('../utility')
 const logicLayer = require('./permissions.logiclayer')
 
 exports.updatePermissions = function (req, res) {
-  utility.callApi(`permissions/query`, 'post', { companyId: req.body.companyId, userId: req.body.userId }, req.headers.authorization)
+  utility.callApi(`permissions/query`, 'post', { companyId: req.body.companyId, userId: req.body.userId })
     .then(permission => {
       permission = logicLayer.setPermissions(req.body)
-      utility.callApi(`permissions/${permission._id}`, 'put', permission, req.headers.authorization)
+      utility.callApi(`permissions/${permission._id}`, 'put', permission)
         .then(result => {
           res.status(201).json({status: 'success', payload: result})
         })
@@ -22,9 +22,9 @@ exports.updatePermissions = function (req, res) {
 }
 
 exports.fetchPermissions = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
+  utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email})
     .then(companyUser => {
-      utility.callApi(`permissions/query`, 'post', {companyId: companyUser.companyId}, req.headers.authorization)
+      utility.callApi(`permissions/query`, 'post', {companyId: companyUser.companyId})
         .then(permissions => {
           res.status(200).json({
             status: 'success',

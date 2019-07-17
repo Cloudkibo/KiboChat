@@ -28,7 +28,7 @@ Structure: UserwiseAggregate
 */
 
 exports.index = (req, res) => {
-  callApi(`UserwiseData`, 'get', {}, req.headers.authorization, 'kibodash')
+  callApi(`UserwiseData`, 'get', {}, 'kibodash')
     .then((result) => {
       return res.status(200).json({status: 'success', payload: result})
     })
@@ -39,7 +39,7 @@ exports.index = (req, res) => {
 }
 
 exports.ranged = (req, res) => {
-  callApi(`UserwiseData/AggregateDatewise`, 'post', {startDate: req.body.startDate}, req.headers.authorization, 'kibodash')
+  callApi(`UserwiseData/AggregateDatewise`, 'post', {startDate: req.body.startDate}, 'kibodash')
     .then((result) => {
       return res.status(200).json({status: 'success', payload: result})
     })
@@ -50,7 +50,7 @@ exports.ranged = (req, res) => {
 }
 
 exports.oneUser = (req, res) => {
-  callApi(`UserwiseData/OneUserAnalytics`, 'post', {companyId: req.body.companyId}, req.headers.authorization, 'kibodash')
+  callApi(`UserwiseData/OneUserAnalytics`, 'post', {companyId: req.body.companyId}, 'kibodash')
     .then((result) => {
       return res.status(200).json({status: 'success', payload: result})
     })
@@ -62,7 +62,7 @@ exports.oneUser = (req, res) => {
 
 exports.oneUserRanged = (req, res) => {
   callApi(`UserwiseData/OneUserAggregateDatewise`, 'post', {startDate: req.body.startDate,
-    companyId: req.body.companyId}, req.headers.authorization, 'kibodash')
+    companyId: req.body.companyId}, 'kibodash')
     .then((result) => {
       return res.status(200).json({status: 'success', payload: result})
     })

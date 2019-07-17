@@ -94,7 +94,7 @@ const fetchPage = (botId, authToken) => {
   return new Promise((resolve, reject) => {
     BotsDataLayer.findOneBotObject(botId)
       .then(bot => {
-        callApi(`pages/${bot.pageId}`, 'get', {}, authToken)
+        callApi(`pages/${bot.pageId}`, 'get', {})
           .then(page => {
             resolve(page)
           })

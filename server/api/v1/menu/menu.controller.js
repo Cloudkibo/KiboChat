@@ -9,7 +9,7 @@ const broadcastUtility = require('../broadcasts/broadcasts.utility')
 
 // Get list of menu items
 exports.index = function (req, res) {
-  callApi.callApi('companyuser/query', 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
+  callApi.callApi('companyuser/query', 'post', {domain_email: req.user.domain_email})
     .then(companyUser => {
       if (!companyUser) {
         return res.status(404).json({
@@ -17,7 +17,7 @@ exports.index = function (req, res) {
           description: 'The user account does not belong to any company. Please contact support'
         })
       }
-      callApi.callApi('menu/query', 'post', {companyId: companyUser.companyId}, req.headers.authorization)
+      callApi.callApi('menu/query', 'post', {companyId: companyUser.companyId})
         .then(menus => {
           return res.status(200).json({
             status: 'success',
@@ -39,7 +39,7 @@ exports.index = function (req, res) {
 }
 
 exports.indexByPage = function (req, res) {
-  callApi.callApi('companyuser/query', 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
+  callApi.callApi('companyuser/query', 'post', {domain_email: req.user.domain_email})
     .then(companyUser => {
       if (!companyUser) {
         return res.status(404).json({
@@ -47,10 +47,10 @@ exports.indexByPage = function (req, res) {
           description: 'The user account does not belong to any company. Please contact support'
         })
       }
-      callApi.callApi('pages/query', 'post', {pageId: req.body.pageId, companyId: companyUser.companyId, connected: true}, req.headers.authorization)
+      callApi.callApi('pages/query', 'post', {pageId: req.body.pageId, companyId: companyUser.companyId, connected: true})
         .then(page => {
           page = page[0]
-          callApi.callApi('menu/query', 'post', {companyId: companyUser.companyId, pageId: page._id}, req.headers.authorization)
+          callApi.callApi('menu/query', 'post', {companyId: companyUser.companyId, pageId: page._id})
             .then(menus => {
               return res.status(200).json({
                 status: 'success',
@@ -84,7 +84,7 @@ exports.indexByPage = function (req, res) {
 }
 
 exports.create = function (req, res) {
-  callApi.callApi('companyuser/query', 'post', {domain_email: req.user.domain_email}, req.headers.authorization)
+  callApi.callApi('companyuser/query', 'post', {domain_email: req.user.domain_email})
     .then(companyUser => {
       if (!companyUser) {
         logger.serverLog(TAG, 'The user account does not belong to any company.')
@@ -93,7 +93,7 @@ exports.create = function (req, res) {
           description: 'The user account does not belong to any company. Please contact support'
         })
       }
-      callApi.callApi('pages/query', 'post', {pageId: req.body.pageId, companyId: companyUser.companyId, connected: true}, req.headers.authorization)
+      callApi.callApi('pages/query', 'post', {pageId: req.body.pageId, companyId: companyUser.companyId, connected: true})
         .then(page => {
           page = page[0]
           if (!page) {
@@ -104,7 +104,7 @@ exports.create = function (req, res) {
             })
           }
           logger.serverLog(TAG, `page retrieved for menu creation: ${JSON.stringify(page)}`)
-          callApi.callApi('menu/query', 'post', {pageId: page._id, companyId: page.companyId}, req.headers.authorization)
+          callApi.callApi('menu/query', 'post', {pageId: page._id, companyId: page.companyId})
             .then(info => {
               info = info[0]
               if (!info) {
@@ -113,7 +113,7 @@ exports.create = function (req, res) {
                   userId: req.body.userId,
                   companyId: companyUser.companyId,
                   jsonStructure: req.body.jsonStructure
-                }, req.headers.authorization)
+                })
                   .then(savedMenu => {
                     require('./../../../config/socketio').sendMessageToClient({
                       room_id: companyUser.companyId,
@@ -158,7 +158,7 @@ exports.create = function (req, res) {
                   query: {pageId: page._id},
                   newPayload: {jsonStructure: req.body.jsonStructure},
                   options: {}
-                }, req.headers.authorization)
+                })
                   .then(updated => {
                     const requestUrl = `https://graph.facebook.com/v2.6/me/messenger_profile?access_token=${page.accessToken}`
                     logger.serverLog(TAG, `requestUrl for menu creation ${requestUrl}`)
@@ -190,7 +190,7 @@ exports.create = function (req, res) {
                             description: JSON.stringify(resp.body.error)
                           })
                         } else {
-                          callApi.callApi('menu/query', 'post', {pageId: page._id, companyId: page.companyId}, req.headers.authorization)
+                          callApi.callApi('menu/query', 'post', {pageId: page._id, companyId: page.companyId})
                             .then(info1 => {
                               info1 = info1[0]
                               res.status(201).json({status: 'success', payload: info1})
