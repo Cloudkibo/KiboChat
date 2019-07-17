@@ -50,6 +50,8 @@ module.exports = function (app) {
   app.use('/api/whatsAppDashboard', require('./api/v1.1/whatsAppDashboard'))
   app.use('/api/smsDashboard', require('./api/v1.1/smsDashboard'))
   app.use('/api/webhooks', require('./api/v1.1/webhooks'))
+  app.use('/api/email_verification', require('./api/v1.1/verificationtoken'))
+
   // auth middleware go here if you authenticate on same server
 
   app.get('/', (req, res) => {
