@@ -175,7 +175,7 @@ exports.sentVsSeenNew = function (req, res) {
                   (new Date().getTime()))
               }
             }
-            callApi('sessions/query', 'post', matchAggregate)
+            callApi('subscribers/query', 'post', matchAggregate)
               .then(sessions => {
                 console.log('sessions', sessions)
                 const resolvedSessions = sessions.filter(session => session.status === 'resolved')
