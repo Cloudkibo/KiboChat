@@ -6,6 +6,7 @@ const fs = require('fs')
 const logger = require('../../../components/logger')
 const TAG = 'api/contacts/contacts.controller.js'
 const path = require('path')
+const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
 exports.index = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }) // fetch company user
@@ -15,30 +16,18 @@ exports.index = function (req, res) {
         .then(count => {
           utility.callApi(`contacts/aggregate`, 'post', criterias.fetchCriteria) // fetch subscribers
             .then(contacts => {
-              res.status(200).json({
-                status: 'success',
-                payload: {contacts: contacts, count: count.length > 0 ? count[0].count : 0}
-              })
+              sendSuccessResponse(res, 200, {contacts: contacts, count: count.length > 0 ? count[0].count : 0})
             })
             .catch(error => {
-              return res.status(500).json({
-                status: 'failed',
-                payload: `Failed to fetch subscribers ${JSON.stringify(error)}`
-              })
+              sendErrorResponse(res, 500, `Failed to fetch subscribers ${JSON.stringify(error)}`)
             })
         })
         .catch(error => {
-          return res.status(500).json({
-            status: 'failed',
-            payload: `Failed to fetch subscriber count ${JSON.stringify(error)}`
-          })
+          sendErrorResponse(res, 500, `Failed to fetch subscriber count ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
-      return res.status(500).json({
-        status: 'failed',
-        payload: `Failed to fetch company user ${JSON.stringify(error)}`
-      })
+      sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
 
@@ -48,10 +37,7 @@ exports.uploadFile = function (req, res) {
     .then(companyUser => {
       fs.rename(req.files.file.path, path.join(directory.dir, '/userfiles/', directory.serverPath), err => {
         if (err) {
-          return res.status(500).json({
-            status: 'failed',
-            description: 'internal server error' + JSON.stringify(err)
-          })
+          sendErrorResponse(res, 500, '', 'internal server error' + JSON.stringify(err))
         }
         let phoneColumn = req.body.phoneColumn
         let nameColumn = req.body.nameColumn
@@ -80,16 +66,12 @@ exports.uploadFile = function (req, res) {
           })
           .on('end', function () {
             fs.unlinkSync(directory.dir + '/userfiles/' + directory.serverPath)
-            return res.status(200)
-              .json({status: 'success', payload: 'Contacts saved successfully'})
+            sendSuccessResponse(res, 200, 'Contacts saved successfully')
           })
       })
     })
     .catch(error => {
-      return res.status(500).json({
-        status: 'failed',
-        payload: `Failed to fetch company user ${JSON.stringify(error)}`
-      })
+      sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
 exports.uploadNumbers = function (req, res) {
@@ -111,8 +93,7 @@ exports.uploadNumbers = function (req, res) {
                 })
             }
             if (i === req.body.numbers.length - 1) {
-              return res.status(200)
-                .json({status: 'success', payload: 'Contacts saved successfully'})
+              sendSuccessResponse(res, 200, 'Contacts saved successfully')
             }
           })
           .catch(error => {
@@ -121,9 +102,6 @@ exports.uploadNumbers = function (req, res) {
       }
     })
     .catch(error => {
-      return res.status(500).json({
-        status: 'failed',
-        payload: `Failed to fetch company user ${JSON.stringify(error)}`
-      })
+      sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }

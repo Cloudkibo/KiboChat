@@ -3,6 +3,7 @@ const logicLayer = require('./whatsAppChat.logiclayer')
 const TAG = '/api/v1/whatsAppChat/whatsAppChat.controller.js'
 const { callApi } = require('../utility')
 const async = require('async')
+const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
 exports.index = function (req, res) {
   if (req.params.contactId) {
@@ -36,18 +37,16 @@ exports.index = function (req, res) {
       }
     ], 10, function (err, results) {
       if (err) {
-        return res.status(500).json({status: 'failed', payload: err})
+        sendErrorResponse(res, 500, err)
       } else {
         let chatCount = results[0]
         let fbchats = results[1].reverse()
         fbchats = logicLayer.setChatProperties(fbchats)
-        return res.status(200).json({ status: 'success',
-          payload: { chat: fbchats, count: chatCount.length > 0 ? chatCount[0].count : 0 }
-        })
+        sendSuccessResponse(res, 200, { chat: fbchats, count: chatCount.length > 0 ? chatCount[0].count : 0 })
       }
     })
   } else {
-    return res.status(400).json({status: 'failed', payload: 'Parameter session_id is required!'})
+    sendErrorResponse(res, 400, 'Parameter session_id is required!')
   }
 }
 
@@ -55,10 +54,7 @@ exports.create = function (req, res) {
   callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email, populate: 'companyId' })
     .then(companyUser => {
       if (!companyUser) {
-        return res.status(404).json({
-          status: 'failed',
-          description: 'The user account does not belong to any company. Please contact support'
-        })
+        sendErrorResponse(res, 404, '', 'The user account does not belong to any company. Please contact support')
       }
       let MessageObject = logicLayer.prepareChat(req.body, companyUser)
       callApi(`whatsAppChat`, 'post', MessageObject, 'kibochat')
@@ -78,35 +74,22 @@ exports.create = function (req, res) {
                 .create(messageToSend)
                 .then(response => {
                   logger.serverLog(TAG, `response from twilio ${JSON.stringify(response)}`)
-                  return res.status(200)
-                    .json({status: 'success', payload: message})
+                  sendSuccessResponse(res, 200, message)
                 })
                 .catch(error => {
-                  return res.status(500).json({
-                    status: 'failed',
-                    payload: `Failed to send message ${JSON.stringify(error)}`
-                  })
+                  sendErrorResponse(res, 500, `Failed to send message ${JSON.stringify(error)}`)
                 })
             })
             .catch(error => {
-              return res.status(500).json({
-                status: 'failed',
-                payload: `Failed to update contact ${JSON.stringify(error)}`
-              })
+              sendErrorResponse(res, 500, `Failed to update contact ${JSON.stringify(error)}`)
             })
         })
         .catch(error => {
-          return res.status(500).json({
-            status: 'failed',
-            payload: `Failed to create smsChat ${JSON.stringify(error)}`
-          })
+          sendErrorResponse(res, 500, `Failed to create smsChat ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
-      return res.status(500).json({
-        status: 'failed',
-        payload: `Failed to fetch company user ${JSON.stringify(error)}`
-      })
+      sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
 exports.fetchSessions = function (req, res) {
@@ -153,7 +136,7 @@ exports.fetchSessions = function (req, res) {
     }
   ], 10, function (err, results) {
     if (err) {
-      return res.status(500).json({status: 'failed', payload: err})
+      sendErrorResponse(res, 500, err)
     } else {
       let countResopnse = results[0]
       let sessionsResponse = results[1]
@@ -161,7 +144,7 @@ exports.fetchSessions = function (req, res) {
       let lastMessageResponse = results[3]
       let sessionsWithUnreadCount = logicLayer.putUnreadCount(chatCountResponse, sessionsResponse)
       let sessions = logicLayer.putLastMessage(lastMessageResponse, sessionsWithUnreadCount)
-      return res.status(200).json({status: 'success', payload: {sessions: sessions, count: countResopnse.length > 0 ? countResopnse[0].count : 0}})
+      sendSuccessResponse(res, 200, {sessions: sessions, count: countResopnse.length > 0 ? countResopnse[0].count : 0})
     }
   })
 }
@@ -173,13 +156,13 @@ exports.markread = function (req, res) {
       }
     ], 10, function (err, results) {
       if (err) {
-        return res.status(500).json({status: 'failed', payload: err})
+        sendErrorResponse(res, 500, err)
       } else {
-        return res.status(200).json({status: 'success', payload: 'Chat has been marked read successfully!'})
+        sendSuccessResponse(res, 200, 'Chat has been marked read successfully!')
       }
     })
   } else {
-    return res.status(400).json({status: 'failed', payload: 'Parameter subscriber_id is required!'})
+    sendErrorResponse(res, 400, 'Parameter subscriber_id is required!')
   }
 }
 

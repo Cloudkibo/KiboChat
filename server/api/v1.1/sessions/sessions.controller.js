@@ -5,6 +5,7 @@ const logicLayer = require('./sessions.logiclayer')
 const needle = require('needle')
 // const util = require('util')
 const async = require('async')
+const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
 exports.index = function (req, res) {
   let sessions = []
@@ -40,19 +41,13 @@ exports.index = function (req, res) {
     .then(gotLastMessage => {
       if (gotLastMessage !== '') {
         sessions = logicLayer.getLastMessage(gotLastMessage, sessions)
-        return res.status(200).json({
-          status: 'success',
-          payload: sessions
-        })
+        sendSuccessResponse(res, 200, sessions)
       } else {
-        return res.status(200).json({
-          status: 'success',
-          payload: sessions
-        })
+        sendSuccessResponse(res, 200, sessions)
       }
     })
     .catch(error => {
-      return res.status(500).json({status: 'failed', payload: `Internal server error ${JSON.stringify(error)}`})
+      sendErrorResponse(res, 500, `Internal server error ${JSON.stringify(error)}`)
     })
 }
 
@@ -100,7 +95,7 @@ exports.fetchOpenSessions = function (req, res) {
     }
   ], 10, function (err, results) {
     if (err) {
-      return res.status(500).json({status: 'failed', payload: err})
+      sendErrorResponse(res, 500, err)
     } else {
       let countResopnse = results[0]
       let sessionsResponse = results[1]
@@ -108,7 +103,7 @@ exports.fetchOpenSessions = function (req, res) {
       let lastMessageResponse = results[3]
       let sessionsWithUnreadCount = logicLayer.putUnreadCount(unreadCountResponse, sessionsResponse)
       let sessions = logicLayer.putLastMessage(lastMessageResponse, sessionsWithUnreadCount)
-      return res.status(200).json({status: 'success', payload: {openSessions: sessions, count: countResopnse.length > 0 ? countResopnse[0].count : 0}})
+      sendSuccessResponse(res, 200, {openSessions: sessions, count: countResopnse.length > 0 ? countResopnse[0].count : 0})
     }
   })
 }
@@ -165,7 +160,7 @@ exports.fetchResolvedSessions = function (req, res) {
       let lastMessageResponse = results[3]
       let sessionsWithUnreadCount = logicLayer.putUnreadCount(unreadCountResponse, sessionsResponse)
       let sessions = logicLayer.putLastMessage(lastMessageResponse, sessionsWithUnreadCount)
-      return res.status(200).json({status: 'success', payload: {closedSessions: sessions, count: countResopnse.length > 0 ? countResopnse[0].count : 0}})
+      sendSuccessResponse(res, 200, {closedSessions: sessions, count: countResopnse.length > 0 ? countResopnse[0].count : 0})
     }
   })
 }
@@ -181,13 +176,13 @@ exports.markread = function (req, res) {
       }
     ], 10, function (err, results) {
       if (err) {
-        return res.status(500).json({status: 'failed', payload: err})
+        sendErrorResponse(res, 500, err)
       } else {
-        return res.status(200).json({status: 'success', payload: 'Chat has been marked read successfully!'})
+        sendSuccessResponse(res, 200, 'Chat has been marked read successfully!')
       }
     })
   } else {
-    return res.status(400).json({status: 'failed', payload: 'Parameter subscriber_id is required!'})
+    sendErrorResponse(res, 500, 'Parameter subscriber_id is required!')
   }
 }
 
@@ -260,18 +255,18 @@ exports.show = function (req, res) {
       }
     ], 10, function (err, results) {
       if (err) {
-        return res.status(500).json({status: 'failed', payload: err})
+        sendErrorResponse(res, 500, err)
       } else {
         let subscriber = results[0]
         let unreadCountResponse = results[1]
         let lastMessageResponse = results[2]
         let subscriberWithUnreadCount = logicLayer.appendUnreadCountData(unreadCountResponse, subscriber)
         let finalSubscriber = logicLayer.appendLastMessageData(lastMessageResponse, subscriberWithUnreadCount)
-        return res.status(200).json({status: 'success', payload: finalSubscriber})
+        sendSuccessResponse(res, 200, finalSubscriber)
       }
     })
   } else {
-    return res.status(400).json({status: 'failed', payload: 'Parameter subscriber_id is required!'})
+    sendErrorResponse(res, 400, 'Parameter subscriber_id is required!')
   }
 }
 
@@ -290,10 +285,10 @@ exports.changeStatus = function (req, res) {
           }
         }
       })
-      return res.status(200).json({status: 'success', payload: 'Status has been updated successfully!'})
+      sendSuccessResponse(res, 200, 'Status has been updated successfully!')
     })
     .catch(err => {
-      return res.status(500).json({status: 'failed', payload: err})
+      sendErrorResponse(res, 500, err)
     })
 }
 
@@ -325,10 +320,10 @@ exports.assignAgent = function (req, res) {
           }
         }
       })
-      return res.status(200).json({status: 'success', payload: 'Agent has been assigned successfully!'})
+      sendSuccessResponse(res, 200, 'Agent has been assigned successfully!')
     })
     .catch(err => {
-      return res.status(500).json({status: 'failed', payload: err})
+      sendErrorResponse(res, 500, err)
     })
 }
 
@@ -360,10 +355,10 @@ exports.assignTeam = function (req, res) {
           }
         }
       })
-      return res.status(200).json({status: 'success', payload: 'Team has been assigned successfully!'})
+      sendSuccessResponse(res, 200, 'Team has been assigned successfully!')
     })
     .catch(err => {
-      return res.status(500).json({status: 'failed', payload: err})
+      sendErrorResponse(res, 500, err)
     })
 }
 
@@ -371,9 +366,9 @@ exports.genericFind = function (req, res) {
   let messagesData = logicLayer.getQueryData('', 'findAll', req.body)
   callApi('livechat/query', 'post', messagesData, 'kibochat')
     .then(session => {
-      return res.status(200).json({status: 'success', payload: session})
+      sendSuccessResponse(res, 200, session)
     })
     .catch(error => {
-      return {status: 'failed', payload: `Failed to fetch sessions ${JSON.stringify(error)}`}
+      sendErrorResponse(res, 500, `Failed to fetch sessions ${JSON.stringify(error)}`)
     })
 }

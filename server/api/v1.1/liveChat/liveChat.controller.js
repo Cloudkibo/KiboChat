@@ -8,6 +8,7 @@ const request = require('request')
 const webhookUtility = require('../notifications/notifications.utility')
 // const util = require('util')
 const async = require('async')
+const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
 exports.index = function (req, res) {
   if (req.params.subscriber_id) {
@@ -46,13 +47,15 @@ exports.index = function (req, res) {
         let chatCount = results[0]
         let fbchats = results[1].reverse()
         fbchats = logicLayer.setChatProperties(fbchats)
-        return res.status(200).json({ status: 'success',
-          payload: { chat: fbchats, count: chatCount.length > 0 ? chatCount[0].count : 0 }
-        })
+        let payload = {
+          chat: fbchats,
+          count: chatCount.length > 0 ? chatCount[0].count : 0
+        }
+        sendSuccessResponse(res, 200, payload)
       }
     })
   } else {
-    return res.status(400).json({status: 'failed', payload: 'Parameter session_id is required!'})
+    sendErrorResponse(res, 400, 'Parameter session_id is required!')
   }
 }
 
@@ -60,13 +63,10 @@ exports.search = function (req, res) {
   let searchData = { subscriber_id: req.body.subscriber_id, company_id: req.user.companyId, $text: { $search: req.body.text } }
   callApi(`livechat/search`, 'post', searchData, 'kibochat')
     .then(chats => {
-      return res.status(200).json({
-        status: 'success',
-        payload: chats
-      })
+      sendSuccessResponse(res, 200, chats)
     })
     .catch(err => {
-      return res.status(500).json({status: 'failed', payload: err})
+      sendErrorResponse(res, 500, '', err)
     })
 }
 
@@ -74,14 +74,10 @@ exports.update = function (req, res) {
   let updateData = logicLayer.getUpdateData('updateOne', { _id: req.body.id }, { $set: { urlmeta: req.body.urlmeta } }, false, false, true)
   callApi(`livechat`, 'put', updateData, 'kibochat')
     .then(updated => {
-      return res.status(201).json({
-        status: 'success',
-        payload: updated
-      })
+      sendSuccessResponse(res, 200, updated)
     })
     .catch(err => {
-      return res.status(500)
-        .json({ status: 'failed', description: `Internal Server Error ${err}` })
+      sendErrorResponse(res, 500, '', `Internal Server Error ${err}`)
     })
 }
 
@@ -90,11 +86,10 @@ exports.geturlmeta = function (req, res) {
   logger.serverLog(TAG, `Url for Meta: ${url}`, 'error')
   og(url, (err, meta) => {
     if (err) {
-      return res.status(404)
-        .json({ status: 'failed', description: 'Meta data not found' })
+      sendErrorResponse(res, 404, '', 'Meta data not found')
     }
     logger.serverLog(TAG, `Url Meta: ${meta}`, 'error')
-    res.status(200).json({ status: 'success', payload: meta })
+    sendSuccessResponse(res, 200, meta)
   })
 }
 
@@ -249,9 +244,9 @@ exports.create = function (req, res) {
         }
       ], 10, function (err, values) {
         if (err) {
-          return res.status(500).json({status: 'failed', payload: err})
+          sendErrorResponse(res, 400, 'Meta data not found')
         } else {
-          return res.status(200).json({ status: 'success', payload: fbMessageObject })
+          sendSuccessResponse(res, 200, fbMessageObject)
         }
       })
     }

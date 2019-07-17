@@ -1,5 +1,6 @@
 const logicLayer = require('./logiclayer')
 const utility = require('../utility')
+const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
 exports.index = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }) // fetch company user
@@ -9,30 +10,18 @@ exports.index = function (req, res) {
         .then(count => {
           utility.callApi(`whatsAppContacts/aggregate`, 'post', criterias.fetchCriteria) // fetch subscribers
             .then(contacts => {
-              res.status(200).json({
-                status: 'success',
-                payload: {contacts: contacts, count: count.length > 0 ? count[0].count : 0}
-              })
+              sendSuccessResponse(res, 200, {contacts: contacts, count: count.length > 0 ? count[0].count : 0})
             })
             .catch(error => {
-              return res.status(500).json({
-                status: 'failed',
-                payload: `Failed to fetch subscribers ${JSON.stringify(error)}`
-              })
+              sendErrorResponse(res, 500, `Failed to fetch subscribers ${JSON.stringify(error)}`)
             })
         })
         .catch(error => {
-          return res.status(500).json({
-            status: 'failed',
-            payload: `Failed to fetch subscriber count ${JSON.stringify(error)}`
-          })
+          sendErrorResponse(res, 500, `Failed to fetch subscriber count ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
-      return res.status(500).json({
-        status: 'failed',
-        payload: `Failed to fetch company user ${JSON.stringify(error)}`
-      })
+      sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
 exports.update = function (req, res) {
@@ -43,15 +32,9 @@ exports.update = function (req, res) {
   }
   utility.callApi(`whatsAppContacts/update`, 'put', subsriberData)
     .then(updated => {
-      res.status(200).json({
-        status: 'success',
-        payload: updated
-      })
+      sendSuccessResponse(res, 200, updated)
     })
     .catch(error => {
-      return res.status(500).json({
-        status: 'failed',
-        payload: `Failed to fetch company user ${JSON.stringify(error)}`
-      })
+      sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }

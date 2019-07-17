@@ -1,35 +1,27 @@
 // const logger = require('../../../components/logger')
 // const CUSTOMFIELD = 'api/custom_field/custom_field.controller.js'
 const callApi = require('../utility')
+const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
 exports.index = function (req, res) {
   callApi.callApi('companyuser/query', 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
       if (!companyUser) {
-        return res.status(404).json({
-          status: 'failed',
-          description: 'The user account does not belong to any company. Please contact support'
-        })
+        sendErrorResponse(res, 404, '', 'The user account does not belong to any company. Please contact support')
       }
       callApi.callApi('custom_fields/query', 'post', { purpose: 'findAll', match: { companyId: companyUser.companyId } })
         .then(customFields => {
-          res.status(200).json({ status: 'success', payload: customFields })
+          sendSuccessResponse(res, 200, customFields)
         })
         .catch(err => {
           if (err) {
-            return res.status(500).json({
-              status: 'failed',
-              description: `Internal Server Error in fetching customFields${JSON.stringify(err)}`
-            })
+            sendErrorResponse(res, 500, '', `Internal Server Error in fetching customFields${JSON.stringify(err)}`)
           }
         })
     })
     .catch(err => {
       if (err) {
-        return res.status(500).json({
-          status: 'failed',
-          description: `Internal Server Error in fetching customer${JSON.stringify(err)}`
-        })
+        sendErrorResponse(res, 500, '', `Internal Server Error in fetching customer${JSON.stringify(err)}`)
       }
     })
 }
@@ -38,10 +30,7 @@ exports.create = function (req, res) {
   callApi.callApi('companyUser/query', 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
       if (!companyUser) {
-        return res.status(404).json({
-          status: 'failed',
-          description: 'The user account does not belong to any company. Please contact support'
-        })
+        sendErrorResponse(res, 404, '', 'The user account does not belong to any company. Please contact support')
       }
       let customFieldPayload = {
         name: req.body.name,
@@ -61,20 +50,14 @@ exports.create = function (req, res) {
               }
             }
           })
-          return res.status(201).json({ status: 'success', payload: newCustomField })
+          sendSuccessResponse(res, 200, newCustomField)
         })
         .catch(err => {
-          return res.status(500).json({
-            status: 'failed',
-            description: err
-          })
+          sendErrorResponse(res, 500, '', err)
         })
     })
     .catch(err => {
-      return res.status(500).json({
-        status: 'failed',
-        description: `Internal Server Error in fetching company user${JSON.stringify(err)}`
-      })
+      sendErrorResponse(res, 500, '', `Internal Server Error in fetching company user${JSON.stringify(err)}`)
     })
 }
 
@@ -82,10 +65,7 @@ exports.update = function (req, res) {
   callApi.callApi('custom_fields/query', 'post', { purpose: 'findOne', match: { _id: req.body.customFieldId, companyId: req.user.companyId } })
     .then(fieldPayload => {
       if (!fieldPayload) {
-        return res.status(404).json({
-          status: 'failed',
-          description: 'No Custom field is available on server with given customFieldId.'
-        })
+        sendErrorResponse(res, 404, '', 'No Custom field is available on server with given customFieldId.')
       }
       let updatedPayload = {}
       if (req.body.updated.name) updatedPayload.name = req.body.updated.name
@@ -102,20 +82,14 @@ exports.update = function (req, res) {
               }
             }
           })
-          return res.status(200).json({ status: 'success', payload: updated })
+          sendSuccessResponse(res, 200, updated)
         })
         .catch(err => {
-          return res.status(500).json({
-            status: 'failed',
-            description: err
-          })
+          sendErrorResponse(res, 500, '', err)
         })
     })
     .catch(err => {
-      return res.status(500).json({
-        status: 'failed',
-        description: `can not find custom field with given information${JSON.stringify(err)}`
-      })
+      sendErrorResponse(res, 500, '', `can not find custom field with given information${JSON.stringify(err)}`)
     })
 }
 
@@ -136,21 +110,14 @@ exports.delete = function (req, res) {
                     }
                   }
                 })
-                return res.status(200)
-                  .json({ status: 'success', description: 'Custom Field removed successfully' })
+                sendSuccessResponse(res, 200, 'Custom Field removed successfully')
               })
               .catch(err => {
-                return res.status(404).json({
-                  status: 'failed',
-                  description: `Failed to remove custom field ${err}`
-                })
+                sendErrorResponse(res, 500, '', `Failed to remove custom field ${err}`)
               })
           })
           .catch(err => {
-            return res.status(404).json({
-              status: 'failed',
-              description: `Failed to remove custom field subscriber${err}`
-            })
+            sendErrorResponse(res, 500, `Failed to remove custom field subscriber${err}`)
           })
       } else {
         callApi.callApi('custom_fields/', 'delete', { purpose: 'deleteOne', match: { _id: req.body.customFieldId } })
@@ -164,21 +131,14 @@ exports.delete = function (req, res) {
                 }
               }
             })
-            return res.status(200)
-              .json({ status: 'success', description: 'Custom Field removed successfully' })
+            sendSuccessResponse(res, 200, 'Custom Field removed successfully')
           })
           .catch(err => {
-            return res.status(404).json({
-              status: 'failed',
-              description: `Failed to remove custom field ${err}`
-            })
+            sendErrorResponse(res, 500, '', `Failed to remove custom field ${err}`)
           })
       }
     })
     .catch(err => {
-      return res.status(404).json({
-        status: 'failed',
-        description: `Failed to find custom field subsriber${err}`
-      })
+      sendErrorResponse(res, 500, '', `Failed to find custom field subsriber${err}`)
     })
 }
