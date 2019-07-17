@@ -4,6 +4,7 @@ const callApi = require('../utility')
 const logger = require('../../../components/logger')
 const customField = '/api/v1.1/custom_field_subscribers/custom_field_subscriber.controller.js'
 const util = require('util')
+const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
 exports.setCustomFieldValue = function (req, res) {
   let customFieldResponse = callApi.callApi(
@@ -57,26 +58,17 @@ exports.setCustomFieldValue = function (req, res) {
               }
             })
             if (index === req.body.subscriberIds.length - 1) {
-              return res.status(200).json({
-                status: 'Success',
-                payload: setCustomFieldValue
-              })
+              sendSuccessResponse(res, 200, setCustomFieldValue)
             }
           })
           .catch(err => {
-            return res.status(500).json({
-              status: 'Failed',
-              description: `Internal Server ${(err)}`
-            })
+            sendErrorResponse(res, 500, `Internal Server ${(err)}`)
           })
       })
     }
   })
     .catch(err => {
-      return res.status(500).json({
-        status: 'Failed',
-        description: `Internal Server ${(err)}`
-      })
+      sendErrorResponse(res, 500, `Internal Server ${(err)}`)
     })
 }
 
@@ -85,15 +77,9 @@ exports.getCustomFieldSubscriber = function (req, res) {
     { purpose: 'findAll', match: {subscriberId: req.params.subscriberId} }
   )
     .then(foundCustomFieldSubscriber => {
-      return res.status(200).json({
-        status: 'success',
-        payload: foundCustomFieldSubscriber
-      })
+      sendSuccessResponse(res, 200, foundCustomFieldSubscriber)
     })
     .catch(err => {
-      return res.status(500).json({
-        status: 'Failed',
-        description: `Internal Server ${(err)}`
-      })
+      sendErrorResponse(res, 500, '', `Internal Server ${(err)}`)
     })
 }

@@ -5,6 +5,7 @@ const logger = require('../../../components/logger')
 const TAG = 'api/operational_dashboard/operational.controller.js'
 const utility = require('./utility')
 const { callApi } = require('../utility')
+const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
 /*
 Endpoint: /api/v1/PagewiseData
@@ -36,33 +37,33 @@ Structure: TotalPagewiseAnalytics
 exports.index = (req, res) => {
   callApi(`PagewiseData`, 'get', {}, 'kibodash')
     .then((result) => {
-      return res.status(200).json({status: 'success', payload: result})
+      sendSuccessResponse(res, 200, result)
     })
     .catch((err) => {
       logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
-      return res.status(500).json({status: 'failed', description: err})
+      sendErrorResponse(res, 500, err)
     })
 }
 
 exports.ranged = (req, res) => {
   callApi(`PagewiseData/AggregateDatewise`, 'post', {startDate: req.body.startDate}, 'kibodash')
     .then((result) => {
-      return res.status(200).json({status: 'success', payload: result})
+      sendSuccessResponse(res, 200, result)
     })
     .catch((err) => {
       logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
-      return res.status(500).json({status: 'failed', description: err})
+      sendErrorResponse(res, 500, '', err)
     })
 }
 
 exports.onePage = (req, res) => {
   callApi(`PagewiseData/OnePageAnalytics`, 'post', {pageId: req.body.pageId}, 'kibodash')
     .then((result) => {
-      return res.status(200).json({status: 'success', payload: result})
+      sendSuccessResponse(res, 200, result)
     })
     .catch((err) => {
       logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
-      return res.status(500).json({status: 'failed', description: err})
+      sendErrorResponse(res, 500, '', err)
     })
 }
 
@@ -70,11 +71,11 @@ exports.onePageRanged = (req, res) => {
   callApi(`PagewiseData/OnePageAggregateDatewise`, 'post', {startDate: req.body.startDate,
     pageId: req.body.pageId}, 'kibodash')
     .then((result) => {
-      return res.status(200).json({status: 'success', payload: result})
+      sendSuccessResponse(res, 200, result)
     })
     .catch((err) => {
       logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
-      return res.status(500).json({status: 'failed', description: err})
+      sendErrorResponse(res, 500, '', err)
     })
 }
 
@@ -86,18 +87,18 @@ exports.topPages = (req, res) => {
         callApi(`pages/query`, 'post', {pageId: {$in: pageIds}})
           .then((results) => {
             let finalPayload = utility.mergePayload(results, result)
-            return res.status(200).json({status: 'success', payload: finalPayload})
+            sendSuccessResponse(res, 200, finalPayload)
           })
           .catch((err) => {
             logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
-            return res.status(500).json({status: 'failed', description: err})
+            sendErrorResponse(res, 500, '', err)
           })
       } else {
-        return res.status(500).json({status: 'failed', description: 'Error in finding pageIds'})
+        sendErrorResponse(res, 500, '', 'Error in finding pageIds')
       }
     })
     .catch((err) => {
       logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
-      return res.status(500).json({status: 'failed', description: err})
+      sendErrorResponse(res, 500, '', err)
     })
 }

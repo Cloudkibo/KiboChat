@@ -9,6 +9,7 @@ let request = require('request')
 const WIT_AI_TOKEN = 'RQC4XBQNCBMPETVHBDV4A34WSP5G2PYL'
 const util = require('util')
 const needle = require('needle')
+const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
 exports.index = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
@@ -18,18 +19,18 @@ exports.index = function (req, res) {
           if (bots && bots.length > 0) {
             populateBot(bots, req)
               .then(result => {
-                return res.status(200).json({ status: 'success', payload: result.bots })
+                sendSuccessResponse(res, 200, result.bots)
               })
           } else {
-            return res.status(200).json({ status: 'success', payload: [] })
+            sendSuccessResponse(res, 200, [])
           }
         })
         .catch(err => {
-          return res.status(500).json({status: 'failed', description: `Error fetching bots from companyId ${err}`})
+          sendErrorResponse(res, 500, `Error fetching bots from companyId ${err}`)
         })
     })
     .catch(err => {
-      return res.status(500).json({status: 'failed', description: `Error fetching company user ${err}`})
+      sendErrorResponse(res, 500, `Error fetching company user ${err}`)
     })
 }
 
@@ -50,18 +51,18 @@ exports.waitingReply = function (req, res) {
                   }
                 }
               }
-              res.status(200).json({ status: 'success', payload: subscribersPayload })
+              sendSuccessResponse(res, 200, subscribersPayload)
             })
             .catch(err => {
-              return res.status(500).json({status: 'failed', description: `Error fetching subscribers in waiting reply ${err}`})
+              sendErrorResponse(res, 500, `Error fetching subscribers in waiting reply ${err}`)
             })
         })
         .catch(err => {
-          return res.status(500).json({status: 'failed', description: `Error fetching subscribers in waiting reply ${err}`})
+          sendErrorResponse(res, 500, '', `Error fetching subscribers in waiting reply ${err}`)
         })
     })
     .catch(err => {
-      return res.status(500).json({status: 'failed', description: `Error fetching company user ${err}`})
+      sendErrorResponse(res, 500, '', `Error fetching company user ${err}`)
     })
 }
 
@@ -91,25 +92,22 @@ exports.create = function (req, res) {
             return logger.serverLog(TAG, 'Error Occured In Creating WIT.AI app', 'error')
           } else {
             if (witres.statusCode !== 200) {
-              return res.status(500).json({ status: 'failed', payload: { error: witres.body.errors } })
+              sendErrorResponse(res, 500, { error: witres.body.errors })
             } else {
               var botPayload = logicLayer.createBotPayload(req, companyUser, witres, uniquebotName)
               BotsDataLayer.createBotObject(botPayload)
                 .then(newBot => {
-                  return res.status(200).json({ status: 'success', payload: newBot })
+                  sendSuccessResponse(res, 200, newBot)
                 })
                 .catch(err => {
-                  return res.status(500).json({status: 'failed', description: `Error creating bot object ${err}`})
+                  sendErrorResponse(res, 500, '', `Error creating bot object ${err}`)
                 })
             }
           }
         })
     })
     .catch(err => {
-      return res.status(500).json({
-        status: 'failed',
-        description: `Internal Server Error in fetching company user ${JSON.stringify(err)}`
-      })
+      sendErrorResponse(res, 500, '', `Internal Server Error in fetching company user ${JSON.stringify(err)}`)
     })
 }
 
@@ -128,13 +126,10 @@ exports.edit = function (req, res) {
               var entities = logicLayer.getEntities(req.body.payload)
               logicLayer.trainingPipline(entities, req.body.payload, bot.witToken)
             })
-          return res.status(200).json({ status: 'success' })
+          sendSuccessResponse(res, 200)
         })
         .catch((err) => {
-          return res.status(500).json({
-            status: 'failed',
-            description: `Error in updating bot ${JSON.stringify(err)}`
-          })
+          sendErrorResponse(res, 500, '', `Error in updating bot ${JSON.stringify(err)}`)
         })
     })
 }
@@ -144,13 +139,10 @@ exports.status = function (req, res) {
   BotsDataLayer.genericUpdateBotObject({ _id: req.body.botId }, { isActive: req.body.isActive })
     .then(result => {
       logger.serverLog(`affected rows ${result}`, 'debug')
-      return res.status(200).json({ status: 'success' })
+      sendSuccessResponse(res, 200)
     })
     .catch(err => {
-      return res.status(500).json({
-        status: 'failed',
-        description: `Error in updating bot status${JSON.stringify(err)}`
-      })
+      sendErrorResponse(res, 500, '', `Error in updating bot status${JSON.stringify(err)}`)
     })
 }
 
@@ -161,20 +153,14 @@ exports.details = function (req, res) {
       utility.callApi(`pages/query`, 'post', {_id: bot.pageId})
         .then(page => {
           bot.pageId = page[0]
-          return res.status(200).json({ status: 'success', payload: bot })
+          sendSuccessResponse(res, 200, bot)
         })
         .catch(err => {
-          return res.status(500).json({
-            status: 'failed',
-            description: `Error in fetching page ${JSON.stringify(err)}`
-          })
+          sendErrorResponse(res, 500, '', `Error in fetching page ${JSON.stringify(err)}`)
         })
     })
     .catch(err => {
-      return res.status(500).json({
-        status: 'failed',
-        description: `Error in finding bot details ${JSON.stringify(err)}`
-      })
+      sendErrorResponse(res, 500, '', `Error in finding bot details ${JSON.stringify(err)}`)
     })
 }
 
@@ -183,13 +169,10 @@ exports.unAnsweredQueries = function (req, res) {
   UnAnsweredQuestions.findAllUnansweredQuestionObjectsUsingQuery({botId: req.body.botId})
     .then(queries => {
       logger.serverLog(`Returning UnAnswered Queries ${JSON.stringify(queries)}`, 'debug')
-      return res.status(200).json({ status: 'success', payload: queries })
+      sendSuccessResponse(res, 200, queries)
     })
     .catch(err => {
-      return res.status(500).json({
-        status: 'failed',
-        description: `Error in finding unanswered queries ${JSON.stringify(err)}`
-      })
+      sendErrorResponse(res, 500, '', `Error in finding unanswered queries ${JSON.stringify(err)}`)
     })
 }
 
@@ -200,17 +183,14 @@ exports.waitSubscribers = function (req, res) {
       if (subscribers && subscribers.length > 0) {
         populateSubscriber(subscribers, req)
           .then(result => {
-            return res.status(200).json({ status: 'success', payload: result.waitingSubscribers })
+            sendSuccessResponse(res, 200, result.waitingSubscribers)
           })
       } else {
-        return res.status(200).json({ status: 'success', payload: [] })
+        sendSuccessResponse(res, 200, [])
       }
     })
     .catch(err => {
-      return res.status(500).json({
-        status: 'failed',
-        description: `Error in finding waiting subscribers ${JSON.stringify(err)}`
-      })
+      sendErrorResponse(res, 500, '', `Error in finding waiting subscribers ${JSON.stringify(err)}`)
     })
 }
 
@@ -218,13 +198,10 @@ exports.removeWaitSubscribers = function (req, res) {
   logger.serverLog(TAG, `going to delete waiting subscribers ${JSON.stringify(req.body)}`, 'debug')
   WaitingSubscribers.deleteWaitingSubscriberObject(req.body._id)
     .then(result => {
-      return res.status(200).json({ status: 'success', payload: result })
+      sendSuccessResponse(res, 200, result)
     })
     .catch(err => {
-      return res.status(500).json({
-        status: 'failed',
-        description: `Error in removing waiting subscribers ${JSON.stringify(err)}`
-      })
+      sendErrorResponse(res, 500, '', `Error in removing waiting subscribers ${JSON.stringify(err)}`)
     })
 }
 
@@ -233,10 +210,7 @@ exports.delete = function (req, res) {
     .then(bot => {
       logger.serverLog(TAG, `Deleting Bot details on WitAI ${JSON.stringify(bot)}`, 'debug')
       if (!bot) {
-        return res.status(500).json({
-          status: 'failed',
-          description: `Bot not found ${JSON.stringify(bot)}`
-        })
+        sendErrorResponse(res, 500, '', `Bot not found ${JSON.stringify(bot)}`)
       }
       request(
         {
@@ -249,34 +223,28 @@ exports.delete = function (req, res) {
         (err, witres) => {
           if (err) {
             logger.serverLog('Error Occured In Deleting WIT.AI app', 'error')
-            return res.status(500).json({ status: 'failed', payload: { error: err } })
+            sendErrorResponse(res, 500, { error: err })
           } else {
             if (witres.statusCode !== 200) {
               logger.serverLog(TAG,
                 `Error Occured in deleting Wit ai app ${JSON.stringify(witres.body)}`, 'error')
-              return res.status(500).json({ status: 'failed', payload: { error: witres.body.errors } })
+              sendErrorResponse(res, 500, { error: witres.body.errors })
             } else {
               logger.serverLog(TAG,
                 'Wit.ai app deleted successfully')
               BotsDataLayer.deleteBotObject(req.body.botId)
                 .then((value) => {
-                  return res.status(200).json({ status: 'success', payload: value })
+                  sendSuccessResponse(res, 200, value)
                 })
                 .catch((err) => {
-                  return res.status(500).json({
-                    status: 'failed',
-                    description: `Error in deleting bot object ${JSON.stringify(err)}`
-                  })
+                  sendErrorResponse(res, 500, '', `Error in deleting bot object ${JSON.stringify(err)}`)
                 })
             }
           }
         })
     })
     .catch(err => {
-      return res.status(500).json({
-        status: 'failed',
-        description: `Error in finding bot object ${JSON.stringify(err)}`
-      })
+      sendErrorResponse(res, 500, '', `Error in finding bot object ${JSON.stringify(err)}`)
     })
 }
 
