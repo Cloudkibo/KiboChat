@@ -1,14 +1,15 @@
 const LogicLayer = require('./notifications.logiclayer')
 const { callApi } = require('../utility')
+const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
 exports.index = function (req, res) {
   let notificationsData = LogicLayer.getQueryData('', 'findAll', {agentId: req.user._id, companyId: req.user.companyId})
   callApi(`notifications/query`, 'post', notificationsData, 'kibochat')
     .then(notifications => {
-      return res.status(201).json({status: 'success', payload: {notifications: notifications}})
+      sendSuccessResponse(res, 200, {notifications: notifications})
     })
     .catch(error => {
-      return res.status(500).json({status: 'failed', payload: `Failed to fetch notifications ${JSON.stringify(error)}`})
+      sendErrorResponse(res, 500, `Failed to fetch notifications ${JSON.stringify(error)}`)
     })
 }
 exports.create = function (req, res) {
@@ -22,11 +23,11 @@ exports.create = function (req, res) {
     callApi(`notifications`, 'post', notificationsData, 'kibochat')
       .then(savedNotification => {
         if (i === (req.body.agentIds.length - 1)) {
-          return res.status(200).json({status: 'success', payload: savedNotification})
+          sendSuccessResponse(res, 200, savedNotification)
         }
       })
       .catch(error => {
-        return res.status(500).json({status: 'failed', payload: `Failed to create notification ${JSON.stringify(error)}`})
+        sendErrorResponse(res, 500, `Failed to create notification ${JSON.stringify(error)}`)
       })
   })
 }
@@ -34,9 +35,9 @@ exports.markRead = function (req, res) {
   let notificationUpdateData = LogicLayer.getUpdateData('updateOne', {_id: req.body.notificationId}, {seen: true})
   callApi(`notifications/update`, 'put', notificationUpdateData, 'kibochat')
     .then(updated => {
-      res.status(200).json({status: 'success', payload: updated})
+      sendSuccessResponse(res, 200, updated)
     })
     .catch(error => {
-      return res.status(500).json({status: 'failed', payload: `Failed to update notification ${JSON.stringify(error)}`})
+      sendErrorResponse(res, 500, `Failed to update notification ${JSON.stringify(error)}`)
     })
 }

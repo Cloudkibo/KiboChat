@@ -4,6 +4,7 @@
 const logger = require('../../../components/logger')
 const TAG = 'api/operational_dashboard/operational.controller.js'
 const { callApi } = require('../utility')
+const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
 /*
 Endpoint: /api/v1/UserwiseData
@@ -30,33 +31,33 @@ Structure: UserwiseAggregate
 exports.index = (req, res) => {
   callApi(`UserwiseData`, 'get', {}, 'kibodash')
     .then((result) => {
-      return res.status(200).json({status: 'success', payload: result})
+      sendSuccessResponse(res, 200, result)
     })
     .catch((err) => {
       logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
-      return res.status(500).json({status: 'failed', description: err})
+      sendErrorResponse(res, 500, '', err)
     })
 }
 
 exports.ranged = (req, res) => {
   callApi(`UserwiseData/AggregateDatewise`, 'post', {startDate: req.body.startDate}, 'kibodash')
     .then((result) => {
-      return res.status(200).json({status: 'success', payload: result})
+      sendSuccessResponse(res, 200, result)
     })
     .catch((err) => {
       logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
-      return res.status(500).json({status: 'failed', description: err})
+      sendErrorResponse(res, 500, '', err)
     })
 }
 
 exports.oneUser = (req, res) => {
   callApi(`UserwiseData/OneUserAnalytics`, 'post', {companyId: req.body.companyId}, 'kibodash')
     .then((result) => {
-      return res.status(200).json({status: 'success', payload: result})
+      sendSuccessResponse(res, 200, result)
     })
     .catch((err) => {
       logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
-      return res.status(500).json({status: 'failed', description: err})
+      sendErrorResponse(res, 500, '', err)
     })
 }
 
@@ -64,10 +65,10 @@ exports.oneUserRanged = (req, res) => {
   callApi(`UserwiseData/OneUserAggregateDatewise`, 'post', {startDate: req.body.startDate,
     companyId: req.body.companyId}, 'kibodash')
     .then((result) => {
-      return res.status(200).json({status: 'success', payload: result})
+      sendSuccessResponse(res, 200, result)
     })
     .catch((err) => {
       logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
-      return res.status(500).json({status: 'failed', description: err})
+      sendErrorResponse(res, 500, '', err)
     })
 }

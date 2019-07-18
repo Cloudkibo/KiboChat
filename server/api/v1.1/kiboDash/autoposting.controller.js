@@ -4,6 +4,7 @@
 const logger = require('../../../components/logger')
 const TAG = 'api/operational_dashboard/operational.controller.js'
 const { callApi } = require('../utility')
+const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
 /*
 //for platform wise total autoposting
@@ -31,33 +32,33 @@ Structure: {status: 'success', payload: {startDate, totalAutoposting, facebookAu
 exports.index = (req, res) => {
   callApi(`AutopostingData`, 'get', {}, 'kibodash')
     .then((result) => {
-      return res.status(200).json({status: 'success', payload: result})
+      sendSuccessResponse(res, 200, result)
     })
     .catch((err) => {
       logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
-      return res.status(500).json({status: 'failed', description: err})
+      sendSuccessResponse(res, 500, err)
     })
 }
 
 exports.ranged = (req, res) => {
   callApi(`AutopostingData/PlatformAutopostingDatewise`, 'post', {startDate: req.body.startDate}, 'kibodash')
     .then((result) => {
-      return res.status(200).json({status: 'success', payload: result})
+      sendSuccessResponse(res, 200, result)
     })
     .catch((err) => {
       logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
-      return res.status(500).json({status: 'failed', description: err})
+      sendErrorResponse(res, 500, err)
     })
 }
 
 exports.userwise = (req, res) => {
   callApi(`AutopostingData/UserTotalAutoposting`, 'post', {companyId: req.body.companyId}, 'kibodash')
     .then((result) => {
-      return res.status(200).json({status: 'success', payload: result})
+      sendSuccessResponse(res, 200, result)
     })
     .catch((err) => {
       logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
-      return res.status(500).json({status: 'failed', description: err})
+      sendErrorResponse(res, 500, err)
     })
 }
 
@@ -65,10 +66,10 @@ exports.userwiseRanged = (req, res) => {
   callApi(`AutopostingData/UserAutopostingDatewise`, 'post', {startDate: req.body.startDate,
     companyId: req.body.companyId}, 'kibodash')
     .then((result) => {
-      return res.status(200).json({status: 'success', payload: result})
+      sendSuccessResponse(res, 200, result)
     })
     .catch((err) => {
       logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
-      return res.status(500).json({status: 'failed', description: err})
+      sendErrorResponse(res, 500, err)
     })
 }

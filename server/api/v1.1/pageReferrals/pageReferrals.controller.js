@@ -1,56 +1,48 @@
 const utility = require('../utility')
 const logicLayer = require('./pageReferrals.logiclayer')
+const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
 exports.index = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
       if (!companyUser) {
-        return res.status(404).json({
-          status: 'failed',
-          description: 'The user account does not belong to any company. Please contact support'
-        })
+        sendErrorResponse(res, 404, '', 'The user account does not belong to any company. Please contact support')
       }
       utility.callApi(`pageReferrals/query`, 'post', {companyId: companyUser.companyId})
         .then(pageReferrals => {
-          return res.status(200).json({status: 'success', payload: pageReferrals})
+          sendSuccessResponse(res, 200, pageReferrals)
         })
         .catch(error => {
-          return res.status(500).json({status: 'failed', payload: `Failed to fetch pageReferrals ${JSON.stringify(error)}`})
+          sendErrorResponse(res, 500, `Failed to fetch pageReferrals ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
-      return res.status(500).json({
-        status: 'failed',
-        payload: `Failed to fetch company user ${JSON.stringify(error)}`
-      })
+      sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
 exports.view = function (req, res) {
   utility.callApi(`pageReferrals/query`, 'post', {_id: req.params.id, companyId: req.user.companyId})
     .then(pageReferrals => {
-      return res.status(200).json({status: 'success', payload: pageReferrals[0]})
+      sendSuccessResponse(res, 200, pageReferrals[0])
     })
     .catch(error => {
-      return res.status(500).json({status: 'failed', payload: `Failed to fetch pageReferral ${JSON.stringify(error)}`})
+      sendErrorResponse(res, 500, `Failed to fetch pageReferral ${JSON.stringify(error)}`)
     })
 }
 exports.delete = function (req, res) {
   utility.callApi(`pageReferrals/${req.params.id}`, 'delete', {})
     .then(result => {
-      return res.status(200).json({status: 'success', payload: result})
+      sendSuccessResponse(res, 200, result)
     })
     .catch(error => {
-      return res.status(500).json({status: 'failed', payload: `Failed to delete pageReferral ${JSON.stringify(error)}`})
+      sendErrorResponse(res, 500, `Failed to delete pageReferral ${JSON.stringify(error)}`)
     })
 }
 exports.create = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
       if (!companyUser) {
-        return res.status(404).json({
-          status: 'failed',
-          description: 'The user account does not belong to any company. Please contact support'
-        })
+        sendErrorResponse(res, 404, '', 'The user account does not belong to any company. Please contact support')
       }
       utility.callApi(`pageReferrals/query`, 'post', {pageId: req.body.pageId, companyId: companyUser.companyId})
         .then(pageReferrals => {
@@ -58,46 +50,40 @@ exports.create = function (req, res) {
             isUnique(pageReferrals, req.body.ref_parameter)
               .then(result => {
                 if (!result.isUnique) {
-                  return res.status(500).json({status: 'failed', payload: 'Please choose a unique Ref Parameter'})
+                  sendErrorResponse(res, 500, 'Please choose a unique Ref Parameter')
                 } else {
                   utility.callApi(`pageReferrals`, 'post', logicLayer.createPayload('companyUser', req.body))
                     .then(craetedPageReferral => {
-                      return res.status(200).json({status: 'success', payload: craetedPageReferral})
+                      sendSuccessResponse(res, 200, craetedPageReferral)
                     })
                     .catch(error => {
-                      return res.status(500).json({status: 'failed', payload: `Failed to create pageReferral ${JSON.stringify(error)}`})
+                      sendErrorResponse(res, 500, `Failed to create pageReferral ${JSON.stringify(error)}`)
                     })
                 }
               })
           } else {
             utility.callApi(`pageReferrals`, 'post', logicLayer.createPayload(companyUser, req.body))
               .then(craetedPageReferral => {
-                return res.status(200).json({status: 'success', payload: craetedPageReferral})
+                sendSuccessResponse(res, 200, craetedPageReferral)
               })
               .catch(error => {
-                return res.status(500).json({status: 'failed', payload: `Failed to create pageReferral ${JSON.stringify(error)}`})
+                sendErrorResponse(res, 500, `Failed to create pageReferral ${JSON.stringify(error)}`)
               })
           }
         })
         .catch(error => {
-          return res.status(500).json({status: 'failed', payload: `Failed to fetch pageReferrals ${JSON.stringify(error)}`})
+          sendErrorResponse(res, 500, `Failed to fetch pageReferrals ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
-      return res.status(500).json({
-        status: 'failed',
-        payload: `Failed to fetch company user ${JSON.stringify(error)}`
-      })
+      sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
 exports.update = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
       if (!companyUser) {
-        return res.status(404).json({
-          status: 'failed',
-          description: 'The user account does not belong to any company. Please contact support'
-        })
+        sendErrorResponse(res, 404, '', 'The user account does not belong to any company. Please contact support')
       }
       utility.callApi(`pageReferrals/query`, 'post', {_id: req.body._id, companyId: companyUser.companyId})
         .then(pageReferrals => {
@@ -105,36 +91,33 @@ exports.update = function (req, res) {
             isUniqueEdit(pageReferrals, req.body.ref_parameter)
               .then(result => {
                 if (!result.isUnique) {
-                  return res.status(500).json({status: 'failed', payload: 'Please choose a unique Ref Parameter'})
+                  sendErrorResponse(res, 500, 'Please choose a unique Ref Parameter')
                 } else {
                   utility.callApi(`pageReferrals/${req.body._id}`, 'put', req.body)
                     .then(updatedPageReferral => {
-                      return res.status(200).json({status: 'success', payload: updatedPageReferral})
+                      sendSuccessResponse(res, 200, updatedPageReferral)
                     })
                     .catch(error => {
-                      return res.status(500).json({status: 'failed', payload: `Failed to update pageReferral ${JSON.stringify(error)}`})
+                      sendErrorResponse(res, 500, `Failed to update pageReferral ${JSON.stringify(error)}`)
                     })
                 }
               })
           } else {
             utility.callApi(`pageReferrals/${req.body._id}`, 'put', req.body)
               .then(updatedPageReferral => {
-                return res.status(200).json({status: 'success', payload: updatedPageReferral})
+                sendSuccessResponse(res, 200, updatedPageReferral)
               })
               .catch(error => {
-                return res.status(500).json({status: 'failed', payload: `Failed to update pageReferral ${JSON.stringify(error)}`})
+                sendErrorResponse(res, 500, `Failed to update pageReferral ${JSON.stringify(error)}`)
               })
           }
         })
         .catch(error => {
-          return res.status(500).json({status: 'failed', payload: `Failed to fetch pageReferrals ${JSON.stringify(error)}`})
+          sendErrorResponse(res, 500, `Failed to fetch pageReferrals ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
-      return res.status(500).json({
-        status: 'failed',
-        payload: `Failed to fetch company user ${JSON.stringify(error)}`
-      })
+      sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
 function isUnique (pageReferrals, refParameter) {

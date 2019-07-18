@@ -4,6 +4,7 @@
 const logger = require('../../../components/logger')
 const TAG = 'api/operational_dashboard/operational.controller.js'
 const { callApi } = require('../utility')
+const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
 /*
 Endpoint: /api/v1/PlatformwiseData
@@ -23,24 +24,24 @@ exports.index = (req, res) => {
     .then((result) => {
       if (result.length === 1) {
         // The array length will always be 1
-        return res.status(200).json({status: 'success', payload: result[0]})
+        sendSuccessResponse(res, 200, result[0])
       } else {
-        return res.status(500).json({status: 'failed', description: 'Unable to fetch data from KiboDash'})
+        sendErrorResponse(res, 500, '', 'Unable to fetch data from KiboDash')
       }
     })
     .catch((err) => {
       logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
-      return res.status(500).json({status: 'failed', description: err})
+      sendErrorResponse(res, 500, '', err)
     })
 }
 
 exports.ranged = (req, res) => {
   callApi(`PlatformwiseData/AggregateDatewise`, 'post', {startDate: req.body.startDate}, 'kibodash')
     .then((result) => {
-      return res.status(200).json({status: 'success', payload: result})
+      sendSuccessResponse(res, 200, result)
     })
     .catch((err) => {
       logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
-      return res.status(500).json({status: 'failed', description: err})
+      sendErrorResponse(res, 500, '', err)
     })
 }

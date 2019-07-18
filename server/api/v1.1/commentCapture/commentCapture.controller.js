@@ -3,45 +3,31 @@ const needle = require('needle')
 const TAG = 'api/commentCapture/commentCapture.controller.js'
 const utility = require('../utility/index.js')
 const logicLayer = require('./commentCapture.logiclayer')
+const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
 exports.index = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email})
     .then(companyUser => {
       utility.callApi(`comment_capture/query`, 'post', {companyId: companyUser.companyId})
         .then(posts => {
-          res.status(200).json({
-            status: 'success',
-            payload: posts
-          })
+          sendSuccessResponse(res, 200, posts)
         })
         .catch(error => {
-          return res.status(500).json({
-            status: 'failed',
-            payload: `Failed to get fetch posts ${JSON.stringify(error)}`
-          })
+          sendErrorResponse(res, 500, `Failed to get fetch posts ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
-      return res.status(500).json({
-        status: 'failed',
-        payload: `Failed to fetch company user ${JSON.stringify(error)}`
-      })
+      sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
 
 exports.viewPost = function (req, res) {
   utility.callApi(`comment_capture/${req.params.id}`, 'get', {})
     .then(post => {
-      res.status(200).json({
-        status: 'success',
-        payload: post
-      })
+      sendSuccessResponse(res, 200, post)
     })
     .catch(error => {
-      return res.status(500).json({
-        status: 'failed',
-        payload: `Failed to fetch post ${JSON.stringify(error)}`
-      })
+      sendErrorResponse(res, 500, `Failed to fetch post ${JSON.stringify(error)}`)
     })
 }
 
@@ -96,13 +82,10 @@ exports.create = function (req, res) {
                         let postId = resp.body.post_id ? resp.body.post_id : resp.body.id
                         utility.callApi(`comment_capture/update`, 'put', {query: {_id: postCreated._id}, newPayload: {post_id: postId}, options: {}})
                           .then(result => {
-                            res.status(201).json({status: 'success', payload: postCreated})
+                            sendSuccessResponse(res, 200, postCreated)
                           })
                           .catch(error => {
-                            return res.status(500).json({
-                              status: 'failed',
-                              payload: `Failed to create post ${JSON.stringify(error)}`
-                            })
+                            sendErrorResponse(res, 500, `Failed to create post ${JSON.stringify(error)}`)
                           })
                       })
                   } else if (messageData.video) {
@@ -115,13 +98,10 @@ exports.create = function (req, res) {
                         let postId = resp.body.post_id ? resp.body.post_id : resp.body.id
                         utility.callApi(`comment_capture/update`, 'put', {query: {_id: postCreated._id}, newPayload: {post_id: postId}, options: {}})
                           .then(result => {
-                            res.status(201).json({status: 'success', payload: postCreated})
+                            sendSuccessResponse(res, 200, postCreated)
                           })
                           .catch(error => {
-                            return res.status(500).json({
-                              status: 'failed',
-                              payload: `Failed to create post ${JSON.stringify(error)}`
-                            })
+                            sendErrorResponse(res, 500, `Failed to create post ${JSON.stringify(error)}`)
                           })
                       })
                   } else {
@@ -134,60 +114,42 @@ exports.create = function (req, res) {
                         let postId = resp.body.post_id ? resp.body.post_id : resp.body.id
                         utility.callApi(`comment_capture/update`, 'put', {query: {_id: postCreated._id}, newPayload: {post_id: postId}, options: {}})
                           .then(result => {
-                            res.status(201).json({status: 'success', payload: postCreated})
+                            sendSuccessResponse(res, 200, postCreated)
                           })
                           .catch(error => {
-                            return res.status(500).json({
-                              status: 'failed',
-                              payload: `Failed to create post ${JSON.stringify(error)}`
-                            })
+                            sendErrorResponse(res, 500, `Failed to create post ${JSON.stringify(error)}`)
                           })
                       })
                   }
                 })
             })
             .catch(error => {
-              return res.status(500).json({
-                status: 'failed',
-                payload: `Failed to fetch page ${JSON.stringify(error)}`
-              })
+              sendErrorResponse(res, 500, `Failed to fetch page ${JSON.stringify(error)}`)
             })
         })
         .catch(error => {
-          return res.status(500).json({
-            status: 'failed',
-            payload: `Failed to create post ${JSON.stringify(error)}`
-          })
+          sendErrorResponse(res, 500, `Failed to create post ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
-      return res.status(500).json({
-        status: 'failed',
-        payload: `Failed to fetch company user ${JSON.stringify(error)}`
-      })
+      sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
 exports.edit = function (req, res) {
   utility.callApi(`comment_capture/update`, 'put', { query: {_id: req.body.postId}, newPayload: {includedKeywords: req.body.includedKeywords, excludedKeywords: req.body.excludedKeywords}, options: {} })
     .then(result => {
-      res.status(201).json({status: 'success', payload: result})
+      sendSuccessResponse(res, 200, result)
     })
     .catch(error => {
-      return res.status(500).json({
-        status: 'failed',
-        payload: `Failed to update post ${JSON.stringify(error)}`
-      })
+      sendErrorResponse(res, 500, `Failed to update post ${JSON.stringify(error)}`)
     })
 }
 exports.delete = function (req, res) {
   utility.callApi(`comment_capture/${req.params.id}`, 'delete', {})
     .then(result => {
-      res.status(201).json({status: 'success', payload: result})
+      sendSuccessResponse(res, 200, result)
     })
     .catch(error => {
-      return res.status(500).json({
-        status: 'failed',
-        payload: `Failed to delete post ${JSON.stringify(error)}`
-      })
+      sendErrorResponse(res, 500, `Failed to delete post ${JSON.stringify(error)}`)
     })
 }
