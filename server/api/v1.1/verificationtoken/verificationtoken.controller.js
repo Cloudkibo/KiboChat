@@ -1,12 +1,14 @@
 
 // Get a single verificationtoken
 const utility = require('../utility')
+// const logger = require('../../../components/logger')
+// const TAG = 'api/v2/user/user.controller.js'
+const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
 
 exports.resend = function (req, res) {
   utility.callApi(`verificationtoken/resend`, 'get', {}, 'accounts', req.headers.authorization)
     .then(response => {
-      console.log('response in resend function', response)
-      res.status(201).json({ status: 'success', description: 'Verification email has been sent' })
+      sendSuccessResponse(res, 200, 'Verification email has been sent')
     })
-    .catch(err => { return res.status(500).json({status: 'failed', description: 'Internal Server Error ' + err}) })
+    .catch(err => { sendErrorResponse(res, 500, 'Internal Server Error ' + err) })
 }
