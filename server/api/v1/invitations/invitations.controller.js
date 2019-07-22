@@ -20,7 +20,7 @@ exports.index = function (req, res) {
 }
 
 exports.cancel = function (req, res) {
-  callApi.callApi('invitations/cancel', 'post', {email: req.body.email})
+  callApi.callApi('invitations/cancel', 'post', {email: req.body.email}, 'accounts', req.headers.authorization)
     .then(result => {
       res.status(200).json({
         status: 'success',
