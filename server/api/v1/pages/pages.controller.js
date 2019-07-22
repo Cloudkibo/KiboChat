@@ -267,7 +267,7 @@ exports.enable = function (req, res) {
                                                   subscribed_fields: [
                                                     'feed', 'conversations', 'mention', 'messages', 'message_echoes', 'message_deliveries', 'messaging_optins', 'messaging_postbacks', 'message_reads', 'messaging_referrals', 'messaging_policy_enforcement']
                                                 }
-                                                needle.post(`https://graph.facebook.com/v2.6/me/subscribed_apps?access_token=${page.accessToken}`, bodyToSend, (error, response) => {
+                                                needle.post(`https://graph.facebook.com/v3.2/me/subscribed_apps?access_token=${page.accessToken}`, bodyToSend, (error, response) => {
                                                   if (error) {
                                                     return res.status(500).json({
                                                       status: 'failed',
