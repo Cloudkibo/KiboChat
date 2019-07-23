@@ -44,11 +44,11 @@ exports.index = function (req, res) {
 function saveLiveChat (page, subscriber, event) {
   let chatPayload = logicLayer.prepareLiveChatPayload(event.message, subscriber, page)
   if (subscriber && !event.message.is_echo) {
-    BotsDataLayer.findOneBotObjectUsingQuery({ pageId: subscriber.pageId._id.toString() })
+    BotsDataLayer.findOneBotObjectUsingQuery({ pageId: subscriber.pageId })
       .then(bot => {
         if (bot) {
           if (bot.blockedSubscribers.indexOf(subscriber._id) === -1) {
-            botController.respond(subscriber.pageId._id.toString(), subscriber.senderId, event.message.text)
+            botController.respond(subscriber.pageId, subscriber.senderId, event.message.text)
           }
         }
       })
