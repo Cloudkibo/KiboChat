@@ -63,7 +63,7 @@ exports.allPages = function (req, res) {
                 .then(unsubscribesCount => {
                   let updatedPages = logicLayer.appendSubUnsub(pages)
                   updatedPages = logicLayer.appendSubscribersCount(updatedPages, subscribesCount)
-                  updatedPages = logicLayer.appendUnsubscribesCount(updatedPages, unsubscribesCount)
+                  // updatedPages = logicLayer.appendUnsubscribesCount(updatedPages, unsubscribesCount)
                   res.status(200).json({
                     status: 'success',
                     payload: updatedPages
@@ -130,7 +130,7 @@ exports.connectedPages = function (req, res) {
                     .then(unsubscribesCount => {
                       let updatedPages = logicLayer.appendSubUnsub(pages)
                       updatedPages = logicLayer.appendSubscribersCount(updatedPages, subscribesCount)
-                      updatedPages = logicLayer.appendUnsubscribesCount(updatedPages, unsubscribesCount)
+                      // updatedPages = logicLayer.appendUnsubscribesCount(updatedPages, unsubscribesCount)
                       res.status(200).json({
                         status: 'success',
                         payload: {pages: updatedPages, count: count.length > 0 ? count[0].count : 0}
