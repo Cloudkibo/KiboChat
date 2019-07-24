@@ -20,6 +20,10 @@ router.post('/updateAutomatedOptions',
   auth.hasRole('buyer'),
   controller.updateAutomatedOptions)
 
+  router.post('/updateRole',
+  auth.isAuthenticated(),
+  controller.updateRole)
+
 router.post('/updatePlatform',
   auth.isAuthenticated(),
   validate({body: validationSchema.updatePlatformPayload}),
