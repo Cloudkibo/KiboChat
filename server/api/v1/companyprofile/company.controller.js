@@ -210,3 +210,15 @@ exports.disconnect = function (req, res) {
       })
     })
 }
+
+exports.updateRole = function (req, res) {
+  utility.callApi('companyprofile/updateRole', 'post', {role: req.body.role, domain_email: req.body.domain_email},'accounts', req.headers.authorization)
+    .then((result) => {
+      logger.serverLog(TAG, 'result from invite endpoint accounts', 'debug')
+      logger.serverLog(TAG, result, 'debug')
+      sendSuccessResponse(res, 200, result)
+    })
+    .catch((err) => {
+      sendErrorResponse(res, 500, err.error.payload)
+    })
+}
