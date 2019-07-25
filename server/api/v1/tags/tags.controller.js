@@ -162,8 +162,8 @@ exports.rename = function (req, res) {
                   return res.status(404).json({
                     status: 'failed',
                     description: `Failed to fetch page ${err}`
+                  })
                 })
-              })
               facebookApiCaller('v2.11', `me/custom_labels?access_token=${page.accessToken}`, 'post', {'name': req.body.newTag})
                 .then(label => {
                   if (label.body.error) {
@@ -185,8 +185,7 @@ exports.rename = function (req, res) {
                         .then(tagSubscribers => {
                           let subscribers = tagSubscribers.map((ts) => ts.subscriberId._id)
                           if (subscribers.length > 0) {
-                            assignTagToSubscribers(subscribers, req.body.newTag, req, callback,false)
-
+                            assignTagToSubscribers(subscribers, req.body.newTag, req, callback, false)
                           } else {
                             callback(null, 'success')
                           }
@@ -356,7 +355,7 @@ function isTagExists (pageId, tags) {
   }
 }
 
-function assignTagToSubscribers (subscribers, tag, req, callback,flag) {
+function assignTagToSubscribers (subscribers, tag, req, callback, flag) {
   let tags = []
   subscribers.forEach((subscriberId, i) => {
     callApi.callApi(`subscribers/${subscriberId}`, 'get', {})
@@ -529,13 +528,15 @@ exports.subscribertags = function (req, res) {
     .then(tagsSubscriber => {
       let payload = []
       for (let i = 0; i < tagsSubscriber.length; i++) {
-        payload.push({
-          _id: tagsSubscriber[i].tagId._id,
-          tag: tagsSubscriber[i].tagId.tag,
-          subscriberId: tagsSubscriber[i].subscriberId
-        })
+        if (!tagsSubscriber[i].tagId.defaultTag && !tagsSubscriber[i].tagId.isList) {
+          payload.push({
+            _id: tagsSubscriber[i].tagId._id,
+            tag: tagsSubscriber[i].tagId.tag,
+            subscriberId: tagsSubscriber[i].subscriberId
+          })
+        }
       }
-      res.status(200).json({
+      return res.status(200).json({
         status: 'success',
         payload: payload
       })
