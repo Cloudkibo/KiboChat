@@ -203,6 +203,7 @@ function prepareMessageData (message) {
     } else if (message.attachments[0].payload.template_type === 'button') {
       messageData = message.attachments[0].payload
       messageData.text = message.text
+      messageData.componentType = 'text'
     } else {
       messageData = {
         fileurl: message.attachments[0].payload,
