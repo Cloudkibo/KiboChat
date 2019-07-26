@@ -103,10 +103,10 @@ exports.geturlmeta = function (req, res) {
 * 6. Create AutomationQueue Object
 */
 exports.create = function (req, res) {
+  let fbMessageObject = logicLayer.prepareFbMessageObject(req.body)
   async.parallelLimit([
     // Create Message Object
     function (callback) {
-      let fbMessageObject = logicLayer.prepareFbMessageObject(req.body)
       callApi(`livechat`, 'post', fbMessageObject, 'kibochat')
         .then(message => {
           callback(null, message)
@@ -151,12 +151,15 @@ exports.create = function (req, res) {
       }
       callApi(`subscribers/update`, 'put', subscriberData)
         .then(updated => {
+          fbMessageObject.datetime = new Date()
           require('./../../../config/socketio').sendMessageToClient({
             room_id: req.user.companyId,
             body: {
               action: 'agent_replied',
               payload: {
-                session_id: req.body.subscriber_id,
+                subscriber_id: req.body.subscriber_id,
+                message: fbMessageObject,
+                action: 'agent_replied',
                 user_id: req.user._id,
                 user_name: req.user.name
               }

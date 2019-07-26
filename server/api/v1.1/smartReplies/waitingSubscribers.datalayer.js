@@ -10,7 +10,7 @@ exports.findOneWaitingSubscriberObject = (subscriberId) => {
     purpose: 'findOne',
     match: {_id: subscriberId}
   }
-  return callApi(`smart_replies/waiting/query`, 'post', query, '', 'kibochat')
+  return callApi(`smart_replies/waiting/query`, 'post', query, 'kibochat', '')
 }
 
 exports.findAllWaitingSubscriberObjects = () => {
@@ -18,7 +18,7 @@ exports.findAllWaitingSubscriberObjects = () => {
     purpose: 'findAll',
     match: {}
   }
-  return callApi(`smart_replies/waiting/query`, 'post', query, '', 'kibochat')
+  return callApi(`smart_replies/waiting/query`, 'post', query, 'kibochat', '')
 }
 
 exports.findOneWaitingSubscriberObjectUsingQuery = (queryObject) => {
@@ -26,7 +26,7 @@ exports.findOneWaitingSubscriberObjectUsingQuery = (queryObject) => {
     purpose: 'findOne',
     match: queryObject
   }
-  return callApi(`smart_replies/waiting/query`, 'post', query, '', 'kibochat')
+  return callApi(`smart_replies/waiting/query`, 'post', query, 'kibochat', '')
 }
 
 exports.findAllWaitingSubscriberObjectsUsingQuery = (queryObject) => {
@@ -34,7 +34,7 @@ exports.findAllWaitingSubscriberObjectsUsingQuery = (queryObject) => {
     purpose: 'findAll',
     match: queryObject
   }
-  return callApi(`smart_replies/waiting/query`, 'post', query, '', 'kibochat')
+  return callApi(`smart_replies/waiting/query`, 'post', query, 'kibochat', '')
 }
 
 exports.findWaitingSubscriberObjectsUsingAggregate = (aggregateObject) => {
@@ -43,7 +43,7 @@ exports.findWaitingSubscriberObjectsUsingAggregate = (aggregateObject) => {
 }
 
 exports.createWaitingSubscriberObject = (payload) => {
-  return callApi(`smart_replies/waiting`, 'post', payload, '', 'kibochat')
+  return callApi(`smart_replies/waiting`, 'post', payload, 'kibochat', '')
 }
 
 exports.updateWaitingSubscriberObject = (subscriberId, payload) => {
@@ -52,7 +52,7 @@ exports.updateWaitingSubscriberObject = (subscriberId, payload) => {
     match: {_id: subscriberId},
     updated: payload
   }
-  return callApi(`smart_replies/waiting`, 'put', query, '', 'kibochat')
+  return callApi(`smart_replies/waiting`, 'put', query, 'kibochat', '')
 }
 
 exports.genericUpdateWaitingSubscriberObject = (queryObject, updated, options) => {
@@ -64,7 +64,7 @@ exports.genericUpdateWaitingSubscriberObject = (queryObject, updated, options) =
   if (options.upsert) query.upsert = options.upsert
   if (options.multi) query.multi = options.multi
   if (options.new) query.new = options.new
-  return callApi(`smart_replies/waiting`, 'put', query, '', 'kibochat')
+  return callApi(`smart_replies/waiting`, 'put', query, 'kibochat', '')
 }
 
 exports.genericUpdateWaitingSubscriberObject = (queryObject, updated) => {
@@ -73,7 +73,7 @@ exports.genericUpdateWaitingSubscriberObject = (queryObject, updated) => {
     match: queryObject,
     updated: updated
   }
-  return callApi(`smart_replies/waiting`, 'put', query, '', 'kibochat')
+  return callApi(`smart_replies/waiting`, 'put', query, 'kibochat', '')
 }
 
 exports.genericFindByIdAndUpdate = (queryObject, updated) => {
@@ -82,7 +82,7 @@ exports.genericFindByIdAndUpdate = (queryObject, updated) => {
     match: queryObject,
     updated: updated
   }
-  return callApi(`smart_replies/waiting`, 'put', query, '', 'kibochat')
+  return callApi(`smart_replies/waiting`, 'put', query, 'kibochat', '')
 }
 
 exports.deleteWaitingSubscriberObject = (subscriberId) => {
@@ -90,7 +90,7 @@ exports.deleteWaitingSubscriberObject = (subscriberId) => {
     purpose: 'deleteOne',
     match: {_id: subscriberId}
   }
-  return callApi(`smart_replies/waiting`, 'delete', query, '', 'kibochat')
+  return callApi(`smart_replies/waiting`, 'delete', query, 'kibochat', '')
 }
 
 exports.deleteWaitingSubscriberObjectUsingQuery = (queryObject) => {
@@ -98,5 +98,5 @@ exports.deleteWaitingSubscriberObjectUsingQuery = (queryObject) => {
     purpose: 'deleteOne',
     match: queryObject
   }
-  return callApi(`smart_replies/waiting`, 'delete', query, '', 'kibochat')
+  return callApi(`smart_replies/waiting`, 'delete', query, 'kibochat', '')
 }
