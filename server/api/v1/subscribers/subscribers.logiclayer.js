@@ -144,6 +144,7 @@ exports.getCriterias = function (req, tagIDs) {
   } else if (req.body.first_page === 'next') {
     recordsToSkip = Math.abs(((req.body.requested_page - 1) - (req.body.current_page))) * req.body.number_of_records
     finalCriteria = [
+      { $match: {companyId: req.user.companyId} },
       { $sort: { datetime: -1 } },
       { $lookup: { from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId' } },
       { $unwind: '$pageId' },
@@ -172,6 +173,7 @@ exports.getCriterias = function (req, tagIDs) {
   } else if (req.body.first_page === 'previous') {
     recordsToSkip = Math.abs(req.body.requested_page * req.body.number_of_records)
     finalCriteria = [
+      { $match: {companyId: req.user.companyId} },
       { $sort: { datetime: -1 } },
       { $lookup: { from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId' } },
       { $unwind: '$pageId' },
