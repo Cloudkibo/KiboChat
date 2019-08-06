@@ -602,7 +602,7 @@ exports.saveGreetingText = function (req, res) {
 exports.addPages = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
     .then(companyuser => {
-      utility.callApi(`pages/query`, 'post', {companyId: companyuser.companyId}) // fetch all pages of company
+      utility.callApi(`pages/query`, 'post', {companyId: companyuser.companyId, isApproved: true}) // fetch all pages of company
         .then(pages => {
           let pagesToSend = logicLayer.removeDuplicates(pages)
           return res.status(200).json({

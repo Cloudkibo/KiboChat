@@ -345,30 +345,31 @@ function fetchPages (url, user, req, token) {
     // logger.serverLogF(TAG, JSON.stringify(resp.body))
     const data = resp.body.data
     const cursor = resp.body.paging
-    if (data) {
-      data.forEach((item) => {
-        // logger.serverLog(TAG,
-        //   `foreach ${JSON.stringify(item.name)}`)
-        //  createMenuForPage(item)
-        const options2 = {
-          url: `https://graph.facebook.com/v2.10/${item.id}/?fields=fan_count,username&access_token=${item.access_token}`,
-          qs: {access_token: item.access_token},
-          method: 'GET'
+    apiCaller.callApi(`companyUser/query`, 'post', {domain_email: user.domain_email})
+      .then(companyUser => {
+        if (!companyUser) {
+          return logger.serverLog(TAG, {
+            status: 'failed',
+            description: 'The user account does not belong to any company. Please contact support'
+          })
         }
-        needle.get(options2.url, options2, (error, fanCount) => {
-          if (error !== null) {
-            return logger.serverLog(TAG, `Error occurred ${error}`)
-          } else {
-            // logger.serverLog(TAG, `Data by fb for page likes ${JSON.stringify(
-            //   fanCount.body.fan_count)}`)
-            apiCaller.callApi(`companyUser/query`, 'post', {domain_email: user.domain_email})
-              .then(companyUser => {
-                if (!companyUser) {
-                  return logger.serverLog(TAG, {
-                    status: 'failed',
-                    description: 'The user account does not belong to any company. Please contact support'
-                  })
-                }
+        updateUnapprovedPages(data, user, companyUser)
+        if (data) {
+          data.forEach((item) => {
+            // logger.serverLog(TAG,
+            //   `foreach ${JSON.stringify(item.name)}`)
+            //  createMenuForPage(item)
+            const options2 = {
+              url: `https://graph.facebook.com/v2.10/${item.id}/?fields=fan_count,username&access_token=${item.access_token}`,
+              qs: {access_token: item.access_token},
+              method: 'GET'
+            }
+            needle.get(options2.url, options2, (error, fanCount) => {
+              if (error !== null) {
+                return logger.serverLog(TAG, `Error occurred ${error}`)
+              } else {
+                // logger.serverLog(TAG, `Data by fb for page likes ${JSON.stringify(
+                //   fanCount.body.fan_count)}`)
                 apiCaller.callApi(`pages/query`, 'post', {pageId: item.id, userId: user._id, companyId: companyUser.companyId})
                   .then(pages => {
                     let page = pages[0]
@@ -401,13 +402,14 @@ function fetchPages (url, user, req, token) {
                       let updatedPayload = {
                         likes: fanCount.body.fan_count,
                         pagePic: `https://graph.facebook.com/v2.10/${item.id}/picture`,
-                        accessToken: item.access_token
+                        accessToken: item.access_token,
+                        isApproved: true
                       }
                       if (fanCount.body.username) {
                         updatedPayload['pageUserName'] = fanCount.body.username
                       }
 
-                      apiCaller.callApi(`pages/update`, 'put', {query: {_id: page._id}, newPayload: updatedPayload})
+                      apiCaller.callApi(`pages/${page._id}`, 'put', updatedPayload)
                         .then(updated => {
                           logger.serverLog(TAG,
                             `page updated successfuly ${JSON.stringify(updated)}`)
@@ -419,23 +421,39 @@ function fetchPages (url, user, req, token) {
                         })
                     }
                   })
-              })
-              .catch(err => {
-                logger.serverLog(TAG,
-                  `Internal Server Error ${JSON.stringify(err)}`, 'error')
-              })
-          }
-        })
+              }
+            })
+          })
+        } else {
+          logger.serverLog(TAG, 'Empty response from graph API to get pages list data')
+        }
       })
-    } else {
-      logger.serverLog(TAG, 'Empty response from graph API to get pages list data')
-    }
+      .catch(err => {
+        logger.serverLog(TAG,
+          `Internal Server Error ${JSON.stringify(err)}`, 'error')
+      })
     if (cursor && cursor.next) {
       fetchPages(cursor.next, user, req)
     } else {
       logger.serverLog(TAG, 'Undefined Cursor from graph API')
     }
   })
+}
+
+function updateUnapprovedPages (facebookPages, user, companyUser) {
+  if (facebookPages.length > 0) {
+    let fbPages = facebookPages.map(item => item.id)
+    apiCaller.callApi(`pages/query`, 'post', {userId: user._id, companyId: companyUser.companyId})
+      .then(localPages => {
+        for (let i = 0; i < localPages.length; i++) {
+          if (!fbPages.includes(localPages[i].pageId)) {
+            apiCaller.callApi(`pages/${localPages[i]._id}`, 'put', {isApproved: false, connected: false})
+              .then(updated => {
+              })
+          }
+        }
+      })
+  }
 }
 
 // eslint-disable-next-line no-unused-vars
