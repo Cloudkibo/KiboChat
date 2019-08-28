@@ -4,6 +4,7 @@ const logger = require('../../../components/logger')
 const TAG = 'api/v2/subscribers/subscribers.controller.js'
 const util = require('util')
 const needle = require('needle')
+const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
 
 exports.index = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }) // fetch company user
@@ -104,91 +105,136 @@ exports.allLocales = function (req, res) {
     })
 }
 
-exports.getAll = function (req, res) {
-  let tagIDs = []
-  let tagValue = []
-  tagValue.push(req.body.filter_criteria.tag_value)
-  utility.callApi(`tags/query`, 'post', { companyId: req.user.companyId, tag: { $in: tagValue } })
+const getAllSubscribers = function (subscribers, count, req, res) {
+  var dt = new Date()
+  var utcDate = dt.toUTCString()
+  dt = new Date()
+  utcDate = dt.toUTCString()
+  logger.serverLog(TAG, `subscribers/aggregate data subscribers ${utcDate}`, 'info')
+  let subscriberIds = logicLayer.getSubscriberIds(subscribers)
+  logger.serverLog(TAG, `subscriberIds: ${util.inspect(subscriberIds)}`, 'debug')
+  utility.callApi(`tags/query`, 'post', { companyId: req.user.companyId, isList: false, defaultTag: false })
     .then(tags => {
-      for (let i = 0; i < tags.length; i++) {
-        tagIDs.push(tags[i]._id)
-      }
-      let criterias = logicLayer.getCriterias(req, tagIDs)
-      utility.callApi(`subscribers/aggregate`, 'post', criterias.countCriteria) // fetch subscribers count
-        .then(count => {
-          utility.callApi(`subscribers/aggregate`, 'post', criterias.fetchCriteria) // fetch subscribers
-            .then(subscribers => {
-              let subscriberIds = logicLayer.getSubscriberIds(subscribers)
-              logger.serverLog(TAG, `subscriberIds: ${util.inspect(subscriberIds)}`)
-              utility.callApi(`tags/query`, 'post', { companyId: req.user.companyId, isList: false, defaultTag: false })
-                .then(tags => {
-                  let tagIds = tags.map((t) => t._id)
-                  utility.callApi(`tags_subscriber/query`, 'post', { subscriberId: { $in: subscriberIds }, tagId: {$in: tagIds} })
-                    .then(tagSubscribers => {
-                      logger.serverLog(TAG, `tags subscribers: ${util.inspect(tagSubscribers)}`)
-                      let subscribersPayload = logicLayer.getSusbscribersPayload(subscribers, tagSubscribers, tagIds, req.body.filter_criteria.tag_value)
-                      logger.serverLog(TAG, `subscribersPayload: ${util.inspect(subscribersPayload)}`)
-                      // start append custom Fields
-                      utility.callApi('custom_fields/query', 'post', { purpose: 'findAll', match: { companyId: req.user.companyId } })
-                        .then(customFields => {
-                          logger.serverLog(TAG, `customFields: ${util.inspect(customFields)}`)
-                          let customFieldIds = customFields.map((cf) => cf._id)
-                          utility.callApi('custom_field_subscribers/query', 'post', {purpose: 'findAll', match: {subscriberId: {$in: subscriberIds}, customFieldId: {$in: customFieldIds}}})
-                            .then(customFieldSubscribers => {
-                              logger.serverLog(TAG, `customFieldSubscribers: ${util.inspect(customFieldSubscribers)}`)
-                              let finalPayload = logicLayer.getFinalPayload(subscribersPayload, customFields, customFieldSubscribers)
-                              logger.serverLog(TAG, `subscribersFinalPayload: ${util.inspect(finalPayload)}`)
-                              return res.status(200).json({
-                                status: 'success',
-                                payload: {subscribers: finalPayload, count: count.length > 0 ? count[0].count : 0}
-                              })
-                            })
-                            .catch(error => {
-                              return res.status(500).json({
-                                status: 'failed',
-                                payload: `Failed to fetch custom_Field_subscribers ${JSON.stringify(error)}`
-                              })
-                            })
-                        })
-                        .catch(error => {
-                          return res.status(500).json({
-                            status: 'failed',
-                            payload: `Failed to fetch custom_Fields ${JSON.stringify(error)}`
-                          })
-                        })
-                    })
-                    // end append custom Fields
-                    .catch(error => {
-                      return res.status(500).json({
-                        status: 'failed',
-                        payload: `Failed to fetch tags subscribers ${JSON.stringify(error)}`
-                      })
-                    })
+      dt = new Date()
+      utcDate = dt.toUTCString()
+      logger.serverLog(TAG, `tags/query ${utcDate}`, 'info')
+
+      let tagIds = tags.map((t) => t._id)
+      utility.callApi(`tags_subscriber/query`, 'post', { subscriberId: { $in: subscriberIds }, tagId: {$in: tagIds} })
+        .then(tagSubscribers => {
+          dt = new Date()
+          utcDate = dt.toUTCString()
+          logger.serverLog(TAG, `tags_subscriber/query data subscribers ${utcDate}`, 'info')
+        //  logger.serverLog(TAG, `tags subscribers: ${util.inspect(tagSubscribers)}`, 'debug')
+          let subscribersPayload = logicLayer.getSusbscribersPayload(subscribers, tagSubscribers, tagIds, req.body.filter_criteria.tag_value)
+          //logger.serverLog(TAG, `subscribersPayload: ${util.inspect(subscribersPayload)}`, 'debug')
+          // start append custom Fields
+          utility.callApi('custom_fields/query', 'post', { purpose: 'findAll', match: { companyId: req.user.companyId } })
+            .then(customFields => {
+              dt = new Date()
+              utcDate = dt.toUTCString()
+              logger.serverLog(TAG, `custom_fields/query ${utcDate}`, 'info')
+              // logger.serverLog(TAG, `customFields: ${util.inspect(customFields)}`, 'debug')
+              let customFieldIds = customFields.map((cf) => cf._id)
+              utility.callApi('custom_field_subscribers/query', 'post', {purpose: 'findAll', match: {subscriberId: {$in: subscriberIds}, customFieldId: {$in: customFieldIds}}})
+                .then(customFieldSubscribers => {
+                  dt = new Date()
+                  utcDate = dt.toUTCString()
+                  logger.serverLog(TAG, `customFieldSubscribers/query ${utcDate}`, 'info')
+                  logger.serverLog(TAG, `customFieldSubscribers: ${util.inspect(customFieldSubscribers)}`, 'debug')
+                  let finalPayload = logicLayer.getFinalPayload(subscribersPayload, customFields, customFieldSubscribers)
+                  logger.serverLog(TAG, `subscribersFinalPayload: ${util.inspect(finalPayload)}`, 'debug')
+                  dt = new Date()
+                  utcDate = dt.toUTCString()
+                  logger.serverLog(TAG, `before send success response ${utcDate}`, 'info')
+                  sendSuccessResponse(res, 200, {subscribers: finalPayload, count: count.length > 0 ? count[0].count : 0})
                 })
                 .catch(error => {
-                  return res.status(500).json({
-                    status: 'failed',
-                    payload: `Failed to fetch tags ${JSON.stringify(error)}`
-                  })
+                  sendErrorResponse(res, 500, `Failed to fetch custom_Field_subscribers ${JSON.stringify(error)}`)
                 })
             })
             .catch(error => {
-              return res.status(500).json({
-                status: 'failed',
-                payload: `Failed to fetch subscribers ${JSON.stringify(error)}`
-              })
+              sendErrorResponse(res, 500, `Failed to fetch custom_Fields ${JSON.stringify(error)}`)
             })
         })
+        // end append custom Fields
         .catch(error => {
-          return res.status(500).json({
-            status: 'failed',
-            payload: `Failed to fetch subscriber count ${JSON.stringify(error)}`
-          })
+          sendErrorResponse(res, 500, `Failed to fetch tags subscribers ${JSON.stringify(error)}`)
         })
     })
-    .catch(err => {
-      logger.serverLog(TAG, `Failed to fetch tag  ${JSON.stringify(err)}`)
+    .catch(error => {
+      sendErrorResponse(res, 500, `Failed to fetch tags ${JSON.stringify(error)}`)
     })
+
+}
+exports.getAll = function (req, res) {
+  var dt = new Date()
+  var utcDate = dt.toUTCString()
+  logger.serverLog(TAG, `starting function time ${utcDate}`, 'info')
+  let tagIDs = []
+  let tagValue = []
+  if (req.body.filter_criteria.tag_value) {
+    tagValue.push(req.body.filter_criteria.tag_value)
+    utility.callApi(`tags/query`, 'post', { companyId: req.user.companyId, tag: { $in: tagValue } })
+      .then(tags => {
+        dt = new Date()
+        utcDate = dt.toUTCString()
+        logger.serverLog(TAG, `After tags Query ${utcDate}`, 'info')
+        tagIDs = tags.map((tag) => tag._id)
+        console.log('tagIDs', tagIDs)
+        let criterias = logicLayer.getCriteriasTags(req, tagIDs)
+        utility.callApi(`tags_subscriber/aggregate`, 'post', criterias.countCriteria) // fetch subscribers count
+          .then(count => {
+            console.log('subscribers by filter count', count)
+
+            logger.serverLog(TAG, `tags_subscribers/aggregate count ${utcDate}`, 'info')
+            utility.callApi(`tags_subscriber/aggregate`, 'post', criterias.fetchCriteria) // fetch subscribers count
+              .then(subscribers => {
+                console.log('subscribers by filter', subscribers)
+                let new_subscribers = []
+                subscribers.forEach((subscriber, index) => {
+                  let new_subscriber = subscriber.Subscribers
+                  new_subscriber.pageId = subscriber.pageId
+                  new_subscribers.push(new_subscriber)
+                })
+                console.log('new_subscribers', new_subscribers)
+                getAllSubscribers(new_subscribers, count, req, res)
+              })
+              .catch(err => {
+                logger.serverLog(TAG, `Failed to fetch subscriber data  ${JSON.stringify(err)}`, 'error')
+              })
+          })
+          .catch(err => {
+            logger.serverLog(TAG, `Failed to fetch subscriber count  ${JSON.stringify(err)}`, 'error')
+          })
+      })
+      .catch(err => {
+        logger.serverLog(TAG, `Failed to fetch tag  ${JSON.stringify(err)}`, 'error')
+      })
+  }
+  else {
+    dt = new Date()
+    utcDate = dt.toUTCString()
+    logger.serverLog(TAG, `After tags Query Loop  ${utcDate}`, 'info')
+    let criterias = logicLayer.getCriterias(req, tagIDs)
+    utility.callApi(`subscribers/aggregate`, 'post', criterias.countCriteria) // fetch subscribers count
+      .then(count => {
+        dt = new Date()
+        utcDate = dt.toUTCString()
+        logger.serverLog(TAG, `subscribers/aggregate count ${utcDate}`, 'info')
+
+        utility.callApi(`subscribers/aggregate`, 'post', criterias.fetchCriteria) // fetch subscribers
+          .then(subscribers => {
+            getAllSubscribers(subscribers, count, req, res)
+          })
+          .catch(error => {
+            sendErrorResponse(res, 500, `Failed to fetch subscribers ${JSON.stringify(error)}`)
+          })
+      })
+      .catch(error => {
+        sendErrorResponse(res, 500, `Failed to fetch subscriber count ${JSON.stringify(error)}`)
+      })
+  }
 }
 
 exports.subscribeBack = function (req, res) {
