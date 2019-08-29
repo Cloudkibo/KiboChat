@@ -59,6 +59,13 @@ router.post('/assignTeam',
   validate({body: validationSchema.assignTeamPayload}),
   controller.assignTeam)
 
+router.post('/updatePendingResponse',
+  auth.isAuthenticated(),
+  auth.doesPlanPermitsThisAction('livechat'),
+  auth.doesRolePermitsThisAction('livechatPermission'),
+  validate({body: validationSchema.updatePendingResponsePayload}),
+  controller.updatePendingResponse)
+
 router.post('/query',
   controller.genericFind)
 
