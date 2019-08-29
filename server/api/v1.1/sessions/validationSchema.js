@@ -102,3 +102,18 @@ exports.assignTeamPayload = {
     'isAssigned'
   ]
 }
+exports.updatePendingResponsePayload = {
+  'type': 'object',
+  'properties': {
+    'id': {
+      'type': 'string'
+    },
+    'pendingResponse': {
+      'type': 'boolean'
+    }
+  },
+  'required': [
+    'id',
+    'pendingResponse'
+  ]
+}
