@@ -362,6 +362,32 @@ exports.assignTeam = function (req, res) {
     })
 }
 
+exports.updatePendingResponse = function (req, res) {
+  callApi('subscribers/update', 'put', {
+    query: {_id: req.body.id},
+    newPayload: {pendingResponse: req.body.pendingResponse},
+    options: {}
+  })
+    .then(updated => {
+      require('./../../../config/socketio').sendMessageToClient({
+        room_id: req.user.companyId,
+        body: {
+          action: 'session_pending_response',
+          payload: {
+            session_id: req.body.id,
+            user_id: req.user._id,
+            user_name: req.user.name,
+            pendingResponse: req.body.pendingResponse
+          }
+        }
+      })
+      sendSuccessResponse(res, 200, 'Pending Response updates successfully')
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, err)
+    })
+}
+
 exports.genericFind = function (req, res) {
   let messagesData = logicLayer.getQueryData('', 'findAll', req.body)
   callApi('livechat/query', 'post', messagesData, 'kibochat')

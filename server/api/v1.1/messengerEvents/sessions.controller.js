@@ -23,7 +23,7 @@ exports.index = function (req, res) {
   utility.callApi(`companyprofile/query`, 'post', { _id: page.companyId })
     .then(company => {
       if (!(company.automated_options === 'DISABLE_CHAT')) {
-        let updatePayload = { last_activity_time: Date.now() }
+        let updatePayload = { last_activity_time: Date.now(), pendingResponse: true }
         if (subscriber.status === 'resolved') {
           updatePayload.status = 'new'
         }
