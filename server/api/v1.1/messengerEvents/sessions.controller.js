@@ -106,7 +106,6 @@ function saveLiveChat (page, subscriber, event) {
   }
 }
 function saveChatInDb (page, chatPayload, subscriber, event) {
-  console.log('in saveChatInDb', subscriber)
   if (Object.keys(chatPayload.payload).length > 0 && chatPayload.payload.constructor === Object) {
     LiveChatDataLayer.createFbMessageObject(chatPayload)
       .then(chat => {

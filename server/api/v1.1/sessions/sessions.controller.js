@@ -97,7 +97,6 @@ exports.fetchOpenSessions = function (req, res) {
     if (err) {
       sendErrorResponse(res, 500, err)
     } else {
-      console.log('results[1]', results[1])
       let countResopnse = results[0]
       let sessionsResponse = results[1]
       let unreadCountResponse = results[2]
