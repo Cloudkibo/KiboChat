@@ -103,6 +103,10 @@ exports.fetchOpenSessions = function (req, res) {
       let lastMessageResponse = results[3]
       let sessionsWithUnreadCount = logicLayer.putUnreadCount(unreadCountResponse, sessionsResponse)
       let sessions = logicLayer.putLastMessage(lastMessageResponse, sessionsWithUnreadCount)
+      if (req.body.filter_criteria.unreadMessages && req.body.filter_criteria.unreadMessages !== '') {
+        sessions = sessions.filter(session => session.unreadCount !== undefined)
+        countResopnse[0].count = sessions.length
+      }
       sendSuccessResponse(res, 200, {openSessions: sessions, count: countResopnse.length > 0 ? countResopnse[0].count : 0})
     }
   })
@@ -160,6 +164,10 @@ exports.fetchResolvedSessions = function (req, res) {
       let lastMessageResponse = results[3]
       let sessionsWithUnreadCount = logicLayer.putUnreadCount(unreadCountResponse, sessionsResponse)
       let sessions = logicLayer.putLastMessage(lastMessageResponse, sessionsWithUnreadCount)
+      if (req.body.filter_criteria.unreadMessages && req.body.filter_criteria.unreadMessages !== '') {
+        sessions = sessions.filter(session => session.unreadCount !== undefined)
+        countResopnse[0].count = sessions.length
+      }
       sendSuccessResponse(res, 200, {closedSessions: sessions, count: countResopnse.length > 0 ? countResopnse[0].count : 0})
     }
   })
