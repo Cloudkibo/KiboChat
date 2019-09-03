@@ -27,7 +27,7 @@ exports.index = function (req, res) {
         if (subscriber.status === 'resolved') {
           updatePayload.status = 'new'
         }
-        if (event.message.is_echo) {
+        if (!event.message.is_echo) {
           updatePayload.pendingResponse = true
         }
         utility.callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: updatePayload, options: {}})
