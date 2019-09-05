@@ -224,26 +224,26 @@ function fbConnectDone (req, res) {
   let fbPayload = req.user
   let userid = req.cookies.userid
   if (!req.user) {
-    logger.serverLog(TAG, '404: Something went wrong, please try again', 'error')
+    logger.serverLog(TAG, '404: Something went wrong, please try again')
     res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
   }
-  if (req.user.role !== 'buyer') {
-    logger.serverLog(TAG, `User is an ${req.user.role}. Only buyers can connect their Facebook account`, 'error')
-    res.render('error', {status: 'failed', description: `User is an ${req.user.role}. Only buyers can connect their Facebook account`})
-  }
+  // if (req.user.role !== 'buyer') {
+  //   logger.serverLog(TAG, `User is an ${req.user.role}. Only buyers can connect their Facebook account`)
+  //   res.render('error', {status: 'failed', description: `User is an ${req.user.role}. Only buyers can connect their Facebook account`})
+  // }
   let token = `Bearer ${req.cookies.token}`
   apiCaller.callApi('user', 'get', {}, 'accounts', token)
     .then(user => {
       if (user.facebookInfo && user.facebookInfo.fbId.toString() !== fbPayload.fbId.toString()) {
-        logger.serverLog(TAG, '403: Different Facebook Account Detected', 'error')
+        logger.serverLog(TAG, '403: Different Facebook Account Detected')
         res.render('error', {status: 'failed', description: 'Different Facebook Account Detected. Please use the same account that you connected before.'})
       } else {
-        apiCaller.callApi(`user/update`, 'post', {query: {_id: userid}, newPayload: {facebookInfo: fbPayload, connectFacebook: true, showIntegrations: false, platform: 'messenger'}, options: {}})
+        apiCaller.callApi(`user/update`, 'post', {query: {_id: userid}, newPayload: {facebookInfo: fbPayload, connectFacebook: true, showIntegrations: false, platform: 'messenger'}, options: {}}, 'accounts', token)
           .then(updated => {
-            apiCaller.callApi(`user/query`, 'post', {_id: userid})
+            apiCaller.callApi(`user/query`, 'post', {_id: userid}, 'accounts', token)
               .then(user => {
                 if (!user) {
-                  logger.serverLog(TAG, '401: Unauthorized', 'error')
+                  logger.serverLog(TAG, '401: Unauthorized')
                   res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
                 }
                 req.user = user[0]
@@ -254,7 +254,7 @@ function fbConnectDone (req, res) {
                       logger.serverLog(TAG, `response for permissionsRevoked ${util.inspect(resp)}`)
                     })
                     .catch(err => {
-                      logger.serverLog(TAG, `500: Internal server error ${err}`, 'error')
+                      logger.serverLog(TAG, `500: Internal server error ${err}`)
                       res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
                     })
                 }
@@ -265,18 +265,18 @@ function fbConnectDone (req, res) {
                 res.redirect('/')
               })
               .catch(err => {
-                logger.serverLog(TAG, `500: Internal server error ${err}`, 'error')
+                logger.serverLog(TAG, `500: Internal server error ${err}`)
                 res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
               })
           })
           .catch(err => {
-            logger.serverLog(TAG, `500: Internal server error ${err}`, 'error')
+            logger.serverLog(TAG, `500: Internal server error ${err}`)
             res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
           })
       }
     })
     .catch(err => {
-      logger.serverLog(TAG, `500: Internal server error ${err}`, 'error')
+      logger.serverLog(TAG, `500: Internal server error ${err}`)
       res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
     })
 }
