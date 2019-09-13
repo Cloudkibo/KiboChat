@@ -403,7 +403,8 @@ function fetchPages (url, user, req, token) {
                         likes: fanCount.body.fan_count,
                         pagePic: `https://graph.facebook.com/v2.10/${item.id}/picture`,
                         accessToken: item.access_token,
-                        isApproved: true
+                        isApproved: true,
+                        pageName: item.name
                       }
                       if (fanCount.body.username) {
                         updatedPayload['pageUserName'] = fanCount.body.username
