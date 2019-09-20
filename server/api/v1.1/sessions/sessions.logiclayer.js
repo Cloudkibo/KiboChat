@@ -12,7 +12,7 @@ exports.getCount = (req, status) => {
       'name': {$regex: '.*' + req.body.filter_criteria.search_value + '.*', $options: 'i'},
       'pageId._id': req.body.filter_criteria.page_value !== '' ? req.body.filter_criteria.page_value : {$exists: true},
       'pageId.connected': true,
-      'pendingResponse': req.body.filter_criteria.pendingResponse && req.body.filter_criteria.pendingResponse !== '' ? req.body.filter_criteria.pendingResponse : {$exists: true}
+      'pendingResponse': req.body.filter_criteria.pendingResponse !== '' ? req.body.filter_criteria.pendingResponse : {$exists: true}
     } },
     { $group: {_id: null, count: { $sum: 1 }} }
   ]
