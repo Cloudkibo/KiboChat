@@ -12,7 +12,7 @@ exports.getCount = (req, status) => {
       'name': {$regex: '.*' + req.body.filter_criteria.search_value + '.*', $options: 'i'},
       'pageId._id': req.body.filter_criteria.page_value !== '' ? req.body.filter_criteria.page_value : {$exists: true},
       'pageId.connected': true,
-      'pendingResponse': req.body.filter_criteria.pendingResponse !== '' ? req.body.filter_criteria.pendingResponse : {$exists: true}
+      'pendingResponse': req.body.filter_criteria.pendingResponse && req.body.filter_criteria.pendingResponse !== '' ? req.body.filter_criteria.pendingResponse : {$exists: true}
     } },
     { $group: {_id: null, count: { $sum: 1 }} }
   ]
@@ -31,10 +31,11 @@ exports.getSessions = (req, status) => {
       'name': {$regex: '.*' + req.body.filter_criteria.search_value + '.*', $options: 'i'},
       'pageId._id': req.body.filter_criteria.page_value !== '' ? req.body.filter_criteria.page_value : {$exists: true},
       'pageId.connected': true,
-      '_id': req.body.first_page ? {$exists: true} : {$gt: req.body.last_id},
+      '_id': req.body.first_page ? {$exists: true} : req.body.filter_criteria.sort_value === -1 ? {$lt: req.body.last_id} : {$gt: req.body.last_id},
       'pendingResponse': req.body.filter_criteria.pendingResponse !== '' ? req.body.filter_criteria.pendingResponse : {$exists: true}
     } },
-    { $sort: {last_activity_time: req.body.filter_criteria.sort_value} }
+    { $sort: {last_activity_time: req.body.filter_criteria.sort_value} },
+    { $limit: req.body.number_of_records }
   ]
   return aggregateData
 }
