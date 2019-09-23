@@ -70,6 +70,44 @@ function isAuthenticated () {
           })
       }
     })
+    .use(function isSuperUserActingAsCustomer (req, res, next) {
+      if (req.user.isSuperUser) {
+        if (req.headers.hasOwnProperty('actingasuser')) {
+          let actUserAs
+          apiCaller.callApi(`user/query`, 'post', {domain_email: req.headers.actingasuser})
+            .then(user => {
+              req.user.domain_email = req.headers.actingasuser
+              actUserAs = user
+              return apiCaller.callApi('companyUser/query', 'post', {userId: actUserAs._id})
+            })
+            .then(companyUserInfo => {
+              req.user.companyId = companyUserInfo.companyId
+              return apiCaller.callApi('permissions/query', 'post', {userId: actUserAs._id})
+            })
+            .then(permissionsGot => {
+              req.user.permissions = permissionsGot
+              return apiCaller.callApi('companyprofile/query', 'post', {_id: req.user.companyId})
+            })
+            .then(companyProfileGot => {
+              req.user.currentPlan = companyProfileGot.planId
+              req.user.last4 = companyProfileGot.stripe.last4
+              return apiCaller.callApi('permissions_plan/query', 'post', {plan_id: companyProfileGot.planId._id})
+            })
+            .then(permissionsPlan => {
+              req.user.plan = permissionsPlan
+              next()
+            })
+            .catch(err => {
+              return res.status(500)
+                .json({status: 'failed', description: `Internal Server Error: ${err}`})
+            })
+        } else {
+          next()
+        }
+      } else {
+        next()
+      }
+    })
 }
 
 /**
