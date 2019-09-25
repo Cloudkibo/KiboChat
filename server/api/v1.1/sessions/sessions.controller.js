@@ -74,16 +74,6 @@ exports.fetchOpenSessions = function (req, res) {
         })
     },
     function (callback) {
-      let unreadCountData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId.toString(), status: 'unseen', format: 'facebook'}, undefined, undefined, undefined, {_id: '$subscriber_id', count: {$sum: 1}})
-      callApi('livechat/query', 'post', unreadCountData, 'kibochat')
-        .then(data => {
-          callback(null, data)
-        })
-        .catch(err => {
-          callback(err)
-        })
-    },
-    function (callback) {
       let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId}, undefined, undefined, undefined, {_id: '$subscriber_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
       callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
         .then(data => {
@@ -99,16 +89,8 @@ exports.fetchOpenSessions = function (req, res) {
     } else {
       let countResopnse = results[0]
       let sessionsResponse = results[1]
-      let unreadCountResponse = results[2]
-      let lastMessageResponse = results[3]
-      let sessionsWithUnreadCount = logicLayer.putUnreadCount(unreadCountResponse, sessionsResponse)
-      let sessions = logicLayer.putLastMessage(lastMessageResponse, sessionsWithUnreadCount)
-      if (req.body.filter_criteria.unreadMessages && req.body.filter_criteria.unreadMessages !== '') {
-        sessions = sessions.filter(session => session.unreadCount !== undefined)
-        if (countResopnse && countResopnse.length > 0) {
-          countResopnse[0].count = sessions.length
-        }
-      }
+      let lastMessageResponse = results[2]
+      let sessions = logicLayer.putLastMessage(lastMessageResponse, sessionsResponse)
       sendSuccessResponse(res, 200, {openSessions: sessions, count: countResopnse.length > 0 ? countResopnse[0].count : 0})
     }
   })
@@ -137,16 +119,6 @@ exports.fetchResolvedSessions = function (req, res) {
         })
     },
     function (callback) {
-      let unreadCountData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId.toString(), status: 'unseen', format: 'facebook'}, undefined, undefined, undefined, {_id: '$subscriber_id', count: {$sum: 1}})
-      callApi('livechat/query', 'post', unreadCountData, 'kibochat')
-        .then(data => {
-          callback(null, data)
-        })
-        .catch(err => {
-          callback(err)
-        })
-    },
-    function (callback) {
       let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId}, undefined, undefined, undefined, {_id: '$subscriber_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
       callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
         .then(data => {
@@ -162,16 +134,8 @@ exports.fetchResolvedSessions = function (req, res) {
     } else {
       let countResopnse = results[0]
       let sessionsResponse = results[1]
-      let unreadCountResponse = results[2]
-      let lastMessageResponse = results[3]
-      let sessionsWithUnreadCount = logicLayer.putUnreadCount(unreadCountResponse, sessionsResponse)
-      let sessions = logicLayer.putLastMessage(lastMessageResponse, sessionsWithUnreadCount)
-      if (req.body.filter_criteria.unreadMessages && req.body.filter_criteria.unreadMessages !== '') {
-        sessions = sessions.filter(session => session.unreadCount !== undefined)
-        if (countResopnse && countResopnse.length > 0) {
-          countResopnse[0].count = sessions.length
-        }
-      }
+      let lastMessageResponse = results[2]
+      let sessions = logicLayer.putLastMessage(lastMessageResponse, sessionsResponse)
       sendSuccessResponse(res, 200, {closedSessions: sessions, count: countResopnse.length > 0 ? countResopnse[0].count : 0})
     }
   })
@@ -200,9 +164,15 @@ exports.markread = function (req, res) {
 
 function markreadLocal (req, callback) {
   let updateData = logicLayer.getUpdateData('updateAll', {subscriber_id: req.params.id}, {status: 'seen'}, false, true)
-  callApi('livechat', 'put', updateData, 'kibochat')
-    .then(updated => {
-      callback(null, updated)
+  callApi('subscribers/update', 'put', {query: {_id: req.params.id}, newPayload: {unreadCount: 0}, options: {}}, 'accounts', req.headers.authorization)
+    .then(subscriber => {
+      callApi('livechat', 'put', updateData, 'kibochat')
+        .then(updated => {
+          callback(null, updated)
+        })
+        .catch(err => {
+          callback(err)
+        })
     })
     .catch(err => {
       callback(err)
