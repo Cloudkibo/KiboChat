@@ -187,11 +187,9 @@ exports.show = function (req, res) {
       } else {
         let subscriber = results[0]
         let lastMessageResponse = results[1]
-        console.log('lastMessageResponse', lastMessageResponse)
         subscriber.lastPayload = lastMessageResponse[0].payload
         subscriber.lastRepliedBy = lastMessageResponse[0].replied_by
         subscriber.lastDateTime = lastMessageResponse[0].datetime
-        console.log('finalSubscriber', subscriber)
         sendSuccessResponse(res, 200, subscriber)
       }
     })
