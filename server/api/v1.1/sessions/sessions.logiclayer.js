@@ -5,14 +5,22 @@ exports.getCount = (req, status) => {
     { $match: {'companyId': req.user.companyId} },
     { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
     { $unwind: '$pageId' },
-    { $project: {name: {$concat: ['$firstName', ' ', '$lastName']}, companyId: 1, pageId: 1, isSubscribed: 1, status: 1, pendingResponse: 1} },
+    { $project: {
+      name: {$concat: ['$firstName', ' ', '$lastName']},
+      companyId: 1,
+      pageId: 1,
+      isSubscribed: 1,
+      status: 1,
+      pendingResponse: 1,
+      unreadCount: 1} },
     { $match: {
       'isSubscribed': true,
       'status': status,
       'name': {$regex: '.*' + req.body.filter_criteria.search_value + '.*', $options: 'i'},
       'pageId._id': req.body.filter_criteria.page_value !== '' ? req.body.filter_criteria.page_value : {$exists: true},
       'pageId.connected': true,
-      'pendingResponse': req.body.filter_criteria.pendingResponse !== '' ? req.body.filter_criteria.pendingResponse : {$exists: true}
+      'pendingResponse': req.body.filter_criteria.pendingResponse ? req.body.filter_criteria.pendingResponse : {$exists: true},
+      'unreadCount': req.body.filter_criteria.unreadMessages ? { $gt: 0 } : {$exists: true}
     } },
     { $group: {_id: null, count: { $sum: 1 }} }
   ]
@@ -24,7 +32,22 @@ exports.getSessions = (req, status) => {
     { $match: {'companyId': req.user.companyId} },
     { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
     { $unwind: '$pageId' },
-    { $project: {name: {$concat: ['$firstName', ' ', '$lastName']}, companyId: 1, pageId: 1, isSubscribed: 1, status: 1, last_activity_time: 1, _id: 1, profilePic: 1, senderId: 1, gender: 1, locale: 1, is_assigned: 1, assigned_to: 1, pendingResponse: 1} },
+    { $project: {
+      name: {$concat: ['$firstName', ' ', '$lastName']},
+      companyId: 1,
+      pageId: 1,
+      isSubscribed: 1,
+      status: 1,
+      last_activity_time: 1,
+      _id: 1,
+      profilePic: 1,
+      senderId: 1,
+      gender: 1,
+      locale: 1,
+      is_assigned: 1,
+      assigned_to: 1,
+      pendingResponse: 1,
+      unreadCount: 1} },
     { $match: {
       'isSubscribed': true,
       'status': status,
@@ -32,7 +55,8 @@ exports.getSessions = (req, status) => {
       'pageId._id': req.body.filter_criteria.page_value !== '' ? req.body.filter_criteria.page_value : {$exists: true},
       'pageId.connected': true,
       '_id': req.body.first_page ? {$exists: true} : req.body.filter_criteria.sort_value === -1 ? {$lt: req.body.last_id} : {$gt: req.body.last_id},
-      'pendingResponse': req.body.filter_criteria.pendingResponse !== '' ? req.body.filter_criteria.pendingResponse : {$exists: true}
+      'pendingResponse': req.body.filter_criteria.pendingResponse ? req.body.filter_criteria.pendingResponse : {$exists: true},
+      'unreadCount': req.body.filter_criteria.unreadMessages ? { $gt: 0 } : {$exists: true}
     } },
     { $sort: {last_activity_time: req.body.filter_criteria.sort_value} },
     { $limit: req.body.number_of_records }
@@ -113,6 +137,7 @@ const appendUnreadCountData = (gotUnreadCount, subscriber) => {
   for (let i = 0; i < gotUnreadCount.length; i++) {
     if (subscriber._id.toString() === gotUnreadCount[i]._id.toString()) {
       subscriber.unreadCount = gotUnreadCount[i].count
+      break
     }
   }
   return subscriber
@@ -123,6 +148,7 @@ const appendLastMessageData = (gotLastMessage, subscriber) => {
       subscriber.lastPayload = gotLastMessage[a].payload
       subscriber.lastRepliedBy = gotLastMessage[a].replied_by
       subscriber.lastDateTime = gotLastMessage[a].datetime
+      break
     }
   }
   return subscriber
