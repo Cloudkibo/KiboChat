@@ -7,50 +7,6 @@ const needle = require('needle')
 const async = require('async')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
-exports.index = function (req, res) {
-  let sessions = []
-
-  const companyUserResponse = callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
-
-  let messagesData = logicLayer.getQueryData('', 'aggregate', {status: 'unseen', format: 'facebook'}, 0, { datetime: 1 })
-  const messagesResponse = callApi(`sessions/query`, 'post', messagesData, 'kibochat')
-
-  let lastMessageData = logicLayer.getQueryData('', 'aggregate', {}, 0, { datetime: 1 }, undefined, {_id: '$session_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
-  const lastMessageResponse = callApi(`sessions/query`, 'post', lastMessageData, 'kibochat')
-
-  companyUserResponse.then(companyuser => {
-    let sessionsData = logicLayer.getQueryData('', 'findAll', {company_id: companyuser.companyId})
-    return callApi(`sessions/query`, 'post', sessionsData, 'kibochat')
-  })
-    .then(session => {
-      sessions = logicLayer.getSessions(session)
-      if (sessions.length > 0) {
-        return messagesResponse
-      } else {
-        return ''
-      }
-    })
-    .then(gotUnreadCount => {
-      if (gotUnreadCount !== '') {
-        sessions = logicLayer.getUnreadCount(gotUnreadCount, sessions)
-        return lastMessageResponse
-      } else {
-        return ''
-      }
-    })
-    .then(gotLastMessage => {
-      if (gotLastMessage !== '') {
-        sessions = logicLayer.getLastMessage(gotLastMessage, sessions)
-        sendSuccessResponse(res, 200, sessions)
-      } else {
-        sendSuccessResponse(res, 200, sessions)
-      }
-    })
-    .catch(error => {
-      sendErrorResponse(res, 500, `Internal server error ${JSON.stringify(error)}`)
-    })
-}
-
 exports.fetchOpenSessions = function (req, res) {
   async.parallelLimit([
     function (callback) {
@@ -216,17 +172,7 @@ exports.show = function (req, res) {
           })
       },
       function (callback) {
-        let unreadCountData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId.toString(), status: 'unseen', format: 'facebook'}, undefined, undefined, undefined, {_id: '$subscriber_id', count: {$sum: 1}})
-        callApi('livechat/query', 'post', unreadCountData, 'kibochat')
-          .then(data => {
-            callback(null, data)
-          })
-          .catch(err => {
-            callback(err)
-          })
-      },
-      function (callback) {
-        let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId}, undefined, undefined, undefined, {_id: '$subscriber_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+        let lastMessageData = logicLayer.getQueryData('', 'aggregate', {subscriber_id: req.params.id, company_id: req.user.companyId}, undefined, {_id: -1}, 1, undefined)
         callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
           .then(data => {
             callback(null, data)
@@ -240,11 +186,13 @@ exports.show = function (req, res) {
         sendErrorResponse(res, 500, err)
       } else {
         let subscriber = results[0]
-        let unreadCountResponse = results[1]
-        let lastMessageResponse = results[2]
-        let subscriberWithUnreadCount = logicLayer.appendUnreadCountData(unreadCountResponse, subscriber)
-        let finalSubscriber = logicLayer.appendLastMessageData(lastMessageResponse, subscriberWithUnreadCount)
-        sendSuccessResponse(res, 200, finalSubscriber)
+        let lastMessageResponse = results[1]
+        console.log('lastMessageResponse', lastMessageResponse)
+        subscriber.lastPayload = lastMessageResponse[0].payload
+        subscriber.lastRepliedBy = lastMessageResponse[0].replied_by
+        subscriber.lastDateTime = lastMessageResponse[0].datetime
+        console.log('finalSubscriber', subscriber)
+        sendSuccessResponse(res, 200, subscriber)
       }
     })
   } else {
