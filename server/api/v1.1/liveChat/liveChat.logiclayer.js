@@ -237,7 +237,7 @@ exports.prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) =
   return payload
 }
 exports.webhookPost = (needle, webhook, req, res) => {
-  if (webhook && webhook.optIn.POLL_CREATED) {
+  if (webhook && webhook.optIn.LIVE_CHAT_ACTIONS) {
     var data = {
       subscription_type: 'LIVE_CHAT_ACTIONS',
       payload: JSON.stringify({ // this is the subscriber id: _id of subscriberId

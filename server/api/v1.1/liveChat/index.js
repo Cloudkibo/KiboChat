@@ -14,13 +14,6 @@ router.post('/',
   validate({body: validationSchema.createPayload}),
   controller.create)
 
-router.post('/updateUrl',
-  auth.isAuthenticated(),
-  auth.doesPlanPermitsThisAction('livechat'),
-  auth.doesRolePermitsThisAction('livechatPermission'),
-  validate({body: validationSchema.updatePayload}),
-  controller.update)
-
 router.post('/getUrlMeta',
   auth.isAuthenticated(),
   auth.doesPlanPermitsThisAction('livechat'),
