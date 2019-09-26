@@ -30,10 +30,16 @@ exports.index = function (req, res) {
         if (!event.message.is_echo) {
           updatePayload.pendingResponse = true
         }
-        utility.callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: updatePayload, options: {}})
+        utility.callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: {$inc: { unreadCount: 1 }}, options: {}})
           .then(updated => {
-            logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
-            saveLiveChat(page, subscriber, event)
+            utility.callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: updatePayload, options: {}})
+              .then(updated => {
+                logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
+                saveLiveChat(page, subscriber, event)
+              })
+              .catch(error => {
+                logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
+              })
           })
           .catch(error => {
             logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
