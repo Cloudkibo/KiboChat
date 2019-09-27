@@ -336,6 +336,7 @@ exports.stats = function (req, res) {
                     payload.subscribers = subscribers.length
                     let mappedUnreadCounts = subscribers.map(subscriber => subscriber.unreadCount)
                     payload.unreadCount = mappedUnreadCounts.reduce((a, b) => a + b, 0)
+                    sendSuccessResponse(res, 200, payload)
                     // const pagesArray = pages.map(page => page.pageId).map(String)
                     // callApi('livechat/query', 'post', {purpose: 'findAll', match: {company_id: companyUser.companyId, status: 'unseen', format: 'facebook', recipient_fb_id: {$in: pagesArray}}}, 'kibochat')
                     //   .then(messages => {
