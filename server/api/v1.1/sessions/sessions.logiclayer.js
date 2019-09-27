@@ -48,17 +48,17 @@ exports.getSessions = (req, status) => {
       assigned_to: 1,
       pendingResponse: 1,
       unreadCount: 1} },
+    { $sort: {last_activity_time: req.body.filter_criteria.sort_value} },
     { $match: {
       'isSubscribed': true,
       'status': status,
       'name': {$regex: '.*' + req.body.filter_criteria.search_value + '.*', $options: 'i'},
       'pageId._id': req.body.filter_criteria.page_value !== '' ? req.body.filter_criteria.page_value : {$exists: true},
       'pageId.connected': true,
-      '_id': req.body.first_page ? {$exists: true} : req.body.filter_criteria.sort_value === -1 ? {$lt: req.body.last_id} : {$gt: req.body.last_id},
+      'last_activity_time': req.body.first_page ? {$exists: true} : req.body.filter_criteria.sort_value === -1 ? {$lt: req.body.last_id} : {$gt: req.body.last_id},
       'pendingResponse': req.body.filter_criteria.pendingResponse ? req.body.filter_criteria.pendingResponse : {$exists: true},
       'unreadCount': req.body.filter_criteria.unreadMessages ? { $gt: 0 } : {$exists: true}
     } },
-    { $sort: {last_activity_time: req.body.filter_criteria.sort_value} },
     { $limit: req.body.number_of_records }
   ]
   return aggregateData
