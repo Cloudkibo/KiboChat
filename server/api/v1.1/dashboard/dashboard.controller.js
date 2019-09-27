@@ -334,13 +334,15 @@ exports.stats = function (req, res) {
                   .then(subscribers => {
                     logger.serverLog(TAG, `subscribers retrieved: ${subscribers}`, 'error')
                     payload.subscribers = subscribers.length
-                    const pagesArray = pages.map(page => page.pageId).map(String)
-                    callApi('livechat/query', 'post', {purpose: 'findAll', match: {company_id: companyUser.companyId, status: 'unseen', format: 'facebook', recipient_fb_id: {$in: pagesArray}}}, 'kibochat')
-                      .then(messages => {
-                        payload.unreadCount = messages && messages.length > 0 ? messages.length : 0
-                        sendSuccessResponse(res, 200, payload)
-                      })
-                      .catch()
+                    let mappedUnreadCounts = subscribers.map(subscriber => subscriber.unreadCount)
+                    payload.unreadCount = mappedUnreadCounts.reduce((a, b) => a + b, 0)
+                    // const pagesArray = pages.map(page => page.pageId).map(String)
+                    // callApi('livechat/query', 'post', {purpose: 'findAll', match: {company_id: companyUser.companyId, status: 'unseen', format: 'facebook', recipient_fb_id: {$in: pagesArray}}}, 'kibochat')
+                    //   .then(messages => {
+                    //     payload.unreadCount = messages && messages.length > 0 ? messages.length : 0
+                    //     sendSuccessResponse(res, 200, payload)
+                    //   })
+                    //   .catch()
                   })
                   .catch(err => {
                     sendErrorResponse(res, 500, '', `failed to get livechat messages ${err}`)
