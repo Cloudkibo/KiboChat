@@ -76,9 +76,10 @@ exports.geturlmeta = function (req, res) {
   og(url, (err, meta) => {
     if (err) {
       sendErrorResponse(res, 404, '', 'Meta data not found')
-    }
+    }else{
     logger.serverLog(TAG, `Url Meta: ${meta}`, 'error')
     sendSuccessResponse(res, 200, meta)
+    }
   })
 }
 
