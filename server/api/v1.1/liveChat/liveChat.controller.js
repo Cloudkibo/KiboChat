@@ -70,26 +70,16 @@ exports.search = function (req, res) {
     })
 }
 
-exports.update = function (req, res) {
-  let updateData = logicLayer.getUpdateData('updateOne', { _id: req.body.id }, { $set: { urlmeta: req.body.urlmeta } }, false, false, true)
-  callApi(`livechat`, 'put', updateData, 'kibochat')
-    .then(updated => {
-      sendSuccessResponse(res, 200, updated)
-    })
-    .catch(err => {
-      sendErrorResponse(res, 500, '', `Internal Server Error ${err}`)
-    })
-}
-
 exports.geturlmeta = function (req, res) {
   var url = req.body.url
   logger.serverLog(TAG, `Url for Meta: ${url}`, 'error')
   og(url, (err, meta) => {
     if (err) {
       sendErrorResponse(res, 404, '', 'Meta data not found')
-    }
+    }else{
     logger.serverLog(TAG, `Url Meta: ${meta}`, 'error')
     sendSuccessResponse(res, 200, meta)
+    }
   })
 }
 

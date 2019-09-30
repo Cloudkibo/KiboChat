@@ -210,7 +210,7 @@ exports.enable = function (req, res) {
                                 .then(pages => {
                                   let page = pages[0]
                                   // create default tags
-                                  utility.callApi('tags/query', 'post', {defaultTag: true, pageId: req.params._id, companyId: req.user.companyId})
+                                  utility.callApi('tags/query', 'post', {defaultTag: true, pageId: req.body._id, companyId: req.user.companyId})
                                     .then(defaultTags => {
                                       defaultTags = defaultTags.map((t) => t.tag)
                                       if (!defaultTags.includes(`_${page.pageId}_1`)) {
@@ -653,7 +653,46 @@ exports.otherPages = function (req, res) {
 function createTag (user, page, tag, req) {
   needle('post', `https://graph.facebook.com/v2.11/me/custom_labels?access_token=${page.accessToken}`, {'name': tag})
     .then(label => {
-      if (label.body.id) {
+      if (label.body.error) {
+        if (label.body.error.code === 100) {
+          utility.callApi('tags/query', 'post', {defaultTag: true, pageId: req.body._id, companyId: req.user.companyId, tag: tag})
+            .then(defaultTag => {
+              if (defaultTag.length === 0) {
+                needle('get', `https://graph.facebook.com/v2.11/me/custom_labels?fields=name&access_token=${page.accessToken}`)
+                  .then(Tags => { 
+                    let default_tag = Tags.body.data.filter(data => data.name === tag)
+                    let tagData = {
+                      tag: tag,
+                      userId: user._id,
+                      companyId: user.companyId,
+                      pageId: page._id,
+                      labelFbId: default_tag[0].id,
+                      defaultTag: true
+                    }
+                    utility.callApi('tags', 'post', tagData)
+                      .then(created => {
+                        logger.serverLog(TAG, `default tag created successfully!`, 'debug')
+                      })
+                      .catch(err => {
+                        logger.serverLog(TAG, `Error at save tag ${err}`, 'error')
+                      })                
+                  })
+                  
+                  .catch(err => {
+                    logger.serverLog(TAG, `Error at find default tags from facebook ${err}`, 'error')
+                  })
+              }
+            })
+            .catch(err => {
+              logger.serverLog(TAG, `Error at find default tags ${err}`, 'error')
+            })
+        } 
+        else {
+         // sendOpAlert(label.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
+         logger.serverLog(TAG, `Error at facebook error ${label.body.error}`, 'error')
+        }
+      }
+      else if (label.body.id) {
         let tagData = {
           tag: tag,
           userId: user._id,
@@ -662,18 +701,19 @@ function createTag (user, page, tag, req) {
           labelFbId: label.body.id,
           defaultTag: true
         }
-        utility.callApi('tags', 'post', tagData, req.headers.authorization)
+        utility.callApi('tags', 'post', tagData)
           .then(created => {
-            logger.serverLog(TAG, `default tag created successfully!`)
+            logger.serverLog(TAG, `default tag created successfully!`, 'debug')
+            console.log('successfully create tag', tag)
           })
           .catch(err => {
-            logger.serverLog(TAG, `Error at save tag ${err}`)
+            logger.serverLog(TAG, `Error at save tag ${err}`, 'error')
           })
       } else {
-        logger.serverLog(TAG, `Error at create tag on Facebook ${label.body.error}`)
+        logger.serverLog(TAG, `else Error at create tag on Facebook ${JSON.stringify(label.body.error)}`, 'error')
       }
     })
     .catch(err => {
-      logger.serverLog(TAG, `Error at create tag on Facebook ${err}`)
+      logger.serverLog(TAG, `Error at create tag on Facebook ${JSON.stringify(err)}`, 'error')
     })
 }
