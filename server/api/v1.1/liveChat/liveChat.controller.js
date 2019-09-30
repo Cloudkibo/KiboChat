@@ -18,13 +18,13 @@ exports.index = function (req, res) {
       _id: req.body.page === 'next' ? { $lt: req.body.last_id } : {$exists: true}
     }
 
-    let messagesCountData = logicLayer.getQueryData('count', 'aggregate', { subscriber_id: req.params.subscriber_id, company_id: req.user.companyId })
     let messagesData = logicLayer.getQueryData('', 'aggregate', query, 0, { datetime: -1 }, req.body.number)
 
     async.parallelLimit([
       function (callback) {
-        callApi(`livechat/query`, 'post', messagesCountData, 'kibochat')
+        callApi(`subscribers/query`, 'post', {_id: req.params.subscriber_id})
           .then(data => {
+            data = data[0]
             callback(null, data)
           })
           .catch(err => {
@@ -49,7 +49,7 @@ exports.index = function (req, res) {
         fbchats = logicLayer.setChatProperties(fbchats)
         let payload = {
           chat: fbchats,
-          count: chatCount.length > 0 ? chatCount[0].count : 0
+          count: chatCount.messagesCount
         }
         sendSuccessResponse(res, 200, payload)
       }
@@ -76,9 +76,9 @@ exports.geturlmeta = function (req, res) {
   og(url, (err, meta) => {
     if (err) {
       sendErrorResponse(res, 404, '', 'Meta data not found')
-    }else{
-    logger.serverLog(TAG, `Url Meta: ${meta}`, 'error')
-    sendSuccessResponse(res, 200, meta)
+    } else {
+      logger.serverLog(TAG, `Url Meta: ${meta}`, 'error')
+      sendSuccessResponse(res, 200, meta)
     }
   })
 }
@@ -127,6 +127,21 @@ exports.create = function (req, res) {
           } else {
             callback(null, webhook)
           }
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    // increment messagesCount in subscribers table
+    function (callback) {
+      let subscriberData = {
+        query: {_id: req.body.subscriber_id},
+        newPayload: {$inc: { messagesCount: 1 }},
+        options: {}
+      }
+      callApi(`subscribers/update`, 'put', subscriberData)
+        .then(updated => {
+          callback(null, updated)
         })
         .catch(err => {
           callback(err)
@@ -199,7 +214,7 @@ exports.create = function (req, res) {
       return res.status(500).json({status: 'failed', payload: err})
     } else {
       let fbMessageObject = results[0]
-      let subscriber = results[3]
+      let subscriber = results[4]
       let botId = ''
       async.parallelLimit([
         // Update Bot Block list
