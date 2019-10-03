@@ -9,7 +9,6 @@ exports.fetchOpenSessions = function (req, res) {
   async.parallelLimit([
     function (callback) {
       let data = logicLayer.getCount(req, 'new')
-      console.log('data for count', data)
       callApi('whatsAppContacts/aggregate', 'post', data)
         .then(result => {
           callback(null, result)
@@ -43,7 +42,6 @@ exports.fetchOpenSessions = function (req, res) {
       sendErrorResponse(res, 500, err)
     } else {
       let countResopnse = results[0]
-      console.log('countResopnse')
       let sessionsResponse = results[1]
       let lastMessageResponse = results[2]
       let sessions = logicLayer.putLastMessage(lastMessageResponse, sessionsResponse)

@@ -173,17 +173,14 @@ function handleSubscribe (contact, company, user) {
     })
 }
 function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
-  console.log('in updateWhatsAppContacts')
   callApi(`whatsAppContacts/update`, 'put', {query: query, newPayload: bodyForUpdate, options: options})
     .then(updated => {
-      console.log('updated 1st', updated)
     })
     .catch(error => {
       logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`, 'error')
     })
   callApi(`whatsAppContacts/update`, 'put', {query: query, newPayload: bodyForIncrement, options: options})
     .then(updated => {
-      console.log('updated 2nd', updated)
     })
     .catch(error => {
       logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`, 'error')
