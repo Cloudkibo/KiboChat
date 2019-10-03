@@ -10,5 +10,6 @@ describe('Validate url test in utility', () => {
     expect(validateUrl('https:/app.yahoo.com')).toBe(false)
     expect(validateUrl('htt://app.yahoo.com')).toBe(false)
     expect(validateUrl('https://appcom')).toBe(false)
+    expect(validateUrl('')).toBe(false)
   })
 })
