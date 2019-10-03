@@ -33,7 +33,7 @@ exports.index = function (req, res) {
         utility.callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: updatePayload, options: {}})
           .then(updated => {
             if (!event.message.is_echo) {
-              utility.callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: {$inc: { unreadCount: 1 }}, options: {}})
+              utility.callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: {$inc: { unreadCount: 1, messagesCount: 1 }}, options: {}})
                 .then(updated => {
                 })
                 .catch(error => {
