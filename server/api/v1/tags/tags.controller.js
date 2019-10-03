@@ -6,6 +6,7 @@ const logger = require('../../../components/logger')
 const TAG = 'api/tags/tags.controller.js'
 const callApi = require('../utility')
 const { facebookApiCaller } = require('../../global/facebookApiCaller')
+const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
 const async = require('async')
 
 exports.index = function (req, res) {
@@ -45,6 +46,38 @@ exports.index = function (req, res) {
     })
 }
 
+function createTag (req, res, tagPayload, pages, index) {
+
+  callApi.callApi('tags/', 'post', tagPayload)
+    .then(newTag => {
+      callApi.callApi('featureUsage/updateCompany', 'put', {query: {companyId: req.user.companyId}, newPayload: { $inc: { labels: 1 } }, options: {}})
+        .then(updated => {
+          logger.serverLog(TAG, `Updated Feature Usage ${JSON.stringify(updated)}`, 'debug')
+        })
+        .catch(err => {
+          if (err) {
+            logger.serverLog(TAG, `ERROR in updating Feature Usage${JSON.stringify(err)}`, 'error')
+          }
+        })
+      require('./../../../config/socketio').sendMessageToClient({
+        room_id: req.user.companyId,
+        body: {
+          action: 'new_tag',
+          payload: {
+            tag_id: newTag._id,
+            tag_name: newTag.tag
+          }
+        }
+      })
+      if (index === pages.length - 1) {
+        sendSuccessResponse(res, 200, newTag)
+      }
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, '', `Internal Server Error in saving tag${JSON.stringify(err)}`)
+    })
+}
+
 exports.create = function (req, res) {
   callApi.callApi('featureUsage/planQuery', 'post', {planId: req.user.currentPlan._id})
     .then(planUsage => {
@@ -59,84 +92,64 @@ exports.create = function (req, res) {
           // }
           callApi.callApi('pages/query', 'post', {companyId: req.user.companyId, isApproved: true})
             .then(pages => {
+              //console.log('pages in tags', pages)
               pages.forEach((page, i) => {
                 facebookApiCaller('v2.11', `me/custom_labels?access_token=${page.accessToken}`, 'post', {'name': req.body.tag})
                   .then(label => {
                     if (label.body.error) {
-                      return res.status(500).json({
-                        status: 'failed',
-                        description: `Failed to create tag on Facebook ${JSON.stringify(label.body.error)}`
-                      })
-                    }
-                    let tagPayload = {
-                      tag: req.body.tag,
-                      userId: req.user._id,
-                      companyId: req.user.companyId,
-                      pageId: page._id,
-                      labelFbId: label.body.id
-                    }
-                    callApi.callApi('tags/', 'post', tagPayload)
-                      .then(newTag => {
-                        callApi.callApi('featureUsage/updateCompany', 'put', {query: {companyId: req.user.companyId}, newPayload: { $inc: { labels: 1 } }, options: {}})
-                          .then(updated => {
-                            logger.serverLog(TAG, `Updated Feature Usage ${JSON.stringify(updated)}`)
+                      if (label.body.error.code === 100) {
+                        needle('get', `https://graph.facebook.com/v2.11/me/custom_labels?fields=name&access_token=${page.accessToken}`)
+                          .then(Tags => { 
+                            let default_tag = Tags.body.data.filter(data => data.name === req.body.tag)
+                            let tagPayload = {
+                              tag: req.body.tag,
+                              userId: req.user._id,
+                              companyId: req.user.companyId,
+                              pageId: page._id,
+                              labelFbId: default_tag[0].id
+                            }
+                            createTag(req, res, tagPayload, i)            
                           })
                           .catch(err => {
-                            if (err) {
-                              logger.serverLog(TAG, `ERROR in updating Feature Usage${JSON.stringify(err)}`)
-                            }
+                            logger.serverLog(TAG, `Error at find  tags from facebook ${err}`, 'error')
                           })
-                        require('./../../../config/socketio').sendMessageToClient({
-                          room_id: req.user.companyId,
-                          body: {
-                            action: 'new_tag',
-                            payload: {
-                              tag_id: newTag._id,
-                              tag_name: newTag.tag
-                            }
-                          }
-                        })
-                        if (i === pages.length - 1) {
-                          return res.status(201).json({status: 'success', payload: newTag})
-                        }
-                      })
-                      .catch(err => {
-                        return res.status(500).json({
-                          status: 'failed',
-                          description: `Internal Server Error in saving tag${JSON.stringify(err)}`
-                        })
-                      })
+                      }
+                      else {
+                        console.log('Not created tag page', page.pageName)
+                        sendOpAlert(label.body.error, 'tags controller in kiboengage', page._id, page.userId, page.companyId)
+                        sendErrorResponse(res, 500, '', `Failed to create tag on Facebook ${JSON.stringify(label.body.error)}`)
+                      }
+                    }
+                    else {
+                      console.log('created tag page', page.pageName)
+                      let tagPayload = {
+                        tag: req.body.tag,
+                        userId: req.user._id,
+                        companyId: req.user.companyId,
+                        pageId: page._id,
+                        labelFbId: label.body.id
+                      }
+                      createTag(req, res, tagPayload, i)            
+                    }
                   })
                   .catch(err => {
-                    return res.status(500).json({
-                      status: 'failed',
-                      description: `Internal Server Error in saving tag${JSON.stringify(err)}`
-                    })
+                    sendErrorResponse(res, 500, '', `Internal Server Error in saving tag${JSON.stringify(err)}`)
                   })
               })
             })
             .catch(err => {
-              return res.status(500).json({
-                status: 'failed',
-                description: `Failed to fetch connected pages ${JSON.stringify(err)}`
-              })
+              sendErrorResponse(res, 500, '', `Failed to fetch connected pages ${JSON.stringify(err)}`)
             })
         })
         .catch(err => {
           if (err) {
-            return res.status(500).json({
-              status: 'failed',
-              description: `Internal Server Error in fetching company usage ${JSON.stringify(err)}`
-            })
+            sendErrorResponse(res, 500, '', `Internal Server Error in fetching company usage ${JSON.stringify(err)}`)
           }
         })
     })
     .catch(err => {
       if (err) {
-        return res.status(500).json({
-          status: 'failed',
-          description: `Internal Server Error in fetching plan usage{JSON.stringify(err)}`
-        })
+        sendErrorResponse(`Internal Server Error in fetching plan usage ${JSON.stringify(err)}`)
       }
     })
 }
