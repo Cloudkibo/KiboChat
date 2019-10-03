@@ -15,7 +15,8 @@ exports.createPayload = {
     }
   }
 }
-exports.getPayload = {
+
+exports.openSessionsPayload = {
   'type': 'object',
   'properties': {
     'first_page': {
@@ -26,11 +27,35 @@ exports.getPayload = {
     },
     'number_of_records': {
       'type': 'integer'
+    },
+    'filter_criteria': {
+      'type': 'object',
+      'properties': {
+        'sort_value': {
+          'type': 'integer'
+        },
+        'search_value': {
+          'type': 'string'
+        },
+        'pendingResponse': {
+          'type': 'boolean'
+        },
+        'unreadCount': {
+          'type': 'boolean'
+        }
+      },
+      'required': [
+        'sort_value',
+        'search_value',
+        'pendingResponse',
+        'unreadCount'
+      ]
     }
   },
   'required': [
     'first_page',
     'last_id',
-    'number_of_records'
+    'number_of_records',
+    'filter_criteria'
   ]
 }
