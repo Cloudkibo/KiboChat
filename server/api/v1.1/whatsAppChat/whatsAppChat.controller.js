@@ -5,6 +5,98 @@ const { callApi } = require('../utility')
 const async = require('async')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
+exports.fetchOpenSessions = function (req, res) {
+  async.parallelLimit([
+    function (callback) {
+      let data = logicLayer.getCount(req, 'new')
+      console.log('data for count', data)
+      callApi('whatsAppContacts/aggregate', 'post', data)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      let data = logicLayer.getSessions(req, 'new')
+      callApi('whatsAppContacts/aggregate', 'post', data)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      let lastMessageData = logicLayer.getQueryData('', 'aggregate', {companyId: req.user.companyId}, undefined, undefined, undefined, {_id: '$contactId', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+      callApi(`whatsAppChat/query`, 'post', lastMessageData, 'kibochat')
+        .then(data => {
+          callback(null, data)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    }
+  ], 10, function (err, results) {
+    if (err) {
+      sendErrorResponse(res, 500, err)
+    } else {
+      let countResopnse = results[0]
+      console.log('countResopnse')
+      let sessionsResponse = results[1]
+      let lastMessageResponse = results[2]
+      let sessions = logicLayer.putLastMessage(lastMessageResponse, sessionsResponse)
+      sendSuccessResponse(res, 200, {openSessions: sessions, count: countResopnse.length > 0 ? countResopnse[0].count : 0})
+    }
+  })
+}
+
+exports.fetchResolvedSessions = function (req, res) {
+  async.parallelLimit([
+    function (callback) {
+      let data = logicLayer.getCount(req, 'resolved')
+      callApi('whatsAppContacts/aggregate', 'post', data)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      let data = logicLayer.getSessions(req, 'resolved')
+      callApi('whatsAppContacts/aggregate', 'post', data)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      let lastMessageData = logicLayer.getQueryData('', 'aggregate', {companyId: req.user.companyId}, undefined, undefined, undefined, {_id: '$contactId', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+      callApi(`whatsAppChat/query`, 'post', lastMessageData, 'kibochat')
+        .then(data => {
+          callback(null, data)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    }
+  ], 10, function (err, results) {
+    if (err) {
+      return res.status(500).json({status: 'failed', payload: err})
+    } else {
+      let countResopnse = results[0]
+      let sessionsResponse = results[1]
+      let lastMessageResponse = results[2]
+      let sessions = logicLayer.putLastMessage(lastMessageResponse, sessionsResponse)
+      sendSuccessResponse(res, 200, {closedSessions: sessions, count: countResopnse.length > 0 ? countResopnse[0].count : 0})
+    }
+  })
+}
+
 exports.index = function (req, res) {
   if (req.params.contactId) {
     let query = {
@@ -66,23 +158,30 @@ exports.create = function (req, res) {
           }
           callApi(`whatsAppContacts/update`, 'put', subscriberData)
             .then(updated => {
-              let accountSid = companyUser.companyId.twilioWhatsApp.accountSID
-              let authToken = companyUser.companyId.twilioWhatsApp.authToken
-              let client = require('twilio')(accountSid, authToken)
-              let messageToSend = logicLayer.prepareSendMessagePayload(req.body, companyUser, message)
-              client.messages
-                .create(messageToSend)
-                .then(response => {
-                  logger.serverLog(TAG, `response from twilio ${JSON.stringify(response)}`)
-                  sendSuccessResponse(res, 200, message)
+              subscriberData.newPayload = {$inc: { messagesCount: 1 }}
+              callApi(`whatsAppContacts/update`, 'put', subscriberData)
+                .then(updated => {
+                  let accountSid = companyUser.companyId.twilioWhatsApp.accountSID
+                  let authToken = companyUser.companyId.twilioWhatsApp.authToken
+                  let client = require('twilio')(accountSid, authToken)
+                  let messageToSend = logicLayer.prepareSendMessagePayload(req.body, companyUser, message)
+                  client.messages
+                    .create(messageToSend)
+                    .then(response => {
+                      logger.serverLog(TAG, `response from twilio ${JSON.stringify(response)}`)
+                      sendSuccessResponse(res, 200, message)
+                    })
+                    .catch(error => {
+                      sendErrorResponse(res, 500, `Failed to send message ${JSON.stringify(error)}`)
+                    })
                 })
                 .catch(error => {
-                  sendErrorResponse(res, 500, `Failed to send message ${JSON.stringify(error)}`)
+                  sendErrorResponse(res, 500, `Failed to update contact ${JSON.stringify(error)}`)
                 })
-            })
-            .catch(error => {
-              sendErrorResponse(res, 500, `Failed to update contact ${JSON.stringify(error)}`)
-            })
+              })
+              .catch(error => {
+                sendErrorResponse(res, 500, `Failed to update contact ${JSON.stringify(error)}`)
+              })
         })
         .catch(error => {
           sendErrorResponse(res, 500, `Failed to create smsChat ${JSON.stringify(error)}`)
@@ -91,62 +190,6 @@ exports.create = function (req, res) {
     .catch(error => {
       sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
-}
-exports.fetchSessions = function (req, res) {
-  async.parallelLimit([
-    function (callback) {
-      let data = logicLayer.getCount(req)
-      callApi('whatsAppContacts/aggregate', 'post', data)
-        .then(result => {
-          callback(null, result)
-        })
-        .catch(err => {
-          callback(err)
-        })
-    },
-    function (callback) {
-      let data = logicLayer.getSessions(req)
-      callApi('whatsAppContacts/aggregate', 'post', data)
-        .then(result => {
-          callback(null, result)
-        })
-        .catch(err => {
-          callback(err)
-        })
-    },
-    function (callback) {
-      let unreadCountData = logicLayer.getQueryData('', 'aggregate', {companyId: req.user.companyId.toString(), status: 'unseen'}, undefined, undefined, undefined, {_id: '$contactId', count: {$sum: 1}})
-      callApi('whatsAppChat/query', 'post', unreadCountData, 'kibochat')
-        .then(data => {
-          callback(null, data)
-        })
-        .catch(err => {
-          callback(err)
-        })
-    },
-    function (callback) {
-      let lastMessageData = logicLayer.getQueryData('', 'aggregate', {companyId: req.user.companyId}, undefined, undefined, undefined, {_id: '$contactId', payload: { $last: '$payload' }, repliedBy: { $last: '$repliedBy' }, datetime: { $last: '$datetime' }})
-      callApi(`whatsAppChat/query`, 'post', lastMessageData, 'kibochat')
-        .then(data => {
-          callback(null, data)
-        })
-        .catch(err => {
-          callback(err)
-        })
-    }
-  ], 10, function (err, results) {
-    if (err) {
-      sendErrorResponse(res, 500, err)
-    } else {
-      let countResopnse = results[0]
-      let sessionsResponse = results[1]
-      let chatCountResponse = results[2]
-      let lastMessageResponse = results[3]
-      let sessionsWithUnreadCount = logicLayer.putUnreadCount(chatCountResponse, sessionsResponse)
-      let sessions = logicLayer.putLastMessage(lastMessageResponse, sessionsWithUnreadCount)
-      sendSuccessResponse(res, 200, {sessions: sessions, count: countResopnse.length > 0 ? countResopnse[0].count : 0})
-    }
-  })
 }
 exports.markread = function (req, res) {
   if (req.params.id) {
@@ -167,10 +210,16 @@ exports.markread = function (req, res) {
 }
 
 function markreadLocal (req, callback) {
-  let updateData = logicLayer.getUpdateData('updateAll', {contactId: req.params.id}, {status: 'seen', seenDateTime: Date.now}, false, true)
-  callApi('whatsAppChat', 'put', updateData, 'kibochat')
-    .then(updated => {
-      callback(null, updated)
+  callApi('whatsAppContacts/update', 'put', {query: {_id: req.params.id}, newPayload: {unreadCount: 0}, options: {}}, 'accounts', req.headers.authorization)
+    .then(subscriber => {
+      let updateData = logicLayer.getUpdateData('updateAll', {contactId: req.params.id}, {status: 'seen', seenDateTime: Date.now}, false, true)
+      callApi('whatsAppChat', 'put', updateData, 'kibochat')
+        .then(updated => {
+          callback(null, updated)
+        })
+        .catch(err => {
+          callback(err)
+        })
     })
     .catch(err => {
       callback(err)
