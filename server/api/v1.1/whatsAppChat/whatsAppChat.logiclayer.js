@@ -24,56 +24,28 @@ exports.prepareSendMessagePayload = (body, companyUser, message) => {
   }
   return MessageObject
 }
-exports.getCount = (req, status) => {
+exports.getCount = (req) => {
   let aggregateData = [
-    { $match: {'companyId': req.user.companyId} },
-    { $project: {
-      name: 1,
-      companyId: 1,
-      isSubscribed: 1,
-      status: 1,
-      pendingResponse: 1,
-      unreadCount: 1} },
     { $match: {
+      'companyId': req.user.companyId,
       'isSubscribed': true,
-      'status': status,
-      'name': {$regex: '.*' + req.body.filter_criteria.search_value + '.*', $options: 'i'},
-      'pendingResponse': req.body.filter_criteria.pendingResponse ? req.body.filter_criteria.pendingResponse : {$exists: true},
-      'unreadCount': req.body.filter_criteria.unreadMessages ? { $gt: 0 } : {$exists: true}
+      'hasChat': true,
+      'name': {$regex: '.*' + req.body.filter_criteria.search_value + '.*', $options: 'i'}
     } },
     { $group: {_id: null, count: { $sum: 1 }} }
   ]
   return aggregateData
 }
-
-exports.getSessions = (req, status) => {
+exports.getSessions = (req) => {
   let aggregateData = [
-    { $match: {'companyId': req.user.companyId} },
-    { $project: {
-      name: 1,
-      companyId: 1,
-      isSubscribed: 1,
-      status: 1,
-      last_activity_time: 1,
-      _id: 1,
-      profilePic: 1,
-      senderId: 1,
-      gender: 1,
-      locale: 1,
-      is_assigned: 1,
-      assigned_to: 1,
-      pendingResponse: 1,
-      unreadCount: 1} },
-    { $sort: {last_activity_time: req.body.filter_criteria.sort_value} },
     { $match: {
+      'companyId': req.user.companyId,
       'isSubscribed': true,
-      'status': status,
+      'hasChat': true,
       'name': {$regex: '.*' + req.body.filter_criteria.search_value + '.*', $options: 'i'},
-      'last_activity_time': req.body.first_page ? {$exists: true} : req.body.filter_criteria.sort_value === -1 ? {$lt: req.body.last_id} : {$gt: req.body.last_id},
-      'pendingResponse': req.body.filter_criteria.pendingResponse ? req.body.filter_criteria.pendingResponse : {$exists: true},
-      'unreadCount': req.body.filter_criteria.unreadMessages ? { $gt: 0 } : {$exists: true}
+      '_id': req.body.first_page ? {$exists: true} : {$gt: req.body.last_id}
     } },
-    { $limit: req.body.number_of_records }
+    { $sort: {last_activity_time: req.body.filter_criteria.sort_value} }
   ]
   return aggregateData
 }
@@ -95,12 +67,27 @@ exports.getQueryData = (type, purpose, match, skip, sort, limit, group) => {
     }
   }
 }
+exports.putUnreadCount = (gotUnreadCount, subscribers) => {
+  let temp = []
+  for (let i = 0; i < subscribers.length; i++) {
+    temp.push(appendUnreadCountData(gotUnreadCount, subscribers[i]))
+  }
+  return temp
+}
 exports.putLastMessage = (gotLastMessage, subscribers) => {
   let temp = []
   for (let i = 0; i < subscribers.length; i++) {
     temp.push(appendLastMessageData(gotLastMessage, subscribers[i]))
   }
   return temp
+}
+const appendUnreadCountData = (gotUnreadCount, subscriber) => {
+  for (let i = 0; i < gotUnreadCount.length; i++) {
+    if (subscriber._id.toString() === gotUnreadCount[i]._id.toString()) {
+      subscriber.unreadCount = gotUnreadCount[i].count
+    }
+  }
+  return subscriber
 }
 const appendLastMessageData = (gotLastMessage, subscriber) => {
   for (let a = 0; a < gotLastMessage.length; a++) {

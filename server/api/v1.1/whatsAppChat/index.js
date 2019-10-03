@@ -12,15 +12,10 @@ router.post('/',
   validate({body: validationSchema.createPayload}),
   controller.create)
 
-router.post('/getOpenSessions',
+router.post('/getSessions',
   auth.isAuthenticated(),
-  validate({body: validationSchema.openSessionsPayload}),
-  controller.fetchOpenSessions)
-
-router.post('/getClosedSessions',
-  auth.isAuthenticated(),
-  validate({body: validationSchema.openSessionsPayload}),
-  controller.fetchResolvedSessions)
+  validate({body: validationSchema.getPayload}),
+  controller.fetchSessions)
 
 router.post('/getChat/:contactId',
   auth.isAuthenticated(),
