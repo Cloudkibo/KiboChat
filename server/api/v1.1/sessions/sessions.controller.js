@@ -56,7 +56,7 @@ exports.fetchResolvedSessions = function (req, res) {
   async.parallelLimit([
     function (callback) {
       let data = logicLayer.getCount(req, 'resolved')
-      callApi('whatsAppContacts/aggregate', 'post', data)
+      callApi('subscribers/aggregate', 'post', data)
         .then(result => {
           callback(null, result)
         })
@@ -66,7 +66,7 @@ exports.fetchResolvedSessions = function (req, res) {
     },
     function (callback) {
       let data = logicLayer.getSessions(req, 'resolved')
-      callApi('whatsAppContacts/aggregate', 'post', data)
+      callApi('subscribers/aggregate', 'post', data)
         .then(result => {
           callback(null, result)
         })
@@ -75,8 +75,8 @@ exports.fetchResolvedSessions = function (req, res) {
         })
     },
     function (callback) {
-      let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId}, undefined, undefined, undefined, {_id: '$contactId', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
-      callApi(`whatsAppChat/query`, 'post', lastMessageData, 'kibochat')
+      let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId}, undefined, undefined, undefined, {_id: '$subscriber_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+      callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
         .then(data => {
           callback(null, data)
         })
