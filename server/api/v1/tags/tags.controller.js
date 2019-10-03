@@ -5,6 +5,7 @@
 const logger = require('../../../components/logger')
 const TAG = 'api/tags/tags.controller.js'
 const callApi = require('../utility')
+const needle = require('needle')
 const { facebookApiCaller } = require('../../global/facebookApiCaller')
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
 const async = require('async')
@@ -77,7 +78,6 @@ function createTag (req, res, tagPayload, pages, index) {
       sendErrorResponse(res, 500, '', `Internal Server Error in saving tag${JSON.stringify(err)}`)
     })
 }
-
 exports.create = function (req, res) {
   callApi.callApi('featureUsage/planQuery', 'post', {planId: req.user.currentPlan._id})
     .then(planUsage => {
@@ -108,7 +108,7 @@ exports.create = function (req, res) {
                               pageId: page._id,
                               labelFbId: default_tag[0].id
                             }
-                            createTag(req, res, tagPayload, i)            
+                            createTag(req, res, tagPayload, pages, i)            
                           })
                           .catch(err => {
                             logger.serverLog(TAG, `Error at find  tags from facebook ${err}`, 'error')
@@ -116,7 +116,7 @@ exports.create = function (req, res) {
                       }
                       else {
                         console.log('Not created tag page', page.pageName)
-                        sendOpAlert(label.body.error, 'tags controller in kiboengage', page._id, page.userId, page.companyId)
+                       // sendOpAlert(label.body.error, 'tags controller in kiboengage', page._id, page.userId, page.companyId)
                         sendErrorResponse(res, 500, '', `Failed to create tag on Facebook ${JSON.stringify(label.body.error)}`)
                       }
                     }
@@ -129,7 +129,7 @@ exports.create = function (req, res) {
                         pageId: page._id,
                         labelFbId: label.body.id
                       }
-                      createTag(req, res, tagPayload, i)            
+                      createTag(req, res, tagPayload, pages, i)            
                     }
                   })
                   .catch(err => {
