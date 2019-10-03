@@ -7,7 +7,8 @@
     "start": "cross-env DEBUG=project:* NODE_ENV=development nodemon --trace-warnings server/app.js",
     "debug": "cross-env DEBUG=express:router:route,express:application,project:* NODE_ENV=development nodemon --trace-sync-io server/app.js",
     "lint": "echo 'Pre-commit checks...' && standard --fix && echo \"No code style errors found.\"",
-    "test": "echo \"TDD is not implemented yet \" && exit 0"
+    "test": "cross-env DEBUG=kibochat:* NODE_ENV=testing jest  --coverage",
+    "test:watch": "cross-env DEBUG=kibochat:* NODE_ENV=testing jest --watch"
   },
   "pre-commit": [
     "lint",
@@ -70,9 +71,11 @@
   "devDependencies": {
     "babel-eslint": "^8.2.6",
     "cross-env": "^5.2.0",
+    "jest": "^24.9.0",
     "nodemon": "^1.18.3",
     "pre-commit": "^1.2.2",
-    "standard": "^11.0.1"
+    "standard": "^11.0.1",
+    "supertest": "^4.0.2"
   },
   "nodemonConfig": {
     "ignore": [
