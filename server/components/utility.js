@@ -1,7 +1,5 @@
 const logger = require('./logger')
 const TAG = 'components/utility.js'
-const config = require('./../config/environment')
-const axios = require('axios')
 
 logger.serverLog(TAG, 'Server UtilityJS Called: ')
 
