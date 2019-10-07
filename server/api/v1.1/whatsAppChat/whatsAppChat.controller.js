@@ -146,6 +146,71 @@ exports.create = function (req, res) {
       if (!companyUser) {
         sendErrorResponse(res, 404, '', 'The user account does not belong to any company. Please contact support')
       }
+      let subscriberData = {
+        query: {_id: req.body.contactId},
+        newPayload: {last_activity_time: Date.now()},
+        options: {}
+      }
+      let MessageObject = logicLayer.prepareChat(req.body, companyUser)
+      // Create Message Object
+      callApi(`whatsAppChat`, 'post', MessageObject, 'kibochat')
+        .then(message => {
+          async.parallelLimit([
+            function (callback) {
+              callApi(`whatsAppContacts/update`, 'put', subscriberData)
+                .then(updated => {
+                  callback(null, updated)
+                })
+                .catch(error => {
+                  callback(error)
+                })
+            },
+            function (callback) {
+              subscriberData.newPayload = {$inc: { messagesCount: 1 }}
+              callApi(`whatsAppContacts/update`, 'put', subscriberData)
+                .then(updated => {
+                  callback(null, updated)
+                })
+                .catch(error => {
+                  callback(error)
+                })
+            },
+            function (callback) {
+              let accountSid = companyUser.companyId.twilioWhatsApp.accountSID
+              let authToken = companyUser.companyId.twilioWhatsApp.authToken
+              let client = require('twilio')(accountSid, authToken)
+              let messageToSend = logicLayer.prepareSendMessagePayload(req.body, companyUser, message)
+              client.messages
+                .create(messageToSend)
+                .then(response => {
+                  callback(null, message)
+                })
+                .catch(error => {
+                  sendErrorResponse(res, 500, `Failed to send message ${JSON.stringify(error)}`)
+                })
+            }
+          ], 10, function (err, results) {
+            if (err) {
+              sendErrorResponse(res, 500, `Failed to send message ${JSON.stringify(err)}`)
+            } else {
+              sendSuccessResponse(res, 200, message)
+            }
+          })
+        })
+        .catch(error => {
+          sendErrorResponse(res, 500, `Failed to save message ${JSON.stringify(error)}`)
+        })
+    })
+    .catch(error => {
+      sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
+    })
+}
+exports.create = function (req, res) {
+  callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email, populate: 'companyId' })
+    .then(companyUser => {
+      if (!companyUser) {
+        sendErrorResponse(res, 404, '', 'The user account does not belong to any company. Please contact support')
+      }
       let MessageObject = logicLayer.prepareChat(req.body, companyUser)
       callApi(`whatsAppChat`, 'post', MessageObject, 'kibochat')
         .then(message => {

@@ -32,9 +32,7 @@ exports.index = function (req, res) {
 }
 function storeChat (from, to, contact, messageData) {
   for (let i = 0; i < messageData.length; i++) {
-    console.log('messageData[i]', messageData[i])
     let chatPayload = logicLayer.prepareChat(from, to, contact, messageData[i])
-    console.log('chatPayload', chatPayload)
     callApi(`whatsAppChat`, 'post', chatPayload, 'kibochat')
       .then(message => {
         require('./../../../config/socketio').sendMessageToClient({
