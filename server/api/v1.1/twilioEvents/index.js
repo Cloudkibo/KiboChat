@@ -14,7 +14,7 @@ router.post('/',
 
 // WhatsApp
 router.post('/whatsAppMessage',
-  validate({body: validationSchema.payload}),
+  validate({body: validationSchema.payloadForWhatsApp}),
   whatsAppController.index)
 
 module.exports = router

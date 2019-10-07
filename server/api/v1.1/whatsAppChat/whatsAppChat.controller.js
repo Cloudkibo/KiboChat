@@ -176,10 +176,10 @@ exports.create = function (req, res) {
                 .catch(error => {
                   sendErrorResponse(res, 500, `Failed to update contact ${JSON.stringify(error)}`)
                 })
-              })
-              .catch(error => {
-                sendErrorResponse(res, 500, `Failed to update contact ${JSON.stringify(error)}`)
-              })
+            })
+            .catch(error => {
+              sendErrorResponse(res, 500, `Failed to update contact ${JSON.stringify(error)}`)
+            })
         })
         .catch(error => {
           sendErrorResponse(res, 500, `Failed to create smsChat ${JSON.stringify(error)}`)
@@ -191,35 +191,67 @@ exports.create = function (req, res) {
 }
 exports.markread = function (req, res) {
   if (req.params.id) {
-    async.parallelLimit([
-      function (callback) {
-        markreadLocal(req, callback)
-      }
-    ], 10, function (err, results) {
-      if (err) {
+    callApi('whatsAppContacts/update', 'put', {query: {_id: req.params.id}, newPayload: {unreadCount: 0}, options: {}}, 'accounts', req.headers.authorization)
+      .then(subscriber => {
+        let updateData = logicLayer.getUpdateData('updateAll', {contactId: req.params.id}, {status: 'seen', seenDateTime: Date.now}, false, true)
+        callApi('whatsAppChat', 'put', updateData, 'kibochat')
+          .then(updated => {
+            sendSuccessResponse(res, 200, 'Chat has been marked read successfully!')
+          })
+          .catch(err => {
+            sendErrorResponse(res, 500, err)
+          })
+      })
+      .catch(err => {
         sendErrorResponse(res, 500, err)
-      } else {
-        sendSuccessResponse(res, 200, 'Chat has been marked read successfully!')
-      }
-    })
+      })
   } else {
     sendErrorResponse(res, 400, 'Parameter subscriber_id is required!')
   }
 }
-
-function markreadLocal (req, callback) {
-  callApi('whatsAppContacts/update', 'put', {query: {_id: req.params.id}, newPayload: {unreadCount: 0}, options: {}}, 'accounts', req.headers.authorization)
-    .then(subscriber => {
-      let updateData = logicLayer.getUpdateData('updateAll', {contactId: req.params.id}, {status: 'seen', seenDateTime: Date.now}, false, true)
-      callApi('whatsAppChat', 'put', updateData, 'kibochat')
-        .then(updated => {
-          callback(null, updated)
-        })
-        .catch(err => {
-          callback(err)
-        })
+exports.changeStatus = function (req, res) {
+  callApi('whatsAppContacts/update', 'put', {query: {_id: req.body._id}, newPayload: {status: req.body.status}, options: {}})
+    .then(updated => {
+      require('./../../../config/socketio').sendMessageToClient({
+        room_id: req.user.companyId,
+        body: {
+          action: 'whatsApp_session_status',
+          payload: {
+            session_id: req.body._id,
+            user_id: req.user._id,
+            user_name: req.user.name,
+            status: req.body.status
+          }
+        }
+      })
+      sendSuccessResponse(res, 200, 'Status has been updated successfully!')
     })
     .catch(err => {
-      callback(err)
+      sendErrorResponse(res, 500, err)
+    })
+}
+exports.updatePendingResponse = function (req, res) {
+  callApi('whatsAppContacts/update', 'put', {
+    query: {_id: req.body.id},
+    newPayload: {pendingResponse: req.body.pendingResponse},
+    options: {}
+  })
+    .then(updated => {
+      require('./../../../config/socketio').sendMessageToClient({
+        room_id: req.user.companyId,
+        body: {
+          action: 'whatsApp_session_pending_response',
+          payload: {
+            session_id: req.body.id,
+            user_id: req.user._id,
+            user_name: req.user.name,
+            pendingResponse: req.body.pendingResponse
+          }
+        }
+      })
+      sendSuccessResponse(res, 200, 'Pending Response updates successfully')
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, err)
     })
 }

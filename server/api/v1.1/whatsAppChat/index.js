@@ -30,4 +30,14 @@ router.get('/markread/:id',
   auth.isAuthenticated(),
   controller.markread)
 
+router.post('/changeStatus',
+  auth.isAuthenticated(),
+  validate({body: validationSchema.changeStatusPayload}),
+  controller.changeStatus)
+
+router.post('/updatePendingResponse',
+  auth.isAuthenticated(),
+  validate({body: validationSchema.updatePendingResponsePayload}),
+  controller.updatePendingResponse)
+
 module.exports = router

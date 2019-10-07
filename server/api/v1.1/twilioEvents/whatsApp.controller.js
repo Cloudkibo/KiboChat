@@ -8,25 +8,17 @@ exports.index = function (req, res) {
     status: 'success',
     description: `received the payload`
   })
-  let from = req.body.From.substring(9)
-  let to = req.body.To.substring(9)
-  callApi(`companyprofile/query`, 'post', {'twilioWhatsApp.accountSID': req.body.AccountSid})
+  let from = req.body.payload.From.substring(9)
+  let to = req.body.payload.To.substring(9)
+  callApi(`companyprofile/query`, 'post', {'twilioWhatsApp.accountSID': req.body.paylaod.AccountSid})
     .then(company => {
       callApi(`whatsAppContacts/query`, 'post', {number: from, companyId: company._id})
         .then(contact => {
           if (contact.length > 0) {
             contact = contact[0]
-            if (contact.isSubscribed || req.body.Body.toLowerCase() === 'start') {
-              storeChat(from, to, req.body, contact, company)
+            if (contact.isSubscribed || req.body.payload.Body.toLowerCase() === 'start') {
+              storeChat(from, to, req.body.payload, contact, company)
             }
-          } else {
-            callApi(`whatsAppContacts`, 'post', {
-              name: from,
-              number: from,
-              companyId: company._id})
-              .then(contact => {
-                storeChat(from, to, req.body, contact, company)
-              })
           }
         })
         .catch(error => {
