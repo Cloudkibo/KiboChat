@@ -8,71 +8,48 @@ exports.index = function (req, res) {
     status: 'success',
     description: `received the payload`
   })
-  let from = req.body.payload.From.substring(9)
-  let to = req.body.payload.To.substring(9)
-  callApi(`companyprofile/query`, 'post', {'twilioWhatsApp.accountSID': req.body.paylaod.AccountSid})
-    .then(company => {
-      callApi(`whatsAppContacts/query`, 'post', {number: from, companyId: company._id})
-        .then(contact => {
-          if (contact.length > 0) {
+  let messageData = logicLayer.getPayload(req.body.payload)
+  if (messageData.length > 0) {
+    let from = req.body.payload.From.substring(9)
+    let to = req.body.payload.To.substring(9)
+    callApi(`companyprofile/query`, 'post', {'twilioWhatsApp.accountSID': req.body.payload.AccountSid})
+      .then(company => {
+        callApi(`whatsAppContacts/query`, 'post', {number: from, companyId: company._id})
+          .then(contact => {
             contact = contact[0]
-            if (contact.isSubscribed || req.body.payload.Body.toLowerCase() === 'start') {
-              storeChat(from, to, req.body.payload, contact, company)
+            if (contact && (contact.isSubscribed || req.body.payload.Body.toLowerCase() === 'start')) {
+              storeChat(from, to, contact, messageData)
             }
+          })
+          .catch(error => {
+            logger.serverLog(TAG, `Failed to fetch contact ${JSON.stringify(error)}`, 'error')
+          })
+      })
+      .catch(error => {
+        logger.serverLog(TAG, `Failed to company profile ${JSON.stringify(error)}`, 'error')
+      })
+  }
+}
+function storeChat (from, to, contact, messageData) {
+  for (let i = 0; i < messageData.length; i++) {
+    console.log('messageData[i]', messageData[i])
+    let chatPayload = logicLayer.prepareChat(from, to, contact, messageData[i])
+    console.log('chatPayload', chatPayload)
+    callApi(`whatsAppChat`, 'post', chatPayload, 'kibochat')
+      .then(message => {
+        require('./../../../config/socketio').sendMessageToClient({
+          room_id: contact.companyId,
+          body: {
+            action: 'new_chat_whatsapp',
+            payload: message
           }
         })
-        .catch(error => {
-          logger.serverLog(TAG, `Failed to fetch contact ${JSON.stringify(error)}`, 'error')
-        })
-    })
-    .catch(error => {
-      logger.serverLog(TAG, `Failed to company profile ${JSON.stringify(error)}`, 'error')
-    })
-}
-function storeChat (from, to, body, contact, company) {
-  callApi(`user/query`, 'post', {_id: company.ownerId})
-    .then(user => {
-      user = user[0]
-      let messageData = logicLayer.prepareChat(from, to, body, contact)
-      callApi(`whatsAppChat`, 'post', messageData.messageObject, 'kibochat')
-        .then(message => {
-          require('./../../../config/socketio').sendMessageToClient({
-            room_id: contact.companyId,
-            body: {
-              action: 'new_chat_whatsapp',
-              payload: message
-            }
-          })
-          let query = {_id: contact._id}
-          let updatePayload = {last_activity_time: Date.now(), status: 'new', pendingResponse: true}
-          let incrementPayload = {$inc: { unreadCount: 1, messagesCount: 1 }}
-          updateWhatsAppContact(query, updatePayload, incrementPayload, {})
-        })
-      if (messageData.otherPayload) {
-        callApi(`whatsAppChat`, 'post', messageData.otherPayload, 'kibochat')
-          .then(message => {
-            let subscriberData = {
-              query: {_id: contact._id},
-              newPayload: {last_activity_time: Date.now(), hasChat: true},
-              options: {}
-            }
-            callApi(`whatsAppContacts/update`, 'put', subscriberData)
-              .then(updated => {
-              })
-              .catch(error => {
-                logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`, 'error')
-              })
-          })
-      }
-      if (body.Body !== '' && (body.Body.toLowerCase() === 'unsubscribe' || body.Body.toLowerCase() === 'stop')) {
-        handleUnsubscribe(contact, company, user)
-      } else if (body.Body !== '' && body.Body.toLowerCase() === 'start' && !contact.isSubscribed) {
-        handleSubscribe(contact, company, user)
-      }
-    })
-    .catch(error => {
-      logger.serverLog(TAG, `Failed to fetch user ${error}`, 'error')
-    })
+        let query = {_id: contact._id}
+        let updatePayload = {last_activity_time: Date.now(), status: 'new', pendingResponse: true}
+        let incrementPayload = {$inc: { unreadCount: 1, messagesCount: 1 }}
+        updateWhatsAppContact(query, updatePayload, incrementPayload, {})
+      })
+  }
 }
 
 function handleUnsubscribe (contact, company, user) {
