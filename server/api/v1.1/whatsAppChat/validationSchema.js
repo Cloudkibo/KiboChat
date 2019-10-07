@@ -59,3 +59,33 @@ exports.openSessionsPayload = {
     'filter_criteria'
   ]
 }
+exports.changeStatusPayload = {
+  'type': 'object',
+  'properties': {
+    '_id': {
+      'type': 'string'
+    },
+    'status': {
+      'type': 'string'
+    }
+  },
+  'required': [
+    '_id',
+    'status'
+  ]
+}
+exports.updatePendingResponsePayload = {
+  'type': 'object',
+  'properties': {
+    'id': {
+      'type': 'string'
+    },
+    'pendingResponse': {
+      'type': 'boolean'
+    }
+  },
+  'required': [
+    'id',
+    'pendingResponse'
+  ]
+}
