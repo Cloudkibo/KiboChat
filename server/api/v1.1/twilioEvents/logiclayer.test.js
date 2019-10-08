@@ -1,4 +1,4 @@
-const { getPayload, prepareChat } = require('./utility.js')
+const { getPayload, prepareChat } = require('./logiclayer.js')
 
 describe('Validate getPayload', () => {
   test('give payload of componentType file', () => {
