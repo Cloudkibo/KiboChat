@@ -2,16 +2,19 @@
 
 const express = require('express')
 const router = express.Router()
-const controller = require('./controller')
+const smsController = require('./sms.controller')
+const whatsAppController = require('./whatsApp.controller')
 const validate = require('express-jsonschema').validate
 const validationSchema = require('./validationSchema')
 
+// SMS
 router.post('/',
   validate({body: validationSchema.payload}),
-  controller.index)
+  smsController.index)
 
-router.post('/whatsApp',
-  validate({body: validationSchema.payload}),
-  controller.whatsApp)
+// WhatsApp
+router.post('/whatsAppMessage',
+  validate({body: validationSchema.payloadForWhatsApp}),
+  whatsAppController.index)
 
 module.exports = router

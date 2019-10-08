@@ -12,10 +12,15 @@ router.post('/',
   validate({body: validationSchema.createPayload}),
   controller.create)
 
-router.post('/getSessions',
+router.post('/getOpenSessions',
   auth.isAuthenticated(),
-  validate({body: validationSchema.getPayload}),
-  controller.fetchSessions)
+  validate({body: validationSchema.openSessionsPayload}),
+  controller.fetchOpenSessions)
+
+router.post('/getClosedSessions',
+  auth.isAuthenticated(),
+  validate({body: validationSchema.openSessionsPayload}),
+  controller.fetchResolvedSessions)
 
 router.post('/getChat/:contactId',
   auth.isAuthenticated(),
@@ -24,5 +29,25 @@ router.post('/getChat/:contactId',
 router.get('/markread/:id',
   auth.isAuthenticated(),
   controller.markread)
+
+router.post('/changeStatus',
+  auth.isAuthenticated(),
+  validate({body: validationSchema.changeStatusPayload}),
+  controller.changeStatus)
+
+router.post('/updatePendingResponse',
+  auth.isAuthenticated(),
+  validate({body: validationSchema.updatePendingResponsePayload}),
+  controller.updatePendingResponse)
+
+router.post('/search',
+  auth.isAuthenticated(),
+  validate({body: validationSchema.searchPayload}),
+  controller.search)
+
+router.post('/assignTeam',
+  auth.isAuthenticated(),
+  validate({body: validationSchema.assignTeamPayload}),
+  controller.assignTeam)
 
 module.exports = router

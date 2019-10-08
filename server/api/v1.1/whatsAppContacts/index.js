@@ -14,4 +14,8 @@ router.post('/update/:id',
   auth.isAuthenticated(),
   controller.update)
 
+router.get('/unSubscribe/:id',
+  auth.isAuthenticated(),
+  controller.unSubscribe)
+
 module.exports = router
