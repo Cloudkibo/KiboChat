@@ -40,4 +40,14 @@ router.post('/updatePendingResponse',
   validate({body: validationSchema.updatePendingResponsePayload}),
   controller.updatePendingResponse)
 
+router.post('/search',
+  auth.isAuthenticated(),
+  validate({body: validationSchema.searchPayload}),
+  controller.search)
+
+router.post('/assignTeam',
+  auth.isAuthenticated(),
+  validate({body: validationSchema.assignTeamPayload}),
+  controller.assignTeam)
+
 module.exports = router

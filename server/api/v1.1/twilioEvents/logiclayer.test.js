@@ -117,6 +117,6 @@ describe('Validate prepareChat', () => {
       status: 'unseen',
       format: 'twilio'
     }
-    expect(getPayload('+923322846899', '+14155238886', {_id: '5d95c34e1de5a52fff402231', companyId: '5aa10cdf46b4591f60e6b50c'}, {componentType: 'text', text: 'Bee'})).toEqual(output)
+    expect(prepareChat('+923322846899', '+14155238886', {_id: '5d95c34e1de5a52fff402231', companyId: '5aa10cdf46b4591f60e6b50c'}, {componentType: 'text', text: 'Bee'})).toEqual(output)
   })
 })

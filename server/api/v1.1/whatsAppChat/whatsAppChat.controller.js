@@ -320,3 +320,47 @@ exports.updatePendingResponse = function (req, res) {
       sendErrorResponse(res, 500, err)
     })
 }
+exports.search = function (req, res) {
+  let searchData = { contactId: req.body.subscriber_id, companyId: req.user.companyId, $text: { $search: req.body.text } }
+  callApi(`whatsAppChat/search`, 'post', searchData, 'kibochat')
+    .then(chats => {
+      sendSuccessResponse(res, 200, chats)
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, '', err)
+    })
+}
+exports.assignTeam = function (req, res) {
+  let assignedTo = {
+    type: 'team',
+    id: req.body.teamId,
+    name: req.body.teamName
+  }
+  callApi(
+    'whatsAppContacts/update',
+    'put',
+    {
+      query: {_id: req.body.subscriberId},
+      newPayload: {assigned_to: assignedTo, is_assigned: req.body.isAssigned},
+      options: {}
+    }
+  )
+    .then(updated => {
+      require('./../../../config/socketio').sendMessageToClient({
+        room_id: req.user.companyId,
+        body: {
+          action: 'session_assign_whatsapp',
+          payload: {
+            session_id: req.body.subscriberId,
+            user_id: req.user._id,
+            user_name: req.user.name,
+            assigned_to: assignedTo
+          }
+        }
+      })
+      sendSuccessResponse(res, 200, 'Team has been assigned successfully!')
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, err)
+    })
+}

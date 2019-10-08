@@ -89,3 +89,39 @@ exports.updatePendingResponsePayload = {
     'pendingResponse'
   ]
 }
+exports.searchPayload = {
+  type: 'object',
+  properties: {
+    subscriber_id: {
+      type: 'string',
+      required: true
+    },
+    text: {
+      type: 'string',
+      required: true
+    }
+  }
+}
+exports.assignTeamPayload = {
+  'type': 'object',
+  'properties': {
+    'teamId': {
+      'type': 'string'
+    },
+    'teamName': {
+      'type': 'string'
+    },
+    'subscriberId': {
+      'type': 'string'
+    },
+    'isAssigned': {
+      'type': 'boolean'
+    }
+  },
+  'required': [
+    'teamId',
+    'teamName',
+    'subscriberId',
+    'isAssigned'
+  ]
+}
