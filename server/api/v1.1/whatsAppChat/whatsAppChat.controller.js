@@ -146,6 +146,71 @@ exports.create = function (req, res) {
       if (!companyUser) {
         sendErrorResponse(res, 404, '', 'The user account does not belong to any company. Please contact support')
       }
+      let subscriberData = {
+        query: {_id: req.body.contactId},
+        newPayload: {last_activity_time: Date.now()},
+        options: {}
+      }
+      let MessageObject = logicLayer.prepareChat(req.body, companyUser)
+      // Create Message Object
+      callApi(`whatsAppChat`, 'post', MessageObject, 'kibochat')
+        .then(message => {
+          async.parallelLimit([
+            function (callback) {
+              callApi(`whatsAppContacts/update`, 'put', subscriberData)
+                .then(updated => {
+                  callback(null, updated)
+                })
+                .catch(error => {
+                  callback(error)
+                })
+            },
+            function (callback) {
+              subscriberData.newPayload = {$inc: { messagesCount: 1 }}
+              callApi(`whatsAppContacts/update`, 'put', subscriberData)
+                .then(updated => {
+                  callback(null, updated)
+                })
+                .catch(error => {
+                  callback(error)
+                })
+            },
+            function (callback) {
+              let accountSid = companyUser.companyId.twilioWhatsApp.accountSID
+              let authToken = companyUser.companyId.twilioWhatsApp.authToken
+              let client = require('twilio')(accountSid, authToken)
+              let messageToSend = logicLayer.prepareSendMessagePayload(req.body, companyUser, message)
+              client.messages
+                .create(messageToSend)
+                .then(response => {
+                  callback(null, message)
+                })
+                .catch(error => {
+                  sendErrorResponse(res, 500, `Failed to send message ${JSON.stringify(error)}`)
+                })
+            }
+          ], 10, function (err, results) {
+            if (err) {
+              sendErrorResponse(res, 500, `Failed to send message ${JSON.stringify(err)}`)
+            } else {
+              sendSuccessResponse(res, 200, message)
+            }
+          })
+        })
+        .catch(error => {
+          sendErrorResponse(res, 500, `Failed to save message ${JSON.stringify(error)}`)
+        })
+    })
+    .catch(error => {
+      sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
+    })
+}
+exports.create = function (req, res) {
+  callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email, populate: 'companyId' })
+    .then(companyUser => {
+      if (!companyUser) {
+        sendErrorResponse(res, 404, '', 'The user account does not belong to any company. Please contact support')
+      }
       let MessageObject = logicLayer.prepareChat(req.body, companyUser)
       callApi(`whatsAppChat`, 'post', MessageObject, 'kibochat')
         .then(message => {
@@ -250,6 +315,50 @@ exports.updatePendingResponse = function (req, res) {
         }
       })
       sendSuccessResponse(res, 200, 'Pending Response updates successfully')
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, err)
+    })
+}
+exports.search = function (req, res) {
+  let searchData = { contactId: req.body.subscriber_id, companyId: req.user.companyId, $text: { $search: req.body.text } }
+  callApi(`whatsAppChat/search`, 'post', searchData, 'kibochat')
+    .then(chats => {
+      sendSuccessResponse(res, 200, chats)
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, '', err)
+    })
+}
+exports.assignTeam = function (req, res) {
+  let assignedTo = {
+    type: 'team',
+    id: req.body.teamId,
+    name: req.body.teamName
+  }
+  callApi(
+    'whatsAppContacts/update',
+    'put',
+    {
+      query: {_id: req.body.subscriberId},
+      newPayload: {assigned_to: assignedTo, is_assigned: req.body.isAssigned},
+      options: {}
+    }
+  )
+    .then(updated => {
+      require('./../../../config/socketio').sendMessageToClient({
+        room_id: req.user.companyId,
+        body: {
+          action: 'session_assign_whatsapp',
+          payload: {
+            session_id: req.body.subscriberId,
+            user_id: req.user._id,
+            user_name: req.user.name,
+            assigned_to: assignedTo
+          }
+        }
+      })
+      sendSuccessResponse(res, 200, 'Team has been assigned successfully!')
     })
     .catch(err => {
       sendErrorResponse(res, 500, err)
