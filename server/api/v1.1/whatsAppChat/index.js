@@ -45,9 +45,14 @@ router.post('/search',
   validate({body: validationSchema.searchPayload}),
   controller.search)
 
-router.post('/assignTeam',
+router.post('/assignAgent',
   auth.isAuthenticated(),
-  validate({body: validationSchema.assignTeamPayload}),
-  controller.assignTeam)
+  validate({body: validationSchema.assignAgentPayload}),
+  controller.assignAgent)
+
+router.post('/set_custom_field_value',
+  auth.isAuthenticated(),
+  validate({body: validationSchema.setCustomFieldValue}),
+  controller.setCustomFieldValue)
 
 module.exports = router

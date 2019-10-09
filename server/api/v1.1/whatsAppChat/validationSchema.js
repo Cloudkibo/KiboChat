@@ -102,13 +102,13 @@ exports.searchPayload = {
     }
   }
 }
-exports.assignTeamPayload = {
+exports.assignAgentPayload = {
   'type': 'object',
   'properties': {
-    'teamId': {
+    'agentId': {
       'type': 'string'
     },
-    'teamName': {
+    'agentName': {
       'type': 'string'
     },
     'subscriberId': {
@@ -119,9 +119,30 @@ exports.assignTeamPayload = {
     }
   },
   'required': [
-    'teamId',
-    'teamName',
+    'agentId',
+    'agentName',
     'subscriberId',
     'isAssigned'
   ]
 }
+exports.setCustomFieldValue =
+  {
+    '$schema': 'http://json-schema.org/draft-04/schema#',
+    'type': 'object',
+    'properties': {
+      'customFieldId': {
+        'type': 'string'
+      },
+      'subscriberIds': {
+        'type': 'array'
+      },
+      'value': {
+        'type': 'string'
+      }
+    },
+    'required': [
+      'customFieldId',
+      'subscriberIds',
+      'value'
+    ]
+  }
