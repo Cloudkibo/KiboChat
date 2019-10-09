@@ -38,3 +38,28 @@ exports.update = function (req, res) {
       sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
+exports.unSubscribe = function (req, res) {
+  let subsriberData = {
+    query: {_id: req.params.id},
+    newPayload: {isSubscribed: false, unSubscribedBy: 'agent'},
+    options: {}
+  }
+  utility.callApi(`whatsAppContacts/update`, 'put', subsriberData)
+    .then(updated => {
+      require('./../../../config/socketio').sendMessageToClient({
+        room_id: req.user.companyId,
+        body: {
+          action: 'unsubscribe_whatsApp',
+          payload: {
+            contactId: req.params.id,
+            user_id: req.user._id,
+            user_name: req.user.name
+          }
+        }
+      })
+      sendSuccessResponse(res, 200, updated)
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, `Failed to update contact ${JSON.stringify(err)}`)
+    })
+}
