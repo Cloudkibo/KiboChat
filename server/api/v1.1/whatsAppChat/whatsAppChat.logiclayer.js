@@ -19,6 +19,7 @@ exports.prepareSendMessagePayload = (body, companyUser, message) => {
     // statusCallback: `https://kibopush-anisha.ngrok.io/webhooks/twilio/trackStatusWhatsAppChat/${message._id}`
 
   }
+  console.log('MessageObject', MessageObject)
   if (body.payload.componentType !== 'text') {
     MessageObject.mediaUrl = body.payload.fileurl.url
   } else {
