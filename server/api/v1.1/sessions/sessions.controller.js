@@ -241,6 +241,7 @@ exports.assignAgent = function (req, res) {
         body: {
           action: 'session_assign',
           payload: {
+            data: req.body,
             session_id: req.body.subscriberId,
             user_id: req.user._id,
             user_name: req.user.name,
@@ -276,6 +277,7 @@ exports.assignTeam = function (req, res) {
         body: {
           action: 'session_assign',
           payload: {
+            data: req.body,
             session_id: req.body.subscriberId,
             user_id: req.user._id,
             user_name: req.user.name,
