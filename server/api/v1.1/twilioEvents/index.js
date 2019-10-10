@@ -16,5 +16,6 @@ router.post('/',
 router.post('/whatsAppMessage',
   validate({body: validationSchema.payloadForWhatsApp}),
   whatsAppController.index)
+router.post('/trackStatusWhatsAppChat/:id', whatsAppController.trackStatusWhatsAppChat)
 
 module.exports = router

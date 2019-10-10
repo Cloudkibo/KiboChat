@@ -20,7 +20,7 @@ router.post('/updateAutomatedOptions',
   auth.hasRole('buyer'),
   controller.updateAutomatedOptions)
 
-  router.post('/updateRole',
+router.post('/updateRole',
   auth.isAuthenticated(),
   controller.updateRole)
 

@@ -37,8 +37,7 @@ exports.enable = function (req, res) {
           .catch(error => {
             sendErrorResponse(res, 500, '', `Failed to enable api ${JSON.stringify(error)}`)
           })
-      }
-      else {
+      } else {
         settings.enabled = true
         utility.callApi(`api_ngp/enable`, 'post', { settings: settings })
           .then(savedSettings => {
@@ -67,7 +66,7 @@ exports.disable = function (req, res) {
         })
         .catch(error => {
           sendErrorResponse(res, 500, '', `Failed to enable api ${JSON.stringify(error)}`)
-        })   
+        })
     })
     .catch(error => {
       sendErrorResponse(res, 500, '', `API settings not initialized or invalid user. Call enable API to initialize them.${error}`)
@@ -107,7 +106,7 @@ exports.save = function (req, res) {
         })
         .catch(error => {
           sendErrorResponse(res, 500, '', `Failed to enable api ${JSON.stringify(error)}`)
-        })   
+        })
     })
     .catch(error => {
       sendErrorResponse(res, 500, '', `API settings not initialized or invalid user. Call enable API to initialize them.${error}`)
