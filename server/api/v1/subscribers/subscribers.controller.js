@@ -125,9 +125,9 @@ const getAllSubscribers = function (subscribers, count, req, res) {
           dt = new Date()
           utcDate = dt.toUTCString()
           logger.serverLog(TAG, `tags_subscriber/query data subscribers ${utcDate}`, 'info')
-        //  logger.serverLog(TAG, `tags subscribers: ${util.inspect(tagSubscribers)}`, 'debug')
+          //  logger.serverLog(TAG, `tags subscribers: ${util.inspect(tagSubscribers)}`, 'debug')
           let subscribersPayload = logicLayer.getSusbscribersPayload(subscribers, tagSubscribers, tagIds, req.body.filter_criteria.tag_value)
-          //logger.serverLog(TAG, `subscribersPayload: ${util.inspect(subscribersPayload)}`, 'debug')
+          // logger.serverLog(TAG, `subscribersPayload: ${util.inspect(subscribersPayload)}`, 'debug')
           // start append custom Fields
           utility.callApi('custom_fields/query', 'post', { purpose: 'findAll', match: { companyId: req.user.companyId } })
             .then(customFields => {
@@ -165,7 +165,6 @@ const getAllSubscribers = function (subscribers, count, req, res) {
     .catch(error => {
       sendErrorResponse(res, 500, `Failed to fetch tags ${JSON.stringify(error)}`)
     })
-
 }
 exports.getAll = function (req, res) {
   var dt = new Date()
@@ -211,8 +210,7 @@ exports.getAll = function (req, res) {
       .catch(err => {
         logger.serverLog(TAG, `Failed to fetch tag  ${JSON.stringify(err)}`, 'error')
       })
-  }
-  else {
+  } else {
     dt = new Date()
     utcDate = dt.toUTCString()
     logger.serverLog(TAG, `After tags Query Loop  ${utcDate}`, 'info')
