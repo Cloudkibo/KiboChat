@@ -15,7 +15,9 @@ exports.prepareSendMessagePayload = (body, companyUser, message) => {
   let MessageObject = {
     from: `whatsapp:${companyUser.companyId.twilioWhatsApp.sandboxNumber}`,
     to: `whatsapp:${body.recipientNumber}`,
-    statusCallback: `http://${config.webhook_ip}/webhooks/twilio/trackStatusWhatsAppChat/${message._id}`
+    // statusCallback: `http://${config.webhook_ip}/webhooks/twilio/trackStatusWhatsAppChat/${message._id}`,
+    statusCallback: `https://kibopush-anisha.ngrok.io/webhooks/twilio/trackStatusWhatsAppChat/${message._id}`
+
   }
   if (body.payload.componentType !== 'text') {
     MessageObject.mediaUrl = body.payload.fileurl.url
