@@ -305,7 +305,8 @@ exports.assignAgent = function (req, res) {
             session_id: req.body.subscriberId,
             user_id: req.user._id,
             user_name: req.user.name,
-            assigned_to: assignedTo
+            assigned_to: assignedTo,
+            data: req.body
           }
         }
       })
