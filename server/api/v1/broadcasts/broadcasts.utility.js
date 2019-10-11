@@ -20,7 +20,7 @@ function isWhiteListedDomain (domain, pageId, user) {
                   resolve({returnValue: returnValue})
                 }
               }
-            }else{
+            } else {
               resolve({returnValue: returnValue})
             }
           })

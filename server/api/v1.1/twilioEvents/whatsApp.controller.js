@@ -153,3 +153,22 @@ function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options)
       logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`, 'error')
     })
 }
+exports.trackStatusWhatsAppChat = function (req, res) {
+  res.status(200).json({
+    status: 'success',
+    description: `received the payload`
+  })
+  if (req.body.MessageStatus === 'read' && req.body.EventType && req.body.EventType === 'READ') {
+    let query = {
+      purpose: 'updateOne',
+      match: {_id: req.params.id},
+      updated: {$set: {status: 'seen', seenDateTime: Date.now()}}
+    }
+    callApi(`whatsAppChat`, 'put', query, 'kibochat')
+      .then(updated => {
+      })
+      .catch(err => {
+        logger.serverLog(TAG, `Failed to update chat ${JSON.stringify(err)}`, 'error')
+      })
+  }
+}

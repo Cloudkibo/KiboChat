@@ -14,9 +14,18 @@ exports.prepareChat = (body, companyUser) => {
 exports.prepareSendMessagePayload = (body, companyUser, message) => {
   let MessageObject = {
     from: `whatsapp:${companyUser.companyId.twilioWhatsApp.sandboxNumber}`,
-    to: `whatsapp:${body.recipientNumber}`,
-    statusCallback: config.webhook_ip + `/webhooks/twilio/trackStatusWhatsAppChat/${message._id}`
+    to: `whatsapp:${body.recipientNumber}`
+    // statusCallback: `http://${config.domain}/webhooks/twilio/trackStatusWhatsAppChat/${message._id}`
+    // statusCallback: `https://kibopush-anisha.ngrok.io/webhooks/twilio/trackStatusWhatsAppChat/${message._id}`
+
   }
+  console.log('config.env', config.env)
+  if (config.env === 'staging') {
+    MessageObject.statusCallback = `https://swebhook.cloudkibo.com/webhooks/twilio/trackStatusWhatsAppChat/${message._id}`
+  } else {
+    MessageObject.statusCallback = `https://webhook.cloudkibo.com/webhooks/twilio/trackStatusWhatsAppChat/${message._id}`
+  }
+  console.log('MessageObject', MessageObject)
   if (body.payload.componentType !== 'text') {
     MessageObject.mediaUrl = body.payload.fileurl.url
   } else {

@@ -659,7 +659,7 @@ function createTag (user, page, tag, req) {
             .then(defaultTag => {
               if (defaultTag.length === 0) {
                 needle('get', `https://graph.facebook.com/v2.11/me/custom_labels?fields=name&access_token=${page.accessToken}`)
-                  .then(Tags => { 
+                  .then(Tags => {
                     let default_tag = Tags.body.data.filter(data => data.name === tag)
                     let tagData = {
                       tag: tag,
@@ -675,9 +675,9 @@ function createTag (user, page, tag, req) {
                       })
                       .catch(err => {
                         logger.serverLog(TAG, `Error at save tag ${err}`, 'error')
-                      })                
+                      })
                   })
-                  
+
                   .catch(err => {
                     logger.serverLog(TAG, `Error at find default tags from facebook ${err}`, 'error')
                   })
@@ -686,13 +686,11 @@ function createTag (user, page, tag, req) {
             .catch(err => {
               logger.serverLog(TAG, `Error at find default tags ${err}`, 'error')
             })
-        } 
-        else {
-         // sendOpAlert(label.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
-         logger.serverLog(TAG, `Error at facebook error ${label.body.error}`, 'error')
+        } else {
+          // sendOpAlert(label.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
+          logger.serverLog(TAG, `Error at facebook error ${label.body.error}`, 'error')
         }
-      }
-      else if (label.body.id) {
+      } else if (label.body.id) {
         let tagData = {
           tag: tag,
           userId: user._id,
