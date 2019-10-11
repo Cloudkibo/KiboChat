@@ -29,6 +29,7 @@ exports.index = function (req, res) {
         }
         if (!event.message.is_echo) {
           updatePayload.pendingResponse = true
+          updatePayload.lastMessagedAt = Date.now()
         }
         utility.callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: updatePayload, options: {}})
           .then(updated => {
