@@ -154,6 +154,7 @@ function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options)
     })
 }
 exports.trackStatusWhatsAppChat = function (req, res) {
+  console.log('in seen event')
   res.status(200).json({
     status: 'success',
     description: `received the payload`
@@ -166,6 +167,20 @@ exports.trackStatusWhatsAppChat = function (req, res) {
     }
     callApi(`whatsAppChat`, 'put', query, 'kibochat')
       .then(updated => {
+        let findQuery = {
+          purpose: 'findOne',
+          match: {_id: req.params.id}
+        }
+        callApi(`whatsAppChat/query`, 'post', findQuery, 'kibochat')
+          .then(chat => {
+            require('./../../../config/socketio').sendMessageToClient({
+              room_id: chat.companyId,
+              body: {
+                action: 'whatsapp_message_seen',
+                payload: chat
+              }
+            })
+          })
       })
       .catch(err => {
         logger.serverLog(TAG, `Failed to update chat ${JSON.stringify(err)}`, 'error')
