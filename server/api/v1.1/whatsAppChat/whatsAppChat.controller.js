@@ -148,7 +148,7 @@ exports.create = function (req, res) {
       }
       let subscriberData = {
         query: {_id: req.body.contactId},
-        newPayload: {last_activity_time: Date.now()},
+        newPayload: {last_activity_time: Date.now(), pendingResponse: false},
         options: {}
       }
       let MessageObject = logicLayer.prepareChat(req.body, companyUser)
