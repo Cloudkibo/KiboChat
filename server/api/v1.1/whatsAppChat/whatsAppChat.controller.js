@@ -28,7 +28,7 @@ exports.fetchOpenSessions = function (req, res) {
         })
     },
     function (callback) {
-      let lastMessageData = logicLayer.getQueryData('', 'aggregate', {companyId: req.user.companyId}, undefined, undefined, undefined, {_id: '$contactId', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+      let lastMessageData = logicLayer.getQueryData('', 'aggregate', {companyId: req.user.companyId}, undefined, undefined, undefined, {_id: '$contactId', payload: { $last: '$payload' }, repliedBy: { $last: '$repliedBy' }, datetime: { $last: '$datetime' }})
       callApi(`whatsAppChat/query`, 'post', lastMessageData, 'kibochat')
         .then(data => {
           callback(null, data)
@@ -73,7 +73,7 @@ exports.fetchResolvedSessions = function (req, res) {
         })
     },
     function (callback) {
-      let lastMessageData = logicLayer.getQueryData('', 'aggregate', {companyId: req.user.companyId}, undefined, undefined, undefined, {_id: '$contactId', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+      let lastMessageData = logicLayer.getQueryData('', 'aggregate', {companyId: req.user.companyId}, undefined, undefined, undefined, {_id: '$contactId', payload: { $last: '$payload' }, repliedBy: { $last: '$repliedBy' }, datetime: { $last: '$datetime' }})
       callApi(`whatsAppChat/query`, 'post', lastMessageData, 'kibochat')
         .then(data => {
           callback(null, data)
@@ -148,7 +148,7 @@ exports.create = function (req, res) {
       }
       let subscriberData = {
         query: {_id: req.body.contactId},
-        newPayload: {last_activity_time: Date.now()},
+        newPayload: {last_activity_time: Date.now(), pendingResponse: false},
         options: {}
       }
       let MessageObject = logicLayer.prepareChat(req.body, companyUser)
