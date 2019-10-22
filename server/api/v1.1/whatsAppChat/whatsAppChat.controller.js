@@ -1,6 +1,4 @@
-const logger = require('../../../components/logger')
 const logicLayer = require('./whatsAppChat.logiclayer')
-const TAG = '/api/v1/whatsAppChat/whatsAppChat.controller.js'
 const { callApi } = require('../utility')
 const async = require('async')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
@@ -311,6 +309,41 @@ exports.assignAgent = function (req, res) {
         }
       })
       sendSuccessResponse(res, 200, 'Agent has been assigned successfully!')
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, err)
+    })
+}
+exports.assignTeam = function (req, res) {
+  let assignedTo = {
+    type: 'team',
+    id: req.body.teamId,
+    name: req.body.teamName
+  }
+  callApi(
+    'whatsAppContacts/update',
+    'put',
+    {
+      query: {_id: req.body.subscriberId},
+      newPayload: {assigned_to: assignedTo, is_assigned: req.body.isAssigned},
+      options: {}
+    }
+  )
+    .then(updated => {
+      require('./../../../config/socketio').sendMessageToClient({
+        room_id: req.user.companyId,
+        body: {
+          action: 'session_assign_whatsapp',
+          payload: {
+            session_id: req.body.subscriberId,
+            user_id: req.user._id,
+            user_name: req.user.name,
+            assigned_to: assignedTo,
+            data: req.body
+          }
+        }
+      })
+      sendSuccessResponse(res, 200, 'Team has been assigned successfully!')
     })
     .catch(err => {
       sendErrorResponse(res, 500, err)
