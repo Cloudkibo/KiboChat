@@ -9,6 +9,9 @@ exports.prepareChat = (body, companyUser) => {
     payload: body.payload,
     repliedBy: body.repliedBy
   }
+  if (body.url_meta) {
+    MessageObject.url_meta = body.url_meta
+  }
   return MessageObject
 }
 exports.prepareSendMessagePayload = (body, companyUser, message) => {
