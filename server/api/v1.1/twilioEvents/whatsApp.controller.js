@@ -32,21 +32,22 @@ exports.index = function (req, res) {
 }
 function storeChat (from, to, contact, messageData) {
   for (let i = 0; i < messageData.length; i++) {
-    let chatPayload = logicLayer.prepareChat(from, to, contact, messageData[i])
-    callApi(`whatsAppChat`, 'post', chatPayload, 'kibochat')
-      .then(message => {
-        require('./../../../config/socketio').sendMessageToClient({
-          room_id: contact.companyId,
-          body: {
-            action: 'new_chat_whatsapp',
-            payload: message
-          }
+    logicLayer.prepareChat(from, to, contact, messageData[i]).then(chatPayload => {
+      callApi(`whatsAppChat`, 'post', chatPayload, 'kibochat')
+        .then(message => {
+          require('./../../../config/socketio').sendMessageToClient({
+            room_id: contact.companyId,
+            body: {
+              action: 'new_chat_whatsapp',
+              payload: message
+            }
+          })
+          let query = {_id: contact._id}
+          let updatePayload = {last_activity_time: Date.now(), status: 'new', pendingResponse: true}
+          let incrementPayload = {$inc: { unreadCount: 1, messagesCount: 1 }}
+          updateWhatsAppContact(query, updatePayload, incrementPayload, {})
         })
-        let query = {_id: contact._id}
-        let updatePayload = {last_activity_time: Date.now(), status: 'new', pendingResponse: true}
-        let incrementPayload = {$inc: { unreadCount: 1, messagesCount: 1 }}
-        updateWhatsAppContact(query, updatePayload, incrementPayload, {})
-      })
+    })
   }
 }
 
@@ -154,7 +155,6 @@ function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options)
     })
 }
 exports.trackStatusWhatsAppChat = function (req, res) {
-  console.log('in seen event')
   res.status(200).json({
     status: 'success',
     description: `received the payload`

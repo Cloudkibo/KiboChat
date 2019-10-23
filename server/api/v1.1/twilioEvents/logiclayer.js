@@ -1,3 +1,5 @@
+const og = require('open-graph')
+
 exports.getPayload = (body) => {
   let payload = []
   if (body.NumMedia === '0' && body.Body !== '') { // text only
@@ -22,14 +24,50 @@ exports.getPayload = (body) => {
   return payload
 }
 exports.prepareChat = (from, to, contact, body) => {
-  let MessageObject = {
-    senderNumber: from,
-    recipientNumber: to,
-    contactId: contact._id,
-    companyId: contact.companyId,
-    payload: body,
-    status: 'unseen',
-    format: 'twilio'
+  return new Promise(function (resolve, reject) {
+    let MessageObject = {
+      senderNumber: from,
+      recipientNumber: to,
+      contactId: contact._id,
+      companyId: contact.companyId,
+      payload: body,
+      status: 'unseen',
+      format: 'twilio'
+    }
+    getMetaData(MessageObject).then(result => {
+      resolve(MessageObject)
+    })
+  })
+}
+function getmetaurl (text) {
+  /* eslint-disable */
+  var urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig
+  /* eslint-enable */
+  var onlyUrl = ''
+  if (text) {
+    var testUrl = text.match(urlRegex)
+    onlyUrl = testUrl && testUrl[0]
   }
-  return MessageObject
+  return onlyUrl
+}
+function getMetaData (body) {
+  return new Promise(function (resolve, reject) {
+    if (body.payload.componentType === 'text') {
+      let isUrl = getmetaurl(body.payload.text)
+      if (isUrl !== null && isUrl !== '') {
+        og(isUrl, (err, meta) => {
+          if (err) {
+            resolve(body)
+          } else {
+            body.url_meta = meta
+            resolve(body)
+          }
+        })
+      } else {
+        resolve(body)
+      }
+    } else {
+      resolve(body)
+    }
+  })
 }
