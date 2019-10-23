@@ -77,7 +77,6 @@ exports.geturlmeta = function (req, res) {
     if (err) {
       sendErrorResponse(res, 404, '', 'Meta data not found')
     } else {
-      console.log('url meta', meta)
       logger.serverLog(TAG, `Url Meta: ${meta}`, 'error')
       sendSuccessResponse(res, 200, meta)
     }
