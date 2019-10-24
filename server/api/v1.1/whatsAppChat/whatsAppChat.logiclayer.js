@@ -35,7 +35,6 @@ exports.prepareSendMessagePayload = (body, companyUser, message) => {
   } else {
     MessageObject.body = body.payload.text
   }
-  console.log('MessageObject  final', MessageObject)
   return MessageObject
 }
 exports.getCount = (req, status) => {
