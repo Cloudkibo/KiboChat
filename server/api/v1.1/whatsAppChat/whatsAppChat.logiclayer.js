@@ -29,6 +29,9 @@ exports.prepareSendMessagePayload = (body, companyUser, message) => {
   }
   if (body.payload.componentType !== 'text') {
     MessageObject.mediaUrl = body.payload.fileurl.url
+    if (body.payload.componentType === 'file') {
+      MessageObject.body = body.payload.fileName
+    }
   } else {
     MessageObject.body = body.payload.text
   }
