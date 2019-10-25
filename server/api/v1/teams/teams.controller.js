@@ -6,7 +6,11 @@ const TAG = 'api/v2/pages/teams.controller.js'
 exports.index = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
     .then(companyuser => {
-      utility.callApi(`teams/query`, 'post', {companyId: companyuser.companyId, platform: req.user.platform}) // fetch all teams of company
+      let teamQuery = {companyId: companyuser.companyId, platform: req.user.platform}
+      if (req.body && req.body.pageId) {
+        teamQuery.teamPagesIds = req.body.pageId
+      }
+      utility.callApi(`teams/query`, 'post', teamQuery) // fetch all teams of company
         .then(teams => {
           utility.callApi(`teams/agents/distinct`, 'post', {companyId: companyuser.companyId}) // fetch distinct team agents
             .then(agentIds => {
