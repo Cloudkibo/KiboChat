@@ -6,7 +6,7 @@ const validate = require('express-jsonschema').validate
 const validationSchema = require('./validationSchema')
 const controller = require('./teams.controller')
 
-router.get('/',
+router.post('/',
   auth.isAuthenticated(),
   controller.index)
 
