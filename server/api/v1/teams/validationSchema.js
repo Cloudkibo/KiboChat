@@ -15,11 +15,15 @@ exports.teamPayload = {
       type: 'string',
       required: true
     },
+    platform: {
+      type: 'string',
+      required: true
+    },
     teamPages: {
       type: 'array',
       items: {
         type: 'string',
-        required: true
+        required: false
       }
     },
     agentIds: {
@@ -33,7 +37,7 @@ exports.teamPayload = {
       type: 'array',
       items: {
         type: 'string',
-        required: true
+        required: false
       }
     }
   }
@@ -58,14 +62,14 @@ exports.teamUpdatePayload = {
       type: 'array',
       items: {
         type: 'string',
-        required: true
+        required: false
       }
     },
     teamPagesIds: {
       type: 'array',
       items: {
         type: 'string',
-        required: true
+        required: false
       }
     }
   }

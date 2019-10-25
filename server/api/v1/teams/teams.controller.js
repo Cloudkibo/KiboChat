@@ -6,7 +6,7 @@ const TAG = 'api/v2/pages/teams.controller.js'
 exports.index = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
     .then(companyuser => {
-      utility.callApi(`teams/query`, 'post', {companyId: companyuser.companyId}) // fetch all teams of company
+      utility.callApi(`teams/query`, 'post', {companyId: companyuser.companyId, platform: req.user.platform}) // fetch all teams of company
         .then(teams => {
           utility.callApi(`teams/agents/distinct`, 'post', {companyId: companyuser.companyId}) // fetch distinct team agents
             .then(agentIds => {
@@ -79,16 +79,18 @@ exports.createTeam = function (req, res) {
                 logger.serverLog(TAG, `Failed to create agent ${JSON.stringify(error)}`)
               })
           })
-          pageIds.forEach(pageId => {
-            let teamPagesPayload = logicLayer.getTeamPagesPayload(createdTeam, companyuser, pageId)
-            utility.callApi(`teams/pages`, 'post', teamPagesPayload) // create team page
-              .then(createdPage => {
-                logger.serverLog(TAG, 'Team page created successfully!')
-              })
-              .catch(error => {
-                logger.serverLog(TAG, `Failed to create page ${JSON.stringify(error)}`)
-              })
-          })
+          if (req.body.pageIds) {
+            pageIds.forEach(pageId => {
+              let teamPagesPayload = logicLayer.getTeamPagesPayload(createdTeam, companyuser, pageId)
+              utility.callApi(`teams/pages`, 'post', teamPagesPayload) // create team page
+                .then(createdPage => {
+                  logger.serverLog(TAG, 'Team page created successfully!')
+                })
+                .catch(error => {
+                  logger.serverLog(TAG, `Failed to create page ${JSON.stringify(error)}`)
+                })
+            })
+          }
           return res.status(200).json({
             status: 'success',
             payload: 'Team created successfully!'

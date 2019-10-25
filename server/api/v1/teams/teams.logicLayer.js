@@ -10,8 +10,11 @@ exports.getTeamPayload = function (req, companyUser) {
     description: req.body.description,
     created_by: req.user._id,
     companyId: companyUser.companyId,
-    teamPages: req.body.teamPages,
-    teamPagesIds: req.body.pageIds
+    platform: req.body.platform
+  }
+  if (req.body.teamPages && req.body.pageIds) {
+    teamPayload.teamPages = req.body.teamPages
+    teamPayload.teamPagesIds = req.body.pageIds
   }
   return teamPayload
 }
@@ -37,9 +40,11 @@ exports.getTeamPagesPayload = function (team, companyUser, pageId) {
 exports.getUpdateTeamPayload = function (body) {
   let teamPayload = {
     name: body.name,
-    description: body.description,
-    teamPages: body.teamPages,
-    teamPagesIds: body.pageIds
+    description: body.description
+  }
+  if (body.teamPages && body.teamPagesIds) {
+    teamPayload.teamPages = body.teamPages
+    teamPayload.teamPagesIds = body.teamPagesIds
   }
   return teamPayload
 }
