@@ -2,6 +2,7 @@ const logger = require('../../../components/logger')
 const TAG = '/api/v1/twilioEvents/controller.js'
 const { callApi } = require('../utility')
 const logicLayer = require('./logiclayer')
+const { record } = require('../../global/messageStatistics')
 
 exports.index = function (req, res) {
   res.status(200).json({
@@ -31,6 +32,7 @@ exports.index = function (req, res) {
   }
 }
 function storeChat (from, to, contact, messageData) {
+  record('whatsappChatInComing')
   for (let i = 0; i < messageData.length; i++) {
     logicLayer.prepareChat(from, to, contact, messageData[i]).then(chatPayload => {
       callApi(`whatsAppChat`, 'post', chatPayload, 'kibochat')

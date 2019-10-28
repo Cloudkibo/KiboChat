@@ -4,6 +4,7 @@ const TAG = '/api/v1/liveChat/liveChat.controller.js'
 const { callApi } = require('../utility')
 const async = require('async')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
+const { record } = require('../../global/messageStatistics')
 
 exports.index = function (req, res) {
   if (req.params.contactId) {
@@ -69,6 +70,7 @@ exports.create = function (req, res) {
               let accountSid = companyUser.companyId.twilio.accountSID
               let authToken = companyUser.companyId.twilio.authToken
               let client = require('twilio')(accountSid, authToken)
+              record('smsChatOutGoing')
               client.messages
                 .create({
                   body: req.body.payload.text,
