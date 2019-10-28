@@ -2,6 +2,7 @@ const logicLayer = require('./whatsAppChat.logiclayer')
 const { callApi } = require('../utility')
 const async = require('async')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
+const { record } = require('../../global/messageStatistics')
 
 exports.fetchOpenSessions = function (req, res) {
   async.parallelLimit([
@@ -178,6 +179,7 @@ exports.create = function (req, res) {
               let authToken = companyUser.companyId.twilioWhatsApp.authToken
               let client = require('twilio')(accountSid, authToken)
               let messageToSend = logicLayer.prepareSendMessagePayload(req.body, companyUser, message)
+              record('whatsappChatOutGoing')
               client.messages
                 .create(messageToSend)
                 .then(response => {

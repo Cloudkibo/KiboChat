@@ -1,6 +1,7 @@
 const logger = require('../../../components/logger')
 const TAG = '/api/v1/twilioEvents/controller.js'
 const { callApi } = require('../utility')
+const { record } = require('../../global/messageStatistics')
 
 exports.index = function (req, res) {
   res.status(200).json({
@@ -26,6 +27,7 @@ exports.index = function (req, res) {
                 }
                 callApi(`smsChat`, 'post', MessageObject, 'kibochat')
                   .then(message => {
+                    record('smsChatInComing')
                     require('./../../../config/socketio').sendMessageToClient({
                       room_id: contact.companyId,
                       body: {

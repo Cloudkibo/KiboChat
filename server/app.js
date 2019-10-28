@@ -20,3 +20,4 @@ if (config.env === 'production' || config.env === 'staging') {
 require('./config/express')(appObj)
 require('./config/setup')(app, httpApp, config)
 require('./routes')(appObj)
+require('./api/global/messageStatistics').connectRedis()
