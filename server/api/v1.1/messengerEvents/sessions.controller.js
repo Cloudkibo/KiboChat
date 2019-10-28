@@ -8,6 +8,7 @@ const needle = require('needle')
 const og = require('open-graph')
 const logicLayer = require('./logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
+const { record } = require('../../global/messageStatistics')
 
 exports.index = function (req, res) {
   logger.serverLog(TAG, `payload received in page ${JSON.stringify(req.body.page)}`, 'debug')
@@ -54,6 +55,7 @@ exports.index = function (req, res) {
     })
 }
 function saveLiveChat (page, subscriber, event) {
+  record('messengerChatInComing')
   let chatPayload = logicLayer.prepareLiveChatPayload(event.message, subscriber, page)
   if (subscriber && !event.message.is_echo) {
     BotsDataLayer.findOneBotObjectUsingQuery({ pageId: subscriber.pageId })

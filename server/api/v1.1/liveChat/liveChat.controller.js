@@ -9,6 +9,7 @@ const webhookUtility = require('../notifications/notifications.utility')
 // const util = require('util')
 const async = require('async')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
+const { record } = require('../../global/messageStatistics')
 
 exports.index = function (req, res) {
   if (req.params.subscriber_id) {
@@ -187,6 +188,7 @@ exports.create = function (req, res) {
             subscriber.lastName,
             true
           )
+          record('messengerChatOutGoing')
           request(
             {
               'method': 'POST',
