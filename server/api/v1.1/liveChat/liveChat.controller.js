@@ -232,6 +232,7 @@ exports.create = function (req, res) {
               if (!bot) {
                 callback(null, 'No bot found!')
               } else {
+                // TODO This is crashing when agent has a bot and sending an attahment from livechat
                 botId = bot._id
                 let arr = bot.blockedSubscribers
                 arr.push(subscriber._id)
