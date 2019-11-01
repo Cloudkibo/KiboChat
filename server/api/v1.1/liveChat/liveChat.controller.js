@@ -142,6 +142,7 @@ exports.create = function (req, res) {
       }
       callApi(`subscribers/update`, 'put', subscriberData)
         .then(updated => {
+          logger.serverLog(TAG, `updated subscriber ${updated}`)
           callback(null, updated)
         })
         .catch(err => {
@@ -157,6 +158,7 @@ exports.create = function (req, res) {
       }
       callApi(`subscribers/update`, 'put', subscriberData)
         .then(updated => {
+          logger.serverLog(TAG, `updated subscriber again ${updated}`)
           fbMessageObject.datetime = new Date()
           require('./../../../config/socketio').sendMessageToClient({
             room_id: req.user.companyId,
@@ -188,6 +190,7 @@ exports.create = function (req, res) {
             subscriber.lastName,
             true
           )
+          logger.serverLog(TAG, `got subscriber ${subscriber}`)
           record('messengerChatOutGoing')
           request(
             {
@@ -222,8 +225,10 @@ exports.create = function (req, res) {
         // Update Bot Block list
         function (callback) {
           let botsData = logicLayer.getQueryData('', 'findOne', { pageId: subscriber.pageId._id, companyId: subscriber.companyId })
+          logger.serverLog(TAG, `botsData ${botsData}`)
           callApi(`smart_replies/query`, 'post', botsData, 'kibochat')
             .then(bot => {
+              logger.serverLog(TAG, `bot found ${bot}`)
               if (!bot) {
                 callback(null, 'No bot found!')
               } else {
@@ -235,6 +240,7 @@ exports.create = function (req, res) {
               }
             })
             .then(result => {
+              logger.serverLog(TAG, `result ${result}`)
               let timeNow = new Date()
               let automationQueue = {
                 automatedMessageId: botId,
@@ -249,11 +255,13 @@ exports.create = function (req, res) {
               callback(null, automationObject)
             })
             .catch(err => {
+              logger.serverLog(TAG, `in catch1 ${err}`)
               callback(err)
             })
         }
       ], 10, function (err, values) {
         if (err) {
+          logger.serverLog(TAG, `error found ${err}`)
           sendErrorResponse(res, 400, 'Meta data not found')
         } else {
           sendSuccessResponse(res, 200, fbMessageObject)
