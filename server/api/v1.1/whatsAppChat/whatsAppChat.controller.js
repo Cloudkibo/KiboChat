@@ -3,6 +3,7 @@ const { callApi } = require('../utility')
 const async = require('async')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const { record } = require('../../global/messageStatistics')
+const { sendOpAlert } = require('../../global/operationalAlert')
 
 exports.fetchOpenSessions = function (req, res) {
   async.parallelLimit([
@@ -186,6 +187,7 @@ exports.create = function (req, res) {
                   callback(null, message)
                 })
                 .catch(error => {
+                  sendOpAlert(error, 'whatsAppChat controller in kibochat', null, req.user._id, companyUser.companyId)
                   sendErrorResponse(res, 500, `Failed to send message ${JSON.stringify(error)}`)
                 })
             }
