@@ -261,6 +261,7 @@ exports.create = function (req, res) {
         }
       ], 10, function (err, values) {
         if (err) {
+          logger.serverLog(TAG, `error found ${err}`)
           sendErrorResponse(res, 400, 'Meta data not found')
         } else {
           sendSuccessResponse(res, 200, fbMessageObject)
