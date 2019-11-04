@@ -130,6 +130,7 @@ exports.sentVsSeenNew = function (req, res) {
           .then(pages => {
             const pagesArray = pages.map(page => page._id)
             let matchAggregate = { companyId: companyUser.companyId,
+              completeInfo: true,
               'pageId': {$in: pagesArray},
               'datetime': req.body.days === 'all' ? { $exists: true } : {
                 $gte: new Date(
@@ -192,6 +193,7 @@ exports.sentVsSeenNew = function (req, res) {
           .then(pages => {
             const pagesArray = pages.map(page => page._id)
             let matchAggregate = { companyId: companyUser.companyId,
+              completeInfo: true,
               'pageId': {$in: pagesArray},
               'datetime': req.body.days === 'all' ? { $exists: true } : {
                 $gte: new Date(
@@ -330,7 +332,7 @@ exports.stats = function (req, res) {
                 let allPagesWithoutDuplicates = removeDuplicates(allPages, 'pageId')
 
                 payload.totalPages = allPagesWithoutDuplicates.length
-                callApi('subscribers/query', 'post', {companyId: companyUser.companyId, isSubscribed: true, pageId: {$in: result.pageIds}})
+                callApi('subscribers/query', 'post', {companyId: companyUser.companyId, completeInfo: true, isSubscribed: true, pageId: {$in: result.pageIds}})
                   .then(subscribers => {
                     logger.serverLog(TAG, `subscribers retrieved: ${subscribers}`, 'error')
                     payload.subscribers = subscribers.length
@@ -372,7 +374,7 @@ exports.toppages = function (req, res) {
       callApi('pages/query', 'post', {connected: true, companyId: companyUser.companyId})
         .then(pages => {
           callApi('subscribers/aggregate', 'post', [
-            {$match: {companyId: companyUser.companyId}}, {
+            {$match: {companyId: companyUser.companyId, completeInfo: true}}, {
               $group: {
                 _id: {pageId: '$pageId'},
                 count: {$sum: 1}

@@ -45,6 +45,7 @@ exports.getSubscriberCriteria = function (number, companyUser) {
   let subscriberFindCriteria = {
     source: 'customer_matching',
     companyId: companyUser.companyId,
+    completeInfo: true,
     isSubscribed: true
   }
   subscriberFindCriteria = _.merge(subscriberFindCriteria, {

@@ -2,7 +2,7 @@
 
 exports.getCount = (req, status) => {
   let aggregateData = [
-    { $match: {'companyId': req.user.companyId} },
+    { $match: {'companyId': req.user.companyId, completeInfo: true} },
     { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
     { $unwind: '$pageId' },
     { $project: {
@@ -29,7 +29,7 @@ exports.getCount = (req, status) => {
 
 exports.getSessions = (req, status) => {
   let aggregateData = [
-    { $match: {'companyId': req.user.companyId} },
+    { $match: {'companyId': req.user.companyId, completeInfo: true} },
     { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
     { $unwind: '$pageId' },
     { $project: {

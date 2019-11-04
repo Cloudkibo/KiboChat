@@ -35,7 +35,7 @@ exports.subscriberFindCriteria = function (number, company) {
     findNumber.push(number[a].number)
     findPage.push(number[a].pageId)
   }
-  let subscriberFindCriteria = {source: 'customer_matching', companyId: company.companyId._id, isSubscribed: true}
+  let subscriberFindCriteria = {source: 'customer_matching', companyId: company.companyId._id, isSubscribed: true, completeInfo: true}
   subscriberFindCriteria = _.merge(subscriberFindCriteria, {
     phoneNumber: {
       $in: findNumber
