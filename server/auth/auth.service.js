@@ -108,6 +108,13 @@ function isAuthenticated () {
         next()
       }
     })
+    .use(function sentryContextDefinition (req, res, next) {
+      const Raven = require('raven')
+      Raven.setContext({
+        user: req.user
+      })
+      next()
+    })
 }
 
 /**
