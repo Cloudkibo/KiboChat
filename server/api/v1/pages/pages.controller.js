@@ -40,7 +40,7 @@ exports.allPages = function (req, res) {
       utility.callApi(`pages/query`, 'post', {connected: true, companyId: companyuser.companyId}) // fetch connected pages
         .then(pages => {
           let subscribeAggregate = [
-            {$match: {isSubscribed: true}},
+            {$match: {isSubscribed: true, completeInfo: true}},
             {
               $group: {
                 _id: {pageId: '$pageId'},
@@ -51,7 +51,7 @@ exports.allPages = function (req, res) {
           utility.callApi(`subscribers/aggregate`, 'post', subscribeAggregate)
             .then(subscribesCount => {
               let unsubscribeAggregate = [
-                {$match: {isSubscribed: false}},
+                {$match: {isSubscribed: false, completeInfo: true}},
                 {
                   $group: {
                     _id: {pageId: '$pageId'},
@@ -107,7 +107,7 @@ exports.connectedPages = function (req, res) {
           utility.callApi(`pages/aggregate`, 'post', criterias.fetchCriteria) // fetch connected pages
             .then(pages => {
               let subscribeAggregate = [
-                {$match: {isSubscribed: true}},
+                {$match: {isSubscribed: true, completeInfo: true}},
                 {
                   $group: {
                     _id: {pageId: '$pageId'},
@@ -118,7 +118,7 @@ exports.connectedPages = function (req, res) {
               utility.callApi(`subscribers/aggregate`, 'post', subscribeAggregate)
                 .then(subscribesCount => {
                   let unsubscribeAggregate = [
-                    {$match: {isSubscribed: false}},
+                    {$match: {isSubscribed: false, completeInfo: true}},
                     {
                       $group: {
                         _id: {pageId: '$pageId'},
