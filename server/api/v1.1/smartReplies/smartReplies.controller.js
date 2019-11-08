@@ -37,7 +37,7 @@ exports.index = function (req, res) {
 exports.waitingReply = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
-      utility.callApi(`subscribers/query`, 'post', {companyId: companyUser.companyId, isEnabledByPage: true, isSubscribed: true})
+      utility.callApi(`subscribers/query`, 'post', {companyId: companyUser.companyId, isEnabledByPage: true, isSubscribed: true, completeInfo: true})
         .then(subscribers => {
           let obj = logicLayer.prepareSubscribersPayload(subscribers)
           let subsArray = obj.subsArray
@@ -253,7 +253,7 @@ function sendMessenger (message, pageId, senderId, postbackPayload, botId) {
   utility.callApi(`pages/query`, 'post', {pageId: pageId, connected: true})
     .then(page => {
       page = page[0]
-      utility.callApi(`subscribers/query`, 'post', { senderId: senderId, pageId: page._id, companyId: page.companyId })
+      utility.callApi(`subscribers/query`, 'post', { senderId: senderId, pageId: page._id, companyId: page.companyId, completeInfo: true })
         .then(subscriber => {
           subscriber = subscriber[0]
           if (subscriber === null) {
@@ -365,7 +365,7 @@ function getWitResponse (message, token, bot, pageId, senderId) {
       logger.serverLog(TAG, `intent ${util.inspect(intent)}`, 'debug')
       if (intent.confidence > 0.80) {
         logger.serverLog(TAG, 'Responding using bot: ' + intent.value, 'debug')
-        utility.callApi(`subscribers/query`, 'post', { senderId: senderId, companyId: bot.companyId })
+        utility.callApi(`subscribers/query`, 'post', { senderId: senderId, companyId: bot.companyId, completeInfo: true })
           .then(subscriber => {
             subscriber = subscriber[0]
             // Bot will not respond if a subscriber is waiting subscriber
@@ -479,7 +479,7 @@ function populateSubscriber (waiting, req) {
     for (let i = 0; i < waiting.length; i++) {
       utility.callApi(`pages/query`, 'post', {_id: waiting[i].pageId})
         .then(page => {
-          utility.callApi(`subscribers/query`, 'post', {_id: waiting[i].subscriberId, companyId: page[0].companyId})
+          utility.callApi(`subscribers/query`, 'post', {_id: waiting[i].subscriberId, companyId: page[0].companyId, completeInfo: true})
             .then(subscriber => {
               sendPayload.push({
                 _id: waiting[i]._id,

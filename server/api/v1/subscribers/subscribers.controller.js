@@ -9,7 +9,7 @@ const { sendErrorResponse, sendSuccessResponse } = require('../../global/respons
 exports.index = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }) // fetch company user
     .then(companyuser => {
-      utility.callApi(`subscribers/query`, 'post', { companyId: companyuser.companyId, isSubscribed: true }) // fetch subscribers of company
+      utility.callApi(`subscribers/query`, 'post', { companyId: companyuser.companyId, isSubscribed: true, completeInfo: true }) // fetch subscribers of company
         .then(subscribers => {
           subscribers = subscribers.filter((subscriber) => subscriber.pageId.connected === true)
           let subscriberIds = logicLayer.getSubscriberIds(subscribers)
@@ -46,7 +46,7 @@ exports.index = function (req, res) {
 exports.allSubscribers = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }) // fetch company user
     .then(companyuser => {
-      utility.callApi(`subscribers/query`, 'post', { companyId: companyuser.companyId, isEnabledByPage: true }) // fetch subscribers of company
+      utility.callApi(`subscribers/query`, 'post', { companyId: companyuser.companyId, isEnabledByPage: true, completeInfo: true }) // fetch subscribers of company
         .then(subscribers => {
           let subscriberIds = logicLayer.getSubscriberIds(subscribers)
           utility.callApi(`tags_subscriber/query`, 'post', { subscriberId: { $in: subscriberIds } })

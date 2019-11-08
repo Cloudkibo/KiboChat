@@ -85,7 +85,7 @@ exports.getCriterias = function (req, tagIDs) {
   temp['pageId.connected'] = true
 
   let countCriteria = [
-    { $match: {companyId: req.user.companyId} },
+    { $match: {companyId: req.user.companyId, completeInfo: true} },
     { $lookup: { from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId' } },
     { $unwind: '$pageId' },
     // { $lookup: { from: 'tags_subscribers', localField: '_id', foreignField: 'subscriberId', as: 'tags_subscriber' } },
@@ -116,7 +116,7 @@ exports.getCriterias = function (req, tagIDs) {
       recordsToSkip = Math.abs(req.body.current_page * req.body.number_of_records)
     }
     finalCriteria = [
-      { $match: {companyId: req.user.companyId} },
+      { $match: {companyId: req.user.companyId, completeInfo: true} },
       { $sort: { datetime: -1 } },
       { $lookup: { from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId' } },
       { $unwind: '$pageId' },
@@ -144,7 +144,7 @@ exports.getCriterias = function (req, tagIDs) {
   } else if (req.body.first_page === 'next') {
     recordsToSkip = Math.abs(((req.body.requested_page - 1) - (req.body.current_page))) * req.body.number_of_records
     finalCriteria = [
-      { $match: {companyId: req.user.companyId} },
+      { $match: {companyId: req.user.companyId, completeInfo: true} },
       { $sort: { datetime: -1 } },
       { $lookup: { from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId' } },
       { $unwind: '$pageId' },
@@ -172,7 +172,7 @@ exports.getCriterias = function (req, tagIDs) {
   } else if (req.body.first_page === 'previous') {
     recordsToSkip = Math.abs(req.body.requested_page * req.body.number_of_records)
     finalCriteria = [
-      { $match: {companyId: req.user.companyId} },
+      { $match: {companyId: req.user.companyId, completeInfo: true} },
       { $sort: { datetime: -1 } },
       { $lookup: { from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId' } },
       { $unwind: '$pageId' },
