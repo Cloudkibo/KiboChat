@@ -12,4 +12,19 @@ function validateUrl (str) {
   }
 }
 
+function padWithZeros (n, width, z) {
+  z = z || '0'
+  n = n + ''
+  let result = n.length >= width ? n : new Array(width - n.length + 1).join(z) + n
+  return result
+}
+
+function dateDiffInDays (date1, date2) {
+  const diffTime = Math.abs(date2 - date1)
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+  return diffDays
+}
+
 exports.validateUrl = validateUrl
+exports.padWithZeros = padWithZeros
+exports.dateDiffInDays = dateDiffInDays
