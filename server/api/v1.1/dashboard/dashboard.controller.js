@@ -322,7 +322,7 @@ exports.stats = function (req, res) {
         .then((pages) => {
           populateIds(pages).then(result => {
             payload.pages = pages.length
-            callApi('pages/query', 'post', {companyId: companyUser.companyId})
+            callApi('pages/query', 'post', {companyId: companyUser.companyId, isApproved: true})
               .then(allPages => {
                 let removeDuplicates = (myArr, prop) => {
                   return myArr.filter((obj, pos, arr) => {
