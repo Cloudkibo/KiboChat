@@ -18,6 +18,13 @@ router.post('/upload',
   multipartyMiddleware,
   controller.upload)
 
+router.post('/uploadRecording',
+  auth.isAuthenticated(),
+  auth.doesPlanPermitsThisAction('broadcasts'),
+  auth.doesRolePermitsThisAction('broadcastPermission'),
+  multipartyMiddleware,
+  controller.uploadRecording)
+
 router.get('/delete/:id',
   auth.isAuthenticated(),
   auth.doesPlanPermitsThisAction('broadcasts'),
