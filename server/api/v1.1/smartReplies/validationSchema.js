@@ -10,6 +10,10 @@ exports.createPayload = {
     botName: {
       type: 'string',
       required: true
+    },
+    pageId: {
+      type: 'string',
+      required: true
     }
   }
 }

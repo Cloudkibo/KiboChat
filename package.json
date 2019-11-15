@@ -41,6 +41,7 @@
     "express-jsonschema": "^1.1.6",
     "express-jwt": "^5.3.1",
     "form-data": "^2.3.2",
+    "google-auth-library": "^5.5.1",
     "helmet": "^3.13.0",
     "isomorphic-fetch": "^2.2.1",
     "json2csv": "^4.5.4",
