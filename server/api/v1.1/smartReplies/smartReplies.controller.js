@@ -145,34 +145,10 @@ exports.create = function (req, res) {
 }
 
 exports.edit = function (req, res) {
-  logger.serverLog(`Adding questions in edit bot ${JSON.stringify(req.body)}`, 'debug')
-  let payload = req.body.payload
-  let botId = req.body.botId
-  logicLayer.updatePayloadForVideo(botId, payload, req.headers.authorization)
-    .then(updatedPayload => {
-      logger.serverLog(TAG, `updatedPayload ${JSON.stringify(updatedPayload)}`, 'debug')
-      BotsDataLayer.updateBotObject({ _id: req.body.botId }, { payload: req.body.payload })
-        .then(bot => {
-          BotsDataLayer.findOneBotObject(req.body.botId)
-            .then(bot => {
-              logger.serverLog(`Returning Bot details ${JSON.stringify(bot)}`, 'error')
-              var entities = logicLayer.getEntities(req.body.payload)
-              logicLayer.trainingPipline(entities, req.body.payload, bot.witToken)
-            })
-          sendSuccessResponse(res, 200)
-        })
-        .catch((err) => {
-          sendErrorResponse(res, 500, '', `Error in updating bot ${JSON.stringify(err)}`)
-        })
-    })
-}
-
-exports.status = function (req, res) {
-  logger.serverLog(`Updating bot status ${JSON.stringify(req.body)}`, 'debug')
-  BotsDataLayer.genericUpdateBotObject({ _id: req.body.botId }, { isActive: req.body.isActive })
+  logger.serverLog(`Updating bot info ${JSON.stringify(req.body)}`, 'debug')
+  BotsDataLayer.genericUpdateBotObject({ _id: req.body.botId }, { isActive: req.body.isActive, botName: req.body.botName })
     .then(result => {
-      logger.serverLog(`affected rows ${result}`, 'debug')
-      sendSuccessResponse(res, 200)
+      sendSuccessResponse(res, 200, 'Bot updated successfully!')
     })
     .catch(err => {
       sendErrorResponse(res, 500, '', `Error in updating bot status${JSON.stringify(err)}`)
