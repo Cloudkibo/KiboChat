@@ -214,43 +214,47 @@ exports.removeWaitSubscribers = function (req, res) {
     })
 }
 
+const _deleteGCPProject = (bot, callback) => {
+  callGoogleApi(
+    `https://cloudresourcemanager.googleapis.com/v1beta1/projects/${bot.gcpPojectId}`,
+    'DELETE'
+  )
+    .then(result => {
+      callback()
+    })
+    .catch(err => {
+      callback(err)
+    })
+}
+
+const _deleteBotRecordInDB = (bot, callback) => {
+  BotsDataLayer.deleteBotObject(bot._id)
+    .then((value) => {
+      callback()
+    })
+    .catch((err) => {
+      callback(err)
+    })
+}
+
 exports.delete = function (req, res) {
   BotsDataLayer.findOneBotObject(req.body.botId)
     .then(bot => {
-      logger.serverLog(TAG, `Deleting Bot details on WitAI ${JSON.stringify(bot)}`, 'debug')
       if (!bot) {
         sendErrorResponse(res, 500, '', `Bot not found ${JSON.stringify(bot)}`)
-      }
-      request(
-        {
-          'method': 'DELETE',
-          'uri': 'https://api.wit.ai/apps/' + bot.witAppId,
-          headers: {
-            'Authorization': 'Bearer ' + bot.witToken
-          }
-        },
-        (err, witres) => {
+      } else {
+        async.series([
+          _deleteGCPProject.bind(null, bot),
+          _deleteBotRecordInDB.bind(null, bot)
+        ], function (err) {
           if (err) {
-            logger.serverLog('Error Occured In Deleting WIT.AI app', 'error')
-            sendErrorResponse(res, 500, { error: err })
+            logger.serverLog(TAG, err, 'error')
+            sendErrorResponse(res, 500, 'Failed to delete bot.')
           } else {
-            if (witres.statusCode !== 200) {
-              logger.serverLog(TAG,
-                `Error Occured in deleting Wit ai app ${JSON.stringify(witres.body)}`, 'error')
-              sendErrorResponse(res, 500, { error: witres.body.errors })
-            } else {
-              logger.serverLog(TAG,
-                'Wit.ai app deleted successfully')
-              BotsDataLayer.deleteBotObject(req.body.botId)
-                .then((value) => {
-                  sendSuccessResponse(res, 200, value)
-                })
-                .catch((err) => {
-                  sendErrorResponse(res, 500, '', `Error in deleting bot object ${JSON.stringify(err)}`)
-                })
-            }
+            sendSuccessResponse(res, 200, 'Bot deleted succssfully!')
           }
         })
+      }
     })
     .catch(err => {
       sendErrorResponse(res, 500, '', `Error in finding bot object ${JSON.stringify(err)}`)
