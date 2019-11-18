@@ -6,31 +6,27 @@ const WaitingSubscribers = require('./waitingSubscribers.datalayer')
 const utility = require('../utility')
 const TAG = 'api/smart_replies/bots.controller.js'
 let request = require('request')
-const WIT_AI_TOKEN = 'RQC4XBQNCBMPETVHBDV4A34WSP5G2PYL'
 const util = require('util')
 const needle = require('needle')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
+const { callGoogleApi } = require('../../global/googleApiCaller')
+const config = require('../../../config/environment')
+const async = require('async')
 
 exports.index = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
-    .then(companyUser => {
-      BotsDataLayer.findAllBotObjectsUsingQuery({ companyId: companyUser.companyId })
-        .then(bots => {
-          if (bots && bots.length > 0) {
-            populateBot(bots, req)
-              .then(result => {
-                sendSuccessResponse(res, 200, result.bots)
-              })
-          } else {
-            sendSuccessResponse(res, 200, [])
-          }
-        })
-        .catch(err => {
-          sendErrorResponse(res, 500, `Error fetching bots from companyId ${err}`)
-        })
+  BotsDataLayer.findAllBotObjectsUsingQuery({ companyId: req.user.companyId })
+    .then(bots => {
+      if (bots && bots.length > 0) {
+        populateBot(bots, req)
+          .then(result => {
+            sendSuccessResponse(res, 200, result.bots)
+          })
+      } else {
+        sendSuccessResponse(res, 200, [])
+      }
     })
     .catch(err => {
-      sendErrorResponse(res, 500, `Error fetching company user ${err}`)
+      sendErrorResponse(res, 500, `Error fetching bots from companyId ${err}`)
     })
 }
 
@@ -66,80 +62,93 @@ exports.waitingReply = function (req, res) {
     })
 }
 
-exports.create = function (req, res) {
-  var uniquebotName = req.body.botName + req.user._id + Date.now()
-  logger.serverLog(TAG, `Create Bot Request ${JSON.stringify(req.user)} ${uniquebotName}}`, 'debug')
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
-    .then(companyUser => {
-      logger.serverLog(TAG, `Company User ${companyUser}}`, 'debug')
-      request(
-        {
-          'method': 'POST',
-          'uri': 'https://api.wit.ai/apps?v=20170307',
-          headers: {
-            'Authorization': 'Bearer ' + WIT_AI_TOKEN,
-            'Content-Type': 'application/json'
-          },
-          body: {
-            'name': uniquebotName,
-            'lang': 'en',
-            'private': 'false'
-          },
-          json: true
-        },
-        (err, witres) => {
-          if (err) {
-            return logger.serverLog(TAG, 'Error Occured In Creating WIT.AI app', 'error')
-          } else {
-            if (witres.statusCode !== 200) {
-              sendErrorResponse(res, 500, { error: witres.body.errors })
-            } else {
-              var botPayload = logicLayer.createBotPayload(req, companyUser, witres, uniquebotName)
-              BotsDataLayer.createBotObject(botPayload)
-                .then(newBot => {
-                  sendSuccessResponse(res, 200, newBot)
-                })
-                .catch(err => {
-                  sendErrorResponse(res, 500, '', `Error creating bot object ${err}`)
-                })
-            }
-          }
-        })
+const _createGCPProject = (data, callback) => {
+  const projectData = {
+    projectId: data.gcpPojectId,
+    name: `Project ${data.pageId} ${data.botName}`,
+    parent: {
+      type: 'organization',
+      id: config.GOOGLE_ORGANIZATION_ID
+    }
+  }
+  callGoogleApi(
+    'https://cloudresourcemanager.googleapis.com/v1beta1/projects/',
+    'POST',
+    projectData
+  )
+    .then(result => {
+      callback()
     })
     .catch(err => {
-      sendErrorResponse(res, 500, '', `Internal Server Error in fetching company user ${JSON.stringify(err)}`)
+      callback(err)
     })
+}
+
+const _createDialogFlowAgent = (data, callback) => {
+  const agentData = {
+    displayName: data.dialogFlowAgentId
+  }
+  callGoogleApi(
+    `https://dialogflow.googleapis.com/v2/projects/${data.gcpPojectId}/agent`,
+    'POST',
+    agentData
+  )
+    .then(result => {
+      callback()
+    })
+    .catch(err => {
+      callback(err)
+    })
+}
+
+const _createBotRecordInDB = (data, callback) => {
+  const botData = {
+    pageId: data.pageId,
+    userId: data.user._id,
+    botName: data.botName,
+    companyId: data.user.companyId,
+    gcpPojectId: data.gcpPojectId,
+    dialogFlowAgentId: data.dialogFlowAgentId,
+    hitCount: 0,
+    missCount: 0
+  }
+  BotsDataLayer.createBotObject(botData)
+    .then(newBot => {
+      callback()
+    })
+    .catch(err => {
+      callback(err)
+    })
+}
+
+exports.create = function (req, res) {
+  logger.serverLog(TAG, `Create Bot Request ${req.body.pageId}-${req.body.botName}`, 'debug')
+  let data = {
+    user: req.user,
+    pageId: req.body.pageId,
+    botName: req.body.botName,
+    gcpPojectId: `Project-${req.body.pageId}-${req.body.botName}`,
+    dialogFlowAgentId: `Agent-${req.body.pageId}-${req.body.botName}`
+  }
+  async.series([
+    _createGCPProject.bind(null, data),
+    _createDialogFlowAgent.bind(null, data),
+    _createBotRecordInDB.bind(null, data)
+  ], function (err) {
+    if (err) {
+      logger.serverLog(TAG, err, 'error')
+      sendErrorResponse(res, 500, 'Failed to create bot.')
+    } else {
+      sendSuccessResponse(res, 200, 'Bot created succssfully!')
+    }
+  })
 }
 
 exports.edit = function (req, res) {
-  logger.serverLog(`Adding questions in edit bot ${JSON.stringify(req.body)}`, 'debug')
-  let payload = req.body.payload
-  let botId = req.body.botId
-  logicLayer.updatePayloadForVideo(botId, payload, req.headers.authorization)
-    .then(updatedPayload => {
-      logger.serverLog(TAG, `updatedPayload ${JSON.stringify(updatedPayload)}`, 'debug')
-      BotsDataLayer.updateBotObject({ _id: req.body.botId }, { payload: req.body.payload })
-        .then(bot => {
-          BotsDataLayer.findOneBotObject(req.body.botId)
-            .then(bot => {
-              logger.serverLog(`Returning Bot details ${JSON.stringify(bot)}`, 'error')
-              var entities = logicLayer.getEntities(req.body.payload)
-              logicLayer.trainingPipline(entities, req.body.payload, bot.witToken)
-            })
-          sendSuccessResponse(res, 200)
-        })
-        .catch((err) => {
-          sendErrorResponse(res, 500, '', `Error in updating bot ${JSON.stringify(err)}`)
-        })
-    })
-}
-
-exports.status = function (req, res) {
-  logger.serverLog(`Updating bot status ${JSON.stringify(req.body)}`, 'debug')
-  BotsDataLayer.genericUpdateBotObject({ _id: req.body.botId }, { isActive: req.body.isActive })
+  logger.serverLog(`Updating bot info ${JSON.stringify(req.body)}`, 'debug')
+  BotsDataLayer.genericUpdateBotObject({ _id: req.body.botId }, { isActive: req.body.isActive, botName: req.body.botName })
     .then(result => {
-      logger.serverLog(`affected rows ${result}`, 'debug')
-      sendSuccessResponse(res, 200)
+      sendSuccessResponse(res, 200, 'Bot updated successfully!')
     })
     .catch(err => {
       sendErrorResponse(res, 500, '', `Error in updating bot status${JSON.stringify(err)}`)
@@ -205,43 +214,47 @@ exports.removeWaitSubscribers = function (req, res) {
     })
 }
 
+const _deleteGCPProject = (bot, callback) => {
+  callGoogleApi(
+    `https://cloudresourcemanager.googleapis.com/v1beta1/projects/${bot.gcpPojectId}`,
+    'DELETE'
+  )
+    .then(result => {
+      callback()
+    })
+    .catch(err => {
+      callback(err)
+    })
+}
+
+const _deleteBotRecordInDB = (bot, callback) => {
+  BotsDataLayer.deleteBotObject(bot._id)
+    .then((value) => {
+      callback()
+    })
+    .catch((err) => {
+      callback(err)
+    })
+}
+
 exports.delete = function (req, res) {
   BotsDataLayer.findOneBotObject(req.body.botId)
     .then(bot => {
-      logger.serverLog(TAG, `Deleting Bot details on WitAI ${JSON.stringify(bot)}`, 'debug')
       if (!bot) {
         sendErrorResponse(res, 500, '', `Bot not found ${JSON.stringify(bot)}`)
-      }
-      request(
-        {
-          'method': 'DELETE',
-          'uri': 'https://api.wit.ai/apps/' + bot.witAppId,
-          headers: {
-            'Authorization': 'Bearer ' + bot.witToken
-          }
-        },
-        (err, witres) => {
+      } else {
+        async.series([
+          _deleteGCPProject.bind(null, bot),
+          _deleteBotRecordInDB.bind(null, bot)
+        ], function (err) {
           if (err) {
-            logger.serverLog('Error Occured In Deleting WIT.AI app', 'error')
-            sendErrorResponse(res, 500, { error: err })
+            logger.serverLog(TAG, err, 'error')
+            sendErrorResponse(res, 500, 'Failed to delete bot.')
           } else {
-            if (witres.statusCode !== 200) {
-              logger.serverLog(TAG,
-                `Error Occured in deleting Wit ai app ${JSON.stringify(witres.body)}`, 'error')
-              sendErrorResponse(res, 500, { error: witres.body.errors })
-            } else {
-              logger.serverLog(TAG,
-                'Wit.ai app deleted successfully')
-              BotsDataLayer.deleteBotObject(req.body.botId)
-                .then((value) => {
-                  sendSuccessResponse(res, 200, value)
-                })
-                .catch((err) => {
-                  sendErrorResponse(res, 500, '', `Error in deleting bot object ${JSON.stringify(err)}`)
-                })
-            }
+            sendSuccessResponse(res, 200, 'Bot deleted succssfully!')
           }
         })
+      }
     })
     .catch(err => {
       sendErrorResponse(res, 500, '', `Error in finding bot object ${JSON.stringify(err)}`)
@@ -445,21 +458,15 @@ function populateBot (bots, req) {
     for (let i = 0; i < bots.length; i++) {
       utility.callApi(`pages/query`, 'post', {_id: bots[i].pageId})
         .then(page => {
-          // bots[i].pageId = page[0]
           botsToSend.push({
-            blockedSubscribers: bots[i].blockedSubscribers,
             _id: bots[i]._id,
             pageId: page[0],
             userId: bots[i].userId,
             botName: bots[i].botName,
             companyId: bots[i].companyId,
-            witAppId: bots[i].witAppId,
-            witToken: bots[i].witToken,
-            witAppName: bots[i].witAppName,
             isActive: bots[i].isActive,
             hitCount: bots[i].hitCount,
             missCount: bots[i].missCount,
-            payload: bots[i].payload,
             datetime: bots[i].datetime
           })
           if (botsToSend.length === bots.length) {

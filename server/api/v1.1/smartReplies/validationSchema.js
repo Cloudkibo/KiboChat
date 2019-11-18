@@ -10,6 +10,10 @@ exports.createPayload = {
     botName: {
       type: 'string',
       required: true
+    },
+    pageId: {
+      type: 'string',
+      required: true
     }
   }
 }
@@ -21,9 +25,11 @@ exports.editPayload = {
       type: 'string',
       required: true
     },
-    payload: {
-      type: 'array',
-      items: {}
+    isActive: {
+      type: 'string'
+    },
+    botName: {
+      type: 'string'
     }
   }
 }

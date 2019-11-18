@@ -7,6 +7,7 @@ let config = require('./../../../config/environment')
 let request = require('request')
 const crypto = require('crypto')
 const utility = require('../utility')
+const ffmpeg = require('ffmpeg')
 
 exports.delete = function (req, res) {
   let dir = path.resolve(__dirname, '../../../../broadcastFiles/userfiles')
@@ -58,6 +59,65 @@ exports.deleteButton = function (req, res) {
       res.status(500).json({status: 'failed', description: `Failed to add button ${err}`})
     })
 }
+exports.uploadRecording = function (req, res) {
+  var today = new Date()
+  var uid = crypto.randomBytes(5).toString('hex')
+  var serverPath = 'f' + uid + '' + today.getFullYear() + '' +
+    (today.getMonth() + 1) + '' + today.getDate()
+  serverPath += '' + today.getHours() + '' + today.getMinutes() + '' +
+    today.getSeconds()
+  let fext = req.files.file.name.split('.')
+  serverPath += '.' + fext[fext.length - 1].toLowerCase()
+
+  let dir = path.resolve(__dirname, '../../../../broadcastFiles/')
+
+  if (req.files.file.size === 0) {
+    return res.status(400).json({
+      status: 'failed',
+      description: 'No file submitted'
+    })
+  }
+  logger.serverLog(TAG,
+    `req.files.file ${JSON.stringify(req.files.file.path)}`)
+  logger.serverLog(TAG,
+    `req.files.file ${JSON.stringify(req.files.file.name)}`)
+  logger.serverLog(TAG,
+    `dir ${JSON.stringify(dir)}`)
+  logger.serverLog(TAG,
+    `serverPath ${JSON.stringify(serverPath)}`)
+  try {
+    var process = new ffmpeg(req.files.file.path);
+    process.then(function (audio) {
+      audio.fnExtractSoundToMP3(dir + '/userfiles/'+serverPath, function(err, file) {
+        if (err) {
+          logger.serverLog(TAG,
+            `Error ffmpeg ${err}`)
+        }
+        if (file) {
+          logger.serverLog(TAG,
+            `file uploaded on KiboPush, uploading it on Facebook: ${JSON.stringify({
+              id: serverPath,
+              url: `${config.domain}/api/broadcasts/download/${serverPath}`
+            })}`)
+            return res.status(201).json({
+              status: 'success',
+              payload: {
+                id: serverPath,
+                name: req.files.file.name,
+                url: `${config.domain}/api/broadcasts/download/${serverPath}`
+              }
+            })
+        }
+      })
+    }, function (err) {
+      logger.serverLog(TAG,
+        `Error ffmpeg ${err}`)
+    });
+  } catch (e) {
+    logger.serverLog(TAG,
+      `Error Catch ffmpeg ${e.msg}`)
+  }
+}
 exports.upload = function (req, res) {
   var today = new Date()
   var uid = crypto.randomBytes(5).toString('hex')
@@ -94,7 +154,7 @@ exports.upload = function (req, res) {
           description: 'internal server error' + JSON.stringify(err)
         })
       }
-      // saving this file to send files with its original name
+       // saving this file to send files with its original name
       // it will be deleted once it is successfully sent
       let readData = fs.createReadStream(dir + '/userfiles/' + serverPath)
       let writeData = fs.createWriteStream(dir + '/userfiles/' + req.files.file.name)

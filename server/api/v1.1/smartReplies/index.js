@@ -32,11 +32,6 @@ router.post('/delete',
   validate({body: validationSchema.deletePayload}),
   controller.delete)
 
-router.post('/updateStatus',
-  auth.isAuthenticated(),
-  validate({body: validationSchema.updateStatusPayload}),
-  controller.status)
-
 router.post('/botDetails',
   auth.isAuthenticated(),
   validate({body: validationSchema.botDetailsPayload}),
