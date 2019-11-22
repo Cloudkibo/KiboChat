@@ -12,6 +12,7 @@ const { sendSuccessResponse, sendErrorResponse } = require('../../global/respons
 const { callGoogleApi } = require('../../global/googleApiCaller')
 const config = require('../../../config/environment')
 const async = require('async')
+const { callApi } = require('../utility')
 
 exports.index = function (req, res) {
   BotsDataLayer.findAllBotObjectsUsingQuery({ companyId: req.user.companyId })
@@ -238,7 +239,11 @@ const _deleteBotRecordInDB = (bot, callback) => {
 }
 
 exports.delete = function (req, res) {
-  BotsDataLayer.findOneBotObject(req.body.botId)
+  callApi('user/authenticatePassword', 'post', {email: req.user.email, password: req.body.password})
+    .then(authenticated => {
+      console.log('i am authenticated', authenticated)
+      return BotsDataLayer.findOneBotObject(req.body.botId)
+    })
     .then(bot => {
       if (!bot) {
         sendErrorResponse(res, 500, '', `Bot not found ${JSON.stringify(bot)}`)
@@ -257,7 +262,7 @@ exports.delete = function (req, res) {
       }
     })
     .catch(err => {
-      sendErrorResponse(res, 500, '', `Error in finding bot object ${JSON.stringify(err)}`)
+      sendErrorResponse(res, 500, 'Incorrect password', `Error in finding bot object ${JSON.stringify(err)}`)
     })
 }
 
