@@ -10,6 +10,32 @@ const BotsDataLayer = require('./bots.datalayer')
 const { callApi } = require('../utility')
 const dir = path.resolve(__dirname, '../../../../smart-replies-files/')
 
+exports.createDialoFlowIntentData = (data) => {
+  if (!data.questions || data.questions.length === 0) {
+    throw Error('Questions field is required and it cannot be an empty array!')
+  } else if (!data.name || data.name === '') {
+    throw Error('Name field is required and cannot be an empty string!')
+  } else {
+    const questions = data.questions
+    let result = {
+      displayName: data.name,
+      trainingPhases: []
+    }
+    for (let i = 0; i < questions.length; i++) {
+      let question = questions[i]
+      result.trainingPhases.push({
+        'type': 'TYPE_UNSPECIFIED',
+        'parts': [
+          {
+            'text': question
+          }
+        ]
+      })
+    }
+    return result
+  }
+}
+
 const downloadVideo = (data) => {
   return new Promise((resolve, reject) => {
     let video = youtubedl(data.url)

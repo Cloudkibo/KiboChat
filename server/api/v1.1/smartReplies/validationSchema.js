@@ -115,3 +115,32 @@ exports.indexPayload = {
     }
   }
 }
+
+exports.trainBotPayload = {
+  type: 'object',
+  properties: {
+    intentId: {
+      type: 'string',
+      required: true
+    },
+    name: {
+      type: 'string',
+      required: true
+    },
+    gcpPojectId: {
+      type: 'string',
+      required: true
+    },
+    questions: {
+      type: 'array',
+      required: true
+    },
+    answer: {
+      type: 'array',
+      required: true
+    },
+    dialogflowIntentId: {
+      type: 'string'
+    }
+  }
+}

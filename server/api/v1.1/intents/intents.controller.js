@@ -1,15 +1,11 @@
 const logger = require('../../../components/logger')
 const TAG = 'api/smart_replies/bots.controller.js'
-// const logicLayer = require('./logicLayer')
 const dataLayer = require('./datalayer')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
-// const { callGoogleApi } = require('../../global/googleApiCaller')
-// const config = require('../../../config/environment')
-// const async = require('async')
 
 exports.index = function (req, res) {
   logger.serverLog(TAG, 'create endpoint of intents is hit', 'debug')
-  dataLayer.findAllIntents({companyId: req.user.companyId})
+  dataLayer.findAllIntents({botId: req.body.botId})
     .then(intents => {
       sendSuccessResponse(res, 200, intents)
     })

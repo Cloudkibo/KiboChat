@@ -13,6 +13,7 @@ const { callGoogleApi } = require('../../global/googleApiCaller')
 const config = require('../../../config/environment')
 const async = require('async')
 const { callApi } = require('../utility')
+const intentsDataLayer = require('../intents/datalayer')
 
 exports.index = function (req, res) {
   BotsDataLayer.findAllBotObjectsUsingQuery({ companyId: req.user.companyId })
@@ -28,38 +29,6 @@ exports.index = function (req, res) {
     })
     .catch(err => {
       sendErrorResponse(res, 500, `Error fetching bots from companyId ${err}`)
-    })
-}
-
-exports.waitingReply = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
-    .then(companyUser => {
-      utility.callApi(`subscribers/query`, 'post', {companyId: companyUser.companyId, isEnabledByPage: true, isSubscribed: true, completeInfo: true})
-        .then(subscribers => {
-          let obj = logicLayer.prepareSubscribersPayload(subscribers)
-          let subsArray = obj.subsArray
-          let subscribersPayload = obj.subscribersPayload
-          utility.callApi(`tags/query`, 'post', { subscriberId: { $in: subsArray }, companyId: companyUser.companyId })
-            .then(tags => {
-              for (let i = 0; i < subscribers.length; i++) {
-                for (let j = 0; j < tags.length; j++) {
-                  if (subscribers[i]._id.toString() === tags[j].subscriberId.toString()) {
-                    subscribersPayload[i].tags.push(tags[j].tagId.tag)
-                  }
-                }
-              }
-              sendSuccessResponse(res, 200, subscribersPayload)
-            })
-            .catch(err => {
-              sendErrorResponse(res, 500, `Error fetching subscribers in waiting reply ${err}`)
-            })
-        })
-        .catch(err => {
-          sendErrorResponse(res, 500, '', `Error fetching subscribers in waiting reply ${err}`)
-        })
-    })
-    .catch(err => {
-      sendErrorResponse(res, 500, '', `Error fetching company user ${err}`)
     })
 }
 
@@ -115,6 +84,7 @@ const _createBotRecordInDB = (data, callback) => {
   }
   BotsDataLayer.createBotObject(botData)
     .then(newBot => {
+      data.botData = newBot
       callback()
     })
     .catch(err => {
@@ -138,10 +108,9 @@ exports.create = function (req, res) {
   ], function (err) {
     if (err) {
       logger.serverLog(TAG, err, 'error')
-      console.log('bot create error', err)
       sendErrorResponse(res, 500, 'Failed to create bot.')
     } else {
-      sendSuccessResponse(res, 200, 'Bot created succssfully!')
+      sendSuccessResponse(res, 200, data.botData)
     }
   })
 }
@@ -154,6 +123,108 @@ exports.edit = function (req, res) {
     })
     .catch(err => {
       sendErrorResponse(res, 500, '', `Error in updating bot status${JSON.stringify(err)}`)
+    })
+}
+
+const _createDialogFlowIntent = (data) => {
+  const intentData = logicLayer.createDialoFlowIntentData({name: data.name, questions: data.questions})
+  return callGoogleApi(
+    `https://dialogflow.googleapis.com/v2/projects/${data.gcpPojectId.toLowerCase()}/agent/intents`,
+    'POST',
+    intentData
+  )
+}
+
+const _updateDialogFlowIntent = (data) => {
+  const intentData = logicLayer.createDialoFlowIntentData({name: data.name, questions: data.questions})
+  return callGoogleApi(
+    `https://dialogflow.googleapis.com/v2/projects/${data.gcpPojectId.toLowerCase()}/agent/intents/${data.dialogflowIntentId}`,
+    'PATCH',
+    intentData
+  )
+}
+
+const _updateIntentRecordInDb = (data) => {
+  return intentsDataLayer.updateOneIntent(
+    {
+      _id: data.intentId
+    },
+    {
+      name: data.name,
+      questions: data.questions,
+      answer: data.answer,
+      dialogflowIntentId: data.dialogflowIntentId
+    }
+  )
+}
+
+exports.trainBot = function (req, res) {
+  if (req.body.dialogflowIntentId) {
+    _updateDialogFlowIntent(req.body)
+      .then(intent => {
+        _updateIntentRecordInDb(req.body)
+          .then(result => {
+            sendSuccessResponse(res, 200, 'Bot trained succssfully!')
+          })
+          .catch(err => {
+            logger.serverLog(TAG, err, 'error')
+            sendErrorResponse(res, 500, 'Failed to train bot.')
+          })
+      })
+      .catch(err => {
+        logger.serverLog(TAG, err, 'error')
+        sendErrorResponse(res, 500, 'Failed to train bot.')
+      })
+  } else {
+    _createDialogFlowIntent(req.body)
+      .then(intent => {
+        let intentPath = intent.name.split('/')
+        req.body.dialogflowIntentId = intentPath[intentPath.length - 1]
+        _updateIntentRecordInDb(req.body)
+          .then(result => {
+            sendSuccessResponse(res, 200, 'Bot trained succssfully!')
+          })
+          .catch(err => {
+            logger.serverLog(TAG, err, 'error')
+            sendErrorResponse(res, 500, 'Failed to train bot.')
+          })
+      })
+      .catch(err => {
+        logger.serverLog(TAG, err, 'error')
+        sendErrorResponse(res, 500, 'Failed to train bot.')
+      })
+  }
+}
+
+exports.waitingReply = function (req, res) {
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
+    .then(companyUser => {
+      utility.callApi(`subscribers/query`, 'post', {companyId: companyUser.companyId, isEnabledByPage: true, isSubscribed: true, completeInfo: true})
+        .then(subscribers => {
+          let obj = logicLayer.prepareSubscribersPayload(subscribers)
+          let subsArray = obj.subsArray
+          let subscribersPayload = obj.subscribersPayload
+          utility.callApi(`tags/query`, 'post', { subscriberId: { $in: subsArray }, companyId: companyUser.companyId })
+            .then(tags => {
+              for (let i = 0; i < subscribers.length; i++) {
+                for (let j = 0; j < tags.length; j++) {
+                  if (subscribers[i]._id.toString() === tags[j].subscriberId.toString()) {
+                    subscribersPayload[i].tags.push(tags[j].tagId.tag)
+                  }
+                }
+              }
+              sendSuccessResponse(res, 200, subscribersPayload)
+            })
+            .catch(err => {
+              sendErrorResponse(res, 500, `Error fetching subscribers in waiting reply ${err}`)
+            })
+        })
+        .catch(err => {
+          sendErrorResponse(res, 500, '', `Error fetching subscribers in waiting reply ${err}`)
+        })
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, '', `Error fetching company user ${err}`)
     })
 }
 

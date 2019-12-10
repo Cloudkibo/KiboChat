@@ -13,10 +13,6 @@ router.get('/',
   auth.isAuthenticated(),
   controller.index)
 
-router.get('/waitingReply',
-  auth.isAuthenticated(),
-  controller.waitingReply)
-
 router.post('/create',
   auth.isAuthenticated(),
   validate({body: validationSchema.createPayload}),
@@ -31,6 +27,15 @@ router.post('/delete',
   auth.isAuthenticated(),
   validate({body: validationSchema.deletePayload}),
   controller.delete)
+
+router.get('/trainBot',
+  auth.isAuthenticated(),
+  validate({body: validationSchema.trainBotPayload}),
+  controller.trainBot)
+
+router.get('/waitingReply',
+  auth.isAuthenticated(),
+  controller.waitingReply)
 
 router.post('/botDetails',
   auth.isAuthenticated(),
@@ -51,8 +56,5 @@ router.post('/removeWaitingSubscribers',
   auth.isAuthenticated(),
   validate({body: validationSchema.removeWaitSubscribersPayload}),
   controller.removeWaitSubscribers)
-
-// router.post('/report', controller.report);
-// router.post('/send', controller.send);
 
 module.exports = router

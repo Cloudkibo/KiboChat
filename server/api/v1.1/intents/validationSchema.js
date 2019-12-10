@@ -4,6 +4,19 @@ By separating it from controller, we are cleaning the code.
 Now the middleware will automatically send error response if the payload fails
 */
 
+exports.getIntentPayload = {
+  '$schema': 'http://json-schema.org/draft-04/schema#',
+  'type': 'object',
+  'properties': {
+    'botId': {
+      'type': 'string'
+    }
+  },
+  'required': [
+    'botId'
+  ]
+}
+
 exports.createPayload = {
   '$schema': 'http://json-schema.org/draft-04/schema#',
   'type': 'object',
