@@ -65,8 +65,8 @@ exports.waitingReply = function (req, res) {
 
 const _createGCPProject = (data, callback) => {
   const projectData = {
-    projectId: data.gcpPojectId,
-    name: `Project ${data.pageId} ${data.botName}`,
+    projectId: data.gcpPojectId.toLowerCase(),
+    name: `${data.botName}`,
     parent: {
       type: 'organization',
       id: config.GOOGLE_ORGANIZATION_ID
@@ -90,7 +90,7 @@ const _createDialogFlowAgent = (data, callback) => {
     displayName: data.dialogFlowAgentId
   }
   callGoogleApi(
-    `https://dialogflow.googleapis.com/v2/projects/${data.gcpPojectId}/agent`,
+    `https://dialogflow.googleapis.com/v2/projects/${data.gcpPojectId.toLowerCase()}/agent`,
     'POST',
     agentData
   )
@@ -108,7 +108,7 @@ const _createBotRecordInDB = (data, callback) => {
     userId: data.user._id,
     botName: data.botName,
     companyId: data.user.companyId,
-    gcpPojectId: data.gcpPojectId,
+    gcpPojectId: data.gcpPojectId.toLowerCase(),
     dialogFlowAgentId: data.dialogFlowAgentId,
     hitCount: 0,
     missCount: 0
@@ -128,8 +128,8 @@ exports.create = function (req, res) {
     user: req.user,
     pageId: req.body.pageId,
     botName: req.body.botName,
-    gcpPojectId: `Project-${req.body.pageId}-${req.body.botName}`,
-    dialogFlowAgentId: `Agent-${req.body.pageId}-${req.body.botName}`
+    gcpPojectId: `${req.body.botName}-${req.body.pageId.substring(req.body.pageId.length - 4)}`,
+    dialogFlowAgentId: `${req.body.botName}-${req.body.pageId.substring(req.body.pageId.length - 4)}`
   }
   async.series([
     _createGCPProject.bind(null, data),
@@ -138,6 +138,7 @@ exports.create = function (req, res) {
   ], function (err) {
     if (err) {
       logger.serverLog(TAG, err, 'error')
+      console.log('bot create error', err)
       sendErrorResponse(res, 500, 'Failed to create bot.')
     } else {
       sendSuccessResponse(res, 200, 'Bot created succssfully!')
