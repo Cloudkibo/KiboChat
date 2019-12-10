@@ -24,9 +24,6 @@ exports.create = function (req, res) {
       } else {
         const data = {
           name: req.body.name,
-          dialogFlowIntentId: '',
-          questions: [],
-          answer: [],
           botId: req.body.botId
         }
         dataLayer.createIntent(data)
