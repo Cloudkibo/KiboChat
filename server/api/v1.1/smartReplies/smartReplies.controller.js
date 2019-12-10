@@ -460,23 +460,12 @@ exports.respond = function (pageId, senderId, text) {
 }
 function populateBot (bots, req) {
   return new Promise(function (resolve, reject) {
-    let botsToSend = []
     for (let i = 0; i < bots.length; i++) {
       utility.callApi(`pages/query`, 'post', {_id: bots[i].pageId})
         .then(page => {
-          botsToSend.push({
-            _id: bots[i]._id,
-            pageId: page[0],
-            userId: bots[i].userId,
-            botName: bots[i].botName,
-            companyId: bots[i].companyId,
-            isActive: bots[i].isActive,
-            hitCount: bots[i].hitCount,
-            missCount: bots[i].missCount,
-            datetime: bots[i].datetime
-          })
-          if (botsToSend.length === bots.length) {
-            resolve({bots: botsToSend})
+          bots[i].pageId = page[0]
+          if (bots.length - 1 === i) {
+            resolve({bots})
           }
         })
         .catch(err => {
