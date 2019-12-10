@@ -10,8 +10,9 @@ const controller = require('./intents.controller')
 const validate = require('express-jsonschema').validate
 const validationSchema = require('./validationSchema')
 
-router.get('/',
+router.post('/',
   auth.isAuthenticated(),
+  validate({ body: validationSchema.getIntentPayload }),
   controller.index)
 
 router.post('/',
