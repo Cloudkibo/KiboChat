@@ -178,7 +178,7 @@ exports.trainBot = function (req, res) {
   } else {
     _createDialogFlowIntent(req.body)
       .then(intent => {
-        let intentPath = intent.name.split('/')
+        let intentPath = intent.data.name.split('/')
         req.body.dialogflowIntentId = intentPath[intentPath.length - 1]
         _updateIntentRecordInDb(req.body)
           .then(result => {
@@ -191,6 +191,7 @@ exports.trainBot = function (req, res) {
       })
       .catch(err => {
         logger.serverLog(TAG, err, 'error')
+        console.log(err)
         sendErrorResponse(res, 500, 'Failed to train bot.')
       })
   }

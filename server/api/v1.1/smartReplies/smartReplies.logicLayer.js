@@ -19,11 +19,11 @@ exports.createDialoFlowIntentData = (data) => {
     const questions = data.questions
     let result = {
       displayName: data.name,
-      trainingPhases: []
+      trainingPhrases: []
     }
     for (let i = 0; i < questions.length; i++) {
       let question = questions[i]
-      result.trainingPhases.push({
+      result.trainingPhrases.push({
         'type': 'TYPE_UNSPECIFIED',
         'parts': [
           {

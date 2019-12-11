@@ -28,7 +28,7 @@ router.post('/delete',
   validate({body: validationSchema.deletePayload}),
   controller.delete)
 
-router.get('/trainBot',
+router.post('/trainBot',
   auth.isAuthenticated(),
   validate({body: validationSchema.trainBotPayload}),
   controller.trainBot)
