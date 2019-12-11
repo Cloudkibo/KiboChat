@@ -53,3 +53,15 @@ exports.update = function (req, res) {
       sendErrorResponse(res, 500, 'Error occured while updating intent')
     })
 }
+
+exports.delete = function (req, res) {
+  logger.serverLog(TAG, 'delete endpoint of intents is hit', 'debug')
+  dataLayer.deleteOneIntent({_id: req.body.intentId})
+    .then(updatedObj => {
+      sendSuccessResponse(res, 200, 'Intent deleted successfully!')
+    })
+    .catch(err => {
+      logger.serverLog(TAG, `Error occured while deleting intent ${err}`, 'error')
+      sendErrorResponse(res, 500, 'Error occured while deleting intent')
+    })
+}

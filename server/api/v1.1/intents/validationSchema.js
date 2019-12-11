@@ -51,3 +51,21 @@ exports.updatePayload =
       'intentId'
     ]
   }
+
+  exports.deletePayload =
+    {
+      '$schema': 'http://json-schema.org/draft-04/schema#',
+      'type': 'object',
+      'properties': {
+        'intentId': {
+          'type': 'string'
+        },
+        'name': {
+          'type': 'string'
+        }
+      },
+      'required': [
+        'name',
+        'intentId'
+      ]
+    }
