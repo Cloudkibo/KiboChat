@@ -21,6 +21,14 @@ exports.findAllWaitingSubscriberObjects = () => {
   return callApi(`smart_replies/waiting/query`, 'post', query, 'kibochat', '')
 }
 
+exports.findUsingAggregate = (match) => {
+  let query = {
+    purpose: 'aggregate',
+    match
+  }
+  return callApi(`smart_replies/waiting/query`, 'post', query, 'kibochat', '')
+}
+
 exports.findOneWaitingSubscriberObjectUsingQuery = (queryObject) => {
   let query = {
     purpose: 'findOne',

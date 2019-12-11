@@ -36,6 +36,56 @@ exports.createDialoFlowIntentData = (data) => {
   }
 }
 
+exports.getAggregateCriterias = function (body) {
+  let finalCriteria = {}
+  let recordsToSkip = 0
+  let search = '.*' + body.searchValue + '.*'
+  let findCriteria = {
+    'botId': body.botId,
+    'subscriberId.fullName': {$regex: search, $options: 'i'},
+    'subscriberId.gender': body.genderValue !== '' ? body.genderValue : {$exists: true},
+    'pageId._id': body.pageValue !== '' ? body.pageValue : {$exists: true}
+  }
+
+  let countCriteria = [
+    { $match: findCriteria },
+    { $group: { _id: null, count: { $sum: 1 } } }
+  ]
+
+  if (body.pagination.step === 'first') {
+    recordsToSkip = Math.abs(body.pagination.currentPage * body.records)
+    finalCriteria = [
+      { $match: findCriteria },
+      { $sort: { datetime: -1 } },
+      { $skip: recordsToSkip },
+      { $limit: body.records },
+      { $lookup: { from: 'intents', localField: 'intentId', foreignField: '_id', as: 'intentId' } },
+      { $unwind: '$intentId' }
+    ]
+  } else if (body.pagination.step === 'next') {
+    recordsToSkip = Math.abs(((body.pagination.requestedPage - 1) - (body.pagination.currentPage))) * body.records
+    finalCriteria = [
+      { $match: { $and: [findCriteria, { _id: { $lt: body.lastId } }] } },
+      { $sort: { datetime: -1 } },
+      { $skip: recordsToSkip },
+      { $limit: body.records },
+      { $lookup: { from: 'intents', localField: 'intentId', foreignField: '_id', as: 'intentId' } },
+      { $unwind: '$intentId' }
+    ]
+  } else if (body.pagination.step === 'previous') {
+    recordsToSkip = Math.abs(body.pagination.requestedPage * body.records)
+    finalCriteria = [
+      { $match: { $and: [findCriteria, { _id: { $gt: body.lastId } }] } },
+      { $sort: { datetime: -1 } },
+      { $skip: recordsToSkip },
+      { $limit: body.records },
+      { $lookup: { from: 'intents', localField: 'intentId', foreignField: '_id', as: 'intentId' } },
+      { $unwind: '$intentId' }
+    ]
+  }
+  return { countCriteria: countCriteria, fetchCriteria: finalCriteria }
+}
+
 const downloadVideo = (data) => {
   return new Promise((resolve, reject) => {
     let video = youtubedl(data.url)

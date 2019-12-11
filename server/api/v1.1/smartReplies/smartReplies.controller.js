@@ -258,22 +258,33 @@ exports.unAnsweredQueries = function (req, res) {
     })
 }
 
-exports.waitSubscribers = function (req, res) {
-  WaitingSubscribers.findAllWaitingSubscriberObjectsUsingQuery({botId: req.body.botId})
-    .then(subscribers => {
-      logger.serverLog(TAG, `waitSubscribers fetched ${JSON.stringify(subscribers)}`, 'debug')
-      if (subscribers && subscribers.length > 0) {
-        populateSubscriber(subscribers, req)
-          .then(result => {
-            sendSuccessResponse(res, 200, result.waitingSubscribers)
-          })
-      } else {
-        sendSuccessResponse(res, 200, [])
-      }
+const _getWaitingSubscribers = (criteria, callback) => {
+  WaitingSubscribers.findUsingAggregate(criteria)
+    .then(waitingSubscribers => {
+      callback(null, waitingSubscribers)
     })
     .catch(err => {
-      sendErrorResponse(res, 500, '', `Error in finding waiting subscribers ${JSON.stringify(err)}`)
+      callback(err)
     })
+}
+
+exports.waitSubscribers = function (req, res) {
+  const criteria = logicLayer.getAggregateCriterias(req.body)
+  async.parallelLimit([
+    _getWaitingSubscribers.bind(null, criteria.countCriteria),
+    _getWaitingSubscribers.bind(null, criteria.fetchCriteria)
+  ], 10, function (err, results) {
+    if (err) {
+      logger.serverLog(TAG, err, 'error')
+      sendErrorResponse(res, 500, 'Failed to fetch waiting subscribers')
+    } else {
+      let payload = {
+        count: results[0].length > 0 ? results[0].count : 0,
+        waitingSubscribers: results[1]
+      }
+      sendSuccessResponse(res, 200, payload)
+    }
+  })
 }
 
 exports.removeWaitSubscribers = function (req, res) {
@@ -541,40 +552,6 @@ function populateBot (bots, req) {
         })
         .catch(err => {
           logger.serverLog(TAG, `Failed to fetch bots ${JSON.stringify(err)}`, 'error')
-          reject(err)
-        })
-    }
-  })
-}
-function populateSubscriber (waiting, req) {
-  return new Promise(function (resolve, reject) {
-    let sendPayload = []
-    for (let i = 0; i < waiting.length; i++) {
-      utility.callApi(`pages/query`, 'post', {_id: waiting[i].pageId})
-        .then(page => {
-          utility.callApi(`subscribers/query`, 'post', {_id: waiting[i].subscriberId, companyId: page[0].companyId, completeInfo: true})
-            .then(subscriber => {
-              sendPayload.push({
-                _id: waiting[i]._id,
-                botId: waiting[i].botId,
-                pageId: page[0],
-                subscriberId: subscriber[0],
-                intentId: waiting[i].intentId,
-                Question: waiting[i].Question,
-                datetime: waiting[i].datetime
-              })
-              if (sendPayload.length === waiting.length) {
-                logger.serverLog(TAG, `sendPayload ${JSON.stringify(sendPayload)}`, 'debug')
-                resolve({waitingSubscribers: sendPayload})
-              }
-            })
-            .catch(err => {
-              logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(err)}`, 'error')
-              reject(err)
-            })
-        })
-        .catch(err => {
-          logger.serverLog(TAG, `Failed to fetch page ${JSON.stringify(err)}`, 'error')
           reject(err)
         })
     }
