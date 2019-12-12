@@ -1,27 +1,32 @@
 const logger = require('../../../components/logger')
 const TAG = 'api/smart_replies/bots.controller.js'
-const { callApi } = require('../utility')
-// const logicLayer = require('./logicLayer')
+const dataLayer = require('./datalayer')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
-// const { callGoogleApi } = require('../../global/googleApiCaller')
-// const config = require('../../../config/environment')
-// const async = require('async')
+
+exports.index = function (req, res) {
+  logger.serverLog(TAG, 'create endpoint of intents is hit', 'debug')
+  dataLayer.findAllIntents({botId: req.body.botId})
+    .then(intents => {
+      sendSuccessResponse(res, 200, intents)
+    })
+    .catch(err => {
+      logger.serverLog(TAG, `Error occured while fetching intent ${err}`, 'error')
+      sendErrorResponse(res, 500, 'Error occured while creating intent')
+    })
+}
 
 exports.create = function (req, res) {
   logger.serverLog(TAG, 'create endpoint of intents is hit', 'debug')
-  callApi('intents/query', 'POST', {purpose: 'findOne', match: {name: req.body.name}}, 'kibochat')
+  dataLayer.findOneIntent({name: req.body.name})
     .then(intent => {
       if (intent) {
         sendErrorResponse(res, 403, 'Intent with this name already exists')
       } else {
         const data = {
           name: req.body.name,
-          dialogFlowIntentId: '',
-          questions: [],
-          answer: [],
           botId: req.body.botId
         }
-        callApi('intents', 'POST', data, 'kibochat')
+        dataLayer.createIntent(data)
           .then(createdObj => {
             sendSuccessResponse(res, 200, 'Intent created succssfully!')
           })
@@ -39,7 +44,7 @@ exports.create = function (req, res) {
 
 exports.update = function (req, res) {
   logger.serverLog(TAG, 'create endpoint of intents is hit', 'debug')
-  callApi('intents', 'PUT', {purpose: 'updateOne', match: {_id: req.body.intentId}, updated: {name: req.body.name}}, 'kibochat')
+  dataLayer.updateOneIntent({_id: req.body.intentId}, {name: req.body.name})
     .then(updatedObj => {
       sendSuccessResponse(res, 200, 'Intent updated successfully!')
     })

@@ -13,6 +13,7 @@ const { callGoogleApi } = require('../../global/googleApiCaller')
 const config = require('../../../config/environment')
 const async = require('async')
 const { callApi } = require('../utility')
+const intentsDataLayer = require('../intents/datalayer')
 
 exports.index = function (req, res) {
   BotsDataLayer.findAllBotObjectsUsingQuery({ companyId: req.user.companyId })
@@ -29,6 +30,171 @@ exports.index = function (req, res) {
     .catch(err => {
       sendErrorResponse(res, 500, `Error fetching bots from companyId ${err}`)
     })
+}
+
+const _createGCPProject = (data, callback) => {
+  const projectData = {
+    projectId: data.gcpPojectId.toLowerCase(),
+    name: `${data.botName}`,
+    parent: {
+      type: 'organization',
+      id: config.GOOGLE_ORGANIZATION_ID
+    }
+  }
+  callGoogleApi(
+    'https://cloudresourcemanager.googleapis.com/v1beta1/projects/',
+    'POST',
+    projectData
+  )
+    .then(result => {
+      callback()
+    })
+    .catch(err => {
+      callback(err)
+    })
+}
+
+const _createDialogFlowAgent = (data, callback) => {
+  const agentData = {
+    displayName: data.dialogFlowAgentId
+  }
+  callGoogleApi(
+    `https://dialogflow.googleapis.com/v2/projects/${data.gcpPojectId.toLowerCase()}/agent`,
+    'POST',
+    agentData
+  )
+    .then(result => {
+      callback()
+    })
+    .catch(err => {
+      callback(err)
+    })
+}
+
+const _createBotRecordInDB = (data, callback) => {
+  const botData = {
+    pageId: data.pageId,
+    userId: data.user._id,
+    botName: data.botName,
+    companyId: data.user.companyId,
+    gcpPojectId: data.gcpPojectId.toLowerCase(),
+    dialogFlowAgentId: data.dialogFlowAgentId,
+    hitCount: 0,
+    missCount: 0
+  }
+  BotsDataLayer.createBotObject(botData)
+    .then(newBot => {
+      data.botData = newBot
+      callback()
+    })
+    .catch(err => {
+      callback(err)
+    })
+}
+
+exports.create = function (req, res) {
+  logger.serverLog(TAG, `Create Bot Request ${req.body.pageId}-${req.body.botName}`, 'debug')
+  let data = {
+    user: req.user,
+    pageId: req.body.pageId,
+    botName: req.body.botName,
+    gcpPojectId: `${req.body.botName}-${req.body.pageId.substring(req.body.pageId.length - 4)}`,
+    dialogFlowAgentId: `${req.body.botName}-${req.body.pageId.substring(req.body.pageId.length - 4)}`
+  }
+  async.series([
+    _createGCPProject.bind(null, data),
+    _createDialogFlowAgent.bind(null, data),
+    _createBotRecordInDB.bind(null, data)
+  ], function (err) {
+    if (err) {
+      logger.serverLog(TAG, err, 'error')
+      sendErrorResponse(res, 500, 'Failed to create bot.')
+    } else {
+      sendSuccessResponse(res, 200, data.botData)
+    }
+  })
+}
+
+exports.edit = function (req, res) {
+  logger.serverLog(`Updating bot info ${JSON.stringify(req.body)}`, 'debug')
+  BotsDataLayer.genericUpdateBotObject({ _id: req.body.botId }, { isActive: req.body.isActive, botName: req.body.botName })
+    .then(result => {
+      sendSuccessResponse(res, 200, 'Bot updated successfully!')
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, '', `Error in updating bot status${JSON.stringify(err)}`)
+    })
+}
+
+const _createDialogFlowIntent = (data) => {
+  const intentData = logicLayer.createDialoFlowIntentData({name: data.name, questions: data.questions})
+  return callGoogleApi(
+    `https://dialogflow.googleapis.com/v2/projects/${data.gcpPojectId.toLowerCase()}/agent/intents`,
+    'POST',
+    intentData
+  )
+}
+
+const _updateDialogFlowIntent = (data) => {
+  const intentData = logicLayer.createDialoFlowIntentData({name: data.name, questions: data.questions})
+  return callGoogleApi(
+    `https://dialogflow.googleapis.com/v2/projects/${data.gcpPojectId.toLowerCase()}/agent/intents/${data.dialogflowIntentId}`,
+    'PATCH',
+    intentData
+  )
+}
+
+const _updateIntentRecordInDb = (data) => {
+  return intentsDataLayer.updateOneIntent(
+    {
+      _id: data.intentId
+    },
+    {
+      name: data.name,
+      questions: data.questions,
+      answer: data.answer,
+      dialogflowIntentId: data.dialogflowIntentId
+    }
+  )
+}
+
+exports.trainBot = function (req, res) {
+  if (req.body.dialogflowIntentId) {
+    _updateDialogFlowIntent(req.body)
+      .then(intent => {
+        _updateIntentRecordInDb(req.body)
+          .then(result => {
+            sendSuccessResponse(res, 200, 'Bot trained succssfully!')
+          })
+          .catch(err => {
+            logger.serverLog(TAG, err, 'error')
+            sendErrorResponse(res, 500, 'Failed to train bot.')
+          })
+      })
+      .catch(err => {
+        logger.serverLog(TAG, err, 'error')
+        sendErrorResponse(res, 500, 'Failed to train bot.')
+      })
+  } else {
+    _createDialogFlowIntent(req.body)
+      .then(intent => {
+        let intentPath = intent.data.name.split('/')
+        req.body.dialogflowIntentId = intentPath[intentPath.length - 1]
+        _updateIntentRecordInDb(req.body)
+          .then(result => {
+            sendSuccessResponse(res, 200, 'Bot trained succssfully!')
+          })
+          .catch(err => {
+            logger.serverLog(TAG, err, 'error')
+            sendErrorResponse(res, 500, 'Failed to train bot.')
+          })
+      })
+      .catch(err => {
+        logger.serverLog(TAG, err, 'error')
+        console.log(err)
+        sendErrorResponse(res, 500, 'Failed to train bot.')
+      })
+  }
 }
 
 exports.waitingReply = function (req, res) {
@@ -63,99 +229,6 @@ exports.waitingReply = function (req, res) {
     })
 }
 
-const _createGCPProject = (data, callback) => {
-  const projectData = {
-    projectId: data.gcpPojectId,
-    name: `Project ${data.pageId} ${data.botName}`,
-    parent: {
-      type: 'organization',
-      id: config.GOOGLE_ORGANIZATION_ID
-    }
-  }
-  callGoogleApi(
-    'https://cloudresourcemanager.googleapis.com/v1beta1/projects/',
-    'POST',
-    projectData
-  )
-    .then(result => {
-      callback()
-    })
-    .catch(err => {
-      callback(err)
-    })
-}
-
-const _createDialogFlowAgent = (data, callback) => {
-  const agentData = {
-    displayName: data.dialogFlowAgentId
-  }
-  callGoogleApi(
-    `https://dialogflow.googleapis.com/v2/projects/${data.gcpPojectId}/agent`,
-    'POST',
-    agentData
-  )
-    .then(result => {
-      callback()
-    })
-    .catch(err => {
-      callback(err)
-    })
-}
-
-const _createBotRecordInDB = (data, callback) => {
-  const botData = {
-    pageId: data.pageId,
-    userId: data.user._id,
-    botName: data.botName,
-    companyId: data.user.companyId,
-    gcpPojectId: data.gcpPojectId,
-    dialogFlowAgentId: data.dialogFlowAgentId,
-    hitCount: 0,
-    missCount: 0
-  }
-  BotsDataLayer.createBotObject(botData)
-    .then(newBot => {
-      callback()
-    })
-    .catch(err => {
-      callback(err)
-    })
-}
-
-exports.create = function (req, res) {
-  logger.serverLog(TAG, `Create Bot Request ${req.body.pageId}-${req.body.botName}`, 'debug')
-  let data = {
-    user: req.user,
-    pageId: req.body.pageId,
-    botName: req.body.botName,
-    gcpPojectId: `Project-${req.body.pageId}-${req.body.botName}`,
-    dialogFlowAgentId: `Agent-${req.body.pageId}-${req.body.botName}`
-  }
-  async.series([
-    _createGCPProject.bind(null, data),
-    _createDialogFlowAgent.bind(null, data),
-    _createBotRecordInDB.bind(null, data)
-  ], function (err) {
-    if (err) {
-      logger.serverLog(TAG, err, 'error')
-      sendErrorResponse(res, 500, 'Failed to create bot.')
-    } else {
-      sendSuccessResponse(res, 200, 'Bot created succssfully!')
-    }
-  })
-}
-
-exports.edit = function (req, res) {
-  logger.serverLog(`Updating bot info ${JSON.stringify(req.body)}`, 'debug')
-  BotsDataLayer.genericUpdateBotObject({ _id: req.body.botId }, { isActive: req.body.isActive, botName: req.body.botName })
-    .then(result => {
-      sendSuccessResponse(res, 200, 'Bot updated successfully!')
-    })
-    .catch(err => {
-      sendErrorResponse(res, 500, '', `Error in updating bot status${JSON.stringify(err)}`)
-    })
-}
-
 exports.details = function (req, res) {
   logger.serverLog(`Bot details are following ${JSON.stringify(req.body)}`, 'debug')
   BotsDataLayer.findOneBotObject(req.body.botId)
@@ -186,22 +259,33 @@ exports.unAnsweredQueries = function (req, res) {
     })
 }
 
-exports.waitSubscribers = function (req, res) {
-  WaitingSubscribers.findAllWaitingSubscriberObjectsUsingQuery({botId: req.body.botId})
-    .then(subscribers => {
-      logger.serverLog(TAG, `waitSubscribers fetched ${JSON.stringify(subscribers)}`, 'debug')
-      if (subscribers && subscribers.length > 0) {
-        populateSubscriber(subscribers, req)
-          .then(result => {
-            sendSuccessResponse(res, 200, result.waitingSubscribers)
-          })
-      } else {
-        sendSuccessResponse(res, 200, [])
-      }
+const _getWaitingSubscribers = (criteria, callback) => {
+  WaitingSubscribers.findUsingAggregate(criteria)
+    .then(waitingSubscribers => {
+      callback(null, waitingSubscribers)
     })
     .catch(err => {
-      sendErrorResponse(res, 500, '', `Error in finding waiting subscribers ${JSON.stringify(err)}`)
+      callback(err)
     })
+}
+
+exports.waitSubscribers = function (req, res) {
+  const criteria = logicLayer.getAggregateCriterias(req.body)
+  async.parallelLimit([
+    _getWaitingSubscribers.bind(null, criteria.countCriteria),
+    _getWaitingSubscribers.bind(null, criteria.fetchCriteria)
+  ], 10, function (err, results) {
+    if (err) {
+      logger.serverLog(TAG, err, 'error')
+      sendErrorResponse(res, 500, 'Failed to fetch waiting subscribers')
+    } else {
+      let payload = {
+        count: results[0].length > 0 ? results[0].count : 0,
+        waitingSubscribers: results[1]
+      }
+      sendSuccessResponse(res, 200, payload)
+    }
+  })
 }
 
 exports.removeWaitSubscribers = function (req, res) {
@@ -459,61 +543,16 @@ exports.respond = function (pageId, senderId, text) {
 }
 function populateBot (bots, req) {
   return new Promise(function (resolve, reject) {
-    let botsToSend = []
     for (let i = 0; i < bots.length; i++) {
       utility.callApi(`pages/query`, 'post', {_id: bots[i].pageId})
         .then(page => {
-          botsToSend.push({
-            _id: bots[i]._id,
-            pageId: page[0],
-            userId: bots[i].userId,
-            botName: bots[i].botName,
-            companyId: bots[i].companyId,
-            isActive: bots[i].isActive,
-            hitCount: bots[i].hitCount,
-            missCount: bots[i].missCount,
-            datetime: bots[i].datetime
-          })
-          if (botsToSend.length === bots.length) {
-            resolve({bots: botsToSend})
+          bots[i].pageId = page[0]
+          if (bots.length - 1 === i) {
+            resolve({bots})
           }
         })
         .catch(err => {
           logger.serverLog(TAG, `Failed to fetch bots ${JSON.stringify(err)}`, 'error')
-          reject(err)
-        })
-    }
-  })
-}
-function populateSubscriber (waiting, req) {
-  return new Promise(function (resolve, reject) {
-    let sendPayload = []
-    for (let i = 0; i < waiting.length; i++) {
-      utility.callApi(`pages/query`, 'post', {_id: waiting[i].pageId})
-        .then(page => {
-          utility.callApi(`subscribers/query`, 'post', {_id: waiting[i].subscriberId, companyId: page[0].companyId, completeInfo: true})
-            .then(subscriber => {
-              sendPayload.push({
-                _id: waiting[i]._id,
-                botId: waiting[i].botId,
-                pageId: page[0],
-                subscriberId: subscriber[0],
-                intentId: waiting[i].intentId,
-                Question: waiting[i].Question,
-                datetime: waiting[i].datetime
-              })
-              if (sendPayload.length === waiting.length) {
-                logger.serverLog(TAG, `sendPayload ${JSON.stringify(sendPayload)}`, 'debug')
-                resolve({waitingSubscribers: sendPayload})
-              }
-            })
-            .catch(err => {
-              logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(err)}`, 'error')
-              reject(err)
-            })
-        })
-        .catch(err => {
-          logger.serverLog(TAG, `Failed to fetch page ${JSON.stringify(err)}`, 'error')
           reject(err)
         })
     }
