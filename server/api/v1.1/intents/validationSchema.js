@@ -52,20 +52,20 @@ exports.updatePayload =
     ]
   }
 
-  exports.deletePayload =
-    {
-      '$schema': 'http://json-schema.org/draft-04/schema#',
-      'type': 'object',
-      'properties': {
-        'intentId': {
-          'type': 'string'
-        },
-        'name': {
-          'type': 'string'
-        }
+exports.deletePayload =
+  {
+    type: 'object',
+    properties: {
+      intentId: {
+        type: 'string',
+        required: true
       },
-      'required': [
-        'name',
-        'intentId'
-      ]
+      gcpPojectId: {
+        type: 'string',
+        required: true
+      },
+      dialogflowIntentId: {
+        type: 'string'
+      }
     }
+  }
