@@ -51,3 +51,21 @@ exports.updatePayload =
       'intentId'
     ]
   }
+
+exports.deletePayload =
+  {
+    type: 'object',
+    properties: {
+      intentId: {
+        type: 'string',
+        required: true
+      },
+      gcpPojectId: {
+        type: 'string',
+        required: true
+      },
+      dialogflowIntentId: {
+        type: 'string'
+      }
+    }
+  }
