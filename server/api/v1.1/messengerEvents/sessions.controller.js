@@ -2,8 +2,7 @@ const utility = require('../utility')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1/messengerEvents/sessions.controller'
 const LiveChatDataLayer = require('../liveChat/liveChat.datalayer')
-const BotsDataLayer = require('../smartReplies/bots.datalayer')
-const botController = require('../smartReplies/smartReplies.controller')
+const botController = require('./bots.controller')
 const needle = require('needle')
 const og = require('open-graph')
 const logicLayer = require('./logiclayer')
@@ -58,17 +57,7 @@ function saveLiveChat (page, subscriber, event) {
   record('messengerChatInComing')
   let chatPayload = logicLayer.prepareLiveChatPayload(event.message, subscriber, page)
   if (subscriber && !event.message.is_echo) {
-    BotsDataLayer.findOneBotObjectUsingQuery({ pageId: subscriber.pageId })
-      .then(bot => {
-        if (bot) {
-          if (bot.blockedSubscribers.indexOf(subscriber._id) === -1) {
-            botController.respond(subscriber.pageId, subscriber.senderId, event.message.text)
-          }
-        }
-      })
-      .catch(error => {
-        logger.serverLog(TAG, `Failed to fetch bot ${JSON.stringify(error)}`, 'error')
-      })
+    botController.respondUsingBot(page, subscriber, event.message.text)
   }
   utility.callApi(`webhooks/query`, 'post', {pageId: page.pageId})
     .then(webhooks => {
