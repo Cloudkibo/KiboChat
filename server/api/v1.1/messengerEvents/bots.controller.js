@@ -15,10 +15,10 @@ exports.index = function (req, res) {
     description: `received the payload`
   })
   const messengerPayload = req.body.entry[0].messaging[0]
-  callApi(`pages/query`, 'post', { pageId: messengerPayload.recipient.id, connected: true })
+  callApi(`pages/aggregate`, 'post', [{$match: { pageId: messengerPayload.recipient.id, connected: true }}])
     .then(page => {
       page = page[0]
-      callApi(`subscribers/query`, 'post', { pageId: page._id, companyId: page.companyId, senderId: messengerPayload.sender.id, completeInfo: true })
+      callApi(`subscribers/aggregate`, 'post', [{$match: { pageId: page._id, companyId: page.companyId, senderId: messengerPayload.sender.id, completeInfo: true }}])
         .then(subscriber => {
           subscriber = subscriber[0]
           const messageData = {
@@ -48,6 +48,7 @@ exports.index = function (req, res) {
               if (waitingSubscriber) {
                 logger.serverLog(TAG, `Waiting Subscriber already created`, 'error')
               } else {
+                subscriber.fullName = subscriber.firstName + ' ' + subscriber.lastName
                 waitingSubscribersDL.createWaitingSubscriberObject({
                   botId: payload.bot_id,
                   subscriberId: subscriber,
@@ -95,12 +96,14 @@ exports.respondUsingBot = (page, subscriber, text) => {
                 }
               }
               callGoogleApi(
-                `https://dialogflow.googleapis.com/v2/projects/${bot.gcpPojectId.toLowerCase()}/agent/sessions/${subscriber._id}`,
+                `https://dialogflow.googleapis.com/v2/projects/${bot.gcpPojectId.toLowerCase()}/agent/sessions/${subscriber._id}:detectIntent`,
                 'POST',
                 dialogflowData
               )
                 .then(result => {
-                  let intentId = result.intent.name.split('/')[result.intent.name.length - 1]
+                  let path = result.data.queryResult.intent.name.split('/')
+                  let intentId = path[path.length - 1]
+                  logger.serverLog(TAG, `Intent found ${intentId}`)
                   intentsDL.findOneIntent({dialogflowIntentId: intentId})
                     .then(intent => {
                       if (intent) {

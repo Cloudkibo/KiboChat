@@ -277,7 +277,7 @@ exports.waitSubscribers = function (req, res) {
       sendErrorResponse(res, 500, 'Failed to fetch waiting subscribers')
     } else {
       let payload = {
-        count: results[0].length > 0 ? results[0].count : 0,
+        count: results[0].length > 0 ? results[0][0].count : 0,
         waitingSubscribers: results[1]
       }
       sendSuccessResponse(res, 200, payload)
