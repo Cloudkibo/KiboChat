@@ -38,6 +38,7 @@ const _prepareBatchData = (subscriber, payload, page) => {
       batch.push({ "method": "POST", "name": `${subscriber.senderId}${index + 1}`, "depends_on": `${subscriber.senderId}${index}`, "relative_url": "v4.0/me/messages", "body": recipient + "&" + message + "&" + messagingType +  "&" + tag })
     }
   })
+  return batch
 }
 /* eslint-enable */
 
