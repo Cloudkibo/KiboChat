@@ -40,7 +40,7 @@ exports.facebook = (body, fname, lname) => {
         'payload': {
           'template_type': 'button',
           'text': text,
-          'buttons': body.buttons
+          'buttons': _updateButtonUrl(body.buttons)
         }
       }
     }
@@ -73,7 +73,7 @@ exports.facebook = (body, fname, lname) => {
                 'title': body.title,
                 'image_url': body.image_url,
                 'subtitle': body.description,
-                'buttons': body.buttons,
+                'buttons': _updateButtonUrl(body.buttons),
                 'default_action': body.default_action
               }
             ]
@@ -91,7 +91,7 @@ exports.facebook = (body, fname, lname) => {
                 'title': body.title,
                 'image_url': body.image_url,
                 'subtitle': body.description,
-                'buttons': body.buttons
+                'buttons': _updateButtonUrl(body.buttons)
               }
             ]
           }
@@ -109,7 +109,7 @@ exports.facebook = (body, fname, lname) => {
         var galleryCard = {}
         galleryCard.image_url = card.image_url
         galleryCard.title = card.title
-        galleryCard.buttons = card.buttons
+        galleryCard.buttons = _updateButtonUrl(card.buttons)
         galleryCard.subtitle = card.subtitle
         if (card.default_action) {
           galleryCard.default_action = card.default_action
@@ -139,7 +139,7 @@ exports.facebook = (body, fname, lname) => {
             {
               'attachment_id': body.fileurl.attachment_id,
               'media_type': body.mediaType,
-              'buttons': body.buttons
+              'buttons': _updateButtonUrl(body.buttons)
             }
           ]
         }
@@ -150,4 +150,14 @@ exports.facebook = (body, fname, lname) => {
     }
   }
   return JSON.stringify(payload)
+}
+
+const _updateButtonUrl = (data) => {
+  let buttons = [].concat(data)
+  let urlBtnIndex = buttons.findIndex((b) => b.type === 'web_url')
+  if (urlBtnIndex > -1) {
+    buttons[urlBtnIndex].url = buttons[urlBtnIndex].newUrl
+    delete buttons[urlBtnIndex].newUrl
+  }
+  return buttons
 }
