@@ -23,6 +23,7 @@ exports.serverLog = function (label, data, type = 'info') {
 
   if (config.env === 'development' || config.env === 'test') {
     debug(data)
+    console.log(type, `${namespace} - ${data}`)
     // todo use log levels like info, warn, error and debug
     // logger.info(`${namespace} - ${data}`)
   } else {
@@ -30,7 +31,6 @@ exports.serverLog = function (label, data, type = 'info') {
       logger.log(type, `${namespace} - ${data}`)
     } else {
       logger.log(type, `${namespace} - ${data}`)
-      console.log(type, `${namespace} - ${data}`)
     }
   }
 }
