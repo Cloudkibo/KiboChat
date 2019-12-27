@@ -66,3 +66,16 @@ exports.updateAllIntents = function (query, updated, options) {
     'kibochat'
   )
 }
+
+exports.deleteOneIntent = function (query) {
+  const data = {
+    purpose: 'deleteOne',
+    match: query
+  }
+  return callApi(
+    'intents',
+    'DELETE',
+    data,
+    'kibochat'
+  )
+}

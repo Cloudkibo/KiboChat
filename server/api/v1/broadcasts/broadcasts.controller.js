@@ -24,7 +24,7 @@ exports.delete = function (req, res) {
   })
 }
 exports.addButton = function (req, res) {
-  utility.callApi(`broadcasts/addButton`, 'post', req.body, 'kiboengage')
+  utility.callApi(`broadcasts/addButton`, 'post', req.body, 'kiboengage', req.headers.authorization)
     .then(buttonPayload => {
       res.status(200).json({status: 'success', payload: buttonPayload})
     })
@@ -33,16 +33,17 @@ exports.addButton = function (req, res) {
     })
 }
 exports.sendConversation = function (req, res) {
-  utility.callApi(`broadcasts/sendConversation`, 'post', req.body, req.headers.authorization, 'kiboengage')
+  utility.callApi(`broadcasts/sendConversation`, 'post', req.body, 'kiboengage', req.headers.authorization)
     .then(result => {
-      res.status(200).json({status: 'success', payload: result})
+      return res.status(200).json({status: 'success', payload: result})
     })
     .catch(err => {
-      res.status(500).json({status: 'failed', description: `Failed to send conversation ${err}`})
+      console.log(err)
+      return res.status(500).json({status: 'failed', description: `Failed to send conversation ${err}`})
     })
 }
 exports.editButton = function (req, res) {
-  utility.callApi(`broadcasts/editButton`, 'post', req.body, 'kiboengage')
+  utility.callApi(`broadcasts/editButton`, 'post', req.body, 'kiboengage', req.headers.authorization)
     .then(buttonPayload => {
       res.status(200).json({status: 'success', payload: buttonPayload})
     })
@@ -51,7 +52,7 @@ exports.editButton = function (req, res) {
     })
 }
 exports.deleteButton = function (req, res) {
-  utility.callApi(`broadcasts/deleteButton/${req.params.id}`, 'delete', {}, 'kiboengage')
+  utility.callApi(`broadcasts/deleteButton/${req.params.id}`, 'delete', 'kiboengage', req.headers.authorization)
     .then(buttonPayload => {
       res.status(200).json({status: 'success', payload: buttonPayload})
     })

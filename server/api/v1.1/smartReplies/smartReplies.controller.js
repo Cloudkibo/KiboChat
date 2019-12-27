@@ -5,9 +5,6 @@ const UnAnsweredQuestions = require('./unansweredQuestions.datalayer')
 const WaitingSubscribers = require('./waitingSubscribers.datalayer')
 const utility = require('../utility')
 const TAG = 'api/smart_replies/bots.controller.js'
-let request = require('request')
-const util = require('util')
-const needle = require('needle')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const { callGoogleApi } = require('../../global/googleApiCaller')
 const config = require('../../../config/environment')
@@ -280,7 +277,7 @@ exports.waitSubscribers = function (req, res) {
       sendErrorResponse(res, 500, 'Failed to fetch waiting subscribers')
     } else {
       let payload = {
-        count: results[0].length > 0 ? results[0].count : 0,
+        count: results[0].length > 0 ? results[0][0].count : 0,
         waitingSubscribers: results[1]
       }
       sendSuccessResponse(res, 200, payload)
@@ -350,197 +347,6 @@ exports.delete = function (req, res) {
     })
 }
 
-function sendMessenger (message, pageId, senderId, postbackPayload, botId) {
-  logger.serverLog(TAG, `sendMessenger message is ${JSON.stringify(message)}`, 'debug')
-  utility.callApi(`pages/query`, 'post', {pageId: pageId, connected: true})
-    .then(page => {
-      page = page[0]
-      utility.callApi(`subscribers/query`, 'post', { senderId: senderId, pageId: page._id, companyId: page.companyId, completeInfo: true })
-        .then(subscriber => {
-          subscriber = subscriber[0]
-          if (subscriber === null) {
-            return
-          }
-          logger.serverLog(TAG, `Subscriber Info ${JSON.stringify(subscriber)}`, 'debug')
-          message.senderId = senderId
-          logicLayer.getMessageData(message)
-            .then(messageData => {
-              logger.serverLog(TAG, `messageData: ${JSON.stringify({messageData})}`, 'debug')
-              request(
-                {
-                  'method': 'POST',
-                  'json': true,
-                  'formData': messageData,
-                  'uri': 'https://graph.facebook.com/v2.6/me/messages?access_token=' +
-                    page.accessToken
-                },
-                (err, res) => {
-                  if (err) {
-                    return logger.serverLog(TAG,
-                      `At send message live chat ${JSON.stringify(err)}`, 'error')
-                  } else {
-                    if (res.statusCode !== 200) {
-                      logger.serverLog(TAG,
-                        `At send message live chat response ${JSON.stringify(
-                          res.body.error)}`, 'error')
-                    }
-                    logger.serverLog(TAG, `Response sent to Messenger: ${JSON.stringify(messageData)}`, 'debug')
-                    let talkToHumanPaylod = logicLayer.talkToHumanPaylod(botId, message, postbackPayload)
-                    needle.post(
-                      `https://graph.facebook.com/v2.6/me/messages?access_token=${page.accessToken}`, talkToHumanPaylod, (err, resp) => {
-                        if (err) {
-                          logger.serverLog(TAG, err)
-                        }
-                      })
-                  }
-                })
-            })
-            .catch(err => {
-              logger.serverLog(TAG, `Failed to send automated reply ${JSON.stringify(err)}`, 'error')
-            })
-        })
-        .catch(err => {
-          logger.serverLog(TAG, `Failed to fetch subscribers ${err}`, 'error')
-        })
-    })
-    .catch(err => {
-      logger.serverLog(TAG, `Failed to fetch page ${err}`, 'error')
-    })
-}
-
-function getWitResponse (message, token, bot, pageId, senderId) {
-  logger.serverLog(TAG, 'Trying to get a response from WIT AI', 'debug')
-  request(
-    {
-      'method': 'GET',
-      'uri': 'https://api.wit.ai/message?v=20170307&q=' + message,
-      headers: {
-        'Authorization': 'Bearer ' + token
-      }
-    },
-    (err, witres) => {
-      if (err) {
-        logger.serverLog(TAG, 'Error Occured In Getting Response From WIT.AI app', 'error')
-        return
-      }
-      if (!witres.body) {
-        logger.serverLog(TAG, 'Error Occured In Getting Response From WIT.AI app', 'error')
-        return
-      }
-      if (!JSON.parse(witres.body).entities) {
-        logger.serverLog(TAG, 'Error Occured In Getting Response From WIT.AI app', 'error')
-        return
-      }
-      // logger.serverLog(TAG, `Response from Wit AI Bot ${witres.body}`)
-      let temp = JSON.parse(witres.body)
-      if (Object.keys(JSON.parse(witres.body).entities).length === 0 || temp.entities.intent[0].confidence < 0.80) {
-        logger.serverLog(TAG, 'No response found', 'debug')
-        BotsDataLayer.updateBotObject({ _id: bot._id }, { $inc: { 'missCount': 1 } })
-          .then(dbRes => {
-            // Will only run when the entities are not zero i.e. confidence is low
-            let unansweredQuestion = {}
-            if (!(Object.keys(JSON.parse(witres.body).entities).length === 0)) {
-              let temp = JSON.parse(witres.body)
-
-              unansweredQuestion.botId = bot._id
-              unansweredQuestion.intentId = temp.entities.intent[0].value
-              unansweredQuestion.Question = temp._text
-              unansweredQuestion.Confidence = temp.entities.intent[0].confidence
-            } else {
-              unansweredQuestion.botId = bot._id
-              unansweredQuestion.Question = temp._text
-            }
-            UnAnsweredQuestions.createUnansweredQuestionObject(unansweredQuestion)
-              .then(result => {
-                logger.serverLog(TAG, result, 'debug')
-              })
-              .catch(err => {
-                logger.serverLog(TAG, `Failed to create unansweredQuestion ${err}`, 'error')
-              })
-          })
-          .catch(err => {
-            logger.serverLog(TAG, `Failed to update bot ${err}`, 'error')
-          })
-        return { found: false, intent_name: 'Not Found' }
-      }
-      var intent = JSON.parse(witres.body).entities.intent[0]
-      logger.serverLog(TAG, `intent ${util.inspect(intent)}`, 'debug')
-      if (intent.confidence > 0.80) {
-        logger.serverLog(TAG, 'Responding using bot: ' + intent.value, 'debug')
-        utility.callApi(`subscribers/query`, 'post', { senderId: senderId, companyId: bot.companyId, completeInfo: true })
-          .then(subscriber => {
-            subscriber = subscriber[0]
-            // Bot will not respond if a subscriber is waiting subscriber
-            WaitingSubscribers.findOneWaitingSubscriberObjectUsingQuery({ 'subscriberId': subscriber._id })
-              .then(sub => {
-                logger.serverLog(TAG, 'bot is ' + JSON.stringify(sub), 'debug')
-                // If sub not found, reply the answer
-                if (!sub) {
-                  for (let i = 0; i < bot.payload.length; i++) {
-                    if (bot.payload[i].intent_name === intent.value) {
-                      let postbackPayload = {
-                        'action': 'waitingSubscriber',
-                        'botId': bot._id,
-                        'subscriberId': subscriber._id,
-                        'pageId': pageId,
-                        'intentId': intent.value,
-                        'Question': temp._text
-                      }
-                      // Increase the hit count
-                      BotsDataLayer.genericUpdateBotObject({ _id: bot._id }, { $inc: { 'hitCount': 1 } })
-                        .then(dbRes => {
-                          logger.serverLog(TAG, 'bot updated successfully!')
-                        })
-                        .catch(err => {
-                          logger.serverLog(TAG, `Failed to update bot ${err}`, 'error')
-                        })
-                      // send the message to sub
-                      sendMessenger(bot.payload[i], pageId, senderId, postbackPayload, bot._id)
-                    }
-                  }
-                } else {
-                  logger.serverLog(TAG, 'reply will no tbe send for waiting subscriber')
-                }
-              })
-              .catch(err => {
-                logger.serverLog(TAG, `Failed to fetch waitingSubscriber ${err}`, 'error')
-              })
-          })
-          .catch(err => {
-            logger.serverLog(TAG, `Failed to fetch subscriber ${err}`, 'error')
-          })
-      }
-    })
-}
-
-exports.respond = function (pageId, senderId, text) {
-  logger.serverLog(TAG, ' ' + pageId + ' ' + senderId + ' ' + text, 'debug')
-  utility.callApi(`pages/query`, 'post', {_id: pageId})
-    .then(page => {
-      page = page[0]
-      logger.serverLog(TAG, `PAGES FETCHED ${JSON.stringify(page)}`, 'debug')
-      if (page) {
-        BotsDataLayer.findAllBotObjectsUsingQuery({ pageId: page._id })
-          .then(bot => {
-            bot = bot[0]
-            if (!bot) {
-              logger.serverLog(TAG, `Couldnt find the bot while trying to respond ${page._id}`)
-            }
-            if (bot && bot.isActive === 'true') {
-              // Write the bot response logic here
-              logger.serverLog(TAG, 'Responding using the bot as status is Active', 'debug')
-              getWitResponse(text, bot.witToken, bot, page.pageId, senderId)
-            }
-          })
-          .catch(err => {
-            logger.serverLog(TAG, `Failed to fetch bots ${err}`, 'error')
-          })
-      }
-    })
-    .catch(err => {
-      logger.serverLog(TAG, `Failed to fetch pages ${err}`, 'error')
-    })
-}
 function populateBot (bots, req) {
   return new Promise(function (resolve, reject) {
     for (let i = 0; i < bots.length; i++) {
