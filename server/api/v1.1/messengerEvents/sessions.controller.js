@@ -109,24 +109,31 @@ function saveLiveChat (page, subscriber, event) {
   }
 }
 function saveChatInDb (page, chatPayload, subscriber, event) {
-  if (Object.keys(chatPayload.payload).length > 0 && chatPayload.payload.constructor === Object) {
+  if (
+    Object.keys(chatPayload.payload).length > 0 &&
+    chatPayload.payload.constructor === Object &&
+    !event.message.delivery &&
+    !event.message.read
+  ) {
     LiveChatDataLayer.createFbMessageObject(chatPayload)
       .then(chat => {
-        require('./../../../config/socketio').sendMessageToClient({
-          room_id: page.companyId,
-          body: {
-            action: 'new_chat',
-            payload: {
-              subscriber_id: subscriber._id,
-              chat_id: chat._id,
-              text: chatPayload.payload.text,
-              name: subscriber.firstName + ' ' + subscriber.lastName,
-              subscriber: subscriber,
-              message: chat
+        if (!event.message.is_echo) {
+          require('./../../../config/socketio').sendMessageToClient({
+            room_id: page.companyId,
+            body: {
+              action: 'new_chat',
+              payload: {
+                subscriber_id: subscriber._id,
+                chat_id: chat._id,
+                text: chatPayload.payload.text,
+                name: subscriber.firstName + ' ' + subscriber.lastName,
+                subscriber: subscriber,
+                message: chat
+              }
             }
-          }
-        })
-        sendautomatedmsg(event, page)
+          })
+          sendautomatedmsg(event, page)
+        }
       })
       .catch(error => {
         logger.serverLog(TAG, `Failed to create live chate ${JSON.stringify(error)}`, 'error')
