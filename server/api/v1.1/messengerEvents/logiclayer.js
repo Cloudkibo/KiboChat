@@ -1,5 +1,7 @@
 const fs = require('fs')
 const path = require('path')
+const url = require('url')
+const ogs = require('open-graph-scraper')
 
 function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
   let messageType = isResponse ? 'RESPONSE' : 'UPDATE'
@@ -222,34 +224,69 @@ function prepareMessageData (message) {
 }
 
 function prepareLiveChatPayload (message, subscriber, page) {
-  let payload = {}
-  if (message.is_echo) {
-    payload = {
-      format: 'convos',
-      sender_id: page._id,
-      recipient_id: subscriber._id,
-      sender_fb_id: subscriber.senderId,
-      recipient_fb_id: page.pageId,
-      subscriber_id: subscriber._id,
-      company_id: page.companyId,
-      status: 'unseen', // seen or unseen
-      payload: prepareMessageData(message)
+  return new Promise((resolve, reject) => {
+    let payload = {}
+    if (message.is_echo) {
+      payload = {
+        format: 'convos',
+        sender_id: page._id,
+        recipient_id: subscriber._id,
+        sender_fb_id: subscriber.senderId,
+        recipient_fb_id: page.pageId,
+        subscriber_id: subscriber._id,
+        company_id: page.companyId,
+        status: 'unseen', // seen or unseen
+        payload: prepareMessageData(message)
+      }
+      resolve(payload)
+    } else {
+      prepareUrlMeta(message)
+        .then(data => {
+          payload = {
+            format: 'facebook',
+            sender_id: subscriber._id,
+            recipient_id: page._id,
+            sender_fb_id: subscriber.senderId,
+            recipient_fb_id: page.pageId,
+            subscriber_id: subscriber._id,
+            company_id: page.companyId,
+            status: 'unseen', // seen or unseen
+            payload: data
+          }
+          resolve(payload)
+        })
     }
-    return payload
-  } else {
-    payload = {
-      format: 'facebook',
-      sender_id: subscriber._id,
-      recipient_id: page._id,
-      sender_fb_id: subscriber.senderId,
-      recipient_fb_id: page.pageId,
-      subscriber_id: subscriber._id,
-      company_id: page.companyId,
-      status: 'unseen', // seen or unseen
-      payload: message
+  })
+}
+
+const prepareUrlMeta = (data) => {
+  return new Promise((resolve, reject) => {
+    if (['video', 'audio', 'image', 'location', 'file'].includes(data.type)) {
+      resolve(data)
+    } else if (data.attachments && data.attachments.length > 0 && data.attachments[0].url) {
+      const addr = url.parse(data.attachments[0].url, true)
+      const attachmentUrl = addr.query.u
+      let options = {url: attachmentUrl}
+      ogs(options, (error, results) => {
+        if (!error) {
+          const payload = {
+            type: 'url-card',
+            text: data.text,
+            title: results.data.ogTitle && results.data.ogTitle,
+            description: results.data.ogDescription && results.data.ogDescription,
+            imageUrl: results.data.ogImage && results.data.ogImage.url
+          }
+          resolve(payload)
+        } else {
+          let payload = JSON.stringify(JSON.parse(data))
+          delete payload.attachments
+          resolve(payload)
+        }
+      })
+    } else {
+      resolve(data)
     }
-    return payload
-  }
+  })
 }
 
 exports.prepareSendAPIPayload = prepareSendAPIPayload

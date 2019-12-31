@@ -4,7 +4,6 @@ const TAG = 'api/v1/messengerEvents/sessions.controller'
 const LiveChatDataLayer = require('../liveChat/liveChat.datalayer')
 const botController = require('./bots.controller')
 const needle = require('needle')
-const og = require('open-graph')
 const logicLayer = require('./logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
 const { record } = require('../../global/messageStatistics')
@@ -55,7 +54,6 @@ exports.index = function (req, res) {
 }
 function saveLiveChat (page, subscriber, event) {
   record('messengerChatInComing')
-  let chatPayload = logicLayer.prepareLiveChatPayload(event.message, subscriber, page)
   if (subscriber && !event.message.is_echo) {
     botController.respondUsingBot(page, subscriber, event.message.text)
   }
@@ -95,18 +93,13 @@ function saveLiveChat (page, subscriber, event) {
     .catch(error => {
       logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(error)}`, 'error')
     })
-  if ((event.message && !event.message.is_echo) || (event.message && event.message.is_echo && event.message.metadata !== 'SENT_FROM_KIBOPUSH')) {
-    let urlInText = parseUrl(event.message.text)
-    if (urlInText !== null && urlInText !== '') {
-      og(urlInText, function (err, meta) {
-        if (err) return logger.serverLog(TAG, err, 'error')
-        chatPayload.url_meta = meta
+  logicLayer.prepareLiveChatPayload(event.message, subscriber, page)
+    .then(chatPayload => {
+      if ((event.message && !event.message.is_echo) || (event.message && event.message.is_echo && event.message.metadata !== 'SENT_FROM_KIBOPUSH')) {
+        console.log('going to save data in db', chatPayload)
         saveChatInDb(page, chatPayload, subscriber, event)
-      })
-    } else {
-      saveChatInDb(page, chatPayload, subscriber, event)
-    }
-  }
+      }
+    })
 }
 function saveChatInDb (page, chatPayload, subscriber, event) {
   if (
@@ -318,14 +311,4 @@ function sendautomatedmsg (req, page) {
         }
       })
   }
-}
-function parseUrl (text) {
-  // eslint-disable-next-line no-useless-escape
-  let urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig
-  let onlyUrl = ''
-  if (text) {
-    let testUrl = text.match(urlRegex)
-    onlyUrl = testUrl && testUrl[0]
-  }
-  return onlyUrl
 }
