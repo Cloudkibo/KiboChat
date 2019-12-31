@@ -96,7 +96,6 @@ function saveLiveChat (page, subscriber, event) {
   logicLayer.prepareLiveChatPayload(event.message, subscriber, page)
     .then(chatPayload => {
       if ((event.message && !event.message.is_echo) || (event.message && event.message.is_echo && event.message.metadata !== 'SENT_FROM_KIBOPUSH')) {
-        console.log('going to save data in db', chatPayload)
         saveChatInDb(page, chatPayload, subscriber, event)
       }
     })

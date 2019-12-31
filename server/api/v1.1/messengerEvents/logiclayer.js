@@ -268,6 +268,8 @@ const prepareUrlMeta = (data) => {
       const attachmentUrl = addr.query.u
       let options = {url: attachmentUrl}
       ogs(options, (error, results) => {
+        console.log(results)
+        console.log(error)
         if (!error) {
           const payload = {
             type: 'url-card',
@@ -278,7 +280,7 @@ const prepareUrlMeta = (data) => {
           }
           resolve(payload)
         } else {
-          let payload = JSON.stringify(JSON.parse(data))
+          let payload = JSON.parse(JSON.stringify(data))
           delete payload.attachments
           resolve(payload)
         }
