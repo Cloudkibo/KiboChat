@@ -41,7 +41,13 @@ exports.index = function (req, res) {
                 })
             }
             logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
-            saveLiveChat(page, subscriber, event)
+            utility.callApi('subscribers/query', 'post', {_id: subscriber._id})
+              .then(sub => {
+                saveLiveChat(page, sub, event)
+              })
+              .catch(error => {
+                logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(error)}`, 'error')
+              })
           })
           .catch(error => {
             logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
