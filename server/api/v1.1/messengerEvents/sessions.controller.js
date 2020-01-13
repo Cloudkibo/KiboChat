@@ -110,28 +110,22 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
     LiveChatDataLayer.createFbMessageObject(chatPayload)
       .then(chat => {
         if (!event.message.is_echo) {
-          utility.callApi('subscribers/query', 'post', {_id: subscriber._id})
-            .then(sub => {
-              console.log('new_chat', sub)
-              require('./../../../config/socketio').sendMessageToClient({
-                room_id: page.companyId,
-                body: {
-                  action: 'new_chat',
-                  payload: {
-                    subscriber_id: sub._id,
-                    chat_id: chat._id,
-                    text: chatPayload.payload.text,
-                    name: sub.firstName + ' ' + sub.lastName,
-                    subscriber: sub,
-                    message: chat
-                  }
-                }
-              })
-              sendautomatedmsg(event, page)
-            })
-            .catch(error => {
-              logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(error)}`, 'error')
-            })
+          console.log('new_chat', subscriber)
+          require('./../../../config/socketio').sendMessageToClient({
+            room_id: page.companyId,
+            body: {
+              action: 'new_chat',
+              payload: {
+                subscriber_id: subscriber._id,
+                chat_id: chat._id,
+                text: chatPayload.payload.text,
+                name: subscriber.firstName + ' ' + subscriber.lastName,
+                subscriber: subscriber,
+                message: chat
+              }
+            }
+          })
+          sendautomatedmsg(event, page)
         }
       })
       .catch(error => {
