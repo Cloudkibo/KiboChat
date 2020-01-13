@@ -111,24 +111,26 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
       .then(chat => {
         if (!event.message.is_echo) {
           console.log('socket new_chat', subscriber)
-          utility.callApi('subscribers/query', 'post', {_id: subscriber._id})
-            .then(sub => {
-              console.log('socket new_chat sub', sub)
-              require('./../../../config/socketio').sendMessageToClient({
-                room_id: page.companyId,
-                body: {
-                  action: 'new_chat',
-                  payload: {
-                    subscriber_id: subscriber._id,
-                    chat_id: chat._id,
-                    text: chatPayload.payload.text,
-                    name: subscriber.firstName + ' ' + subscriber.lastName,
-                    subscriber: subscriber,
-                    message: chat
+          setTimeout(() => {
+            utility.callApi('subscribers/query', 'post', {_id: subscriber._id})
+              .then(sub => {
+                console.log('socket new_chat sub', sub)
+                require('./../../../config/socketio').sendMessageToClient({
+                  room_id: page.companyId,
+                  body: {
+                    action: 'new_chat',
+                    payload: {
+                      subscriber_id: subscriber._id,
+                      chat_id: chat._id,
+                      text: chatPayload.payload.text,
+                      name: subscriber.firstName + ' ' + subscriber.lastName,
+                      subscriber: subscriber,
+                      message: chat
+                    }
                   }
-                }
+                })
               })
-            })
+          }, 1000)
           sendautomatedmsg(event, page)
         }
       })
