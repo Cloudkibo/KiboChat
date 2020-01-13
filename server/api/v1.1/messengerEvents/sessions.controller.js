@@ -120,17 +120,17 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
                   body: {
                     action: 'new_chat',
                     payload: {
-                      subscriber_id: subscriber._id,
+                      subscriber_id: sub._id,
                       chat_id: chat._id,
                       text: chatPayload.payload.text,
-                      name: subscriber.firstName + ' ' + subscriber.lastName,
-                      subscriber: subscriber,
+                      name: sub.firstName + ' ' + sub.lastName,
+                      subscriber: sub,
                       message: chat
                     }
                   }
                 })
               })
-          }, 5000)
+          }, 1000)
           sendautomatedmsg(event, page)
         }
       })
