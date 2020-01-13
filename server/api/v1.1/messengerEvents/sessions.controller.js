@@ -130,7 +130,7 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
                   }
                 })
               })
-          }, 1000)
+          }, 5000)
           sendautomatedmsg(event, page)
         }
       })
