@@ -110,7 +110,7 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
     LiveChatDataLayer.createFbMessageObject(chatPayload)
       .then(chat => {
         if (!event.message.is_echo) {
-          console.log('new_chat', subscriber)
+          console.log('socket new_chat', subscriber)
           require('./../../../config/socketio').sendMessageToClient({
             room_id: page.companyId,
             body: {
