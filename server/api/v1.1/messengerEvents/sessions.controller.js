@@ -4,7 +4,6 @@ const TAG = 'api/v1/messengerEvents/sessions.controller'
 const LiveChatDataLayer = require('../liveChat/liveChat.datalayer')
 const botController = require('./bots.controller')
 const needle = require('needle')
-const og = require('open-graph')
 const logicLayer = require('./logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
 const { record } = require('../../global/messageStatistics')
@@ -55,7 +54,6 @@ exports.index = function (req, res) {
 }
 function saveLiveChat (page, subscriber, event) {
   record('messengerChatInComing')
-  let chatPayload = logicLayer.prepareLiveChatPayload(event.message, subscriber, page)
   if (subscriber && !event.message.is_echo) {
     botController.respondUsingBot(page, subscriber, event.message.text)
   }
@@ -95,38 +93,39 @@ function saveLiveChat (page, subscriber, event) {
     .catch(error => {
       logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(error)}`, 'error')
     })
-  if ((event.message && !event.message.is_echo) || (event.message && event.message.is_echo && event.message.metadata !== 'SENT_FROM_KIBOPUSH')) {
-    let urlInText = parseUrl(event.message.text)
-    if (urlInText !== null && urlInText !== '') {
-      og(urlInText, function (err, meta) {
-        if (err) return logger.serverLog(TAG, err, 'error')
-        chatPayload.url_meta = meta
+  logicLayer.prepareLiveChatPayload(event.message, subscriber, page)
+    .then(chatPayload => {
+      if ((event.message && !event.message.is_echo) || (event.message && event.message.is_echo && event.message.metadata !== 'SENT_FROM_KIBOPUSH')) {
         saveChatInDb(page, chatPayload, subscriber, event)
-      })
-    } else {
-      saveChatInDb(page, chatPayload, subscriber, event)
-    }
-  }
+      }
+    })
 }
 function saveChatInDb (page, chatPayload, subscriber, event) {
-  if (Object.keys(chatPayload.payload).length > 0 && chatPayload.payload.constructor === Object) {
+  if (
+    Object.keys(chatPayload.payload).length > 0 &&
+    chatPayload.payload.constructor === Object &&
+    !event.message.delivery &&
+    !event.message.read
+  ) {
     LiveChatDataLayer.createFbMessageObject(chatPayload)
       .then(chat => {
-        require('./../../../config/socketio').sendMessageToClient({
-          room_id: page.companyId,
-          body: {
-            action: 'new_chat',
-            payload: {
-              subscriber_id: subscriber._id,
-              chat_id: chat._id,
-              text: chatPayload.payload.text,
-              name: subscriber.firstName + ' ' + subscriber.lastName,
-              subscriber: subscriber,
-              message: chat
+        if (!event.message.is_echo) {
+          require('./../../../config/socketio').sendMessageToClient({
+            room_id: page.companyId,
+            body: {
+              action: 'new_chat',
+              payload: {
+                subscriber_id: subscriber._id,
+                chat_id: chat._id,
+                text: chatPayload.payload.text,
+                name: subscriber.firstName + ' ' + subscriber.lastName,
+                subscriber: subscriber,
+                message: chat
+              }
             }
-          }
-        })
-        sendautomatedmsg(event, page)
+          })
+          sendautomatedmsg(event, page)
+        }
       })
       .catch(error => {
         logger.serverLog(TAG, `Failed to create live chate ${JSON.stringify(error)}`, 'error')
@@ -311,14 +310,4 @@ function sendautomatedmsg (req, page) {
         }
       })
   }
-}
-function parseUrl (text) {
-  // eslint-disable-next-line no-useless-escape
-  let urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig
-  let onlyUrl = ''
-  if (text) {
-    let testUrl = text.match(urlRegex)
-    onlyUrl = testUrl && testUrl[0]
-  }
-  return onlyUrl
 }
