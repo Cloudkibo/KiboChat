@@ -43,6 +43,7 @@ exports.index = function (req, res) {
             logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
             utility.callApi('subscribers/query', 'post', {_id: subscriber._id})
               .then(sub => {
+                console.log('new_chat sub', sub)
                 saveLiveChat(page, sub, event)
               })
               .catch(error => {
