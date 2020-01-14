@@ -132,7 +132,7 @@ exports.delete = function (req, res) {
                 }
               }
             })
-            sendSuccessResponse(res, 200, 'Custom Field removed successfully')
+            sendSuccessResponse(res, 200, '', 'Custom Field removed successfully')
           })
           .catch(err => {
             sendErrorResponse(res, 500, '', `Failed to remove custom field ${err}`)
