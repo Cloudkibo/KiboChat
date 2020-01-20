@@ -2,6 +2,7 @@
 // const CUSTOMFIELD = 'api/custom_field/custom_field.controller.js'
 const callApi = require('../utility')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
+const _ = require('lodash')
 
 exports.index = function (req, res) {
   callApi.callApi('companyuser/query', 'post', { domain_email: req.user.domain_email })
@@ -11,7 +12,15 @@ exports.index = function (req, res) {
       }
       callApi.callApi('custom_fields/query', 'post', { purpose: 'findAll', match: { companyId: companyUser.companyId } })
         .then(customFields => {
-          sendSuccessResponse(res, 200, customFields)
+          callApi.callApi('custom_fields/query', 'post', { purpose: 'findAll', match: { default: true } })
+            .then(defaultFields => {
+              sendSuccessResponse(res, 200, _.concat(customFields, defaultFields))
+            })
+            .catch(err => {
+              if (err) {
+                sendErrorResponse(res, 500, '', `Internal Server Error in fetching default customFields${JSON.stringify(err)}`)
+              }
+            })
         })
         .catch(err => {
           if (err) {
