@@ -21,7 +21,6 @@ module.exports = function (app) {
   app.use('/api/teams', require('./api/v1/teams'))
   app.use('/api/pages', require('./api/v1/pages'))
   app.use('/api/permissions', require('./api/v1/permissions'))
-  app.use('/api/api_settings', require('./api/v1/api_settings'))
   app.use('/auth', require('./auth'))
   app.use('/api/reset_password', require('./api/v1/passwordresettoken'))
   app.use('/api/broadcasts', require('./api/v1/broadcasts'))
@@ -54,6 +53,7 @@ module.exports = function (app) {
   app.use('/api/email_verification', require('./api/v1.1/verificationtoken'))
   app.use('/api/api_ngp', require('./api/v1.1/api_ngp'))
   app.use('/api/integrations', require('./api/v1.1/integrations'))
+  app.use('/api/intents', require('./api/v1.1/intents'))
 
   // auth middleware go here if you authenticate on same server
 

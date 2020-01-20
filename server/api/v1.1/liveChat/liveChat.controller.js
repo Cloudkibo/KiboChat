@@ -154,11 +154,13 @@ exports.create = function (req, res) {
     function (callback) {
       let subscriberData = {
         query: {_id: req.body.subscriber_id},
-        newPayload: {last_activity_time: Date.now(), agent_activity_time: Date.now(), pendingResponse: false},
+        newPayload: {
+          last_activity_time: Date.now(), agent_activity_time: Date.now(), pendingResponse: false},
         options: {}
       }
       callApi(`subscribers/update`, 'put', subscriberData)
         .then(updated => {
+          _removeSubsWaitingForUserInput(req.body.subscriber_id)
           logger.serverLog(TAG, `updated subscriber again ${updated}`)
           fbMessageObject.datetime = new Date()
           require('./../../../config/socketio').sendMessageToClient({
@@ -274,4 +276,17 @@ exports.create = function (req, res) {
       })
     }
   })
+}
+
+const _removeSubsWaitingForUserInput = (subscriberId) => {
+  let waitingForUserInput = {
+    componentIndex: -1
+  }
+  callApi(`subscribers/update`, 'put', {query: {_id: subscriberId, waitingForUserInput: { '$ne': null }}, newPayload: {waitingForUserInput: waitingForUserInput}, options: {}})
+    .then(updated => {
+      logger.serverLog(TAG, `Succesfully updated subscriber _removeSubsWaitingForUserInput`)
+    })
+    .catch(err => {
+      logger.serverLog(TAG, `Failed to update subscriber ${JSON.stringify(err)}`)
+    })
 }

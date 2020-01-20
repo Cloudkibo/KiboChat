@@ -10,6 +10,82 @@ const BotsDataLayer = require('./bots.datalayer')
 const { callApi } = require('../utility')
 const dir = path.resolve(__dirname, '../../../../smart-replies-files/')
 
+exports.createDialoFlowIntentData = (data) => {
+  if (!data.questions || data.questions.length === 0) {
+    throw Error('Questions field is required and it cannot be an empty array!')
+  } else if (!data.name || data.name === '') {
+    throw Error('Name field is required and cannot be an empty string!')
+  } else {
+    const questions = data.questions
+    let result = {
+      displayName: data.name,
+      trainingPhrases: []
+    }
+    for (let i = 0; i < questions.length; i++) {
+      let question = questions[i]
+      result.trainingPhrases.push({
+        'type': 'TYPE_UNSPECIFIED',
+        'parts': [
+          {
+            'text': question
+          }
+        ]
+      })
+    }
+    return result
+  }
+}
+
+exports.getAggregateCriterias = function (body) {
+  let finalCriteria = {}
+  let recordsToSkip = 0
+  let search = '.*' + body.searchValue + '.*'
+  let findCriteria = {
+    'botId': body.botId,
+    'subscriberId.fullName': {$regex: search, $options: 'i'},
+    'subscriberId.gender': body.genderValue !== '' ? body.genderValue : {$exists: true},
+    'pageId._id': body.pageValue !== '' ? body.pageValue : {$exists: true}
+  }
+
+  let countCriteria = [
+    { $match: findCriteria },
+    { $group: { _id: null, count: { $sum: 1 } } }
+  ]
+
+  if (body.pagination.step === 'first') {
+    recordsToSkip = Math.abs(body.pagination.currentPage * body.records)
+    finalCriteria = [
+      { $match: findCriteria },
+      { $sort: { datetime: -1 } },
+      { $skip: recordsToSkip },
+      { $limit: body.records },
+      { $lookup: { from: 'intents', localField: 'intentId', foreignField: '_id', as: 'intentId' } },
+      { $unwind: '$intentId' }
+    ]
+  } else if (body.pagination.step === 'next') {
+    recordsToSkip = Math.abs(((body.pagination.requestedPage - 1) - (body.pagination.currentPage))) * body.records
+    finalCriteria = [
+      { $match: { $and: [findCriteria, { _id: { $lt: body.lastId } }] } },
+      { $sort: { datetime: -1 } },
+      { $skip: recordsToSkip },
+      { $limit: body.records },
+      { $lookup: { from: 'intents', localField: 'intentId', foreignField: '_id', as: 'intentId' } },
+      { $unwind: '$intentId' }
+    ]
+  } else if (body.pagination.step === 'previous') {
+    recordsToSkip = Math.abs(body.pagination.requestedPage * body.records)
+    finalCriteria = [
+      { $match: { $and: [findCriteria, { _id: { $gt: body.lastId } }] } },
+      { $sort: { datetime: -1 } },
+      { $skip: recordsToSkip },
+      { $limit: body.records },
+      { $lookup: { from: 'intents', localField: 'intentId', foreignField: '_id', as: 'intentId' } },
+      { $unwind: '$intentId' }
+    ]
+  }
+  return { countCriteria: countCriteria, fetchCriteria: finalCriteria }
+}
+
 const downloadVideo = (data) => {
   return new Promise((resolve, reject) => {
     let video = youtubedl(data.url)

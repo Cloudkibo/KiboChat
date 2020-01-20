@@ -10,6 +10,10 @@ exports.createPayload = {
     botName: {
       type: 'string',
       required: true
+    },
+    pageId: {
+      type: 'string',
+      required: true
     }
   }
 }
@@ -21,9 +25,11 @@ exports.editPayload = {
       type: 'string',
       required: true
     },
-    payload: {
-      type: 'array',
-      items: {}
+    isActive: {
+      type: 'string'
+    },
+    botName: {
+      type: 'string'
     }
   }
 }
@@ -56,6 +62,10 @@ exports.deletePayload = {
   type: 'object',
   properties: {
     botId: {
+      type: 'string',
+      required: true
+    },
+    password: {
       type: 'string',
       required: true
     }
@@ -101,6 +111,35 @@ exports.indexPayload = {
       required: true
     },
     page: {
+      type: 'string'
+    }
+  }
+}
+
+exports.trainBotPayload = {
+  type: 'object',
+  properties: {
+    intentId: {
+      type: 'string',
+      required: true
+    },
+    name: {
+      type: 'string',
+      required: true
+    },
+    gcpPojectId: {
+      type: 'string',
+      required: true
+    },
+    questions: {
+      type: 'array',
+      required: true
+    },
+    answer: {
+      type: 'array',
+      required: true
+    },
+    dialogflowIntentId: {
       type: 'string'
     }
   }
