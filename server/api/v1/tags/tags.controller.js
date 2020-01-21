@@ -36,6 +36,7 @@ exports.index = function (req, res) {
                 singleTag.subscribersCount = tagsSubscribers.length
                 console.log('singleTag ', singleTag)
                 finalTags.push(singleTag)
+                callback()
               })
               .catch(err => callback(err))
           }, (err) => {
