@@ -26,13 +26,12 @@ exports.index = function (req, res) {
       callApi.callApi('tags/aggregate', 'post', aggregateData)
         .then(tags => {
           tags = tags.map((t) => t.doc)
-          console.log('tags ', tags)
           let finalTags = []
           async.each(tags, (singleTag, callback) => {
             callApi.callApi('tags_subscriber/query', 'post', {tagId: singleTag._id})
               .then(tagsSubscribers => {
                 console.log('tagsSubscribers ', tagsSubscribers)
-                singleTag.status = tagsSubscribers > 0 ? 'Unassigned' : 'Assigned'
+                singleTag.status = tagsSubscribers.length > 0 ? 'Unassigned' : 'Assigned'
                 singleTag.subscribersCount = tagsSubscribers.length
                 console.log('singleTag ', singleTag)
                 finalTags.push(singleTag)
