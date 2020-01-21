@@ -31,9 +31,8 @@ exports.index = function (req, res) {
             callApi.callApi('tags_subscriber/query', 'post', {tagId: singleTag._id})
               .then(tagsSubscribers => {
                 console.log('tagsSubscribers ', tagsSubscribers)
-                singleTag.status = tagsSubscribers.length > 0 ? 'Unassigned' : 'Assigned'
+                singleTag.status = tagsSubscribers.length > 0 ? 'Assigned' : 'Unassigned'
                 singleTag.subscribersCount = tagsSubscribers.length
-                console.log('singleTag ', singleTag)
                 finalTags.push(singleTag)
                 callback()
               })
