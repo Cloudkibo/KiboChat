@@ -29,7 +29,7 @@ exports.index = function (req, res) {
           console.log('tags ', tags)
           let finalTags = []
           async.each(tags, (singleTag, callback) => {
-            callApi.callApi('tags_subscriber/query', 'post', {_id: singleTag._id})
+            callApi.callApi('tags_subscriber/query', 'post', {tagId: singleTag._id})
               .then(tagsSubscribers => {
                 console.log('tagsSubscribers ', tagsSubscribers)
                 singleTag.status = tagsSubscribers > 0 ? 'Unassigned' : 'Assigned'
