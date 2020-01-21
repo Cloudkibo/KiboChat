@@ -26,6 +26,7 @@ exports.index = function (req, res) {
       callApi.callApi('tags/aggregate', 'post', aggregateData)
         .then(tags => {
           tags = tags.map((t) => t.doc)
+          logger.serverLog(TAG, `tags found ${JSON.stringify(tags)}`, 'debug')
           res.status(200).json({status: 'success', payload: tags})
         })
         .catch(err => {
