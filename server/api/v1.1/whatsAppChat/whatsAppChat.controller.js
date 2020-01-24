@@ -356,7 +356,7 @@ exports.assignTeam = function (req, res) {
 exports.setCustomFieldValue = function (req, res) {
   let customFieldResponse = callApi(
     'custom_fields/query', 'post',
-    { purpose: 'findOne', match: { _id: req.body.customFieldId, companyId: req.user.companyId } }
+    { purpose: 'findOne', match: { _id: req.body.customFieldId, $or: [{companyId: req.user.companyId}, {default: true}] } }
   )
   let foundSubscriberResponse = (subscriberId) => callApi(
     `whatsAppContacts/query`,

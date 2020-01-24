@@ -129,7 +129,7 @@ const getAllSubscribers = function (subscribers, count, req, res) {
           let subscribersPayload = logicLayer.getSusbscribersPayload(subscribers, tagSubscribers, tagIds, req.body.filter_criteria.tag_value)
           // logger.serverLog(TAG, `subscribersPayload: ${util.inspect(subscribersPayload)}`, 'debug')
           // start append custom Fields
-          utility.callApi('custom_fields/query', 'post', { purpose: 'findAll', match: { companyId: req.user.companyId } })
+          utility.callApi('custom_fields/query', 'post', { purpose: 'findAll', match: { $or: [{companyId: req.user.companyId}, {default: true}] } })
             .then(customFields => {
               dt = new Date()
               utcDate = dt.toUTCString()
