@@ -9,7 +9,7 @@ const { sendSuccessResponse, sendErrorResponse } = require('../../global/respons
 exports.setCustomFieldValue = function (req, res) {
   let customFieldResponse = callApi.callApi(
     'custom_fields/query', 'post',
-    { purpose: 'findOne', match: { _id: req.body.customFieldId, companyId: req.user.companyId } }
+    { purpose: 'findOne', match: { _id: req.body.customFieldId, $or: [{companyId: req.user.companyId}, {default: true}] } }
   )
   let foundSubscriberResponse = (subscriberId) => callApi.callApi(
     `subscribers/${subscriberId}`,
