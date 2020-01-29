@@ -14,53 +14,39 @@ exports.index = function (req, res) {
   callApi.callApi('companyuser/query', 'post', {domain_email: req.user.domain_email})
     .then(companyUser => {
       if (!companyUser) {
-        return res.status(404).json({
-          status: 'failed',
-          description: 'The user account does not belong to any company. Please contact support'
-        })
+        return sendErrorResponse(res, 404, {}, 'The user account does not belong to any company. Please contact support')
       }
-      let aggregateData = [
-        {$match: {companyId: companyUser.companyId, defaultTag: false, isList: false}},
-        {$group: {_id: '$tag', doc: {$first: '$$ROOT'}}}
-      ]
-      callApi.callApi('tags/aggregate', 'post', aggregateData)
+      let queryData = {companyId: companyUser.companyId}
+      callApi.callApi('tags/query', 'post', queryData)
         .then(tags => {
-          tags = tags.map((t) => t.doc)
-          let finalTags = []
           async.each(tags, (singleTag, callback) => {
             callApi.callApi('tags_subscriber/query', 'post', {tagId: singleTag._id})
               .then(tagsSubscribers => {
-                singleTag.status = tagsSubscribers.length > 0 ? 'Assigned' : 'Unassigned'
-                singleTag.subscribersCount = tagsSubscribers.length
-                finalTags.push(singleTag)
+                for (let i = 0; i < tags.length; i++) {
+                  if (tags[i]._id === singleTag._id) {
+                    tags[i].status = tagsSubscribers.length > 0 ? 'Assigned' : 'Unassigned'
+                    tags[i].subscribersCount = tagsSubscribers.length
+                  }
+                }
                 callback()
               })
               .catch(err => callback(err))
           }, (err) => {
             if (err) {
-              return res.status(500).json({
-                status: 'failed',
-                description: `Internal Server Error in fetching tags${JSON.stringify(err)}`
-              })
+              return sendErrorResponse(res, 500, {}, `Internal Server Error in fetching tags ${JSON.stringify(err)}`)
             }
-            res.status(200).json({status: 'success', payload: finalTags})
+            return sendSuccessResponse(res, 200, tags)
           })
         })
         .catch(err => {
           if (err) {
-            return res.status(500).json({
-              status: 'failed',
-              description: `Internal Server Error in fetching tags${JSON.stringify(err)}`
-            })
+            return sendErrorResponse(res, 500, {}, `Internal Server Error in fetching tags ${JSON.stringify(err)}`)
           }
         })
     })
     .catch(err => {
       if (err) {
-        return res.status(500).json({
-          status: 'failed',
-          description: `Internal Server Error in fetching customer${JSON.stringify(err)}`
-        })
+        return sendErrorResponse(res, 500, {}, `Internal Server Error in fetching tags ${JSON.stringify(err)}`)
       }
     })
 }

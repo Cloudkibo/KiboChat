@@ -259,7 +259,7 @@ exports.enable = function (req, res) {
                                             utility.callApi(`subscribers/update`, 'put', {query: {pageId: page._id}, newPayload: {isEnabledByPage: true}, options: {}}) // update subscribers
                                               .then(updatedSubscriber => {
                                                 const options = {
-                                                  url: `https://graph.facebook.com/v2.6/${page.pageId}/subscribed_apps?access_token=${page.accessToken}`,
+                                                  url: `https://graph.facebook.com/v3.2/${page.pageId}/subscribed_apps?access_token=${page.accessToken}`,
                                                   qs: {access_token: page.accessToken},
                                                   method: 'POST'
                                                 }
