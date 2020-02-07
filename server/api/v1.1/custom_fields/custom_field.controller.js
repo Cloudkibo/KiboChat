@@ -87,7 +87,7 @@ exports.update = function (req, res) {
           sendSuccessResponse(res, 200, updated)
         })
         .catch(err => {
-          sendErrorResponse(res, 500, '', err)
+          sendErrorResponse(res, 500, '', err.error.payload)
         })
     })
     .catch(err => {
