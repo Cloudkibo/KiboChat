@@ -113,7 +113,7 @@ const getAllSubscribers = function (subscribers, count, req, res) {
   logger.serverLog(TAG, `subscribers/aggregate data subscribers ${utcDate}`, 'info')
   let subscriberIds = logicLayer.getSubscriberIds(subscribers)
   logger.serverLog(TAG, `subscriberIds: ${util.inspect(subscriberIds)}`, 'debug')
-  utility.callApi(`tags/query`, 'post', { companyId: req.user.companyId, isList: false, defaultTag: false })
+  utility.callApi(`tags/query`, 'post', { companyId: req.user.companyId })
     .then(tags => {
       dt = new Date()
       utcDate = dt.toUTCString()
