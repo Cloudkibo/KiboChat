@@ -41,7 +41,7 @@ exports.deletePayload = {
 exports.assignPayload = {
   type: 'object',
   properties: {
-    tag: {
+    tagId: {
       type: 'string',
       required: true
     },
