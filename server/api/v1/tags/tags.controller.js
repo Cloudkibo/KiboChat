@@ -59,14 +59,13 @@ exports.create = function (req, res) {
         }
         callApi.callApi('tags/', 'post', tagPayload)
           .then(newTag => {
+            newTag.status = 'Unassigned'
+            newTag.subscribersCount = 0
             require('./../../../config/socketio').sendMessageToClient({
               room_id: req.user.companyId,
               body: {
                 action: 'new_tag',
-                payload: {
-                  tag_id: newTag._id,
-                  tag_name: newTag.tag
-                }
+                payload: newTag
               }
             })
             sendSuccessResponse(res, 200, newTag)
@@ -92,10 +91,7 @@ exports.rename = function (req, res) {
               room_id: req.user.companyId,
               body: {
                 action: 'tag_rename',
-                payload: {
-                  tag_id: tag._id,
-                  tag_name: tag.tag
-                }
+                payload: tag
               }
             })
             sendSuccessResponse(res, 200, 'Tag has been deleted successfully!')
@@ -158,9 +154,7 @@ exports.delete = function (req, res) {
               room_id: req.user.companyId,
               body: {
                 action: 'tag_remove',
-                payload: {
-                  tag_id: tag._id
-                }
+                payload: tag
               }
             })
             sendSuccessResponse(res, 200, 'Tag has been deleted successfully!')
@@ -212,7 +206,7 @@ exports.assign = function (req, res) {
       body: {
         action: 'tag_assign',
         payload: {
-          tag: req.body.tag,
+          tagId: req.body.tagId,
           subscriber_ids: req.body.subscribers
         }
       }
@@ -255,7 +249,7 @@ exports.unassign = function (req, res) {
       body: {
         action: 'tag_unassign',
         payload: {
-          tag_id: req.body.tag,
+          tagId: req.body.tagId,
           subscriber_ids: req.body.subscribers
         }
       }
