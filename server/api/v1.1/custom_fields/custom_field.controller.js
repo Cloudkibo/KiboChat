@@ -76,11 +76,12 @@ exports.update = function (req, res) {
       callApi.callApi('custom_fields/', 'put', { purpose: 'updateOne', match: { _id: req.body.customFieldId }, updated: updatedPayload }, req.headers.authorization)
         .then(updated => {
           require('./../../../config/socketio').sendMessageToClient({
-            room_id: fieldPayload.companyId._id,
+            room_id: req.user.companyId,
             body: {
-              action: 'tag_rename',
+              action: 'custom_field_rename',
               payload: {
-                fieldPayload
+                customFieldId: req.body.customFieldId,
+                updatedField: updatedPayload
               }
             }
           })
