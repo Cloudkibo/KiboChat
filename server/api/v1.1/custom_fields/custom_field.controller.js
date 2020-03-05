@@ -104,7 +104,7 @@ exports.delete = function (req, res) {
             callApi.callApi('custom_fields/', 'delete', { purpose: 'deleteOne', match: { _id: req.body.customFieldId } }, req.headers.authorization)
               .then(fieldPayload => {
                 require('./../../../config/socketio').sendMessageToClient({
-                  room_id: fieldPayload.companyId,
+                  room_id: req.user.companyId,
                   body: {
                     action: 'custom_field_remove',
                     payload: {
@@ -125,7 +125,7 @@ exports.delete = function (req, res) {
         callApi.callApi('custom_fields/', 'delete', { purpose: 'deleteOne', match: { _id: req.body.customFieldId } }, req.headers.authorization)
           .then(fieldPayload => {
             require('./../../../config/socketio').sendMessageToClient({
-              room_id: fieldPayload.companyId,
+              room_id: req.user.companyId,
               body: {
                 action: 'custom_field_remove',
                 payload: {
