@@ -62,7 +62,14 @@ exports.index = function (req, res) {
 }
 
 exports.search = function (req, res) {
-  let searchData = { subscriber_id: req.body.subscriber_id, company_id: req.user.companyId, $text: { $search: req.body.text } }
+  let searchData = {
+    subscriber_id: req.body.subscriber_id,
+    company_id: req.user.companyId,
+    $text: { $search: req.body.text }
+  }
+  if (req.body.datetime) {
+    searchData.datetime = {$lt: new Date(req.body.datetime)}
+  }
   callApi(`livechat/search`, 'post', searchData, 'kibochat')
     .then(chats => {
       sendSuccessResponse(res, 200, chats)
