@@ -2,6 +2,7 @@ const logicLayer = require('./teams.logicLayer')
 const utility = require('../utility')
 const logger = require('../../../components/logger')
 const TAG = 'api/v2/pages/teams.controller.js'
+const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
 
 exports.index = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
@@ -22,46 +23,28 @@ exports.index = function (req, res) {
                         .then(pageIds => {
                           utility.callApi(`pages/query`, 'post', {_id: {$in: pageIds}}) // fetch unique pages info
                             .then(uniquePages => {
-                              return res.status(200).json({
-                                status: 'success',
-                                payload: {teams: teams, teamUniqueAgents: uniqueAgents, teamUniquePages: uniquePages}
-                              })
+                              sendSuccessResponse(res, 200, {teams: teams, teamUniqueAgents: uniqueAgents, teamUniquePages: uniquePages})
                             })
                         })
                         .catch(error => {
-                          return res.status(500).json({
-                            status: 'failed',
-                            payload: `Failed to fetch distinct team pages ${JSON.stringify(error)}`
-                          })
+                          sendErrorResponse(res, 500, `Failed to fetch distinct team pages ${JSON.stringify(error)}`)
                         })
                     })
                     .catch(error => {
-                      return res.status(500).json({
-                        status: 'failed',
-                        payload: `Failed to fetch unique team agents ${JSON.stringify(error)}`
-                      })
+                      sendErrorResponse(res, 500, `Failed to fetch unique team agents ${JSON.stringify(error)}`)
                     })
                 })
             })
             .catch(error => {
-              return res.status(500).json({
-                status: 'failed',
-                payload: `Failed to fetch distinct team agents ${JSON.stringify(error)}`
-              })
+              sendErrorResponse(res, 500, `Failed to fetch distinct team agents ${JSON.stringify(error)}`)
             })
         })
         .catch(error => {
-          return res.status(500).json({
-            status: 'failed',
-            payload: `Failed to fetch teams ${JSON.stringify(error)}`
-          })
+          sendErrorResponse(res, 500, `Failed to fetch teams ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
-      return res.status(500).json({
-        status: 'failed',
-        payload: `Failed to fetch company user ${JSON.stringify(error)}`
-      })
+      sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
 
