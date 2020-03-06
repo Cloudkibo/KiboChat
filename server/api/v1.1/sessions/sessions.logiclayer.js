@@ -46,6 +46,7 @@ exports.getSessions = (req, status) => {
       locale: 1,
       is_assigned: 1,
       assigned_to: 1,
+      lastMessagedAt: 1,
       pendingResponse: 1,
       waitingForUserInput: 1,
       unreadCount: 1} },
