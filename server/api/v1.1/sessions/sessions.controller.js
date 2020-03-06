@@ -160,11 +160,13 @@ function markreadFacebook (req, callback) {
 }
 
 exports.show = function (req, res) {
+  console.log('params', req.param)
   if (req.params.id) {
     async.parallelLimit([
       function (callback) {
         callApi(`subscribers/${req.params.id}`, 'get', {}, 'accounts', req.headers.authorization)
           .then(subscriber => {
+            console.log('subscriber', subscriber)
             callback(null, subscriber)
           })
           .catch(err => {
@@ -187,9 +189,9 @@ exports.show = function (req, res) {
       } else {
         let subscriber = results[0]
         let lastMessageResponse = results[1]
-        subscriber.lastPayload = lastMessageResponse[0].payload
-        subscriber.lastRepliedBy = lastMessageResponse[0].replied_by
-        subscriber.lastDateTime = lastMessageResponse[0].datetime
+        subscriber.lastPayload = lastMessageResponse.length > 0 && lastMessageResponse[0].payload
+        subscriber.lastRepliedBy = lastMessageResponse.length > 0 && lastMessageResponse[0].replied_by
+        subscriber.lastDateTime = lastMessageResponse.length > 0 && lastMessageResponse[0].datetime
         sendSuccessResponse(res, 200, subscriber)
       }
     })

@@ -113,7 +113,7 @@ const getAllSubscribers = function (subscribers, count, req, res) {
   logger.serverLog(TAG, `subscribers/aggregate data subscribers ${utcDate}`, 'info')
   let subscriberIds = logicLayer.getSubscriberIds(subscribers)
   logger.serverLog(TAG, `subscriberIds: ${util.inspect(subscriberIds)}`, 'debug')
-  utility.callApi(`tags/query`, 'post', { companyId: req.user.companyId, isList: false, defaultTag: false })
+  utility.callApi(`tags/query`, 'post', { companyId: req.user.companyId })
     .then(tags => {
       dt = new Date()
       utcDate = dt.toUTCString()
@@ -289,7 +289,6 @@ exports.unSubscribe = function (req, res) {
   let subscriber = {}
   let updated = {}
 
-  let companyUserResponse = utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
   let pageResponse = utility.callApi(`pages/${req.body.page_id}`, 'get', {})
   let subscriberResponse = utility.callApi(`subscribers/${req.body.subscriber_id}`, 'get', {})
   let updateSubscriberResponse = utility.callApi(`subscribers/update`, 'put', {
@@ -298,14 +297,10 @@ exports.unSubscribe = function (req, res) {
     options: {}
   })
 
-  companyUserResponse.then(company => {
-    companyUser = company
-    return pageResponse
+  pageResponse.then(page => {
+    userPage = page
+    return subscriberResponse
   })
-    .then(page => {
-      userPage = page
-      return subscriberResponse
-    })
     .then(subscriberData => {
       subscriber = subscriberData
       return updateSubscriberResponse
@@ -367,17 +362,13 @@ exports.unSubscribe = function (req, res) {
     })
 }
 function saveNotifications (companyUser, subscriber, req) {
-  let companyUserResponse = utility.callApi(`companyUser/query`, 'post', { companyId: companyUser.companyId })
-
-  companyUserResponse.then(member => {
-    let notificationsData = {
-      message: `Subscriber ${subscriber.firstName + ' ' + subscriber.lastName} has been unsubscribed by ${req.user.name}`,
-      category: { type: 'unsubscribe', id: subscriber._id },
-      agentId: member.userId._id,
-      companyId: subscriber.companyId
-    }
-    return utility.callApi('notifications', 'post', notificationsData, 'kibochat')
-  })
+  let notificationsData = {
+    message: `Subscriber ${subscriber.firstName + ' ' + subscriber.lastName} has been unsubscribed by ${req.user.name}`,
+    category: { type: 'unsubscribe', id: subscriber._id },
+    agentId: req.user._id,
+    companyId: subscriber.companyId
+  }
+  utility.callApi('notifications', 'post', notificationsData, 'kibochat')
     .then(savedNotification => { })
     .catch(error => {
       logger.serverLog(TAG, `Failed to create notification ${JSON.stringify(error)}`)
