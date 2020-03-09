@@ -8,6 +8,32 @@ let request = require('request')
 const crypto = require('crypto')
 const utility = require('../utility')
 const ffmpeg = require('ffmpeg')
+const ogs = require('open-graph-scraper')
+
+exports.urlMetaData = (req, res) => {
+  let url = req.body.url
+  if (url) {
+    let options = {url}
+    ogs(options, (error, results) => {
+      if (!error) {
+        return res.status(200).json({
+          status: 'success',
+          payload: results.data
+        })
+      } else {
+        return res.status(500).json({
+          status: 'failed',
+          description: `Failed to retrieve url ${results.error}`
+        })
+      }
+    })
+  } else {
+    res.status(400).json({
+      status: 'failed',
+      description: 'url not given in paramater'
+    })
+  }
+}
 
 exports.delete = function (req, res) {
   let dir = path.resolve(__dirname, '../../../../broadcastFiles/userfiles')
@@ -87,12 +113,12 @@ exports.uploadRecording = function (req, res) {
   logger.serverLog(TAG,
     `serverPath ${JSON.stringify(serverPath)}`)
   try {
-    var process = new ffmpeg(req.files.file.path);
+    var process = new ffmpeg(req.files.file.path)
     process.then(function (audio) {
-      audio.fnExtractSoundToMP3(dir + '/userfiles/'+serverPath, function(err, file) {
+      audio.fnExtractSoundToMP3(dir + '/userfiles/' + serverPath, function (err, file) {
         if (err) {
           logger.serverLog(TAG,
-            `Error ffmpeg ${err}`)
+            `Error ffmpeg convert to mp3 ${err}`)
         }
         if (file) {
           logger.serverLog(TAG,
@@ -100,20 +126,20 @@ exports.uploadRecording = function (req, res) {
               id: serverPath,
               url: `${config.domain}/api/broadcasts/download/${serverPath}`
             })}`)
-            return res.status(201).json({
-              status: 'success',
-              payload: {
-                id: serverPath,
-                name: req.files.file.name,
-                url: `${config.domain}/api/broadcasts/download/${serverPath}`
-              }
-            })
+          return res.status(201).json({
+            status: 'success',
+            payload: {
+              id: serverPath,
+              name: req.files.file.name,
+              url: `${config.domain}/api/broadcasts/download/${serverPath}`
+            }
+          })
         }
       })
     }, function (err) {
       logger.serverLog(TAG,
-        `Error ffmpeg ${err}`)
-    });
+        `Error ffmpeg process ${err}`)
+    })
   } catch (e) {
     logger.serverLog(TAG,
       `Error Catch ffmpeg ${e.msg}`)

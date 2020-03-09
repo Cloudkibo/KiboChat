@@ -6,6 +6,7 @@ const controller = require('./liveChat.controller')
 const auth = require('../../../auth/auth.service')
 const validate = require('express-jsonschema').validate
 const validationSchema = require('./validationSchema')
+const { checkSMPStatus } = require('../../global/middleware')
 
 router.post('/',
   auth.isAuthenticated(),
@@ -33,5 +34,10 @@ router.post('/:subscriber_id',
   auth.doesPlanPermitsThisAction('livechat'),
   auth.doesRolePermitsThisAction('livechatPermission'),
   controller.index)
+
+router.get('/SMPStatus',
+  auth.isAuthenticated(),
+  checkSMPStatus(),
+  controller.SMPStatus)
 
 module.exports = router
