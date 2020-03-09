@@ -117,8 +117,11 @@ exports.uploadRecording = function (req, res) {
     process.then(function (audio) {
       audio.fnExtractSoundToMP3(dir + '/userfiles/' + serverPath, function (err, file) {
         if (err) {
-          logger.serverLog(TAG,
-            `Error ffmpeg convert to mp3 ${err}`)
+          logger.serverLog(TAG, `Error ffmpeg convert to mp3 ${err}`)
+          return res.status(500).json({
+            status: 'failed',
+            description: 'Failed to upload audio'
+          })
         }
         if (file) {
           logger.serverLog(TAG,
@@ -137,12 +140,18 @@ exports.uploadRecording = function (req, res) {
         }
       })
     }, function (err) {
-      logger.serverLog(TAG,
-        `Error ffmpeg process ${err}`)
+      logger.serverLog(TAG, `Error ffmpeg process ${err}`)
+      return res.status(500).json({
+        status: 'failed',
+        description: 'Failed to upload audio'
+      })
     })
   } catch (e) {
-    logger.serverLog(TAG,
-      `Error Catch ffmpeg ${e.msg}`)
+    logger.serverLog(TAG, `Error Catch ffmpeg ${e.msg}`)
+    return res.status(500).json({
+      status: 'failed',
+      description: 'Failed to upload audio'
+    })
   }
 }
 exports.upload = function (req, res) {
