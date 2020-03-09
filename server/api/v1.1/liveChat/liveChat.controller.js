@@ -61,6 +61,10 @@ exports.index = function (req, res) {
   }
 }
 
+exports.SMPStatus = function (req, res) {
+  return res.status(200).json({status: 'success', payload: req.user.SMPStatus})
+}
+
 exports.search = function (req, res) {
   let searchData = {
     subscriber_id: req.body.subscriber_id,

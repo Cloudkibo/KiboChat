@@ -57,5 +57,9 @@ router.delete('/deleteButton/:id',
   auth.doesRolePermitsThisAction('broadcastPermission'),
   controller.deleteButton)
 
+router.post('/urlMetaData/',
+  auth.isAuthenticated(),
+  controller.urlMetaData)
+
 router.get('/download/:id', controller.download)
 module.exports = router
