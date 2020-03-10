@@ -112,47 +112,76 @@ exports.uploadRecording = function (req, res) {
     `dir ${JSON.stringify(dir)}`)
   logger.serverLog(TAG,
     `serverPath ${JSON.stringify(serverPath)}`)
-  try {
-    var process = new ffmpeg(req.files.file.path)
-    process.then(function (audio) {
-      audio.fnExtractSoundToMP3(dir + '/userfiles/' + serverPath, function (err, file) {
-        if (err) {
-          logger.serverLog(TAG, `Error ffmpeg convert to mp3 ${err}`)
-          return res.status(500).json({
-            status: 'failed',
-            description: 'Failed to upload audio'
-          })
-        }
-        if (file) {
-          logger.serverLog(TAG,
-            `file uploaded on KiboPush, uploading it on Facebook: ${JSON.stringify({
-              id: serverPath,
-              url: `${config.domain}/api/broadcasts/download/${serverPath}`
-            })}`)
-          return res.status(201).json({
-            status: 'success',
-            payload: {
-              id: serverPath,
-              name: req.files.file.name,
-              url: `${config.domain}/api/broadcasts/download/${serverPath}`
-            }
-          })
+
+  fs.rename(
+    req.files.file.path,
+    dir + '/userfiles/' + serverPath,
+    err => {
+      if (err) {
+        return res.status(500).json({
+          status: 'failed',
+          description: 'internal server error' + JSON.stringify(err)
+        })
+      }
+      let readData = fs.createReadStream(dir + '/userfiles/' + serverPath)
+      let writeData = fs.createWriteStream(dir + '/userfiles/' + req.files.file.name)
+      readData.pipe(writeData)
+      logger.serverLog(TAG,
+        `file uploaded on KiboPush, uploading it on Facebook: ${JSON.stringify({
+          id: serverPath,
+          url: `${config.domain}/api/broadcasts/download/${serverPath}`
+        })}`)
+      return res.status(201).json({
+        status: 'success',
+        payload: {
+          id: serverPath,
+          name: req.files.file.name,
+          url: `${config.domain}/api/broadcasts/download/${serverPath}`
         }
       })
-    }, function (err) {
-      logger.serverLog(TAG, `Error ffmpeg process ${err}`)
-      return res.status(500).json({
-        status: 'failed',
-        description: 'Failed to upload audio'
-      })
-    })
-  } catch (e) {
-    logger.serverLog(TAG, `Error Catch ffmpeg ${e.msg}`)
-    return res.status(500).json({
-      status: 'failed',
-      description: 'Failed to upload audio'
-    })
-  }
+    }
+  )
+  // try {
+  //   var process = new ffmpeg(req.files.file.path)
+  //   process.then(function (audio) {
+  //     audio.fnExtractSoundToMP3(dir + '/userfiles/' + serverPath, function (err, file) {
+  //       if (err) {
+  //         logger.serverLog(TAG, `Error ffmpeg convert to mp3 ${err}`)
+  //         return res.status(500).json({
+  //           status: 'failed',
+  //           description: 'Failed to upload audio'
+  //         })
+  //       }
+  //       if (file) {
+  //         logger.serverLog(TAG,
+  //           `file uploaded on KiboPush, uploading it on Facebook: ${JSON.stringify({
+  //             id: serverPath,
+  //             url: `${config.domain}/api/broadcasts/download/${serverPath}`
+  //           })}`)
+  //         return res.status(201).json({
+  //           status: 'success',
+  //           payload: {
+  //             id: serverPath,
+  //             name: req.files.file.name,
+  //             url: `${config.domain}/api/broadcasts/download/${serverPath}`
+  //           }
+  //         })
+  //       }
+  //     })
+  //   }, function (err) {
+  //     logger.serverLog(TAG, `Error ffmpeg process ${err}`)
+  //     return res.status(500).json({
+  //       status: 'failed',
+  //       description: 'Failed to upload audio'
+  //     })
+  //   })
+  // } catch (e) {
+  //   logger.serverLog(TAG, `Error Catch ffmpeg ${e.msg}`)
+  //   return res.status(500).json({
+  //     status: 'failed',
+  //     description: 'Failed to upload audio'
+  //   })
+  // }
 }
 exports.upload = function (req, res) {
   var today = new Date()
