@@ -25,4 +25,9 @@ router.get('/markread/:id',
   auth.isAuthenticated(),
   controller.markread)
 
+router.post('/search',
+  auth.isAuthenticated(),
+  validate({body: validationSchema.searchPayload}),
+  controller.search)
+
 module.exports = router
