@@ -1,7 +1,6 @@
 const logger = require('../../../components/logger')
 const TAG = '/api/v1/twilioEvents/controller.js'
 const { callApi } = require('../utility')
-const { record } = require('../../global/messageStatistics')
 
 exports.index = function (req, res) {
   res.status(200).json({
@@ -10,10 +9,13 @@ exports.index = function (req, res) {
   })
   callApi(`companyprofile/query`, 'post', {'twilio.accountSID': req.body.AccountSid})
     .then(company => {
+      console.log('company got', company)
       callApi(`user/query`, 'post', {_id: company.ownerId})
         .then(user => {
+          console.log('user got', user)
           callApi(`contacts/query`, 'post', {number: req.body.From, companyId: company._id})
             .then(contact => {
+              console.log('contact got', contact)
               contact = contact[0]
               if (contact.isSubscribed || req.body.Body.toLowerCase() === 'start') {
                 let MessageObject = {
@@ -27,7 +29,6 @@ exports.index = function (req, res) {
                 }
                 callApi(`smsChat`, 'post', MessageObject, 'kibochat')
                   .then(message => {
-                    record('smsChatInComing')
                     require('./../../../config/socketio').sendMessageToClient({
                       room_id: contact.companyId,
                       body: {
@@ -35,20 +36,11 @@ exports.index = function (req, res) {
                         payload: message
                       }
                     })
-                    let subscriberData = {
-                      query: {_id: contact._id},
-                      newPayload: {last_activity_time: Date.now(), hasChat: true},
-                      options: {}
-                    }
-                    callApi(`contacts/update`, 'put', subscriberData)
-                      .then(updated => {
-                      })
-                      .catch(error => {
-                        logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`, 'error')
-                      })
+                    updateContact(contact._id, {last_activity_time: Date.now(), hasChat: true, pendingResponse: true})
+                    updateContact(contact._id, {$inc: { unreadCount: 1, messagesCount: 1 }})
                   })
                   .catch(error => {
-                    logger.serverLog(TAG, `Failed to create sms ${JSON.stringify(error)}`, 'error')
+                    logger.serverLog(TAG, `Failed to create sms ${error}`, 'error')
                   })
                 if (req.body.Body !== '' && (req.body.Body.toLowerCase() === 'unsubscribe' || req.body.Body.toLowerCase() === 'stop')) {
                   handleUnsub(user, company, contact, req.body)
@@ -69,6 +61,21 @@ exports.index = function (req, res) {
       logger.serverLog(TAG, `Failed to fetch company ${JSON.stringify(error)}`, 'error')
     })
 }
+
+function updateContact (contactId, newPayload) {
+  let subscriberData = {
+    query: {_id: contactId},
+    newPayload: newPayload,
+    options: {}
+  }
+  callApi(`contacts/update`, 'put', subscriberData)
+    .then(updated => {
+    })
+    .catch(error => {
+      logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`, 'error')
+    })
+}
+
 function handleUnsub (user, company, contact, body) {
   let accountSid = company.twilio.accountSID
   let authToken = company.twilio.authToken
