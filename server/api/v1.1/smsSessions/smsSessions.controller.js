@@ -144,3 +144,39 @@ exports.updatePendingResponse = function (req, res) {
       sendErrorResponse(res, 500, err)
     })
 }
+
+exports.assignAgent = function (req, res) {
+  let assignedTo = {
+    type: 'agent',
+    id: req.body.agentId,
+    name: req.body.agentName
+  }
+  callApi(
+    'contacts/update',
+    'put',
+    {
+      query: {_id: req.body.subscriberId},
+      newPayload: {assigned_to: assignedTo, is_assigned: req.body.isAssigned},
+      options: {}
+    }
+  )
+    .then(updated => {
+      require('./../../../config/socketio').sendMessageToClient({
+        room_id: req.user.companyId,
+        body: {
+          action: 'sms_session_assign',
+          payload: {
+            data: req.body,
+            session_id: req.body.subscriberId,
+            user_id: req.user._id,
+            user_name: req.user.name,
+            assigned_to: assignedTo
+          }
+        }
+      })
+      sendSuccessResponse(res, 200, 'Agent has been assigned successfully!')
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, err)
+    })
+}
