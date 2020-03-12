@@ -22,7 +22,14 @@ module.exports = {
     clientSecret: process.env.FACEBOOK_SECRET,
     callbackURL: `${process.env.DOMAIN}/auth/facebook/callback`
   },
-
+  api_urls: {
+    webhook: 'https://swebhook.cloudkibo.com',
+    accounts: 'https://saccounts.cloudkibo.com/api/v1',
+    chat: 'https://skibochat.cloudkibo.com/api',
+    kibochat: `${process.env.DB_LAYER_IP_KIBOCHAT}/api/v1`,
+    kiboengage: `${process.env.DB_LAYER_IP_KIBOENGAGE}/api/v1`,
+    kibodash: `${process.env.KIBODASH}/api/v1`
+  },
   webhook_ip: process.env.WEBHOOK_IP_ADDRESS || 'localhost',
   DBLAYER_URL_KIBOCHAT: `${process.env.DB_LAYER_IP_KIBOCHAT}/api/v1`,
   DBLAYER_URL_KIBOENGAGE: `${process.env.DB_LAYER_IP_KIBOENGAGE}/api/v1`,
