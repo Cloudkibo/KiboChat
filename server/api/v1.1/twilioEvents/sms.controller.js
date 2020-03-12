@@ -9,13 +9,10 @@ exports.index = function (req, res) {
   })
   callApi(`companyprofile/query`, 'post', {'twilio.accountSID': req.body.AccountSid})
     .then(company => {
-      console.log('company got', company)
       callApi(`user/query`, 'post', {_id: company.ownerId})
         .then(user => {
-          console.log('user got', user)
           callApi(`contacts/query`, 'post', {number: req.body.From, companyId: company._id})
             .then(contact => {
-              console.log('contact got', contact)
               contact = contact[0]
               if (contact.isSubscribed || req.body.Body.toLowerCase() === 'start') {
                 let MessageObject = {
