@@ -35,4 +35,9 @@ router.post('/getClosedSessions',
   validate({body: validationSchema.openSessionsPayload}),
   controller.fetchResolvedSessions)
 
+router.post('/search',
+  auth.isAuthenticated(),
+  validate({body: validationSchema.searchPayload}),
+  controller.search)
+
 module.exports = router

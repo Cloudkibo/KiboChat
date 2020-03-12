@@ -10,17 +10,9 @@ exports.index = function (req, res) {
       if (!companyUser) {
         sendErrorResponse(res, 404, '', 'The user account does not belong to any company. Please contact support')
       }
-      callApi.callApi('custom_fields/query', 'post', { purpose: 'findAll', match: { companyId: companyUser.companyId } }, req.headers.authorization)
+      callApi.callApi('custom_fields/query', 'post', { purpose: 'findAll', match: { $or: [{companyId: req.user.companyId}, {default: true}] } }, req.headers.authorization)
         .then(customFields => {
-          callApi.callApi('custom_fields/query', 'post', { purpose: 'findAll', match: { default: true } })
-            .then(defaultFields => {
-              sendSuccessResponse(res, 200, _.concat(customFields, defaultFields))
-            })
-            .catch(err => {
-              if (err) {
-                sendErrorResponse(res, 500, '', `Internal Server Error in fetching default customFields${JSON.stringify(err)}`)
-              }
-            })
+          sendSuccessResponse(res, 200, customFields)
         })
         .catch(err => {
           if (err) {
@@ -71,7 +63,7 @@ exports.create = function (req, res) {
 }
 
 exports.update = function (req, res) {
-  callApi.callApi('custom_fields/query', 'post', { purpose: 'findOne', match: { _id: req.body.customFieldId, companyId: req.user.companyId } }, req.headers.authorization)
+  callApi.callApi('custom_fields/query', 'post', { purpose: 'findOne', match: { _id: req.body.customFieldId, $or: [{companyId: req.user.companyId}, {default: true}] } }, req.headers.authorization)
     .then(fieldPayload => {
       if (!fieldPayload) {
         sendErrorResponse(res, 404, '', 'No Custom field is available on server with given customFieldId.')
@@ -79,23 +71,24 @@ exports.update = function (req, res) {
       let updatedPayload = {}
       if (req.body.updated.name) updatedPayload.name = req.body.updated.name
       if (req.body.updated.type) updatedPayload.type = req.body.updated.type
-      if (req.body.updated.description) updatedPayload.description = req.body.updated.description
-      if (req.user.companyId) updatedPayload.companyId = req.user.companyId
+      updatedPayload.description = req.body.updated.description
+      updatedPayload.companyId = req.user.companyId
       callApi.callApi('custom_fields/', 'put', { purpose: 'updateOne', match: { _id: req.body.customFieldId }, updated: updatedPayload }, req.headers.authorization)
         .then(updated => {
           require('./../../../config/socketio').sendMessageToClient({
-            room_id: fieldPayload.companyId._id,
+            room_id: req.user.companyId,
             body: {
-              action: 'tag_rename',
+              action: 'custom_field_rename',
               payload: {
-                fieldPayload
+                customFieldId: req.body.customFieldId,
+                updatedField: updatedPayload
               }
             }
           })
           sendSuccessResponse(res, 200, updated)
         })
         .catch(err => {
-          sendErrorResponse(res, 500, '', err)
+          sendErrorResponse(res, 500, '', err.error.payload)
         })
     })
     .catch(err => {
@@ -112,7 +105,7 @@ exports.delete = function (req, res) {
             callApi.callApi('custom_fields/', 'delete', { purpose: 'deleteOne', match: { _id: req.body.customFieldId } }, req.headers.authorization)
               .then(fieldPayload => {
                 require('./../../../config/socketio').sendMessageToClient({
-                  room_id: fieldPayload.companyId,
+                  room_id: req.user.companyId,
                   body: {
                     action: 'custom_field_remove',
                     payload: {
@@ -133,7 +126,7 @@ exports.delete = function (req, res) {
         callApi.callApi('custom_fields/', 'delete', { purpose: 'deleteOne', match: { _id: req.body.customFieldId } }, req.headers.authorization)
           .then(fieldPayload => {
             require('./../../../config/socketio').sendMessageToClient({
-              room_id: fieldPayload.companyId,
+              room_id: req.user.companyId,
               body: {
                 action: 'custom_field_remove',
                 payload: {

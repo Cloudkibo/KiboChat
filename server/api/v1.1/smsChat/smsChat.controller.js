@@ -262,5 +262,21 @@ exports.updatePendingResponse = function (req, res) {
     })
     .catch(err => {
       sendErrorResponse(res, 500, err)
+
+exports.search = function (req, res) {
+  let searchData = {
+    subscriber_id: req.body.subscriber_id,
+    company_id: req.user.companyId,
+    $text: { $search: req.body.text }
+  }
+  if (req.body.datetime) {
+    searchData.datetime = {$lt: new Date(req.body.datetime)}
+  }
+  callApi(`smsChat/search`, 'post', searchData, 'kibochat')
+    .then(chats => {
+      sendSuccessResponse(res, 200, chats)
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, '', err)
     })
 }

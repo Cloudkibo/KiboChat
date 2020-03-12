@@ -9,7 +9,7 @@ const { sendSuccessResponse, sendErrorResponse } = require('../../global/respons
 exports.setCustomFieldValue = function (req, res) {
   let customFieldResponse = callApi.callApi(
     'custom_fields/query', 'post',
-    { purpose: 'findOne', match: { _id: req.body.customFieldId, companyId: req.user.companyId } }
+    { purpose: 'findOne', match: { _id: req.body.customFieldId, $or: [{companyId: req.user.companyId}, {default: true}] } }
   )
   let foundSubscriberResponse = (subscriberId) => callApi.callApi(
     `subscribers/${subscriberId}`,
@@ -34,13 +34,22 @@ exports.setCustomFieldValue = function (req, res) {
           })
           .then(foundCustomFieldSubscriber => {
             logger.serverLog(customField, `Custom Field subscriber ${util.inspect(foundCustomFieldSubscriber)}`, 'debug')
-            let subscribepayload = {
+            let subscriberPayload = {
               customFieldId: req.body.customFieldId,
               subscriberId: subscriberId,
               value: req.body.value
             }
+            require('./../../../config/socketio').sendMessageToClient({
+              room_id: req.user.companyId,
+              body: {
+                action: 'set_custom_field_value',
+                payload: {
+                  setCustomField: subscriberPayload
+                }
+              }
+            })
             if (!foundCustomFieldSubscriber) {
-              return callApi.callApi('custom_field_subscribers/', 'post', subscribepayload)
+              return callApi.callApi('custom_field_subscribers/', 'post', subscriberPayload)
             } else {
               return callApi.callApi('custom_field_subscribers/', 'put',
                 { purpose: 'updateOne', match: { customFieldId: req.body.customFieldId, subscriberId: subscriberId }, updated: { value: req.body.value } })
@@ -48,15 +57,6 @@ exports.setCustomFieldValue = function (req, res) {
           })
           .then(setCustomFieldValue => {
             logger.serverLog(customField, `set custom field value for subscriber ${util.inspect(setCustomFieldValue)}`, 'debug')
-            require('./../../../config/socketio').sendMessageToClient({
-              room_id: req.user.companyId,
-              body: {
-                action: 'set_custom_field_value',
-                payload: {
-                  setCustomField: setCustomFieldValue
-                }
-              }
-            })
             if (index === req.body.subscriberIds.length - 1) {
               sendSuccessResponse(res, 200, setCustomFieldValue)
             }
