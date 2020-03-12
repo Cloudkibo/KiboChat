@@ -262,6 +262,8 @@ exports.updatePendingResponse = function (req, res) {
     })
     .catch(err => {
       sendErrorResponse(res, 500, err)
+    })
+}
 
 exports.search = function (req, res) {
   let searchData = {
