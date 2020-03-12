@@ -13,6 +13,31 @@ exports.updatePendingResponsePayload = {
     'pendingResponse'
   ]
 }
+
+exports.assignAgentPayload = {
+  'type': 'object',
+  'properties': {
+    'agentId': {
+      'type': 'string'
+    },
+    'agentName': {
+      'type': 'string'
+    },
+    'subscriberId': {
+      'type': 'string'
+    },
+    'isAssigned': {
+      'type': 'boolean'
+    }
+  },
+  'required': [
+    'agentId',
+    'agentName',
+    'subscriberId',
+    'isAssigned'
+  ]
+}
+
 exports.openSessionsPayload = {
   'type': 'object',
   'properties': {
