@@ -164,7 +164,7 @@ exports.assignAgent = function (req, res) {
       require('./../../../config/socketio').sendMessageToClient({
         room_id: req.user.companyId,
         body: {
-          action: 'sms_session_assign',
+          action: 'session_assign_sms',
           payload: {
             data: req.body,
             session_id: req.body.subscriberId,
