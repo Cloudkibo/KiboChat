@@ -261,30 +261,34 @@ function prepareLiveChatPayload (message, subscriber, page) {
 
 const prepareUrlMeta = (data) => {
   return new Promise((resolve, reject) => {
-    if (['video', 'audio', 'image', 'location', 'file'].includes(data.type)) {
-      resolve(data)
-    } else if (data.attachments && data.attachments.length > 0 && data.attachments[0].url) {
-      const addr = url.parse(data.attachments[0].url, true)
-      const attachmentUrl = addr.query.u
-      let options = {url: attachmentUrl}
-      ogs(options, (error, results) => {
-        console.log(results)
-        console.log(error)
-        if (!error) {
-          const payload = {
-            type: 'url-card',
-            text: data.text,
-            title: results.data.ogTitle && results.data.ogTitle,
-            description: results.data.ogDescription && results.data.ogDescription,
-            imageUrl: results.data.ogImage && results.data.ogImage.url
+    if (data.attachments && data.attachments.length > 0) {
+      if (['video', 'audio', 'image', 'location', 'file'].includes(data.attachments[0].type)) {
+        resolve(data)
+      } else if (data.attachments[0].url) {
+        const addr = url.parse(data.attachments[0].url, true)
+        const attachmentUrl = addr.query.u
+        let options = {url: attachmentUrl}
+        ogs(options, (error, results) => {
+          console.log(results)
+          console.log(error)
+          if (!error) {
+            const payload = {
+              type: 'url-card',
+              text: data.text,
+              title: results.data.ogTitle && results.data.ogTitle,
+              description: results.data.ogDescription && results.data.ogDescription,
+              imageUrl: results.data.ogImage && results.data.ogImage.url
+            }
+            resolve(payload)
+          } else {
+            let payload = JSON.parse(JSON.stringify(data))
+            delete payload.attachments
+            resolve(payload)
           }
-          resolve(payload)
-        } else {
-          let payload = JSON.parse(JSON.stringify(data))
-          delete payload.attachments
-          resolve(payload)
-        }
-      })
+        })
+      } else {
+        resolve(data)
+      }
     } else {
       resolve(data)
     }
