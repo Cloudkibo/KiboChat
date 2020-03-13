@@ -26,6 +26,7 @@ exports.index = function (req, res) {
                 }
                 callApi(`smsChat`, 'post', MessageObject, 'kibochat')
                   .then(message => {
+                    message.payload.format = 'twilio'
                     console.log('socket data', contact)
                     require('./../../../config/socketio').sendMessageToClient({
                       room_id: contact.companyId,
