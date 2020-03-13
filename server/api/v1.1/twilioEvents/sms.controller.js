@@ -30,7 +30,14 @@ exports.index = function (req, res) {
                       room_id: contact.companyId,
                       body: {
                         action: 'new_chat_sms',
-                        payload: message
+                        payload: {
+                          subscriber_id: contact._id,
+                          chat_id: message._id,
+                          text: message.payload.text,
+                          name: contact.name,
+                          subscriber: contact,
+                          message: message
+                        }
                       }
                     })
                     updateContact(contact._id, {last_activity_time: Date.now(), hasChat: true, pendingResponse: true})
