@@ -88,6 +88,7 @@ exports.create = function (req, res) {
               }
               callApi(`contacts/update`, 'put', subscriberData)
                 .then(updated => {
+                  callback(null)
                 })
                 .catch(error => {
                   callback(error)
@@ -101,6 +102,7 @@ exports.create = function (req, res) {
               }
               callApi(`contacts/update`, 'put', subscriberData)
                 .then(updated => {
+                  callback(null)
                 })
                 .catch(error => {
                   callback(error)
