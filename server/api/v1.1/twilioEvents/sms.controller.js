@@ -26,6 +26,7 @@ exports.index = function (req, res) {
                 }
                 callApi(`smsChat`, 'post', MessageObject, 'kibochat')
                   .then(message => {
+                    console.log('socket data', contact)
                     require('./../../../config/socketio').sendMessageToClient({
                       room_id: contact.companyId,
                       body: {
