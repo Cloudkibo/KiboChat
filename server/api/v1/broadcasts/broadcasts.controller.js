@@ -7,7 +7,6 @@ let config = require('./../../../config/environment')
 let request = require('request')
 const crypto = require('crypto')
 const utility = require('../utility')
-const ffmpeg = require('ffmpeg')
 const ogs = require('open-graph-scraper')
 
 exports.urlMetaData = (req, res) => {
@@ -87,16 +86,11 @@ exports.deleteButton = function (req, res) {
     })
 }
 exports.uploadRecording = function (req, res) {
-  var today = new Date()
-  var uid = crypto.randomBytes(5).toString('hex')
-  var serverPath = 'f' + uid + '' + today.getFullYear() + '' +
-    (today.getMonth() + 1) + '' + today.getDate()
-  serverPath += '' + today.getHours() + '' + today.getMinutes() + '' +
-    today.getSeconds()
-  let fext = req.files.file.name.split('.')
-  serverPath += '.' + fext[fext.length - 1].toLowerCase()
-
-  let dir = path.resolve(__dirname, '../../../../broadcastFiles/')
+  const today = new Date()
+  const uid = crypto.randomBytes(5).toString('hex')
+  const fext = req.files.file.name.split('.')
+  const serverPath = `f${uid}${today.getFullYear()}${today.getMonth() + 1}${today.getDate()}${today.getHours()}${today.getMinutes()}${today.getSeconds()}.${fext[fext.length - 1].toLowerCase()}`
+  const dir = path.resolve(__dirname, '../../../../broadcastFiles/')
 
   if (req.files.file.size === 0) {
     return res.status(400).json({
@@ -104,33 +98,19 @@ exports.uploadRecording = function (req, res) {
       description: 'No file submitted'
     })
   }
-  logger.serverLog(TAG,
-    `req.files.file ${JSON.stringify(req.files.file.path)}`)
-  logger.serverLog(TAG,
-    `req.files.file ${JSON.stringify(req.files.file.name)}`)
-  logger.serverLog(TAG,
-    `dir ${JSON.stringify(dir)}`)
-  logger.serverLog(TAG,
-    `serverPath ${JSON.stringify(serverPath)}`)
 
-  fs.rename(
-    req.files.file.path,
-    dir + '/userfiles/' + serverPath,
-    err => {
-      if (err) {
-        return res.status(500).json({
-          status: 'failed',
-          description: 'internal server error' + JSON.stringify(err)
-        })
-      }
-      let readData = fs.createReadStream(dir + '/userfiles/' + serverPath)
-      let writeData = fs.createWriteStream(dir + '/userfiles/' + req.files.file.name)
-      readData.pipe(writeData)
-      logger.serverLog(TAG,
-        `file uploaded on KiboPush, uploading it on Facebook: ${JSON.stringify({
-          id: serverPath,
-          url: `${config.domain}/api/broadcasts/download/${serverPath}`
-        })}`)
+  fs.rename(req.files.file.path, `${dir}/userfiles/${serverPath}`, (err) => {
+    if (err) {
+      return res.status(500).json({
+        status: 'failed',
+        description: 'internal server error' + JSON.stringify(err)
+      })
+    } else {
+      logger.serverLog(TAG, `file uploaded on KiboPush: ${JSON.stringify({
+        id: serverPath,
+        url: `${config.domain}/api/broadcasts/download/${serverPath}`
+      })}`)
+
       return res.status(201).json({
         status: 'success',
         payload: {
@@ -140,48 +120,7 @@ exports.uploadRecording = function (req, res) {
         }
       })
     }
-  )
-  // try {
-  //   var process = new ffmpeg(req.files.file.path)
-  //   process.then(function (audio) {
-  //     audio.fnExtractSoundToMP3(dir + '/userfiles/' + serverPath, function (err, file) {
-  //       if (err) {
-  //         logger.serverLog(TAG, `Error ffmpeg convert to mp3 ${err}`)
-  //         return res.status(500).json({
-  //           status: 'failed',
-  //           description: 'Failed to upload audio'
-  //         })
-  //       }
-  //       if (file) {
-  //         logger.serverLog(TAG,
-  //           `file uploaded on KiboPush, uploading it on Facebook: ${JSON.stringify({
-  //             id: serverPath,
-  //             url: `${config.domain}/api/broadcasts/download/${serverPath}`
-  //           })}`)
-  //         return res.status(201).json({
-  //           status: 'success',
-  //           payload: {
-  //             id: serverPath,
-  //             name: req.files.file.name,
-  //             url: `${config.domain}/api/broadcasts/download/${serverPath}`
-  //           }
-  //         })
-  //       }
-  //     })
-  //   }, function (err) {
-  //     logger.serverLog(TAG, `Error ffmpeg process ${err}`)
-  //     return res.status(500).json({
-  //       status: 'failed',
-  //       description: 'Failed to upload audio'
-  //     })
-  //   })
-  // } catch (e) {
-  //   logger.serverLog(TAG, `Error Catch ffmpeg ${e.msg}`)
-  //   return res.status(500).json({
-  //     status: 'failed',
-  //     description: 'Failed to upload audio'
-  //   })
-  // }
+  })
 }
 exports.upload = function (req, res) {
   var today = new Date()
