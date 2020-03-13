@@ -26,4 +26,9 @@ router.post('/getClosedSessions',
   validate({body: validationSchema.openSessionsPayload}),
   controller.fetchResolvedSessions)
 
+router.post('/assignAgent',
+  auth.isAuthenticated(),
+  validate({body: validationSchema.assignAgentPayload}),
+  controller.assignAgent)
+
 module.exports = router

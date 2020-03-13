@@ -125,8 +125,8 @@ exports.create = function (req, res) {
 
 exports.search = function (req, res) {
   let searchData = {
-    subscriber_id: req.body.subscriber_id,
-    company_id: req.user.companyId,
+    contactId: req.body.subscriber_id,
+    companyId: req.user.companyId,
     $text: { $search: req.body.text }
   }
   if (req.body.datetime) {
