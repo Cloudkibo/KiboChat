@@ -211,7 +211,7 @@ exports.create = function (req, res) {
               'method': 'POST',
               'json': true,
               'formData': messageData,
-              'uri': 'https://graph.facebook.com/v2.6/me/messages?access_token=' +
+              'uri': 'https://graph.facebook.com/v5.0/me/messages?access_token=' +
                 subscriber.pageId.accessToken
             },
             (err, res) => {
