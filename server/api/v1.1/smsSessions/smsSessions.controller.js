@@ -95,7 +95,23 @@ exports.markread = function (req, res) {
   if (req.params.id) {
     async.parallelLimit([
       function (callback) {
-        markreadLocal(req, callback)
+        let updateData = logicLayer.getUpdateData('updateAll', {contactId: req.params.id}, {status: 'seen'}, false, true)
+        callApi('smsChat', 'put', updateData, 'kibochat')
+          .then(updated => {
+            callback(null, updated)
+          })
+          .catch(err => {
+            callback(err)
+          })
+      },
+      function (callback) {
+        callApi('contacts/update', 'put', {query: {_id: req.params.id}, newPayload: {unreadCount: 0}, options: {}}, 'accounts', req.headers.authorization)
+          .then(updated => {
+            callback(null, updated)
+          })
+          .catch(err => {
+            callback(err)
+          })
       }
     ], 10, function (err, results) {
       if (err) {
