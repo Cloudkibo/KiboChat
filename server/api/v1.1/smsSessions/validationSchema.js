@@ -76,3 +76,18 @@ exports.openSessionsPayload = {
     'filter_criteria'
   ]
 }
+exports.changeStatusPayload = {
+  'type': 'object',
+  'properties': {
+    '_id': {
+      'type': 'string'
+    },
+    'status': {
+      'type': 'string'
+    }
+  },
+  'required': [
+    '_id',
+    'status'
+  ]
+}

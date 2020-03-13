@@ -125,16 +125,6 @@ exports.markread = function (req, res) {
   }
 }
 
-function markreadLocal (req, callback) {
-  let updateData = logicLayer.getUpdateData('updateAll', {contactId: req.params.id}, {status: 'seen'}, false, true)
-  callApi('smsChat', 'put', updateData, 'kibochat')
-    .then(updated => {
-      callback(null, updated)
-    })
-    .catch(err => {
-      callback(err)
-    })
-}
 exports.updatePendingResponse = function (req, res) {
   callApi('contacts/update', 'put', {
     query: {_id: req.body.id},
@@ -191,6 +181,45 @@ exports.assignAgent = function (req, res) {
         }
       })
       sendSuccessResponse(res, 200, 'Agent has been assigned successfully!')
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, err)
+    })
+}
+exports.changeStatus = function (req, res) {
+  callApi('contacts/update', 'put', {query: {_id: req.body._id}, newPayload: {status: req.body.status}, options: {}})
+    .then(updated => {
+      callApi('contacts/query', 'post', {_id: req.body._id})
+        .then(contact => {
+          contact = contact[0]
+          let lastMessageData = logicLayer.getQueryData('', 'aggregate', {contactId: req.params.id, companyId: req.user.companyId}, undefined, {_id: -1}, 1, undefined)
+          callApi(`smsChat/query`, 'post', lastMessageData, 'kibochat')
+            .then(lastMessageResponse => {
+              contact.lastPayload = lastMessageResponse.length > 0 && lastMessageResponse[0].payload
+              contact.lastRepliedBy = lastMessageResponse.length > 0 && lastMessageResponse[0].repliedBy
+              contact.lastDateTime = lastMessageResponse.length > 0 && lastMessageResponse[0].datetime
+              require('./../../../config/socketio').sendMessageToClient({
+                room_id: req.user.companyId,
+                body: {
+                  action: 'session_status_sms',
+                  payload: {
+                    session_id: req.body._id,
+                    user_id: req.user._id,
+                    user_name: req.user.name,
+                    status: req.body.status,
+                    session: contact
+                  }
+                }
+              })
+              sendSuccessResponse(res, 200, 'Status has been updated successfully!')
+            })
+            .catch(err => {
+              sendErrorResponse(res, 500, err)
+            })
+        })
+        .catch(err => {
+          sendErrorResponse(res, 500, err)
+        })
     })
     .catch(err => {
       sendErrorResponse(res, 500, err)

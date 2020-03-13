@@ -31,4 +31,9 @@ router.post('/assignAgent',
   validate({body: validationSchema.assignAgentPayload}),
   controller.assignAgent)
 
+router.post('/changeStatus',
+  auth.isAuthenticated(),
+  validate({body: validationSchema.changeStatusPayload}),
+  controller.changeStatus)
+
 module.exports = router
