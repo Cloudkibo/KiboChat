@@ -197,6 +197,7 @@ exports.changeStatus = function (req, res) {
           callApi(`smsChat/query`, 'post', lastMessageData, 'kibochat')
             .then(lastMessageResponse => {
               contact.lastPayload = lastMessageResponse.length > 0 && lastMessageResponse[0].payload
+              contact.lastPayload.format = lastMessageResponse.length > 0 && lastMessageResponse[0].format
               contact.lastRepliedBy = lastMessageResponse.length > 0 && lastMessageResponse[0].repliedBy
               contact.lastDateTime = lastMessageResponse.length > 0 && lastMessageResponse[0].datetime
               require('./../../../config/socketio').sendMessageToClient({
