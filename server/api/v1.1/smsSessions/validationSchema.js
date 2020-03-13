@@ -38,6 +38,30 @@ exports.assignAgentPayload = {
   ]
 }
 
+exports.assignTeamPayload = {
+  'type': 'object',
+  'properties': {
+    'teamId': {
+      'type': 'string'
+    },
+    'teamName': {
+      'type': 'string'
+    },
+    'subscriberId': {
+      'type': 'string'
+    },
+    'isAssigned': {
+      'type': 'boolean'
+    }
+  },
+  'required': [
+    'teamId',
+    'teamName',
+    'subscriberId',
+    'isAssigned'
+  ]
+}
+
 exports.openSessionsPayload = {
   'type': 'object',
   'properties': {

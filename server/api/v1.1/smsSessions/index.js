@@ -31,4 +31,9 @@ router.post('/assignAgent',
   validate({body: validationSchema.assignAgentPayload}),
   controller.assignAgent)
 
+router.post('/assignTeam',
+  auth.isAuthenticated(),
+  validate({body: validationSchema.assignTeamPayload}),
+  controller.assignTeam)
+
 module.exports = router
