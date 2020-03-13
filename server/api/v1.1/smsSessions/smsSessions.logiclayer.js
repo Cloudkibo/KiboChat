@@ -58,6 +58,7 @@ const appendLastMessageData = (gotLastMessage, subscriber) => {
   for (let a = 0; a < gotLastMessage.length; a++) {
     if (subscriber._id.toString() === gotLastMessage[a]._id.toString()) {
       subscriber.lastPayload = gotLastMessage[a].payload
+      subscriber.lastPayload.format = gotLastMessage[a].format
       subscriber.lastRepliedBy = gotLastMessage[a].repliedBy
       subscriber.lastDateTime = gotLastMessage[a].datetime
     }

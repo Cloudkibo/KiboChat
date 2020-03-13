@@ -26,7 +26,7 @@ exports.fetchOpenSessions = function (req, res) {
         })
     },
     function (callback) {
-      let lastMessageData = logicLayer.getQueryData('', 'aggregate', {companyId: req.user.companyId}, undefined, undefined, undefined, {_id: '$contactId', payload: { $last: '$payload' }, repliedBy: { $last: '$repliedBy' }, datetime: { $last: '$datetime' }})
+      let lastMessageData = logicLayer.getQueryData('', 'aggregate', {companyId: req.user.companyId}, undefined, undefined, undefined, {_id: '$contactId', payload: { $last: '$payload' }, repliedBy: { $last: '$repliedBy' }, format: { $last: '$format' }, datetime: { $last: '$datetime' }})
       callApi(`smsChat/query`, 'post', lastMessageData, 'kibochat')
         .then(data => {
           callback(null, data)
