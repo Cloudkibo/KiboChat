@@ -54,7 +54,7 @@ exports.index = function (req, res) {
               }
             })
             .catch(error => {
-              logger.serverLog(TAG, `Failed to fetch contact ${JSON.stringify(error)}`, 'error')
+              logger.serverLog(TAG, `Failed to fetch contact ${error}`, 'error')
             })
         })
         .catch(error => {

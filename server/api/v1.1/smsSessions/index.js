@@ -36,4 +36,9 @@ router.post('/changeStatus',
   validate({body: validationSchema.changeStatusPayload}),
   controller.changeStatus)
 
+router.post('/assignTeam',
+  auth.isAuthenticated(),
+  validate({body: validationSchema.assignTeamPayload}),
+  controller.assignTeam)
+
 module.exports = router

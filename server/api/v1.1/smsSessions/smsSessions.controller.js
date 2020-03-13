@@ -170,7 +170,7 @@ exports.assignAgent = function (req, res) {
       require('./../../../config/socketio').sendMessageToClient({
         room_id: req.user.companyId,
         body: {
-          action: 'sms_session_assign',
+          action: 'session_assign_sms',
           payload: {
             data: req.body,
             session_id: req.body.subscriberId,
@@ -186,6 +186,7 @@ exports.assignAgent = function (req, res) {
       sendErrorResponse(res, 500, err)
     })
 }
+
 exports.changeStatus = function (req, res) {
   callApi('contacts/update', 'put', {query: {_id: req.body._id}, newPayload: {status: req.body.status}, options: {}})
     .then(updated => {
@@ -220,6 +221,42 @@ exports.changeStatus = function (req, res) {
         .catch(err => {
           sendErrorResponse(res, 500, err)
         })
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, err)
+    })
+}
+
+exports.assignTeam = function (req, res) {
+  let assignedTo = {
+    type: 'team',
+    id: req.body.teamId,
+    name: req.body.teamName
+  }
+  callApi(
+    'contacts/update',
+    'put',
+    {
+      query: {_id: req.body.subscriberId},
+      newPayload: {assigned_to: assignedTo, is_assigned: req.body.isAssigned},
+      options: {}
+    }
+  )
+    .then(updated => {
+      require('./../../../config/socketio').sendMessageToClient({
+        room_id: req.user.companyId,
+        body: {
+          action: 'session_assign_sms',
+          payload: {
+            data: req.body,
+            session_id: req.body.subscriberId,
+            user_id: req.user._id,
+            user_name: req.user.name,
+            assigned_to: assignedTo
+          }
+        }
+      })
+      sendSuccessResponse(res, 200, 'Team has been assigned successfully!')
     })
     .catch(err => {
       sendErrorResponse(res, 500, err)
