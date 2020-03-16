@@ -239,7 +239,7 @@ exports.fetchValidCallerIds = function(req, res) {
     }
   })
   .catch(error => {
-    sendErrorResponse(res, 500, `Failed to fetch valid caller Ids ${JSON.stringify(error)}`)
+    res.status(500).json({status: 'failed', payload: `Failed to fetch valid caller Ids ${JSON.stringify(err)}`})
   })
 }
 
