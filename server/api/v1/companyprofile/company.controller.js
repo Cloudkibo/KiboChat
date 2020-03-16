@@ -218,7 +218,6 @@ exports.fetchValidCallerIds = function(req, res) {
   client.outgoingCallerIds.list()
   .then((callerIds) => {
     if (callerIds && callerIds.length > 0 ) {
-      console.lo
       callerIds.forEach((callerId, index) => {
         var contact = {
           name: callerId.friendlyName, 
