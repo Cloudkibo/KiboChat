@@ -39,4 +39,9 @@ router.post('/disconnect',
   validate({body: validationSchema.disconnect}),
   controller.disconnect)
 
+router.post('/fetchValidCallerIds',
+  auth.isAuthenticated(),
+  validate({body: validationSchema.fetchValidCallerIds}),
+  controller.fetchValidCallerIds)
+
 module.exports = router
