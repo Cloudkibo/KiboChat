@@ -218,6 +218,7 @@ exports.fetchValidCallerIds = function(req, res) {
   client.outgoingCallerIds.list()
   .then((callerIds) => {
     if (callerIds && callerIds.length > 0 ) {
+      console.lo
       callerIds.forEach((callerId, index) => {
         var contact = {
           name: callerId.friendlyName, 
@@ -232,7 +233,7 @@ exports.fetchValidCallerIds = function(req, res) {
           logger.serverLog(TAG, `Failed to save contact ${JSON.stringify(error)}`, 'error')
         })
         if (index === (callerIds.length - 1)) {
-          sendSuccessResponse(res, 200,'Contacts updated successfully')
+          res.status(200).json({status: 'success', payload: 'Contacts updated successfully'})
         }  
       })
     }
