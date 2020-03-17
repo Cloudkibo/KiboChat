@@ -5,6 +5,7 @@ const { callApi } = require('../utility')
 const async = require('async')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const { record } = require('../../global/messageStatistics')
+const { sendOpAlert } = require('../../global/operationalAlert')
 
 exports.index = function (req, res) {
   if (req.params.contactId) {
@@ -131,6 +132,7 @@ exports.create = function (req, res) {
           })
         })
         .catch(error => {
+          sendOpAlert(error, 'Failed to send twilio message', req.body.contactId, req.user._id, req.user.companyId)
           sendErrorResponse(res, 500, `Failed to send message ${JSON.stringify(error)}`)
         })
     })
