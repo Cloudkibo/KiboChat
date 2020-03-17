@@ -68,10 +68,10 @@ exports.create = function (req, res) {
           to: req.body.recipientNumber
         })
         .then(response => {
+          let MessageObject = logicLayer.prepareChat(req.body, companyUser)
           logger.serverLog(TAG, `response from twilio ${JSON.stringify(response)}`)
           async.parallelLimit([
             function (callback) {
-              let MessageObject = logicLayer.prepareChat(req.body, companyUser)
               callApi(`smsChat`, 'post', MessageObject, 'kibochat')
                 .then(message => {
                   callback(null)
@@ -102,6 +102,20 @@ exports.create = function (req, res) {
               }
               callApi(`contacts/update`, 'put', subscriberData)
                 .then(updated => {
+                  MessageObject.datetime = new Date()
+                  require('./../../../config/socketio').sendMessageToClient({
+                    room_id: req.user.companyId,
+                    body: {
+                      action: 'agent_replied_sms',
+                      payload: {
+                        subscriber_id: req.body.contactId,
+                        message: MessageObject,
+                        action: 'agent_replied_sms',
+                        user_id: req.user._id,
+                        user_name: req.user.name
+                      }
+                    }
+                  })
                   callback(null)
                 })
                 .catch(error => {
