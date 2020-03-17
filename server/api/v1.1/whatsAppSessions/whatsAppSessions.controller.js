@@ -117,19 +117,26 @@ exports.markread = function (req, res) {
 exports.changeStatus = function (req, res) {
   callApi('whatsAppContacts/update', 'put', {query: {_id: req.body._id}, newPayload: {status: req.body.status}, options: {}})
     .then(updated => {
-      require('./../../../config/socketio').sendMessageToClient({
-        room_id: req.user.companyId,
-        body: {
-          action: 'whatsApp_session_status',
-          payload: {
-            session_id: req.body._id,
-            user_id: req.user._id,
-            user_name: req.user.name,
-            status: req.body.status
-          }
-        }
-      })
-      sendSuccessResponse(res, 200, 'Status has been updated successfully!')
+      callApi('whatsAppContacts/query', 'post', {_id: req.body._id})
+        .then(contact => {
+          require('./../../../config/socketio').sendMessageToClient({
+            room_id: req.user.companyId,
+            body: {
+              action: 'session_status_whatsapp',
+              payload: {
+                session_id: req.body._id,
+                user_id: req.user._id,
+                user_name: req.user.name,
+                status: req.body.status,
+                session: contact
+              }
+            }
+          })
+          sendSuccessResponse(res, 200, 'Status has been updated successfully!')
+        })
+        .catch(err => {
+          sendErrorResponse(res, 500, err)
+        })
     })
     .catch(err => {
       sendErrorResponse(res, 500, err)
@@ -146,7 +153,7 @@ exports.updatePendingResponse = function (req, res) {
       require('./../../../config/socketio').sendMessageToClient({
         room_id: req.user.companyId,
         body: {
-          action: 'whatsApp_session_pending_response',
+          action: 'session_pending_response_whatsapp',
           payload: {
             session_id: req.body.id,
             user_id: req.user._id,
