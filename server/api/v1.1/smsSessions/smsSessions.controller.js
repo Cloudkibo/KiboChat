@@ -263,3 +263,24 @@ exports.assignTeam = function (req, res) {
       sendErrorResponse(res, 500, err)
     })
 }
+exports.getTwilioNumbers = function (req, res) {
+  let numbers = []
+  callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email, populate: 'companyId' }) // fetch company user
+    .then(companyuser => {
+      let accountSid = companyuser.companyId.twilio.accountSID
+      let authToken = companyuser.companyId.twilio.authToken
+      let client = require('twilio')(accountSid, authToken)
+      client.incomingPhoneNumbers
+        .list().then((incomingPhoneNumbers) => {
+          for (let i = 0; i < incomingPhoneNumbers.length; i++) {
+            numbers.push(incomingPhoneNumbers[i].phoneNumber)
+            if (i === incomingPhoneNumbers.length - 1) {
+              sendSuccessResponse(res, 200, numbers)
+            }
+          }
+        })
+    })
+    .catch(error => {
+      sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
+    })
+}
