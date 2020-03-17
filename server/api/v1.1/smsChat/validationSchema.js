@@ -1,3 +1,17 @@
+exports.searchPayload = {
+  type: 'object',
+  properties: {
+    subscriber_id: {
+      type: 'string',
+      required: true
+    },
+    text: {
+      type: 'string',
+      required: true
+    }
+  }
+}
+
 exports.createPayload = {
   type: 'object',
   properties: {

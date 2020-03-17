@@ -1,7 +1,6 @@
 const logger = require('../../../components/logger')
 const TAG = '/api/v1/twilioEvents/controller.js'
 const { callApi } = require('../utility')
-const { record } = require('../../global/messageStatistics')
 
 exports.index = function (req, res) {
   res.status(200).json({
@@ -27,28 +26,27 @@ exports.index = function (req, res) {
                 }
                 callApi(`smsChat`, 'post', MessageObject, 'kibochat')
                   .then(message => {
-                    record('smsChatInComing')
+                    message.payload.format = 'twilio'
+                    console.log('socket data', contact)
                     require('./../../../config/socketio').sendMessageToClient({
                       room_id: contact.companyId,
                       body: {
                         action: 'new_chat_sms',
-                        payload: message
+                        payload: {
+                          subscriber_id: contact._id,
+                          chat_id: message._id,
+                          text: message.payload.text,
+                          name: contact.name,
+                          subscriber: contact,
+                          message: message
+                        }
                       }
                     })
-                    let subscriberData = {
-                      query: {_id: contact._id},
-                      newPayload: {last_activity_time: Date.now(), hasChat: true},
-                      options: {}
-                    }
-                    callApi(`contacts/update`, 'put', subscriberData)
-                      .then(updated => {
-                      })
-                      .catch(error => {
-                        logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`, 'error')
-                      })
+                    updateContact(contact._id, {last_activity_time: Date.now(), hasChat: true, pendingResponse: true, status: 'new'})
+                    updateContact(contact._id, {$inc: { unreadCount: 1, messagesCount: 1 }})
                   })
                   .catch(error => {
-                    logger.serverLog(TAG, `Failed to create sms ${JSON.stringify(error)}`, 'error')
+                    logger.serverLog(TAG, `Failed to create sms ${error}`, 'error')
                   })
                 if (req.body.Body !== '' && (req.body.Body.toLowerCase() === 'unsubscribe' || req.body.Body.toLowerCase() === 'stop')) {
                   handleUnsub(user, company, contact, req.body)
@@ -58,7 +56,7 @@ exports.index = function (req, res) {
               }
             })
             .catch(error => {
-              logger.serverLog(TAG, `Failed to fetch contact ${JSON.stringify(error)}`, 'error')
+              logger.serverLog(TAG, `Failed to fetch contact ${error}`, 'error')
             })
         })
         .catch(error => {
@@ -69,6 +67,21 @@ exports.index = function (req, res) {
       logger.serverLog(TAG, `Failed to fetch company ${JSON.stringify(error)}`, 'error')
     })
 }
+
+function updateContact (contactId, newPayload) {
+  let subscriberData = {
+    query: {_id: contactId},
+    newPayload: newPayload,
+    options: {}
+  }
+  callApi(`contacts/update`, 'put', subscriberData)
+    .then(updated => {
+    })
+    .catch(error => {
+      logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`, 'error')
+    })
+}
+
 function handleUnsub (user, company, contact, body) {
   let accountSid = company.twilio.accountSID
   let authToken = company.twilio.authToken
