@@ -2,7 +2,6 @@ exports.getCount = (req, status) => {
   let aggregateData = [
     { $match: {
       'companyId': req.user.companyId,
-      'hasChat': true,
       'isSubscribed': true,
       'name': {$regex: '.*' + req.body.filter_criteria.search_value + '.*', $options: 'i'},
       'status': status,
