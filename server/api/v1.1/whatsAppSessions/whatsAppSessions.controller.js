@@ -119,20 +119,31 @@ exports.changeStatus = function (req, res) {
     .then(updated => {
       callApi('whatsAppContacts/query', 'post', {_id: req.body._id})
         .then(contact => {
-          require('./../../../config/socketio').sendMessageToClient({
-            room_id: req.user.companyId,
-            body: {
-              action: 'session_status_whatsapp',
-              payload: {
-                session_id: req.body._id,
-                user_id: req.user._id,
-                user_name: req.user.name,
-                status: req.body.status,
-                session: contact
-              }
-            }
-          })
-          sendSuccessResponse(res, 200, 'Status has been updated successfully!')
+          let lastMessageData = logicLayer.getQueryData('', 'aggregate', {contactId: req.params.id, companyId: req.user.companyId}, undefined, {_id: -1}, 1, undefined)
+          callApi(`whatsAppChat/query`, 'post', lastMessageData, 'kibochat')
+            .then(lastMessageResponse => {
+              contact.lastPayload = lastMessageResponse.length > 0 && lastMessageResponse[0].payload
+              contact.lastPayload.format = lastMessageResponse.length > 0 && lastMessageResponse[0].format
+              contact.lastRepliedBy = lastMessageResponse.length > 0 && lastMessageResponse[0].repliedBy
+              contact.lastDateTime = lastMessageResponse.length > 0 && lastMessageResponse[0].datetime
+              require('./../../../config/socketio').sendMessageToClient({
+                room_id: req.user.companyId,
+                body: {
+                  action: 'session_status_whatsapp',
+                  payload: {
+                    session_id: req.body._id,
+                    user_id: req.user._id,
+                    user_name: req.user.name,
+                    status: req.body.status,
+                    session: contact
+                  }
+                }
+              })
+              sendSuccessResponse(res, 200, 'Status has been updated successfully!')
+            })
+            .catch(err => {
+              sendErrorResponse(res, 500, err)
+            })
         })
         .catch(err => {
           sendErrorResponse(res, 500, err)

@@ -105,6 +105,19 @@ exports.create = function (req, res) {
             if (err) {
               sendErrorResponse(res, 500, `Failed to send message ${JSON.stringify(err)}`)
             } else {
+              require('./../../../config/socketio').sendMessageToClient({
+                room_id: req.user.companyId,
+                body: {
+                  action: 'agent_replied_whatsapp',
+                  payload: {
+                    subscriber_id: req.body.contactId,
+                    message: MessageObject,
+                    action: 'agent_replied_whatsapp',
+                    user_id: req.user._id,
+                    user_name: req.user.name
+                  }
+                }
+              })
               sendSuccessResponse(res, 200, message)
             }
           })

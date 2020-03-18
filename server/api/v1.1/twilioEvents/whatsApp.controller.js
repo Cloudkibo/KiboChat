@@ -41,7 +41,14 @@ function storeChat (from, to, contact, messageData) {
             room_id: contact.companyId,
             body: {
               action: 'new_chat_whatsapp',
-              payload: message
+              payload: {
+                subscriber_id: contact._id,
+                chat_id: message._id,
+                text: message.payload.text,
+                name: contact.name,
+                subscriber: contact,
+                message: message
+              }
             }
           })
           let query = {_id: contact._id}
