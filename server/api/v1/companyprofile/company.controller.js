@@ -224,21 +224,30 @@ exports.fetchValidCallerIds = function(req, res) {
           number: callerId.phoneNumber,
           companyId: req.user.companyId
         }
-        utility.callApi(`contacts/update`, 'put', {query:{number: callerId.phoneNumber, companyId: req.user.companyId}, newPayload: contact, options:{upsert: true}})
-        .then(saved => {
-          logger.serverLog(TAG, `${JSON.stringify(contact)} saved successfully`, 'success')
-        })
-        .catch(error => {
-          logger.serverLog(TAG, `Failed to save contact ${JSON.stringify(error)}`, 'error')
-        })
-        if (index === (callerIds.length - 1)) {
-          sendSuccessResponse(res, 200,'Contacts updated successfully')
-        }  
+        utility.callApi(`contacts/query`, 'post', {
+          number: callerId.phoneNumber, companyId: req.user.companyId})
+          .then(phone => {
+            if (phone.length === 0) {
+              utility.callApi(`contacts`, 'post', contact)
+                .then(saved => {
+                  logger.serverLog(TAG, `${JSON.stringify(contact)} saved successfully`, 'success')
+                })
+                .catch(error => {
+                  logger.serverLog(TAG, `Failed to save contact ${JSON.stringify(error)}`, 'error')
+                })
+            }
+            if (index === (callerIds.length - 1)) {
+              res.status(200).json({status: 'success', payload: 'Contacts updated successfully'})
+            } 
+          })
+          .catch(error => {
+            logger.serverLog(TAG, `Failed to fetch contact ${JSON.stringify(error)}`, 'error')
+          })
       })
     }
   })
   .catch(error => {
-    sendErrorResponse(res, 500, `Failed to fetch valid caller Ids ${JSON.stringify(error)}`)
+    res.status(500).json({status: 'failed', payload: `Failed to fetch valid caller Ids ${JSON.stringify(err)}`})
   })
 }
 
