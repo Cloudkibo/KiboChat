@@ -41,4 +41,8 @@ router.post('/assignTeam',
   validate({body: validationSchema.assignTeamPayload}),
   controller.assignTeam)
 
+router.get('/getTwilioNumbers',
+  auth.isAuthenticated(),
+  controller.getTwilioNumbers)
+
 module.exports = router
