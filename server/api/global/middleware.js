@@ -3,6 +3,7 @@ const compose = require('composable-middleware')
 const { callApi } = require('../v1.1/utility')
 const async = require('async')
 const { facebookApiCaller } = require('./facebookApiCaller')
+const config = require('../../config/environment')
 
 exports.checkSMPStatus = () => {
   return compose().use((req, res, next) => {
@@ -29,6 +30,10 @@ exports.checkSMPStatus = () => {
 function checkStatusForEachPage (pages, next, req, res) {
   let statusArray = []
   async.each(pages, function (page, cb) {
+    if (config.ignoreSMP && config.ignoreSMP.includes(page.pageId)) {
+      statusArray.push({ pageId: page._id, smpStatus: 'approved' })
+      cb()
+    } else {
     isApprovedForSMP(page)
       .then(smpStatus => {
         statusArray.push({ pageId: page._id, smpStatus: smpStatus })
@@ -37,6 +42,7 @@ function checkStatusForEachPage (pages, next, req, res) {
       .catch(err => {
         cb(err)
       })
+    }
   }, function (err) {
     if (err) {
       return res.status(500)
