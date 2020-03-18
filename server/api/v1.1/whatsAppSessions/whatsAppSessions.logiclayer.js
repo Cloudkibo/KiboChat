@@ -3,6 +3,7 @@ exports.getCount = (req, status) => {
     { $match: {'companyId': req.user.companyId} },
     { $project: {
       name: 1,
+      number: 1,
       companyId: 1,
       isSubscribed: 1,
       status: 1,
@@ -25,6 +26,7 @@ exports.getSessions = (req, status) => {
     { $match: {'companyId': req.user.companyId} },
     { $project: {
       name: 1,
+      number: 1,
       companyId: 1,
       isSubscribed: 1,
       status: 1,

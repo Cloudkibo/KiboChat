@@ -119,6 +119,7 @@ exports.changeStatus = function (req, res) {
     .then(updated => {
       callApi('whatsAppContacts/query', 'post', {_id: req.body._id})
         .then(contact => {
+          contact = contact[0]
           let lastMessageData = logicLayer.getQueryData('', 'aggregate', {contactId: req.params.id, companyId: req.user.companyId}, undefined, {_id: -1}, 1, undefined)
           callApi(`whatsAppChat/query`, 'post', lastMessageData, 'kibochat')
             .then(lastMessageResponse => {
