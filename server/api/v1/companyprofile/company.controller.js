@@ -4,6 +4,8 @@ const utility = require('../utility')
 const config = require('../../../config/environment/index')
 const needle = require('needle')
 const logicLayer = require('./company.logiclayer.js')
+const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
+const async = require('async')
 
 exports.members = function (req, res) {
   utility.callApi(`companyprofile/members`, 'get', {}, 'accounts', req.headers.authorization)
@@ -121,57 +123,76 @@ exports.updatePlatform = function (req, res) {
       })
     })
 }
+const _updateCompanyProfile = (data, next) => {
+  if (!data.body.changeWhatsAppTwilio) {
+    let newPayload = {twilioWhatsApp: {
+      accountSID: data.body.accountSID,
+      authToken: data.body.authToken,
+      sandboxNumber: data.body.sandboxNumber.split(' ').join(''),
+      sandboxCode: data.body.sandboxCode
+    }}
+    utility.callApi(`companyprofile/update`, 'put', {query: {_id: data.companyId}, newPayload: newPayload, options: {}})
+      .then(updatedProfile => {
+        next(null, updatedProfile)
+      })
+      .catch(err => {
+        next(err)
+      })
+  } else {
+    next(null)
+  }
+}
+const _updateUser = (data, next) => {
+  if (data.body.platform) {
+    utility.callApi('user/update', 'post', {query: {_id: data.userId}, newPayload: {platform: data.body.platform}, options: {}})
+      .then(updated => {
+        next(null, updated)
+      })
+      .catch(err => {
+        next(err)
+      })
+  } else {
+    next(null)
+  }
+}
 exports.updatePlatformWhatsApp = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
-    .then(companyUser => {
-      if (!companyUser) {
-        return res.status(404).json({
-          status: 'failed',
-          description: 'The user account does not belong to any company. Please contact support'
-        })
-      }
-      needle.get(
-        `https://${req.body.accountSID}:${req.body.authToken}@api.twilio.com/2010-04-01/Accounts`,
-        (err, resp) => {
-          if (err) {
-            return res.status(500).json({
-              status: 'failed',
-              description: 'unable to authenticate twilio account'
-            })
-          }
-          if (resp.statusCode === 200) {
-            let newPayload = {twilioWhatsApp: {
-              accountSID: req.body.accountSID,
-              authToken: req.body.authToken,
-              sandboxNumber: req.body.sandboxNumber.split(' ').join(''),
-              sandboxCode: req.body.sandboxCode
-            }}
-            utility.callApi(`companyprofile/update`, 'put', {query: {_id: companyUser.companyId}, newPayload: newPayload, options: {}})
-              .then(updatedProfile => {
-                if (req.body.platform) {
-                  utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: {platform: req.body.platform}, options: {}})
-                    .then(updated => {
-                    })
-                    .catch(err => {
-                      res.status(500).json({status: 'failed', payload: err})
-                    })
+  let query = {
+    _id: req.user.companyId,
+    'twilioWhatsApp.accountSID': req.body.accountSID,
+    'twilioWhatsApp.authToken': req.body.authToken,
+    'twilioWhatsApp.sandboxNumber': req.body.sandboxNumber.split(' ').join(''),
+    'twilioWhatsApp.sandboxCode': req.body.sandboxCode
+  }
+  utility.callApi(`companyprofile/query`, 'post', query) // fetch company user
+    .then(companyprofile => {
+      if (!companyprofile) {
+        needle.get(
+          `https://${req.body.accountSID}:${req.body.authToken}@api.twilio.com/2010-04-01/Accounts`,
+          (err, resp) => {
+            if (err) {
+              sendErrorResponse(res, 401, 'unable to authenticate twilio account')
+            } else if (resp.statusCode === 200) {
+              let data = {body: req.body, companyId: req.user.companyId, userId: req.user._id}
+              async.series([
+                _updateCompanyProfile.bind(null, data),
+                _updateUser.bind(null, data)
+              ], function (err) {
+                if (err) {
+                  sendErrorResponse(res, 500, '', err)
+                } else {
+                  sendSuccessResponse(res, 200, {description: 'updated successfully', showModal: true})
                 }
-                return res.status(200).json({status: 'success', payload: updatedProfile})
               })
-              .catch(err => {
-                res.status(500).json({status: 'failed', payload: `Failed to update company profile ${err}`})
-              })
-          } else {
-            return res.status(500).json({
-              status: 'failed',
-              description: 'Twilio account not found. Please enter correct details'
-            })
-          }
-        })
+            } else {
+              sendErrorResponse(res, 404, 'Twilio account not found. Please enter correct details')
+            }
+          })
+      } else {
+        sendSuccessResponse(res, 200, {description: 'updated successfully'})
+      }
     })
     .catch(error => {
-      return res.status(500).json({status: 'failed', payload: `Failed to company user ${JSON.stringify(error)}`
-      })
+      sendErrorResponse(res, 500, `Failed to fetch company user ${error}`)
     })
 }
 exports.disconnect = function (req, res) {
@@ -211,44 +232,44 @@ exports.disconnect = function (req, res) {
     })
 }
 
-exports.fetchValidCallerIds = function(req, res) {
+exports.fetchValidCallerIds = function (req, res) {
   let accountSid = req.body.twilio.accountSID
   let authToken = req.body.twilio.authToken
   let client = require('twilio')(accountSid, authToken)
   client.outgoingCallerIds.list()
-  .then((callerIds) => {
-    if (callerIds && callerIds.length > 0 ) {
-      callerIds.forEach((callerId, index) => {
-        var contact = {
-          name: callerId.friendlyName, 
-          number: callerId.phoneNumber,
-          companyId: req.user.companyId
-        }
-        utility.callApi(`contacts/query`, 'post', {
-          number: callerId.phoneNumber, companyId: req.user.companyId})
-          .then(phone => {
-            if (phone.length === 0) {
-              utility.callApi(`contacts`, 'post', contact)
-                .then(saved => {
-                  logger.serverLog(TAG, `${JSON.stringify(contact)} saved successfully`, 'success')
-                })
-                .catch(error => {
-                  logger.serverLog(TAG, `Failed to save contact ${JSON.stringify(error)}`, 'error')
-                })
-            }
-            if (index === (callerIds.length - 1)) {
-              res.status(200).json({status: 'success', payload: 'Contacts updated successfully'})
-            } 
-          })
-          .catch(error => {
-            logger.serverLog(TAG, `Failed to fetch contact ${JSON.stringify(error)}`, 'error')
-          })
-      })
-    }
-  })
-  .catch(error => {
-    res.status(500).json({status: 'failed', payload: `Failed to fetch valid caller Ids ${JSON.stringify(err)}`})
-  })
+    .then((callerIds) => {
+      if (callerIds && callerIds.length > 0) {
+        callerIds.forEach((callerId, index) => {
+          var contact = {
+            name: callerId.friendlyName,
+            number: callerId.phoneNumber,
+            companyId: req.user.companyId
+          }
+          utility.callApi(`contacts/query`, 'post', {
+            number: callerId.phoneNumber, companyId: req.user.companyId})
+            .then(phone => {
+              if (phone.length === 0) {
+                utility.callApi(`contacts`, 'post', contact)
+                  .then(saved => {
+                    logger.serverLog(TAG, `${JSON.stringify(contact)} saved successfully`, 'success')
+                  })
+                  .catch(error => {
+                    logger.serverLog(TAG, `Failed to save contact ${JSON.stringify(error)}`, 'error')
+                  })
+              }
+              if (index === (callerIds.length - 1)) {
+                res.status(200).json({status: 'success', payload: 'Contacts updated successfully'})
+              }
+            })
+            .catch(error => {
+              logger.serverLog(TAG, `Failed to fetch contact ${JSON.stringify(error)}`, 'error')
+            })
+        })
+      }
+    })
+    .catch(error => {
+      res.status(500).json({status: 'failed', payload: `Failed to fetch valid caller Ids ${JSON.stringify(error)}`})
+    })
 }
 
 exports.updateRole = function (req, res) {
@@ -260,5 +281,89 @@ exports.updateRole = function (req, res) {
     })
     .catch((err) => {
       res.status(500).json({status: 'failed', payload: `${JSON.stringify(err)}`})
+    })
+}
+exports.deleteWhatsAppInfo = function (req, res) {
+  utility.callApi('user/authenticatePassword', 'post', {email: req.user.email, password: req.body.password})
+    .then(authenticated => {
+      async.parallelLimit([
+        function (callback) {
+          let updated = {}
+          if (req.body.type === 'disconnect') {
+            updated = {$unset: {twilioWhatsApp: 1}}
+          } else {
+            updated = {twilioWhatsApp: {
+              accountSID: req.body.accountSID,
+              authToken: req.body.authToken,
+              sandboxNumber: req.body.sandboxNumber.split(' ').join(''),
+              sandboxCode: req.body.sandboxCode
+            }}
+          }
+          utility.callApi(`companyprofile/update`, 'put', {query: {_id: req.user.companyId}, newPayload: updated, options: {}})
+            .then(data => {
+              data = data[0]
+              callback(null, data)
+            })
+            .catch(err => {
+              callback(err)
+            })
+        },
+        function (callback) {
+          utility.callApi(`user/update`, 'post', {query: {_id: req.user._id}, newPayload: {platform: 'messenger'}, options: {}})
+            .then(data => {
+              callback(null)
+            })
+            .catch(err => {
+              callback(err)
+            })
+        },
+        function (callback) {
+          utility.callApi(`whatsAppContacts/deleteMany`, 'delete', {companyId: req.user.companyId})
+            .then(data => {
+              callback(null, data)
+            })
+            .catch(err => {
+              callback(err)
+            })
+        },
+        function (callback) {
+          let query = {
+            purpose: 'deleteMany',
+            match: {companyId: req.user.companyId}
+          }
+          utility.callApi(`whatsAppBroadcasts`, 'delete', query, 'kiboengage')
+            .then(data => {
+              callback(null, data)
+            })
+            .catch(err => {
+              callback(err)
+            })
+        },
+        function (callback) {
+          let query = {
+            purpose: 'deleteMany',
+            match: {companyId: req.user.companyId}
+          }
+          utility.callApi(`whatsAppChat`, 'delete', query, 'kibochat')
+            .then(data => {
+              data = data[0]
+              callback(null, data)
+            })
+            .catch(err => {
+              callback(err)
+            })
+        }
+      ], 10, function (err, results) {
+        if (err) {
+          logger.serverLog(TAG, err, 'error')
+          sendErrorResponse(res, 500, `Failed to delete whatsapp info ${err}`)
+        } else {
+          console.log('results got', results)
+          sendSuccessResponse(res, 200, req.body.type === 'disconnect' ? 'Disconnected Successfully' : 'Saved Successfully')
+        }
+      })
+    })
+    .catch((err) => {
+      sendErrorResponse(res, 500, err.error.description)
     })
 }
