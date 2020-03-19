@@ -132,7 +132,14 @@ exports.create = function (req, res) {
 }
 
 exports.search = function (req, res) {
-  let searchData = { contactId: req.body.subscriber_id, companyId: req.user.companyId, $text: { $search: req.body.text } }
+  let searchData = {
+    contactId: req.body.subscriber_id,
+    companyId: req.user.companyId,
+    $text: { $search: req.body.text }
+  }
+  if (req.body.datetime) {
+    searchData.datetime = {$lt: new Date(req.body.datetime)}
+  }
   callApi(`whatsAppChat/search`, 'post', searchData, 'kibochat')
     .then(chats => {
       sendSuccessResponse(res, 200, chats)
