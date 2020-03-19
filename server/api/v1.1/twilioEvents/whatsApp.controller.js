@@ -52,7 +52,7 @@ function storeChat (from, to, contact, messageData) {
             }
           })
           let query = {_id: contact._id}
-          let updatePayload = {last_activity_time: Date.now(), status: 'new', pendingResponse: true}
+          let updatePayload = {last_activity_time: Date.now(), status: 'new', pendingResponse: true, lastMessagedAt: Date.now()}
           let incrementPayload = {$inc: { unreadCount: 1, messagesCount: 1 }}
           updateWhatsAppContact(query, updatePayload, incrementPayload, {})
         })
