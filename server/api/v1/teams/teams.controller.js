@@ -47,6 +47,7 @@ exports.index = function (req, res) {
       sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
+
 exports.createTeam = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
     .then(companyuser => {
@@ -59,10 +60,10 @@ exports.createTeam = function (req, res) {
             let teamAgentsPayload = logicLayer.getTeamAgentsPayload(createdTeam, companyuser, agentId)
             utility.callApi(`teams/agents`, 'post', teamAgentsPayload) // create team agent
               .then(createdAgent => {
-                logger.serverLog(TAG, 'Team agent created successfully!')
+                logger.serverLog(TAG, 'Team agent created successfully!', 'debug')
               })
               .catch(error => {
-                logger.serverLog(TAG, `Failed to create agent ${JSON.stringify(error)}`)
+                logger.serverLog(TAG, `Failed to create agent ${JSON.stringify(error)}`, 'error')
               })
           })
           if (req.body.pageIds) {
@@ -70,30 +71,21 @@ exports.createTeam = function (req, res) {
               let teamPagesPayload = logicLayer.getTeamPagesPayload(createdTeam, companyuser, pageId)
               utility.callApi(`teams/pages`, 'post', teamPagesPayload) // create team page
                 .then(createdPage => {
-                  logger.serverLog(TAG, 'Team page created successfully!')
+                  logger.serverLog(TAG, 'Team page created successfully!', 'debug')
                 })
                 .catch(error => {
-                  logger.serverLog(TAG, `Failed to create page ${JSON.stringify(error)}`)
+                  logger.serverLog(TAG, `Failed to create page ${JSON.stringify(error)}`, 'error')
                 })
             })
           }
-          return res.status(200).json({
-            status: 'success',
-            payload: 'Team created successfully!'
-          })
+          sendSuccessResponse(res, 200, 'Team created successfully!')
         })
         .catch(error => {
-          return res.status(500).json({
-            status: 'failed',
-            payload: `Failed to create team ${JSON.stringify(error)}`
-          })
+          sendErrorResponse(res, 500, `Failed to create team ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
-      return res.status(500).json({
-        status: 'failed',
-        payload: `Failed to fetch company user ${JSON.stringify(error)}`
-      })
+      sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
 
@@ -101,32 +93,20 @@ exports.updateTeam = function (req, res) {
   let teamPayload = logicLayer.getUpdateTeamPayload(req.body)
   utility.callApi(`teams/${req.body._id}`, 'put', teamPayload) // update team
     .then(team => {
-      return res.status(200).json({
-        status: 'success',
-        payload: team
-      })
+      sendSuccessResponse(res, 200, team)
     })
     .catch(error => {
-      return res.status(500).json({
-        status: 'failed',
-        payload: `Failed to update team ${JSON.stringify(error)}`
-      })
+      sendErrorResponse(res, 500, `Failed to update team ${JSON.stringify(error)}`)
     })
 }
 
 exports.deleteTeam = function (req, res) {
   utility.callApi(`teams/delete/${req.params.id}`, 'delete', {}) // delete team
     .then(deletedTeam => {
-      return res.status(200).json({
-        status: 'success',
-        payload: 'Team deleted successfully!'
-      })
+      sendSuccessResponse(res, 200, 'Team deleted successfully!')
     })
     .catch(error => {
-      return res.status(500).json({
-        status: 'failed',
-        payload: `Failed to delete team ${JSON.stringify(error)}`
-      })
+      sendErrorResponse(res, 500, `Failed to delete team ${JSON.stringify(error)}`)
     })
 }
 
@@ -134,25 +114,25 @@ exports.addAgent = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
     .then(companyuser => {
       let agentPayload = logicLayer.getTeamAgentsPayload({_id: req.body.teamId}, companyuser, req.body.agentId)
-      utility.callApi(`teams/agents`, 'post', agentPayload) // add agent
-        .then(craetedAgent => {
-          return res.status(200).json({
-            status: 'success',
-            payload: 'Agent added successfully!'
-          })
-        })
-        .catch(error => {
-          return res.status(500).json({
-            status: 'failed',
-            payload: `Failed to create team agent ${JSON.stringify(error)}`
-          })
+      utility.callApi(`teams/agents/query`, 'post', agentPayload) // add page
+        .then(findAgent => {
+          if (findAgent.length > 0) {
+            sendSuccessResponse(res, 200, 'Agent added successfully!')
+          } else {
+            utility.callApi(`teams/agents`, 'post', agentPayload) // add agent
+              .then(craetedAgent => {
+                sendSuccessResponse(res, 200, 'Agent added successfully!')
+              })
+              .catch(error => {
+                sendErrorResponse(res, 500, `Failed to create team agent ${JSON.stringify(error)}`)
+              })
+          }
+        }).catch(error => {
+          sendErrorResponse(res, 500, `Failed to fetch agent ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
-      return res.status(500).json({
-        status: 'failed',
-        payload: `Failed to fetch company User ${JSON.stringify(error)}`
-      })
+      sendErrorResponse(res, 500, `Failed to fetch company User ${JSON.stringify(error)}`)
     })
 }
 
@@ -160,77 +140,68 @@ exports.addPage = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
     .then(companyuser => {
       let pagePayload = logicLayer.getTeamPagesPayload({_id: req.body.teamId}, companyuser, req.body.pageId)
-      utility.callApi(`teams/pages`, 'post', pagePayload) // add page
-        .then(craetedPage => {
-          return res.status(200).json({
-            status: 'success',
-            payload: 'Page added successfully!'
-          })
+      utility.callApi(`teams/pages/query`, 'post', pagePayload) // add page
+        .then(findpage => {
+          if (findpage.length > 0) {
+            sendSuccessResponse(res, 200, 'Page added successfully!')
+          } else {
+            utility.callApi(`teams/pages`, 'post', pagePayload) // add page
+              .then(craetedPage => {
+                sendSuccessResponse(res, 200, 'Page added successfully!')
+              })
+              .catch(error => {
+                sendErrorResponse(res, 500, `Failed to create team page ${JSON.stringify(error)}`)
+              })
+          }
         })
         .catch(error => {
-          return res.status(500).json({
-            status: 'failed',
-            payload: `Failed to create team page ${JSON.stringify(error)}`
-          })
+          sendErrorResponse(res, 500, `Failed to fetch Page ${JSON.stringify(error)}`)
         })
-    })
-    .catch(error => {
-      return res.status(500).json({
-        status: 'failed',
-        payload: `Failed to fetch company User ${JSON.stringify(error)}`
-      })
+
+    }).catch(error => {
+      sendErrorResponse(res, 500, `Failed to fetch company User ${JSON.stringify(error)}`)
     })
 }
 
 exports.removeAgent = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
     .then(companyuser => {
-      let agentPayload = logicLayer.getTeamAgentsPayload({_id: req.body.teamId}, companyuser, req.body.agentId)
-      utility.callApi(`teams/agents`, 'delete', agentPayload) // delete agent
-        .then(deletedAgent => {
-          return res.status(200).json({
-            status: 'success',
-            payload: 'Agent deleted successfully!'
+      for (let i = 0; i < req.body.agentId.length; i++) {
+        let agentPayload = logicLayer.getTeamAgentsPayload({_id: req.body.teamId}, companyuser, req.body.agentId[i])
+        utility.callApi(`teams/agents`, 'delete', agentPayload) // delete agent
+          .then(deletedAgent => {
           })
-        })
-        .catch(error => {
-          return res.status(500).json({
-            status: 'failed',
-            payload: `Failed to delete team agent ${JSON.stringify(error)}`
+          .catch(error => {
+            sendErrorResponse(res, 500, `Failed to delete team agent ${JSON.stringify(error)}`)
           })
-        })
+        if (i === req.body.agentId.length - 1) {
+          sendSuccessResponse(res, 200, 'Agent deleted successfully!')
+        }
+      }
     })
     .catch(error => {
-      return res.status(500).json({
-        status: 'failed',
-        payload: `Failed to fetch company User ${JSON.stringify(error)}`
-      })
+      sendErrorResponse(res, 500, `Failed to fetch company User ${JSON.stringify(error)}`)
     })
 }
 
 exports.removePage = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
     .then(companyuser => {
-      let pagePayload = logicLayer.getTeamPagesPayload({_id: req.body.teamId}, companyuser, req.body.pageId)
-      utility.callApi(`teams/pages`, 'delete', pagePayload) // delete page
-        .then(craetedPage => {
-          return res.status(200).json({
-            status: 'success',
-            payload: 'Page deleted successfully!'
+      for (let i = 0; i < req.body.pageId.length; i++) {
+        let pagePayload = logicLayer.getTeamPagesPayload({_id: req.body.teamId}, companyuser, req.body.pageId[i])
+        utility.callApi(`teams/pages`, 'delete', pagePayload) // delete page
+          .then(craetedPage => {
           })
-        })
-        .catch(error => {
-          return res.status(500).json({
-            status: 'failed',
-            payload: `Failed to delete team page ${JSON.stringify(error)}`
+          .catch(error => {
+            sendErrorResponse(res, 500, `Failed to delete team page ${JSON.stringify(error)}`)
           })
-        })
+        if (i === req.body.pageId.length - 1) {
+          sendSuccessResponse(res, 200, 'Page deleted successfully!')
+        }
+      }
     })
     .catch(error => {
-      return res.status(500).json({
-        status: 'failed',
-        payload: `Failed to fetch company User ${JSON.stringify(error)}`
-      })
+      sendErrorResponse(res, 500, `Failed to fetch company User ${JSON.stringify(error)}`)
     })
 }
 
@@ -239,23 +210,14 @@ exports.fetchAgents = function (req, res) {
     .then(companyuser => {
       utility.callApi(`teams/agents/query`, 'post', {teamId: req.params.id, companyId: companyuser.companyId}) // fetch agents
         .then(agents => {
-          return res.status(200).json({
-            status: 'success',
-            payload: agents
-          })
+          sendSuccessResponse(res, 200, agents)
         })
         .catch(error => {
-          return res.status(500).json({
-            status: 'failed',
-            payload: `Failed to fetch team agents ${JSON.stringify(error)}`
-          })
+          sendErrorResponse(res, 500, `Failed to fetch team agents ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
-      return res.status(500).json({
-        status: 'failed',
-        payload: `Failed to fetch company User ${JSON.stringify(error)}`
-      })
+      sendErrorResponse(res, 500, `Failed to fetch company User ${JSON.stringify(error)}`)
     })
 }
 
@@ -264,23 +226,14 @@ exports.fetchPages = function (req, res) {
     .then(companyuser => {
       utility.callApi(`teams/pages/query`, 'post', {teamId: req.params.id, companyId: companyuser.companyId}) // fetch pages
         .then(agents => {
-          return res.status(200).json({
-            status: 'success',
-            payload: agents
-          })
+          sendSuccessResponse(res, 200, agents)
         })
         .catch(error => {
-          return res.status(500).json({
-            status: 'failed',
-            payload: `Failed to fetch team pages ${JSON.stringify(error)}`
-          })
+          sendErrorResponse(res, 500, `Failed to fetch team pages ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
-      return res.status(500).json({
-        status: 'failed',
-        payload: `Failed to fetch com pany User ${JSON.stringify(error)}`
-      })
+      sendErrorResponse(res, 500, `Failed to fetch com pany User ${JSON.stringify(error)}`)
     })
 }
 
