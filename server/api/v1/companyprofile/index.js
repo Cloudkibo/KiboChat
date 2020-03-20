@@ -44,4 +44,9 @@ router.post('/fetchValidCallerIds',
   validate({body: validationSchema.fetchValidCallerIds}),
   controller.fetchValidCallerIds)
 
+router.post('/deleteWhatsAppInfo',
+  auth.isAuthenticated(),
+  validate({body: validationSchema.deleteWhatsAppInfo}),
+  controller.deleteWhatsAppInfo)
+
 module.exports = router
