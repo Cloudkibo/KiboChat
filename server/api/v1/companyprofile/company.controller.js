@@ -331,7 +331,7 @@ exports.deleteWhatsAppInfo = function (req, res) {
             purpose: 'deleteMany',
             match: {companyId: req.user.companyId}
           }
-          utility.callApi(`whatsAppBroadcasts`, 'delete', query, 'kiboengage')
+          utility.callApi(`whatsAppBroadcasts`, 'delete', query, 'kiboEnageDbLayer')
             .then(data => {
               callback(null, data)
             })
