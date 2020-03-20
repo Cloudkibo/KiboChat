@@ -37,6 +37,7 @@ function storeChat (from, to, contact, messageData) {
     logicLayer.prepareChat(from, to, contact, messageData[i]).then(chatPayload => {
       callApi(`whatsAppChat`, 'post', chatPayload, 'kibochat')
         .then(message => {
+          message.payload.format = 'twilio'
           require('./../../../config/socketio').sendMessageToClient({
             room_id: contact.companyId,
             body: {
