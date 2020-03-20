@@ -180,7 +180,7 @@ exports.updatePlatformWhatsApp = function (req, res) {
                 if (err) {
                   sendErrorResponse(res, 500, '', err)
                 } else {
-                  sendSuccessResponse(res, 200, {description: 'updated successfully', showModal: true})
+                  sendSuccessResponse(res, 200, {description: 'updated successfully', showModal: req.body.changeWhatsAppTwilio})
                 }
               })
             } else {
@@ -289,7 +289,7 @@ exports.deleteWhatsAppInfo = function (req, res) {
       async.parallelLimit([
         function (callback) {
           let updated = {}
-          if (req.body.type === 'disconnect') {
+          if (req.body.type === 'Disconnect') {
             updated = {$unset: {twilioWhatsApp: 1}}
           } else {
             updated = {twilioWhatsApp: {
@@ -359,7 +359,7 @@ exports.deleteWhatsAppInfo = function (req, res) {
           sendErrorResponse(res, 500, `Failed to delete whatsapp info ${err}`)
         } else {
           console.log('results got', results)
-          sendSuccessResponse(res, 200, req.body.type === 'disconnect' ? 'Disconnected Successfully' : 'Saved Successfully')
+          sendSuccessResponse(res, 200, req.body.type === 'Disconnect' ? 'Disconnected Successfully' : 'Saved Successfully')
         }
       })
     })
