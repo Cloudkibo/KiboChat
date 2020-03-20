@@ -20,8 +20,6 @@ exports.callApi = (endpoint, method = 'get', body, type = 'accounts', token) => 
   let apiUrl = config.ACCOUNTS_URL
   if (type === 'kiboengage') {
     apiUrl = config.KIBOENGAGE_URL
-  } else if (type === 'kiboEnageDbLayer') {
-    apiUrl = config.DBLAYER_URL_KIBOENGAGE
   }
   let options = {
     method: method.toUpperCase(),
