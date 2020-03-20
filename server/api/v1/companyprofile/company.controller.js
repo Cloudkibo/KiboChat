@@ -1,6 +1,6 @@
 const logger = require('../../../components/logger')
 const TAG = 'api/v1/companyprofile/company.controller.js'
-const utility = require('../utility')
+const utility = require('../../v1.1/utility')
 const config = require('../../../config/environment/index')
 const needle = require('needle')
 const logicLayer = require('./company.logiclayer.js')
@@ -331,7 +331,7 @@ exports.deleteWhatsAppInfo = function (req, res) {
             purpose: 'deleteMany',
             match: {companyId: req.user.companyId}
           }
-          utility.callApi(`whatsAppBroadcasts`, 'delete', query, 'kiboEnageDbLayer')
+          utility.callApi(`whatsAppBroadcasts`, 'delete', query, 'kiboengage')
             .then(data => {
               callback(null, data)
             })
