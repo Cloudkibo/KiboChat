@@ -55,6 +55,7 @@ module.exports = function (app) {
   app.use('/api/api_ngp', require('./api/v1.1/api_ngp'))
   app.use('/api/integrations', require('./api/v1.1/integrations'))
   app.use('/api/intents', require('./api/v1.1/intents'))
+  app.use('/api/twilio', require('./api/v1.1/twilio'))
 
   // auth middleware go here if you authenticate on same server
 
