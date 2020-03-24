@@ -114,7 +114,7 @@ exports.addAgent = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
     .then(companyuser => {
       let agentPayload = logicLayer.getTeamAgentsPayload({_id: req.body.teamId}, companyuser, req.body.agentId)
-      utility.callApi(`teams/pages/query`, 'post', agentPayload) // add page
+      utility.callApi(`teams/agents/query`, 'post', agentPayload) // add page
         .then(findAgent => {
           if (findAgent.length > 0) {
             sendSuccessResponse(res, 200, 'Agent added successfully!')
