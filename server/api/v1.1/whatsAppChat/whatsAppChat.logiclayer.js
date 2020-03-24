@@ -28,7 +28,7 @@ exports.prepareSendMessagePayload = (body, companyUser, message) => {
     MessageObject.statusCallback = `https://webhook.cloudkibo.com/webhooks/twilio/trackStatusWhatsAppChat/${message._id}`
   }
   if (body.payload.componentType !== 'text') {
-    MessageObject.mediaUrl = body.payload.fileurl.url
+    MessageObject.mediaUrl = body.payload.fileurl.url || body.payload.fileurl
     if (body.payload.componentType === 'file') {
       MessageObject.body = body.payload.fileName
     }
