@@ -128,7 +128,7 @@ exports.changeStatus = function (req, res) {
       callApi('whatsAppContacts/query', 'post', {_id: req.body._id})
         .then(contact => {
           contact = contact[0]
-          let lastMessageData = logicLayer.getQueryData('', 'aggregate', {contactId: req.params.id, companyId: req.user.companyId}, undefined, {_id: -1}, 1, undefined)
+          let lastMessageData = logicLayer.getQueryData('', 'aggregate', {contactId: req.body._id, companyId: req.user.companyId}, undefined, {_id: -1}, 1, undefined)
           callApi(`whatsAppChat/query`, 'post', lastMessageData, 'kibochat')
             .then(lastMessageResponse => {
               contact.lastPayload = lastMessageResponse.length > 0 && lastMessageResponse[0].payload
