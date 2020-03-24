@@ -305,13 +305,17 @@ exports.deleteWhatsAppInfo = function (req, res) {
             })
         },
         function (callback) {
-          utility.callApi(`user/update`, 'post', {query: {_id: req.user._id}, newPayload: {platform: 'messenger'}, options: {}})
-            .then(data => {
-              callback(null)
-            })
-            .catch(err => {
-              callback(err)
-            })
+          if (req.body.type === 'Disconnect') {
+            utility.callApi(`user/update`, 'post', {query: {_id: req.user._id}, newPayload: {platform: 'messenger'}, options: {}})
+              .then(data => {
+                callback(null)
+              })
+              .catch(err => {
+                callback(err)
+              })
+          } else {
+            callback(null)
+          }
         },
         function (callback) {
           utility.callApi(`whatsAppContacts/deleteMany`, 'delete', {companyId: req.user.companyId})
