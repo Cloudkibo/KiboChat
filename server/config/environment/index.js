@@ -27,7 +27,12 @@ const all = {
   kiboAPIIP: ['::ffff:142.93.66.26', '::ffff:127.0.0.1'],
 
   GCP_CREDENTIALS_FILE: process.env.GCP_CREDENTIALS_FILE || '/Users/cloudkibo/GCPCredentials/smart-reply-dev-66c9c58c745e.json',
-  GOOGLE_ORGANIZATION_ID: process.env.GOOGLE_ORGANIZATION_ID || '652438098598'
+  GOOGLE_ORGANIZATION_ID: process.env.GOOGLE_ORGANIZATION_ID || '652438098598',
+  twilio: {
+    sid: 'ACdeb74ff803b2e44e127d0570e6248b3b',
+    token: '5c13521c7655811076a9c04d88fac395',
+    number: '+14254286230'
+  }
 }
 
 module.exports = _.merge(

@@ -15,7 +15,7 @@ exports.sendSMS = function (req, res) {
     // map code to template
     req.twilioClient.messages
       .create({
-        body: 'template',
+        body: req.body.template_code,
         from,
         to: number
       })
@@ -35,8 +35,10 @@ exports.sendSMS = function (req, res) {
 }
 
 exports.receiveSMS = function (req, res) {
-  // const client = require('twilio')(config.twilio.sid, config.twilio.token)
   // map response to template and call lab work api
+  callApi('twilio/receiveMessage', 'post', req.body, 'COVIS')
+    .then(result => {})
+    .catch(err => { console.log(err) })
   return res.status(200).json({status: 'success'})
 }
 
