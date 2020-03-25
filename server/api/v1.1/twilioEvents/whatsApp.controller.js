@@ -37,15 +37,23 @@ function storeChat (from, to, contact, messageData) {
     logicLayer.prepareChat(from, to, contact, messageData[i]).then(chatPayload => {
       callApi(`whatsAppChat`, 'post', chatPayload, 'kibochat')
         .then(message => {
+          message.payload.format = 'twilio'
           require('./../../../config/socketio').sendMessageToClient({
             room_id: contact.companyId,
             body: {
               action: 'new_chat_whatsapp',
-              payload: message
+              payload: {
+                subscriber_id: contact._id,
+                chat_id: message._id,
+                text: message.payload.text,
+                name: contact.name,
+                subscriber: contact,
+                message: message
+              }
             }
           })
           let query = {_id: contact._id}
-          let updatePayload = {last_activity_time: Date.now(), status: 'new', pendingResponse: true}
+          let updatePayload = {last_activity_time: Date.now(), status: 'new', pendingResponse: true, lastMessagedAt: Date.now()}
           let incrementPayload = {$inc: { unreadCount: 1, messagesCount: 1 }}
           updateWhatsAppContact(query, updatePayload, incrementPayload, {})
         })

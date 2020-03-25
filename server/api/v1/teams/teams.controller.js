@@ -137,6 +137,7 @@ exports.addAgent = function (req, res) {
 }
 
 exports.addPage = function (req, res) {
+  console.log('call add Page')
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
     .then(companyuser => {
       let pagePayload = logicLayer.getTeamPagesPayload({_id: req.body.teamId}, companyuser, req.body.pageId)
