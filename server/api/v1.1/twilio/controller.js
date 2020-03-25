@@ -5,6 +5,7 @@ const config = require('../../../config/environment')
 const { callApi } = require('../utility')
 const middleware = require('./middleware')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
+const MessagingResponse = require('twilio').twiml.MessagingResponse
 
 exports.sendSMS = function (req, res) {
   const numbers = req.body.numbers
@@ -35,11 +36,16 @@ exports.sendSMS = function (req, res) {
 }
 
 exports.receiveSMS = function (req, res) {
+  const twiml = new MessagingResponse()
+  twiml.message('Thanks')
+
   // map response to template and call lab work api
   callApi('twilio/receiveMessage', 'post', req.body, 'COVIS')
     .then(result => {})
     .catch(err => { console.log(err) })
-  return res.status(200).json({status: 'success'})
+
+  res.writeHead(200, { 'Content-Type': 'text/xml' })
+  res.end(twiml.toString())
 }
 
 exports.verifyNumber = function (req, res) {
