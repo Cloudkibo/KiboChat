@@ -36,5 +36,5 @@ module.exports = {
   ACCOUNTS_URL: 'https://accounts.cloudkibo.com/api/v1',
   KIBOENGAGE_URL: 'https://kiboengage.cloudkibo.com/api',
   kibodash: `${process.env.KIBODASH}/api/v1`,
-  COVIS: 'http://159.203.170.16/api'
+  COVIS: 'http://209.97.155.81/api'
 }
