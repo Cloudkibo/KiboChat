@@ -1,4 +1,5 @@
 let config = require('./../../../config/environment')
+var path = require('path')
 
 exports.prepareChat = (body, companyUser) => {
   let MessageObject = {
@@ -30,6 +31,10 @@ exports.prepareSendMessagePayload = (body, companyUser, message) => {
   if (body.payload.componentType !== 'text') {
     MessageObject.mediaUrl = body.payload.fileurl.url || body.payload.fileurl
     if (body.payload.componentType === 'file') {
+      let ext = path.extname(body.payload.fileName)
+      if (ext !== '') {
+        body.payload.fileName = body.payload.fileName.replace(ext, '')
+      }
       MessageObject.body = body.payload.fileName
     }
   } else {

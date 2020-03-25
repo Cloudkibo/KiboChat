@@ -111,7 +111,7 @@ exports.create = function (req, res) {
                   action: 'agent_replied_whatsapp',
                   payload: {
                     subscriber_id: req.body.contactId,
-                    message: MessageObject,
+                    message: message,
                     action: 'agent_replied_whatsapp',
                     user_id: req.user._id,
                     user_name: req.user.name
