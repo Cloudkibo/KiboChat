@@ -14,7 +14,7 @@ exports.getPayload = (body) => {
     if (body.MediaContentType0.includes('image')) {
       payload.push({componentType: 'image', fileurl: {url: body.MediaUrl0}})
     } else if (body.MediaContentType0.includes('pdf')) {
-      payload.push({componentType: 'file', fileurl: {url: body.MediaUrl0}, fileName: `${body.Body}.pdf`})
+      payload.push({componentType: 'file', fileurl: {url: body.MediaUrl0}, fileName: body.Body})
     } else if (body.MediaContentType0.includes('audio')) {
       payload.push({componentType: 'audio', fileurl: {url: body.MediaUrl0}})
     } else if (body.MediaContentType0.includes('video')) {
