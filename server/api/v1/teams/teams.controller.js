@@ -143,7 +143,6 @@ exports.addPage = function (req, res) {
       let pagePayload = logicLayer.getTeamPagesPayload({_id: req.body.teamId}, companyuser, req.body.pageId)
       utility.callApi(`teams/pages/query`, 'post', pagePayload) // add page
         .then(findpage => {
-          console.log('findpage', findpage)
           if (findpage.length > 0) {
             sendSuccessResponse(res, 200, 'Page added successfully!')
           } else {
