@@ -82,3 +82,16 @@ exports.disconnect = {
     }
   }
 }
+exports.deleteWhatsAppInfo = {
+  'type': 'object',
+  'properties': {
+    type: {
+      type: 'string',
+      required: true
+    },
+    password: {
+      type: 'string',
+      required: true
+    }
+  }
+}
