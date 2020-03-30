@@ -38,12 +38,10 @@ exports.sendSMS = function (req, res) {
 exports.receiveSMS = function (req, res) {
   const twiml = new MessagingResponse()
   twiml.message('Thanks')
-
   // map response to template and call lab work api
   callApi('twilio/receiveMessage', 'post', req.body, 'COVIS')
     .then(result => {})
     .catch(err => { console.log(err) })
-
   res.writeHead(200, { 'Content-Type': 'text/xml' })
   res.end(twiml.toString())
 }
