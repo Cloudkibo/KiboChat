@@ -44,6 +44,14 @@ router.post('/fetchValidCallerIds',
   validate({body: validationSchema.fetchValidCallerIds}),
   controller.fetchValidCallerIds)
 
+router.get('/getAdvancedSettings',
+  auth.isAuthenticated(),
+  controller.getAdvancedSettings)
+
+router.post('/updateAdvancedSettings',
+  auth.isAuthenticated(),
+  controller.updateAdvancedSettings)
+
 router.post('/deleteWhatsAppInfo',
   auth.isAuthenticated(),
   validate({body: validationSchema.deleteWhatsAppInfo}),
