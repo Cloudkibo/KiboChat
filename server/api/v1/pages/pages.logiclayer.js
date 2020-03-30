@@ -5,16 +5,10 @@ Thus we can use it from other non express callers like cron etc
 */
 
 exports.removeDuplicates = function (pages) {
-  let pagesToSend = []
-  let connectedPages = pages.filter(page => page.connected === true)
+  let pagesToSend = pages.filter(page => page.connected === true)
   for (let i = 0; i < pages.length; i++) {
     if (!exists(pagesToSend, pages[i].pageId)) {
-      if (connectedPages.map((cp) => cp.pageId).indexOf(pages[i].pageId) !== -1) {
-        pages[i].connected = true
-        pagesToSend.push(pages[i])
-      } else {
-        pagesToSend.push(pages[i])
-      }
+      pagesToSend.push(pages[i])
     }
   }
   return pagesToSend
