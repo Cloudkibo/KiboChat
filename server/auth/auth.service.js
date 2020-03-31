@@ -397,7 +397,7 @@ function fetchPages (url, user, req, token) {
             description: 'The user account does not belong to any company. Please contact support'
           })
         }
-        updateUnapprovedPages(data, user, companyUser)
+        // updateUnapprovedPages(data, user, companyUser)
         if (data) {
           data.forEach((item) => {
             // logger.serverLog(TAG,
