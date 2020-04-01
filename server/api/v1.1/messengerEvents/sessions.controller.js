@@ -9,9 +9,9 @@ const notificationsUtility = require('../notifications/notifications.utility')
 const { record } = require('../../global/messageStatistics')
 
 exports.index = function (req, res) {
-  console.log(TAG, `payload received in page ${JSON.stringify(req.body.page)}`)
-  console.log(TAG, `payload received in subscriber ${JSON.stringify(req.body.subscriber)}`)
-  console.log(TAG, `payload received in event ${JSON.stringify(req.body.event)}`)
+  logger.serverLog(TAG, `payload received in page ${JSON.stringify(req.body.page)}`, 'debug')
+  logger.serverLog(TAG, `payload received in subscriber ${JSON.stringify(req.body.subscriber)}`, 'debug')
+  logger.serverLog(TAG, `payload received in event ${JSON.stringify(req.body.event)}`, 'debug')
   res.status(200).json({
     status: 'success',
     description: `received the payload`
@@ -54,7 +54,6 @@ exports.index = function (req, res) {
 }
 function saveLiveChat (page, subscriber, event) {
   record('messengerChatInComing')
-  console.log('saveLiveChat')
   if (subscriber && !event.message.is_echo) {
     botController.respondUsingBot(page, subscriber, event.message.text)
   }
@@ -108,14 +107,12 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
     !event.message.delivery &&
     !event.message.read
   ) {
-    console.log('saveChatInDb')
     LiveChatDataLayer.createFbMessageObject(chatPayload)
       .then(chat => {
         if (!event.message.is_echo) {
           setTimeout(() => {
             utility.callApi('subscribers/query', 'post', {_id: subscriber._id})
               .then(sub => {
-                console.log('sending new_chat socket event to client')
                 require('./../../../config/socketio').sendMessageToClient({
                   room_id: page.companyId,
                   body: {
