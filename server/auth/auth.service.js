@@ -347,8 +347,13 @@ function isItWebhookServer () {
     logger.serverLog(TAG, 'This is middleware', 'debug')
     logger.serverLog(TAG, req.body, 'debug')
     logger.serverLog(TAG, `config.webhook_ip ${config.webhook_ip}`, 'debug')
-    if (ip === '::ffff:' + config.webhook_ip) next()
-    else res.send(403)
+
+    if (config.env === 'development') {
+      next()
+    } else {
+      if (ip === '::ffff:' + config.webhook_ip) next()
+      else res.send(403)
+    }
   })
 }
 
