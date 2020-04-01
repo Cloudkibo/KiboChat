@@ -396,3 +396,25 @@ exports.deleteWhatsAppInfo = function (req, res) {
       sendErrorResponse(res, 500, err.error.description)
     })
 }
+
+exports.getAdvancedSettings = function (req, res) {
+  utility.callApi('companyprofile/query', 'post', {_id: req.user.companyId})
+    .then(company => {
+      sendSuccessResponse(res, 200, {saveAutomationMessages: company.saveAutomationMessages})
+    })
+    .catch(err => {
+      logger.serverLog(TAG, err, 'error')
+      sendErrorResponse(res, 500, null, 'Failed to fetch advanced settings')
+    })
+}
+
+exports.updateAdvancedSettings = function (req, res) {
+  utility.callApi('companyprofile/update', 'put', {query: {_id: req.user.companyId}, newPayload: req.body, options: {}})
+    .then(updated => {
+      sendSuccessResponse(res, 200, null, 'Updated successfully!')
+    })
+    .catch(err => {
+      logger.serverLog(TAG, err, 'error')
+      sendErrorResponse(res, 500, null, 'Failed to update advanced settings')
+    })
+}

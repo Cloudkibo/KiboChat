@@ -57,4 +57,13 @@ router.post('/deleteWhatsAppInfo',
   validate({body: validationSchema.deleteWhatsAppInfo}),
   controller.deleteWhatsAppInfo)
 
+router.get('/getAdvancedSettings',
+  auth.isAuthenticated(),
+  controller.getAdvancedSettings)
+
+router.post('/updateAdvancedSettings',
+  auth.isAuthenticated(),
+  validate({body: validationSchema.advancedSettingsPayload}),
+  controller.updateAdvancedSettings)
+
 module.exports = router
