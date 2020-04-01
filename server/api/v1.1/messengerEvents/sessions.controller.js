@@ -115,6 +115,7 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
           setTimeout(() => {
             utility.callApi('subscribers/query', 'post', {_id: subscriber._id})
               .then(sub => {
+                console.log('sending new_chat socket event to client')
                 require('./../../../config/socketio').sendMessageToClient({
                   room_id: page.companyId,
                   body: {
