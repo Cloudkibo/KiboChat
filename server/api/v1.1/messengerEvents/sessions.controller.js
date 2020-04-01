@@ -54,6 +54,7 @@ exports.index = function (req, res) {
 }
 function saveLiveChat (page, subscriber, event) {
   record('messengerChatInComing')
+  console.log('saveLiveChat')
   if (subscriber && !event.message.is_echo) {
     botController.respondUsingBot(page, subscriber, event.message.text)
   }
@@ -107,6 +108,7 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
     !event.message.delivery &&
     !event.message.read
   ) {
+    console.log('saveChatInDb')
     LiveChatDataLayer.createFbMessageObject(chatPayload)
       .then(chat => {
         if (!event.message.is_echo) {
