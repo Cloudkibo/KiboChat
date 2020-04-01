@@ -34,14 +34,14 @@ function checkStatusForEachPage (pages, next, req, res) {
       statusArray.push({ pageId: page._id, smpStatus: 'approved' })
       cb()
     } else {
-    isApprovedForSMP(page)
-      .then(smpStatus => {
-        statusArray.push({ pageId: page._id, smpStatus: smpStatus })
-        cb()
-      })
-      .catch(err => {
-        cb(err)
-      })
+      isApprovedForSMP(page)
+        .then(smpStatus => {
+          statusArray.push({ pageId: page._id, smpStatus: smpStatus })
+          cb()
+        })
+        .catch(err => {
+          cb(err)
+        })
     }
   }, function (err) {
     if (err) {
@@ -56,30 +56,34 @@ function checkStatusForEachPage (pages, next, req, res) {
 
 function isApprovedForSMP (page) {
   return new Promise((resolve, reject) => {
-    facebookApiCaller(
-      'v5.0',
-      `me/messaging_feature_review?access_token=${page.accessToken}`,
-      'GET'
-    )
-      .then(response => {
-        if (response.body.error) {
-          reject(response.body.error)
-        } else {
-          let data = response.body.data
-          let smp = data.filter((d) => d.feature === 'subscription_messaging')
-          if (smp.length > 0 && smp[0].status.toLowerCase() === 'approved') {
-            resolve('approved')
-          } else if (smp.length > 0 && smp[0].status.toLowerCase() === 'rejected') {
-            resolve('rejected')
-          } else if (smp.length > 0 && smp[0].status.toLowerCase() === 'pending') {
-            resolve('pending')
+    if (page.tasks && page.tasks.includes('MANAGE')) {
+      facebookApiCaller(
+        'v5.0',
+        `me/messaging_feature_review?access_token=${page.accessToken}`,
+        'GET'
+      )
+        .then(response => {
+          if (response.body.error) {
+            reject(response.body.error)
           } else {
-            resolve('notApplied')
+            let data = response.body.data
+            let smp = data.filter((d) => d.feature === 'subscription_messaging')
+            if (smp.length > 0 && smp[0].status.toLowerCase() === 'approved') {
+              resolve('approved')
+            } else if (smp.length > 0 && smp[0].status.toLowerCase() === 'rejected') {
+              resolve('rejected')
+            } else if (smp.length > 0 && smp[0].status.toLowerCase() === 'pending') {
+              resolve('pending')
+            } else {
+              resolve('notApplied')
+            }
           }
-        }
-      })
-      .catch(err => {
-        reject(err)
-      })
+        })
+        .catch(err => {
+          reject(err)
+        })
+    } else {
+      resolve('approved') // workaround for page editors
+    }
   })
 }
