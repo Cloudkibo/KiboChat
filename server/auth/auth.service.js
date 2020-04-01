@@ -426,7 +426,7 @@ function fetchPages (url, user, req, token) {
                         companyId: companyUser.companyId,
                         likes: fanCount.body.fan_count,
                         pagePic: `https://graph.facebook.com/v2.10/${item.id}/picture`,
-                        connected: false
+                        tasks: item.tasks
                       }
                       if (fanCount.body.username) {
                         payloadPage = _.merge(payloadPage,
@@ -448,7 +448,8 @@ function fetchPages (url, user, req, token) {
                         pagePic: `https://graph.facebook.com/v2.10/${item.id}/picture`,
                         accessToken: item.access_token,
                         isApproved: true,
-                        pageName: item.name
+                        pageName: item.name,
+                        tasks: item.tasks
                       }
                       if (fanCount.body.username) {
                         updatedPayload['pageUserName'] = fanCount.body.username
