@@ -95,3 +95,13 @@ exports.deleteWhatsAppInfo = {
     }
   }
 }
+
+exports.advancedSettingsPayload = {
+  'type': 'object',
+  'properties': {
+    saveAutomationMessages: {
+      type: 'boolean',
+      required: true
+    }
+  }
+}
