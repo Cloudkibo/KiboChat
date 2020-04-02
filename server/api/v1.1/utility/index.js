@@ -24,6 +24,8 @@ exports.callApi = (endpoint, method = 'get', body, type = 'accounts', token) => 
     apiUrl = config.DBLAYER_URL_KIBOCHAT
   } else if (type === 'kibodash') {
     apiUrl = config.kibodash
+  } else if (type === 'COVIS') {
+    apiUrl = config.COVIS
   }
   let options = {
     method: method.toUpperCase(),

@@ -347,9 +347,13 @@ function isItWebhookServer () {
     logger.serverLog(TAG, 'This is middleware', 'debug')
     logger.serverLog(TAG, req.body, 'debug')
     logger.serverLog(TAG, `config.webhook_ip ${config.webhook_ip}`, 'debug')
-    // if (ip === '::ffff:' + config.webhook_ip) next()
-    // else res.send(403)
-    next()
+
+    if (config.env === 'development') {
+      next()
+    } else {
+      if (ip === '::ffff:' + config.webhook_ip) next()
+      else res.send(403)
+    }
   })
 }
 
@@ -398,7 +402,7 @@ function fetchPages (url, user, req, token) {
             description: 'The user account does not belong to any company. Please contact support'
           })
         }
-        updateUnapprovedPages(data, user, companyUser)
+        // updateUnapprovedPages(data, user, companyUser)
         if (data) {
           data.forEach((item) => {
             // logger.serverLog(TAG,
@@ -427,7 +431,7 @@ function fetchPages (url, user, req, token) {
                         companyId: companyUser.companyId,
                         likes: fanCount.body.fan_count,
                         pagePic: `https://graph.facebook.com/v2.10/${item.id}/picture`,
-                        connected: false
+                        tasks: item.tasks
                       }
                       if (fanCount.body.username) {
                         payloadPage = _.merge(payloadPage,
@@ -449,7 +453,8 @@ function fetchPages (url, user, req, token) {
                         pagePic: `https://graph.facebook.com/v2.10/${item.id}/picture`,
                         accessToken: item.access_token,
                         isApproved: true,
-                        pageName: item.name
+                        pageName: item.name,
+                        tasks: item.tasks
                       }
                       if (fanCount.body.username) {
                         updatedPayload['pageUserName'] = fanCount.body.username

@@ -42,7 +42,9 @@ exports.index = function (req, res) {
                 })
             }
             logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
-            saveLiveChat(page, subscriber, event)
+            if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
+              saveLiveChat(page, subscriber, event)
+            }
           })
           .catch(error => {
             logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
