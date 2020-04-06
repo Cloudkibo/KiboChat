@@ -7,28 +7,17 @@ const TAG = 'api/v1.1/chatbots/chatbots.controller.js'
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
 
 exports.index = function (req, res) {
-  let chatbots = []
   callApi(`pages/query`, 'post', {companyId: req.user.companyId, connected: true})
     .then(pages => {
-      async.each(pages, (page, callback) => {
-        datalayer.findOneChatBot({pageId: page._id})
-          .then(chatbot => {
-            if (chatbot) {
-              chatbot.pageId = page
-              chatbots.push(chatbot)
-            }
-            callback()
-          })
-          .catch(error => {
-            callback(error)
-          })
-      }, function (error) {
-        if (error) {
-          return sendErrorResponse(res, 500, error, 'Failed to fetch the chatbots.')
-        } else {
+      let pageIds = logiclayer.prepareIdsArray(pages)
+      datalayer.findAllChatBots({pageId: { $in: pageIds }})
+        .then(chatbots => {
+          logiclayer.populatePageIdsInChatBots(pages, chatbots)
           return sendSuccessResponse(res, 200, chatbots, null)
-        }
-      })
+        })
+        .catch(error => {
+          return sendErrorResponse(res, 500, error, 'Failed to fetch the chatbots.')
+        })
     })
     .catch(error => {
       return sendErrorResponse(res, 500, error, 'Failed to fetch the pages.')
