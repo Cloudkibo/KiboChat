@@ -1,5 +1,6 @@
 const csv = require('csv-parser')
 const phoneNumberLogicLayer = require('../../v1/phoneNumber/phoneNumber.logiclayer')
+const contactListsDataLayer = require('./contactLists.datalayer')
 const logicLayer = require('./logiclayer')
 const utility = require('../utility')
 const fs = require('fs')
@@ -100,6 +101,29 @@ exports.uploadNumbers = function (req, res) {
             logger.serverLog(TAG, `Failed to fetch contact ${JSON.stringify(error)}`, 'error')
           })
       }
+    })
+    .catch(error => {
+      sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
+    })
+}
+exports.update = function (req, res) {
+  let subsriberData = {
+    query: {_id: req.params.id},
+    newPayload: req.body,
+    options: {}
+  }
+  utility.callApi(`contacts/update`, 'put', subsriberData)
+    .then(updated => {
+      sendSuccessResponse(res, 200, updated)
+    })
+    .catch(error => {
+      sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
+    })
+}
+exports.fetchLists = function (req, res) {
+  contactListsDataLayer.findAllLists({companyId: req.user.companyId})
+    .then(lists => {
+      sendSuccessResponse(res, 200, lists)
     })
     .catch(error => {
       sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)

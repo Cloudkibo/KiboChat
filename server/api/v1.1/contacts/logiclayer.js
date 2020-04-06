@@ -3,7 +3,12 @@ exports.getCriterias = function (body, companyUser) {
   let finalCriteria = {}
   let recordsToSkip = 0
   findCriteria = {
-    companyId: companyUser.companyId
+    companyId: companyUser.companyId,
+    name: body.search_value !== '' ? { $regex: '.*' + body.search_value + '.*', $options: 'i' } : { $exists: true },
+    isSubscribed: body.status_value !== '' ? body.status_value : {$exists: true}
+  }
+  if (body.list_value !== '') {
+    findCriteria.listIds = body.list_value === 'master' ? {$exists: false} : body.list_value
   }
   let countCriteria = [
     { $match: findCriteria },
