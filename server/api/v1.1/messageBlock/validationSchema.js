@@ -1,22 +1,19 @@
 exports.createPayload = {
   type: 'object',
   properties: {
-    pageId: {
+    uniqueId: {
       type: 'string',
       required: true
-    }
-  }
-}
-
-exports.updatePayload = {
-  type: 'object',
-  properties: {
+    },
     chatbotId: {
       type: 'string',
       required: true
     },
-    published: {
-      type: 'boolean',
+    payload: {
+      type: 'array'
+    },
+    title: {
+      type: 'string',
       required: true
     }
   }
