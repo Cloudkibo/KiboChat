@@ -7,8 +7,8 @@ exports.getCriterias = function (body, companyUser) {
     name: body.search_value !== '' ? { $regex: '.*' + body.search_value + '.*', $options: 'i' } : { $exists: true },
     isSubscribed: body.status_value !== '' ? body.status_value : {$exists: true}
   }
-  if (body.list_value !== '') {
-    findCriteria.listIds = body.list_value === 'master' ? {$exists: false} : body.list_value
+  if (body.list_value !== '' && body.list_value !== 'master') {
+    findCriteria.listIds = body.list_value
   }
   let countCriteria = [
     { $match: findCriteria },
