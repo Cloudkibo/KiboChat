@@ -47,11 +47,14 @@ exports.getCriterias = function (body, companyUser) {
   return { countCriteria: countCriteria, fetchCriteria: finalCriteria }
 }
 
-exports.preparePayload = function (body, companyUser, data, nameColumn, result) {
+exports.preparePayload = function (body, companyId, data, nameColumn, result) {
   let payload = {
     name: data[`${nameColumn}`],
     number: result,
-    companyId: companyUser.companyId
+    companyId: companyId
+  }
+  if (body.listId !== 'master') {
+    payload.listIds = [body.listId]
   }
   return payload
 }
