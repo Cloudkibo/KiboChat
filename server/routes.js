@@ -58,6 +58,7 @@ module.exports = function (app) {
   app.use('/api/intents', require('./api/v1.1/intents'))
   app.use('/api/twilio', require('./api/v1.1/twilio'))
   app.use('/api/chatbots', require('./api/v1.1/chatbots'))
+  app.use('/api/messageBlock', require('./api/v1.1/messageBlock'))
 
   // auth middleware go here if you authenticate on same server
 

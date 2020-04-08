@@ -1,7 +1,7 @@
 const logiclayer = require('./chatbots.logiclayer')
 const datalayer = require('./chatbots.datalayer')
+const msgBlockDataLayer = require('./../messageBlock/messageBlock.datalayer')
 const { callApi } = require('../utility')
-const async = require('async')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1.1/chatbots/chatbots.controller.js'
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
@@ -36,16 +36,26 @@ exports.create = function (req, res) {
     })
 }
 
-// exports.update = function (req, res) {
-//   let dataToUpdate = req.body
-//   datalayer.genericUpdateChatBot({_id: req.params.id}, dataToUpdate)
-//     .then(sponsoredMessage => {
-//       return res.status(201).json({ status: 'success', payload: sponsoredMessage })
-//     })
-//     .catch(error => {
-//       return res.status(500).json({ status: 'failed', payload: `Failed to update chatbot ${JSON.stringify(error)}` })
-//     })
-// }
+exports.update = function (req, res) {
+  let dataToUpdate = { published: req.body.published }
+  datalayer.genericUpdateChatBot({_id: req.body.chatbotId}, dataToUpdate)
+    .then(chatbotUpdated => {
+      return sendSuccessResponse(res, 200, chatbotUpdated, 'Updated the chatbot publish status')
+    })
+    .catch(error => {
+      sendErrorResponse(res, 500, error, `Failed to update chatbot ${JSON.stringify(error)}`)
+    })
+}
+
+exports.details = function (req, res) {
+  msgBlockDataLayer.findAllMessageBlock({ 'module.type': 'chatbot', 'module.id': req.params.id })
+    .then(messageBlocks => {
+      return sendSuccessResponse(res, 200, messageBlocks, null)
+    })
+    .catch(error => {
+      return sendErrorResponse(res, 500, error, 'Failed to fetch the chatbot details.')
+    })
+}
 
 function _sendToClientUsingSocket (body) {
   require('../../../config/socketio').sendMessageToClient({
