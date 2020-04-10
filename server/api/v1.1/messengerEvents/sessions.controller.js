@@ -7,7 +7,7 @@ const needle = require('needle')
 const logicLayer = require('./logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
 const { record } = require('../../global/messageStatistics')
-const { handleChatBotAutomationEvents } = require('./chatbotAutomation.controller')
+const { handleChatBotWelcomeMessage: handleChatBotAutomationEvents } = require('./chatbotAutomation.controller')
 
 exports.index = function (req, res) {
   res.status(200).json({

@@ -6,12 +6,12 @@ const { intervalForEach } = require('./../../../components/utility')
 const { facebookApiCaller } = require('./../../global/facebookApiCaller')
 const TAG = 'api/v1/messengerEvents/chatbotAutomation.controller'
 
-exports.handleChatBotAutomationEvents = (req, page, subscriber) => {
+exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
   chatbotDataLayer.findOneChatBot({pageId: page._id})
     .then(chatbot => {
       if (chatbot) {
         chatbot.triggers = chatbot.triggers.map(item => item.toLowerCase())
-        if ((req.message && chatbot.triggers.indexOf(req.message.text.toLowerCase()) > -1) || 
+        if ((req.message && chatbot.triggers.indexOf(req.message.text.toLowerCase()) > -1) ||
         (req.postback && req.postback.payload)) {
           messageBlockDataLayer.findOneMessageBlock({ _id: chatbot.startingBlockId })
             .then(messageBlock => {
@@ -33,6 +33,23 @@ exports.handleChatBotAutomationEvents = (req, page, subscriber) => {
     .catch(error => {
       logger.serverLog(TAG,
         `error in fetching chatbot ${JSON.stringify(error)}`, 'error')
+    })
+}
+
+exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId) => {
+  messageBlockDataLayer.findOneMessageBlock({ uniqueId })
+    .then(messageBlock => {
+      if (messageBlock) {
+        senderAction(req.sender.id, 'typing_on', page.accessToken)
+        intervalForEach(messageBlock.payload, (item) => {
+          sendResponse(req.sender.id, item, subscriber, page.accessToken)
+          senderAction(req.sender.id, 'typing_off', page.accessToken)
+        }, 1500)
+      }
+    })
+    .catch(error => {
+      logger.serverLog(TAG,
+        `error in fetching message block ${JSON.stringify(error)}`, 'error')
     })
 }
 

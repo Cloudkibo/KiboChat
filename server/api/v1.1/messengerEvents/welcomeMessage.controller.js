@@ -8,5 +8,5 @@ exports.index = function (req, res) {
   let page = req.body.page
   let subscriber = req.body.subscriber
   let event = req.body.entry[0].messaging[0]
-  chatbotAutomation.handleChatBotAutomationEvents(event, page, subscriber)
+  chatbotAutomation.handleChatBotWelcomeMessage(event, page, subscriber)
 }
