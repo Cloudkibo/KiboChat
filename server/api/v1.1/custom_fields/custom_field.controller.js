@@ -54,7 +54,7 @@ exports.create = function (req, res) {
           sendSuccessResponse(res, 200, newCustomField)
         })
         .catch(err => {
-          sendErrorResponse(res, 500, '', err.error.payload)
+          sendErrorResponse(res, 500, '', err)
         })
     })
     .catch(err => {
@@ -88,7 +88,7 @@ exports.update = function (req, res) {
           sendSuccessResponse(res, 200, updated)
         })
         .catch(err => {
-          sendErrorResponse(res, 500, '', err.error.payload)
+          sendErrorResponse(res, 500, '', err)
         })
     })
     .catch(err => {
