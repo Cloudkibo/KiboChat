@@ -3,6 +3,8 @@ const logger = require('../../../components/logger')
 const TAG = 'api/v1/messengerEvents/sessions.controller'
 const LiveChatDataLayer = require('../liveChat/liveChat.datalayer')
 const botController = require('./bots.controller')
+const chatbotDataLayer = require('./../chatbots/chatbots.datalayer')
+const messageBlockDataLayer = require('./../messageBlock/messageBlock.datalayer')
 const needle = require('needle')
 const logicLayer = require('./logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
@@ -131,6 +133,7 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
                 })
               })
           }, 500)
+          handleChatBotAutomationEvents(event, page)
           sendautomatedmsg(event, page)
         }
       })
@@ -139,6 +142,50 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
       })
   }
 }
+
+function handleChatBotAutomationEvents (req, page) {
+  chatbotDataLayer.findOneChatBot({pageId: page._id})
+    .then(chatbot => {
+      if (chatbot) {
+        messageBlockDataLayer.findOneMessageBlock({ _id: chatbot.startingBlockId })
+          .then(messageBlock => {
+            if (messageBlock) {
+              const data = {
+                messaging_type: 'RESPONSE',
+                recipient: JSON.stringify({ id: req.sender.id }), // this is the subscriber id
+                message: JSON.stringify(messageBlock.payload)
+              }
+              needle.get(
+                `https://graph.facebook.com/v2.10/${req.recipient.id}?fields=access_token&access_token=${page.userId.facebookInfo.fbToken}`,
+                (err3, response) => {
+                  if (err3) {
+                    logger.serverLog(TAG,
+                      `Page token error from graph api ${JSON.stringify(err3)}`, 'error')
+                  }
+                  needle.post(
+                    `https://graph.facebook.com/v2.6/me/messages?access_token=${response.body.access_token}`,
+                    data, (err, resp) => {
+                      if (err) {
+                        return logger.serverLog(TAG,
+                          `error in sending message ${JSON.stringify(err)}`, 'error')
+                      }
+                      logger.serverLog(TAG, `response of sending block ${JSON.stringify(resp.body)}`, 'debug')
+                    })
+                })
+            }
+          })
+          .catcn(error => {
+            logger.serverLog(TAG,
+              `error in fetching message block ${JSON.stringify(error)}`, 'error')
+          })
+      }
+    })
+    .catch(error => {
+      logger.serverLog(TAG,
+        `error in fetching chatbot ${JSON.stringify(error)}`, 'error')
+    })
+}
+
 function sendautomatedmsg (req, page) {
   if (req.message && req.message.text) {
     let index = -3
