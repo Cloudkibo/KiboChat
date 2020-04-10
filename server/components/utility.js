@@ -25,6 +25,19 @@ function dateDiffInDays (date1, date2) {
   return diffDays
 }
 
+exports.intervalForEach = (array, iteratee, delay) => {
+  let current = 0
+
+  const interval = setInterval(() => {
+    if (current === array.length) {
+      clearInterval(interval)
+    } else {
+      iteratee(array[current])
+      current++
+    }
+  }, delay)
+}
+
 exports.validateUrl = validateUrl
 exports.padWithZeros = padWithZeros
 exports.dateDiffInDays = dateDiffInDays
