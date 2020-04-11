@@ -53,6 +53,32 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId) => {
     })
 }
 
+exports.handleChatBotTestMessage = (req, page, subscriber) => {
+  chatbotDataLayer.findOneChatBot({pageId: page._id})
+    .then(chatbot => {
+      if (chatbot) {
+        messageBlockDataLayer.findOneMessageBlock({ _id: chatbot.startingBlockId })
+          .then(messageBlock => {
+            if (messageBlock) {
+              senderAction(req.sender.id, 'typing_on', page.accessToken)
+              intervalForEach(messageBlock.payload, (item) => {
+                sendResponse(req.sender.id, item, subscriber, page.accessToken)
+                senderAction(req.sender.id, 'typing_off', page.accessToken)
+              }, 1500)
+            }
+          })
+          .catch(error => {
+            logger.serverLog(TAG,
+              `error in fetching message block ${JSON.stringify(error)}`, 'error')
+          })
+      }
+    })
+    .catch(error => {
+      logger.serverLog(TAG,
+        `error in fetching chatbot ${JSON.stringify(error)}`, 'error')
+    })
+}
+
 function sendResponse (recipientId, payload, subscriber, accessToken) {
   let finalPayload = logicLayer.prepareSendAPIPayload(recipientId, payload, subscriber.firstName, subscriber.lastName, true)
   facebookApiCaller('v3.2', `me/messages?access_token=${accessToken}`, 'post', finalPayload)
