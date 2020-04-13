@@ -65,7 +65,7 @@ exports.invite = function (req, res) {
     .catch((err) => {
       logger.serverLog(TAG, `invite err.status ${err.error.status}`)
       logger.serverLog(TAG, `invite err.payload ${err.error.payload}`)
-      res.status(500).json({status: `failed ${JSON.stringify(err)}`, payload: err.error.payload})
+      res.status(500).json({status: `failed ${JSON.stringify(err)}`, payload: err})
     })
 }
 exports.updateAutomatedOptions = function (req, res) {
