@@ -41,6 +41,7 @@ exports.index = function (req, res) {
             logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
             if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
               saveLiveChat(page, subscriber, event)
+              handleChatBotAutomationEvents(event, page, subscriber)
             }
           })
           .catch(error => {
@@ -129,7 +130,6 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
                 })
               })
           }, 500)
-          handleChatBotAutomationEvents(event, page, subscriber)
           sendautomatedmsg(event, page)
         }
       })
