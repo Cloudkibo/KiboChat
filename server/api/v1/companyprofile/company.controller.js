@@ -26,6 +26,35 @@ exports.getAutomatedOptions = function (req, res) {
     })
 }
 
+exports.getAdvancedSettings = function (req, res) {
+  utility.callApi(`companyprofile`, 'get', {}, 'accounts', req.headers.authorization)
+    .then(payload => {
+      res.status(200).json({status: 'success', payload: payload})
+    })
+    .catch(err => {
+      res.status(500).json({status: 'failed', payload: `Failed to fetch advanced settings in company profile  ${err}`})
+    })
+}
+
+
+exports.updateAdvancedSettings = function (req, res) {
+  utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
+    .then(companyUser => {
+      if (!companyUser) {
+        res.status(404).json({status: 'failed', payload: `The user account does not belong to any company. Please contact support`})
+      }
+      utility.callApi(`companyprofile/update`, 'put', {query: {_id: companyUser.companyId}, newPayload: req.body.updatedObject, options: {}})
+        .then(updatedProfile => {
+          res.status(200).json({status: 'success', payload: updatedProfile})
+        })
+        .catch(err => {
+          res.status(500).json({status: 'failed', payload: `Failed to update company profile ${err}`})
+        })
+    })
+    .catch(error => {
+      res.status(500).json({status: 'failed', payload: `Failed to fetch company profile  ${error}`})
+    })
+}
 exports.invite = function (req, res) {
   logger.serverLog(TAG, `invite request ${JSON.stringify(req.body)}`)
   utility.callApi('companyprofile/invite', 'post', {email: req.body.email, name: req.body.name, role: req.body.role}, 'accounts', req.headers.authorization)

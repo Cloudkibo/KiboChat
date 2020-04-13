@@ -9,6 +9,7 @@ const notificationsUtility = require('../notifications/notifications.utility')
 const { record } = require('../../global/messageStatistics')
 
 exports.index = function (req, res) {
+  console.log('payload received in page ${JSON.stringify(req.body.page)', JSON.stringify(req.body.page))
   logger.serverLog(TAG, `payload received in page ${JSON.stringify(req.body.page)}`, 'debug')
   logger.serverLog(TAG, `payload received in subscriber ${JSON.stringify(req.body.subscriber)}`, 'debug')
   logger.serverLog(TAG, `payload received in event ${JSON.stringify(req.body.event)}`, 'debug')
