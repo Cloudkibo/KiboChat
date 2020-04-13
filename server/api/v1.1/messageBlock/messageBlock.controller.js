@@ -11,7 +11,10 @@ exports.create = function (req, res) {
     .then(messageBlock => {
       _sendToClientUsingSocket(messageBlock)
       if (req.body.triggers) {
-        chatbotDataLayer.genericUpdateChatBot({ _id: req.body.chatbotId }, { triggers: req.body.triggers })
+        let updatePayload = { triggers: req.body.triggers }
+        if (messageBlock.upserted) updatePayload.startingBlockId = messageBlock.upserted[0]._id
+        chatbotDataLayer.genericUpdateChatBot(
+          { _id: req.body.chatbotId }, updatePayload)
           .then(updated => logger.serverLog(TAG, `chatbot updated for triggers ${JSON.stringify(updated)}`))
           .catch(error => logger.serverLog(TAG, `error in chatbot update for triggers ${JSON.stringify(error)}`))
       }
