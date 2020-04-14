@@ -24,4 +24,8 @@ router.get('/:id/details',
   auth.isAuthenticated(),
   controller.details)
 
+router.delete('/:id',
+  auth.isAuthenticated(),
+  controller.delete)
+
 module.exports = router

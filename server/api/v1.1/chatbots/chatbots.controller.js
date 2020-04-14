@@ -69,12 +69,12 @@ function _sendToClientUsingSocket (body) {
   })
 }
 
-// exports.delete = function (req, res) {
-//   datalayer.deleteForChatBot({ _id: req.params.id })
-//     .then(chatbot => {
-//       return res.status(201).json({ status: 'success', payload: chatbot })
-//     })
-//     .catch(error => {
-//       return res.status(500).json({ status: 'failed', payload: `Failed to delete chatbot ${error}` })
-//     })
-// }
+exports.delete = function (req, res) {
+  datalayer.deleteForChatBot({ _id: req.params.id })
+    .then(chatbot => {
+      return res.status(201).json({ status: 'success', payload: chatbot })
+    })
+    .catch(error => {
+      return res.status(500).json({ status: 'failed', payload: `Failed to delete chatbot ${error}` })
+    })
+}

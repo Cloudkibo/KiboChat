@@ -15,4 +15,8 @@ router.delete('/:id',
   auth.isAuthenticated(),
   controller.delete)
 
+router.post('/attachment',
+  auth.isAuthenticated(),
+  controller.attachment)
+
 module.exports = router

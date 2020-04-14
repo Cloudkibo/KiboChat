@@ -1,6 +1,10 @@
 const logiclayer = require('./messageBlock.logiclayer')
 const datalayer = require('./messageBlock.datalayer')
 const chatbotDataLayer = require('./../chatbots/chatbots.datalayer')
+const needle = require('needle')
+const config = require('./../../../config/environment')
+const utility = require('./../../../components/utility')
+const ogs = require('open-graph-scraper')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1.1/messageBlock/messageBlock.controller.js'
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
@@ -23,6 +27,49 @@ exports.create = function (req, res) {
     .catch(error => {
       return sendErrorResponse(res, 500, error, 'Failed to create the message block.')
     })
+}
+
+exports.attachment = function (req, res) {
+  if (utility.isYouTubeUrl(req.body.url)) {
+    needle('post', `${config.accountsDomain}/downloadYouTubeVideo`, req.body)
+      .then(data => {
+        data = data.body
+        if (data.payload && data.payload === 'ERR_LIMIT_REACHED') {
+          let url = req.body.url
+          let options = {url}
+          ogs(options, (error, results) => {
+            if (error) {
+              return sendErrorResponse(res, 500, error, 'Failed to fetch youtube video url meta data.')
+            }
+            return sendSuccessResponse(res, 200, results.data, 'Fetched youtube video')
+          })
+        } else {
+          let payload = data.payload.fileurl
+          payload.pages = [req.body.pageId]
+          payload.deleteLater = true
+          payload.componentType = 'video'
+          needle('post', `${config.accountsDomain}/uploadTemplate`, payload)
+            .then(dataFinal => {
+              return sendSuccessResponse(res, 200, dataFinal.body.payload, 'Fetched youtube video')
+            })
+            .catch(error => {
+              return sendErrorResponse(res, 500, error.body, 'Failed to upload youtube video to facebook. Check with admin.')
+            })
+        }
+      })
+      .catch(error => {
+        return sendErrorResponse(res, 500, error.body, 'Failed to fetch youtube video info.')
+      })
+  } else {
+    let url = req.body.url
+    let options = {url}
+    ogs(options, (error, results) => {
+      if (error) {
+        return sendErrorResponse(res, 500, error, 'Failed to fetch youtube video url meta data.')
+      }
+      return sendSuccessResponse(res, 200, results.data, 'Fetched youtube video')
+    })
+  }
 }
 
 function _sendToClientUsingSocket (body) {
