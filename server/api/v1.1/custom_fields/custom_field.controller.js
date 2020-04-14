@@ -1,17 +1,18 @@
-// const logger = require('../../../components/logger')
-// const CUSTOMFIELD = 'api/custom_field/custom_field.controller.js'
+const logger = require('../../../components/logger')
+const CUSTOMFIELD = 'api/custom_field/custom_field.controller.js'
 const callApi = require('../utility')
-const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
+const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
 const _ = require('lodash')
 
 exports.index = function (req, res) {
-  callApi.callApi('companyuser/query', 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
+  callApi.callApi('companyuser/query', 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
       if (!companyUser) {
         sendErrorResponse(res, 404, '', 'The user account does not belong to any company. Please contact support')
       }
-      callApi.callApi('custom_fields/query', 'post', { purpose: 'findAll', match: { $or: [{companyId: req.user.companyId}, {default: true}] } }, req.headers.authorization)
+      callApi.callApi('custom_fields/query', 'post', { purpose: 'findAll', match: { $or: [{companyId: companyUser.companyId}, {default: true}] } })
         .then(customFields => {
+          logger.serverLog(CUSTOMFIELD, `got custom fields ${JSON.stringify(customFields)}`, 'debug')
           sendSuccessResponse(res, 200, customFields)
         })
         .catch(err => {
@@ -28,7 +29,7 @@ exports.index = function (req, res) {
 }
 
 exports.create = function (req, res) {
-  callApi.callApi('companyUser/query', 'post', { domain_email: req.user.domain_email }, req.headers.authorization)
+  callApi.callApi('companyUser/query', 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
       if (!companyUser) {
         sendErrorResponse(res, 404, '', 'The user account does not belong to any company. Please contact support')
@@ -40,8 +41,10 @@ exports.create = function (req, res) {
         companyId: companyUser.companyId,
         createdBy: req.user._id
       }
-      callApi.callApi('custom_fields/', 'post', customFieldPayload, req.headers.authorization)
+      logger.serverLog(CUSTOMFIELD, `got custom fields ${JSON.stringify(customFieldPayload)}`)
+      callApi.callApi('custom_fields/', 'post', customFieldPayload)
         .then(newCustomField => {
+          logger.serverLog(CUSTOMFIELD, `created custom fields ${JSON.stringify(newCustomField)}`)
           require('./../../../config/socketio').sendMessageToClient({
             room_id: companyUser.companyId,
             body: {
@@ -54,7 +57,7 @@ exports.create = function (req, res) {
           sendSuccessResponse(res, 200, newCustomField)
         })
         .catch(err => {
-          sendErrorResponse(res, 500, '', err.error.payload)
+          sendErrorResponse(res, 500, '', err)
         })
     })
     .catch(err => {
@@ -63,32 +66,31 @@ exports.create = function (req, res) {
 }
 
 exports.update = function (req, res) {
-  callApi.callApi('custom_fields/query', 'post', { purpose: 'findOne', match: { _id: req.body.customFieldId, $or: [{companyId: req.user.companyId}, {default: true}] } }, req.headers.authorization)
+  callApi.callApi('custom_fields/query', 'post', { purpose: 'findOne', match: { _id: req.body.customFieldId, $or: [{companyId: req.user.companyId}, {default: true}] } })
     .then(fieldPayload => {
       if (!fieldPayload) {
-        sendErrorResponse(res, 404, '', 'No Custom field is available on server with given customFieldId.')
+        sendErrorResponse(res, 500, '', 'No Custom field is available on server with given customFieldId.')
       }
       let updatedPayload = {}
       if (req.body.updated.name) updatedPayload.name = req.body.updated.name
       if (req.body.updated.type) updatedPayload.type = req.body.updated.type
       updatedPayload.description = req.body.updated.description
       updatedPayload.companyId = req.user.companyId
-      callApi.callApi('custom_fields/', 'put', { purpose: 'updateOne', match: { _id: req.body.customFieldId }, updated: updatedPayload }, req.headers.authorization)
+      callApi.callApi('custom_fields/', 'put', { purpose: 'updateOne', match: { _id: req.body.customFieldId }, updated: updatedPayload })
         .then(updated => {
           require('./../../../config/socketio').sendMessageToClient({
-            room_id: req.user.companyId,
+            room_id: fieldPayload.companyId._id,
             body: {
-              action: 'custom_field_rename',
+              action: 'tag_rename',
               payload: {
-                customFieldId: req.body.customFieldId,
-                updatedField: updatedPayload
+                fieldPayload
               }
             }
           })
           sendSuccessResponse(res, 200, updated)
         })
         .catch(err => {
-          sendErrorResponse(res, 500, '', err.error.payload)
+          sendErrorResponse(res, 500, '', err)
         })
     })
     .catch(err => {
@@ -97,15 +99,15 @@ exports.update = function (req, res) {
 }
 
 exports.delete = function (req, res) {
-  callApi.callApi('custom_field_subscribers/query', 'post', { purpose: 'findOne', match: { customFieldId: req.body.customFieldId } }, req.headers.authorization)
+  callApi.callApi('custom_field_subscribers/query', 'post', { purpose: 'findOne', match: { customFieldId: req.body.customFieldId } })
     .then(foundCustomField => {
       if (foundCustomField) {
-        callApi.callApi('custom_field_subscribers/', 'delete', { purpose: 'deleteMany', match: { customFieldId: req.body.customFieldId } }, req.headers.authorization)
+        callApi.callApi('custom_field_subscribers/', 'delete', { purpose: 'deleteMany', match: { customFieldId: req.body.customFieldId } })
           .then(() => {
-            callApi.callApi('custom_fields/', 'delete', { purpose: 'deleteOne', match: { _id: req.body.customFieldId } }, req.headers.authorization)
+            callApi.callApi('custom_fields/', 'delete', { purpose: 'deleteOne', match: { _id: req.body.customFieldId } })
               .then(fieldPayload => {
                 require('./../../../config/socketio').sendMessageToClient({
-                  room_id: req.user.companyId,
+                  room_id: fieldPayload.companyId,
                   body: {
                     action: 'custom_field_remove',
                     payload: {
@@ -120,13 +122,13 @@ exports.delete = function (req, res) {
               })
           })
           .catch(err => {
-            sendErrorResponse(res, 500, `Failed to remove custom field subscriber${err}`)
+            sendErrorResponse(res, 500, '', `Failed to remove custom field subscriber${err}`)
           })
       } else {
-        callApi.callApi('custom_fields/', 'delete', { purpose: 'deleteOne', match: { _id: req.body.customFieldId } }, req.headers.authorization)
+        callApi.callApi('custom_fields/', 'delete', { purpose: 'deleteOne', match: { _id: req.body.customFieldId } })
           .then(fieldPayload => {
             require('./../../../config/socketio').sendMessageToClient({
-              room_id: req.user.companyId,
+              room_id: fieldPayload.companyId,
               body: {
                 action: 'custom_field_remove',
                 payload: {
