@@ -13,20 +13,25 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
         chatbot.triggers = chatbot.triggers.map(item => item.toLowerCase())
         if ((req.message && chatbot.triggers.indexOf(req.message.text.toLowerCase()) > -1) ||
         (req.postback && req.postback.payload)) {
-          messageBlockDataLayer.findOneMessageBlock({ _id: chatbot.startingBlockId })
-            .then(messageBlock => {
-              if (messageBlock) {
-                senderAction(req.sender.id, 'typing_on', page.accessToken)
-                intervalForEach(messageBlock.payload, (item) => {
-                  sendResponse(req.sender.id, item, subscriber, page.accessToken)
-                  senderAction(req.sender.id, 'typing_off', page.accessToken)
-                }, 1500)
-              }
-            })
-            .catch(error => {
-              logger.serverLog(TAG,
-                `error in fetching message block ${JSON.stringify(error)}`, 'error')
-            })
+          if (chatbot.startingBlockId) {
+            messageBlockDataLayer.findOneMessageBlock({ _id: chatbot.startingBlockId })
+              .then(messageBlock => {
+                if (messageBlock) {
+                  senderAction(req.sender.id, 'typing_on', page.accessToken)
+                  intervalForEach(messageBlock.payload, (item) => {
+                    sendResponse(req.sender.id, item, subscriber, page.accessToken)
+                    senderAction(req.sender.id, 'typing_off', page.accessToken)
+                  }, 1500)
+                }
+              })
+              .catch(error => {
+                logger.serverLog(TAG,
+                  `error in fetching message block ${JSON.stringify(error)}`, 'error')
+              })
+          } else {
+            logger.serverLog(TAG,
+              `DATA INCONSISTENCY ERROR in following chatbot, no startingBlockId given ${JSON.stringify(chatbot)}`, 'error')
+          }
         }
       }
     })
