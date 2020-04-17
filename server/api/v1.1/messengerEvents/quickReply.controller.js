@@ -12,7 +12,7 @@ exports.index = function (req, res) {
   let pageId = messengerPayload.recipient.id
   let subscriberId = messengerPayload.sender.id
   let quickRepyPayload = JSON.parse(messengerPayload.message.quick_reply.payload)
-  if (quickRepyPayload.action === 'chatbot') {
+  if (quickRepyPayload.action === '_chatbot') {
     let subscriber
     utility.callApi('subscribers/query', 'post', { senderId: subscriberId })
       .then(gotSubscriber => {
