@@ -3,7 +3,12 @@ exports.getCriterias = function (body, companyUser) {
   let finalCriteria = {}
   let recordsToSkip = 0
   findCriteria = {
-    companyId: companyUser.companyId
+    companyId: companyUser.companyId,
+    name: body.search_value !== '' ? { $regex: '.*' + body.search_value + '.*', $options: 'i' } : { $exists: true },
+    isSubscribed: body.status_value !== '' ? body.status_value : {$exists: true}
+  }
+  if (body.list_value !== '' && body.list_value !== 'master') {
+    findCriteria.listIds = body.list_value
   }
   let countCriteria = [
     { $match: findCriteria },
@@ -42,11 +47,14 @@ exports.getCriterias = function (body, companyUser) {
   return { countCriteria: countCriteria, fetchCriteria: finalCriteria }
 }
 
-exports.preparePayload = function (body, companyUser, data, nameColumn, result) {
+exports.preparePayload = function (body, companyId, data, nameColumn, result) {
   let payload = {
     name: data[`${nameColumn}`],
     number: result,
-    companyId: companyUser.companyId
+    companyId: companyId
+  }
+  if (body.listId !== 'master') {
+    payload.listIds = [body.listId]
   }
   return payload
 }
