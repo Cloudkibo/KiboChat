@@ -20,7 +20,8 @@ exports.getFinalPayload = (subscribers, customFields, customFieldSubscribers) =>
         _id: customFields[j]._id,
         name: customFields[j].name,
         type: customFields[j].type,
-        value: ''
+        value: '',
+        default: customFields[j].default
       }
       for (let k = 0; k < customFieldSubscribers.length; k++) {
         if (customFieldSubscribers[k].subscriberId._id === subscribers[i]._id && customFieldSubscribers[k].customFieldId._id === customFields[j]._id) {
