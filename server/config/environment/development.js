@@ -37,5 +37,6 @@ module.exports = {
   ACCOUNTS_URL: 'http://localhost:3024/api/v1',
   KIBOENGAGE_URL: 'http://localhost:3021/api',
   kibodash: `http://localhost:5050/api/v1`,
+  accountsDomain: 'http://localhost:3024',
   COVIS: 'http://localhost:8080/api'
 }
