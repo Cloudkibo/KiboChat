@@ -74,6 +74,7 @@ exports.handleChatBotTestMessage = (req, page, subscriber) => {
         messageBlockDataLayer.findOneMessageBlock({ _id: chatbot.startingBlockId })
           .then(messageBlock => {
             if (messageBlock) {
+              _sendToClientUsingSocket(chatbot)
               senderAction(req.sender.id, 'typing_on', page.accessToken)
               intervalForEach(messageBlock.payload, (item) => {
                 sendResponse(req.sender.id, item, subscriber, page.accessToken)
@@ -120,4 +121,16 @@ function senderAction (recipientId, action, accessToken) {
       return logger.serverLog(TAG,
         `error in sending action ${JSON.stringify(err)}`, 'error')
     })
+}
+
+function _sendToClientUsingSocket (body) {
+  require('../../../config/socketio').sendMessageToClient({
+    room_id: body.companyId,
+    body: {
+      action: 'chatbot.test.message',
+      payload: {
+        chatbot: body
+      }
+    }
+  })
 }
