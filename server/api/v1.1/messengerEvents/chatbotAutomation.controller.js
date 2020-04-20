@@ -7,7 +7,7 @@ const { facebookApiCaller } = require('./../../global/facebookApiCaller')
 const TAG = 'api/v1/messengerEvents/chatbotAutomation.controller'
 
 exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
-  chatbotDataLayer.findOneChatBot({pageId: page._id})
+  chatbotDataLayer.findOneChatBot({pageId: page._id, published: true})
     .then(chatbot => {
       if (chatbot) {
         chatbot.triggers = chatbot.triggers.map(item => item.toLowerCase())
@@ -42,19 +42,28 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
 }
 
 exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId) => {
-  messageBlockDataLayer.findOneMessageBlock({ uniqueId })
-    .then(messageBlock => {
-      if (messageBlock) {
-        senderAction(req.sender.id, 'typing_on', page.accessToken)
-        intervalForEach(messageBlock.payload, (item) => {
-          sendResponse(req.sender.id, item, subscriber, page.accessToken)
-          senderAction(req.sender.id, 'typing_off', page.accessToken)
-        }, 1500)
+  chatbotDataLayer.findOneChatBot({pageId: page._id, published: true})
+    .then(chatbot => {
+      if (chatbot) {
+        messageBlockDataLayer.findOneMessageBlock({ uniqueId })
+          .then(messageBlock => {
+            if (messageBlock) {
+              senderAction(req.sender.id, 'typing_on', page.accessToken)
+              intervalForEach(messageBlock.payload, (item) => {
+                sendResponse(req.sender.id, item, subscriber, page.accessToken)
+                senderAction(req.sender.id, 'typing_off', page.accessToken)
+              }, 1500)
+            }
+          })
+          .catch(error => {
+            logger.serverLog(TAG,
+              `error in fetching message block ${JSON.stringify(error)}`, 'error')
+          })
       }
     })
     .catch(error => {
       logger.serverLog(TAG,
-        `error in fetching message block ${JSON.stringify(error)}`, 'error')
+        `error in fetching chatbot ${JSON.stringify(error)}`, 'error')
     })
 }
 
