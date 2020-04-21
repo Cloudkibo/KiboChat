@@ -60,6 +60,27 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
         }
       })
     }
+  } else if (body.componentType === 'media') {
+    payload = {
+      'messaging_type': messageType,
+      'recipient': JSON.stringify({
+        'id': subscriberId
+      }),
+      'message': JSON.stringify({
+        'attachment': {
+          'type': 'template',
+          'payload': {
+            'template_type': 'media',
+            'elements': [
+              {
+                'media_type': body.mediaType,
+                'attachment_id': body.fileurl.attachment_id
+              }
+            ]
+          }
+        }
+      })
+    }
   } else if (['image', 'audio', 'file', 'video'].indexOf(
     body.componentType) > -1) {
     let dir = path.resolve(__dirname, '../../../../broadcastFiles/userfiles')
