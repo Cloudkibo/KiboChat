@@ -53,7 +53,7 @@ router.get('/disconnectFacebook',
   auth.isAuthenticated(),
   controller.disconnectFacebook)
 
-router.get('validateUserAccessToken',
+router.get('/validateUserAccessToken',
   auth.isAuthenticated(),
   controller.validateUserAccessToken)
 
