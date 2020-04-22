@@ -45,7 +45,7 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId) => {
   chatbotDataLayer.findOneChatBot({pageId: page._id, published: true})
     .then(chatbot => {
       if (chatbot) {
-        messageBlockDataLayer.findOneMessageBlock({ uniqueId })
+        messageBlockDataLayer.findOneMessageBlock({ uniqueId: uniqueId.toString() })
           .then(messageBlock => {
             if (messageBlock) {
               senderAction(req.sender.id, 'typing_on', page.accessToken)

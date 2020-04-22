@@ -155,13 +155,15 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
               {
                 'title': body.title,
                 'image_url': body.image_url,
-                'subtitle': body.description,
-                'buttons': body.buttons
+                'subtitle': body.description
               }
             ]
           }
         }
       }
+    }
+    if (body.buttons && body.buttons.length > 0) {
+      payload.message.attachment.payload.elements[0].buttons = body.buttons
     }
     if (body.quickReplies && body.quickReplies.length > 0) {
       payload.message.quick_replies = body.quickReplies
