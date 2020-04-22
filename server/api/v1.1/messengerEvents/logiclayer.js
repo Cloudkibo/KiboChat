@@ -25,14 +25,15 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
       'recipient': JSON.stringify({
         'id': subscriberId
       }),
-      'message': JSON.stringify({
+      'message': {
         'text': text,
         'metadata': 'This is a meta data'
-      })
+      }
     }
     if (body.quickReplies && body.quickReplies.length > 0) {
       payload.message.quick_replies = body.quickReplies
     }
+    payload.message = JSON.stringify(payload.message)
     return payload
   } else if (body.componentType === 'text' && body.buttons) {
     if (body.text.includes('{{user_full_name}}') || body.text.includes('[Username]')) {
@@ -52,7 +53,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
       'recipient': JSON.stringify({
         'id': subscriberId
       }),
-      'message': JSON.stringify({
+      'message': {
         'attachment': {
           'type': 'template',
           'payload': {
@@ -61,15 +62,19 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
             'buttons': body.buttons
           }
         }
-      })
+      }
     }
+    if (body.quickReplies && body.quickReplies.length > 0) {
+      payload.message.quick_replies = body.quickReplies
+    }
+    payload.message = JSON.stringify(payload.message)
   } else if (body.componentType === 'media') {
     payload = {
       'messaging_type': messageType,
       'recipient': JSON.stringify({
         'id': subscriberId
       }),
-      'message': JSON.stringify({
+      'message': {
         'attachment': {
           'type': 'template',
           'payload': {
@@ -83,11 +88,12 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
             ]
           }
         }
-      })
+      }
     }
     if (body.quickReplies && body.quickReplies.length > 0) {
       payload.message.quick_replies = body.quickReplies
     }
+    payload.message = JSON.stringify(payload.message)
   } else if (['image', 'audio', 'file', 'video'].indexOf(
     body.componentType) > -1) {
     let dir = path.resolve(__dirname, '../../../../broadcastFiles/userfiles')
@@ -140,7 +146,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
       'recipient': JSON.stringify({
         'id': subscriberId
       }),
-      'message': JSON.stringify({
+      'message': {
         'attachment': {
           'type': 'template',
           'payload': {
@@ -155,11 +161,12 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
             ]
           }
         }
-      })
+      }
     }
     if (body.quickReplies && body.quickReplies.length > 0) {
       payload.message.quick_replies = body.quickReplies
     }
+    payload.message = JSON.stringify(payload.message)
   } else if (body.componentType === 'gallery') {
     var galleryCards = []
     if (body.cards && body.cards.length > 0) {
@@ -181,7 +188,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
       'recipient': JSON.stringify({
         'id': subscriberId
       }),
-      'message': JSON.stringify({
+      'message': {
         'attachment': {
           'type': 'template',
           'payload': {
@@ -189,11 +196,12 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
             'elements': galleryCards
           }
         }
-      })
+      }
     }
     if (body.quickReplies && body.quickReplies.length > 0) {
       payload.message.quick_replies = body.quickReplies
     }
+    payload.message = JSON.stringify(payload.message)
   } else if (body.componentType === 'list') {
     payload = {
       'messaging_type': messageType,
