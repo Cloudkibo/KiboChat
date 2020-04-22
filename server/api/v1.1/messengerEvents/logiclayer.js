@@ -31,7 +31,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
       })
     }
     if (body.quickReplies && body.quickReplies.length > 0) {
-      payload.quick_replies = body.quickReplies
+      payload.message.quick_replies = body.quickReplies
     }
     return payload
   } else if (body.componentType === 'text' && body.buttons) {
@@ -86,7 +86,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
       })
     }
     if (body.quickReplies && body.quickReplies.length > 0) {
-      payload.quick_replies = body.quickReplies
+      payload.message.quick_replies = body.quickReplies
     }
   } else if (['image', 'audio', 'file', 'video'].indexOf(
     body.componentType) > -1) {
@@ -158,7 +158,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
       })
     }
     if (body.quickReplies && body.quickReplies.length > 0) {
-      payload.quick_replies = body.quickReplies
+      payload.message.quick_replies = body.quickReplies
     }
   } else if (body.componentType === 'gallery') {
     var galleryCards = []
@@ -192,7 +192,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
       })
     }
     if (body.quickReplies && body.quickReplies.length > 0) {
-      payload.quick_replies = body.quickReplies
+      payload.message.quick_replies = body.quickReplies
     }
   } else if (body.componentType === 'list') {
     payload = {
