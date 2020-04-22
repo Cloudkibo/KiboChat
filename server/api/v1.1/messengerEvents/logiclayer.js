@@ -30,6 +30,9 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
         'metadata': 'This is a meta data'
       })
     }
+    if (body.quickReplies && body.quickReplies.length > 0) {
+      payload.quick_replies = body.quickReplies
+    }
     return payload
   } else if (body.componentType === 'text' && body.buttons) {
     if (body.text.includes('{{user_full_name}}') || body.text.includes('[Username]')) {
@@ -74,12 +77,16 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
             'elements': [
               {
                 'media_type': body.mediaType,
-                'attachment_id': body.fileurl.attachment_id
+                'attachment_id': body.fileurl.attachment_id,
+                'buttons': body.buttons
               }
             ]
           }
         }
       })
+    }
+    if (body.quickReplies && body.quickReplies.length > 0) {
+      payload.quick_replies = body.quickReplies
     }
   } else if (['image', 'audio', 'file', 'video'].indexOf(
     body.componentType) > -1) {
@@ -150,6 +157,9 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
         }
       })
     }
+    if (body.quickReplies && body.quickReplies.length > 0) {
+      payload.quick_replies = body.quickReplies
+    }
   } else if (body.componentType === 'gallery') {
     var galleryCards = []
     if (body.cards && body.cards.length > 0) {
@@ -180,6 +190,9 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
           }
         }
       })
+    }
+    if (body.quickReplies && body.quickReplies.length > 0) {
+      payload.quick_replies = body.quickReplies
     }
   } else if (body.componentType === 'list') {
     payload = {
