@@ -17,7 +17,7 @@ exports.index = function (req, res) {
     utility.callApi('subscribers/query', 'post', { senderId: subscriberId })
       .then(gotSubscriber => {
         subscriber = gotSubscriber[0]
-        return utility.callApi('pages/query', 'post', { pageId })
+        return utility.callApi('pages/query', 'post', { pageId, connected: true })
       })
       .then(page => {
         page = page[0]
