@@ -2,6 +2,8 @@ const utility = require('../utility')
 const logger = require('../../../components/logger')
 const TAG = 'api/v2/user/user.controller.js'
 const util = require('util')
+const needle = require('needle')
+const config = require('./../../../config/environment/index')
 const { sendOpAlert } = require('../../global/operationalAlert')
 const { facebookApiCaller } = require('../../global/facebookApiCaller')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
@@ -71,19 +73,7 @@ exports.updateMode = function (req, res) {
 }
 
 exports.fbAppId = function (req, res) {
-  utility.callApi(`user/fbAppId`, 'get', 'accounts', req.headers.authorization)
-    .then(facebookClientId => {
-      return res.status(200).json({
-        status: 'success',
-        payload: facebookClientId
-      })
-    }).catch(error => {
-      logger.serverLog(TAG, `Error while getting fbAppId ${util.inspect(error)}`)
-      return res.status(500).json({
-        status: 'failed',
-        payload: `Failed to fetch fbAppId ${JSON.stringify(error)}`
-      })
-    })
+  return res.status(200).json({status: 'success', payload: config.facebook.clientID})
 }
 
 exports.authenticatePassword = function (req, res) {

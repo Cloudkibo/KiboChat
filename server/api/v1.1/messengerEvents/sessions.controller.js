@@ -7,9 +7,9 @@ const needle = require('needle')
 const logicLayer = require('./logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
 const { record } = require('../../global/messageStatistics')
+const { handleChatBotWelcomeMessage: handleChatBotAutomationEvents } = require('./chatbotAutomation.controller')
 
 exports.index = function (req, res) {
-  console.log('payload received in page ${JSON.stringify(req.body.page)', JSON.stringify(req.body.page))
   logger.serverLog(TAG, `payload received in page ${JSON.stringify(req.body.page)}`, 'debug')
   logger.serverLog(TAG, `payload received in subscriber ${JSON.stringify(req.body.subscriber)}`, 'debug')
   logger.serverLog(TAG, `payload received in event ${JSON.stringify(req.body.event)}`, 'debug')
@@ -44,6 +44,7 @@ exports.index = function (req, res) {
             logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
             if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
               saveLiveChat(page, subscriber, event)
+              handleChatBotAutomationEvents(event, page, subscriber)
             }
           })
           .catch(error => {
@@ -140,6 +141,7 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
       })
   }
 }
+
 function sendautomatedmsg (req, page) {
   if (req.message && req.message.text) {
     let index = -3
