@@ -4,6 +4,9 @@ const TAG = 'api/v2/user/user.controller.js'
 const util = require('util')
 const needle = require('needle')
 const config = require('./../../../config/environment/index')
+const { sendOpAlert } = require('../../global/operationalAlert')
+const { facebookApiCaller } = require('../../global/facebookApiCaller')
+const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
 exports.index = function (req, res) {
   utility.callApi(`user`, 'get', {}, 'accounts', req.headers.authorization)
@@ -138,19 +141,73 @@ exports.cancelDeletion = function (req, res) {
 }
 
 exports.validateUserAccessToken = function (req, res) {
-  if (req.user.facebookInfo) {
-    needle.get(`https://graph.facebook.com/v2.6/me?access_token=${req.user.facebookInfo.fbToken}`, (err, response) => {
-      if (err) {
-        res.status(500).json({status: 'failed', payload: JSON.stringify(err)})
-      } else if (response.body.error) {
-        res.status(500).json({status: 'failed', payload: response.body})
-      } else {
-        res.status(200).json({status: 'success', payload: 'User Access Token validated successfully!'})
-      }
-    })
+  console.log('in validateUserAccessToken')
+  if (req.user.role === 'buyer') {
+    _checkAcessTokenFromFb(req.user.facebookInfo, req)
+      .then(result => {
+        sendSuccessResponse(res, 200, 'User Access Token validated successfully!')
+      })
+      .catch((err) => {
+        let dataToSend = {
+          error: err,
+          buyerInfo: {
+            buyerName: req.user.name,
+            buyerFbName: req.user.facebookInfo && req.user.facebookInfo.name ? req.user.facebookInfo.name : '',
+            email: req.user.email,
+            profilePic: req.user.facebookInfo && req.user.facebookInfo.profilePic ? req.user.facebookInfo.profilePic : ''
+          }
+        }
+        sendErrorResponse(res, 500, dataToSend)
+      })
   } else {
-    res.status(200).json({status: 'success', payload: 'Facebook account is not connected.'})
+    let companyAggregation = [
+      {'$match': {_id: req.user.companyId}},
+      { '$lookup': { from: 'users', localField: 'ownerId', foreignField: '_id', as: 'user' } },
+      { '$unwind': '$user' }
+    ]
+    utility.callApi(`companyprofile/aggregate`, 'post', companyAggregation, 'accounts', req.headers.authorization)
+      .then(company => {
+        company = company[0]
+        _checkAcessTokenFromFb(company.user.facebookInfo, req)
+          .then(result => {
+            sendSuccessResponse(res, 200, 'User Access Token validated successfully!')
+          })
+          .catch((err) => {
+            let dataToSend = {
+              error: err,
+              buyerInfo: {
+                buyerName: company.user.name,
+                buyerFbName: company.user.facebookInfo && company.user.facebookInfo.name ? company.user.facebookInfo.name : '',
+                email: company.user.email,
+                profilePic: company.user.facebookInfo && company.user.facebookInfo.profilePic ? company.user.facebookInfo.profilePic : ''
+              }
+            }
+            sendErrorResponse(res, 500, dataToSend)
+          })
+      })
   }
+}
+
+function _checkAcessTokenFromFb (facebookInfo, req) {
+  return new Promise(function (resolve, reject) {
+    if (facebookInfo) {
+      facebookApiCaller('v6.0', `me?access_token=${facebookInfo.fbToken}`, 'get')
+        .then(response => {
+          if (response.body.error) {
+            sendOpAlert(response.body.error, 'error validating user access token', '', req.user._id, req.user.companyId)
+            reject(response.body.error)
+          } else {
+            resolve('User Access Token validated successfully!')
+          }
+        })
+        .catch((err) => {
+          sendOpAlert(err, 'error validating user access token', '', req.user._id, req.user.companyId)
+          reject(err)
+        })
+    } else {
+      reject(new Error('Facebook Info not found'))
+    }
+  })
 }
 
 exports.updateShowIntegrations = function (req, res) {
