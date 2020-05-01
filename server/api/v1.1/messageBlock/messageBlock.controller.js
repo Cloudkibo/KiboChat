@@ -58,16 +58,34 @@ exports.attachment = function (req, res) {
         }
       })
       .catch(error => {
-        return sendErrorResponse(res, 500, error.body, 'Failed to fetch youtube video info.')
+        return sendErrorResponse(res, 500, error.body, 'Failed to work on the attachment. Please contact admin.')
       })
+  } else if (utility.isFacebookVideoUrl(req.body.url)) {
+    let fbPayload = {
+      'message': {
+        'attachment': {
+          'type': 'template',
+          'payload': {
+            'template_type': 'media',
+            'elements': [
+              {
+                'media_type': 'video',
+                'url': req.body.url
+              }
+            ]
+          }
+        }
+      }
+    }
+    return sendSuccessResponse(res, 200, {fbPayload, ...req.body}, 'Facebook video found.')
   } else {
     let url = req.body.url
     let options = {url}
     ogs(options, (error, results) => {
       if (error) {
-        return sendErrorResponse(res, 500, error, 'Failed to fetch youtube video url meta data.')
+        return sendErrorResponse(res, 500, error, 'Error in fetching meta data of website. Please check if open graph is supported.')
       }
-      return sendSuccessResponse(res, 200, results.data, 'Fetched youtube video')
+      return sendSuccessResponse(res, 200, results.data, 'Url meta data fetched.')
     })
   }
 }
