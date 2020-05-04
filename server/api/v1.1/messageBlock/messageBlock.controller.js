@@ -61,23 +61,11 @@ exports.attachment = function (req, res) {
         return sendErrorResponse(res, 500, error.body, 'Failed to work on the attachment. Please contact admin.')
       })
   } else if (utility.isFacebookVideoUrl(req.body.url)) {
-    let fbPayload = {
-      'message': {
-        'attachment': {
-          'type': 'template',
-          'payload': {
-            'template_type': 'media',
-            'elements': [
-              {
-                'media_type': 'video',
-                'url': req.body.url
-              }
-            ]
-          }
-        }
-      }
+    let finalPayload = {
+      'type': 'fb_video',
+      'url': req.body.url
     }
-    return sendSuccessResponse(res, 200, {fbPayload, ...req.body}, 'Facebook video found.')
+    return sendSuccessResponse(res, 200, finalPayload, 'Facebook video found.')
   } else {
     let url = req.body.url
     let options = {url}
