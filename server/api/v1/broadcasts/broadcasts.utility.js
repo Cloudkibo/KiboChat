@@ -3,11 +3,11 @@ const needle = require('needle')
 function isWhiteListedDomain (domain, pageId, user) {
   return new Promise(function (resolve, reject) {
     let returnValue = false
-    needle.get(`https://graph.facebook.com/v2.10/${pageId}?fields=access_token&access_token=${user.facebookInfo.fbToken}`,
+    needle.get(`https://graph.facebook.com/v6.0/${pageId}?fields=access_token&access_token=${user.facebookInfo.fbToken}`,
       (err, resp) => {
         if (err) {
         }
-        needle.get(`https://graph.facebook.com/v2.10/me/messenger_profile?fields=whitelisted_domains&access_token=${resp.body.access_token}`,
+        needle.get(`https://graph.facebook.com/v6.0/me/messenger_profile?fields=whitelisted_domains&access_token=${resp.body.access_token}`,
           (err, resp) => {
             if (err) {
             }
