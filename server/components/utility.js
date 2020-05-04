@@ -43,6 +43,11 @@ exports.isYouTubeUrl = (url) => {
   return (url.match(p)) ? RegExp.$1 : false
 }
 
+exports.isFacebookVideoUrl = (url) => {
+  let regExp = /^(?:(?:https?:)?\/\/)?(?:www\.)?(web.)?facebook\.com\/[a-zA-Z0-9\.]+\/videos\/(?:[a-zA-Z0-9\.]+\/)?([0-9]+)\/?$/g
+  return (regExp.test(url))
+}
+
 exports.validateUrl = validateUrl
 exports.padWithZeros = padWithZeros
 exports.dateDiffInDays = dateDiffInDays

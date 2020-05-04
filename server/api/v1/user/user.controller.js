@@ -6,6 +6,9 @@ const { sendOpAlert } = require('../../global/operationalAlert')
 const { facebookApiCaller } = require('../../global/facebookApiCaller')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const config = require('./../../../config/environment/index')
+const { sendOpAlert } = require('../../global/operationalAlert')
+const { facebookApiCaller } = require('../../global/facebookApiCaller')
+const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
 exports.index = function (req, res) {
   utility.callApi(`user`, 'get', {}, 'accounts', req.headers.authorization)
