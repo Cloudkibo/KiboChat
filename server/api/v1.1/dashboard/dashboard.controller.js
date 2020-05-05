@@ -29,7 +29,7 @@ exports.updateSubscriptionPermission = function (req, res) {
     .then(userPages => {
       userPages.forEach((page) => {
         needle.get(
-          `https://graph.facebook.com/v2.10/${page.pageId}?fields=access_token&access_token=${req.user.facebookInfo.fbToken}`,
+          `https://graph.facebook.com/v6.0/${page.pageId}?fields=access_token&access_token=${req.user.facebookInfo.fbToken}`,
           (err, resp) => {
             if (err) {
               logger.serverLog(TAG,
@@ -38,7 +38,7 @@ exports.updateSubscriptionPermission = function (req, res) {
             }
             if (resp && resp.body && resp.body.access_token) {
               needle.get(
-                `https://graph.facebook.com/v2.11/me/messaging_feature_review?access_token=${resp.body.access_token}`,
+                `https://graph.facebook.com/v6.0/me/messaging_feature_review?access_token=${resp.body.access_token}`,
                 (err, respp) => {
                   if (err) {
                     logger.serverLog(TAG,

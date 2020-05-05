@@ -42,7 +42,7 @@ function sendMenuReplyToSubscriber (replyPayload, senderId, firstName, lastName,
         'method': 'POST',
         'json': true,
         'formData': logicLayer.prepareSendAPIPayload(senderId, replyPayload[i], firstName, lastName, true),
-        'uri': 'https://graph.facebook.com/v2.6/me/messages?access_token=' + accessToken
+        'uri': 'https://graph.facebook.com/v6.0/me/messages?access_token=' + accessToken
       },
       (err, res) => {
         if (err) {

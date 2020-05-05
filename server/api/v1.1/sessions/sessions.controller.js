@@ -143,7 +143,7 @@ function markreadFacebook (req, callback) {
         recipient: {id: subscriber.senderId}, // this is the subscriber id
         sender_action: 'mark_seen'
       }
-      return needle('post', `https://graph.facebook.com/v2.6/me/messages?access_token=${subscriber.pageId.accessToken}`, data)
+      return needle('post', `https://graph.facebook.com/v6.0/me/messages?access_token=${subscriber.pageId.accessToken}`, data)
     })
     .then(resp => {
       if (resp.error) {
