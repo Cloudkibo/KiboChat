@@ -189,7 +189,7 @@ exports.enable = function (req, res) {
               // }
               utility.callApi(`pages/${req.body._id}`, 'get', {}) // fetch page
                 .then(page => {
-                  needle('get', `https://graph.facebook.com/v2.6/me?access_token=${page.accessToken}`)
+                  needle('get', `https://graph.facebook.com/v6.0/me?access_token=${page.accessToken}`)
                     .then(response => {
                       if (response.body.error) {
                         //sendOpAlert(response.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
@@ -212,7 +212,7 @@ exports.enable = function (req, res) {
                                 .then(pages => {
                                   let page = pages[0]
                                   // initiate reach estimation
-                                  // needle('post', `https://graph.facebook.com/v2.11/me/broadcast_reach_estimations?access_token=${page.accessToken}`)
+                                  // needle('post', `https://graph.facebook.com/v6.0/me/broadcast_reach_estimations?access_token=${page.accessToken}`)
                                   //   .then(reachEstimation => {
                                   //     if (reachEstimation.body.error) {
                                   //       sendOpAlert(reachEstimation.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
@@ -243,7 +243,7 @@ exports.enable = function (req, res) {
                                       utility.callApi(`subscribers/update`, 'put', {query: {pageId: page._id}, newPayload: {isEnabledByPage: true}, options: {}}) // update subscribers
                                         .then(updatedSubscriber => {
                                           const options = {
-                                            url: `https://graph.facebook.com/v2.6/${page.pageId}/subscribed_apps?access_token=${page.accessToken}`,
+                                            url: `https://graph.facebook.com/v6.0/${page.pageId}/subscribed_apps?access_token=${page.accessToken}`,
                                             qs: {access_token: page.accessToken},
                                             method: 'POST'
                                           }
@@ -280,7 +280,7 @@ exports.enable = function (req, res) {
                                                   'text': 'Hi {{user_full_name}}! Please tap on getting started to start the conversation.'
                                                 }]
                                             }
-                                            const requesturl = `https://graph.facebook.com/v2.6/me/messenger_profile?access_token=${page.accessToken}`
+                                            const requesturl = `https://graph.facebook.com/v6.0/me/messenger_profile?access_token=${page.accessToken}`
                                             needle.request('post', requesturl, valueForMenu,
                                               {json: true}, function (err, resp) {
                                                 if (err) {
@@ -374,7 +374,7 @@ exports.disable = function (req, res) {
               })
             })
           const options = {
-            url: `https://graph.facebook.com/v2.6/${req.body.pageId}/subscribed_apps?access_token=${req.body.accessToken}`,
+            url: `https://graph.facebook.com/v6.0/${req.body.pageId}/subscribed_apps?access_token=${req.body.accessToken}`,
             qs: {access_token: req.body.accessToken},
             method: 'DELETE'
           }
@@ -527,7 +527,7 @@ exports.saveGreetingText = function (req, res) {
             .then(gotPage => {
               const pageToken = gotPage && gotPage[0].accessToken
               if (pageToken) {
-                const requesturl = `https://graph.facebook.com/v2.6/me/messenger_profile?access_token=${pageToken}`
+                const requesturl = `https://graph.facebook.com/v6.0/me/messenger_profile?access_token=${pageToken}`
                 var valueForMenu = {
                   'greeting': [
                     {
@@ -623,14 +623,14 @@ exports.otherPages = function (req, res) {
 }
 
 function createTag (user, page, tag, req) {
-  needle('post', `https://graph.facebook.com/v2.11/me/custom_labels?access_token=${page.accessToken}`, {'name': tag})
+  needle('post', `https://graph.facebook.com/v6.0/me/custom_labels?access_token=${page.accessToken}`, {'name': tag})
     .then(label => {
       if (label.body.error) {
         if (label.body.error.code === 100) {
           utility.callApi('tags/query', 'post', {defaultTag: true, pageId: req.body._id, companyId: req.user.companyId, tag: tag})
             .then(defaultTag => {
               if (defaultTag.length === 0) {
-                needle('get', `https://graph.facebook.com/v2.11/me/custom_labels?fields=name&access_token=${page.accessToken}`)
+                needle('get', `https://graph.facebook.com/v6.0/me/custom_labels?fields=name&access_token=${page.accessToken}`)
                   .then(Tags => {
                     let default_tag = Tags.body.data.filter(data => data.name === tag)
                     let tagData = {

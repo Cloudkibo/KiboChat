@@ -157,7 +157,7 @@ function sendautomatedmsg (req, page) {
     // user query matched with keywords, send response
     // sending response to sender
     needle.get(
-      `https://graph.facebook.com/v2.10/${req.recipient.id}?fields=access_token&access_token=${page.userId.facebookInfo.fbToken}`,
+      `https://graph.facebook.com/v6.0/${req.recipient.id}?fields=access_token&access_token=${page.userId.facebookInfo.fbToken}`,
       (err3, response) => {
         if (err3) {
           logger.serverLog(TAG,
@@ -218,7 +218,7 @@ function sendautomatedmsg (req, page) {
                   message: messageData
                 }
                 needle.post(
-                  `https://graph.facebook.com/v2.6/me/messages?access_token=${response.body.access_token}`,
+                  `https://graph.facebook.com/v6.0/me/messages?access_token=${response.body.access_token}`,
                   data, (err4, respp) => {
                   })
               }
@@ -235,7 +235,7 @@ function sendautomatedmsg (req, page) {
         }
         if (messageData.text !== undefined || unsubscribeResponse) {
           needle.post(
-            `https://graph.facebook.com/v2.6/me/messages?access_token=${response.body.access_token}`,
+            `https://graph.facebook.com/v6.0/me/messages?access_token=${response.body.access_token}`,
             data, (err4, respp) => {
               if (!unsubscribeResponse) {
                 utility.callApi(`subscribers/query`, 'post', { senderId: req.sender.id, companyId: page.companyId, completeInfo: true })

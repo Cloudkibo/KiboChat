@@ -115,7 +115,7 @@ const downloadVideo = (data) => {
 const uploadVideo = (data) => {
   return new Promise((resolve, reject) => {
     needle.get(
-      `https://graph.facebook.com/v2.10/${data.pageId}?fields=access_token&access_token=${data.userAccessToken}`,
+      `https://graph.facebook.com/v6.0/${data.pageId}?fields=access_token&access_token=${data.userAccessToken}`,
       (err, resp2) => {
         if (err) {
           logger.serverLog(TAG, `Failed to get page access_token ${JSON.stringify(err)}`, 'error')
@@ -139,7 +139,7 @@ const uploadVideo = (data) => {
             'method': 'POST',
             'json': true,
             'formData': messageData,
-            'uri': 'https://graph.facebook.com/v2.6/me/message_attachments?access_token=' + pageAccessToken
+            'uri': 'https://graph.facebook.com/v6.0/me/message_attachments?access_token=' + pageAccessToken
           },
           function (err, resp) {
             if (err) {

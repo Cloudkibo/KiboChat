@@ -302,7 +302,7 @@ function fbConnectDone (req, res) {
                       res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
                     })
                 }
-                fetchPages(`https://graph.facebook.com/v2.10/${
+                fetchPages(`https://graph.facebook.com/v6.0/${
                   fbPayload.fbId}/accounts?access_token=${
                   fbPayload.fbToken}`, user[0], req, token)
                 res.cookie('next', 'addPages', {expires: new Date(Date.now() + 60000)})
@@ -409,7 +409,7 @@ function fetchPages (url, user, req, token) {
             //   `foreach ${JSON.stringify(item.name)}`)
             //  createMenuForPage(item)
             const options2 = {
-              url: `https://graph.facebook.com/v2.10/${item.id}/?fields=fan_count,username&access_token=${item.access_token}`,
+              url: `https://graph.facebook.com/v6.0/${item.id}/?fields=fan_count,username&access_token=${item.access_token}`,
               qs: {access_token: item.access_token},
               method: 'GET'
             }
@@ -430,7 +430,7 @@ function fetchPages (url, user, req, token) {
                         userId: user._id,
                         companyId: companyUser.companyId,
                         likes: fanCount.body.fan_count,
-                        pagePic: `https://graph.facebook.com/v2.10/${item.id}/picture`,
+                        pagePic: `https://graph.facebook.com/v6.0/${item.id}/picture`,
                         tasks: item.tasks
                       }
                       if (fanCount.body.username) {
@@ -450,7 +450,7 @@ function fetchPages (url, user, req, token) {
                     } else {
                       let updatedPayload = {
                         likes: fanCount.body.fan_count,
-                        pagePic: `https://graph.facebook.com/v2.10/${item.id}/picture`,
+                        pagePic: `https://graph.facebook.com/v6.0/${item.id}/picture`,
                         accessToken: item.access_token,
                         isApproved: true,
                         pageName: item.name,

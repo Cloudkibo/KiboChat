@@ -65,7 +65,7 @@ exports.create = function (req, res) {
                 currentUser = page.userId
               }
               needle.get(
-                `https://graph.facebook.com/v2.10/${page.pageId}?fields=access_token&access_token=${currentUser.facebookInfo.fbToken}`,
+                `https://graph.facebook.com/v6.0/${page.pageId}?fields=access_token&access_token=${currentUser.facebookInfo.fbToken}`,
                 (err, resp) => {
                   if (err) {
                     logger.serverLog(TAG,

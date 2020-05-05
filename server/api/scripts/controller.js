@@ -11,12 +11,12 @@ exports.addWhitelistDomain = function (req, res) {
             .then(connectedUser => {
               connectedUser = connectedUser[0]
               if (connectedUser.facebookInfo) {
-                needle.get(`https://graph.facebook.com/v2.10/${pages[i].pageId}?fields=access_token&access_token=${connectedUser.facebookInfo.fbToken}`,
+                needle.get(`https://graph.facebook.com/v6.0/${pages[i].pageId}?fields=access_token&access_token=${connectedUser.facebookInfo.fbToken}`,
                   (err, resp) => {
                     if (err) {
                     }
                     var accessToken = resp.body.access_token
-                    needle.get(`https://graph.facebook.com/v2.6/me/messenger_profile?fields=whitelisted_domains&access_token=${accessToken}`, function (err, resp) {
+                    needle.get(`https://graph.facebook.com/v6.0/me/messenger_profile?fields=whitelisted_domains&access_token=${accessToken}`, function (err, resp) {
                       if (err) {
                       }
                       var body = JSON.parse(JSON.stringify(resp.body))
@@ -28,7 +28,7 @@ exports.addWhitelistDomain = function (req, res) {
                       let whitelistedDomains = {
                         whitelisted_domains: temp
                       }
-                      let requesturl = `https://graph.facebook.com/v2.6/me/messenger_profile?access_token=${accessToken}`
+                      let requesturl = `https://graph.facebook.com/v6.0/me/messenger_profile?access_token=${accessToken}`
                       needle.request('post', requesturl, whitelistedDomains, {json: true}, function (err, resp) {
                         if (err) {
                         }
