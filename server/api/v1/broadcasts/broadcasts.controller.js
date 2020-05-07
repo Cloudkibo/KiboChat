@@ -158,6 +158,11 @@ exports.upload = function (req, res) {
           description: 'internal server error' + JSON.stringify(err)
         })
       }
+      if (req.files.file.fieldName === 'file') {
+        let readData = fs.createReadStream(dir + '/userfiles/' + serverPath)
+        let writeData = fs.createWriteStream(dir + '/userfiles/' + req.files.file.name)
+        readData.pipe(writeData)
+      }
       logger.serverLog(TAG,
         `file uploaded on KiboPush, uploading it on Facebook: ${JSON.stringify({
           id: serverPath,

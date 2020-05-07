@@ -1,5 +1,7 @@
 const needle = require('needle')
-
+const fs = require('fs')
+const path = require('path')
+const logger = require('../../../components/logger')
 function isWhiteListedDomain (domain, pageId, user) {
   return new Promise(function (resolve, reject) {
     let returnValue = false
@@ -35,4 +37,17 @@ function getHostName (url) {
     return null
   }
 }
+
+function deleteFile (id) {
+  let dir = path.resolve(__dirname, '../../../../broadcastFiles/')
+  // unlink file
+  fs.unlink(dir + '/userfiles/' + id, function (err) {
+    if (err) {
+      logger.serverLog(err, 'error')
+    } else {
+      logger.serverLog('file deleted successfully')
+    }
+  })
+}
 exports.isWhiteListedDomain = isWhiteListedDomain
+exports.deleteFile = deleteFile
