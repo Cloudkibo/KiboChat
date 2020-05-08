@@ -1,7 +1,7 @@
 
 const fs = require('fs')
 const path = require('path')
-
+const broadcastUtlity = require('../../v1/broadcasts/broadcasts.utility')
 exports.getQueryData = (type, purpose, match, skip, sort, limit) => {
   if (type === 'count') {
     return {
@@ -118,12 +118,8 @@ exports.prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) =
     body.componentType) > -1) {
     let dir = path.resolve(__dirname, '../../../../broadcastFiles/userfiles')
     let fileReaderStream
-    if (body.componentType === 'file') {
-      fileReaderStream = fs.createReadStream(dir + '/' + body.fileurl.name)
-    } else {
-      fileReaderStream = fs.createReadStream(dir + '/' + body.fileurl.id)
-    }
-
+    fileReaderStream = fs.createReadStream(dir + '/' + body.fileurl.name)
+    broadcastUtlity.deleteFile(body.fileurl.name)
     payload = {
       'messaging_type': messageType,
       'recipient': JSON.stringify({
