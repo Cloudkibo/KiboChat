@@ -69,6 +69,16 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
     }
     payload.message = JSON.stringify(payload.message)
   } else if (body.componentType === 'media') {
+    let mediaElement = {
+      'media_type': body.mediaType,
+      'buttons': body.buttons
+    }
+    if (body.fileurl.attachement_id) {
+      mediaElement.attachment_id = body.fileurl.attachment_id
+    }
+    if (body.fileurl.facebookUrl) {
+      mediaElement.url = body.fileurl.facebookUrl
+    }
     payload = {
       'messaging_type': messageType,
       'recipient': JSON.stringify({
@@ -80,11 +90,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
           'payload': {
             'template_type': 'media',
             'elements': [
-              {
-                'media_type': body.mediaType,
-                'attachment_id': body.fileurl.attachment_id,
-                'buttons': body.buttons
-              }
+               mediaElement 
             ]
           }
         }
