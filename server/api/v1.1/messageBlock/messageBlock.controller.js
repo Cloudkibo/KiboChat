@@ -60,12 +60,23 @@ exports.attachment = function (req, res) {
       .catch(error => {
         return sendErrorResponse(res, 500, error.body, 'Failed to work on the attachment. Please contact admin.')
       })
-  } else if (utility.isFacebookVideoUrl(req.body.url)) {
-    let finalPayload = {
-      'type': 'fb_video',
-      'url': req.body.url
-    }
-    return sendSuccessResponse(res, 200, finalPayload, 'Facebook video found.')
+  } else if (utility.isFacebookVideoUrl(req.body.url.split('?')[0])) {
+    let url = req.body.url.split('?')[0]
+    let options = {url}
+    ogs(options, (error, results) => {
+      if (error) {
+        return sendErrorResponse(res, 500, error, 'Error in fetching meta data of website. Please check if open graph is supported.')
+      }
+      if (results.data.ogType) {
+        let finalPayload = {
+          'type': 'fb_video',
+          'url': req.body.url
+        }
+        return sendSuccessResponse(res, 200, finalPayload, 'Facebook video found.')
+      } else {
+        return sendSuccessResponse(res, 200, {}, 'Video is private')
+      }
+    })
   } else {
     let url = req.body.url
     let options = {url}
