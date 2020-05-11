@@ -28,4 +28,14 @@ router.delete('/:id',
   auth.isAuthenticated(),
   controller.delete)
 
+router.post('/createBackup',
+  auth.isAuthenticated(),
+  validate({ body: validationSchema.backupPayload }),
+  controller.createBackup)
+
+router.post('/restoreBackup',
+  auth.isAuthenticated(),
+  validate({ body: validationSchema.backupPayload }),
+  controller.restoreBackup)
+
 module.exports = router
