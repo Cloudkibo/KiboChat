@@ -21,7 +21,8 @@ exports.populatePageIdsInChatBots = function (pages, chatbots) {
   })
 }
 
-exports.chatbotBackupPayload = function (chatbot) {
+exports.chatbotBackupPayload = function (chatbot, blocks) {
+  const startingBlock = blocks.find((item) => item._id === chatbot.startingBlockId)
   const payload = {
     chatbotId: chatbot._id,
     pageId: chatbot.pageId,
@@ -29,7 +30,7 @@ exports.chatbotBackupPayload = function (chatbot) {
     userId: chatbot.userId,
     datetime: new Date(),
     triggers: chatbot.triggers,
-    startingBlockId: chatbot.startingBlockId
+    startingBlockId: startingBlock.uniqueId
   }
   return payload
 }
@@ -48,10 +49,10 @@ exports.blockBackupPayload = function (block) {
   return payload
 }
 
-exports.chatbotBackup = function (backup) {
+exports.chatbotPayload = function (backup, startingBlock) {
   const payload = {
     triggers: backup.triggers,
-    startingBlockId: backup.startingBlockId
+    startingBlockId: startingBlock._id
   }
   return payload
 }

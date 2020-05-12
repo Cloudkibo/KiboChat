@@ -24,9 +24,17 @@ router.get('/:id/details',
   auth.isAuthenticated(),
   controller.details)
 
+router.get('/:id/fetch',
+  auth.isAuthenticated(),
+  controller.fetchChatbot)
+
 router.delete('/:id',
   auth.isAuthenticated(),
   controller.delete)
+
+router.get('/:id/fetchBackup',
+  auth.isAuthenticated(),
+  controller.fetchBackup)
 
 router.post('/createBackup',
   auth.isAuthenticated(),
