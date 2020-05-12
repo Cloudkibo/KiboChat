@@ -59,6 +59,17 @@ exports.details = function (req, res) {
     })
 }
 
+exports.fetchChatbot = function (req, res) {
+  callApi('chatbots/query', 'post', {purpose: 'findOne', match: {_id: req.params.id}}, kibochat)
+    .then(chatbot => {
+      sendSuccessResponse(res, 200, chatbot)
+    })
+    .catch(err => {
+      logger.serverLog(TAG, err, 'error')
+      sendErrorResponse(res, 500, 'Failed to fetch chatbot')
+    })
+}
+
 function _sendToClientUsingSocket (body) {
   require('../../../config/socketio').sendMessageToClient({
     room_id: body.companyId,
@@ -81,6 +92,17 @@ exports.delete = function (req, res) {
     })
 }
 
+exports.fetchBackup = function (req, res) {
+  callApi(`chatbots_backup/query`, 'post', {purpose: 'findOne', match: {chatbotId: req.params.id}}, kibochat)
+    .then(backup => {
+      sendSuccessResponse(res, 200, backup)
+    })
+    .catch(err => {
+      logger.serverLog(TAG, err, 'error')
+      sendErrorResponse(res, 500, 'Failed to fetch backup')
+    })
+}
+
 exports.createBackup = function (req, res) {
   const { chatbotId } = req.body
   const fetchChatbot = callApi(
@@ -95,11 +117,17 @@ exports.createBackup = function (req, res) {
     {purpose: 'findAll', match: {'module.id': chatbotId, 'module.type': 'chatbot'}},
     kiboengage
   )
-  Promise.all([fetchChatbot, fetchBlocks])
+  const deleteBlocksBackup = callApi(
+    `messageBlocks_backup`,
+    'delete',
+    {purpose: 'deleteMany', match: {'module.id': chatbotId, 'module.type': 'chatbot'}},
+    kibochat
+  )
+  Promise.all([fetchChatbot, fetchBlocks, deleteBlocksBackup])
     .then(results => {
       const chatbot = results[0]
       const blocks = results[1]
-      const chatbotPayload = logiclayer.chatbotBackupPayload(chatbot)
+      const chatbotPayload = logiclayer.chatbotBackupPayload(chatbot, blocks)
       const createChatbotBackup = callApi(
         `chatbots_backup`,
         'put',
@@ -113,7 +141,7 @@ exports.createBackup = function (req, res) {
           callApi(
             `messageBlocks_backup`,
             'put',
-            {purpose: 'updateOne', match: {'module.id': chatbotId, 'module.type': 'chatbot'}, updated: blockPayload, upsert: true},
+            {purpose: 'updateOne', match: {blockId: block._id}, updated: blockPayload, upsert: true},
             kibochat
           )
         )
@@ -145,7 +173,7 @@ exports.restoreBackup = function (req, res) {
   const deleteBlocks = callApi(
     `messageBlocks`,
     'delete',
-    {purpose: 'deleteAll', match: {'module.id': chatbotId, 'module.type': 'chatbot'}},
+    {purpose: 'deleteMany', match: {'module.id': chatbotId, 'module.type': 'chatbot'}},
     kiboengage
   )
   const fetchChatbotBackup = callApi(
@@ -158,20 +186,13 @@ exports.restoreBackup = function (req, res) {
     `messageBlocks_backup/query`,
     'post',
     {purpose: 'findAll', match: {'module.id': chatbotId, 'module.type': 'chatbot'}},
-    kiboengage
+    kibochat
   )
   Promise.all([deleteBlocks, fetchChatbotBackup, fetchBlocksBackup])
     .then(results => {
       const chatbotBackup = results[1]
       const blocksBackup = results[2]
-      const chatbotPayload = logiclayer.chatbotPayload(chatbotBackup)
-      const createChatbot = callApi(
-        `chatbots`,
-        'put',
-        {purpose: 'updateOne', match: {_id: chatbotId}, updated: chatbotPayload, upsert: true},
-        kibochat
-      )
-      const backupCalls = [createChatbot]
+      const backupCalls = []
       async.each(blocksBackup, function (block, cb) {
         let blockPayload = logiclayer.blockPayload(block)
         backupCalls.push(
@@ -179,7 +200,7 @@ exports.restoreBackup = function (req, res) {
             `messageBlocks`,
             'post',
             blockPayload,
-            kibochat
+            kiboengage
           )
         )
         cb()
@@ -190,7 +211,22 @@ exports.restoreBackup = function (req, res) {
         } else {
           Promise.all(backupCalls)
             .then(responses => {
-              sendSuccessResponse(res, 200, 'Backup restored successfully')
+              callApi('messageBlocks/query', 'post', {purpose: 'findOne', match: {uniqueId: chatbotBackup.startingBlockId}}, kiboengage)
+                .then(startingBlock => {
+                  const chatbotPayload = logiclayer.chatbotPayload(chatbotBackup, startingBlock)
+                  callApi(`chatbots`, 'put', {purpose: 'updateOne', match: {_id: chatbotId}, updated: chatbotPayload}, kibochat)
+                    .then(updated => {
+                      sendSuccessResponse(res, 200, 'Backup restored successfully')
+                    })
+                    .catch(err => {
+                      logger.serverLog(TAG, err, 'error')
+                      sendErrorResponse(res, 500, 'Failed to restore backup')
+                    })
+                })
+                .catch(err => {
+                  logger.serverLog(TAG, err, 'error')
+                  sendErrorResponse(res, 500, 'Failed to restore backup')
+                })
             })
             .catch(err => {
               logger.serverLog(TAG, err, 'error')
