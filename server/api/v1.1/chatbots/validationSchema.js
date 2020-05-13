@@ -21,3 +21,13 @@ exports.updatePayload = {
     }
   }
 }
+
+exports.backupPayload = {
+  type: 'object',
+  properties: {
+    chatbotId: {
+      type: 'string',
+      required: true
+    }
+  }
+}
