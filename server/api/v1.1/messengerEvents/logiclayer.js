@@ -73,7 +73,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
       'media_type': body.mediaType,
       'buttons': body.buttons
     }
-    if (body.fileurl.attachement_id) {
+    if (body.fileurl.attachment_id) {
       mediaElement.attachment_id = body.fileurl.attachment_id
     }
     if (body.fileurl.facebookUrl) {

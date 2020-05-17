@@ -64,6 +64,9 @@ typings/
 # dotenv environment variables file
 .env
 
+# ctags file
+tags
+
 # ides
 .idea/
 .vscode/
