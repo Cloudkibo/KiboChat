@@ -74,7 +74,7 @@ exports.attachment = function (req, res) {
         }
         return sendSuccessResponse(res, 200, finalPayload, 'Facebook video found.')
       } else {
-        return sendSuccessResponse(res, 200, {}, 'Video is private')
+        return sendErrorResponse(res, 500, {}, 'Video is private')
       }
     })
   } else {
