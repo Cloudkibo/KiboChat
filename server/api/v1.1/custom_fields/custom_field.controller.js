@@ -2,7 +2,7 @@ const logger = require('../../../components/logger')
 const CUSTOMFIELD = 'api/custom_field/custom_field.controller.js'
 const callApi = require('../utility')
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
-const _ = require('lodash')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 
 exports.index = function (req, res) {
   callApi.callApi('companyuser/query', 'post', { domain_email: req.user.domain_email })
@@ -44,6 +44,7 @@ exports.create = function (req, res) {
       logger.serverLog(CUSTOMFIELD, `got custom fields ${JSON.stringify(customFieldPayload)}`)
       callApi.callApi('custom_fields/', 'post', customFieldPayload)
         .then(newCustomField => {
+          updateCompanyUsage(companyUser.companyId, 'custom_fields', 1)
           logger.serverLog(CUSTOMFIELD, `created custom fields ${JSON.stringify(newCustomField)}`)
           require('./../../../config/socketio').sendMessageToClient({
             room_id: companyUser.companyId,
@@ -107,6 +108,7 @@ exports.delete = function (req, res) {
           .then(() => {
             callApi.callApi('custom_fields/', 'delete', { purpose: 'deleteOne', match: { _id: req.body.customFieldId } })
               .then(fieldPayload => {
+                updateCompanyUsage(req.user.companyId, 'custom_fields', -1)
                 require('./../../../config/socketio').sendMessageToClient({
                   room_id: req.user.companyId,
                   body: {

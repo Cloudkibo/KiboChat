@@ -3,6 +3,7 @@ const utility = require('../utility')
 const logger = require('../../../components/logger')
 const TAG = 'api/v2/pages/teams.controller.js'
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 
 exports.index = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
@@ -56,6 +57,7 @@ exports.createTeam = function (req, res) {
       let pageIds = req.body.pageIds
       utility.callApi(`teams`, 'post', teamPayload) // create team
         .then(createdTeam => {
+          updateCompanyUsage(req.user.companyId, 'teams', 1)
           agentIds.forEach(agentId => {
             let teamAgentsPayload = logicLayer.getTeamAgentsPayload(createdTeam, companyuser, agentId)
             utility.callApi(`teams/agents`, 'post', teamAgentsPayload) // create team agent
@@ -103,6 +105,7 @@ exports.updateTeam = function (req, res) {
 exports.deleteTeam = function (req, res) {
   utility.callApi(`teams/delete/${req.params.id}`, 'delete', {}) // delete team
     .then(deletedTeam => {
+      updateCompanyUsage(req.user.companyId, 'teams', -1)
       sendSuccessResponse(res, 200, 'Team deleted successfully!')
     })
     .catch(error => {
