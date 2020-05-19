@@ -497,11 +497,15 @@ exports.graphData = function (req, res) {
 function populateIds (pages) {
   return new Promise(function (resolve, reject) {
     let pageIds = []
-    for (let i = 0; i < pages.length; i++) {
-      pageIds.push(pages[i]._id)
-      if (pageIds.length === pages.length) {
-        resolve({pageIds: pageIds})
+    if (pages.length > 0) {
+      for (let i = 0; i < pages.length; i++) {
+        pageIds.push(pages[i]._id)
+        if (pageIds.length === pages.length) {
+          resolve({pageIds: pageIds})
+        }
       }
+    } else {
+      resolve({pageIds: pageIds})
     }
   })
 }
