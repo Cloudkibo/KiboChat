@@ -98,7 +98,7 @@ function sendResponse (recipientId, payload, subscriber, accessToken) {
   let finalPayload = logicLayer.prepareSendAPIPayload(recipientId, payload, subscriber.firstName, subscriber.lastName, true)
   facebookApiCaller('v3.2', `me/messages?access_token=${accessToken}`, 'post', finalPayload)
     .then(response => {
-      logger.serverLog(TAG, `response of sending block ${JSON.stringify(response.body)}`, 'debug')
+      logger.serverLog(TAG, `response of sending block ${JSON.stringify(response.body)}`)
     })
     .catch(error => {
       return logger.serverLog(TAG,
