@@ -11,7 +11,7 @@ exports.index = function (req, res) {
   let messengerPayload = req.body.entry[0].messaging[0]
   let pageId = messengerPayload.recipient.id
   let subscriberInfo = req.body.subscriberInfo
-  utility.callApi('pages/query', 'post', { pageId })
+  utility.callApi('pages/query', 'post', { pageId, connected: true })
     .then(page => {
       page = page[0]
       chatbotAutomation.handleChatBotTestMessage(messengerPayload, page, subscriberInfo)
