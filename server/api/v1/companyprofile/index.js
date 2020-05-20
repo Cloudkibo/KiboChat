@@ -7,13 +7,19 @@ const controller = require('./company.controller')
 
 router.get('/members',
   auth.isAuthenticated(),
+  auth.doesPlanPermitsThisAction('team_members_management'),
+  auth.isUserAllowedToPerformThisAction('view_members'),
   controller.members)
 
 router.get('/getAutomatedOptions',
   auth.isAuthenticated(),
   controller.getAutomatedOptions)
 
-router.post('/invite', auth.isAuthenticated(), controller.invite)
+router.post('/invite',
+  auth.isAuthenticated(),
+  auth.doesPlanPermitsThisAction('invite_members'),
+  auth.isUserAllowedToPerformThisAction('invite_members'),
+  controller.invite)
 
 router.post('/updateAutomatedOptions',
   auth.isAuthenticated(),
@@ -22,6 +28,8 @@ router.post('/updateAutomatedOptions',
 
 router.post('/updateRole',
   auth.isAuthenticated(),
+  auth.doesPlanPermitsThisAction('team_members_management'),
+  auth.isUserAllowedToPerformThisAction('update_role'),
   controller.updateRole)
 
 router.post('/updatePlatform',
@@ -46,10 +54,14 @@ router.post('/fetchValidCallerIds',
 
 router.get('/getAdvancedSettings',
   auth.isAuthenticated(),
+  auth.doesPlanPermitsThisAction('advanced_settings'),
+  auth.isUserAllowedToPerformThisAction('manage_advanced_settings'),
   controller.getAdvancedSettings)
 
 router.post('/updateAdvancedSettings',
   auth.isAuthenticated(),
+  auth.doesPlanPermitsThisAction('advanced_settings'),
+  auth.isUserAllowedToPerformThisAction('manage_advanced_settings'),
   controller.updateAdvancedSettings)
 
 router.post('/deleteWhatsAppInfo',
@@ -59,10 +71,14 @@ router.post('/deleteWhatsAppInfo',
 
 router.get('/getAdvancedSettings',
   auth.isAuthenticated(),
+  auth.doesPlanPermitsThisAction('advanced_settings'),
+  auth.isUserAllowedToPerformThisAction('manage_advanced_settings'),
   controller.getAdvancedSettings)
 
 router.post('/updateAdvancedSettings',
   auth.isAuthenticated(),
+  auth.doesPlanPermitsThisAction('advanced_settings'),
+  auth.isUserAllowedToPerformThisAction('manage_advanced_settings'),
   validate({body: validationSchema.advancedSettingsPayload}),
   controller.updateAdvancedSettings)
 
