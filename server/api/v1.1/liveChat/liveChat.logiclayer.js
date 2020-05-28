@@ -118,8 +118,12 @@ exports.prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) =
     body.componentType) > -1) {
     let dir = path.resolve(__dirname, '../../../../broadcastFiles/userfiles')
     let fileReaderStream
-    fileReaderStream = fs.createReadStream(dir + '/' + body.fileurl.name)
-    broadcastUtlity.deleteFile(body.fileurl.name)
+    if (body.componentType === 'file') {
+      fileReaderStream = fs.createReadStream(dir + '/' + body.fileurl.name)
+      broadcastUtlity.deleteFile(body.fileurl.name)
+    } else {
+      fileReaderStream = fs.createReadStream(dir + '/' + body.fileurl.id)
+    }
     payload = {
       'messaging_type': messageType,
       'recipient': JSON.stringify({
