@@ -10,8 +10,8 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
   chatbotDataLayer.findOneChatBot({pageId: page._id, published: true})
     .then(chatbot => {
       if (chatbot) {
-        chatbot.triggers = chatbot.triggers.map(item => item.toLowerCase())
-        if ((req.message && chatbot.triggers.indexOf(req.message.text.toLowerCase()) > -1) ||
+        chatbot.triggers = chatbot.triggers.map(item => item.toLowerCase().trim())
+        if ((req.message && chatbot.triggers.indexOf(req.message.text.toLowerCase().trim()) > -1) ||
         (req.postback && req.postback.payload)) {
           if (chatbot.startingBlockId) {
             messageBlockDataLayer.findOneMessageBlock({ _id: chatbot.startingBlockId })
