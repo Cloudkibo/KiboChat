@@ -64,4 +64,8 @@ router.post('/isWhitelisted',
   auth.isAuthenticated(),
   controller.isWhitelisted)
 
+router.post('/refreshPages',
+  auth.isAuthenticated(),
+  controller.refreshPages)
+
 module.exports = router
