@@ -5,6 +5,7 @@ const logicLayer = require('./sessions.logiclayer')
 const needle = require('needle')
 // const util = require('util')
 const async = require('async')
+const { sendNotifications } = require('../../global/sendNotification')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
 exports.fetchOpenSessions = function (req, res) {
@@ -228,6 +229,30 @@ exports.assignAgent = function (req, res) {
     id: req.body.agentId,
     name: req.body.agentName
   }
+
+  let payload = {
+    data: req.body,
+    session_id: req.body.subscriberId,
+    user_id: req.user._id,
+    user_name: req.user.name,
+    assigned_to: assignedTo
+  } 
+
+  callApi('subscribers/query', 'post', {_id: req.body.subscriberId})
+    .then(gotSubscriber => {
+      let subscriber = gotSubscriber[0]
+      let title = '[' + subscriber.pageId.pageName + ']: ' + subscriber.firstName + ' ' + subscriber.lastName
+      let body =  'You have been assigned a session as a agent'
+      callApi(`companyUser/queryAll`, 'post', {userId: req.body.agentId}, 'accounts', req.headers.authorization)
+        .then(companyUsers => {
+          sendNotifications(title, body, payload, companyUsers)
+        }).catch(error => {
+          logger.serverLog(TAG, `Error while fetching companyUser details ${(error)}`, 'error')
+          sendErrorResponse(res, 500, `Failed to fetching companyUser details ${JSON.stringify(error)}`)
+        })
+    }).catch(err => {
+      sendErrorResponse(res, 500, err)
+    })
   callApi(
     'subscribers/update',
     'put',
@@ -242,13 +267,7 @@ exports.assignAgent = function (req, res) {
         room_id: req.user.companyId,
         body: {
           action: 'session_assign',
-          payload: {
-            data: req.body,
-            session_id: req.body.subscriberId,
-            user_id: req.user._id,
-            user_name: req.user.name,
-            assigned_to: assignedTo
-          }
+          payload: payload
         }
       })
       sendSuccessResponse(res, 200, 'Agent has been assigned successfully!')
