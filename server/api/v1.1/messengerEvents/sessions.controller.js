@@ -163,28 +163,37 @@ function sendNotification (subscriber, payload, companyId, pageName) {
   let body = payload.text
   utility.callApi(`companyUser/queryAll`, 'post', {companyId: companyId}, 'accounts')
     .then(companyUsers => {
-      if (!subscriber.is_assigned) {
-        sendNotifications(title, body, payload, companyUsers)
-      }
-      else {
-        if (subscriber.assigned_to.type === 'agent') {
-          companyUsers = companyUsers.filter(companyUser => companyUser.userId._id === subscriber.assigned_to.id)
-          sendNotifications(title, body, payload, companyUsers)
-        } else {
-          utility.callApi(`teams/agents/query`, 'post', {teamId: subscriber.assigned_to.id}, 'accounts')
-            .then(teamagents => {
-              teamagents = teamagents.map(teamagent => teamagent.agentId._id)
-              companyUsers = companyUsers.filter(companyUser => {
-                if (teamagents.includes(companyUser.userId._id)) {
-                  return companyUser
-                }
-              })
+      let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: companyId}, undefined, undefined, undefined, {_id: subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+      utility.callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
+        .then(gotLastMessage => {
+          console.log('data in assignAgent', gotLastMessage)
+          subscriber.lastPayload = gotLastMessage[0].payload
+          subscriber.lastRepliedBy = gotLastMessage[0].replied_by
+          subscriber.lastDateTime = gotLastMessage[0].datetime
+          if (!subscriber.is_assigned) {
+            sendNotifications(title, body, payload, companyUsers)
+          } else {
+            if (subscriber.assigned_to.type === 'agent') {
+              companyUsers = companyUsers.filter(companyUser => companyUser.userId._id === subscriber.assigned_to.id)
               sendNotifications(title, body, payload, companyUsers)
-            }).catch(error => {
-              logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
-            })
-        }
-      }
+            } else {
+              utility.callApi(`teams/agents/query`, 'post', {teamId: subscriber.assigned_to.id}, 'accounts')
+                .then(teamagents => {
+                  teamagents = teamagents.map(teamagent => teamagent.agentId._id)
+                  companyUsers = companyUsers.filter(companyUser => {
+                    if (teamagents.includes(companyUser.userId._id)) {
+                      return companyUser
+                    }
+                  })
+                  sendNotifications(title, body, payload, companyUsers)
+                }).catch(error => {
+                  logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
+                })
+            }
+          }
+        }).catch(error => {
+          logger.serverLog(TAG, `Error while fetching Last Message ${error}`, 'error')
+        })
     }).catch(error => {
       logger.serverLog(TAG, `Error while fetching companyUser ${error}`, 'error')
     })
