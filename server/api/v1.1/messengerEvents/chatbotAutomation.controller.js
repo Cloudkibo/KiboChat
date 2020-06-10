@@ -28,6 +28,11 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
                 logger.serverLog(TAG,
                   `error in fetching message block ${JSON.stringify(error)}`, 'error')
               })
+            if (req.postback && req.postback.payload) {
+              updateBotLifeStats(chatbot, true)
+            } else {
+              updateBotLifeStats(chatbot, false)
+            }
           } else {
             logger.serverLog(TAG,
               `DATA INCONSISTENCY ERROR in following chatbot, no startingBlockId given ${JSON.stringify(chatbot)}`, 'error')
@@ -53,6 +58,7 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId) => {
                 sendResponse(req.sender.id, item, subscriber, page.accessToken)
                 senderAction(req.sender.id, 'typing_off', page.accessToken)
               }, 1500)
+              updateBotLifeStatsForBlock(messageBlock, true)
             }
           })
           .catch(error => {
@@ -133,4 +139,44 @@ function _sendToClientUsingSocket (body) {
       }
     }
   })
+}
+
+function updateBotLifeStats (chatbot, isNewSubscriber) {
+  if (isNewSubscriber) {
+    chatbotDataLayer.genericUpdateChatBot({_id: chatbot._id}, {$inc: { 'stats.newSubscribers': 1 }})
+      .then(updated => {
+        logger.serverLog(TAG, `bot stats updated successfully`, 'debug')
+      })
+      .catch(err => {
+        logger.serverLog(TAG, `Failed to update bot stats ${JSON.stringify(error)}`, 'error')
+      })
+  } else {
+    chatbotDataLayer.genericUpdateChatBot({_id: chatbot._id}, {$inc: { 'stats.triggerWordsMatched': 1 }})
+      .then(updated => {
+        logger.serverLog(TAG, `bot stats updated successfully`, 'debug')
+      })
+      .catch(err => {
+        logger.serverLog(TAG, `Failed to update bot stats ${JSON.stringify(error)}`, 'error')
+      })
+  }
+}
+
+function updateBotLifeStatsForBlock(messageBlock, isForSentCount) {
+  if (isForSentCount) {
+    messageBlockDataLayer.genericUpdateMessageBlock({_id: messageBlock._id}, {$inc: { 'stats.sentCount': 1 }})
+      .then(updated => {
+        logger.serverLog(TAG, `bot block stats updated successfully`, 'debug')
+      })
+      .catch(err => {
+        logger.serverLog(TAG, `Failed to update block bot stats ${JSON.stringify(error)}`, 'error')
+      })
+  } else {
+    messageBlockDataLayer.genericUpdateMessageBlock({_id: messageBlock._id}, {$inc: { 'stats.urlBtnClickedCount': 1 }})
+      .then(updated => {
+        logger.serverLog(TAG, `bot block stats updated successfully`, 'debug')
+      })
+      .catch(err => {
+        logger.serverLog(TAG, `Failed to update block bot stats ${JSON.stringify(error)}`, 'error')
+      })
+  }
 }

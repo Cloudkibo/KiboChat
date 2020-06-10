@@ -59,6 +59,18 @@ exports.details = function (req, res) {
     })
 }
 
+exports.stats = (req, res) => {
+  // function stub goes here
+  return sendSuccessResponse(res, 200, {
+    sentCount: 0,
+    triggerWordsMatched: 0,
+    newSubscribers: 0,
+    returningSubscribers: 0,
+    urlBtnClickedCount: 0
+  }, null)
+}
+
+
 exports.fetchChatbot = function (req, res) {
   callApi('chatbots/query', 'post', {purpose: 'findOne', match: {_id: req.params.id}}, kibochat)
     .then(chatbot => {
