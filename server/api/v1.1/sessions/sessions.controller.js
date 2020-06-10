@@ -201,19 +201,55 @@ exports.show = function (req, res) {
   }
 }
 
+function _sendNotification (subscriberId, status, companyId, userName, payload) {
+  callApi('subscribers/query', 'post', {_id: subscriberId})
+    .then(gotSubscriber => {
+      let subscriber = gotSubscriber[0]
+      if (subscriber.is_assigned) {
+        let title = '[' + subscriber.pageId.pageName + ']: ' + subscriber.firstName + ' ' + subscriber.lastName
+        let body = `This session has been ${status === 'new' ? 'opened' : 'resolved'} by ${userName}`
+        callApi(`companyUser/queryAll`, 'post', {companyId: companyId}, 'accounts')
+          .then(companyUsers => {
+            if (subscriber.assigned_to.type === 'agent') {
+              companyUsers = companyUsers.filter(companyUser => companyUser.userId._id === subscriber.assigned_to.id)
+              sendNotifications(title, body, payload, companyUsers)
+            } else {
+              callApi(`teams/agents/query`, 'post', {teamId: subscriber.assigned_to.id}, 'accounts')
+                .then(teamagents => {
+                  teamagents = teamagents.map(teamagent => teamagent.agentId._id)
+                  companyUsers = companyUsers.filter(companyUser => {
+                    if (teamagents.includes(companyUser.userId._id)) {
+                      return companyUser
+                    }
+                  })
+                  sendNotifications(title, body, payload, companyUsers)
+                }).catch(error => {
+                  logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
+                })
+            }
+          }).catch(error => {
+            logger.serverLog(TAG, `Error while fetching companyUsers ${error}`, 'error')
+          })
+      }
+    }).catch(error => {
+      logger.serverLog(TAG, `Error while fetching subscribers ${error}`, 'error')
+    })
+} 
 exports.changeStatus = function (req, res) {
+  let payload = {
+    session_id: req.body._id,
+    user_id: req.user._id,
+    user_name: req.user.name,
+    status: req.body.status
+  }
+  _sendNotification(req.body._id, req.body.status, req.user.companyId, req.user.name, payload)
   callApi('subscribers/update', 'put', {query: {_id: req.body._id}, newPayload: {status: req.body.status}, options: {}})
     .then(updated => {
       require('./../../../config/socketio').sendMessageToClient({
         room_id: req.user.companyId,
         body: {
           action: 'session_status',
-          payload: {
-            session_id: req.body._id,
-            user_id: req.user._id,
-            user_name: req.user.name,
-            status: req.body.status
-          }
+          payload: payload
         }
       })
       sendSuccessResponse(res, 200, 'Status has been updated successfully!')
@@ -242,7 +278,7 @@ exports.assignAgent = function (req, res) {
     .then(gotSubscriber => {
       let subscriber = gotSubscriber[0]
       let title = '[' + subscriber.pageId.pageName + ']: ' + subscriber.firstName + ' ' + subscriber.lastName
-      let body =  'You have been assigned a session as a agent'
+      let body = 'You have been assigned a session as a agent'
       callApi(`companyUser/queryAll`, 'post', {userId: req.body.agentId}, 'accounts', req.headers.authorization)
         .then(companyUsers => {
           sendNotifications(title, body, payload, companyUsers)
@@ -278,10 +314,45 @@ exports.assignAgent = function (req, res) {
 }
 
 exports.assignTeam = function (req, res) {
+  console.log('req.user', req.user.companyId)
   let assignedTo = {
     type: 'team',
     id: req.body.teamId,
     name: req.body.teamName
+  }
+  let payload = {
+    data: req.body,
+    session_id: req.body.subscriberId,
+    user_id: req.user._id,
+    user_name: req.user.name,
+    assigned_to: assignedTo
+  }
+  if (req.body.isAssigned) {
+    callApi(`companyUser/queryAll`, 'post', {companyId: req.user.companyId}, 'accounts')
+      .then(companyUsers => {
+        callApi(`teams/agents/query`, 'post', {teamId: req.body.teamId}, 'accounts')
+          .then(teamagents => {
+            teamagents = teamagents.map(teamagent => teamagent.agentId._id)
+            companyUsers = companyUsers.filter(companyUser => {
+              if (teamagents.includes(companyUser.userId._id)) {
+                return companyUser
+              }
+            })
+            callApi('subscribers/query', 'post', {_id: req.body.subscriberId})
+              .then(gotSubscriber => {
+                let subscriber = gotSubscriber[0]
+                let title = '[' + subscriber.pageId.pageName + ']: ' + subscriber.firstName + ' ' + subscriber.lastName
+                let body = `You have been assigned a session as a agent in a ${req.body.teamName} team`
+                sendNotifications(title, body, payload, companyUsers)
+              }).catch(err => {
+                sendErrorResponse(res, 500, err)
+              })
+          }).catch(error => {
+            logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
+          })
+      }).catch(error => {
+        logger.serverLog(TAG, `Error while fetching companyUser ${error}`, 'error')
+      })
   }
   callApi(
     'subscribers/update',
@@ -297,13 +368,7 @@ exports.assignTeam = function (req, res) {
         room_id: req.user.companyId,
         body: {
           action: 'session_assign',
-          payload: {
-            data: req.body,
-            session_id: req.body.subscriberId,
-            user_id: req.user._id,
-            user_name: req.user.name,
-            assigned_to: assignedTo
-          }
+          payload: payload
         }
       })
       sendSuccessResponse(res, 200, 'Team has been assigned successfully!')
