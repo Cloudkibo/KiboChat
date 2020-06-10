@@ -1,4 +1,5 @@
 const chatbotDataLayer = require('./../chatbots/chatbots.datalayer')
+const chatbotAnalyticsDataLayer = require('./../chatbots/chatbots_analytics.datalayer')
 const messageBlockDataLayer = require('./../messageBlock/messageBlock.datalayer')
 const logicLayer = require('./logiclayer')
 const logger = require('../../../components/logger')
@@ -157,6 +158,26 @@ function updateBotLifeStats (chatbot, isNewSubscriber) {
       })
       .catch(err => {
         logger.serverLog(TAG, `Failed to update bot stats ${JSON.stringify(error)}`, 'error')
+      })
+  }
+}
+
+function updateBotPeriodicStats (chatbot, isNewSubscriber) {
+  if (isNewSubscriber) {
+    chatbotAnalyticsDataLayer.genericUpdateBotAnalytics({chatbotId: chatbot._id, dateToday: new Date()}, {$inc: { 'stats.newSubscribers': 1 }})
+      .then(updated => {
+        logger.serverLog(TAG, `bot periodic stats updated successfully`, 'debug')
+      })
+      .catch(err => {
+        logger.serverLog(TAG, `Failed to update bot periodic stats ${JSON.stringify(error)}`, 'error')
+      })
+  } else {
+    chatbotAnalyticsDataLayer.genericUpdateBotAnalytics({chatbotId: chatbot._id, dateToday: new Date()}, {$inc: { 'stats.triggerWordsMatched': 1 }})
+      .then(updated => {
+        logger.serverLog(TAG, `bot periodic stats updated successfully`, 'debug')
+      })
+      .catch(err => {
+        logger.serverLog(TAG, `Failed to update bot periodic stats ${JSON.stringify(error)}`, 'error')
       })
   }
 }
