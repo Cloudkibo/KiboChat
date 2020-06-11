@@ -166,7 +166,6 @@ function sendNotification (subscriber, payload, companyId, pageName) {
       let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: companyId}, undefined, undefined, undefined, {_id: subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
       utility.callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
         .then(gotLastMessage => {
-          console.log('data in assignAgent', gotLastMessage)
           subscriber.lastPayload = gotLastMessage[0].payload
           subscriber.lastRepliedBy = gotLastMessage[0].replied_by
           subscriber.lastDateTime = gotLastMessage[0].datetime
