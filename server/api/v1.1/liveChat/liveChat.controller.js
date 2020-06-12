@@ -208,7 +208,7 @@ exports.create = function (req, res) {
                       'method': 'POST',
                       'json': true,
                       'formData': {
-                        'messaging_type': 'text',
+                        'messaging_type': 'RESPONSE',
                         'recipient': JSON.stringify({
                           'id': subscriber.senderId
                         }),
