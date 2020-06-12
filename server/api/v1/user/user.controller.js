@@ -11,16 +11,17 @@ const { sendSuccessResponse, sendErrorResponse } = require('../../global/respons
 exports.index = function (req, res) {
   utility.callApi(`user`, 'get', {}, 'accounts', req.headers.authorization)
     .then(user => {
-      return res.status(200).json({
-        status: 'success',
-        payload: user
-      })
+      utility.callApi(`companyUser/query`, 'post', {userId: user._id}, 'accounts', req.headers.authorization)
+        .then(companyUser => {
+          user.expoListToken = companyUser.expoListToken
+          sendSuccessResponse(res, 200, user)
+        }).catch(error => {
+          logger.serverLog(TAG, `Error while fetching companyUser details ${util.inspect(error)}`, 'error')
+          sendErrorResponse(res, 500, `Failed to fetching companyUser details ${JSON.stringify(error)}`)
+        })
     }).catch(error => {
-      logger.serverLog(TAG, `Error while fetching user details ${util.inspect(error)}`)
-      return res.status(500).json({
-        status: 'failed',
-        payload: `Failed to fetching user details ${JSON.stringify(error)}`
-      })
+      logger.serverLog(TAG, `Error while fetching user details ${util.inspect(error)}`, 'error')
+      sendErrorResponse(res, 500, `Failed to fetching user details ${JSON.stringify(error)}`)
     })
 }
 
