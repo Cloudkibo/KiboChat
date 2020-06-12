@@ -201,7 +201,7 @@ exports.create = function (req, res) {
             .then(payload => {
               if (payload.showAgentName) {
                 if (req.body.payload.componentType === 'text') {
-                  req.body.payload.text = (payload.showAgentName ? `${req.body.replied_by.name} sent:\r\n` : '') + req.body.payload.text
+                  req.body.payload.text = `${req.body.replied_by.name} sent:\r\n` + req.body.payload.text
                 } else {
                   request(
                     {
