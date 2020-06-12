@@ -36,7 +36,6 @@ exports.getAdvancedSettings = function (req, res) {
     })
 }
 
-
 exports.updateAdvancedSettings = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
     .then(companyUser => {
@@ -75,7 +74,7 @@ exports.updateAutomatedOptions = function (req, res) {
           description: 'The user account does not belong to any company. Please contact support'
         })
       }
-      utility.callApi(`companyprofile/update`, 'put', {query: {_id: companyUser.companyId}, newPayload: {automated_options: req.body.automated_options}, options: {}})
+      utility.callApi(`companyprofile/update`, 'put', {query: {_id: companyUser.companyId}, newPayload: {automated_options: req.body.automated_options, showAgentName: req.body.showAgentName}, options: {}})
         .then(updatedProfile => {
           return res.status(200).json({status: 'success', payload: updatedProfile})
         })
