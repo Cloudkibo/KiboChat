@@ -132,7 +132,9 @@ exports.prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) =
       'message': JSON.stringify({
         'attachment': {
           'type': body.componentType,
-          'payload': {}
+          'payload': {
+            'text': `${body.replied_by.name} sent:`
+          }
         },
         'metadata': 'SENT_FROM_KIBOPUSH'
       }),
