@@ -63,8 +63,6 @@ exports.invite = function (req, res) {
       res.status(200).json({status: 'success', payload: result})
     })
     .catch((err) => {
-      logger.serverLog(TAG, `invite err.status ${err.error.status}`)
-      logger.serverLog(TAG, `invite err.payload ${err.error.payload}`)
       res.status(500).json({status: `failed ${JSON.stringify(err)}`, payload: err})
     })
 }
