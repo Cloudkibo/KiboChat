@@ -47,13 +47,15 @@ const _createGCPProject = (data, callback) => {
       callback()
     })
     .catch(err => {
+      console.log('Failed to create _createGCPProject', err)
       callback(err)
     })
 }
 
 const _createDialogFlowAgent = (data, callback) => {
   const agentData = {
-    displayName: data.dialogFlowAgentId
+    displayName: data.dialogFlowAgentId,
+    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
   }
   callGoogleApi(
     `https://dialogflow.googleapis.com/v2/projects/${data.gcpPojectId.toLowerCase()}/agent`,
@@ -64,6 +66,7 @@ const _createDialogFlowAgent = (data, callback) => {
       callback()
     })
     .catch(err => {
+      console.log('Failed to create _createDialogFlowAgent', err)
       callback(err)
     })
 }
