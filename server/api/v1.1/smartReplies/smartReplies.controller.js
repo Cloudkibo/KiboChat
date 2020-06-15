@@ -47,7 +47,6 @@ const _createGCPProject = (data, callback) => {
       callback()
     })
     .catch(err => {
-      console.log('Failed to create _createGCPProject', err)
       callback(err)
     })
 }
@@ -66,7 +65,6 @@ const _createDialogFlowAgent = (data, callback) => {
       callback()
     })
     .catch(err => {
-      console.log('Failed to create _createDialogFlowAgent', err)
       callback(err)
     })
 }
