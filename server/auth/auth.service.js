@@ -224,6 +224,7 @@ function doesRolePermitsThisAction (action) {
   })
 }
 
+// eslint-disable-next-line no-unused-vars
 function validateApiKeys (req, res, next) {
   if (req.headers.hasOwnProperty('app_secret')) {
     apiCaller.callApi(`api_settings/query`, 'post', {
@@ -491,6 +492,7 @@ function fetchPages (url, user, req, token) {
   })
 }
 
+// eslint-disable-next-line no-unused-vars
 function updateUnapprovedPages (facebookPages, user, companyUser) {
   if (facebookPages.length > 0) {
     let fbPages = facebookPages.map(item => item.id)

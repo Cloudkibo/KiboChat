@@ -1,3 +1,5 @@
+let moment = require('moment')
+
 exports.preparePayload = function (companyId, userId, body) {
   let payload = {
     companyId: companyId,
@@ -68,4 +70,38 @@ exports.blockPayload = function (backup) {
     datetime: backup.datetime
   }
   return payload
+}
+
+exports.criteriaForPeriodicBotStats = (chatbotId, days) => {
+  let matchAggregate = { chatbotId: chatbotId,
+    'dateToday': {
+      $gte: new Date(
+        (new Date() - (days * 24 * 60 * 60 * 1000))),
+      $lt: new Date(
+        (new Date()))
+    }
+  }
+  return matchAggregate
+}
+
+exports.criteriaForPeriodicBotStatsForGroup = () => {
+  let groupCriteria = {
+    '_id': '$chatbotId',
+    'sentCount': {
+      '$sum': '$sentCount'
+    },
+    'triggerWordsMatched': {
+      '$sum': '$triggerWordsMatched'
+    },
+    'newSubscribersCount': {
+      '$sum': '$newSubscribersCount'
+    },
+    'urlBtnClickedCount': {
+      '$sum': '$urlBtnClickedCount'
+    },
+    'returningSubscribers': {
+      '$sum': '$returningSubscribers'
+    }
+  }
+  return groupCriteria
 }

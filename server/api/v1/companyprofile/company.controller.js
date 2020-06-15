@@ -36,7 +36,6 @@ exports.getAdvancedSettings = function (req, res) {
     })
 }
 
-
 exports.updateAdvancedSettings = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
     .then(companyUser => {

@@ -13,7 +13,7 @@ function isWhiteListedDomain (domain, pageId, user) {
           (err, resp) => {
             if (err) {
             }
-            if (resp.body.data && resp.body.data.length != 0 && resp.body.data[0].whitelisted_domains) {
+            if (resp.body.data && resp.body.data.length !== 0 && resp.body.data[0].whitelisted_domains) {
               for (let i = 0; i < resp.body.data[0].whitelisted_domains.length; i++) {
                 if (domain.includes(getHostName(resp.body.data[0].whitelisted_domains[i]))) {
                   returnValue = true
