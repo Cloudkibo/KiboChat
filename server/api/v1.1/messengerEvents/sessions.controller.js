@@ -4,6 +4,7 @@ const TAG = 'api/v1/messengerEvents/sessions.controller'
 const LiveChatDataLayer = require('../liveChat/liveChat.datalayer')
 const botController = require('./bots.controller')
 const needle = require('needle')
+const moment = require('moment')
 const logicLayer = require('./logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
 const { record } = require('../../global/messageStatistics')
