@@ -192,7 +192,7 @@ exports.enable = function (req, res) {
                   needle('get', `https://graph.facebook.com/v6.0/me?access_token=${page.accessToken}`)
                     .then(response => {
                       if (response.body.error) {
-                        //sendOpAlert(response.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
+                        // sendOpAlert(response.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
                         return res.status(400).json({status: 'failed', payload: response.body.error.message, type: 'invalid_permissions'})
                       } else {
                         utility.callApi(`pages/query`, 'post', {pageId: req.body.pageId, connected: true})
@@ -219,7 +219,7 @@ exports.enable = function (req, res) {
                                   //     }
                                   //     console.log('reachEstimation response', reachEstimation.body)
                                   //     if (reachEstimation.body.reach_estimation_id) {
-                                        // query.reachEstimationId = reachEstimation.body.reach_estimation_id
+                                  // query.reachEstimationId = reachEstimation.body.reach_estimation_id
                                   utility.callApi(`pages/${req.body._id}`, 'put', query) // connect page
                                     .then(connectPage => {
                                       utility.callApi(`pages/whitelistDomain`, 'post', {page_id: page.pageId, whitelistDomains: [`${config.domain}`]}, 'accounts', req.headers.authorization)
@@ -258,7 +258,7 @@ exports.enable = function (req, res) {
                                               sendErrorResponse(res, 5000, JSON.stringify(error))
                                             }
                                             if (response.body.error) {
-                                              //sendOpAlert(response.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
+                                              // sendOpAlert(response.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
                                             }
                                             if (response.body.success) {
                                               let updateConnectedFacebook = {query: {pageId: page.pageId}, newPayload: {connectedFacebook: true}, options: {multi: true}}
@@ -289,7 +289,7 @@ exports.enable = function (req, res) {
                                                       err)}`, 'error')
                                                 }
                                                 if (resp.body.error) {
-                                                  //sendOpAlert(resp.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
+                                                  // sendOpAlert(resp.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
                                                 }
                                               })
                                             // require('./../../../config/socketio').sendMessageToClient({
@@ -689,7 +689,7 @@ function createTag (user, page, tag, req) {
 }
 
 exports.refreshPages = function (req, res) {
-  utility.callApi(`pages/refreshPages`, 'post', {}, 'accounts',  req.headers.authorization)// fetch all pages of company
+  utility.callApi(`pages/refreshPages`, 'post', {}, 'accounts', req.headers.authorization)// fetch all pages of company
     .then(response => {
       sendSuccessResponse(res, 200, response)
     })

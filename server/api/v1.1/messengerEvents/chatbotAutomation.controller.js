@@ -11,7 +11,8 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
     .then(chatbot => {
       if (chatbot) {
         chatbot.triggers = chatbot.triggers.map(item => item.toLowerCase().trim())
-        if ((req.message && chatbot.triggers.indexOf(req.message.text.toLowerCase().trim()) > -1) ||
+        let userText = req.message.text.toLowerCase().trim().split(' ')
+        if ((req.message && chatbot.triggers.indexOf(userText[0]) > -1) ||
         (req.postback && req.postback.payload)) {
           if (chatbot.startingBlockId) {
             messageBlockDataLayer.findOneMessageBlock({ _id: chatbot.startingBlockId })
