@@ -1,5 +1,6 @@
 const logiclayer = require('./chatbots.logiclayer')
 const datalayer = require('./chatbots.datalayer')
+const analyticsDataLayer = require('./chatbots_analytics.datalayer')
 const msgBlockDataLayer = require('./../messageBlock/messageBlock.datalayer')
 const { callApi } = require('../utility')
 const logger = require('../../../components/logger')
@@ -60,6 +61,27 @@ exports.details = function (req, res) {
     })
     .catch(error => {
       return sendErrorResponse(res, 500, error, 'Failed to fetch the chatbot details.')
+    })
+}
+
+exports.stats = (req, res) => {
+  // function stub goes here
+  const criteria = logiclayer.criteriaForPeriodicBotStats(req.params.id, req.params.n)
+  const groupCriteria = logiclayer.criteriaForPeriodicBotStatsForGroup()
+  analyticsDataLayer.aggregateForBotAnalytics(criteria, groupCriteria)
+    .then(analytics => {
+      analytics = analytics[0]
+      return sendSuccessResponse(res, 200, {
+        sentCount: analytics.sentCount,
+        triggerWordsMatched: analytics.triggerWordsMatched,
+        newSubscribers: analytics.newSubscribersCount,
+        returningSubscribers: analytics.returningSubscribers,
+        urlBtnClickedCount: analytics.urlBtnClickedCount
+      }, null)
+    })
+    .catch(error => {
+      logger.serverLog(TAG, error, 'error')
+      sendErrorResponse(res, 500, 'Failed to fetch analytics for chatbot')
     })
 }
 

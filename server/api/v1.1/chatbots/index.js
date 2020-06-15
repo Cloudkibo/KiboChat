@@ -24,6 +24,10 @@ router.get('/:id/details',
   auth.isAuthenticated(),
   controller.details)
 
+router.get('/:id/stats/:n',
+  auth.isAuthenticated(),
+  controller.stats)
+
 router.get('/:id/fetch',
   auth.isAuthenticated(),
   controller.fetchChatbot)

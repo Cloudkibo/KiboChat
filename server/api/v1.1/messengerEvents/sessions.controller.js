@@ -4,9 +4,12 @@ const TAG = 'api/v1/messengerEvents/sessions.controller'
 const LiveChatDataLayer = require('../liveChat/liveChat.datalayer')
 const botController = require('./bots.controller')
 const needle = require('needle')
+const moment = require('moment')
+const sessionLogicLayer = require('../sessions/sessions.logiclayer')
 const logicLayer = require('./logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
 const { record } = require('../../global/messageStatistics')
+const { sendNotifications } = require('../../global/sendNotification')
 const { handleChatBotWelcomeMessage: handleChatBotAutomationEvents } = require('./chatbotAutomation.controller')
 
 exports.index = function (req, res) {
@@ -117,18 +120,20 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
           setTimeout(() => {
             utility.callApi('subscribers/query', 'post', {_id: subscriber._id})
               .then(sub => {
+                let payload = {
+                  subscriber_id: sub[0]._id,
+                  chat_id: chat._id,
+                  text: chatPayload.payload.text,
+                  name: sub[0].firstName + ' ' + sub[0].lastName,
+                  subscriber: sub[0],
+                  message: chat
+                }
+                sendNotification(sub[0], payload, page.companyId, page.pageName)
                 require('./../../../config/socketio').sendMessageToClient({
                   room_id: page.companyId,
                   body: {
                     action: 'new_chat',
-                    payload: {
-                      subscriber_id: sub[0]._id,
-                      chat_id: chat._id,
-                      text: chatPayload.payload.text,
-                      name: sub[0].firstName + ' ' + sub[0].lastName,
-                      subscriber: sub[0],
-                      message: chat
-                    }
+                    payload: payload
                   }
                 })
               })
@@ -140,6 +145,59 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
         logger.serverLog(TAG, `Failed to create live chate ${JSON.stringify(error)}`, 'error')
       })
   }
+}
+
+// function __sendNotification (title, payload, companyUsers) {
+//   for (let i = 0; i < companyUsers.length; i++) {
+//     let expoListToken = companyUsers[i].expoListToken
+//     if (expoListToken.length > 0) {
+//       let text = payload.text
+//       if (!text) {
+//         text = 'sent an Attachment'
+//       }
+//       sendNotifications(expoListToken, title, text, payload, companyUsers[i].userId)
+//     }
+//   }
+// }
+
+function sendNotification (subscriber, payload, companyId, pageName) {
+  let title = '[' + pageName + ']: ' + subscriber.firstName + ' ' + subscriber.lastName
+  let body = payload.text
+  utility.callApi(`companyUser/queryAll`, 'post', {companyId: companyId}, 'accounts')
+    .then(companyUsers => {
+      let lastMessageData = sessionLogicLayer.getQueryData('', 'aggregate', {company_id: companyId}, undefined, undefined, undefined, {_id: subscriber._id, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+      utility.callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
+        .then(gotLastMessage => {
+          subscriber.lastPayload = gotLastMessage[0].payload
+          subscriber.lastRepliedBy = gotLastMessage[0].replied_by
+          subscriber.lastDateTime = gotLastMessage[0].datetime
+          if (!subscriber.is_assigned) {
+            sendNotifications(title, body, subscriber, companyUsers)
+          } else {
+            if (subscriber.assigned_to.type === 'agent') {
+              companyUsers = companyUsers.filter(companyUser => companyUser.userId._id === subscriber.assigned_to.id)
+              sendNotifications(title, body, subscriber, companyUsers)
+            } else {
+              utility.callApi(`teams/agents/query`, 'post', {teamId: subscriber.assigned_to.id}, 'accounts')
+                .then(teamagents => {
+                  teamagents = teamagents.map(teamagent => teamagent.agentId._id)
+                  companyUsers = companyUsers.filter(companyUser => {
+                    if (teamagents.includes(companyUser.userId._id)) {
+                      return companyUser
+                    }
+                  })
+                  sendNotifications(title, body, subscriber, companyUsers)
+                }).catch(error => {
+                  logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
+                })
+            }
+          }
+        }).catch(error => {
+          logger.serverLog(TAG, `Error while fetching Last Message ${error}`, 'error')
+        })
+    }).catch(error => {
+      logger.serverLog(TAG, `Error while fetching companyUser ${error}`, 'error')
+    })
 }
 
 function sendautomatedmsg (req, page) {

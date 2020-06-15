@@ -44,6 +44,7 @@ exports.isYouTubeUrl = (url) => {
 }
 
 exports.isFacebookVideoUrl = (url) => {
+// eslint-disable-next-line no-useless-escape
   let regExp = /^(?:(?:https?:)?\/\/)?(?:www\.)?(web.)?facebook\.com\/[a-zA-Z0-9\.]+\/videos\/(?:[a-zA-Z0-9\.]+\/)?([0-9]+)\/?$/g
   return (regExp.test(url))
 }

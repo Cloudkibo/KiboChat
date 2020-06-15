@@ -90,7 +90,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
           'payload': {
             'template_type': 'media',
             'elements': [
-               mediaElement 
+              mediaElement
             ]
           }
         }
