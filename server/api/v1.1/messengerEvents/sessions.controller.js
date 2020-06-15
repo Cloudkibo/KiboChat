@@ -5,6 +5,7 @@ const LiveChatDataLayer = require('../liveChat/liveChat.datalayer')
 const botController = require('./bots.controller')
 const needle = require('needle')
 const moment = require('moment')
+const sessionLogicLayer = require('../sessions/sessions.logiclayer')
 const logicLayer = require('./logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
 const { record } = require('../../global/messageStatistics')
@@ -164,7 +165,7 @@ function sendNotification (subscriber, payload, companyId, pageName) {
   let body = payload.text
   utility.callApi(`companyUser/queryAll`, 'post', {companyId: companyId}, 'accounts')
     .then(companyUsers => {
-      let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: companyId}, undefined, undefined, undefined, {_id: subscriber._id, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+      let lastMessageData = sessionLogicLayer.getQueryData('', 'aggregate', {company_id: companyId}, undefined, undefined, undefined, {_id: subscriber._id, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
       utility.callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
         .then(gotLastMessage => {
           subscriber.lastPayload = gotLastMessage[0].payload
