@@ -40,7 +40,11 @@ exports.create = function (req, res) {
 }
 
 exports.update = function (req, res) {
-  let dataToUpdate = { published: req.body.published }
+  let dataToUpdate = {
+    published: req.body.published,
+    fallbackReply: req.body.fallbackReply,
+    fallbackReplyEnabled: req.body.fallbackReplyEnabled
+  }
   datalayer.genericUpdateChatBot({_id: req.body.chatbotId}, dataToUpdate)
     .then(chatbotUpdated => {
       return sendSuccessResponse(res, 200, chatbotUpdated, 'Updated the chatbot publish status')
