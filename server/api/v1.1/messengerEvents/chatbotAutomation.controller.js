@@ -32,6 +32,8 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
             logger.serverLog(TAG,
               `DATA INCONSISTENCY ERROR in following chatbot, no startingBlockId given ${JSON.stringify(chatbot)}`, 'error')
           }
+        } else if (chatbot.fallbackReplyEnabled) {
+          sendFallbackReply(req.sender.id, page, chatbot.fallbackReply, subscriber)
         }
       }
     })
@@ -133,4 +135,12 @@ function _sendToClientUsingSocket (body) {
       }
     }
   })
+}
+
+function sendFallbackReply (senderId, page, fallbackReply, subscriber) {
+  senderAction(senderId, 'typing_on', page.accessToken)
+  intervalForEach(fallbackReply, (item) => {
+    sendResponse(senderId, item, subscriber, page.accessToken)
+    senderAction(senderId, 'typing_off', page.accessToken)
+  }, 1500)
 }

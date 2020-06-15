@@ -16,8 +16,13 @@ exports.updatePayload = {
       required: true
     },
     published: {
-      type: 'boolean',
-      required: true
+      type: 'boolean'
+    },
+    fallbackReply: {
+      type: 'array'
+    },
+    fallbackReplyEnabled: {
+      type: 'boolean'
     }
   }
 }
