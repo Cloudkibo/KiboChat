@@ -197,34 +197,63 @@ exports.create = function (req, res) {
     function (callback) {
       callApi(`subscribers/${req.body.subscriber_id}`, 'get', {}, 'accounts', req.headers.authorization)
         .then(subscriber => {
-          let messageData = logicLayer.prepareSendAPIPayload(
-            subscriber.senderId,
-            req.body.payload,
-            subscriber.firstName,
-            subscriber.lastName,
-            true
-          )
-          logger.serverLog(TAG, `got subscriber ${subscriber}`)
-          record('messengerChatOutGoing')
-          request(
-            {
-              'method': 'POST',
-              'json': true,
-              'formData': messageData,
-              'uri': 'https://graph.facebook.com/v5.0/me/messages?access_token=' +
-                subscriber.pageId.accessToken
-            },
-            (err, res) => {
-              if (err) {
-                callback(err)
-              } else if (res.statusCode !== 200) {
-                callback(res.body.error)
-                if (res.body.error) {
-                  sendOpAlert(res.body.error, 'comment controller in kiboengage', req.body.sender_id, req.user._id, req.user.companyId)
+          callApi(`companyprofile/getAutomatedOptions`, 'get', {}, 'accounts', req.headers.authorization)
+            .then(payload => {
+              if (payload.showAgentName) {
+                if (req.body.payload.componentType === 'text') {
+                  req.body.payload.text = `${req.body.replied_by.name} sent:\r\n` + req.body.payload.text
+                } else {
+                  request(
+                    {
+                      'method': 'POST',
+                      'json': true,
+                      'formData': {
+                        'messaging_type': 'RESPONSE',
+                        'recipient': JSON.stringify({
+                          'id': subscriber.senderId
+                        }),
+                        'message': JSON.stringify({
+                          'text': `${req.body.replied_by.name} sent:`,
+                          'metadata': 'SENT_FROM_KIBOPUSH'
+                        })
+                      },
+                      'uri': 'https://graph.facebook.com/v5.0/me/messages?access_token=' +
+                        subscriber.pageId.accessToken
+                    })
                 }
-              } else {
-                callback(null, subscriber)
               }
+              let messageData = logicLayer.prepareSendAPIPayload(
+                subscriber.senderId,
+                req.body.payload,
+                subscriber.firstName,
+                subscriber.lastName,
+                true
+              )
+              logger.serverLog(TAG, `got subscriber ${subscriber}`)
+              record('messengerChatOutGoing')
+              request(
+                {
+                  'method': 'POST',
+                  'json': true,
+                  'formData': messageData,
+                  'uri': 'https://graph.facebook.com/v5.0/me/messages?access_token=' +
+                    subscriber.pageId.accessToken
+                },
+                (err, res) => {
+                  if (err) {
+                    callback(err)
+                  } else if (res.statusCode !== 200) {
+                    callback(res.body.error)
+                    if (res.body.error) {
+                      sendOpAlert(res.body.error, 'comment controller in kiboengage', req.body.sender_id, req.user._id, req.user.companyId)
+                    }
+                  } else {
+                    callback(null, subscriber)
+                  }
+                })
+            })
+            .catch(err => {
+              res.status(500).json({status: 'failed', payload: `Failed to fetch automated options ${err}`})
             })
         })
         .catch(err => {
