@@ -158,7 +158,6 @@ exports.addPage = function (req, res) {
         .catch(error => {
           sendErrorResponse(res, 500, `Failed to fetch Page ${JSON.stringify(error)}`)
         })
-
     }).catch(error => {
       sendErrorResponse(res, 500, `Failed to fetch company User ${JSON.stringify(error)}`)
     })
