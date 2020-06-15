@@ -164,7 +164,7 @@ function sendNotification (subscriber, payload, companyId, pageName) {
   let body = payload.text
   utility.callApi(`companyUser/queryAll`, 'post', {companyId: companyId}, 'accounts')
     .then(companyUsers => {
-      let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: companyId}, undefined, undefined, undefined, {_id: subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+      let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: companyId}, undefined, undefined, undefined, {_id: subscriber._id, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
       utility.callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
         .then(gotLastMessage => {
           subscriber.lastPayload = gotLastMessage[0].payload
