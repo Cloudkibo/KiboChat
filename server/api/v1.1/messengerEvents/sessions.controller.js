@@ -172,11 +172,11 @@ function sendNotification (subscriber, payload, companyId, pageName) {
           subscriber.lastRepliedBy = gotLastMessage[0].replied_by
           subscriber.lastDateTime = gotLastMessage[0].datetime
           if (!subscriber.is_assigned) {
-            sendNotifications(title, body, payload, companyUsers)
+            sendNotifications(title, body, subscriber, companyUsers)
           } else {
             if (subscriber.assigned_to.type === 'agent') {
               companyUsers = companyUsers.filter(companyUser => companyUser.userId._id === subscriber.assigned_to.id)
-              sendNotifications(title, body, payload, companyUsers)
+              sendNotifications(title, body, subscriber, companyUsers)
             } else {
               utility.callApi(`teams/agents/query`, 'post', {teamId: subscriber.assigned_to.id}, 'accounts')
                 .then(teamagents => {
@@ -186,7 +186,7 @@ function sendNotification (subscriber, payload, companyId, pageName) {
                       return companyUser
                     }
                   })
-                  sendNotifications(title, body, payload, companyUsers)
+                  sendNotifications(title, body, subscriber, companyUsers)
                 }).catch(error => {
                   logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
                 })
