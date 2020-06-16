@@ -4,6 +4,8 @@ const TAG = 'api/v1/messengerEvents/sessions.controller'
 const LiveChatDataLayer = require('../liveChat/liveChat.datalayer')
 const botController = require('./bots.controller')
 const needle = require('needle')
+const moment = require('moment')
+const sessionLogicLayer = require('../sessions/sessions.logiclayer')
 const logicLayer = require('./logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
 const { record } = require('../../global/messageStatistics')
@@ -163,18 +165,18 @@ function sendNotification (subscriber, payload, companyId, pageName) {
   let body = payload.text
   utility.callApi(`companyUser/queryAll`, 'post', {companyId: companyId}, 'accounts')
     .then(companyUsers => {
-      let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: companyId}, undefined, undefined, undefined, {_id: subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+      let lastMessageData = sessionLogicLayer.getQueryData('', 'aggregate', {company_id: companyId}, undefined, undefined, undefined, {_id: subscriber._id, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
       utility.callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
         .then(gotLastMessage => {
           subscriber.lastPayload = gotLastMessage[0].payload
           subscriber.lastRepliedBy = gotLastMessage[0].replied_by
           subscriber.lastDateTime = gotLastMessage[0].datetime
           if (!subscriber.is_assigned) {
-            sendNotifications(title, body, payload, companyUsers)
+            sendNotifications(title, body, subscriber, companyUsers)
           } else {
             if (subscriber.assigned_to.type === 'agent') {
               companyUsers = companyUsers.filter(companyUser => companyUser.userId._id === subscriber.assigned_to.id)
-              sendNotifications(title, body, payload, companyUsers)
+              sendNotifications(title, body, subscriber, companyUsers)
             } else {
               utility.callApi(`teams/agents/query`, 'post', {teamId: subscriber.assigned_to.id}, 'accounts')
                 .then(teamagents => {
@@ -184,7 +186,7 @@ function sendNotification (subscriber, payload, companyId, pageName) {
                       return companyUser
                     }
                   })
-                  sendNotifications(title, body, payload, companyUsers)
+                  sendNotifications(title, body, subscriber, companyUsers)
                 }).catch(error => {
                   logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
                 })
