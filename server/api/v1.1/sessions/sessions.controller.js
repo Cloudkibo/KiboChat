@@ -5,6 +5,7 @@ const logicLayer = require('./sessions.logiclayer')
 const needle = require('needle')
 // const util = require('util')
 const async = require('async')
+const { sendNotifications } = require('../../global/sendNotification')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
 exports.fetchOpenSessions = function (req, res) {
@@ -200,19 +201,63 @@ exports.show = function (req, res) {
   }
 }
 
+function _sendNotification (subscriberId, status, companyId, userName) {
+  callApi('subscribers/query', 'post', {_id: subscriberId})
+    .then(gotSubscriber => {
+      let subscriber = gotSubscriber[0]
+      if (subscriber.is_assigned) {
+        let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: companyId}, undefined, undefined, undefined, {_id: subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+        callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
+          .then(gotLastMessage => {
+            console.log('data in assignAgent', gotLastMessage)
+            subscriber.lastPayload = gotLastMessage[0].payload
+            subscriber.lastRepliedBy = gotLastMessage[0].replied_by
+            subscriber.lastDateTime = gotLastMessage[0].datetime
+            let title = '[' + subscriber.pageId.pageName + ']: ' + subscriber.firstName + ' ' + subscriber.lastName
+            let body = `This session has been ${status === 'new' ? 'opened' : 'resolved'} by ${userName}`
+            callApi(`companyUser/queryAll`, 'post', {companyId: companyId}, 'accounts')
+              .then(companyUsers => {
+                if (subscriber.assigned_to.type === 'agent') {
+                  companyUsers = companyUsers.filter(companyUser => companyUser.userId._id === subscriber.assigned_to.id)
+                  sendNotifications(title, body, subscriber, companyUsers)
+                } else {
+                  callApi(`teams/agents/query`, 'post', {teamId: subscriber.assigned_to.id}, 'accounts')
+                    .then(teamagents => {
+                      teamagents = teamagents.map(teamagent => teamagent.agentId._id)
+                      companyUsers = companyUsers.filter(companyUser => {
+                        if (teamagents.includes(companyUser.userId._id)) {
+                          return companyUser
+                        }
+                      })
+                      sendNotifications(title, body, subscriber, companyUsers)
+                    }).catch(error => {
+                      logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
+                    })
+                }
+              }).catch(error => {
+                logger.serverLog(TAG, `Error while fetching companyUsers ${error}`, 'error')
+              })
+          })
+      }
+    }).catch(error => {
+      logger.serverLog(TAG, `Error while fetching subscribers ${error}`, 'error')
+    })
+} 
 exports.changeStatus = function (req, res) {
+  let payload = {
+    session_id: req.body._id,
+    user_id: req.user._id,
+    user_name: req.user.name,
+    status: req.body.status
+  }
+  _sendNotification(req.body._id, req.body.status, req.user.companyId, req.user.name)
   callApi('subscribers/update', 'put', {query: {_id: req.body._id}, newPayload: {status: req.body.status}, options: {}})
     .then(updated => {
       require('./../../../config/socketio').sendMessageToClient({
         room_id: req.user.companyId,
         body: {
           action: 'session_status',
-          payload: {
-            session_id: req.body._id,
-            user_id: req.user._id,
-            user_name: req.user.name,
-            status: req.body.status
-          }
+          payload: payload
         }
       })
       sendSuccessResponse(res, 200, 'Status has been updated successfully!')
@@ -228,6 +273,33 @@ exports.assignAgent = function (req, res) {
     id: req.body.agentId,
     name: req.body.agentName
   }
+  if (req.body.isAssigned) {
+    callApi('subscribers/query', 'post', {_id: req.body.subscriberId})
+      .then(gotSubscriber => {
+        let subscriber = gotSubscriber[0]
+        let title = '[' + subscriber.pageId.pageName + ']: ' + subscriber.firstName + ' ' + subscriber.lastName
+        let body = 'You have been assigned a session as a agent'
+        callApi(`companyUser/queryAll`, 'post', {userId: req.body.agentId}, 'accounts', req.headers.authorization)
+          .then(companyUsers => {
+            let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId}, undefined, undefined, undefined, {_id: req.body.subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+            callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
+              .then(gotLastMessage => {
+                console.log('data in assignAgent', gotLastMessage)
+                subscriber.lastPayload = gotLastMessage[0].payload
+                subscriber.lastRepliedBy = gotLastMessage[0].replied_by
+                subscriber.lastDateTime = gotLastMessage[0].datetime
+                sendNotifications(title, body, subscriber, companyUsers)
+              }).catch(error => {
+                logger.serverLog(TAG, `Error while fetching lastMessageData details ${(error)}`, 'error')
+              })
+          }).catch(error => {
+            logger.serverLog(TAG, `Error while fetching companyUser details ${(error)}`, 'error')
+            sendErrorResponse(res, 500, `Failed to fetching companyUser details ${JSON.stringify(error)}`)
+          })
+      }).catch(err => {
+        sendErrorResponse(res, 500, err)
+      })
+  }
   callApi(
     'subscribers/update',
     'put',
@@ -242,7 +314,7 @@ exports.assignAgent = function (req, res) {
         room_id: req.user.companyId,
         body: {
           action: 'session_assign',
-          payload: {
+          payload: {     
             data: req.body,
             session_id: req.body.subscriberId,
             user_id: req.user._id,
@@ -259,10 +331,48 @@ exports.assignAgent = function (req, res) {
 }
 
 exports.assignTeam = function (req, res) {
+  console.log('req.user', req.user.companyId)
   let assignedTo = {
     type: 'team',
     id: req.body.teamId,
     name: req.body.teamName
+  }
+  if (req.body.isAssigned) {
+    callApi(`companyUser/queryAll`, 'post', {companyId: req.user.companyId}, 'accounts')
+      .then(companyUsers => {
+        callApi(`teams/agents/query`, 'post', {teamId: req.body.teamId}, 'accounts')
+          .then(teamagents => {
+            teamagents = teamagents.map(teamagent => teamagent.agentId._id)
+            companyUsers = companyUsers.filter(companyUser => {
+              if (teamagents.includes(companyUser.userId._id)) {
+                return companyUser
+              }
+            })
+            callApi('subscribers/query', 'post', {_id: req.body.subscriberId})
+              .then(gotSubscriber => {
+                let subscriber = gotSubscriber[0]
+                let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId}, undefined, undefined, undefined, {_id: req.body.subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+                callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
+                  .then(gotLastMessage => {
+                    console.log('data in assignAgent', gotLastMessage)
+                    subscriber.lastPayload = gotLastMessage[0].payload
+                    subscriber.lastRepliedBy = gotLastMessage[0].replied_by
+                    subscriber.lastDateTime = gotLastMessage[0].datetime
+                    let title = '[' + subscriber.pageId.pageName + ']: ' + subscriber.firstName + ' ' + subscriber.lastName
+                    let body = `You have been assigned a session as a agent in a ${req.body.teamName} team`
+                    sendNotifications(title, body, subscriber, companyUsers)
+                  }).catch(error => {
+                    logger.serverLog(TAG, `Error while fetching subscriber last message ${error}`, 'error')
+                  })
+              }).catch(err => {
+                sendErrorResponse(res, 500, err)
+              })
+          }).catch(error => {
+            logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
+          })
+      }).catch(error => {
+        logger.serverLog(TAG, `Error while fetching companyUser ${error}`, 'error')
+      })
   }
   callApi(
     'subscribers/update',

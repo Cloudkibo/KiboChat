@@ -13,6 +13,7 @@ module.exports = function (app) {
   app.use('/api/messengerEvents', require('./api/v1.1/messengerEvents'))
   app.use('/api/subscribers', require('./api/v1/subscribers'))
   app.use('/api/users', require('./api/v1/user'))
+  app.use('/api/companyUsers', require('./api/v1/companyUsers'))
   app.use('/api/sessions', require('./api/v1.1/sessions'))
   app.use('/api/notifications', require('./api/v1.1/notifications'))
   app.use('/api/livechat', require('./api/v1.1/liveChat'))
