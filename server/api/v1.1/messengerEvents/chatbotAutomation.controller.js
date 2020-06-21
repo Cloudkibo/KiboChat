@@ -28,11 +28,12 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
               })
               .catch(error => {
                 logger.serverLog(TAG,
-                  `error in fetching message block ${JSON.stringify(error)}`, 'error')
+                  `error in fetching message block ${JSON.stringify(error)}`,
+                  'error')
               })
             if (req.postback && req.postback.payload) {
-              updateBotLifeStats(chatbot, true)
-              updateBotPeriodicStats(chatbot, true)
+              updateBotLifeStats(chatbot, subscriber.isNewSubscriber)
+              updateBotPeriodicStats(chatbot, subscriber.isNewSubscriber)
             } else {
               updateBotLifeStats(chatbot, false)
               updateBotPeriodicStats(chatbot, false)
@@ -275,3 +276,6 @@ function updateBotLifeStatsForBlock (messageBlock, isForSentCount) {
       })
   }
 }
+
+exports.updateBotPeriodicStatsForBlock = updateBotPeriodicStatsForBlock
+exports.updateBotLifeStatsForBlock = updateBotLifeStatsForBlock

@@ -2,6 +2,8 @@ const logiclayer = require('./chatbots.logiclayer')
 const datalayer = require('./chatbots.datalayer')
 const analyticsDataLayer = require('./chatbots_analytics.datalayer')
 const msgBlockDataLayer = require('./../messageBlock/messageBlock.datalayer')
+const chatbotAutomation = require('./../messengerEvents/chatbotAutomation.controller.js')
+const urlDataLayer = require('./../messageBlock/url.datalayer.js')
 const { callApi } = require('../utility')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1.1/chatbots/chatbots.controller.js'
@@ -261,4 +263,35 @@ exports.restoreBackup = function (req, res) {
       logger.serverLog(TAG, err, 'error')
       sendErrorResponse(res, 500, 'Failed to restore backup')
     })
+}
+
+exports.redirectToUrl = (req, res) => {
+  if (!req.headers['user-agent'].startsWith('facebook')) {
+    logger.serverLog(TAG, `chatbot click count increased ${req.params.id}`, 'debug')
+    urlDataLayer.findOneURL(req.params.id)
+      .then(URLObject => {
+        if (URLObject) {
+          logger.serverLog(TAG, `URLObject found, incrementing click ${JSON.stringify(URLObject)}`, 'debug')
+          msgBlockDataLayer.findOneMessageBlock({uniqueId: URLObject.module.id})
+            .then(msgBlockFound => {
+              chatbotAutomation.updateBotLifeStatsForBlock(msgBlockFound, false)
+              chatbotAutomation.updateBotPeriodicStatsForBlock(msgBlockFound, false)
+              res.writeHead(301, {Location: URLObject.originalURL.startsWith('http') ? URLObject.originalURL : `https://${URLObject.originalURL}`})
+              res.end()
+            })
+            .catch(err => {
+              if (err) {
+                sendErrorResponse(res, 500, '', `Internal Server Error ${JSON.stringify(err)}`)
+              }
+            })
+        } else {
+          sendErrorResponse(res, 500, '', 'No URL found with id ' + req.params.id)
+        }
+      })
+      .catch(err => {
+        if (err) {
+          sendErrorResponse(res, 500, '', `Internal Server Error ${JSON.stringify(err)}`)
+        }
+      })
+  }
 }
