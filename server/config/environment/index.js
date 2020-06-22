@@ -35,7 +35,7 @@ const all = {
     number: '+14254286230'
   },
   sendgrid: {
-    username: 'arveen@cloudKibo.com',
+    username: 'anisha@cloudKibo.com',
     password: 'cl0udk1b0'
   }
 }
