@@ -7,8 +7,6 @@ const broadcastUtility = require('../broadcasts/broadcasts.utility')
 let config = require('./../../../config/environment')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
-const util = require('util')
-
 exports.index = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
     .then(companyuser => {
@@ -242,6 +240,7 @@ exports.enable = function (req, res) {
                                         })
                                       utility.callApi(`subscribers/update`, 'put', {query: {pageId: page._id}, newPayload: {isEnabledByPage: true}, options: {}}) // update subscribers
                                         .then(updatedSubscriber => {
+                                          // eslint-disable-next-line no-unused-vars
                                           const options = {
                                             url: `https://graph.facebook.com/v6.0/${page.pageId}/subscribed_apps?access_token=${page.accessToken}`,
                                             qs: {access_token: page.accessToken},
@@ -622,6 +621,7 @@ exports.otherPages = function (req, res) {
     })
 }
 
+// eslint-disable-next-line no-unused-vars
 function createTag (user, page, tag, req) {
   needle('post', `https://graph.facebook.com/v6.0/me/custom_labels?access_token=${page.accessToken}`, {'name': tag})
     .then(label => {
@@ -632,13 +632,13 @@ function createTag (user, page, tag, req) {
               if (defaultTag.length === 0) {
                 needle('get', `https://graph.facebook.com/v6.0/me/custom_labels?fields=name&access_token=${page.accessToken}`)
                   .then(Tags => {
-                    let default_tag = Tags.body.data.filter(data => data.name === tag)
+                    let defaultTag = Tags.body.data.filter(data => data.name === tag)
                     let tagData = {
                       tag: tag,
                       userId: user._id,
                       companyId: user.companyId,
                       pageId: page._id,
-                      labelFbId: default_tag[0].id,
+                      labelFbId: defaultTag[0].id,
                       defaultTag: true
                     }
                     utility.callApi('tags', 'post', tagData)

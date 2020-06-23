@@ -1,6 +1,3 @@
-const logger = require('../../../components/logger')
-const TAG = 'api/v1.1/messageBlock/messageBlock.logiclayer.js'
-
 exports.preparePayload = function (companyId, userId, body) {
   let payload = {
     module: {
