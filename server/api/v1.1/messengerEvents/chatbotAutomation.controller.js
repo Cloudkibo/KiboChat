@@ -22,6 +22,8 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
                     sendResponse(req.sender.id, item, subscriber, page.accessToken)
                     senderAction(req.sender.id, 'typing_off', page.accessToken)
                   }, 1500)
+                  updateBotLifeStatsForBlock(messageBlock, true)
+                  updateBotPeriodicStatsForBlock(chatbot, true)
                 }
               })
               .catch(error => {

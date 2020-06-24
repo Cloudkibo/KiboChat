@@ -10,7 +10,10 @@ exports.index = function (req, res) {
   let subscriber = req.body.subscriber
   let event = req.body.entry[0].messaging[0]
   if (subscriber) {
-    chatbotAutomation.handleChatBotWelcomeMessage(event, page, subscriber)
+    // It must be us testing by clicking getting started
+    // after removing conversation history on messenger.
+    // Don't do anything here.
+    // chatbotAutomation.handleChatBotWelcomeMessage(event, page, subscriber)
   } else {
     setTimeout(function () {
       const sender = req.body.entry[0].messaging[0].sender.id
