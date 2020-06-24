@@ -10,6 +10,11 @@ exports.index = function (req, res) {
   let subscriber = req.body.subscriber
   let event = req.body.entry[0].messaging[0]
   if (subscriber) {
+    // It must be us testing by clicking getting started
+    // after removing conversation history on messenger.
+    // Don't do anything here. This is not logic for handling
+    // new subscriber. It is just us clicking getting started
+    // again and again
     chatbotAutomation.handleChatBotWelcomeMessage(event, page, subscriber)
   } else {
     setTimeout(function () {

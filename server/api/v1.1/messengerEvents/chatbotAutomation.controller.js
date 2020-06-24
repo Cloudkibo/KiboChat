@@ -25,6 +25,8 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
                     sendResponse(req.sender.id, item, subscriber, page.accessToken)
                     senderAction(req.sender.id, 'typing_off', page.accessToken)
                   }, 1500)
+                  updateBotLifeStatsForBlock(messageBlock, true)
+                  updateBotPeriodicStatsForBlock(chatbot, true)
                 }
               })
               .catch(error => {
@@ -33,8 +35,10 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
                   'error')
               })
             if (req.postback && req.postback.payload) {
-              updateBotLifeStats(chatbot, subscriber.isNewSubscriber)
-              updateBotPeriodicStats(chatbot, subscriber.isNewSubscriber)
+              if (subscriber.hasOwnProperty('isNewSubscriber')) {
+                updateBotLifeStats(chatbot, subscriber.isNewSubscriber)
+                updateBotPeriodicStats(chatbot, subscriber.isNewSubscriber)
+              }
             } else {
               updateBotLifeStats(chatbot, false)
               updateBotPeriodicStats(chatbot, false)
