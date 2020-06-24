@@ -275,7 +275,7 @@ exports.redirectToUrl = (req, res) => {
           msgBlockDataLayer.findOneMessageBlock({uniqueId: URLObject.module.id})
             .then(msgBlockFound => {
               chatbotAutomation.updateBotLifeStatsForBlock(msgBlockFound, false)
-              chatbotAutomation.updateBotPeriodicStatsForBlock(msgBlockFound, false)
+              chatbotAutomation.updateBotPeriodicStatsForBlock(msgBlockFound.module.id, false)
               res.writeHead(301, {Location: URLObject.originalURL.startsWith('http') ? URLObject.originalURL : `https://${URLObject.originalURL}`})
               res.end()
             })
