@@ -32,8 +32,10 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
                   'error')
               })
             if (req.postback && req.postback.payload) {
-              updateBotLifeStats(chatbot, subscriber.isNewSubscriber)
-              updateBotPeriodicStats(chatbot, subscriber.isNewSubscriber)
+              if (subscriber.hasOwnProperty('isNewSubscriber')) {
+                updateBotLifeStats(chatbot, subscriber.isNewSubscriber)
+                updateBotPeriodicStats(chatbot, subscriber.isNewSubscriber)
+              }
             } else {
               updateBotLifeStats(chatbot, false)
               updateBotPeriodicStats(chatbot, false)
