@@ -8,7 +8,8 @@ exports.preparePayload = function (companyId, userId, body) {
     userId: userId,
     uniqueId: body.uniqueId,
     payload: body.payload,
-    title: body.title
+    title: body.title,
+    triggers: body.triggers
   }
   return payload
 }

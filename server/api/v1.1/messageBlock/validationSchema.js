@@ -15,6 +15,10 @@ exports.createPayload = {
     title: {
       type: 'string',
       required: true
+    },
+    triggers: {
+      type: 'array',
+      required: true
     }
   }
 }
