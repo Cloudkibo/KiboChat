@@ -61,6 +61,7 @@ function storeChat (from, to, contact, messageData) {
   }
 }
 
+// eslint-disable-next-line no-unused-vars
 function handleUnsubscribe (contact, company, user) {
   let accountSid = company.twilioWhatsApp.accountSID
   let authToken = company.twilioWhatsApp.authToken
@@ -106,6 +107,7 @@ function handleUnsubscribe (contact, company, user) {
     })
 }
 
+// eslint-disable-next-line no-unused-vars
 function handleSubscribe (contact, company, user) {
   let accountSid = company.twilioWhatsApp.accountSID
   let authToken = company.twilioWhatsApp.authToken
