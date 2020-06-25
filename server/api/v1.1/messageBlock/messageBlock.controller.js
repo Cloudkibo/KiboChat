@@ -142,6 +142,14 @@ function updateUrlForClickCount (payload) {
         } else {
           urlDataLayer.updateOneURL(foundUrl._id, { originalURL: payload.payload[1].buttons[0].url })
             .then(updatedUrl => {
+              payload.payload[1].buttons[0].urlForFacebook = `${config.domain}/api/chatbots/url/${foundUrl._id}`
+              datalayer.genericUpdateMessageBlock({uniqueId: payload.uniqueId}, payload, {upsert: false})
+                .then(updatedMessageBlock => {
+                  logger.serverLog(TAG, `updated message block`, 'debug')
+                })
+                .catch(err => {
+                  logger.serverLog(TAG, `error in updating Url ${JSON.stringify(err)}`, 'error')
+                })
               logger.serverLog(TAG, 'updated the original url for chatbot', 'debug')
             })
             .catch(err => {
