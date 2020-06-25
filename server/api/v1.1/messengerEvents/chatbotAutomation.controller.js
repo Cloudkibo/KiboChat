@@ -10,10 +10,7 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
   chatbotDataLayer.findOneChatBot({pageId: page._id, published: true})
     .then(chatbot => {
       if (chatbot) {
-        chatbot.triggers = chatbot.triggers.map(item => item.toLowerCase().trim())
-        let userText = req.message.text.toLowerCase().trim().split(' ')
-        if ((req.message && chatbot.triggers.indexOf(userText[0]) > -1) ||
-        (req.postback && req.postback.payload)) {
+        if (req.postback && req.postback.payload && req.postback.payload === '<GET_STARTED_PAYLOAD>') {
           if (chatbot.startingBlockId) {
             messageBlockDataLayer.findOneMessageBlock({ _id: chatbot.startingBlockId })
               .then(messageBlock => {
@@ -36,6 +33,39 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
         } else if (chatbot.fallbackReplyEnabled) {
           sendFallbackReply(req.sender.id, page, chatbot.fallbackReply, subscriber)
         }
+      }
+    })
+    .catch(error => {
+      logger.serverLog(TAG,
+        `error in fetching chatbot ${JSON.stringify(error)}`, 'error')
+    })
+}
+
+exports.handleTriggerMessage = (req, page, subscriber) => {
+  chatbotDataLayer.findOneChatBot({pageId: page._id, published: true})
+    .then(chatbot => {
+      if (chatbot) {
+        let userText = req.message.text.toLowerCase().trim()
+        messageBlockDataLayer.findOneMessageBlock({
+          'module.type': 'chatbot',
+          'module.id': chatbot._id,
+          triggers: userText
+        })
+          .then(messageBlock => {
+            if (messageBlock) {
+              senderAction(req.sender.id, 'typing_on', page.accessToken)
+              intervalForEach(messageBlock.payload, (item) => {
+                sendResponse(req.sender.id, item, subscriber, page.accessToken)
+                senderAction(req.sender.id, 'typing_off', page.accessToken)
+              }, 1500)
+            } else if (chatbot.fallbackReplyEnabled) {
+              sendFallbackReply(req.sender.id, page, chatbot.fallbackReply, subscriber)
+            }
+          })
+          .catch(error => {
+            logger.serverLog(TAG,
+              `error in fetching message block ${JSON.stringify(error)}`, 'error')
+          })
       }
     })
     .catch(error => {
