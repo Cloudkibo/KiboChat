@@ -119,7 +119,7 @@ exports.scriptChatbotBlocks = function (req, res) {
 }
 
 function updateUrlForClickCount (payload) {
-  if (payload.payload && payload.payload[1].buttons && payload.payload[1].buttons[0]) {
+  if (payload.payload[1] && payload.payload[1].buttons && payload.payload[1].buttons[0]) {
     urlDataLayer.genericFind({ 'module.id': payload.uniqueId })
       .then(foundUrl => {
         if (!foundUrl) {
