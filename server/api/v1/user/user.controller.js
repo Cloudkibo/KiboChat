@@ -2,7 +2,6 @@ const utility = require('../utility')
 const logger = require('../../../components/logger')
 const TAG = 'api/v2/user/user.controller.js'
 const util = require('util')
-const needle = require('needle')
 const config = require('./../../../config/environment/index')
 const { sendOpAlert } = require('../../global/operationalAlert')
 const { facebookApiCaller } = require('../../global/facebookApiCaller')
