@@ -9,8 +9,9 @@ const TAG = 'auth/zoom/index.js'
 const config = require('../../config/environment')
 
 router.get('/', (req, res) => {
+  console.log('auth/zoom is hit')
   if (req.query.code && req.query.state) {
-    const userContext = JSON.parse(req.query.state)
+    const userContext = req.query.state.split('-')
     const params = {
       grant_type: 'authorization_code',
       code: req.query.code,
@@ -18,14 +19,14 @@ router.get('/', (req, res) => {
     }
     zoomApiCaller('post', 'oauth/token', params, {type: 'basic'}, true)
       .then(response => {
-        logger.serverLog(TAG, `Token response ${response}`)
+        logger.serverLog(TAG, `Token response ${JSON.stringify(response)}`)
         const accessToken = response.access_token
         const refreshToken = response.refresh_token
         if (accessToken) {
           zoomApiCaller('get', 'v2/users/me', {}, {type: 'bearer', token: accessToken}, false)
             .then(zoomUser => {
               const dataToSave = prepareZoomUserPayload(accessToken, refreshToken, zoomUser, userContext)
-              callApi('zoomUsers', 'post', dataToSave)
+              callApi('zoomUsers', 'put', {purpose: 'updateOne', match: {companyId: userContext[1]}, updated: dataToSave, upsert: true})
                 .then(saved => {
                   res.redirect('/successMessage')
                 })
@@ -48,7 +49,7 @@ router.get('/', (req, res) => {
         res.redirect('/ErrorMessage')
       })
   } else if (req.query.companyId && req.query.userId) {
-    res.redirect(`https://zoom.us/oauth/authorize?response_type=code&client_id=${config.zoomClientId}&redirect_uri=${config.zoomRedirectUri}$state=${encodeURIComponent(JSON.stringify({ userId: req.query.userId, companyId: req.query.companyId }))}`)
+    res.redirect(`https://zoom.us/oauth/authorize?response_type=code&client_id=${config.zoomClientId}&redirect_uri=${config.zoomRedirectUri}&state=${req.query.userId}-${req.query.companyId}`)
   } else {
     logger.serverLog(TAG, 'Parameters are missing')
     res.redirect('/ErrorMessage')
@@ -57,8 +58,8 @@ router.get('/', (req, res) => {
 
 function prepareZoomUserPayload (accessToken, refreshToken, zoomUser, userContext) {
   const payload = {
-    userId: userContext.userId,
-    companyId: userContext.companyId,
+    userId: userContext[0],
+    companyId: userContext[1],
     zoomId: zoomUser.id,
     firstName: zoomUser.first_name,
     lastName: zoomUser.last_name,
@@ -69,7 +70,9 @@ function prepareZoomUserPayload (accessToken, refreshToken, zoomUser, userContex
     phoneCountry: zoomUser.phone_country,
     phoneNumber: zoomUser.phone_number,
     accessToken,
-    refreshToken
+    refreshToken,
+    connected: true,
+    datetime: new Date()
   }
   return payload
 }
