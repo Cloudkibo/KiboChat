@@ -78,6 +78,13 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
               if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
                 updateBotPeriodicStatsForReturning(chatbot)
               }
+              // new subscriber stats logic starts
+              let subscriberCreatedAt = moment(subscriber.datetime)
+              if (dateNow.diff(subscriberCreatedAt, 'seconds') <= 10) {
+                updateBotLifeStats(chatbot, true)
+                updateBotPeriodicStats(chatbot, true)
+              }
+              // new subscriber stats logic ends
             } else if (chatbot.fallbackReplyEnabled) {
               sendFallbackReply(req.sender.id, page, chatbot.fallbackReply, subscriber)
             }
