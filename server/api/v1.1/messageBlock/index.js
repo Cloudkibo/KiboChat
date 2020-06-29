@@ -19,4 +19,7 @@ router.post('/attachment',
   auth.isAuthenticated(),
   controller.attachment)
 
+router.get('/scriptChatbotBlocks',
+  controller.scriptChatbotBlocks)
+
 module.exports = router

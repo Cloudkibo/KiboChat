@@ -1,6 +1,9 @@
 const logiclayer = require('./chatbots.logiclayer')
 const datalayer = require('./chatbots.datalayer')
+const analyticsDataLayer = require('./chatbots_analytics.datalayer')
 const msgBlockDataLayer = require('./../messageBlock/messageBlock.datalayer')
+const chatbotAutomation = require('./../messengerEvents/chatbotAutomation.controller.js')
+const urlDataLayer = require('./../messageBlock/url.datalayer.js')
 const { callApi } = require('../utility')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1.1/chatbots/chatbots.controller.js'
@@ -60,6 +63,37 @@ exports.details = function (req, res) {
     })
     .catch(error => {
       return sendErrorResponse(res, 500, error, 'Failed to fetch the chatbot details.')
+    })
+}
+
+exports.stats = (req, res) => {
+  // function stub goes here
+  const criteria = logiclayer.criteriaForPeriodicBotStats(req.params.id, req.params.n)
+  const groupCriteria = logiclayer.criteriaForPeriodicBotStatsForGroup()
+  analyticsDataLayer.aggregateForBotAnalytics(criteria, groupCriteria)
+    .then(analytics => {
+      analytics = analytics[0]
+      if (analytics) {
+        return sendSuccessResponse(res, 200, {
+          sentCount: analytics.sentCount,
+          triggerWordsMatched: analytics.triggerWordsMatched,
+          newSubscribers: analytics.newSubscribersCount,
+          returningSubscribers: analytics.returningSubscribers,
+          urlBtnClickedCount: analytics.urlBtnClickedCount
+        }, null)
+      } else {
+        return sendSuccessResponse(res, 200, {
+          sentCount: 0,
+          triggerWordsMatched: 0,
+          newSubscribers: 0,
+          returningSubscribers: 0,
+          urlBtnClickedCount: 0
+        }, null)
+      }
+    })
+    .catch(error => {
+      logger.serverLog(TAG, error, 'error')
+      sendErrorResponse(res, 500, 'Failed to fetch analytics for chatbot')
     })
 }
 
@@ -243,4 +277,35 @@ exports.restoreBackup = function (req, res) {
       logger.serverLog(TAG, err, 'error')
       sendErrorResponse(res, 500, 'Failed to restore backup')
     })
+}
+
+exports.redirectToUrl = (req, res) => {
+  if (!req.headers['user-agent'].startsWith('facebook')) {
+    logger.serverLog(TAG, `chatbot click count increased ${req.params.id}`, 'debug')
+    urlDataLayer.findOneURL(req.params.id)
+      .then(URLObject => {
+        if (URLObject) {
+          logger.serverLog(TAG, `URLObject found, incrementing click ${JSON.stringify(URLObject)}`, 'debug')
+          msgBlockDataLayer.findOneMessageBlock({uniqueId: URLObject.module.id})
+            .then(msgBlockFound => {
+              chatbotAutomation.updateBotLifeStatsForBlock(msgBlockFound, false)
+              chatbotAutomation.updateBotPeriodicStatsForBlock(msgBlockFound.module.id, false)
+              res.writeHead(301, {Location: URLObject.originalURL.startsWith('http') ? URLObject.originalURL : `https://${URLObject.originalURL}`})
+              res.end()
+            })
+            .catch(err => {
+              if (err) {
+                sendErrorResponse(res, 500, '', `Internal Server Error ${JSON.stringify(err)}`)
+              }
+            })
+        } else {
+          sendErrorResponse(res, 500, '', 'No URL found with id ' + req.params.id)
+        }
+      })
+      .catch(err => {
+        if (err) {
+          sendErrorResponse(res, 500, '', `Internal Server Error ${JSON.stringify(err)}`)
+        }
+      })
+  }
 }

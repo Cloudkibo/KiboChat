@@ -73,6 +73,17 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
       'media_type': body.mediaType,
       'buttons': body.buttons
     }
+    if (body.buttons && body.buttons.length > 0) {
+      mediaElement.buttons = []
+      for (let i = 0; i < body.buttons.length; i++) {
+        let tempButton = {
+          title: body.buttons[i].title,
+          type: body.buttons[i].type,
+          url: body.buttons[i].urlForFacebook ? body.buttons[i].urlForFacebook : body.buttons[i].url
+        }
+        mediaElement.buttons.push(tempButton)
+      }
+    }
     if (body.fileurl.attachment_id) {
       mediaElement.attachment_id = body.fileurl.attachment_id
     }
@@ -169,7 +180,15 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
       }
     }
     if (body.buttons && body.buttons.length > 0) {
-      payload.message.attachment.payload.elements[0].buttons = body.buttons
+      payload.message.attachment.payload.elements[0].buttons = []
+      for (let i = 0; i < body.buttons.length; i++) {
+        let tempButton = {
+          title: body.buttons[i].title,
+          type: body.buttons[i].type,
+          url: body.buttons[i].urlForFacebook ? body.buttons[i].urlForFacebook : body.buttons[i].url
+        }
+        payload.message.attachment.payload.elements[0].buttons.push(tempButton)
+      }
     }
     if (body.quickReplies && body.quickReplies.length > 0) {
       payload.message.quick_replies = body.quickReplies

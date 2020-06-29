@@ -24,6 +24,10 @@ router.get('/:id/details',
   auth.isAuthenticated(),
   controller.details)
 
+router.get('/:id/stats/:n',
+  auth.isAuthenticated(),
+  controller.stats)
+
 router.get('/:id/fetch',
   auth.isAuthenticated(),
   controller.fetchChatbot)
@@ -45,5 +49,8 @@ router.post('/restoreBackup',
   auth.isAuthenticated(),
   validate({ body: validationSchema.backupPayload }),
   controller.restoreBackup)
+
+router.get('/url/:id',
+  controller.redirectToUrl)
 
 module.exports = router

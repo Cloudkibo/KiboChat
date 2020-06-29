@@ -6,7 +6,7 @@
 const logger = require('../../../components/logger')
 // eslint-disable-next-line no-unused-vars
 const TAG = 'api/messageStatistics/messageStatistics.controller.js'
-const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
+const { sendErrorResponse } = require('../../global/response')
 const { getRecords } = require('./../../global/messageStatistics')
 const { parse } = require('json2csv')
 

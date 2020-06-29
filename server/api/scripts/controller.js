@@ -38,11 +38,15 @@ exports.addWhitelistDomain = function (req, res) {
               }
             })
             .catch(error => {
+              if (error) {
+              }
             })
         }
       }
     })
     .catch(error => {
+      if (error) {
+      }
     })
   return res.status(200).json({status: 'success', payload: 'Domain has been whitelisted'})
 }

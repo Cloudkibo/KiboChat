@@ -2,7 +2,6 @@ const logger = require('../../../components/logger')
 const CUSTOMFIELD = 'api/custom_field/custom_field.controller.js'
 const callApi = require('../utility')
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
-const _ = require('lodash')
 
 exports.index = function (req, res) {
   callApi.callApi('companyuser/query', 'post', { domain_email: req.user.domain_email })
