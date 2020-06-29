@@ -1,7 +1,6 @@
 const logiclayer = require('./messageBlock.logiclayer')
 const datalayer = require('./messageBlock.datalayer')
 const urlDataLayer = require('./url.datalayer')
-const chatbotDataLayer = require('./../chatbots/chatbots.datalayer')
 const needle = require('needle')
 const config = require('./../../../config/environment')
 const utility = require('./../../../components/utility')
