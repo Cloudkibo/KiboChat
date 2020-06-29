@@ -73,13 +73,23 @@ exports.stats = (req, res) => {
   analyticsDataLayer.aggregateForBotAnalytics(criteria, groupCriteria)
     .then(analytics => {
       analytics = analytics[0]
-      return sendSuccessResponse(res, 200, {
-        sentCount: analytics.sentCount,
-        triggerWordsMatched: analytics.triggerWordsMatched,
-        newSubscribers: analytics.newSubscribersCount,
-        returningSubscribers: analytics.returningSubscribers,
-        urlBtnClickedCount: analytics.urlBtnClickedCount
-      }, null)
+      if (analytics) {
+        return sendSuccessResponse(res, 200, {
+          sentCount: analytics.sentCount,
+          triggerWordsMatched: analytics.triggerWordsMatched,
+          newSubscribers: analytics.newSubscribersCount,
+          returningSubscribers: analytics.returningSubscribers,
+          urlBtnClickedCount: analytics.urlBtnClickedCount
+        }, null)
+      } else {
+        return sendSuccessResponse(res, 200, {
+          sentCount: 0,
+          triggerWordsMatched: 0,
+          newSubscribers: 0,
+          returningSubscribers: 0,
+          urlBtnClickedCount: 0
+        }, null)
+      }
     })
     .catch(error => {
       logger.serverLog(TAG, error, 'error')
