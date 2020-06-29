@@ -1,6 +1,7 @@
 const logiclayer = require('./messageBlock.logiclayer')
 const datalayer = require('./messageBlock.datalayer')
 const urlDataLayer = require('./url.datalayer')
+const chatbotDataLayer = require('./../chatbots/chatbots.datalayer')
 const needle = require('needle')
 const config = require('./../../../config/environment')
 const utility = require('./../../../components/utility')
@@ -15,6 +16,14 @@ exports.create = function (req, res) {
     .then(messageBlock => {
       _sendToClientUsingSocket(messageBlock)
       updateUrlForClickCount(payload)
+      if (req.body.triggers) {
+        let updatePayload = { triggers: req.body.triggers }
+        if (messageBlock.upserted) updatePayload.startingBlockId = messageBlock.upserted[0]._id
+        chatbotDataLayer.genericUpdateChatBot(
+          { _id: req.body.chatbotId }, updatePayload)
+          .then(updated => logger.serverLog(TAG, `chatbot updated for triggers ${JSON.stringify(updated)}`))
+          .catch(error => logger.serverLog(TAG, `error in chatbot update for triggers ${JSON.stringify(error)}`))
+      }
       return sendSuccessResponse(res, 201, messageBlock, 'Created or updated successfully')
     })
     .catch(error => {
