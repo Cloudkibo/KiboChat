@@ -50,4 +50,7 @@ router.post('/restoreBackup',
   validate({ body: validationSchema.backupPayload }),
   controller.restoreBackup)
 
+router.get('/url/:id',
+  controller.redirectToUrl)
+
 module.exports = router
