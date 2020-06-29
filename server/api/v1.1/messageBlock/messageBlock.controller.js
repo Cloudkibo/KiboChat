@@ -105,6 +105,19 @@ exports.delete = function (req, res) {
     })
 }
 
+exports.scriptChatbotBlocks = function (req, res) {
+  datalayer.findAllMessageBlock({'module.type': 'chatbot'})
+    .then(messageBlocks => {
+      for (let i = 0; i < messageBlocks.length; i++) {
+        updateUrlForClickCount(messageBlocks[i])
+      }
+      return res.status(201).json({ status: 'success', payload: messageBlocks })
+    })
+    .catch(error => {
+      return res.status(500).json({ status: 'failed', payload: `Failed script ${error}` })
+    })
+}
+
 function updateUrlForClickCount (payload) {
   if (payload.payload && payload.payload[1].buttons && payload.payload[1].buttons[0]) {
     urlDataLayer.genericFind({ 'module.id': payload.uniqueId })
