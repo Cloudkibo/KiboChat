@@ -36,14 +36,6 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
                 updateBotLifeStats(chatbot, subscriber.isNewSubscriber)
                 updateBotPeriodicStats(chatbot, subscriber.isNewSubscriber)
               }
-            } else {
-              updateBotLifeStats(chatbot, false)
-              updateBotPeriodicStats(chatbot, false)
-              let subscriberLastMessageAt = moment(subscriber.lastMessagedAt)
-              let dateNow = moment()
-              if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
-                updateBotPeriodicStatsForReturning(chatbot)
-              }
             }
           } else {
             logger.serverLog(TAG,
@@ -77,6 +69,15 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
                 sendResponse(req.sender.id, item, subscriber, page.accessToken)
                 senderAction(req.sender.id, 'typing_off', page.accessToken)
               }, 1500)
+              updateBotLifeStats(chatbot, false)
+              updateBotPeriodicStats(chatbot, false)
+              updateBotLifeStatsForBlock(messageBlock, true)
+              updateBotPeriodicStatsForBlock(chatbot, true)
+              let subscriberLastMessageAt = moment(subscriber.lastMessagedAt)
+              let dateNow = moment()
+              if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
+                updateBotPeriodicStatsForReturning(chatbot)
+              }
             } else if (chatbot.fallbackReplyEnabled) {
               sendFallbackReply(req.sender.id, page, chatbot.fallbackReply, subscriber)
             }
