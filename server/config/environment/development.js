@@ -38,5 +38,8 @@ module.exports = {
   KIBOENGAGE_URL: 'http://localhost:3021/api',
   kibodash: `http://localhost:5050/api/v1`,
   accountsDomain: 'http://localhost:3024',
-  COVIS: 'http://localhost:8080/api'
+  COVIS: 'http://localhost:8080/api',
+  zoomClientId: 'sVqps8gkQOeR91ls8j9ZIA',
+  zoomClientSecret: 'ztyfVthdSe09OtTMO3Nl1dEtZXVdwVTN',
+  zoomRedirectUri: 'https://kibopush-zoom.ngrok.io/auth/zoom'
 }
