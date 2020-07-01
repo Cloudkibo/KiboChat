@@ -61,6 +61,7 @@ module.exports = function (app) {
   app.use('/api/chatbots', require('./api/v1.1/chatbots'))
   app.use('/api/messageBlock', require('./api/v1.1/messageBlock'))
   app.use('/api/zoom', require('./api/v1.1/zoomIntegration'))
+  app.use('/api/zoomEvents', require('./api/v1.1/zoomEvents'))
 
   // auth middleware go here if you authenticate on same server
 
