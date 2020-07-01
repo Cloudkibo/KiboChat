@@ -140,6 +140,33 @@ exports.cancelDeletion = function (req, res) {
     })
 }
 
+exports.validateFacebookConnected = function (req, res) {
+  let companyAggregation = [
+    {'$match': {_id: req.user.companyId}},
+    { '$lookup': { from: 'users', localField: 'ownerId', foreignField: '_id', as: 'user' } },
+    { '$unwind': '$user' }
+  ]
+  utility.callApi(`companyprofile/aggregate`, 'post', companyAggregation, 'accounts', req.headers.authorization)
+    .then(company => {
+      company = company[0]
+      let dataTosend = {
+        role: req.user.role,
+        buyerInfo: {
+          connectFacebook: company.user.connectFacebook,
+          buyerName: company.user.name,
+          buyerFbName: company.user.facebookInfo && company.user.facebookInfo.name ? company.user.facebookInfo.name : '',
+          email: company.user.email,
+          profilePic: company.user.facebookInfo && company.user.facebookInfo.profilePic ? company.user.facebookInfo.profilePic : ''
+        }  
+      }
+      sendSuccessResponse(res, 200, dataTosend)
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, err)
+    })
+}
+
+
 exports.validateUserAccessToken = function (req, res) {
   console.log('in validateUserAccessToken')
   if (req.user.role === 'buyer') {
