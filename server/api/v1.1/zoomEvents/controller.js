@@ -31,6 +31,7 @@ exports.uninstallApp = function (req, res) {
         zoomApiCaller('post', 'oauth/data/compliance', complianceBody, {type: 'basic'}, false)
           .then(complianceResponse => {
             logger.serverLog(TAG, `zoom disconnected successfully and data has been removed ${JSON.stringify(complianceResponse.body)}`)
+            _sendSocketEvent(uninstallPayload)
           })
           .catch(err => {
             logger.serverLog(TAG, err, 'error')
@@ -40,4 +41,20 @@ exports.uninstallApp = function (req, res) {
         logger.serverLog(TAG, err, 'error')
       })
   }
+}
+
+const _sendSocketEvent = (uninstallPayload) => {
+  callApi('zoomUsers', 'post', {purpose: 'findOne', match: {zoomId: uninstallPayload.user_id}})
+    .then(zoomUser => {
+      require('./../../../config/socketio').sendMessageToClient({
+        room_id: zoomUser.companyId,
+        body: {
+          action: 'zoom_uninstall',
+          payload: zoomUser
+        }
+      })
+    })
+    .catch(err => {
+      logger.serverLog(TAG, err, 'error')
+    })
 }
