@@ -62,7 +62,7 @@ module.exports = function (app) {
   app.use('/api/messageBlock', require('./api/v1.1/messageBlock'))
   app.use('/api/zoom', require('./api/v1.1/zoomIntegration'))
   app.use('/api/zoomEvents', require('./api/v1.1/zoomEvents'))
-
+  app.use('/api/flockSendEvents', require('./api/v1.1/flockSendEvents'))
   // auth middleware go here if you authenticate on same server
 
   app.get('/', (req, res) => {

@@ -43,6 +43,46 @@ exports.prepareSendMessagePayload = (body, companyUser, message) => {
   return MessageObject
 }
 
+exports.prepareFlockSendPayload = (body, companyUser, message) => {
+  let route = ''
+  let MessageObject = {
+    token: companyUser.companyId.flockSendWhatsApp.token,
+    number_details: JSON.stringify([
+      {phone: body.recipientNumber}])
+  }
+  if (body.payload.componentType === 'text') {
+    if (body.payload.templateName) {
+      MessageObject.template_name = body.payload.templateName
+      MessageObject.template_argument = body.payload.templateArguments
+      MessageObject.language = 'en'
+      route = 'hsm'
+    } else {
+      MessageObject.message = body.payload.text
+      route = 'text'
+    }
+  } else if (body.payload.componentType === 'sticker' ||
+    body.payload.componentType === 'image' ||
+    body.payload.componentType === 'thumbsUp') {
+    MessageObject.image = body.payload.fileurl.url || body.payload.fileurl
+    route = 'image'
+  } else if (body.payload.componentType === 'video' || body.payload.componentType === 'gif') {
+    MessageObject.video = body.payload.fileurl.url || body.payload.fileurl
+    route = 'video'
+  } else if (body.payload.componentType === 'file') {
+    let ext = path.extname(body.payload.fileName)
+    if (ext !== '') {
+      body.payload.fileName = body.payload.fileName.replace(ext, '')
+    }
+    MessageObject.title = body.payload.fileName
+    MessageObject.file = body.payload.fileurl.url || body.payload.fileurl
+    route = 'file'
+  }
+  return {
+    MessageObject,
+    route
+  }
+}
+
 exports.getQueryData = (type, purpose, match, skip, sort, limit, group) => {
   if (type === 'count') {
     return {
