@@ -174,21 +174,21 @@ const _updateCompanyProfile = (data, next) => {
   // } else {
   //   next(null)
   // }
-  if (!data.body.changeWhatsAppFlockSend) {
-    let newPayload = {flockSendWhatsApp: {
-      authToken: data.body.accessToken,
-      number: data.body.number.split(' ').join('')
-    }}
-    utility.callApi(`companyprofile/update`, 'put', {query: {_id: data.companyId}, newPayload: newPayload, options: {}})
-      .then(updatedProfile => {
-        next(null, updatedProfile)
-      })
-      .catch(err => {
-        next(err)
-      })
-  } else {
-    next(null)
-  }
+  // if (!data.body.changeWhatsAppFlockSend) {
+  let newPayload = {flockSendWhatsApp: {
+    accessToken: data.body.accessToken,
+    number: data.body.number.split(' ').join('')
+  }}
+  utility.callApi(`companyprofile/update`, 'put', {query: {_id: data.companyId}, newPayload: newPayload, options: {}})
+    .then(updatedProfile => {
+      next(null, updatedProfile)
+    })
+    .catch(err => {
+      next(err)
+    })
+  // } else {
+  //   next(null)
+  // }
 }
 
 const _updateUser = (data, next) => {

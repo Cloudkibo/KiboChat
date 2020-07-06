@@ -12,7 +12,7 @@ exports.index = function (req, res) {
   let number = `+${req.body.phone_number}`
   if (messageData.constructor === Object && Object.keys(messageData).length > 0) {
     let query = [
-      {$match: {'flockSendWhatsApp.token': req.body.user_id}}
+      {$match: {'flockSendWhatsApp.accessToken': req.body.user_id}}
     ]
     callApi(`companyprofile/aggregate`, 'post', query)
       .then(companies => {

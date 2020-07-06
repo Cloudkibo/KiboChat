@@ -46,7 +46,7 @@ exports.prepareSendMessagePayload = (body, companyUser, message) => {
 exports.prepareFlockSendPayload = (body, companyUser, message) => {
   let route = ''
   let MessageObject = {
-    token: companyUser.companyId.flockSendWhatsApp.token,
+    token: companyUser.companyId.flockSendWhatsApp.accessToken,
     number_details: JSON.stringify([
       {phone: body.recipientNumber}])
   }
