@@ -87,7 +87,6 @@ exports.create = function (req, res) {
             },
             function (callback) {
               let {route, MessageObject} = logicLayer.prepareFlockSendPayload(req.body, companyUser, message)
-              console.log('MessageObject', MessageObject)
               // record('whatsappChatOutGoing')
               flockSendApiCaller(route, 'post', MessageObject)
                 .then(response => {
