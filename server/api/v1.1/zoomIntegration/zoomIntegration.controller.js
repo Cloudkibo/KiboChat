@@ -37,26 +37,48 @@ exports.createMeeting = function (req, res) {
             const meetingBody = {
               topic: data.topic,
               type: 1,
-              password: _generatePassword(),
+              password: logicLayer.generatePassword(),
               agenda: data.agenda
             }
-            zoomApiCaller('post', 'v2/users/me/meetings', meetingBody, {type: 'bearer', token: accessToken}, false)
-              .then(meetingResponse => {
-                console.log(JSON.stringify(meetingResponse))
-                const zoomMeetingPayload = logicLayer.prepareZoomMeetingPayload(data, meetingResponse)
-                callApi('zoomMeetings', 'post', zoomMeetingPayload)
-                  .then(meetingCreated => {
-                    sendSuccessResponse(res, 200, {joinUrl: meetingResponse.join_url})
-                  })
-                  .catch(err => {
-                    logger.serverLog(TAG, err, 'error')
-                    sendErrorResponse(res, 500, undefined, 'Failed to create zoom meeting record')
-                  })
-              })
-              .catch(err => {
-                logger.serverLog(TAG, err, 'error')
-                sendErrorResponse(res, 500, undefined, 'Failed to create zoom meeting')
-              })
+            const rateLimitPayload = logicLayer.checkRateLimit(zoomUser)
+            if (!rateLimitPayload.limitReached) {
+              zoomApiCaller('post', 'v2/users/me/meetings', meetingBody, {type: 'bearer', token: accessToken}, false)
+                .then(meetingResponse => {
+                  const zoomMeetingPayload = logicLayer.prepareZoomMeetingPayload(data, meetingResponse)
+                  callApi('zoomMeetings', 'post', zoomMeetingPayload)
+                    .then(meetingCreated => {
+                      if (rateLimitPayload.hours <= 24) {
+                        callApi('zoomUsers/query', 'post', {purpose: 'updateOne', match: {_id: zoomUser._id}, updated: {$inc: {'meetingsPerDay.apiCalls': 1}}})
+                          .then(updated => {
+                            sendSuccessResponse(res, 200, {joinUrl: meetingResponse.join_url})
+                          })
+                          .catch(err => {
+                            logger.serverLog(TAG, err, 'error')
+                            sendErrorResponse(res, 500, undefined, 'Failed to update api calls count')
+                          })
+                      } else {
+                        callApi('zoomUsers/query', 'post', {purpose: 'updateOne', match: {_id: zoomUser._id}, updated: {meetingsPerDay: {datetime: new Date(), apiCalls: 1}}})
+                          .then(updated => {
+                            sendSuccessResponse(res, 200, {joinUrl: meetingResponse.join_url})
+                          })
+                          .catch(err => {
+                            logger.serverLog(TAG, err, 'error')
+                            sendErrorResponse(res, 500, undefined, 'Failed to update api calls count')
+                          })
+                      }
+                    })
+                    .catch(err => {
+                      logger.serverLog(TAG, err, 'error')
+                      sendErrorResponse(res, 500, undefined, 'Failed to create zoom meeting record')
+                    })
+                })
+                .catch(err => {
+                  logger.serverLog(TAG, err, 'error')
+                  sendErrorResponse(res, 500, undefined, 'Failed to create zoom meeting')
+                })
+            } else {
+              sendErrorResponse(res, 500, undefined, 'API_LIMIT_REACHED')
+            }
           })
           .catch(err => {
             logger.serverLog(TAG, err, 'error')
@@ -68,14 +90,4 @@ exports.createMeeting = function (req, res) {
       logger.serverLog(TAG, err, 'error')
       sendErrorResponse(res, 500, undefined, 'Failed to fetch zoom user')
     })
-}
-
-const _generatePassword = () => {
-  const length = 8
-  const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-  let retVal = ''
-  for (let i = 0; i < length; ++i) {
-    retVal += charset.charAt(Math.floor(Math.random() * charset.length))
-  }
-  return retVal
 }
