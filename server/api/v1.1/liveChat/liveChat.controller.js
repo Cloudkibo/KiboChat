@@ -22,40 +22,18 @@ exports.index = function (req, res) {
 
     let messagesData = logicLayer.getQueryData('', 'aggregate', query, 0, { datetime: -1 }, req.body.number)
 
-    async.parallelLimit([
-      function (callback) {
-        callApi(`subscribers/query`, 'post', {_id: req.params.subscriber_id})
-          .then(data => {
-            data = data[0]
-            callback(null, data)
-          })
-          .catch(err => {
-            callback(err)
-          })
-      },
-      function (callback) {
-        callApi(`livechat/query`, 'post', messagesData, 'kibochat')
-          .then(data => {
-            callback(null, data)
-          })
-          .catch(err => {
-            callback(err)
-          })
-      }
-    ], 10, function (err, results) {
-      if (err) {
-        return res.status(500).json({status: 'failed', payload: err})
-      } else {
-        let chatCount = results[0]
-        let fbchats = results[1].reverse()
+    callApi(`livechat/query`, 'post', messagesData, 'kibochat')
+      .then(data => {
+        let fbchats = data.reverse()
         fbchats = logicLayer.setChatProperties(fbchats)
         let payload = {
-          chat: fbchats,
-          count: chatCount.messagesCount
+          chat: fbchats
         }
         sendSuccessResponse(res, 200, payload)
-      }
-    })
+      })
+      .catch(err => {
+        sendErrorResponse(res, 500, err)
+      })
   } else {
     sendErrorResponse(res, 400, 'Parameter session_id is required!')
   }
