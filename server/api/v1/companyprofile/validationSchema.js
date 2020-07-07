@@ -16,7 +16,7 @@ exports.invitePayload = {
     }
   }
 }
-exports.fetchValidCallerIds = {
+exports.updatePlatformPayload = {
   'type': 'object',
   'properties': {
     twilio: {
@@ -34,7 +34,7 @@ exports.fetchValidCallerIds = {
     }
   }
 }
-exports.updatePlatformPayload = {
+exports.fetchValidCallerIds = {
   'type': 'object',
   'properties': {
     twilio: {
@@ -55,22 +55,30 @@ exports.updatePlatformPayload = {
 exports.updatePlatformWhatsApp = {
   'type': 'object',
   'properties': {
-    accountSID: {
+    accessToken: {
       type: 'string',
       required: true
     },
-    authToken: {
-      type: 'string',
-      required: true
-    },
-    sandboxNumber: {
-      type: 'string',
-      required: true
-    },
-    sandboxCode: {
+    number: {
       type: 'string',
       required: true
     }
+    // accountSID: {
+    //   type: 'string',
+    //   required: true
+    // },
+    // authToken: {
+    //   type: 'string',
+    //   required: true
+    // },
+    // sandboxNumber: {
+    //   type: 'string',
+    //   required: true
+    // },
+    // sandboxCode: {
+    //   type: 'string',
+    //   required: true
+    // }
   }
 }
 exports.disconnect = {

@@ -60,10 +60,36 @@ module.exports = function (app) {
   app.use('/api/twilio', require('./api/v1.1/twilio'))
   app.use('/api/chatbots', require('./api/v1.1/chatbots'))
   app.use('/api/messageBlock', require('./api/v1.1/messageBlock'))
-
+  app.use('/api/zoom', require('./api/v1.1/zoomIntegration'))
+  app.use('/api/zoomEvents', require('./api/v1.1/zoomEvents'))
+  app.use('/api/flockSendEvents', require('./api/v1.1/flockSendEvents'))
   // auth middleware go here if you authenticate on same server
 
   app.get('/', (req, res) => {
+    res.cookie('environment', config.env,
+      {expires: new Date(Date.now() + 900000)})
+    res.cookie('url_production', 'https://kibochat.cloudkibo.com',
+      {expires: new Date(Date.now() + 900000)})
+    res.cookie('url_staging', 'https://skibochat.cloudkibo.com',
+      {expires: new Date(Date.now() + 900000)})
+    res.cookie('url_development', 'http://localhost:3022',
+      {expires: new Date(Date.now() + 900000)})
+    res.sendFile(path.join(config.root, 'client/index.html'))
+  })
+
+  app.get('/successMessage', (req, res) => {
+    res.cookie('environment', config.env,
+      {expires: new Date(Date.now() + 900000)})
+    res.cookie('url_production', 'https://kibochat.cloudkibo.com',
+      {expires: new Date(Date.now() + 900000)})
+    res.cookie('url_staging', 'https://skibochat.cloudkibo.com',
+      {expires: new Date(Date.now() + 900000)})
+    res.cookie('url_development', 'http://localhost:3022',
+      {expires: new Date(Date.now() + 900000)})
+    res.sendFile(path.join(config.root, 'client/index.html'))
+  })
+
+  app.get('/ErrorMessage', (req, res) => {
     res.cookie('environment', config.env,
       {expires: new Date(Date.now() + 900000)})
     res.cookie('url_production', 'https://kibochat.cloudkibo.com',

@@ -36,5 +36,8 @@ module.exports = {
   ACCOUNTS_URL: 'https://saccounts.cloudkibo.com/api/v1',
   KIBOENGAGE_URL: 'https://skiboengage.cloudkibo.com/api',
   accountsDomain: 'https://saccounts.cloudkibo.com',
-  kibodash: `${process.env.KIBODASH}/api/v1`
+  kibodash: `${process.env.KIBODASH}/api/v1`,
+  zoomClientId: process.env.ZOOM_CLIENT_ID,
+  zoomClientSecret: process.env.ZOOM_CLIENT_SECRET,
+  zoomRedirectUri: process.env.ZOOM_REDIRECT_URI
 }

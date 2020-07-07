@@ -2,8 +2,8 @@ const logicLayer = require('./whatsAppChat.logiclayer')
 const { callApi } = require('../utility')
 const async = require('async')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
-const { record } = require('../../global/messageStatistics')
 const { sendOpAlert } = require('../../global/operationalAlert')
+const { flockSendApiCaller } = require('../../global/flockSendApiCaller')
 
 exports.index = function (req, res) {
   if (req.params.contactId) {
@@ -86,24 +86,25 @@ exports.create = function (req, res) {
                 })
             },
             function (callback) {
-              let accountSid = companyUser.companyId.twilioWhatsApp.accountSID
-              let authToken = companyUser.companyId.twilioWhatsApp.authToken
-              let client = require('twilio')(accountSid, authToken)
-              let messageToSend = logicLayer.prepareSendMessagePayload(req.body, companyUser, message)
-              record('whatsappChatOutGoing')
-              client.messages
-                .create(messageToSend)
+              let {route, MessageObject} = logicLayer.prepareFlockSendPayload(req.body, companyUser, message)
+              // record('whatsappChatOutGoing')
+              flockSendApiCaller(route, 'post', MessageObject)
                 .then(response => {
-                  callback(null, message)
+                  let parsed = JSON.parse(response.body)
+                  if (parsed.code !== 200) {
+                    callback(parsed.message)
+                  } else {
+                    callback(null, message)
+                  }
                 })
                 .catch(error => {
                   sendOpAlert(error, 'whatsAppChat controller in kibochat', null, req.user._id, companyUser.companyId)
-                  sendErrorResponse(res, 500, `Failed to send message ${JSON.stringify(error)}`)
+                  callback(error)
                 })
             }
           ], 10, function (err, results) {
             if (err) {
-              sendErrorResponse(res, 500, `Failed to send message ${JSON.stringify(err)}`)
+              sendErrorResponse(res, 500, err)
             } else {
               require('./../../../config/socketio').sendMessageToClient({
                 room_id: req.user.companyId,
@@ -123,7 +124,7 @@ exports.create = function (req, res) {
           })
         })
         .catch(error => {
-          sendErrorResponse(res, 500, `Failed to save message ${JSON.stringify(error)}`)
+          sendErrorResponse(res, 500, `Failed to save message ${error}`)
         })
     })
     .catch(error => {
