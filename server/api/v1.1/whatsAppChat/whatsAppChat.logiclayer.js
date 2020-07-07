@@ -4,7 +4,7 @@ var path = require('path')
 exports.prepareChat = (body, companyUser) => {
   let MessageObject = {
     senderNumber: body.recipientNumber,
-    recipientNumber: companyUser.companyId.twilioWhatsApp.sandboxNumber,
+    recipientNumber: companyUser.companyId.flockSendWhatsApp.number,
     contactId: body.contactId,
     companyId: companyUser.companyId._id,
     payload: body.payload,
