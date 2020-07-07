@@ -1,6 +1,8 @@
 const needle = require('needle')
 const config = require('../../config/environment')
 const { callApi } = require('../v1.1/utility')
+const logger = require('../../components/logger')
+const TAG = '/api/global/zoom.js'
 
 const zoomApiCaller = (method, path, data, auth, qs) => {
   let authorization = ''
@@ -40,6 +42,7 @@ exports.refreshAccessToken = (zoomUser) => {
     }
     zoomApiCaller('post', 'oauth/token', params, {type: 'basic'}, true)
       .then(response => {
+        logger.serverLog(TAG, `zoom refresh access token response ${JSON.stringify(response)}`, 'debug')
         const accessToken = response.access_token
         const refreshToken = response.refresh_token
         if (accessToken) {
