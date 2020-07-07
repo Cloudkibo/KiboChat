@@ -209,6 +209,8 @@ exports.enable = function (req, res) {
                               utility.callApi('pages/query', 'post', {_id: req.body._id})
                                 .then(pages => {
                                   let page = pages[0]
+
+                                  query.welcomeMessage = page.welcomeMessage ? page.welcomeMessage : query.welcomeMessage
                                   // initiate reach estimation
                                   // needle('post', `https://graph.facebook.com/v6.0/me/broadcast_reach_estimations?access_token=${page.accessToken}`)
                                   //   .then(reachEstimation => {
