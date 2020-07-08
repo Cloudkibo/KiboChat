@@ -41,7 +41,7 @@ exports.index = function (req, res) {
                 .then(updated => {
                 })
                 .catch(error => {
-                  logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
+                  logger.serverLog(TAG, `Failed to update session1 ${error}`, 'error')
                 })
             }
             logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
@@ -51,7 +51,7 @@ exports.index = function (req, res) {
             }
           })
           .catch(error => {
-            logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
+            logger.serverLog(TAG, `Failed to update session2 ${error}`, 'error')
           })
       }
     })
@@ -102,18 +102,21 @@ function saveLiveChat (page, subscriber, event) {
     })
   logicLayer.prepareLiveChatPayload(event.message, subscriber, page)
     .then(chatPayload => {
+      console.log('chatPayload got', chatPayload)
       if ((event.message && !event.message.is_echo) || (event.message && event.message.is_echo && event.message.metadata !== 'SENT_FROM_KIBOPUSH')) {
         saveChatInDb(page, chatPayload, subscriber, event)
       }
     })
 }
 function saveChatInDb (page, chatPayload, subscriber, event) {
+  console.log('in saveChatInDb')
   if (
     Object.keys(chatPayload.payload).length > 0 &&
     chatPayload.payload.constructor === Object &&
     !event.message.delivery &&
     !event.message.read
   ) {
+    console.log('inside')
     LiveChatDataLayer.createFbMessageObject(chatPayload)
       .then(chat => {
         if (!event.message.is_echo) {
