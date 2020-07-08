@@ -36,6 +36,15 @@ exports.getAdvancedSettings = function (req, res) {
     })
 }
 
+exports.switchToBasicPlan = function (req, res) {
+  utility.callApi(`companyprofile/switchToBasicPlan`, 'get', {}, 'accounts', req.headers.authorization)
+    .then(updatedProfile => {
+      sendSuccessResponse(res, 200, updatedProfile)
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, `Failed to update company profile ${err}`)
+    })
+}
 
 exports.updateAdvancedSettings = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user

@@ -15,6 +15,10 @@ router.get('/getAutomatedOptions',
   auth.isAuthenticated(),
   controller.getAutomatedOptions)
 
+router.get('/switchToBasicPlan',
+  auth.isAuthenticated(),
+  controller.switchToBasicPlan)
+
 router.post('/invite',
   auth.isAuthenticated(),
   auth.doesPlanPermitsThisAction('invite_members'),
