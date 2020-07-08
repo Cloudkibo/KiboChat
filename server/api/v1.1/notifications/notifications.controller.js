@@ -24,6 +24,13 @@ exports.create = function (req, res) {
       callApi(`notifications`, 'post', notificationsData, 'kibochat')
         .then(savedNotification => {
           if (i === (req.body.agentIds.length - 1)) {
+            require('./../../../config/socketio').sendMessageToClient({
+              room_id: req.body.companyId,
+              body: {
+                action: 'new_notification',
+                payload: req.body
+              }
+            })
             sendSuccessResponse(res, 200, savedNotification)
           }
         })
