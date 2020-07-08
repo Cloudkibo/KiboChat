@@ -60,10 +60,12 @@ exports.index = function (req, res) {
     })
 }
 function saveLiveChat (page, subscriber, event) {
+  console.log('in saveLiveChat')
   record('messengerChatInComing')
   if (subscriber && !event.message.is_echo) {
     botController.respondUsingBot(page, subscriber, event.message.text)
   }
+  console.log('after if')
   utility.callApi(`webhooks/query`, 'post', {pageId: page.pageId})
     .then(webhooks => {
       let webhook = webhooks[0]
