@@ -204,7 +204,7 @@ function sendNotification (subscriber, payload, companyId, pageName) {
 }
 
 function saveNotifications (subscriber, companyUsers, pageName) {
-  companyUsers.forEach(companyUser => {
+  companyUsers.forEach((companyUser, index) => {
     let notificationsData = {
       message: `${subscriber.firstName} ${subscriber.lastName} sent a message to page ${pageName}`,
       category: { type: 'new_message', id: subscriber._id },
@@ -213,6 +213,15 @@ function saveNotifications (subscriber, companyUsers, pageName) {
     }
     utility.callApi(`notifications`, 'post', notificationsData, 'kibochat')
       .then(savedNotification => {
+        if (index === companyUsers.length - 1) {
+          require('./../../../config/socketio').sendMessageToClient({
+            room_id: companyUser.companyId,
+            body: {
+              action: 'new_notification',
+              payload: savedNotification
+            }
+          })
+        }
       })
       .catch(error => {
         logger.serverLog(TAG, `Failed to save notification ${error}`, 'error')

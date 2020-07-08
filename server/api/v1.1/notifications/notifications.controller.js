@@ -24,6 +24,13 @@ exports.create = function (req, res) {
       callApi(`notifications`, 'post', notificationsData, 'kibochat')
         .then(savedNotification => {
           if (i === (req.body.agentIds.length - 1)) {
+            require('./../../../config/socketio').sendMessageToClient({
+              room_id: req.body.companyId,
+              body: {
+                action: 'new_notification',
+                payload: req.body
+              }
+            })
             sendSuccessResponse(res, 200, savedNotification)
           }
         })
@@ -37,11 +44,11 @@ exports.create = function (req, res) {
 }
 exports.markRead = function (req, res) {
   let notificationUpdateData = LogicLayer.getUpdateData('updateOne', {_id: req.body.notificationId}, {seen: true})
-  callApi(`notifications/update`, 'put', notificationUpdateData, 'kibochat')
+  callApi(`notifications`, 'put', notificationUpdateData, 'kibochat')
     .then(updated => {
       sendSuccessResponse(res, 200, updated)
     })
     .catch(error => {
-      sendErrorResponse(res, 500, `Failed to update notification ${JSON.stringify(error)}`)
+      sendErrorResponse(res, 500, `Failed to update notification ${error}`)
     })
 }
