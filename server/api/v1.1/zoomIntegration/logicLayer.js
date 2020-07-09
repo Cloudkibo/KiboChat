@@ -3,6 +3,7 @@ exports.prepareZoomMeetingPayload = (data, meeting) => {
     userId: data.userId,
     companyId: data.companyId,
     subscriberId: data.subscriberId,
+    zoomUserId: data.zoomUserId,
     topic: data.topic,
     agenda: data.agenda,
     invitationMessage: data.invitationMessage.replace('[invite_url]', meeting.join_url),
