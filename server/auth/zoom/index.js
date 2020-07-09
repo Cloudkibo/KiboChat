@@ -9,7 +9,6 @@ const TAG = 'auth/zoom/index.js'
 const config = require('../../config/environment')
 
 router.get('/', (req, res) => {
-  console.log('auth/zoom is hit')
   if (req.query.code && req.query.state) {
     const userContext = req.query.state.split('-')
     const params = {
@@ -26,7 +25,7 @@ router.get('/', (req, res) => {
           zoomApiCaller('get', 'v2/users/me', {}, {type: 'bearer', token: accessToken}, false)
             .then(zoomUser => {
               const dataToSave = prepareZoomUserPayload(accessToken, refreshToken, zoomUser, userContext)
-              callApi('zoomUsers', 'put', {purpose: 'updateOne', match: {companyId: userContext[1]}, updated: dataToSave, upsert: true})
+              callApi('zoomUsers', 'put', {purpose: 'updateOne', match: {companyId: userContext[1], zoomId: zoomUser.id}, updated: dataToSave, upsert: true})
                 .then(saved => {
                   res.redirect('/successMessage')
                 })
