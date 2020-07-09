@@ -173,10 +173,12 @@ function sendNotification (subscriber, payload, companyId, pageName) {
           subscriber.lastDateTime = gotLastMessage[0].datetime
           if (!subscriber.is_assigned) {
             sendNotifications(title, body, subscriber, companyUsers)
+            saveNotifications(subscriber, companyUsers, pageName)
           } else {
             if (subscriber.assigned_to.type === 'agent') {
               companyUsers = companyUsers.filter(companyUser => companyUser.userId._id === subscriber.assigned_to.id)
               sendNotifications(title, body, subscriber, companyUsers)
+              saveNotifications(subscriber, companyUsers, pageName)
             } else {
               utility.callApi(`teams/agents/query`, 'post', {teamId: subscriber.assigned_to.id}, 'accounts')
                 .then(teamagents => {
@@ -187,6 +189,7 @@ function sendNotification (subscriber, payload, companyId, pageName) {
                     }
                   })
                   sendNotifications(title, body, subscriber, companyUsers)
+                  saveNotifications(subscriber, companyUsers, pageName)
                 }).catch(error => {
                   logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
                 })
@@ -198,6 +201,32 @@ function sendNotification (subscriber, payload, companyId, pageName) {
     }).catch(error => {
       logger.serverLog(TAG, `Error while fetching companyUser ${error}`, 'error')
     })
+}
+
+function saveNotifications (subscriber, companyUsers, pageName) {
+  companyUsers.forEach((companyUser, index) => {
+    let notificationsData = {
+      message: `${subscriber.firstName} ${subscriber.lastName} sent a message to page ${pageName}`,
+      category: { type: 'new_message', id: subscriber._id },
+      agentId: companyUser.userId._id,
+      companyId: companyUser.companyId
+    }
+    utility.callApi(`notifications`, 'post', notificationsData, 'kibochat')
+      .then(savedNotification => {
+        if (index === companyUsers.length - 1) {
+          require('./../../../config/socketio').sendMessageToClient({
+            room_id: companyUser.companyId,
+            body: {
+              action: 'new_notification',
+              payload: savedNotification
+            }
+          })
+        }
+      })
+      .catch(error => {
+        logger.serverLog(TAG, `Failed to save notification ${error}`, 'error')
+      })
+  })
 }
 
 function sendautomatedmsg (req, page) {
