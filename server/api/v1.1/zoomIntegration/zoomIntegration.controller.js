@@ -51,7 +51,7 @@ exports.createMeeting = function (req, res) {
                   callApi('zoomMeetings', 'post', zoomMeetingPayload)
                     .then(meetingCreated => {
                       if (rateLimitPayload.hours <= 24) {
-                        callApi('zoomUsers/query', 'post', {purpose: 'updateOne', match: {_id: zoomUser._id}, updated: {$inc: {'meetingsPerDay.apiCalls': 1}}})
+                        callApi('zoomUsers', 'put', {purpose: 'updateOne', match: {_id: zoomUser._id}, updated: {$inc: {'meetingsPerDay.apiCalls': 1}}})
                           .then(updated => {
                             sendSuccessResponse(res, 200, {joinUrl: meetingResponse.join_url})
                           })
@@ -60,7 +60,7 @@ exports.createMeeting = function (req, res) {
                             sendErrorResponse(res, 500, undefined, 'Failed to update api calls count')
                           })
                       } else {
-                        callApi('zoomUsers/query', 'post', {purpose: 'updateOne', match: {_id: zoomUser._id}, updated: {meetingsPerDay: {datetime: new Date(), apiCalls: 1}}})
+                        callApi('zoomUsers', 'put', {purpose: 'updateOne', match: {_id: zoomUser._id}, updated: {meetingsPerDay: {datetime: new Date(), apiCalls: 1}}})
                           .then(updated => {
                             sendSuccessResponse(res, 200, {joinUrl: meetingResponse.join_url})
                           })
