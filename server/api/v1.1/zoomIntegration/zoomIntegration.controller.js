@@ -28,7 +28,7 @@ exports.createMeeting = function (req, res) {
     userId: req.user._id,
     authorization: req.headers.authorization
   }
-  callApi('zoomUsers/query', 'post', {purpose: 'findOne', match: {companyId: data.companyId, connected: true}})
+  callApi('zoomUsers/query', 'post', {purpose: 'findOne', match: {_id: data.zoomUserId, connected: true}})
     .then(zoomUser => {
       if (!zoomUser) {
         sendErrorResponse(res, 500, undefined, 'Fatal error: zoom not integrated.')
