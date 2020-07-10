@@ -6,11 +6,11 @@ const { zoomApiCaller, refreshAccessToken } = require('../../global/zoom')
 const logicLayer = require('./logicLayer')
 const { saveNotification } = require('../../global/notifications')
 
-exports.getZoomUser = function (req, res) {
-  callApi('zoomUsers/query', 'post', {purpose: 'findOne', match: {companyId: req.user.companyId, connected: true}})
-    .then(zoomUser => {
-      if (zoomUser) {
-        sendSuccessResponse(res, 200, zoomUser)
+exports.getZoomUsers = function (req, res) {
+  callApi('zoomUsers/query', 'post', {purpose: 'findAll', match: {companyId: req.user.companyId, connected: true}})
+    .then(zoomUsers => {
+      if (zoomUsers.length > 0) {
+        sendSuccessResponse(res, 200, zoomUsers)
       } else {
         sendSuccessResponse(res, 200, null, 'zoom_not_integrated')
       }

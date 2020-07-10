@@ -9,7 +9,7 @@ const validationSchema = require('./validationSchema')
 
 router.get('/users',
   auth.isAuthenticated(),
-  controller.getZoomUser)
+  controller.getZoomUsers)
 
 router.post('/meetings',
   auth.isAuthenticated(),
