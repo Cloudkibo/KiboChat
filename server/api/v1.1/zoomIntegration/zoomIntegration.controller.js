@@ -4,12 +4,13 @@ const { callApi } = require('../utility')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const { zoomApiCaller, refreshAccessToken } = require('../../global/zoom')
 const logicLayer = require('./logicLayer')
+const { saveNotification } = require('../../global/notifications')
 
-exports.getZoomUser = function (req, res) {
-  callApi('zoomUsers/query', 'post', {purpose: 'findOne', match: {companyId: req.user.companyId, connected: true}})
-    .then(zoomUser => {
-      if (zoomUser) {
-        sendSuccessResponse(res, 200, zoomUser)
+exports.getZoomUsers = function (req, res) {
+  callApi('zoomUsers/query', 'post', {purpose: 'findAll', match: {companyId: req.user.companyId, connected: true}})
+    .then(zoomUsers => {
+      if (zoomUsers.length > 0) {
+        sendSuccessResponse(res, 200, zoomUsers)
       } else {
         sendSuccessResponse(res, 200, null, 'zoom_not_integrated')
       }
@@ -27,7 +28,7 @@ exports.createMeeting = function (req, res) {
     userId: req.user._id,
     authorization: req.headers.authorization
   }
-  callApi('zoomUsers/query', 'post', {purpose: 'findOne', match: {companyId: data.companyId, connected: true}})
+  callApi('zoomUsers/query', 'post', {purpose: 'findOne', match: {_id: data.zoomUserId, connected: true}})
     .then(zoomUser => {
       if (!zoomUser) {
         sendErrorResponse(res, 500, undefined, 'Fatal error: zoom not integrated.')
@@ -37,26 +38,50 @@ exports.createMeeting = function (req, res) {
             const meetingBody = {
               topic: data.topic,
               type: 1,
-              password: _generatePassword(),
+              password: logicLayer.generatePassword(),
               agenda: data.agenda
             }
-            zoomApiCaller('post', 'v2/users/me/meetings', meetingBody, {type: 'bearer', token: accessToken}, false)
-              .then(meetingResponse => {
-                console.log(JSON.stringify(meetingResponse))
-                const zoomMeetingPayload = logicLayer.prepareZoomMeetingPayload(data, meetingResponse)
-                callApi('zoomMeetings', 'post', zoomMeetingPayload)
-                  .then(meetingCreated => {
-                    sendSuccessResponse(res, 200, {joinUrl: meetingResponse.join_url})
-                  })
-                  .catch(err => {
-                    logger.serverLog(TAG, err, 'error')
-                    sendErrorResponse(res, 500, undefined, 'Failed to create zoom meeting record')
-                  })
-              })
-              .catch(err => {
-                logger.serverLog(TAG, err, 'error')
-                sendErrorResponse(res, 500, undefined, 'Failed to create zoom meeting')
-              })
+            const rateLimitPayload = logicLayer.checkRateLimit(zoomUser)
+            if (!rateLimitPayload.limitReached) {
+              zoomApiCaller('post', 'v2/users/me/meetings', meetingBody, {type: 'bearer', token: accessToken}, false)
+                .then(meetingResponse => {
+                  data.joinUrl = meetingResponse.join_url
+                  _sendNotification(data)
+                  const zoomMeetingPayload = logicLayer.prepareZoomMeetingPayload(data, meetingResponse)
+                  callApi('zoomMeetings', 'post', zoomMeetingPayload)
+                    .then(meetingCreated => {
+                      if (rateLimitPayload.hours <= 24) {
+                        callApi('zoomUsers', 'put', {purpose: 'updateOne', match: {_id: zoomUser._id}, updated: {$inc: {'meetingsPerDay.apiCalls': 1}}})
+                          .then(updated => {
+                            sendSuccessResponse(res, 200, {joinUrl: meetingResponse.join_url})
+                          })
+                          .catch(err => {
+                            logger.serverLog(TAG, err, 'error')
+                            sendErrorResponse(res, 500, undefined, 'Failed to update api calls count')
+                          })
+                      } else {
+                        callApi('zoomUsers', 'put', {purpose: 'updateOne', match: {_id: zoomUser._id}, updated: {meetingsPerDay: {datetime: new Date(), apiCalls: 1}}})
+                          .then(updated => {
+                            sendSuccessResponse(res, 200, {joinUrl: meetingResponse.join_url})
+                          })
+                          .catch(err => {
+                            logger.serverLog(TAG, err, 'error')
+                            sendErrorResponse(res, 500, undefined, 'Failed to update api calls count')
+                          })
+                      }
+                    })
+                    .catch(err => {
+                      logger.serverLog(TAG, err, 'error')
+                      sendErrorResponse(res, 500, undefined, 'Failed to create zoom meeting record')
+                    })
+                })
+                .catch(err => {
+                  logger.serverLog(TAG, err, 'error')
+                  sendErrorResponse(res, 500, undefined, 'Failed to create zoom meeting')
+                })
+            } else {
+              sendErrorResponse(res, 500, undefined, 'API_LIMIT_REACHED')
+            }
           })
           .catch(err => {
             logger.serverLog(TAG, err, 'error')
@@ -70,12 +95,41 @@ exports.createMeeting = function (req, res) {
     })
 }
 
-const _generatePassword = () => {
-  const length = 8
-  const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-  let retVal = ''
-  for (let i = 0; i < length; ++i) {
-    retVal += charset.charAt(Math.floor(Math.random() * charset.length))
-  }
-  return retVal
+const _sendNotification = (data) => {
+  callApi(`subscribers/${data.subscriberId}`, 'get', {}, 'accounts', data.authorization)
+    .then(subscriber => {
+      const notificationMessage = `A zoom meeting has been created to handle subscriber - ${subscriber.firstName} ${subscriber.lastName} query.`
+      if (subscriber.is_assigned && subscriber.assigned_to.type === 'team') {
+        callApi(`teams/agents/query`, 'post', {companyId: data.companyId, teamId: subscriber.assigned_to.id}, 'accounts', data.authorization)
+          .then(agents => {
+            const userIds = agents.map((a) => data.userId !== a.agentId && a.agentId)
+            saveNotification(
+              userIds,
+              data.companyId,
+              notificationMessage,
+              {type: 'zoom_meeting', joinUrl: data.joinUrl}
+            )
+          })
+          .catch(err => {
+            logger.serverLog(TAG, `Failed to fetch members ${err}`, 'error')
+          })
+      } else {
+        callApi(`companyprofile/members`, 'get', {}, 'accounts', data.authorization)
+          .then(members => {
+            const userIds = members.map((m) => data.userId !== m.userId._id && m.userId._id)
+            saveNotification(
+              userIds,
+              data.companyId,
+              notificationMessage,
+              {type: 'zoom_meeting', joinUrl: data.joinUrl}
+            )
+          })
+          .catch(err => {
+            logger.serverLog(TAG, `Failed to fetch members ${err}`, 'error')
+          })
+      }
+    })
+    .catch(err => {
+      logger.serverLog(TAG, `Failed to fetch subscriber ${err}`, 'error')
+    })
 }
