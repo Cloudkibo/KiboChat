@@ -19,6 +19,13 @@ exports.saveNotification = (agentIds, companyId, message, category) => {
       logger.serverLog(TAG, err, 'error')
     } else {
       logger.serverLog(TAG, 'Notifications have been saved')
+      require('./../../config/socketio').sendMessageToClient({
+        room_id: companyId,
+        body: {
+          action: 'new_notification',
+          payload: notification
+        }
+      })
     }
   })
 }
