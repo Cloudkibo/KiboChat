@@ -21,10 +21,8 @@ exports.create = function (req, res) {
         agentId: agentId,
         companyId: req.body.companyId
       }
-      console.log('data to save', notificationsData)
       callApi(`notifications`, 'post', notificationsData, 'kibochat')
         .then(savedNotification => {
-          console.log('saved notification', savedNotification)
           if (i === (req.body.agentIds.length - 1)) {
             require('./../../../config/socketio').sendMessageToClient({
               room_id: req.body.companyId,
@@ -37,7 +35,6 @@ exports.create = function (req, res) {
           }
         })
         .catch(error => {
-          console.log('failed to create notification', error)
           sendErrorResponse(res, 500, `Failed to create notification ${JSON.stringify(error)}`)
         })
     })
