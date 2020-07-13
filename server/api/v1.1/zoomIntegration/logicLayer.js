@@ -26,7 +26,7 @@ exports.checkRateLimit = (zoomUser) => {
   let payload = {}
   if (zoomUser.meetingsPerDay) {
     const hours = (new Date() - new Date(zoomUser.meetingsPerDay.datetime)) / 3600000
-    if (hours <= 24 && zoomUser.meetingsPerDay.apiCalls < 100) {
+    if ((hours <= 24 && zoomUser.meetingsPerDay.apiCalls < 100) || hours > 24) {
       payload = {
         hours,
         limitReached: false
