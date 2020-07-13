@@ -63,10 +63,12 @@ exports.prepareFlockSendPayload = (body, companyUser, message) => {
   } else if (body.payload.componentType === 'sticker' ||
     body.payload.componentType === 'image' ||
     body.payload.componentType === 'thumbsUp') {
-    MessageObject.image = body.payload.fileurl.url || body.payload.fileurl
+    MessageObject.image = "https://accounts.cloudkibo.com/api/v1/files/download/f0baefbeaee202071363323.png"
+    MessageObject.title = body.payload.caption
     route = 'image'
   } else if (body.payload.componentType === 'video' || body.payload.componentType === 'gif') {
     MessageObject.video = body.payload.fileurl.url || body.payload.fileurl
+    MessageObject.title = body.payload.caption
     route = 'video'
   } else if (body.payload.componentType === 'file') {
     let ext = path.extname(body.payload.fileName)
