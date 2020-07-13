@@ -113,7 +113,7 @@ const _sendNotification = (data) => {
           .catch(err => {
             logger.serverLog(TAG, `Failed to fetch members ${err}`, 'error')
           })
-      } else {
+      } else if (!subscriber.is_assigned) {
         callApi(`companyprofile/members`, 'get', {}, 'accounts', data.authorization)
           .then(members => {
             const userIds = members.map((m) => data.userId !== m.userId._id && m.userId._id)
