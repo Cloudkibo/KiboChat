@@ -102,7 +102,7 @@ const _sendNotification = (data) => {
       if (subscriber.is_assigned && subscriber.assigned_to.type === 'team') {
         callApi(`teams/agents/query`, 'post', {companyId: data.companyId, teamId: subscriber.assigned_to.id}, 'accounts', data.authorization)
           .then(agents => {
-            const userIds = agents.map((a) => data.userId !== a.agentId && a.agentId)
+            const userIds = agents.map((a) => data.userId !== a.agentId._id && a.agentId._id)
             saveNotification(
               userIds,
               data.companyId,
