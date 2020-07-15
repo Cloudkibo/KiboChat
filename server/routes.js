@@ -57,6 +57,7 @@ module.exports = function (app) {
   app.use('/api/api_ngp', require('./api/v1.1/api_ngp'))
   app.use('/api/integrations', require('./api/v1.1/integrations'))
   app.use('/api/intents', require('./api/v1.1/intents'))
+  app.use('/api/cannedResponses', require('./api/v1.1/cannedResponses'))
   app.use('/api/twilio', require('./api/v1.1/twilio'))
   app.use('/api/chatbots', require('./api/v1.1/chatbots'))
   app.use('/api/messageBlock', require('./api/v1.1/messageBlock'))
