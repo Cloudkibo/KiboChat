@@ -10,6 +10,11 @@ router.post('/',
   validate({body: validationSchema.payload}),
   controller.index)
 
+router.post('/create',
+  auth.isAuthenticated(),
+  validate({body: validationSchema.createPayload}),
+  controller.create)
+
 router.post('/update/:id',
   auth.isAuthenticated(),
   controller.update)
