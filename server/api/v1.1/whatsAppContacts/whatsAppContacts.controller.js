@@ -24,6 +24,7 @@ exports.index = function (req, res) {
       sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
+
 exports.update = function (req, res) {
   let subsriberData = {
     query: {_id: req.params.id},
@@ -38,6 +39,7 @@ exports.update = function (req, res) {
       sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
+
 exports.unSubscribe = function (req, res) {
   let subsriberData = {
     query: {_id: req.params.id},
@@ -61,5 +63,39 @@ exports.unSubscribe = function (req, res) {
     })
     .catch(err => {
       sendErrorResponse(res, 500, `Failed to update contact ${JSON.stringify(err)}`)
+    })
+}
+
+exports.create = function (req, res) {
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }) // fetch company user
+    .then(companyuser => {
+      console.log('companyUser', companyuser)
+      utility.callApi(`whatsAppContacts/query`, 'post', {companyId: companyuser.companyId, number: req.body.number}) // check if number exists
+        .then(contacts => {
+          if (contacts.length === 0) {
+            utility.callApi(`whatsAppContacts`, 'post', {companyId: companyuser.companyId, name: req.body.number, number: req.body.number}) // fetch subscribers
+              .then(newContact => {
+                require('./../../../config/socketio').sendMessageToClient({
+                  room_id: req.user.companyId,
+                  body: {
+                    action: 'new_session_created_whatsapp',
+                    payload: newContact
+                  }
+                })
+                sendSuccessResponse(res, 200, newContact)
+              })
+              .catch(error => {
+                sendErrorResponse(res, 500, `Failed to create new contact ${JSON.stringify(error)}`)
+              })
+          } else {
+            sendSuccessResponse(res, 200, contacts[0])
+          }
+        })
+        .catch(error => {
+          sendErrorResponse(res, 500, `Failed to fetch whatsapp contact ${JSON.stringify(error)}`)
+        })
+    })
+    .catch(error => {
+      sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }

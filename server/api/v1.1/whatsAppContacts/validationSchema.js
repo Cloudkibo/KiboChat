@@ -15,3 +15,13 @@ exports.payload = {
     }
   }
 }
+
+exports.createPayload = {
+  type: 'object',
+  properties: {
+    number: {
+      type: 'string',
+      required: true
+    }
+  }
+}

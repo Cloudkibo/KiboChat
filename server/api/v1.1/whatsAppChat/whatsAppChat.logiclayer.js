@@ -4,7 +4,7 @@ var path = require('path')
 exports.prepareChat = (body, companyUser) => {
   let MessageObject = {
     senderNumber: body.recipientNumber,
-    recipientNumber: companyUser.companyId.twilioWhatsApp.sandboxNumber,
+    recipientNumber: companyUser.companyId.flockSendWhatsApp.number,
     contactId: body.contactId,
     companyId: companyUser.companyId._id,
     payload: body.payload,
@@ -64,9 +64,11 @@ exports.prepareFlockSendPayload = (body, companyUser, message) => {
     body.payload.componentType === 'image' ||
     body.payload.componentType === 'thumbsUp') {
     MessageObject.image = body.payload.fileurl.url || body.payload.fileurl
+    MessageObject.title = body.payload.caption
     route = 'image'
   } else if (body.payload.componentType === 'video' || body.payload.componentType === 'gif') {
     MessageObject.video = body.payload.fileurl.url || body.payload.fileurl
+    MessageObject.title = body.payload.caption
     route = 'video'
   } else if (body.payload.componentType === 'file') {
     let ext = path.extname(body.payload.fileName)
