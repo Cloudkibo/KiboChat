@@ -86,7 +86,13 @@ exports.updateAutomatedOptions = function (req, res) {
       if (!companyUser) {
         sendErrorResponse(res, 404, '', 'The user account does not belong to any company. Please contact support')
       }
-      utility.callApi(`companyprofile/update`, 'put', {query: {_id: companyUser.companyId}, newPayload: {automated_options: req.body.automated_options}, options: {}})
+      var newPayload = {
+        automated_options: req.body.automated_options
+      }
+      if (req.body.showAgentName !== null) {
+        newPayload.showAgentName = req.body.showAgentName
+      }
+      utility.callApi(`companyprofile/update`, 'put', {query: {_id: companyUser.companyId}, newPayload: newPayload, options: {}})
         .then(updatedProfile => {
           sendSuccessResponse(res, 200, updatedProfile)
         })
