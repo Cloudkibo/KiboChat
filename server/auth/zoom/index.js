@@ -12,7 +12,7 @@ const auth = require('../auth.service')
 router.get('/', auth.isAuthenticated(), (req, res) => {
   const userId = req.user._id
   const companyId = req.user.companyId
-  res.redirect(`https://zoom.us/oauth/authorize?response_type=code&client_id=${config.zoomClientId}&redirect_uri=${config.zoomRedirectUri}&state=${userId}-${companyId}`)
+  return res.status(200).json({status: 'success', payload: `https://zoom.us/oauth/authorize?response_type=code&client_id=${config.zoomClientId}&redirect_uri=${config.zoomRedirectUri}&state=${userId}-${companyId}`})
 })
 
 router.get('/callback', (req, res) => {
