@@ -2,6 +2,7 @@ const utility = require('../utility')
 // const contactsDataLayer = require('../whatsAppContacts/whatsAppBroadcasts.datalayer')
 const LogicLayer = require('./whatsAppDashboard.logiclayer')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
+const async = require('async')
 
 exports.index = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }) // fetch company user
@@ -93,4 +94,83 @@ exports.sentSeen = function (req, res) {
     .catch(err => {
       sendErrorResponse(res, 500, '', `Internal Server Error ${JSON.stringify(err)}`)
     })
+}
+exports.metrics = function (req, res) {
+  let messagesSentQuery = LogicLayer.queryForMessages(req.body, req.user.companyId, 'convos', 'sent')
+  let templateMessagesSentQuery = LogicLayer.queryForMessages(req.body, req.user.companyId, 'convos', 'template')
+  let messagesReceivedQuery = LogicLayer.queryForMessages(req.body, req.user.companyId, 'whatsApp')
+  let zoomMeetingsQuery = LogicLayer.queryForZoomMeetings(req.body, req.user.companyId)
+  let activeSubscribersQuery = LogicLayer.queryForActiveSubscribers(req.body, req.user.companyId)
+
+  async.parallelLimit([
+    _getMessagesSent.bind(null, messagesSentQuery),
+    _getMessagesSent.bind(null, templateMessagesSentQuery),
+    _getMessagesSent.bind(null, messagesReceivedQuery),
+    _getZoomMeetings.bind(null, zoomMeetingsQuery),
+    _getActiveSubscribers.bind(null, activeSubscribersQuery)
+  ], 10, function (err, results) {
+    if (err) {
+      sendErrorResponse(res, 500, err)
+    } else {
+      let activeSubscribers = []
+      if (results[2].length > 0) {
+        activeSubscribers = results[2].map(r => {
+          return {_id: r._id, count: r.uniqueValues.length}
+        }
+        )
+      }
+      let graphDatas = {
+        messagesSent: results[0],
+        templateMessagesSent: results[1],
+        messagesReceived: results[2],
+        zoomMeetings: results[3],
+        activeSubscribers: activeSubscribers
+      }
+      let data = {
+        messagesSentCount: results[0].length > 0 ? sum(results[0], 'count') : 0,
+        templateMessagesSentCount: results[1].length > 0 ? sum(results[1], 'count') : 0,
+        messagesReceivedCount: results[2].length > 0 ? sum(results[2], 'count') : 0,
+        zoomMeetingsCount: results[3].length > 0 ? sum(results[3], 'count') : 0,
+        activeSubscribersCount: results[4].length > 0 ? results[4][0].count : 0,
+        graphDatas
+      }
+      sendSuccessResponse(res, 200, data)
+    }
+  })
+}
+
+const _getMessagesSent = (criteria, callback) => {
+  utility.callApi(`whatsAppChat/query`, 'post', criteria, 'kibochat')
+    .then(data => {
+      callback(null, data)
+    })
+    .catch(err => {
+      callback(err)
+    })
+}
+
+const _getZoomMeetings = (criteria, callback) => {
+  utility.callApi(`zoomMeetings/query`, 'post', criteria)
+    .then(data => {
+      callback(null, data)
+    })
+    .catch(err => {
+      callback(err)
+    })
+}
+
+const _getActiveSubscribers = (criteria, callback) => {
+  utility.callApi(`whatsAppContacts/aggregate`, 'post', criteria)
+    .then(data => {
+      callback(null, data)
+    })
+    .catch(err => {
+      callback(err)
+    })
+}
+
+const sum = (items, prop) => {
+  return items.reduce(function (a, b) {
+    return a + b[prop]
+  }, 0)
 }

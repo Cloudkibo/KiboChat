@@ -15,4 +15,8 @@ router.post('/sentSeen',
   auth.isAuthenticated(),
   controller.sentSeen)
 
+router.post('/metrics',
+  auth.isAuthenticated(),
+  controller.metrics)
+
 module.exports = router
