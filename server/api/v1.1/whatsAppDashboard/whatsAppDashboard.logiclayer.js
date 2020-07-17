@@ -114,6 +114,7 @@ exports.queryForZoomMeetings = function (body, companyId) {
   endDate.setSeconds(0)
   let match = {
     companyId: companyId,
+    platform: 'whatsApp',
     datetime: body.startDate !== '' ? {$gte: startDate, $lt: endDate} : { $exists: true }
   }
   let group = {
