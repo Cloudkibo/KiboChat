@@ -90,7 +90,6 @@ exports.create = function (req, res) {
               // record('whatsappChatOutGoing')
               flockSendApiCaller(route, 'post', MessageObject)
                 .then(response => {
-                  console.log('response from flockSendApiCaller', response.body)
                   let parsed = JSON.parse(response.body)
                   if (parsed.code !== 200) {
                     callback(parsed.message)
