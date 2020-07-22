@@ -86,6 +86,7 @@ exports.updateAutomatedOptions = function (req, res) {
       if (!companyUser) {
         sendErrorResponse(res, 404, '', 'The user account does not belong to any company. Please contact support')
       }
+     
       var newPayload = {
         automated_options: req.body.automated_options
       }
@@ -452,3 +453,32 @@ exports.updateAdvancedSettings = function (req, res) {
       sendErrorResponse(res, 500, null, 'Failed to update advanced settings')
     })
 }
+
+exports.disableMember = function (req, res) {
+  utility.callApi('user/authenticatePassword', 'post', {email: req.user.email, password: req.body.password})
+    .then(authenticated => {
+        logger.serverLog(TAG, `authenticated ${JSON.stringify(authenticated)}`)
+        utility.callApi('companyprofile/disableMember', 'post', {memberId: req.body.memberId}, 'accounts', req.headers.authorization)
+        .then(result => {
+          sendSuccessResponse(res, 200, result,'Member has been deactivated')
+        })
+        .catch(err => {
+          logger.serverLog(TAG, err, 'error')
+          sendErrorResponse(res, 500, null, 'Failed to deactivate member')
+        })
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, 'Incorrect password', `Incorrect password`)
+    })
+}
+
+exports.enableMember = function (req, res) {
+  utility.callApi('user/update', 'post', {query: {_id: req.body.memberId}, newPayload: {disableMember: false}, options: {upsert:true}},  'accounts', req.headers.authorization)
+    .then(result => {
+      sendSuccessResponse(res, 200, result,'Member has been activated')
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, 'Incorrect password', `Incorrect password`)
+    })
+}
+
