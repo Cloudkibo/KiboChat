@@ -450,7 +450,7 @@ exports.updateAdvancedSettings = function (req, res) {
 exports.disableMember = function (req, res) {
   utility.callApi('user/authenticatePassword', 'post', {email: req.user.email, password: req.body.password})
     .then(authenticated => {
-        console.log('authenticated', authenticated)
+        logger.serverLog(TAG, `authenticated ${JSON.stringify(authenticated)}`)
         utility.callApi('companyprofile/disableMember', 'post', {memberId: req.body.memberId}, 'accounts', req.headers.authorization)
         .then(result => {
           sendSuccessResponse(res, 200, result,'Member has been deactivated')
