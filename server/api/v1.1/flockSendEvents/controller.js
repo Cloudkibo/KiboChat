@@ -75,7 +75,6 @@ function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options)
     })
 }
 exports.messageStatus = function (req, res) {
-  console.log('req.body', req.body)
   res.status(200).json({
     status: 'success',
     description: `received the payload`
@@ -146,7 +145,6 @@ function updateChatInDB (match, updated, dataToSend) {
   }
   callApi(`whatsAppChat`, 'put', updateData, 'kibochat')
     .then(updated => {
-      console.log('dataToSend', dataToSend)
       require('./../../../config/socketio').sendMessageToClient({
         room_id: dataToSend.payload.message.companyId,
         body: dataToSend
