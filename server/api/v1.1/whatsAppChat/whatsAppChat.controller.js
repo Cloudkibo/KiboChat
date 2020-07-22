@@ -4,6 +4,8 @@ const async = require('async')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const { sendOpAlert } = require('../../global/operationalAlert')
 const { flockSendApiCaller } = require('../../global/flockSendApiCaller')
+const logger = require('../../../components/logger')
+const TAG = '/api/v1/whatsAppChat/whatsAppChat.controller.js'
 
 exports.index = function (req, res) {
   if (req.params.contactId) {
@@ -94,6 +96,7 @@ exports.create = function (req, res) {
                   if (parsed.code !== 200) {
                     callback(parsed.message)
                   } else {
+                    updateChat(parsed.data, message)
                     callback(null, message)
                   }
                 })
@@ -129,6 +132,20 @@ exports.create = function (req, res) {
     })
     .catch(error => {
       sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
+    })
+}
+
+function updateChat (data, message) {
+  let query = {
+    purpose: 'updateOne',
+    match: {_id: message._id},
+    updated: {messageId: data[0].id}
+  }
+  callApi(`whatsAppChat`, 'put', query, 'kibochat')
+    .then(updated => {
+    })
+    .catch((err) => {
+      logger.serverLog(TAG, `Failed to update chat ${err}`, 'error')
     })
 }
 

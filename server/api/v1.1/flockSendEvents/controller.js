@@ -74,3 +74,81 @@ function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options)
       logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`, 'error')
     })
 }
+exports.messageStatus = function (req, res) {
+  res.status(200).json({
+    status: 'success',
+    description: `received the payload`
+  })
+  if (req.body.status === 'delivered' || req.body.status === 'seen') {
+    let query = {
+      purpose: 'findOne',
+      match: {messageId: req.body.id}
+    }
+    callApi(`whatsAppChat/query`, 'post', query, 'kibochat')
+      .then(message => {
+        if (message) {
+          updateChat(message, req.body)
+        }
+      })
+      .catch((err) => {
+        logger.serverLog(TAG, `Failed to fetch whatsAppBroadcastMessages data ${err}`, 'error')
+      })
+  }
+}
+function updateChat (message, body) {
+  let dateTime = Date.now()
+  let matchQuery = {
+    $or: [
+      {_id: message._id},
+      {_id: {$lt: message._id}}
+    ],
+    format: 'convos',
+    contactId: message.contactId
+  }
+  if (body.status === 'delivered') {
+    matchQuery.$or = [
+      {delivered: false},
+      {delivered: {$exists: false}}
+    ]
+  } else {
+    matchQuery.$or = [
+      {seen: false},
+      {seen: {$exists: false}}
+    ]
+  }
+  let updated = body.status === 'delivered'
+    ? {delivered: true, deliveryDateTime: dateTime}
+    : {seen: true, seenDateTime: dateTime}
+  let dataToSend = message
+  if (body.status === 'delivered') {
+    dataToSend.delivered = true
+    dataToSend.deliveredDateTime = dateTime
+  } else {
+    dataToSend.seen = true
+    dataToSend.seenDateTime = dateTime
+  }
+  updateChatInDB(matchQuery, updated, dataToSend)
+}
+
+function updateChatInDB (match, updated, dataToSend) {
+  let updateData = {
+    purpose: 'updateAll',
+    match: match,
+    updated: updated
+  }
+  callApi(`whatsAppChat`, 'put', updateData, 'kibochat')
+    .then(updated => {
+      require('./../../../config/socketio').sendMessageToClient({
+        room_id: dataToSend.companyId,
+        body: {
+          action: 'message_status_whatsApp',
+          payload: {
+            message: dataToSend
+          }
+        }
+      })
+    })
+    .catch((err) => {
+      logger.serverLog(`Failed to update message ${err}`, 'error')
+    })
+}

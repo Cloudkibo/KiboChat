@@ -7,6 +7,7 @@ const { callApi } = require('../../api/v1.1/utility')
 const logger = require('../../components/logger')
 const TAG = 'auth/zoom/index.js'
 const config = require('../../config/environment')
+const auth = require('../auth.service')
 
 router.get('/', (req, res) => {
   if (req.query.code && req.query.state) {
@@ -47,8 +48,6 @@ router.get('/', (req, res) => {
         logger.serverLog(TAG, `Failed to fetch accessToken ${err}`)
         res.redirect('/ErrorMessage')
       })
-  } else if (req.query.companyId && req.query.userId) {
-    res.redirect(`https://zoom.us/oauth/authorize?response_type=code&client_id=${config.zoomClientId}&redirect_uri=${config.zoomRedirectUri}&state=${req.query.userId}-${req.query.companyId}`)
   } else {
     logger.serverLog(TAG, 'Parameters are missing')
     res.redirect('/ErrorMessage')

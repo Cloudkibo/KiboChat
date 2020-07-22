@@ -41,5 +41,5 @@ module.exports = {
   COVIS: 'http://localhost:8080/api',
   zoomClientId: 'sVqps8gkQOeR91ls8j9ZIA',
   zoomClientSecret: 'ztyfVthdSe09OtTMO3Nl1dEtZXVdwVTN',
-  zoomRedirectUri: 'https://kibopush-zoom.ngrok.io/auth/zoom'
+  zoomRedirectUri: 'https://kibopush-zoom.ngrok.io/auth/zoom/callback'
 }
