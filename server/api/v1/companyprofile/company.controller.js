@@ -86,7 +86,8 @@ exports.updateAutomatedOptions = function (req, res) {
       if (!companyUser) {
         sendErrorResponse(res, 404, '', 'The user account does not belong to any company. Please contact support')
       }
-     var newPayload = {
+     
+      var newPayload = {
         automated_options: req.body.automated_options
       }
       if (req.body.showAgentName !== null) {
