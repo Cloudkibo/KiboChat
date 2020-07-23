@@ -90,6 +90,28 @@ exports.disconnect = {
     }
   }
 }
+exports.disableMember = {
+  'type': 'object',
+  'properties': {
+    memberId: {
+      type: 'string',
+      required: true
+    },
+    password: {
+      type: 'string',
+      required: true
+    }
+  }
+}
+exports.enableMember = {
+  'type': 'object',
+  'properties': {
+    memberId: {
+      type: 'string',
+      required: true
+    }
+  }
+}
 exports.deleteWhatsAppInfo = {
   'type': 'object',
   'properties': {
