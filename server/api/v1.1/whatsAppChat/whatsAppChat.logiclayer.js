@@ -78,6 +78,14 @@ exports.prepareFlockSendPayload = (body, companyUser, message) => {
     MessageObject.title = body.payload.fileName
     MessageObject.file = body.payload.fileurl.url || body.payload.fileurl
     route = 'file'
+  } else if (body.payload.componentType === 'audio') {
+    let ext = path.extname(body.payload.fileName)
+    if (ext !== '') {
+      body.payload.fileName = body.payload.fileName.replace(ext, '')
+    }
+    MessageObject.audio = body.payload.fileurl.url || body.payload.fileurl
+    MessageObject.title = body.payload.fileName
+    route = 'audio'
   }
   return {
     MessageObject,

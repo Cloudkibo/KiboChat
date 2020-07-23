@@ -19,6 +19,17 @@ exports.getPayload = (body) => {
       fileName: body.message}
   } else if (body.media_type === 'audio') {
     payload = {componentType: 'audio', fileurl: {url: `https://flocksend.com${body.media_link}`}}
+  } else if (body.media_type === 'location') {
+    let coordinates = body.message.split(':')
+    payload = {componentType: 'location',
+      title: 'Pinned Location',
+      payload: {
+        coordinates: {lat: coordinates[1], long: coordinates[0]}
+      }
+    }
+  } else if (body.media_type === 'contacts') {
+    let parsed = body.message.split(':')
+    payload = {componentType: 'contact', name: parsed[0], number: parsed[1]}
   } else if (body.media_type === 'text' && body.message !== '') {
     payload = {componentType: 'text', text: body.message}
   }
