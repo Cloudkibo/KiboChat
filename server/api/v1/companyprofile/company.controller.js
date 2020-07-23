@@ -481,4 +481,3 @@ exports.enableMember = function (req, res) {
       sendErrorResponse(res, 500, 'Incorrect password', `Incorrect password`)
     })
 }
-

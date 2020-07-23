@@ -76,4 +76,14 @@ router.post('/enableMember',
   validate({body: validationSchema.enableMember}),
   controller.enableMember)
 
+router.post('/disableMember',
+  auth.isAuthenticated(),
+  validate({body: validationSchema.disableMember}),
+  controller.disableMember)
+
+router.post('/enableMember',
+  auth.isAuthenticated(),
+  validate({body: validationSchema.enableMember}),
+  controller.enableMember)
+
 module.exports = router
