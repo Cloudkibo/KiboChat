@@ -75,6 +75,7 @@ function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options)
     })
 }
 exports.messageStatus = function (req, res) {
+  console.log('messageStatus', req.body)
   res.status(200).json({
     status: 'success',
     description: `received the payload`
@@ -119,13 +120,20 @@ function updateChat (message, body) {
   let updated = body.status === 'delivered'
     ? {delivered: true, deliveryDateTime: dateTime}
     : {seen: true, seenDateTime: dateTime}
-  let dataToSend = message
+  let dataToSend = {
+    action: body.status === 'delivered' ? 'message_delivered_whatsApp' : 'message_seen_whatsApp',
+    payload: {
+      message: message
+    }
+  }
   if (body.status === 'delivered') {
-    dataToSend.delivered = true
-    dataToSend.deliveredDateTime = dateTime
+    dataToSend.payload.message.delivered = true
+    dataToSend.payload.message.deliveredDateTime = dateTime
+    dataToSend.payload.message.action = 'message_delivered_whatsApp'
   } else {
-    dataToSend.seen = true
-    dataToSend.seenDateTime = dateTime
+    dataToSend.payload.message.seen = true
+    dataToSend.payload.message.seenDateTime = dateTime
+    dataToSend.payload.message.action = 'message_seen_whatsApp'
   }
   updateChatInDB(matchQuery, updated, dataToSend)
 }
@@ -139,13 +147,8 @@ function updateChatInDB (match, updated, dataToSend) {
   callApi(`whatsAppChat`, 'put', updateData, 'kibochat')
     .then(updated => {
       require('./../../../config/socketio').sendMessageToClient({
-        room_id: dataToSend.companyId,
-        body: {
-          action: 'message_status_whatsApp',
-          payload: {
-            message: dataToSend
-          }
-        }
+        room_id: dataToSend.payload.message.companyId,
+        body: dataToSend
       })
     })
     .catch((err) => {
