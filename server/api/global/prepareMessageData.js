@@ -4,15 +4,15 @@ exports.facebook = (body, fname, lname) => {
   if (body.componentType === 'text' && !body.buttons) {
     if (body.text.includes('{{user_full_name}}') || body.text.includes('[Username]')) {
       text = text.replace(
-        '{{user_full_name}}', fname + ' ' + lname)
+        /{{user_full_name}}/g, fname + ' ' + lname)
     }
     if (body.text.includes('{{user_first_name}}')) {
       text = text.replace(
-        '{{user_first_name}}', fname)
+        /{{user_first_name}}/g, fname)
     }
     if (body.text.includes('{{user_last_name}}')) {
       text = text.replace(
-        '{{user_last_name}}', lname)
+        /{{user_last_name}}/g, lname)
     }
     payload = {
       'text': text
@@ -24,15 +24,15 @@ exports.facebook = (body, fname, lname) => {
   } else if (body.componentType === 'text' && body.buttons) {
     if (body.text.includes('{{user_full_name}}') || body.text.includes('[Username]')) {
       text = text.replace(
-        '{{user_full_name}}', fname + ' ' + lname)
+        /{{user_full_name}}/g, fname + ' ' + lname)
     }
     if (body.text.includes('{{user_first_name}}')) {
       text = text.replace(
-        '{{user_first_name}}', fname)
+        /{{user_first_name}}/g, fname)
     }
     if (body.text.includes('{{user_last_name}}')) {
       text = text.replace(
-        '{{user_last_name}}', lname)
+        /{{user_last_name}}/g, lname)
     }
     payload = {
       'attachment': {
