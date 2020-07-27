@@ -6,6 +6,7 @@ const config = require('../../../config/environment/index')
 const logicLayer = require('./company.logiclayer.js')
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
 const async = require('async')
+const request = require('request')
 
 exports.members = function (req, res) {
   utility.callApi(`companyprofile/members`, 'get', {}, 'accounts', req.headers.authorization)
@@ -86,7 +87,7 @@ exports.updateAutomatedOptions = function (req, res) {
       if (!companyUser) {
         sendErrorResponse(res, 404, '', 'The user account does not belong to any company. Please contact support')
       }
-     
+
       var newPayload = {
         automated_options: req.body.automated_options
       }
@@ -457,10 +458,10 @@ exports.updateAdvancedSettings = function (req, res) {
 exports.disableMember = function (req, res) {
   utility.callApi('user/authenticatePassword', 'post', {email: req.user.email, password: req.body.password})
     .then(authenticated => {
-        logger.serverLog(TAG, `authenticated ${JSON.stringify(authenticated)}`)
-        utility.callApi('companyprofile/disableMember', 'post', {memberId: req.body.memberId}, 'accounts', req.headers.authorization)
+      logger.serverLog(TAG, `authenticated ${JSON.stringify(authenticated)}`)
+      utility.callApi('companyprofile/disableMember', 'post', {memberId: req.body.memberId}, 'accounts', req.headers.authorization)
         .then(result => {
-          sendSuccessResponse(res, 200, result,'Member has been deactivated')
+          sendSuccessResponse(res, 200, result, 'Member has been deactivated')
         })
         .catch(err => {
           logger.serverLog(TAG, err, 'error')
@@ -468,16 +469,92 @@ exports.disableMember = function (req, res) {
         })
     })
     .catch(err => {
+      logger.serverLog(TAG, err, 'error')
       sendErrorResponse(res, 500, 'Incorrect password', `Incorrect password`)
     })
 }
 
 exports.enableMember = function (req, res) {
-  utility.callApi('user/update', 'post', {query: {_id: req.body.memberId}, newPayload: {disableMember: false}, options: {upsert:true}},  'accounts', req.headers.authorization)
+  utility.callApi('user/update', 'post', {query: {_id: req.body.memberId}, newPayload: {disableMember: false}, options: {upsert: true}}, 'accounts', req.headers.authorization)
     .then(result => {
-      sendSuccessResponse(res, 200, result,'Member has been activated')
+      sendSuccessResponse(res, 200, result, 'Member has been activated')
     })
     .catch(err => {
+      logger.serverLog(TAG, err, 'error')
       sendErrorResponse(res, 500, 'Incorrect password', `Incorrect password`)
+    })
+}
+
+exports.getWhatsAppMessageTemplates = function (req, res) {
+  utility.callApi('companyprofile/query', 'post', {_id: req.user.companyId})
+    .then(companyProfile => {
+      if (companyProfile) {
+        if (companyProfile.flockSendWhatsApp) {
+          const authData = {
+            'token': companyProfile.flockSendWhatsApp.accessToken
+          }
+          request(
+            {
+              'method': 'POST',
+              'formData': authData,
+              'uri': 'https://flocksend.com/api/templates-fetch'
+            }, (err, resp) => {
+              if (err) {
+                sendErrorResponse(res, 500, err, 'Error retrieving templates')
+              }
+              // let templates = [
+              //   {
+              //     name: 'contact_reminder',
+              //     text: 'Hi {{1}}.\n\nThank you for contacting {{2}}.\n\nPlease choose from the options below to continue:',
+              //     regex: ^Hi (.*)\.\n\nThank you for contacting (.*).\n\nPlease choose from the options below to continue:$,
+              //     buttons: [
+              //       {title: 'Get in Touch'},
+              //       {title: 'Explore Options'},
+              //       {title: 'Speak to Support'}
+              //     ],
+              //     templateArguments: '{{1}},{{2}}'
+              //   }
+              // ]
+              let templates = []
+              let flockSendTemplates = JSON.parse(resp.body)
+              for (let i = 0; i < flockSendTemplates.length; i++) {
+                if (flockSendTemplates[i].localizations[0].status === 'APPROVED') {
+                  let template = {}
+                  template.name = flockSendTemplates[i].templateName
+                  let templateComponents = flockSendTemplates[i].localizations[0].components
+                  for (let j = 0; j < templateComponents.length; j++) {
+                    if (templateComponents[j].type === 'BODY') {
+                      template.text = templateComponents[j].text
+                      let argumentsRegex = /{{[0-9]}}/g
+                      let templateArguments = template.text.match(argumentsRegex).join(',')
+                      template.templateArguments = templateArguments
+                      let regex = template.text.replace('.', '\\.')
+                      regex = regex.replace(argumentsRegex, '(.*)')
+                      template.regex = `^${regex}$`
+                    } else if (templateComponents[j].type === 'BUTTONS') {
+                      template.buttons = templateComponents[j].buttons.map(button => {
+                        return {
+                          title: button.text
+                        }
+                      })
+                    }
+                  }
+                  if (!template.buttons) {
+                    template.buttons = []
+                  }
+                  templates.push(template)
+                }
+              }
+              sendSuccessResponse(res, 200, templates, 'Retrieved templates successfully')
+            })
+        } else {
+          sendErrorResponse(res, 500, null, 'WhatsApp not connected')
+        }
+      } else {
+        sendErrorResponse(res, 500, null, 'No company profile found')
+      }
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, err, 'Error fetching company profile')
     })
 }
