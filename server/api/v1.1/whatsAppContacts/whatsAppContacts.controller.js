@@ -263,7 +263,8 @@ const _saveSubscriber = (data, contact) => {
       _saveChat(data, whatsAppContact)
       _updateSubscriber(whatsAppContact)
     })
-    .catch(() => {
+    .catch((err) => {
+      logger.serverLog(TAG, `Failed to create subscriber ${err}`, 'error')
     })
 }
 
@@ -272,7 +273,8 @@ const _saveChat = (data, contact) => {
   utility.callApi(`whatsAppChat`, 'post', MessageObject, 'kibochat')
     .then(message => {
     })
-    .catch(() => {
+    .catch((err) => {
+      logger.serverLog(TAG, `Failed to save chat ${err}`, 'error')
     })
 }
 
@@ -284,11 +286,13 @@ const _updateSubscriber = (contact) => {
   }
   utility.callApi(`whatsAppContacts/update`, 'put', subscriberData)
     .then(updated => {
-    }).catch(() => {
+    }).catch((err) => {
+      logger.serverLog(TAG, `Failed to update subscriber ${err}`, 'error')
     })
   subscriberData.newPayload = {$inc: { messagesCount: 1 }}
   utility.callApi(`whatsAppContacts/update`, 'put', subscriberData)
     .then(updated => {
-    }).catch(() => {
+    }).catch((err) => {
+      logger.serverLog(TAG, `Failed to update subscriber ${err}`, 'error')
     })
 }
