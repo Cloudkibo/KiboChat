@@ -281,15 +281,12 @@ const _saveChat = (data, contact) => {
 const _updateSubscriber = (contact) => {
   let subscriberData = {
     query: {_id: contact._id},
-    newPayload: {last_activity_time: Date.now(), pendingResponse: false},
+    newPayload: {
+      $set: {last_activity_time: Date.now()},
+      $inc: { messagesCount: 1 }
+    },
     options: {}
   }
-  utility.callApi(`whatsAppContacts/update`, 'put', subscriberData)
-    .then(updated => {
-    }).catch((err) => {
-      logger.serverLog(TAG, `Failed to update subscriber ${err}`, 'error')
-    })
-  subscriberData.newPayload = {$inc: { messagesCount: 1 }}
   utility.callApi(`whatsAppContacts/update`, 'put', subscriberData)
     .then(updated => {
     }).catch((err) => {
