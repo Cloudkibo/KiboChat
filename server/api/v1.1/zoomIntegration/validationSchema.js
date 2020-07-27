@@ -12,12 +12,16 @@ exports.createMeetingPayload = {
     },
     'subscriberId': {
       'type': 'string'
+    },
+    'platform': {
+      'type': 'string'
     }
   },
   'required': [
     'topic',
     'agenda',
     'invitationMessage',
-    'subscriberId'
+    'subscriberId',
+    'platform'
   ]
 }
