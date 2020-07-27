@@ -163,6 +163,7 @@ exports.sendMessage = function (req, res) {
     let data = {
       body: req.body,
       companyId: req.user.companyId,
+      user: req.user,
       directory: directory,
       payload: payload
     }
@@ -185,6 +186,7 @@ const _getCompanyProfile = (data, next) => {
   utility.callApi('companyprofile/query', 'post', {_id: data.companyId})
     .then(company => {
       data.accessToken = company.flockSendWhatsApp.accessToken
+      data.senderNumber = company.flockSendWhatsApp.number
       next(null, data)
     })
     .catch((err) => {
@@ -229,28 +231,65 @@ const _sendTemplateMessage = (data, next) => {
 }
 const _fetchSubscribers = (data, next) => {
   let numbers = []
-  if (data.body.actionType === 'send') {
-    data.contacts.map(c => {
-      numbers.push({phone: c.number})
+  data.contacts.forEach((contact, index) => {
+    utility.callApi(`whatsAppContacts/query`, 'post', {companyId: data.companyId, number: contact.number})
+      .then(whatsAppContact => {
+        whatsAppContact = whatsAppContact[0]
+        if (!whatsAppContact) {
+          numbers.push({phone: contact.number})
+          _saveSubscriber(data, contact)
+        } else if (data.body.actionType === 'send') {
+          numbers.push({phone: contact.number})
+          _saveChat(data, whatsAppContact)
+          _updateSubscriber(whatsAppContact)
+        }
+        if (index === data.contacts.length - 1) {
+          data.numbers = numbers
+          next(null, data)
+        }
+      })
+      .catch((err) => {
+        next(err)
+      })
+  })
+}
+
+const _saveSubscriber = (data, contact) => {
+  utility.callApi(`whatsAppContacts`, 'post', {
+    name: contact.name,
+    number: contact.number,
+    companyId: data.companyId})
+    .then(whatsAppContact => {
+      _saveChat(data, whatsAppContact)
+      _updateSubscriber(whatsAppContact)
     })
-    data.numbers = numbers
-    next(null, data)
-  } else {
-    data.contacts.forEach((contact, index) => {
-      utility.callApi(`whatsAppContacts/query`, 'post', {companyId: data.companyId, number: contact.number})
-        .then(whatsAppContact => {
-          whatsAppContact = whatsAppContact[0]
-          if (!whatsAppContact) {
-            numbers.push({phone: contact.number})
-          }
-          if (index === data.contacts.length - 1) {
-            data.numbers = numbers
-            next(null, data)
-          }
-        })
-        .catch((err) => {
-          next(err)
-        })
+    .catch((err) => {
+      logger.serverLog(TAG, `Failed to create subscriber ${err}`, 'error')
     })
+}
+
+const _saveChat = (data, contact) => {
+  let MessageObject = logicLayer.prepareChat(data, contact)
+  utility.callApi(`whatsAppChat`, 'post', MessageObject, 'kibochat')
+    .then(message => {
+    })
+    .catch((err) => {
+      logger.serverLog(TAG, `Failed to save chat ${err}`, 'error')
+    })
+}
+
+const _updateSubscriber = (contact) => {
+  let subscriberData = {
+    query: {_id: contact._id},
+    newPayload: {
+      $set: {last_activity_time: Date.now()},
+      $inc: { messagesCount: 1 }
+    },
+    options: {}
   }
+  utility.callApi(`whatsAppContacts/update`, 'put', subscriberData)
+    .then(updated => {
+    }).catch((err) => {
+      logger.serverLog(TAG, `Failed to update subscriber ${err}`, 'error')
+    })
 }
