@@ -25,6 +25,7 @@ exports.index = function (req, res) {
   let event = req.body.event
   utility.callApi(`companyprofile/query`, 'post', { _id: page.companyId })
     .then(company => {
+      console.log(`subscriber in session  ${JSON.stringify(subscriber)}`)
       if (!(company.automated_options === 'DISABLE_CHAT')) {
         let updatePayload = { last_activity_time: Date.now() }
         if (subscriber.status === 'resolved') {
