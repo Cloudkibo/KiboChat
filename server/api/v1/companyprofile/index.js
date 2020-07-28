@@ -76,4 +76,8 @@ router.post('/enableMember',
   validate({body: validationSchema.enableMember}),
   controller.enableMember)
 
+router.get('/getWhatsAppMessageTemplates',
+  auth.isAuthenticated(),
+  controller.getWhatsAppMessageTemplates)
+
 module.exports = router
