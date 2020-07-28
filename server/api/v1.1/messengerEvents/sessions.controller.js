@@ -25,7 +25,8 @@ exports.index = function (req, res) {
   let event = req.body.event
   utility.callApi(`companyprofile/query`, 'post', { _id: page.companyId })
     .then(company => {
-      if (!(company.automated_options === 'DISABLE_CHAT')) {
+      if (!(company.automated_options === 'DISABLE_CHAT')) { 
+        if(subscriber.unSubscribedBy !== 'agent') {
         let updatePayload = { last_activity_time: Date.now() }
         if (subscriber.status === 'resolved') {
           updatePayload.status = 'new'
@@ -53,7 +54,7 @@ exports.index = function (req, res) {
           .catch(error => {
             logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
           })
-      }
+      } }
     })
     .catch(error => {
       logger.serverLog(TAG, `Failed to fetch company profile ${JSON.stringify(error)}`, 'error')
