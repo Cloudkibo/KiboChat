@@ -46,7 +46,7 @@ exports.createMeeting = function (req, res) {
               zoomApiCaller('post', 'v2/users/me/meetings', meetingBody, {type: 'bearer', token: accessToken}, false)
                 .then(meetingResponse => {
                   data.joinUrl = meetingResponse.join_url
-                  _sendNotification(data)
+                  _sendNotification(data,  req.user.companyId)
                   const zoomMeetingPayload = logicLayer.prepareZoomMeetingPayload(data, meetingResponse)
                   callApi('zoomMeetings', 'post', zoomMeetingPayload)
                     .then(meetingCreated => {
@@ -95,41 +95,62 @@ exports.createMeeting = function (req, res) {
     })
 }
 
-const _sendNotification = (data) => {
+const _sendNotification = (data, companyId) => {
   callApi(`subscribers/${data.subscriberId}`, 'get', {}, 'accounts', data.authorization)
     .then(subscriber => {
-      const notificationMessage = `A zoom meeting has been created to handle subscriber - ${subscriber.firstName} ${subscriber.lastName} query.`
-      if (subscriber.is_assigned && subscriber.assigned_to.type === 'team') {
-        callApi(`teams/agents/query`, 'post', {companyId: data.companyId, teamId: subscriber.assigned_to.id}, 'accounts', data.authorization)
-          .then(agents => {
-            const userIds = agents.map((a) => data.userId !== a.agentId._id && a.agentId._id)
-            saveNotification(
-              userIds,
-              data.companyId,
-              notificationMessage,
-              {type: 'zoom_meeting', joinUrl: data.joinUrl}
-            )
+      callApi(`companyUser/queryAll`, 'post', {companyId: companyId}, 'accounts')
+        .then(companyUsers => {
+          let lastMessageData = sessionLogicLayer.getQueryData('', 'aggregate', {company_id: companyId}, undefined, undefined, undefined, {_id: subscriber._id, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+            callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
+              .then(gotLastMessage => {
+                subscriber.lastPayload = gotLastMessage[0].payload
+                subscriber.lastRepliedBy = gotLastMessage[0].replied_by
+                subscriber.lastDateTime = gotLastMessage[0].datetime
+                const notificationMessage = `A zoom meeting has been created to handle subscriber - ${subscriber.firstName} ${subscriber.lastName} query.`
+                companyUsers = companyUsers.map((m) => data.userId !== m.userId._id && m.userId._id)
+                if (subscriber.is_assigned && subscriber.assigned_to.type === 'team') {
+                callApi(`teams/agents/query`, 'post', {companyId: data.companyId, teamId: subscriber.assigned_to.id}, 'accounts', data.authorization)
+                  .then(agents => {
+                    companyUsers = companyUsers.filter(companyUser => {
+                      if (agents.agentId._id === companyUser.userId._id) {
+                        return companyUser
+                      }
+                    })
+                    const userIds = agents.map((a) => data.userId !== a.agentId._id && a.agentId._id)
+                    sendNotifications('Zoom Meeting', notificationMessage, subscriber, companyUsers)
+                    saveNotification(
+                      userIds,
+                      data.companyId,
+                      notificationMessage,
+                      {type: 'zoom_meeting', joinUrl: data.joinUrl}
+                    )
+                  })
+                  .catch(err => {
+                    logger.serverLog(TAG, `Failed to fetch members ${err}`, 'error')
+                  })
+            }   else if (!subscriber.is_assigned) {
+                sendNotifications('Zoom Meeting', notificationMessage, subscriber, companyUsers)
+                callApi(`companyprofile/members`, 'get', {}, 'accounts', data.authorization)
+                  .then(members => {
+                    const userIds = members.map((m) => data.userId !== m.userId._id && m.userId._id)
+                    saveNotification(
+                      userIds,
+                      data.companyId,
+                      notificationMessage,
+                      {type: 'zoom_meeting', joinUrl: data.joinUrl}
+                    )
+                  })
+                  .catch(err => {
+                    logger.serverLog(TAG, `Failed to fetch members ${err}`, 'error')
+                  })
+              }
+          }).catch(error => {
+            logger.serverLog(TAG, `Error while fetching Last Message ${error}`, 'error')
           })
-          .catch(err => {
-            logger.serverLog(TAG, `Failed to fetch members ${err}`, 'error')
+        }).catch(error => {
+            logger.serverLog(TAG, `Error while fetching companyUser ${error}`, 'error')
           })
-      } else if (!subscriber.is_assigned) {
-        callApi(`companyprofile/members`, 'get', {}, 'accounts', data.authorization)
-          .then(members => {
-            const userIds = members.map((m) => data.userId !== m.userId._id && m.userId._id)
-            saveNotification(
-              userIds,
-              data.companyId,
-              notificationMessage,
-              {type: 'zoom_meeting', joinUrl: data.joinUrl}
-            )
+      }).catch(err => {
+            logger.serverLog(TAG, `Failed to fetch subscriber ${err}`, 'error')
           })
-          .catch(err => {
-            logger.serverLog(TAG, `Failed to fetch members ${err}`, 'error')
-          })
-      }
-    })
-    .catch(err => {
-      logger.serverLog(TAG, `Failed to fetch subscriber ${err}`, 'error')
-    })
 }
