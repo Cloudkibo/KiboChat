@@ -42,7 +42,7 @@ exports.index = function (req, res) {
                         }
                       }
                     })
-                    updateContact(contact._id, {last_activity_time: Date.now(), hasChat: true, pendingResponse: true, status: 'new'})
+                    updateContact(contact._id, {last_activity_time: Date.now(), lastMessagedAt: Date.now(), hasChat: true, pendingResponse: true, status: 'new'})
                     updateContact(contact._id, {$inc: { unreadCount: 1, messagesCount: 1 }})
                   })
                   .catch(error => {
