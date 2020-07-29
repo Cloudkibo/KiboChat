@@ -10,7 +10,7 @@ exports.uninstallApp = function (req, res) {
     description: `received the payload`
   })
   const uninstallPayload = req.body.payload
-  if (uninstallPayload.user_data_retention) {
+  if (uninstallPayload.user_data_retention === 'true') {
     callApi('zoomUsers', 'put', {purpose: 'updateOne', match: {zoomId: uninstallPayload.user_id}, updated: {connected: false}})
       .then(updated => {
         logger.serverLog(TAG, 'zoom disconnected successfully')
