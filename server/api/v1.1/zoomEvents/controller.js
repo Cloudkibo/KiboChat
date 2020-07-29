@@ -10,7 +10,7 @@ exports.uninstallApp = function (req, res) {
     description: `received the payload`
   })
   const uninstallPayload = req.body.payload
-  callApi('zoomUsers', 'post', {purpose: 'findOne', match: {zoomId: uninstallPayload.user_id}})
+  callApi('zoomUsers/query', 'post', {purpose: 'findOne', match: {zoomId: uninstallPayload.user_id}})
     .then(zoomUser => {
       if (uninstallPayload.user_data_retention === 'true') {
         callApi('zoomUsers', 'put', {purpose: 'updateAll', match: {zoomId: uninstallPayload.user_id}, updated: {connected: false}})
