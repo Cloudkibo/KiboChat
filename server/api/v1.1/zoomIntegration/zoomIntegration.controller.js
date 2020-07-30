@@ -6,7 +6,7 @@ const { zoomApiCaller, refreshAccessToken } = require('../../global/zoom')
 const logicLayer = require('./logicLayer')
 const { saveNotification } = require('../../global/notifications')
 const { sendNotifications } = require('../../global/sendNotification')
-
+const sessionLogicLayer = require('../sessions/sessions.logiclayer')
 exports.getZoomUsers = function (req, res) {
   callApi('zoomUsers/query', 'post', {purpose: 'findAll', match: {companyId: req.user.companyId, connected: true}})
     .then(zoomUsers => {
@@ -97,13 +97,16 @@ exports.createMeeting = function (req, res) {
 }
 
 const _sendNotification = (data, companyId) => {
+  console.log('_sendNotification start')
   callApi(`subscribers/${data.subscriberId}`, 'get', {}, 'accounts', data.authorization)
     .then(subscriber => {
       callApi(`companyUser/queryAll`, 'post', {companyId: companyId}, 'accounts')
         .then(companyUsers => {
+          console.log('_companyUsers', companyUsers)
           let lastMessageData = sessionLogicLayer.getQueryData('', 'aggregate', {company_id: companyId}, undefined, undefined, undefined, {_id: subscriber._id, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
             callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
               .then(gotLastMessage => {
+                console.log('got Last Message', gotLastMessage)
                 subscriber.lastPayload = gotLastMessage[0].payload
                 subscriber.lastRepliedBy = gotLastMessage[0].replied_by
                 subscriber.lastDateTime = gotLastMessage[0].datetime
