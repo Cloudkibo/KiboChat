@@ -120,6 +120,8 @@ const _sendNotification = (data, companyId) => {
                         return companyUser
                       }
                     })
+                    console.log('sending notification companyUsers', companyUsers)
+                    console.log('sending notification subscriber', subscriber)
                     const userIds = agents.map((a) => data.userId !== a.agentId._id && a.agentId._id)
                     sendNotifications('Zoom Meeting', notificationMessage, subscriber, companyUsers)
                     saveNotification(
