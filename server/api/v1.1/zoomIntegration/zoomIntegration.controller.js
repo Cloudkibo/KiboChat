@@ -97,16 +97,13 @@ exports.createMeeting = function (req, res) {
 }
 
 const _sendNotification = (data, companyId) => {
-  console.log('_sendNotification start')
   callApi(`subscribers/${data.subscriberId}`, 'get', {}, 'accounts', data.authorization)
     .then(subscriber => {
       callApi(`companyUser/queryAll`, 'post', {companyId: companyId}, 'accounts')
         .then(companyUsers => {
-          console.log('_companyUsers', companyUsers)
           let lastMessageData = sessionLogicLayer.getQueryData('', 'aggregate', {company_id: companyId}, undefined, undefined, undefined, {_id: subscriber._id, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
             callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
               .then(gotLastMessage => {
-                console.log('got Last Message', gotLastMessage)
                 subscriber.lastPayload = gotLastMessage[0].payload
                 subscriber.lastRepliedBy = gotLastMessage[0].replied_by
                 subscriber.lastDateTime = gotLastMessage[0].datetime
@@ -115,8 +112,6 @@ const _sendNotification = (data, companyId) => {
                 if (subscriber.is_assigned && subscriber.assigned_to.type === 'team') {
                 callApi(`teams/agents/query`, 'post', {companyId: data.companyId, teamId: subscriber.assigned_to.id}, 'accounts', data.authorization)
                   .then(agents => {
-                    console.log('sending notification companyUsers', companyUsers)
-                    console.log('sending notification subscriber', subscriber)
                     const userIds = agents.map((a) => data.userId !== a.agentId._id && a.agentId._id)
                     companyUsers = companyUsers.filter(companyUser => {
                       if (userIds.includes(companyUser.userId._id)) {
@@ -135,8 +130,6 @@ const _sendNotification = (data, companyId) => {
                     logger.serverLog(TAG, `Failed to fetch members ${err}`, 'error')
                   })
             }   else if (!subscriber.is_assigned) {
-                console.log('sending notification companyUsers', companyUsers)
-                console.log('sending notification subscriber', subscriber)
                 sendNotifications('Zoom Meeting', notificationMessage, subscriber, companyUsers)
                 callApi(`companyprofile/members`, 'get', {}, 'accounts', data.authorization)
                   .then(members => {
