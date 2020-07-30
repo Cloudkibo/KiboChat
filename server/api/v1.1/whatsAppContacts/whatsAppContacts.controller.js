@@ -154,6 +154,7 @@ const _getDuplicateRecords = (data) => {
   })
 }
 exports.sendMessage = function (req, res) {
+  console.log('req.user', req.user)
   let payload = JSON.parse(req.body.payload)
   let directory = logicLayer.directory(req)
   fs.rename(req.files.file.path, path.join(directory.dir, '/userfiles/', directory.serverPath), err => {
