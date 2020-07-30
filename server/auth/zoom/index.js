@@ -9,7 +9,13 @@ const TAG = 'auth/zoom/index.js'
 const config = require('../../config/environment')
 const auth = require('../auth.service')
 
-router.get('/', (req, res) => {
+router.get('/', auth.isAuthenticated(), (req, res) => {
+  const userId = req.user._id
+  const companyId = req.user.companyId
+  return res.status(200).json({status: 'success', payload: `https://zoom.us/oauth/authorize?response_type=code&client_id=${config.zoomClientId}&redirect_uri=${config.zoomRedirectUri}&state=${userId}-${companyId}`})
+})
+
+router.get('/callback', (req, res) => {
   if (req.query.code && req.query.state) {
     const userContext = req.query.state.split('-')
     const params = {
