@@ -22,7 +22,7 @@ exports.uninstallApp = function (req, res) {
             logger.serverLog(TAG, err, 'error')
           })
       } else {
-        callApi('zoomUsers', 'delete', {purpose: 'deleteAll', match: {zoomId: uninstallPayload.user_id}})
+        callApi('zoomUsers', 'delete', {purpose: 'deleteMany', match: {zoomId: uninstallPayload.user_id}})
           .then(deleted => {
             const complianceBody = {
               client_id: config.zoomClientId,
