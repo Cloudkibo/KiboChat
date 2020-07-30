@@ -5,6 +5,7 @@ const { sendSuccessResponse, sendErrorResponse } = require('../../global/respons
 const { zoomApiCaller, refreshAccessToken } = require('../../global/zoom')
 const logicLayer = require('./logicLayer')
 const { saveNotification } = require('../../global/notifications')
+const { sendNotifications } = require('../../global/sendNotification')
 
 exports.getZoomUsers = function (req, res) {
   callApi('zoomUsers/query', 'post', {purpose: 'findAll', match: {companyId: req.user.companyId, connected: true}})
@@ -129,6 +130,8 @@ const _sendNotification = (data, companyId) => {
                     logger.serverLog(TAG, `Failed to fetch members ${err}`, 'error')
                   })
             }   else if (!subscriber.is_assigned) {
+                console.log('sending notification companyUsers', companyUsers)
+                console.log('sending notification subscriber', subscriber)
                 sendNotifications('Zoom Meeting', notificationMessage, subscriber, companyUsers)
                 callApi(`companyprofile/members`, 'get', {}, 'accounts', data.authorization)
                   .then(members => {
