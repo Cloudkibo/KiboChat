@@ -81,13 +81,11 @@ exports.create = function (req, res) {
           req.body.whatsApp = req.user.whatsApp
           record('whatsappChatOutGoing')
           whatsAppMapper(req.user.whatsApp.provider, ActionTypes.SEND_CHAT_MESSAGE, req.body)
-            .then(response => {
-              console.log('response from twilio', response)
-              req.user.whatsApp.provider === 'flockSend' && updateChat(response, message)
+            .then(messageId => {
+              updateChat(messageId, message)
               callback(null, message)
             })
             .catch(error => {
-              console.log('error from twilio', error)
               sendOpAlert(error, 'whatsAppChat controller in kibochat', null, req.user._id, req.user.companyId)
               callback(error)
             })
@@ -118,11 +116,11 @@ exports.create = function (req, res) {
     })
 }
 
-function updateChat (data, message) {
+function updateChat (messageId, chat) {
   let query = {
     purpose: 'updateOne',
-    match: {_id: message._id},
-    updated: {messageId: data[0].id}
+    match: {_id: chat._id},
+    updated: {messageId: messageId}
   }
   callApi(`whatsAppChat`, 'put', query, 'kibochat')
     .then(updated => {

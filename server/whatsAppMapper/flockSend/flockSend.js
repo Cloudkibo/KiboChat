@@ -10,7 +10,7 @@ exports.sendChatMessage = (data) => {
         if (parsed.code !== 200) {
           reject(parsed.message)
         } else {
-          resolve(parsed.data)
+          resolve(parsed.data[0].id)
         }
       })
       .catch(error => {

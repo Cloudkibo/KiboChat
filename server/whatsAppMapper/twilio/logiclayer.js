@@ -5,7 +5,7 @@ exports.prepareSendMessagePayload = (body) => {
   let MessageObject = {
     from: `whatsapp:${body.whatsApp.businessNumber}`,
     to: `whatsapp:${body.recipientNumber}`,
-    statusCallback: `${config.api_urls['webhook']}/webhooks/twilio/trackStatusWhatsAppChat/${body.message._id}`
+    statusCallback: `${config.api_urls['webhook']}/webhooks/twilio`
   }
   if (body.payload.componentType !== 'text') {
     MessageObject.mediaUrl = body.payload.fileurl.url || body.payload.fileurl
