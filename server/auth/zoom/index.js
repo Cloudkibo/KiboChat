@@ -32,8 +32,8 @@ router.get('/callback', (req, res) => {
           zoomApiCaller('get', 'v2/users/me', {}, {type: 'bearer', token: accessToken}, false)
             .then(zoomUser => {
               callApi('zoomUsers/query', 'post', {purpose: 'findOne', match: {zoomId: zoomUser.id, connected: true}})
-                .then(zoomUser => {
-                  if (zoomUser) {
+                .then(zoomRecord => {
+                  if (zoomRecord) {
                     res.redirect('/alreadyConnected')
                   } else {
                     const dataToSave = prepareZoomUserPayload(accessToken, refreshToken, zoomUser, userContext)
