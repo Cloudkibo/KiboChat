@@ -49,3 +49,45 @@ exports.prepareSendMessagePayload = (body) => {
     route
   }
 }
+exports.prepareTemplates = (flockSendTemplates) => {
+  let templates = []
+  for (let i = 0; i < flockSendTemplates.length; i++) {
+    if (flockSendTemplates[i].localizations[0].status === 'APPROVED') {
+      let template = {}
+      template.name = flockSendTemplates[i].templateName
+      let templateComponents = flockSendTemplates[i].localizations[0].components
+      for (let j = 0; j < templateComponents.length; j++) {
+        if (templateComponents[j].type === 'BODY') {
+          template.text = templateComponents[j].text
+          let argumentsRegex = /{{[0-9]}}/g
+          let templateArguments = template.text.match(argumentsRegex).join(',')
+          template.templateArguments = templateArguments
+          let regex = template.text.replace('.', '\\.')
+          regex = regex.replace(argumentsRegex, '(.*)')
+          template.regex = `^${regex}$`
+        } else if (templateComponents[j].type === 'BUTTONS') {
+          template.buttons = templateComponents[j].buttons.map(button => {
+            return {
+              title: button.text
+            }
+          })
+        }
+      }
+      if (!template.buttons) {
+        template.buttons = []
+      }
+      templates.push(template)
+    }
+  }
+  return templates
+}
+exports.prepareInvitationPayload = (data) => {
+  let MessageObject = {
+    token: data.whatsApp.accessToken,
+    number_details: JSON.stringify(data.numbers),
+    template_name: data.payload.templateName,
+    template_argument: data.payload.templateArguments,
+    language: 'en'
+  }
+  return MessageObject
+}

@@ -15,6 +15,10 @@ function callAction (action, data, provider) {
   switch (action) {
     case ActionTypes.SEND_CHAT_MESSAGE:
       return provider.sendChatMessage(data)
+    case ActionTypes.GET_TEMPLATES:
+      return provider.getTemplates(data)
+    case ActionTypes.SEND_INVITATION_TEMPLATE:
+      return provider.sendInvitationTemplate(data)
     default: break
   }
 }
