@@ -57,7 +57,7 @@ exports.setWebhook = (body) => {
       function (callback) {
         flockSendApiCaller('update-send-message-webhook', 'post', {
           token: body.accessToken,
-          webhook_url: 'https://swebhook.cloudkibo.com/webhooks/flockSend/messageStatus',
+          webhook_url: 'https://webhook.cloudkibo.com/webhooks/flockSend/messageStatus',
           webhook_status: 1})
           .then(response => {
             callback()
@@ -69,7 +69,7 @@ exports.setWebhook = (body) => {
       function (callback) {
         flockSendApiCaller('update-listen-webhook', 'post', {
           token: body.accessToken,
-          webhook_url: 'https://swebhook.cloudkibo.com/webhooks/flockSend',
+          webhook_url: 'https://webhook.cloudkibo.com/webhooks/flockSend',
           webhook_status: 1})
           .then(response => {
             callback()
