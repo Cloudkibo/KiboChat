@@ -19,6 +19,10 @@ function callAction (action, data, provider) {
       return provider.getTemplates(data)
     case ActionTypes.SEND_INVITATION_TEMPLATE:
       return provider.sendInvitationTemplate(data)
+    case ActionTypes.SET_WEBHOOK:
+      return provider.setWebhook(data)
+    case ActionTypes.VERIFY_CREDENTIALS:
+      return provider.verifyCredentials(data)
     default: break
   }
 }
