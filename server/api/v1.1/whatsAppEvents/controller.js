@@ -129,7 +129,7 @@ function storeChat (from, to, contact, messageData) {
 }
 
 function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
-  callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: bodyForIncrement, options: options })
+  callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
     .then(updated => {
     })
     .catch(error => {
