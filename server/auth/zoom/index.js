@@ -31,10 +31,21 @@ router.get('/callback', (req, res) => {
         if (accessToken) {
           zoomApiCaller('get', 'v2/users/me', {}, {type: 'bearer', token: accessToken}, false)
             .then(zoomUser => {
-              const dataToSave = prepareZoomUserPayload(accessToken, refreshToken, zoomUser, userContext)
-              callApi('zoomUsers', 'put', {purpose: 'updateOne', match: {companyId: userContext[1], zoomId: zoomUser.id}, updated: dataToSave, upsert: true})
-                .then(saved => {
-                  res.redirect('/successMessage')
+              callApi('zoomUsers/query', 'post', {purpose: 'findOne', match: {zoomId: zoomUser.id, connected: true}})
+                .then(zoomRecord => {
+                  if (zoomRecord) {
+                    res.redirect('/alreadyConnected')
+                  } else {
+                    const dataToSave = prepareZoomUserPayload(accessToken, refreshToken, zoomUser, userContext)
+                    callApi('zoomUsers', 'put', {purpose: 'updateOne', match: {companyId: userContext[1], zoomId: zoomUser.id}, updated: dataToSave, upsert: true})
+                      .then(saved => {
+                        res.redirect('/successMessage')
+                      })
+                      .catch(err => {
+                        logger.serverLog(TAG, `Failed to save zoom user ${err}`)
+                        res.redirect('/ErrorMessage')
+                      })
+                  }
                 })
                 .catch(err => {
                   logger.serverLog(TAG, `Failed to save zoom user ${err}`)
