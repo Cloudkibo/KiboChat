@@ -306,6 +306,26 @@ exports.fetchValidCallerIds = function (req, res) {
     })
 }
 
+exports.getKeys = function (req, res) {
+  utility.callApi('companyprofile/getKeys', 'get', {}, 'accounts', req.headers.authorization)
+    .then((result) => {
+      res.status(200).json({status: 'success', captchaKey: result.captchaKey, stripeKey: result.stripeKey})
+    })
+    .catch((err) => {
+      sendErrorResponse(res, 500, err)
+    })
+}
+
+exports.setCard = function (req, res) {
+  utility.callApi('companyprofile/setCard', 'post', req.body, 'accounts', req.headers.authorization)
+    .then((result) => {
+      sendSuccessResponse(res, 200, result)
+    })
+    .catch((err) => {
+      sendErrorResponse(res, 500, err)
+    })
+}
+
 exports.updateRole = function (req, res) {
   utility.callApi('companyprofile/updateRole', 'post', {role: req.body.role, domain_email: req.body.domain_email}, 'accounts', req.headers.authorization)
     .then((result) => {

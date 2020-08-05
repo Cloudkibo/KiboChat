@@ -25,6 +25,14 @@ router.post('/invite',
   auth.isUserAllowedToPerformThisAction('invite_members'),
   controller.invite)
 
+router.get('/getKeys',
+  auth.isAuthenticated(),
+  controller.getKeys)
+
+router.post('/setCard',
+  auth.isAuthenticated(),
+  controller.setCard)
+
 router.post('/updateAutomatedOptions',
   auth.isAuthenticated(),
   auth.hasRole('buyer'),
