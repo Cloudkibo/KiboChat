@@ -1,10 +1,10 @@
 const logicLayer = require('./logiclayer')
-const {flockSendApiCaller} = require('../../api/global/flockSendApiCaller')
+const { flockSendApiCaller } = require('../../api/global/flockSendApiCaller')
 const async = require('async')
 
 exports.sendChatMessage = (data) => {
   return new Promise((resolve, reject) => {
-    let {route, MessageObject} = logicLayer.prepareSendMessagePayload(data)
+    let { route, MessageObject } = logicLayer.prepareSendMessagePayload(data)
     flockSendApiCaller(`connect/official/v2/${route}`, 'post', MessageObject)
       .then(response => {
         let parsed = JSON.parse(response.body)
@@ -19,6 +19,25 @@ exports.sendChatMessage = (data) => {
       })
   })
 }
+
+exports.getNormalizedMessageStatusData = (event) => {
+  return {
+    messageId: event.id,
+    status: event.status
+  }
+}
+
+exports.getNormalizedMessageReceivedData = (event) => {
+  return {
+    accessToken: event.user_id,
+    userData: {
+      number: event.phone_number,
+      name: event.wa_user_name
+    },
+    messageData: logicLayer.prepareReceivedMessageData(event)
+  }
+}
+
 exports.getTemplates = (body) => {
   return new Promise((resolve, reject) => {
     const authData = {
@@ -34,6 +53,7 @@ exports.getTemplates = (body) => {
       })
   })
 }
+
 exports.sendInvitationTemplate = (body) => {
   return new Promise((resolve, reject) => {
     let MessageObject = logicLayer.prepareInvitationPayload(body)
@@ -51,6 +71,7 @@ exports.sendInvitationTemplate = (body) => {
       })
   })
 }
+
 exports.setWebhook = (body) => {
   return new Promise((resolve, reject) => {
     async.parallelLimit([
@@ -58,7 +79,8 @@ exports.setWebhook = (body) => {
         flockSendApiCaller('update-send-message-webhook', 'post', {
           token: body.accessToken,
           webhook_url: 'https://webhook.cloudkibo.com/webhooks/flockSend/messageStatus',
-          webhook_status: 1})
+          webhook_status: 1
+        })
           .then(response => {
             callback()
           })
@@ -70,7 +92,8 @@ exports.setWebhook = (body) => {
         flockSendApiCaller('update-listen-webhook', 'post', {
           token: body.accessToken,
           webhook_url: 'https://webhook.cloudkibo.com/webhooks/flockSend',
-          webhook_status: 1})
+          webhook_status: 1
+        })
           .then(response => {
             callback()
           })
@@ -87,6 +110,7 @@ exports.setWebhook = (body) => {
     })
   })
 }
+
 exports.verifyCredentials = (body) => {
   return new Promise((resolve, reject) => {
     resolve()

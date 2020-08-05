@@ -64,29 +64,30 @@ module.exports = function (app) {
   app.use('/api/zoom', require('./api/v1.1/zoomIntegration'))
   app.use('/api/zoomEvents', require('./api/v1.1/zoomEvents'))
   app.use('/api/flockSendEvents', require('./api/v1.1/flockSendEvents'))
+  app.use('/api/whatsAppEvents', require('./api/v1.1/whatsAppEvents'))
   // auth middleware go here if you authenticate on same server
 
   app.get('/', (req, res) => {
     res.cookie('environment', config.env,
-      {expires: new Date(Date.now() + 900000)})
+      { expires: new Date(Date.now() + 900000) })
     res.cookie('url_production', 'https://kibochat.cloudkibo.com',
-      {expires: new Date(Date.now() + 900000)})
+      { expires: new Date(Date.now() + 900000) })
     res.cookie('url_staging', 'https://skibochat.cloudkibo.com',
-      {expires: new Date(Date.now() + 900000)})
+      { expires: new Date(Date.now() + 900000) })
     res.cookie('url_development', 'http://localhost:3022',
-      {expires: new Date(Date.now() + 900000)})
+      { expires: new Date(Date.now() + 900000) })
     res.sendFile(path.join(config.root, 'client/index.html'))
   })
 
   app.get('/integrations/zoom', (req, res) => {
     res.cookie('environment', config.env,
-      {expires: new Date(Date.now() + 900000)})
+      { expires: new Date(Date.now() + 900000) })
     res.cookie('url_production', 'https://kibochat.cloudkibo.com',
-      {expires: new Date(Date.now() + 900000)})
+      { expires: new Date(Date.now() + 900000) })
     res.cookie('url_staging', 'https://skibochat.cloudkibo.com',
-      {expires: new Date(Date.now() + 900000)})
+      { expires: new Date(Date.now() + 900000) })
     res.cookie('url_development', 'http://localhost:3022',
-      {expires: new Date(Date.now() + 900000)})
+      { expires: new Date(Date.now() + 900000) })
     res.sendFile(path.join(config.root, 'client/index.html'))
   })
 
@@ -104,25 +105,25 @@ module.exports = function (app) {
 
   app.get('/successMessage', (req, res) => {
     res.cookie('environment', config.env,
-      {expires: new Date(Date.now() + 900000)})
+      { expires: new Date(Date.now() + 900000) })
     res.cookie('url_production', 'https://kibochat.cloudkibo.com',
-      {expires: new Date(Date.now() + 900000)})
+      { expires: new Date(Date.now() + 900000) })
     res.cookie('url_staging', 'https://skibochat.cloudkibo.com',
-      {expires: new Date(Date.now() + 900000)})
+      { expires: new Date(Date.now() + 900000) })
     res.cookie('url_development', 'http://localhost:3022',
-      {expires: new Date(Date.now() + 900000)})
+      { expires: new Date(Date.now() + 900000) })
     res.sendFile(path.join(config.root, 'client/index.html'))
   })
 
   app.get('/ErrorMessage', (req, res) => {
     res.cookie('environment', config.env,
-      {expires: new Date(Date.now() + 900000)})
+      { expires: new Date(Date.now() + 900000) })
     res.cookie('url_production', 'https://kibochat.cloudkibo.com',
-      {expires: new Date(Date.now() + 900000)})
+      { expires: new Date(Date.now() + 900000) })
     res.cookie('url_staging', 'https://skibochat.cloudkibo.com',
-      {expires: new Date(Date.now() + 900000)})
+      { expires: new Date(Date.now() + 900000) })
     res.cookie('url_development', 'http://localhost:3022',
-      {expires: new Date(Date.now() + 900000)})
+      { expires: new Date(Date.now() + 900000) })
     res.sendFile(path.join(config.root, 'client/index.html'))
   })
 
@@ -141,7 +142,7 @@ module.exports = function (app) {
               description: 'internal server error' + JSON.stringify(err)
             })
           }
-          return res.status(201).json({status: 'success', description: 'HTML uploaded'})
+          return res.status(201).json({ status: 'success', description: 'HTML uploaded' })
         }
       )
     })
@@ -155,9 +156,9 @@ module.exports = function (app) {
   })
 
   app.route('/:url(api|auth)/*').get((req, res) => {
-    res.status(404).send({url: `${req.originalUrl} not found`})
+    res.status(404).send({ url: `${req.originalUrl} not found` })
   }).post((req, res) => {
-    res.status(404).send({url: `${req.originalUrl} not found`})
+    res.status(404).send({ url: `${req.originalUrl} not found` })
   })
 
   app.route('/*').get((req, res) => {
