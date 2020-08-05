@@ -129,12 +129,6 @@ function storeChat (from, to, contact, messageData) {
 }
 
 function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
-  callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: bodyForUpdate, options: options })
-    .then(updated => {
-    })
-    .catch(error => {
-      logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`, 'error')
-    })
   callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: bodyForIncrement, options: options })
     .then(updated => {
     })
