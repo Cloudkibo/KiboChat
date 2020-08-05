@@ -15,6 +15,14 @@ function callAction (action, data, provider) {
   switch (action) {
     case ActionTypes.SEND_CHAT_MESSAGE:
       return provider.sendChatMessage(data)
+    case ActionTypes.GET_TEMPLATES:
+      return provider.getTemplates(data)
+    case ActionTypes.SEND_INVITATION_TEMPLATE:
+      return provider.sendInvitationTemplate(data)
+    case ActionTypes.SET_WEBHOOK:
+      return provider.setWebhook(data)
+    case ActionTypes.VERIFY_CREDENTIALS:
+      return provider.verifyCredentials(data)
     default: break
   }
 }
