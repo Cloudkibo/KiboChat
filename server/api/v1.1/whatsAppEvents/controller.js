@@ -12,7 +12,6 @@ exports.messageReceived = function (req, res) {
   let data = whatsAppMapper.handleInboundMessageReceived(req.body.provider, req.body.event)
   createContact(data)
     .then(() => {
-      console.log('mapped whatsapp data', data)
       let number = `+${data.userData.number}`
       if (data.messageData.constructor === Object && Object.keys(data.messageData).length > 0) {
         let query = [
@@ -20,7 +19,6 @@ exports.messageReceived = function (req, res) {
         ]
         callApi(`companyprofile/aggregate`, 'post', query)
           .then(companies => {
-            console.log('companies', companies)
             companies.forEach((company) => {
               callApi(`whatsAppContacts/query`, 'post', { number: number, companyId: company._id })
                 .then(contact => {
@@ -151,7 +149,6 @@ exports.messageStatus = function (req, res) {
     description: `received the payload`
   })
   let data = whatsAppMapper.handleInboundMessageStatus(req.body.provider, req.body.event)
-  console.log('mapped whatsapp data', data)
   if (data.status === 'delivered' || data.status === 'seen') {
     let query = {
       purpose: 'findOne',
