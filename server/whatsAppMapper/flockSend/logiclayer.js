@@ -5,7 +5,7 @@ exports.prepareSendMessagePayload = (body) => {
   let MessageObject = {
     token: body.whatsApp.accessToken,
     number_details: JSON.stringify([
-      {phone: body.recipientNumber}])
+      { phone: body.recipientNumber }])
   }
   if (body.payload.componentType === 'text') {
     if (body.payload.templateName) {
@@ -48,4 +48,42 @@ exports.prepareSendMessagePayload = (body) => {
     MessageObject,
     route
   }
+}
+
+exports.prepareReceiveMessageData = (event) => {
+  let payload = {}
+  if (event.media_type === 'image') {
+    payload = { componentType: 'image', fileurl: { url: `https://flocksend.com${event.media_link}` } }
+    if (event.message !== '' && event.message !== 'image') {
+      payload.caption = event.message
+    }
+  } else if (event.media_type === 'video') {
+    payload = { componentType: 'video', fileurl: { url: `https://flocksend.com${event.media_link}` } }
+    if (event.message !== '' && event.message !== 'video') {
+      payload.caption = event.message
+    }
+  } else if (event.media_type === 'document') {
+    payload = {
+      componentType: 'file',
+      fileurl: { url: `https://flocksend.com${event.media_link}` },
+      fileName: event.message
+    }
+  } else if (event.media_type === 'audio') {
+    payload = { componentType: 'audio', fileurl: { url: `https://flocksend.com${event.media_link}` } }
+  } else if (event.media_type === 'location') {
+    let coordinates = event.message.split(':')
+    payload = {
+      componentType: 'location',
+      title: 'Pinned Location',
+      payload: {
+        coordinates: { lat: coordinates[1], long: coordinates[0] }
+      }
+    }
+  } else if (event.media_type === 'contacts') {
+    let parsed = event.message.split(':')
+    payload = { componentType: 'contact', name: parsed[0], number: parsed[1] }
+  } else if (event.media_type === 'text' && event.message !== '') {
+    payload = { componentType: 'text', text: event.message }
+  }
+  return payload
 }
