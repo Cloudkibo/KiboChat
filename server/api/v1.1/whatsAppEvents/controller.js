@@ -43,7 +43,7 @@ exports.messageReceived = function (req, res) {
         })
     })
     .catch(error => {
-      logger.serverLog(TAG, `Failed to map whatsapp message received data ${JSON.stringify(req.body)} ${JSON.stringify(error)}`, 'error')
+      logger.serverLog(TAG, `Failed to map whatsapp message received data ${JSON.stringify(req.body)} ${error}`, 'error')
     })
 }
 
@@ -166,7 +166,7 @@ exports.messageStatus = function (req, res) {
       }
     })
     .catch(error => {
-      logger.serverLog(TAG, `Failed to map whatsapp message status data ${JSON.stringify(req.body)} ${JSON.stringify(error)}`, 'error')
+      logger.serverLog(TAG, `Failed to map whatsapp message status data ${JSON.stringify(req.body)} ${error}`, 'error')
     })
 }
 
