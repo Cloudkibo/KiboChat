@@ -33,6 +33,10 @@ router.post('/setCard',
   auth.isAuthenticated(),
   controller.setCard)
 
+router.post('/updatePlan',
+  auth.isAuthenticated(),
+  controller.updatePlan)
+
 router.post('/updateAutomatedOptions',
   auth.isAuthenticated(),
   auth.hasRole('buyer'),
