@@ -161,7 +161,6 @@ exports.addPage = function (req, res) {
         .catch(error => {
           sendErrorResponse(res, 500, `Failed to fetch Page ${JSON.stringify(error)}`)
         })
-
     }).catch(error => {
       sendErrorResponse(res, 500, `Failed to fetch company User ${JSON.stringify(error)}`)
     })
@@ -245,8 +244,10 @@ function populateAgentIds (agentIds) {
   return new Promise(function (resolve, reject) {
     let agentIdsToSend = []
     for (let i = 0; i < agentIds.length; i++) {
-      agentIdsToSend.push(agentIds[i].agentId._id)
-      if (agentIdsToSend.length === agentIds.length) {
+      if (agentIds[i].agentId) {
+        agentIdsToSend.push(agentIds[i].agentId._id)
+      }
+      if (i === agentIds.length - 1) {
         resolve({agentIds: agentIdsToSend})
       }
     }

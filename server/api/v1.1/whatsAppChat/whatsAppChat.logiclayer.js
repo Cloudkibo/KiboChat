@@ -4,7 +4,7 @@ var path = require('path')
 exports.prepareChat = (body, companyUser) => {
   let MessageObject = {
     senderNumber: body.recipientNumber,
-    recipientNumber: companyUser.companyId.twilioWhatsApp.sandboxNumber,
+    recipientNumber: companyUser.companyId.flockSendWhatsApp.number,
     contactId: body.contactId,
     companyId: companyUser.companyId._id,
     payload: body.payload,
@@ -41,6 +41,56 @@ exports.prepareSendMessagePayload = (body, companyUser, message) => {
     MessageObject.body = body.payload.text
   }
   return MessageObject
+}
+
+exports.prepareFlockSendPayload = (body, companyUser, message) => {
+  let route = ''
+  let MessageObject = {
+    token: companyUser.companyId.flockSendWhatsApp.accessToken,
+    number_details: JSON.stringify([
+      {phone: body.recipientNumber}])
+  }
+  if (body.payload.componentType === 'text') {
+    if (body.payload.templateName) {
+      MessageObject.template_name = body.payload.templateName
+      MessageObject.template_argument = body.payload.templateArguments
+      MessageObject.language = 'en'
+      route = 'hsm'
+    } else {
+      MessageObject.message = body.payload.text
+      route = 'text'
+    }
+  } else if (body.payload.componentType === 'sticker' ||
+    body.payload.componentType === 'image' ||
+    body.payload.componentType === 'thumbsUp') {
+    MessageObject.image = body.payload.fileurl.url || body.payload.fileurl
+    MessageObject.title = body.payload.caption
+    route = 'image'
+  } else if (body.payload.componentType === 'video' || body.payload.componentType === 'gif') {
+    MessageObject.video = body.payload.fileurl.url || body.payload.fileurl
+    MessageObject.title = body.payload.caption
+    route = 'video'
+  } else if (body.payload.componentType === 'file') {
+    let ext = path.extname(body.payload.fileName)
+    if (ext !== '') {
+      body.payload.fileName = body.payload.fileName.replace(ext, '')
+    }
+    MessageObject.title = body.payload.fileName
+    MessageObject.file = body.payload.fileurl.url || body.payload.fileurl
+    route = 'file'
+  } else if (body.payload.componentType === 'audio') {
+    let ext = path.extname(body.payload.fileName)
+    if (ext !== '') {
+      body.payload.fileName = body.payload.fileName.replace(ext, '')
+    }
+    MessageObject.audio = body.payload.fileurl.url || body.payload.fileurl
+    MessageObject.title = body.payload.fileName
+    route = 'audio'
+  }
+  return {
+    MessageObject,
+    route
+  }
 }
 
 exports.getQueryData = (type, purpose, match, skip, sort, limit, group) => {

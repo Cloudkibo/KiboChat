@@ -52,6 +52,7 @@ exports.getSessions = (req, status) => {
       lastMessagedAt: 1,
       pendingResponse: 1,
       waitingForUserInput: 1,
+      messagesCount: 1,
       unreadCount: 1} },
     { $sort: {last_activity_time: req.body.filter_criteria.sort_value} },
     { $match: {

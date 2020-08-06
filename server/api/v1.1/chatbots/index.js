@@ -32,6 +32,10 @@ router.get('/:id/details',
   auth.isUserAllowedToPerformThisAction('configure_chatbot_automation'),
   controller.details)
 
+router.get('/:id/stats/:n',
+  auth.isAuthenticated(),
+  controller.stats)
+
 router.get('/:id/fetch',
   auth.isAuthenticated(),
   auth.doesPlanPermitsThisAction('chatbot_automation'),
@@ -63,5 +67,8 @@ router.post('/restoreBackup',
   auth.isUserAllowedToPerformThisAction('configure_chatbot_automation'),
   validate({ body: validationSchema.backupPayload }),
   controller.restoreBackup)
+
+router.get('/url/:id',
+  controller.redirectToUrl)
 
 module.exports = router

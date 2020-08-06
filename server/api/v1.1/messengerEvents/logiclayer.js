@@ -10,15 +10,15 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
   if (body.componentType === 'text' && !body.buttons) {
     if (body.text.includes('{{user_full_name}}') || body.text.includes('[Username]')) {
       text = text.replace(
-        '{{user_full_name}}', fname + ' ' + lname)
+        /{{user_full_name}}/g, fname + ' ' + lname)
     }
     if (body.text.includes('{{user_first_name}}')) {
       text = text.replace(
-        '{{user_first_name}}', fname)
+        /{{user_first_name}}/g, fname)
     }
     if (body.text.includes('{{user_last_name}}')) {
       text = text.replace(
-        '{{user_last_name}}', lname)
+        /{{user_last_name}}/g, lname)
     }
     payload = {
       'messaging_type': messageType,
@@ -38,15 +38,15 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
   } else if (body.componentType === 'text' && body.buttons) {
     if (body.text.includes('{{user_full_name}}') || body.text.includes('[Username]')) {
       text = text.replace(
-        '{{user_full_name}}', fname + ' ' + lname)
+        /{{user_full_name}}/g, fname + ' ' + lname)
     }
     if (body.text.includes('{{user_first_name}}')) {
       text = text.replace(
-        '{{user_first_name}}', fname)
+        /{{user_first_name}}/g, fname)
     }
     if (body.text.includes('{{user_last_name}}')) {
       text = text.replace(
-        '{{user_last_name}}', lname)
+        /{{user_last_name}}/g, lname)
     }
     payload = {
       'messaging_type': messageType,
@@ -73,6 +73,17 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
       'media_type': body.mediaType,
       'buttons': body.buttons
     }
+    if (body.buttons && body.buttons.length > 0) {
+      mediaElement.buttons = []
+      for (let i = 0; i < body.buttons.length; i++) {
+        let tempButton = {
+          title: body.buttons[i].title,
+          type: body.buttons[i].type,
+          url: body.buttons[i].urlForFacebook ? body.buttons[i].urlForFacebook : body.buttons[i].url
+        }
+        mediaElement.buttons.push(tempButton)
+      }
+    }
     if (body.fileurl.attachment_id) {
       mediaElement.attachment_id = body.fileurl.attachment_id
     }
@@ -90,7 +101,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
           'payload': {
             'template_type': 'media',
             'elements': [
-               mediaElement 
+              mediaElement
             ]
           }
         }
@@ -169,7 +180,15 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
       }
     }
     if (body.buttons && body.buttons.length > 0) {
-      payload.message.attachment.payload.elements[0].buttons = body.buttons
+      payload.message.attachment.payload.elements[0].buttons = []
+      for (let i = 0; i < body.buttons.length; i++) {
+        let tempButton = {
+          title: body.buttons[i].title,
+          type: body.buttons[i].type,
+          url: body.buttons[i].urlForFacebook ? body.buttons[i].urlForFacebook : body.buttons[i].url
+        }
+        payload.message.attachment.payload.elements[0].buttons.push(tempButton)
+      }
     }
     if (body.quickReplies && body.quickReplies.length > 0) {
       payload.message.quick_replies = body.quickReplies

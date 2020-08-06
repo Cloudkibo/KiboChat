@@ -7,8 +7,6 @@ const broadcastUtility = require('../broadcasts/broadcasts.utility')
 let config = require('./../../../config/environment')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
-const util = require('util')
-
 exports.index = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
     .then(companyuser => {
@@ -192,7 +190,7 @@ exports.enable = function (req, res) {
                   needle('get', `https://graph.facebook.com/v6.0/me?access_token=${page.accessToken}`)
                     .then(response => {
                       if (response.body.error) {
-                        //sendOpAlert(response.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
+                        // sendOpAlert(response.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
                         return res.status(400).json({status: 'failed', payload: response.body.error.message, type: 'invalid_permissions'})
                       } else {
                         utility.callApi(`pages/query`, 'post', {pageId: req.body.pageId, connected: true})
@@ -211,6 +209,8 @@ exports.enable = function (req, res) {
                               utility.callApi('pages/query', 'post', {_id: req.body._id})
                                 .then(pages => {
                                   let page = pages[0]
+
+                                  query.welcomeMessage = page.welcomeMessage ? page.welcomeMessage : query.welcomeMessage
                                   // initiate reach estimation
                                   // needle('post', `https://graph.facebook.com/v6.0/me/broadcast_reach_estimations?access_token=${page.accessToken}`)
                                   //   .then(reachEstimation => {
@@ -219,7 +219,7 @@ exports.enable = function (req, res) {
                                   //     }
                                   //     console.log('reachEstimation response', reachEstimation.body)
                                   //     if (reachEstimation.body.reach_estimation_id) {
-                                        // query.reachEstimationId = reachEstimation.body.reach_estimation_id
+                                  // query.reachEstimationId = reachEstimation.body.reach_estimation_id
                                   utility.callApi(`pages/${req.body._id}`, 'put', query) // connect page
                                     .then(connectPage => {
                                       utility.callApi(`pages/whitelistDomain`, 'post', {page_id: page.pageId, whitelistDomains: [`${config.domain}`]}, 'accounts', req.headers.authorization)
@@ -242,6 +242,7 @@ exports.enable = function (req, res) {
                                         })
                                       utility.callApi(`subscribers/update`, 'put', {query: {pageId: page._id}, newPayload: {isEnabledByPage: true}, options: {}}) // update subscribers
                                         .then(updatedSubscriber => {
+                                          // eslint-disable-next-line no-unused-vars
                                           const options = {
                                             url: `https://graph.facebook.com/v6.0/${page.pageId}/subscribed_apps?access_token=${page.accessToken}`,
                                             qs: {access_token: page.accessToken},
@@ -258,7 +259,7 @@ exports.enable = function (req, res) {
                                               sendErrorResponse(res, 5000, JSON.stringify(error))
                                             }
                                             if (response.body.error) {
-                                              //sendOpAlert(response.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
+                                              // sendOpAlert(response.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
                                             }
                                             if (response.body.success) {
                                               let updateConnectedFacebook = {query: {pageId: page.pageId}, newPayload: {connectedFacebook: true}, options: {multi: true}}
@@ -289,7 +290,7 @@ exports.enable = function (req, res) {
                                                       err)}`, 'error')
                                                 }
                                                 if (resp.body.error) {
-                                                  //sendOpAlert(resp.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
+                                                  // sendOpAlert(resp.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
                                                 }
                                               })
                                             // require('./../../../config/socketio').sendMessageToClient({
@@ -622,6 +623,7 @@ exports.otherPages = function (req, res) {
     })
 }
 
+// eslint-disable-next-line no-unused-vars
 function createTag (user, page, tag, req) {
   needle('post', `https://graph.facebook.com/v6.0/me/custom_labels?access_token=${page.accessToken}`, {'name': tag})
     .then(label => {
@@ -632,13 +634,13 @@ function createTag (user, page, tag, req) {
               if (defaultTag.length === 0) {
                 needle('get', `https://graph.facebook.com/v6.0/me/custom_labels?fields=name&access_token=${page.accessToken}`)
                   .then(Tags => {
-                    let default_tag = Tags.body.data.filter(data => data.name === tag)
+                    let defaultTag = Tags.body.data.filter(data => data.name === tag)
                     let tagData = {
                       tag: tag,
                       userId: user._id,
                       companyId: user.companyId,
                       pageId: page._id,
-                      labelFbId: default_tag[0].id,
+                      labelFbId: defaultTag[0].id,
                       defaultTag: true
                     }
                     utility.callApi('tags', 'post', tagData)
@@ -685,5 +687,15 @@ function createTag (user, page, tag, req) {
     })
     .catch(err => {
       logger.serverLog(TAG, `Error at create tag on Facebook ${JSON.stringify(err)}`, 'error')
+    })
+}
+
+exports.refreshPages = function (req, res) {
+  utility.callApi(`pages/refreshPages`, 'post', {}, 'accounts', req.headers.authorization)// fetch all pages of company
+    .then(response => {
+      sendSuccessResponse(res, 200, response)
+    })
+    .catch(error => {
+      sendErrorResponse(res, 500, `Failed to refresh pages ${JSON.stringify(error)}`)
     })
 }

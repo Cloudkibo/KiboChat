@@ -1,6 +1,3 @@
-const logger = require('../../../components/logger')
-const TAG = 'api/v1.1/messageBlock/messageBlock.logiclayer.js'
-
 exports.preparePayload = function (companyId, userId, body) {
   let payload = {
     module: {
@@ -11,7 +8,8 @@ exports.preparePayload = function (companyId, userId, body) {
     userId: userId,
     uniqueId: body.uniqueId,
     payload: body.payload,
-    title: body.title
+    title: body.title,
+    triggers: body.triggers
   }
   return payload
 }

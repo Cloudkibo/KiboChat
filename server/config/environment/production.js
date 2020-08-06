@@ -37,5 +37,8 @@ module.exports = {
   KIBOENGAGE_URL: 'https://kiboengage.cloudkibo.com/api',
   kibodash: `${process.env.KIBODASH}/api/v1`,
   accountsDomain: 'https://accounts.cloudkibo.com',
-  COVIS: 'http://209.97.155.81/api'
+  COVIS: 'http://209.97.155.81/api',
+  zoomClientId: process.env.ZOOM_CLIENT_ID,
+  zoomClientSecret: process.env.ZOOM_CLIENT_SECRET,
+  zoomRedirectUri: process.env.ZOOM_REDIRECT_URI
 }

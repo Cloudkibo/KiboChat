@@ -2,8 +2,10 @@ const logicLayer = require('./whatsAppChat.logiclayer')
 const { callApi } = require('../utility')
 const async = require('async')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
-const { record } = require('../../global/messageStatistics')
 const { sendOpAlert } = require('../../global/operationalAlert')
+const { flockSendApiCaller } = require('../../global/flockSendApiCaller')
+const logger = require('../../../components/logger')
+const TAG = '/api/v1/whatsAppChat/whatsAppChat.controller.js'
 
 exports.index = function (req, res) {
   if (req.params.contactId) {
@@ -86,24 +88,27 @@ exports.create = function (req, res) {
                 })
             },
             function (callback) {
-              let accountSid = companyUser.companyId.twilioWhatsApp.accountSID
-              let authToken = companyUser.companyId.twilioWhatsApp.authToken
-              let client = require('twilio')(accountSid, authToken)
-              let messageToSend = logicLayer.prepareSendMessagePayload(req.body, companyUser, message)
-              record('whatsappChatOutGoing')
-              client.messages
-                .create(messageToSend)
+              let {route, MessageObject} = logicLayer.prepareFlockSendPayload(req.body, companyUser, message)
+              // record('whatsappChatOutGoing')
+              flockSendApiCaller(route, 'post', MessageObject)
                 .then(response => {
-                  callback(null, message)
+                  console.log('response from flockSendApiCaller', response.body)
+                  let parsed = JSON.parse(response.body)
+                  if (parsed.code !== 200) {
+                    callback(parsed.message)
+                  } else {
+                    updateChat(parsed.data, message)
+                    callback(null, message)
+                  }
                 })
                 .catch(error => {
                   sendOpAlert(error, 'whatsAppChat controller in kibochat', null, req.user._id, companyUser.companyId)
-                  sendErrorResponse(res, 500, `Failed to send message ${JSON.stringify(error)}`)
+                  callback(error)
                 })
             }
           ], 10, function (err, results) {
             if (err) {
-              sendErrorResponse(res, 500, `Failed to send message ${JSON.stringify(err)}`)
+              sendErrorResponse(res, 500, err)
             } else {
               require('./../../../config/socketio').sendMessageToClient({
                 room_id: req.user.companyId,
@@ -123,11 +128,26 @@ exports.create = function (req, res) {
           })
         })
         .catch(error => {
-          sendErrorResponse(res, 500, `Failed to save message ${JSON.stringify(error)}`)
+          sendErrorResponse(res, 500, `Failed to save message ${error}`)
         })
     })
     .catch(error => {
       sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
+    })
+}
+
+function updateChat (data, message) {
+  let query = {
+    purpose: 'updateOne',
+    match: {_id: message._id},
+    updated: {messageId: data[0].id}
+  }
+  callApi(`whatsAppChat`, 'put', query, 'kibochat')
+    .then(updated => {
+      console.log('chat updated', updated)
+    })
+    .catch((err) => {
+      logger.serverLog(TAG, `Failed to update chat ${err}`, 'error')
     })
 }
 

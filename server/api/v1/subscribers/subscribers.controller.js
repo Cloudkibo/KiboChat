@@ -190,14 +190,13 @@ exports.getAll = function (req, res) {
             utility.callApi(`tags_subscriber/aggregate`, 'post', criterias.fetchCriteria) // fetch subscribers count
               .then(subscribers => {
                 console.log('subscribers by filter', subscribers)
-                let new_subscribers = []
+                let newSubscribersArray = []
                 subscribers.forEach((subscriber, index) => {
-                  let new_subscriber = subscriber.Subscribers
-                  new_subscriber.pageId = subscriber.pageId
-                  new_subscribers.push(new_subscriber)
+                  let newSubscriberTemp = subscriber.Subscribers
+                  newSubscriberTemp.pageId = subscriber.pageId
+                  newSubscribersArray.push(newSubscriberTemp)
                 })
-                console.log('new_subscribers', new_subscribers)
-                getAllSubscribers(new_subscribers, count, req, res)
+                getAllSubscribers(newSubscribersArray, count, req, res)
               })
               .catch(err => {
                 logger.serverLog(TAG, `Failed to fetch subscriber data  ${JSON.stringify(err)}`, 'error')
