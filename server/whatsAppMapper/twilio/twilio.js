@@ -1,6 +1,6 @@
 const needle = require('needle')
 const logicLayer = require('./logiclayer')
-const { callApi } = require('../utility')
+const { callApi } = require('../../api/v1/utility')
 
 exports.sendChatMessage = (body) => {
   return new Promise((resolve, reject) => {
