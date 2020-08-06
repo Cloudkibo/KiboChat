@@ -184,8 +184,9 @@ const _updateCompanyProfile = (data, next) => {
   //   next(null)
   // }
   // if (!data.body.changeWhatsAppFlockSend) {
-  let newPayload = {whatsApp: data.body}
-  utility.callApi(`companyprofile/update`, 'put', {query: {_id: data.companyId}, newPayload: newPayload, options: {}})
+  let newPayload = data.body
+  if (data.body.platform) delete newPayload.platform
+  utility.callApi(`companyprofile/update`, 'put', {query: {_id: data.companyId}, newPayload: {whatsApp: newPayload}, options: {}})
     .then(updatedProfile => {
       next(null, updatedProfile)
     })
@@ -292,7 +293,7 @@ exports.disconnect = function (req, res) {
       if (req.body.type === 'sms') {
         updated = {$unset: {twilio: 1}}
       } else {
-        updated = {$unset: {flockSendWhatsApp: 1}}
+        updated = {$unset: {whatsApp: 1}}
       }
       let userUpdated = logicLayer.getPlatform(companyUser, req.body)
       utility.callApi(`companyprofile/update`, 'put', {query: {_id: companyUser.companyId}, newPayload: updated, options: {}})
@@ -371,7 +372,7 @@ exports.deleteWhatsAppInfo = function (req, res) {
           //   }}
           // }
           if (req.body.type === 'Disconnect') {
-            updated = {$unset: {flockSendWhatsApp: 1}}
+            updated = {$unset: {whatsApp: 1}}
           } else {
             updated = {twilioWhatsApp: {
               accessToken: req.body.accessToken,

@@ -21,3 +21,12 @@ exports.prepareSendMessagePayload = (body) => {
   }
   return MessageObject
 }
+exports.prepareInvitationPayload = (body, number) => {
+  let MessageObject = {
+    body: body.payload.text,
+    from: `whatsapp:${body.whatsApp.businessNumber}`,
+    to: `whatsapp:${number}`,
+    statusCallback: `${config.api_urls['webhook']}/webhooks/twilio`
+  }
+  return MessageObject
+}

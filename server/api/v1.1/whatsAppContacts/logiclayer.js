@@ -70,7 +70,7 @@ exports.directory = function (req) {
 }
 exports.prepareChat = (data, contact) => {
   let MessageObject = {
-    senderNumber: data.senderNumber,
+    senderNumber: data.whatsApp.businessNumber,
     recipientNumber: contact.number,
     contactId: contact._id,
     companyId: data.companyId,
