@@ -88,12 +88,12 @@ exports.getNormalizedMessageStatusData = (event) => {
 exports.getNormalizedMessageReceivedData = (event) => {
   return new Promise((resolve, reject) => {
     try {
-      callApi(`companyprofile/query`, 'post', { 'twilioWhatsApp.accountSID': event.AccountSid })
+      callApi(`companyprofile/query`, 'post', { 'whatsApp.accountSID': event.AccountSid })
         .then(company => {
           resolve({
-            accessToken: company.twilioWhatsApp.authToken,
+            accessToken: company.whatsApp.accessToken,
             userData: {
-              number: event.From.substring(9),
+              number: event.From.substring(10),
               name: ''
             },
             messageData: logicLayer.prepareReceivedMessageData(event)
