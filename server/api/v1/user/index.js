@@ -38,11 +38,15 @@ router.get('/addAccountType',
 
 router.post('/enableDelete',
   auth.isAuthenticated(),
+  auth.doesPlanPermitsThisAction('delete_account_information'),
+  auth.isUserAllowedToPerformThisAction('delete_account_information'),
   validate({body: validationSchema.enableGDPRDelete}),
   controller.enableDelete)
 
 router.get('/cancelDeletion',
   auth.isAuthenticated(),
+  auth.doesPlanPermitsThisAction('delete_account_information'),
+  auth.isUserAllowedToPerformThisAction('delete_account_information'),
   controller.cancelDeletion)
 
 router.post('/updateShowIntegrations',
@@ -51,6 +55,7 @@ router.post('/updateShowIntegrations',
 
 router.get('/disconnectFacebook',
   auth.isAuthenticated(),
+  auth.isUserAllowedToPerformThisAction('connect_facebook_account'),
   controller.disconnectFacebook)
 
 router.get('/validateUserAccessToken',
