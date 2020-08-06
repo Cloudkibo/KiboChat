@@ -1,5 +1,6 @@
 const needle = require('needle')
 const logicLayer = require('./logiclayer')
+const { callApi } = require('../../api/v1/utility')
 
 exports.sendChatMessage = (body) => {
   return new Promise((resolve, reject) => {
@@ -68,5 +69,41 @@ exports.sendInvitationTemplate = (body) => {
         resolve()
       })
       .catch((err) => reject(err))
+  })
+}
+
+exports.getNormalizedMessageStatusData = (event) => {
+  return new Promise((resolve, reject) => {
+    try {
+      resolve({
+        messageId: event.MessageSid,
+        status: event.MessageStatus === 'read' ? 'seen' : event.MessageStatus
+      })
+    } catch (err) {
+      reject(err)
+    }
+  })
+}
+
+exports.getNormalizedMessageReceivedData = (event) => {
+  return new Promise((resolve, reject) => {
+    try {
+      callApi(`companyprofile/query`, 'post', { 'twilioWhatsApp.accountSID': event.AccountSid })
+        .then(company => {
+          resolve({
+            accessToken: company.twilioWhatsApp.authToken,
+            userData: {
+              number: event.From.substring(9),
+              name: ''
+            },
+            messageData: logicLayer.prepareReceivedMessageData(event)
+          })
+        })
+        .catch(err => {
+          reject(err)
+        })
+    } catch (err) {
+      reject(err)
+    }
   })
 }

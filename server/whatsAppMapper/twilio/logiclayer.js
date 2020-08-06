@@ -56,3 +56,27 @@ exports.prepareTemplates = () => {
   ]
   return templates
 }
+
+exports.prepareReceivedMessageData = (event) => {
+  let payload = []
+  if (event.NumMedia === '0' && event.Body !== '') { // text only
+    payload.push({ componentType: 'text', text: event.Body })
+  } else if (event.NumMedia !== '0' && event.Body !== '' && event.MediaContentType0.includes('image')) { // text with media
+    payload.push({ componentType: 'text', text: event.Body })
+    payload.push({ componentType: 'image', fileurl: { url: event.MediaUrl0 } })
+  } else if (event.NumMedia !== '0' && event.Body !== '' && event.MediaContentType0.includes('video')) { // text with media
+    payload.push({ componentType: 'text', text: event.Body })
+    payload.push({ componentType: 'video', fileurl: { url: event.MediaUrl0 } })
+  } else if (event.NumMedia !== '0') { // media only
+    if (event.MediaContentType0.includes('image')) {
+      payload.push({ componentType: 'image', fileurl: { url: event.MediaUrl0 } })
+    } else if (event.MediaContentType0.includes('pdf')) {
+      payload.push({ componentType: 'file', fileurl: { url: event.MediaUrl0 }, fileName: event.Body })
+    } else if (event.MediaContentType0.includes('audio')) {
+      payload.push({ componentType: 'audio', fileurl: { url: event.MediaUrl0 } })
+    } else if (event.MediaContentType0.includes('video')) {
+      payload.push({ componentType: 'video', fileurl: { url: event.MediaUrl0 } })
+    }
+  }
+  return payload
+}
