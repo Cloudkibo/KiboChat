@@ -21,3 +21,38 @@ exports.prepareSendMessagePayload = (body) => {
   }
   return MessageObject
 }
+exports.prepareInvitationPayload = (body, number) => {
+  let MessageObject = {
+    body: body.payload.text,
+    from: `whatsapp:${body.whatsApp.businessNumber}`,
+    to: `whatsapp:${number}`,
+    statusCallback: `${config.api_urls['webhook']}/webhooks/twilio`
+  }
+  return MessageObject
+}
+exports.prepareTemplates = () => {
+  let templates = [
+    {
+      name: 'registration_code',
+      text: 'Your {{1}} code is {{2}}',
+      templateArguments: '{{1}},{{2}}',
+      regex: '^Your (.*) code is (.*)$',
+      buttons: []
+    },
+    {
+      name: 'appointment_reminder',
+      text: 'Your appointment is coming up on {{1}} at {{2}}',
+      templateArguments: '{{1}},{{2}}',
+      regex: '^Your appointment is coming up on (.*) at (.*)$',
+      buttons: []
+    },
+    {
+      name: 'order_update',
+      text: 'Your {{1}} order of {{2}} has shipped and should be delivered on {{3}}. Details: {{4}}',
+      templateArguments: '{{1}},{{2}},{{3}},{{4}}',
+      regex: '^Your (.*) order of (.*) has shipped and should be delivered on (.*). Details: (.*)$',
+      buttons: []
+    }
+  ]
+  return templates
+}

@@ -59,7 +59,11 @@ exports.updatePlatformWhatsApp = {
       type: 'string',
       required: true
     },
-    number: {
+    businessNumber: {
+      type: 'string',
+      required: true
+    },
+    provider: {
       type: 'string',
       required: true
     }

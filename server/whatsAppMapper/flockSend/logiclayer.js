@@ -122,9 +122,11 @@ exports.prepareTemplates = (flockSendTemplates) => {
 }
 
 exports.prepareInvitationPayload = (data) => {
+  let contactNumbers = []
+  data.numbers.map((c) => contactNumbers.push({ phone: c }))
   let MessageObject = {
     token: data.whatsApp.accessToken,
-    number_details: JSON.stringify(data.numbers),
+    number_details: JSON.stringify(contactNumbers),
     template_name: data.payload.templateName,
     template_argument: data.payload.templateArguments,
     language: 'en'

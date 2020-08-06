@@ -221,10 +221,10 @@ const _fetchSubscribers = (data, next) => {
       .then(whatsAppContact => {
         whatsAppContact = whatsAppContact[0]
         if (!whatsAppContact) {
-          numbers.push({phone: contact.number})
+          numbers.push(contact.number)
           _saveSubscriber(data, contact)
         } else if (data.body.actionType === 'send') {
-          numbers.push({phone: contact.number})
+          numbers.push(contact.number)
           _saveChat(data, whatsAppContact)
           _updateSubscriber(whatsAppContact)
         }
