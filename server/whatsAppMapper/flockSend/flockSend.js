@@ -21,21 +21,33 @@ exports.sendChatMessage = (data) => {
 }
 
 exports.getNormalizedMessageStatusData = (event) => {
-  return {
-    messageId: event.id,
-    status: event.status
-  }
+  return new Promise((resolve, reject) => {
+    try {
+      resolve({
+        messageId: event.id,
+        status: event.status
+      })
+    } catch (err) {
+      reject(err)
+    }
+  })
 }
 
 exports.getNormalizedMessageReceivedData = (event) => {
-  return {
-    accessToken: event.user_id,
-    userData: {
-      number: event.phone_number,
-      name: event.wa_user_name
-    },
-    messageData: logicLayer.prepareReceivedMessageData(event)
-  }
+  return new Promise((resolve, reject) => {
+    try {
+      resolve({
+        accessToken: event.user_id,
+        userData: {
+          number: event.phone_number,
+          name: event.wa_user_name
+        },
+        messageData: logicLayer.prepareReceivedMessageData(event)
+      })
+    } catch (err) {
+      reject(err)
+    }
+  })
 }
 
 exports.getTemplates = (body) => {
