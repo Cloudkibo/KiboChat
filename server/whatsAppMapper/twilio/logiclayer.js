@@ -1,6 +1,5 @@
 const config = require('../../config/environment/index')
 var path = require('path')
-// const fetch = require('isomorphic-fetch')
 
 exports.prepareSendMessagePayload = (body) => {
   let MessageObject = {
@@ -78,12 +77,6 @@ exports.prepareReceivedMessageData = (event) => {
     } else if (event.MediaContentType0.includes('video')) {
       payload = { componentType: 'video', fileurl: { url: event.MediaUrl0 } }
     } else if (event.MediaContentType0.includes('vcard')) {
-      // fetch(event.MediaUrl0, {
-      //   method: 'GET'
-      // })
-      //   .then(res => res.text())
-      //   .then(res => console.log('twilio contact res', res))
-
       payload = { componentType: 'file', fileurl: { url: event.MediaUrl0 }, fileName: 'Contact Card' }
     }
   } else if (event.Address) {
