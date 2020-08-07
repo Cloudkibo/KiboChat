@@ -1,12 +1,12 @@
 let config = require('./../../../config/environment')
 var path = require('path')
 
-exports.prepareChat = (body, companyUser) => {
+exports.prepareChat = (body, companyId, whatsApp) => {
   let MessageObject = {
-    senderNumber: body.recipientNumber,
-    recipientNumber: companyUser.companyId.flockSendWhatsApp.number,
+    senderNumber: whatsApp.businessNumber,
+    recipientNumber: body.recipientNumber,
     contactId: body.contactId,
-    companyId: companyUser.companyId._id,
+    companyId: companyId,
     payload: body.payload,
     repliedBy: body.repliedBy
   }
