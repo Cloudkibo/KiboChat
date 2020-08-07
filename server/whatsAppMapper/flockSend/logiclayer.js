@@ -53,23 +53,23 @@ exports.prepareSendMessagePayload = (body) => {
 exports.prepareReceivedMessageData = (event) => {
   let payload = {}
   if (event.media_type === 'image') {
-    payload = { componentType: 'image', fileurl: { url: `https://flocksend.com${event.media_link}` } }
+    payload = { componentType: 'image', fileurl: { url: event.media_link } }
     if (event.message !== '' && event.message !== 'image') {
       payload.caption = event.message
     }
   } else if (event.media_type === 'video') {
-    payload = { componentType: 'video', fileurl: { url: `https://flocksend.com${event.media_link}` } }
+    payload = { componentType: 'video', fileurl: { url: event.media_link } }
     if (event.message !== '' && event.message !== 'video') {
       payload.caption = event.message
     }
   } else if (event.media_type === 'document') {
     payload = {
       componentType: 'file',
-      fileurl: { url: `https://flocksend.com${event.media_link}` },
+      fileurl: { url: event.media_link },
       fileName: event.message
     }
-  } else if (event.media_type === 'audio') {
-    payload = { componentType: 'audio', fileurl: { url: `https://flocksend.com${event.media_link}` } }
+  } else if (event.media_type === 'audio' || event.media_type === 'voice') {
+    payload = { componentType: 'audio', fileurl: { url: event.media_link } }
   } else if (event.media_type === 'location') {
     let coordinates = event.message.split(':')
     payload = {
