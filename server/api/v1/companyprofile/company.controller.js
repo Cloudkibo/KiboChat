@@ -287,7 +287,7 @@ exports.updatePlatformWhatsApp = function (req, res) {
     _setWebhook.bind(null, data)
   ], function (err) {
     if (err) {
-      sendErrorResponse(res, 500, '', err)
+      sendErrorResponse(res, 500, '', `${err}`)
     } else {
       sendSuccessResponse(res, 200, {description: 'updated successfully', showModal: req.body.changeWhatsAppTwilio})
     }
