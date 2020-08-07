@@ -65,6 +65,7 @@ module.exports = function (app) {
   app.use('/api/zoomEvents', require('./api/v1.1/zoomEvents'))
   app.use('/api/flockSendEvents', require('./api/v1.1/flockSendEvents'))
   app.use('/api/whatsAppEvents', require('./api/v1.1/whatsAppEvents'))
+  app.use('/api/adminAlerts', require('./api/v1.1/adminAlerts'))
   // auth middleware go here if you authenticate on same server
 
   app.get('/', (req, res) => {

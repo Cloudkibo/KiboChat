@@ -124,6 +124,7 @@ function updateChat (messageId, chat) {
   }
   callApi(`whatsAppChat`, 'put', query, 'kibochat')
     .then(updated => {
+      console.log('chat updated', updated)
     })
     .catch((err) => {
       logger.serverLog(TAG, `Failed to update chat ${err}`, 'error')
