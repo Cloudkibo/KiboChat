@@ -13,20 +13,20 @@ exports.index = function (req, res) {
   let pageId = messengerPayload.recipient.id
   let subscriberId = messengerPayload.sender.id
   let quickRepyPayload = JSON.parse(messengerPayload.message.quick_reply.payload)
-  if (quickRepyPayload.action === '_chatbot') {
-    let subscriber
-    utility.callApi('subscribers/query', 'post', { senderId: subscriberId })
-      .then(gotSubscriber => {
-        subscriber = gotSubscriber[0]
-        return utility.callApi('pages/query', 'post', { pageId, connected: true })
-      })
-      .then(page => {
-        page = page[0]
+  let subscriber = {}
+  utility.callApi('subscribers/query', 'post', { senderId: subscriberId })
+    .then(gotSubscriber => {
+      subscriber = gotSubscriber[0]
+      return utility.callApi('pages/query', 'post', { pageId, connected: true })
+    })
+    .then(page => {
+      page = page[0]
+      if (quickRepyPayload.action === '_chatbot') {
         chatbotAutomation.handleChatBotNextMessage(messengerPayload, page, subscriber, quickRepyPayload.blockUniqueId)
-        saveLiveChat(page, subscriber, messengerPayload)
-      })
-      .catch(error => {
-        logger.serverLog(TAG, `error on getting subcribers ${error}`, 'error')
-      })
-  }
+      }
+      saveLiveChat(page, subscriber, messengerPayload)
+    })
+    .catch(error => {
+      logger.serverLog(TAG, `error on getting subcribers ${error}`, 'error')
+    })
 }
