@@ -48,6 +48,7 @@ exports.index = function (req, res) {
             if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
               saveLiveChat(page, subscriber, event)
               handleTriggerMessage(event, page, subscriber)
+              pushUnresolveAlertInStack(company, subscriber)
             }
           })
           .catch(error => {
@@ -58,6 +59,68 @@ exports.index = function (req, res) {
     .catch(error => {
       logger.serverLog(TAG, `Failed to fetch company profile ${JSON.stringify(error)}`, 'error')
     })
+}
+function pushUnresolveAlertInStack (company, subscriber) {
+  utility.callApi(`companypreferences/query`, 'post', {companyId: company._id}, 'accounts')
+    .then(companypreferences => {
+      if (companypreferences.length > 0) {
+        var unresolveSessionAlert = companypreferences[0].unresolveSessionAlert
+        if (unresolveSessionAlert.enabled) {
+          var payload = {
+            type: 'unresolvedSession',
+            notification_interval: unresolveSessionAlert.notification_interval,
+            unit: unresolveSessionAlert.unit,
+            assignedMembers: unresolveSessionAlert.assignedMembers,
+            subscriber: subscriber       
+          }
+          var record = {
+            type: 'adminAlert',
+            payload: payload
+          }
+          utility.callApi(`cronStack`, 'post', record, 'kibochat')
+          .then(savedRecord => {
+            logger.serverLog(TAG, `Unresolved Session info pushed in cronStack ${savedRecord}`)
+          })
+          .catch(err => {
+            logger.serverLog(TAG, `Unable to push session info in cron stack ${err}`, 'error')
+          })
+        }
+      }
+      })
+      .catch(error => {
+        logger.serverLog(TAG, `Error while fetching company preferences ${error}`, 'error')
+      })
+}
+function pushSessionPendingAlertInStack (company, subscriber) {
+  utility.callApi(`companypreferences/query`, 'post', {companyId: company._id}, 'accounts')
+    .then(companypreferences => {
+      if (companypreferences.length > 0) {
+        var pendingSessionAlert = companypreferences[0].pendingSessionAlert
+        if (pendingSessionAlert.enabled) {
+          var payload = {
+            type: 'pendingSessionAlert',
+            notification_interval: pendingSessionAlert.notification_interval,
+            unit: pendingSessionAlert.unit,
+            assignedMembers: pendingSessionAlert.assignedMembers,
+            subscriber: subscriber       
+          }
+          var record = {
+            type: 'adminAlert',
+            payload: payload
+          }
+          utility.callApi(`cronStack`, 'post', record, 'kibochat')
+          .then(savedRecord => {
+            logger.serverLog(TAG, `Pending Session info pushed in cronStack ${savedRecord}`)
+          })
+          .catch(err => {
+            logger.serverLog(TAG, `Unable to push session info in cron stack ${err}`, 'error')
+          })
+        }
+      }
+      })
+      .catch(error => {
+        logger.serverLog(TAG, `Error while fetching company preferences ${error}`, 'error')
+      })
 }
 function saveLiveChat (page, subscriber, event) {
   record('messengerChatInComing')
