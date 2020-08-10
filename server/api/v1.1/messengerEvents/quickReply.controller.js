@@ -2,6 +2,7 @@ const chatbotAutomation = require('./chatbotAutomation.controller')
 const utility = require('../utility')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1/messengerEvents/quickReply.controller'
+const { saveLiveChat } = require('./sessions.controller')
 
 exports.index = function (req, res) {
   res.status(200).json({
@@ -22,6 +23,7 @@ exports.index = function (req, res) {
       .then(page => {
         page = page[0]
         chatbotAutomation.handleChatBotNextMessage(messengerPayload, page, subscriber, quickRepyPayload.blockUniqueId)
+        saveLiveChat(page, subscriber, messengerPayload)
       })
       .catch(error => {
         logger.serverLog(TAG, `error on getting subcribers ${error}`, 'error')
