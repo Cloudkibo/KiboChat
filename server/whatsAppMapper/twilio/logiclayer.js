@@ -76,6 +76,16 @@ exports.prepareReceivedMessageData = (event) => {
       payload = { componentType: 'audio', fileurl: { url: event.MediaUrl0 } }
     } else if (event.MediaContentType0.includes('video')) {
       payload = { componentType: 'video', fileurl: { url: event.MediaUrl0 } }
+    } else if (event.MediaContentType0.includes('vcard')) {
+      payload = { componentType: 'file', fileurl: { url: event.MediaUrl0 }, fileName: 'Contact Card' }
+    }
+  } else if (event.Address) {
+    payload = {
+      componentType: 'location',
+      title: 'Pinned Location',
+      payload: {
+        coordinates: { lat: event.Latitude, long: event.Longitude }
+      }
     }
   }
   return payload
