@@ -6,6 +6,7 @@ const ogs = require('open-graph-scraper')
 function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
   let messageType = isResponse ? 'RESPONSE' : 'UPDATE'
   let payload = {}
+  let message = {}
   let text = body.text
   if (body.componentType === 'text' && !body.buttons) {
     if (body.text.includes('{{user_full_name}}') || body.text.includes('[Username]')) {
@@ -113,15 +114,23 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
     payload.message = JSON.stringify(payload.message)
   } else if (['image', 'audio', 'file', 'video'].indexOf(
     body.componentType) > -1) {
-    let dir = path.resolve(__dirname, '../../../../broadcastFiles/userfiles')
-    let fileReaderStream
-    if (body.componentType === 'file') {
-      if (dir + '/' + body.fileurl.name) {
-        fileReaderStream = fs.createReadStream(dir + '/' + body.fileurl.name)
+    if (body.fileurl && body.fileurl.attachment_id) {
+      message = {
+        'attachment': {
+          'type': body.componentType,
+          'payload': {
+            'attachment_id': body.fileurl.attachment_id
+          }
+        }
       }
     } else {
-      if (dir + '/' + body.fileurl.id) {
-        fileReaderStream = fs.createReadStream(dir + '/' + body.fileurl.id)
+      message = {
+        'attachment': {
+          'type': body.componentType,
+          'payload': {
+            'url': body.fileurl.url
+          }
+        }
       }
     }
 
@@ -130,15 +139,12 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
       'recipient': JSON.stringify({
         'id': subscriberId
       }),
-      'message': JSON.stringify({
-        'attachment': {
-          'type': body.componentType,
-          'payload': {}
-        }
-      }),
-      'filedata': fileReaderStream
+      'message': message
     }
-    return payload
+    if (body.quickReplies && body.quickReplies.length > 0) {
+      payload.message.quick_replies = body.quickReplies
+    }
+    payload.message = JSON.stringify(payload.message)
     // todo test this one. we are not removing as we need to keep it for live chat
     // if (!isForLiveChat) deleteFile(body.fileurl)
   } else if (['gif', 'sticker', 'thumbsUp'].indexOf(
