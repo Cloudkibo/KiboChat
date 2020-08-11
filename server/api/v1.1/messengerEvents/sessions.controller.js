@@ -18,6 +18,7 @@ exports.index = function (req, res) {
   logger.serverLog(TAG, `payload received in page ${JSON.stringify(req.body.page)}`, 'debug')
   logger.serverLog(TAG, `payload received in subscriber ${JSON.stringify(req.body.subscriber)}`, 'debug')
   logger.serverLog(TAG, `payload received in event ${JSON.stringify(req.body.event)}`, 'debug')
+  logger.serverLog(TAG, `payload received in pushPendingSession ${JSON.stringify(req.body.pushPendingSessionInfo)}`, 'debug')
   res.status(200).json({
     status: 'success',
     description: `received the payload`
@@ -36,6 +37,9 @@ exports.index = function (req, res) {
         if (!event.message.is_echo) {
           updatePayload.pendingResponse = true
           updatePayload.lastMessagedAt = Date.now()
+        }
+        if (req.body.pushPendingSessionInfo && JSON.stringify(req.body.pushPendingSessionInfo) === 'true') {
+          pushSessionPendingAlertInStack(company, subscriber)
         }
         utility.callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: updatePayload, options: {}})
           .then(updated => {
@@ -80,28 +84,47 @@ function pushUnresolveAlertInStack (company, subscriber) {
             type: 'adminAlert',
             payload: payload
           }
-          utility.callApi(`cronStack`, 'post', record, 'kibochat')
-          .then(savedRecord => {
-            logger.serverLog(TAG, `Unresolved Session info pushed in cronStack ${savedRecord}`)
+          var findSession = {
+            purpose: 'findAll',
+            match: {
+              type: 'adminAlert',
+              'payload.type': 'unresolvedSession', 
+              'payload.subscriber._id': subscriber._id
+            }
+          }
+          utility.callApi(`cronStack/query`, 'post', findSession, 'kibochat')
+          .then(result => {
+            if (result.length < 1) {
+              utility.callApi(`cronStack`, 'post', record, 'kibochat')
+              .then(savedRecord => {
+                logger.serverLog(TAG, `Unresolved Session info pushed in cronStack ${savedRecord}`)
+              })
+              .catch(err => {
+                logger.serverLog(TAG, `Unable to save session info in cronStack`)
+              })
+            } else {
+              logger.serverLog(TAG, `Unresolved Session info already in cronStack`)
+            }
           })
           .catch(err => {
-            logger.serverLog(TAG, `Unable to push session info in cron stack ${err}`, 'error')
+            logger.serverLog(TAG, `Unable to find session info in cron stack ${err}`, 'error')
           })
         }
       }
-      })
-      .catch(error => {
-        logger.serverLog(TAG, `Error while fetching company preferences ${error}`, 'error')
-      })
+    })
+    .catch(error => {
+      logger.serverLog(TAG, `Error while fetching company preferences ${error}`, 'error')
+    })
 }
 function pushSessionPendingAlertInStack (company, subscriber) {
+  logger.serverLog(TAG, 'In Pending Session Info')
   utility.callApi(`companypreferences/query`, 'post', {companyId: company._id}, 'accounts')
     .then(companypreferences => {
       if (companypreferences.length > 0) {
         var pendingSessionAlert = companypreferences[0].pendingSessionAlert
         if (pendingSessionAlert.enabled) {
           var payload = {
-            type: 'pendingSessionAlert',
+            type: 'pendingSession',
             notification_interval: pendingSessionAlert.notification_interval,
             unit: pendingSessionAlert.unit,
             assignedMembers: pendingSessionAlert.assignedMembers,
