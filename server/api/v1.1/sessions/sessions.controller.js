@@ -244,7 +244,7 @@ function _sendNotification (subscriberId, status, companyId, userName) {
     })
 } 
 exports.changeStatus = function (req, res) {
-  let payload = {
+  let socketPayload = {
     session_id: req.body._id,
     user_id: req.user._id,
     user_name: req.user.name,
@@ -253,11 +253,26 @@ exports.changeStatus = function (req, res) {
   _sendNotification(req.body._id, req.body.status, req.user.companyId, req.user.name)
   callApi('subscribers/update', 'put', {query: {_id: req.body._id}, newPayload: {status: req.body.status}, options: {}})
     .then(updated => {
+        var deleteData = {
+          purpose: 'deleteMany',
+          match: {
+            type: 'adminAlert',
+            'payload.type': 'unresolvedSession', 
+            'payload.subscriber._id': req.body._id
+          }
+        }
+      callApi(`cronstack`, 'delete', deleteData, 'kibochat')
+      .then(updatedRecord => {
+        logger.serverLog('Unresolved session info deleted successfully from cronStack')
+      })
+      .catch(err => {
+        logger.serverLog(`Error while deleting unresolve session alert from cronStack ${err}`)
+      })
       require('./../../../config/socketio').sendMessageToClient({
         room_id: req.user.companyId,
         body: {
           action: 'session_status',
-          payload: payload
+          payload: socketPayload
         }
       })
       sendSuccessResponse(res, 200, 'Status has been updated successfully!')
