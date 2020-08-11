@@ -6,6 +6,7 @@ const validationSchema = require('./validationSchema')
 const controller = require('./whatsAppContacts.controller')
 const multiparty = require('connect-multiparty')
 const multipartyMiddleware = multiparty()
+const { attachProviderInfo } = require('../../middleware/whatsApp.middleware')
 
 router.post('/',
   auth.isAuthenticated(),
@@ -32,6 +33,7 @@ router.post('/getDuplicateSubscribers',
 
 router.post('/sendMessage',
   auth.isAuthenticated(),
+  attachProviderInfo(),
   multipartyMiddleware,
   controller.sendMessage)
 
