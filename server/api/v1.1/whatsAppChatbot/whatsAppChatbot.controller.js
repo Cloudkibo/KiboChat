@@ -45,7 +45,7 @@ const createWhatsAppChatbot = (req) => {
 const fetchWhatsAppChatbot = (req) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let chatbot = callApi('whatsAppChatbot/query', 'post', {
+      let chatbot = await callApi('whatsAppChatbot/query', 'post', {
         purpose: 'findOne',
         match: {
           companyId: req.user.companyId
