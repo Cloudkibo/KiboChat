@@ -1,3 +1,5 @@
+const Shopify = require('shopify-api-node')
+
 module.exports = class EcommerceProvidersApiLayer {
 
   constructor (eCommerceProvider, eCommerceProviderCredentials) {
@@ -5,8 +7,23 @@ module.exports = class EcommerceProvidersApiLayer {
     this.eCommerceProviderCredentials = eCommerceProviderCredentials
   }
 
+  functionInitiateShopify (eCommerceProviderCredentials) {
+    const shopify = new Shopify({
+      shopName: eCommerceProviderCredentials.name,
+      apiKey: eCommerceProviderCredentials.apiKey,
+      password: eCommerceProviderCredentials.password
+    })
+  }
+
   fetchAllProductCategories () {
-    // TODO: function stub goes here
+    Shopify.metafield
+      .list({
+        metafield: { owner_resource: 'product', owner_id: 632910392 }
+      })
+      .then(
+        (metafields) => console.log(metafields),
+        (err) => console.error(err)
+      );
   }
 
   fetchProductsInThisCategory () {

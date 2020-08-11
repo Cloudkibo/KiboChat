@@ -21,109 +21,6 @@ function registerWebhooks (shop, token) {
   })
 
   shopify.webhook.create({
-    topic: 'carts/create',
-    address: `${config.domain}/api/shopify/cart-create`,
-    format: 'json'
-  }).then((response) => {
-    logger.serverLog(TAG, 'Carts webhook created')
-  }).catch((err) => {
-    logger.serverLog(TAG, 'Error Creating Carts Webhook' + JSON.stringify(err))
-  })
-
-  shopify.webhook.create({
-    topic: 'checkouts/create',
-    address: `${config.domain}/api/shopify/checkout-create`,
-    format: 'json'
-  }).then((response) => {
-    logger.serverLog(TAG, 'Checkout webhook created')
-  }).catch((err) => {
-    logger.serverLog(TAG, 'Error Creating Checkout Webhook' + JSON.stringify(err))
-  })
-
-  shopify.webhook.create({
-    topic: 'orders/create',
-    address: `${config.domain}/api/shopify/order-create`,
-    format: 'json'
-  }).then((response) => {
-    logger.serverLog(TAG, 'Order webhook created')
-  }).catch((err) => {
-    logger.serverLog(TAG, 'Error Creating Order Webhook' + JSON.stringify(err))
-  })
-
-  shopify.webhook.create({
-    topic: 'fulfillments/create',
-    address: `${config.domain}/api/shopify/fulfillments-create`,
-    format: 'json'
-  }).then((response) => {
-    logger.serverLog(TAG, 'Fulfillment webhook created')
-  }).catch((err) => {
-    logger.serverLog(TAG, 'Error Creating Fulfillment Webhook' + JSON.stringify(err))
-    throw err
-  })
-
-  shopify.webhook.create({
-    topic: 'fulfillments/update',
-    address: `${config.domain}/api/shopify/fulfillments-update`,
-    format: 'json'
-  }).then((response) => {
-    logger.serverLog(TAG, 'Fulfillment update webhook created')
-  }).catch((err) => {
-    logger.serverLog(TAG, 'Error Creating Fulfillment update Webhook' + JSON.stringify(err))
-    throw err
-  })
-
-  shopify.webhook.create({
-    topic: 'fulfillment_events/create',
-    address: `${config.domain}/api/shopify/fulfillment-events-create`,
-    format: 'json'
-  }).then((response) => {
-    logger.serverLog(TAG, 'Fulfillment event webhook created')
-  }).catch((err) => {
-    logger.serverLog(TAG, 'Error Creating Fulfillment event Webhook' + JSON.stringify(err))
-    throw err
-  })
-
-  shopify.webhook.create({
-    topic: 'orders/cancelled',
-    address: `${config.domain}/api/shopify/orders-cancelled`,
-    format: 'json'
-  }).then((response) => {
-    logger.serverLog(TAG, 'Orders Cancelled webhook created')
-  }).catch((err) => {
-    logger.serverLog(TAG, 'Error Creating Orders Cancelled Webhook' + JSON.stringify(err))
-  })
-
-  shopify.webhook.create({
-    topic: 'orders/fulfilled',
-    address: `${config.domain}/api/shopify/orders-fulfilled`,
-    format: 'json'
-  }).then((response) => {
-    logger.serverLog(TAG, 'orders fullfilled webhook created')
-  }).catch((err) => {
-    logger.serverLog(TAG, 'Error Creating orders fulfilled Webhook' + JSON.stringify(err))
-  })
-
-  shopify.webhook.create({
-    topic: 'orders/paid',
-    address: `${config.domain}/api/shopify/orders-paid`,
-    format: 'json'
-  }).then((response) => {
-    logger.serverLog(TAG, 'orders paid webhook created')
-  }).catch((err) => {
-    logger.serverLog(TAG, 'Error Creating orders paid Webhook' + JSON.stringify(err))
-  })
-
-  shopify.webhook.create({
-    topic: 'orders/updated',
-    address: `${config.domain}/api/shopify/orders-updated`,
-    format: 'json'
-  }).then((response) => {
-    logger.serverLog(TAG, 'orders update webhook created')
-  }).catch((err) => {
-    logger.serverLog(TAG, 'Error Creating orders update Webhook' + JSON.stringify(err))
-  })
-
-  shopify.webhook.create({
     topic: 'app/uninstalled',
     address: `${config.domain}/api/shopify/app-uninstall`,
     format: 'json'
@@ -144,13 +41,13 @@ function registerWebhooks (shop, token) {
   })
 }
 
-const registerScript = function (shopDomain, accessToken, params) {
-  const shopify = new Shopify({ shopName: shopDomain, accessToken: accessToken })
-  shopify.scriptTag.create(params).then(
-    response => logger.serverLog(TAG, 'Script posted and created', response),
-    err => logger.serverLog(TAG, `Error creating script. ${JSON.stringify(err.response.body)}`)
-  )
-}
+// const registerScript = function (shopDomain, accessToken, params) {
+//   const shopify = new Shopify({ shopName: shopDomain, accessToken: accessToken })
+//   shopify.scriptTag.create(params).then(
+//     response => logger.serverLog(TAG, 'Script posted and created', response),
+//     err => logger.serverLog(TAG, `Error creating script. ${JSON.stringify(err.response.body)}`)
+//   )
+// }
 
 exports.index = function (req, res) {
   const shop = req.body.shop
@@ -270,11 +167,11 @@ exports.callback = function (req, res) {
     request.post(accessTokenRequestUrl, { json: accessTokenPayload })
       .then((accessTokenResponse) => {
         const accessToken = accessTokenResponse.access_token
-        registerWebhooks(shop, accessToken)
-        registerScript(shop, accessToken, {
-          event: 'onload',
-          src: config.domain + '/api/shopify/serveScript'
-        })
+        // registerWebhooks(shop, accessToken)
+        // registerScript(shop, accessToken, {
+        //   event: 'onload',
+        //   src: config.domain + '/api/shopify/serveScript'
+        // })
         const store = {
           userId: userId,
           pageId: pageId,
