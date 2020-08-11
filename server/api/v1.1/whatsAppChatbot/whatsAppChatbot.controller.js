@@ -30,13 +30,10 @@ exports.fetch = async (req, res) => {
 const createWhatsAppChatbot = (req) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let createdChatbot = await callApi(`whatsAppChatbot/query`, 'post',
-        {
-          purpose: 'findOne',
-          match: {
-            companyId: req.user.companyId
-          }
-        }, 'kibochat')
+      let createdChatbot = await callApi(`whatsAppChatbot`, 'post', {
+        userId: req.user._id,
+        companyId: req.user.companyId
+      }, 'kibochat')
       resolve(createdChatbot)
     } catch (err) {
       logger.serverLog(TAG, `Failed to create whatsapp chatbot ${err}`, 'error')
