@@ -61,7 +61,8 @@ exports.index = function (req, res) {
           .catch(error => {
             logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
           })
-      } }
+        }
+      } 
     })
     .catch(error => {
       logger.serverLog(TAG, `Failed to fetch company profile ${JSON.stringify(error)}`, 'error')
@@ -78,7 +79,58 @@ function pushUnresolveAlertInStack (company, subscriber) {
             notification_interval: unresolveSessionAlert.notification_interval,
             unit: unresolveSessionAlert.unit,
             assignedMembers: unresolveSessionAlert.assignedMembers,
-            subscriber: subscriber       
+            subscriber: subscriber,
+            companyId: company._id   
+          }
+          var record = {
+            type: 'adminAlert',
+            payload: payload
+          }
+          var findSession = {
+            purpose: 'findAll',
+            match: {
+              type: 'adminAlert',
+              'payload.type': 'unresolvedSession', 
+              'payload.subscriber._id': subscriber._id
+            }
+          }
+          utility.callApi(`cronStack/query`, 'post', findSession, 'kibochat')
+          .then(result => {
+            if (result.length < 1) {
+              utility.callApi(`cronStack`, 'post', record, 'kibochat')
+              .then(savedRecord => {
+                logger.serverLog(TAG, `Unresolved Session info pushed in cronStack ${savedRecord}`)
+              })
+              .catch(err => {
+                logger.serverLog(TAG, `Unable to save session info in cronStack`)
+              })
+            } else {
+              logger.serverLog(TAG, `Unresolved Session info already in cronStack`)
+            }
+          })
+          .catch(err => {
+            logger.serverLog(TAG, `Unable to find session info in cron stack ${err}`, 'error')
+          })
+        }
+      }
+    })
+    .catch(error => {
+      logger.serverLog(TAG, `Failed to fetch company profile ${JSON.stringify(error)}`, 'error')
+    })
+}
+function pushUnresolveAlertInStack (company, subscriber) {
+  utility.callApi(`companypreferences/query`, 'post', {companyId: company._id}, 'accounts')
+    .then(companypreferences => {
+      if (companypreferences.length > 0) {
+        var unresolveSessionAlert = companypreferences[0].unresolveSessionAlert
+        if (unresolveSessionAlert.enabled) {
+          var payload = {
+            type: 'unresolvedSession',
+            notification_interval: unresolveSessionAlert.notification_interval,
+            unit: unresolveSessionAlert.unit,
+            assignedMembers: unresolveSessionAlert.assignedMembers,
+            subscriber: subscriber,
+            companyId: company._id       
           }
           var record = {
             type: 'adminAlert',
@@ -128,7 +180,8 @@ function pushSessionPendingAlertInStack (company, subscriber) {
             notification_interval: pendingSessionAlert.notification_interval,
             unit: pendingSessionAlert.unit,
             assignedMembers: pendingSessionAlert.assignedMembers,
-            subscriber: subscriber       
+            subscriber: subscriber,
+            companyId: company._id        
           }
           var record = {
             type: 'adminAlert',
