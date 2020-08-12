@@ -79,7 +79,7 @@ exports.prepareReceivedMessageData = (event) => {
     } else if (event.MediaContentType0.includes('vcard')) {
       payload = { componentType: 'file', fileurl: { url: event.MediaUrl0 }, fileName: 'Contact Card' }
     }
-  } else if (event.Address) {
+  } else if (event.Latitude && event.Longitude) {
     payload = {
       componentType: 'location',
       title: 'Pinned Location',
