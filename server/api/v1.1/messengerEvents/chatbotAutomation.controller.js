@@ -24,11 +24,15 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
                   }, 1500)
                   updateBotLifeStatsForBlock(messageBlock, true)
                   updateBotPeriodicStatsForBlock(chatbot, true)
+                  updateBotSubscribersAnalytics(chatbot._id, chatbot.companyId, subscriber._id, messageBlock._id)
                 }
               })
               .catch(error => {
                 logger.serverLog(TAG,
                   `error in fetching message block ${JSON.stringify(error)}`,
+                  'error')
+                logger.serverLog(TAG,
+                  `error in fetching message block ${error}`,
                   'error')
               })
             if (req.postback && req.postback.payload) {
@@ -73,6 +77,7 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
               updateBotPeriodicStats(chatbot, false)
               updateBotLifeStatsForBlock(messageBlock, true)
               updateBotPeriodicStatsForBlock(chatbot, true)
+              updateBotSubscribersAnalytics(chatbot._id, chatbot.companyId, subscriber._id, messageBlock._id)
               let subscriberLastMessageAt = moment(subscriber.lastMessagedAt)
               let dateNow = moment()
               if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
@@ -115,6 +120,7 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId) => {
               }, 1500)
               updateBotLifeStatsForBlock(messageBlock, true)
               updateBotPeriodicStatsForBlock(chatbot, true)
+              updateBotSubscribersAnalytics(chatbot._id, chatbot.companyId, subscriber._id, messageBlock._id)
               let subscriberLastMessageAt = moment(subscriber.lastMessagedAt)
               let dateNow = moment()
               if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
@@ -328,6 +334,15 @@ function updateBotLifeStatsForBlock (messageBlock, isForSentCount) {
         logger.serverLog(TAG, `Failed to update block bot stats ${JSON.stringify(error)}`, 'error')
       })
   }
+}
+
+function updateBotSubscribersAnalytics (chatbotId, companyId, subscriberId, messageBlockId) {
+  chatbotAnalyticsDataLayer.createForBotSubscribersAnalytics({
+    chatbotId,
+    companyId,
+    subscriberId,
+    messageBlockId
+  })
 }
 
 exports.updateBotPeriodicStatsForBlock = updateBotPeriodicStatsForBlock

@@ -42,3 +42,7 @@ exports.deleteForMessageBlock = (queryObject) => {
   }
   return callApi(`messageBlocks`, 'delete', query, kiboengage)
 }
+
+exports.createBulkMessageBlocks = (payload) => {
+  return callApi(`messageBlocks/bulkCreate`, 'post', payload, kiboengage)
+}

@@ -4,7 +4,7 @@ const TAG = 'api/v1/messengerEvents/sessions.controller'
 const LiveChatDataLayer = require('../liveChat/liveChat.datalayer')
 const botController = require('./bots.controller')
 const needle = require('needle')
-const moment = require('moment')
+// const moment = require('moment')
 const sessionLogicLayer = require('../sessions/sessions.logiclayer')
 const logicLayer = require('./logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
@@ -408,3 +408,5 @@ function sendautomatedmsg (req, page) {
       })
   }
 }
+
+exports.saveLiveChat = saveLiveChat
