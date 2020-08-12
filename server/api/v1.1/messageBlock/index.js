@@ -11,7 +11,7 @@ router.post('/',
   validate({ body: validationSchema.createPayload }),
   controller.create)
 
-router.delete('/:id',
+router.delete('/',
   auth.isAuthenticated(),
   controller.delete)
 
