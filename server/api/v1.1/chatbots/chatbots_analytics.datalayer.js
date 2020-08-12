@@ -22,6 +22,10 @@ exports.createForBotAnalytics = (payload) => {
   return callApi(`chatbot_analytics`, 'post', payload, kibochat)
 }
 
+exports.createForBotSubscribersAnalytics = (payload) => {
+  return callApi(`chatbot_subscribers_analytics`, 'post', payload, kibochat)
+}
+
 exports.genericUpdateBotAnalytics = (queryObject, updated, options) => {
   let query = {
     purpose: 'updateAll',
