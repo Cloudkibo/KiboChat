@@ -193,6 +193,34 @@ function doesPlanPermitsThisAction (action) {
   })
 }
 
+function isUserAllowedToPerformThisAction (action) {
+  if (!action) throw new Error('Action needs to be set')
+  return compose().use((req, res, next) => {
+    apiCaller.callApi(`permissions/query`, 'post', {userId: req.user._id})
+      .then(permissions => {
+        if (permissions.length > 0) {
+          const permission = permissions[0]
+          if (permission[action]) {
+            next()
+          } else {
+            return res.status(403).json({
+              status: 'failed',
+              description: 'You do not have the permission to perform this action. Please contact admin.'
+            })
+          }
+        } else {
+          return res.status(500).json({
+            status: 'failed',
+            description: 'Fatal Error. Permissions not set. Please contact support.'
+          })
+        }
+      })
+      .catch(err => {
+        return res.status(500).json({status: 'failed', description: `Internal Server Error: ${err}`})
+      })
+  })
+}
+
 function doesRolePermitsThisAction (action) {
   if (!action) throw new Error('Action needs to be set')
 
@@ -370,10 +398,12 @@ exports.hasRole = hasRole
 exports.hasRequiredPlan = hasRequiredPlan
 exports.doesPlanPermitsThisAction = doesPlanPermitsThisAction
 exports.doesRolePermitsThisAction = doesRolePermitsThisAction
+exports.isUserAllowedToPerformThisAction = isUserAllowedToPerformThisAction
 exports.fbConnectDone = fbConnectDone
 exports.fetchPages = fetchPages
 exports.isKiboDash = isKiboDash
 exports.isItWebhookServer = isItWebhookServer
+exports.validateApiKeys = validateApiKeys
 // This functionality will be exposed in later stages
 // exports.isAuthorizedWebHookTrigger = isAuthorizedWebHookTrigger;
 

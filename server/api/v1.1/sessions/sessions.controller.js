@@ -244,7 +244,7 @@ function _sendNotification (subscriberId, status, companyId, userName) {
     })
 } 
 exports.changeStatus = function (req, res) {
-  let payload = {
+  let socketPayload = {
     session_id: req.body._id,
     user_id: req.user._id,
     user_name: req.user.name,
@@ -253,11 +253,16 @@ exports.changeStatus = function (req, res) {
   _sendNotification(req.body._id, req.body.status, req.user.companyId, req.user.name)
   callApi('subscribers/update', 'put', {query: {_id: req.body._id}, newPayload: {status: req.body.status}, options: {}})
     .then(updated => {
+      if (req.body.status === 'resolved') {
+        deleteUnresolvedSessionFromStack(req)
+      } else {
+        pushUnresolveAlertInStack(req.user.companyId, req.body._id)
+      }
       require('./../../../config/socketio').sendMessageToClient({
         room_id: req.user.companyId,
         body: {
           action: 'session_status',
-          payload: payload
+          payload: socketPayload
         }
       })
       sendSuccessResponse(res, 200, 'Status has been updated successfully!')
@@ -438,5 +443,70 @@ exports.genericFind = function (req, res) {
     })
     .catch(error => {
       sendErrorResponse(res, 500, `Failed to fetch sessions ${JSON.stringify(error)}`)
+    })
+}
+
+function deleteUnresolvedSessionFromStack (req) {
+  var deleteData = {
+    purpose: 'deleteMany',
+    match: {
+      type: 'adminAlert',
+      'payload.type': 'unresolvedSession', 
+      'payload.subscriber._id': req.body._id
+    }
+  }
+  callApi(`cronstack`, 'delete', deleteData, 'kibochat')
+  .then(updatedRecord => {
+    logger.serverLog('Unresolved session info deleted successfully from cronStack')
+  })
+  .catch(err => {
+    logger.serverLog(`Error while deleting unresolve session alert from cronStack ${err}`)
+  })
+
+}
+function pushUnresolveAlertInStack (companyId, subscriberId) {
+  callApi('subscribers/query', 'post', {_id: subscriberId})
+    .then(subscriber => {
+      subscriber = subscriber[0]
+      callApi(`companypreferences/query`, 'post', {companyId: companyId}, 'accounts')
+        .then(companypreferences => {
+          if (companypreferences.length > 0) {
+            var unresolveSessionAlert = companypreferences[0].unresolveSessionAlert
+            if (unresolveSessionAlert.enabled) {
+              var payload = {
+                type: 'unresolvedSession',
+                notification_interval: unresolveSessionAlert.notification_interval,
+                unit: unresolveSessionAlert.unit,
+                assignedMembers: unresolveSessionAlert.assignedMembers,
+                subscriber: subscriber       
+              }
+              var record = {
+                type: 'adminAlert',
+                payload: payload
+              }
+              var findSession = {
+                purpose: 'findAll',
+                match: {
+                  type: 'adminAlert',
+                  'payload.type': 'unresolvedSession', 
+                  'payload.subscriber._id': subscriberId
+                }
+              }
+              callApi(`cronStack`, 'post', record, 'kibochat')
+                .then(savedRecord => {
+                  logger.serverLog(TAG, `Unresolved Session info pushed in cronStack ${savedRecord}`)
+                })
+                .catch(err => {
+                  logger.serverLog(TAG, `Unable to save session info in cronStack`)
+                })
+            }
+          }
+        })
+        .catch(error => {
+          logger.serverLog(TAG, `Error while fetching company preferences ${error}`, 'error')
+        })
+    })
+    .catch(err => {
+      logger.serverLog(TAG, `Unable to fetch subscriber ${err}`)
     })
 }
