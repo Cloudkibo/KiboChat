@@ -478,7 +478,8 @@ function pushUnresolveAlertInStack (companyId, subscriberId) {
                 notification_interval: unresolveSessionAlert.notification_interval,
                 unit: unresolveSessionAlert.unit,
                 assignedMembers: unresolveSessionAlert.assignedMembers,
-                subscriber: subscriber       
+                subscriber: subscriber,
+                companyId: companyId         
               }
               var record = {
                 type: 'adminAlert',
