@@ -326,7 +326,7 @@ exports.exportData = (req, res) => {
         let blockdata = {}
         let data = blockAnalytics.filter(block => block.messageBlockId === messageBlock._id)
         blockdata.chatBotName = req.body.pageName
-        blockdata.blockName = messageBlocks.title
+        blockdata.blockName = messageBlock.title
         blockdata.subscriberClickCount = data.length
         blockAnalyticsData.push(blockdata)
         cb()
