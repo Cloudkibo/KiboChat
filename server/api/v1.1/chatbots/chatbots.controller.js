@@ -314,7 +314,7 @@ exports.redirectToUrl = (req, res) => {
 
 exports.exportData = (req, res) => {
   const fetchmessageBlock = msgBlockDataLayer.findAllMessageBlock({ 'module.type': 'chatbot', 'module.id': req.body.chatBotId })
-  const fetchAnalyticsBlock = analyticsDataLayer.findAllBotAnalytics({chatbotId: req.body.chatBotId})
+  const fetchAnalyticsBlock = analyticsDataLayer.findBotSubscribersAnalytics({chatbotId: req.body.chatBotId})
   Promise.all([fetchmessageBlock, fetchAnalyticsBlock])
     .then(results => {
       let messageBlocks = results[0]
