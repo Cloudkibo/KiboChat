@@ -309,3 +309,27 @@ exports.redirectToUrl = (req, res) => {
       })
   }
 }
+
+export function exportData (req, res) {
+  msgBlockDataLayer.findAllMessageBlock({ 'module.type': 'chatbot', 'module.id': req.body.chatBotId })
+    .then(messageBlocks => {
+      logger.serverLog(TAG, `Message Block Length ${messageBlocks.length}`)
+      analyticsDataLayer.findAllBotAnalytics({chatbotId: req.body.chatBotId})
+        .then(blockAnalytics => {
+          logger.serverLog(TAG, `blockAnalytics Length ${blockAnalytics.length}`)
+          let blockAnalyticsData = []
+          for (let i = 0; i < messageBlocks.length; i++) {
+            let blockdata = {}
+            let data = blockAnalytics.filter(block => block.messageBlockId === messageBlocks._id)
+            blockdata.chatBotName = req.body.pageName
+            blockdata.blockName = messageBlocks.title
+            blockdata.subscriberClickCount = data.length
+            blockAnalyticsData.push(blockdata)
+          }
+          sendSuccessResponse(res, 200, blockAnalyticsData)
+        })
+    })
+    .catch(error => {
+      return sendErrorResponse(res, 500, error, 'Failed to fetch the chatbot details.')
+    })
+}
