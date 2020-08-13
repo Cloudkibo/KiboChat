@@ -2,7 +2,9 @@ const logicLayer = require('./whatsAppSessions.logiclayer')
 const { callApi } = require('../utility')
 const async = require('async')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
-
+const { sendNotifications } = require('../../global/sendNotification')
+const logger = require('../../../components/logger')
+const TAG = 'api/v1/whatsAppSessions/whatsAppSessions.controller'
 exports.fetchOpenSessions = function (req, res) {
   async.parallelLimit([
     function (callback) {
@@ -122,7 +124,56 @@ exports.markread = function (req, res) {
   }
 }
 
+function _sendStatusNotification (subscriberId, status, companyId, userName) {
+  callApi('whatsAppContacts/query', 'post', {_id: subscriberId})
+    .then(gotSubscriber => {
+      let subscriber = gotSubscriber[0]
+      let newPayload = {
+        action: 'chat_whatsapp',
+        subscriber: subscriber
+      }
+      if (subscriber.is_assigned) {
+        let lastMessageData = logicLayer.getQueryData('', 'aggregate', {companyId: companyId}, undefined, undefined, undefined, {_id: subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+        callApi(`whatsAppChat/query`, 'post', lastMessageData, 'kibochat')
+          .then(gotLastMessage => {
+            console.log('data in assignAgent', gotLastMessage)
+            subscriber.lastPayload = gotLastMessage[0].payload
+            subscriber.lastRepliedBy = gotLastMessage[0].replied_by
+            subscriber.lastDateTime = gotLastMessage[0].datetime
+            let title = subscriber.name
+            let body = `This session has been ${status === 'new' ? 'opened' : 'resolved'} by ${userName}`
+            callApi(`companyUser/queryAll`, 'post', {companyId: companyId}, 'accounts')
+              .then(companyUsers => {
+                if (subscriber.assigned_to.type === 'agent') {
+                  companyUsers = companyUsers.filter(companyUser => companyUser.userId._id === subscriber.assigned_to.id)
+                  sendNotifications(title, body, newPayload, companyUsers)
+                } else if (subscriber.assigned_to.type === 'team') {
+                  callApi(`teams/agents/query`, 'post', {teamId: subscriber.assigned_to.id}, 'accounts')
+                    .then(teamagents => {
+                      teamagents = teamagents.map(teamagent => teamagent.agentId._id)
+                      companyUsers = companyUsers.filter(companyUser => {
+                        if (teamagents.includes(companyUser.userId._id)) {
+                          return companyUser
+                        }
+                      })
+                      sendNotifications(title, body, newPayload, companyUsers)
+                    }).catch(error => {
+                      logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
+                    })
+                } else {
+                  sendNotifications(title, body, newPayload, companyUsers)
+                }
+              }).catch(error => {
+                logger.serverLog(TAG, `Error while fetching companyUsers ${error}`, 'error')
+              })
+          })
+      }
+    }).catch(error => {
+      logger.serverLog(TAG, `Error while fetching subscribers ${error}`, 'error')
+    })
+}
 exports.changeStatus = function (req, res) {
+  _sendStatusNotification(req.body._id, req.body.status, req.user.companyId, req.user.name)
   callApi('whatsAppContacts/update', 'put', {query: {_id: req.body._id}, newPayload: {status: req.body.status}, options: {}})
     .then(updated => {
       callApi('whatsAppContacts/query', 'post', {_id: req.body._id})
@@ -189,11 +240,46 @@ exports.updatePendingResponse = function (req, res) {
     })
 }
 
+function _sendNotification (title, body, subscriber, companyUsers, lastMessageData) {
+  callApi(`whatsAppChat/query`, 'post', lastMessageData, 'kibochat')
+    .then(gotLastMessage => {
+      console.log('data in assignAgent', gotLastMessage)
+      subscriber.lastPayload = gotLastMessage[0].payload
+      subscriber.lastRepliedBy = gotLastMessage[0].replied_by
+      subscriber.lastDateTime = gotLastMessage[0].datetime
+      let newPayload = {
+        action: 'chat_whatsapp',
+        subscriber: subscriber
+      }
+      sendNotifications(title, body, newPayload, companyUsers)
+    }).catch(error => {
+      logger.serverLog(TAG, `Error while fetching lastMessageData details ${(error)}`, 'error')
+    })
+}
+
 exports.assignAgent = function (req, res) {
   let assignedTo = {
     type: 'agent',
     id: req.body.agentId,
     name: req.body.agentName
+  }
+  if (req.body.isAssigned) {
+    callApi('whatsAppContacts/query', 'post', {_id: req.body.subscriberId})
+      .then(gotSubscriber => {
+        let subscriber = gotSubscriber[0]
+        let title = subscriber.name
+        let body = 'You have been assigned a session as a agent'
+        callApi(`companyUser/queryAll`, 'post', {userId: req.body.agentId}, 'accounts', req.headers.authorization)
+          .then(companyUsers => {
+            let lastMessageData = logicLayer.getQueryData('', 'aggregate', {companyId: req.user.companyId}, undefined, undefined, undefined, {_id: req.body.subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+            _sendNotification(title, body, subscriber, companyUsers, lastMessageData)
+          }).catch(error => {
+            logger.serverLog(TAG, `Error while fetching companyUser details ${(error)}`, 'error')
+            sendErrorResponse(res, 500, `Failed to fetching companyUser details ${JSON.stringify(error)}`)
+          })
+      }).catch(err => {
+        sendErrorResponse(res, 500, err)
+      })
   }
   callApi(
     'whatsAppContacts/update',
@@ -230,6 +316,35 @@ exports.assignTeam = function (req, res) {
     type: 'team',
     id: req.body.teamId,
     name: req.body.teamName
+  }
+
+  if (req.body.isAssigned) {
+    callApi(`companyUser/queryAll`, 'post', {companyId: req.user.companyId}, 'accounts')
+      .then(companyUsers => {
+        callApi(`teams/agents/query`, 'post', {teamId: req.body.teamId}, 'accounts')
+          .then(teamagents => {
+            teamagents = teamagents.map(teamagent => teamagent.agentId._id)
+            companyUsers = companyUsers.filter(companyUser => {
+              if (teamagents.includes(companyUser.userId._id)) {
+                return companyUser
+              }
+            })
+            callApi('whatsAppContacts/query', 'post', {_id: req.body.subscriberId})
+              .then(gotSubscriber => {
+                let subscriber = gotSubscriber[0]
+                let title = subscriber.name
+                let lastMessageData = logicLayer.getQueryData('', 'aggregate', {companyId: req.user.companyId}, undefined, undefined, undefined, {_id: req.body.subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+                let body = `You have been assigned a session as a agent in a ${req.body.teamName} team`
+                _sendNotification(title, body, subscriber, companyUsers, lastMessageData)
+            }).catch(err => {
+                sendErrorResponse(res, 500, err)
+              })
+          }).catch(error => {
+            logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
+          })
+      }).catch(error => {
+        logger.serverLog(TAG, `Error while fetching companyUser ${error}`, 'error')
+      })
   }
   callApi(
     'whatsAppContacts/update',
