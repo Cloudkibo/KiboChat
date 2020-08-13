@@ -318,6 +318,7 @@ exports.exportData = (req, res) => {
       let messageBlocks = results[0]
       let blockAnalytics = results[1]
       logger.serverLog(TAG, `blockAnalytics Length ${blockAnalytics.length}`)
+      logger.serverLog(TAG, `messageBlocks Length ${messageBlocks.length}`)
       let blockAnalyticsData = []
       async.each(messageBlocks, function (messageBlock, cb) {
         let blockdata = {}
