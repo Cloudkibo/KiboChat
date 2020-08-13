@@ -141,7 +141,7 @@ function _sendMobileNotification (subscriber, payload, companyId) {
   let title = subscriber.name
   let body = payload.text
   let newPayload = {
-    action: 'new_chat_whatsapp',
+    action: 'chat_whatsapp',
     subscriber: subscriber
   }
   callApi(`companyUser/queryAll`, 'post', {companyId: companyId}, 'accounts')
