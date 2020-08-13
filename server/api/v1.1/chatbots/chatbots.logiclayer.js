@@ -105,7 +105,3 @@ exports.criteriaForPeriodicBotStatsForGroup = () => {
   }
   return groupCriteria
 }
-
-exports.getBlocksPayload = (chatBotId, companyId) => {
-
-}
