@@ -310,24 +310,32 @@ exports.redirectToUrl = (req, res) => {
   }
 }
 
-export function exportData (req, res) {
-  msgBlockDataLayer.findAllMessageBlock({ 'module.type': 'chatbot', 'module.id': req.body.chatBotId })
-    .then(messageBlocks => {
-      logger.serverLog(TAG, `Message Block Length ${messageBlocks.length}`)
-      analyticsDataLayer.findAllBotAnalytics({chatbotId: req.body.chatBotId})
-        .then(blockAnalytics => {
-          logger.serverLog(TAG, `blockAnalytics Length ${blockAnalytics.length}`)
-          let blockAnalyticsData = []
-          for (let i = 0; i < messageBlocks.length; i++) {
-            let blockdata = {}
-            let data = blockAnalytics.filter(block => block.messageBlockId === messageBlocks._id)
-            blockdata.chatBotName = req.body.pageName
-            blockdata.blockName = messageBlocks.title
-            blockdata.subscriberClickCount = data.length
-            blockAnalyticsData.push(blockdata)
-          }
+exports.exportData = (req, res) => {
+  const fetchmessageBlock = msgBlockDataLayer.findAllMessageBlock({ 'module.type': 'chatbot', 'module.id': req.body.chatBotId })
+  const fetchAnalyticsBlock = analyticsDataLayer.findAllBotAnalytics({chatbotId: req.body.chatBotId})
+  Promise.all([fetchmessageBlock, fetchAnalyticsBlock])
+    .then(results => {
+      let messageBlocks = results[0]
+      let blockAnalytics = results[1]
+      logger.serverLog(TAG, `blockAnalytics Length ${blockAnalytics.length}`)
+      let blockAnalyticsData = []
+      async.each(messageBlocks, function (messageBlock, cb) {
+        let blockdata = {}
+        let data = blockAnalytics.filter(block => block.messageBlockId === messageBlock._id)
+        blockdata.chatBotName = req.body.pageName
+        blockdata.blockName = messageBlocks.title
+        blockdata.subscriberClickCount = data.length
+        blockAnalyticsData.push(blockdata)
+        cb()
+      }, function (err) {
+        if (err) {
+          logger.serverLog(TAG, err, 'error')
+          sendErrorResponse(res, 500, `Failed to make data ${err}`)
+        } else {
           sendSuccessResponse(res, 200, blockAnalyticsData)
-        })
+        }  
+      }
+      )
     })
     .catch(error => {
       return sendErrorResponse(res, 500, error, 'Failed to fetch the chatbot details.')
