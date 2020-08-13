@@ -15,7 +15,11 @@ router.get('/',
   auth.isAuthenticated(),
   controller.fetch)
 
-router.patch('/',
+router.get('/chatbotDetails',
+  auth.isAuthenticated(),
+  controller.getChatbotDetails)
+
+router.put('/',
   auth.isAuthenticated(),
   controller.update)
 

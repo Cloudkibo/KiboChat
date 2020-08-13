@@ -1,3 +1,27 @@
+const dedent = require('dedent-js')
+
+exports.validateWhatsAppChatbotPayload = (payload) => {
+  let bool = true
+  let whatsAppChatbotFields = [
+    'usedBy',
+    'triggers',
+    'botLinks',
+    'testSubscribers',
+    'startingBlockId',
+    'maxLevels',
+    'published',
+    'stats'
+  ]
+  let arrayOfKeys = Object.keys(payload)
+
+  arrayOfKeys.forEach(field => {
+    if (!whatsAppChatbotFields.includes(field)) {
+      bool = false
+    }
+  })
+
+  return bool
+}
 
 exports.getMessageBlocks = (chatbotId, userId, companyId) => {
   const messageBlocks = []
@@ -17,12 +41,12 @@ exports.getMessageBlocks = (chatbotId, userId, companyId) => {
     uniqueId: mainMenuId,
     payload: [
       {
-        text: `Please select an option by sending the corresponding number for it (e.g send “1” to select Discover):
+        text: dedent(`Please select an option by sending the corresponding number for it (e.g send “1” to select Discover):
                 0. All Categories
                 1. Discover
                 2. Check order status
                 3. Return an item
-                4. FAQs`,
+                4. FAQs`),
         componentType: 'text',
         menu: [
           allCategoriesId, // block message id for all categories block
@@ -60,7 +84,7 @@ function createAllCategoriesBlock (chatbotId, userId, companyId, blockId, homeId
     uniqueId: blockId,
     payload: [
       {
-        text: `Please select an option by sending the corresponding number for it (e.g send “1” to select Computers & Laptops):
+        text: dedent(`Please select an option by sending the corresponding number for it (e.g send “1” to select Computers & Laptops):
                 0. Mobiles & Tablets
                 1. Computers & Laptops
                 2. Fashion
@@ -70,7 +94,7 @@ function createAllCategoriesBlock (chatbotId, userId, companyId, blockId, homeId
                 6. Musical Instruments
                 7. Show my cart,
                 8. Back
-                9. Home`,
+                9. Home`),
         componentType: 'text',
         menu: [
           mobileTabletsId,
