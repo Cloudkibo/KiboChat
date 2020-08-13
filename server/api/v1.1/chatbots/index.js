@@ -36,6 +36,10 @@ router.get('/:id/stats/:n',
   auth.isAuthenticated(),
   controller.stats)
 
+router.post('/downloadAnalytics',
+  auth.isAuthenticated(),
+  controller.exportData)
+
 router.get('/:id/fetch',
   auth.isAuthenticated(),
   auth.doesPlanPermitsThisAction('chatbot_automation'),
