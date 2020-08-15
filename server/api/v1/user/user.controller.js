@@ -13,6 +13,8 @@ exports.index = function (req, res) {
       utility.callApi(`companyUser/query`, 'post', {userId: user._id}, 'accounts', req.headers.authorization)
         .then(companyUser => {
           user.expoListToken = companyUser.expoListToken
+          res.cookie('userId', user._id)
+          res.cookie('companyId', companyUser.companyId)
           sendSuccessResponse(res, 200, user)
         }).catch(error => {
           logger.serverLog(TAG, `Error while fetching companyUser details ${util.inspect(error)}`, 'error')
@@ -157,7 +159,7 @@ exports.validateFacebookConnected = function (req, res) {
           buyerFbName: company.user.facebookInfo && company.user.facebookInfo.name ? company.user.facebookInfo.name : '',
           email: company.user.email,
           profilePic: company.user.facebookInfo && company.user.facebookInfo.profilePic ? company.user.facebookInfo.profilePic : ''
-        }  
+        }
       }
       sendSuccessResponse(res, 200, dataTosend)
     })
@@ -165,7 +167,6 @@ exports.validateFacebookConnected = function (req, res) {
       sendErrorResponse(res, 500, err)
     })
 }
-
 
 exports.validateUserAccessToken = function (req, res) {
   console.log('in validateUserAccessToken')

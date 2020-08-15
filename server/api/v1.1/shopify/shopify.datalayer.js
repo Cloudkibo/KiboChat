@@ -1,9 +1,9 @@
 const { callApi } = require('../utility')
 
-exports.createStoreInfo = (payload) => {
-  return callApi(`abandoned_cart/storeinfo`, 'post', payload, 'kiboengage')
+exports.createShopifyIntegration = (payload) => {
+  return callApi(`shopify`, 'post', payload, 'accounts')
 }
 
 exports.createStoreAnalytics = (payload) => {
-  return callApi(`abandoned_cart/storeanalytics`, 'post', payload, 'kiboengage')
+  return callApi(`shopify`, 'post', payload, 'accounts')
 }
