@@ -156,8 +156,10 @@ exports.callback = function (req, res) {
               return res.status(500).json({ status: 'failed', error: err })
             })
         } else {
+          // TODO client side screen remaining
           console.log('AUTH TOKEN NOT FOUND IN COOKIES')
-          // TODO REMAINAING
+          res.cookie('shopifySetupState', 'startedFromAppNotAuthenticated')
+          res.send('auth token not found, please login to continue')
         }
       })
       .catch((error) => {
