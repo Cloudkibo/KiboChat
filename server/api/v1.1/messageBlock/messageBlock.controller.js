@@ -6,8 +6,8 @@ const needle = require('needle')
 const config = require('./../../../config/environment')
 const utility = require('./../../../components/utility')
 const ogs = require('open-graph-scraper')
-// const logger = require('../../../components/logger')
-// const TAG = 'api/v1.1/messageBlock/messageBlock.controller.js'
+const logger = require('../../../components/logger')
+const TAG = 'api/v1.1/messageBlock/messageBlock.controller.js'
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
 
 exports.create = function (req, res) {
