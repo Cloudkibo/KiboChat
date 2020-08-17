@@ -149,6 +149,7 @@ exports.create = function (req, res) {
       }
       callApi(`subscribers/update`, 'put', subscriberData)
         .then(updated => {
+          updateCompanyUsage(req.user.companyId, 'chat_messages', 1)
           _removeSubsWaitingForUserInput(req.body.subscriber_id)
           logger.serverLog(TAG, `updated subscriber again ${updated}`)
           fbMessageObject.datetime = new Date()
@@ -164,6 +165,21 @@ exports.create = function (req, res) {
                 user_name: req.user.name
               }
             }
+          })
+          var deleteData = {
+            purpose: 'deleteMany',
+            match: {
+              type: 'adminAlert',
+              'payload.type': 'pendingSession', 
+              'payload.subscriber._id': req.body._id
+            }
+          }
+          callApi(`cronstack`, 'delete', deleteData, 'kibochat')
+          .then(updatedRecord => {
+            logger.serverLog('Pending session info deleted successfully from cronStack')
+          })
+          .catch(err => {
+            logger.serverLog(`Error while deleting pending session alert from cronStack ${err}`)
           })
           callback(null, updated)
         })
