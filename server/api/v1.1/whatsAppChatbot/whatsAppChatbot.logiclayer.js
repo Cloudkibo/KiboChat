@@ -84,7 +84,7 @@ function createAllCategoriesBlock (chatbotId, userId, companyId, blockId, homeId
     uniqueId: blockId,
     payload: [
       {
-        text: dedent(`Please select an option by sending the corresponding number for it (e.g send “1” to select Computers & Laptops):
+        text: dedent(`Please select an option by sending the corresponding number for it (e.g send “1” to select Computers & Laptops):\n
                 0. Mobiles & Tablets
                 1. Computers & Laptops
                 2. Fashion

@@ -6,13 +6,13 @@ const needle = require('needle')
 const config = require('./../../../config/environment')
 const utility = require('./../../../components/utility')
 const ogs = require('open-graph-scraper')
-// const logger = require('../../../components/logger')
-// const TAG = 'api/v1.1/messageBlock/messageBlock.controller.js'
+const logger = require('../../../components/logger')
+const TAG = 'api/v1.1/messageBlock/messageBlock.controller.js'
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
 
 exports.create = function (req, res) {
   let payload = logiclayer.preparePayload(req.user.companyId, req.user._id, req.body)
-  datalayer.genericUpdateMessageBlock({uniqueId: req.body.uniqueId}, payload, {upsert: true})
+  datalayer.genericUpdateMessageBlock({ uniqueId: req.body.uniqueId }, payload, { upsert: true })
     .then(messageBlock => {
       _sendToClientUsingSocket(messageBlock)
       updateUrlForClickCount(payload)
@@ -38,7 +38,7 @@ exports.attachment = function (req, res) {
         data = data.body
         if (data.payload && data.payload === 'ERR_LIMIT_REACHED') {
           let url = req.body.url
-          let options = {url}
+          let options = { url }
           ogs(options, (error, results) => {
             if (error) {
               return sendErrorResponse(res, 500, error, 'Failed to fetch youtube video url meta data.')
@@ -64,7 +64,7 @@ exports.attachment = function (req, res) {
       })
   } else if (utility.isFacebookVideoUrl(req.body.url.split('?')[0])) {
     let url = req.body.url.split('?')[0]
-    let options = {url}
+    let options = { url }
     ogs(options, (error, results) => {
       if (error) {
         return sendErrorResponse(res, 500, error, 'Error in fetching meta data of website. Please check if open graph is supported.')
@@ -81,7 +81,7 @@ exports.attachment = function (req, res) {
     })
   } else {
     let url = req.body.url
-    let options = {url}
+    let options = { url }
     ogs(options, (error, results) => {
       if (error) {
         return sendErrorResponse(res, 500, error, 'Error in fetching meta data of website. Please check if open graph is supported.')
@@ -114,7 +114,7 @@ exports.delete = function (req, res) {
 }
 
 exports.scriptChatbotBlocks = function (req, res) {
-  datalayer.findAllMessageBlock({'module.type': 'chatbot'})
+  datalayer.findAllMessageBlock({ 'module.type': 'chatbot' })
     .then(messageBlocks => {
       for (let i = 0; i < messageBlocks.length; i++) {
         updateUrlForClickCount(messageBlocks[i])
@@ -141,7 +141,7 @@ function updateUrlForClickCount (payload) {
           urlDataLayer.createURLObject(urlPayload)
             .then(createdUrl => {
               payload.payload[1].buttons[0].urlForFacebook = `${config.domain}/api/chatbots/url/${createdUrl._id}`
-              datalayer.genericUpdateMessageBlock({uniqueId: payload.uniqueId}, payload, {upsert: false})
+              datalayer.genericUpdateMessageBlock({ uniqueId: payload.uniqueId }, payload, { upsert: false })
                 .then(updatedMessageBlock => {
                   logger.serverLog(TAG, `updated message block`, 'debug')
                 })
@@ -156,7 +156,7 @@ function updateUrlForClickCount (payload) {
           urlDataLayer.updateOneURL(foundUrl._id, { originalURL: payload.payload[1].buttons[0].url })
             .then(updatedUrl => {
               payload.payload[1].buttons[0].urlForFacebook = `${config.domain}/api/chatbots/url/${foundUrl._id}`
-              datalayer.genericUpdateMessageBlock({uniqueId: payload.uniqueId}, payload, {upsert: false})
+              datalayer.genericUpdateMessageBlock({ uniqueId: payload.uniqueId }, payload, { upsert: false })
                 .then(updatedMessageBlock => {
                   logger.serverLog(TAG, `updated message block`, 'debug')
                 })
