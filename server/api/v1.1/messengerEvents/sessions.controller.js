@@ -55,7 +55,9 @@ exports.index = function (req, res) {
             if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
               saveLiveChat(page, subscriber, event)
               handleTriggerMessage(event, page, subscriber)
-              pushUnresolveAlertInStack(company, subscriber)
+              if (!event.message.is_echo) {
+                pushUnresolveAlertInStack(company, subscriber)
+              }
             }
           })
           .catch(error => {
