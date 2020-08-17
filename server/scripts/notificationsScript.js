@@ -83,6 +83,7 @@ function generatePendingSessionNotification (alert, user, cb){
     
     let notification = {
         companyId: user.companyId,
+        type: alert.payload.type,
         message: `${name} has been awaiting reply from agent for last ${alert.payload.notification_interval} mins`,
         agentId: user.userId._id,
         category: {type: 'chat_session' , id:alert.payload.subscriber._id}
@@ -128,6 +129,7 @@ function generateUnresolvedSessionNotification (alert, user, cb){
 
     let notification = {
         companyId: user.companyId,
+        type: alert.payload.type,
         message: `${name} session is unresolved for the last ${alert.payload.notification_interval} mins`,
         agentId: user.userId._id,
         category: {type: 'chat_session', id:alert.payload.subscriber._id}
