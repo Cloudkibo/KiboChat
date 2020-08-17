@@ -16,8 +16,8 @@ exports.create = function (req, res) {
     .then(messageBlock => {
       _sendToClientUsingSocket(messageBlock)
       updateUrlForClickCount(payload)
-      if (req.body.triggers) {
-        let updatePayload = { triggers: req.body.triggers }
+      if (req.body.updateStartingBlockId) {
+        let updatePayload = {}
         if (messageBlock.upserted) updatePayload.startingBlockId = messageBlock.upserted[0]._id
         chatbotDataLayer.genericUpdateChatBot(
           { _id: req.body.chatbotId }, updatePayload)
@@ -104,7 +104,7 @@ function _sendToClientUsingSocket (body) {
 }
 
 exports.delete = function (req, res) {
-  datalayer.deleteForMessageBlock({ _id: req.params.id })
+  datalayer.deleteForMessageBlock({ _id: {$in: req.body.ids} })
     .then(messageBlock => {
       return res.status(201).json({ status: 'success', payload: messageBlock })
     })
