@@ -178,7 +178,12 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
               {
                 'title': body.title,
                 'image_url': body.image_url,
-                'subtitle': body.description
+                'subtitle': body.description,
+                'default_action': {
+                  'type': 'web_url',
+                  'url': body.url,
+                  'messenger_extensions': false
+                }
               }
             ]
           }
