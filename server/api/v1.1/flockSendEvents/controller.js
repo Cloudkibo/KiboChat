@@ -75,6 +75,7 @@ function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options)
     })
 }
 exports.messageStatus = function (req, res) {
+  console.log('messageStatus', req.body)
   res.status(200).json({
     status: 'success',
     description: `received the payload`

@@ -9,6 +9,8 @@ const sessionLogicLayer = require('../sessions/sessions.logiclayer')
 const logicLayer = require('./logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
 const { record } = require('../../global/messageStatistics')
+const { handleChatBotWelcomeMessage: handleChatBotAutomationEvents } = require('./chatbotAutomation.controller')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 const { sendNotifications } = require('../../global/sendNotification')
 const { handleTriggerMessage } = require('./chatbotAutomation.controller')
 
@@ -26,7 +28,8 @@ exports.index = function (req, res) {
   let event = req.body.event
   utility.callApi(`companyprofile/query`, 'post', { _id: page.companyId })
     .then(company => {
-      if (!(company.automated_options === 'DISABLE_CHAT')) {
+      if (!(company.automated_options === 'DISABLE_CHAT')) { 
+        if(subscriber.unSubscribedBy !== 'agent') {
         let updatePayload = { last_activity_time: Date.now() }
         if (subscriber.status === 'resolved') {
           updatePayload.status = 'new'
@@ -52,13 +55,16 @@ exports.index = function (req, res) {
             if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
               saveLiveChat(page, subscriber, event)
               handleTriggerMessage(event, page, subscriber)
-              pushUnresolveAlertInStack(company, subscriber)
+              if (!event.message.is_echo) {
+                pushUnresolveAlertInStack(company, subscriber)
+              }
             }
           })
           .catch(error => {
             logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
           })
-      }
+        }
+      } 
     })
     .catch(error => {
       logger.serverLog(TAG, `Failed to fetch company profile ${JSON.stringify(error)}`, 'error')
@@ -205,6 +211,7 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
   ) {
     LiveChatDataLayer.createFbMessageObject(chatPayload)
       .then(chat => {
+        updateCompanyUsage(page.companyId, 'chat_messages', 1)
         if (!event.message.is_echo) {
           setTimeout(() => {
             utility.callApi('subscribers/query', 'post', {_id: subscriber._id})
