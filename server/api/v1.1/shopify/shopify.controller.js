@@ -9,10 +9,13 @@ const nonce = require('nonce')()
 const querystring = require('querystring')
 const crypto = require('crypto')
 const request = require('request-promise')
-// const Shopify = require('shopify-api-node')
+const Shopify = require('shopify-api-node')
 const TAG = 'api/shopify/shopify.controller.js'
 const utility = require('../utility')
 const dataLayer = require('./shopify.datalayer')
+const EcommerceProviders = require('./../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
+const commerceConstants = require('./../ecommerceProvidersApiLayer/constants')
+const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
 exports.index = function (req, res) {
   const shop = req.body.shop
@@ -87,7 +90,6 @@ exports.install = function (req, res) {
 }
 
 exports.callback = function (req, res) {
-  console.log('HERE FROM SHOPIFY INSTALL CALLBACK')
   const { shop, hmac, code, state } = req.query
   const stateCookie = cookie.parse(req.headers.cookie).state
   //  const userId = JSON.parse(cookie.parse(req.headers.cookie).userId)
@@ -147,18 +149,35 @@ exports.callback = function (req, res) {
           }
           dataLayer.createShopifyIntegration(shopifyPayload)
             .then(savedStore => {
-              console.log('STORE IS SAVED IN ACCOUTSN')
-              console.log(savedStore)
-              res.removeCookie('shopifySetupState')
-              res.send('store is created and saved in db ' + savedStore)
+              logger.serverLog(TAG, 'shopify store integration created', 'debug')
+              res.cookie('shopifySetupState', 'completedUsingAuth')
+              res.redirect('/')
             })
             .catch(err => {
               return res.status(500).json({ status: 'failed', error: err })
             })
         } else {
           // TODO client side screen remaining
-          console.log('AUTH TOKEN NOT FOUND IN COOKIES')
+          /* console.log('AUTH TOKEN NOT FOUND IN COOKIES')
+           * testing only thing
+          let shopifyPayload = {
+            userId: '5d2eea98ef2c170cd31470d3',
+            companyId: '5d2eea98ef2c170cd31470d4',
+            shopUrl: shop,
+            shopToken: accessToken
+          }
+          dataLayer.createShopifyIntegration(shopifyPayload)
+            .then(savedStore => {
+              console.log('Saved as testing trick')
+              console.log(savedStore)
+            })
+            .catch(err => {
+              console.log('error in creating shopify integration')
+              console.log(err)
+            }) */
           res.cookie('shopifySetupState', 'startedFromAppNotAuthenticated')
+          res.cookie('shopifyToken', accessToken)
+          // the login in that screen should redirect to kibochat only
           res.send('auth token not found, please login to continue')
         }
       })
@@ -168,4 +187,39 @@ exports.callback = function (req, res) {
   } else {
     res.status(400).send('Required parameters missing')
   }
+}
+
+exports.fetchStore = (req, res) => {
+  dataLayer.findOneShopifyIntegration({ companyId: req.user.companyId })
+    .then(shopifyIntegration => {
+      const shopify = new EcommerceProviders(commerceConstants.shopify, {
+        shopUrl: shopifyIntegration.shopUrl,
+        shopToken: shopifyIntegration.shopToken
+      })
+      return shopify.fetchStoreInfo()
+    })
+    .then(shop => {
+      sendSuccessResponse(res, 200, shop)
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, `Failed to fetch shop info ${JSON.stringify(err)}`)
+    })
+}
+
+exports.testRoute = (req, res) => {
+  dataLayer.findOneShopifyIntegration({ companyId: req.user.companyId })
+    .then(shopifyIntegration => {
+      const shopify = new EcommerceProviders(commerceConstants.shopify, {
+        shopUrl: shopifyIntegration.shopUrl,
+        shopToken: shopifyIntegration.shopToken
+      })
+      return shopify.checkOrderStatus('1037')
+    })
+    .then(shop => {
+      sendSuccessResponse(res, 200, shop)
+    })
+    .catch(err => {
+      console.log(err)
+      sendErrorResponse(res, 500, `Failed to fetch subscribers ${JSON.stringify(err)}`)
+    })
 }

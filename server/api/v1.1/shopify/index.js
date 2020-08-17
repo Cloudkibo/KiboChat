@@ -21,6 +21,14 @@ router.get('/install', // handle installing of app from shopify app store
 router.get('/callback',
   controller.callback) // this id will be userid
 
+router.get('/fetchStore',
+  auth.isAuthenticated(),
+  controller.fetchStore) // this id will be userid
+
+router.get('/testRoute',
+  auth.isAuthenticated(),
+  controller.testRoute) // this id will be userid
+
 // router.post('/checkout-create',
 //   webhook.handleCheckout) // this id will be userid
 //
