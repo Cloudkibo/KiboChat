@@ -6,9 +6,11 @@ const controller = require('./whatsAppChat.controller')
 const auth = require('../../../auth/auth.service')
 const validate = require('express-jsonschema').validate
 const validationSchema = require('./validationSchema')
+const { attachProviderInfo } = require('../../middleware/whatsApp.middleware')
 
 router.post('/',
   auth.isAuthenticated(),
+  attachProviderInfo(),
   validate({body: validationSchema.createPayload}),
   controller.create)
 
