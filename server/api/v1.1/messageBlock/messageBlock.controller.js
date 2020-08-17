@@ -6,8 +6,8 @@ const needle = require('needle')
 const config = require('./../../../config/environment')
 const utility = require('./../../../components/utility')
 const ogs = require('open-graph-scraper')
-const logger = require('../../../components/logger')
-const TAG = 'api/v1.1/messageBlock/messageBlock.controller.js'
+// const logger = require('../../../components/logger')
+// const TAG = 'api/v1.1/messageBlock/messageBlock.controller.js'
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
 
 exports.create = function (req, res) {
@@ -16,8 +16,8 @@ exports.create = function (req, res) {
     .then(messageBlock => {
       _sendToClientUsingSocket(messageBlock)
       updateUrlForClickCount(payload)
-      if (req.body.updateStartingBlockId) {
-        let updatePayload = {}
+      if (req.body.triggers) {
+        let updatePayload = { triggers: req.body.triggers }
         if (messageBlock.upserted) updatePayload.startingBlockId = messageBlock.upserted[0]._id
         chatbotDataLayer.genericUpdateChatBot(
           { _id: req.body.chatbotId }, updatePayload)
@@ -33,35 +33,46 @@ exports.create = function (req, res) {
 
 exports.attachment = function (req, res) {
   if (utility.isYouTubeUrl(req.body.url)) {
-    needle('post', `${config.accountsDomain}/downloadYouTubeVideo`, req.body)
-      .then(data => {
-        data = data.body
-        if (data.payload && data.payload === 'ERR_LIMIT_REACHED') {
-          let url = req.body.url
-          let options = {url}
-          ogs(options, (error, results) => {
-            if (error) {
-              return sendErrorResponse(res, 500, error, 'Failed to fetch youtube video url meta data.')
-            }
-            return sendSuccessResponse(res, 200, results.data, 'Fetched youtube video')
-          })
-        } else {
-          let payload = data.payload.fileurl
-          payload.pages = [req.body.pageId]
-          payload.deleteLater = true
-          payload.componentType = 'video'
-          needle('post', `${config.accountsDomain}/uploadTemplate`, payload)
-            .then(dataFinal => {
-              return sendSuccessResponse(res, 200, dataFinal.body.payload, 'Fetched youtube video')
+    if (req.body.isYoutubePlayable) {
+      needle('post', `${config.accountsDomain}/downloadYouTubeVideo`, req.body)
+        .then(data => {
+          data = data.body
+          if (data.payload && data.payload === 'ERR_LIMIT_REACHED') {
+            let url = req.body.url
+            let options = {url}
+            ogs(options, (error, results) => {
+              if (error) {
+                return sendErrorResponse(res, 500, error, 'Failed to fetch youtube video url meta data.')
+              }
+              return sendSuccessResponse(res, 200, results.data, 'Fetched youtube video')
             })
-            .catch(error => {
-              return sendErrorResponse(res, 500, error.body, 'Failed to upload youtube video to facebook. Check with admin.')
-            })
+          } else {
+            let payload = data.payload.fileurl
+            payload.pages = [req.body.pageId]
+            payload.deleteLater = true
+            payload.componentType = 'video'
+            needle('post', `${config.accountsDomain}/uploadTemplate`, payload)
+              .then(dataFinal => {
+                return sendSuccessResponse(res, 200, dataFinal.body.payload, 'Fetched youtube video')
+              })
+              .catch(error => {
+                return sendErrorResponse(res, 500, error.body, 'Failed to upload youtube video to facebook. Check with admin.')
+              })
+          }
+        })
+        .catch(error => {
+          return sendErrorResponse(res, 500, error.body, 'Failed to work on the attachment. Please contact admin.')
+        })
+    } else {
+      let url = req.body.url
+      let options = {url}
+      ogs(options, (error, results) => {
+        if (error) {
+          return sendErrorResponse(res, 500, error, 'Failed to fetch youtube video url meta data.')
         }
+        return sendSuccessResponse(res, 200, results.data, 'Fetched youtube video')
       })
-      .catch(error => {
-        return sendErrorResponse(res, 500, error.body, 'Failed to work on the attachment. Please contact admin.')
-      })
+    }
   } else if (utility.isFacebookVideoUrl(req.body.url.split('?')[0])) {
     let url = req.body.url.split('?')[0]
     let options = {url}
@@ -104,7 +115,7 @@ function _sendToClientUsingSocket (body) {
 }
 
 exports.delete = function (req, res) {
-  datalayer.deleteForMessageBlock({ _id: {$in: req.body.ids} })
+  datalayer.deleteForMessageBlock({ _id: req.params.id })
     .then(messageBlock => {
       return res.status(201).json({ status: 'success', payload: messageBlock })
     })
