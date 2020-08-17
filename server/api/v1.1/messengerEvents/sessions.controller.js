@@ -309,7 +309,6 @@ function saveNotifications (subscriber, companyUsers, pageName) {
     }
     utility.callApi(`notifications`, 'post', notificationsData, 'kibochat')
       .then(savedNotification => {
-        if (index === companyUsers.length - 1) {
           require('./../../../config/socketio').sendMessageToClient({
             room_id: companyUser.companyId,
             body: {
@@ -317,7 +316,6 @@ function saveNotifications (subscriber, companyUsers, pageName) {
               payload: savedNotification
             }
           })
-        }
       })
       .catch(error => {
         logger.serverLog(TAG, `Failed to save notification ${error}`, 'error')
