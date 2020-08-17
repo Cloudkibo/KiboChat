@@ -74,7 +74,13 @@ exports.runLiveChatNotificationScript = function () {
 
 function generatePendingSessionNotification (alert, user, cb){
     logger.serverLog(TAG, `inside generate pending session`)
-    var name = alert.payload.subscriber.name
+    var name = ''
+    if (alert.payload.subscriber.firstName) {
+      name = alert.payload.subscriber.firstName + ' ' + alert.payload.subscriber.lastName
+    } else if (alert.payload.subscriber.name) {
+      name = alert.payload.subscriber.name 
+    }
+    
     let notification = {
         companyId: user.companyId,
         message: `${name} has been awaiting reply from agent for last ${alert.payload.notification_interval} mins`,
@@ -95,7 +101,7 @@ function generatePendingSessionNotification (alert, user, cb){
           .then(updatedRecord => {     
             logger.serverLog('Pending session info deleted successfully from cronStack')
             require('../config/socketio').sendMessageToClient({
-                room_id: companyId,
+                room_id: user.companyId,
                 body: {
                   action: 'new_notification',
                   payload: notification
@@ -113,7 +119,13 @@ function generatePendingSessionNotification (alert, user, cb){
 
 function generateUnresolvedSessionNotification (alert, user, cb){
     logger.serverLog(TAG, `inside generate unresolved session`)
-    var name = alert.payload.subscriber.name
+    var name = ''
+    if (alert.payload.subscriber.firstName) {
+      name = alert.payload.subscriber.firstName + ' ' + alert.payload.subscriber.lastName
+    } else if (alert.payload.subscriber.name) {
+      name = alert.payload.subscriber.name 
+    }
+
     let notification = {
         companyId: user.companyId,
         message: `${name} session is unresolved for the last ${alert.payload.notification_interval} mins`,
@@ -134,7 +146,7 @@ function generateUnresolvedSessionNotification (alert, user, cb){
           .then(updatedRecord => {     
             logger.serverLog('Unresolved session info deleted successfully from cronStack')
             require('../config/socketio').sendMessageToClient({
-                room_id: companyId,
+                room_id: user.companyId,
                 body: {
                   action: 'new_notification',
                   payload: notification

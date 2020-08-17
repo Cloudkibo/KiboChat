@@ -155,7 +155,7 @@ function pushSessionPendingAlertInStack (company, subscriber) {
       })
 }
 function saveLiveChat (page, subscriber, event) {
-  record('messengerChatInComing')
+  //record('messengerChatInComing')
   if (subscriber && !event.message.is_echo) {
     botController.respondUsingBot(page, subscriber, event.message.text)
   }
