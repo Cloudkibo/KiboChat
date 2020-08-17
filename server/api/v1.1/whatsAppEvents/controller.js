@@ -3,6 +3,9 @@ const logicLayer = require('./logiclayer')
 const logger = require('../../../components/logger')
 const TAG = '/api/v1/whatsAppEvents/controller.js'
 const whatsAppMapper = require('../../../whatsAppMapper/whatsAppMapper')
+const whatsAppChatbotDataLayer = require('../../v1.1/whatsAppChatbot/whatsAppChatbot.datalayer')
+const messageBlockDataLayer = require('../../v1.1/messageBlock/messageBlock.datalayer')
+const { ActionTypes } = require('../../../whatsAppMapper/constants')
 
 exports.messageReceived = function (req, res) {
   res.status(200).json({
@@ -20,7 +23,23 @@ exports.messageReceived = function (req, res) {
             ]
             callApi(`companyprofile/aggregate`, 'post', query)
               .then(companies => {
-                companies.forEach((company) => {
+                companies.forEach(async (company) => {
+                  if (data.messageData.componentType === 'text' && data.messageData.text === 'Hi') {
+                    let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot(company._id)
+                    if (chatbot) {
+                      let mainMenuBlock = await messageBlockDataLayer.findOneMessageBlock({ 'module.id': chatbot._id, 'module.type': 'whatsapp_chatbot', 'title': 'Main Menu' })
+                      for (let message of mainMenuBlock.payload) {
+                        let chatbotResponse = {
+                          whatsApp: {
+                            accessToken: data.accessToken
+                          },
+                          recipientNumber: number,
+                          payload: message
+                        }
+                        whatsAppMapper.whatsAppMapper(req.body.provider, ActionTypes.SEND_CHAT_MESSAGE, chatbotResponse)
+                      }
+                    }
+                  }
                   callApi(`whatsAppContacts/query`, 'post', { number: number, companyId: company._id })
                     .then(contact => {
                       contact = contact[0]
