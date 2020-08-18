@@ -9,13 +9,17 @@ const TAG = 'api/v1/messengerEvents/chatbotAutomation.controller'
 const moment = require('moment')
 
 exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
+  logger.serverLog(TAG, `in chatbot ${req}`)
+  logger.serverLog(TAG, `in chatbot page ${page}`)
   chatbotDataLayer.findOneChatBot({pageId: page._id, published: true})
     .then(chatbot => {
       if (chatbot) {
+        logger.serverLog(TAG, `chatbot got ${chatbot}`)
         if (req.postback && req.postback.payload && req.postback.payload === '<GET_STARTED_PAYLOAD>') {
           if (chatbot.startingBlockId) {
             messageBlockDataLayer.findOneMessageBlock({ _id: chatbot.startingBlockId })
               .then(messageBlock => {
+                logger.serverLog(TAG, `messageBlock got ${messageBlock}`)
                 if (messageBlock) {
                   senderAction(req.sender.id, 'typing_on', page.accessToken)
                   intervalForEach(messageBlock.payload, (item) => {
@@ -52,7 +56,7 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
     })
     .catch(error => {
       logger.serverLog(TAG,
-        `error in fetching chatbot ${JSON.stringify(error)}`, 'error')
+        `error in fetching chatbot 1 ${error}`, 'error')
     })
 }
 
@@ -102,7 +106,7 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
     })
     .catch(error => {
       logger.serverLog(TAG,
-        `error in fetching chatbot ${JSON.stringify(error)}`, 'error')
+        `error in fetching chatbot 2 ${error}`, 'error')
     })
 }
 
@@ -136,7 +140,7 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId) => {
     })
     .catch(error => {
       logger.serverLog(TAG,
-        `error in fetching chatbot ${JSON.stringify(error)}`, 'error')
+        `error in fetching chatbot 3 ${error}`, 'error')
     })
 }
 
@@ -163,12 +167,14 @@ exports.handleChatBotTestMessage = (req, page, subscriber) => {
     })
     .catch(error => {
       logger.serverLog(TAG,
-        `error in fetching chatbot ${JSON.stringify(error)}`, 'error')
+        `error in fetching chatbot 4 ${error}`, 'error')
     })
 }
 
 function sendResponse (recipientId, payload, subscriber, accessToken) {
+  logger.serverLog(TAG, `payload in  sendResponse ${payload}`)
   let finalPayload = logicLayer.prepareSendAPIPayload(recipientId, payload, subscriber.firstName, subscriber.lastName, true)
+  logger.serverLog(TAG, `finalPayload in  sendResponse ${finalPayload}`)
   facebookApiCaller('v3.2', `me/messages?access_token=${accessToken}`, 'post', finalPayload)
     .then(response => {
       logger.serverLog(TAG, `response of sending block ${JSON.stringify(response.body)}`)
