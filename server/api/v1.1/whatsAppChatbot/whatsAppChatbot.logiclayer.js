@@ -395,11 +395,6 @@ exports.getNextMessageBlock = (chatbot, EcommerceProvider, messageBlock, input) 
         case SELECT_PRODUCT: {
           return getSelectProductBlock(chatbot, messageBlock.uniqueId, action.argument)
         }
-        default: {
-          if (input === 'Hi') {
-            return messageBlockDataLayer.findOneMessageBlock({ uniqueId: action.blockId })
-          }
-        }
       }
     } else if (action.type === STATIC) {
       return messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
