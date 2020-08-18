@@ -45,7 +45,8 @@ exports.update = function (req, res) {
   let dataToUpdate = {
     published: req.body.published,
     fallbackReply: req.body.fallbackReply,
-    fallbackReplyEnabled: req.body.fallbackReplyEnabled
+    fallbackReplyEnabled: req.body.fallbackReplyEnabled,
+    isYoutubePlayable: req.body.isYoutubePlayable
   }
   datalayer.genericUpdateChatBot({_id: req.body.chatbotId}, dataToUpdate)
     .then(chatbotUpdated => {
