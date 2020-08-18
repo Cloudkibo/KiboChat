@@ -3,6 +3,8 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development' // production
 const express = require('express')
 const config = require('./config/environment/index')
 
+const cron = require('node-cron')
+const NotificationsScript = require('./scripts/notificationsScript.js')
 const app = express()
 const httpApp = express()
 
@@ -16,6 +18,8 @@ if (config.env === 'production' || config.env === 'staging') {
   }).install()
   appObj.use(Raven.requestHandler())
 }
+
+cron.schedule('*/1 * * * *', NotificationsScript.runLiveChatNotificationScript) 
 
 require('./config/express')(appObj)
 require('./config/setup')(app, httpApp, config)
