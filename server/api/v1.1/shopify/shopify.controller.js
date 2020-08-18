@@ -19,7 +19,7 @@ const { sendSuccessResponse, sendErrorResponse } = require('../../global/respons
 
 exports.index = function (req, res) {
   const shop = req.body.shop
-  const scopes = 'write_orders, write_products, read_themes, write_themes, read_script_tags, write_script_tags'
+  const scopes = 'read_customers, write_customers, read_checkouts, write_checkouts, write_orders, write_products, read_themes, write_themes, read_script_tags, write_script_tags'
   if (shop) {
     const state = nonce()
     const redirectUri = config.domain + '/api/shopify/callback'
@@ -74,7 +74,7 @@ exports.install = function (req, res) {
     return res.status(400).send('HMAC validation failed')
   }
 
-  const scopes = 'write_orders, write_products, read_themes, write_themes, read_script_tags, write_script_tags'
+  const scopes = 'read_customers, write_customers, read_checkouts, write_checkouts, write_orders, write_products, read_themes, write_themes, read_script_tags, write_script_tags'
   const state = nonce()
   const redirectUri = config.domain + '/api/shopify/callback'
   const installUrl = 'https://' + shop +
@@ -213,7 +213,11 @@ exports.testRoute = (req, res) => {
         shopUrl: shopifyIntegration.shopUrl,
         shopToken: shopifyIntegration.shopToken
       })
-      return shopify.checkOrderStatus('1037')
+      return shopify.completeCheckout('sania', 'siddiqui', 'sania@cloudkibo.com')
+      // return shopify.addOrUpdateProductToCart(1264935993407, [{
+      // variant_id: 32734085808191,
+      // quantity: 1
+      // }])
     })
     .then(shop => {
       sendSuccessResponse(res, 200, shop)
