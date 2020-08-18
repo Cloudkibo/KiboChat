@@ -1,4 +1,20 @@
 const dedent = require('dedent-js')
+const {
+  DYNAMIC,
+  STATIC,
+  PRODUCT_CATEGORIES,
+  FETCH_PRODUCTS,
+  PRODUCT_VARIANTS,
+  DISCOVER_PRODUCTS,
+  ORDER_STATUS,
+  SELECT_PRODUCT,
+  ADD_TO_CART,
+  PROCEED_TO_CHECKOUT,
+  SHOW_MY_CART,
+  RETURN_PRODUCT
+} = require('./constants')
+const logger = require('../../../components/logger')
+const TAG = 'api/v1.1/whatsAppChatbot/whatsAppChatbot.logiclayer.js'
 
 exports.validateWhatsAppChatbotPayload = (payload) => {
   let bool = true
@@ -23,14 +39,12 @@ exports.validateWhatsAppChatbotPayload = (payload) => {
   return bool
 }
 
-exports.getMessageBlocks = (chatbotId, userId, companyId) => {
+exports.getMessageBlocks = (chatbotId, userId, companyId, botLinks) => {
   const messageBlocks = []
   const mainMenuId = '' + new Date().getTime()
-  const allCategoriesId = '' + (new Date().getTime() + 100)
-  const discoverId = '' + (new Date().getTime() + 200)
-  const orderStatusId = '' + (new Date().getTime() + 300)
-  const returnItemId = '' + (new Date().getTime() + 400)
-  const faqsId = '' + (new Date().getTime() + 500)
+  const orderStatusId = '' + new Date().getTime() + 100
+  const returnProductId = '' + new Date().getTime() + 200
+  const faqsId = '' + new Date().getTime() + 300
 
   messageBlocks.push({
     module: {
@@ -45,72 +59,293 @@ exports.getMessageBlocks = (chatbotId, userId, companyId) => {
                 0. All Categories
                 1. Discover
                 2. Check order status
-                3. Return an item
-                4. FAQs`),
+                3. Return an item`),
         componentType: 'text',
         menu: [
-          allCategoriesId, // block message id for all categories block
-          discoverId,
-          orderStatusId,
-          returnItemId,
-          faqsId
+          { type: DYNAMIC, action: PRODUCT_CATEGORIES },
+          { type: DYNAMIC, action: DISCOVER_PRODUCTS },
+          { type: STATIC, blockId: orderStatusId },
+          { type: STATIC, blockId: returnProductId },
+          { type: STATIC, blockId: faqsId }
         ]
       }
     ],
     userId,
     companyId
   })
-
-  createAllCategoriesBlock(chatbotId, userId, companyId, allCategoriesId, mainMenuId, mainMenuId, messageBlocks)
-
+  getOrderIdBlock(chatbotId, orderStatusId, userId, companyId, messageBlocks)
+  getReturnProductIdBlock(chatbotId, returnProductId, userId, companyId, messageBlocks)
+  if (botLinks && botLinks.faqs) {
+    messageBlocks[0].payload[0].text = '\n4. FAQs'
+    messageBlocks[0].payload[0].menu.push({ type: STATIC, blockId: faqsId })
+    getFaqsBlock(chatbotId, faqsId, userId, companyId, messageBlocks, mainMenuId, botLinks.faqs)
+  }
   return messageBlocks
 }
 
-function createAllCategoriesBlock (chatbotId, userId, companyId, blockId, homeId, backId, messageBlocks) {
-  const mobileTabletsId = '' + new Date().getTime()
-  const computerLaptopsId = '' + (new Date().getTime() + 100)
-  const fashionId = '' + (new Date().getTime() + 200)
-  const camerasAccessoriesId = '' + (new Date().getTime() + 300)
-  const tvVideoId = '' + (new Date().getTime() + 400)
-  const homeAppliancesId = '' + (new Date().getTime() + 500)
-  const musicInstrumentsId = '' + (new Date().getTime() + 600)
-  const showMyCartId = '' + (new Date().getTime() + 700)
+const getReturnProductIdBlock = (chatbotId, blockId, userId, companyId, messageBlocks, backId, faqsLink) => {
   messageBlocks.push({
     module: {
       id: chatbotId,
       type: 'whatsapp_chatbot'
     },
-    title: 'All Categories',
+    title: 'Get Return Product ID',
     uniqueId: blockId,
     payload: [
       {
-        text: dedent(`Please select an option by sending the corresponding number for it (e.g send “1” to select Computers & Laptops):\n
-                0. Mobiles & Tablets
-                1. Computers & Laptops
-                2. Fashion
-                3. Cameras & Accessories
-                4. TV and Video
-                5. Home Appliances
-                6. Musical Instruments
-                7. Show my cart,
-                8. Back
-                9. Home`),
+        text: `Please enter your product id`,
         componentType: 'text',
         menu: [
-          mobileTabletsId,
-          computerLaptopsId,
-          fashionId,
-          camerasAccessoriesId,
-          tvVideoId,
-          homeAppliancesId,
-          musicInstrumentsId,
-          showMyCartId,
-          backId,
-          homeId
+          { type: DYNAMIC, action: RETURN_PRODUCT, input: true }
         ]
       }
     ],
     userId,
     companyId
   })
+}
+
+const getFaqsBlock = (chatbotId, blockId, userId, companyId, messageBlocks, backId, faqsLink) => {
+  messageBlocks.push({
+    module: {
+      id: chatbotId,
+      type: 'whatsapp_chatbot'
+    },
+    title: 'FAQs',
+    uniqueId: blockId,
+    payload: [
+      {
+        text: dedent(`View our FAQs here: ${faqsLink}
+                Please send "0" to go back`),
+        componentType: 'text',
+        menu: [
+          { type: STATIC, blockId: backId }
+        ]
+      }
+    ],
+    userId,
+    companyId
+  })
+}
+
+const getOrderIdBlock = (chatbotId, blockId, userId, companyId, messageBlocks) => {
+  messageBlocks.push({
+    module: {
+      id: chatbotId,
+      type: 'whatsapp_chatbot'
+    },
+    title: 'Get Order ID',
+    uniqueId: blockId,
+    payload: [
+      {
+        text: `Please enter your order ID`,
+        componentType: 'text',
+        action: { type: DYNAMIC, action: ORDER_STATUS, input: true }
+      }
+    ],
+    userId,
+    companyId
+  })
+}
+
+exports.getOrderStatusBlock = async (chatbotId, userId, companyId, backId, homeId, EcommerceProvider, orderId) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbotId,
+        type: 'whatsapp_chatbot'
+      },
+      title: 'Order Status',
+      uniqueId: new Date().getTime(),
+      payload: [
+        {
+          text: `Here is your order status:`,
+          componentType: 'text',
+          menu: []
+        }
+      ],
+      userId,
+      companyId
+    }
+    let order = await EcommerceProvider.checkOrderStatus(orderId)
+    let orderStatus = order.payload
+    messageBlock.payload.text += `\nPayment: ${orderStatus.financial_status}`
+    if (orderStatus.fulfillment_status) {
+      messageBlock.payload.text += `, Delivery: ${orderStatus.fulfillment_status}`
+    }
+    messageBlock.payload.text += `Get full order status here: ${orderStatus.order_status_url}`
+
+    messageBlock.payload.text += '\nPlease select an option by sending the corresponding number for it:'
+    messageBlock.payload.text += `\n0. Go Back`
+    messageBlock.payload.menu.push({
+      action: { type: STATIC, blockId: backId }
+    })
+    messageBlock.payload.text += `\n1. Go Home`
+    messageBlock.payload.menu.push({
+      action: { type: STATIC, blockId: homeId }
+    })
+    return messageBlock
+  } catch (err) {
+    logger.serverLog(TAG, `Unable to get order status ${err}`, 'error')
+    throw new Error('Unable to get order status')
+  }
+}
+
+exports.getProductCategoriesBlock = async (chatbotId, userId, companyId, backId, EcommerceProvider) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbotId,
+        type: 'whatsapp_chatbot'
+      },
+      title: 'Product Categories',
+      uniqueId: new Date().getTime(),
+      payload: [
+        {
+          text: `Please select a category by sending the corresponding number for it:`,
+          componentType: 'text',
+          menu: []
+        }
+      ],
+      userId,
+      companyId
+    }
+    let productCategories = await EcommerceProvider.getProductCategoriesBlock()
+    for (let i = 0; i < productCategories.payload.length; i++) {
+      let category = productCategories.payload[i]
+      messageBlock.payload.text += `\n${i}. ${category.name}`
+      messageBlock.payload.menu.push({
+        action: { type: DYNAMIC, action: FETCH_PRODUCTS, argument: category.id }
+      })
+    }
+    messageBlock.payload.text += `\n${productCategories.payload.length}. Go Back`
+    messageBlock.payload.menu.push({
+      action: { type: STATIC, blockId: backId }
+    })
+    return messageBlock
+  } catch (err) {
+    logger.serverLog(TAG, `Unable to get product categories ${err}`, 'error')
+    throw new Error('Unable to get product categories')
+  }
+}
+
+exports.getProductsInCategoryBlock = async (chatbotId, userId, companyId, backId, homeId, EcommerceProvider, categoryId) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbotId,
+        type: 'whatsapp_chatbot'
+      },
+      title: 'Products in Category',
+      uniqueId: new Date().getTime(),
+      payload: [
+        {
+          text: `Please select a product by sending the corresponding number for it:`,
+          componentType: 'text',
+          menu: []
+        }
+      ],
+      userId,
+      companyId
+    }
+    let products = await EcommerceProvider.fetchProductsInThisCategory(categoryId)
+    for (let i = 0; i < products.payload.length; i++) {
+      let product = products.payload[i]
+      messageBlock.payload.text += `\n${i}. ${product.name} from ${product.vendor}`
+      messageBlock.payload.menu.push({
+        action: { type: DYNAMIC, action: PRODUCT_VARIANTS, argument: product.id }
+      })
+    }
+    messageBlock.payload.text += `\n${products.payload.length}. Go Back`
+    messageBlock.payload.menu.push({
+      action: { type: STATIC, blockId: backId }
+    })
+    messageBlock.payload.text += `\n${products.payload.length + 1}. Go Home`
+    messageBlock.payload.menu.push({
+      action: { type: STATIC, blockId: homeId }
+    })
+    return messageBlock
+  } catch (err) {
+    logger.serverLog(TAG, `Unable to get products in category ${err}`, 'error')
+    throw new Error('Unable to get products in this category')
+  }
+}
+
+exports.getProductVariantsBlock = async (chatbotId, userId, companyId, backId, homeId, EcommerceProvider, productId) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbotId,
+        type: 'whatsapp_chatbot'
+      },
+      title: 'Product Variants',
+      uniqueId: new Date().getTime(),
+      payload: [
+        {
+          text: `Please select a product variant by sending the corresponding number for it:`,
+          componentType: 'text',
+          menu: []
+        }
+      ],
+      userId,
+      companyId
+    }
+    let productVariants = await EcommerceProvider.getVariantsOfSelectedProduct(productId)
+    for (let i = 0; i < productVariants.payload.length; i++) {
+      let product = productVariants.payload[i]
+      messageBlock.payload.text += `\n${i}. Variant: ${product.name}, Price: ${product.price}`
+      messageBlock.payload.menu.push({
+        action: { type: DYNAMIC, action: SELECT_PRODUCT, argument: product.id }
+      })
+    }
+    messageBlock.payload.text += `\n${productVariants.payload.length}. Go Back`
+    messageBlock.payload.menu.push({
+      action: { type: STATIC, blockId: backId }
+    })
+    messageBlock.payload.text += `\n${productVariants.payload.length + 1}. Go Home`
+    messageBlock.payload.menu.push({
+      action: { type: STATIC, blockId: homeId }
+    })
+    return messageBlock
+  } catch (err) {
+    logger.serverLog(TAG, `Unable to get product variants ${err}`, 'error')
+    throw new Error('Unable to get product variants')
+  }
+}
+
+exports.getSelectProductBlock = async (chatbotId, userId, companyId, backId, homeId, productId) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbotId,
+        type: 'whatsapp_chatbot'
+      },
+      title: 'Select Product',
+      uniqueId: new Date().getTime(),
+      payload: [
+        {
+          text: `Please select an option by sending the corresponding number for it:
+                  0. Add to Cart
+                  1. Proceed to Checkout
+                  2. Show my Cart
+                  3. Go Back
+                  4. Go Home`,
+          componentType: 'text',
+          menu: [
+            { type: DYNAMIC, action: ADD_TO_CART, argument: productId },
+            { type: DYNAMIC, action: PROCEED_TO_CHECKOUT, argument: productId },
+            { type: DYNAMIC, action: SHOW_MY_CART },
+            { type: STATIC, blockId: backId },
+            { type: STATIC, blockId: homeId }
+          ]
+        }
+      ],
+      userId,
+      companyId
+    }
+    return messageBlock
+  } catch (err) {
+    logger.serverLog(TAG, `Unable to select product ${err}`, 'error')
+    throw new Error('Unable to select product')
+  }
 }
