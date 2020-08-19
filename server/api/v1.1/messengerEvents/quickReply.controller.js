@@ -21,8 +21,10 @@ exports.index = function (req, res) {
     })
     .then(page => {
       page = page[0]
-      if (quickRepyPayload.action === '_chatbot') {
-        chatbotAutomation.handleChatBotNextMessage(messengerPayload, page, subscriber, quickRepyPayload.blockUniqueId)
+      for (let i = 0; i < quickRepyPayload.length; i++) {
+        if (quickRepyPayload[i].action === '_chatbot') {
+          chatbotAutomation.handleChatBotNextMessage(messengerPayload, page, subscriber, quickRepyPayload[i].blockUniqueId)
+        }
       }
       saveLiveChat(page, subscriber, messengerPayload)
     })

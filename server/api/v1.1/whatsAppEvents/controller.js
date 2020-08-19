@@ -57,7 +57,6 @@ exports.messageReceived = function (req, res) {
                           }
                         }
                       }
-
                       if (contact && contact.isSubscribed) {
                         storeChat(number, company.whatsApp.businessNumber, contact, data.messageData)
                       }
