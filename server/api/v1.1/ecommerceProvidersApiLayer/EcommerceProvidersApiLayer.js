@@ -86,4 +86,40 @@ module.exports = class EcommerceProvidersApiLayer {
       return shopifyProvider.getOrderStatus(id, this.eCommerceProviderCredentials)
     }
   }
+
+  fetchCustomerUsingId (id) {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.getCustomerUsingId(id, this.eCommerceProviderCredentials)
+    }
+  }
+
+  searchCustomerUsingPhone (phone) {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.searchCustomerUsingPhone(phone, this.eCommerceProviderCredentials)
+    }
+  }
+
+  searchCustomerUsingEmail (phone) {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.searchCustomerUsingEmail(phone, this.eCommerceProviderCredentials)
+    }
+  }
+
+  createCustomer (firstName, lastName, email) {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.createCustomer(firstName, lastName, email, this.eCommerceProviderCredentials)
+    }
+  }
+
+  addOrUpdateProductToCart (customerId, lineItems, cartToken) {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.addOrUpdateProductToCart(customerId, lineItems, cartToken, this.eCommerceProviderCredentials)
+    }
+  }
+
+  completeCheckout (cartToken) {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.completeCheckout(cartToken, this.eCommerceProviderCredentials)
+    }
+  }
 }
