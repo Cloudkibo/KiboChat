@@ -44,7 +44,7 @@ exports.messageReceived = function (req, res) {
                               shopUrl: shopifyIntegration.shopUrl,
                               shopToken: shopifyIntegration.shopToken
                             })
-                            let nextMessageBlock = await whatsAppChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact ? contact.lastMessageSentByBot : null, data.messageData.text)
+                            let nextMessageBlock = await whatsAppChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text)
                             let chatbotResponse = {
                               whatsApp: {
                                 accessToken: data.accessToken
