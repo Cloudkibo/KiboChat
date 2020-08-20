@@ -582,7 +582,7 @@ const getRemoveFromCartBlock = async (chatbot, backId, EcommerceProvider, shoppi
       companyId: chatbot.companyId
     }
     shoppingCart.splice(productIndex, 1)
-    await EcommerceProvider.addProductToCart(shoppingCart)
+    await EcommerceProvider.removeItemFromCart(shoppingCart)
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to remove item from cart ${err}`, 'error')
