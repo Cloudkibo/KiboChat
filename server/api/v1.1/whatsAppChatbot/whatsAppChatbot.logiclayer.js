@@ -41,13 +41,14 @@ exports.validateWhatsAppChatbotPayload = (payload) => {
 }
 
 function convertToEmoji (num) {
-  if (isNaN(parseInt(num))) {
+  if (isNaN(num)) {
     throw new Error('invalid number')
   } else {
+    let stringNum = num + ''
     const numbers = ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣']
     let emoji = ''
-    for (let i = 0; i < num.length; i++) {
-      emoji += numbers[parseInt(num.charAt(i))]
+    for (let i = 0; i < stringNum.length; i++) {
+      emoji += numbers[parseInt(stringNum.charAt(i))]
     }
     return emoji
   }
