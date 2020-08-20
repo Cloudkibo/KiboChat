@@ -14,8 +14,8 @@ const {
   RETURN_ORDER
 } = require('./constants')
 const logger = require('../../../components/logger')
-const TAG = 'api/v1.1/whatsAppChatbot/whatsAppChatbot.logiclayer.js'
-const messageBlockDataLayer = require('../../v1.1/messageBlock/messageBlock.datalayer')
+const TAG = 'api/v1️.1/whatsAppChatbot/whatsAppChatbot.logiclayer.js'
+const messageBlockDataLayer = require('../../v1️.1/messageBlock/messageBlock.datalayer')
 
 exports.validateWhatsAppChatbotPayload = (payload) => {
   let bool = true
@@ -40,6 +40,19 @@ exports.validateWhatsAppChatbotPayload = (payload) => {
   return bool
 }
 
+function convertToEmoji (num) {
+  if (isNaN(parseInt(num))) {
+    throw new Error('invalid number')
+  } else {
+    const numbers = ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣']
+    let emoji = ''
+    for (let i = 0; i < num.length; i++) {
+      emoji += numbers[parseInt(num.charAt(i))]
+    }
+    return emoji
+  }
+}
+
 exports.getMessageBlocks = (chatbot) => {
   const messageBlocks = []
   const mainMenuId = '' + new Date().getTime() + 100
@@ -57,10 +70,10 @@ exports.getMessageBlocks = (chatbot) => {
     payload: [
       {
         text: dedent(`Please select an option by sending the corresponding number for it (e.g send “1” to select Discover):
-                0. All Categories
-                1. Discover
-                2. Check order status
-                3. Return an item`),
+                ${convertToEmoji(0)} All Categories
+                ${convertToEmoji(1)} Discover
+                ${convertToEmoji(2)} Check order status
+                ${convertToEmoji(3)} Return an item`),
         componentType: 'text',
         menu: [
           { type: DYNAMIC, action: PRODUCT_CATEGORIES },
@@ -77,7 +90,7 @@ exports.getMessageBlocks = (chatbot) => {
   getOrderIdBlock(chatbot, orderStatusId, messageBlocks)
   getReturnOrderIdBlock(chatbot, returnOrderId, messageBlocks)
   if (chatbot.botLinks && chatbot.botLinks.faqs) {
-    messageBlocks[0].payload[0].text = '\n4. FAQs'
+    messageBlocks[0].payload[0].text = `\n${convertToEmoji(4)} FAQs`
     messageBlocks[0].payload[0].menu.push({ type: STATIC, blockId: faqsId })
     getFaqsBlock(chatbot, faqsId, messageBlocks, mainMenuId)
   }
@@ -106,16 +119,16 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider) => {
     let products = await EcommerceProvider.discoverProducts()
     for (let i = 0; i < products.length; i++) {
       let product = products[i]
-      messageBlock.payload[0].text += `\n${i}. ${product.name}`
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)}. ${product.name}`
       messageBlock.payload[0].menu.push({
         type: DYNAMIC, action: PRODUCT_VARIANTS, argument: product
       })
     }
-    messageBlock.payload[0].text += `\n${products.length}. Go Back`
+    messageBlock.payload[0].text += `\n${convertToEmoji(products.length)}. Go Back`
     messageBlock.payload[0].menu.push({
       type: STATIC, blockId: backId
     })
-    messageBlock.payload[0].text += `\n${products.length + 1}. Go Home`
+    messageBlock.payload[0].text += `\n${convertToEmoji(products.length + 1)}. Go Home`
     messageBlock.payload[0].menu.push({
       type: STATIC, blockId: chatbot.startingBlockId
     })
@@ -159,8 +172,8 @@ const getReturnOrderBlock = async (chatbot, backId, EcommerceProvider, orderId) 
         {
           text: dedent(`Your return request has been made.
             Please select an option by sending the corresponding number for it:
-            0. Go Back
-            1. Go Home`),
+            ${convertToEmoji(0)} Go Back
+            ${convertToEmoji(1)} Go Home`),
           componentType: 'text',
           menu: [
             { type: STATIC, blockId: backId },
@@ -250,11 +263,11 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     messageBlock.payload[0].text += `Get full order status here: ${orderStatus.order_status_url}`
 
     messageBlock.payload[0].text += '\nPlease select an option by sending the corresponding number for it:'
-    messageBlock.payload[0].text += `\n0. Go Back`
+    messageBlock.payload[0].text += `\n${convertToEmoji(0)} Go Back`
     messageBlock.payload[0].menu.push({
       type: STATIC, blockId: backId
     })
-    messageBlock.payload[0].text += `\n1. Go Home`
+    messageBlock.payload[0].text += `\n${convertToEmoji(1)} Go Home`
     messageBlock.payload[0].menu.push({
       type: STATIC, blockId: chatbot.startingBlockId
     })
@@ -287,12 +300,12 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider) => 
     let productCategories = await EcommerceProvider.fetchAllProductCategories()
     for (let i = 0; i < productCategories.length; i++) {
       let category = productCategories[i]
-      messageBlock.payload[0].text += `\n${i}. ${category.name}`
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)}. ${category.name}`
       messageBlock.payload[0].menu.push({
         type: DYNAMIC, action: FETCH_PRODUCTS, argument: category.id
       })
     }
-    messageBlock.payload[0].text += `\n${productCategories.length}. Go Back`
+    messageBlock.payload[0].text += `\n${convertToEmoji(productCategories.length)}. Go Back`
     messageBlock.payload[0].menu.push({
       type: STATIC, blockId: backId
     })
@@ -328,16 +341,16 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ca
     console.log('products', products)
     for (let i = 0; i < products.length; i++) {
       let product = products[i]
-      messageBlock.payload[0].text += `\n${i}. ${product.name}`
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)}. ${product.name}`
       messageBlock.payload[0].menu.push({
         type: DYNAMIC, action: PRODUCT_VARIANTS, argument: product
       })
     }
-    messageBlock.payload[0].text += `\n${products.length}. Go Back`
+    messageBlock.payload[0].text += `\n${convertToEmoji(products.length)}. Go Back`
     messageBlock.payload[0].menu.push({
       type: STATIC, blockId: backId
     })
-    messageBlock.payload[0].text += `\n${products.length + 1}. Go Home`
+    messageBlock.payload[0].text += `\n${convertToEmoji(products.length + 1)}. Go Home`
     messageBlock.payload[0].menu.push({
       type: STATIC, blockId: chatbot.startingBlockId
     })
@@ -374,16 +387,16 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
     console.log('productVariants', productVariants)
     for (let i = 0; i < productVariants.length; i++) {
       let productVariant = productVariants[i]
-      messageBlock.payload[0].text += `\n${i}. Variant: ${product.name}, Price: ${product.price}`
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)}. Variant: ${product.name}, Price: ${product.price}`
       messageBlock.payload[0].menu.push({
         type: DYNAMIC, action: SELECT_PRODUCT, argument: { variant_id: productVariant.id, product: `${productVariant.name} ${product.name}` }
       })
     }
-    messageBlock.payload[0].text += `\n${productVariants.length}. Go Back`
+    messageBlock.payload[0].text += `\n${convertToEmoji(productVariants.length)}. Go Back`
     messageBlock.payload[0].menu.push({
       type: STATIC, blockId: backId
     })
-    messageBlock.payload[0].text += `\n${productVariants.length + 1}. Go Home`
+    messageBlock.payload[0].text += `\n${convertToEmoji(productVariants.length + 1)}. Go Home`
     messageBlock.payload[0].menu.push({
       type: STATIC, blockId: chatbot.startingBlockId
     })
@@ -406,12 +419,12 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Please select an option by sending the corresponding number for it:
-                  0. Add to Cart
-                  1. Proceed to Checkout
-                  2. Show my Cart
-                  3. Go Back
-                  4. Go Home`,
+          text: dedent(`Please select an option by sending the corresponding number for it:
+                  ${convertToEmoji(0)} Add to Cart
+                  ${convertToEmoji(1)} Proceed to Checkout
+                  ${convertToEmoji(2)} Show my Cart
+                  ${convertToEmoji(3)} Go Back
+                  ${convertToEmoji(4)} Go Home`),
           componentType: 'text',
           menu: [
             { type: DYNAMIC, action: ADD_TO_CART, argument: product },
@@ -445,8 +458,8 @@ const getAddToCartBlock = async (chatbot, backId, EcommerceProvider, shoppingCar
         {
           text: dedent(`${product.product} has been succesfully added to your cart.
                 Please select an option by sending the corresponding number for it:
-                0. Go Back
-                1. Go Home`),
+                ${convertToEmoji(0)} Go Back
+                ${convertToEmoji(1)} Go Home`),
           componentType: 'text',
           menu: [
             { type: STATIC, blockId: backId },
@@ -502,8 +515,8 @@ const getShowMyCartBlock = async (chatbot, backId, shoppingCart) => {
       messageBlock.payload[0].text += `\n - ${product.product}`
     }
     messageBlock.payload[0].text += dedent(`\nPlease select an option by sending the corresponding number for it:
-                                        0. Go Back
-                                        1. Go Home`)
+                                        ${convertToEmoji(0)} Go Back
+                                        ${convertToEmoji(1)} Go Home`)
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to show cart ${err}`, 'error')
@@ -538,8 +551,8 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, shoppingCart
     messageBlock.payload[0].text += `${checkoutLink}`
 
     messageBlock.payload[0].text += dedent(`\nPlease select an option by sending the corresponding number for it:
-                                        0. Go Back
-                                        1. Go Home`)
+                                        ${convertToEmoji(0)} Go Back
+                                        ${convertToEmoji(1)} Go Home`)
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to show cart ${err}`, 'error')
@@ -559,8 +572,8 @@ const getErrorMessageBlock = (chatbot, backId, error) => {
       {
         text: dedent(`${error} 
                 Please select an option by sending the corresponding number for it:
-                0. Go Back
-                1. Go Home`),
+                ${convertToEmoji(0)} Go Back
+                ${convertToEmoji(1)} Go Home`),
         componentType: 'text',
         menu: [
           { type: STATIC, blockId: backId },
