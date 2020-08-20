@@ -587,14 +587,14 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
     let action = null
     let shoppingCart = contact.shoppingCart
     try {
-      if (messageBlock.payload[0].menu) {
+      if (contact.lastMessageSentByBot.payload[0].menu) {
         let menuInput = parseInt(input)
-        if (isNaN(menuInput) || menuInput >= messageBlock.payload[0].menu.length) {
+        if (isNaN(menuInput) || menuInput >= contact.lastMessageSentByBot.payload[0].menu.length) {
           throw new Error('Invalid User Input')
         }
-        action = messageBlock.payload[0].menu[menuInput]
+        action = contact.lastMessageSentByBot.payload[0].menu[menuInput]
       } else {
-        action = messageBlock.payload[0].action
+        action = contact.lastMessageSentByBot.payload[0].action
       }
       console.log('action', action)
     } catch (err) {
