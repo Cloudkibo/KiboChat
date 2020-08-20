@@ -291,8 +291,8 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider) => 
     console.log('fetching productCategories')
     let productCategories = await EcommerceProvider.fetchAllProductCategories()
     console.log('productCategories', productCategories)
-    for (let i = 0; i < productCategories.payload.length; i++) {
-      let category = productCategories.payload[i]
+    for (let i = 0; i < productCategories.length; i++) {
+      let category = productCategories[i]
       messageBlock.payload.text += `\n${i}. ${category.name}`
       messageBlock.payload.menu.push({
         action: { type: DYNAMIC, action: FETCH_PRODUCTS, argument: category.id }
@@ -302,8 +302,10 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider) => 
     messageBlock.payload.menu.push({
       action: { type: STATIC, blockId: backId }
     })
+    console.log('getProductCategoriesBlock messageBlock', messageBlock)
     return messageBlock
   } catch (err) {
+    console.log(`Unable to get product categories ${err}`)
     logger.serverLog(TAG, `Unable to get product categories ${err}`, 'error')
     throw new Error('Unable to get product categories')
   }
