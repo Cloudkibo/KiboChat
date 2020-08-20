@@ -573,7 +573,9 @@ const triggers = ['Hi', 'Hello']
 exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input) => {
   console.log('getting next message block')
   if (!contact || !contact.lastMessageSentByBot) {
+    console.log('!contact')
     if (triggers.includes(input)) {
+      console.log('trigger found')
       return messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
     }
   } else {
