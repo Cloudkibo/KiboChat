@@ -3,6 +3,12 @@ const logicLayer = require('./logiclayer')
 const logger = require('../../../components/logger')
 const TAG = '/api/v1/whatsAppEvents/controller.js'
 const whatsAppMapper = require('../../../whatsAppMapper/whatsAppMapper')
+const whatsAppChatbotDataLayer = require('../whatsAppChatbot/whatsAppChatbot.datalayer')
+const whatsAppChatbotLogicLayer = require('../whatsAppChatbot/whatsAppChatbot.logiclayer')
+const shopifyDataLayer = require('../shopify/shopify.datalayer')
+const { ActionTypes } = require('../../../whatsAppMapper/constants')
+const commerceConstants = require('./../ecommerceProvidersApiLayer/constants')
+const EcommerceProvider = require('./../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
 
 exports.messageReceived = function (req, res) {
   res.status(200).json({
@@ -22,14 +28,42 @@ exports.messageReceived = function (req, res) {
               .then(companies => {
                 companies.forEach((company) => {
                   callApi(`whatsAppContacts/query`, 'post', { number: number, companyId: company._id })
-                    .then(contact => {
+                    .then(async (contact) => {
                       contact = contact[0]
+                      console.log('contact fetched', contact)
+
+                      // whatsapp chatbot
+                      if (data.messageData.componentType === 'text') {
+                        let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot(company._id)
+                        if (chatbot) {
+                          console.log('chatbot fetched', chatbot)
+                          const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
+                          console.log('shopify integration fetched', shopifyIntegration)
+                          if (shopifyIntegration) {
+                            const ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
+                              shopUrl: shopifyIntegration.shopUrl,
+                              shopToken: shopifyIntegration.shopToken
+                            })
+                            let nextMessageBlock = await whatsAppChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text)
+                            let chatbotResponse = {
+                              whatsApp: {
+                                accessToken: data.accessToken
+                              },
+                              recipientNumber: number,
+                              payload: nextMessageBlock.payload[0]
+                            }
+                            whatsAppMapper.whatsAppMapper(req.body.provider, ActionTypes.SEND_CHAT_MESSAGE, chatbotResponse)
+                            updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
+                          }
+                        }
+                      }
+
                       if (contact && contact.isSubscribed) {
                         storeChat(number, company.whatsApp.businessNumber, contact, data.messageData)
                       }
                     })
                     .catch(error => {
-                      logger.serverLog(TAG, `Failed to fetch contact ${JSON.stringify(error)}`, 'error')
+                      logger.serverLog(TAG, `Failed to fetch contact ${error}`, 'error')
                     })
                 })
               })
