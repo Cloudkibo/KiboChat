@@ -12,12 +12,12 @@ const { sendErrorResponse, sendSuccessResponse } = require('../../global/respons
 
 exports.create = function (req, res) {
   let payload = logiclayer.preparePayload(req.user.companyId, req.user._id, req.body)
-  datalayer.genericUpdateMessageBlock({ uniqueId: req.body.uniqueId }, payload, { upsert: true })
+  datalayer.genericUpdateMessageBlock({uniqueId: req.body.uniqueId}, payload, {upsert: true})
     .then(messageBlock => {
       _sendToClientUsingSocket(messageBlock)
       updateUrlForClickCount(payload)
-      if (req.body.triggers) {
-        let updatePayload = { triggers: req.body.triggers }
+      if (req.body.updateStartingBlockId) {
+        let updatePayload = {}
         if (messageBlock.upserted) updatePayload.startingBlockId = messageBlock.upserted[0]._id
         chatbotDataLayer.genericUpdateChatBot(
           { _id: req.body.chatbotId }, updatePayload)
@@ -33,38 +33,49 @@ exports.create = function (req, res) {
 
 exports.attachment = function (req, res) {
   if (utility.isYouTubeUrl(req.body.url)) {
-    needle('post', `${config.accountsDomain}/downloadYouTubeVideo`, req.body)
-      .then(data => {
-        data = data.body
-        if (data.payload && data.payload === 'ERR_LIMIT_REACHED') {
-          let url = req.body.url
-          let options = { url }
-          ogs(options, (error, results) => {
-            if (error) {
-              return sendErrorResponse(res, 500, error, 'Failed to fetch youtube video url meta data.')
-            }
-            return sendSuccessResponse(res, 200, results.data, 'Fetched youtube video')
-          })
-        } else {
-          let payload = data.payload.fileurl
-          payload.pages = [req.body.pageId]
-          payload.deleteLater = true
-          payload.componentType = 'video'
-          needle('post', `${config.accountsDomain}/uploadTemplate`, payload)
-            .then(dataFinal => {
-              return sendSuccessResponse(res, 200, dataFinal.body.payload, 'Fetched youtube video')
+    if (req.body.isYoutubePlayable) {
+      needle('post', `${config.accountsDomain}/downloadYouTubeVideo`, req.body)
+        .then(data => {
+          data = data.body
+          if (data.payload && data.payload === 'ERR_LIMIT_REACHED') {
+            let url = req.body.url
+            let options = {url}
+            ogs(options, (error, results) => {
+              if (error) {
+                return sendErrorResponse(res, 500, error, 'Failed to fetch youtube video url meta data.')
+              }
+              return sendSuccessResponse(res, 200, results.data, 'Fetched youtube video')
             })
-            .catch(error => {
-              return sendErrorResponse(res, 500, error.body, 'Failed to upload youtube video to facebook. Check with admin.')
-            })
+          } else {
+            let payload = data.payload.fileurl
+            payload.pages = [req.body.pageId]
+            payload.deleteLater = true
+            payload.componentType = 'video'
+            needle('post', `${config.accountsDomain}/uploadTemplate`, payload)
+              .then(dataFinal => {
+                return sendSuccessResponse(res, 200, dataFinal.body.payload, 'Fetched youtube video')
+              })
+              .catch(error => {
+                return sendErrorResponse(res, 500, error.body, 'Failed to upload youtube video to facebook. Check with admin.')
+              })
+          }
+        })
+        .catch(error => {
+          return sendErrorResponse(res, 500, error.body, 'Failed to work on the attachment. Please contact admin.')
+        })
+    } else {
+      let url = req.body.url
+      let options = {url}
+      ogs(options, (error, results) => {
+        if (error) {
+          return sendErrorResponse(res, 500, error, 'Failed to fetch youtube video url meta data.')
         }
+        return sendSuccessResponse(res, 200, results.data, 'Fetched youtube video')
       })
-      .catch(error => {
-        return sendErrorResponse(res, 500, error.body, 'Failed to work on the attachment. Please contact admin.')
-      })
+    }
   } else if (utility.isFacebookVideoUrl(req.body.url.split('?')[0])) {
     let url = req.body.url.split('?')[0]
-    let options = { url }
+    let options = {url}
     ogs(options, (error, results) => {
       if (error) {
         return sendErrorResponse(res, 500, error, 'Error in fetching meta data of website. Please check if open graph is supported.')
@@ -81,7 +92,7 @@ exports.attachment = function (req, res) {
     })
   } else {
     let url = req.body.url
-    let options = { url }
+    let options = {url}
     ogs(options, (error, results) => {
       if (error) {
         return sendErrorResponse(res, 500, error, 'Error in fetching meta data of website. Please check if open graph is supported.')
@@ -104,7 +115,7 @@ function _sendToClientUsingSocket (body) {
 }
 
 exports.delete = function (req, res) {
-  datalayer.deleteForMessageBlock({ _id: req.params.id })
+  datalayer.deleteForMessageBlock({ _id: {$in: req.body.ids} })
     .then(messageBlock => {
       return res.status(201).json({ status: 'success', payload: messageBlock })
     })
@@ -114,7 +125,7 @@ exports.delete = function (req, res) {
 }
 
 exports.scriptChatbotBlocks = function (req, res) {
-  datalayer.findAllMessageBlock({ 'module.type': 'chatbot' })
+  datalayer.findAllMessageBlock({'module.type': 'chatbot'})
     .then(messageBlocks => {
       for (let i = 0; i < messageBlocks.length; i++) {
         updateUrlForClickCount(messageBlocks[i])
@@ -141,7 +152,7 @@ function updateUrlForClickCount (payload) {
           urlDataLayer.createURLObject(urlPayload)
             .then(createdUrl => {
               payload.payload[1].buttons[0].urlForFacebook = `${config.domain}/api/chatbots/url/${createdUrl._id}`
-              datalayer.genericUpdateMessageBlock({ uniqueId: payload.uniqueId }, payload, { upsert: false })
+              datalayer.genericUpdateMessageBlock({uniqueId: payload.uniqueId}, payload, {upsert: false})
                 .then(updatedMessageBlock => {
                   logger.serverLog(TAG, `updated message block`, 'debug')
                 })
@@ -156,7 +167,7 @@ function updateUrlForClickCount (payload) {
           urlDataLayer.updateOneURL(foundUrl._id, { originalURL: payload.payload[1].buttons[0].url })
             .then(updatedUrl => {
               payload.payload[1].buttons[0].urlForFacebook = `${config.domain}/api/chatbots/url/${foundUrl._id}`
-              datalayer.genericUpdateMessageBlock({ uniqueId: payload.uniqueId }, payload, { upsert: false })
+              datalayer.genericUpdateMessageBlock({uniqueId: payload.uniqueId}, payload, {upsert: false})
                 .then(updatedMessageBlock => {
                   logger.serverLog(TAG, `updated message block`, 'debug')
                 })
