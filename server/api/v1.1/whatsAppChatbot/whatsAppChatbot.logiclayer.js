@@ -104,19 +104,19 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider) => {
       companyId: chatbot.companyId
     }
     let products = await EcommerceProvider.discoverProducts()
-    for (let i = 0; i < products.payload.length; i++) {
-      let product = products.payload[i]
-      messageBlock.payload.text += `\n${i}. ${product.name} from ${product.vendor}`
-      messageBlock.payload.menu.push({
+    for (let i = 0; i < products.length; i++) {
+      let product = products[i]
+      messageBlock.payload[0].text += `\n${i}. ${product.name} from ${product.vendor}`
+      messageBlock.payload[0].menu.push({
         action: { type: DYNAMIC, action: PRODUCT_VARIANTS, argument: product }
       })
     }
-    messageBlock.payload.text += `\n${products.payload.length}. Go Back`
-    messageBlock.payload.menu.push({
+    messageBlock.payload[0].text += `\n${products.length}. Go Back`
+    messageBlock.payload[0].menu.push({
       action: { type: STATIC, blockId: backId }
     })
-    messageBlock.payload.text += `\n${products.payload.length + 1}. Go Home`
-    messageBlock.payload.menu.push({
+    messageBlock.payload[0].text += `\n${products.length + 1}. Go Home`
+    messageBlock.payload[0].menu.push({
       action: { type: STATIC, blockId: chatbot.startingBlockId }
     })
     return messageBlock
@@ -244,21 +244,20 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    let order = await EcommerceProvider.checkOrderStatus(orderId)
-    let orderStatus = order.payload
-    messageBlock.payload.text += `\nPayment: ${orderStatus.financial_status}`
+    let orderStatus = await EcommerceProvider.checkOrderStatus(orderId)
+    messageBlock.payload[0].text += `\nPayment: ${orderStatus.financial_status}`
     if (orderStatus.fulfillment_status) {
-      messageBlock.payload.text += `, Delivery: ${orderStatus.fulfillment_status}`
+      messageBlock.payload[0].text += `, Delivery: ${orderStatus.fulfillment_status}`
     }
-    messageBlock.payload.text += `Get full order status here: ${orderStatus.order_status_url}`
+    messageBlock.payload[0].text += `Get full order status here: ${orderStatus.order_status_url}`
 
-    messageBlock.payload.text += '\nPlease select an option by sending the corresponding number for it:'
-    messageBlock.payload.text += `\n0. Go Back`
-    messageBlock.payload.menu.push({
+    messageBlock.payload[0].text += '\nPlease select an option by sending the corresponding number for it:'
+    messageBlock.payload[0].text += `\n0. Go Back`
+    messageBlock.payload[0].menu.push({
       action: { type: STATIC, blockId: backId }
     })
-    messageBlock.payload.text += `\n1. Go Home`
-    messageBlock.payload.menu.push({
+    messageBlock.payload[0].text += `\n1. Go Home`
+    messageBlock.payload[0].menu.push({
       action: { type: STATIC, blockId: chatbot.startingBlockId }
     })
     return messageBlock
@@ -287,16 +286,16 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider) => 
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    let productCategories = await EcommerceProvider.getProductCategoriesBlock()
-    for (let i = 0; i < productCategories.payload.length; i++) {
-      let category = productCategories.payload[i]
-      messageBlock.payload.text += `\n${i}. ${category.name}`
-      messageBlock.payload.menu.push({
+    let productCategories = await EcommerceProvider.fetchAllProductCategories()
+    for (let i = 0; i < productCategories.length; i++) {
+      let category = productCategories[i]
+      messageBlock.payload[0].text += `\n${i}. ${category.name}`
+      messageBlock.payload[0].menu.push({
         action: { type: DYNAMIC, action: FETCH_PRODUCTS, argument: category.id }
       })
     }
-    messageBlock.payload.text += `\n${productCategories.payload.length}. Go Back`
-    messageBlock.payload.menu.push({
+    messageBlock.payload[0].text += `\n${productCategories.length}. Go Back`
+    messageBlock.payload[0].menu.push({
       action: { type: STATIC, blockId: backId }
     })
     return messageBlock
@@ -326,19 +325,19 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ca
       companyId: chatbot.companyId
     }
     let products = await EcommerceProvider.fetchProductsInThisCategory(categoryId)
-    for (let i = 0; i < products.payload.length; i++) {
-      let product = products.payload[i]
-      messageBlock.payload.text += `\n${i}. ${product.name} from ${product.vendor}`
-      messageBlock.payload.menu.push({
+    for (let i = 0; i < products.length; i++) {
+      let product = products[i]
+      messageBlock.payload[0].text += `\n${i}. ${product.name} from ${product.vendor}`
+      messageBlock.payload[0].menu.push({
         action: { type: DYNAMIC, action: PRODUCT_VARIANTS, argument: product }
       })
     }
-    messageBlock.payload.text += `\n${products.payload.length}. Go Back`
-    messageBlock.payload.menu.push({
+    messageBlock.payload[0].text += `\n${products.length}. Go Back`
+    messageBlock.payload[0].menu.push({
       action: { type: STATIC, blockId: backId }
     })
-    messageBlock.payload.text += `\n${products.payload.length + 1}. Go Home`
-    messageBlock.payload.menu.push({
+    messageBlock.payload[0].text += `\n${products.length + 1}. Go Home`
+    messageBlock.payload[0].menu.push({
       action: { type: STATIC, blockId: chatbot.startingBlockId }
     })
     return messageBlock
@@ -368,19 +367,19 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
       companyId: chatbot.companyId
     }
     let productVariants = await EcommerceProvider.getVariantsOfSelectedProduct(product.id)
-    for (let i = 0; i < productVariants.payload.length; i++) {
+    for (let i = 0; i < productVariants.length; i++) {
       let productVariant = productVariants.payload[i]
-      messageBlock.payload.text += `\n${i}. Variant: ${product.name}, Price: ${product.price}`
-      messageBlock.payload.menu.push({
+      messageBlock.payload[0].text += `\n${i}. Variant: ${product.name}, Price: ${product.price}`
+      messageBlock.payload[0].menu.push({
         action: { type: DYNAMIC, action: SELECT_PRODUCT, argument: { variant_id: productVariant.id, product: `${productVariant.name} ${product.name}` } }
       })
     }
-    messageBlock.payload.text += `\n${productVariants.payload.length}. Go Back`
-    messageBlock.payload.menu.push({
+    messageBlock.payload[0].text += `\n${productVariants.length}. Go Back`
+    messageBlock.payload[0].menu.push({
       action: { type: STATIC, blockId: backId }
     })
-    messageBlock.payload.text += `\n${productVariants.payload.length + 1}. Go Home`
-    messageBlock.payload.menu.push({
+    messageBlock.payload[0].text += `\n${productVariants.length + 1}. Go Home`
+    messageBlock.payload[0].menu.push({
       action: { type: STATIC, blockId: chatbot.startingBlockId }
     })
     return messageBlock
@@ -494,9 +493,9 @@ const getShowMyCartBlock = async (chatbot, backId, shoppingCart) => {
     }
 
     for (let product of shoppingCart) {
-      messageBlock.payload.text += `\n - ${product.product}`
+      messageBlock.payload[0].text += `\n - ${product.product}`
     }
-    messageBlock.payload.text += dedent(`\nPlease select an option by sending the corresponding number for it:
+    messageBlock.payload[0].text += dedent(`\nPlease select an option by sending the corresponding number for it:
                                         0. Go Back
                                         1. Go Home`)
     return messageBlock
@@ -530,9 +529,9 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, shoppingCart
     }
     let checkoutLink = await EcommerceProvider.getCheckoutLink(shoppingCart)
 
-    messageBlock.payload.text += `${checkoutLink}`
+    messageBlock.payload[0].text += `${checkoutLink}`
 
-    messageBlock.payload.text += dedent(`\nPlease select an option by sending the corresponding number for it:
+    messageBlock.payload[0].text += dedent(`\nPlease select an option by sending the corresponding number for it:
                                         0. Go Back
                                         1. Go Home`)
     return messageBlock
@@ -571,7 +570,6 @@ const getErrorMessageBlock = (chatbot, backId, error) => {
 const triggers = ['Hi', 'Hello']
 
 exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input) => {
-  console.log('getting next message block')
   if (!contact || !contact.lastMessageSentByBot) {
     if (triggers.includes(input)) {
       return messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
@@ -588,7 +586,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
         action = messageBlock.payload[0].action
       }
     } catch (err) {
-      logger.serverLog(TAG, `Invalid user input ${err}`, 'debug')
+      logger.serverLog(TAG, `Invalid user input ${err}`, 'error')
       if (triggers.includes(input)) {
         return messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
       }
@@ -597,41 +595,41 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
       try {
         switch (action.action) {
           case PRODUCT_CATEGORIES: {
-            return getProductCategoriesBlock(chatbot, messageBlock.uniqueId, EcommerceProvider)
+            return await getProductCategoriesBlock(chatbot, messageBlock.uniqueId, EcommerceProvider)
           }
           case FETCH_PRODUCTS: {
-            return getProductsInCategoryBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
+            return await getProductsInCategoryBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
           }
           case PRODUCT_VARIANTS: {
-            return getProductVariantsBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
+            return await getProductVariantsBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
           }
           case DISCOVER_PRODUCTS: {
-            return getDiscoverProductsBlock(chatbot, messageBlock.uniqueId, EcommerceProvider)
+            return await getDiscoverProductsBlock(chatbot, messageBlock.uniqueId, EcommerceProvider)
           }
           case ORDER_STATUS: {
-            return getOrderStatusBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
+            return await getOrderStatusBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
           }
           case SELECT_PRODUCT: {
-            return getSelectProductBlock(chatbot, messageBlock.uniqueId, action.input ? input : action.argument)
+            return await getSelectProductBlock(chatbot, messageBlock.uniqueId, action.input ? input : action.argument)
           }
           case ADD_TO_CART: {
-            return getAddToCartBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, shoppingCart, action.input ? input : action.argument)
+            return await getAddToCartBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, shoppingCart, action.input ? input : action.argument)
           }
           case SHOW_MY_CART: {
-            return getShowMyCartBlock(chatbot, messageBlock.uniqueId, shoppingCart)
+            return await getShowMyCartBlock(chatbot, messageBlock.uniqueId, shoppingCart)
           }
           case PROCEED_TO_CHECKOUT: {
-            return getCheckoutBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, shoppingCart)
+            return await getCheckoutBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, shoppingCart)
           }
           case RETURN_ORDER: {
-            return getReturnOrderBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
+            return await getReturnOrderBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
           }
         }
       } catch (err) {
         return getErrorMessageBlock(chatbot, messageBlock.uniqueId, err.message)
       }
     } else if (action.type === STATIC) {
-      return messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
+      return messageBlockDataLayer.findOneMessageBlock({ uniqueId: action.blockId })
     }
   }
 }
