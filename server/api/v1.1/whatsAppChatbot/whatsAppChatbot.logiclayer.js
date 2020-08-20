@@ -584,7 +584,9 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
     try {
       if (messageBlock.payload[0].menu) {
         let menuInput = parseInt(input)
-        console.log('menuInput', menuInput)
+        if (isNaN(menuInput) || menuInput >= messageBlock.payload[0].menu.length) {
+          throw new Error('Invalid User Input')
+        }
         action = messageBlock.payload[0].menu[menuInput]
       } else {
         action = messageBlock.payload[0].action
@@ -592,7 +594,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
       console.log('action', action)
     } catch (err) {
       console.log('Invalid user input', input)
-      logger.serverLog(TAG, `Invalid user input ${err}`, 'error')
+      logger.serverLog(TAG, `Invalid user input ${input}`, 'error')
       if (triggers.includes(input)) {
         return messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
       } else {
