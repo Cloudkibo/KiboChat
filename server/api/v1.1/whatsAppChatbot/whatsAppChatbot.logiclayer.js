@@ -14,8 +14,8 @@ const {
   RETURN_ORDER
 } = require('./constants')
 const logger = require('../../../components/logger')
-const TAG = 'api/v1.1/whatsAppChatbot/whatsAppChatbot.logiclayer.js'
-const messageBlockDataLayer = require('../../v1.1/messageBlock/messageBlock.datalayer')
+const TAG = 'api/v1️.1/whatsAppChatbot/whatsAppChatbot.logiclayer.js'
+const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 
 exports.validateWhatsAppChatbotPayload = (payload) => {
   let bool = true
@@ -40,9 +40,23 @@ exports.validateWhatsAppChatbotPayload = (payload) => {
   return bool
 }
 
+function convertToEmoji (num) {
+  if (isNaN(num)) {
+    throw new Error('invalid number')
+  } else {
+    let stringNum = num + ''
+    const numbers = ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣']
+    let emoji = ''
+    for (let i = 0; i < stringNum.length; i++) {
+      emoji += numbers[parseInt(stringNum.charAt(i))]
+    }
+    return emoji
+  }
+}
+
 exports.getMessageBlocks = (chatbot) => {
   const messageBlocks = []
-  const mainMenuId = '' + new Date().getTime() + 100
+  const mainMenuId = '' + new Date().getTime()
   const orderStatusId = '' + new Date().getTime() + 100
   const returnOrderId = '' + new Date().getTime() + 200
   const faqsId = '' + new Date().getTime() + 300
@@ -57,10 +71,10 @@ exports.getMessageBlocks = (chatbot) => {
     payload: [
       {
         text: dedent(`Please select an option by sending the corresponding number for it (e.g send “1” to select Discover):
-                0. All Categories
-                1. Discover
-                2. Check order status
-                3. Return an item`),
+                ${convertToEmoji(0)} All Categories
+                ${convertToEmoji(1)} Discover
+                ${convertToEmoji(2)} Check order status
+                ${convertToEmoji(3)} Return an item`),
         componentType: 'text',
         menu: [
           { type: DYNAMIC, action: PRODUCT_CATEGORIES },
@@ -77,7 +91,7 @@ exports.getMessageBlocks = (chatbot) => {
   getOrderIdBlock(chatbot, orderStatusId, messageBlocks)
   getReturnOrderIdBlock(chatbot, returnOrderId, messageBlocks)
   if (chatbot.botLinks && chatbot.botLinks.faqs) {
-    messageBlocks[0].payload[0].text = '\n4. FAQs'
+    messageBlocks[0].payload[0].text = `\n${convertToEmoji(4)} FAQs`
     messageBlocks[0].payload[0].menu.push({ type: STATIC, blockId: faqsId })
     getFaqsBlock(chatbot, faqsId, messageBlocks, mainMenuId)
   }
@@ -92,7 +106,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider) => {
         type: 'whatsapp_chatbot'
       },
       title: 'Discover Products',
-      uniqueId: new Date().getTime(),
+      uniqueId: '' + new Date().getTime(),
       payload: [
         {
           text: `Please select a product by sending the corresponding number for it:`,
@@ -106,18 +120,18 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider) => {
     let products = await EcommerceProvider.discoverProducts()
     for (let i = 0; i < products.length; i++) {
       let product = products[i]
-      messageBlock.payload[0].text += `\n${i}. ${product.name} from ${product.vendor}`
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${product.name}`
       messageBlock.payload[0].menu.push({
-        action: { type: DYNAMIC, action: PRODUCT_VARIANTS, argument: product }
+        type: DYNAMIC, action: PRODUCT_VARIANTS, argument: product
       })
     }
-    messageBlock.payload[0].text += `\n${products.length}. Go Back`
+    messageBlock.payload[0].text += `\n${convertToEmoji(products.length)} Go Back`
     messageBlock.payload[0].menu.push({
-      action: { type: STATIC, blockId: backId }
+      type: STATIC, blockId: backId
     })
-    messageBlock.payload[0].text += `\n${products.length + 1}. Go Home`
+    messageBlock.payload[0].text += `\n${convertToEmoji(products.length + 1)} Go Home`
     messageBlock.payload[0].menu.push({
-      action: { type: STATIC, blockId: chatbot.startingBlockId }
+      type: STATIC, blockId: chatbot.startingBlockId
     })
     return messageBlock
   } catch (err) {
@@ -138,9 +152,7 @@ const getReturnOrderIdBlock = (chatbot, blockId, messageBlocks) => {
       {
         text: `Please enter your order id`,
         componentType: 'text',
-        menu: [
-          { type: DYNAMIC, action: RETURN_ORDER, input: true }
-        ]
+        action: { type: DYNAMIC, action: RETURN_ORDER, input: true }
       }
     ],
     userId: chatbot.userId,
@@ -156,13 +168,13 @@ const getReturnOrderBlock = async (chatbot, backId, EcommerceProvider, orderId) 
         type: 'whatsapp_chatbot'
       },
       title: 'Show My Cart',
-      uniqueId: new Date().getTime(),
+      uniqueId: '' + new Date().getTime(),
       payload: [
         {
           text: dedent(`Your return request has been made.
             Please select an option by sending the corresponding number for it:
-            0. Go Back
-            1. Go Home`),
+            ${convertToEmoji(0)} Go Back
+            ${convertToEmoji(1)} Go Home`),
           componentType: 'text',
           menu: [
             { type: STATIC, blockId: backId },
@@ -233,7 +245,7 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
         type: 'whatsapp_chatbot'
       },
       title: 'Order Status',
-      uniqueId: new Date().getTime(),
+      uniqueId: '' + new Date().getTime(),
       payload: [
         {
           text: `Here is your order status:`,
@@ -252,13 +264,13 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     messageBlock.payload[0].text += `Get full order status here: ${orderStatus.order_status_url}`
 
     messageBlock.payload[0].text += '\nPlease select an option by sending the corresponding number for it:'
-    messageBlock.payload[0].text += `\n0. Go Back`
+    messageBlock.payload[0].text += `\n${convertToEmoji(0)} Go Back`
     messageBlock.payload[0].menu.push({
-      action: { type: STATIC, blockId: backId }
+      type: STATIC, blockId: backId
     })
-    messageBlock.payload[0].text += `\n1. Go Home`
+    messageBlock.payload[0].text += `\n${convertToEmoji(1)} Go Home`
     messageBlock.payload[0].menu.push({
-      action: { type: STATIC, blockId: chatbot.startingBlockId }
+      type: STATIC, blockId: chatbot.startingBlockId
     })
     return messageBlock
   } catch (err) {
@@ -275,7 +287,7 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider) => 
         type: 'whatsapp_chatbot'
       },
       title: 'Product Categories',
-      uniqueId: new Date().getTime(),
+      uniqueId: '' + new Date().getTime(),
       payload: [
         {
           text: `Please select a category by sending the corresponding number for it:`,
@@ -289,14 +301,14 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider) => 
     let productCategories = await EcommerceProvider.fetchAllProductCategories()
     for (let i = 0; i < productCategories.length; i++) {
       let category = productCategories[i]
-      messageBlock.payload[0].text += `\n${i}. ${category.name}`
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${category.name}`
       messageBlock.payload[0].menu.push({
-        action: { type: DYNAMIC, action: FETCH_PRODUCTS, argument: category.id }
+        type: DYNAMIC, action: FETCH_PRODUCTS, argument: category.id
       })
     }
-    messageBlock.payload[0].text += `\n${productCategories.length}. Go Back`
+    messageBlock.payload[0].text += `\n${convertToEmoji(productCategories.length)} Go Back`
     messageBlock.payload[0].menu.push({
-      action: { type: STATIC, blockId: backId }
+      type: STATIC, blockId: backId
     })
     return messageBlock
   } catch (err) {
@@ -306,6 +318,7 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider) => 
 }
 
 const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, categoryId) => {
+  console.log('getProductsInCategoryBlock')
   try {
     let messageBlock = {
       module: {
@@ -313,7 +326,7 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ca
         type: 'whatsapp_chatbot'
       },
       title: 'Products in Category',
-      uniqueId: new Date().getTime(),
+      uniqueId: '' + new Date().getTime(),
       payload: [
         {
           text: `Please select a product by sending the corresponding number for it:`,
@@ -324,30 +337,34 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ca
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
+    console.log('fetching products')
     let products = await EcommerceProvider.fetchProductsInThisCategory(categoryId)
+    console.log('products', products)
     for (let i = 0; i < products.length; i++) {
       let product = products[i]
-      messageBlock.payload[0].text += `\n${i}. ${product.name} from ${product.vendor}`
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${product.name}`
       messageBlock.payload[0].menu.push({
-        action: { type: DYNAMIC, action: PRODUCT_VARIANTS, argument: product }
+        type: DYNAMIC, action: PRODUCT_VARIANTS, argument: product
       })
     }
-    messageBlock.payload[0].text += `\n${products.length}. Go Back`
+    messageBlock.payload[0].text += `\n${convertToEmoji(products.length)} Go Back`
     messageBlock.payload[0].menu.push({
-      action: { type: STATIC, blockId: backId }
+      type: STATIC, blockId: backId
     })
-    messageBlock.payload[0].text += `\n${products.length + 1}. Go Home`
+    messageBlock.payload[0].text += `\n${convertToEmoji(products.length + 1)} Go Home`
     messageBlock.payload[0].menu.push({
-      action: { type: STATIC, blockId: chatbot.startingBlockId }
+      type: STATIC, blockId: chatbot.startingBlockId
     })
     return messageBlock
   } catch (err) {
+    console.log('getProductsInCategoryBlock err', err)
     logger.serverLog(TAG, `Unable to get products in category ${err}`, 'error')
     throw new Error('Unable to get products in this category')
   }
 }
 
 const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, product) => {
+  console.log('getProductVariantsBlock')
   try {
     let messageBlock = {
       module: {
@@ -355,7 +372,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
         type: 'whatsapp_chatbot'
       },
       title: 'Product Variants',
-      uniqueId: new Date().getTime(),
+      uniqueId: '' + new Date().getTime(),
       payload: [
         {
           text: `Please select a product variant by sending the corresponding number for it:`,
@@ -366,24 +383,27 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
+    console.log('fetching product variants')
     let productVariants = await EcommerceProvider.getVariantsOfSelectedProduct(product.id)
+    console.log('productVariants', productVariants)
     for (let i = 0; i < productVariants.length; i++) {
-      let productVariant = productVariants.payload[i]
-      messageBlock.payload[0].text += `\n${i}. Variant: ${product.name}, Price: ${product.price}`
+      let productVariant = productVariants[i]
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${product.name}, Price: ${product.price}`
       messageBlock.payload[0].menu.push({
-        action: { type: DYNAMIC, action: SELECT_PRODUCT, argument: { variant_id: productVariant.id, product: `${productVariant.name} ${product.name}` } }
+        type: DYNAMIC, action: SELECT_PRODUCT, argument: { variant_id: productVariant.id, product: `${productVariant.name} ${product.name}` }
       })
     }
-    messageBlock.payload[0].text += `\n${productVariants.length}. Go Back`
+    messageBlock.payload[0].text += `\n${convertToEmoji(productVariants.length)} Go Back`
     messageBlock.payload[0].menu.push({
-      action: { type: STATIC, blockId: backId }
+      type: STATIC, blockId: backId
     })
-    messageBlock.payload[0].text += `\n${productVariants.length + 1}. Go Home`
+    messageBlock.payload[0].text += `\n${convertToEmoji(productVariants.length + 1)} Go Home`
     messageBlock.payload[0].menu.push({
-      action: { type: STATIC, blockId: chatbot.startingBlockId }
+      type: STATIC, blockId: chatbot.startingBlockId
     })
     return messageBlock
   } catch (err) {
+    console.log('getProductVariantsBlock err', err)
     logger.serverLog(TAG, `Unable to get product variants ${err}`, 'error')
     throw new Error('Unable to get product variants')
   }
@@ -397,15 +417,15 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
         type: 'whatsapp_chatbot'
       },
       title: 'Select Product',
-      uniqueId: new Date().getTime(),
+      uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Please select an option by sending the corresponding number for it:
-                  0. Add to Cart
-                  1. Proceed to Checkout
-                  2. Show my Cart
-                  3. Go Back
-                  4. Go Home`,
+          text: dedent(`Please select an option by sending the corresponding number for it:
+                  ${convertToEmoji(0)} Add to Cart
+                  ${convertToEmoji(1)} Proceed to Checkout
+                  ${convertToEmoji(2)} Show my Cart
+                  ${convertToEmoji(3)} Go Back
+                  ${convertToEmoji(4)} Go Home`),
           componentType: 'text',
           menu: [
             { type: DYNAMIC, action: ADD_TO_CART, argument: product },
@@ -434,13 +454,13 @@ const getAddToCartBlock = async (chatbot, backId, EcommerceProvider, shoppingCar
         type: 'whatsapp_chatbot'
       },
       title: 'Add to Cart',
-      uniqueId: new Date().getTime(),
+      uniqueId: '' + new Date().getTime(),
       payload: [
         {
           text: dedent(`${product.product} has been succesfully added to your cart.
                 Please select an option by sending the corresponding number for it:
-                0. Go Back
-                1. Go Home`),
+                ${convertToEmoji(0)} Go Back
+                ${convertToEmoji(1)} Go Home`),
           componentType: 'text',
           menu: [
             { type: STATIC, blockId: backId },
@@ -477,7 +497,7 @@ const getShowMyCartBlock = async (chatbot, backId, shoppingCart) => {
         type: 'whatsapp_chatbot'
       },
       title: 'Show My Cart',
-      uniqueId: new Date().getTime(),
+      uniqueId: '' + new Date().getTime(),
       payload: [
         {
           text: `Here is your cart:`,
@@ -496,8 +516,8 @@ const getShowMyCartBlock = async (chatbot, backId, shoppingCart) => {
       messageBlock.payload[0].text += `\n - ${product.product}`
     }
     messageBlock.payload[0].text += dedent(`\nPlease select an option by sending the corresponding number for it:
-                                        0. Go Back
-                                        1. Go Home`)
+                                        ${convertToEmoji(0)} Go Back
+                                        ${convertToEmoji(1)} Go Home`)
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to show cart ${err}`, 'error')
@@ -513,7 +533,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, shoppingCart
         type: 'whatsapp_chatbot'
       },
       title: 'Show My Cart',
-      uniqueId: new Date().getTime(),
+      uniqueId: '' + new Date().getTime(),
       payload: [
         {
           text: `Here is your checkout link: `,
@@ -532,8 +552,8 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, shoppingCart
     messageBlock.payload[0].text += `${checkoutLink}`
 
     messageBlock.payload[0].text += dedent(`\nPlease select an option by sending the corresponding number for it:
-                                        0. Go Back
-                                        1. Go Home`)
+                                        ${convertToEmoji(0)} Go Back
+                                        ${convertToEmoji(1)} Go Home`)
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to show cart ${err}`, 'error')
@@ -548,13 +568,13 @@ const getErrorMessageBlock = (chatbot, backId, error) => {
       type: 'whatsapp_chatbot'
     },
     title: 'Error',
-    uniqueId: new Date().getTime(),
+    uniqueId: '' + new Date().getTime(),
     payload: [
       {
         text: dedent(`${error} 
                 Please select an option by sending the corresponding number for it:
-                0. Go Back
-                1. Go Home`),
+                ${convertToEmoji(0)} Go Back
+                ${convertToEmoji(1)} Go Home`),
         componentType: 'text',
         menu: [
           { type: STATIC, blockId: backId },
@@ -570,65 +590,89 @@ const getErrorMessageBlock = (chatbot, backId, error) => {
 const triggers = ['Hi', 'Hello']
 
 exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input) => {
+  console.log('getting next message block')
   if (!contact || !contact.lastMessageSentByBot) {
+    console.log('!contact || !contact.lastMessageSentByBot')
     if (triggers.includes(input)) {
       return messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
     }
   } else {
+    console.log('contact && contact.lastMessageSentByBot')
     let action = null
-    let messageBlock = contact.lastMessageSentByBot
     let shoppingCart = contact.shoppingCart
     try {
-      if (messageBlock.payload[0].menu) {
+      if (contact.lastMessageSentByBot.payload[0].menu) {
         let menuInput = parseInt(input)
-        action = messageBlock.payload[0].menu[menuInput]
+        if (isNaN(menuInput) || menuInput >= contact.lastMessageSentByBot.payload[0].menu.length) {
+          throw new Error('Invalid User Input')
+        }
+        action = contact.lastMessageSentByBot.payload[0].menu[menuInput]
       } else {
-        action = messageBlock.payload[0].action
+        action = contact.lastMessageSentByBot.payload[0].action
       }
+      console.log('action', action)
     } catch (err) {
-      logger.serverLog(TAG, `Invalid user input ${err}`, 'error')
+      console.log('Invalid user input', input)
+      logger.serverLog(TAG, `Invalid user input ${input}`, 'error')
       if (triggers.includes(input)) {
         return messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
       } else {
+        console.log('returning null')
         return null
       }
     }
     if (action.type === DYNAMIC) {
       try {
+        let messageBlock = null
         switch (action.action) {
           case PRODUCT_CATEGORIES: {
-            return await getProductCategoriesBlock(chatbot, messageBlock.uniqueId, EcommerceProvider)
+            messageBlock = await getProductCategoriesBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider)
+            break
           }
           case FETCH_PRODUCTS: {
-            return await getProductsInCategoryBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
+            console.log('FETCH_PRODUCTS')
+            messageBlock = await getProductsInCategoryBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : action.argument)
+            break
           }
           case PRODUCT_VARIANTS: {
-            return await getProductVariantsBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
+            console.log('PRODUCT_VARIANTS')
+            messageBlock = await getProductVariantsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : action.argument)
+            break
           }
           case DISCOVER_PRODUCTS: {
-            return await getDiscoverProductsBlock(chatbot, messageBlock.uniqueId, EcommerceProvider)
+            messageBlock = await getDiscoverProductsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider)
+            break
           }
           case ORDER_STATUS: {
-            return await getOrderStatusBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
+            messageBlock = await getOrderStatusBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : action.argument)
+            break
           }
           case SELECT_PRODUCT: {
-            return await getSelectProductBlock(chatbot, messageBlock.uniqueId, action.input ? input : action.argument)
+            messageBlock = await getSelectProductBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.input ? input : action.argument)
+            break
           }
           case ADD_TO_CART: {
-            return await getAddToCartBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, shoppingCart, action.input ? input : action.argument)
+            messageBlock = await getAddToCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, shoppingCart, action.input ? input : action.argument)
+            break
           }
           case SHOW_MY_CART: {
-            return await getShowMyCartBlock(chatbot, messageBlock.uniqueId, shoppingCart)
+            messageBlock = await getShowMyCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, shoppingCart)
+            break
           }
           case PROCEED_TO_CHECKOUT: {
-            return await getCheckoutBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, shoppingCart)
+            messageBlock = await getCheckoutBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, shoppingCart)
+            break
           }
           case RETURN_ORDER: {
-            return await getReturnOrderBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
+            messageBlock = await getReturnOrderBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : action.argument)
+            break
           }
         }
+        await messageBlockDataLayer.createForMessageBlock(messageBlock)
+        console.log('messageBlock', messageBlock)
+        return messageBlock
       } catch (err) {
-        return getErrorMessageBlock(chatbot, messageBlock.uniqueId, err.message)
+        return getErrorMessageBlock(chatbot, contact.lastMessageSentByBot.uniqueId, err.message)
       }
     } else if (action.type === STATIC) {
       return messageBlockDataLayer.findOneMessageBlock({ uniqueId: action.blockId })
