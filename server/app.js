@@ -2,6 +2,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development' // production
 
 const express = require('express')
 const config = require('./config/environment/index')
+
 const cron = require('node-cron')
 const NotificationsScript = require('./scripts/notificationsScript.js')
 const app = express()
