@@ -11,6 +11,7 @@ const config = require('../../../config/environment')
 const async = require('async')
 const { callApi } = require('../utility')
 const intentsDataLayer = require('../intents/datalayer')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 
 exports.index = function (req, res) {
   BotsDataLayer.findAllBotObjectsUsingQuery({ companyId: req.user.companyId })
@@ -108,6 +109,7 @@ exports.create = function (req, res) {
       logger.serverLog(TAG, err, 'error')
       sendErrorResponse(res, 500, 'Failed to create bot.')
     } else {
+      updateCompanyUsage(req.user.companyId, 'bots', 1)
       sendSuccessResponse(res, 200, data.botData)
     }
   })
@@ -338,6 +340,7 @@ exports.delete = function (req, res) {
             logger.serverLog(TAG, err, 'error')
             sendErrorResponse(res, 500, 'Failed to delete bot.')
           } else {
+            updateCompanyUsage(req.user.companyId, 'bots', -1)
             sendSuccessResponse(res, 200, 'Bot deleted succssfully!')
           }
         })
