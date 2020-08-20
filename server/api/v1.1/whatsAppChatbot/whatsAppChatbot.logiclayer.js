@@ -269,6 +269,7 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
 }
 
 const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider) => {
+  console.log('getProductCategoriesBlock')
   try {
     let messageBlock = {
       module: {
@@ -287,7 +288,9 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider) => 
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    let productCategories = await EcommerceProvider.getProductCategoriesBlock()
+    console.log('fetching productCategories')
+    let productCategories = await EcommerceProvider.fetchAllProductCategories()
+    console.log('productCategories', productCategories)
     for (let i = 0; i < productCategories.payload.length; i++) {
       let category = productCategories.payload[i]
       messageBlock.payload.text += `\n${i}. ${category.name}`
@@ -608,6 +611,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
       try {
         switch (action.action) {
           case PRODUCT_CATEGORIES: {
+            console.log('PRODUCT_CATEGORIES')
             return getProductCategoriesBlock(chatbot, messageBlock.uniqueId, EcommerceProvider)
           }
           case FETCH_PRODUCTS: {
