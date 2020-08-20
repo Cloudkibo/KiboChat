@@ -594,7 +594,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
         if (isNaN(menuInput) || menuInput >= messageBlock.payload[0].menu.length) {
           throw new Error('Invalid User Input')
         }
-        action = messageBlock.payload[0].menu[menuInput]
+        action = messageBlock.payload[0].menu[menuInput].action
       } else {
         action = messageBlock.payload[0].action
       }
