@@ -106,7 +106,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider) => {
     let products = await EcommerceProvider.discoverProducts()
     for (let i = 0; i < products.length; i++) {
       let product = products[i]
-      messageBlock.payload[0].text += `\n${i}. ${product.name} from ${product.vendor}`
+      messageBlock.payload[0].text += `\n${i}. ${product.name}`
       messageBlock.payload[0].menu.push({
         action: { type: DYNAMIC, action: PRODUCT_VARIANTS, argument: product }
       })
@@ -330,7 +330,7 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ca
     console.log('products', products)
     for (let i = 0; i < products.length; i++) {
       let product = products[i]
-      messageBlock.payload[0].text += `\n${i}. ${product.name} from ${product.vendor}`
+      messageBlock.payload[0].text += `\n${i}. ${product.name}`
       messageBlock.payload[0].menu.push({
         action: { type: DYNAMIC, action: PRODUCT_VARIANTS, argument: product }
       })
@@ -391,6 +391,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
     })
     return messageBlock
   } catch (err) {
+    console.log('getProductVariantsBlock err', err)
     logger.serverLog(TAG, `Unable to get product variants ${err}`, 'error')
     throw new Error('Unable to get product variants')
   }
