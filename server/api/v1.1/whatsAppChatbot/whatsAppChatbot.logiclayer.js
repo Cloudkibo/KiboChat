@@ -582,6 +582,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
     let action = null
     let messageBlock = contact.lastMessageSentByBot
     let shoppingCart = contact.shoppingCart
+    console.log('whatsapp contact', contact)
     try {
       if (messageBlock.payload[0].menu) {
         let menuInput = parseInt(input)
@@ -590,9 +591,13 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
         action = messageBlock.payload[0].action
       }
     } catch (err) {
+      console.log('invalid user input', err)
       logger.serverLog(TAG, `Invalid user input ${err}`, 'debug')
       if (triggers.includes(input)) {
+        console.log('included trigger')
         return messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
+      } else {
+        return null
       }
     }
     if (action.type === DYNAMIC) {
