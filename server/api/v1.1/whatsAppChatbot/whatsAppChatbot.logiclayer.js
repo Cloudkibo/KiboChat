@@ -92,7 +92,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider) => {
         type: 'whatsapp_chatbot'
       },
       title: 'Discover Products',
-      uniqueId: new Date().getTime(),
+      uniqueId: '' + new Date().getTime(),
       payload: [
         {
           text: `Please select a product by sending the corresponding number for it:`,
@@ -156,7 +156,7 @@ const getReturnOrderBlock = async (chatbot, backId, EcommerceProvider, orderId) 
         type: 'whatsapp_chatbot'
       },
       title: 'Show My Cart',
-      uniqueId: new Date().getTime(),
+      uniqueId: '' + new Date().getTime(),
       payload: [
         {
           text: dedent(`Your return request has been made.
@@ -233,7 +233,7 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
         type: 'whatsapp_chatbot'
       },
       title: 'Order Status',
-      uniqueId: new Date().getTime(),
+      uniqueId: '' + new Date().getTime(),
       payload: [
         {
           text: `Here is your order status:`,
@@ -275,7 +275,7 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider) => 
         type: 'whatsapp_chatbot'
       },
       title: 'Product Categories',
-      uniqueId: new Date().getTime(),
+      uniqueId: '' + new Date().getTime(),
       payload: [
         {
           text: `Please select a category by sending the corresponding number for it:`,
@@ -314,7 +314,7 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ca
         type: 'whatsapp_chatbot'
       },
       title: 'Products in Category',
-      uniqueId: new Date().getTime(),
+      uniqueId: '' + new Date().getTime(),
       payload: [
         {
           text: `Please select a product by sending the corresponding number for it:`,
@@ -360,7 +360,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
         type: 'whatsapp_chatbot'
       },
       title: 'Product Variants',
-      uniqueId: new Date().getTime(),
+      uniqueId: '' + new Date().getTime(),
       payload: [
         {
           text: `Please select a product variant by sending the corresponding number for it:`,
@@ -405,7 +405,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
         type: 'whatsapp_chatbot'
       },
       title: 'Select Product',
-      uniqueId: new Date().getTime(),
+      uniqueId: '' + new Date().getTime(),
       payload: [
         {
           text: `Please select an option by sending the corresponding number for it:
@@ -442,7 +442,7 @@ const getAddToCartBlock = async (chatbot, backId, EcommerceProvider, shoppingCar
         type: 'whatsapp_chatbot'
       },
       title: 'Add to Cart',
-      uniqueId: new Date().getTime(),
+      uniqueId: '' + new Date().getTime(),
       payload: [
         {
           text: dedent(`${product.product} has been succesfully added to your cart.
@@ -485,7 +485,7 @@ const getShowMyCartBlock = async (chatbot, backId, shoppingCart) => {
         type: 'whatsapp_chatbot'
       },
       title: 'Show My Cart',
-      uniqueId: new Date().getTime(),
+      uniqueId: '' + new Date().getTime(),
       payload: [
         {
           text: `Here is your cart:`,
@@ -521,7 +521,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, shoppingCart
         type: 'whatsapp_chatbot'
       },
       title: 'Show My Cart',
-      uniqueId: new Date().getTime(),
+      uniqueId: '' + new Date().getTime(),
       payload: [
         {
           text: `Here is your checkout link: `,
@@ -556,7 +556,7 @@ const getErrorMessageBlock = (chatbot, backId, error) => {
       type: 'whatsapp_chatbot'
     },
     title: 'Error',
-    uniqueId: new Date().getTime(),
+    uniqueId: '' + new Date().getTime(),
     payload: [
       {
         text: dedent(`${error} 
@@ -612,40 +612,54 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
     }
     if (action.type === DYNAMIC) {
       try {
+        let messageBlock = null
         switch (action.action) {
           case PRODUCT_CATEGORIES: {
-            return await getProductCategoriesBlock(chatbot, messageBlock.uniqueId, EcommerceProvider)
+            messageBlock = await getProductCategoriesBlock(chatbot, messageBlock.uniqueId, EcommerceProvider)
+            break
           }
           case FETCH_PRODUCTS: {
             console.log('FETCH_PRODUCTS')
-            return await getProductsInCategoryBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
+            messageBlock = await getProductsInCategoryBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
+            break
           }
           case PRODUCT_VARIANTS: {
             console.log('PRODUCT_VARIANTS')
-            return await getProductVariantsBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
+            messageBlock = await getProductVariantsBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
+            break
           }
           case DISCOVER_PRODUCTS: {
-            return await getDiscoverProductsBlock(chatbot, messageBlock.uniqueId, EcommerceProvider)
+            messageBlock = await getDiscoverProductsBlock(chatbot, messageBlock.uniqueId, EcommerceProvider)
+            break
           }
           case ORDER_STATUS: {
-            return await getOrderStatusBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
+            messageBlock = await getOrderStatusBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
+            break
           }
           case SELECT_PRODUCT: {
-            return await getSelectProductBlock(chatbot, messageBlock.uniqueId, action.input ? input : action.argument)
+            messageBlock = await getSelectProductBlock(chatbot, messageBlock.uniqueId, action.input ? input : action.argument)
+            break
           }
           case ADD_TO_CART: {
-            return await getAddToCartBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, shoppingCart, action.input ? input : action.argument)
+            messageBlock = await getAddToCartBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, shoppingCart, action.input ? input : action.argument)
+            break
           }
           case SHOW_MY_CART: {
-            return await getShowMyCartBlock(chatbot, messageBlock.uniqueId, shoppingCart)
+            messageBlock = await getShowMyCartBlock(chatbot, messageBlock.uniqueId, shoppingCart)
+            break
           }
           case PROCEED_TO_CHECKOUT: {
-            return await getCheckoutBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, shoppingCart)
+            messageBlock = await getCheckoutBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, shoppingCart)
+            break
           }
           case RETURN_ORDER: {
-            return await getReturnOrderBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
+            messageBlock = await getReturnOrderBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
+            break
           }
         }
+        await messageBlockDataLayer.createForMessageBlock(messageBlock)
+        console.log('messageBlock', messageBlock)
+        return messageBlock
       } catch (err) {
         return getErrorMessageBlock(chatbot, messageBlock.uniqueId, err.message)
       }
