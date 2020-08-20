@@ -293,13 +293,13 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider) => 
     console.log('productCategories', productCategories)
     for (let i = 0; i < productCategories.length; i++) {
       let category = productCategories[i]
-      messageBlock.payload.text += `\n${i}. ${category.name}`
-      messageBlock.payload.menu.push({
+      messageBlock.payload[0].text += `\n${i}. ${category.name}`
+      messageBlock.payload[0].menu.push({
         action: { type: DYNAMIC, action: FETCH_PRODUCTS, argument: category.id }
       })
     }
-    messageBlock.payload.text += `\n${productCategories.payload.length}. Go Back`
-    messageBlock.payload.menu.push({
+    messageBlock.payload[0].text += `\n${productCategories.payload.length}. Go Back`
+    messageBlock.payload[0].menu.push({
       action: { type: STATIC, blockId: backId }
     })
     console.log('getProductCategoriesBlock messageBlock', messageBlock)
@@ -614,7 +614,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
         switch (action.action) {
           case PRODUCT_CATEGORIES: {
             console.log('PRODUCT_CATEGORIES')
-            return getProductCategoriesBlock(chatbot, messageBlock.uniqueId, EcommerceProvider)
+            return await getProductCategoriesBlock(chatbot, messageBlock.uniqueId, EcommerceProvider)
           }
           case FETCH_PRODUCTS: {
             return getProductsInCategoryBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
