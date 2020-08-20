@@ -9,14 +9,13 @@ const nonce = require('nonce')()
 const querystring = require('querystring')
 const crypto = require('crypto')
 const request = require('request-promise')
-const Shopify = require('shopify-api-node')
 const TAG = 'api/shopify/shopify.controller.js'
 const utility = require('../utility')
 const dataLayer = require('./shopify.datalayer')
 const EcommerceProviders = require('./../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
 const commerceConstants = require('./../ecommerceProvidersApiLayer/constants')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
-const proceedToIntegratePage = require('./proceedToIntegratePage')
+const path = require('path')
 
 exports.index = function (req, res) {
   const shop = req.body.shop
@@ -179,7 +178,7 @@ exports.callback = function (req, res) {
           res.cookie('shopifySetupState', 'startedFromAppNotAuthenticated')
           res.cookie('shopifyToken', accessToken)
           // the login in that screen should redirect to kibochat only
-          res.send(proceedToIntegratePage)
+          res.sendFile(path.join(__dirname, '/proceedToIntegratePage.html'))
         }
       })
       .catch((error) => {
