@@ -585,7 +585,6 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
   } else {
     console.log('contact && contact.lastMessageSentByBot')
     let action = null
-    let messageBlock = contact.lastMessageSentByBot
     let shoppingCart = contact.shoppingCart
     try {
       if (messageBlock.payload[0].menu) {
@@ -613,45 +612,45 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
         let messageBlock = null
         switch (action.action) {
           case PRODUCT_CATEGORIES: {
-            messageBlock = await getProductCategoriesBlock(chatbot, messageBlock.uniqueId, EcommerceProvider)
+            messageBlock = await getProductCategoriesBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider)
             break
           }
           case FETCH_PRODUCTS: {
             console.log('FETCH_PRODUCTS')
-            messageBlock = await getProductsInCategoryBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
+            messageBlock = await getProductsInCategoryBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : action.argument)
             break
           }
           case PRODUCT_VARIANTS: {
             console.log('PRODUCT_VARIANTS')
-            messageBlock = await getProductVariantsBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
+            messageBlock = await getProductVariantsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : action.argument)
             break
           }
           case DISCOVER_PRODUCTS: {
-            messageBlock = await getDiscoverProductsBlock(chatbot, messageBlock.uniqueId, EcommerceProvider)
+            messageBlock = await getDiscoverProductsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider)
             break
           }
           case ORDER_STATUS: {
-            messageBlock = await getOrderStatusBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
+            messageBlock = await getOrderStatusBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : action.argument)
             break
           }
           case SELECT_PRODUCT: {
-            messageBlock = await getSelectProductBlock(chatbot, messageBlock.uniqueId, action.input ? input : action.argument)
+            messageBlock = await getSelectProductBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.input ? input : action.argument)
             break
           }
           case ADD_TO_CART: {
-            messageBlock = await getAddToCartBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, shoppingCart, action.input ? input : action.argument)
+            messageBlock = await getAddToCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, shoppingCart, action.input ? input : action.argument)
             break
           }
           case SHOW_MY_CART: {
-            messageBlock = await getShowMyCartBlock(chatbot, messageBlock.uniqueId, shoppingCart)
+            messageBlock = await getShowMyCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, shoppingCart)
             break
           }
           case PROCEED_TO_CHECKOUT: {
-            messageBlock = await getCheckoutBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, shoppingCart)
+            messageBlock = await getCheckoutBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, shoppingCart)
             break
           }
           case RETURN_ORDER: {
-            messageBlock = await getReturnOrderBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
+            messageBlock = await getReturnOrderBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : action.argument)
             break
           }
         }
@@ -659,7 +658,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
         console.log('messageBlock', messageBlock)
         return messageBlock
       } catch (err) {
-        return getErrorMessageBlock(chatbot, messageBlock.uniqueId, err.message)
+        return getErrorMessageBlock(chatbot, contact.lastMessageSentByBot.uniqueId, err.message)
       }
     } else if (action.type === STATIC) {
       return messageBlockDataLayer.findOneMessageBlock({ uniqueId: action.blockId })
