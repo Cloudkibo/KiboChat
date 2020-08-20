@@ -383,7 +383,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
     let productVariants = await EcommerceProvider.getVariantsOfSelectedProduct(product.id)
     for (let i = 0; i < productVariants.length; i++) {
       let productVariant = productVariants[i]
-      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${productVariant.name}, Price: ${product.price}`
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${productVariant.name} ${product.name}, Price: ${product.price}`
       messageBlock.payload[0].menu.push({
         type: DYNAMIC, action: SELECT_PRODUCT, argument: { variant_id: productVariant.id, product: `${productVariant.name} ${product.name}` }
       })
@@ -498,6 +498,7 @@ const getShowMyCartBlock = async (chatbot, backId, shoppingCart) => {
           componentType: 'text',
           menu: [
             { type: DYNAMIC, action: SHOW_ITEMS_TO_REMOVE },
+            { type: DYNAMIC, action: PROCEED_TO_CHECKOUT },
             { type: STATIC, blockId: backId },
             { type: STATIC, blockId: chatbot.startingBlockId }
           ]
@@ -512,8 +513,9 @@ const getShowMyCartBlock = async (chatbot, backId, shoppingCart) => {
     }
     messageBlock.payload[0].text += dedent(`\nPlease select an option by sending the corresponding number for it:
                                         ${convertToEmoji(0)} Remove an item
-                                        ${convertToEmoji(1)} Go Back
-                                        ${convertToEmoji(2)} Go Home`)
+                                        ${convertToEmoji(1)} Proceed to Checkout
+                                        ${convertToEmoji(2)} Go Back
+                                        ${convertToEmoji(3)} Go Home`)
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to show cart ${err}`, 'error')
@@ -528,7 +530,7 @@ const getShowItemsToRemoveBlock = (chatbot, backId, shoppingCart) => {
         id: chatbot._id,
         type: 'whatsapp_chatbot'
       },
-      title: 'Remove From Cart',
+      title: 'Select Item to Remove',
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
@@ -551,8 +553,8 @@ const getShowItemsToRemoveBlock = (chatbot, backId, shoppingCart) => {
                                         ${convertToEmoji(shoppingCart.length + 1)} Go Home`)
     return messageBlock
   } catch (err) {
-    logger.serverLog(TAG, `Unable to remove item from cart ${err}`, 'error')
-    throw new Error('Unable to remove item from cart')
+    logger.serverLog(TAG, `Unable to show items from cart ${err}`, 'error')
+    throw new Error('Unable to show items from cart')
   }
 }
 
@@ -583,8 +585,8 @@ const getRemoveFromCartBlock = async (chatbot, backId, EcommerceProvider, shoppi
     await EcommerceProvider.addProductToCart(shoppingCart)
     return messageBlock
   } catch (err) {
-    logger.serverLog(TAG, `Unable to show cart ${err}`, 'error')
-    throw new Error('Unable to show cart')
+    logger.serverLog(TAG, `Unable to remove item from cart ${err}`, 'error')
+    throw new Error('Unable to remove item from cart')
   }
 }
 
