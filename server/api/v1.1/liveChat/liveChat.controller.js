@@ -166,21 +166,6 @@ exports.create = function (req, res) {
               }
             }
           })
-          var deleteData = {
-            purpose: 'deleteMany',
-            match: {
-              type: 'adminAlert',
-              'payload.type': 'pendingSession', 
-              'payload.subscriber._id': req.body._id
-            }
-          }
-          callApi(`cronstack`, 'delete', deleteData, 'kibochat')
-          .then(updatedRecord => {
-            logger.serverLog('Pending session info deleted successfully from cronStack')
-          })
-          .catch(err => {
-            logger.serverLog(`Error while deleting pending session alert from cronStack ${err}`)
-          })
           callback(null, updated)
         })
         .catch(err => {
@@ -253,6 +238,27 @@ exports.create = function (req, res) {
         .catch(err => {
           callback(err)
         })
+    },
+    // Delete subscriber pending session from cronstack
+    function (callback){
+      logger.serverLog(TAG, `Delete subscriber pending session from cronstack`)
+      var deleteData = {
+        purpose: 'deleteMany',
+        match: {
+          type: 'adminAlert',
+          'payload.type': 'pendingSession', 
+          'payload.subscriber._id': req.body._id
+        }
+      }
+      callApi(`cronstack`, 'delete', deleteData, 'kibochat')
+      .then(updatedRecord => {
+        logger.serverLog('Pending session info deleted successfully from cronStack')
+        callback()
+      })
+      .catch(err => {
+        logger.serverLog(`Error while deleting pending session alert from cronStack ${err}`)
+        callback(err)
+      })
     }
   ], 10, function (err, results) {
     if (err) {

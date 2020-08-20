@@ -17,7 +17,7 @@ exports.runLiveChatNotificationScript = function () {
         logger.serverLog(TAG, `alerts ${JSON.stringify(alerts)} ${JSON.stringify(alerts.length)}`)
         if (alerts.length > 0) {
             async.each(alerts, function (alert, cb) {
-                logger.serverLog(TAG, `alert ${alert}`)
+                logger.serverLog(TAG, `alert ${JSON.stringify(alert)}`)
                 if (alert.payload && alert.payload.notification_interval) {
                     var now = moment(new Date())
                     var sessionTime = moment(alert.datetime)
@@ -39,17 +39,12 @@ exports.runLiveChatNotificationScript = function () {
                             }
                             logger.serverLog(TAG, `assignedMembers ${JSON.stringify(assignedMembers)}`)
                             async.each(assignedMembers, function(assignedMember, callback) {
-                                if (alert.payload.type === 'unresolvedSession') {
-                                    generateUnresolvedSessionNotification(alert, assignedMember, callback)
-                                }
-                                if (alert.payload.type === 'pendingSession') {
-                                    generatePendingSessionNotification(alert, assignedMember, callback)
-                                }
+                                generateAdminNotification(alert, assignedMember, callback)
                             }, function(err) {
                                 if (err) {
                                     cb(err)
                                 }
-                                cb()
+                                deleteCronStackRecord(alert, cb)
                             })
                         })
                         .catch(err => {
@@ -72,94 +67,60 @@ exports.runLiveChatNotificationScript = function () {
     })
 }
 
-function generatePendingSessionNotification (alert, user, cb){
-    logger.serverLog(TAG, `inside generate pending session`)
-    var name = ''
-    if (alert.payload.subscriber.firstName) {
-      name = alert.payload.subscriber.firstName + ' ' + alert.payload.subscriber.lastName
-    } else if (alert.payload.subscriber.name) {
-      name = alert.payload.subscriber.name 
-    }
-    
-    let notification = {
-        companyId: user.companyId,
-        type: alert.payload.type,
-        message: `${name} has been awaiting reply from agent for last ${alert.payload.notification_interval} mins`,
-        agentId: user.userId._id,
-        category: {type: 'chat_session' , id:alert.payload.subscriber._id}
+function deleteCronStackRecord (alert, cb) {
+    logger.serverLog(TAG, `Inside Delete`)
+    var deleteData = {
+        purpose: 'deleteMany',
+        match: {
+          type: 'adminAlert',
+          'payload.type': alert.payload.type, 
+          'payload.subscriber._id': alert.payload.subscriber._id
+        }
       }
-      utility.callApi(`notifications`, 'post', notification, 'kibochat')
-      .then(savedNotification => {
-        var deleteData = {
-            purpose: 'deleteMany',
-            match: {
-              type: 'adminAlert',
-              'payload.type': 'pendingSession', 
-              'payload.subscriber._id': alert.payload.subscriber._id
-            }
-          }
-          utility.callApi(`cronstack`, 'delete', deleteData, 'kibochat')
-          .then(updatedRecord => {     
-            logger.serverLog('Pending session info deleted successfully from cronStack')
-            require('../config/socketio').sendMessageToClient({
-                room_id: user.companyId,
-                body: {
-                  action: 'new_notification',
-                  payload: notification
-                }
-              })
-              cb()
-          })
-          .catch(err => {
-            cb(err)
-            logger.serverLog(`Error while deleting unresolve session alert from cronStack ${err}`)
-          })
-        })
-      .catch(err => cb(err))
+      utility.callApi(`cronstack`, 'delete', deleteData, 'kibochat')
+      .then(updatedRecord => { 
+        logger.serverLog(TAG, `Cron stack record deleted successfully: subscriber: ${alert.payload.subscriber._id}, type:${ alert.payload.type}`)
+        cb()
+      })
+      .catch(err => {
+        cb(err)
+      })
 }
 
-function generateUnresolvedSessionNotification (alert, user, cb){
-    logger.serverLog(TAG, `inside generate unresolved session`)
+
+function generateAdminNotification (alert, user, cb){
+    logger.serverLog(TAG, `inside generate admin notification`)
     var name = ''
+    var notificationMessage = ''
     if (alert.payload.subscriber.firstName) {
       name = alert.payload.subscriber.firstName + ' ' + alert.payload.subscriber.lastName
     } else if (alert.payload.subscriber.name) {
       name = alert.payload.subscriber.name 
     }
+     if (alert.payload.type === 'unresolvedSession') {
+        notificationMessage = `${name} session is unresolved for the last ${alert.payload.notification_interval} min(s)`
+     } else if (alert.payload.type === 'pendingSession') {
+        notificationMessage = `${name} has been awaiting reply from agent for last ${alert.payload.notification_interval} min(s)` 
+     }
 
     let notification = {
         companyId: user.companyId,
         type: alert.payload.type,
-        message: `${name} session is unresolved for the last ${alert.payload.notification_interval} mins`,
+        message: notificationMessage,
         agentId: user.userId._id,
-        category: {type: 'chat_session', id:alert.payload.subscriber._id}
+        category: {type: 'message_alert', id:alert.payload.subscriber._id}
       }
       utility.callApi(`notifications`, 'post', notification, 'kibochat')
       .then(savedNotification => {
-        var deleteData = {
-            purpose: 'deleteMany',
-            match: {
-              type: 'adminAlert',
-              'payload.type': 'unresolvedSession', 
-              'payload.subscriber._id': alert.payload.subscriber._id
+        logger.serverLog(TAG, `Notification Saved: ${JSON.stringify(notification)}`)
+        require('../config/socketio').sendMessageToClient({
+            room_id: user.companyId,
+            body: {
+              action: 'new_notification',
+              payload: notification
             }
-          }
-          utility.callApi(`cronstack`, 'delete', deleteData, 'kibochat')
-          .then(updatedRecord => {     
-            logger.serverLog('Unresolved session info deleted successfully from cronStack')
-            require('../config/socketio').sendMessageToClient({
-                room_id: user.companyId,
-                body: {
-                  action: 'new_notification',
-                  payload: notification
-                }
-              })
-              cb()
           })
-          .catch(err => {
-              cb(err)
-            logger.serverLog(`Error while deleting unresolve session alert from cronStack ${err}`)
-          })
+          cb()
       })
       .catch(err => cb(err))
 }
