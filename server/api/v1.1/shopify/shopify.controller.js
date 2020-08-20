@@ -213,7 +213,7 @@ exports.testRoute = (req, res) => {
         shopUrl: shopifyIntegration.shopUrl,
         shopToken: shopifyIntegration.shopToken
       })
-      return shopify.completeCheckout('sania', 'siddiqui', 'sania@cloudkibo.com')
+      return shopify.fetchProducts()
       // return shopify.addOrUpdateProductToCart(1264935993407, [{
       // variant_id: 32734085808191,
       // quantity: 1
