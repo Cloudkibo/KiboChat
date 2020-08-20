@@ -37,26 +37,26 @@ exports.messageReceived = function (req, res) {
                       if (data.messageData.componentType === 'text') {
                         let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot(company._id)
                         if (chatbot) {
-                          console.log('chatbot fetched', chatbot)
-                          const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
-                          console.log('shopify integration fetched', shopifyIntegration)
-                          if (shopifyIntegration) {
-                            const ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
-                              shopUrl: shopifyIntegration.shopUrl,
-                              shopToken: shopifyIntegration.shopToken
-                            })
-                            let nextMessageBlock = await whatsAppChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text)
-                            console.log('nextMessageBlock', nextMessageBlock)
-                            if (nextMessageBlock) {
-                              let chatbotResponse = {
-                                whatsApp: {
-                                  accessToken: data.accessToken
-                                },
-                                recipientNumber: number,
-                                payload: nextMessageBlock.payload[0]
+                          const shouldSend = chatbot.published || chatbot.testSubscribers.includes(contact.number)
+                          if (shouldSend) {
+                            const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
+                            if (shopifyIntegration) {
+                              const ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
+                                shopUrl: shopifyIntegration.shopUrl,
+                                shopToken: shopifyIntegration.shopToken
+                              })
+                              let nextMessageBlock = await whatsAppChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text)
+                              if (nextMessageBlock) {
+                                let chatbotResponse = {
+                                  whatsApp: {
+                                    accessToken: data.accessToken
+                                  },
+                                  recipientNumber: number,
+                                  payload: nextMessageBlock.payload[0]
+                                }
+                                whatsAppMapper.whatsAppMapper(req.body.provider, ActionTypes.SEND_CHAT_MESSAGE, chatbotResponse)
+                                updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
                               }
-                              whatsAppMapper.whatsAppMapper(req.body.provider, ActionTypes.SEND_CHAT_MESSAGE, chatbotResponse)
-                              updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
                             }
                           }
                         }
