@@ -10,6 +10,8 @@ const {
   SELECT_PRODUCT,
   SHOW_MY_CART,
   ADD_TO_CART,
+  REMOVE_FROM_CART,
+  SHOW_ITEMS_TO_REMOVE,
   PROCEED_TO_CHECKOUT,
   RETURN_ORDER
 } = require('./constants')
@@ -318,7 +320,6 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider) => 
 }
 
 const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, categoryId) => {
-  console.log('getProductsInCategoryBlock')
   try {
     let messageBlock = {
       module: {
@@ -337,9 +338,7 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ca
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    console.log('fetching products')
     let products = await EcommerceProvider.fetchProductsInThisCategory(categoryId)
-    console.log('products', products)
     for (let i = 0; i < products.length; i++) {
       let product = products[i]
       messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${product.name}`
@@ -357,14 +356,12 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ca
     })
     return messageBlock
   } catch (err) {
-    console.log('getProductsInCategoryBlock err', err)
     logger.serverLog(TAG, `Unable to get products in category ${err}`, 'error')
     throw new Error('Unable to get products in this category')
   }
 }
 
 const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, product) => {
-  console.log('getProductVariantsBlock')
   try {
     let messageBlock = {
       module: {
@@ -383,12 +380,10 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    console.log('fetching product variants')
     let productVariants = await EcommerceProvider.getVariantsOfSelectedProduct(product.id)
-    console.log('productVariants', productVariants)
     for (let i = 0; i < productVariants.length; i++) {
       let productVariant = productVariants[i]
-      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${product.name}, Price: ${product.price}`
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${productVariant.name} ${product.name}, Price: ${product.price}`
       messageBlock.payload[0].menu.push({
         type: DYNAMIC, action: SELECT_PRODUCT, argument: { variant_id: productVariant.id, product: `${productVariant.name} ${product.name}` }
       })
@@ -403,7 +398,6 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
     })
     return messageBlock
   } catch (err) {
-    console.log('getProductVariantsBlock err', err)
     logger.serverLog(TAG, `Unable to get product variants ${err}`, 'error')
     throw new Error('Unable to get product variants')
   }
@@ -503,6 +497,8 @@ const getShowMyCartBlock = async (chatbot, backId, shoppingCart) => {
           text: `Here is your cart:`,
           componentType: 'text',
           menu: [
+            { type: DYNAMIC, action: SHOW_ITEMS_TO_REMOVE },
+            { type: DYNAMIC, action: PROCEED_TO_CHECKOUT },
             { type: STATIC, blockId: backId },
             { type: STATIC, blockId: chatbot.startingBlockId }
           ]
@@ -516,12 +512,81 @@ const getShowMyCartBlock = async (chatbot, backId, shoppingCart) => {
       messageBlock.payload[0].text += `\n - ${product.product}`
     }
     messageBlock.payload[0].text += dedent(`\nPlease select an option by sending the corresponding number for it:
-                                        ${convertToEmoji(0)} Go Back
-                                        ${convertToEmoji(1)} Go Home`)
+                                        ${convertToEmoji(0)} Remove an item
+                                        ${convertToEmoji(1)} Proceed to Checkout
+                                        ${convertToEmoji(2)} Go Back
+                                        ${convertToEmoji(3)} Go Home`)
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to show cart ${err}`, 'error')
     throw new Error('Unable to show cart')
+  }
+}
+
+const getShowItemsToRemoveBlock = (chatbot, backId, shoppingCart) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_chatbot'
+      },
+      title: 'Select Item to Remove',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Please select an item to remove from your cart:`,
+          componentType: 'text',
+          menu: []
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+
+    for (let i = 0; i < shoppingCart.length; i++) {
+      let product = shoppingCart[i]
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)} - ${product.product}`
+      messageBlock.payload[0].menu.push({ type: DYNAMIC, action: REMOVE_FROM_CART, argument: i })
+    }
+    messageBlock.payload[0].menu.push({ type: STATIC, blockId: backId }, { type: STATIC, blockId: chatbot.startingBlockId })
+    messageBlock.payload[0].text += dedent(`\n${convertToEmoji(shoppingCart.length)} Go Back
+                                        ${convertToEmoji(shoppingCart.length + 1)} Go Home`)
+    return messageBlock
+  } catch (err) {
+    logger.serverLog(TAG, `Unable to show items from cart ${err}`, 'error')
+    throw new Error('Unable to show items from cart')
+  }
+}
+
+const getRemoveFromCartBlock = async (chatbot, backId, EcommerceProvider, shoppingCart, productIndex) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_chatbot'
+      },
+      title: 'Remove From Cart',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Product has been successfully removed from your cart.
+          Please select an option by sending the corresponding number for it:`,
+          componentType: 'text',
+          menu: [
+            { type: STATIC, blockId: backId },
+            { type: STATIC, blockId: chatbot.startingBlockId }
+          ]
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    shoppingCart.splice(productIndex, 1)
+    await EcommerceProvider.addProductToCart(shoppingCart)
+    return messageBlock
+  } catch (err) {
+    logger.serverLog(TAG, `Unable to remove item from cart ${err}`, 'error')
+    throw new Error('Unable to remove item from cart')
   }
 }
 
@@ -590,14 +655,11 @@ const getErrorMessageBlock = (chatbot, backId, error) => {
 const triggers = ['Hi', 'Hello']
 
 exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input) => {
-  console.log('getting next message block')
   if (!contact || !contact.lastMessageSentByBot) {
-    console.log('!contact || !contact.lastMessageSentByBot')
     if (triggers.includes(input)) {
       return messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
     }
   } else {
-    console.log('contact && contact.lastMessageSentByBot')
     let action = null
     let shoppingCart = contact.shoppingCart
     try {
@@ -610,14 +672,11 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
       } else {
         action = contact.lastMessageSentByBot.payload[0].action
       }
-      console.log('action', action)
     } catch (err) {
-      console.log('Invalid user input', input)
       logger.serverLog(TAG, `Invalid user input ${input}`, 'error')
       if (triggers.includes(input)) {
         return messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
       } else {
-        console.log('returning null')
         return null
       }
     }
@@ -630,12 +689,10 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             break
           }
           case FETCH_PRODUCTS: {
-            console.log('FETCH_PRODUCTS')
             messageBlock = await getProductsInCategoryBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : action.argument)
             break
           }
           case PRODUCT_VARIANTS: {
-            console.log('PRODUCT_VARIANTS')
             messageBlock = await getProductVariantsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : action.argument)
             break
           }
@@ -667,9 +724,15 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             messageBlock = await getReturnOrderBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : action.argument)
             break
           }
+          case SHOW_ITEMS_TO_REMOVE: {
+            messageBlock = await getShowItemsToRemoveBlock(chatbot, contact.lastMessageSentByBot.uniqueId, shoppingCart)
+            break
+          }
+          case REMOVE_FROM_CART: {
+            messageBlock = await getRemoveFromCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, shoppingCart, action.input ? input : action.argument)
+          }
         }
         await messageBlockDataLayer.createForMessageBlock(messageBlock)
-        console.log('messageBlock', messageBlock)
         return messageBlock
       } catch (err) {
         return getErrorMessageBlock(chatbot, contact.lastMessageSentByBot.uniqueId, err.message)
