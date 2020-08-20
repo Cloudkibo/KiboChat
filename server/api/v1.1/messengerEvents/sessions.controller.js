@@ -28,10 +28,10 @@ exports.index = function (req, res) {
     .then(company => {
       if (!(company.automated_options === 'DISABLE_CHAT')) {
         let updatePayload = { last_activity_time: Date.now() }
-        if (subscriber.status === 'resolved') {
-          updatePayload.status = 'new'
-        }
         if (!event.message.is_echo) {
+          if (subscriber.status === 'resolved') {
+            updatePayload.status = 'new'
+          }
           updatePayload.pendingResponse = true
           updatePayload.lastMessagedAt = Date.now()
         }
@@ -79,7 +79,7 @@ function pushUnresolveAlertInStack (company, subscriber) {
             unit: unresolveSessionAlert.unit,
             assignedMembers: unresolveSessionAlert.assignedMembers,
             subscriber: subscriber,
-            companyId: company._id       
+            companyId: company._id
           }
           var record = {
             type: 'adminAlert',
@@ -89,7 +89,7 @@ function pushUnresolveAlertInStack (company, subscriber) {
             purpose: 'findAll',
             match: {
               type: 'adminAlert',
-              'payload.type': 'unresolvedSession', 
+              'payload.type': 'unresolvedSession',
               'payload.subscriber._id': subscriber._id
             }
           }
@@ -130,7 +130,7 @@ function pushSessionPendingAlertInStack (company, subscriber) {
             unit: pendingSessionAlert.unit,
             assignedMembers: pendingSessionAlert.assignedMembers,
             subscriber: subscriber,
-            companyId: company._id        
+            companyId: company._id
           }
           var record = {
             type: 'adminAlert',
