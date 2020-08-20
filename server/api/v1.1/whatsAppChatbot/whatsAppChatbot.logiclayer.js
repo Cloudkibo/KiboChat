@@ -325,6 +325,7 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ca
       companyId: chatbot.companyId
     }
     let products = await EcommerceProvider.fetchProductsInThisCategory(categoryId)
+    console.log('products', products)
     for (let i = 0; i < products.length; i++) {
       let product = products[i]
       messageBlock.payload[0].text += `\n${i}. ${product.name} from ${product.vendor}`
@@ -342,6 +343,7 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ca
     })
     return messageBlock
   } catch (err) {
+    console.log('getProductsInCategoryBlock err', err)
     logger.serverLog(TAG, `Unable to get products in category ${err}`, 'error')
     throw new Error('Unable to get products in this category')
   }
