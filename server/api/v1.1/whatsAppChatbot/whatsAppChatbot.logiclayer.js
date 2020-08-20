@@ -306,6 +306,7 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider) => 
 }
 
 const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, categoryId) => {
+  console.log('getProductsInCategoryBlock')
   try {
     let messageBlock = {
       module: {
@@ -324,6 +325,7 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ca
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
+    console.log('fetching products')
     let products = await EcommerceProvider.fetchProductsInThisCategory(categoryId)
     console.log('products', products)
     for (let i = 0; i < products.length; i++) {
@@ -350,6 +352,7 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ca
 }
 
 const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, product) => {
+  console.log('getProductVariantsBlock')
   try {
     let messageBlock = {
       module: {
@@ -368,7 +371,9 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
+    console.log('fetching product variants')
     let productVariants = await EcommerceProvider.getVariantsOfSelectedProduct(product.id)
+    console.log('productVariants', productVariants)
     for (let i = 0; i < productVariants.length; i++) {
       let productVariant = productVariants.payload[i]
       messageBlock.payload[0].text += `\n${i}. Variant: ${product.name}, Price: ${product.price}`
@@ -611,9 +616,11 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             return await getProductCategoriesBlock(chatbot, messageBlock.uniqueId, EcommerceProvider)
           }
           case FETCH_PRODUCTS: {
+            console.log('FETCH_PRODUCTS')
             return await getProductsInCategoryBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
           }
           case PRODUCT_VARIANTS: {
+            console.log('PRODUCT_VARIANTS')
             return await getProductVariantsBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
           }
           case DISCOVER_PRODUCTS: {
