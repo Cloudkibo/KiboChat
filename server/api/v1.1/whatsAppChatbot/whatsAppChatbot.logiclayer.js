@@ -373,7 +373,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
     let productVariants = await EcommerceProvider.getVariantsOfSelectedProduct(product.id)
     console.log('productVariants', productVariants)
     for (let i = 0; i < productVariants.length; i++) {
-      let productVariant = productVariants.payload[i]
+      let productVariant = productVariants[i]
       messageBlock.payload[0].text += `\n${i}. Variant: ${product.name}, Price: ${product.price}`
       messageBlock.payload[0].menu.push({
         type: DYNAMIC, action: SELECT_PRODUCT, argument: { variant_id: productVariant.id, product: `${productVariant.name} ${product.name}` }
