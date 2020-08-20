@@ -120,16 +120,16 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider) => {
     let products = await EcommerceProvider.discoverProducts()
     for (let i = 0; i < products.length; i++) {
       let product = products[i]
-      messageBlock.payload[0].text += `\n${convertToEmoji(i)}. ${product.name}`
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${product.name}`
       messageBlock.payload[0].menu.push({
         type: DYNAMIC, action: PRODUCT_VARIANTS, argument: product
       })
     }
-    messageBlock.payload[0].text += `\n${convertToEmoji(products.length)}. Go Back`
+    messageBlock.payload[0].text += `\n${convertToEmoji(products.length)} Go Back`
     messageBlock.payload[0].menu.push({
       type: STATIC, blockId: backId
     })
-    messageBlock.payload[0].text += `\n${convertToEmoji(products.length + 1)}. Go Home`
+    messageBlock.payload[0].text += `\n${convertToEmoji(products.length + 1)} Go Home`
     messageBlock.payload[0].menu.push({
       type: STATIC, blockId: chatbot.startingBlockId
     })
@@ -301,12 +301,12 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider) => 
     let productCategories = await EcommerceProvider.fetchAllProductCategories()
     for (let i = 0; i < productCategories.length; i++) {
       let category = productCategories[i]
-      messageBlock.payload[0].text += `\n${convertToEmoji(i)}. ${category.name}`
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${category.name}`
       messageBlock.payload[0].menu.push({
         type: DYNAMIC, action: FETCH_PRODUCTS, argument: category.id
       })
     }
-    messageBlock.payload[0].text += `\n${convertToEmoji(productCategories.length)}. Go Back`
+    messageBlock.payload[0].text += `\n${convertToEmoji(productCategories.length)} Go Back`
     messageBlock.payload[0].menu.push({
       type: STATIC, blockId: backId
     })
@@ -342,16 +342,16 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ca
     console.log('products', products)
     for (let i = 0; i < products.length; i++) {
       let product = products[i]
-      messageBlock.payload[0].text += `\n${convertToEmoji(i)}. ${product.name}`
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${product.name}`
       messageBlock.payload[0].menu.push({
         type: DYNAMIC, action: PRODUCT_VARIANTS, argument: product
       })
     }
-    messageBlock.payload[0].text += `\n${convertToEmoji(products.length)}. Go Back`
+    messageBlock.payload[0].text += `\n${convertToEmoji(products.length)} Go Back`
     messageBlock.payload[0].menu.push({
       type: STATIC, blockId: backId
     })
-    messageBlock.payload[0].text += `\n${convertToEmoji(products.length + 1)}. Go Home`
+    messageBlock.payload[0].text += `\n${convertToEmoji(products.length + 1)} Go Home`
     messageBlock.payload[0].menu.push({
       type: STATIC, blockId: chatbot.startingBlockId
     })
@@ -388,16 +388,16 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
     console.log('productVariants', productVariants)
     for (let i = 0; i < productVariants.length; i++) {
       let productVariant = productVariants[i]
-      messageBlock.payload[0].text += `\n${convertToEmoji(i)}. Variant: ${product.name}, Price: ${product.price}`
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)} Variant: ${product.name}, Price: ${product.price}`
       messageBlock.payload[0].menu.push({
         type: DYNAMIC, action: SELECT_PRODUCT, argument: { variant_id: productVariant.id, product: `${productVariant.name} ${product.name}` }
       })
     }
-    messageBlock.payload[0].text += `\n${convertToEmoji(productVariants.length)}. Go Back`
+    messageBlock.payload[0].text += `\n${convertToEmoji(productVariants.length)} Go Back`
     messageBlock.payload[0].menu.push({
       type: STATIC, blockId: backId
     })
-    messageBlock.payload[0].text += `\n${convertToEmoji(productVariants.length + 1)}. Go Home`
+    messageBlock.payload[0].text += `\n${convertToEmoji(productVariants.length + 1)} Go Home`
     messageBlock.payload[0].menu.push({
       type: STATIC, blockId: chatbot.startingBlockId
     })
