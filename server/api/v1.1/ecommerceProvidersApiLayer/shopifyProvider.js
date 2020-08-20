@@ -54,6 +54,27 @@ exports.fetchProductsInThisCategory = (id, credentials) => {
   })
 }
 
+exports.fetchProducts = (credentials) => {
+  const shopify = initShopify(credentials)
+  return new Promise(function (resolve, reject) {
+    shopify.product.list({ limit: 10 })
+      .then(products => {
+        products = products.map(product => {
+          return { id: product.id,
+            name: product.title,
+            product_type: product.product_type,
+            vendor: product.vendor,
+            price: product.variants[0].price
+          }
+        })
+        resolve(products)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
 exports.getProductVariants = (id, credentials) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
@@ -256,6 +277,36 @@ exports.addOrUpdateProductToCart = (customerId, lineItems, cartToken, credential
   })
 }
 
+// Address object required as discussed in shopify api
+// https://shopify.dev/docs/admin-api/rest/reference/sales-channels/checkout
+exports.updateBillingAddressOnCart = (billingAddress, cartToken, credentials) => {
+  const shopify = initShopify(credentials)
+  return new Promise(function (resolve, reject) {
+    shopify.checkout.update(cartToken, { billing_address: billingAddress })
+      .then(result => {
+        resolve(result)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
+// Address object required as discussed in shopify api
+// https://shopify.dev/docs/admin-api/rest/reference/sales-channels/checkout
+exports.updateShippingAddressOnCart = (shippingAddress, cartToken, credentials) => {
+  const shopify = initShopify(credentials)
+  return new Promise(function (resolve, reject) {
+    shopify.checkout.update(cartToken, { shipping_address: shippingAddress })
+      .then(result => {
+        resolve(result)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
 // completing checkout means creating order
 exports.completeCheckout = (cartToken, credentials) => {
   const shopify = initShopify(credentials)
@@ -271,6 +322,32 @@ exports.completeCheckout = (cartToken, credentials) => {
     } else {
       throw new Error('Cart Token is required to complete the order')
     }
+  })
+}
+
+exports.cancelAnOrder = (orderId, credentials) => {
+  const shopify = initShopify(credentials)
+  return new Promise(function (resolve, reject) {
+    shopify.order.cancel(orderId)
+      .then(result => {
+        resolve(result)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
+exports.cancelAnOrderWithRefund = (orderId, refundAmount, currency, credentials) => {
+  const shopify = initShopify(credentials)
+  return new Promise(function (resolve, reject) {
+    shopify.order.cancel(orderId, { amount: refundAmount, currency })
+      .then(result => {
+        resolve(result)
+      })
+      .catch(err => {
+        reject(err)
+      })
   })
 }
 
