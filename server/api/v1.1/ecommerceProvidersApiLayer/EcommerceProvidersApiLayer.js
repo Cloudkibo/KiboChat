@@ -37,6 +37,13 @@ module.exports = class EcommerceProvidersApiLayer {
     }
   }
 
+  // TODO baqar to test on staging as well
+  fetchProducts () {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.fetchProducts(this.eCommerceProviderCredentials)
+    }
+  }
+
   fetchProductsInThisCategory (id) {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.fetchProductsInThisCategory(id, this.eCommerceProviderCredentials)
@@ -65,12 +72,22 @@ module.exports = class EcommerceProvidersApiLayer {
     // TODO: function stub goes here
   }
 
-  fetchUserShippingAddress () {
-    // TODO: function stub goes here
+  fetchCustomerAddressUsingId (id) {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.getCustomerUsingId(id, this.eCommerceProviderCredentials)
+    }
   }
 
-  addNewShippingAddress () {
-    // TODO: function stub goes here
+  updateBillingAddressOnCart (billingAddress, cartToken) {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.updateBillingAddressOnCart(billingAddress, cartToken, this.eCommerceProviderCredentials)
+    }
+  }
+
+  updateShippingAddressOnCart (shippingAddress, cartToken) {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.updateShippingAddressOnCart(shippingAddress, cartToken, this.eCommerceProviderCredentials)
+    }
   }
 
   removeItemFromCart () {
@@ -120,6 +137,18 @@ module.exports = class EcommerceProvidersApiLayer {
   completeCheckout (cartToken) {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.completeCheckout(cartToken, this.eCommerceProviderCredentials)
+    }
+  }
+
+  cancelAnOrder (orderId) {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.cancelAnOrder(orderId, this.eCommerceProviderCredentials)
+    }
+  }
+
+  cancelAnOrderWithRefund (orderId, amount, currency) {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.cancelAnOrderWithRefund(orderId, amount, currency, this.eCommerceProviderCredentials)
     }
   }
 }
