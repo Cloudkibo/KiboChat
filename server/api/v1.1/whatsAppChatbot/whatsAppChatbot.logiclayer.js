@@ -571,7 +571,7 @@ const getErrorMessageBlock = (chatbot, backId, error) => {
 const triggers = ['Hi', 'Hello']
 
 exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input) => {
-  console.log('getting next message block')
+  console.log('getting next message block', input)
   if (!contact || !contact.lastMessageSentByBot) {
     console.log('!contact')
     if (triggers.includes(input)) {
@@ -583,10 +583,13 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
     let messageBlock = contact.lastMessageSentByBot
     let shoppingCart = contact.shoppingCart
     console.log('whatsapp contact', contact)
+    console.log('lastMessageSentByBot', messageBlock)
     try {
       if (messageBlock.payload[0].menu) {
         let menuInput = parseInt(input)
+        console.log('menuInput', menuInput)
         action = messageBlock.payload[0].menu[menuInput]
+        console.log('message action', action)
       } else {
         action = messageBlock.payload[0].action
       }
@@ -597,6 +600,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
         console.log('included trigger')
         return messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
       } else {
+        console.log('did not include trigger')
         return null
       }
     }
@@ -635,10 +639,11 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
           }
         }
       } catch (err) {
+        console.log('error message block')
         return getErrorMessageBlock(chatbot, messageBlock.uniqueId, err.message)
       }
     } else if (action.type === STATIC) {
-      return messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
+      return messageBlockDataLayer.findOneMessageBlock({ uniqueId: action.blockId })
     }
   }
 }
