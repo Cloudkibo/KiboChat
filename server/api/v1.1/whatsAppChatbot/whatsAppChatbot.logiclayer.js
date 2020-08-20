@@ -15,7 +15,7 @@ const {
 } = require('./constants')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/whatsAppChatbot/whatsAppChatbot.logiclayer.js'
-const messageBlockDataLayer = require('../../v1️.1/messageBlock/messageBlock.datalayer')
+const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 
 exports.validateWhatsAppChatbotPayload = (payload) => {
   let bool = true
