@@ -269,7 +269,6 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
 }
 
 const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider) => {
-  console.log('getProductCategoriesBlock')
   try {
     let messageBlock = {
       module: {
@@ -288,24 +287,20 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider) => 
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    console.log('fetching productCategories')
-    let productCategories = await EcommerceProvider.fetchAllProductCategories()
-    console.log('productCategories', productCategories)
-    for (let i = 0; i < productCategories.length; i++) {
-      let category = productCategories[i]
-      messageBlock.payload[0].text += `\n${i}. ${category.name}`
-      messageBlock.payload[0].menu.push({
+    let productCategories = await EcommerceProvider.getProductCategoriesBlock()
+    for (let i = 0; i < productCategories.payload.length; i++) {
+      let category = productCategories.payload[i]
+      messageBlock.payload.text += `\n${i}. ${category.name}`
+      messageBlock.payload.menu.push({
         action: { type: DYNAMIC, action: FETCH_PRODUCTS, argument: category.id }
       })
     }
-    messageBlock.payload[0].text += `\n${productCategories.length}. Go Back`
-    messageBlock.payload[0].menu.push({
+    messageBlock.payload.text += `\n${productCategories.payload.length}. Go Back`
+    messageBlock.payload.menu.push({
       action: { type: STATIC, blockId: backId }
     })
-    console.log('getProductCategoriesBlock messageBlock', messageBlock)
     return messageBlock
   } catch (err) {
-    console.log(`Unable to get product categories ${err}`)
     logger.serverLog(TAG, `Unable to get product categories ${err}`, 'error')
     throw new Error('Unable to get product categories')
   }
@@ -576,48 +571,35 @@ const getErrorMessageBlock = (chatbot, backId, error) => {
 const triggers = ['Hi', 'Hello']
 
 exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input) => {
-  console.log('getting next message block', input)
   if (!contact || !contact.lastMessageSentByBot) {
-    console.log('!contact')
     if (triggers.includes(input)) {
-      console.log('trigger found')
       return messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
     }
   } else {
     let action = null
     let messageBlock = contact.lastMessageSentByBot
     let shoppingCart = contact.shoppingCart
-    console.log('whatsapp contact', contact)
-    console.log('lastMessageSentByBot', messageBlock)
     try {
       if (messageBlock.payload[0].menu) {
         let menuInput = parseInt(input)
-        console.log('menuInput', menuInput)
         action = messageBlock.payload[0].menu[menuInput]
-        console.log('message action', action)
       } else {
         action = messageBlock.payload[0].action
       }
     } catch (err) {
-      console.log('invalid user input', err)
       logger.serverLog(TAG, `Invalid user input ${err}`, 'debug')
       if (triggers.includes(input)) {
-        console.log('included trigger')
         return messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
-      } else {
-        console.log('did not include trigger')
-        return null
       }
     }
     if (action.type === DYNAMIC) {
       try {
         switch (action.action) {
           case PRODUCT_CATEGORIES: {
-            console.log('PRODUCT_CATEGORIES')
-            return await getProductCategoriesBlock(chatbot, messageBlock.uniqueId, EcommerceProvider)
+            return getProductCategoriesBlock(chatbot, messageBlock.uniqueId, EcommerceProvider)
           }
           case FETCH_PRODUCTS: {
-            return await getProductsInCategoryBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
+            return getProductsInCategoryBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
           }
           case PRODUCT_VARIANTS: {
             return getProductVariantsBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
@@ -645,11 +627,10 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
           }
         }
       } catch (err) {
-        console.log('error message block')
         return getErrorMessageBlock(chatbot, messageBlock.uniqueId, err.message)
       }
     } else if (action.type === STATIC) {
-      return messageBlockDataLayer.findOneMessageBlock({ uniqueId: action.blockId })
+      return messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
     }
   }
 }
