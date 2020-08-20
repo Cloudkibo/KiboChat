@@ -570,21 +570,26 @@ const getErrorMessageBlock = (chatbot, backId, error) => {
 const triggers = ['Hi', 'Hello']
 
 exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input) => {
+  console.log('getting next message block')
   if (!contact || !contact.lastMessageSentByBot) {
+    console.log('!contact || !contact.lastMessageSentByBot')
     if (triggers.includes(input)) {
       return messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
     }
   } else {
+    console.log('contact && contact.lastMessageSentByBot')
     let action = null
     let messageBlock = contact.lastMessageSentByBot
     let shoppingCart = contact.shoppingCart
     try {
       if (messageBlock.payload[0].menu) {
         let menuInput = parseInt(input)
+        console.log('menuInput', menuInput)
         action = messageBlock.payload[0].menu[menuInput]
       } else {
         action = messageBlock.payload[0].action
       }
+      console.log('action', action)
     } catch (err) {
       console.log('Invalid user input', input)
       logger.serverLog(TAG, `Invalid user input ${err}`, 'error')
