@@ -617,7 +617,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             return await getProductCategoriesBlock(chatbot, messageBlock.uniqueId, EcommerceProvider)
           }
           case FETCH_PRODUCTS: {
-            return getProductsInCategoryBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
+            return await getProductsInCategoryBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
           }
           case PRODUCT_VARIANTS: {
             return getProductVariantsBlock(chatbot, messageBlock.uniqueId, EcommerceProvider, action.input ? input : action.argument)
