@@ -298,7 +298,7 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider) => 
         action: { type: DYNAMIC, action: FETCH_PRODUCTS, argument: category.id }
       })
     }
-    messageBlock.payload[0].text += `\n${productCategories.payload.length}. Go Back`
+    messageBlock.payload[0].text += `\n${productCategories.length}. Go Back`
     messageBlock.payload[0].menu.push({
       action: { type: STATIC, blockId: backId }
     })
