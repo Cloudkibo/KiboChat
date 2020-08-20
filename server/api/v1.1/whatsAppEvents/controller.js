@@ -45,15 +45,17 @@ exports.messageReceived = function (req, res) {
                               shopToken: shopifyIntegration.shopToken
                             })
                             let nextMessageBlock = await whatsAppChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text)
-                            let chatbotResponse = {
-                              whatsApp: {
-                                accessToken: data.accessToken
-                              },
-                              recipientNumber: number,
-                              payload: nextMessageBlock.payload[0]
+                            if (nextMessageBlock) {
+                              let chatbotResponse = {
+                                whatsApp: {
+                                  accessToken: data.accessToken
+                                },
+                                recipientNumber: number,
+                                payload: nextMessageBlock.payload[0]
+                              }
+                              whatsAppMapper.whatsAppMapper(req.body.provider, ActionTypes.SEND_CHAT_MESSAGE, chatbotResponse)
+                              updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
                             }
-                            whatsAppMapper.whatsAppMapper(req.body.provider, ActionTypes.SEND_CHAT_MESSAGE, chatbotResponse)
-                            updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
                           }
                         }
                       }

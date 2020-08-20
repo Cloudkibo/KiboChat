@@ -589,6 +589,8 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
       logger.serverLog(TAG, `Invalid user input ${err}`, 'error')
       if (triggers.includes(input)) {
         return messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
+      } else {
+        return null
       }
     }
     if (action.type === DYNAMIC) {
