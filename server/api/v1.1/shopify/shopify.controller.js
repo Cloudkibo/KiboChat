@@ -16,6 +16,7 @@ const dataLayer = require('./shopify.datalayer')
 const EcommerceProviders = require('./../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
 const commerceConstants = require('./../ecommerceProvidersApiLayer/constants')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
+const proceedToIntegratePage = require('./proceedToIntegratePage')
 
 exports.index = function (req, res) {
   const shop = req.body.shop
@@ -178,7 +179,7 @@ exports.callback = function (req, res) {
           res.cookie('shopifySetupState', 'startedFromAppNotAuthenticated')
           res.cookie('shopifyToken', accessToken)
           // the login in that screen should redirect to kibochat only
-          res.send('auth token not found, please login to continue')
+          res.send(proceedToIntegratePage)
         }
       })
       .catch((error) => {
