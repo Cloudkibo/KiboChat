@@ -31,6 +31,7 @@ exports.messageReceived = function (req, res) {
                     .then(async (contact) => {
                       contact = contact[0]
                       console.log('contact fetched', contact)
+                      console.log('data', data)
 
                       // whatsapp chatbot
                       if (data.messageData.componentType === 'text') {
@@ -142,6 +143,7 @@ function createContact (data) {
 }
 
 function storeChat (from, to, contact, messageData) {
+  console.log('storeChat', messageData)
   logicLayer.prepareChat(from, to, contact, messageData).then(chatPayload => {
     callApi(`whatsAppChat`, 'post', chatPayload, 'kibochat')
       .then(message => {
