@@ -108,16 +108,16 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider) => {
       let product = products[i]
       messageBlock.payload[0].text += `\n${i}. ${product.name}`
       messageBlock.payload[0].menu.push({
-        action: { type: DYNAMIC, action: PRODUCT_VARIANTS, argument: product }
+        type: DYNAMIC, action: PRODUCT_VARIANTS, argument: product
       })
     }
     messageBlock.payload[0].text += `\n${products.length}. Go Back`
     messageBlock.payload[0].menu.push({
-      action: { type: STATIC, blockId: backId }
+      type: STATIC, blockId: backId
     })
     messageBlock.payload[0].text += `\n${products.length + 1}. Go Home`
     messageBlock.payload[0].menu.push({
-      action: { type: STATIC, blockId: chatbot.startingBlockId }
+      type: STATIC, blockId: chatbot.startingBlockId
     })
     return messageBlock
   } catch (err) {
@@ -138,9 +138,7 @@ const getReturnOrderIdBlock = (chatbot, blockId, messageBlocks) => {
       {
         text: `Please enter your order id`,
         componentType: 'text',
-        menu: [
-          { type: DYNAMIC, action: RETURN_ORDER, input: true }
-        ]
+        action: { type: DYNAMIC, action: RETURN_ORDER, input: true }
       }
     ],
     userId: chatbot.userId,
@@ -254,11 +252,11 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     messageBlock.payload[0].text += '\nPlease select an option by sending the corresponding number for it:'
     messageBlock.payload[0].text += `\n0. Go Back`
     messageBlock.payload[0].menu.push({
-      action: { type: STATIC, blockId: backId }
+      type: STATIC, blockId: backId
     })
     messageBlock.payload[0].text += `\n1. Go Home`
     messageBlock.payload[0].menu.push({
-      action: { type: STATIC, blockId: chatbot.startingBlockId }
+      type: STATIC, blockId: chatbot.startingBlockId
     })
     return messageBlock
   } catch (err) {
@@ -291,12 +289,12 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider) => 
       let category = productCategories[i]
       messageBlock.payload[0].text += `\n${i}. ${category.name}`
       messageBlock.payload[0].menu.push({
-        action: { type: DYNAMIC, action: FETCH_PRODUCTS, argument: category.id }
+        type: DYNAMIC, action: FETCH_PRODUCTS, argument: category.id
       })
     }
     messageBlock.payload[0].text += `\n${productCategories.length}. Go Back`
     messageBlock.payload[0].menu.push({
-      action: { type: STATIC, blockId: backId }
+      type: STATIC, blockId: backId
     })
     return messageBlock
   } catch (err) {
@@ -332,16 +330,16 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ca
       let product = products[i]
       messageBlock.payload[0].text += `\n${i}. ${product.name}`
       messageBlock.payload[0].menu.push({
-        action: { type: DYNAMIC, action: PRODUCT_VARIANTS, argument: product }
+        type: DYNAMIC, action: PRODUCT_VARIANTS, argument: product
       })
     }
     messageBlock.payload[0].text += `\n${products.length}. Go Back`
     messageBlock.payload[0].menu.push({
-      action: { type: STATIC, blockId: backId }
+      type: STATIC, blockId: backId
     })
     messageBlock.payload[0].text += `\n${products.length + 1}. Go Home`
     messageBlock.payload[0].menu.push({
-      action: { type: STATIC, blockId: chatbot.startingBlockId }
+      type: STATIC, blockId: chatbot.startingBlockId
     })
     return messageBlock
   } catch (err) {
@@ -378,16 +376,16 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
       let productVariant = productVariants.payload[i]
       messageBlock.payload[0].text += `\n${i}. Variant: ${product.name}, Price: ${product.price}`
       messageBlock.payload[0].menu.push({
-        action: { type: DYNAMIC, action: SELECT_PRODUCT, argument: { variant_id: productVariant.id, product: `${productVariant.name} ${product.name}` } }
+        type: DYNAMIC, action: SELECT_PRODUCT, argument: { variant_id: productVariant.id, product: `${productVariant.name} ${product.name}` }
       })
     }
     messageBlock.payload[0].text += `\n${productVariants.length}. Go Back`
     messageBlock.payload[0].menu.push({
-      action: { type: STATIC, blockId: backId }
+      type: STATIC, blockId: backId
     })
     messageBlock.payload[0].text += `\n${productVariants.length + 1}. Go Home`
     messageBlock.payload[0].menu.push({
-      action: { type: STATIC, blockId: chatbot.startingBlockId }
+      type: STATIC, blockId: chatbot.startingBlockId
     })
     return messageBlock
   } catch (err) {
@@ -595,7 +593,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
         if (isNaN(menuInput) || menuInput >= messageBlock.payload[0].menu.length) {
           throw new Error('Invalid User Input')
         }
-        action = messageBlock.payload[0].menu[menuInput].action
+        action = messageBlock.payload[0].menu[menuInput]
       } else {
         action = messageBlock.payload[0].action
       }
