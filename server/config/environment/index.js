@@ -33,6 +33,10 @@ const all = {
     sid: 'ACdeb74ff803b2e44e127d0570e6248b3b',
     token: '5c13521c7655811076a9c04d88fac395',
     number: '+14254286230'
+  },
+  sendgrid: {
+    username: process.env.SENDGRID_USERNAME,
+    password: process.env.SENDGRID_PASSWORD
   }
 }
 

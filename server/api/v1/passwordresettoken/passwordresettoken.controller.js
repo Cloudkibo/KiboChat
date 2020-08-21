@@ -3,9 +3,6 @@
 const logger = require('../../../components/logger')
 // eslint-disable-next-line no-unused-vars
 const TAG = 'api/passwordresettoken/passwordresettoken.controller.js'
-const config = require('./../../../config/environment/index')
-let crypto = require('crypto')
-let path = require('path')
 const utility = require('../utility')
 
 exports.change = function (req, res) {

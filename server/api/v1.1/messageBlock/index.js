@@ -25,4 +25,7 @@ router.post('/attachment',
   auth.isUserAllowedToPerformThisAction('configure_chatbot_automation'),
   controller.attachment)
 
+router.get('/scriptChatbotBlocks',
+  controller.scriptChatbotBlocks)
+
 module.exports = router

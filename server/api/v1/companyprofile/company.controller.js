@@ -1,38 +1,39 @@
 const logger = require('../../../components/logger')
-const TAG = 'api/v1/companyprofile/company.controller.js'
-const utility = require('../../v1.1/utility')
-const config = require('../../../config/environment/index')
+const TAG = 'api/companyprofile/company.controller.js'
+const utility = require('../utility')
 const needle = require('needle')
+const config = require('../../../config/environment/index')
 const logicLayer = require('./company.logiclayer.js')
-const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
+const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
 const async = require('async')
+const request = require('request')
 
 exports.members = function (req, res) {
   utility.callApi(`companyprofile/members`, 'get', {}, 'accounts', req.headers.authorization)
     .then(members => {
-      res.status(200).json({status: 'success', payload: members})
+      sendSuccessResponse(res, 200, members)
     })
     .catch(err => {
-      res.status(500).json({status: 'failed', payload: `Failed to fetch members ${err}`})
+      sendErrorResponse(res, 500, `Failed to fetch members ${err}`)
     })
 }
 exports.getAutomatedOptions = function (req, res) {
   utility.callApi(`companyprofile/getAutomatedOptions`, 'get', {}, 'accounts', req.headers.authorization)
     .then(payload => {
-      res.status(200).json({status: 'success', payload: payload})
+      sendSuccessResponse(res, 200, payload)
     })
     .catch(err => {
-      res.status(500).json({status: 'failed', payload: `Failed to fetch automated options ${err}`})
+      sendErrorResponse(res, 500, `Failed to fetch automated options ${err}`)
     })
 }
 
 exports.getAdvancedSettings = function (req, res) {
   utility.callApi(`companyprofile`, 'get', {}, 'accounts', req.headers.authorization)
     .then(payload => {
-      res.status(200).json({status: 'success', payload: payload})
+      sendSuccessResponse(res, 200, payload)
     })
     .catch(err => {
-      res.status(500).json({status: 'failed', payload: `Failed to fetch advanced settings in company profile  ${err}`})
+      sendErrorResponse(res, 500, `Failed to fetch advanced settings in company profile ${err}`)
     })
 }
 
@@ -50,55 +51,72 @@ exports.updateAdvancedSettings = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
     .then(companyUser => {
       if (!companyUser) {
-        res.status(404).json({status: 'failed', payload: `The user account does not belong to any company. Please contact support`})
+        sendErrorResponse(res, 404, '', 'The user account does not belong to any company. Please contact support')
       }
       utility.callApi(`companyprofile/update`, 'put', {query: {_id: companyUser.companyId}, newPayload: req.body.updatedObject, options: {}})
         .then(updatedProfile => {
-          res.status(200).json({status: 'success', payload: updatedProfile})
+          sendSuccessResponse(res, 200, updatedProfile)
         })
         .catch(err => {
-          res.status(500).json({status: 'failed', payload: `Failed to update company profile ${err}`})
+          sendErrorResponse(res, 500, `Failed to update company profile ${err}`)
         })
     })
     .catch(error => {
-      res.status(500).json({status: 'failed', payload: `Failed to fetch company profile  ${error}`})
+      sendErrorResponse(res, 500, `Failed to company user ${JSON.stringify(error)}`)
     })
 }
 exports.invite = function (req, res) {
-  logger.serverLog(TAG, `invite request ${JSON.stringify(req.body)}`)
   utility.callApi('companyprofile/invite', 'post', {email: req.body.email, name: req.body.name, role: req.body.role}, 'accounts', req.headers.authorization)
     .then((result) => {
-      logger.serverLog(TAG, `invite result ${result}`)
-      res.status(200).json({status: 'success', payload: result})
+      logger.serverLog(TAG, 'result from invite endpoint accounts', 'debug')
+      logger.serverLog(TAG, result, 'debug')
+      sendSuccessResponse(res, 200, result)
     })
     .catch((err) => {
-      logger.serverLog(TAG, `invite err.status ${err.error.status}`)
-      logger.serverLog(TAG, `invite err.payload ${err.error.payload}`)
-      res.status(500).json({status: `failed ${JSON.stringify(err)}`, payload: err})
+      logger.serverLog(TAG, 'result from invite endpoint accounts', 'debug')
+      logger.serverLog(TAG, err, 'debug')
+      sendErrorResponse(res, 500, err)
     })
 }
+
+exports.updateRole = function (req, res) {
+  utility.callApi('companyprofile/updateRole', 'post', {role: req.body.role, domain_email: req.body.domain_email}, 'accounts', req.headers.authorization)
+    .then((result) => {
+      logger.serverLog(TAG, 'result from invite endpoint accounts', 'debug')
+      logger.serverLog(TAG, result, 'debug')
+      sendSuccessResponse(res, 200, result)
+    })
+    .catch((err) => {
+      sendErrorResponse(res, 500, err.error.payload)
+    })
+}
+
 exports.updateAutomatedOptions = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
     .then(companyUser => {
       if (!companyUser) {
-        return res.status(404).json({
-          status: 'failed',
-          description: 'The user account does not belong to any company. Please contact support'
-        })
+        sendErrorResponse(res, 404, '', 'The user account does not belong to any company. Please contact support')
       }
-      utility.callApi(`companyprofile/update`, 'put', {query: {_id: companyUser.companyId}, newPayload: {automated_options: req.body.automated_options}, options: {}})
+
+      var newPayload = {
+        automated_options: req.body.automated_options
+      }
+      if (req.body.showAgentName !== null) {
+        newPayload.showAgentName = req.body.showAgentName
+      }
+      utility.callApi(`companyprofile/update`, 'put', {query: {_id: companyUser.companyId}, newPayload: newPayload, options: {}})
         .then(updatedProfile => {
-          return res.status(200).json({status: 'success', payload: updatedProfile})
+          sendSuccessResponse(res, 200, updatedProfile)
         })
         .catch(err => {
-          res.status(500).json({status: 'failed', payload: `Failed to update company profile ${err}`})
+          sendErrorResponse(res, 500, `Failed to update company profile ${err}`)
         })
     })
     .catch(error => {
-      return res.status(500).json({status: 'failed', payload: `Failed to company user ${JSON.stringify(error)}`
-      })
+      sendErrorResponse(res, 500, `Failed to company user ${JSON.stringify(error)}`)
     })
 }
+
 exports.updatePlatform = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
     .then(companyUser => {
@@ -111,7 +129,6 @@ exports.updatePlatform = function (req, res) {
           if (err) {
             sendErrorResponse(res, 401, '', 'unable to authenticate twilio account')
           }
-          console.log('response in company', resp)
           if (resp.statusCode === 200) {
             let accountSid = req.body.twilio.accountSID
             let authToken = req.body.twilio.authToken
@@ -158,24 +175,40 @@ exports.updatePlatform = function (req, res) {
     })
 }
 const _updateCompanyProfile = (data, next) => {
-  if (!data.body.changeWhatsAppTwilio) {
-    let newPayload = {twilioWhatsApp: {
-      accountSID: data.body.accountSID,
-      authToken: data.body.authToken,
-      sandboxNumber: data.body.sandboxNumber.split(' ').join(''),
-      sandboxCode: data.body.sandboxCode
-    }}
-    utility.callApi(`companyprofile/update`, 'put', {query: {_id: data.companyId}, newPayload: newPayload, options: {}})
-      .then(updatedProfile => {
-        next(null, updatedProfile)
-      })
-      .catch(err => {
-        next(err)
-      })
-  } else {
-    next(null)
-  }
+  // if (!data.body.changeWhatsAppTwilio) {
+  //   let newPayload = {twilioWhatsApp: {
+  //     accountSID: data.body.accountSID,
+  //     authToken: data.body.authToken,
+  //     sandboxNumber: data.body.sandboxNumber.split(' ').join(''),
+  //     sandboxCode: data.body.sandboxCode
+  //   }}
+  //   utility.callApi(`companyprofile/update`, 'put', {query: {_id: data.companyId}, newPayload: newPayload, options: {}})
+  //     .then(updatedProfile => {
+  //       next(null, updatedProfile)
+  //     })
+  //     .catch(err => {
+  //       next(err)
+  //     })
+  // } else {
+  //   next(null)
+  // }
+  // if (!data.body.changeWhatsAppFlockSend) {
+  let newPayload = {flockSendWhatsApp: {
+    accessToken: data.body.accessToken,
+    number: data.body.number.split(' ').join('')
+  }}
+  utility.callApi(`companyprofile/update`, 'put', {query: {_id: data.companyId}, newPayload: newPayload, options: {}})
+    .then(updatedProfile => {
+      next(null, updatedProfile)
+    })
+    .catch(err => {
+      next(err)
+    })
+  // } else {
+  //   next(null)
+  // }
 }
+
 const _updateUser = (data, next) => {
   if (data.body.platform) {
     utility.callApi('user/update', 'post', {query: {_id: data.userId}, newPayload: {platform: data.body.platform}, options: {}})
@@ -190,79 +223,87 @@ const _updateUser = (data, next) => {
   }
 }
 exports.updatePlatformWhatsApp = function (req, res) {
-  let query = {
-    _id: req.user.companyId,
-    'twilioWhatsApp.accountSID': req.body.accountSID,
-    'twilioWhatsApp.authToken': req.body.authToken,
-    'twilioWhatsApp.sandboxNumber': req.body.sandboxNumber.split(' ').join(''),
-    'twilioWhatsApp.sandboxCode': req.body.sandboxCode
-  }
-  utility.callApi(`companyprofile/query`, 'post', query) // fetch company user
-    .then(companyprofile => {
-      if (!companyprofile) {
-        needle.get(
-          `https://${req.body.accountSID}:${req.body.authToken}@api.twilio.com/2010-04-01/Accounts`,
-          (err, resp) => {
-            if (err) {
-              sendErrorResponse(res, 401, 'unable to authenticate twilio account')
-            } else if (resp.statusCode === 200) {
-              let data = {body: req.body, companyId: req.user.companyId, userId: req.user._id}
-              async.series([
-                _updateCompanyProfile.bind(null, data),
-                _updateUser.bind(null, data)
-              ], function (err) {
-                if (err) {
-                  sendErrorResponse(res, 500, '', err)
-                } else {
-                  sendSuccessResponse(res, 200, {description: 'updated successfully', showModal: req.body.changeWhatsAppTwilio})
-                }
-              })
-            } else {
-              sendErrorResponse(res, 404, 'Twilio account not found. Please enter correct details')
-            }
-          })
-      } else {
-        sendSuccessResponse(res, 200, {description: 'updated successfully'})
-      }
-    })
-    .catch(error => {
-      sendErrorResponse(res, 500, `Failed to fetch company user ${error}`)
-    })
+  // let query = {
+  //   _id: req.user.companyId,
+  //   'twilioWhatsApp.accountSID': req.body.accountSID,
+  //   'twilioWhatsApp.authToken': req.body.authToken,
+  //   'twilioWhatsApp.sandboxNumber': req.body.sandboxNumber.split(' ').join(''),
+  //   'twilioWhatsApp.sandboxCode': req.body.sandboxCode
+  // }
+  // utility.callApi(`companyprofile/query`, 'post', query) // fetch company user
+  //   .then(companyprofile => {
+  //     if (!companyprofile) {
+  //       needle.get(
+  //         `https://${req.body.accountSID}:${req.body.authToken}@api.twilio.com/2010-04-01/Accounts`,
+  //         (err, resp) => {
+  //           if (err) {
+  //             sendErrorResponse(res, 401, 'unable to authenticate twilio account')
+  //           } else if (resp.statusCode === 200) {
+  //             let data = {body: req.body, companyId: req.user.companyId, userId: req.user._id}
+  //             async.series([
+  //               _updateCompanyProfile.bind(null, data),
+  //               _updateUser.bind(null, data)
+  //             ], function (err) {
+  //               if (err) {
+  //                 sendErrorResponse(res, 500, '', err)
+  //               } else {
+  //                 sendSuccessResponse(res, 200, {description: 'updated successfully', showModal: req.body.changeWhatsAppTwilio})
+  //               }
+  //             })
+  //           } else {
+  //             sendErrorResponse(res, 404, 'Twilio account not found. Please enter correct details')
+  //           }
+  //         })
+  //     } else {
+  //       sendSuccessResponse(res, 200, {description: 'updated successfully'})
+  //     }
+  //   })
+  //   .catch(error => {
+  //     sendErrorResponse(res, 500, `Failed to fetch company user ${error}`)
+  //   })
+
+  let data = {body: req.body, companyId: req.user.companyId, userId: req.user._id}
+  async.series([
+    _updateCompanyProfile.bind(null, data),
+    _updateUser.bind(null, data)
+  ], function (err) {
+    if (err) {
+      sendErrorResponse(res, 500, '', err)
+    } else {
+      sendSuccessResponse(res, 200, {description: 'updated successfully', showModal: req.body.changeWhatsAppTwilio})
+    }
+  })
 }
 exports.disconnect = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
     .then(companyUser => {
       if (!companyUser) {
-        return res.status(404).json({
-          status: 'failed',
-          description: 'The user account does not belong to any company. Please contact support'
-        })
+        sendErrorResponse(res, 404, '', 'The user account does not belong to any company. Please contact support')
       }
       let updated = {}
       if (req.body.type === 'sms') {
         updated = {$unset: {twilio: 1}}
       } else {
-        updated = {$unset: {twilioWhatsApp: 1}}
+        updated = {$unset: {flockSendWhatsApp: 1}}
       }
       let userUpdated = logicLayer.getPlatform(companyUser, req.body)
       utility.callApi(`companyprofile/update`, 'put', {query: {_id: companyUser.companyId}, newPayload: updated, options: {}})
         .then(updatedProfile => {
           utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: userUpdated, options: {}})
             .then(updated => {
-              return res.status(200).json({status: 'success', payload: updatedProfile})
+              sendSuccessResponse(res, 200, updatedProfile)
             })
             .catch(err => {
-              res.status(500).json({status: 'failed', payload: err})
+              sendErrorResponse(res, 500, err)
             })
-          return res.status(200).json({status: 'success', payload: updatedProfile})
+          sendSuccessResponse(res, 200, updatedProfile)
         })
         .catch(err => {
-          res.status(500).json({status: 'failed', payload: `Failed to update company profile ${err}`})
+          sendErrorResponse(res, 500, `Failed to update company profile ${err}`)
         })
     })
     .catch(error => {
-      return res.status(500).json({status: 'failed', payload: `Failed to company user ${JSON.stringify(error)}`
-      })
+      sendErrorResponse(res, 500, `Failed to company user ${JSON.stringify(error)}`)
     })
 }
 
@@ -285,19 +326,19 @@ exports.fetchValidCallerIds = function (req, res) {
               if (phone.length === 0) {
                 utility.callApi(`contacts`, 'post', contact)
                   .then(saved => {
-                    logger.serverLog(TAG, `${JSON.stringify(contact)} saved successfully`, 'success')
+                    logger.serverLog(TAG, `Contact saved successfully ${JSON.stringify(saved)}`, 'success')
                   })
                   .catch(error => {
                     logger.serverLog(TAG, `Failed to save contact ${JSON.stringify(error)}`, 'error')
                   })
               }
-              if (index === (callerIds.length - 1)) {
-                res.status(200).json({status: 'success', payload: 'Contacts updated successfully'})
-              }
             })
             .catch(error => {
               logger.serverLog(TAG, `Failed to fetch contact ${JSON.stringify(error)}`, 'error')
             })
+          if (index === (callerIds.length - 1)) {
+            sendSuccessResponse(res, 200, 'Contacts updated successfully')
+          }
         })
       }
     })
@@ -353,14 +394,22 @@ exports.deleteWhatsAppInfo = function (req, res) {
       async.parallelLimit([
         function (callback) {
           let updated = {}
+          // if (req.body.type === 'Disconnect') {
+          //   updated = {$unset: {twilioWhatsApp: 1}}
+          // } else {
+          //   updated = {twilioWhatsApp: {
+          //     accountSID: req.body.accountSID,
+          //     authToken: req.body.authToken,
+          //     sandboxNumber: req.body.sandboxNumber.split(' ').join(''),
+          //     sandboxCode: req.body.sandboxCode
+          //   }}
+          // }
           if (req.body.type === 'Disconnect') {
-            updated = {$unset: {twilioWhatsApp: 1}}
+            updated = {$unset: {flockSendWhatsApp: 1}}
           } else {
             updated = {twilioWhatsApp: {
-              accountSID: req.body.accountSID,
-              authToken: req.body.authToken,
-              sandboxNumber: req.body.sandboxNumber.split(' ').join(''),
-              sandboxCode: req.body.sandboxCode
+              accessToken: req.body.accessToken,
+              number: req.body.sandboxNumber.split(' ').join('')
             }}
           }
           utility.callApi(`companyprofile/update`, 'put', {query: {_id: req.user.companyId}, newPayload: updated, options: {}})
@@ -455,5 +504,109 @@ exports.updateAdvancedSettings = function (req, res) {
     .catch(err => {
       logger.serverLog(TAG, err, 'error')
       sendErrorResponse(res, 500, null, 'Failed to update advanced settings')
+    })
+}
+
+exports.disableMember = function (req, res) {
+  utility.callApi('user/authenticatePassword', 'post', {email: req.user.email, password: req.body.password})
+    .then(authenticated => {
+      logger.serverLog(TAG, `authenticated ${JSON.stringify(authenticated)}`)
+      utility.callApi('companyprofile/disableMember', 'post', {memberId: req.body.memberId}, 'accounts', req.headers.authorization)
+        .then(result => {
+          sendSuccessResponse(res, 200, result, 'Member has been deactivated')
+        })
+        .catch(err => {
+          logger.serverLog(TAG, err, 'error')
+          sendErrorResponse(res, 500, null, 'Failed to deactivate member')
+        })
+    })
+    .catch(err => {
+      logger.serverLog(TAG, err, 'error')
+      sendErrorResponse(res, 500, 'Incorrect password', `Incorrect password`)
+    })
+}
+
+exports.enableMember = function (req, res) {
+  utility.callApi('user/update', 'post', {query: {_id: req.body.memberId}, newPayload: {disableMember: false}, options: {upsert: true}}, 'accounts', req.headers.authorization)
+    .then(result => {
+      sendSuccessResponse(res, 200, result, 'Member has been activated')
+    })
+    .catch(err => {
+      logger.serverLog(TAG, err, 'error')
+      sendErrorResponse(res, 500, 'Incorrect password', `Incorrect password`)
+    })
+}
+
+exports.getWhatsAppMessageTemplates = function (req, res) {
+  utility.callApi('companyprofile/query', 'post', {_id: req.user.companyId})
+    .then(companyProfile => {
+      if (companyProfile) {
+        if (companyProfile.flockSendWhatsApp) {
+          const authData = {
+            'token': companyProfile.flockSendWhatsApp.accessToken
+          }
+          request(
+            {
+              'method': 'POST',
+              'formData': authData,
+              'uri': 'https://flocksend.com/api/templates-fetch'
+            }, (err, resp) => {
+              if (err) {
+                sendErrorResponse(res, 500, err, 'Error retrieving templates')
+              }
+              // let templates = [
+              //   {
+              //     name: 'contact_reminder',
+              //     text: 'Hi {{1}}.\n\nThank you for contacting {{2}}.\n\nPlease choose from the options below to continue:',
+              //     regex: ^Hi (.*)\.\n\nThank you for contacting (.*).\n\nPlease choose from the options below to continue:$,
+              //     buttons: [
+              //       {title: 'Get in Touch'},
+              //       {title: 'Explore Options'},
+              //       {title: 'Speak to Support'}
+              //     ],
+              //     templateArguments: '{{1}},{{2}}'
+              //   }
+              // ]
+              let templates = []
+              let flockSendTemplates = JSON.parse(resp.body)
+              for (let i = 0; i < flockSendTemplates.length; i++) {
+                if (flockSendTemplates[i].localizations[0].status === 'APPROVED') {
+                  let template = {}
+                  template.name = flockSendTemplates[i].templateName
+                  let templateComponents = flockSendTemplates[i].localizations[0].components
+                  for (let j = 0; j < templateComponents.length; j++) {
+                    if (templateComponents[j].type === 'BODY') {
+                      template.text = templateComponents[j].text
+                      let argumentsRegex = /{{[0-9]}}/g
+                      let templateArguments = template.text.match(argumentsRegex).join(',')
+                      template.templateArguments = templateArguments
+                      let regex = template.text.replace('.', '\\.')
+                      regex = regex.replace(argumentsRegex, '(.*)')
+                      template.regex = `^${regex}$`
+                    } else if (templateComponents[j].type === 'BUTTONS') {
+                      template.buttons = templateComponents[j].buttons.map(button => {
+                        return {
+                          title: button.text
+                        }
+                      })
+                    }
+                  }
+                  if (!template.buttons) {
+                    template.buttons = []
+                  }
+                  templates.push(template)
+                }
+              }
+              sendSuccessResponse(res, 200, templates, 'Retrieved templates successfully')
+            })
+        } else {
+          sendErrorResponse(res, 500, null, 'WhatsApp not connected')
+        }
+      } else {
+        sendErrorResponse(res, 500, null, 'No company profile found')
+      }
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, err, 'Error fetching company profile')
     })
 }

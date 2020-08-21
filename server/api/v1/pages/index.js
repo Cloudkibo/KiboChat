@@ -92,4 +92,8 @@ router.post('/isWhitelisted',
   auth.isUserAllowedToPerformThisAction('manage_facebook_pages'),
   controller.isWhitelisted)
 
+router.post('/refreshPages',
+  auth.isAuthenticated(),
+  controller.refreshPages)
+
 module.exports = router

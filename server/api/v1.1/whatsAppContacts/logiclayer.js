@@ -1,3 +1,6 @@
+const path = require('path')
+const crypto = require('crypto')
+
 exports.getCriterias = function (body, companyUser) {
   let findCriteria = {}
   let finalCriteria = {}
@@ -40,4 +43,43 @@ exports.getCriterias = function (body, companyUser) {
     ]
   }
   return { countCriteria: countCriteria, fetchCriteria: finalCriteria }
+}
+exports.prepareFlockSendPayload = (data) => {
+  let MessageObject = {
+    token: data.accessToken,
+    number_details: JSON.stringify(data.numbers),
+    template_name: data.payload.templateName,
+    template_argument: data.payload.templateArguments,
+    language: 'en'
+  }
+  return MessageObject
+}
+exports.directory = function (req) {
+  var today = new Date()
+  var uid = crypto.randomBytes(5).toString('hex')
+  var serverPath = 'f' + uid + '' + today.getFullYear() + '' +
+    (today.getMonth() + 1) + '' + today.getDate()
+  serverPath += '' + today.getHours() + '' + today.getMinutes() + '' +
+    today.getSeconds()
+  let fext = req.files.file.name.split('.')
+  serverPath += '.' + fext[fext.length - 1]
+  let dir = path.resolve(__dirname, '../../../../broadcastFiles/')
+  return {
+    serverPath: serverPath, dir: dir
+  }
+}
+exports.prepareChat = (data, contact) => {
+  let MessageObject = {
+    senderNumber: data.senderNumber,
+    recipientNumber: contact.number,
+    contactId: contact._id,
+    companyId: data.companyId,
+    payload: data.payload,
+    repliedBy: {
+      id: data.user._id,
+      name: data.user.name,
+      type: 'agent'
+    }
+  }
+  return MessageObject
 }

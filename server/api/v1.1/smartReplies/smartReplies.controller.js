@@ -54,7 +54,8 @@ const _createGCPProject = (data, callback) => {
 
 const _createDialogFlowAgent = (data, callback) => {
   const agentData = {
-    displayName: data.dialogFlowAgentId
+    displayName: data.dialogFlowAgentId,
+    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
   }
   callGoogleApi(
     `https://dialogflow.googleapis.com/v2/projects/${data.gcpPojectId.toLowerCase()}/agent`,

@@ -252,6 +252,7 @@ function doesRolePermitsThisAction (action) {
   })
 }
 
+// eslint-disable-next-line no-unused-vars
 function validateApiKeys (req, res, next) {
   if (req.headers.hasOwnProperty('app_secret')) {
     apiCaller.callApi(`api_settings/query`, 'post', {
@@ -521,21 +522,22 @@ function fetchPages (url, user, req, token) {
   })
 }
 
-// function updateUnapprovedPages (facebookPages, user, companyUser) {
-//   if (facebookPages.length > 0) {
-//     let fbPages = facebookPages.map(item => item.id)
-//     apiCaller.callApi(`pages/query`, 'post', {userId: user._id, companyId: companyUser.companyId})
-//       .then(localPages => {
-//         for (let i = 0; i < localPages.length; i++) {
-//           if (!fbPages.includes(localPages[i].pageId)) {
-//             apiCaller.callApi(`pages/${localPages[i]._id}`, 'put', {isApproved: false, connected: false})
-//               .then(updated => {
-//               })
-//           }
-//         }
-//       })
-//   }
-// }
+// eslint-disable-next-line no-unused-vars
+function updateUnapprovedPages (facebookPages, user, companyUser) {
+  if (facebookPages.length > 0) {
+    let fbPages = facebookPages.map(item => item.id)
+    apiCaller.callApi(`pages/query`, 'post', {userId: user._id, companyId: companyUser.companyId})
+      .then(localPages => {
+        for (let i = 0; i < localPages.length; i++) {
+          if (!fbPages.includes(localPages[i].pageId)) {
+            apiCaller.callApi(`pages/${localPages[i]._id}`, 'put', {isApproved: false, connected: false})
+              .then(updated => {
+              })
+          }
+        }
+      })
+  }
+}
 
 // eslint-disable-next-line no-unused-vars
 function isAuthorizedKiboAPITrigger (req) {

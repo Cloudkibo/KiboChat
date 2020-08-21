@@ -13,6 +13,7 @@ module.exports = function (app) {
   app.use('/api/messengerEvents', require('./api/v1.1/messengerEvents'))
   app.use('/api/subscribers', require('./api/v1/subscribers'))
   app.use('/api/users', require('./api/v1/user'))
+  app.use('/api/companyUsers', require('./api/v1/companyUsers'))
   app.use('/api/sessions', require('./api/v1.1/sessions'))
   app.use('/api/notifications', require('./api/v1.1/notifications'))
   app.use('/api/livechat', require('./api/v1.1/liveChat'))
@@ -56,13 +57,65 @@ module.exports = function (app) {
   app.use('/api/api_ngp', require('./api/v1.1/api_ngp'))
   app.use('/api/integrations', require('./api/v1.1/integrations'))
   app.use('/api/intents', require('./api/v1.1/intents'))
+  app.use('/api/cannedResponses', require('./api/v1.1/cannedResponses'))
   app.use('/api/twilio', require('./api/v1.1/twilio'))
   app.use('/api/chatbots', require('./api/v1.1/chatbots'))
   app.use('/api/messageBlock', require('./api/v1.1/messageBlock'))
-
+  app.use('/api/zoom', require('./api/v1.1/zoomIntegration'))
+  app.use('/api/zoomEvents', require('./api/v1.1/zoomEvents'))
+  app.use('/api/flockSendEvents', require('./api/v1.1/flockSendEvents'))
+  app.use('/api/adminAlerts', require('./api/v1.1/adminAlerts'))
   // auth middleware go here if you authenticate on same server
 
   app.get('/', (req, res) => {
+    res.cookie('environment', config.env,
+      {expires: new Date(Date.now() + 900000)})
+    res.cookie('url_production', 'https://kibochat.cloudkibo.com',
+      {expires: new Date(Date.now() + 900000)})
+    res.cookie('url_staging', 'https://skibochat.cloudkibo.com',
+      {expires: new Date(Date.now() + 900000)})
+    res.cookie('url_development', 'http://localhost:3022',
+      {expires: new Date(Date.now() + 900000)})
+    res.sendFile(path.join(config.root, 'client/index.html'))
+  })
+
+  app.get('/integrations/zoom', (req, res) => {
+    res.cookie('environment', config.env,
+      {expires: new Date(Date.now() + 900000)})
+    res.cookie('url_production', 'https://kibochat.cloudkibo.com',
+      {expires: new Date(Date.now() + 900000)})
+    res.cookie('url_staging', 'https://skibochat.cloudkibo.com',
+      {expires: new Date(Date.now() + 900000)})
+    res.cookie('url_development', 'http://localhost:3022',
+      {expires: new Date(Date.now() + 900000)})
+    res.sendFile(path.join(config.root, 'client/index.html'))
+  })
+
+  app.get('/alreadyConnected', (req, res) => {
+    res.cookie('environment', config.env,
+      {expires: new Date(Date.now() + 900000)})
+    res.cookie('url_production', 'https://kibochat.cloudkibo.com',
+      {expires: new Date(Date.now() + 900000)})
+    res.cookie('url_staging', 'https://skibochat.cloudkibo.com',
+      {expires: new Date(Date.now() + 900000)})
+    res.cookie('url_development', 'http://localhost:3022',
+      {expires: new Date(Date.now() + 900000)})
+    res.sendFile(path.join(config.root, 'client/index.html'))
+  })
+
+  app.get('/successMessage', (req, res) => {
+    res.cookie('environment', config.env,
+      {expires: new Date(Date.now() + 900000)})
+    res.cookie('url_production', 'https://kibochat.cloudkibo.com',
+      {expires: new Date(Date.now() + 900000)})
+    res.cookie('url_staging', 'https://skibochat.cloudkibo.com',
+      {expires: new Date(Date.now() + 900000)})
+    res.cookie('url_development', 'http://localhost:3022',
+      {expires: new Date(Date.now() + 900000)})
+    res.sendFile(path.join(config.root, 'client/index.html'))
+  })
+
+  app.get('/ErrorMessage', (req, res) => {
     res.cookie('environment', config.env,
       {expires: new Date(Date.now() + 900000)})
     res.cookie('url_production', 'https://kibochat.cloudkibo.com',
