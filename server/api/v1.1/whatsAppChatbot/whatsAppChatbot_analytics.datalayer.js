@@ -23,8 +23,6 @@ exports.createForBotAnalytics = (payload) => {
 }
 
 exports.genericUpdateBotAnalytics = (queryObject, updated, options) => {
-  console.log('genericUpdateBotAnalytics queryObject', queryObject)
-  console.log('genericUpdateBotAnalytics updated', updated)
   let query = {
     purpose: 'updateAll',
     match: queryObject,

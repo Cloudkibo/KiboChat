@@ -60,11 +60,8 @@ exports.messageReceived = function (req, res) {
                                 updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
                                 const triggerWordsMatched = chatbot.triggers.includes(data.messageData.text) ? 1 : 0
                                 if (isNewContact) {
-                                  console.log('isNewContact')
-                                  let analyticsResponse = await whatsAppChatbotAnalyticsDataLayer.genericUpdateBotAnalytics({ chatbotId: chatbot._id }, { $inc: { sentCount: 1, newSubscribersCount: 1, triggerWordsMatched } })
-                                  console.log('analyticsResponse', analyticsResponse)
+                                  await whatsAppChatbotAnalyticsDataLayer.genericUpdateBotAnalytics({ chatbotId: chatbot._id }, { $inc: { sentCount: 1, newSubscribersCount: 1, triggerWordsMatched } })
                                 } else {
-                                  console.log('is returning')
                                   let subscriberLastMessageAt = moment(contact.lastMessagedAt)
                                   let dateNow = moment()
                                   if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
@@ -105,7 +102,7 @@ function createContact (data) {
   let query = [
     { $match: { 'whatsApp.accessToken': data.accessToken } }
   ]
-  let isNewContact = false
+  let isNewContact = true
   return new Promise((resolve, reject) => {
     callApi(`companyprofile/aggregate`, 'post', query, 'accounts')
       .then(companies => {
@@ -132,6 +129,7 @@ function createContact (data) {
                       }
                     })
                 } else {
+                  isNewContact = false
                   if (contact.name === contact.number && name && name !== '') {
                     callApi(`whatsAppContacts/update`, 'put', {
                       query: { _id: contact._id },
