@@ -7,7 +7,7 @@ exports.findOneBotAnalytics = (match) => {
     purpose: 'findOne',
     match: match
   }
-  return callApi(`whatsappbotsanalytics/query`, 'post', query, kibochat)
+  return callApi(`whatsapp_bots_analtyics/query`, 'post', query, kibochat)
 }
 
 exports.findAllBotAnalytics = (match) => {
@@ -15,11 +15,11 @@ exports.findAllBotAnalytics = (match) => {
     purpose: 'findAll',
     match: match
   }
-  return callApi(`whatsappbotsanalytics/query`, 'post', query, kibochat)
+  return callApi(`whatsapp_bots_analtyics/query`, 'post', query, kibochat)
 }
 
 exports.createForBotAnalytics = (payload) => {
-  return callApi(`whatsappbotsanalytics`, 'post', payload, kibochat)
+  return callApi(`whatsapp_bots_analtyics`, 'post', payload, kibochat)
 }
 
 exports.genericUpdateBotAnalytics = (queryObject, updated, options) => {
@@ -33,7 +33,7 @@ exports.genericUpdateBotAnalytics = (queryObject, updated, options) => {
     if (options.new) query.new = options.new
     if (options.multi) query.multi = options.multi
   }
-  return callApi(`whatsappbotsanalytics`, 'put', query, kibochat)
+  return callApi(`whatsapp_bots_analtyics`, 'put', query, kibochat)
 }
 
 exports.aggregateForBotAnalytics = (match, group, lookup, limit, sort, skip) => {
@@ -47,5 +47,5 @@ exports.aggregateForBotAnalytics = (match, group, lookup, limit, sort, skip) => 
   if (sort) query.sort = sort
   if (skip) query.skip = skip
 
-  return callApi(`whatsappbotsanalytics/query`, 'post', query, kibochat)
+  return callApi(`whatsapp_bots_analtyics/query`, 'post', query, kibochat)
 }
