@@ -60,8 +60,11 @@ exports.messageReceived = function (req, res) {
                                 updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
                                 const triggerWordsMatched = chatbot.triggers.includes(data.messageData.text) ? 1 : 0
                                 if (isNewContact) {
-                                  await whatsAppChatbotAnalyticsDataLayer.genericUpdateBotAnalytics({ chatbotId: chatbot._id }, { $inc: { sentCount: 1, newSubscribersCount: 1, triggerWordsMatched } })
+                                  console.log('isNewContact')
+                                  let analyticsResponse = await whatsAppChatbotAnalyticsDataLayer.genericUpdateBotAnalytics({ chatbotId: chatbot._id }, { $inc: { sentCount: 1, newSubscribersCount: 1, triggerWordsMatched } })
+                                  console.log('analyticsResponse', analyticsResponse)
                                 } else {
+                                  console.log('is returning')
                                   let subscriberLastMessageAt = moment(contact.lastMessagedAt)
                                   let dateNow = moment()
                                   if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
