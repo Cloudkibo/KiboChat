@@ -66,6 +66,8 @@ exports.messageReceived = function (req, res) {
                                   let dateNow = moment()
                                   if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
                                     await whatsAppChatbotAnalyticsDataLayer.genericUpdateBotAnalytics({ chatbotId: chatbot._id }, { $inc: { sentCount: 1, returningSubscribers: 1, triggerWordsMatched } })
+                                  } else {
+                                    await whatsAppChatbotAnalyticsDataLayer.genericUpdateBotAnalytics({ chatbotId: chatbot._id }, { $inc: { sentCount: 1, triggerWordsMatched } })
                                   }
                                 }
                               }
@@ -102,7 +104,7 @@ function createContact (data) {
   let query = [
     { $match: { 'whatsApp.accessToken': data.accessToken } }
   ]
-  let isNewContact = true
+  let isNewContact = false
   return new Promise((resolve, reject) => {
     callApi(`companyprofile/aggregate`, 'post', query, 'accounts')
       .then(companies => {
@@ -129,7 +131,6 @@ function createContact (data) {
                       }
                     })
                 } else {
-                  isNewContact = false
                   if (contact.name === contact.number && name && name !== '') {
                     callApi(`whatsAppContacts/update`, 'put', {
                       query: { _id: contact._id },

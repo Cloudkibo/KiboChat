@@ -6,7 +6,6 @@ const analyticsDataLayer = require('./whatsAppChatbot_analytics.datalayer')
 
 exports.create = async (req, res) => {
   try {
-    console.log('create whatsapp chatbot', req.body)
     let existingChatbot = await dataLayer.fetchWhatsAppChatbot(req.user.companyId)
     if (existingChatbot) {
       sendErrorResponse(res, 500, existingChatbot, `Chatbot already exists`)
