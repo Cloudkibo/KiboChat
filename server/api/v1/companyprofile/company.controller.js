@@ -392,7 +392,7 @@ exports.updatePlan = function (req, res) {
       sendSuccessResponse(res, 200, result)
     })
     .catch((err) => {
-      sendErrorResponse(res, 500, err)
+      sendErrorResponse(res, 500, '', err)
     })
 }
 
