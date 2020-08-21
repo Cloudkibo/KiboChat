@@ -9,7 +9,8 @@ exports.createWhatsAppChatbot = (req) => {
       let createdChatbot = await callApi(`whatsAppChatbot`, 'post', {
         userId: req.user._id,
         companyId: req.user.companyId,
-        botLinks: req.body.botLinks ? req.body.botLinks : undefined
+        botLinks: req.body.botLinks ? req.body.botLinks : undefined,
+        testSubscribers: req.body.testSubscribers ? req.body.testSubscribers : []
       }, 'kibochat')
       resolve(createdChatbot)
     } catch (err) {
