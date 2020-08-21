@@ -9,6 +9,8 @@ const shopifyDataLayer = require('../shopify/shopify.datalayer')
 const { ActionTypes } = require('../../../whatsAppMapper/constants')
 const commerceConstants = require('./../ecommerceProvidersApiLayer/constants')
 const EcommerceProvider = require('./../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
+const whatsAppChatbotAnalyticsDataLayer = require('../whatsAppChatbot/whatsAppChatbot_analytics.datalayer')
+const moment = require('moment')
 
 exports.messageReceived = function (req, res) {
   res.status(200).json({
@@ -18,7 +20,7 @@ exports.messageReceived = function (req, res) {
   whatsAppMapper.handleInboundMessageReceived(req.body.provider, req.body.event)
     .then(data => {
       createContact(data)
-        .then(() => {
+        .then((isNewContact) => {
           let number = `+${data.userData.number}`
           if (data.messageData.constructor === Object && Object.keys(data.messageData).length > 0) {
             let query = [
@@ -56,6 +58,16 @@ exports.messageReceived = function (req, res) {
                                 }
                                 whatsAppMapper.whatsAppMapper(req.body.provider, ActionTypes.SEND_CHAT_MESSAGE, chatbotResponse)
                                 updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
+                                const triggerWordsMatched = chatbot.triggers.includes(data.messageData.text) ? 1 : 0
+                                if (isNewContact) {
+                                  await whatsAppChatbotAnalyticsDataLayer.genericUpdateBotAnalytics({ chatbotId: chatbot._id }, { $inc: { sentCount: 1, newSubscribersCount: 1, triggerWordsMatched } })
+                                } else {
+                                  let subscriberLastMessageAt = moment(contact.lastMessagedAt)
+                                  let dateNow = moment()
+                                  if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
+                                    await whatsAppChatbotAnalyticsDataLayer.genericUpdateBotAnalytics({ chatbotId: chatbot._id }, { $inc: { sentCount: 1, returningSubscribers: 1, triggerWordsMatched } })
+                                  }
+                                }
                               }
                             }
                           }
@@ -90,6 +102,7 @@ function createContact (data) {
   let query = [
     { $match: { 'whatsApp.accessToken': data.accessToken } }
   ]
+  let isNewContact = true
   return new Promise((resolve, reject) => {
     callApi(`companyprofile/aggregate`, 'post', query, 'accounts')
       .then(companies => {
@@ -99,6 +112,7 @@ function createContact (data) {
               .then(contact => {
                 contact = contact[0]
                 if (!contact) {
+                  isNewContact = true
                   callApi(`whatsAppContacts`, 'post', {
                     name: name && name !== '' ? name : number,
                     number: number,
@@ -106,15 +120,16 @@ function createContact (data) {
                   }, 'accounts')
                     .then(contact => {
                       if (index === companies.length - 1) {
-                        resolve()
+                        resolve(isNewContact)
                       }
                     })
                     .catch(() => {
                       if (index === companies.length - 1) {
-                        resolve()
+                        resolve(isNewContact)
                       }
                     })
                 } else {
+                  isNewContact = false
                   if (contact.name === contact.number && name && name !== '') {
                     callApi(`whatsAppContacts/update`, 'put', {
                       query: { _id: contact._id },
@@ -125,7 +140,7 @@ function createContact (data) {
                       })
                   }
                   if (index === companies.length - 1) {
-                    resolve()
+                    resolve(isNewContact)
                   }
                 }
               })

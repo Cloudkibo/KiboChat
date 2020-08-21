@@ -2,6 +2,7 @@ const logicLayer = require('./whatsAppChatbot.logiclayer')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 const dataLayer = require('./whatsAppChatbot.datalayer')
+const analyticsDataLayer = require('./whatsAppChatbot_analytics.datalayer')
 
 exports.create = async (req, res) => {
   try {
@@ -17,6 +18,11 @@ exports.create = async (req, res) => {
       })
       sendSuccessResponse(res, 200, chatbot, 'WhatsApp chatbot created successfully')
       await messageBlockDataLayer.createBulkMessageBlocks(messageBlocks)
+      await analyticsDataLayer.createForBotAnalytics({
+        chatbotId: chatbot._id,
+        userId: req.user._id,
+        companyId: req.user.companyId
+      })
     }
   } catch (err) {
     sendErrorResponse(res, 500, err.message, `Failed to create WhatsApp chatbot`)
