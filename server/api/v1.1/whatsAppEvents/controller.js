@@ -105,7 +105,6 @@ function createContact (data) {
   let query = [
     { $match: { 'whatsApp.accessToken': data.accessToken } }
   ]
-  let isNewContact = true
   return new Promise((resolve, reject) => {
     callApi(`companyprofile/aggregate`, 'post', query, 'accounts')
       .then(companies => {
@@ -115,7 +114,6 @@ function createContact (data) {
               .then(contact => {
                 contact = contact[0]
                 if (!contact) {
-                  isNewContact = true
                   callApi(`whatsAppContacts`, 'post', {
                     name: name && name !== '' ? name : number,
                     number: number,
@@ -123,16 +121,15 @@ function createContact (data) {
                   }, 'accounts')
                     .then(contact => {
                       if (index === companies.length - 1) {
-                        resolve(isNewContact)
+                        resolve(true)
                       }
                     })
                     .catch(() => {
                       if (index === companies.length - 1) {
-                        resolve(isNewContact)
+                        resolve(true)
                       }
                     })
                 } else {
-                  isNewContact = false
                   if (contact.name === contact.number && name && name !== '') {
                     callApi(`whatsAppContacts/update`, 'put', {
                       query: { _id: contact._id },
@@ -143,7 +140,7 @@ function createContact (data) {
                       })
                   }
                   if (index === companies.length - 1) {
-                    resolve(isNewContact)
+                    resolve(false)
                   }
                 }
               })
