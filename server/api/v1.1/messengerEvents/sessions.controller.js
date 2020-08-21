@@ -235,6 +235,21 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
               })
           }, 500)
           sendautomatedmsg(event, page)
+        } else {
+          require('./../../../config/socketio').sendMessageToClient({
+            room_id: page.companyId,
+            body: {
+              action: 'new_chat',
+              payload: {
+                subscriber_id: subscriber._id,
+                chat_id: chat._id,
+                text: chatPayload.payload.text,
+                name: subscriber.firstName + ' ' + subscriber.lastName,
+                subscriber: subscriber,
+                message: chat
+              }
+            }
+          })
         }
       })
       .catch(error => {
