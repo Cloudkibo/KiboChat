@@ -18,6 +18,7 @@ const {
 const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/whatsAppChatbot/whatsAppChatbot.logiclayer.js'
 const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
+const { callApi } = require('../utility')
 
 exports.validateWhatsAppChatbotPayload = (payload) => {
   let bool = true
@@ -475,7 +476,7 @@ const getAddToCartBlock = async (chatbot, backId, EcommerceProvider, shoppingCar
         product: product.product
       })
     }
-    await EcommerceProvider.addProductToCart(shoppingCart)
+    await callApi(`whatsAppContacts/update`, 'put', { query: { _id: chatbot.userId }, newPayload: { shoppingCart } })
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to add to cart ${err}`, 'error')
@@ -582,7 +583,7 @@ const getRemoveFromCartBlock = async (chatbot, backId, EcommerceProvider, shoppi
       companyId: chatbot.companyId
     }
     shoppingCart.splice(productIndex, 1)
-    await EcommerceProvider.removeItemFromCart(shoppingCart)
+    await callApi(`whatsAppContacts/update`, 'put', { query: { _id: chatbot.userId }, newPayload: { shoppingCart } })
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to remove item from cart ${err}`, 'error')
@@ -652,11 +653,9 @@ const getErrorMessageBlock = (chatbot, backId, error) => {
   }
 }
 
-const triggers = ['Hi', 'Hello']
-
 exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input) => {
   if (!contact || !contact.lastMessageSentByBot) {
-    if (triggers.includes(input)) {
+    if (chatbot.triggers.includes(input)) {
       return messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
     }
   } else {
@@ -674,7 +673,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
       }
     } catch (err) {
       logger.serverLog(TAG, `Invalid user input ${input}`, 'error')
-      if (triggers.includes(input)) {
+      if (chatbot.triggers.includes(input)) {
         return messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
       } else {
         return null
