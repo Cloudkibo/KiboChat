@@ -37,7 +37,6 @@ module.exports = class EcommerceProvidersApiLayer {
     }
   }
 
-  // TODO baqar to test on staging as well
   fetchProducts () {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.fetchProducts(this.eCommerceProviderCredentials)
@@ -54,22 +53,6 @@ module.exports = class EcommerceProvidersApiLayer {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.getProductVariants(id, this.eCommerceProviderCredentials)
     }
-  }
-
-  addProductToCart () {
-    // TODO: function stub goes here
-  }
-
-  viewItemsInCart () {
-    // TODO: function stub goes here
-  }
-
-  getProductDetails () {
-    // TODO: function stub goes here
-  }
-
-  placeAnOrder () {
-    // TODO: function stub goes here
   }
 
   fetchCustomerAddressUsingId (id) {
@@ -90,12 +73,10 @@ module.exports = class EcommerceProvidersApiLayer {
     }
   }
 
-  removeItemFromCart () {
-    // TODO: function stub goes here
-  }
-
-  updateCartItemsQuantity () {
-    // TODO: function stub goes here
+  createPermalinkForCart (customer, lineItems) {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.createPermalinkForCart(customer, lineItems, this.eCommerceProviderCredentials)
+    }
   }
 
   checkOrderStatus (id) {

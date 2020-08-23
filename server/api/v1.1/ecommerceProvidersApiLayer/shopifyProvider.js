@@ -277,6 +277,28 @@ exports.addOrUpdateProductToCart = (customerId, lineItems, cartToken, credential
   })
 }
 
+// customer is the customer object that is returned
+// by this shpify layer.
+// lineItems will be array like
+// [
+//   {
+//     "variant_id": 39072856,
+//     "quantity": 5
+//   }
+// ]
+exports.createPermalinkForCart = (customer, lineItems, credentials) => {
+  let shopUrl = credentials.shopUrl
+  let permaLink = `http://${shopUrl}/cart/`
+  lineItems.forEach(item => {
+    permaLink += `${item.variant_id}:${item.quantity},`
+  })
+  permaLink = permaLink.substring(0, permaLink.length - 1)
+  permaLink = `${permaLink}?checkout[email]=${customer.email}`
+  permaLink = `${permaLink}&checkout[shipping_address][first_name]=${customer.first_name}`
+  permaLink = `${permaLink}&checkout[shipping_address][last_name]=${customer.last_name}`
+  return permaLink
+}
+
 // Address object required as discussed in shopify api
 // https://shopify.dev/docs/admin-api/rest/reference/sales-channels/checkout
 exports.updateBillingAddressOnCart = (billingAddress, cartToken, credentials) => {
