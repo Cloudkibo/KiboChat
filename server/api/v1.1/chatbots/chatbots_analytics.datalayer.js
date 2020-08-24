@@ -1,6 +1,6 @@
 
 const { callApi } = require('../utility')
-const { kibochat } = require('../../global/constants').serverConstants
+const { kibochat, kibodash } = require('../../global/constants').serverConstants
 
 exports.findOneBotAnalytics = (match) => {
   let query = {
@@ -26,12 +26,20 @@ exports.createForBotSubscribersAnalytics = (payload) => {
   return callApi(`chatbot_subscribers_journey`, 'post', payload, kibochat)
 }
 
+exports.createForBotSubscribersAnalyticsForSQL = (payload) => {
+  return callApi(`chatbotSubscribers/create`, 'post', payload, kibodash)
+}
+
 exports.findOneForBotSubscribersAnalytics = (match) => {
   let query = {
     match,
     purpose: 'findOne'
   }
   return callApi(`chatbot_subscribers_journey/query`, 'post', query, kibochat)
+}
+
+exports.findForBotSubscribersAnalyticsForSQL = (query) => {
+  return callApi(`chatbotSubscribers/find`, 'post', query, kibodash)
 }
 
 exports.aggregateForBotSubscribersAnalytics = (match, group, lookup, limit, sort, skip) => {
