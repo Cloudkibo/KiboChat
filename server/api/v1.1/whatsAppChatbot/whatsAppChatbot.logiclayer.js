@@ -43,7 +43,7 @@ exports.validateWhatsAppChatbotPayload = (payload) => {
   return bool
 }
 
-function convertToEmoji(num) {
+function convertToEmoji (num) {
   if (isNaN(num)) {
     throw new Error('invalid number')
   } else {
@@ -661,6 +661,8 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
   } else {
     let action = null
     let shoppingCart = contact.shoppingCart
+
+    logger.serverLog(TAG, `User shopping cart ${shoppingCart}`, 'info')
     try {
       if (contact.lastMessageSentByBot.payload[0].menu) {
         let menuInput = parseInt(input)
