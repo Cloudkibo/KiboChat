@@ -13,7 +13,8 @@ const {
   REMOVE_FROM_CART,
   SHOW_ITEMS_TO_REMOVE,
   PROCEED_TO_CHECKOUT,
-  RETURN_ORDER
+  RETURN_ORDER,
+  GET_CHECKOUT_EMAIL
 } = require('./constants')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/whatsAppChatbot/whatsAppChatbot.logiclayer.js'
@@ -424,7 +425,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
           componentType: 'text',
           menu: [
             { type: DYNAMIC, action: ADD_TO_CART, argument: product },
-            { type: DYNAMIC, action: PROCEED_TO_CHECKOUT },
+            { type: DYNAMIC, action: GET_CHECKOUT_EMAIL },
             { type: DYNAMIC, action: SHOW_MY_CART },
             { type: STATIC, blockId: backId },
             { type: STATIC, blockId: chatbot.startingBlockId }
@@ -611,7 +612,33 @@ function updateWhatsAppContact(query, bodyForUpdate, bodyForIncrement, options) 
     })
 }
 
-const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact) => {
+const getCheckoutEmailBlock = async (chatbot) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_chatbot'
+      },
+      title: 'Checkout Email',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Please enter your email: `,
+          componentType: 'text',
+          action: { type: DYNAMIC, action: PROCEED_TO_CHECKOUT, input: true }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    return messageBlock
+  } catch (err) {
+    logger.serverLog(TAG, `Unable to checkout ${err}`, 'error')
+    throw new Error('Unable to show checkout')
+  }
+}
+
+const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, email) => {
   try {
     let messageBlock = {
       module: {
@@ -633,7 +660,12 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact) => 
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    let checkoutLink = await EcommerceProvider.getCheckoutLink(contact.shoppingCart)
+    let shopifyCustomer = await EcommerceProvider.searchCustomerUsingEmail(email)
+    if (!shopifyCustomer) {
+      shopifyCustomer = await EcommerceProvider.createCustomer('', '', email)
+      await EcommerceProvider.createPermalinkForCart(shopifyCustomer, contact.shoppingCart)
+    }
+    let checkoutLink = await EcommerceProvider.createPermalinkForCart(shopifyCustomer, contact.shoppingCart)
 
     messageBlock.payload[0].text += `${checkoutLink}`
 
@@ -642,8 +674,8 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact) => 
                                         ${convertToEmoji(1)} Go Home`)
     return messageBlock
   } catch (err) {
-    logger.serverLog(TAG, `Unable to show cart ${err}`, 'error')
-    throw new Error('Unable to show cart')
+    logger.serverLog(TAG, `Unable to checkout ${err}`, 'error')
+    throw new Error('Unable to show checkout')
   }
 }
 
@@ -735,8 +767,12 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             messageBlock = await getShowMyCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
             break
           }
+          case GET_CHECKOUT_EMAIL: {
+            messageBlock = await getCheckoutEmailBlock(chatbot)
+            break
+          }
           case PROCEED_TO_CHECKOUT: {
-            messageBlock = await getCheckoutBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, contact)
+            messageBlock = await getCheckoutBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, contact, action.input ? input : action.argument)
             break
           }
           case RETURN_ORDER: {
