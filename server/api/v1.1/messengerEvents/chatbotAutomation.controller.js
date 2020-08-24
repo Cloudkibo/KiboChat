@@ -24,7 +24,7 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
                   }, 1500)
                   updateBotLifeStatsForBlock(messageBlock, true)
                   updateBotPeriodicStatsForBlock(chatbot, true)
-                  updateBotSubscribersAnalytics(chatbot._id, chatbot.companyId, subscriber._id, messageBlock._id)
+                  updateBotSubscribersAnalytics(chatbot._id, chatbot.companyId, subscriber, messageBlock)
                 }
               })
               .catch(error => {
@@ -77,7 +77,7 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
               updateBotPeriodicStats(chatbot, false)
               updateBotLifeStatsForBlock(messageBlock, true)
               updateBotPeriodicStatsForBlock(chatbot, true)
-              updateBotSubscribersAnalytics(chatbot._id, chatbot.companyId, subscriber._id, messageBlock._id)
+              updateBotSubscribersAnalytics(chatbot._id, chatbot.companyId, subscriber, messageBlock)
               let subscriberLastMessageAt = moment(subscriber.lastMessagedAt)
               let dateNow = moment()
               if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
@@ -120,7 +120,7 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId) => {
               }, 1500)
               updateBotLifeStatsForBlock(messageBlock, true)
               updateBotPeriodicStatsForBlock(chatbot, true)
-              updateBotSubscribersAnalytics(chatbot._id, chatbot.companyId, subscriber._id, messageBlock._id)
+              updateBotSubscribersAnalytics(chatbot._id, chatbot.companyId, subscriber, messageBlock)
               let subscriberLastMessageAt = moment(subscriber.lastMessagedAt)
               let dateNow = moment()
               if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
@@ -336,13 +336,35 @@ function updateBotLifeStatsForBlock (messageBlock, isForSentCount) {
   }
 }
 
-function updateBotSubscribersAnalytics (chatbotId, companyId, subscriberId, messageBlockId) {
-  chatbotAnalyticsDataLayer.createForBotSubscribersAnalytics({
-    chatbotId,
-    companyId,
-    subscriberId,
-    messageBlockId
-  })
+function updateBotSubscribersAnalytics (chatbotId, companyId, subscriber, messageBlock) {
+  chatbotAnalyticsDataLayer.findOneForBotSubscribersAnalytics({ messageBlockId: messageBlock._id, 'subscriber.id': subscriber._id })
+    .then(gotBotSubscribersAnalytics => {
+      if (!gotBotSubscribersAnalytics) {
+        chatbotAnalyticsDataLayer.aggregateForBotSubscribersAnalytics({ 'subscriber.id': subscriber._id }, null, null, 10)
+          .then(gotAnalyticsArray => {
+            gotAnalyticsArray = gotAnalyticsArray.map(analyticsItem => {
+              return {
+                id: analyticsItem.messageBlockId,
+                title: analyticsItem.messageBlockTitle
+              }
+            })
+            chatbotAnalyticsDataLayer.createForBotSubscribersAnalytics({
+              chatbotId,
+              companyId,
+              subscriber: {
+                id: subscriber._id,
+                name: subscriber.firstName + ' ' + subscriber.lastName
+              },
+              messageBlockId: messageBlock.uniqueId,
+              messageBlockTitle: messageBlock.title,
+              blocksPath: [...gotAnalyticsArray, {
+                id: messageBlock.uniqueId,
+                title: messageBlock.title
+              }]
+            })
+          })
+      }
+    })
 }
 
 exports.updateBotPeriodicStatsForBlock = updateBotPeriodicStatsForBlock
