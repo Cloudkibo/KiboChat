@@ -43,7 +43,7 @@ exports.validateWhatsAppChatbotPayload = (payload) => {
   return bool
 }
 
-function convertToEmoji (num) {
+function convertToEmoji(num) {
   if (isNaN(num)) {
     throw new Error('invalid number')
   } else {
@@ -120,7 +120,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider) => {
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    let products = await EcommerceProvider.discoverProducts()
+    let products = await EcommerceProvider.fetchProducts()
     for (let i = 0; i < products.length; i++) {
       let product = products[i]
       messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${product.name}`
@@ -672,7 +672,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
         action = contact.lastMessageSentByBot.payload[0].action
       }
     } catch (err) {
-      logger.serverLog(TAG, `Invalid user input ${input}`, 'error')
+      logger.serverLog(TAG, `Invalid user input ${input}`, 'info')
       if (chatbot.triggers.includes(input)) {
         return messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
       } else {
