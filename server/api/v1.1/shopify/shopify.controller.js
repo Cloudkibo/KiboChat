@@ -213,11 +213,15 @@ exports.testRoute = (req, res) => {
         shopUrl: shopifyIntegration.shopUrl,
         shopToken: shopifyIntegration.shopToken
       })
-      return shopify.fetchProducts()
-      // return shopify.addOrUpdateProductToCart(1264935993407, [{
-      // variant_id: 32734085808191,
-      // quantity: 1
-      // }])
+      // return shopify.fetchProducts()
+      return shopify.createPermalinkForCart({
+        email: 'sojharo@gmail.com',
+        first_name: 'sojharo',
+        last_name: 'mangi'},
+      [{
+        variant_id: 32734085808191,
+        quantity: 1
+      }])
     })
     .then(shop => {
       sendSuccessResponse(res, 200, shop)
