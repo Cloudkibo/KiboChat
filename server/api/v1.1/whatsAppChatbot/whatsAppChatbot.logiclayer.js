@@ -43,7 +43,7 @@ exports.validateWhatsAppChatbotPayload = (payload) => {
   return bool
 }
 
-function convertToEmoji (num) {
+function convertToEmoji(num) {
   if (isNaN(num)) {
     throw new Error('invalid number')
   } else {
@@ -480,8 +480,10 @@ const getAddToCartBlock = async (chatbot, backId, EcommerceProvider, contact, pr
       })
     }
     console.log('final shopping cart', shoppingCart)
-    let response = await callApi(`whatsAppContacts/update`, 'put', { query: { _id: contact._id }, newPayload: { shoppingCart } })
-    console.log('response', response)
+
+    updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
+    // let response = await callApi(`whatsAppContacts/update`, 'put', { query: { _id: contact._id }, newPayload: { shoppingCart } })
+    // console.log('response', response)
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to add to cart ${err}`, 'error')
@@ -600,7 +602,7 @@ const getRemoveFromCartBlock = async (chatbot, backId, EcommerceProvider, contac
   }
 }
 
-function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
+function updateWhatsAppContact(query, bodyForUpdate, bodyForIncrement, options) {
   callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
     .then(updated => {
     })
