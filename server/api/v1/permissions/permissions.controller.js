@@ -56,30 +56,20 @@ exports.fetchPermissions = function (req, res) {
     })
 }
 
-exports.fetchUserPermissions = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email})
-    .then(companyUser => {
-      utility.callApi(`permissions/query`, 'post', {companyId: companyUser.companyId, userId: req.user._id})
-        .then(userPermission => {
-          if (userPermission.length > 0) {
-            userPermission = userPermission[0]
-          }
-          res.status(200).json({
-            status: 'success',
-            payload: userPermission
-          })
-        })
-        .catch(error => {
-          res.status(500).json({
-            status: 'failed',
-            description: error
-          })
-        })
+exports.fetchUserPermissions = function (req, res) {  utility.callApi(`permissions/query`, 'post', {companyId: req.user.companyId, userId: req.user._id})
+    .then(userPermission => {
+      if (userPermission.length > 0) {
+        userPermission = userPermission[0]
+      }
+      res.status(200).json({
+        status: 'success',
+        payload: userPermission
+      })
     })
     .catch(error => {
       res.status(500).json({
         status: 'failed',
-        description: `Internal Server Error ${JSON.stringify(error)}`
+        description: `Unable to fetch user permission ${JSON.stringify(error)}`
       })
     })
 }

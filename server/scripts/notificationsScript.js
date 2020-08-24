@@ -108,19 +108,35 @@ function generateAdminNotification (alert, user, cb){
         type: alert.payload.type,
         message: notificationMessage,
         agentId: user.userId._id,
+        subscriber: alert.payload.subscriber,
         category: {type: 'message_alert', id:alert.payload.subscriber._id}
       }
       utility.callApi(`notifications`, 'post', notification, 'kibochat')
       .then(savedNotification => {
         logger.serverLog(TAG, `Notification Saved: ${JSON.stringify(notification)}`)
-        require('../config/socketio').sendMessageToClient({
-            room_id: user.companyId,
-            body: {
-              action: 'new_notification',
-              payload: notification
-            }
-          })
+        utility.callApi(`permissions/query`, 'post', {companyId: user.companyId, userId: user.userId._id})
+        .then(userPermission => {
+          if (userPermission.length > 0) {
+            userPermission = userPermission[0]
+          }
+          if (userPermission.muteNotifications && userPermission.muteNotifications.includes(alert.payload.subscriber.pageId._id)) {
+            notification.muteNotification = true
+          } else {
+            notification.muteNotification = false
+          }
+       
+          require('../config/socketio').sendMessageToClient({
+              room_id: user.companyId,
+              body: {
+                action: 'new_notification',
+                payload: notification
+              }
+            })
           cb()
+        })
+        .catch(err => {
+          err => cb(err)
+        })
       })
       .catch(err => cb(err))
 }
