@@ -43,7 +43,7 @@ exports.validateWhatsAppChatbotPayload = (payload) => {
   return bool
 }
 
-function convertToEmoji (num) {
+function convertToEmoji(num) {
   if (isNaN(num)) {
     throw new Error('invalid number')
   } else {
@@ -478,6 +478,7 @@ const getAddToCartBlock = async (chatbot, backId, EcommerceProvider, shoppingCar
         product: product.product
       })
     }
+    console.log('final shopping cart', shoppingCart)
     await callApi(`whatsAppContacts/update`, 'put', { query: { _id: chatbot.userId }, newPayload: { shoppingCart } })
     return messageBlock
   } catch (err) {
