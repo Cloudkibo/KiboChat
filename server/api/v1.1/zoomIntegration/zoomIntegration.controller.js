@@ -108,8 +108,8 @@ const _sendNotification = (data, companyId) => {
               subscriber.lastRepliedBy = gotLastMessage[0].replied_by
               subscriber.lastDateTime = gotLastMessage[0].datetime
               const notificationMessage = `A zoom meeting has been created to handle subscriber - ${subscriber.firstName} ${subscriber.lastName} query.`
+              companyUsers = companyUsers.filter((m) => data.userId !== m.userId._id)
               if (subscriber.is_assigned && subscriber.assigned_to.type === 'team') {
-                companyUsers = companyUsers.filter((m) => data.userId !== m.userId._id)
                 callApi(`teams/agents/query`, 'post', {companyId: data.companyId, teamId: subscriber.assigned_to.id}, 'accounts', data.authorization)
                   .then(agents => {
                     const userIds = agents.map((a) => data.userId !== a.agentId._id && a.agentId._id)
@@ -129,7 +129,7 @@ const _sendNotification = (data, companyId) => {
                   .catch(err => {
                     logger.serverLog(TAG, `Failed to fetch members ${err}`, 'error')
                   })
-            }   else if (!subscriber.is_assigned) {
+              } else if (!subscriber.is_assigned) {
                 sendNotifications('Zoom Meeting', notificationMessage, subscriber, companyUsers)
                 callApi(`companyprofile/members`, 'get', {}, 'accounts', data.authorization)
                   .then(members => {
