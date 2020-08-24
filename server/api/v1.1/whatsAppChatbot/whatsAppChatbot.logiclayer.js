@@ -44,7 +44,7 @@ exports.validateWhatsAppChatbotPayload = (payload) => {
   return bool
 }
 
-function convertToEmoji(num) {
+function convertToEmoji (num) {
   if (isNaN(num)) {
     throw new Error('invalid number')
   } else {
@@ -507,7 +507,7 @@ const getShowMyCartBlock = async (chatbot, backId, contact) => {
           componentType: 'text',
           menu: [
             { type: DYNAMIC, action: SHOW_ITEMS_TO_REMOVE },
-            { type: DYNAMIC, action: PROCEED_TO_CHECKOUT },
+            { type: DYNAMIC, action: GET_CHECKOUT_EMAIL },
             { type: STATIC, blockId: backId },
             { type: STATIC, blockId: chatbot.startingBlockId }
           ]
@@ -519,9 +519,9 @@ const getShowMyCartBlock = async (chatbot, backId, contact) => {
 
     let shoppingCart = contact.shoppingCart
     for (let product of shoppingCart) {
-      messageBlock.payload[0].text += `\n - ${product.product}`
+      messageBlock.payload[0].text += `\n - ${product.product}\n`
     }
-    messageBlock.payload[0].text += dedent(`\nPlease select an option by sending the corresponding number for it:
+    messageBlock.payload[0].text += dedent(`Please select an option by sending the corresponding number for it:
                                         ${convertToEmoji(0)} Remove an item
                                         ${convertToEmoji(1)} Proceed to Checkout
                                         ${convertToEmoji(2)} Go Back
@@ -603,7 +603,7 @@ const getRemoveFromCartBlock = async (chatbot, backId, EcommerceProvider, contac
   }
 }
 
-function updateWhatsAppContact(query, bodyForUpdate, bodyForIncrement, options) {
+function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
   callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
     .then(updated => {
     })
@@ -649,7 +649,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, ema
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Here is your checkout link: `,
+          text: `Here is your checkout link:`,
           componentType: 'text',
           menu: [
             { type: STATIC, blockId: backId },
@@ -660,16 +660,19 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, ema
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
+    console.log('checkout block email', email)
     let shopifyCustomer = await EcommerceProvider.searchCustomerUsingEmail(email)
+    console.log('existing shopifyCustomer', shopifyCustomer)
     if (!shopifyCustomer) {
       shopifyCustomer = await EcommerceProvider.createCustomer('', '', email)
+      console.log('new shopifyCustomer', shopifyCustomer)
       await EcommerceProvider.createPermalinkForCart(shopifyCustomer, contact.shoppingCart)
     }
     let checkoutLink = await EcommerceProvider.createPermalinkForCart(shopifyCustomer, contact.shoppingCart)
 
-    messageBlock.payload[0].text += `${checkoutLink}`
+    messageBlock.payload[0].text += `\n${checkoutLink}\n`
 
-    messageBlock.payload[0].text += dedent(`\nPlease select an option by sending the corresponding number for it:
+    messageBlock.payload[0].text += dedent(`Please select an option by sending the corresponding number for it:
                                         ${convertToEmoji(0)} Go Back
                                         ${convertToEmoji(1)} Go Home`)
     return messageBlock
