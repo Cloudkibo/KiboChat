@@ -38,14 +38,7 @@ exports.attachment = function (req, res) {
         .then(data => {
           data = data.body
           if (data.payload && data.payload === 'ERR_LIMIT_REACHED') {
-            let url = req.body.url
-            let options = {url}
-            ogs(options, (error, results) => {
-              if (error) {
-                return sendErrorResponse(res, 500, error, 'Failed to fetch youtube video url meta data.')
-              }
-              return sendSuccessResponse(res, 200, results.data, 'Fetched youtube video')
-            })
+            fetchMetaData(req, res)
           } else {
             let payload = data.payload.fileurl
             payload.pages = [req.body.pageId]
@@ -53,7 +46,11 @@ exports.attachment = function (req, res) {
             payload.componentType = 'video'
             needle('post', `${config.accountsDomain}/uploadTemplate`, payload)
               .then(dataFinal => {
-                return sendSuccessResponse(res, 200, dataFinal.body.payload, 'Fetched youtube video')
+                if (dataFinal.body.status === 'failed') {
+                  fetchMetaData(req, res)
+                } else {
+                  return sendSuccessResponse(res, 200, dataFinal.body.payload, 'Fetched youtube video')
+                }
               })
               .catch(error => {
                 return sendErrorResponse(res, 500, error.body, 'Failed to upload youtube video to facebook. Check with admin.')
@@ -64,14 +61,7 @@ exports.attachment = function (req, res) {
           return sendErrorResponse(res, 500, error.body, 'Failed to work on the attachment. Please contact admin.')
         })
     } else {
-      let url = req.body.url
-      let options = {url}
-      ogs(options, (error, results) => {
-        if (error) {
-          return sendErrorResponse(res, 500, error, 'Failed to fetch youtube video url meta data.')
-        }
-        return sendSuccessResponse(res, 200, results.data, 'Fetched youtube video')
-      })
+      fetchMetaData(req, res)
     }
   } else if (utility.isFacebookVideoUrl(req.body.url.split('?')[0])) {
     let url = req.body.url.split('?')[0]
@@ -91,17 +81,20 @@ exports.attachment = function (req, res) {
       }
     })
   } else {
-    let url = req.body.url
-    let options = {url}
-    ogs(options, (error, results) => {
-      if (error) {
-        return sendErrorResponse(res, 500, error, 'Error in fetching meta data of website. Please check if open graph is supported.')
-      }
-      return sendSuccessResponse(res, 200, results.data, 'Url meta data fetched.')
-    })
+    fetchMetaData(req, res)
   }
 }
 
+function fetchMetaData (req, res) {
+  let url = req.body.url
+  let options = {url}
+  ogs(options, (error, results) => {
+    if (error) {
+      return sendErrorResponse(res, 500, error, 'Failed to fetch youtube video url meta data.')
+    }
+    return sendSuccessResponse(res, 200, results.data, 'Fetched youtube video')
+  })
+}
 function _sendToClientUsingSocket (body) {
   require('../../../config/socketio').sendMessageToClient({
     room_id: body.companyId,
