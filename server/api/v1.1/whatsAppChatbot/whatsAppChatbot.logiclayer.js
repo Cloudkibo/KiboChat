@@ -591,12 +591,22 @@ const getRemoveFromCartBlock = async (chatbot, backId, EcommerceProvider, contac
     }
     let shoppingCart = contact.shoppingCart
     shoppingCart.splice(productIndex, 1)
-    await callApi(`whatsAppContacts/update`, 'put', { query: { _id: contact._id }, newPayload: { shoppingCart } })
+
+    updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to remove item from cart ${err}`, 'error')
     throw new Error('Unable to remove item from cart')
   }
+}
+
+function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
+  callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
+    .then(updated => {
+    })
+    .catch(error => {
+      logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`, 'error')
+    })
 }
 
 const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact) => {
