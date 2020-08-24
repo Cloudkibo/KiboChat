@@ -57,3 +57,4 @@ exports.delete = function (req, res) {
       sendErrorResponse(res, 500, 'Failed to delete canned response.')
     })
 }
+

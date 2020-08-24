@@ -64,6 +64,8 @@ module.exports = function (app) {
   app.use('/api/zoom', require('./api/v1.1/zoomIntegration'))
   app.use('/api/zoomEvents', require('./api/v1.1/zoomEvents'))
   app.use('/api/flockSendEvents', require('./api/v1.1/flockSendEvents'))
+  app.use('/api/shopify', require('./api/v1.1/shopify'))
+  app.use('/api/whatsAppChatbot', require('./api/v1.1/whatsAppChatbot'))
   app.use('/api/adminAlerts', require('./api/v1.1/adminAlerts'))
   app.use('/api/whatsAppEvents', require('./api/v1.1/whatsAppEvents'))
   // auth middleware go here if you authenticate on same server
@@ -94,13 +96,13 @@ module.exports = function (app) {
 
   app.get('/alreadyConnected', (req, res) => {
     res.cookie('environment', config.env,
-      {expires: new Date(Date.now() + 900000)})
+      { expires: new Date(Date.now() + 900000) })
     res.cookie('url_production', 'https://kibochat.cloudkibo.com',
-      {expires: new Date(Date.now() + 900000)})
+      { expires: new Date(Date.now() + 900000) })
     res.cookie('url_staging', 'https://skibochat.cloudkibo.com',
-      {expires: new Date(Date.now() + 900000)})
+      { expires: new Date(Date.now() + 900000) })
     res.cookie('url_development', 'http://localhost:3022',
-      {expires: new Date(Date.now() + 900000)})
+      { expires: new Date(Date.now() + 900000) })
     res.sendFile(path.join(config.root, 'client/index.html'))
   })
 

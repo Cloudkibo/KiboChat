@@ -375,5 +375,15 @@ const prepareUrlMeta = (data) => {
   })
 }
 
+function isJsonString (str) {
+  try {
+    JSON.parse(str)
+  } catch (e) {
+    return false
+  }
+  return true
+}
+
 exports.prepareSendAPIPayload = prepareSendAPIPayload
 exports.prepareLiveChatPayload = prepareLiveChatPayload
+exports.isJsonString = isJsonString

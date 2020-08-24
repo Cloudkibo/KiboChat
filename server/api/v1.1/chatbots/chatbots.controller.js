@@ -10,6 +10,7 @@ const TAG = 'api/v1.1/chatbots/chatbots.controller.js'
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
 const { kibochat, kiboengage } = require('../../global/constants').serverConstants
 const async = require('async')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 
 exports.index = function (req, res) {
   callApi(`pages/query`, 'post', {companyId: req.user.companyId, connected: true})
@@ -33,6 +34,7 @@ exports.create = function (req, res) {
   let payload = logiclayer.preparePayload(req.user.companyId, req.user._id, req.body)
   datalayer.createForChatBot(payload)
     .then(chatbot => {
+      updateCompanyUsage(req.user.companyId, 'chatbot_automation', 1)
       _sendToClientUsingSocket(chatbot)
       return sendSuccessResponse(res, 201, chatbot, null)
     })
