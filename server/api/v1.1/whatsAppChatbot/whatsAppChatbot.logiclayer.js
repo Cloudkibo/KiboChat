@@ -661,8 +661,8 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
   } else {
     let action = null
     let shoppingCart = contact.shoppingCart
-    logger.serverLog(TAG, `whatsapp contact ${contact}`, 'info')
-    logger.serverLog(TAG, `User shopping cart ${shoppingCart}`, 'info')
+    logger.serverLog(TAG, `whatsapp contact ${JSON.stringify(contact)}`, 'info')
+    logger.serverLog(TAG, `User shopping cart ${JSON.stringify(shoppingCart)}`, 'info')
     try {
       if (contact.lastMessageSentByBot.payload[0].menu) {
         let menuInput = parseInt(input)
