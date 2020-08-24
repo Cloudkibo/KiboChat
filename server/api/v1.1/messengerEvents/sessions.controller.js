@@ -9,6 +9,8 @@ const sessionLogicLayer = require('../sessions/sessions.logiclayer')
 const logicLayer = require('./logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
 const { record } = require('../../global/messageStatistics')
+const { handleChatBotWelcomeMessage: handleChatBotAutomationEvents } = require('./chatbotAutomation.controller')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 const { sendNotifications } = require('../../global/sendNotification')
 const { handleTriggerMessage } = require('./chatbotAutomation.controller')
 
@@ -26,7 +28,8 @@ exports.index = function (req, res) {
   let event = req.body.event
   utility.callApi(`companyprofile/query`, 'post', { _id: page.companyId })
     .then(company => {
-      if (!(company.automated_options === 'DISABLE_CHAT')) {
+      if (!(company.automated_options === 'DISABLE_CHAT')) { 
+        if(subscriber.unSubscribedBy !== 'agent') {
         let updatePayload = { last_activity_time: Date.now() }
         if (!event.message.is_echo) {
           if (subscriber.status === 'resolved') {
@@ -60,7 +63,8 @@ exports.index = function (req, res) {
           .catch(error => {
             logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
           })
-      }
+        }
+      } 
     })
     .catch(error => {
       logger.serverLog(TAG, `Failed to fetch company profile ${JSON.stringify(error)}`, 'error')
@@ -207,6 +211,7 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
   ) {
     LiveChatDataLayer.createFbMessageObject(chatPayload)
       .then(chat => {
+        updateCompanyUsage(page.companyId, 'chat_messages', 1)
         if (!event.message.is_echo) {
           setTimeout(() => {
             utility.callApi('subscribers/query', 'post', {_id: subscriber._id})
@@ -230,6 +235,21 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
               })
           }, 500)
           sendautomatedmsg(event, page)
+        } else {
+          require('./../../../config/socketio').sendMessageToClient({
+            room_id: page.companyId,
+            body: {
+              action: 'new_chat',
+              payload: {
+                subscriber_id: subscriber._id,
+                chat_id: chat._id,
+                text: chatPayload.payload.text,
+                name: subscriber.firstName + ' ' + subscriber.lastName,
+                subscriber: subscriber,
+                message: chat
+              }
+            }
+          })
         }
       })
       .catch(error => {

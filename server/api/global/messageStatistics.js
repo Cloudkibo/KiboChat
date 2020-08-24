@@ -2,17 +2,20 @@
 const { padWithZeros, dateDiffInDays } = require('./../../components/utility')
 const logger = require('../../components/logger')
 const TAG = 'api/global/messageStatistics.js'
+const config = require('./../../config/environment')
 let redis = require('redis')
 let client
 
 exports.connectRedis = function () {
-  client = redis.createClient()
-  client.on('connect', () => {
-    logger.serverLog(TAG, 'connected to redis', 'info')
-  })
-  client.on('error', (err) => {
-    logger.serverLog(TAG, 'unable connected to redis ' + JSON.stringify(err), 'info')
-  })
+  if (config.env !== 'development') {
+    client = redis.createClient()
+    client.on('connect', () => {
+      logger.serverLog(TAG, 'connected to redis', 'info')
+    })
+    client.on('error', (err) => {
+      logger.serverLog(TAG, 'unable connected to redis ' + JSON.stringify(err), 'info')
+    })
+  }
 }
 
 function recordRedis (featureName) {
