@@ -43,7 +43,7 @@ exports.validateWhatsAppChatbotPayload = (payload) => {
   return bool
 }
 
-function convertToEmoji(num) {
+function convertToEmoji (num) {
   if (isNaN(num)) {
     throw new Error('invalid number')
   } else {
@@ -466,6 +466,8 @@ const getAddToCartBlock = async (chatbot, backId, EcommerceProvider, shoppingCar
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
+
+    console.log('product', product)
     let existingProductIndex = shoppingCart.findIndex((item) => item.variant_id === product.variant_id)
     if (existingProductIndex > -1) {
       shoppingCart[existingProductIndex].quantity += 1
