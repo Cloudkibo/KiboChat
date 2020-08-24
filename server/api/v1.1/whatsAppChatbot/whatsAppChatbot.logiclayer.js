@@ -43,7 +43,7 @@ exports.validateWhatsAppChatbotPayload = (payload) => {
   return bool
 }
 
-function convertToEmoji(num) {
+function convertToEmoji (num) {
   if (isNaN(num)) {
     throw new Error('invalid number')
   } else {
@@ -441,7 +441,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
   }
 }
 
-const getAddToCartBlock = async (chatbot, backId, EcommerceProvider, shoppingCart, product) => {
+const getAddToCartBlock = async (chatbot, backId, EcommerceProvider, contact, product) => {
   try {
     let messageBlock = {
       module: {
@@ -468,6 +468,7 @@ const getAddToCartBlock = async (chatbot, backId, EcommerceProvider, shoppingCar
     }
 
     console.log('product', product)
+    let shoppingCart = contact.shoppingCart ? contact.shoppingCart : []
     let existingProductIndex = shoppingCart.findIndex((item) => item.variant_id === product.variant_id)
     if (existingProductIndex > -1) {
       shoppingCart[existingProductIndex].quantity += 1
@@ -479,7 +480,8 @@ const getAddToCartBlock = async (chatbot, backId, EcommerceProvider, shoppingCar
       })
     }
     console.log('final shopping cart', shoppingCart)
-    await callApi(`whatsAppContacts/update`, 'put', { query: { _id: chatbot.userId }, newPayload: { shoppingCart } })
+    let response = await callApi(`whatsAppContacts/update`, 'put', { query: { _id: contact._id }, newPayload: { shoppingCart } })
+    console.log('response', response)
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to add to cart ${err}`, 'error')
@@ -487,7 +489,7 @@ const getAddToCartBlock = async (chatbot, backId, EcommerceProvider, shoppingCar
   }
 }
 
-const getShowMyCartBlock = async (chatbot, backId, shoppingCart) => {
+const getShowMyCartBlock = async (chatbot, backId, contact) => {
   try {
     let messageBlock = {
       module: {
@@ -512,6 +514,7 @@ const getShowMyCartBlock = async (chatbot, backId, shoppingCart) => {
       companyId: chatbot.companyId
     }
 
+    let shoppingCart = contact.shoppingCart
     for (let product of shoppingCart) {
       messageBlock.payload[0].text += `\n - ${product.product}`
     }
@@ -527,7 +530,7 @@ const getShowMyCartBlock = async (chatbot, backId, shoppingCart) => {
   }
 }
 
-const getShowItemsToRemoveBlock = (chatbot, backId, shoppingCart) => {
+const getShowItemsToRemoveBlock = (chatbot, backId, contact) => {
   try {
     let messageBlock = {
       module: {
@@ -547,6 +550,7 @@ const getShowItemsToRemoveBlock = (chatbot, backId, shoppingCart) => {
       companyId: chatbot.companyId
     }
 
+    let shoppingCart = contact.shoppingCart
     for (let i = 0; i < shoppingCart.length; i++) {
       let product = shoppingCart[i]
       messageBlock.payload[0].text += `\n${convertToEmoji(i)} - ${product.product}`
@@ -562,7 +566,7 @@ const getShowItemsToRemoveBlock = (chatbot, backId, shoppingCart) => {
   }
 }
 
-const getRemoveFromCartBlock = async (chatbot, backId, EcommerceProvider, shoppingCart, productIndex) => {
+const getRemoveFromCartBlock = async (chatbot, backId, EcommerceProvider, contact, productIndex) => {
   try {
     let messageBlock = {
       module: {
@@ -585,8 +589,9 @@ const getRemoveFromCartBlock = async (chatbot, backId, EcommerceProvider, shoppi
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
+    let shoppingCart = contact.shoppingCart
     shoppingCart.splice(productIndex, 1)
-    await callApi(`whatsAppContacts/update`, 'put', { query: { _id: chatbot.userId }, newPayload: { shoppingCart } })
+    await callApi(`whatsAppContacts/update`, 'put', { query: { _id: contact._id }, newPayload: { shoppingCart } })
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to remove item from cart ${err}`, 'error')
@@ -594,7 +599,7 @@ const getRemoveFromCartBlock = async (chatbot, backId, EcommerceProvider, shoppi
   }
 }
 
-const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, shoppingCart) => {
+const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact) => {
   try {
     let messageBlock = {
       module: {
@@ -616,7 +621,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, shoppingCart
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    let checkoutLink = await EcommerceProvider.getCheckoutLink(shoppingCart)
+    let checkoutLink = await EcommerceProvider.getCheckoutLink(contact.shoppingCart)
 
     messageBlock.payload[0].text += `${checkoutLink}`
 
@@ -663,9 +668,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
     }
   } else {
     let action = null
-    let shoppingCart = contact.shoppingCart
     logger.serverLog(TAG, `whatsapp contact ${JSON.stringify(contact)}`, 'info')
-    logger.serverLog(TAG, `User shopping cart ${JSON.stringify(shoppingCart)}`, 'info')
     try {
       if (contact.lastMessageSentByBot.payload[0].menu) {
         let menuInput = parseInt(input)
@@ -713,15 +716,15 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             break
           }
           case ADD_TO_CART: {
-            messageBlock = await getAddToCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, shoppingCart, action.input ? input : action.argument)
+            messageBlock = await getAddToCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, contact, action.input ? input : action.argument)
             break
           }
           case SHOW_MY_CART: {
-            messageBlock = await getShowMyCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, shoppingCart)
+            messageBlock = await getShowMyCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
             break
           }
           case PROCEED_TO_CHECKOUT: {
-            messageBlock = await getCheckoutBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, shoppingCart)
+            messageBlock = await getCheckoutBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, contact)
             break
           }
           case RETURN_ORDER: {
@@ -729,11 +732,11 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             break
           }
           case SHOW_ITEMS_TO_REMOVE: {
-            messageBlock = await getShowItemsToRemoveBlock(chatbot, contact.lastMessageSentByBot.uniqueId, shoppingCart)
+            messageBlock = await getShowItemsToRemoveBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
             break
           }
           case REMOVE_FROM_CART: {
-            messageBlock = await getRemoveFromCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, shoppingCart, action.input ? input : action.argument)
+            messageBlock = await getRemoveFromCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, contact, action.input ? input : action.argument)
           }
         }
         await messageBlockDataLayer.createForMessageBlock(messageBlock)
