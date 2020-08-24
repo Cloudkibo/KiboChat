@@ -65,6 +65,7 @@ const sendMobileNotifications = (expoListToken, title, bodyMessage, data, user) 
 }
 
 function sendNotifications (title, body, payload, companyUsers) {
+  console.log('companyUsers', companyUsers)
   for (let i = 0; i < companyUsers.length; i++) {
     let expoListToken = companyUsers[i].expoListToken
     if (expoListToken.length > 0) {
