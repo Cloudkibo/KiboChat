@@ -5,7 +5,7 @@ const async = require('async')
 const moment = require('moment')
 
 exports.runLiveChatNotificationScript = function () {
-    logger.serverLog(TAG, 'runLiveChatNotificationScript')
+    //logger.serverLog(TAG, 'runLiveChatNotificationScript')
     var findAdminAlerts = {
         purpose: 'findAll',
         match: {
@@ -14,22 +14,22 @@ exports.runLiveChatNotificationScript = function () {
     }
     utility.callApi(`cronStack/query`, 'post', findAdminAlerts, 'kibochat')
     .then(alerts => {
-        logger.serverLog(TAG, `alerts ${JSON.stringify(alerts)} ${JSON.stringify(alerts.length)}`)
+        /* logger.serverLog(TAG, `alerts ${JSON.stringify(alerts)} ${JSON.stringify(alerts.length)}`)*/
         if (alerts.length > 0) {
             async.each(alerts, function (alert, cb) {
-                logger.serverLog(TAG, `alert ${JSON.stringify(alert)}`)
+                /*logger.serverLog(TAG, `alert ${JSON.stringify(alert)}`)*/
                 if (alert.payload && alert.payload.notification_interval) {
                     var now = moment(new Date())
                     var sessionTime = moment(alert.datetime)
                     var duration = moment.duration(now.diff(sessionTime))
-                    logger.serverLog(TAG, `duration ${duration.asMinutes()}`)
-                    logger.serverLog(TAG, `notification_interval ${alert.payload.notification_interval}`)
+                    /*logger.serverLog(TAG, `duration ${duration.asMinutes()}`)
+                    logger.serverLog(TAG, `notification_interval ${alert.payload.notification_interval}`)*/
                     if (duration.asMinutes() > alert.payload.notification_interval) {
-                        logger.serverLog(TAG, `duration passed ${duration}`)
+                       /* logger.serverLog(TAG, `duration passed ${duration}`)*/
                         utility.callApi(`companyUser/queryAll`, 'post', {companyId: alert.payload.companyId}, 'accounts')
                         .then(companyUsers => {
                             let assignedMembers
-                            logger.serverLog(TAG, `companyUsers ${JSON.stringify(companyUsers)}`)
+                            /*logger.serverLog(TAG, `companyUsers ${JSON.stringify(companyUsers)}`)*/
                             if (alert.payload.assignedMembers == 'buyer') {
                                 assignedMembers = companyUsers.filter((companyUser) => companyUser.userId.role === 'buyer')
                             } else if (alert.payload.assignedMembers == 'admins') {
@@ -37,7 +37,7 @@ exports.runLiveChatNotificationScript = function () {
                             } else {
                                 assignedMembers = companyUsers.filter((companyUser) => companyUser.userId.role !== 'agent')
                             }
-                            logger.serverLog(TAG, `assignedMembers ${JSON.stringify(assignedMembers)}`)
+                           
                             async.each(assignedMembers, function(assignedMember, callback) {
                                 generateAdminNotification(alert, assignedMember, callback)
                             }, function(err) {
@@ -68,7 +68,7 @@ exports.runLiveChatNotificationScript = function () {
 }
 
 function deleteCronStackRecord (alert, cb) {
-    logger.serverLog(TAG, `Inside Delete`)
+   // logger.serverLog(TAG, `Inside Delete`)
     var deleteData = {
         purpose: 'deleteMany',
         match: {
