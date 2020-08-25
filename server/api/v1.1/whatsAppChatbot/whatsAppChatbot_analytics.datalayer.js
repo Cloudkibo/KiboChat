@@ -33,6 +33,7 @@ exports.genericUpdateBotAnalytics = (queryObject, updated, options) => {
     if (options.new) query.new = options.new
     if (options.multi) query.multi = options.multi
   }
+  console.log('genericUpdateBotAnalytics whatsapp', JSON.stringify(query))
   return callApi(`whatsapp_bots_analtyics`, 'put', query, kibochat)
 }
 
