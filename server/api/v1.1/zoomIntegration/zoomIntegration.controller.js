@@ -145,13 +145,13 @@ const _sendNotification = (data, companyId) => {
                     logger.serverLog(TAG, `Failed to fetch members ${err}`, 'error')
                   })
               }
-            }).catch(error => {
-              logger.serverLog(TAG, `Error while fetching Last Message ${error}`, 'error')
-            })
+          }).catch(error => {
+            logger.serverLog(TAG, `Error while fetching Last Message ${error}`, 'error')
+          })
         }).catch(error => {
-          logger.serverLog(TAG, `Error while fetching companyUser ${error}`, 'error')
-        })
-    }).catch(err => {
-      logger.serverLog(TAG, `Failed to fetch subscriber ${err}`, 'error')
-    })
+            logger.serverLog(TAG, `Error while fetching companyUser ${error}`, 'error')
+          })
+      }).catch(err => {
+            logger.serverLog(TAG, `Failed to fetch subscriber ${err}`, 'error')
+          })
 }
