@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const url = require('url')
 const ogs = require('open-graph-scraper')
+const utility = require('./../../../components/utility')
 
 function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
   let messageType = isResponse ? 'RESPONSE' : 'UPDATE'
@@ -181,8 +182,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
                 'subtitle': body.description,
                 'default_action': {
                   'type': 'web_url',
-                  'url': body.url,
-                  'messenger_extensions': false
+                  'url': body.url
                 }
               }
             ]
@@ -200,6 +200,12 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
         }
         payload.message.attachment.payload.elements[0].buttons.push(tempButton)
       }
+    } else {
+      payload.message.attachment.payload.elements[0].buttons = [{
+        title: utility.isYouTubeUrl(body.url) ? 'Play' : 'Open',
+        type: 'web_url',
+        url: body.url
+      }]
     }
     if (body.quickReplies && body.quickReplies.length > 0) {
       payload.message.quick_replies = body.quickReplies
@@ -375,5 +381,15 @@ const prepareUrlMeta = (data) => {
   })
 }
 
+function isJsonString (str) {
+  try {
+    JSON.parse(str)
+  } catch (e) {
+    return false
+  }
+  return true
+}
+
 exports.prepareSendAPIPayload = prepareSendAPIPayload
 exports.prepareLiveChatPayload = prepareLiveChatPayload
+exports.isJsonString = isJsonString

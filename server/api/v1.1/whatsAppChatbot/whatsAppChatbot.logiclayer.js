@@ -153,7 +153,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider) => {
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    let products = await EcommerceProvider.fetchProducts()
+    let products = await EcommerceProvider.discoverProducts()
     for (let i = 0; i < products.length; i++) {
       let product = products[i]
       messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${product.name}`
@@ -754,7 +754,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
         action = contact.lastMessageSentByBot.payload[0].action
       }
     } catch (err) {
-      logger.serverLog(TAG, `Invalid user input ${input}`, 'info')
+      logger.serverLog(TAG, `Invalid user input ${input}`, 'error')
       if (chatbot.triggers.includes(input)) {
         return messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
       } else {
