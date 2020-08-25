@@ -17,11 +17,6 @@ exports.create = async (req, res) => {
       })
       sendSuccessResponse(res, 200, chatbot, 'WhatsApp chatbot created successfully')
       await messageBlockDataLayer.createBulkMessageBlocks(messageBlocks)
-      await analyticsDataLayer.createForBotAnalytics({
-        chatbotId: chatbot._id,
-        userId: req.user._id,
-        companyId: req.user.companyId
-      })
     }
   } catch (err) {
     sendErrorResponse(res, 500, err.message, `Failed to create WhatsApp chatbot`)
@@ -44,19 +39,37 @@ exports.fetch = async (req, res) => {
 exports.update = async (req, res) => {
   console.log('update whatsapp chatbot', req.body)
   try {
-    let updatedChatbot = await dataLayer.updateWhatsAppChatbot(req, req.body)
+    let updatedChatbot = await dataLayer.updateWhatsAppChatbot(req.user.companyId, req.body)
     sendSuccessResponse(res, 200, updatedChatbot, 'WhatsApp chatbot updated successfully')
   } catch (err) {
     sendErrorResponse(res, 500, err.message, `Failed to update WhatsApp chatbot`)
   }
 }
 
-exports.getChatbotDetails = async (req, res) => {
+exports.fetchAnalytics = async (req, res) => {
   try {
-    let chatbot = await dataLayer.fetchWhatsAppChatbot(req.user.companyId)
-    let messageBlocks = await messageBlockDataLayer.findAllMessageBlock({ 'module.id': chatbot._id, 'module.type': 'whatsapp_chatbot' })
-    sendSuccessResponse(res, 200, { chatbot, messageBlocks }, 'WhatsApp chatbot details fetched successfully')
+    const criteria = logicLayer.criteriaForPeriodicBotStats(req.params.id, req.params.n)
+    const groupCriteria = logicLayer.criteriaForPeriodicBotStatsForGroup()
+    let analytics = await analyticsDataLayer.aggregateForBotAnalytics(criteria, groupCriteria)
+    analytics = analytics[0]
+    if (analytics) {
+      return sendSuccessResponse(res, 200, {
+        sentCount: analytics.sentCount,
+        triggerWordsMatched: analytics.triggerWordsMatched,
+        newSubscribers: analytics.newSubscribersCount,
+        returningSubscribers: analytics.returningSubscribers,
+        urlBtnClickedCount: analytics.urlBtnClickedCount
+      }, null)
+    } else {
+      return sendSuccessResponse(res, 200, {
+        sentCount: 0,
+        triggerWordsMatched: 0,
+        newSubscribers: 0,
+        returningSubscribers: 0,
+        urlBtnClickedCount: 0
+      }, null)
+    }
   } catch (err) {
-    sendErrorResponse(res, 500, err.message, `Failed to fetch WhatsApp chatbot details`)
+    sendErrorResponse(res, 500, 'Failed to fetch analytics for chatbot')
   }
 }

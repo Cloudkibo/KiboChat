@@ -21,6 +21,38 @@ const TAG = 'api/v1️.1/whatsAppChatbot/whatsAppChatbot.logiclayer.js'
 const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 const { callApi } = require('../utility')
 
+exports.criteriaForPeriodicBotStats = (chatbotId, days) => {
+  let matchAggregate = {
+    chatbotId: chatbotId,
+    'dateToday': {
+      $gte: new Date(
+        (new Date() - (days * 24 * 60 * 60 * 1000))),
+      $lt: new Date(
+        (new Date()))
+    }
+  }
+  return matchAggregate
+}
+
+exports.criteriaForPeriodicBotStatsForGroup = () => {
+  let groupCriteria = {
+    '_id': '$chatbotId',
+    'sentCount': {
+      '$sum': '$sentCount'
+    },
+    'triggerWordsMatched': {
+      '$sum': '$triggerWordsMatched'
+    },
+    'newSubscribersCount': {
+      '$sum': '$newSubscribersCount'
+    },
+    'returningSubscribers': {
+      '$sum': '$returningSubscribers'
+    }
+  }
+  return groupCriteria
+}
+
 exports.validateWhatsAppChatbotPayload = (payload) => {
   let bool = true
   let whatsAppChatbotFields = [

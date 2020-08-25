@@ -15,9 +15,9 @@ router.get('/',
   auth.isAuthenticated(),
   controller.fetch)
 
-router.get('/chatbotDetails',
+router.get('/:id/stats/:n',
   auth.isAuthenticated(),
-  controller.getChatbotDetails)
+  controller.fetchAnalytics)
 
 router.put('/',
   auth.isAuthenticated(),
