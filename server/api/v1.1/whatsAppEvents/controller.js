@@ -62,21 +62,21 @@ exports.messageReceived = function (req, res) {
 
                                 if (isNewContact) {
                                   await whatsAppChatbotDataLayer.updateWhatsAppChatbot(chatbot.companyId, { $inc: { 'stats.triggerWordsMatched': triggerWordsMatched, 'stats.newSubscribers': 1 } })
-                                  await whatsAppChatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
+                                  whatsAppChatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
                                     { chatbotId: chatbot._id, companyId: chatbot.companyId, dateToday: moment(new Date()).format('YYYY-MM-DD') },
                                     { $inc: { sentCount: 1, newSubscribersCount: 1, triggerWordsMatched } },
                                     { upsert: true })
                                 } else {
-                                  await whatsAppChatbotDataLayer.updateWhatsAppChatbot(chatbot.companyId, { $inc: { 'stats.triggerWordsMatched': triggerWordsMatched, 'stats.newSubscribers': 1 } })
+                                  whatsAppChatbotDataLayer.updateWhatsAppChatbot(chatbot.companyId, { $inc: { 'stats.triggerWordsMatched': triggerWordsMatched, 'stats.newSubscribers': 1 } })
                                   let subscriberLastMessageAt = moment(contact.lastMessagedAt)
                                   let dateNow = moment()
                                   if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
-                                    await whatsAppChatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
+                                    whatsAppChatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
                                       { chatbotId: chatbot._id, companyId: chatbot.companyId, dateToday: moment(new Date()).format('YYYY-MM-DD') },
                                       { $inc: { sentCount: 1, returningSubscribers: 1, triggerWordsMatched } },
                                       { upsert: true })
                                   } else {
-                                    await whatsAppChatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
+                                    whatsAppChatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
                                       { chatbotId: chatbot._id, companyId: chatbot.companyId, dateToday: moment(new Date()).format('YYYY-MM-DD') },
                                       { $inc: { sentCount: 1, triggerWordsMatched } },
                                       { upsert: true })
