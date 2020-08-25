@@ -40,19 +40,15 @@ exports.fetchWhatsAppChatbot = (companyId) => {
 exports.updateWhatsAppChatbot = (companyId, updated) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if (logicLayer.validateWhatsAppChatbotPayload(updated)) {
-        let chatbot = await callApi('whatsAppChatbot', 'put', {
-          purpose: 'updateOne',
-          match: {
-            companyId: companyId
-          },
-          updated
-        }, 'kibochat')
-        chatbot = { ...chatbot, ...updated }
-        resolve(chatbot)
-      } else {
-        throw new Error('Invalid chatbot arguments')
-      }
+      let chatbot = await callApi('whatsAppChatbot', 'put', {
+        purpose: 'updateOne',
+        match: {
+          companyId: companyId
+        },
+        updated
+      }, 'kibochat')
+      chatbot = { ...chatbot, ...updated }
+      resolve(chatbot)
     } catch (err) {
       logger.serverLog(TAG, `Failed to update whatsapp chatbot ${err}`, 'error')
       reject(err)
