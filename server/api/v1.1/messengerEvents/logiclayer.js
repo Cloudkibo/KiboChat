@@ -82,6 +82,10 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
           type: body.buttons[i].type,
           url: body.buttons[i].urlForFacebook ? body.buttons[i].urlForFacebook : body.buttons[i].url
         }
+        if (body.buttons[i].messenger_extensions && body.buttons[i].webview_height_ratio) {
+          tempButton.webview_height_ratio = body.buttons[i].webview_height_ratio
+          tempButton.messenger_extensions = body.buttons[i].messenger_extensions
+        }
         mediaElement.buttons.push(tempButton)
       }
     }
@@ -197,6 +201,10 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
           title: body.buttons[i].title,
           type: body.buttons[i].type,
           url: body.buttons[i].urlForFacebook ? body.buttons[i].urlForFacebook : body.buttons[i].url
+        }
+        if (body.buttons[i].messenger_extensions && body.buttons[i].webview_height_ratio) {
+          tempButton.webview_height_ratio = body.buttons[i].webview_height_ratio
+          tempButton.messenger_extensions = body.buttons[i].messenger_extensions
         }
         payload.message.attachment.payload.elements[0].buttons.push(tempButton)
       }
