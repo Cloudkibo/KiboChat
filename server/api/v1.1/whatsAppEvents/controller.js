@@ -67,7 +67,7 @@ exports.messageReceived = function (req, res) {
                                     { $inc: { sentCount: 1, newSubscribersCount: 1, triggerWordsMatched } },
                                     { upsert: true })
                                 } else {
-                                  whatsAppChatbotDataLayer.updateWhatsAppChatbot(chatbot.companyId, { $inc: { 'stats.triggerWordsMatched': triggerWordsMatched, 'stats.newSubscribers': 1 } })
+                                  whatsAppChatbotDataLayer.updateWhatsAppChatbot(chatbot.companyId, { $inc: { 'stats.triggerWordsMatched': triggerWordsMatched } })
                                   let subscriberLastMessageAt = moment(contact.lastMessagedAt)
                                   let dateNow = moment()
                                   if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
