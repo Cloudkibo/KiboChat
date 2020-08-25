@@ -37,14 +37,14 @@ exports.fetchWhatsAppChatbot = (companyId) => {
   })
 }
 
-exports.updateWhatsAppChatbot = (req, updated) => {
+exports.updateWhatsAppChatbot = (companyId, updated) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if (logicLayer.validateWhatsAppChatbotPayload(req.body)) {
+      if (logicLayer.validateWhatsAppChatbotPayload(updated)) {
         let chatbot = await callApi('whatsAppChatbot', 'put', {
           purpose: 'updateOne',
           match: {
-            companyId: req.user.companyId
+            companyId: companyId
           },
           updated
         }, 'kibochat')
