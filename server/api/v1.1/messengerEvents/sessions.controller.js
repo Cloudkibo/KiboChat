@@ -276,6 +276,10 @@ function sendNotification (subscriber, payload, page) {
   let companyId = page.companyId   
   let title = '[' + pageName + ']: ' + subscriber.firstName + ' ' + subscriber.lastName
   let body = payload.text
+  let newPayload = {
+    action: 'chat_messenger',
+    subscriber: subscriber
+  }
   utility.callApi(`companyUser/queryAll`, 'post', {companyId: companyId}, 'accounts')
     .then(companyUsers => {
       let lastMessageData = sessionLogicLayer.getQueryData('', 'aggregate', {company_id: companyId}, undefined, undefined, undefined, {_id: subscriber._id, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
@@ -301,8 +305,8 @@ function sendNotification (subscriber, payload, page) {
                       return companyUser
                     }
                   })
-                  sendNotifications(title, body, subscriber, companyUsers)
-                  saveNotifications(subscriber, companyUsers, page)
+                  sendNotifications(title, body, newPayload, companyUsers)
+                  saveNotifications(subscriber, companyUsers, pageName)
                 }).catch(error => {
                   logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
                 })
