@@ -205,6 +205,10 @@ function _sendNotification (subscriberId, status, companyId, userName) {
   callApi('subscribers/query', 'post', {_id: subscriberId})
     .then(gotSubscriber => {
       let subscriber = gotSubscriber[0]
+      let newPayload = {
+        action: 'chat_messenger',
+        subscriber: subscriber
+      }
       if (subscriber.is_assigned) {
         let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: companyId}, undefined, undefined, undefined, {_id: subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
         callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
@@ -229,7 +233,7 @@ function _sendNotification (subscriberId, status, companyId, userName) {
                           return companyUser
                         }
                       })
-                      sendNotifications(title, body, subscriber, companyUsers)
+                      sendNotifications(title, body, newPayload, companyUsers)
                     }).catch(error => {
                       logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
                     })
@@ -282,6 +286,10 @@ exports.assignAgent = function (req, res) {
     callApi('subscribers/query', 'post', {_id: req.body.subscriberId})
       .then(gotSubscriber => {
         let subscriber = gotSubscriber[0]
+        let newPayload = {
+          action: 'chat_messenger',
+          subscriber: subscriber
+        }
         let title = '[' + subscriber.pageId.pageName + ']: ' + subscriber.firstName + ' ' + subscriber.lastName
         let body = 'You have been assigned a session as a agent'
         callApi(`companyUser/queryAll`, 'post', {userId: req.body.agentId}, 'accounts', req.headers.authorization)
@@ -293,7 +301,7 @@ exports.assignAgent = function (req, res) {
                 subscriber.lastPayload = gotLastMessage[0].payload
                 subscriber.lastRepliedBy = gotLastMessage[0].replied_by
                 subscriber.lastDateTime = gotLastMessage[0].datetime
-                sendNotifications(title, body, subscriber, companyUsers)
+                sendNotifications(title, body, newPayload, companyUsers)
               }).catch(error => {
                 logger.serverLog(TAG, `Error while fetching lastMessageData details ${(error)}`, 'error')
               })
@@ -356,6 +364,10 @@ exports.assignTeam = function (req, res) {
             callApi('subscribers/query', 'post', {_id: req.body.subscriberId})
               .then(gotSubscriber => {
                 let subscriber = gotSubscriber[0]
+                let newPayload = {
+                  action: 'chat_messenger',
+                  subscriber: subscriber
+                }
                 let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId}, undefined, undefined, undefined, {_id: req.body.subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
                 callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
                   .then(gotLastMessage => {
@@ -365,7 +377,7 @@ exports.assignTeam = function (req, res) {
                     subscriber.lastDateTime = gotLastMessage[0].datetime
                     let title = '[' + subscriber.pageId.pageName + ']: ' + subscriber.firstName + ' ' + subscriber.lastName
                     let body = `You have been assigned a session as a agent in a ${req.body.teamName} team`
-                    sendNotifications(title, body, subscriber, companyUsers)
+                    sendNotifications(title, body, newPayload, companyUsers)
                   }).catch(error => {
                     logger.serverLog(TAG, `Error while fetching subscriber last message ${error}`, 'error')
                   })
