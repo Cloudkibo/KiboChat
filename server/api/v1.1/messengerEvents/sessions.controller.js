@@ -289,12 +289,12 @@ function sendNotification (subscriber, payload, page) {
           subscriber.lastRepliedBy = gotLastMessage[0].replied_by
           subscriber.lastDateTime = gotLastMessage[0].datetime
           if (!subscriber.is_assigned) {
-            sendNotifications(title, body, subscriber, companyUsers)
+            sendNotifications(title, body, newPayload, companyUsers)
             saveNotifications(subscriber, companyUsers, page)
           } else {
             if (subscriber.assigned_to.type === 'agent') {
               companyUsers = companyUsers.filter(companyUser => companyUser.userId._id === subscriber.assigned_to.id)
-              sendNotifications(title, body, subscriber, companyUsers)
+              sendNotifications(title, body, newPayload, companyUsers)
               saveNotifications(subscriber, companyUsers, page)
             } else {
               utility.callApi(`teams/agents/query`, 'post', {teamId: subscriber.assigned_to.id}, 'accounts')
