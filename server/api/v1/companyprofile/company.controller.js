@@ -278,20 +278,34 @@ exports.updatePlatformWhatsApp = function (req, res) {
   //   .catch(error => {
   //     sendErrorResponse(res, 500, `Failed to fetch company user ${error}`)
   //   })
-
-  let data = {body: req.body, companyId: req.user.companyId, userId: req.user._id}
-  async.series([
-    _verifyCredentials.bind(null, data),
-    _updateCompanyProfile.bind(null, data),
-    _updateUser.bind(null, data),
-    _setWebhook.bind(null, data)
-  ], function (err) {
-    if (err) {
-      sendErrorResponse(res, 500, '', `${err}`)
-    } else {
-      sendSuccessResponse(res, 200, {description: 'updated successfully', showModal: req.body.changeWhatsAppTwilio})
-    }
-  })
+  req.body.businessNumber = req.body.businessNumber.replace(/[- )(]/g, '')
+  let query = {
+    _id: {$ne: req.user.companyId},
+    'whatsApp.businessNumber': req.body.businessNumber
+  }
+  utility.callApi(`companyprofile/query`, 'post', query) // fetch company user
+    .then(companyprofile => {
+      if (!companyprofile) {
+        let data = {body: req.body, companyId: req.user.companyId, userId: req.user._id}
+        async.series([
+          _verifyCredentials.bind(null, data),
+          _updateCompanyProfile.bind(null, data),
+          _updateUser.bind(null, data),
+          _setWebhook.bind(null, data)
+        ], function (err) {
+          if (err) {
+            sendErrorResponse(res, 500, '', `${err}`)
+          } else {
+            sendSuccessResponse(res, 200, {description: 'updated successfully', showModal: req.body.changeWhatsAppTwilio})
+          }
+        })
+      } else {
+        sendErrorResponse(res, 500, '', 'This WhatsApp Number is already connected with some other account')
+      }
+    })
+    .catch((err) => {
+      sendErrorResponse(res, 500, `Failed to fetch company ${err}`)
+    })
 }
 exports.disconnect = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
