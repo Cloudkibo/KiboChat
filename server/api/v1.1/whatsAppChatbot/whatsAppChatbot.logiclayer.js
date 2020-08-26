@@ -90,6 +90,24 @@ function convertToEmoji (num) {
   }
 }
 
+exports.updateFaqsForStartingBlock = async (chatbot) => {
+  let messageBlocks = []
+  const faqsId = '' + new Date().getTime()
+  let startingBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
+  if (!startingBlock.payload[0].text.includes('FAQ')) {
+    startingBlock.payload[0].text += `\n${convertToEmoji(3)} FAQs`
+    startingBlock.payload[0].menu.push({ type: STATIC, blockId: faqsId })
+    getFaqsBlock(chatbot, faqsId, messageBlocks, chatbot.startingBlockId)
+    messageBlockDataLayer.genericUpdateMessageBlock({ uniqueId: chatbot.startingBlockId }, startingBlock)
+    messageBlockDataLayer.createForMessageBlock(messageBlocks[0])
+  } else {
+    messageBlockDataLayer.genericUpdateMessageBlock(
+      { uniqueId: startingBlock.payload[0].menu[3].blockId },
+      { 'payload.0.text': `View our FAQs here: ${chatbot.botLinks.faqs}\nPlease send "0" to go back` }
+    )
+  }
+}
+
 exports.getMessageBlocks = (chatbot) => {
   const messageBlocks = []
   const mainMenuId = '' + new Date().getTime()
@@ -109,15 +127,12 @@ exports.getMessageBlocks = (chatbot) => {
         text: dedent(`Please select an option by sending the corresponding number for it (e.g send “1” to select Discover):
                 ${convertToEmoji(0)} All Categories
                 ${convertToEmoji(1)} Discover
-                ${convertToEmoji(2)} Check order status
-                ${convertToEmoji(3)} Return an item`),
+                ${convertToEmoji(2)} Check order status`),
         componentType: 'text',
         menu: [
           { type: DYNAMIC, action: PRODUCT_CATEGORIES },
           { type: DYNAMIC, action: DISCOVER_PRODUCTS },
-          { type: STATIC, blockId: orderStatusId },
-          { type: STATIC, blockId: returnOrderId },
-          { type: STATIC, blockId: faqsId }
+          { type: STATIC, blockId: orderStatusId }
         ]
       }
     ],
@@ -127,7 +142,7 @@ exports.getMessageBlocks = (chatbot) => {
   getOrderIdBlock(chatbot, orderStatusId, messageBlocks)
   getReturnOrderIdBlock(chatbot, returnOrderId, messageBlocks)
   if (chatbot.botLinks && chatbot.botLinks.faqs) {
-    messageBlocks[0].payload[0].text = `\n${convertToEmoji(4)} FAQs`
+    messageBlocks[0].payload[0].text = `\n${convertToEmoji(3)} FAQs`
     messageBlocks[0].payload[0].menu.push({ type: STATIC, blockId: faqsId })
     getFaqsBlock(chatbot, faqsId, messageBlocks, mainMenuId)
   }
@@ -240,8 +255,7 @@ const getFaqsBlock = (chatbot, blockId, messageBlocks, backId) => {
     uniqueId: blockId,
     payload: [
       {
-        text: dedent(`View our FAQs here: ${chatbot.botLinks.faqs}
-                Please send "0" to go back`),
+        text: `View our FAQs here: ${chatbot.botLinks.faqs}\nPlease send "0" to go back`,
         componentType: 'text',
         menu: [
           { type: STATIC, blockId: backId }
@@ -292,10 +306,10 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    let orderStatus = await EcommerceProvider.checkOrderStatus(orderId)
+    let orderStatus = await EcommerceProvider.checkOrderStatus(Number(orderId))
     messageBlock.payload[0].text += `\nPayment: ${orderStatus.financial_status}`
     if (orderStatus.fulfillment_status) {
-      messageBlock.payload[0].text += `, Delivery: ${orderStatus.fulfillment_status}`
+      messageBlock.payload[0].text += `, Delivery: ${orderStatus.fulfillment_status}\n`
     }
     messageBlock.payload[0].text += `Get full order status here: ${orderStatus.order_status_url}`
 
