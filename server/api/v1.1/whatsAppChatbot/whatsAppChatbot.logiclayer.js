@@ -315,7 +315,7 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     }
     let orderStatus = await EcommerceProvider.checkOrderStatus(Number(orderId))
     messageBlock.payload[0].text += `\nPayment: ${orderStatus.displayFinancialStatus}`
-    messageBlock.payload[0].text += `\nDelivery: ${orderStatus.displayFulfillmentStatus}\n`
+    messageBlock.payload[0].text += `\nDelivery: ${orderStatus.displayFulfillmentStatus}`
 
     messageBlock.payload[0].text += '\nPlease select an option by sending the corresponding number for it:'
     messageBlock.payload[0].text += `\n${convertToEmoji(0)} Go Back`
