@@ -102,47 +102,92 @@ exports.getProductVariants = (id, credentials) => {
 
 exports.getOrderStatus = (id, credentials) => {
   const shopify = initShopify(credentials)
-  return new Promise(function (resolve, reject) {
-    shopify.order.get(id, { limit: 10 })
-      .then(order => {
-        order = {
-          id: order.id,
-          email: order.email,
-          total_price: order.total_price,
-          currency: order.currency,
-          financial_status: order.financial_status,
-          confirmed: order.confirmed,
-          name: order.name,
-          order_number: order.order_number,
-          checkout_id: order.checkout_id,
-          fulfillment_status: order.fulfillment_status,
-          order_status_url: order.order_status_url,
-          line_items: order.line_items.map(lineItem => {
-            return {
-              id: lineItem.id,
-              variant_id: lineItem.variant_id,
-              title: lineItem.title,
-              quantity: lineItem.quantity,
-              sku: lineItem.sku,
-              variant_title: lineItem.variant_title,
-              vendor: lineItem.vendor,
-              product_id: lineItem.product_id,
-              name: lineItem.name,
-              price: lineItem.price
-            }
-          }),
-          fulfillments: order.fulfillments,
-          billing_address: order.billing_address,
-          customer: {
-            id: order.customer.id,
-            email: order.customer.email,
-            first_name: order.customer.first_name,
-            last_name: order.customer.last_name,
-            phone: order.customer.phone,
-            orders_count: order.customer.orders_count,
-            total_spent: order.customer.total_spent,
-            currency: order.customer.currency
+  const query = `{
+    orders(first: 1, query: "name:#${id}") {
+      edges {
+        node {
+          id
+          name
+          billingAddress {
+            id
+            name
+            phone
+            city
+            country
+            province
+            address1
+            address2
           }
+          confirmed
+          createdAt
+          currencyCode
+          customer {
+            id
+            email
+            firstName
+            lastName
+            phone
+            ordersCount
+            totalSpent
+          }
+          displayFinancialStatus
+          email
+          fulfillments {
+            id
+            trackingInfo {
+              company
+              number
+              url
+            }
+          }
+          phone
+          shippingAddress {
+            id
+          }
+          displayFulfillmentStatus
+          lineItems(first: 100) {
+            edges {
+              node {
+                id
+                variant {
+                  id
+                }
+                variantTitle
+                quantity
+                sku
+                vendor
+                product {
+                  id
+                }
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  `
+
+  return new Promise(function (resolve, reject) {
+    shopify.graphql(query)
+      .then(result => {
+        let order = result.orders.edges[0].node
+        order = {
+          ...order,
+          lineItems: order.lineItems.edges.map(lineItem => {
+            return {
+              id: lineItem.node.id,
+              variantId: lineItem.node.variant,
+              title: lineItem.node.title,
+              quantity: lineItem.node.quantity,
+              sku: lineItem.node.sku,
+              variant_title: lineItem.node.variant_title,
+              vendor: lineItem.node.vendor,
+              product: lineItem.node.product,
+              name: lineItem.node.name
+            }
+          })
         }
         resolve(order)
       })
