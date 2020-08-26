@@ -37,9 +37,11 @@ exports.fetch = async (req, res) => {
 }
 
 exports.update = async (req, res) => {
-  console.log('update whatsapp chatbot', req.body)
   try {
     let updatedChatbot = await dataLayer.updateWhatsAppChatbot(req.user.companyId, req.body)
+    if (req.body.botLinks && req.body.botLinks.faqs) {
+      logicLayer.updateFaqsForStartingBlock(updatedChatbot)
+    }
     sendSuccessResponse(res, 200, updatedChatbot, 'WhatsApp chatbot updated successfully')
   } catch (err) {
     sendErrorResponse(res, 500, err.message, `Failed to update WhatsApp chatbot`)
