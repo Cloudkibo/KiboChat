@@ -132,7 +132,6 @@ function _sendStatusNotification (subscriberId, status, companyId, userName) {
         action: 'chat_whatsapp',
         subscriber: subscriber
       }
-      if (subscriber.is_assigned) {
         let lastMessageData = logicLayer.getQueryData('', 'aggregate', {companyId: companyId}, undefined, undefined, undefined, {_id: subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
         callApi(`whatsAppChat/query`, 'post', lastMessageData, 'kibochat')
           .then(gotLastMessage => {
@@ -144,6 +143,7 @@ function _sendStatusNotification (subscriberId, status, companyId, userName) {
             let body = `This session has been ${status === 'new' ? 'opened' : 'resolved'} by ${userName}`
             callApi(`companyUser/queryAll`, 'post', {companyId: companyId}, 'accounts')
               .then(companyUsers => {
+                if (subscriber.is_assigned) {
                 if (subscriber.assigned_to.type === 'agent') {
                   companyUsers = companyUsers.filter(companyUser => companyUser.userId._id === subscriber.assigned_to.id)
                   sendNotifications(title, body, newPayload, companyUsers)
@@ -160,14 +160,14 @@ function _sendStatusNotification (subscriberId, status, companyId, userName) {
                     }).catch(error => {
                       logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
                     })
-                } else {
-                  sendNotifications(title, body, newPayload, companyUsers)
-                }
+                } 
+              } else {
+                sendNotifications(title, body, newPayload, companyUsers)
+              }
               }).catch(error => {
                 logger.serverLog(TAG, `Error while fetching companyUsers ${error}`, 'error')
               })
           })
-      }
     }).catch(error => {
       logger.serverLog(TAG, `Error while fetching subscribers ${error}`, 'error')
     })
