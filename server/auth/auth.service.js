@@ -352,9 +352,8 @@ function isItWebhookServer () {
     if (config.env === 'development') {
       next()
     } else {
-      // if (ip === '::ffff:' + config.webhook_ip) next()
-      // else res.send(403)
-      next()
+      if (ip === '::ffff:' + config.webhook_ip) next()
+      else res.send(403)
     }
   })
 }
