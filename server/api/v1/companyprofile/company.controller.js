@@ -269,13 +269,14 @@ exports.updatePlatformWhatsApp = function (req, res) {
   //     sendErrorResponse(res, 500, `Failed to fetch company user ${error}`)
   //   })
   req.body.businessNumber = req.body.businessNumber.replace(/[- )(]/g, '')
-  let query = {
-    _id: {$ne: req.user.companyId},
-    'whatsApp.businessNumber': req.body.businessNumber
-  }
-  utility.callApi(`companyprofile/query`, 'post', query) // fetch company user
+  let query = [
+    {$match: {_id: {$ne: req.user.companyId}, 'whatsApp.businessNumber': req.body.businessNumber}},
+    {$lookup: {from: 'users', localField: 'ownerId', foreignField: '_id', as: 'user'}},
+    {'$unwind': '$user'}
+  ]
+  utility.callApi(`companyprofile/aggregate`, 'post', query) // fetch company user
     .then(companyprofile => {
-      if (!companyprofile) {
+      if (!companyprofile[0]) {
         let data = {body: req.body, companyId: req.user.companyId, userId: req.user._id}
         async.series([
           _verifyCredentials.bind(null, data),
@@ -290,7 +291,7 @@ exports.updatePlatformWhatsApp = function (req, res) {
           }
         })
       } else {
-        sendErrorResponse(res, 500, '', 'This WhatsApp Number is already connected with some other account')
+        sendErrorResponse(res, 500, '', `This WhatsApp Number is already connected by ${companyprofile[0].user.email}. Please contact them`)
       }
     })
     .catch((err) => {
