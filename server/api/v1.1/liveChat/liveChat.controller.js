@@ -11,6 +11,7 @@ const async = require('async')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const { record } = require('../../global/messageStatistics')
 const { sendOpAlert } = require('../../global/operationalAlert')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 
 exports.index = function (req, res) {
   if (req.params.subscriber_id) {
@@ -149,6 +150,7 @@ exports.create = function (req, res) {
       }
       callApi(`subscribers/update`, 'put', subscriberData)
         .then(updated => {
+          updateCompanyUsage(req.user.companyId, 'chat_messages', 1)
           _removeSubsWaitingForUserInput(req.body.subscriber_id)
           logger.serverLog(TAG, `updated subscriber again ${updated}`)
           fbMessageObject.datetime = new Date()
@@ -237,6 +239,25 @@ exports.create = function (req, res) {
         .catch(err => {
           callback(err)
         })
+    }, function (callback){
+      logger.serverLog(TAG, `Delete subscriber pending session from cronstack`)
+      var deleteData = {
+        purpose: 'deleteMany',
+        match: {
+          type: 'adminAlert',
+          'payload.type': 'pendingSession', 
+          'payload.subscriber._id': req.body._id
+        }
+      }
+      callApi(`cronstack`, 'delete', deleteData, 'kibochat')
+      .then(updatedRecord => {
+        logger.serverLog('Pending session info deleted successfully from cronStack')
+        callback()
+      })
+      .catch(err => {
+        logger.serverLog(`Error while deleting pending session alert from cronStack ${err}`)
+        callback(err)
+      })
     }
   ], 10, function (err, results) {
     if (err) {
