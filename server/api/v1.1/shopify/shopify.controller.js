@@ -222,7 +222,7 @@ exports.testRoute = (req, res) => {
       //   variant_id: 32734085808191,
       //   quantity: 1
       // }])
-      return shopify.checkOrderStatus(1038)
+      return shopify.checkOrderStatus('#1038')
     })
     .then(shop => {
       sendSuccessResponse(res, 200, shop)
