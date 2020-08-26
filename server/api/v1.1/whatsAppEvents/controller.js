@@ -1,8 +1,10 @@
 const { callApi } = require('../utility')
 const logicLayer = require('./logiclayer')
 const logger = require('../../../components/logger')
+const { sendNotifications } = require('../../global/sendNotification')
 const TAG = '/api/v1/whatsAppEvents/controller.js'
 const whatsAppMapper = require('../../../whatsAppMapper/whatsAppMapper')
+const sessionLogicLayer = require('../whatsAppSessions/whatsAppSessions.logiclayer')
 const whatsAppChatbotDataLayer = require('../whatsAppChatbot/whatsAppChatbot.datalayer')
 const whatsAppChatbotLogicLayer = require('../whatsAppChatbot/whatsAppChatbot.logiclayer')
 const shopifyDataLayer = require('../shopify/shopify.datalayer')
@@ -67,7 +69,7 @@ exports.messageReceived = function (req, res) {
                                     { $inc: { sentCount: 1, newSubscribersCount: 1, triggerWordsMatched } },
                                     { upsert: true })
                                 } else {
-                                  whatsAppChatbotDataLayer.updateWhatsAppChatbot(chatbot.companyId, { $inc: { 'stats.triggerWordsMatched': triggerWordsMatched, 'stats.newSubscribers': 1 } })
+                                  whatsAppChatbotDataLayer.updateWhatsAppChatbot(chatbot.companyId, { $inc: { 'stats.triggerWordsMatched': triggerWordsMatched } })
                                   let subscriberLastMessageAt = moment(contact.lastMessagedAt)
                                   let dateNow = moment()
                                   if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
@@ -191,12 +193,58 @@ function storeChat (from, to, contact, messageData) {
             }
           }
         })
+        _sendMobileNotification(contact, message.payload, contact.companyId)
         let query = { _id: contact._id }
         let updatePayload = { last_activity_time: Date.now(), status: 'new', pendingResponse: true, lastMessagedAt: Date.now() }
         let incrementPayload = { $inc: { unreadCount: 1, messagesCount: 1 } }
         updateWhatsAppContact(query, updatePayload, incrementPayload, {})
       })
   })
+}
+function _sendMobileNotification (subscriber, payload, companyId) {
+  let title = subscriber.name
+  let body = payload.text
+  let newPayload = {
+    action: 'chat_whatsapp',
+    subscriber: subscriber
+  }
+  callApi(`companyUser/queryAll`, 'post', {companyId: companyId}, 'accounts')
+    .then(companyUsers => {
+      let lastMessageData = sessionLogicLayer.getQueryData('', 'aggregate', {companyId: companyId}, undefined, undefined, undefined, {_id: subscriber._id, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+      callApi(`whatsAppChat/query`, 'post', lastMessageData, 'kibochat')
+        .then(gotLastMessage => {
+          subscriber.lastPayload = gotLastMessage[0].payload
+          subscriber.lastRepliedBy = gotLastMessage[0].replied_by
+          subscriber.lastDateTime = gotLastMessage[0].datetime
+          if (!subscriber.is_assigned) {
+            sendNotifications(title, body, newPayload, companyUsers)
+          } else {
+            if (subscriber.assigned_to.type === 'agent') {
+              companyUsers = companyUsers.filter(companyUser => companyUser.userId._id === subscriber.assigned_to.id)
+              sendNotifications(title, body, newPayload, companyUsers)
+            } else {
+              callApi(`teams/agents/query`, 'post', {teamId: subscriber.assigned_to.id}, 'accounts')
+                .then(teamagents => {
+                  console.log('send Push notification in team')
+                  teamagents = teamagents.map(teamagent => teamagent.agentId._id)
+                  companyUsers = companyUsers.filter(companyUser => {
+                    if (teamagents.includes(companyUser.userId._id)) {
+                      return companyUser
+                    }
+                  })
+                  console.log('newPayload', newPayload)
+                  sendNotifications(title, body, newPayload, companyUsers)
+                }).catch(error => {
+                  logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
+                })
+            }
+          }
+        }).catch(error => {
+          logger.serverLog(TAG, `Error while fetching Last Message ${error}`, 'error')
+        })
+    }).catch(error => {
+      logger.serverLog(TAG, `Error while fetching companyUser ${error}`, 'error')
+    })
 }
 
 function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {

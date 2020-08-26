@@ -1,4 +1,3 @@
-const logicLayer = require('./whatsAppChatbot.logiclayer')
 const { callApi } = require('../utility')
 const logger = require('../../../components/logger')
 const TAG = '/api/v1/whatsAppChatbot/whatsAppChatbot.datalayer.js'
