@@ -101,10 +101,16 @@ exports.updateFaqsForStartingBlock = async (chatbot) => {
     messageBlockDataLayer.genericUpdateMessageBlock({ uniqueId: chatbot.startingBlockId }, startingBlock)
     messageBlockDataLayer.createForMessageBlock(messageBlocks[0])
   } else {
-    messageBlockDataLayer.genericUpdateMessageBlock(
-      { uniqueId: startingBlock.payload[0].menu[3].blockId },
-      { 'payload.0.text': `View our FAQs here: ${chatbot.botLinks.faqs}\nPlease send "0" to go back` }
-    )
+    if (chatbot.botLinks && chatbot.botLinks.faqs) {
+      messageBlockDataLayer.genericUpdateMessageBlock(
+        { uniqueId: startingBlock.payload[0].menu[3].blockId },
+        { 'payload.0.text': `View our FAQs here: ${chatbot.botLinks.faqs}\nPlease send "0" to go back` }
+      )
+    } else {
+      startingBlock.payload[0].text += startingBlock.payload[0].text.replace(`\n${convertToEmoji(3)} FAQs`, '')
+      startingBlock.payload[0].menu.splice(3, 1)
+      messageBlockDataLayer.deleteForMessageBlock({ uniqueId: startingBlock.payload[0].menu[3].blockId })
+    }
   }
 }
 
