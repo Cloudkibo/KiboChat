@@ -12,7 +12,7 @@ exports.create = async (req, res) => {
     } else {
       let chatbot = await dataLayer.createWhatsAppChatbot(req)
       let messageBlocks = logicLayer.getMessageBlocks(chatbot._id, req.user._id, req.user.companyId)
-      chatbot = await dataLayer.updateWhatsAppChatbot(req, {
+      chatbot = await dataLayer.updateWhatsAppChatbot(req.user.companyId, {
         startingBlockId: messageBlocks[0].uniqueId
       })
       sendSuccessResponse(res, 200, chatbot, 'WhatsApp chatbot created successfully')

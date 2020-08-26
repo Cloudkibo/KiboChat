@@ -588,8 +588,7 @@ const getShowItemsToRemoveBlock = (chatbot, backId, contact) => {
       messageBlock.payload[0].menu.push({ type: DYNAMIC, action: REMOVE_FROM_CART, argument: i })
     }
     messageBlock.payload[0].menu.push({ type: STATIC, blockId: backId }, { type: STATIC, blockId: chatbot.startingBlockId })
-    messageBlock.payload[0].text += dedent(`\n${convertToEmoji(shoppingCart.length)} Go Back
-                                        ${convertToEmoji(shoppingCart.length + 1)} Go Home`)
+    messageBlock.payload[0].text += `\n${convertToEmoji(shoppingCart.length)} Go Back\n${convertToEmoji(shoppingCart.length + 1)} Go Home`
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to show items from cart ${err}`, 'error')
@@ -608,8 +607,10 @@ const getRemoveFromCartBlock = async (chatbot, backId, EcommerceProvider, contac
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Product has been successfully removed from your cart.
-          Please select an option by sending the corresponding number for it:`,
+          text: dedent(`Product has been succesfully removed from your cart.
+          Please select an option by sending the corresponding number for it:
+          ${convertToEmoji(0)} Go Back
+          ${convertToEmoji(1)} Go Home`),
           componentType: 'text',
           menu: [
             { type: STATIC, blockId: backId },
