@@ -77,7 +77,7 @@ exports.validateWhatsAppChatbotPayload = (payload) => {
   return bool
 }
 
-function convertToEmoji (num) {
+function convertToEmoji(num) {
   if (isNaN(num)) {
     throw new Error('invalid number')
   } else {
@@ -574,9 +574,10 @@ const getShowMyCartBlock = async (chatbot, backId, contact) => {
       for (let product of shoppingCart) {
         messageBlock.payload[0].text += `- ${product.product}, quantity: ${product.quantity}\n`
       }
-      messageBlock.payload[0].menu.push({ type: DYNAMIC, action: SHOW_ITEMS_TO_REMOVE },
-        { type: DYNAMIC, action: GET_CHECKOUT_EMAIL },
+      messageBlock.payload[0].menu.push(
+        { type: DYNAMIC, action: SHOW_ITEMS_TO_REMOVE },
         { type: DYNAMIC, action: CLEAR_CART },
+        { type: DYNAMIC, action: GET_CHECKOUT_EMAIL },
         { type: STATIC, blockId: backId },
         { type: STATIC, blockId: chatbot.startingBlockId })
       messageBlock.payload[0].text += dedent(`Please select an option by sending the corresponding number for it:
@@ -706,7 +707,7 @@ const clearCart = async (chatbot, contact) => {
   }
 }
 
-function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
+function updateWhatsAppContact(query, bodyForUpdate, bodyForIncrement, options) {
   callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
     .then(updated => {
     })
