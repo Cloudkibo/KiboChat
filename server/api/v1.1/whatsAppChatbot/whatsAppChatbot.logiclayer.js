@@ -76,7 +76,7 @@ exports.validateWhatsAppChatbotPayload = (payload) => {
   return bool
 }
 
-function convertToEmoji(num) {
+function convertToEmoji (num) {
   if (isNaN(num)) {
     throw new Error('invalid number')
   } else {
@@ -95,11 +95,13 @@ exports.updateFaqsForStartingBlock = async (chatbot) => {
   const faqsId = '' + new Date().getTime()
   let startingBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
   if (!startingBlock.payload[0].text.includes('FAQ')) {
-    startingBlock.payload[0].text += `\n${convertToEmoji(3)} FAQs`
-    startingBlock.payload[0].menu.push({ type: STATIC, blockId: faqsId })
-    getFaqsBlock(chatbot, faqsId, messageBlocks, chatbot.startingBlockId)
-    messageBlockDataLayer.genericUpdateMessageBlock({ uniqueId: chatbot.startingBlockId }, startingBlock)
-    messageBlockDataLayer.createForMessageBlock(messageBlocks[0])
+    if (chatbot.botLinks && chatbot.botLinks.faqs) {
+      startingBlock.payload[0].text += `\n${convertToEmoji(3)} FAQs`
+      startingBlock.payload[0].menu.push({ type: STATIC, blockId: faqsId })
+      getFaqsBlock(chatbot, faqsId, messageBlocks, chatbot.startingBlockId)
+      messageBlockDataLayer.genericUpdateMessageBlock({ uniqueId: chatbot.startingBlockId }, startingBlock)
+      messageBlockDataLayer.createForMessageBlock(messageBlocks[0])
+    }
   } else {
     if (chatbot.botLinks && chatbot.botLinks.faqs) {
       messageBlockDataLayer.genericUpdateMessageBlock(
@@ -650,7 +652,7 @@ const getRemoveFromCartBlock = async (chatbot, backId, EcommerceProvider, contac
   }
 }
 
-function updateWhatsAppContact(query, bodyForUpdate, bodyForIncrement, options) {
+function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
   callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
     .then(updated => {
     })
