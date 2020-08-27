@@ -19,9 +19,11 @@ if (config.env === 'production' || config.env === 'staging') {
   appObj.use(Raven.requestHandler())
 }
 
-cron.schedule('*/1 * * * *', NotificationsScript.runLiveChatNotificationScript) 
+cron.schedule('*/1 * * * *', NotificationsScript.runLiveChatNotificationScript)
 
 require('./config/express')(appObj)
 require('./config/setup')(app, httpApp, config)
 require('./routes')(appObj)
 require('./api/global/messageStatistics').connectRedis()
+
+

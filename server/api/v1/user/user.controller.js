@@ -2,10 +2,12 @@ const utility = require('../utility')
 const logger = require('../../../components/logger')
 const TAG = 'api/v2/user/user.controller.js'
 const util = require('util')
+const cookie = require('cookie')
 const config = require('./../../../config/environment/index')
 const { sendOpAlert } = require('../../global/operationalAlert')
 const { facebookApiCaller } = require('../../global/facebookApiCaller')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
+const shopifyDataLayer = require('../../v1.1/shopify/shopify.datalayer.js')
 
 exports.index = function (req, res) {
   utility.callApi(`user`, 'get', {}, 'accounts', req.headers.authorization)
@@ -13,6 +15,19 @@ exports.index = function (req, res) {
       utility.callApi(`companyUser/query`, 'post', {userId: user._id}, 'accounts', req.headers.authorization)
         .then(companyUser => {
           user.expoListToken = companyUser.expoListToken
+          res.cookie('userId', user._id)
+          res.cookie('companyId', companyUser.companyId)
+          // shopify redirect work as it doesn't allow to add
+          // shop URL in UI so this is just doing it based on
+          // cookies
+          if (cookie.parse(req.headers.cookie).shopifyToken) {
+            let shop = cookie.parse(req.headers.cookie).installByShopifyStore
+            let shopToken = cookie.parse(req.headers.cookie).shopifyToken
+            res.clearCookie('shopifyToken')
+            res.clearCookie('installByShopifyStore')
+            res.cookie('shopifySetupState', 'completedAfterLogin')
+            saveShopifyIntegration(shop, shopToken, user._id, companyUser.companyId)
+          }
           sendSuccessResponse(res, 200, user)
         }).catch(error => {
           logger.serverLog(TAG, `Error while fetching companyUser details ${util.inspect(error)}`, 'error')
@@ -157,7 +172,7 @@ exports.validateFacebookConnected = function (req, res) {
           buyerFbName: company.user.facebookInfo && company.user.facebookInfo.name ? company.user.facebookInfo.name : '',
           email: company.user.email,
           profilePic: company.user.facebookInfo && company.user.facebookInfo.profilePic ? company.user.facebookInfo.profilePic : ''
-        }  
+        }
       }
       sendSuccessResponse(res, 200, dataTosend)
     })
@@ -166,9 +181,7 @@ exports.validateFacebookConnected = function (req, res) {
     })
 }
 
-
 exports.validateUserAccessToken = function (req, res) {
-  console.log('in validateUserAccessToken')
   if (req.user.role === 'buyer') {
     _checkAcessTokenFromFb(req.user.facebookInfo, req)
       .then(result => {
@@ -273,5 +286,21 @@ exports.updatePlatform = function (req, res) {
     })
     .catch(err => {
       res.status(500).json({status: 'failed', payload: err})
+    })
+}
+
+function saveShopifyIntegration (shop, shopToken, userId, companyId) {
+  const shopifyPayload = {
+    userId,
+    companyId,
+    shopUrl: shop,
+    shopToken
+  }
+  shopifyDataLayer.createShopifyIntegration(shopifyPayload)
+    .then(savedStore => {
+      logger.serverLog(TAG, 'shopify store integration created', 'debug')
+    })
+    .catch(err => {
+      logger.serverLog(TAG, 'shopify store integration creation error' + err, 'error')
     })
 }

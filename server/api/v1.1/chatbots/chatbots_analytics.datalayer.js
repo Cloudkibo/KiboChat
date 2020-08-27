@@ -56,6 +56,14 @@ exports.aggregateForBotSubscribersAnalytics = (match, group, lookup, limit, sort
   return callApi(`chatbot_subscribers_journey/query`, 'post', query, kibochat)
 }
 
+exports.findBotSubscribersAnalytics = (match) => {
+  let query = {
+    purpose: 'findAll',
+    match: match
+  }
+  return callApi(`chatbot_subscribers_analytics/query`, 'post', query, kibochat)
+}
+
 exports.genericUpdateBotAnalytics = (queryObject, updated, options) => {
   let query = {
     purpose: 'updateAll',
