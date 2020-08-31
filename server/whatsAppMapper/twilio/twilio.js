@@ -14,7 +14,6 @@ exports.sendChatMessage = (body) => {
         resolve(response.sid)
       })
       .catch(error => {
-        console.log('twilio send message error', error)
         reject(error)
       })
   })
@@ -92,9 +91,7 @@ exports.getNormalizedMessageReceivedData = (event) => {
       callApi(`companyprofile/query`, 'post', { 'whatsApp.accountSID': event.AccountSid })
         .then(company => {
           resolve({
-            accountSID: company.whatsApp.accountSID,
             accessToken: company.whatsApp.accessToken,
-            businessNumber: company.whatsApp.businessNumber,
             userData: {
               number: event.From.substring(10),
               name: ''

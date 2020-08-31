@@ -49,20 +49,15 @@ exports.messageReceived = function (req, res) {
                                 shopUrl: shopifyIntegration.shopUrl,
                                 shopToken: shopifyIntegration.shopToken
                               })
-                              console.log('fetching next block', data.messageData.text)
                               let nextMessageBlock = await whatsAppChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text)
-                              console.log('fetched nextMessageBlock', nextMessageBlock)
                               if (nextMessageBlock) {
                                 let chatbotResponse = {
                                   whatsApp: {
-                                    accessToken: data.accessToken,
-                                    accountSID: data.accountSID,
-                                    businessNumber: data.businessNumber
+                                    accessToken: data.accessToken
                                   },
                                   recipientNumber: number,
                                   payload: nextMessageBlock.payload[0]
                                 }
-                                console.log('chatbotResponse', chatbotResponse)
                                 whatsAppMapper.whatsAppMapper(req.body.provider, ActionTypes.SEND_CHAT_MESSAGE, chatbotResponse)
                                 updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
                                 const triggerWordsMatched = chatbot.triggers.includes(data.messageData.text) ? 1 : 0
@@ -117,7 +112,7 @@ exports.messageReceived = function (req, res) {
     })
 }
 
-function createContact (data) {
+function createContact(data) {
   let number = `+${data.userData.number}`
   let name = data.userData.name
   let query = [
@@ -178,7 +173,7 @@ function createContact (data) {
   })
 }
 
-function storeChat (from, to, contact, messageData) {
+function storeChat(from, to, contact, messageData) {
   console.log('storeChat', messageData)
   logicLayer.prepareChat(from, to, contact, messageData).then(chatPayload => {
     callApi(`whatsAppChat`, 'post', chatPayload, 'kibochat')
@@ -206,7 +201,7 @@ function storeChat (from, to, contact, messageData) {
       })
   })
 }
-function _sendMobileNotification (subscriber, payload, companyId) {
+function _sendMobileNotification(subscriber, payload, companyId) {
   let title = subscriber.name
   let body = payload.text
   let newPayload = {
@@ -252,7 +247,7 @@ function _sendMobileNotification (subscriber, payload, companyId) {
     })
 }
 
-function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
+function updateWhatsAppContact(query, bodyForUpdate, bodyForIncrement, options) {
   callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
     .then(updated => {
     })
@@ -289,7 +284,7 @@ exports.messageStatus = function (req, res) {
     })
 }
 
-function updateChat (message, body) {
+function updateChat(message, body) {
   let dateTime = Date.now()
   let matchQuery = {
     $or: [
@@ -331,7 +326,7 @@ function updateChat (message, body) {
   updateChatInDB(matchQuery, updated, dataToSend)
 }
 
-function updateChatInDB (match, updated, dataToSend) {
+function updateChatInDB(match, updated, dataToSend) {
   let updateData = {
     purpose: 'updateAll',
     match: match,
