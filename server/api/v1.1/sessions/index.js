@@ -9,7 +9,7 @@ const controller = require('./sessions.controller')
 router.post('/getOpenSessions',
   auth.isAuthenticated(),
   auth.doesPlanPermitsThisAction('livechat'),
-  auth.isUserAllowedToPerformThisAction('manage_livechat'),
+  auth.doesRolePermitsThisAction('livechatPermission'),
   validate({body: validationSchema.openSessionsPayload}),
   controller.fetchOpenSessions)
 
