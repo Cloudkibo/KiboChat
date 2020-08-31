@@ -55,7 +55,8 @@ exports.messageReceived = function (req, res) {
                               if (nextMessageBlock) {
                                 let chatbotResponse = {
                                   whatsApp: {
-                                    accessToken: data.accessToken
+                                    accessToken: data.accessToken,
+                                    accountSID: data.accountSID
                                   },
                                   recipientNumber: number,
                                   payload: nextMessageBlock.payload[0]

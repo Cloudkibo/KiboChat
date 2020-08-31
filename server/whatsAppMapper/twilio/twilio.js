@@ -91,6 +91,7 @@ exports.getNormalizedMessageReceivedData = (event) => {
       callApi(`companyprofile/query`, 'post', { 'whatsApp.accountSID': event.AccountSid })
         .then(company => {
           resolve({
+            accountSID: company.whatsApp.accountSID,
             accessToken: company.whatsApp.accessToken,
             userData: {
               number: event.From.substring(10),
