@@ -61,6 +61,7 @@ exports.messageReceived = function (req, res) {
                                   recipientNumber: number,
                                   payload: nextMessageBlock.payload[0]
                                 }
+                                console.log('chatbotResponse', chatbotResponse)
                                 whatsAppMapper.whatsAppMapper(req.body.provider, ActionTypes.SEND_CHAT_MESSAGE, chatbotResponse)
                                 updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
                                 const triggerWordsMatched = chatbot.triggers.includes(data.messageData.text) ? 1 : 0

@@ -14,6 +14,7 @@ exports.sendChatMessage = (body) => {
         resolve(response.sid)
       })
       .catch(error => {
+        console.log('twilio send message error', error)
         reject(error)
       })
   })
