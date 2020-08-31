@@ -7,36 +7,50 @@ const controller = require('./subscribers.controller')
 
 router.get('/',
   auth.isAuthenticated(),
+  auth.doesPlanPermitsThisAction('manage_subscribers'),
+  auth.isUserAllowedToPerformThisAction('view_subscribers'),
   controller.index)
 
 router.get('/allSubscribers',
   auth.isAuthenticated(),
+  auth.doesPlanPermitsThisAction('manage_subscribers'),
+  auth.isUserAllowedToPerformThisAction('view_subscribers'),
   controller.allSubscribers)
 
 router.get('/allLocales',
   auth.isAuthenticated(),
+  auth.doesPlanPermitsThisAction('manage_subscribers'),
+  auth.isUserAllowedToPerformThisAction('view_subscribers'),
   controller.allLocales)
 
 router.post('/getAll',
   auth.isAuthenticated(),
+  auth.doesPlanPermitsThisAction('manage_subscribers'),
+  auth.isUserAllowedToPerformThisAction('view_subscribers'),
   controller.getAll)
 
 router.get('/subscribeBack/:id',
   auth.isAuthenticated(),
+  auth.doesPlanPermitsThisAction('unsubscribe_subscribers'),
+  auth.isUserAllowedToPerformThisAction('unsubsubscribe_subscribers'),
   controller.subscribeBack)
 
 router.get('/updateData',
   auth.isAuthenticated(),
+  auth.doesPlanPermitsThisAction('manage_subscribers'),
+  auth.isUserAllowedToPerformThisAction('view_subscribers'),
   controller.updateData)
 
 router.post('/updatePicture',
   auth.isAuthenticated(),
+  auth.doesPlanPermitsThisAction('manage_subscribers'),
+  auth.isUserAllowedToPerformThisAction('view_subscribers'),
   controller.updatePicture)
 
 router.post('/unSubscribe',
   auth.isAuthenticated(),
-  auth.doesPlanPermitsThisAction('livechat'),
-  auth.doesRolePermitsThisAction('livechatPermission'),
+  auth.doesPlanPermitsThisAction('unsubscribe_subscribers'),
+  auth.isUserAllowedToPerformThisAction('unsubsubscribe_subscribers'),
   validate({body: validationSchema.unSubscribePayload}),
   controller.unSubscribe)
 

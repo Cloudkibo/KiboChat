@@ -38,6 +38,16 @@ exports.getAdvancedSettings = function (req, res) {
     })
 }
 
+exports.switchToBasicPlan = function (req, res) {
+  utility.callApi(`companyprofile/switchToBasicPlan`, 'get', {}, 'accounts', req.headers.authorization)
+    .then(updatedProfile => {
+      sendSuccessResponse(res, 200, updatedProfile)
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, `Failed to update company profile ${err}`)
+    })
+}
+
 exports.updateAdvancedSettings = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
     .then(companyUser => {
@@ -268,20 +278,35 @@ exports.updatePlatformWhatsApp = function (req, res) {
   //   .catch(error => {
   //     sendErrorResponse(res, 500, `Failed to fetch company user ${error}`)
   //   })
-
-  let data = {body: req.body, companyId: req.user.companyId, userId: req.user._id}
-  async.series([
-    _verifyCredentials.bind(null, data),
-    _updateCompanyProfile.bind(null, data),
-    _updateUser.bind(null, data),
-    _setWebhook.bind(null, data)
-  ], function (err) {
-    if (err) {
-      sendErrorResponse(res, 500, '', `${err}`)
-    } else {
-      sendSuccessResponse(res, 200, {description: 'updated successfully', showModal: req.body.changeWhatsAppTwilio})
-    }
-  })
+  req.body.businessNumber = req.body.businessNumber.replace(/[- )(]/g, '')
+  let query = [
+    {$match: {_id: {$ne: req.user.companyId}, 'whatsApp.businessNumber': req.body.businessNumber}},
+    {$lookup: {from: 'users', localField: 'ownerId', foreignField: '_id', as: 'user'}},
+    {'$unwind': '$user'}
+  ]
+  utility.callApi(`companyprofile/aggregate`, 'post', query) // fetch company user
+    .then(companyprofile => {
+      if (!companyprofile[0]) {
+        let data = {body: req.body, companyId: req.user.companyId, userId: req.user._id}
+        async.series([
+          _verifyCredentials.bind(null, data),
+          _updateCompanyProfile.bind(null, data),
+          _updateUser.bind(null, data),
+          _setWebhook.bind(null, data)
+        ], function (err) {
+          if (err) {
+            sendErrorResponse(res, 500, '', `${err}`)
+          } else {
+            sendSuccessResponse(res, 200, {description: 'updated successfully', showModal: req.body.changeWhatsAppTwilio})
+          }
+        })
+      } else {
+        sendErrorResponse(res, 500, '', `This WhatsApp Number is already connected by ${companyprofile[0].user.email}. Please contact them`)
+      }
+    })
+    .catch((err) => {
+      sendErrorResponse(res, 500, `Failed to fetch company ${err}`)
+    })
 }
 exports.disconnect = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
@@ -352,7 +377,49 @@ exports.fetchValidCallerIds = function (req, res) {
       }
     })
     .catch(error => {
-      sendErrorResponse(res, 500, `Failed to fetch valid caller Ids ${JSON.stringify(error)}`)
+      res.status(500).json({status: 'failed', payload: `Failed to fetch valid caller Ids ${JSON.stringify(error)}`})
+    })
+}
+
+exports.getKeys = function (req, res) {
+  utility.callApi('companyprofile/getKeys', 'get', {}, 'accounts', req.headers.authorization)
+    .then((result) => {
+      res.status(200).json({status: 'success', captchaKey: result.captchaKey, stripeKey: result.stripeKey})
+    })
+    .catch((err) => {
+      sendErrorResponse(res, 500, err)
+    })
+}
+
+exports.setCard = function (req, res) {
+  utility.callApi('companyprofile/setCard', 'post', req.body, 'accounts', req.headers.authorization)
+    .then((result) => {
+      sendSuccessResponse(res, 200, result)
+    })
+    .catch((err) => {
+      sendErrorResponse(res, 500, err)
+    })
+}
+
+exports.updatePlan = function (req, res) {
+  utility.callApi('companyprofile/updatePlan', 'post', req.body, 'accounts', req.headers.authorization)
+    .then((result) => {
+      sendSuccessResponse(res, 200, result)
+    })
+    .catch((err) => {
+      sendErrorResponse(res, 500, '', err)
+    })
+}
+
+exports.updateRole = function (req, res) {
+  utility.callApi('companyprofile/updateRole', 'post', {role: req.body.role, domain_email: req.body.domain_email}, 'accounts', req.headers.authorization)
+    .then((result) => {
+      logger.serverLog(TAG, 'result from invite endpoint accounts', 'debug')
+      logger.serverLog(TAG, result, 'debug')
+      res.status(200).json({status: 'success', payload: result})
+    })
+    .catch((err) => {
+      res.status(500).json({status: 'failed', payload: `${JSON.stringify(err)}`})
     })
 }
 exports.deleteWhatsAppInfo = function (req, res) {

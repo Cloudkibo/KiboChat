@@ -16,4 +16,14 @@ router.get('/fetchPermissions',
   auth.isAuthenticated(),
   controller.fetchPermissions)
 
+router.get('/fetchUserPermissions',
+  auth.isAuthenticated(),
+  controller.fetchUserPermissions)
+
+router.post('/changePermissions',
+  auth.isAuthenticated(),
+  validate({body: validationSchema.updatePermissions}),
+  auth.hasRole('buyer'),
+  controller.changePermissions)
+
 module.exports = router

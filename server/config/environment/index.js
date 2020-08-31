@@ -37,6 +37,11 @@ const all = {
   sendgrid: {
     username: process.env.SENDGRID_USERNAME,
     password: process.env.SENDGRID_PASSWORD
+  },
+  shopify: {
+    app_key: process.env.SHOPIFY_KEY || '10128033d2dc6948f383edf548c2aa87',
+    app_host: 'https://kibochat.cloudkibo.com',
+    app_secret: process.env.SHOPIFY_SECRET || 'f41a001b86c700915c9cedc52b955d35'
   }
 }
 

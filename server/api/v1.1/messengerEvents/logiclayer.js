@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const url = require('url')
 const ogs = require('open-graph-scraper')
+const utility = require('./../../../components/utility')
 
 function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
   let messageType = isResponse ? 'RESPONSE' : 'UPDATE'
@@ -81,6 +82,10 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
           title: body.buttons[i].title,
           type: body.buttons[i].type,
           url: body.buttons[i].urlForFacebook ? body.buttons[i].urlForFacebook : body.buttons[i].url
+        }
+        if (body.buttons[i].messenger_extensions && body.buttons[i].webview_height_ratio) {
+          tempButton.webview_height_ratio = body.buttons[i].webview_height_ratio
+          tempButton.messenger_extensions = body.buttons[i].messenger_extensions
         }
         mediaElement.buttons.push(tempButton)
       }
@@ -181,8 +186,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
                 'subtitle': body.description,
                 'default_action': {
                   'type': 'web_url',
-                  'url': body.url,
-                  'messenger_extensions': false
+                  'url': body.url
                 }
               }
             ]
@@ -198,8 +202,18 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
           type: body.buttons[i].type,
           url: body.buttons[i].urlForFacebook ? body.buttons[i].urlForFacebook : body.buttons[i].url
         }
+        if (body.buttons[i].messenger_extensions && body.buttons[i].webview_height_ratio) {
+          tempButton.webview_height_ratio = body.buttons[i].webview_height_ratio
+          tempButton.messenger_extensions = body.buttons[i].messenger_extensions
+        }
         payload.message.attachment.payload.elements[0].buttons.push(tempButton)
       }
+    } else {
+      payload.message.attachment.payload.elements[0].buttons = [{
+        title: utility.isYouTubeUrl(body.url) ? 'Play' : 'Open',
+        type: 'web_url',
+        url: body.url
+      }]
     }
     if (body.quickReplies && body.quickReplies.length > 0) {
       payload.message.quick_replies = body.quickReplies

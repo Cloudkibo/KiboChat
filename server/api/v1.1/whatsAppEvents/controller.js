@@ -1,8 +1,18 @@
 const { callApi } = require('../utility')
 const logicLayer = require('./logiclayer')
 const logger = require('../../../components/logger')
+const { sendNotifications } = require('../../global/sendNotification')
 const TAG = '/api/v1/whatsAppEvents/controller.js'
 const whatsAppMapper = require('../../../whatsAppMapper/whatsAppMapper')
+const sessionLogicLayer = require('../whatsAppSessions/whatsAppSessions.logiclayer')
+const whatsAppChatbotDataLayer = require('../whatsAppChatbot/whatsAppChatbot.datalayer')
+const whatsAppChatbotLogicLayer = require('../whatsAppChatbot/whatsAppChatbot.logiclayer')
+const shopifyDataLayer = require('../shopify/shopify.datalayer')
+const { ActionTypes } = require('../../../whatsAppMapper/constants')
+const commerceConstants = require('./../ecommerceProvidersApiLayer/constants')
+const EcommerceProvider = require('./../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
+const whatsAppChatbotAnalyticsDataLayer = require('../whatsAppChatbot/whatsAppChatbot_analytics.datalayer')
+const moment = require('moment')
 
 exports.messageReceived = function (req, res) {
   res.status(200).json({
@@ -12,7 +22,7 @@ exports.messageReceived = function (req, res) {
   whatsAppMapper.handleInboundMessageReceived(req.body.provider, req.body.event)
     .then(data => {
       createContact(data)
-        .then(() => {
+        .then((isNewContact) => {
           let number = `+${data.userData.number}`
           if (data.messageData.constructor === Object && Object.keys(data.messageData).length > 0) {
             let query = [
@@ -22,14 +32,69 @@ exports.messageReceived = function (req, res) {
               .then(companies => {
                 companies.forEach((company) => {
                   callApi(`whatsAppContacts/query`, 'post', { number: number, companyId: company._id })
-                    .then(contact => {
+                    .then(async (contact) => {
                       contact = contact[0]
+                      console.log('contact fetched', contact)
+                      console.log('data', data)
+
+                      // whatsapp chatbot
+                      if (data.messageData.componentType === 'text') {
+                        let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot(company._id)
+                        if (chatbot) {
+                          const shouldSend = chatbot.published || chatbot.testSubscribers.includes(contact.number)
+                          if (shouldSend) {
+                            const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
+                            if (shopifyIntegration) {
+                              const ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
+                                shopUrl: shopifyIntegration.shopUrl,
+                                shopToken: shopifyIntegration.shopToken
+                              })
+                              let nextMessageBlock = await whatsAppChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text)
+                              if (nextMessageBlock) {
+                                let chatbotResponse = {
+                                  whatsApp: {
+                                    accessToken: data.accessToken
+                                  },
+                                  recipientNumber: number,
+                                  payload: nextMessageBlock.payload[0]
+                                }
+                                whatsAppMapper.whatsAppMapper(req.body.provider, ActionTypes.SEND_CHAT_MESSAGE, chatbotResponse)
+                                updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
+                                const triggerWordsMatched = chatbot.triggers.includes(data.messageData.text) ? 1 : 0
+
+                                if (isNewContact) {
+                                  await whatsAppChatbotDataLayer.updateWhatsAppChatbot(chatbot.companyId, { $inc: { 'stats.triggerWordsMatched': triggerWordsMatched, 'stats.newSubscribers': 1 } })
+                                  whatsAppChatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
+                                    { chatbotId: chatbot._id, companyId: chatbot.companyId, dateToday: moment(new Date()).format('YYYY-MM-DD') },
+                                    { $inc: { sentCount: 1, newSubscribersCount: 1, triggerWordsMatched } },
+                                    { upsert: true })
+                                } else {
+                                  whatsAppChatbotDataLayer.updateWhatsAppChatbot(chatbot.companyId, { $inc: { 'stats.triggerWordsMatched': triggerWordsMatched } })
+                                  let subscriberLastMessageAt = moment(contact.lastMessagedAt)
+                                  let dateNow = moment()
+                                  if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
+                                    whatsAppChatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
+                                      { chatbotId: chatbot._id, companyId: chatbot.companyId, dateToday: moment(new Date()).format('YYYY-MM-DD') },
+                                      { $inc: { sentCount: 1, returningSubscribers: 1, triggerWordsMatched } },
+                                      { upsert: true })
+                                  } else {
+                                    whatsAppChatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
+                                      { chatbotId: chatbot._id, companyId: chatbot.companyId, dateToday: moment(new Date()).format('YYYY-MM-DD') },
+                                      { $inc: { sentCount: 1, triggerWordsMatched } },
+                                      { upsert: true })
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
                       if (contact && contact.isSubscribed) {
                         storeChat(number, company.whatsApp.businessNumber, contact, data.messageData)
                       }
                     })
                     .catch(error => {
-                      logger.serverLog(TAG, `Failed to fetch contact ${JSON.stringify(error)}`, 'error')
+                      logger.serverLog(TAG, `Failed to fetch contact ${error}`, 'error')
                     })
                 })
               })
@@ -53,6 +118,7 @@ function createContact (data) {
   let query = [
     { $match: { 'whatsApp.accessToken': data.accessToken } }
   ]
+  let isNewContact = false
   return new Promise((resolve, reject) => {
     callApi(`companyprofile/aggregate`, 'post', query, 'accounts')
       .then(companies => {
@@ -62,6 +128,7 @@ function createContact (data) {
               .then(contact => {
                 contact = contact[0]
                 if (!contact) {
+                  isNewContact = true
                   callApi(`whatsAppContacts`, 'post', {
                     name: name && name !== '' ? name : number,
                     number: number,
@@ -69,12 +136,12 @@ function createContact (data) {
                   }, 'accounts')
                     .then(contact => {
                       if (index === companies.length - 1) {
-                        resolve()
+                        resolve(isNewContact)
                       }
                     })
                     .catch(() => {
                       if (index === companies.length - 1) {
-                        resolve()
+                        resolve(isNewContact)
                       }
                     })
                 } else {
@@ -88,7 +155,7 @@ function createContact (data) {
                       })
                   }
                   if (index === companies.length - 1) {
-                    resolve()
+                    resolve(isNewContact)
                   }
                 }
               })
@@ -107,6 +174,7 @@ function createContact (data) {
 }
 
 function storeChat (from, to, contact, messageData) {
+  console.log('storeChat', messageData)
   logicLayer.prepareChat(from, to, contact, messageData).then(chatPayload => {
     callApi(`whatsAppChat`, 'post', chatPayload, 'kibochat')
       .then(message => {
@@ -125,12 +193,58 @@ function storeChat (from, to, contact, messageData) {
             }
           }
         })
+        _sendMobileNotification(contact, message.payload, contact.companyId)
         let query = { _id: contact._id }
         let updatePayload = { last_activity_time: Date.now(), status: 'new', pendingResponse: true, lastMessagedAt: Date.now() }
         let incrementPayload = { $inc: { unreadCount: 1, messagesCount: 1 } }
         updateWhatsAppContact(query, updatePayload, incrementPayload, {})
       })
   })
+}
+function _sendMobileNotification (subscriber, payload, companyId) {
+  let title = subscriber.name
+  let body = payload.text
+  let newPayload = {
+    action: 'chat_whatsapp',
+    subscriber: subscriber
+  }
+  callApi(`companyUser/queryAll`, 'post', {companyId: companyId}, 'accounts')
+    .then(companyUsers => {
+      let lastMessageData = sessionLogicLayer.getQueryData('', 'aggregate', {companyId: companyId}, undefined, undefined, undefined, {_id: subscriber._id, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+      callApi(`whatsAppChat/query`, 'post', lastMessageData, 'kibochat')
+        .then(gotLastMessage => {
+          subscriber.lastPayload = gotLastMessage[0].payload
+          subscriber.lastRepliedBy = gotLastMessage[0].replied_by
+          subscriber.lastDateTime = gotLastMessage[0].datetime
+          if (!subscriber.is_assigned) {
+            sendNotifications(title, body, newPayload, companyUsers)
+          } else {
+            if (subscriber.assigned_to.type === 'agent') {
+              companyUsers = companyUsers.filter(companyUser => companyUser.userId._id === subscriber.assigned_to.id)
+              sendNotifications(title, body, newPayload, companyUsers)
+            } else {
+              callApi(`teams/agents/query`, 'post', {teamId: subscriber.assigned_to.id}, 'accounts')
+                .then(teamagents => {
+                  console.log('send Push notification in team')
+                  teamagents = teamagents.map(teamagent => teamagent.agentId._id)
+                  companyUsers = companyUsers.filter(companyUser => {
+                    if (teamagents.includes(companyUser.userId._id)) {
+                      return companyUser
+                    }
+                  })
+                  console.log('newPayload', newPayload)
+                  sendNotifications(title, body, newPayload, companyUsers)
+                }).catch(error => {
+                  logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
+                })
+            }
+          }
+        }).catch(error => {
+          logger.serverLog(TAG, `Error while fetching Last Message ${error}`, 'error')
+        })
+    }).catch(error => {
+      logger.serverLog(TAG, `Error while fetching companyUser ${error}`, 'error')
+    })
 }
 
 function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
