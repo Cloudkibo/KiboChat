@@ -34,9 +34,6 @@ exports.messageReceived = function (req, res) {
                   callApi(`whatsAppContacts/query`, 'post', { number: number, companyId: company._id })
                     .then(async (contact) => {
                       contact = contact[0]
-                      console.log('contact fetched', contact)
-                      console.log('data', data)
-
                       // whatsapp chatbot
                       if (data.messageData.componentType === 'text') {
                         let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot(company._id)
@@ -53,7 +50,9 @@ exports.messageReceived = function (req, res) {
                               if (nextMessageBlock) {
                                 let chatbotResponse = {
                                   whatsApp: {
-                                    accessToken: data.accessToken
+                                    accessToken: data.accessToken,
+                                    accountSID: data.accountSID,
+                                    businessNumber: data.businessNumber
                                   },
                                   recipientNumber: number,
                                   payload: nextMessageBlock.payload[0]
@@ -173,8 +172,7 @@ function createContact(data) {
   })
 }
 
-function storeChat(from, to, contact, messageData) {
-  console.log('storeChat', messageData)
+function storeChat (from, to, contact, messageData) {
   logicLayer.prepareChat(from, to, contact, messageData).then(chatPayload => {
     callApi(`whatsAppChat`, 'post', chatPayload, 'kibochat')
       .then(message => {
@@ -225,14 +223,12 @@ function _sendMobileNotification(subscriber, payload, companyId) {
             } else {
               callApi(`teams/agents/query`, 'post', { teamId: subscriber.assigned_to.id }, 'accounts')
                 .then(teamagents => {
-                  console.log('send Push notification in team')
                   teamagents = teamagents.map(teamagent => teamagent.agentId._id)
                   companyUsers = companyUsers.filter(companyUser => {
                     if (teamagents.includes(companyUser.userId._id)) {
                       return companyUser
                     }
                   })
-                  console.log('newPayload', newPayload)
                   sendNotifications(title, body, newPayload, companyUsers)
                 }).catch(error => {
                   logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
