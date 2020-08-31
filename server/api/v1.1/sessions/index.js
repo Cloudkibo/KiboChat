@@ -16,47 +16,47 @@ router.post('/getOpenSessions',
 router.post('/getClosedSessions',
   auth.isAuthenticated(),
   auth.doesPlanPermitsThisAction('livechat'),
-  auth.isUserAllowedToPerformThisAction('manage_livechat'),
+  auth.doesRolePermitsThisAction('livechatPermission'),
   validate({body: validationSchema.openSessionsPayload}),
   controller.fetchResolvedSessions)
 
 router.get('/markread/:id',
   auth.isAuthenticated(),
   auth.doesPlanPermitsThisAction('livechat'),
-  auth.isUserAllowedToPerformThisAction('manage_livechat'),
+  auth.doesRolePermitsThisAction('livechatPermission'),
   controller.markread)
 
 router.get('/:id',
   auth.isAuthenticated(),
   auth.doesPlanPermitsThisAction('livechat'),
-  auth.isUserAllowedToPerformThisAction('manage_livechat'),
+  auth.doesRolePermitsThisAction('livechatPermission'),
   controller.show)
 
 router.post('/changeStatus',
   auth.isAuthenticated(),
   auth.doesPlanPermitsThisAction('livechat'),
-  auth.isUserAllowedToPerformThisAction('manage_livechat'),
+  auth.doesRolePermitsThisAction('livechatPermission'),
   validate({body: validationSchema.changeStatusPayload}),
   controller.changeStatus)
 
 router.post('/assignAgent',
   auth.isAuthenticated(),
-  auth.doesPlanPermitsThisAction('assign_sessions'),
-  auth.isUserAllowedToPerformThisAction('assign_session_agent'),
+  auth.doesPlanPermitsThisAction('livechat'),
+  auth.doesRolePermitsThisAction('livechatPermission'),
   validate({body: validationSchema.assignAgentPayload}),
   controller.assignAgent)
 
 router.post('/assignTeam',
   auth.isAuthenticated(),
-  auth.doesPlanPermitsThisAction('assign_sessions'),
-  auth.isUserAllowedToPerformThisAction('assign_session_team'),
+  auth.doesPlanPermitsThisAction('livechat'),
+  auth.doesRolePermitsThisAction('livechatPermission'),
   validate({body: validationSchema.assignTeamPayload}),
   controller.assignTeam)
 
 router.post('/updatePendingResponse',
   auth.isAuthenticated(),
-  auth.doesPlanPermitsThisAction('pending_chat_flag'),
-  auth.isUserAllowedToPerformThisAction('manage_livechat'),
+  auth.doesPlanPermitsThisAction('livechat'),
+  auth.doesRolePermitsThisAction('livechatPermission'),
   validate({body: validationSchema.updatePendingResponsePayload}),
   controller.updatePendingResponse)
 

@@ -4,7 +4,6 @@
 const callApi = require('../utility')
 const async = require('async')
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
-const { updateCompanyUsage } = require('../../global/billingPricing')
 
 exports.index = function (req, res) {
   callApi.callApi('companyuser/query', 'post', {domain_email: req.user.domain_email})
@@ -60,7 +59,6 @@ exports.create = function (req, res) {
         }
         callApi.callApi('tags/', 'post', tagPayload)
           .then(newTag => {
-            updateCompanyUsage(req.user.companyId, 'tags', 1)
             require('./../../../config/socketio').sendMessageToClient({
               room_id: req.user.companyId,
               body: {
@@ -158,7 +156,6 @@ exports.delete = function (req, res) {
           if (err) {
             sendErrorResponse(res, 500, '', `Failed to delete tag ${err}`)
           } else {
-            updateCompanyUsage(req.user.companyId, 'tags', -1)
             require('./../../../config/socketio').sendMessageToClient({
               room_id: req.user.companyId,
               body: {
