@@ -9,14 +9,10 @@ const auth = require('../../../auth/auth.service')
 
 router.get('/',
   auth.isAuthenticated(),
-  auth.doesPlanPermitsThisAction('google_sheets_integration'),
-  auth.isUserAllowedToPerformThisAction('manage_integrations'),
   controller.index)
 
 router.post('/update/:id',
   auth.isAuthenticated(),
-  auth.doesPlanPermitsThisAction('google_sheets_integration'),
-  auth.isUserAllowedToPerformThisAction('manage_integrations'),
   controller.update)
 
 module.exports = router

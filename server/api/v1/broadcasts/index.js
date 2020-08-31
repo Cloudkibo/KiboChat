@@ -14,47 +14,47 @@ const multipartyMiddleware = multiparty()
 router.post('/upload',
   auth.isAuthenticated(),
   auth.doesPlanPermitsThisAction('broadcasts'),
-  auth.isUserAllowedToPerformThisAction('create_broadcasts'),
+  auth.doesRolePermitsThisAction('broadcastPermission'),
   multipartyMiddleware,
   controller.upload)
 
 router.post('/uploadRecording',
   auth.isAuthenticated(),
   auth.doesPlanPermitsThisAction('broadcasts'),
-  auth.isUserAllowedToPerformThisAction('create_broadcasts'),
+  auth.doesRolePermitsThisAction('broadcastPermission'),
   multipartyMiddleware,
   controller.uploadRecording)
 
 router.get('/delete/:id',
   auth.isAuthenticated(),
   auth.doesPlanPermitsThisAction('broadcasts'),
-  auth.isUserAllowedToPerformThisAction('create_broadcasts'),
+  auth.doesRolePermitsThisAction('broadcastPermission'),
   controller.delete)
 
 router.post('/addButton',
   auth.isAuthenticated(),
   auth.doesPlanPermitsThisAction('broadcasts'),
-  auth.isUserAllowedToPerformThisAction('create_broadcasts'),
+  auth.doesRolePermitsThisAction('broadcastPermission'),
   validate({body: validationSchema.addButtonPayload}),
   controller.addButton)
 
 router.post('/editButton',
   auth.isAuthenticated(),
   auth.doesPlanPermitsThisAction('broadcasts'),
-  auth.isUserAllowedToPerformThisAction('create_broadcasts'),
+  auth.doesRolePermitsThisAction('broadcastPermission'),
   validate({body: validationSchema.editButtonPayload}),
   controller.editButton)
 
 router.post('/sendConversation',
   auth.isAuthenticated(),
   auth.doesPlanPermitsThisAction('broadcasts'),
-  auth.isUserAllowedToPerformThisAction('create_broadcasts'),
+  auth.doesRolePermitsThisAction('broadcastPermission'),
   controller.sendConversation)
 
 router.delete('/deleteButton/:id',
   auth.isAuthenticated(),
   auth.doesPlanPermitsThisAction('broadcasts'),
-  auth.isUserAllowedToPerformThisAction('create_broadcasts'),
+  auth.doesRolePermitsThisAction('broadcastPermission'),
   controller.deleteButton)
 
 router.post('/urlMetaData/',

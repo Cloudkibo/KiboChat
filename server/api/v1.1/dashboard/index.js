@@ -10,14 +10,12 @@ const controller = require('./dashboard.controller')
 
 router.get('/sentVsSeen/:pageId',
   auth.isAuthenticated(),
-  auth.doesPlanPermitsThisAction('broadcasts'),
-  auth.isUserAllowedToPerformThisAction('view_broadcasts'),
   controller.sentVsSeen)
 
 router.post('/sentVsSeenNew',
   auth.isAuthenticated(),
-  auth.doesPlanPermitsThisAction('broadcasts'),
-  auth.isUserAllowedToPerformThisAction('view_broadcasts'),
+  // auth.doesPlanPermitsThisAction('broadcasts'),
+  // auth.isUserAllowedToPerformThisAction('view_broadcasts'),
   controller.sentVsSeenNew)
 
 router.get('/stats',
@@ -39,14 +37,12 @@ router.get('/:id',
 
 router.get('/graphData/:days',
   auth.isAuthenticated(),
-  auth.doesPlanPermitsThisAction('broadcasts'),
-  auth.isUserAllowedToPerformThisAction('view_broadcasts'),
   controller.graphData)
 
 router.post('/subscriberSummary',
   auth.isAuthenticated(),
-  auth.doesPlanPermitsThisAction('manage_subscribers'),
-  auth.isUserAllowedToPerformThisAction('view_subscribers'),
+  // auth.doesPlanPermitsThisAction('manage_subscribers'),
+  // auth.isUserAllowedToPerformThisAction('view_subscribers'),
   controller.subscriberSummary)
 
 module.exports = router
