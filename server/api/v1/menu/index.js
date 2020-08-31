@@ -12,25 +12,25 @@ const validationSchema = require('./validationSchema')
 router.get('/',
   auth.isAuthenticated(),
   auth.doesPlanPermitsThisAction('menu'),
-  auth.doesRolePermitsThisAction('menuPermission'),
+  auth.isUserAllowedToPerformThisAction('set_persistent_menu'),
   controller.index)
 
 router.post('/indexByPage',
   auth.isAuthenticated(),
   auth.doesPlanPermitsThisAction('menu'),
-  auth.doesRolePermitsThisAction('menuPermission'),
+  auth.isUserAllowedToPerformThisAction('set_persistent_menu'),
   controller.indexByPage)
 
 router.post('/create',
   auth.isAuthenticated(),
   auth.doesPlanPermitsThisAction('menu'),
-  auth.doesRolePermitsThisAction('menuPermission'),
+  auth.isUserAllowedToPerformThisAction('set_persistent_menu'),
   controller.create)
 
 router.post('/addWebview',
   auth.isAuthenticated(),
   auth.doesPlanPermitsThisAction('menu'),
-  auth.doesRolePermitsThisAction('menuPermission'),
+  auth.isUserAllowedToPerformThisAction('set_persistent_menu'),
   validate({body: validationSchema.webviewPayload}),
   controller.addWebview)
 

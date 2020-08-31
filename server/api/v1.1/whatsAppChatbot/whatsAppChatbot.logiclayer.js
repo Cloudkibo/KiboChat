@@ -14,7 +14,8 @@ const {
   SHOW_ITEMS_TO_REMOVE,
   PROCEED_TO_CHECKOUT,
   RETURN_ORDER,
-  GET_CHECKOUT_EMAIL
+  GET_CHECKOUT_EMAIL,
+  CLEAR_CART
 } = require('./constants')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/whatsAppChatbot/whatsAppChatbot.logiclayer.js'
@@ -76,7 +77,7 @@ exports.validateWhatsAppChatbotPayload = (payload) => {
   return bool
 }
 
-function convertToEmoji(num) {
+function convertToEmoji (num) {
   if (isNaN(num)) {
     throw new Error('invalid number')
   } else {
@@ -95,20 +96,22 @@ exports.updateFaqsForStartingBlock = async (chatbot) => {
   const faqsId = '' + new Date().getTime()
   let startingBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
   if (!startingBlock.payload[0].text.includes('FAQ')) {
-    startingBlock.payload[0].text += `\n${convertToEmoji(3)} FAQs`
-    startingBlock.payload[0].menu.push({ type: STATIC, blockId: faqsId })
-    getFaqsBlock(chatbot, faqsId, messageBlocks, chatbot.startingBlockId)
-    messageBlockDataLayer.genericUpdateMessageBlock({ uniqueId: chatbot.startingBlockId }, startingBlock)
-    messageBlockDataLayer.createForMessageBlock(messageBlocks[0])
+    if (chatbot.botLinks && chatbot.botLinks.faqs) {
+      startingBlock.payload[0].text += `\n${convertToEmoji(3)} FAQs`
+      startingBlock.payload[0].menu.push({ type: STATIC, blockId: faqsId })
+      getFaqsBlock(chatbot, faqsId, messageBlocks, chatbot.startingBlockId)
+      messageBlockDataLayer.genericUpdateMessageBlock({ uniqueId: chatbot.startingBlockId }, startingBlock)
+      messageBlockDataLayer.createForMessageBlock(messageBlocks[0])
+    }
   } else {
     if (chatbot.botLinks && chatbot.botLinks.faqs) {
       messageBlockDataLayer.genericUpdateMessageBlock(
-        { uniqueId: startingBlock.payload[0].menu[3].blockId },
+        { uniqueId: startingBlock.payload[0].menu[4].blockId },
         { 'payload.0.text': `View our FAQs here: ${chatbot.botLinks.faqs}\nPlease send "0" to go back` }
       )
     } else {
       startingBlock.payload[0].text = startingBlock.payload[0].text.replace(`\n${convertToEmoji(3)} FAQs`, '')
-      startingBlock.payload[0].menu.splice(3, 1)
+      startingBlock.payload[0].menu.splice(4, 1)
       messageBlockDataLayer.genericUpdateMessageBlock({ uniqueId: chatbot.startingBlockId }, startingBlock)
       messageBlockDataLayer.deleteForMessageBlock({ uniqueId: startingBlock.payload[0].menu[3].blockId })
     }
@@ -134,11 +137,13 @@ exports.getMessageBlocks = (chatbot) => {
         text: dedent(`Please select an option by sending the corresponding number for it (e.g send “1” to select Discover):
                 ${convertToEmoji(0)} All Categories
                 ${convertToEmoji(1)} Discover
-                ${convertToEmoji(2)} Check order status`),
+                ${convertToEmoji(2)} Show my cart
+                ${convertToEmoji(3)} Check order status`),
         componentType: 'text',
         menu: [
           { type: DYNAMIC, action: PRODUCT_CATEGORIES },
           { type: DYNAMIC, action: DISCOVER_PRODUCTS },
+          { type: DYNAMIC, action: SHOW_MY_CART },
           { type: STATIC, blockId: orderStatusId }
         ]
       }
@@ -149,7 +154,7 @@ exports.getMessageBlocks = (chatbot) => {
   getOrderIdBlock(chatbot, orderStatusId, messageBlocks)
   getReturnOrderIdBlock(chatbot, returnOrderId, messageBlocks)
   if (chatbot.botLinks && chatbot.botLinks.faqs) {
-    messageBlocks[0].payload[0].text = `\n${convertToEmoji(3)} FAQs`
+    messageBlocks[0].payload[0].text = `\n${convertToEmoji(4)} FAQs`
     messageBlocks[0].payload[0].menu.push({ type: STATIC, blockId: faqsId })
     getFaqsBlock(chatbot, faqsId, messageBlocks, mainMenuId)
   }
@@ -468,14 +473,12 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
         {
           text: dedent(`Please select an option by sending the corresponding number for it:
                   ${convertToEmoji(0)} Add to Cart
-                  ${convertToEmoji(1)} Proceed to Checkout
-                  ${convertToEmoji(2)} Show my Cart
-                  ${convertToEmoji(3)} Go Back
-                  ${convertToEmoji(4)} Go Home`),
+                  ${convertToEmoji(1)} Show my Cart
+                  ${convertToEmoji(2)} Go Back
+                  ${convertToEmoji(3)} Go Home`),
           componentType: 'text',
           menu: [
             { type: DYNAMIC, action: ADD_TO_CART, argument: product },
-            { type: DYNAMIC, action: GET_CHECKOUT_EMAIL },
             { type: DYNAMIC, action: SHOW_MY_CART },
             { type: STATIC, blockId: backId },
             { type: STATIC, blockId: chatbot.startingBlockId }
@@ -505,10 +508,12 @@ const getAddToCartBlock = async (chatbot, backId, EcommerceProvider, contact, pr
         {
           text: dedent(`${product.product} has been succesfully added to your cart.
                 Please select an option by sending the corresponding number for it:
-                ${convertToEmoji(0)} Go Back
-                ${convertToEmoji(1)} Go Home`),
+                ${convertToEmoji(0)} Proceed to Checkout
+                ${convertToEmoji(1)} Go Back
+                ${convertToEmoji(2)} Go Home`),
           componentType: 'text',
           menu: [
+            { type: DYNAMIC, action: GET_CHECKOUT_EMAIL },
             { type: STATIC, blockId: backId },
             { type: STATIC, blockId: chatbot.startingBlockId }
           ]
@@ -549,14 +554,9 @@ const getShowMyCartBlock = async (chatbot, backId, contact) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Here is your cart:`,
+          text: '',
           componentType: 'text',
-          menu: [
-            { type: DYNAMIC, action: SHOW_ITEMS_TO_REMOVE },
-            { type: DYNAMIC, action: GET_CHECKOUT_EMAIL },
-            { type: STATIC, blockId: backId },
-            { type: STATIC, blockId: chatbot.startingBlockId }
-          ]
+          menu: []
         }
       ],
       userId: chatbot.userId,
@@ -564,18 +564,81 @@ const getShowMyCartBlock = async (chatbot, backId, contact) => {
     }
 
     let shoppingCart = contact.shoppingCart
-    for (let product of shoppingCart) {
-      messageBlock.payload[0].text += `\n - ${product.product}\n`
+    if (!shoppingCart || shoppingCart.length === 0) {
+      messageBlock.payload[0].text += `You have no items in your cart\n`
+      messageBlock.payload[0].menu.push({ type: STATIC, blockId: backId },
+        { type: STATIC, blockId: chatbot.startingBlockId })
+      messageBlock.payload[0].text += dedent(`Please select an option by sending the corresponding number for it:
+        ${convertToEmoji(0)} Go Back
+        ${convertToEmoji(1)} Go Home`)
+    } else {
+      messageBlock.payload[0].text += `Here is your cart:\n`
+      for (let product of shoppingCart) {
+        messageBlock.payload[0].text += `- ${product.product}, quantity: ${product.quantity}\n`
+      }
+      messageBlock.payload[0].menu.push(
+        { type: DYNAMIC, action: SHOW_ITEMS_TO_REMOVE },
+        { type: DYNAMIC, action: CLEAR_CART },
+        { type: DYNAMIC, action: GET_CHECKOUT_EMAIL },
+        { type: STATIC, blockId: backId },
+        { type: STATIC, blockId: chatbot.startingBlockId })
+      messageBlock.payload[0].text += dedent(`Please select an option by sending the corresponding number for it:
+        ${convertToEmoji(0)} Remove an item
+        ${convertToEmoji(1)} Clear cart
+        ${convertToEmoji(2)} Proceed to Checkout
+        ${convertToEmoji(3)} Go Back
+        ${convertToEmoji(4)} Go Home`)
     }
-    messageBlock.payload[0].text += dedent(`Please select an option by sending the corresponding number for it:
-                                        ${convertToEmoji(0)} Remove an item
-                                        ${convertToEmoji(1)} Proceed to Checkout
-                                        ${convertToEmoji(2)} Go Back
-                                        ${convertToEmoji(3)} Go Home`)
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to show cart ${err}`, 'error')
     throw new Error('Unable to show cart')
+  }
+}
+
+const getRemoveFromCartBlock = async (chatbot, backId, EcommerceProvider, contact, productIndex) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_chatbot'
+      },
+      title: 'Remove From Cart',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Product has been succesfully removed from your cart.`,
+          componentType: 'text',
+          menu: []
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    let shoppingCart = contact.shoppingCart
+    shoppingCart.splice(productIndex, 1)
+    if (shoppingCart.length === 0) {
+      messageBlock.payload[0].menu.push({ type: STATIC, blockId: backId },
+        { type: STATIC, blockId: chatbot.startingBlockId })
+      messageBlock.payload[0].text += dedent(`Please select an option by sending the corresponding number for it:
+        ${convertToEmoji(0)} Go Back
+        ${convertToEmoji(1)} Go Home`)
+    } else {
+      messageBlock.payload[0].menu.push(
+        { type: DYNAMIC, action: GET_CHECKOUT_EMAIL },
+        { type: STATIC, blockId: backId },
+        { type: STATIC, blockId: chatbot.startingBlockId }
+      )
+      messageBlock.payload[0].text += dedent(`Please select an option by sending the corresponding number for it:
+        ${convertToEmoji(0)} Proceed to Checkout
+        ${convertToEmoji(1)} Go Back
+        ${convertToEmoji(2)} Go Home`)
+    }
+    updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
+    return messageBlock
+  } catch (err) {
+    logger.serverLog(TAG, `Unable to remove item from cart ${err}`, 'error')
+    throw new Error('Unable to remove item from cart')
   }
 }
 
@@ -614,24 +677,22 @@ const getShowItemsToRemoveBlock = (chatbot, backId, contact) => {
   }
 }
 
-const getRemoveFromCartBlock = async (chatbot, backId, EcommerceProvider, contact, productIndex) => {
+const clearCart = async (chatbot, contact) => {
   try {
     let messageBlock = {
       module: {
         id: chatbot._id,
         type: 'whatsapp_chatbot'
       },
-      title: 'Remove From Cart',
+      title: 'Your cart has been successfully cleared',
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: dedent(`Product has been succesfully removed from your cart.
+          text: dedent(`Your cart is now empty.
           Please select an option by sending the corresponding number for it:
-          ${convertToEmoji(0)} Go Back
-          ${convertToEmoji(1)} Go Home`),
+          ${convertToEmoji(0)} Go Home`),
           componentType: 'text',
           menu: [
-            { type: STATIC, blockId: backId },
             { type: STATIC, blockId: chatbot.startingBlockId }
           ]
         }
@@ -639,18 +700,16 @@ const getRemoveFromCartBlock = async (chatbot, backId, EcommerceProvider, contac
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    let shoppingCart = contact.shoppingCart
-    shoppingCart.splice(productIndex, 1)
-
+    let shoppingCart = []
     updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
     return messageBlock
   } catch (err) {
-    logger.serverLog(TAG, `Unable to remove item from cart ${err}`, 'error')
-    throw new Error('Unable to remove item from cart')
+    logger.serverLog(TAG, `Unable to clear cart ${err}`, 'error')
+    throw new Error('Unable to clear cart')
   }
 }
 
-function updateWhatsAppContact(query, bodyForUpdate, bodyForIncrement, options) {
+function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
   callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
     .then(updated => {
     })
@@ -692,14 +751,13 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, ema
         id: chatbot._id,
         type: 'whatsapp_chatbot'
       },
-      title: 'Show My Cart',
+      title: 'Checkout Link',
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Here is your checkout link:`,
+          text: `Here is your checkout link:\n`,
           componentType: 'text',
           menu: [
-            { type: STATIC, blockId: backId },
             { type: STATIC, blockId: chatbot.startingBlockId }
           ]
         }
@@ -716,11 +774,10 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, ema
     }
     let checkoutLink = await EcommerceProvider.createPermalinkForCart(shopifyCustomer, contact.shoppingCart)
 
-    messageBlock.payload[0].text += `\n${checkoutLink}\n`
+    messageBlock.payload[0].text += `${checkoutLink}\n`
 
     messageBlock.payload[0].text += dedent(`Please select an option by sending the corresponding number for it:
-                                        ${convertToEmoji(0)} Go Back
-                                        ${convertToEmoji(1)} Go Home`)
+                                        ${convertToEmoji(0)} Go Home`)
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to checkout ${err}`, 'error')
@@ -834,6 +891,11 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
           }
           case REMOVE_FROM_CART: {
             messageBlock = await getRemoveFromCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, contact, action.input ? input : action.argument)
+            break
+          }
+          case CLEAR_CART: {
+            messageBlock = await clearCart(chatbot, contact)
+            break
           }
         }
         await messageBlockDataLayer.createForMessageBlock(messageBlock)
