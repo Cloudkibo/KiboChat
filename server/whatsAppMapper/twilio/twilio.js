@@ -94,6 +94,7 @@ exports.getNormalizedMessageReceivedData = (event) => {
           resolve({
             accountSID: company.whatsApp.accountSID,
             accessToken: company.whatsApp.accessToken,
+            businessNumber: company.whatsApp.businessNumber,
             userData: {
               number: event.From.substring(10),
               name: ''
