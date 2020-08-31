@@ -49,7 +49,9 @@ exports.messageReceived = function (req, res) {
                                 shopUrl: shopifyIntegration.shopUrl,
                                 shopToken: shopifyIntegration.shopToken
                               })
+                              console.log('fetching next block', data.messageData.text)
                               let nextMessageBlock = await whatsAppChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text)
+                              console.log('fetched nextMessageBlock', nextMessageBlock)
                               if (nextMessageBlock) {
                                 let chatbotResponse = {
                                   whatsApp: {
@@ -208,9 +210,9 @@ function _sendMobileNotification (subscriber, payload, companyId) {
     action: 'chat_whatsapp',
     subscriber: subscriber
   }
-  callApi(`companyUser/queryAll`, 'post', {companyId: companyId}, 'accounts')
+  callApi(`companyUser/queryAll`, 'post', { companyId: companyId }, 'accounts')
     .then(companyUsers => {
-      let lastMessageData = sessionLogicLayer.getQueryData('', 'aggregate', {companyId: companyId}, undefined, undefined, undefined, {_id: subscriber._id, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+      let lastMessageData = sessionLogicLayer.getQueryData('', 'aggregate', { companyId: companyId }, undefined, undefined, undefined, { _id: subscriber._id, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' } })
       callApi(`whatsAppChat/query`, 'post', lastMessageData, 'kibochat')
         .then(gotLastMessage => {
           subscriber.lastPayload = gotLastMessage[0].payload
@@ -223,7 +225,7 @@ function _sendMobileNotification (subscriber, payload, companyId) {
               companyUsers = companyUsers.filter(companyUser => companyUser.userId._id === subscriber.assigned_to.id)
               sendNotifications(title, body, newPayload, companyUsers)
             } else {
-              callApi(`teams/agents/query`, 'post', {teamId: subscriber.assigned_to.id}, 'accounts')
+              callApi(`teams/agents/query`, 'post', { teamId: subscriber.assigned_to.id }, 'accounts')
                 .then(teamagents => {
                   console.log('send Push notification in team')
                   teamagents = teamagents.map(teamagent => teamagent.agentId._id)
