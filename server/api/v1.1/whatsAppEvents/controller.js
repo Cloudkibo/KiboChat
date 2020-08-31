@@ -34,9 +34,6 @@ exports.messageReceived = function (req, res) {
                   callApi(`whatsAppContacts/query`, 'post', { number: number, companyId: company._id })
                     .then(async (contact) => {
                       contact = contact[0]
-                      console.log('contact fetched', contact)
-                      console.log('data', data)
-
                       // whatsapp chatbot
                       if (data.messageData.componentType === 'text') {
                         let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot(company._id)
@@ -53,7 +50,9 @@ exports.messageReceived = function (req, res) {
                               if (nextMessageBlock) {
                                 let chatbotResponse = {
                                   whatsApp: {
-                                    accessToken: data.accessToken
+                                    accessToken: data.accessToken,
+                                    accountSID: data.accountSID,
+                                    businessNumber: data.businessNumber
                                   },
                                   recipientNumber: number,
                                   payload: nextMessageBlock.payload[0]
@@ -174,7 +173,6 @@ function createContact (data) {
 }
 
 function storeChat (from, to, contact, messageData) {
-  console.log('storeChat', messageData)
   logicLayer.prepareChat(from, to, contact, messageData).then(chatPayload => {
     callApi(`whatsAppChat`, 'post', chatPayload, 'kibochat')
       .then(message => {
@@ -208,9 +206,9 @@ function _sendMobileNotification (subscriber, payload, companyId) {
     action: 'chat_whatsapp',
     subscriber: subscriber
   }
-  callApi(`companyUser/queryAll`, 'post', {companyId: companyId}, 'accounts')
+  callApi(`companyUser/queryAll`, 'post', { companyId: companyId }, 'accounts')
     .then(companyUsers => {
-      let lastMessageData = sessionLogicLayer.getQueryData('', 'aggregate', {companyId: companyId}, undefined, undefined, undefined, {_id: subscriber._id, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+      let lastMessageData = sessionLogicLayer.getQueryData('', 'aggregate', { companyId: companyId }, undefined, undefined, undefined, { _id: subscriber._id, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' } })
       callApi(`whatsAppChat/query`, 'post', lastMessageData, 'kibochat')
         .then(gotLastMessage => {
           subscriber.lastPayload = gotLastMessage[0].payload
@@ -223,16 +221,14 @@ function _sendMobileNotification (subscriber, payload, companyId) {
               companyUsers = companyUsers.filter(companyUser => companyUser.userId._id === subscriber.assigned_to.id)
               sendNotifications(title, body, newPayload, companyUsers)
             } else {
-              callApi(`teams/agents/query`, 'post', {teamId: subscriber.assigned_to.id}, 'accounts')
+              callApi(`teams/agents/query`, 'post', { teamId: subscriber.assigned_to.id }, 'accounts')
                 .then(teamagents => {
-                  console.log('send Push notification in team')
                   teamagents = teamagents.map(teamagent => teamagent.agentId._id)
                   companyUsers = companyUsers.filter(companyUser => {
                     if (teamagents.includes(companyUser.userId._id)) {
                       return companyUser
                     }
                   })
-                  console.log('newPayload', newPayload)
                   sendNotifications(title, body, newPayload, companyUsers)
                 }).catch(error => {
                   logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
