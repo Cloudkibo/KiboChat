@@ -780,7 +780,7 @@ const getShowItemsToRemoveBlock = (chatbot, backId, contact) => {
     for (let i = 0; i < shoppingCart.length; i++) {
       let product = shoppingCart[i]
       messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${product.product} `
-      messageBlock.payload[0].menu.push({ type: DYNAMIC, action: QUANTITY_TO_REMOVE, argument: { product, productIndex: i } })
+      messageBlock.payload[0].menu.push({ type: DYNAMIC, action: QUANTITY_TO_REMOVE, argument: { ...product, productIndex: i } })
     }
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)} `
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)} `
