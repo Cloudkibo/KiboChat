@@ -157,7 +157,7 @@ exports.getMessageBlocks = (chatbot) => {
     uniqueId: mainMenuId,
     payload: [
       {
-        text: dedent(`Please select an option by sending the corresponding number for it (e.g send “1” to select Discover):
+        text: dedent(`Please select an option by sending the corresponding number for it (e.g send “1” to select Discover):\n
                 ${convertToEmoji(0)} All Categories
                 ${convertToEmoji(1)} Discover\n
                 ${specialKeyText(ORDER_STATUS_KEY)}
@@ -197,7 +197,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Please select a product by sending the corresponding number for it:`,
+          text: `Please select a product by sending the corresponding number for it:\n`,
           componentType: 'text',
           menu: [],
           specialKeys: {
@@ -342,7 +342,7 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Here is your order status:`,
+          text: `Here is your order status:\n`,
           componentType: 'text',
           specialKeys: {
             [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
@@ -379,7 +379,7 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider) => 
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Please select a category by sending the corresponding number for it:`,
+          text: `Please select a category by sending the corresponding number for it:\n`,
           componentType: 'text',
           menu: [],
           specialKeys: {
@@ -421,7 +421,7 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ca
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Please select a product by sending the corresponding number for it:`,
+          text: `Please select a product by sending the corresponding number for it:\n`,
           componentType: 'text',
           menu: [],
           specialKeys: {
@@ -463,7 +463,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Please select a product variant by sending the corresponding number for it:`,
+          text: `Please select a product variant by sending the corresponding number for it:\n`,
           componentType: 'text',
           menu: [],
           specialKeys: {
@@ -505,7 +505,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: dedent(`Please select an option by sending the corresponding number for it:
+          text: dedent(`Please select an option by sending the corresponding number for it:\n
                   ${convertToEmoji(0)} Add to Cart\n
                   ${specialKeyText(SHOW_CART_KEY)}
                   ${specialKeyText(BACK_KEY)}
@@ -544,7 +544,7 @@ const getAddToCartBlock = async (chatbot, backId, EcommerceProvider, contact, pr
       payload: [
         {
           text: dedent(`${product.product} has been succesfully added to your cart.
-                Please select an option by sending the corresponding number for it:
+                Please select an option by sending the corresponding number for it:\n
                 ${convertToEmoji(0)} Proceed to Checkout\n
                 ${specialKeyText(SHOW_CART_KEY)}
                 ${specialKeyText(BACK_KEY)}
@@ -613,7 +613,7 @@ const getShowMyCartBlock = async (chatbot, backId, contact) => {
     if (!shoppingCart || shoppingCart.length === 0) {
       messageBlock.payload[0].text += `You have no items in your cart`
     } else {
-      messageBlock.payload[0].text += `Here is your cart:`
+      messageBlock.payload[0].text += `Here is your cart:\n`
       let totalPrice = 0
       for (let product of shoppingCart) {
         let price = product.quantity * product.price
@@ -650,7 +650,7 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productIndex) =>
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Product has been succesfully removed from your cart.`,
+          text: `Product has been succesfully removed from your cart.\n`,
           componentType: 'text',
           menu: [],
           specialKeys: {
@@ -667,7 +667,7 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productIndex) =>
     shoppingCart.splice(productIndex, 1)
     if (shoppingCart.length > 0) {
       messageBlock.payload[0].menu.push({ type: DYNAMIC, action: GET_CHECKOUT_EMAIL })
-      messageBlock.payload[0].text += dedent(`\nPlease select an option by sending the corresponding number for it:
+      messageBlock.payload[0].text += dedent(`Please select an option by sending the corresponding number for it:\n
                                             ${convertToEmoji(0)} Proceed to Checkout`)
     }
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
@@ -692,7 +692,7 @@ const getShowItemsToRemoveBlock = (chatbot, backId, contact) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Please select an item to remove from your cart:`,
+          text: `Please select an item to remove from your cart:\n`,
           componentType: 'text',
           menu: [],
           specialKeys: {
@@ -799,7 +799,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, ema
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Here is your checkout link:`,
+          text: `Here is your checkout link:\n`,
           componentType: 'text',
           specialKeys: {
             [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
