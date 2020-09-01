@@ -564,8 +564,9 @@ const getQuantityToAddBlock = async (chatbot, product) => {
 
 const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) => {
   try {
-    if (quantity <= 0) {
-      throw new Error('Invalid quantity')
+    quantity = Number(quantity)
+    if (!Number.isInteger(quantity) || quantity <= 0) {
+      throw new Error('Invalid quantity given')
     }
     let messageBlock = {
       module: {
@@ -576,7 +577,7 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: dedent(`${quantity} ${product.product}${quantity > 1 ? 's have' : ' has'} been succesfully added to your cart.
+          text: dedent(`${quantity} ${product.product}${quantity > 1 ? 's have' : ' has'} been succesfully added to your cart.\n
                 Please select an option by sending the corresponding number for it:\n
                 ${convertToEmoji(0)} Proceed to Checkout\n
                 ${specialKeyText(SHOW_CART_KEY)}
@@ -610,6 +611,7 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
       })
     }
 
+    logger.serverLog(TAG, `shoppingCart ${JSON.stringify(shoppingCart)}`, 'info')
     updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
     return messageBlock
   } catch (err) {
@@ -674,6 +676,10 @@ const getShowMyCartBlock = async (chatbot, backId, contact) => {
 
 const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, quantity) => {
   try {
+    quantity = Number(quantity)
+    if (!Number.isInteger(quantity) || quantity <= 0) {
+      throw new Error('Invalid quantity given')
+    }
     let messageBlock = {
       module: {
         id: chatbot._id,
