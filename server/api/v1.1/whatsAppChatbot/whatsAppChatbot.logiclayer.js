@@ -547,7 +547,7 @@ const getQuantityToAddBlock = async (chatbot, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `How many ${product.product} would you like to add to your cart?`,
+          text: `How many ${product.product}s would you like to add to your cart?`,
           componentType: 'text',
           action: { type: DYNAMIC, action: ADD_TO_CART, argument: product, input: true }
         }
@@ -564,8 +564,9 @@ const getQuantityToAddBlock = async (chatbot, product) => {
 
 const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) => {
   try {
-    if (quantity <= 0) {
-      throw new Error('Invalid quantity')
+    quantity = Number(quantity)
+    if (!Number.isInteger(quantity) || quantity <= 0) {
+      throw new Error('Invalid quantity given')
     }
     let messageBlock = {
       module: {
@@ -576,7 +577,7 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: dedent(`${quantity} ${product.product}${quantity > 1 ? 's have' : ' has'} been succesfully added to your cart.
+          text: dedent(`${quantity} ${product.product}${quantity > 1 ? 's have' : ' has'} been succesfully added to your cart.\n
                 Please select an option by sending the corresponding number for it:\n
                 ${convertToEmoji(0)} Proceed to Checkout\n
                 ${specialKeyText(SHOW_CART_KEY)}
@@ -610,6 +611,7 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
       })
     }
 
+    logger.serverLog(TAG, `shoppingCart ${JSON.stringify(shoppingCart)}`, 'info')
     updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
     return messageBlock
   } catch (err) {
@@ -674,6 +676,10 @@ const getShowMyCartBlock = async (chatbot, backId, contact) => {
 
 const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, quantity) => {
   try {
+    quantity = Number(quantity)
+    if (!Number.isInteger(quantity) || quantity <= 0) {
+      throw new Error('Invalid quantity given')
+    }
     let messageBlock = {
       module: {
         id: chatbot._id,
@@ -698,14 +704,15 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
     }
     let shoppingCart = contact.shoppingCart
     shoppingCart[productInfo.productIndex].quantity -= quantity
-    if (shoppingCart[productInfo.productIndex].quantity <= 0) {
+    if (shoppingCart[productInfo.productIndex].quantity === 0) {
       shoppingCart.splice(productInfo.productIndex, 1)
+    } else if (shoppingCart[productInfo.productIndex].quantity < 0) {
+      throw new Error('Invalid quantity given')
     }
     if (shoppingCart.length > 0) {
       messageBlock.payload[0].menu.push({ type: DYNAMIC, action: GET_CHECKOUT_EMAIL })
       messageBlock.payload[0].text += dedent(`Please select an option by sending the corresponding number for it: \n
-                                            ${convertToEmoji(0)
-} Proceed to Checkout`)
+                                            ${convertToEmoji(0)} Proceed to Checkout`)
     }
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)} `
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)} `
@@ -713,12 +720,12 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
     updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
     return messageBlock
   } catch (err) {
-    logger.serverLog(TAG, `Unable to remove item from cart ${err} `, 'error')
-    throw new Error('Unable to remove item from cart')
+    logger.serverLog(TAG, `Unable to remove item(s) from cart ${err} `, 'error')
+    throw new Error('Unable to remove item(s) from cart')
   }
 }
 
-const getQuantityToRemoveBlock = async (chatbot, productInfo) => {
+const getQuantityToRemoveBlock = async (chatbot, product) => {
   try {
     let messageBlock = {
       module: {
@@ -729,9 +736,9 @@ const getQuantityToRemoveBlock = async (chatbot, productInfo) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `How many ${productInfo.product} would you like to remove from your cart ? `,
+          text: `How many ${product.product}s would you like to remove from your cart?  You currently have ${product.quantity} in your cart.`,
           componentType: 'text',
-          action: { type: DYNAMIC, action: REMOVE_FROM_CART, argument: productInfo, input: true }
+          action: { type: DYNAMIC, action: REMOVE_FROM_CART, argument: product, input: true }
         }
       ],
       userId: chatbot.userId,
@@ -773,7 +780,7 @@ const getShowItemsToRemoveBlock = (chatbot, backId, contact) => {
     for (let i = 0; i < shoppingCart.length; i++) {
       let product = shoppingCart[i]
       messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${product.product} `
-      messageBlock.payload[0].menu.push({ type: DYNAMIC, action: QUANTITY_TO_REMOVE, argument: { product, productIndex: i } })
+      messageBlock.payload[0].menu.push({ type: DYNAMIC, action: QUANTITY_TO_REMOVE, argument: { ...product, productIndex: i } })
     }
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)} `
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)} `
@@ -817,18 +824,18 @@ const clearCart = async (chatbot, contact) => {
 }
 
 function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
-  callApi(`whatsAppContacts / update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
+  callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
     .then(updated => {
     })
     .catch(error => {
-      logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)} `, 'error')
+      logger.serverLog(TAG, `Failed to update contact ${error} `, 'error')
     })
 }
 
-const getCheckoutEmailBlock = async (chatbot, contact) => {
+const getCheckoutEmailBlock = async (chatbot, contact, newEmail) => {
   try {
     let messageBlock = null
-    if (contact.shopifyCustomer && contact.shopifyCustomer.email) {
+    if (!newEmail && contact.shopifyCustomer && contact.shopifyCustomer.email) {
       messageBlock = {
         module: {
           id: chatbot._id,
@@ -838,13 +845,13 @@ const getCheckoutEmailBlock = async (chatbot, contact) => {
         uniqueId: '' + new Date().getTime(),
         payload: [
           {
-            text: dedent(`Would you like to use ${contact.shopifyCustomer.email} as your email?
+            text: dedent(`Would you like to use ${contact.shopifyCustomer.email} as your email?\n
                         Send '0' for Yes
                         Send '1' for No`),
             componentType: 'text',
             menu: [
               { type: DYNAMIC, action: PROCEED_TO_CHECKOUT },
-              { type: DYNAMIC, action: PROCEED_TO_CHECKOUT, input: true }
+              { type: DYNAMIC, action: GET_CHECKOUT_EMAIL, argument: true }
             ]
           }
         ],
@@ -907,6 +914,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
       } else {
         shopifyCustomer = shopifyCustomer[0]
       }
+      logger.serverLog(TAG, `shopifyCustomer ${JSON.stringify(shopifyCustomer)}`, 'info')
       updateWhatsAppContact({ _id: contact._id }, { shopifyCustomer }, null, {})
     } else {
       shopifyCustomer = contact.shopifyCustomer
@@ -1011,7 +1019,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             break
           }
           case ADD_TO_CART: {
-            messageBlock = await getAddToCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument, action.input ? input : '')
+            messageBlock = await getAddToCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument, action.input ? input : '')
             break
           }
           case SHOW_MY_CART: {
@@ -1019,7 +1027,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             break
           }
           case GET_CHECKOUT_EMAIL: {
-            messageBlock = await getCheckoutEmailBlock(chatbot)
+            messageBlock = await getCheckoutEmailBlock(chatbot, contact, action.argument)
             break
           }
           case PROCEED_TO_CHECKOUT: {
