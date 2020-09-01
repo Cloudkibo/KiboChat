@@ -116,7 +116,7 @@ exports.updateFaqsForStartingBlock = async (chatbot) => {
   const faqsId = '' + new Date().getTime()
   let startingBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
   if (!startingBlock.payload[0].specialKeys[FAQS_KEY]) {
-    startingBlock.payload[0].text += `\n${specialKeyText(FAQS_KEY)} FAQs`
+    startingBlock.payload[0].text += `\n${specialKeyText(FAQS_KEY)}`
     startingBlock.payload[0].specialKeys[FAQS_KEY] = { type: STATIC, blockId: faqsId }
     getFaqsBlock(chatbot, faqsId, messageBlocks, chatbot.startingBlockId)
     messageBlockDataLayer.genericUpdateMessageBlock({ uniqueId: chatbot.startingBlockId }, startingBlock)
