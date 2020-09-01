@@ -140,7 +140,6 @@ exports.updateFaqsForStartingBlock = async (chatbot) => {
       startingBlock.payload[0].text = startingBlock.payload[0].text.replace(`\n${specialKeyText(FAQS_KEY)}`, '')
       delete startingBlock.payload[0].specialKeys[FAQS_KEY]
       messageBlockDataLayer.genericUpdateMessageBlock({ uniqueId: chatbot.startingBlockId }, startingBlock)
-      messageBlockDataLayer.deleteForMessageBlock({ uniqueId: startingBlock.payload[0].specialKeys[FAQS_KEY].blockId })
     }
   }
 }
@@ -690,7 +689,7 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `${quantity} ${productInfo.product}${quantity > 1 ? 's have' : ' has'} been succesfully removed from your cart.\n`,
+          text: `${quantity} ${productInfo.product}${quantity > 1 ? 's have' : ' has'} been succesfully removed from your cart.\n\n`,
           componentType: 'text',
           menu: [],
           specialKeys: {
