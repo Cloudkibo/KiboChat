@@ -1019,7 +1019,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             break
           }
           case ADD_TO_CART: {
-            messageBlock = await getAddToCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument, action.input ? input : '')
+            messageBlock = await getAddToCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument, action.input ? input : '')
             break
           }
           case SHOW_MY_CART: {
