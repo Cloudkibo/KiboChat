@@ -483,7 +483,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
     let productVariants = await EcommerceProvider.getVariantsOfSelectedProduct(product.id)
     for (let i = 0; i < productVariants.length; i++) {
       let productVariant = productVariants[i]
-      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${productVariant.name} ${product.name}, Price: ${product.price}`
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${productVariant.name} ${product.name} (price: ${product.price})`
       messageBlock.payload[0].menu.push({
         type: DYNAMIC, action: SELECT_PRODUCT, argument: { variant_id: productVariant.id, product: `${productVariant.name} ${product.name}`, price: productVariant.price }
       })
@@ -509,7 +509,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: dedent(`You have selected ${product.product}.\n
+          text: dedent(`You have selected ${product.product} (price: ${product.price}).\n
                   Please select an option by sending the corresponding number for it:\n
                   ${convertToEmoji(0)} Add to Cart\n
                   ${specialKeyText(SHOW_CART_KEY)}
@@ -548,7 +548,7 @@ const getQuantityToAddBlock = async (chatbot, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `How many ${product.product}s would you like to add to your cart?`,
+          text: `How many ${product.product}s (price: ${product.price}) would you like to add to your cart?`,
           componentType: 'text',
           action: { type: DYNAMIC, action: ADD_TO_CART, argument: product, input: true }
         }
