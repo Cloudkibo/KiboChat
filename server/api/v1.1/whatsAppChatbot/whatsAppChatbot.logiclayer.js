@@ -76,7 +76,7 @@ exports.validateWhatsAppChatbotPayload = (payload) => {
   return bool
 }
 
-function convertToEmoji(num) {
+function convertToEmoji (num) {
   if (isNaN(num)) {
     throw new Error('invalid number')
   } else {
@@ -650,7 +650,7 @@ const getRemoveFromCartBlock = async (chatbot, backId, EcommerceProvider, contac
   }
 }
 
-function updateWhatsAppContact(query, bodyForUpdate, bodyForIncrement, options) {
+function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
   callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
     .then(updated => {
     })
@@ -707,10 +707,10 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, ema
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
+
     let shopifyCustomer = await EcommerceProvider.searchCustomerUsingEmail(email)
     if (shopifyCustomer.length === 0) {
       shopifyCustomer = await EcommerceProvider.createCustomer('', '', email)
-      await EcommerceProvider.createPermalinkForCart(shopifyCustomer, contact.shoppingCart)
     } else {
       shopifyCustomer = shopifyCustomer[0]
     }
