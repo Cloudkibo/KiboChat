@@ -799,7 +799,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, ema
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Here is your checkout link:\n`,
+          text: `Here is your checkout link:`,
           componentType: 'text',
           specialKeys: {
             [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
