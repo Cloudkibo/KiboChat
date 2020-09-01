@@ -9,6 +9,7 @@ const sessionLogicLayer = require('../sessions/sessions.logiclayer')
 const logicLayer = require('./logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
 // const { record } = require('../../global/messageStatistics')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 const { sendNotifications } = require('../../global/sendNotification')
 const { handleTriggerMessage } = require('./chatbotAutomation.controller')
 
