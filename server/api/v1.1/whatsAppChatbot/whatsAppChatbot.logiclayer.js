@@ -168,8 +168,8 @@ exports.getMessageBlocks = (chatbot) => {
           { type: DYNAMIC, action: DISCOVER_PRODUCTS }
         ],
         specialKeys: {
-          ORDER_STATUS_KEY: { type: STATIC, blockId: orderStatusId },
-          SHOW_CART_KEY: { type: DYNAMIC, action: SHOW_MY_CART }
+          [ORDER_STATUS_KEY]: { type: STATIC, blockId: orderStatusId },
+          [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART }
         }
       }
     ],
@@ -201,9 +201,9 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider) => {
           componentType: 'text',
           menu: [],
           specialKeys: {
-            SHOW_CART_KEY: { type: DYNAMIC, action: SHOW_MY_CART },
-            BACK_KEY: { type: STATIC, blockId: backId },
-            HOME_KEY: { type: STATIC, blockId: chatbot.startingBlockId }
+            [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
+            [BACK_KEY]: { type: STATIC, blockId: backId },
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
           }
         }
       ],
@@ -265,9 +265,9 @@ const getReturnOrderBlock = async (chatbot, backId, EcommerceProvider, orderId) 
             ${specialKeyText(HOME_KEY)}`),
           componentType: 'text',
           specialKeys: {
-            SHOW_CART_KEY: { type: DYNAMIC, action: SHOW_MY_CART },
-            BACK_KEY: { type: STATIC, blockId: backId },
-            HOME_KEY: { type: STATIC, blockId: chatbot.startingBlockId }
+            [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
+            [BACK_KEY]: { type: STATIC, blockId: backId },
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
           }
         }
       ],
@@ -300,9 +300,9 @@ const getFaqsBlock = (chatbot, blockId, messageBlocks, backId) => {
                     `),
         componentType: 'text',
         specialKeys: {
-          SHOW_CART_KEY: { type: DYNAMIC, action: SHOW_MY_CART },
-          BACK_KEY: { type: STATIC, blockId: backId },
-          HOME_KEY: { type: STATIC, blockId: chatbot.startingBlockId }
+          [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
+          [BACK_KEY]: { type: STATIC, blockId: backId },
+          [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
         }
       }
     ],
@@ -345,9 +345,9 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
           text: `Here is your order status:`,
           componentType: 'text',
           specialKeys: {
-            SHOW_CART_KEY: { type: DYNAMIC, action: SHOW_MY_CART },
-            BACK_KEY: { type: STATIC, blockId: backId },
-            HOME_KEY: { type: STATIC, blockId: chatbot.startingBlockId }
+            [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
+            [BACK_KEY]: { type: STATIC, blockId: backId },
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
           }
         }
       ],
@@ -383,9 +383,9 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider) => 
           componentType: 'text',
           menu: [],
           specialKeys: {
-            SHOW_CART_KEY: { type: DYNAMIC, action: SHOW_MY_CART },
-            BACK_KEY: { type: STATIC, blockId: backId },
-            HOME_KEY: { type: STATIC, blockId: chatbot.startingBlockId }
+            [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
+            [BACK_KEY]: { type: STATIC, blockId: backId },
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
           }
         }
       ],
@@ -425,9 +425,9 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ca
           componentType: 'text',
           menu: [],
           specialKeys: {
-            SHOW_CART_KEY: { type: DYNAMIC, action: SHOW_MY_CART },
-            BACK_KEY: { type: STATIC, blockId: backId },
-            HOME_KEY: { type: STATIC, blockId: chatbot.startingBlockId }
+            [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
+            [BACK_KEY]: { type: STATIC, blockId: backId },
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
           }
         }
       ],
@@ -467,9 +467,9 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
           componentType: 'text',
           menu: [],
           specialKeys: {
-            SHOW_CART_KEY: { type: DYNAMIC, action: SHOW_MY_CART },
-            BACK_KEY: { type: STATIC, blockId: backId },
-            HOME_KEY: { type: STATIC, blockId: chatbot.startingBlockId }
+            [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
+            [BACK_KEY]: { type: STATIC, blockId: backId },
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
           }
         }
       ],
@@ -516,9 +516,9 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
             { type: DYNAMIC, action: SHOW_MY_CART }
           ],
           specialKeys: {
-            SHOW_CART_KEY: { type: DYNAMIC, action: SHOW_MY_CART },
-            BACK_KEY: { type: STATIC, blockId: backId },
-            HOME_KEY: { type: STATIC, blockId: chatbot.startingBlockId }
+            [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
+            [BACK_KEY]: { type: STATIC, blockId: backId },
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
           }
         }
       ],
@@ -554,9 +554,9 @@ const getAddToCartBlock = async (chatbot, backId, EcommerceProvider, contact, pr
             { type: DYNAMIC, action: GET_CHECKOUT_EMAIL }
           ],
           specialKeys: {
-            SHOW_CART_KEY: { type: DYNAMIC, action: SHOW_MY_CART },
-            BACK_KEY: { type: STATIC, blockId: backId },
-            HOME_KEY: { type: STATIC, blockId: chatbot.startingBlockId }
+            [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
+            [BACK_KEY]: { type: STATIC, blockId: backId },
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
           }
         }
       ],
@@ -600,8 +600,8 @@ const getShowMyCartBlock = async (chatbot, backId, contact) => {
           componentType: 'text',
           menu: [],
           specialKeys: {
-            BACK_KEY: { type: STATIC, blockId: backId },
-            HOME_KEY: { type: STATIC, blockId: chatbot.startingBlockId }
+            [BACK_KEY]: { type: STATIC, blockId: backId },
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
           }
         }
       ],
@@ -654,9 +654,9 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productIndex) =>
           componentType: 'text',
           menu: [],
           specialKeys: {
-            SHOW_CART_KEY: { type: DYNAMIC, action: SHOW_MY_CART },
-            BACK_KEY: { type: STATIC, blockId: backId },
-            HOME_KEY: { type: STATIC, blockId: chatbot.startingBlockId }
+            [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
+            [BACK_KEY]: { type: STATIC, blockId: backId },
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
           }
         }
       ],
@@ -696,9 +696,9 @@ const getShowItemsToRemoveBlock = (chatbot, backId, contact) => {
           componentType: 'text',
           menu: [],
           specialKeys: {
-            SHOW_CART_KEY: { type: DYNAMIC, action: SHOW_MY_CART },
-            BACK_KEY: { type: STATIC, blockId: backId },
-            HOME_KEY: { type: STATIC, blockId: chatbot.startingBlockId }
+            [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
+            [BACK_KEY]: { type: STATIC, blockId: backId },
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
           }
         }
       ],
@@ -737,7 +737,7 @@ const clearCart = async (chatbot, contact) => {
                       ${specialKeyText(HOME_KEY)}`),
           componentType: 'text',
           specialKeys: {
-            HOME_KEY: { type: STATIC, blockId: chatbot.startingBlockId }
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
           }
         }
       ],
@@ -802,8 +802,8 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, ema
           text: `Here is your checkout link:`,
           componentType: 'text',
           specialKeys: {
-            SHOW_CART_KEY: { type: DYNAMIC, action: SHOW_MY_CART },
-            HOME_KEY: { type: STATIC, blockId: chatbot.startingBlockId }
+            [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
           }
         }
       ],
@@ -846,9 +846,9 @@ const getErrorMessageBlock = (chatbot, backId, error) => {
                     ${specialKeyText(HOME_KEY)}`),
         componentType: 'text',
         specialKeys: {
-          SHOW_CART_KEY: { type: DYNAMIC, action: SHOW_MY_CART },
-          BACK_KEY: { type: STATIC, blockId: backId },
-          HOME_KEY: { type: STATIC, blockId: chatbot.startingBlockId }
+          [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
+          [BACK_KEY]: { type: STATIC, blockId: backId },
+          [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
         }
       }
     ],
