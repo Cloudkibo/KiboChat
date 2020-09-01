@@ -818,11 +818,11 @@ const clearCart = async (chatbot, contact) => {
 }
 
 function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
-  callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
+  callApi(`whatsAppContacts / update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
     .then(updated => {
     })
     .catch(error => {
-      logger.serverLog(TAG, `Failed to update contact ${error} `, 'error')
+      logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)} `, 'error')
     })
 }
 
@@ -908,7 +908,6 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
       } else {
         shopifyCustomer = shopifyCustomer[0]
       }
-      logger.serverLog(TAG, `shopifyCustomer ${JSON.stringify(shopifyCustomer)}`, 'info')
       updateWhatsAppContact({ _id: contact._id }, { shopifyCustomer }, null, {})
     } else {
       shopifyCustomer = contact.shopifyCustomer
