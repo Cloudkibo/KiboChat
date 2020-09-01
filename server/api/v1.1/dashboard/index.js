@@ -22,10 +22,6 @@ router.get('/stats',
   auth.isAuthenticated(),
   controller.stats)
 
-router.get('/updateSubscriptionPermission',
-  auth.isAuthenticated(),
-  controller.updateSubscriptionPermission)
-
 router.get('/toppages',
   auth.isAuthenticated(),
   controller.toppages)
