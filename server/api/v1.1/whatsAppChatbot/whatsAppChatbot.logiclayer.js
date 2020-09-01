@@ -822,7 +822,7 @@ function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options)
     .then(updated => {
     })
     .catch(error => {
-      logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)} `, 'error')
+      logger.serverLog(TAG, `Failed to update contact ${error} `, 'error')
     })
 }
 
