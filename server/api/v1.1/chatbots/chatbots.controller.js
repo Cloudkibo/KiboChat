@@ -335,7 +335,7 @@ exports.exportData = (req, res) => {
           sendErrorResponse(res, 500, `Failed to make data ${err}`)
         } else {
           sendSuccessResponse(res, 200, blockAnalyticsData)
-        }  
+        }
       }
       )
     })

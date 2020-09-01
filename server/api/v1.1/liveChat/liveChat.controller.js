@@ -149,7 +149,6 @@ exports.create = function (req, res) {
       }
       callApi(`subscribers/update`, 'put', subscriberData)
         .then(updated => {
-          updateCompanyUsage(req.user.companyId, 'chat_messages', 1)
           _removeSubsWaitingForUserInput(req.body.subscriber_id)
           logger.serverLog(TAG, `updated subscriber again ${updated}`)
           fbMessageObject.datetime = new Date()
@@ -238,15 +237,13 @@ exports.create = function (req, res) {
         .catch(err => {
           callback(err)
         })
-    },
-    // Delete subscriber pending session from cronstack
-    function (callback){
+    }, function (callback){
       logger.serverLog(TAG, `Delete subscriber pending session from cronstack`)
       var deleteData = {
         purpose: 'deleteMany',
         match: {
           type: 'adminAlert',
-          'payload.type': 'pendingSession', 
+          'payload.type': 'pendingSession',
           'payload.subscriber._id': req.body._id
         }
       }

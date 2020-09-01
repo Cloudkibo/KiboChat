@@ -14,8 +14,8 @@ router.get('/sentVsSeen/:pageId',
 
 router.post('/sentVsSeenNew',
   auth.isAuthenticated(),
-  // auth.doesPlanPermitsThisAction('dashboard'),
-  // auth.doesRolePermitsThisAction('dashboardPermission'),
+  // auth.doesPlanPermitsThisAction('broadcasts'),
+  // auth.isUserAllowedToPerformThisAction('view_broadcasts'),
   controller.sentVsSeenNew)
 
 router.get('/stats',
@@ -41,8 +41,8 @@ router.get('/graphData/:days',
 
 router.post('/subscriberSummary',
   auth.isAuthenticated(),
-  // auth.doesPlanPermitsThisAction('dashboard'),
-  // auth.doesRolePermitsThisAction('dashboardPermission'),
+  // auth.doesPlanPermitsThisAction('manage_subscribers'),
+  // auth.isUserAllowedToPerformThisAction('view_subscribers'),
   controller.subscriberSummary)
 
 module.exports = router

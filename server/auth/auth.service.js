@@ -374,6 +374,7 @@ exports.fbConnectDone = fbConnectDone
 exports.fetchPages = fetchPages
 exports.isKiboDash = isKiboDash
 exports.isItWebhookServer = isItWebhookServer
+exports.validateApiKeys = validateApiKeys
 // This functionality will be exposed in later stages
 // exports.isAuthorizedWebHookTrigger = isAuthorizedWebHookTrigger;
 

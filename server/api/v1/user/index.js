@@ -60,7 +60,7 @@ router.get('/validateUserAccessToken',
 router.get('/validateFacebookConnected',
   auth.isAuthenticated(),
   controller.validateFacebookConnected)
-  
+
 router.post('/updatePlatform',
   auth.isAuthenticated(),
   validate({body: validationSchema.platformPayload}),

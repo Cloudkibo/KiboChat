@@ -382,7 +382,7 @@ function updateBotSubscribersAnalyticsForSQL (chatbotId, companyId, subscriber, 
             chatbotAnalyticsDataLayer.createForBotSubscribersAnalyticsForSQL({
               chatbotId,
               companyId,
-              subcriberId: subscriber._id,
+              subscriberId: subscriber._id,
               subscriberName: subscriber.firstName + ' ' + subscriber.lastName,
               messageBlockId: messageBlock.uniqueId,
               messageBlockTitle: messageBlock.title,
@@ -393,6 +393,7 @@ function updateBotSubscribersAnalyticsForSQL (chatbotId, companyId, subscriber, 
             })
               .then(result => {
                 logger.serverLog(TAG, 'Saved the subscriber analytics', 'debug')
+                logger.serverLog(TAG, `${JSON.stringify(result)}`, 'debug')
               })
               .catch(err => {
                 logger.serverLog(TAG, `Failed to save the subscriber analytics in sql ${JSON.stringify(err)}`, 'error')
