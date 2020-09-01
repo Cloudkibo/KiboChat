@@ -908,6 +908,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
       } else {
         shopifyCustomer = shopifyCustomer[0]
       }
+      logger.serverLog(TAG, `shopifyCustomer ${JSON.stringify(shopifyCustomer)}`, 'info')
       updateWhatsAppContact({ _id: contact._id }, { shopifyCustomer }, null, {})
     } else {
       shopifyCustomer = contact.shopifyCustomer
