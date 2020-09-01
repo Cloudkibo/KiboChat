@@ -919,7 +919,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
     } else {
       shopifyCustomer = contact.shopifyCustomer
     }
-    let checkoutLink = await EcommerceProvider.createPermalinkForCart(shopifyCustomer, contact.shoppingCart)
+    let checkoutLink = EcommerceProvider.createPermalinkForCart(shopifyCustomer, contact.shoppingCart)
 
     messageBlock.payload[0].text += `\n${checkoutLink} `
 
