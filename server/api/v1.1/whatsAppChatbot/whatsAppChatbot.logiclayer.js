@@ -509,7 +509,8 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: dedent(`Please select an option by sending the corresponding number for it:\n
+          text: dedent(`You have selected ${product.product}.\n
+                  Please select an option by sending the corresponding number for it:\n
                   ${convertToEmoji(0)} Add to Cart\n
                   ${specialKeyText(SHOW_CART_KEY)}
                   ${specialKeyText(BACK_KEY)}
