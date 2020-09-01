@@ -826,10 +826,10 @@ function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options)
     })
 }
 
-const getCheckoutEmailBlock = async (chatbot, contact) => {
+const getCheckoutEmailBlock = async (chatbot, contact, newEmail) => {
   try {
     let messageBlock = null
-    if (contact.shopifyCustomer && contact.shopifyCustomer.email) {
+    if (!newEmail && contact.shopifyCustomer && contact.shopifyCustomer.email) {
       messageBlock = {
         module: {
           id: chatbot._id,
@@ -845,7 +845,7 @@ const getCheckoutEmailBlock = async (chatbot, contact) => {
             componentType: 'text',
             menu: [
               { type: DYNAMIC, action: PROCEED_TO_CHECKOUT },
-              { type: DYNAMIC, action: GET_CHECKOUT_EMAIL }
+              { type: DYNAMIC, action: GET_CHECKOUT_EMAIL, argument: true }
             ]
           }
         ],
@@ -1021,7 +1021,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             break
           }
           case GET_CHECKOUT_EMAIL: {
-            messageBlock = await getCheckoutEmailBlock(chatbot, contact)
+            messageBlock = await getCheckoutEmailBlock(chatbot, contact, action.argument)
             break
           }
           case PROCEED_TO_CHECKOUT: {
