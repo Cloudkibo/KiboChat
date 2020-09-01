@@ -725,7 +725,7 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
   }
 }
 
-const getQuantityToRemoveBlock = async (chatbot, productInfo) => {
+const getQuantityToRemoveBlock = async (chatbot, product) => {
   try {
     let messageBlock = {
       module: {
@@ -736,9 +736,9 @@ const getQuantityToRemoveBlock = async (chatbot, productInfo) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `How many ${productInfo.product}s would you like to remove from your cart?`,
+          text: `How many ${product.product}s would you like to remove from your cart?  You currently have ${product.quantity} in your cart.`,
           componentType: 'text',
-          action: { type: DYNAMIC, action: REMOVE_FROM_CART, argument: productInfo, input: true }
+          action: { type: DYNAMIC, action: REMOVE_FROM_CART, argument: product, input: true }
         }
       ],
       userId: chatbot.userId,
