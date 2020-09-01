@@ -8,7 +8,7 @@ const needle = require('needle')
 const sessionLogicLayer = require('../sessions/sessions.logiclayer')
 const logicLayer = require('./logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
-const { record } = require('../../global/messageStatistics')
+// const { record } = require('../../global/messageStatistics')
 const { sendNotifications } = require('../../global/sendNotification')
 const { handleTriggerMessage } = require('./chatbotAutomation.controller')
 
@@ -52,7 +52,9 @@ exports.index = function (req, res) {
             logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
             if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
               saveLiveChat(page, subscriber, event)
-              handleTriggerMessage(event, page, subscriber)
+              if (event.type !== 'get_started') {
+                handleTriggerMessage(event, page, subscriber)
+              }
               if (!event.message.is_echo) {
                 pushUnresolveAlertInStack(company, subscriber)
               }
@@ -96,22 +98,22 @@ function pushUnresolveAlertInStack (company, subscriber) {
             }
           }
           utility.callApi(`cronStack/query`, 'post', findSession, 'kibochat')
-          .then(result => {
-            if (result.length < 1) {
-              utility.callApi(`cronStack`, 'post', record, 'kibochat')
-              .then(savedRecord => {
-                logger.serverLog(TAG, `Unresolved Session info pushed in cronStack ${savedRecord}`)
-              })
-              .catch(err => {
-                logger.serverLog(TAG, `Unable to save session info in cronStack`)
-              })
-            } else {
-              logger.serverLog(TAG, `Unresolved Session info already in cronStack`)
-            }
-          })
-          .catch(err => {
-            logger.serverLog(TAG, `Unable to find session info in cron stack ${err}`, 'error')
-          })
+            .then(result => {
+              if (result.length < 1) {
+                utility.callApi(`cronStack`, 'post', record, 'kibochat')
+                  .then(savedRecord => {
+                    logger.serverLog(TAG, `Unresolved Session info pushed in cronStack ${savedRecord}`)
+                  })
+                  .catch(err => {
+                    logger.serverLog(TAG, `Unable to save session info in cronStack ${err}`, 'error')
+                  })
+              } else {
+                logger.serverLog(TAG, `Unresolved Session info already in cronStack`)
+              }
+            })
+            .catch(err => {
+              logger.serverLog(TAG, `Unable to find session info in cron stack ${err}`, 'error')
+            })
         }
       }
     })
@@ -139,21 +141,21 @@ function pushSessionPendingAlertInStack (company, subscriber) {
             payload: payload
           }
           utility.callApi(`cronStack`, 'post', record, 'kibochat')
-          .then(savedRecord => {
-            logger.serverLog(TAG, `Pending Session info pushed in cronStack ${savedRecord}`)
-          })
-          .catch(err => {
-            logger.serverLog(TAG, `Unable to push session info in cron stack ${err}`, 'error')
-          })
+            .then(savedRecord => {
+              logger.serverLog(TAG, `Pending Session info pushed in cronStack ${savedRecord}`)
+            })
+            .catch(err => {
+              logger.serverLog(TAG, `Unable to push session info in cron stack ${err}`, 'error')
+            })
         }
       }
-      })
-      .catch(error => {
-        logger.serverLog(TAG, `Error while fetching company preferences ${error}`, 'error')
-      })
+    })
+    .catch(error => {
+      logger.serverLog(TAG, `Error while fetching company preferences ${error}`, 'error')
+    })
 }
 function saveLiveChat (page, subscriber, event) {
-  //record('messengerChatInComing')
+  // record('messengerChatInComing')
   if (subscriber && !event.message.is_echo) {
     botController.respondUsingBot(page, subscriber, event.message.text)
   }
