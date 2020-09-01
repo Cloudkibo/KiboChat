@@ -842,7 +842,10 @@ const getCheckoutEmailBlock = async (chatbot, contact) => {
                         Send '0' for Yes
                         Send '1' for No`),
             componentType: 'text',
-            action: { type: DYNAMIC, action: PROCEED_TO_CHECKOUT, input: true }
+            menu: [
+              { type: DYNAMIC, action: PROCEED_TO_CHECKOUT },
+              { type: DYNAMIC, action: PROCEED_TO_CHECKOUT, input: true }
+            ]
           }
         ],
         userId: chatbot.userId,
@@ -874,7 +877,7 @@ const getCheckoutEmailBlock = async (chatbot, contact) => {
   }
 }
 
-const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, email) => {
+const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, newEmail) => {
   try {
     let messageBlock = {
       module: {
@@ -896,14 +899,18 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, ema
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-
-    let shopifyCustomer = await EcommerceProvider.searchCustomerUsingEmail(email)
-    if (shopifyCustomer.length === 0) {
-      shopifyCustomer = await EcommerceProvider.createCustomer('', '', email)
+    let shopifyCustomer = null
+    if (newEmail) {
+      shopifyCustomer = await EcommerceProvider.searchCustomerUsingEmail(newEmail)
+      if (shopifyCustomer.length === 0) {
+        shopifyCustomer = await EcommerceProvider.createCustomer('', '', newEmail)
+      } else {
+        shopifyCustomer = shopifyCustomer[0]
+      }
+      updateWhatsAppContact({ _id: contact._id }, { shopifyCustomer }, null, {})
     } else {
-      shopifyCustomer = shopifyCustomer[0]
+      shopifyCustomer = contact.shopifyCustomer
     }
-    updateWhatsAppContact({ _id: contact._id }, { shopifyCustomer }, null, {})
     let checkoutLink = await EcommerceProvider.createPermalinkForCart(shopifyCustomer, contact.shoppingCart)
 
     messageBlock.payload[0].text += `\n${checkoutLink} `
@@ -996,7 +1003,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             break
           }
           case ORDER_STATUS: {
-            messageBlock = await getOrderStatusBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, input)
+            messageBlock = await getOrderStatusBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : '')
             break
           }
           case SELECT_PRODUCT: {
@@ -1004,7 +1011,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             break
           }
           case ADD_TO_CART: {
-            messageBlock = await getAddToCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument, input)
+            messageBlock = await getAddToCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument, action.input ? input : '')
             break
           }
           case SHOW_MY_CART: {
@@ -1016,11 +1023,11 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             break
           }
           case PROCEED_TO_CHECKOUT: {
-            messageBlock = await getCheckoutBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, contact, input)
+            messageBlock = await getCheckoutBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, contact, action.input ? input : '')
             break
           }
           case RETURN_ORDER: {
-            messageBlock = await getReturnOrderBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, input)
+            messageBlock = await getReturnOrderBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : '')
             break
           }
           case SHOW_ITEMS_TO_REMOVE: {
@@ -1028,7 +1035,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             break
           }
           case REMOVE_FROM_CART: {
-            messageBlock = await getRemoveFromCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument, input)
+            messageBlock = await getRemoveFromCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument, action.input ? input : '')
             break
           }
           case CLEAR_CART: {
