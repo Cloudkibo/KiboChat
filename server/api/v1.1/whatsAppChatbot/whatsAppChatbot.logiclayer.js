@@ -140,7 +140,6 @@ exports.updateFaqsForStartingBlock = async (chatbot) => {
       startingBlock.payload[0].text = startingBlock.payload[0].text.replace(`\n${specialKeyText(FAQS_KEY)}`, '')
       delete startingBlock.payload[0].specialKeys[FAQS_KEY]
       messageBlockDataLayer.genericUpdateMessageBlock({ uniqueId: chatbot.startingBlockId }, startingBlock)
-      messageBlockDataLayer.deleteForMessageBlock({ uniqueId: startingBlock.payload[0].specialKeys[FAQS_KEY].blockId })
     }
   }
 }
@@ -483,7 +482,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
     let productVariants = await EcommerceProvider.getVariantsOfSelectedProduct(product.id)
     for (let i = 0; i < productVariants.length; i++) {
       let productVariant = productVariants[i]
-      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${productVariant.name} ${product.name}, Price: ${product.price}`
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${productVariant.name} ${product.name} (price: ${product.price})`
       messageBlock.payload[0].menu.push({
         type: DYNAMIC, action: SELECT_PRODUCT, argument: { variant_id: productVariant.id, product: `${productVariant.name} ${product.name}`, price: productVariant.price }
       })
@@ -509,7 +508,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: dedent(`You have selected ${product.product}.\n
+          text: dedent(`You have selected ${product.product} (price: ${product.price}).\n
                   Please select an option by sending the corresponding number for it:\n
                   ${convertToEmoji(0)} Add to Cart\n
                   ${specialKeyText(SHOW_CART_KEY)}
@@ -548,7 +547,7 @@ const getQuantityToAddBlock = async (chatbot, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `How many ${product.product}s would you like to add to your cart?`,
+          text: `How many ${product.product}s (price: ${product.price}) would you like to add to your cart?`,
           componentType: 'text',
           action: { type: DYNAMIC, action: ADD_TO_CART, argument: product, input: true }
         }
@@ -690,7 +689,7 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `${quantity} ${productInfo.product}${quantity > 1 ? 's have' : ' has'} been succesfully removed from your cart.\n`,
+          text: `${quantity} ${productInfo.product}${quantity > 1 ? 's have' : ' has'} been succesfully removed from your cart.\n\n`,
           componentType: 'text',
           menu: [],
           specialKeys: {
@@ -737,7 +736,7 @@ const getQuantityToRemoveBlock = async (chatbot, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `How many ${product.product}s would you like to remove from your cart?  You currently have ${product.quantity} in your cart.`,
+          text: `How many ${product.product}s (price: ${product.price}) would you like to remove from your cart?  You currently have ${product.quantity} in your cart.`,
           componentType: 'text',
           action: { type: DYNAMIC, action: REMOVE_FROM_CART, argument: product, input: true }
         }
