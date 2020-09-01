@@ -810,10 +810,10 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, ema
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
+
     let shopifyCustomer = await EcommerceProvider.searchCustomerUsingEmail(email)
     if (shopifyCustomer.length === 0) {
       shopifyCustomer = await EcommerceProvider.createCustomer('', '', email)
-      await EcommerceProvider.createPermalinkForCart(shopifyCustomer, contact.shoppingCart)
     } else {
       shopifyCustomer = shopifyCustomer[0]
     }
