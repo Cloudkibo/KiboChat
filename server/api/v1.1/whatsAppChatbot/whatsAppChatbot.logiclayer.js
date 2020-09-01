@@ -845,7 +845,7 @@ const getCheckoutEmailBlock = async (chatbot, contact) => {
             componentType: 'text',
             menu: [
               { type: DYNAMIC, action: PROCEED_TO_CHECKOUT },
-              { type: DYNAMIC, action: PROCEED_TO_CHECKOUT, input: true }
+              { type: DYNAMIC, action: GET_CHECKOUT_EMAIL }
             ]
           }
         ],
