@@ -573,7 +573,7 @@ const getAddToCartBlock = async (chatbot, backId, EcommerceProvider, contact, pr
         variant_id: product.variant_id,
         quantity: 1,
         product: product.product,
-        price: product.price
+        price: Number(product.price)
       })
     }
 
@@ -618,14 +618,14 @@ const getShowMyCartBlock = async (chatbot, backId, contact) => {
       for (let product of shoppingCart) {
         let price = product.quantity * product.price
         totalPrice += price
-        messageBlock.payload[0].text += `\n${product.product}, quantity: ${product.quantity}\n, price: ${price}`
+        messageBlock.payload[0].text += `\n• ${product.product}, quantity: ${product.quantity}, price: ${price}`
       }
-      messageBlock.payload[0].text += `\nTotal price: ${totalPrice}`
+      messageBlock.payload[0].text += `\n\nTotal price: ${totalPrice}\n\n`
       messageBlock.payload[0].menu.push(
         { type: DYNAMIC, action: SHOW_ITEMS_TO_REMOVE },
         { type: DYNAMIC, action: CLEAR_CART },
         { type: DYNAMIC, action: GET_CHECKOUT_EMAIL })
-      messageBlock.payload[0].text += dedent(`\nPlease select an option by sending the corresponding number for it:
+      messageBlock.payload[0].text += dedent(`Please select an option by sending the corresponding number for it:\n
                                             ${convertToEmoji(0)} Remove an item
                                             ${convertToEmoji(1)} Clear cart
                                             ${convertToEmoji(2)} Proceed to Checkout`)
