@@ -818,7 +818,7 @@ const clearCart = async (chatbot, contact) => {
 }
 
 function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
-  callApi(`whatsAppContacts / update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
+  callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
     .then(updated => {
     })
     .catch(error => {
