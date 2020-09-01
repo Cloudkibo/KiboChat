@@ -93,26 +93,47 @@ const _createBotRecordInDB = (data, callback) => {
 
 exports.create = function (req, res) {
   logger.serverLog(TAG, `Create Bot Request ${req.body.pageId}-${req.body.botName}`, 'debug')
-  let data = {
-    user: req.user,
-    pageId: req.body.pageId,
-    botName: req.body.botName,
-    gcpPojectId: `${req.body.botName}-${req.body.pageId.substring(req.body.pageId.length - 4)}`,
-    dialogFlowAgentId: `${req.body.botName}-${req.body.pageId.substring(req.body.pageId.length - 4)}`
-  }
-  async.series([
-    _createGCPProject.bind(null, data),
-    _createDialogFlowAgent.bind(null, data),
-    _createBotRecordInDB.bind(null, data)
-  ], function (err) {
-    if (err) {
-      logger.serverLog(TAG, err, 'error')
-      sendErrorResponse(res, 500, 'Failed to create bot.')
-    } else {
-      updateCompanyUsage(req.user.companyId, 'bots', 1)
-      sendSuccessResponse(res, 200, data.botData)
-    }
-  })
+  utility.callApi(`featureUsage/planQuery`, 'post', {planId: req.user.currentPlan._id})
+    .then(planUsage => {
+      planUsage = planUsage[0]
+      utility.callApi(`featureUsage/companyQuery`, 'post', {companyId: req.user.companyId})
+        .then(companyUsage => {
+          companyUsage = companyUsage[0]
+          if (planUsage.bots !== -1 && companyUsage.bots >= planUsage.bots) {
+            return res.status(500).json({
+              status: 'failed',
+              description: `Your smart replies limit has reached. Please upgrade your plan to create more smart replies.`
+            })
+          } else {
+            let data = {
+              user: req.user,
+              pageId: req.body.pageId,
+              botName: req.body.botName,
+              gcpPojectId: `${req.body.botName}-${req.body.pageId.substring(req.body.pageId.length - 4)}`,
+              dialogFlowAgentId: `${req.body.botName}-${req.body.pageId.substring(req.body.pageId.length - 4)}`
+            }
+            async.series([
+              _createGCPProject.bind(null, data),
+              _createDialogFlowAgent.bind(null, data),
+              _createBotRecordInDB.bind(null, data)
+            ], function (err) {
+              if (err) {
+                logger.serverLog(TAG, err, 'error')
+                sendErrorResponse(res, 500, 'Failed to create bot.')
+              } else {
+                updateCompanyUsage(req.user.companyId, 'bots', 1)
+                sendSuccessResponse(res, 200, data.botData)
+              }
+            })
+          }
+        })
+        .catch(err => {
+          sendErrorResponse(res, 500, `Error fetching company usage ${err}`)
+        })
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, `Error fetching plan usage ${err}`)
+    })
 }
 
 exports.edit = function (req, res) {

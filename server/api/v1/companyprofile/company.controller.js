@@ -66,16 +66,37 @@ exports.updateAdvancedSettings = function (req, res) {
     })
 }
 exports.invite = function (req, res) {
-  utility.callApi('companyprofile/invite', 'post', {email: req.body.email, name: req.body.name, role: req.body.role}, 'accounts', req.headers.authorization)
-    .then((result) => {
-      logger.serverLog(TAG, 'result from invite endpoint accounts', 'debug')
-      logger.serverLog(TAG, result, 'debug')
-      sendSuccessResponse(res, 200, result)
+  utility.callApi(`featureUsage/planQuery`, 'post', {planId: req.user.currentPlan._id})
+    .then(planUsage => {
+      planUsage = planUsage[0]
+      utility.callApi(`featureUsage/companyQuery`, 'post', {companyId: req.user.companyId})
+        .then(companyUsage => {
+          companyUsage = companyUsage[0]
+          if (planUsage.members !== -1 && companyUsage.members >= planUsage.members) {
+            return res.status(500).json({
+              status: 'failed',
+              description: `Your members limit has reached. Please upgrade your plan to invite more members.`
+            })
+          } else {
+            utility.callApi('companyprofile/invite', 'post', {email: req.body.email, name: req.body.name, role: req.body.role}, 'accounts', req.headers.authorization)
+              .then((result) => {
+                logger.serverLog(TAG, 'result from invite endpoint accounts', 'debug')
+                logger.serverLog(TAG, result, 'debug')
+                sendSuccessResponse(res, 200, result)
+              })
+              .catch((err) => {
+                logger.serverLog(TAG, 'result from invite endpoint accounts', 'debug')
+                logger.serverLog(TAG, err, 'debug')
+                sendErrorResponse(res, 500, err)
+              })
+          }
+        })
+        .catch(error => {
+          sendErrorResponse(res, 500, `Failed to company usage ${JSON.stringify(error)}`)
+        })
     })
-    .catch((err) => {
-      logger.serverLog(TAG, 'result from invite endpoint accounts', 'debug')
-      logger.serverLog(TAG, err, 'debug')
-      sendErrorResponse(res, 500, err)
+    .catch(error => {
+      sendErrorResponse(res, 500, `Failed to plan usage ${JSON.stringify(error)}`)
     })
 }
 
