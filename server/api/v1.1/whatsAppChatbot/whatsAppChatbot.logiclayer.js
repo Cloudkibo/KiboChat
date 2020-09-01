@@ -547,7 +547,7 @@ const getQuantityToAddBlock = async (chatbot, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `How many ${product.product} would you like to add to your cart?`,
+          text: `How many ${product.product}s would you like to add to your cart?`,
           componentType: 'text',
           action: { type: DYNAMIC, action: ADD_TO_CART, argument: product, input: true }
         }
@@ -698,14 +698,15 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
     }
     let shoppingCart = contact.shoppingCart
     shoppingCart[productInfo.productIndex].quantity -= quantity
-    if (shoppingCart[productInfo.productIndex].quantity <= 0) {
+    if (shoppingCart[productInfo.productIndex].quantity === 0) {
       shoppingCart.splice(productInfo.productIndex, 1)
+    } else if (shoppingCart[productInfo.productIndex].quantity < 0) {
+      throw new Error('Invalid quantity given')
     }
     if (shoppingCart.length > 0) {
       messageBlock.payload[0].menu.push({ type: DYNAMIC, action: GET_CHECKOUT_EMAIL })
       messageBlock.payload[0].text += dedent(`Please select an option by sending the corresponding number for it: \n
-                                            ${convertToEmoji(0)
-} Proceed to Checkout`)
+                                            ${convertToEmoji(0)} Proceed to Checkout`)
     }
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)} `
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)} `
@@ -713,8 +714,8 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
     updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
     return messageBlock
   } catch (err) {
-    logger.serverLog(TAG, `Unable to remove item from cart ${err} `, 'error')
-    throw new Error('Unable to remove item from cart')
+    logger.serverLog(TAG, `Unable to remove item(s) from cart ${err} `, 'error')
+    throw new Error('Unable to remove item(s) from cart')
   }
 }
 
@@ -729,7 +730,7 @@ const getQuantityToRemoveBlock = async (chatbot, productInfo) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `How many ${productInfo.product} would you like to remove from your cart ? `,
+          text: `How many ${productInfo.product}s would you like to remove from your cart?`,
           componentType: 'text',
           action: { type: DYNAMIC, action: REMOVE_FROM_CART, argument: productInfo, input: true }
         }
@@ -1019,7 +1020,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             break
           }
           case GET_CHECKOUT_EMAIL: {
-            messageBlock = await getCheckoutEmailBlock(chatbot)
+            messageBlock = await getCheckoutEmailBlock(chatbot, contact)
             break
           }
           case PROCEED_TO_CHECKOUT: {
