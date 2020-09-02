@@ -61,6 +61,14 @@ router.get('/validateFacebookConnected',
   auth.isAuthenticated(),
   controller.validateFacebookConnected)
 
+router.get('/logout',
+  auth.isAuthenticated(),
+  controller.logout)
+
+router.get('/receivelogout',
+  auth.isAuthenticated(),
+  controller.receivelogout)
+
 router.post('/updatePlatform',
   auth.isAuthenticated(),
   validate({body: validationSchema.platformPayload}),
