@@ -485,17 +485,16 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
       companyId: chatbot.companyId
     }
     let productVariants = await EcommerceProvider.getVariantsOfSelectedProduct(product.id)
-    let lastIndex = messageBlock.payload.length - 1
     for (let i = 0; i < productVariants.length; i++) {
       let productVariant = productVariants[i]
-      messageBlock.payload[lastIndex].text += `\n${convertToEmoji(i)} ${productVariant.name} ${product.name} (price: ${product.price})`
-      messageBlock.payload[lastIndex].menu.push({
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${productVariant.name} ${product.name} (price: ${product.price})`
+      messageBlock.payload[0].menu.push({
         type: DYNAMIC, action: SELECT_PRODUCT, argument: { variant_id: productVariant.id, product: `${productVariant.name} ${product.name}`, price: productVariant.price }
       })
     }
-    messageBlock.payload[lastIndex].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
-    messageBlock.payload[lastIndex].text += `\n${specialKeyText(BACK_KEY)}`
-    messageBlock.payload[lastIndex].text += `\n${specialKeyText(HOME_KEY)}`
+    messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
+    messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to get product variants ${err}`, 'error')
