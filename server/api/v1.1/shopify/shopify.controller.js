@@ -96,7 +96,8 @@ exports.callback = function (req, res) {
   //  const companyId = JSON.parse(cookie.parse(req.headers.cookie).companyId)
   //  const pageId = cookie.parse(req.headers.cookie).pageId
   if (state !== stateCookie) {
-    return res.status(403).send('Request origin cannot be verified')
+    res.cookie('shopifySetupState', 'Request origin cannot be verified')
+    return res.redirect('/errorMessage')
   }
 
   if (shop && hmac && code) {
@@ -122,7 +123,8 @@ exports.callback = function (req, res) {
     };
 
     if (!hashEquals) {
-      return res.status(400).send('HMAC validation failed')
+      res.cookie('shopifySetupState', 'HMAC validation failed')
+      return res.redirect('/errorMessage')
     }
 
     // DONE: Exchange temporary code for a permanent access token
@@ -151,38 +153,21 @@ exports.callback = function (req, res) {
             .then(shopifyIntegration => {
               if (shopifyIntegration) {
                 res.cookie('shopifySetupState', 'already exists')
-                res.redirect('/')
+                res.redirect('/alreadyConnected')
               } else {
                 dataLayer.createShopifyIntegration(shopifyPayload)
                   .then(savedStore => {
                     logger.serverLog(TAG, 'shopify store integration created', 'debug')
                     res.cookie('shopifySetupState', 'completedUsingAuth')
-                    res.redirect('/')
+                    res.redirect('/successMessage')
                   })
                   .catch(err => {
-                    return res.status(500).json({ status: 'failed', error: err })
+                    res.cookie('shopifySetupState', 'Internal Server Error')
+                    return res.redirect('/errorMessage')
                   })
               }
             })
         } else {
-          // TODO client side screen remaining
-          /* console.log('AUTH TOKEN NOT FOUND IN COOKIES')
-           * testing only thing
-          let shopifyPayload = {
-            userId: '5d2eea98ef2c170cd31470d3',
-            companyId: '5d2eea98ef2c170cd31470d4',
-            shopUrl: shop,
-            shopToken: accessToken
-          }
-          dataLayer.createShopifyIntegration(shopifyPayload)
-            .then(savedStore => {
-              console.log('Saved as testing trick')
-              console.log(savedStore)
-            })
-            .catch(err => {
-              console.log('error in creating shopify integration')
-              console.log(err)
-            }) */
           res.cookie('shopifySetupState', 'startedFromAppNotAuthenticated')
           res.cookie('shopifyToken', accessToken)
           // the login in that screen should redirect to kibochat only
