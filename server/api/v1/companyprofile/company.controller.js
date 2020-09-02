@@ -536,7 +536,7 @@ exports.deleteWhatsAppInfo = function (req, res) {
       })
     })
     .catch((err) => {
-      sendErrorResponse(res, 500, err.error.description)
+      sendErrorResponse(res, 500, err)
     })
 }
 
