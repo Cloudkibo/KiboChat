@@ -716,8 +716,10 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
     }
     if (shoppingCart.length > 0) {
       messageBlock.payload[0].menu.push({ type: DYNAMIC, action: GET_CHECKOUT_EMAIL })
-      messageBlock.payload[0].text += dedent(`\nPlease select an option by sending the corresponding number for it:\n
-                                            ${convertToEmoji(0)} Proceed to Checkout\n`)
+      messageBlock.payload[0].text += `\n`
+      messageBlock.payload[0].text += dedent(`Please select an option by sending the corresponding number for it:\n
+                                            ${convertToEmoji(0)} Proceed to Checkout`)
+      messageBlock.payload[0].text += `\n`
     }
     messageBlock.payload[0].text += `\n${specialKeyText(SHOW_CART_KEY)}`
     if (shoppingCart[productInfo.productIndex].quantity > 0) {
