@@ -296,11 +296,18 @@ function saveShopifyIntegration (shop, shopToken, userId, companyId) {
     shopUrl: shop,
     shopToken
   }
-  shopifyDataLayer.createShopifyIntegration(shopifyPayload)
-    .then(savedStore => {
-      logger.serverLog(TAG, 'shopify store integration created', 'debug')
-    })
-    .catch(err => {
-      logger.serverLog(TAG, 'shopify store integration creation error' + err, 'error')
+  shopifyDataLayer.findOneShopifyIntegration({ companyId })
+    .then(shopifyIntegration => {
+      if (shopifyIntegration) {
+        logger.serverLog(TAG, 'shopify integration already exists', 'debug')
+      } else {
+        shopifyDataLayer.createShopifyIntegration(shopifyPayload)
+          .then(savedStore => {
+            logger.serverLog(TAG, 'shopify store integration created', 'debug')
+          })
+          .catch(err => {
+            logger.serverLog(TAG, 'shopify store integration creation error' + err, 'error')
+          })
+      }
     })
 }

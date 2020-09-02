@@ -43,7 +43,8 @@ exports.fetchProductsInThisCategory = (id, credentials) => {
             name: product.title,
             product_type: product.product_type,
             vendor: product.vendor,
-            price: product.variants[0].price
+            price: product.variants[0].price,
+            image: product.image ? product.image.src : null
           }
         })
         resolve(products)
@@ -64,7 +65,8 @@ exports.fetchProducts = (credentials) => {
             name: product.title,
             product_type: product.product_type,
             vendor: product.vendor,
-            price: product.variants[0].price
+            price: product.variants[0].price,
+            image: product.image ? product.image.src : null
           }
         })
         resolve(products)
