@@ -977,7 +977,7 @@ const getWelcomeMessageBlock = async (chatbot, contact, input) => {
   } else {
     welcomeMessage += `!`
   }
-  if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
+  if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1 && contact.lastMessageSentByBot) {
     welcomeMessage += ` Welcome back!`
   }
   let messageBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
