@@ -466,6 +466,10 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
+          componentType: 'image',
+          fileurl: product.image
+        },
+        {
           text: `Please select a product variant by sending the corresponding number for it:\n`,
           componentType: 'text',
           menu: [],
