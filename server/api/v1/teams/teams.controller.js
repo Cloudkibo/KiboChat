@@ -3,6 +3,7 @@ const utility = require('../utility')
 const logger = require('../../../components/logger')
 const TAG = 'api/v2/pages/teams.controller.js'
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 
 exports.index = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
@@ -49,43 +50,65 @@ exports.index = function (req, res) {
 }
 
 exports.createTeam = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
-    .then(companyuser => {
-      let teamPayload = logicLayer.getTeamPayload(req, companyuser)
-      let agentIds = req.body.agentIds
-      let pageIds = req.body.pageIds
-      utility.callApi(`teams`, 'post', teamPayload) // create team
-        .then(createdTeam => {
-          agentIds.forEach(agentId => {
-            let teamAgentsPayload = logicLayer.getTeamAgentsPayload(createdTeam, companyuser, agentId)
-            utility.callApi(`teams/agents`, 'post', teamAgentsPayload) // create team agent
-              .then(createdAgent => {
-                logger.serverLog(TAG, 'Team agent created successfully!', 'debug')
+  utility.callApi(`featureUsage/planQuery`, 'post', {planId: req.user.currentPlan})
+    .then(planUsage => {
+      planUsage = planUsage[0]
+      utility.callApi(`featureUsage/companyQuery`, 'post', {companyId: req.user.companyId})
+        .then(companyUsage => {
+          companyUsage = companyUsage[0]
+          if (planUsage.teams !== -1 && companyUsage.teams >= planUsage.teams) {
+            return res.status(500).json({
+              status: 'failed',
+              description: `Your teams limit has reached. Please upgrade your plan to create more teams.`
+            })
+          } else {
+            utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
+              .then(companyuser => {
+                let teamPayload = logicLayer.getTeamPayload(req, companyuser)
+                let agentIds = req.body.agentIds
+                let pageIds = req.body.pageIds
+                utility.callApi(`teams`, 'post', teamPayload) // create team
+                  .then(createdTeam => {
+                    updateCompanyUsage(req.user.companyId, 'teams', 1)
+                    agentIds.forEach(agentId => {
+                      let teamAgentsPayload = logicLayer.getTeamAgentsPayload(createdTeam, companyuser, agentId)
+                      utility.callApi(`teams/agents`, 'post', teamAgentsPayload) // create team agent
+                        .then(createdAgent => {
+                          logger.serverLog(TAG, 'Team agent created successfully!', 'debug')
+                        })
+                        .catch(error => {
+                          logger.serverLog(TAG, `Failed to create agent ${JSON.stringify(error)}`, 'error')
+                        })
+                    })
+                    if (req.body.pageIds) {
+                      pageIds.forEach(pageId => {
+                        let teamPagesPayload = logicLayer.getTeamPagesPayload(createdTeam, companyuser, pageId)
+                        utility.callApi(`teams/pages`, 'post', teamPagesPayload) // create team page
+                          .then(createdPage => {
+                            logger.serverLog(TAG, 'Team page created successfully!', 'debug')
+                          })
+                          .catch(error => {
+                            logger.serverLog(TAG, `Failed to create page ${JSON.stringify(error)}`, 'error')
+                          })
+                      })
+                    }
+                    sendSuccessResponse(res, 200, 'Team created successfully!')
+                  })
+                  .catch(error => {
+                    sendErrorResponse(res, 500, `Failed to create team ${JSON.stringify(error)}`)
+                  })
               })
               .catch(error => {
-                logger.serverLog(TAG, `Failed to create agent ${JSON.stringify(error)}`, 'error')
+                sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
               })
-          })
-          if (req.body.pageIds) {
-            pageIds.forEach(pageId => {
-              let teamPagesPayload = logicLayer.getTeamPagesPayload(createdTeam, companyuser, pageId)
-              utility.callApi(`teams/pages`, 'post', teamPagesPayload) // create team page
-                .then(createdPage => {
-                  logger.serverLog(TAG, 'Team page created successfully!', 'debug')
-                })
-                .catch(error => {
-                  logger.serverLog(TAG, `Failed to create page ${JSON.stringify(error)}`, 'error')
-                })
-            })
           }
-          sendSuccessResponse(res, 200, 'Team created successfully!')
         })
         .catch(error => {
-          sendErrorResponse(res, 500, `Failed to create team ${JSON.stringify(error)}`)
+          sendErrorResponse(res, 500, `Failed to fetch company usage ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
-      sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
+      sendErrorResponse(res, 500, `Failed to fetch plan usage ${JSON.stringify(error)}`)
     })
 }
 
@@ -103,6 +126,7 @@ exports.updateTeam = function (req, res) {
 exports.deleteTeam = function (req, res) {
   utility.callApi(`teams/delete/${req.params.id}`, 'delete', {}) // delete team
     .then(deletedTeam => {
+      updateCompanyUsage(req.user.companyId, 'teams', -1)
       sendSuccessResponse(res, 200, 'Team deleted successfully!')
     })
     .catch(error => {
