@@ -466,10 +466,6 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          componentType: 'image',
-          fileurl: product.image
-        },
-        {
           text: `Please select a product variant by sending the corresponding number for it:\n`,
           componentType: 'text',
           menu: [],
@@ -478,6 +474,10 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
             [BACK_KEY]: { type: STATIC, blockId: backId },
             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
           }
+        },
+        {
+          componentType: 'image',
+          fileurl: product.image
         }
       ],
       userId: chatbot.userId,
@@ -540,8 +540,12 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
   }
 }
 
-const getQuantityToAddBlock = async (chatbot, product) => {
+const getQuantityToAddBlock = async (chatbot, backId, contact, product, quantity) => {
   try {
+    quantity = Number(quantity)
+    if (!Number.isInteger(quantity) || quantity <= 0) {
+      throw new Error('Invalid quantity given')
+    }
     let messageBlock = {
       module: {
         id: chatbot._id,
@@ -910,6 +914,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
+
     let shopifyCustomer = null
     if (newEmail) {
       shopifyCustomer = await EcommerceProvider.searchCustomerUsingEmail(newEmail)
@@ -923,7 +928,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
     } else {
       shopifyCustomer = contact.shopifyCustomer
     }
-    let checkoutLink = await EcommerceProvider.createPermalinkForCart(shopifyCustomer, contact.shoppingCart)
+    let checkoutLink = EcommerceProvider.createPermalinkForCart(shopifyCustomer, contact.shoppingCart)
 
     messageBlock.payload[0].text += `\n${checkoutLink} `
 
@@ -972,7 +977,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
     let action = null
     logger.serverLog(TAG, `whatsapp chatbot contact ${JSON.stringify(contact)} `, 'info')
     try {
-      let lastMessageSentByBot = contact.lastMessageSentByBot.payload[contact.lastMessageSentByBot.payload - 1]
+      let lastMessageSentByBot = contact.lastMessageSentByBot.payload[0]
       if (lastMessageSentByBot.specialKeys && lastMessageSentByBot.specialKeys[input]) {
         action = lastMessageSentByBot.specialKeys[input]
       } else if (lastMessageSentByBot.menu) {
