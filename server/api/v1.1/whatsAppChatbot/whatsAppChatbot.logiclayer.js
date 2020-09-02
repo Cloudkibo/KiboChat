@@ -100,6 +100,7 @@ function convertToEmoji (num) {
 }
 
 function specialKeyText (key) {
+  key = key.toUpperCase()
   switch (key) {
     case FAQS_KEY:
       return `Send '${key}' for faqs`
