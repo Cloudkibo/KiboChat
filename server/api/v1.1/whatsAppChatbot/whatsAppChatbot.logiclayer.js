@@ -540,33 +540,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
   }
 }
 
-const getQuantityToAddBlock = async (chatbot, product) => {
-  try {
-    let messageBlock = {
-      module: {
-        id: chatbot._id,
-        type: 'whatsapp_chatbot'
-      },
-      title: 'Quantity to Add',
-      uniqueId: '' + new Date().getTime(),
-      payload: [
-        {
-          text: `How many ${product.product}s (price: ${product.price}) would you like to add to your cart?`,
-          componentType: 'text',
-          action: { type: DYNAMIC, action: ADD_TO_CART, argument: product, input: true }
-        }
-      ],
-      userId: chatbot.userId,
-      companyId: chatbot.companyId
-    }
-    return messageBlock
-  } catch (err) {
-    logger.serverLog(TAG, `Unable to add product(s) to cart ${err}`, 'error')
-    throw new Error('Unable to add product(s) to cart')
-  }
-}
-
-const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) => {
+const getQuantityToAddBlock = async (chatbot, backId, contact, product, quantity) => {
   try {
     quantity = Number(quantity)
     if (!Number.isInteger(quantity) || quantity <= 0) {
@@ -940,7 +914,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    
+
     let shopifyCustomer = null
     if (newEmail) {
       shopifyCustomer = await EcommerceProvider.searchCustomerUsingEmail(newEmail)
