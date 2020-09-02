@@ -722,9 +722,9 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
       messageBlock.payload[0].text += `\n`
     }
     messageBlock.payload[0].text += `\n${specialKeyText(SHOW_CART_KEY)}`
-    if (shoppingCart[productInfo.productIndex].quantity > 0) {
-      messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
-    }
+    // if (shoppingCart[productInfo.productIndex].quantity > 0) {
+    //   messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
+    // }
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
     updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
     return messageBlock
