@@ -466,10 +466,6 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          componentType: 'image',
-          fileurl: product.image
-        },
-        {
           text: `Please select a product variant by sending the corresponding number for it:\n`,
           componentType: 'text',
           menu: [],
@@ -478,6 +474,10 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
             [BACK_KEY]: { type: STATIC, blockId: backId },
             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
           }
+        },
+        {
+          componentType: 'image',
+          fileurl: product.image
         }
       ],
       userId: chatbot.userId,
@@ -978,7 +978,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
     let action = null
     logger.serverLog(TAG, `whatsapp chatbot contact ${JSON.stringify(contact)} `, 'info')
     try {
-      let lastMessageSentByBot = contact.lastMessageSentByBot.payload[contact.lastMessageSentByBot.payload.length - 1]
+      let lastMessageSentByBot = contact.lastMessageSentByBot.payload[0]
       if (lastMessageSentByBot.specialKeys && lastMessageSentByBot.specialKeys[input]) {
         action = lastMessageSentByBot.specialKeys[input]
       } else if (lastMessageSentByBot.menu) {
