@@ -297,6 +297,7 @@ exports.logout = function (req, res) {
         payload: 'send response successfully!'
       })
     }).catch(err => {
+      console.log('error', err)
       res.status(500).json({status: 'failed', payload: `failed to sendLogoutEvent ${err}`})
     })
 }
