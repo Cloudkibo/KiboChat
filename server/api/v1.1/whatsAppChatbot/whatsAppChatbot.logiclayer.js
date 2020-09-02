@@ -100,18 +100,17 @@ function convertToEmoji (num) {
 }
 
 function specialKeyText (key) {
-  key = key.toUpperCase()
   switch (key) {
     case FAQS_KEY:
-      return `Send '${key}' for faqs`
+      return `Send '${key.toUpperCase()}' for faqs`
     case SHOW_CART_KEY:
-      return `Send '${key}' to show cart`
+      return `Send '${key.toUpperCase()}' to show cart`
     case ORDER_STATUS_KEY:
-      return `Send '${key}' to check order status`
+      return `Send '${key.toUpperCase()}' to check order status`
     case BACK_KEY:
-      return `Send '${key}' to go back`
+      return `Send '${key.toUpperCase()}' to go back`
     case HOME_KEY:
-      return `Send '${key}' to go home`
+      return `Send '${key.toUpperCase()}' to go home`
   }
 }
 
