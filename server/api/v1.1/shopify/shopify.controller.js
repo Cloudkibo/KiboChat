@@ -97,6 +97,8 @@ exports.callback = function (req, res) {
   //  const pageId = cookie.parse(req.headers.cookie).pageId
   if (state !== stateCookie) {
     res.cookie('shopifySetupState', 'Request origin cannot be verified')
+    res.clearCookie('shopifyToken')
+    res.clearCookie('installByShopifyStore')
     return res.redirect('/errorMessage')
   }
 
@@ -124,6 +126,8 @@ exports.callback = function (req, res) {
 
     if (!hashEquals) {
       res.cookie('shopifySetupState', 'HMAC validation failed')
+      res.clearCookie('shopifyToken')
+      res.clearCookie('installByShopifyStore')
       return res.redirect('/errorMessage')
     }
 
@@ -153,31 +157,45 @@ exports.callback = function (req, res) {
             .then(shopifyIntegration => {
               if (shopifyIntegration) {
                 res.cookie('shopifySetupState', 'already exists')
+                res.clearCookie('shopifyToken')
+                res.clearCookie('installByShopifyStore')
                 res.redirect('/alreadyConnected')
               } else {
                 dataLayer.createShopifyIntegration(shopifyPayload)
                   .then(savedStore => {
                     logger.serverLog(TAG, 'shopify store integration created', 'debug')
                     res.cookie('shopifySetupState', 'completedUsingAuth')
+                    res.clearCookie('shopifyToken')
+                    res.clearCookie('installByShopifyStore')
                     res.redirect('/successMessage')
                   })
                   .catch(err => {
-                    res.cookie('shopifySetupState', 'Internal Server Error')
+                    res.cookie('shopifySetupState', `Internal Server Error ${err}`)
+                    res.clearCookie('shopifyToken')
+                    res.clearCookie('installByShopifyStore')
                     return res.redirect('/errorMessage')
                   })
               }
             })
         } else {
           res.cookie('shopifySetupState', 'startedFromAppNotAuthenticated')
+          res.clearCookie('shopifyToken')
+          res.clearCookie('installByShopifyStore')
           res.cookie('shopifyToken', accessToken)
           // the login in that screen should redirect to kibochat only
           res.sendFile(path.join(__dirname, '/proceedToIntegratePage.html'))
         }
       })
       .catch((error) => {
+        res.cookie('shopifySetupState', `Internal Server Error ${err}`)
+        res.clearCookie('shopifyToken')
+        res.clearCookie('installByShopifyStore')
         res.status(error.statusCode >= 100 && error.statusCode < 600 ? error.statusCode : 500).send(error.error_description)
       })
   } else {
+    res.cookie('shopifySetupState', `Internal Server Error ${err}`)
+    res.clearCookie('shopifyToken')
+    res.clearCookie('installByShopifyStore')
     res.status(400).send('Required parameters missing')
   }
 }
