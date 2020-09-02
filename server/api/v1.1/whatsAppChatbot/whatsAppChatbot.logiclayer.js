@@ -906,6 +906,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
+
     let shopifyCustomer = null
     if (newEmail) {
       shopifyCustomer = await EcommerceProvider.searchCustomerUsingEmail(newEmail)
