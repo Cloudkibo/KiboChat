@@ -577,6 +577,36 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
         id: chatbot._id,
         type: 'whatsapp_chatbot'
       },
+      title: 'Quantity to Add',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `How many ${product.product}s (price: ${product.price}) would you like to add to your cart?`,
+          componentType: 'text',
+          action: { type: DYNAMIC, action: ADD_TO_CART, argument: product, input: true }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    return messageBlock
+  } catch (err) {
+    logger.serverLog(TAG, `Unable to add product(s) to cart ${err}`, 'error')
+    throw new Error('Unable to add product(s) to cart')
+  }
+}
+
+const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) => {
+  try {
+    quantity = Number(quantity)
+    if (!Number.isInteger(quantity) || quantity <= 0) {
+      throw new Error('Invalid quantity given')
+    }
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_chatbot'
+      },
       title: 'Add to Cart',
       uniqueId: '' + new Date().getTime(),
       payload: [
@@ -910,6 +940,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
+    
     let shopifyCustomer = null
     if (newEmail) {
       shopifyCustomer = await EcommerceProvider.searchCustomerUsingEmail(newEmail)
@@ -923,7 +954,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
     } else {
       shopifyCustomer = contact.shopifyCustomer
     }
-    let checkoutLink = await EcommerceProvider.createPermalinkForCart(shopifyCustomer, contact.shoppingCart)
+    let checkoutLink = EcommerceProvider.createPermalinkForCart(shopifyCustomer, contact.shoppingCart)
 
     messageBlock.payload[0].text += `\n${checkoutLink} `
 
