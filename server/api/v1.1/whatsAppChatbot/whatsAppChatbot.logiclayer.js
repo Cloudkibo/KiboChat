@@ -540,12 +540,8 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
   }
 }
 
-const getQuantityToAddBlock = async (chatbot, backId, contact, product, quantity) => {
+const getQuantityToAddBlock = async (chatbot, product) => {
   try {
-    quantity = Number(quantity)
-    if (!Number.isInteger(quantity) || quantity <= 0) {
-      throw new Error('Invalid quantity given')
-    }
     let messageBlock = {
       module: {
         id: chatbot._id,
