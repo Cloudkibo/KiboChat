@@ -981,7 +981,7 @@ const getWelcomeMessageBlock = async (chatbot, contact, input) => {
   } else {
     welcomeMessage += `!`
   }
-  let messageBlock = messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
+  let messageBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
   messageBlock.payload[0].text = `${welcomeMessage}\n\n` + messageBlock.payload[0].text
   return messageBlock
 }
