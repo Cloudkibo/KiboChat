@@ -147,14 +147,22 @@ exports.callback = function (req, res) {
             shopUrl: shop,
             shopToken: accessToken
           }
-          dataLayer.createShopifyIntegration(shopifyPayload)
-            .then(savedStore => {
-              logger.serverLog(TAG, 'shopify store integration created', 'debug')
-              res.cookie('shopifySetupState', 'completedUsingAuth')
-              res.redirect('/')
-            })
-            .catch(err => {
-              return res.status(500).json({ status: 'failed', error: err })
+          dataLayer.findOneShopifyIntegration({ companyId: companyIdCookie })
+            .then(shopifyIntegration => {
+              if (shopifyIntegration) {
+                res.cookie('shopifySetupState', 'already exists')
+                res.redirect('/')
+              } else {
+                dataLayer.createShopifyIntegration(shopifyPayload)
+                  .then(savedStore => {
+                    logger.serverLog(TAG, 'shopify store integration created', 'debug')
+                    res.cookie('shopifySetupState', 'completedUsingAuth')
+                    res.redirect('/')
+                  })
+                  .catch(err => {
+                    return res.status(500).json({ status: 'failed', error: err })
+                  })
+              }
             })
         } else {
           // TODO client side screen remaining
@@ -213,7 +221,7 @@ exports.testRoute = (req, res) => {
         shopUrl: shopifyIntegration.shopUrl,
         shopToken: shopifyIntegration.shopToken
       })
-      return shopify.checkOrderStatus(1038)
+      return shopify.fetchProducts(1038)
       // return shopify.createPermalinkForCart({
       // email: 'sojharo@gmail.com',
       // first_name: 'sojharo',
