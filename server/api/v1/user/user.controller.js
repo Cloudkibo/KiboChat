@@ -290,7 +290,7 @@ exports.updatePlatform = function (req, res) {
 }
 
 exports.logout = function (req, res) {
-  utility.callApi(`user/receivelogout`, 'get', {}, 'kiboengage', req.headers.authorization)
+  utility.callApi(`users/receivelogout`, 'get', {}, 'kiboengage', req.headers.authorization)
     .then(response => {
       return res.status(200).json({
         status: 'success',
@@ -308,6 +308,10 @@ exports.receivelogout = function (req, res) {
     body: {
       action: 'logout'
     }
+  })
+  return res.status(200).json({
+    status: 'success',
+    payload: 'recieved logout event!'
   })
 }
 
