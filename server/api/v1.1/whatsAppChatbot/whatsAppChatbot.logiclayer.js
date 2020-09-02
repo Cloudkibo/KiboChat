@@ -689,7 +689,7 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `${quantity} ${productInfo.product}${quantity > 1 ? 's have' : ' has'} been succesfully removed from your cart.\n\n`,
+          text: `${quantity} ${productInfo.product}${quantity > 1 ? 's have' : ' has'} been succesfully removed from your cart.\n`,
           componentType: 'text',
           menu: [],
           specialKeys: {
@@ -711,7 +711,7 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
     }
     if (shoppingCart.length > 0) {
       messageBlock.payload[0].menu.push({ type: DYNAMIC, action: GET_CHECKOUT_EMAIL })
-      messageBlock.payload[0].text += dedent(`Please select an option by sending the corresponding number for it: \n
+      messageBlock.payload[0].text += dedent(`\nPlease select an option by sending the corresponding number for it:\n
                                             ${convertToEmoji(0)} Proceed to Checkout`)
     }
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)} `
