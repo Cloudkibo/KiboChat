@@ -474,6 +474,10 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
             [BACK_KEY]: { type: STATIC, blockId: backId },
             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
           }
+        },
+        {
+          componentType: 'image',
+          fileurl: product.image
         }
       ],
       userId: chatbot.userId,
@@ -906,6 +910,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
+
     let shopifyCustomer = null
     if (newEmail) {
       shopifyCustomer = await EcommerceProvider.searchCustomerUsingEmail(newEmail)
@@ -919,7 +924,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
     } else {
       shopifyCustomer = contact.shopifyCustomer
     }
-    let checkoutLink = await EcommerceProvider.createPermalinkForCart(shopifyCustomer, contact.shoppingCart)
+    let checkoutLink = EcommerceProvider.createPermalinkForCart(shopifyCustomer, contact.shoppingCart)
 
     messageBlock.payload[0].text += `\n${checkoutLink} `
 
