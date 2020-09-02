@@ -48,16 +48,18 @@ exports.messageReceived = function (req, res) {
                               })
                               let nextMessageBlock = await whatsAppChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text)
                               if (nextMessageBlock) {
-                                let chatbotResponse = {
-                                  whatsApp: {
-                                    accessToken: data.accessToken,
-                                    accountSID: data.accountSID,
-                                    businessNumber: data.businessNumber
-                                  },
-                                  recipientNumber: number,
-                                  payload: nextMessageBlock.payload[0]
+                                for (let messagePayload of nextMessageBlock.payload) {
+                                  let chatbotResponse = {
+                                    whatsApp: {
+                                      accessToken: data.accessToken,
+                                      accountSID: data.accountSID,
+                                      businessNumber: data.businessNumber
+                                    },
+                                    recipientNumber: number,
+                                    payload: messagePayload
+                                  }
+                                  whatsAppMapper.whatsAppMapper(req.body.provider, ActionTypes.SEND_CHAT_MESSAGE, chatbotResponse)
                                 }
-                                whatsAppMapper.whatsAppMapper(req.body.provider, ActionTypes.SEND_CHAT_MESSAGE, chatbotResponse)
                                 updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
                                 const triggerWordsMatched = chatbot.triggers.includes(data.messageData.text) ? 1 : 0
 
