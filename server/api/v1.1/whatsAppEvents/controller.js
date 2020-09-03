@@ -37,7 +37,7 @@ exports.messageReceived = function (req, res) {
                       contact = contact[0]
                       // whatsapp chatbot
                       pushUnresolveAlertInStack(company, contact, 'whatsApp')
-                      if (true) {
+                      if (isNewContact) {
                         pushSessionPendingAlertInStack(company, contact, 'whatsApp')
                       }
                       if (data.messageData.componentType === 'text') {
