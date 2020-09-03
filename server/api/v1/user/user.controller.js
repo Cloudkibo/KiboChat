@@ -265,7 +265,7 @@ exports.updateShowIntegrations = function (req, res) {
 }
 
 exports.disconnectFacebook = function (req, res) {
-  utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: {connectFacebook: false, platform: 'whatsApp'}, options: {}})
+  utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: {connectFacebook: false}, options: {}})
     .then(updated => {
       return res.status(200).json({
         status: 'success',
