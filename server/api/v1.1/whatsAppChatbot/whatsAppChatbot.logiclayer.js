@@ -28,6 +28,7 @@ const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/whatsAppChatbot/whatsAppChatbot.logiclayer.js'
 const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 const { callApi } = require('../utility')
+const moment = require('moment')
 
 exports.criteriaForPeriodicBotStats = (chatbotId, days) => {
   let matchAggregate = {
@@ -101,15 +102,15 @@ function convertToEmoji (num) {
 function specialKeyText (key) {
   switch (key) {
     case FAQS_KEY:
-      return `Send '${key}' for faqs`
+      return `Send '${key.toUpperCase()}' for faqs`
     case SHOW_CART_KEY:
-      return `Send '${key}' to show cart`
+      return `Send '${key.toUpperCase()}' to show cart`
     case ORDER_STATUS_KEY:
-      return `Send '${key}' to check order status`
+      return `Send '${key.toUpperCase()}' to check order status`
     case BACK_KEY:
-      return `Send '${key}' to go back`
+      return `Send '${key.toUpperCase()}' to go back`
     case HOME_KEY:
-      return `Send '${key}' to go home`
+      return `Send '${key.toUpperCase()}' to go home`
   }
 }
 
@@ -715,12 +716,16 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
     }
     if (shoppingCart.length > 0) {
       messageBlock.payload[0].menu.push({ type: DYNAMIC, action: GET_CHECKOUT_EMAIL })
-      messageBlock.payload[0].text += dedent(`\nPlease select an option by sending the corresponding number for it:\n
+      messageBlock.payload[0].text += `\n`
+      messageBlock.payload[0].text += dedent(`Please select an option by sending the corresponding number for it:\n
                                             ${convertToEmoji(0)} Proceed to Checkout`)
+      messageBlock.payload[0].text += `\n`
     }
-    messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)} `
-    messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)} `
-    messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)} `
+    messageBlock.payload[0].text += `\n${specialKeyText(SHOW_CART_KEY)}`
+    // if (shoppingCart[productInfo.productIndex].quantity > 0) {
+    //   messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
+    // }
+    messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
     updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
     return messageBlock
   } catch (err) {
@@ -964,10 +969,31 @@ const getErrorMessageBlock = (chatbot, backId, error) => {
   }
 }
 
+const getWelcomeMessageBlock = async (chatbot, contact, input) => {
+  let welcomeMessage = ''
+  let subscriberLastMessageAt = moment(contact.lastMessagedAt)
+  let dateNow = moment()
+
+  welcomeMessage += `${input.charAt(0).toUpperCase() + input.substr(1).toLowerCase()}`
+
+  if (contact.name && contact.name !== contact.number) {
+    welcomeMessage += ` ${contact.name.split(' ')[0]}!`
+  } else {
+    welcomeMessage += `!`
+  }
+  if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1 && contact.lastMessageSentByBot) {
+    welcomeMessage += ` Welcome back!`
+  }
+  let messageBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
+  messageBlock.payload[0].text = `${welcomeMessage}\n\n` + messageBlock.payload[0].text
+  return messageBlock
+}
+
 exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input) => {
+  input = input.toLowerCase()
   if (!contact || !contact.lastMessageSentByBot) {
     if (chatbot.triggers.includes(input)) {
-      return messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
+      return getWelcomeMessageBlock(chatbot, contact, input)
     }
   } else {
     let action = null
@@ -990,7 +1016,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
     } catch (err) {
       logger.serverLog(TAG, `Invalid user input ${input} `, 'info')
       if (chatbot.triggers.includes(input)) {
-        return messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
+        return getWelcomeMessageBlock(chatbot, contact, input)
       } else {
         return null
       }
