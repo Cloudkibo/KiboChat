@@ -10,6 +10,7 @@ const logicLayer = require('./logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
 // const { record } = require('../../global/messageStatistics')
 const { sendNotifications } = require('../../global/sendNotification')
+const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('../../global/messageAlerts')
 const { handleTriggerMessage } = require('./chatbotAutomation.controller')
 
 exports.index = function (req, res) {
@@ -37,7 +38,7 @@ exports.index = function (req, res) {
           updatePayload.lastMessagedAt = Date.now()
         }
         if (req.body.pushPendingSessionInfo && JSON.stringify(req.body.pushPendingSessionInfo) === 'true') {
-          pushSessionPendingAlertInStack(company, subscriber)
+          pushSessionPendingAlertInStack(company, subscriber, 'messenger')
         }
         utility.callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: updatePayload, options: {}})
           .then(updated => {
@@ -56,7 +57,7 @@ exports.index = function (req, res) {
                 handleTriggerMessage(event, page, subscriber)
               }
               if (!event.message.is_echo) {
-                pushUnresolveAlertInStack(company, subscriber)
+                pushUnresolveAlertInStack(company, subscriber, 'messenger')
               }
             }
           })
@@ -71,89 +72,6 @@ exports.index = function (req, res) {
     })
 }
 
-function pushUnresolveAlertInStack (company, subscriber) {
-  utility.callApi(`companypreferences/query`, 'post', {companyId: company._id}, 'accounts')
-    .then(companypreferences => {
-      if (companypreferences.length > 0) {
-        var unresolveSessionAlert = companypreferences[0].unresolveSessionAlert
-        if (unresolveSessionAlert.enabled) {
-          var payload = {
-            type: 'unresolvedSession',
-            notification_interval: unresolveSessionAlert.notification_interval,
-            unit: unresolveSessionAlert.unit,
-            assignedMembers: unresolveSessionAlert.assignedMembers,
-            subscriber: subscriber,
-            companyId: company._id
-          }
-          var record = {
-            type: 'adminAlert',
-            payload: payload
-          }
-          var findSession = {
-            purpose: 'findAll',
-            match: {
-              type: 'adminAlert',
-              'payload.type': 'unresolvedSession',
-              'payload.subscriber._id': subscriber._id
-            }
-          }
-          utility.callApi(`cronStack/query`, 'post', findSession, 'kibochat')
-            .then(result => {
-              if (result.length < 1) {
-                utility.callApi(`cronStack`, 'post', record, 'kibochat')
-                  .then(savedRecord => {
-                    logger.serverLog(TAG, `Unresolved Session info pushed in cronStack ${savedRecord}`)
-                  })
-                  .catch(err => {
-                    logger.serverLog(TAG, `Unable to save session info in cronStack ${err}`, 'error')
-                  })
-              } else {
-                logger.serverLog(TAG, `Unresolved Session info already in cronStack`)
-              }
-            })
-            .catch(err => {
-              logger.serverLog(TAG, `Unable to find session info in cron stack ${err}`, 'error')
-            })
-        }
-      }
-    })
-    .catch(error => {
-      logger.serverLog(TAG, `Error while fetching company preferences ${error}`, 'error')
-    })
-}
-function pushSessionPendingAlertInStack (company, subscriber) {
-  logger.serverLog(TAG, 'In Pending Session Info')
-  utility.callApi(`companypreferences/query`, 'post', {companyId: company._id}, 'accounts')
-    .then(companypreferences => {
-      if (companypreferences.length > 0) {
-        var pendingSessionAlert = companypreferences[0].pendingSessionAlert
-        if (pendingSessionAlert.enabled) {
-          var payload = {
-            type: 'pendingSession',
-            notification_interval: pendingSessionAlert.notification_interval,
-            unit: pendingSessionAlert.unit,
-            assignedMembers: pendingSessionAlert.assignedMembers,
-            subscriber: subscriber,
-            companyId: company._id
-          }
-          var record = {
-            type: 'adminAlert',
-            payload: payload
-          }
-          utility.callApi(`cronStack`, 'post', record, 'kibochat')
-            .then(savedRecord => {
-              logger.serverLog(TAG, `Pending Session info pushed in cronStack ${savedRecord}`)
-            })
-            .catch(err => {
-              logger.serverLog(TAG, `Unable to push session info in cron stack ${err}`, 'error')
-            })
-        }
-      }
-    })
-    .catch(error => {
-      logger.serverLog(TAG, `Error while fetching company preferences ${error}`, 'error')
-    })
-}
 function saveLiveChat (page, subscriber, event) {
   // record('messengerChatInComing')
   if (subscriber && !event.message.is_echo) {
@@ -325,7 +243,8 @@ function saveNotifications (subscriber, companyUsers, page) {
       message: `${subscriber.firstName} ${subscriber.lastName} sent a message to page ${page.pageName}`,
       category: { type: 'new_message', id: subscriber._id },
       agentId: companyUser.userId._id,
-      companyId: companyUser.companyId
+      companyId: companyUser.companyId,
+      platform: 'messenger'
   }
     utility.callApi(`notifications`, 'post', notificationsData, 'kibochat')
       .then(savedNotification => {

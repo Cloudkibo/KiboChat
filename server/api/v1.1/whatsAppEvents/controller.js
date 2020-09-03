@@ -13,6 +13,7 @@ const commerceConstants = require('./../ecommerceProvidersApiLayer/constants')
 const EcommerceProvider = require('./../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
 const whatsAppChatbotAnalyticsDataLayer = require('../whatsAppChatbot/whatsAppChatbot_analytics.datalayer')
 const moment = require('moment')
+const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('../../global/messageAlerts')
 
 exports.messageReceived = function (req, res) {
   res.status(200).json({
@@ -35,6 +36,10 @@ exports.messageReceived = function (req, res) {
                     .then(async (contact) => {
                       contact = contact[0]
                       // whatsapp chatbot
+                      pushUnresolveAlertInStack(company, contact, 'whatsApp')
+                      if (true) {
+                        pushSessionPendingAlertInStack(company, contact, 'whatsApp')
+                      }
                       if (data.messageData.componentType === 'text') {
                         let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot(company._id)
                         if (chatbot) {
