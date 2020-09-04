@@ -14,22 +14,22 @@ exports.runLiveChatNotificationScript = function () {
     }
     utility.callApi(`cronStack/query`, 'post', findAdminAlerts, 'kibochat')
     .then(alerts => {
-        /* logger.serverLog(TAG, `alerts ${JSON.stringify(alerts)} ${JSON.stringify(alerts.length)}`)*/
+         //logger.serverLog(TAG, `alerts ${JSON.stringify(alerts)} ${JSON.stringify(alerts.length)}`)
         if (alerts.length > 0) {
             async.each(alerts, function (alert, cb) {
-                /*logger.serverLog(TAG, `alert ${JSON.stringify(alert)}`)*/
+                //logger.serverLog(TAG, `alert ${JSON.stringify(alert)}`)
                 if (alert.payload && alert.payload.notification_interval) {
                     var now = moment(new Date())
                     var sessionTime = moment(alert.datetime)
                     var duration = moment.duration(now.diff(sessionTime))
-                    /*logger.serverLog(TAG, `duration ${duration.asMinutes()}`)
-                    logger.serverLog(TAG, `notification_interval ${alert.payload.notification_interval}`)*/
+                    //logger.serverLog(TAG, `duration ${duration.asMinutes()}`)
+                    //logger.serverLog(TAG, `notification_interval ${alert.payload.notification_interval}`)
                     if (duration.asMinutes() > alert.payload.notification_interval) {
-                       /* logger.serverLog(TAG, `duration passed ${duration}`)*/
+                        //logger.serverLog(TAG, `duration passed ${duration}`)
                         utility.callApi(`companyUser/queryAll`, 'post', {companyId: alert.payload.companyId}, 'accounts')
                         .then(companyUsers => {
                             let assignedMembers
-                            /*logger.serverLog(TAG, `companyUsers ${JSON.stringify(companyUsers)}`)*/
+                            //logger.serverLog(TAG, `companyUsers ${JSON.stringify(companyUsers)}`)
                             if (alert.payload.assignedMembers == 'buyer') {
                                 assignedMembers = companyUsers.filter((companyUser) => companyUser.userId.role === 'buyer')
                             } else if (alert.payload.assignedMembers == 'admins') {
@@ -63,12 +63,11 @@ exports.runLiveChatNotificationScript = function () {
         }
     })
     .catch(err => {
-        logger.serverlog('TAG', 'Unable to fetch cronstach')
+        logger.serverlog(TAG, 'Unable to fetch cron stack')
     })
 }
 
 function deleteCronStackRecord (alert, cb) {
-   // logger.serverLog(TAG, `Inside Delete`)
     var deleteData = {
         purpose: 'deleteMany',
         match: {
@@ -89,7 +88,7 @@ function deleteCronStackRecord (alert, cb) {
 
 
 function generateAdminNotification (alert, user, cb){
-    logger.serverLog(TAG, `inside generate admin notification`)
+    //logger.serverLog(TAG, `inside generate admin notification`)
     var name = ''
     var notificationMessage = ''
     if (alert.payload.subscriber.firstName) {
@@ -109,7 +108,8 @@ function generateAdminNotification (alert, user, cb){
         message: notificationMessage,
         agentId: user.userId._id,
         subscriber: alert.payload.subscriber,
-        category: {type: 'message_alert', id:alert.payload.subscriber._id}
+        category: {type: 'message_alert', id:alert.payload.subscriber._id},
+        platform: alert.payload.platform
       }
       utility.callApi(`notifications`, 'post', notification, 'kibochat')
       .then(savedNotification => {
@@ -119,8 +119,12 @@ function generateAdminNotification (alert, user, cb){
           if (userPermission.length > 0) {
             userPermission = userPermission[0]
           }
-          if (userPermission.muteNotifications && userPermission.muteNotifications.includes(alert.payload.subscriber.pageId._id)) {
-            notification.muteNotification = true
+          if (alert.payload.subscriber.pageId) {
+            if (userPermission.muteNotifications && userPermission.muteNotifications.includes(alert.payload.subscriber.pageId._id)) {
+              notification.muteNotification = true
+            } else {
+              notification.muteNotification = false
+            }
           } else {
             notification.muteNotification = false
           }

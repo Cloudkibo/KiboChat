@@ -13,6 +13,7 @@ const commerceConstants = require('./../ecommerceProvidersApiLayer/constants')
 const EcommerceProvider = require('./../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
 const whatsAppChatbotAnalyticsDataLayer = require('../whatsAppChatbot/whatsAppChatbot_analytics.datalayer')
 const moment = require('moment')
+const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('../../global/messageAlerts')
 
 exports.messageReceived = function (req, res) {
   res.status(200).json({
@@ -35,6 +36,10 @@ exports.messageReceived = function (req, res) {
                     .then(async (contact) => {
                       contact = contact[0]
                       // whatsapp chatbot
+                      pushUnresolveAlertInStack(company, contact, 'whatsApp')
+                      if (isNewContact) {
+                        pushSessionPendingAlertInStack(company, contact, 'whatsApp')
+                      }
                       if (data.messageData.componentType === 'text') {
                         let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot(company._id)
                         if (chatbot) {
@@ -113,7 +118,7 @@ exports.messageReceived = function (req, res) {
     })
 }
 
-function createContact (data) {
+function createContact(data) {
   let number = `+${data.userData.number}`
   let name = data.userData.name
   let query = [
@@ -201,7 +206,7 @@ function storeChat (from, to, contact, messageData) {
       })
   })
 }
-function _sendMobileNotification (subscriber, payload, companyId) {
+function _sendMobileNotification(subscriber, payload, companyId) {
   let title = subscriber.name
   let body = payload.text
   let newPayload = {
@@ -245,7 +250,7 @@ function _sendMobileNotification (subscriber, payload, companyId) {
     })
 }
 
-function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
+function updateWhatsAppContact(query, bodyForUpdate, bodyForIncrement, options) {
   callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
     .then(updated => {
     })
@@ -282,7 +287,7 @@ exports.messageStatus = function (req, res) {
     })
 }
 
-function updateChat (message, body) {
+function updateChat(message, body) {
   let dateTime = Date.now()
   let matchQuery = {
     $or: [
@@ -324,7 +329,7 @@ function updateChat (message, body) {
   updateChatInDB(matchQuery, updated, dataToSend)
 }
 
-function updateChatInDB (match, updated, dataToSend) {
+function updateChatInDB(match, updated, dataToSend) {
   let updateData = {
     purpose: 'updateAll',
     match: match,
