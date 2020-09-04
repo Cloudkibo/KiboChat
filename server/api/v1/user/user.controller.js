@@ -20,7 +20,7 @@ exports.index = function (req, res) {
           // shopify redirect work as it doesn't allow to add
           // shop URL in UI so this is just doing it based on
           // cookies
-          if (req.headers.cookie && req.cookie.parse(req.headers.cookie).shopifyToken) {
+          if (req.headers.cookie && cookie.parse(req.headers.cookie).shopifyToken) {
             let shop = cookie.parse(req.headers.cookie).installByShopifyStore
             let shopToken = cookie.parse(req.headers.cookie).shopifyToken
             res.clearCookie('shopifyToken')
