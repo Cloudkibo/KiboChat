@@ -130,15 +130,13 @@ exports.updatePlatform = function (req, res) {
                 if (incomingPhoneNumbers && incomingPhoneNumbers.length > 0) {
                   utility.callApi(`companyprofile/update`, 'put', {query: {_id: companyUser.companyId}, newPayload: {twilio: {accountSID: req.body.twilio.accountSID, authToken: req.body.twilio.authToken}}, options: {}})
                     .then(updatedProfile => {
-                      sendSuccessResponse(res, 200, updatedProfile)
-                      if (req.body.twilio.platform) {
-                        utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: {platform: req.body.twilio.platform}, options: {}})
-                          .then(updated => {
-                          })
-                          .catch(err => {
-                            sendErrorResponse(res, 500, '', err)
-                          })
-                      }
+                      utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: {platform: 'sms'}, options: {}})
+                        .then(updated => {
+                          sendSuccessResponse(res, 200, updatedProfile)
+                        })
+                        .catch(err => {
+                          sendErrorResponse(res, 500, '', err)
+                        })
                     })
                     .catch(err => {
                       sendErrorResponse(res, 500, '', `Failed to update company profile ${err}`)
@@ -199,17 +197,13 @@ const _updateCompanyProfile = (data, next) => {
 }
 
 const _updateUser = (data, next) => {
-  if (data.body.platform) {
-    utility.callApi('user/update', 'post', {query: {_id: data.userId}, newPayload: {platform: data.body.platform}, options: {}})
-      .then(updated => {
-        next(null, updated)
-      })
-      .catch(err => {
-        next(err)
-      })
-  } else {
-    next(null)
-  }
+  utility.callApi('user/update', 'post', {query: {_id: data.userId}, newPayload: {platform: 'whatsApp'}, options: {}})
+    .then(updated => {
+      next(null, updated)
+    })
+    .catch(err => {
+      next(err)
+    })
 }
 const _setWebhook = (data, next) => {
   whatsAppMapper(data.body.provider, ActionTypes.SET_WEBHOOK, data.body)
@@ -299,21 +293,13 @@ exports.updatePlatformWhatsApp = function (req, res) {
     })
 }
 exports.disconnect = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
-    .then(companyUser => {
-      if (!companyUser) {
-        sendErrorResponse(res, 404, '', 'The user account does not belong to any company. Please contact support')
-      }
-      let updated = {}
-      if (req.body.type === 'sms') {
-        updated = {$unset: {twilio: 1}}
-      } else {
-        updated = {$unset: {whatsApp: 1}}
-      }
-      let userUpdated = logicLayer.getPlatform(companyUser, req.body)
-      utility.callApi(`companyprofile/update`, 'put', {query: {_id: companyUser.companyId}, newPayload: updated, options: {}})
+  utility.callApi(`companyprofile/query`, 'post', {ownerId: req.user._id})
+    .then(company => {
+      let updated = {$unset: {twilio: 1}}
+      let platform = logicLayer.getPlatformForSms(company, req.user)
+      utility.callApi(`companyprofile/update`, 'put', {query: {_id: req.user.companyId}, newPayload: updated, options: {}})
         .then(updatedProfile => {
-          utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: userUpdated, options: {}})
+          utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: {platform: platform}, options: {}})
             .then(updated => {
               sendSuccessResponse(res, 200, updatedProfile)
             })
@@ -373,94 +359,91 @@ exports.fetchValidCallerIds = function (req, res) {
 exports.deleteWhatsAppInfo = function (req, res) {
   utility.callApi('user/authenticatePassword', 'post', {email: req.user.email, password: req.body.password})
     .then(authenticated => {
-      async.parallelLimit([
-        function (callback) {
-          let updated = {}
-          // if (req.body.type === 'Disconnect') {
-          //   updated = {$unset: {twilioWhatsApp: 1}}
-          // } else {
-          //   updated = {twilioWhatsApp: {
-          //     accountSID: req.body.accountSID,
-          //     authToken: req.body.authToken,
-          //     sandboxNumber: req.body.sandboxNumber.split(' ').join(''),
-          //     sandboxCode: req.body.sandboxCode
-          //   }}
-          // }
-          if (req.body.type === 'Disconnect') {
-            updated = {$unset: {whatsApp: 1}}
-          } else {
-            updated = {twilioWhatsApp: {
-              accessToken: req.body.accessToken,
-              number: req.body.sandboxNumber.split(' ').join('')
-            }}
-          }
-          utility.callApi(`companyprofile/update`, 'put', {query: {_id: req.user.companyId}, newPayload: updated, options: {}})
-            .then(data => {
-              data = data[0]
-              callback(null, data)
-            })
-            .catch(err => {
-              callback(err)
-            })
-        },
-        function (callback) {
-          if (req.body.type === 'Disconnect') {
-            utility.callApi(`user/update`, 'post', {query: {_id: req.user._id}, newPayload: {platform: 'messenger'}, options: {}})
-              .then(data => {
+      utility.callApi(`companyprofile/query`, 'post', {ownerId: req.user._id})
+        .then(company => {
+          async.parallelLimit([
+            function (callback) {
+              let updated = {}
+              if (req.body.type === 'Disconnect') {
+                updated = {$unset: {whatsApp: 1}}
+              } else {
+                updated = {twilioWhatsApp: {
+                  accessToken: req.body.accessToken,
+                  number: req.body.sandboxNumber.split(' ').join('')
+                }}
+              }
+              utility.callApi(`companyprofile/update`, 'put', {query: {_id: req.user.companyId}, newPayload: updated, options: {}})
+                .then(data => {
+                  data = data[0]
+                  callback(null, data)
+                })
+                .catch(err => {
+                  callback(err)
+                })
+            },
+            function (callback) {
+              if (req.body.type === 'Disconnect') {
+                let platform = logicLayer.getPlatformForWhatsApp(company, req.user)
+                utility.callApi(`user/update`, 'post', {query: {_id: req.user._id}, newPayload: {platform: platform}, options: {}})
+                  .then(data => {
+                    callback(null)
+                  })
+                  .catch(err => {
+                    callback(err)
+                  })
+              } else {
                 callback(null)
-              })
-              .catch(err => {
-                callback(err)
-              })
-          } else {
-            callback(null)
-          }
-        },
-        function (callback) {
-          utility.callApi(`whatsAppContacts/deleteMany`, 'delete', {companyId: req.user.companyId})
-            .then(data => {
-              callback(null, data)
-            })
-            .catch(err => {
-              callback(err)
-            })
-        },
-        function (callback) {
-          let query = {
-            purpose: 'deleteMany',
-            match: {companyId: req.user.companyId}
-          }
-          utility.callApi(`whatsAppBroadcasts`, 'delete', query, 'kiboengage')
-            .then(data => {
-              callback(null, data)
-            })
-            .catch(err => {
-              callback(err)
-            })
-        },
-        function (callback) {
-          let query = {
-            purpose: 'deleteMany',
-            match: {companyId: req.user.companyId}
-          }
-          utility.callApi(`whatsAppChat`, 'delete', query, 'kibochat')
-            .then(data => {
-              data = data[0]
-              callback(null, data)
-            })
-            .catch(err => {
-              callback(err)
-            })
-        }
-      ], 10, function (err, results) {
-        if (err) {
-          logger.serverLog(TAG, err, 'error')
-          sendErrorResponse(res, 500, `Failed to delete whatsapp info ${err}`)
-        } else {
-          console.log('results got', results)
-          sendSuccessResponse(res, 200, req.body.type === 'Disconnect' ? 'Disconnected Successfully' : 'Saved Successfully')
-        }
-      })
+              }
+            },
+            function (callback) {
+              utility.callApi(`whatsAppContacts/deleteMany`, 'delete', {companyId: req.user.companyId})
+                .then(data => {
+                  callback(null, data)
+                })
+                .catch(err => {
+                  callback(err)
+                })
+            },
+            function (callback) {
+              let query = {
+                purpose: 'deleteMany',
+                match: {companyId: req.user.companyId}
+              }
+              utility.callApi(`whatsAppBroadcasts`, 'delete', query, 'kiboengage')
+                .then(data => {
+                  callback(null, data)
+                })
+                .catch(err => {
+                  callback(err)
+                })
+            },
+            function (callback) {
+              let query = {
+                purpose: 'deleteMany',
+                match: {companyId: req.user.companyId}
+              }
+              utility.callApi(`whatsAppChat`, 'delete', query, 'kibochat')
+                .then(data => {
+                  data = data[0]
+                  callback(null, data)
+                })
+                .catch(err => {
+                  callback(err)
+                })
+            }
+          ], 10, function (err, results) {
+            if (err) {
+              logger.serverLog(TAG, err, 'error')
+              sendErrorResponse(res, 500, `Failed to delete whatsapp info ${err}`)
+            } else {
+              console.log('results got', results)
+              sendSuccessResponse(res, 200, req.body.type === 'Disconnect' ? 'Disconnected Successfully' : 'Saved Successfully')
+            }
+          })
+        })
+        .catch((err) => {
+          sendErrorResponse(res, 500, err)
+        })
     })
     .catch((err) => {
       sendErrorResponse(res, 500, err)
