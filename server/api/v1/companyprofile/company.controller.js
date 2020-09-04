@@ -109,7 +109,7 @@ exports.updateRole = function (req, res) {
       sendSuccessResponse(res, 200, result)
     })
     .catch((err) => {
-      sendErrorResponse(res, 500, err.payload)
+      sendErrorResponse(res, 500, err.error.payload)
     })
 }
 
