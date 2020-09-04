@@ -12,6 +12,8 @@ const { sendSuccessResponse, sendErrorResponse } = require('../../global/respons
 const { record } = require('../../global/messageStatistics')
 const { sendOpAlert } = require('../../global/operationalAlert')
 const { deletePendingSessionFromStack } = require('../../global/messageAlerts')
+const { updateCompanyUsage } = require('../../global/billingPricing')
+
 
 exports.index = function (req, res) {
   if (req.params.subscriber_id) {
@@ -150,6 +152,7 @@ exports.create = function (req, res) {
       }
       callApi(`subscribers/update`, 'put', subscriberData)
         .then(updated => {
+          updateCompanyUsage(req.user.companyId, 'chat_messages', 1)
           _removeSubsWaitingForUserInput(req.body.subscriber_id)
           logger.serverLog(TAG, `updated subscriber again ${updated}`)
           fbMessageObject.datetime = new Date()
