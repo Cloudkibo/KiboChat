@@ -63,7 +63,7 @@ exports.runLiveChatNotificationScript = function () {
         }
     })
     .catch(err => {
-        logger.serverlog('TAG', 'Unable to fetch cronstach')
+        logger.serverlog(TAG, 'Unable to fetch cron stack')
     })
 }
 
