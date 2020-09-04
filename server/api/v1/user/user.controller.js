@@ -20,7 +20,7 @@ exports.index = function (req, res) {
           // shopify redirect work as it doesn't allow to add
           // shop URL in UI so this is just doing it based on
           // cookies
-          if (cookie.parse(req.headers.cookie).shopifyToken) {
+          if (req.headers.cookie && req.cookie.parse(req.headers.cookie).shopifyToken) {
             let shop = cookie.parse(req.headers.cookie).installByShopifyStore
             let shopToken = cookie.parse(req.headers.cookie).shopifyToken
             res.clearCookie('shopifyToken')
@@ -31,6 +31,7 @@ exports.index = function (req, res) {
           sendSuccessResponse(res, 200, user)
         }).catch(error => {
           logger.serverLog(TAG, `Error while fetching companyUser details ${util.inspect(error)}`, 'error')
+
           sendErrorResponse(res, 500, `Failed to fetching companyUser details ${JSON.stringify(error)}`)
         })
     }).catch(error => {
