@@ -1,4 +1,5 @@
 const logiclayer = require('./chatbots.logiclayer')
+const shopifyLogicLayer = require('./shopifyChatbot.logiclayer')
 const datalayer = require('./chatbots.datalayer')
 const analyticsDataLayer = require('./chatbots_analytics.datalayer')
 const msgBlockDataLayer = require('./../messageBlock/messageBlock.datalayer')
@@ -12,10 +13,10 @@ const { kibochat, kiboengage } = require('../../global/constants').serverConstan
 const async = require('async')
 
 exports.index = function (req, res) {
-  callApi(`pages/query`, 'post', {companyId: req.user.companyId, connected: true})
+  callApi(`pages/query`, 'post', { companyId: req.user.companyId, connected: true })
     .then(pages => {
       let pageIds = logiclayer.prepareIdsArray(pages)
-      datalayer.findAllChatBots({pageId: { $in: pageIds }})
+      datalayer.findAllChatBots({ pageId: { $in: pageIds } })
         .then(chatbots => {
           logiclayer.populatePageIdsInChatBots(pages, chatbots)
           return sendSuccessResponse(res, 200, chatbots, null)
@@ -48,7 +49,7 @@ exports.update = function (req, res) {
     fallbackReplyEnabled: req.body.fallbackReplyEnabled,
     isYoutubePlayable: req.body.isYoutubePlayable
   }
-  datalayer.genericUpdateChatBot({_id: req.body.chatbotId}, dataToUpdate)
+  datalayer.genericUpdateChatBot({ _id: req.body.chatbotId }, dataToUpdate)
     .then(chatbotUpdated => {
       return sendSuccessResponse(res, 200, chatbotUpdated, 'Updated the chatbot publish status')
     })
@@ -99,7 +100,7 @@ exports.stats = (req, res) => {
 }
 
 exports.fetchChatbot = function (req, res) {
-  callApi('chatbots/query', 'post', {purpose: 'findOne', match: {_id: req.params.id}}, kibochat)
+  callApi('chatbots/query', 'post', { purpose: 'findOne', match: { _id: req.params.id } }, kibochat)
     .then(chatbot => {
       sendSuccessResponse(res, 200, chatbot)
     })
@@ -132,7 +133,7 @@ exports.delete = function (req, res) {
 }
 
 exports.fetchBackup = function (req, res) {
-  callApi(`chatbots_backup/query`, 'post', {purpose: 'findOne', match: {chatbotId: req.params.id}}, kibochat)
+  callApi(`chatbots_backup/query`, 'post', { purpose: 'findOne', match: { chatbotId: req.params.id } }, kibochat)
     .then(backup => {
       sendSuccessResponse(res, 200, backup)
     })
@@ -147,19 +148,19 @@ exports.createBackup = function (req, res) {
   const fetchChatbot = callApi(
     `chatbots/query`,
     'post',
-    {purpose: 'findOne', match: {_id: chatbotId}},
+    { purpose: 'findOne', match: { _id: chatbotId } },
     kibochat
   )
   const fetchBlocks = callApi(
     `messageBlocks/query`,
     'post',
-    {purpose: 'findAll', match: {'module.id': chatbotId, 'module.type': 'chatbot'}},
+    { purpose: 'findAll', match: { 'module.id': chatbotId, 'module.type': 'chatbot' } },
     kiboengage
   )
   const deleteBlocksBackup = callApi(
     `messageBlocks_backup`,
     'delete',
-    {purpose: 'deleteMany', match: {'module.id': chatbotId, 'module.type': 'chatbot'}},
+    { purpose: 'deleteMany', match: { 'module.id': chatbotId, 'module.type': 'chatbot' } },
     kibochat
   )
   Promise.all([fetchChatbot, fetchBlocks, deleteBlocksBackup])
@@ -170,7 +171,7 @@ exports.createBackup = function (req, res) {
       const createChatbotBackup = callApi(
         `chatbots_backup`,
         'put',
-        {purpose: 'updateOne', match: {chatbotId}, updated: chatbotPayload, upsert: true},
+        { purpose: 'updateOne', match: { chatbotId }, updated: chatbotPayload, upsert: true },
         kibochat
       )
       const backupCalls = [createChatbotBackup]
@@ -180,7 +181,7 @@ exports.createBackup = function (req, res) {
           callApi(
             `messageBlocks_backup`,
             'put',
-            {purpose: 'updateOne', match: {blockId: block._id}, updated: blockPayload, upsert: true},
+            { purpose: 'updateOne', match: { blockId: block._id }, updated: blockPayload, upsert: true },
             kibochat
           )
         )
@@ -212,19 +213,19 @@ exports.restoreBackup = function (req, res) {
   const deleteBlocks = callApi(
     `messageBlocks`,
     'delete',
-    {purpose: 'deleteMany', match: {'module.id': chatbotId, 'module.type': 'chatbot'}},
+    { purpose: 'deleteMany', match: { 'module.id': chatbotId, 'module.type': 'chatbot' } },
     kiboengage
   )
   const fetchChatbotBackup = callApi(
     `chatbots_backup/query`,
     'post',
-    {purpose: 'findOne', match: {chatbotId}},
+    { purpose: 'findOne', match: { chatbotId } },
     kibochat
   )
   const fetchBlocksBackup = callApi(
     `messageBlocks_backup/query`,
     'post',
-    {purpose: 'findAll', match: {'module.id': chatbotId, 'module.type': 'chatbot'}},
+    { purpose: 'findAll', match: { 'module.id': chatbotId, 'module.type': 'chatbot' } },
     kibochat
   )
   Promise.all([deleteBlocks, fetchChatbotBackup, fetchBlocksBackup])
@@ -250,10 +251,10 @@ exports.restoreBackup = function (req, res) {
         } else {
           Promise.all(backupCalls)
             .then(responses => {
-              callApi('messageBlocks/query', 'post', {purpose: 'findOne', match: {uniqueId: chatbotBackup.startingBlockId}}, kiboengage)
+              callApi('messageBlocks/query', 'post', { purpose: 'findOne', match: { uniqueId: chatbotBackup.startingBlockId } }, kiboengage)
                 .then(startingBlock => {
                   const chatbotPayload = logiclayer.chatbotPayload(chatbotBackup, startingBlock)
-                  callApi(`chatbots`, 'put', {purpose: 'updateOne', match: {_id: chatbotId}, updated: chatbotPayload}, kibochat)
+                  callApi(`chatbots`, 'put', { purpose: 'updateOne', match: { _id: chatbotId }, updated: chatbotPayload }, kibochat)
                     .then(updated => {
                       sendSuccessResponse(res, 200, 'Backup restored successfully')
                     })
@@ -287,11 +288,11 @@ exports.redirectToUrl = (req, res) => {
       .then(URLObject => {
         if (URLObject) {
           logger.serverLog(TAG, `URLObject found, incrementing click ${JSON.stringify(URLObject)}`, 'debug')
-          msgBlockDataLayer.findOneMessageBlock({uniqueId: URLObject.module.id})
+          msgBlockDataLayer.findOneMessageBlock({ uniqueId: URLObject.module.id })
             .then(msgBlockFound => {
               chatbotAutomation.updateBotLifeStatsForBlock(msgBlockFound, false)
               chatbotAutomation.updateBotPeriodicStatsForBlock(msgBlockFound.module.id, false)
-              res.writeHead(301, {Location: URLObject.originalURL.startsWith('http') ? URLObject.originalURL : `https://${URLObject.originalURL}`})
+              res.writeHead(301, { Location: URLObject.originalURL.startsWith('http') ? URLObject.originalURL : `https://${URLObject.originalURL}` })
               res.end()
             })
             .catch(err => {
@@ -313,7 +314,7 @@ exports.redirectToUrl = (req, res) => {
 
 exports.exportData = (req, res) => {
   const fetchmessageBlock = msgBlockDataLayer.findAllMessageBlock({ 'module.type': 'chatbot', 'module.id': req.body.chatBotId })
-  const fetchAnalyticsBlock = analyticsDataLayer.findBotSubscribersAnalytics({chatbotId: req.body.chatBotId})
+  const fetchAnalyticsBlock = analyticsDataLayer.findBotSubscribersAnalytics({ chatbotId: req.body.chatBotId })
   Promise.all([fetchmessageBlock, fetchAnalyticsBlock])
     .then(results => {
       let messageBlocks = results[0]
@@ -342,4 +343,39 @@ exports.exportData = (req, res) => {
     .catch(error => {
       return sendErrorResponse(res, 500, error, 'Failed to fetch the chatbot details.')
     })
+}
+
+exports.createUpdateShopifyChatbot = async (req, res) => {
+  try {
+    let existingChatbot = await datalayer.findOneChatBot({
+      companyId: req.user.companyId,
+      pageId: req.body.pageId,
+      type: 'automated',
+      vertical: 'commerce'
+    })
+    if (existingChatbot) {
+      await datalayer.genericUpdateChatBot({ companyId: req.user.companyId, pageId: req.body.pageId }, req.body)
+      let updatedChatbot = { ...existingChatbot, ...req.body }
+      shopifyLogicLayer.updateFaqsForStartingBlock(updatedChatbot)
+      sendSuccessResponse(res, 200, updatedChatbot, 'Shopify chatbot updated successfully')
+    } else {
+      let chatbot = await datalayer.createForChatBot({
+        pageId: req.body.pageId,
+        companyId: req.user.companyId,
+        userId: req.user._id,
+        triggers: ['hi', 'hello'],
+        type: 'automated',
+        vertical: 'commerce',
+        botLinks: req.body.botLinks
+      })
+      let messageBlocks = shopifyLogicLayer.getMessageBlocks(chatbot)
+      await datalayer.genericUpdateChatBot({ companyId: req.user.companyId, pageId: req.body.pageId }, {
+        startingBlockId: messageBlocks[0].uniqueId
+      })
+      chatbot.startingBlockId = messageBlocks[0].uniqueId
+      sendSuccessResponse(res, 200, chatbot, 'Shopify chatbot created successfully')
+    }
+  } catch (err) {
+    sendErrorResponse(res, 500, err ? err.message : `Failed to create Shopify chatbot`, `Failed to create Shopify chatbot`)
+  }
 }
