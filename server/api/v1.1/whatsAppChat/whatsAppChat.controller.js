@@ -8,6 +8,7 @@ const logger = require('../../../components/logger')
 const TAG = '/api/v1/whatsAppChat/whatsAppChat.controller.js'
 const { record } = require('../../global/messageStatistics')
 const {ActionTypes} = require('../../../whatsAppMapper/constants')
+const { deletePendingSessionFromStack } = require('../../global/messageAlerts')
 
 exports.index = function (req, res) {
   if (req.params.contactId) {
@@ -89,6 +90,11 @@ exports.create = function (req, res) {
               sendOpAlert(error, 'whatsAppChat controller in kibochat', null, req.user._id, req.user.companyId)
               callback(error)
             })
+        },
+        function (callback){
+          logger.serverLog(TAG, `Delete subscriber pending session from cronstack`)
+          deletePendingSessionFromStack(req.body.contactId)
+          callback(null)
         }
       ], 10, function (err, results) {
         if (err) {
