@@ -266,12 +266,26 @@ exports.updateShowIntegrations = function (req, res) {
 }
 
 exports.disconnectFacebook = function (req, res) {
-  utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: {connectFacebook: false}, options: {}})
-    .then(updated => {
-      return res.status(200).json({
-        status: 'success',
-        payload: 'Updated Successfully!'
-      })
+  utility.callApi(`companyProfile/query`, 'post', {ownerId: req.user._id})
+    .then(companyProfile => {
+      let updated = {connectFacebook: false}
+      if (companyProfile.twilio) {
+        updated.platform = 'sms'
+      } else if (companyProfile.whatsApp) {
+        updated.platform = 'whatsApp'
+      } else {
+        updated.platform = ''
+      }
+      utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: updated, options: {}})
+        .then(updated => {
+          return res.status(200).json({
+            status: 'success',
+            payload: 'Updated Successfully!'
+          })
+        })
+        .catch(err => {
+          res.status(500).json({status: 'failed', payload: err})
+        })
     })
     .catch(err => {
       res.status(500).json({status: 'failed', payload: err})
