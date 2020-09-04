@@ -333,40 +333,11 @@ exports.exportData = (req, res) => {
           }
           subscribersData.push(blockdata)
         }
+        subscribersData.push('\n')
       }
-      let key = Math.max(...subscribersData.map(el => Object.keys(el)))
-      sendSuccessResponse(res, 200, key)
+      console.log('subscribersData.length', subscribersData.length)
+      sendSuccessResponse(res, 200, subscribersData)
     }).catch(error => {
       return sendErrorResponse(res, 500, error, 'Failed to fetch the chatbot details.')
     })
-  // const fetchmessageBlock = msgBlockDataLayer.findAllMessageBlock({ 'module.type': 'chatbot', 'module.id': req.body.chatBotId })
-  // const fetchAnalyticsBlock = analyticsDataLayer.findBotSubscribersAnalytics({chatbotId: req.body.chatBotId})
-  // Promise.all([fetchmessageBlock, fetchAnalyticsBlock])
-  //   .then(results => {
-  //     let messageBlocks = results[0]
-  //     let blockAnalytics = results[1]
-  //     logger.serverLog(TAG, `blockAnalytics Length ${blockAnalytics.length}`)
-  //     logger.serverLog(TAG, `messageBlocks Length ${messageBlocks.length}`)
-  //     let blockAnalyticsData = []
-  //     async.each(messageBlocks, function (messageBlock, cb) {
-  //       let blockdata = {}
-  //       let data = blockAnalytics.filter(block => block.messageBlockId === messageBlock._id)
-  //       blockdata.chatBotName = req.body.pageName
-  //       blockdata.blockName = messageBlock.title
-  //       blockdata.subscriberClickCount = data.length
-  //       blockAnalyticsData.push(blockdata)
-  //       cb()
-  //     }, function (err) {
-  //       if (err) {
-  //         logger.serverLog(TAG, err, 'error')
-  //         sendErrorResponse(res, 500, `Failed to make data ${err}`)
-  //       } else {
-  //         sendSuccessResponse(res, 200, blockAnalyticsData)
-  //       }
-  //     }
-  //     )
-  //   })
-  //   .catch(error => {
-  //     return sendErrorResponse(res, 500, error, 'Failed to fetch the chatbot details.')
-  //   })
 }
