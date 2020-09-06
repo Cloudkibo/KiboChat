@@ -407,13 +407,28 @@ exports.deleteWhatsAppInfo = function (req, res) {
             })
         },
         function (callback) {
-          utility.callApi(`user/update`, 'post', {query: {_id: req.user._id}, newPayload: {platform: 'messenger'}, options: {}})
-            .then(data => {
-              callback(null)
+          utility.callApi('companyprofile/query', 'post', {_id: req.user.companyId})
+          .then(company => {
+            console.log('companyprofile', company)
+            let selectPlatform = company.twilio ? { $set: {platform: 'sms'} } : { $set: {platform: 'messenger'} }
+            utility.callApi(`companyUser/queryAll`, 'post', {companyId: req.user.companyId}, 'accounts')
+            .then(companyUsers => {
+              let userIds = companyUsers.map(companyUser => companyUser.userId._id)
+              console.log('userIds', userIds)
+              utility.callApi(`user/update`, 'post', {query: {_id: {$in: userIds}}, newPayload: selectPlatform, options: {multi: true} })
+                .then(data => {
+                  callback(null)
+                })
+                .catch(err => {
+                  callback(err)
+                })               
+            }).catch(err => {
+              logger.serverLog(TAG, JSON.stringify(err), 'error')
             })
-            .catch(err => {
-              callback(err)
-            }) 
+          })
+          .catch(err => {
+            logger.serverLog(TAG, JSON.stringify(err), 'error')
+          })
         },
         function (callback) {
           if (req.body.type === 'Disconnect' && req.body.connected) {
@@ -482,7 +497,7 @@ exports.deleteWhatsAppInfo = function (req, res) {
         }
       ], 10, function (err, results) {
         if (err) {
-          logger.serverLog(TAG, err, 'error')
+          logger.serverLog(TAG,  JSON.stringify(err), 'error')
           sendErrorResponse(res, 500, `Failed to delete whatsapp info ${err}`)
         } else {
           console.log('results got', results)
