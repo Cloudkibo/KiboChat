@@ -283,7 +283,7 @@ const getReturnOrderBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to return order ${err}`, 'error')
-    throw new Error('Unable to return order')
+    throw new Error('Unable to return order. Please make sure your order ID is valid.')
   }
 }
 
@@ -368,7 +368,7 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to get order status ${err}`, 'error')
-    throw new Error('Unable to get order status')
+    throw new Error('Unable to get order status. Please make sure your order ID is valid.')
   }
 }
 
@@ -570,8 +570,8 @@ const getQuantityToAddBlock = async (chatbot, product) => {
 const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) => {
   try {
     quantity = Number(quantity)
-    if (!Number.isInteger(quantity) || quantity <= 0) {
-      throw new Error('Invalid quantity given')
+    if (!Number.isInteger(quantity) || quantity < 0) {
+      throw new Error('Invalid quantity given.')
     }
     let messageBlock = {
       module: {
@@ -582,7 +582,7 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: dedent(`${quantity} ${product.product}${quantity > 1 ? 's have' : ' has'} been succesfully added to your cart.\n
+          text: dedent(`${quantity} ${product.product}${quantity !== 1 ? 's have' : ' has'} been succesfully added to your cart.\n
                 Please select an option by sending the corresponding number for it:\n
                 ${convertToEmoji(0)} Proceed to Checkout\n
                 ${specialKeyText(SHOW_CART_KEY)}
@@ -621,7 +621,11 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to add to cart ${err}`, 'error')
-    throw new Error('Unable to add to cart')
+    if (err.message) {
+      throw new Error(err.message)
+    } else {
+      throw new Error('Unable to add to cart')
+    }
   }
 }
 
@@ -682,8 +686,8 @@ const getShowMyCartBlock = async (chatbot, backId, contact) => {
 const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, quantity) => {
   try {
     quantity = Number(quantity)
-    if (!Number.isInteger(quantity) || quantity <= 0) {
-      throw new Error('Invalid quantity given')
+    if (!Number.isInteger(quantity) || quantity < 0) {
+      throw new Error('Invalid quantity given.')
     }
     let messageBlock = {
       module: {
@@ -694,7 +698,7 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `${quantity} ${productInfo.product}${quantity > 1 ? 's have' : ' has'} been succesfully removed from your cart.\n`,
+          text: `${quantity} ${productInfo.product}${quantity !== 1 ? 's have' : ' has'} been succesfully removed from your cart.\n`,
           componentType: 'text',
           menu: [],
           specialKeys: {
@@ -712,7 +716,7 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
     if (shoppingCart[productInfo.productIndex].quantity === 0) {
       shoppingCart.splice(productInfo.productIndex, 1)
     } else if (shoppingCart[productInfo.productIndex].quantity < 0) {
-      throw new Error('Invalid quantity given')
+      throw new Error('Invalid quantity given.')
     }
     if (shoppingCart.length > 0) {
       messageBlock.payload[0].menu.push({ type: DYNAMIC, action: GET_CHECKOUT_EMAIL })
@@ -730,7 +734,11 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to remove item(s) from cart ${err} `, 'error')
-    throw new Error('Unable to remove item(s) from cart')
+    if (err.message) {
+      throw new Error(err.message)
+    } else {
+      throw new Error('Unable to remove item(s) from cart')
+    }
   }
 }
 
@@ -938,7 +946,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to checkout ${err} `, 'error')
-    throw new Error('Unable to show checkout')
+    throw new Error('Unable to show checkout. Please make sure you have entered a correct email.')
   }
 }
 
@@ -989,6 +997,19 @@ const getWelcomeMessageBlock = async (chatbot, contact, input) => {
   return messageBlock
 }
 
+const invalidInput = async (chatbot, messageBlock, errMessage) => {
+  if (messageBlock.uniqueId === chatbot.startingBlockId) {
+    messageBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
+  }
+
+  if (!messageBlock.payload[0].text.includes(errMessage)) {
+    messageBlock.payload[0].text = `${errMessage}\n\n` + messageBlock.payload[0].text
+  }
+
+  logger.serverLog(TAG, `whatsapp chatbot invalid input ${JSON.stringify(messageBlock)} `, 'info')
+  return messageBlock
+}
+
 exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input) => {
   input = input.toLowerCase()
   if (!contact || !contact.lastMessageSentByBot) {
@@ -998,8 +1019,8 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
   } else {
     let action = null
     logger.serverLog(TAG, `whatsapp chatbot contact ${JSON.stringify(contact)} `, 'info')
+    let lastMessageSentByBot = contact.lastMessageSentByBot.payload[0]
     try {
-      let lastMessageSentByBot = contact.lastMessageSentByBot.payload[0]
       if (lastMessageSentByBot.specialKeys && lastMessageSentByBot.specialKeys[input]) {
         action = lastMessageSentByBot.specialKeys[input]
       } else if (lastMessageSentByBot.menu) {
@@ -1018,7 +1039,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
       if (chatbot.triggers.includes(input)) {
         return getWelcomeMessageBlock(chatbot, contact, input)
       } else {
-        return null
+        return invalidInput(chatbot, contact.lastMessageSentByBot, `You entered an invalid response.`)
       }
     }
     if (action.type === DYNAMIC) {
@@ -1093,7 +1114,11 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
         await messageBlockDataLayer.createForMessageBlock(messageBlock)
         return messageBlock
       } catch (err) {
-        return getErrorMessageBlock(chatbot, contact.lastMessageSentByBot.uniqueId, err.message)
+        if (chatbot.triggers.includes(input)) {
+          return getWelcomeMessageBlock(chatbot, contact, input)
+        } else {
+          return invalidInput(chatbot, contact.lastMessageSentByBot, err.message)
+        }
       }
     } else if (action.type === STATIC) {
       return messageBlockDataLayer.findOneMessageBlock({ uniqueId: action.blockId })
