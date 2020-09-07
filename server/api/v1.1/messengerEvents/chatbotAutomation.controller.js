@@ -103,7 +103,7 @@ exports.handleShopifyChatbot = async (event, page, subscriber) => {
 }
 
 exports.handleTriggerMessage = (req, page, subscriber) => {
-  chatbotDataLayer.findOneChatBot({ pageId: page._id, published: true })
+  chatbotDataLayer.findOneChatBot({ pageId: page._id, published: true, type: 'manual' })
     .then(chatbot => {
       if (chatbot) {
         let userText = req.message.text.toLowerCase().trim()
