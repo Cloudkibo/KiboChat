@@ -85,7 +85,7 @@ exports.validateWhatsAppChatbotPayload = (payload) => {
   return bool
 }
 
-function convertToEmoji (num) {
+function convertToEmoji(num) {
   if (isNaN(num)) {
     throw new Error('invalid number')
   } else {
@@ -99,7 +99,7 @@ function convertToEmoji (num) {
   }
 }
 
-function specialKeyText (key) {
+function specialKeyText(key) {
   switch (key) {
     case FAQS_KEY:
       return `Send '${key.toUpperCase()}' for faqs`
@@ -840,7 +840,7 @@ const clearCart = async (chatbot, contact) => {
   }
 }
 
-function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
+function updateWhatsAppContact(query, bodyForUpdate, bodyForIncrement, options) {
   callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
     .then(updated => {
     })
@@ -998,16 +998,14 @@ const getWelcomeMessageBlock = async (chatbot, contact, input) => {
 }
 
 const invalidInput = async (messageBlock, errMessage) => {
-  let payload = []
-  payload.push(
-    {
-      text: errMessage,
-      componentType: 'text'
-    }
-  )
-  payload.push(...messageBlock.payload)
+  messageBlock.payload[0].text = `${errMessage}\n\n` + messageBlock.payload[0]
 
-  messageBlock.payload = payload
+  messageBlock.payload[0].text.replace(/^.*(Hi|Hello)*$/mg, '')
+  messageBlock.payload[0].text = messageBlock.payload[0].text.split('\n')
+    .filter(function (line) {
+      return line.includes('Hi') || line.includes('Hello')
+    }).join('\n')
+
   return messageBlock
 }
 
