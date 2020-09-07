@@ -43,6 +43,12 @@ module.exports = class EcommerceProvidersApiLayer {
     }
   }
 
+  searchProducts (query) {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.searchProducts(query, this.eCommerceProviderCredentials)
+    }
+  }
+
   fetchProductsInThisCategory (id) {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.fetchProductsInThisCategory(id, this.eCommerceProviderCredentials)

@@ -268,7 +268,7 @@ function saveNotifications (subscriber, companyUsers, page) {
             })
           })
           .catch(err => {
-            logger.serverLog(TAG, `Failed to fetch user permissions ${error}`, 'error')
+            logger.serverLog(TAG, `Failed to fetch user permissions ${err}`, 'error')
           })
       })
       .catch(error => {

@@ -79,6 +79,55 @@ exports.fetchProducts = (credentials) => {
   })
 }
 
+exports.searchProducts = (searchQuery, credentials) => {
+  const shopify = initShopify(credentials)
+  const query = `{
+    products(first: 10, query: "title:*${searchQuery}*") {
+      edges {
+        node {
+          id
+          title
+          productType
+          vendor
+          featuredImage {
+            id
+            originalSrc
+          }
+          variants(first: 1) {
+            edges {
+              node {
+                id
+                price
+              }
+            }
+          }
+        }
+      }
+    }
+  }`
+
+  return new Promise(function (resolve, reject) {
+    shopify.graphql(query)
+      .then(result => {
+        let products = result.products.edges
+        products = products.map(product => {
+          product = product.node
+          return { id: product.id.split('/')[4],
+            name: product.title,
+            product_type: product.productType,
+            vendor: product.vendor,
+            price: product.variants.edges[0].node.price,
+            image: product.featuredImage ? product.featuredImage.originalSrc : null
+          }
+        })
+        resolve(products)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
 exports.getProductVariants = (id, credentials) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
