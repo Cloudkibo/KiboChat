@@ -283,7 +283,7 @@ const getReturnOrderBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to return order ${err}`, 'error')
-    throw new Error('Unable to return order')
+    throw new Error('Unable to return order. Please make sure your order ID is valid.')
   }
 }
 
@@ -368,7 +368,7 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to get order status ${err}`, 'error')
-    throw new Error('Unable to get order status')
+    throw new Error('Unable to get order status. Please make sure your order ID is valid.')
   }
 }
 
@@ -621,7 +621,11 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to add to cart ${err}`, 'error')
-    throw new Error('Unable to add to cart')
+    if (err.message) {
+      throw new Error(err.message)
+    } else {
+      throw new Error('Unable to add to cart')
+    }
   }
 }
 
@@ -730,7 +734,11 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to remove item(s) from cart ${err} `, 'error')
-    throw new Error('Unable to remove item(s) from cart')
+    if (err.message) {
+      throw new Error(err.message)
+    } else {
+      throw new Error('Unable to remove item(s) from cart')
+    }
   }
 }
 
@@ -938,7 +946,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to checkout ${err} `, 'error')
-    throw new Error('Unable to show checkout')
+    throw new Error('Unable to show checkout. Please make sure you have entered a correct email.')
   }
 }
 
@@ -989,6 +997,20 @@ const getWelcomeMessageBlock = async (chatbot, contact, input) => {
   return messageBlock
 }
 
+const invalidInput = async (messageBlock, errMessage) => {
+  let payload = []
+  payload.push(
+    {
+      text: errMessage,
+      componentType: 'text'
+    }
+  )
+  payload.push(...messageBlock.payload)
+
+  messageBlock.payload = payload
+  return messageBlock
+}
+
 exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input) => {
   input = input.toLowerCase()
   if (!contact || !contact.lastMessageSentByBot) {
@@ -998,8 +1020,8 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
   } else {
     let action = null
     logger.serverLog(TAG, `whatsapp chatbot contact ${JSON.stringify(contact)} `, 'info')
+    let lastMessageSentByBot = contact.lastMessageSentByBot.payload[0]
     try {
-      let lastMessageSentByBot = contact.lastMessageSentByBot.payload[0]
       if (lastMessageSentByBot.specialKeys && lastMessageSentByBot.specialKeys[input]) {
         action = lastMessageSentByBot.specialKeys[input]
       } else if (lastMessageSentByBot.menu) {
@@ -1018,7 +1040,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
       if (chatbot.triggers.includes(input)) {
         return getWelcomeMessageBlock(chatbot, contact, input)
       } else {
-        return null
+        return invalidInput(lastMessageSentByBot, `You entered an invalid response.`)
       }
     }
     if (action.type === DYNAMIC) {
@@ -1093,7 +1115,11 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
         await messageBlockDataLayer.createForMessageBlock(messageBlock)
         return messageBlock
       } catch (err) {
-        return getErrorMessageBlock(chatbot, contact.lastMessageSentByBot.uniqueId, err.message)
+        if (chatbot.triggers.includes(input)) {
+          return getWelcomeMessageBlock(chatbot, contact, input)
+        } else {
+          return invalidInput(contact.lastMessageSentByBot.uniqueId, err.message)
+        }
       }
     } else if (action.type === STATIC) {
       return messageBlockDataLayer.findOneMessageBlock({ uniqueId: action.blockId })
