@@ -570,7 +570,7 @@ const getQuantityToAddBlock = async (chatbot, product) => {
 const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) => {
   try {
     quantity = Number(quantity)
-    if (!Number.isInteger(quantity) || quantity <= 0) {
+    if (!Number.isInteger(quantity) || quantity < 0) {
       throw new Error('Invalid quantity given.')
     }
     let messageBlock = {
@@ -686,7 +686,7 @@ const getShowMyCartBlock = async (chatbot, backId, contact) => {
 const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, quantity) => {
   try {
     quantity = Number(quantity)
-    if (!Number.isInteger(quantity) || quantity <= 0) {
+    if (!Number.isInteger(quantity) || quantity < 0) {
       throw new Error('Invalid quantity given.')
     }
     let messageBlock = {
