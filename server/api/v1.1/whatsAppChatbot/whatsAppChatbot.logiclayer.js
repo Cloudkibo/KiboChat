@@ -828,8 +828,12 @@ const getUpdateCartBlock = async (chatbot, backId, contact, product, quantity) =
     let shoppingCart = contact.shoppingCart ? contact.shoppingCart : []
     let existingProductIndex = shoppingCart.findIndex((item) => item.variant_id === product.variant_id)
     if (existingProductIndex > -1) {
-      shoppingCart[existingProductIndex].quantity = quantity
-    } else {
+      if (quantity === 0) {
+        shoppingCart.splice(existingProductIndex, 1)
+      } else {
+        shoppingCart[existingProductIndex].quantity = quantity
+      }
+    } else if (quantity > 0) {
       shoppingCart.push({
         variant_id: product.variant_id,
         quantity,
