@@ -998,16 +998,14 @@ const getWelcomeMessageBlock = async (chatbot, contact, input) => {
 }
 
 const invalidInput = async (messageBlock, errMessage) => {
-  let payload = []
-  payload.push(
-    {
-      text: errMessage,
-      componentType: 'text'
-    }
-  )
-  payload.push(...messageBlock.payload)
+  messageBlock.payload[0].text = `${errMessage}\n\n` + messageBlock.payload[0]
 
-  messageBlock.payload = payload
+  messageBlock.payload[0].text.replace(/^.*(Hi|Hello)*$/mg, '')
+  messageBlock.payload[0].text = messageBlock.payload[0].text.split('\n')
+    .filter(function (line) {
+      return line.includes('Hi') || line.includes('Hello')
+    }).join('\n')
+
   return messageBlock
 }
 
