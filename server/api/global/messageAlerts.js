@@ -55,7 +55,7 @@ function pushUnresolveAlertInStack (company, subscriber, platform) {
     })
 }
 
-function pushSessionPendingAlertInStack (company, subscriber,platform) {
+function pushSessionPendingAlertInStack (company, subscriber, platform) {
   logger.serverLog(TAG, 'In Pending Session Info')
   utility.callApi(`companypreferences/query`, 'post', {companyId: company._id}, 'accounts')
     .then(companypreferences => {
@@ -96,19 +96,18 @@ function deleteUnresolvedSessionFromStack (subscriberId) {
     purpose: 'deleteMany',
     match: {
       type: 'adminAlert',
-      'payload.type': 'unresolvedSession', 
+      'payload.type': 'unresolvedSession',
       'payload.subscriber._id': subscriberId
     }
   }
   utility.callApi(`cronstack`, 'delete', deleteData, 'kibochat')
-  .then(updatedRecord => {
-    logger.serverLog('Unresolved session info deleted successfully from cronStack')
-  })
-  .catch(err => {
-    logger.serverLog(`Error while deleting unresolve session alert from cronStack ${err}`)
-  })
-
-} 
+    .then(updatedRecord => {
+      logger.serverLog('Unresolved session info deleted successfully from cronStack')
+    })
+    .catch(err => {
+      logger.serverLog(`Error while deleting unresolve session alert from cronStack ${err}`)
+    })
+}
 
 function deletePendingSessionFromStack (subscriberId) {
   console.log('Inside delete unresolved session', subscriberId)
@@ -121,12 +120,12 @@ function deletePendingSessionFromStack (subscriberId) {
     }
   }
   utility.callApi(`cronstack`, 'delete', deleteData, 'kibochat')
-  .then(updatedRecord => {
-    logger.serverLog('Pending session info deleted successfully from cronStack')
-  })
-  .catch(err => {
-    logger.serverLog(`Error while deleting pending session alert from cronStack ${err}`)
-  })
+    .then(updatedRecord => {
+      logger.serverLog('Pending session info deleted successfully from cronStack')
+    })
+    .catch(err => {
+      logger.serverLog(`Error while deleting pending session alert from cronStack ${err}`)
+    })
 }
 
 exports.pushUnresolveAlertInStack = pushUnresolveAlertInStack

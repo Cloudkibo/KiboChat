@@ -22,7 +22,7 @@ exports.updatePermissions = function (req, res) {
 }
 
 exports.changePermissions = function (req, res) {
-  utility.callApi(`permissions/genericUpdate`, 'post',{query:{companyId: req.user.companyId, userId: req.user._id}, newPayload:req.body.payload, options: {upsert: true}}, 'accounts',  req.headers.authorization)
+  utility.callApi(`permissions/genericUpdate`, 'post', {query: {companyId: req.user.companyId, userId: req.user._id}, newPayload: req.body.payload, options: {upsert: true}}, 'accounts', req.headers.authorization)
     .then(result => {
       res.status(200).json({status: 'success', payload: 'Changes updated successfully'})
     })
@@ -56,7 +56,8 @@ exports.fetchPermissions = function (req, res) {
     })
 }
 
-exports.fetchUserPermissions = function (req, res) {  utility.callApi(`permissions/query`, 'post', {companyId: req.user.companyId, userId: req.user._id})
+exports.fetchUserPermissions = function (req, res) {
+  utility.callApi(`permissions/query`, 'post', {companyId: req.user.companyId, userId: req.user._id})
     .then(userPermission => {
       if (userPermission.length > 0) {
         userPermission = userPermission[0]

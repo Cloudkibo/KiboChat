@@ -3,7 +3,6 @@ const TAG = 'api/cannedResponses/cannedResponses.controller.js'
 const dataLayer = require('./datalayer')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
-
 exports.index = function (req, res) {
   logger.serverLog(TAG, 'fetch endpoint of canned responses is hit', 'debug')
   dataLayer.findAllResponses({ companyId: req.user.companyId })
@@ -57,4 +56,3 @@ exports.delete = function (req, res) {
       sendErrorResponse(res, 500, 'Failed to delete canned response.')
     })
 }
-

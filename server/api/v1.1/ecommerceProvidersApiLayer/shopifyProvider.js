@@ -5,10 +5,12 @@ exports.fetchStoreInfo = (credentials) => {
   return new Promise(function (resolve, reject) {
     shopify.shop.get()
       .then(shop => {
+        console.log(shop)
         resolve({
           id: shop.id,
           name: shop.name,
-          domain: shop.domain
+          domain: shop.domain,
+          currency: shop.currency
         })
       })
       .catch(err => {
@@ -91,7 +93,8 @@ exports.getProductVariants = (id, credentials) => {
             option2: product.option2,
             option3: product.option3,
             weight: product.weight,
-            weight_unit: product.weight_unit
+            weight_unit: product.weight_unit,
+            inventory_quantity: product.inventory_quantity
           }
         })
         resolve(products)
