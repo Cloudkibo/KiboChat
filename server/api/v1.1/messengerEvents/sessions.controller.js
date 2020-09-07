@@ -10,6 +10,7 @@ const logicLayer = require('./logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
 // const { record } = require('../../global/messageStatistics')
 const { sendNotifications } = require('../../global/sendNotification')
+const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('../../global/messageAlerts')
 const { handleTriggerMessage, handleShopifyChatbot } = require('./chatbotAutomation.controller')
 
 exports.index = function (req, res) {
@@ -326,7 +327,8 @@ function saveNotifications(subscriber, companyUsers, page) {
       message: `${subscriber.firstName} ${subscriber.lastName} sent a message to page ${page.pageName}`,
       category: { type: 'new_message', id: subscriber._id },
       agentId: companyUser.userId._id,
-      companyId: companyUser.companyId
+      companyId: companyUser.companyId,
+      platform: 'messenger'
     }
     utility.callApi(`notifications`, 'post', notificationsData, 'kibochat')
       .then(savedNotification => {
