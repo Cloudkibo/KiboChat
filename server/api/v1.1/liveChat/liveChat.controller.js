@@ -11,7 +11,9 @@ const async = require('async')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const { record } = require('../../global/messageStatistics')
 const { sendOpAlert } = require('../../global/operationalAlert')
+const { deletePendingSessionFromStack } = require('../../global/messageAlerts')
 const { updateCompanyUsage } = require('../../global/billingPricing')
+
 
 exports.index = function (req, res) {
   if (req.params.subscriber_id) {
@@ -239,6 +241,10 @@ exports.create = function (req, res) {
         .catch(err => {
           callback(err)
         })
+    }, function (callback) {
+      logger.serverLog(TAG, `Delete subscriber pending session from cronstack`)
+      deletePendingSessionFromStack(req.body.subscriber_id)
+      callback(null)
     }
   ], 10, function (err, results) {
     if (err) {

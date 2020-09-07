@@ -13,7 +13,7 @@ router.post('/',
   validate({ body: validationSchema.createPayload }),
   controller.create)
 
-router.delete('/:id',
+router.delete('/',
   auth.isAuthenticated(),
   auth.doesPlanPermitsThisAction('chatbot_automation'),
   auth.isUserAllowedToPerformThisAction('configure_chatbot_automation'),

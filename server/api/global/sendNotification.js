@@ -55,16 +55,17 @@ const sendMobileNotifications = (expoListToken, title, bodyMessage, data, user) 
                 })
             }).catch(error => {
               logger.serverLog(TAG, `Error while fetching companyUser details ${util.inspect(error)}`, 'error')
-            })            
+            })
         }
       } catch (error) {
         logger.serverLog(`Error while sending notification ${util.inspect(error)}`)
       }
     }
-  })();
+  })()
 }
 
 function sendNotifications (title, body, payload, companyUsers) {
+  logger.serverLog(TAG, `companyUsers ${companyUsers}`)
   for (let i = 0; i < companyUsers.length; i++) {
     let expoListToken = companyUsers[i].expoListToken
     if (expoListToken.length > 0) {

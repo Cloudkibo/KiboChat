@@ -24,11 +24,15 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
                   }, 1500)
                   updateBotLifeStatsForBlock(messageBlock, true)
                   updateBotPeriodicStatsForBlock(chatbot, true)
+                  updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, messageBlock)
                 }
               })
               .catch(error => {
                 logger.serverLog(TAG,
                   `error in fetching message block ${JSON.stringify(error)}`,
+                  'error')
+                logger.serverLog(TAG,
+                  `error in fetching message block ${error}`,
                   'error')
               })
             if (req.postback && req.postback.payload) {
@@ -73,6 +77,7 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
               updateBotPeriodicStats(chatbot, false)
               updateBotLifeStatsForBlock(messageBlock, true)
               updateBotPeriodicStatsForBlock(chatbot, true)
+              updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, messageBlock)
               let subscriberLastMessageAt = moment(subscriber.lastMessagedAt)
               let dateNow = moment()
               if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
@@ -115,6 +120,7 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId) => {
               }, 1500)
               updateBotLifeStatsForBlock(messageBlock, true)
               updateBotPeriodicStatsForBlock(chatbot, true)
+              updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, messageBlock)
               let subscriberLastMessageAt = moment(subscriber.lastMessagedAt)
               let dateNow = moment()
               if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
@@ -328,6 +334,79 @@ function updateBotLifeStatsForBlock (messageBlock, isForSentCount) {
         logger.serverLog(TAG, `Failed to update block bot stats ${JSON.stringify(error)}`, 'error')
       })
   }
+}
+
+function updateBotSubscribersAnalytics (chatbotId, companyId, subscriber, messageBlock) {
+  chatbotAnalyticsDataLayer.findOneForBotSubscribersAnalytics({ messageBlockId: messageBlock._id, 'subscriber.id': subscriber._id })
+    .then(gotBotSubscribersAnalytics => {
+      if (!gotBotSubscribersAnalytics) {
+        chatbotAnalyticsDataLayer.aggregateForBotSubscribersAnalytics({ 'subscriber.id': subscriber._id }, null, null, 10)
+          .then(gotAnalyticsArray => {
+            gotAnalyticsArray = gotAnalyticsArray.map(analyticsItem => {
+              return {
+                id: analyticsItem.messageBlockId,
+                title: analyticsItem.messageBlockTitle
+              }
+            })
+            chatbotAnalyticsDataLayer.createForBotSubscribersAnalytics({
+              chatbotId,
+              companyId,
+              subscriber: {
+                id: subscriber._id,
+                name: subscriber.firstName + ' ' + subscriber.lastName
+              },
+              messageBlockId: messageBlock.uniqueId,
+              messageBlockTitle: messageBlock.title,
+              blocksPath: [...gotAnalyticsArray, {
+                id: messageBlock.uniqueId,
+                title: messageBlock.title
+              }]
+            })
+          })
+      }
+    })
+}
+
+function updateBotSubscribersAnalyticsForSQL (chatbotId, companyId, subscriber, messageBlock) {
+  chatbotAnalyticsDataLayer.findForBotSubscribersAnalyticsForSQL({ messageBlockId: messageBlock._id, subscriberId: subscriber._id })
+    .then(gotBotSubscribersAnalytics => {
+      if (!gotBotSubscribersAnalytics || gotBotSubscribersAnalytics.length === 0) {
+        chatbotAnalyticsDataLayer.findForBotSubscribersAnalyticsForSQL({ subscriberId: subscriber._id })
+          .then(gotAnalyticsArray => {
+            gotAnalyticsArray = gotAnalyticsArray.map(analyticsItem => {
+              return {
+                id: analyticsItem.messageBlockId,
+                title: analyticsItem.messageBlockTitle
+              }
+            })
+            chatbotAnalyticsDataLayer.createForBotSubscribersAnalyticsForSQL({
+              chatbotId,
+              companyId,
+              subscriberId: subscriber._id,
+              subscriberName: subscriber.firstName + ' ' + subscriber.lastName,
+              messageBlockId: messageBlock.uniqueId,
+              messageBlockTitle: messageBlock.title,
+              blocksPath: JSON.stringify([...gotAnalyticsArray, {
+                id: messageBlock.uniqueId,
+                title: messageBlock.title
+              }])
+            })
+              .then(result => {
+                logger.serverLog(TAG, 'Saved the subscriber analytics', 'debug')
+                logger.serverLog(TAG, `${JSON.stringify(result)}`, 'debug')
+              })
+              .catch(err => {
+                logger.serverLog(TAG, `Failed to save the subscriber analytics in sql ${JSON.stringify(err)}`, 'error')
+              })
+          })
+          .catch(err => {
+            logger.serverLog(TAG, `Failed to fetch the subscriber analytics in sql ${JSON.stringify(err)}`, 'error')
+          })
+      }
+    })
+    .catch(err => {
+      logger.serverLog(TAG, `Failed to fetch the subscriber analytics message block in sql ${JSON.stringify(err)}`, 'error')
+    })
 }
 
 exports.updateBotPeriodicStatsForBlock = updateBotPeriodicStatsForBlock

@@ -6,7 +6,8 @@ const config = require('../../../config/environment/index')
 const logicLayer = require('./company.logiclayer.js')
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
 const async = require('async')
-const request = require('request')
+const {ActionTypes} = require('../../../whatsAppMapper/constants')
+const {whatsAppMapper} = require('../../../whatsAppMapper/whatsAppMapper')
 
 exports.members = function (req, res) {
   utility.callApi(`companyprofile/members`, 'get', {}, 'accounts', req.headers.authorization)
@@ -160,15 +161,13 @@ exports.updatePlatform = function (req, res) {
                 if (incomingPhoneNumbers && incomingPhoneNumbers.length > 0) {
                   utility.callApi(`companyprofile/update`, 'put', {query: {_id: companyUser.companyId}, newPayload: {twilio: {accountSID: req.body.twilio.accountSID, authToken: req.body.twilio.authToken}}, options: {}})
                     .then(updatedProfile => {
-                      sendSuccessResponse(res, 200, updatedProfile)
-                      if (req.body.twilio.platform) {
-                        utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: {platform: req.body.twilio.platform}, options: {}})
-                          .then(updated => {
-                          })
-                          .catch(err => {
-                            sendErrorResponse(res, 500, '', err)
-                          })
-                      }
+                      utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: {platform: 'sms'}, options: {}})
+                        .then(updated => {
+                          sendSuccessResponse(res, 200, updatedProfile)
+                        })
+                        .catch(err => {
+                          sendErrorResponse(res, 500, '', err)
+                        })
                     })
                     .catch(err => {
                       sendErrorResponse(res, 500, '', `Failed to update company profile ${err}`)
@@ -214,11 +213,9 @@ const _updateCompanyProfile = (data, next) => {
   //   next(null)
   // }
   // if (!data.body.changeWhatsAppFlockSend) {
-  let newPayload = {flockSendWhatsApp: {
-    accessToken: data.body.accessToken,
-    number: data.body.number.split(' ').join('')
-  }}
-  utility.callApi(`companyprofile/update`, 'put', {query: {_id: data.companyId}, newPayload: newPayload, options: {}})
+  let newPayload = data.body
+  if (data.body.platform) delete newPayload.platform
+  utility.callApi(`companyprofile/update`, 'put', {query: {_id: data.companyId}, newPayload: {whatsApp: newPayload}, options: {}})
     .then(updatedProfile => {
       next(null, updatedProfile)
     })
@@ -231,17 +228,31 @@ const _updateCompanyProfile = (data, next) => {
 }
 
 const _updateUser = (data, next) => {
-  if (data.body.platform) {
-    utility.callApi('user/update', 'post', {query: {_id: data.userId}, newPayload: {platform: data.body.platform}, options: {}})
-      .then(updated => {
-        next(null, updated)
-      })
-      .catch(err => {
-        next(err)
-      })
-  } else {
-    next(null)
-  }
+  utility.callApi('user/update', 'post', {query: {_id: data.userId}, newPayload: {platform: 'whatsApp'}, options: {}})
+    .then(updated => {
+      next(null, updated)
+    })
+    .catch(err => {
+      next(err)
+    })
+}
+const _setWebhook = (data, next) => {
+  whatsAppMapper(data.body.provider, ActionTypes.SET_WEBHOOK, data.body)
+    .then(response => {
+      next(null, data)
+    })
+    .catch(error => {
+      next(error)
+    })
+}
+const _verifyCredentials = (data, next) => {
+  whatsAppMapper(data.body.provider, ActionTypes.VERIFY_CREDENTIALS, data.body)
+    .then(response => {
+      next(null, data)
+    })
+    .catch(error => {
+      next(error)
+    })
 }
 exports.updatePlatformWhatsApp = function (req, res) {
   // let query = {
@@ -282,35 +293,44 @@ exports.updatePlatformWhatsApp = function (req, res) {
   //   .catch(error => {
   //     sendErrorResponse(res, 500, `Failed to fetch company user ${error}`)
   //   })
-
-  let data = {body: req.body, companyId: req.user.companyId, userId: req.user._id}
-  async.series([
-    _updateCompanyProfile.bind(null, data),
-    _updateUser.bind(null, data)
-  ], function (err) {
-    if (err) {
-      sendErrorResponse(res, 500, '', err)
-    } else {
-      sendSuccessResponse(res, 200, {description: 'updated successfully', showModal: req.body.changeWhatsAppTwilio})
-    }
-  })
+  req.body.businessNumber = req.body.businessNumber.replace(/[- )(]/g, '')
+  let query = [
+    {$match: {_id: {$ne: req.user.companyId}, 'whatsApp.businessNumber': req.body.businessNumber}},
+    {$lookup: {from: 'users', localField: 'ownerId', foreignField: '_id', as: 'user'}},
+    {'$unwind': '$user'}
+  ]
+  utility.callApi(`companyprofile/aggregate`, 'post', query) // fetch company user
+    .then(companyprofile => {
+      if (!companyprofile[0]) {
+        let data = {body: req.body, companyId: req.user.companyId, userId: req.user._id}
+        async.series([
+          _verifyCredentials.bind(null, data),
+          _updateCompanyProfile.bind(null, data),
+          _updateUser.bind(null, data),
+          _setWebhook.bind(null, data)
+        ], function (err) {
+          if (err) {
+            sendErrorResponse(res, 500, '', `${err}`)
+          } else {
+            sendSuccessResponse(res, 200, {description: 'updated successfully', showModal: req.body.changeWhatsAppTwilio})
+          }
+        })
+      } else {
+        sendErrorResponse(res, 500, '', `This WhatsApp Number is already connected by ${companyprofile[0].user.email}. Please contact them`)
+      }
+    })
+    .catch((err) => {
+      sendErrorResponse(res, 500, `Failed to fetch company ${err}`)
+    })
 }
 exports.disconnect = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
-    .then(companyUser => {
-      if (!companyUser) {
-        sendErrorResponse(res, 404, '', 'The user account does not belong to any company. Please contact support')
-      }
-      let updated = {}
-      if (req.body.type === 'sms') {
-        updated = {$unset: {twilio: 1}}
-      } else {
-        updated = {$unset: {flockSendWhatsApp: 1}}
-      }
-      let userUpdated = logicLayer.getPlatform(companyUser, req.body)
-      utility.callApi(`companyprofile/update`, 'put', {query: {_id: companyUser.companyId}, newPayload: updated, options: {}})
+  utility.callApi(`companyprofile/query`, 'post', {ownerId: req.user._id})
+    .then(company => {
+      let updated = {$unset: {twilio: 1}}
+      let platform = logicLayer.getPlatformForSms(company, req.user)
+      utility.callApi(`companyprofile/update`, 'put', {query: {_id: req.user.companyId}, newPayload: updated, options: {}})
         .then(updatedProfile => {
-          utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: userUpdated, options: {}})
+          utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: {platform: platform}, options: {}})
             .then(updated => {
               sendSuccessResponse(res, 200, updatedProfile)
             })
@@ -412,97 +432,94 @@ exports.updateRole = function (req, res) {
 exports.deleteWhatsAppInfo = function (req, res) {
   utility.callApi('user/authenticatePassword', 'post', {email: req.user.email, password: req.body.password})
     .then(authenticated => {
-      async.parallelLimit([
-        function (callback) {
-          let updated = {}
-          // if (req.body.type === 'Disconnect') {
-          //   updated = {$unset: {twilioWhatsApp: 1}}
-          // } else {
-          //   updated = {twilioWhatsApp: {
-          //     accountSID: req.body.accountSID,
-          //     authToken: req.body.authToken,
-          //     sandboxNumber: req.body.sandboxNumber.split(' ').join(''),
-          //     sandboxCode: req.body.sandboxCode
-          //   }}
-          // }
-          if (req.body.type === 'Disconnect') {
-            updated = {$unset: {flockSendWhatsApp: 1}}
-          } else {
-            updated = {twilioWhatsApp: {
-              accessToken: req.body.accessToken,
-              number: req.body.sandboxNumber.split(' ').join('')
-            }}
-          }
-          utility.callApi(`companyprofile/update`, 'put', {query: {_id: req.user.companyId}, newPayload: updated, options: {}})
-            .then(data => {
-              data = data[0]
-              callback(null, data)
-            })
-            .catch(err => {
-              callback(err)
-            })
-        },
-        function (callback) {
-          if (req.body.type === 'Disconnect') {
-            utility.callApi(`user/update`, 'post', {query: {_id: req.user._id}, newPayload: {platform: 'messenger'}, options: {}})
-              .then(data => {
+      utility.callApi(`companyprofile/query`, 'post', {ownerId: req.user._id})
+        .then(company => {
+          async.parallelLimit([
+            function (callback) {
+              let updated = {}
+              if (req.body.type === 'Disconnect') {
+                updated = {$unset: {whatsApp: 1}}
+              } else {
+                updated = {twilioWhatsApp: {
+                  accessToken: req.body.accessToken,
+                  number: req.body.sandboxNumber.split(' ').join('')
+                }}
+              }
+              utility.callApi(`companyprofile/update`, 'put', {query: {_id: req.user.companyId}, newPayload: updated, options: {}})
+                .then(data => {
+                  data = data[0]
+                  callback(null, data)
+                })
+                .catch(err => {
+                  callback(err)
+                })
+            },
+            function (callback) {
+              if (req.body.type === 'Disconnect') {
+                let platform = logicLayer.getPlatformForWhatsApp(company, req.user)
+                utility.callApi(`user/update`, 'post', {query: {_id: req.user._id}, newPayload: {platform: platform}, options: {}})
+                  .then(data => {
+                    callback(null)
+                  })
+                  .catch(err => {
+                    callback(err)
+                  })
+              } else {
                 callback(null)
-              })
-              .catch(err => {
-                callback(err)
-              })
-          } else {
-            callback(null)
-          }
-        },
-        function (callback) {
-          utility.callApi(`whatsAppContacts/deleteMany`, 'delete', {companyId: req.user.companyId})
-            .then(data => {
-              callback(null, data)
-            })
-            .catch(err => {
-              callback(err)
-            })
-        },
-        function (callback) {
-          let query = {
-            purpose: 'deleteMany',
-            match: {companyId: req.user.companyId}
-          }
-          utility.callApi(`whatsAppBroadcasts`, 'delete', query, 'kiboengage')
-            .then(data => {
-              callback(null, data)
-            })
-            .catch(err => {
-              callback(err)
-            })
-        },
-        function (callback) {
-          let query = {
-            purpose: 'deleteMany',
-            match: {companyId: req.user.companyId}
-          }
-          utility.callApi(`whatsAppChat`, 'delete', query, 'kibochat')
-            .then(data => {
-              data = data[0]
-              callback(null, data)
-            })
-            .catch(err => {
-              callback(err)
-            })
-        }
-      ], 10, function (err, results) {
-        if (err) {
-          logger.serverLog(TAG, err, 'error')
-          sendErrorResponse(res, 500, `Failed to delete whatsapp info ${err}`)
-        } else {
-          console.log('results got', results)
-          sendSuccessResponse(res, 200, req.body.type === 'Disconnect' ? 'Disconnected Successfully' : 'Saved Successfully')
-        }
-      })
+              }
+            },
+            function (callback) {
+              utility.callApi(`whatsAppContacts/deleteMany`, 'delete', {companyId: req.user.companyId})
+                .then(data => {
+                  callback(null, data)
+                })
+                .catch(err => {
+                  callback(err)
+                })
+            },
+            function (callback) {
+              let query = {
+                purpose: 'deleteMany',
+                match: {companyId: req.user.companyId}
+              }
+              utility.callApi(`whatsAppBroadcasts`, 'delete', query, 'kiboengage')
+                .then(data => {
+                  callback(null, data)
+                })
+                .catch(err => {
+                  callback(err)
+                })
+            },
+            function (callback) {
+              let query = {
+                purpose: 'deleteMany',
+                match: {companyId: req.user.companyId}
+              }
+              utility.callApi(`whatsAppChat`, 'delete', query, 'kibochat')
+                .then(data => {
+                  data = data[0]
+                  callback(null, data)
+                })
+                .catch(err => {
+                  callback(err)
+                })
+            }
+          ], 10, function (err, results) {
+            if (err) {
+              logger.serverLog(TAG, err, 'error')
+              sendErrorResponse(res, 500, `Failed to delete whatsapp info ${err}`)
+            } else {
+              console.log('results got', results)
+              sendSuccessResponse(res, 200, req.body.type === 'Disconnect' ? 'Disconnected Successfully' : 'Saved Successfully')
+            }
+          })
+        })
+        .catch((err) => {
+          sendErrorResponse(res, 500, err)
+        })
     })
     .catch((err) => {
-      sendErrorResponse(res, 500, err.error.description)
+      sendErrorResponse(res, 500, err)
     })
 }
 
@@ -559,75 +576,11 @@ exports.enableMember = function (req, res) {
 }
 
 exports.getWhatsAppMessageTemplates = function (req, res) {
-  utility.callApi('companyprofile/query', 'post', {_id: req.user.companyId})
-    .then(companyProfile => {
-      if (companyProfile) {
-        if (companyProfile.flockSendWhatsApp) {
-          const authData = {
-            'token': companyProfile.flockSendWhatsApp.accessToken
-          }
-          request(
-            {
-              'method': 'POST',
-              'formData': authData,
-              'uri': 'https://flocksend.com/api/templates-fetch'
-            }, (err, resp) => {
-              if (err) {
-                sendErrorResponse(res, 500, err, 'Error retrieving templates')
-              }
-              // let templates = [
-              //   {
-              //     name: 'contact_reminder',
-              //     text: 'Hi {{1}}.\n\nThank you for contacting {{2}}.\n\nPlease choose from the options below to continue:',
-              //     regex: ^Hi (.*)\.\n\nThank you for contacting (.*).\n\nPlease choose from the options below to continue:$,
-              //     buttons: [
-              //       {title: 'Get in Touch'},
-              //       {title: 'Explore Options'},
-              //       {title: 'Speak to Support'}
-              //     ],
-              //     templateArguments: '{{1}},{{2}}'
-              //   }
-              // ]
-              let templates = []
-              let flockSendTemplates = JSON.parse(resp.body)
-              for (let i = 0; i < flockSendTemplates.length; i++) {
-                if (flockSendTemplates[i].localizations[0].status === 'APPROVED') {
-                  let template = {}
-                  template.name = flockSendTemplates[i].templateName
-                  let templateComponents = flockSendTemplates[i].localizations[0].components
-                  for (let j = 0; j < templateComponents.length; j++) {
-                    if (templateComponents[j].type === 'BODY') {
-                      template.text = templateComponents[j].text
-                      let argumentsRegex = /{{[0-9]}}/g
-                      let templateArguments = template.text.match(argumentsRegex).join(',')
-                      template.templateArguments = templateArguments
-                      let regex = template.text.replace('.', '\\.')
-                      regex = regex.replace(argumentsRegex, '(.*)')
-                      template.regex = `^${regex}$`
-                    } else if (templateComponents[j].type === 'BUTTONS') {
-                      template.buttons = templateComponents[j].buttons.map(button => {
-                        return {
-                          title: button.text
-                        }
-                      })
-                    }
-                  }
-                  if (!template.buttons) {
-                    template.buttons = []
-                  }
-                  templates.push(template)
-                }
-              }
-              sendSuccessResponse(res, 200, templates, 'Retrieved templates successfully')
-            })
-        } else {
-          sendErrorResponse(res, 500, null, 'WhatsApp not connected')
-        }
-      } else {
-        sendErrorResponse(res, 500, null, 'No company profile found')
-      }
+  whatsAppMapper(req.user.whatsApp.provider, ActionTypes.GET_TEMPLATES, {whatsApp: req.user.whatsApp})
+    .then(templates => {
+      sendSuccessResponse(res, 200, templates, 'Retrieved templates successfully')
     })
-    .catch(err => {
-      sendErrorResponse(res, 500, err, 'Error fetching company profile')
+    .catch(error => {
+      sendErrorResponse(res, 500, error, 'Error retrieving templates')
     })
 }

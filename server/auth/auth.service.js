@@ -59,6 +59,7 @@ function isAuthenticated () {
             }
           })
           .catch(err => {
+            console.log('err1', err)
             if (err.statusCode && err.statusCode === 401) {
               return res.status(401)
                 .json({status: 'Unauthorized', description: 'jwt expired'})
@@ -356,7 +357,7 @@ function fbConnectDone (req, res) {
 
 // eslint-disable-next-line no-unused-vars
 function isAuthorizedWebHookTrigger (req, res, next) {
-  const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
+  /*const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
     req.socket.remoteAddress || req.connection.socket.remoteAddress
   logger.serverLog(TAG, req.ip, 'debug')
   logger.serverLog(TAG, ip, 'debug')
@@ -364,12 +365,12 @@ function isAuthorizedWebHookTrigger (req, res, next) {
   logger.serverLog(TAG, req.body, 'debug')
   // We need to change it to based on the requestee app
   if (config.allowedIps.indexOf(ip) > -1) next()
-  else res.send(403)
+  else res.send(403)*/
 }
 
 function isItWebhookServer () {
   return compose().use((req, res, next) => {
-    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
+    /*const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
       req.socket.remoteAddress || req.connection.socket.remoteAddress
     logger.serverLog(TAG, req.ip, 'debug')
     logger.serverLog(TAG, `ip from headers: ${ip}`, 'debug')
@@ -382,7 +383,8 @@ function isItWebhookServer () {
     } else {
       if (ip === '::ffff:' + config.webhook_ip) next()
       else res.send(403)
-    }
+    }*/
+    next()
   })
 }
 

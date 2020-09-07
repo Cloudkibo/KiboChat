@@ -49,6 +49,6 @@ exports.deletePayload =
       'responseId': {
         'type': 'string',
         'required': true
-      },
+      }
     }
   }

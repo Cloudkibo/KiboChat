@@ -4,20 +4,20 @@ const TAG = 'api/v1/messengerEvents/sessions.controller'
 const LiveChatDataLayer = require('../liveChat/liveChat.datalayer')
 const botController = require('./bots.controller')
 const needle = require('needle')
-const moment = require('moment')
+// const moment = require('moment')
 const sessionLogicLayer = require('../sessions/sessions.logiclayer')
 const logicLayer = require('./logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
-const { record } = require('../../global/messageStatistics')
-const { handleChatBotWelcomeMessage: handleChatBotAutomationEvents } = require('./chatbotAutomation.controller')
 const { updateCompanyUsage } = require('../../global/billingPricing')
 const { sendNotifications } = require('../../global/sendNotification')
+const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('../../global/messageAlerts')
 const { handleTriggerMessage } = require('./chatbotAutomation.controller')
 
 exports.index = function (req, res) {
   logger.serverLog(TAG, `payload received in page ${JSON.stringify(req.body.page)}`, 'debug')
   logger.serverLog(TAG, `payload received in subscriber ${JSON.stringify(req.body.subscriber)}`, 'debug')
   logger.serverLog(TAG, `payload received in event ${JSON.stringify(req.body.event)}`, 'debug')
+  logger.serverLog(TAG, `payload received in pushPendingSession ${JSON.stringify(req.body.pushPendingSessionInfo)}`, 'debug')
   res.status(200).json({
     status: 'success',
     description: `received the payload`
@@ -27,43 +27,53 @@ exports.index = function (req, res) {
   let event = req.body.event
   utility.callApi(`companyprofile/query`, 'post', { _id: page.companyId })
     .then(company => {
-      if (!(company.automated_options === 'DISABLE_CHAT')) { 
-        if(subscriber.unSubscribedBy !== 'agent') {
-        let updatePayload = { last_activity_time: Date.now() }
-        if (subscriber.status === 'resolved') {
-          updatePayload.status = 'new'
-        }
-        if (!event.message.is_echo) {
-          updatePayload.pendingResponse = true
-          updatePayload.lastMessagedAt = Date.now()
-        }
-        utility.callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: updatePayload, options: {}})
-          .then(updated => {
-            if (!event.message.is_echo) {
-              utility.callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: {$inc: { unreadCount: 1, messagesCount: 1 }}, options: {}})
-                .then(updated => {
-                })
-                .catch(error => {
-                  logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
-                })
+      if (!(company.automated_options === 'DISABLE_CHAT')) {
+        if (subscriber.unSubscribedBy !== 'agent') {
+          let updatePayload = { last_activity_time: Date.now() }
+          if (!event.message.is_echo) {
+            if (subscriber.status === 'resolved') {
+              updatePayload.status = 'new'
             }
-            logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
-            if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
-              saveLiveChat(page, subscriber, event)
-              handleTriggerMessage(event, page, subscriber)
-            }
-          })
-          .catch(error => {
-            logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
-          })
-      } }
+            updatePayload.pendingResponse = true
+            updatePayload.lastMessagedAt = Date.now()
+          }
+          if (req.body.pushPendingSessionInfo && JSON.stringify(req.body.pushPendingSessionInfo) === 'true') {
+            pushSessionPendingAlertInStack(company, subscriber, 'messenger')
+          }
+          utility.callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: updatePayload, options: {}})
+            .then(updated => {
+              if (!event.message.is_echo) {
+                utility.callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: {$inc: { unreadCount: 1, messagesCount: 1 }}, options: {}})
+                  .then(updated => {
+                  })
+                  .catch(error => {
+                    logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
+                  })
+              }
+              logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
+              if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
+                saveLiveChat(page, subscriber, event)
+                if (event.type !== 'get_started') {
+                  handleTriggerMessage(event, page, subscriber)
+                }
+                if (!event.message.is_echo) {
+                  pushUnresolveAlertInStack(company, subscriber, 'messenger')
+                }
+              }
+            })
+            .catch(error => {
+              logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
+            })
+        }
+      }
     })
     .catch(error => {
       logger.serverLog(TAG, `Failed to fetch company profile ${JSON.stringify(error)}`, 'error')
     })
 }
+
 function saveLiveChat (page, subscriber, event) {
-  record('messengerChatInComing')
+  // record('messengerChatInComing')
   if (subscriber && !event.message.is_echo) {
     botController.respondUsingBot(page, subscriber, event.message.text)
   }
@@ -132,7 +142,7 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
                   subscriber: sub[0],
                   message: chat
                 }
-                sendNotification(sub[0], payload, page.companyId, page.pageName)
+                sendNotification(sub[0], payload, page)
                 require('./../../../config/socketio').sendMessageToClient({
                   room_id: page.companyId,
                   body: {
@@ -143,6 +153,21 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
               })
           }, 500)
           sendautomatedmsg(event, page)
+        } else {
+          require('./../../../config/socketio').sendMessageToClient({
+            room_id: page.companyId,
+            body: {
+              action: 'new_chat',
+              payload: {
+                subscriber_id: subscriber._id,
+                chat_id: chat._id,
+                text: chatPayload.payload.text,
+                name: subscriber.firstName + ' ' + subscriber.lastName,
+                subscriber: subscriber,
+                message: chat
+              }
+            }
+          })
         }
       })
       .catch(error => {
@@ -164,9 +189,15 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
 //   }
 // }
 
-function sendNotification (subscriber, payload, companyId, pageName) {
+function sendNotification (subscriber, payload, page) {
+  let pageName = page.pageName
+  let companyId = page.companyId
   let title = '[' + pageName + ']: ' + subscriber.firstName + ' ' + subscriber.lastName
   let body = payload.text
+  let newPayload = {
+    action: 'chat_messenger',
+    subscriber: subscriber
+  }
   utility.callApi(`companyUser/queryAll`, 'post', {companyId: companyId}, 'accounts')
     .then(companyUsers => {
       let lastMessageData = sessionLogicLayer.getQueryData('', 'aggregate', {company_id: companyId}, undefined, undefined, undefined, {_id: subscriber._id, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
@@ -176,13 +207,13 @@ function sendNotification (subscriber, payload, companyId, pageName) {
           subscriber.lastRepliedBy = gotLastMessage[0].replied_by
           subscriber.lastDateTime = gotLastMessage[0].datetime
           if (!subscriber.is_assigned) {
-            sendNotifications(title, body, subscriber, companyUsers)
-            saveNotifications(subscriber, companyUsers, pageName)
+            sendNotifications(title, body, newPayload, companyUsers)
+            saveNotifications(subscriber, companyUsers, page)
           } else {
             if (subscriber.assigned_to.type === 'agent') {
               companyUsers = companyUsers.filter(companyUser => companyUser.userId._id === subscriber.assigned_to.id)
-              sendNotifications(title, body, subscriber, companyUsers)
-              saveNotifications(subscriber, companyUsers, pageName)
+              sendNotifications(title, body, newPayload, companyUsers)
+              saveNotifications(subscriber, companyUsers, page)
             } else {
               utility.callApi(`teams/agents/query`, 'post', {teamId: subscriber.assigned_to.id}, 'accounts')
                 .then(teamagents => {
@@ -192,7 +223,7 @@ function sendNotification (subscriber, payload, companyId, pageName) {
                       return companyUser
                     }
                   })
-                  sendNotifications(title, body, subscriber, companyUsers)
+                  sendNotifications(title, body, newPayload, companyUsers)
                   saveNotifications(subscriber, companyUsers, pageName)
                 }).catch(error => {
                   logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
@@ -207,25 +238,39 @@ function sendNotification (subscriber, payload, companyId, pageName) {
     })
 }
 
-function saveNotifications (subscriber, companyUsers, pageName) {
+function saveNotifications (subscriber, companyUsers, page) {
   companyUsers.forEach((companyUser, index) => {
     let notificationsData = {
-      message: `${subscriber.firstName} ${subscriber.lastName} sent a message to page ${pageName}`,
+      message: `${subscriber.firstName} ${subscriber.lastName} sent a message to page ${page.pageName}`,
       category: { type: 'new_message', id: subscriber._id },
       agentId: companyUser.userId._id,
-      companyId: companyUser.companyId
+      companyId: companyUser.companyId,
+      platform: 'messenger'
     }
     utility.callApi(`notifications`, 'post', notificationsData, 'kibochat')
       .then(savedNotification => {
-        if (index === companyUsers.length - 1) {
-          require('./../../../config/socketio').sendMessageToClient({
-            room_id: companyUser.companyId,
-            body: {
-              action: 'new_notification',
-              payload: savedNotification
+        utility.callApi(`permissions/query`, 'post', {companyId: companyUser.companyId, userId: companyUser.userId._id})
+          .then(userPermission => {
+            if (userPermission.length > 0) {
+              userPermission = userPermission[0]
             }
+            if (userPermission.muteNotifications && userPermission.muteNotifications.includes(page._id)) {
+              notificationsData.muteNotification = true
+            } else {
+              notificationsData.muteNotification = false
+            }
+            notificationsData.subscriber = subscriber
+            require('./../../../config/socketio').sendMessageToClient({
+              room_id: companyUser.companyId,
+              body: {
+                action: 'new_notification',
+                payload: notificationsData
+              }
+            })
           })
-        }
+          .catch(err => {
+            logger.serverLog(TAG, `Failed to fetch user permissions ${err}`, 'error')
+          })
       })
       .catch(error => {
         logger.serverLog(TAG, `Failed to save notification ${error}`, 'error')
@@ -412,3 +457,5 @@ function sendautomatedmsg (req, page) {
       })
   }
 }
+
+exports.saveLiveChat = saveLiveChat
