@@ -571,7 +571,7 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
   try {
     quantity = Number(quantity)
     if (!Number.isInteger(quantity) || quantity <= 0) {
-      throw new Error('Invalid quantity given')
+      throw new Error('Invalid quantity given.')
     }
     let messageBlock = {
       module: {
@@ -687,7 +687,7 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
   try {
     quantity = Number(quantity)
     if (!Number.isInteger(quantity) || quantity <= 0) {
-      throw new Error('Invalid quantity given')
+      throw new Error('Invalid quantity given.')
     }
     let messageBlock = {
       module: {
@@ -716,7 +716,7 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
     if (shoppingCart[productInfo.productIndex].quantity === 0) {
       shoppingCart.splice(productInfo.productIndex, 1)
     } else if (shoppingCart[productInfo.productIndex].quantity < 0) {
-      throw new Error('Invalid quantity given')
+      throw new Error('Invalid quantity given.')
     }
     if (shoppingCart.length > 0) {
       messageBlock.payload[0].menu.push({ type: DYNAMIC, action: GET_CHECKOUT_EMAIL })
@@ -1001,7 +1001,10 @@ const invalidInput = async (chatbot, messageBlock, errMessage) => {
   if (messageBlock.uniqueId === chatbot.startingBlockId) {
     messageBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
   }
-  messageBlock.payload[0].text = `${errMessage}\n\n` + messageBlock.payload[0].text
+
+  if (!messageBlock.payload[0].text.includes(errMessage)) {
+    messageBlock.payload[0].text = `${errMessage}\n\n` + messageBlock.payload[0].text
+  }
 
   logger.serverLog(TAG, `whatsapp chatbot invalid input ${JSON.stringify(messageBlock)} `, 'info')
   return messageBlock
