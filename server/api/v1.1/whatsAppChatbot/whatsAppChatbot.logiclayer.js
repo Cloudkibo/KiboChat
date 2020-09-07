@@ -698,7 +698,7 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `${quantity} ${productInfo.product}${quantity > 1 ? 's have' : ' has'} been succesfully removed from your cart.\n`,
+          text: `${quantity} ${productInfo.product}${quantity !== 1 ? 's have' : ' has'} been succesfully removed from your cart.\n`,
           componentType: 'text',
           menu: [],
           specialKeys: {
