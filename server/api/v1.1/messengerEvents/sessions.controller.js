@@ -10,7 +10,7 @@ const logicLayer = require('./logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
 // const { record } = require('../../global/messageStatistics')
 const { sendNotifications } = require('../../global/sendNotification')
-const { handleTriggerMessage } = require('./chatbotAutomation.controller')
+const { handleTriggerMessage, handleShopifyChatbot } = require('./chatbotAutomation.controller')
 
 exports.index = function (req, res) {
   logger.serverLog(TAG, `payload received in page ${JSON.stringify(req.body.page)}`, 'debug')
@@ -27,42 +27,43 @@ exports.index = function (req, res) {
   utility.callApi(`companyprofile/query`, 'post', { _id: page.companyId })
     .then(company => {
       if (!(company.automated_options === 'DISABLE_CHAT')) {
-        if(subscriber.unSubscribedBy !== 'agent') {
-        let updatePayload = { last_activity_time: Date.now() }
-        if (!event.message.is_echo) {
-          if (subscriber.status === 'resolved') {
-            updatePayload.status = 'new'
+        if (subscriber.unSubscribedBy !== 'agent') {
+          let updatePayload = { last_activity_time: Date.now() }
+          if (!event.message.is_echo) {
+            if (subscriber.status === 'resolved') {
+              updatePayload.status = 'new'
+            }
+            updatePayload.pendingResponse = true
+            updatePayload.lastMessagedAt = Date.now()
           }
-          updatePayload.pendingResponse = true
-          updatePayload.lastMessagedAt = Date.now()
-        }
-        if (req.body.pushPendingSessionInfo && JSON.stringify(req.body.pushPendingSessionInfo) === 'true') {
-          pushSessionPendingAlertInStack(company, subscriber)
-        }
-        utility.callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: updatePayload, options: {}})
-          .then(updated => {
-            if (!event.message.is_echo) {
-              utility.callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: {$inc: { unreadCount: 1, messagesCount: 1 }}, options: {}})
-                .then(updated => {
-                })
-                .catch(error => {
-                  logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
-                })
-            }
-            logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
-            if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
-              saveLiveChat(page, subscriber, event)
-              if (event.type !== 'get_started') {
-                handleTriggerMessage(event, page, subscriber)
-              }
+          if (req.body.pushPendingSessionInfo && JSON.stringify(req.body.pushPendingSessionInfo) === 'true') {
+            pushSessionPendingAlertInStack(company, subscriber)
+          }
+          utility.callApi('subscribers/update', 'put', { query: { _id: subscriber._id }, newPayload: updatePayload, options: {} })
+            .then(updated => {
               if (!event.message.is_echo) {
-                pushUnresolveAlertInStack(company, subscriber)
+                utility.callApi('subscribers/update', 'put', { query: { _id: subscriber._id }, newPayload: { $inc: { unreadCount: 1, messagesCount: 1 } }, options: {} })
+                  .then(updated => {
+                  })
+                  .catch(error => {
+                    logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
+                  })
               }
-            }
-          })
-          .catch(error => {
-            logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
-          })
+              logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
+              if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
+                saveLiveChat(page, subscriber, event)
+                if (event.type !== 'get_started') {
+                  handleShopifyChatbot(event, page, subscriber)
+                  handleTriggerMessage(event, page, subscriber)
+                }
+                if (!event.message.is_echo) {
+                  pushUnresolveAlertInStack(company, subscriber)
+                }
+              }
+            })
+            .catch(error => {
+              logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
+            })
         }
       }
     })
@@ -71,8 +72,8 @@ exports.index = function (req, res) {
     })
 }
 
-function pushUnresolveAlertInStack (company, subscriber) {
-  utility.callApi(`companypreferences/query`, 'post', {companyId: company._id}, 'accounts')
+function pushUnresolveAlertInStack(company, subscriber) {
+  utility.callApi(`companypreferences/query`, 'post', { companyId: company._id }, 'accounts')
     .then(companypreferences => {
       if (companypreferences.length > 0) {
         var unresolveSessionAlert = companypreferences[0].unresolveSessionAlert
@@ -121,9 +122,9 @@ function pushUnresolveAlertInStack (company, subscriber) {
       logger.serverLog(TAG, `Error while fetching company preferences ${error}`, 'error')
     })
 }
-function pushSessionPendingAlertInStack (company, subscriber) {
+function pushSessionPendingAlertInStack(company, subscriber) {
   logger.serverLog(TAG, 'In Pending Session Info')
-  utility.callApi(`companypreferences/query`, 'post', {companyId: company._id}, 'accounts')
+  utility.callApi(`companypreferences/query`, 'post', { companyId: company._id }, 'accounts')
     .then(companypreferences => {
       if (companypreferences.length > 0) {
         var pendingSessionAlert = companypreferences[0].pendingSessionAlert
@@ -154,12 +155,12 @@ function pushSessionPendingAlertInStack (company, subscriber) {
       logger.serverLog(TAG, `Error while fetching company preferences ${error}`, 'error')
     })
 }
-function saveLiveChat (page, subscriber, event) {
+function saveLiveChat(page, subscriber, event) {
   // record('messengerChatInComing')
   if (subscriber && !event.message.is_echo) {
     botController.respondUsingBot(page, subscriber, event.message.text)
   }
-  utility.callApi(`webhooks/query`, 'post', {pageId: page.pageId})
+  utility.callApi(`webhooks/query`, 'post', { pageId: page.pageId })
     .then(webhooks => {
       let webhook = webhooks[0]
       if (webhooks.length > 0 && webhook.isEnabled) {
@@ -202,7 +203,7 @@ function saveLiveChat (page, subscriber, event) {
       }
     })
 }
-function saveChatInDb (page, chatPayload, subscriber, event) {
+function saveChatInDb(page, chatPayload, subscriber, event) {
   if (
     Object.keys(chatPayload.payload).length > 0 &&
     chatPayload.payload.constructor === Object &&
@@ -213,7 +214,7 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
       .then(chat => {
         if (!event.message.is_echo) {
           setTimeout(() => {
-            utility.callApi('subscribers/query', 'post', {_id: subscriber._id})
+            utility.callApi('subscribers/query', 'post', { _id: subscriber._id })
               .then(sub => {
                 let payload = {
                   subscriber_id: sub[0]._id,
@@ -270,7 +271,7 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
 //   }
 // }
 
-function sendNotification (subscriber, payload, page) {
+function sendNotification(subscriber, payload, page) {
   let pageName = page.pageName
   let companyId = page.companyId
   let title = '[' + pageName + ']: ' + subscriber.firstName + ' ' + subscriber.lastName
@@ -279,9 +280,9 @@ function sendNotification (subscriber, payload, page) {
     action: 'chat_messenger',
     subscriber: subscriber
   }
-  utility.callApi(`companyUser/queryAll`, 'post', {companyId: companyId}, 'accounts')
+  utility.callApi(`companyUser/queryAll`, 'post', { companyId: companyId }, 'accounts')
     .then(companyUsers => {
-      let lastMessageData = sessionLogicLayer.getQueryData('', 'aggregate', {company_id: companyId}, undefined, undefined, undefined, {_id: subscriber._id, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+      let lastMessageData = sessionLogicLayer.getQueryData('', 'aggregate', { company_id: companyId }, undefined, undefined, undefined, { _id: subscriber._id, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' } })
       utility.callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
         .then(gotLastMessage => {
           subscriber.lastPayload = gotLastMessage[0].payload
@@ -296,7 +297,7 @@ function sendNotification (subscriber, payload, page) {
               sendNotifications(title, body, newPayload, companyUsers)
               saveNotifications(subscriber, companyUsers, page)
             } else {
-              utility.callApi(`teams/agents/query`, 'post', {teamId: subscriber.assigned_to.id}, 'accounts')
+              utility.callApi(`teams/agents/query`, 'post', { teamId: subscriber.assigned_to.id }, 'accounts')
                 .then(teamagents => {
                   teamagents = teamagents.map(teamagent => teamagent.agentId._id)
                   companyUsers = companyUsers.filter(companyUser => {
@@ -319,17 +320,17 @@ function sendNotification (subscriber, payload, page) {
     })
 }
 
-function saveNotifications (subscriber, companyUsers, page) {
+function saveNotifications(subscriber, companyUsers, page) {
   companyUsers.forEach((companyUser, index) => {
     let notificationsData = {
       message: `${subscriber.firstName} ${subscriber.lastName} sent a message to page ${page.pageName}`,
       category: { type: 'new_message', id: subscriber._id },
       agentId: companyUser.userId._id,
       companyId: companyUser.companyId
-  }
+    }
     utility.callApi(`notifications`, 'post', notificationsData, 'kibochat')
       .then(savedNotification => {
-        utility.callApi(`permissions/query`, 'post', {companyId: companyUser.companyId, userId: companyUser.userId._id})
+        utility.callApi(`permissions/query`, 'post', { companyId: companyUser.companyId, userId: companyUser.userId._id })
           .then(userPermission => {
             if (userPermission.length > 0) {
               userPermission = userPermission[0]
@@ -349,7 +350,7 @@ function saveNotifications (subscriber, companyUsers, page) {
             })
           })
           .catch(err => {
-            logger.serverLog(TAG, `Failed to fetch user permissions ${error}`, 'error')
+            logger.serverLog(TAG, `Failed to fetch user permissions ${err}`, 'error')
           })
       })
       .catch(error => {
@@ -358,7 +359,7 @@ function saveNotifications (subscriber, companyUsers, page) {
   })
 }
 
-function sendautomatedmsg (req, page) {
+function sendautomatedmsg(req, page) {
   if (req.message && req.message.text) {
     let index = -3
     if (req.message.text.toLowerCase() === 'stop' ||
@@ -422,7 +423,7 @@ function sendautomatedmsg (req, page) {
                 messageData = {
                   text: 'You have subscribed to our broadcasts. Send "stop" to unsubscribe'
                 }
-                utility.callApi(`subscribers`, 'put', {query: { senderId: req.sender.id }, newPayload: { isSubscribed: true }, options: {}})
+                utility.callApi(`subscribers`, 'put', { query: { senderId: req.sender.id }, newPayload: { isSubscribed: true }, options: {} })
                   .then(updated => {
                   })
                   .catch(error => {
@@ -510,7 +511,7 @@ function sendautomatedmsg (req, page) {
                       })
                     LiveChatDataLayer.createFbMessageObject(chatMessage)
                       .then(chatMessageSaved => {
-                        utility.callApi('subscribers/update', 'put', {query: {_id: subscribers[0]._id}, newPayload: {last_activity_time: Date.now()}, options: {}})
+                        utility.callApi('subscribers/update', 'put', { query: { _id: subscribers[0]._id }, newPayload: { last_activity_time: Date.now() }, options: {} })
                           .then(updated => {
                             logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
                           })
