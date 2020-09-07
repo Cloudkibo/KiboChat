@@ -997,13 +997,11 @@ const getWelcomeMessageBlock = async (chatbot, contact, input) => {
   return messageBlock
 }
 
-const invalidInput = async (messageBlock, errMessage) => {
+const invalidInput = async (chatbot, messageBlock, errMessage) => {
+  if (messageBlock.uniqueId === chatbot.startingBlockId) {
+    messageBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
+  }
   messageBlock.payload[0].text = `${errMessage}\n\n` + messageBlock.payload[0].text
-
-  // messageBlock.payload[0].text = messageBlock.payload[0].text.split('\n')
-  //   .filter(function (line) {
-  //     return !line.includes('Hi') || !line.includes('Hello')
-  //   }).join('\n')
 
   logger.serverLog(TAG, `whatsapp chatbot invalid input ${JSON.stringify(messageBlock)} `, 'info')
   return messageBlock
@@ -1038,7 +1036,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
       if (chatbot.triggers.includes(input)) {
         return getWelcomeMessageBlock(chatbot, contact, input)
       } else {
-        return invalidInput(contact.lastMessageSentByBot, `You entered an invalid response.`)
+        return invalidInput(chatbot, contact.lastMessageSentByBot, `You entered an invalid response.`)
       }
     }
     if (action.type === DYNAMIC) {
@@ -1116,7 +1114,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
         if (chatbot.triggers.includes(input)) {
           return getWelcomeMessageBlock(chatbot, contact, input)
         } else {
-          return invalidInput(contact.lastMessageSentByBot, err.message)
+          return invalidInput(chatbot, contact.lastMessageSentByBot, err.message)
         }
       }
     } else if (action.type === STATIC) {
