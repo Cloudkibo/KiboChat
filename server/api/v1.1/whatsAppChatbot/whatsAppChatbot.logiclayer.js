@@ -1005,9 +1005,9 @@ const invalidInput = async (messageBlock, errMessage) => {
       componentType: 'text'
     }
   )
-  payload.push(...messageBlock.payload[0])
+  payload.push(...messageBlock.payload)
 
-  messageBlock.payload[0] = payload
+  messageBlock.payload = payload
   return messageBlock
 }
 
