@@ -5,10 +5,12 @@ exports.fetchStoreInfo = (credentials) => {
   return new Promise(function (resolve, reject) {
     shopify.shop.get()
       .then(shop => {
+        console.log(shop)
         resolve({
           id: shop.id,
           name: shop.name,
-          domain: shop.domain
+          domain: shop.domain,
+          currency: shop.currency
         })
       })
       .catch(err => {
@@ -77,6 +79,55 @@ exports.fetchProducts = (credentials) => {
   })
 }
 
+exports.searchProducts = (searchQuery, credentials) => {
+  const shopify = initShopify(credentials)
+  const query = `{
+    products(first: 10, query: "title:*${searchQuery}*") {
+      edges {
+        node {
+          id
+          title
+          productType
+          vendor
+          featuredImage {
+            id
+            originalSrc
+          }
+          variants(first: 1) {
+            edges {
+              node {
+                id
+                price
+              }
+            }
+          }
+        }
+      }
+    }
+  }`
+
+  return new Promise(function (resolve, reject) {
+    shopify.graphql(query)
+      .then(result => {
+        let products = result.products.edges
+        products = products.map(product => {
+          product = product.node
+          return { id: product.id.split('/')[4],
+            name: product.title,
+            product_type: product.productType,
+            vendor: product.vendor,
+            price: product.variants.edges[0].node.price,
+            image: product.featuredImage ? product.featuredImage.originalSrc : null
+          }
+        })
+        resolve(products)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
 exports.getProductVariants = (id, credentials) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
@@ -91,7 +142,8 @@ exports.getProductVariants = (id, credentials) => {
             option2: product.option2,
             option3: product.option3,
             weight: product.weight,
-            weight_unit: product.weight_unit
+            weight_unit: product.weight_unit,
+            inventory_quantity: product.inventory_quantity
           }
         })
         resolve(products)
@@ -281,6 +333,34 @@ exports.createCustomer = (firstName, lastName, email, credentials) => {
     shopify.customer.create({ email, first_name: firstName, last_name: lastName })
       .then(customer => {
         resolve(customer)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
+exports.findCustomerOrders = (customerId, limit, credentials) => {
+  const shopify = initShopify(credentials)
+  return new Promise(function (resolve, reject) {
+    shopify.customer.orders(customerId, { limit })
+      .then(orders => {
+        orders = orders.map(order => {
+          return {
+            id: order.id,
+            email: order.email,
+            created_at: order.created_at,
+            total_price: order.total_price,
+            currency: order.currency,
+            financial_status: order.financial_status,
+            total_spent: order.total_spent,
+            confirmed: order.confirmed,
+            order_number: order.order_number,
+            order_status_url: order.order_status_url,
+            fulfillment_status: order.fulfillment_status
+          }
+        })
+        resolve(orders)
       })
       .catch(err => {
         reject(err)
