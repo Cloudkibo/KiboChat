@@ -1,15 +1,19 @@
 const chatbotDataLayer = require('./../chatbots/chatbots.datalayer')
 const chatbotAnalyticsDataLayer = require('./../chatbots/chatbots_analytics.datalayer')
 const messageBlockDataLayer = require('./../messageBlock/messageBlock.datalayer')
+const shopifyDataLayer = require('../shopify/shopify.datalayer')
 const logicLayer = require('./logiclayer')
+const shopifyChatbotLogicLayer = require('../chatbots/shopifyChatbot.logiclayer')
 const logger = require('../../../components/logger')
 const { intervalForEach } = require('./../../../components/utility')
 const { facebookApiCaller } = require('./../../global/facebookApiCaller')
 const TAG = 'api/v1/messengerEvents/chatbotAutomation.controller'
 const moment = require('moment')
+const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
+const EcommerceProvider = require('../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
 
 exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
-  chatbotDataLayer.findOneChatBot({pageId: page._id, published: true})
+  chatbotDataLayer.findOneChatBot({ pageId: page._id, published: true })
     .then(chatbot => {
       if (chatbot) {
         if (req.postback && req.postback.payload && req.postback.payload === '<GET_STARTED_PAYLOAD>') {
@@ -56,8 +60,50 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
     })
 }
 
+exports.handleShopifyChatbot = async (event, page, subscriber) => {
+  let chatbot = await chatbotDataLayer.findOneChatBot({
+    pageId: page._id,
+    published: true,
+    type: 'automation',
+    vertical: 'commerce'
+  })
+  if (chatbot) {
+    const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
+    if (shopifyIntegration) {
+      const ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
+        shopUrl: shopifyIntegration.shopUrl,
+        shopToken: shopifyIntegration.shopToken
+      })
+      let nextMessageBlock = await shopifyChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, subscriber, event.message)
+      if (nextMessageBlock) {
+        senderAction(event.sender.id, 'typing_on', page.accessToken)
+        intervalForEach(nextMessageBlock.payload, (item) => {
+          sendResponse(event.sender.id, item, subscriber, page.accessToken)
+          senderAction(event.sender.id, 'typing_off', page.accessToken)
+        }, 1500)
+        updateBotLifeStats(chatbot, false)
+        updateBotPeriodicStats(chatbot, false)
+        updateBotLifeStatsForBlock(nextMessageBlock, true)
+        updateBotPeriodicStatsForBlock(chatbot, true)
+        updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, nextMessageBlock)
+        let subscriberLastMessageAt = moment(subscriber.lastMessagedAt)
+        let dateNow = moment()
+        if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
+          updateBotPeriodicStatsForReturning(chatbot)
+        }
+        // new subscriber stats logic starts
+        let subscriberCreatedAt = moment(subscriber.datetime)
+        if (dateNow.diff(subscriberCreatedAt, 'seconds') <= 10) {
+          updateBotLifeStats(chatbot, true)
+          updateBotPeriodicStats(chatbot, true)
+        }
+      }
+    }
+  }
+}
+
 exports.handleTriggerMessage = (req, page, subscriber) => {
-  chatbotDataLayer.findOneChatBot({pageId: page._id, published: true})
+  chatbotDataLayer.findOneChatBot({ pageId: page._id, published: true, type: 'manual' })
     .then(chatbot => {
       if (chatbot) {
         let userText = req.message.text.toLowerCase().trim()
@@ -107,7 +153,7 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
 }
 
 exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId) => {
-  chatbotDataLayer.findOneChatBot({pageId: page._id, published: true})
+  chatbotDataLayer.findOneChatBot({ pageId: page._id, published: true })
     .then(chatbot => {
       if (chatbot) {
         messageBlockDataLayer.findOneMessageBlock({ uniqueId: uniqueId.toString() })
@@ -141,7 +187,7 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId) => {
 }
 
 exports.handleChatBotTestMessage = (req, page, subscriber) => {
-  chatbotDataLayer.findOneChatBot({pageId: page._id})
+  chatbotDataLayer.findOneChatBot({ pageId: page._id })
     .then(chatbot => {
       if (chatbot) {
         messageBlockDataLayer.findOneMessageBlock({ _id: chatbot.startingBlockId })
@@ -218,7 +264,7 @@ function sendFallbackReply (senderId, page, fallbackReply, subscriber) {
 
 function updateBotLifeStats (chatbot, isNewSubscriber) {
   if (isNewSubscriber) {
-    chatbotDataLayer.genericUpdateChatBot({_id: chatbot._id}, {$inc: { 'stats.newSubscribers': 1 }})
+    chatbotDataLayer.genericUpdateChatBot({ _id: chatbot._id }, { $inc: { 'stats.newSubscribers': 1 } })
       .then(updated => {
         logger.serverLog(TAG, `bot stats updated successfully`, 'debug')
       })
@@ -226,7 +272,7 @@ function updateBotLifeStats (chatbot, isNewSubscriber) {
         logger.serverLog(TAG, `Failed to update bot stats ${JSON.stringify(error)}`, 'error')
       })
   } else {
-    chatbotDataLayer.genericUpdateChatBot({_id: chatbot._id}, {$inc: { 'stats.triggerWordsMatched': 1 }})
+    chatbotDataLayer.genericUpdateChatBot({ _id: chatbot._id }, { $inc: { 'stats.triggerWordsMatched': 1 } })
       .then(updated => {
         logger.serverLog(TAG, `bot stats updated successfully`, 'debug')
       })
@@ -239,10 +285,12 @@ function updateBotLifeStats (chatbot, isNewSubscriber) {
 function updateBotPeriodicStats (chatbot, isNewSubscriber) {
   if (isNewSubscriber) {
     chatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
-      {chatbotId: chatbot._id,
+      {
+        chatbotId: chatbot._id,
         dateToday: moment(new Date()).format('YYYY-MM-DD'),
-        companyId: chatbot.companyId },
-      {$inc: { 'newSubscribersCount': 1 }},
+        companyId: chatbot.companyId
+      },
+      { $inc: { 'newSubscribersCount': 1 } },
       { upsert: true }
     )
       .then(updated => {
@@ -253,10 +301,12 @@ function updateBotPeriodicStats (chatbot, isNewSubscriber) {
       })
   } else {
     chatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
-      {chatbotId: chatbot._id,
+      {
+        chatbotId: chatbot._id,
         dateToday: moment(new Date()).format('YYYY-MM-DD'),
-        companyId: chatbot.companyId },
-      {$inc: { 'triggerWordsMatched': 1 }},
+        companyId: chatbot.companyId
+      },
+      { $inc: { 'triggerWordsMatched': 1 } },
       { upsert: true }
     )
       .then(updated => {
@@ -271,10 +321,12 @@ function updateBotPeriodicStats (chatbot, isNewSubscriber) {
 function updateBotPeriodicStatsForBlock (chatbot, isForSentCount) {
   if (isForSentCount) {
     chatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
-      {chatbotId: chatbot._id,
+      {
+        chatbotId: chatbot._id,
         dateToday: moment(new Date()).format('YYYY-MM-DD'),
-        companyId: chatbot.companyId },
-      {$inc: { 'sentCount': 1 }},
+        companyId: chatbot.companyId
+      },
+      { $inc: { 'sentCount': 1 } },
       { upsert: true }
     )
       .then(updated => {
@@ -285,10 +337,12 @@ function updateBotPeriodicStatsForBlock (chatbot, isForSentCount) {
       })
   } else {
     chatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
-      {chatbotId: chatbot._id,
+      {
+        chatbotId: chatbot._id,
         dateToday: moment(new Date()).format('YYYY-MM-DD'),
-        companyId: chatbot.companyId },
-      {$inc: { 'urlBtnClickedCount': 1 }},
+        companyId: chatbot.companyId
+      },
+      { $inc: { 'urlBtnClickedCount': 1 } },
       { upsert: true }
     )
       .then(updated => {
@@ -302,10 +356,12 @@ function updateBotPeriodicStatsForBlock (chatbot, isForSentCount) {
 
 function updateBotPeriodicStatsForReturning (chatbot) {
   chatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
-    {chatbotId: chatbot._id,
+    {
+      chatbotId: chatbot._id,
       dateToday: moment(new Date()).format('YYYY-MM-DD'),
-      companyId: chatbot.companyId },
-    {$inc: { 'returningSubscribers': 1 }},
+      companyId: chatbot.companyId
+    },
+    { $inc: { 'returningSubscribers': 1 } },
     { upsert: true }
   )
     .then(updated => {
@@ -318,7 +374,7 @@ function updateBotPeriodicStatsForReturning (chatbot) {
 
 function updateBotLifeStatsForBlock (messageBlock, isForSentCount) {
   if (isForSentCount) {
-    messageBlockDataLayer.genericUpdateMessageBlock({_id: messageBlock._id}, {$inc: { 'stats.sentCount': 1 }})
+    messageBlockDataLayer.genericUpdateMessageBlock({ _id: messageBlock._id }, { $inc: { 'stats.sentCount': 1 } })
       .then(updated => {
         logger.serverLog(TAG, `bot block stats updated successfully`, 'debug')
       })
@@ -326,7 +382,7 @@ function updateBotLifeStatsForBlock (messageBlock, isForSentCount) {
         logger.serverLog(TAG, `Failed to update block bot stats ${JSON.stringify(error)}`, 'error')
       })
   } else {
-    messageBlockDataLayer.genericUpdateMessageBlock({_id: messageBlock._id}, {$inc: { 'stats.urlBtnClickedCount': 1 }})
+    messageBlockDataLayer.genericUpdateMessageBlock({ _id: messageBlock._id }, { $inc: { 'stats.urlBtnClickedCount': 1 } })
       .then(updated => {
         logger.serverLog(TAG, `bot block stats updated successfully`, 'debug')
       })
