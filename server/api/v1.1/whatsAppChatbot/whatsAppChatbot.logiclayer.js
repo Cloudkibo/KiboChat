@@ -582,7 +582,7 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: dedent(`${quantity} ${product.product}${quantity > 1 ? 's have' : ' has'} been succesfully added to your cart.\n
+          text: dedent(`${quantity} ${product.product}${quantity !== 1 ? 's have' : ' has'} been succesfully added to your cart.\n
                 Please select an option by sending the corresponding number for it:\n
                 ${convertToEmoji(0)} Proceed to Checkout\n
                 ${specialKeyText(SHOW_CART_KEY)}
