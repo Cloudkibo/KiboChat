@@ -1000,12 +1000,13 @@ const getWelcomeMessageBlock = async (chatbot, contact, input) => {
 const invalidInput = async (messageBlock, errMessage) => {
   messageBlock.payload[0].text = `${errMessage}\n\n` + messageBlock.payload[0]
 
-  messageBlock.payload[0].text.replace(/^.*(Hi|Hello)*$/mg, '')
-  messageBlock.payload[0].text = messageBlock.payload[0].text.split('\n')
-    .filter(function (line) {
-      return line.includes('Hi') || line.includes('Hello')
-    }).join('\n')
+  // messageBlock.payload[0].text.replace(/^.*(Hi|Hello)*$/mg, '')
+  // messageBlock.payload[0].text = messageBlock.payload[0].text.split('\n')
+  //   .filter(function (line) {
+  //     return line.includes('Hi') || line.includes('Hello')
+  //   }).join('\n')
 
+  logger.serverLog(TAG, `whatsapp chatbot invalid input ${JSON.stringify(messageBlock)} `, 'info')
   return messageBlock
 }
 
