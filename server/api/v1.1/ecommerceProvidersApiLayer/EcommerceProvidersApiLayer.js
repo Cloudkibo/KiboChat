@@ -109,6 +109,12 @@ module.exports = class EcommerceProvidersApiLayer {
     }
   }
 
+  findCustomerOrders (customerId, limit) {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.findCustomerOrders(customerId, limit, this.eCommerceProviderCredentials)
+    }
+  }
+
   addOrUpdateProductToCart (customerId, lineItems, cartToken) {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.addOrUpdateProductToCart(customerId, lineItems, cartToken, this.eCommerceProviderCredentials)

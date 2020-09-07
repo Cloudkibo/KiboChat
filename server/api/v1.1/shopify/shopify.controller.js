@@ -224,7 +224,7 @@ exports.testRoute = (req, res) => {
         shopUrl: shopifyIntegration.shopUrl,
         shopToken: shopifyIntegration.shopToken
       })
-      return shopify.fetchStoreInfo(4769631535168)
+      return shopify.findCustomerOrders(3367449755711, 10)
       // return shopify.createPermalinkForCart({
       // email: 'sojharo@gmail.com',
       // first_name: 'sojharo',

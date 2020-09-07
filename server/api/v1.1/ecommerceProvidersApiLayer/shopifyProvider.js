@@ -291,6 +291,34 @@ exports.createCustomer = (firstName, lastName, email, credentials) => {
   })
 }
 
+exports.findCustomerOrders = (customerId, limit, credentials) => {
+  const shopify = initShopify(credentials)
+  return new Promise(function (resolve, reject) {
+    shopify.customer.orders(customerId, { limit })
+      .then(orders => {
+        orders = orders.map(order => {
+          return {
+            id: order.id,
+            email: order.email,
+            created_at: order.created_at,
+            total_price: order.total_price,
+            currency: order.currency,
+            financial_status: order.financial_status,
+            total_spent: order.total_spent,
+            confirmed: order.confirmed,
+            order_number: order.order_number,
+            order_status_url: order.order_status_url,
+            fulfillment_status: order.fulfillment_status
+          }
+        })
+        resolve(orders)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
 // when creating a new cart, the cartToken provided here
 // will be null. once the cart is created, we will get cart
 // token from shopify, so this is used to create or update
