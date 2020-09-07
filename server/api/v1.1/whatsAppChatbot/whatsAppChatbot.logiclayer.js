@@ -85,7 +85,7 @@ exports.validateWhatsAppChatbotPayload = (payload) => {
   return bool
 }
 
-function convertToEmoji(num) {
+function convertToEmoji (num) {
   if (isNaN(num)) {
     throw new Error('invalid number')
   } else {
@@ -99,7 +99,7 @@ function convertToEmoji(num) {
   }
 }
 
-function specialKeyText(key) {
+function specialKeyText (key) {
   switch (key) {
     case FAQS_KEY:
       return `Send '${key.toUpperCase()}' for faqs`
@@ -840,7 +840,7 @@ const clearCart = async (chatbot, contact) => {
   }
 }
 
-function updateWhatsAppContact(query, bodyForUpdate, bodyForIncrement, options) {
+function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
   callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
     .then(updated => {
     })
