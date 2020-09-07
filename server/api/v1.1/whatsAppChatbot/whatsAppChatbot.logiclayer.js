@@ -1005,9 +1005,9 @@ const invalidInput = async (messageBlock, errMessage) => {
       componentType: 'text'
     }
   )
-  payload.push(...messageBlock.payload)
+  payload.push(...messageBlock.payload[0])
 
-  messageBlock.payload = payload
+  messageBlock.payload[0] = payload
   return messageBlock
 }
 
@@ -1040,7 +1040,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
       if (chatbot.triggers.includes(input)) {
         return getWelcomeMessageBlock(chatbot, contact, input)
       } else {
-        return invalidInput(lastMessageSentByBot, `You entered an invalid response.`)
+        return invalidInput(contact.lastMessageSentByBot, `You entered an invalid response.`)
       }
     }
     if (action.type === DYNAMIC) {
@@ -1118,7 +1118,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
         if (chatbot.triggers.includes(input)) {
           return getWelcomeMessageBlock(chatbot, contact, input)
         } else {
-          return invalidInput(contact.lastMessageSentByBot.uniqueId, err.message)
+          return invalidInput(contact.lastMessageSentByBot, err.message)
         }
       }
     } else if (action.type === STATIC) {
