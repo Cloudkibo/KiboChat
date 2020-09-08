@@ -1129,7 +1129,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             break
           }
           case DISCOVER_PRODUCTS: {
-            messageBlock = await getDiscoverProductsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider)
+            messageBlock = await getDiscoverProductsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : '')
             break
           }
           case ORDER_STATUS: {
