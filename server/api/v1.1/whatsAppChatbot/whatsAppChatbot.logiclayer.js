@@ -241,7 +241,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
     if (input) {
       products = await EcommerceProvider.searchProducts(input)
       if (products.length > 0) {
-        messageBlock.payload[0].text = `Following products were found for ${input}. Please select a product by sending the corresponding number for it:\n`
+        messageBlock.payload[0].text = `Following products were found for "${input}". Please select a product by sending the corresponding number for it:\n`
       } else {
         messageBlock.payload[0].text = `No products found that match the search query.\n`
       }
