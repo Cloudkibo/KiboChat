@@ -24,5 +24,6 @@ module.exports = {
   ORDER_STATUS_KEY: 'o',
   BACK_KEY: 'b',
   SHOW_CART_KEY: 'c',
-  HOME_KEY: 'h'
+  HOME_KEY: 'h',
+  ERROR_INDICATOR: '\u200B'
 }
