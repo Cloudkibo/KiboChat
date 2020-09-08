@@ -505,7 +505,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `You have selected ${product.name}. Please select a product variant by sending the corresponding number for it:\n`,
+          text: `You have selected ${product.name}.\n\nPlease select a product variant by sending the corresponding number for it:\n`,
           componentType: 'text',
           menu: [],
           specialKeys: {
