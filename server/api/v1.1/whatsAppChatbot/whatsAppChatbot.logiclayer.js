@@ -243,14 +243,14 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
       if (products.length > 0) {
         messageBlock.payload[0].text = `Following products were found for "${input}". Please select a product by sending the corresponding number for it:\n`
       } else {
-        messageBlock.payload[0].text = `No products found that match the search query.\n`
+        messageBlock.payload[0].text = `No products found that match the search query.`
       }
     } else {
       products = await EcommerceProvider.fetchProducts()
       if (products.length > 0) {
         messageBlock.payload[0].text = `Please select a product by sending the corresponding number for it:\n`
       } else {
-        messageBlock.payload[0].text = `No products were found using discover.\n`
+        messageBlock.payload[0].text = `No products were found using discover.`
       }
     }
     for (let i = 0; i < products.length; i++) {
