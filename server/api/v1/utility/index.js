@@ -18,7 +18,7 @@ exports.callApi = (endpoint, method = 'get', body, type = 'accounts', token) => 
   }
   let apiUrl = config.ACCOUNTS_URL
   if (type === 'kiboengage') {
-    apiUrl = config.config.KIBOENGAGE_URL
+    apiUrl = config.KIBOENGAGE_URL
   } else if (type === 'kibochat') {
     apiUrl = config.DBLAYER_URL_KIBOCHAT
   }
