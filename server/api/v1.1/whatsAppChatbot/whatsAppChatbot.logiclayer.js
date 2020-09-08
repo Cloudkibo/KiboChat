@@ -505,7 +505,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Please select a product variant by sending the corresponding number for it:\n`,
+          text: `You have selected ${product.name}. Please select a product variant by sending the corresponding number for it:\n`,
           componentType: 'text',
           menu: [],
           specialKeys: {
@@ -525,7 +525,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
     let productVariants = await EcommerceProvider.getVariantsOfSelectedProduct(product.id)
     for (let i = 0; i < productVariants.length; i++) {
       let productVariant = productVariants[i]
-      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${productVariant.name} ${product.name} (price: ${product.price})`
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${productVariant.name} (price: ${product.price})`
       messageBlock.payload[0].menu.push({
         type: DYNAMIC, action: SELECT_PRODUCT, argument: { variant_id: productVariant.id, product: `${productVariant.name} ${product.name}`, price: productVariant.price, inventory_quantity: productVariant.inventory_quantity }
       })
