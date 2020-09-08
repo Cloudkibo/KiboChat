@@ -223,7 +223,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Please select a product by sending the corresponding number for it:\n`,
+          text: ``,
           componentType: 'text',
           menu: [],
           specialKeys: {
@@ -238,9 +238,19 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
     }
     let products = []
     if (input) {
-      products = await EcommerceProvider.searchProducsts(input)
+      products = await EcommerceProvider.searchProducts(input)
+      if (products.length > 0) {
+        messageBlock.payload[0].text = `Following products were found for ${input}. Please select a product by sending the corresponding number for it:\n`
+      } else {
+        messageBlock.payload[0].text = `No products found that match the search query.\n`
+      }
     } else {
       products = await EcommerceProvider.fetchProducts()
+      if (products.length > 0) {
+        messageBlock.payload[0].text = `Please select a product by sending the corresponding number for it:\n`
+      } else {
+        messageBlock.payload[0].text = `No products were found using discover.\n`
+      }
     }
     for (let i = 0; i < products.length; i++) {
       let product = products[i]
