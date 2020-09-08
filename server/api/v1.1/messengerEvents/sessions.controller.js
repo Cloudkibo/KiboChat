@@ -28,42 +28,42 @@ exports.index = function (req, res) {
   utility.callApi(`companyprofile/query`, 'post', { _id: page.companyId })
     .then(company => {
       if (!(company.automated_options === 'DISABLE_CHAT')) {
-        if(subscriber.unSubscribedBy !== 'agent') {
-        let updatePayload = { last_activity_time: Date.now() }
-        if (!event.message.is_echo) {
-          if (subscriber.status === 'resolved') {
-            updatePayload.status = 'new'
+        if (subscriber.unSubscribedBy !== 'agent') {
+          let updatePayload = { last_activity_time: Date.now() }
+          if (!event.message.is_echo) {
+            if (subscriber.status === 'resolved') {
+              updatePayload.status = 'new'
+            }
+            updatePayload.pendingResponse = true
+            updatePayload.lastMessagedAt = Date.now()
           }
-          updatePayload.pendingResponse = true
-          updatePayload.lastMessagedAt = Date.now()
-        }
-        if (req.body.pushPendingSessionInfo && JSON.stringify(req.body.pushPendingSessionInfo) === 'true') {
-          pushSessionPendingAlertInStack(company, subscriber, 'messenger')
-        }
-        utility.callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: updatePayload, options: {}})
-          .then(updated => {
-            if (!event.message.is_echo) {
-              utility.callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: {$inc: { unreadCount: 1, messagesCount: 1 }}, options: {}})
-                .then(updated => {
-                })
-                .catch(error => {
-                  logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
-                })
-            }
-            logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
-            if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
-              saveLiveChat(page, subscriber, event)
-              if (event.type !== 'get_started') {
-                handleTriggerMessage(event, page, subscriber)
-              }
+          if (req.body.pushPendingSessionInfo && JSON.stringify(req.body.pushPendingSessionInfo) === 'true') {
+            pushSessionPendingAlertInStack(company, subscriber, 'messenger')
+          }
+          utility.callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: updatePayload, options: {}})
+            .then(updated => {
               if (!event.message.is_echo) {
-                pushUnresolveAlertInStack(company, subscriber, 'messenger')
+                utility.callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: {$inc: { unreadCount: 1, messagesCount: 1 }}, options: {}})
+                  .then(updated => {
+                  })
+                  .catch(error => {
+                    logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
+                  })
               }
-            }
-          })
-          .catch(error => {
-            logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
-          })
+              logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
+              if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
+                saveLiveChat(page, subscriber, event)
+                if (event.type !== 'get_started') {
+                  handleTriggerMessage(event, page, subscriber)
+                }
+                if (!event.message.is_echo) {
+                  pushUnresolveAlertInStack(company, subscriber, 'messenger')
+                }
+              }
+            })
+            .catch(error => {
+              logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
+            })
         }
       }
     })
@@ -245,7 +245,7 @@ function saveNotifications (subscriber, companyUsers, page) {
       agentId: companyUser.userId._id,
       companyId: companyUser.companyId,
       platform: 'messenger'
-  }
+    }
     utility.callApi(`notifications`, 'post', notificationsData, 'kibochat')
       .then(savedNotification => {
         utility.callApi(`permissions/query`, 'post', {companyId: companyUser.companyId, userId: companyUser.userId._id})
@@ -268,7 +268,7 @@ function saveNotifications (subscriber, companyUsers, page) {
             })
           })
           .catch(err => {
-            logger.serverLog(TAG, `Failed to fetch user permissions ${error}`, 'error')
+            logger.serverLog(TAG, `Failed to fetch user permissions ${err}`, 'error')
           })
       })
       .catch(error => {
