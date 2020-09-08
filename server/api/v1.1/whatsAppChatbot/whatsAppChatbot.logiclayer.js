@@ -619,9 +619,6 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
     if (!Number.isInteger(quantity) || quantity < 0) {
       throw new Error(`${ERROR_INDICATOR}Invalid quantity given.`)
     }
-    if (quantity > product.inventory_quantity) {
-      throw new Error(`${ERROR_INDICATOR}Your requested quantity exceeds the stock available (${product.inventory_quantity}). Please enter a quantity less than ${product.inventory_quantity}.`)
-    }
     let shoppingCart = contact.shoppingCart ? contact.shoppingCart : []
     let existingProductIndex = shoppingCart.findIndex((item) => item.variant_id === product.variant_id)
     if (existingProductIndex > -1) {
@@ -631,6 +628,9 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
       }
       shoppingCart[existingProductIndex].quantity += quantity
     } else {
+      if (quantity > product.inventory_quantity) {
+        throw new Error(`${ERROR_INDICATOR}Your requested quantity exceeds the stock available (${product.inventory_quantity}). Please enter a quantity less than ${product.inventory_quantity}.`)
+      }
       shoppingCart.push({
         variant_id: product.variant_id,
         quantity,
