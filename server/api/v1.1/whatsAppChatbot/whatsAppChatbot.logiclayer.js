@@ -635,6 +635,7 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
         variant_id: product.variant_id,
         quantity,
         product: product.product,
+        inventory_quantity: product.inventory_quantity,
         price: Number(product.price)
       })
     }
@@ -891,6 +892,7 @@ const getUpdateCartBlock = async (chatbot, backId, contact, product, quantity) =
         variant_id: product.variant_id,
         quantity,
         product: product.product,
+        inventory_quantity: product.inventory_quantity,
         price: Number(product.price)
       })
     }
