@@ -238,9 +238,9 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
     }
     let products = []
     if (input) {
-      products = await EcommerceProvider.fetchProducts()
-    } else {
       products = await EcommerceProvider.searchProducsts(input)
+    } else {
+      products = await EcommerceProvider.fetchProducts()
     }
     for (let i = 0; i < products.length; i++) {
       let product = products[i]
