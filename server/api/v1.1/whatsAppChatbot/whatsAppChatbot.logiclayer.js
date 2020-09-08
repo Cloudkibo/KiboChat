@@ -131,15 +131,10 @@ exports.updateFaqsForStartingBlock = async (chatbot) => {
     }
   } else {
     if (chatbot.botLinks && chatbot.botLinks.faqs) {
-      messageBlockDataLayer.genericUpdateMessageBlock(
-        { uniqueId: startingBlock.payload[0].specialKeys[FAQS_KEY].blockId },
-        {
-          'payload.0.text': dedent(`View our FAQs here: ${chatbot.botLinks.faqs}\n
-                                    ${specialKeyText(SHOW_CART_KEY)}
-                                    ${specialKeyText(BACK_KEY)}
-                                    ${specialKeyText(HOME_KEY)}`)
-        }
-      )
+      startingBlock.payload[0].specialKeys[FAQS_KEY] = { type: STATIC, blockId: faqsId }
+      getFaqsBlock(chatbot, faqsId, messageBlocks, chatbot.startingBlockId)
+      messageBlockDataLayer.genericUpdateMessageBlock({ uniqueId: chatbot.startingBlockId }, startingBlock)
+      messageBlockDataLayer.createForMessageBlock(messageBlocks[0])
     } else {
       startingBlock.payload[0].text = startingBlock.payload[0].text.replace(`\n${specialKeyText(FAQS_KEY)}`, '')
       delete startingBlock.payload[0].specialKeys[FAQS_KEY]
@@ -153,7 +148,8 @@ exports.getMessageBlocks = (chatbot) => {
   const mainMenuId = '' + new Date().getTime()
   const orderStatusId = '' + new Date().getTime() + 100
   const returnOrderId = '' + new Date().getTime() + 200
-  const faqsId = '' + new Date().getTime() + 300
+  const searchProductsId = '' + new Date().getTime() + 300
+  const faqsId = '' + new Date().getTime() + 400
 
   messageBlocks.push({
     module: {
@@ -166,13 +162,15 @@ exports.getMessageBlocks = (chatbot) => {
       {
         text: dedent(`Please select an option by sending the corresponding number for it (e.g. send '1' to select Discover):\n
                 ${convertToEmoji(0)} All Categories
-                ${convertToEmoji(1)} Discover\n
+                ${convertToEmoji(1)} Discover
+                ${convertToEmoji(2)} Search for a Product\n
                 ${specialKeyText(ORDER_STATUS_KEY)}
                 ${specialKeyText(SHOW_CART_KEY)}`),
         componentType: 'text',
         menu: [
           { type: DYNAMIC, action: PRODUCT_CATEGORIES },
-          { type: DYNAMIC, action: DISCOVER_PRODUCTS }
+          { type: DYNAMIC, action: DISCOVER_PRODUCTS },
+          { type: STATIC, blockId: searchProductsId }
         ],
         specialKeys: {
           [ORDER_STATUS_KEY]: { type: STATIC, blockId: orderStatusId },
@@ -185,6 +183,7 @@ exports.getMessageBlocks = (chatbot) => {
   })
   getOrderIdBlock(chatbot, orderStatusId, messageBlocks)
   getReturnOrderIdBlock(chatbot, returnOrderId, messageBlocks)
+  getSearchProductsBlock(chatbot, searchProductsId, messageBlocks)
   if (chatbot.botLinks && chatbot.botLinks.faqs) {
     messageBlocks[0].payload[0].text = `\n${specialKeyText(FAQS_KEY, 'faqs')} FAQs`
     messageBlocks[0].payload[0].specialKeys[FAQS_KEY] = { type: STATIC, blockId: faqsId }
@@ -193,7 +192,27 @@ exports.getMessageBlocks = (chatbot) => {
   return messageBlocks
 }
 
-const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider) => {
+const getSearchProductsBlock = async (chatbot, blockId, messageBlocks) => {
+  messageBlocks.push({
+    module: {
+      id: chatbot._id,
+      type: 'whatsapp_chatbot'
+    },
+    title: 'Search Products',
+    uniqueId: blockId,
+    payload: [
+      {
+        text: `Please enter the name of the product you wish to search for:\n`,
+        componentType: 'text',
+        action: { type: DYNAMIC, action: DISCOVER_PRODUCTS, input: true }
+      }
+    ],
+    userId: chatbot.userId,
+    companyId: chatbot.companyId
+  })
+}
+
+const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, input) => {
   try {
     let messageBlock = {
       module: {
@@ -217,7 +236,12 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider) => {
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    let products = await EcommerceProvider.fetchProducts()
+    let products = []
+    if (input) {
+      products = await EcommerceProvider.fetchProducts()
+    } else {
+      products = await EcommerceProvider.searchProducsts(input)
+    }
     for (let i = 0; i < products.length; i++) {
       let product = products[i]
       messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${product.name}`
@@ -492,7 +516,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
       let productVariant = productVariants[i]
       messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${productVariant.name} ${product.name} (price: ${product.price})`
       messageBlock.payload[0].menu.push({
-        type: DYNAMIC, action: SELECT_PRODUCT, argument: { variant_id: productVariant.id, product: `${productVariant.name} ${product.name}`, price: productVariant.price }
+        type: DYNAMIC, action: SELECT_PRODUCT, argument: { variant_id: productVariant.id, product: `${productVariant.name} ${product.name}`, price: productVariant.price, inventory_quantity: productVariant.inventory_quantity }
       })
     }
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
@@ -555,7 +579,7 @@ const getQuantityToAddBlock = async (chatbot, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `How many ${product.product}s (price: ${product.price}) would you like to add to your cart?`,
+          text: `How many ${product.product}s (price: ${product.price}) would you like to add to your cart? (stock available: ${product.inventory_quantity})`,
           componentType: 'text',
           action: { type: DYNAMIC, action: ADD_TO_CART, argument: product, input: true }
         }
@@ -575,6 +599,9 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
     quantity = Number(quantity)
     if (!Number.isInteger(quantity) || quantity < 0) {
       throw new Error('Invalid quantity given.')
+    }
+    if (quantity > product.inventory_quantity) {
+      throw new Error(`Your requested quantity exceeds the stock available (${product.inventory_quantity}). Please enter a quantity less than ${product.inventory_quantity}.`)
     }
     let shoppingCart = contact.shoppingCart ? contact.shoppingCart : []
     let existingProductIndex = shoppingCart.findIndex((item) => item.variant_id === product.variant_id)
@@ -1105,7 +1132,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             break
           }
           case DISCOVER_PRODUCTS: {
-            messageBlock = await getDiscoverProductsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider)
+            messageBlock = await getDiscoverProductsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : '')
             break
           }
           case ORDER_STATUS: {
