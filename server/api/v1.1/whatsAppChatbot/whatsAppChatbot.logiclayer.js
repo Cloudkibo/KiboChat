@@ -579,7 +579,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
   }
 }
 
-const getQuantityToAddBlock = async (chatbot, product) => {
+const getQuantityToAddBlock = async (chatbot, backId, contact, product) => {
   try {
     let messageBlock = {
       module: {
@@ -597,6 +597,14 @@ const getQuantityToAddBlock = async (chatbot, product) => {
       ],
       userId: chatbot.userId,
       companyId: chatbot.companyId
+    }
+    let shoppingCart = contact.shoppingCart ? contact.shoppingCart : []
+    let existingProductIndex = shoppingCart.findIndex((item) => item.variant_id === product.variant_id)
+    if (existingProductIndex > -1) {
+      if (shoppingCart[existingProductIndex].quantity >= product.inventory_quantity) {
+        let text = `Your cart already contains the maximum stock available for this product.`
+        return getShowMyCartBlock(chatbot, backId, contact, text)
+      }
     }
     return messageBlock
   } catch (err) {
@@ -618,15 +626,10 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
     let existingProductIndex = shoppingCart.findIndex((item) => item.variant_id === product.variant_id)
     if (existingProductIndex > -1) {
       let previousQuantity = shoppingCart[existingProductIndex].quantity
-      shoppingCart[existingProductIndex].quantity += quantity
-      if (shoppingCart[existingProductIndex].quantity > product.inventory_quantity) {
-        if (product.inventory_quantity - previousQuantity <= 0) {
-          let text = `Your cart already contains the maximum stock available for this product.`
-          return getShowMyCartBlock(chatbot, backId, contact, text)
-        } else {
-          throw new Error(`${ERROR_INDICATOR}Your requested quantity exceeds the stock available (${product.inventory_quantity}). Your cart already contains ${previousQuantity}. Please enter a quantity less than ${product.inventory_quantity - previousQuantity}.`)
-        }
+      if ((previousQuantity + quantity) > product.inventory_quantity) {
+        throw new Error(`${ERROR_INDICATOR}Your requested quantity exceeds the stock available (${product.inventory_quantity}). Your cart already contains ${previousQuantity}. Please enter a quantity less than ${product.inventory_quantity - previousQuantity}.`)
       }
+      shoppingCart[existingProductIndex].quantity += quantity
     } else {
       shoppingCart.push({
         variant_id: product.variant_id,
@@ -871,6 +874,9 @@ const getUpdateCartBlock = async (chatbot, backId, contact, product, quantity) =
     quantity = Number(quantity)
     if (!Number.isInteger(quantity) || quantity < 0) {
       throw new Error(`${ERROR_INDICATOR}Invalid quantity given.`)
+    }
+    if (quantity > product.inventory_quantity) {
+      throw new Error(`${ERROR_INDICATOR}Your requested quantity exceeds the stock available (${product.inventory_quantity}). Please enter a quantity less than ${product.inventory_quantity}.`)
     }
     let shoppingCart = contact.shoppingCart ? contact.shoppingCart : []
     let existingProductIndex = shoppingCart.findIndex((item) => item.variant_id === product.variant_id)
@@ -1210,7 +1216,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             break
           }
           case QUANTITY_TO_ADD: {
-            messageBlock = await getQuantityToAddBlock(chatbot, action.argument)
+            messageBlock = await getQuantityToAddBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument)
             break
           }
           case QUANTITY_TO_REMOVE: {
