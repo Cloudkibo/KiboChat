@@ -18,9 +18,12 @@ exports.callApi = (endpoint, method = 'get', body, type = 'accounts', token) => 
   }
   let apiUrl = config.ACCOUNTS_URL
   if (type === 'kiboengage') {
-    apiUrl = config.DBLAYER_URL_KIBOENGAGE
+    apiUrl = config.config.KIBOENGAGE_URL
   } else if (type === 'kibochat') {
     apiUrl = config.DBLAYER_URL_KIBOCHAT
+  }
+  if (type === 'kiboengagedblayer') {
+    apiUrl = config.DBLAYER_URL_KIBOENGAGE
   }
   let options = {
     method: method.toUpperCase(),
