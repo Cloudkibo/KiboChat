@@ -516,7 +516,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
       let productVariant = productVariants[i]
       messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${productVariant.name} ${product.name} (price: ${product.price})`
       messageBlock.payload[0].menu.push({
-        type: DYNAMIC, action: SELECT_PRODUCT, argument: { variant_id: productVariant.id, product: `${productVariant.name} ${product.name}`, price: productVariant.price }
+        type: DYNAMIC, action: SELECT_PRODUCT, argument: { variant_id: productVariant.id, product: `${productVariant.name} ${product.name}`, price: productVariant.price, inventory_quantity: productVariant.inventory_quantity }
       })
     }
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
@@ -579,7 +579,7 @@ const getQuantityToAddBlock = async (chatbot, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `How many ${product.product}s (price: ${product.price}) would you like to add to your cart?`,
+          text: `How many ${product.product}s (price: ${product.price}) would you like to add to your cart? (stock available: ${product.inventory_quantity})`,
           componentType: 'text',
           action: { type: DYNAMIC, action: ADD_TO_CART, argument: product, input: true }
         }
@@ -599,6 +599,9 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
     quantity = Number(quantity)
     if (!Number.isInteger(quantity) || quantity < 0) {
       throw new Error('Invalid quantity given.')
+    }
+    if (quantity > product.inventory_quantity) {
+      throw new Error(`Your requested quantity exceeds the stock available (${product.inventory_quantity}). Please enter a quantity less than ${product.inventory_quantity}.`)
     }
     let shoppingCart = contact.shoppingCart ? contact.shoppingCart : []
     let existingProductIndex = shoppingCart.findIndex((item) => item.variant_id === product.variant_id)
