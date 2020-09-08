@@ -1,6 +1,7 @@
 const logger = require('../../../components/logger')
 const TAG = '/api/v1/twilioEvents/controller.js'
 const { callApi } = require('../utility')
+const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('../../global/messageAlerts')
 
 exports.index = function (req, res) {
   res.status(200).json({
@@ -14,6 +15,7 @@ exports.index = function (req, res) {
           callApi(`contacts/query`, 'post', {number: req.body.From, companyId: company._id})
             .then(contact => {
               contact = contact[0]
+              pushUnresolveAlertInStack(company, contact, 'sms')
               if (contact.isSubscribed || req.body.Body.toLowerCase() === 'start') {
                 let MessageObject = {
                   senderNumber: req.body.From,

@@ -8,8 +8,9 @@ const needle = require('needle')
 const sessionLogicLayer = require('../sessions/sessions.logiclayer')
 const logicLayer = require('./logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
-// const { record } = require('../../global/messageStatistics')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 const { sendNotifications } = require('../../global/sendNotification')
+const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('../../global/messageAlerts')
 const { handleTriggerMessage } = require('./chatbotAutomation.controller')
 
 exports.index = function (req, res) {
@@ -27,42 +28,42 @@ exports.index = function (req, res) {
   utility.callApi(`companyprofile/query`, 'post', { _id: page.companyId })
     .then(company => {
       if (!(company.automated_options === 'DISABLE_CHAT')) {
-        if(subscriber.unSubscribedBy !== 'agent') {
-        let updatePayload = { last_activity_time: Date.now() }
-        if (!event.message.is_echo) {
-          if (subscriber.status === 'resolved') {
-            updatePayload.status = 'new'
+        if (subscriber.unSubscribedBy !== 'agent') {
+          let updatePayload = { last_activity_time: Date.now() }
+          if (!event.message.is_echo) {
+            if (subscriber.status === 'resolved') {
+              updatePayload.status = 'new'
+            }
+            updatePayload.pendingResponse = true
+            updatePayload.lastMessagedAt = Date.now()
           }
-          updatePayload.pendingResponse = true
-          updatePayload.lastMessagedAt = Date.now()
-        }
-        if (req.body.pushPendingSessionInfo && JSON.stringify(req.body.pushPendingSessionInfo) === 'true') {
-          pushSessionPendingAlertInStack(company, subscriber)
-        }
-        utility.callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: updatePayload, options: {}})
-          .then(updated => {
-            if (!event.message.is_echo) {
-              utility.callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: {$inc: { unreadCount: 1, messagesCount: 1 }}, options: {}})
-                .then(updated => {
-                })
-                .catch(error => {
-                  logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
-                })
-            }
-            logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
-            if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
-              saveLiveChat(page, subscriber, event)
-              if (event.type !== 'get_started') {
-                handleTriggerMessage(event, page, subscriber)
-              }
+          if (req.body.pushPendingSessionInfo && JSON.stringify(req.body.pushPendingSessionInfo) === 'true') {
+            pushSessionPendingAlertInStack(company, subscriber, 'messenger')
+          }
+          utility.callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: updatePayload, options: {}})
+            .then(updated => {
               if (!event.message.is_echo) {
-                pushUnresolveAlertInStack(company, subscriber)
+                utility.callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: {$inc: { unreadCount: 1, messagesCount: 1 }}, options: {}})
+                  .then(updated => {
+                  })
+                  .catch(error => {
+                    logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
+                  })
               }
-            }
-          })
-          .catch(error => {
-            logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
-          })
+              logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
+              if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
+                saveLiveChat(page, subscriber, event)
+                if (event.type !== 'get_started') {
+                  handleTriggerMessage(event, page, subscriber)
+                }
+                if (!event.message.is_echo) {
+                  pushUnresolveAlertInStack(company, subscriber, 'messenger')
+                }
+              }
+            })
+            .catch(error => {
+              logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
+            })
         }
       }
     })
@@ -71,89 +72,6 @@ exports.index = function (req, res) {
     })
 }
 
-function pushUnresolveAlertInStack (company, subscriber) {
-  utility.callApi(`companypreferences/query`, 'post', {companyId: company._id}, 'accounts')
-    .then(companypreferences => {
-      if (companypreferences.length > 0) {
-        var unresolveSessionAlert = companypreferences[0].unresolveSessionAlert
-        if (unresolveSessionAlert.enabled) {
-          var payload = {
-            type: 'unresolvedSession',
-            notification_interval: unresolveSessionAlert.notification_interval,
-            unit: unresolveSessionAlert.unit,
-            assignedMembers: unresolveSessionAlert.assignedMembers,
-            subscriber: subscriber,
-            companyId: company._id
-          }
-          var record = {
-            type: 'adminAlert',
-            payload: payload
-          }
-          var findSession = {
-            purpose: 'findAll',
-            match: {
-              type: 'adminAlert',
-              'payload.type': 'unresolvedSession',
-              'payload.subscriber._id': subscriber._id
-            }
-          }
-          utility.callApi(`cronStack/query`, 'post', findSession, 'kibochat')
-            .then(result => {
-              if (result.length < 1) {
-                utility.callApi(`cronStack`, 'post', record, 'kibochat')
-                  .then(savedRecord => {
-                    logger.serverLog(TAG, `Unresolved Session info pushed in cronStack ${savedRecord}`)
-                  })
-                  .catch(err => {
-                    logger.serverLog(TAG, `Unable to save session info in cronStack ${err}`, 'error')
-                  })
-              } else {
-                logger.serverLog(TAG, `Unresolved Session info already in cronStack`)
-              }
-            })
-            .catch(err => {
-              logger.serverLog(TAG, `Unable to find session info in cron stack ${err}`, 'error')
-            })
-        }
-      }
-    })
-    .catch(error => {
-      logger.serverLog(TAG, `Error while fetching company preferences ${error}`, 'error')
-    })
-}
-function pushSessionPendingAlertInStack (company, subscriber) {
-  logger.serverLog(TAG, 'In Pending Session Info')
-  utility.callApi(`companypreferences/query`, 'post', {companyId: company._id}, 'accounts')
-    .then(companypreferences => {
-      if (companypreferences.length > 0) {
-        var pendingSessionAlert = companypreferences[0].pendingSessionAlert
-        if (pendingSessionAlert.enabled) {
-          var payload = {
-            type: 'pendingSession',
-            notification_interval: pendingSessionAlert.notification_interval,
-            unit: pendingSessionAlert.unit,
-            assignedMembers: pendingSessionAlert.assignedMembers,
-            subscriber: subscriber,
-            companyId: company._id
-          }
-          var record = {
-            type: 'adminAlert',
-            payload: payload
-          }
-          utility.callApi(`cronStack`, 'post', record, 'kibochat')
-            .then(savedRecord => {
-              logger.serverLog(TAG, `Pending Session info pushed in cronStack ${savedRecord}`)
-            })
-            .catch(err => {
-              logger.serverLog(TAG, `Unable to push session info in cron stack ${err}`, 'error')
-            })
-        }
-      }
-    })
-    .catch(error => {
-      logger.serverLog(TAG, `Error while fetching company preferences ${error}`, 'error')
-    })
-}
 function saveLiveChat (page, subscriber, event) {
   // record('messengerChatInComing')
   if (subscriber && !event.message.is_echo) {
@@ -211,6 +129,7 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
   ) {
     LiveChatDataLayer.createFbMessageObject(chatPayload)
       .then(chat => {
+        updateCompanyUsage(page.companyId, 'chat_messages', 1)
         if (!event.message.is_echo) {
           setTimeout(() => {
             utility.callApi('subscribers/query', 'post', {_id: subscriber._id})
@@ -325,8 +244,9 @@ function saveNotifications (subscriber, companyUsers, page) {
       message: `${subscriber.firstName} ${subscriber.lastName} sent a message to page ${page.pageName}`,
       category: { type: 'new_message', id: subscriber._id },
       agentId: companyUser.userId._id,
-      companyId: companyUser.companyId
-  }
+      companyId: companyUser.companyId,
+      platform: 'messenger'
+    }
     utility.callApi(`notifications`, 'post', notificationsData, 'kibochat')
       .then(savedNotification => {
         utility.callApi(`permissions/query`, 'post', {companyId: companyUser.companyId, userId: companyUser.userId._id})
@@ -349,7 +269,7 @@ function saveNotifications (subscriber, companyUsers, page) {
             })
           })
           .catch(err => {
-            logger.serverLog(TAG, `Failed to fetch user permissions ${error}`, 'error')
+            logger.serverLog(TAG, `Failed to fetch user permissions ${err}`, 'error')
           })
       })
       .catch(error => {

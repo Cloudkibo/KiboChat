@@ -20,7 +20,7 @@ exports.index = function (req, res) {
           // shopify redirect work as it doesn't allow to add
           // shop URL in UI so this is just doing it based on
           // cookies
-          if (cookie.parse(req.headers.cookie).shopifyToken) {
+          if (req.headers.cookie && cookie.parse(req.headers.cookie).shopifyToken) {
             let shop = cookie.parse(req.headers.cookie).installByShopifyStore
             let shopToken = cookie.parse(req.headers.cookie).shopifyToken
             res.clearCookie('shopifyToken')
@@ -31,6 +31,7 @@ exports.index = function (req, res) {
           sendSuccessResponse(res, 200, user)
         }).catch(error => {
           logger.serverLog(TAG, `Error while fetching companyUser details ${util.inspect(error)}`, 'error')
+
           sendErrorResponse(res, 500, `Failed to fetching companyUser details ${JSON.stringify(error)}`)
         })
     }).catch(error => {
@@ -265,12 +266,26 @@ exports.updateShowIntegrations = function (req, res) {
 }
 
 exports.disconnectFacebook = function (req, res) {
-  utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: {connectFacebook: false}, options: {}})
-    .then(updated => {
-      return res.status(200).json({
-        status: 'success',
-        payload: 'Updated Successfully!'
-      })
+  utility.callApi(`companyProfile/query`, 'post', {ownerId: req.user._id})
+    .then(companyProfile => {
+      let updated = {connectFacebook: false}
+      if (companyProfile.twilio) {
+        updated.platform = 'sms'
+      } else if (companyProfile.whatsApp) {
+        updated.platform = 'whatsApp'
+      } else {
+        updated.platform = ''
+      }
+      utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: updated, options: {}})
+        .then(updated => {
+          return res.status(200).json({
+            status: 'success',
+            payload: 'Updated Successfully!'
+          })
+        })
+        .catch(err => {
+          res.status(500).json({status: 'failed', payload: err})
+        })
     })
     .catch(err => {
       res.status(500).json({status: 'failed', payload: err})
@@ -287,6 +302,32 @@ exports.updatePlatform = function (req, res) {
     .catch(err => {
       res.status(500).json({status: 'failed', payload: err})
     })
+}
+
+exports.logout = function (req, res) {
+  utility.callApi(`users/receivelogout`, 'get', {}, 'kiboengage', req.headers.authorization)
+    .then(response => {
+      return res.status(200).json({
+        status: 'success',
+        payload: 'send response successfully!'
+      })
+    }).catch(err => {
+      console.log('error', err)
+      res.status(500).json({status: 'failed', payload: `failed to sendLogoutEvent ${err}`})
+    })
+}
+
+exports.receivelogout = function (req, res) {
+  require('../../../config/socketio').sendMessageToClient({
+    room_id: req.user.companyId,
+    body: {
+      action: 'logout'
+    }
+  })
+  return res.status(200).json({
+    status: 'success',
+    payload: 'recieved logout event!'
+  })
 }
 
 function saveShopifyIntegration (shop, shopToken, userId, companyId) {
