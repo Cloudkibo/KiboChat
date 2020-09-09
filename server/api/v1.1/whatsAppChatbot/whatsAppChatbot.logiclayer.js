@@ -21,6 +21,7 @@ const {
   QUANTITY_TO_ADD,
   QUANTITY_TO_REMOVE,
   QUANTITY_TO_UPDATE,
+  VIEW_RECENT_ORDERS,
   FAQS_KEY,
   ORDER_STATUS_KEY,
   BACK_KEY,
@@ -148,9 +149,10 @@ exports.getMessageBlocks = (chatbot) => {
   const messageBlocks = []
   const mainMenuId = '' + new Date().getTime()
   const orderStatusId = '' + new Date().getTime() + 100
-  const returnOrderId = '' + new Date().getTime() + 200
-  const searchProductsId = '' + new Date().getTime() + 300
-  const faqsId = '' + new Date().getTime() + 400
+  const checkOrdersId = '' + new Date().getTime() + 200
+  const returnOrderId = '' + new Date().getTime() + 300
+  const searchProductsId = '' + new Date().getTime() + 400
+  const faqsId = '' + new Date().getTime() + 500
 
   messageBlocks.push({
     module: {
@@ -174,7 +176,7 @@ exports.getMessageBlocks = (chatbot) => {
           { type: STATIC, blockId: searchProductsId }
         ],
         specialKeys: {
-          [ORDER_STATUS_KEY]: { type: STATIC, blockId: orderStatusId },
+          [ORDER_STATUS_KEY]: { type: STATIC, blockId: checkOrdersId },
           [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART }
         }
       }
@@ -182,7 +184,7 @@ exports.getMessageBlocks = (chatbot) => {
     userId: chatbot.userId,
     companyId: chatbot.companyId
   })
-  getOrderIdBlock(chatbot, orderStatusId, messageBlocks)
+  getCheckOrdersBlock(chatbot, checkOrdersId, orderStatusId, messageBlocks)
   getReturnOrderIdBlock(chatbot, returnOrderId, messageBlocks)
   getSearchProductsBlock(chatbot, searchProductsId, messageBlocks)
   if (chatbot.botLinks && chatbot.botLinks.faqs) {
@@ -353,6 +355,89 @@ const getFaqsBlock = (chatbot, blockId, messageBlocks, backId) => {
   })
 }
 
+const getCheckOrdersBlock = (chatbot, blockId, orderStatusId, messageBlocks) => {
+  getOrderIdBlock(chatbot, orderStatusId, messageBlocks)
+  messageBlocks.push({
+    module: {
+      id: chatbot._id,
+      type: 'whatsapp_chatbot'
+    },
+    title: 'Check Orders',
+    uniqueId: blockId,
+    payload: [
+      {
+        text: dedent(`Please select an option by sending the corresponding number for it:\n
+                    ${convertToEmoji(0)} View recently placed orders
+                    ${convertToEmoji(1)} Check order status for a specific order id\n
+                    ${specialKeyText(SHOW_CART_KEY)}
+                    ${specialKeyText(HOME_KEY)}`),
+        componentType: 'text',
+        menu: [
+          { type: DYNAMIC, action: VIEW_RECENT_ORDERS },
+          { type: STATIC, blockId: orderStatusId }
+        ],
+        specialKeys: {
+          [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
+          [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
+        }
+      }
+    ],
+    userId: chatbot.userId,
+    companyId: chatbot.companyId
+  })
+}
+
+const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_chatbot'
+      },
+      title: 'Recent Orders',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: ``,
+          componentType: 'text',
+          menu: [],
+          specialKeys: {
+            [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
+            [BACK_KEY]: { type: STATIC, blockId: backId },
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    let recentOrders = []
+    if (contact.shopifyCustomer) {
+      recentOrders = await EcommerceProvider.findCustomerOrders(contact.shopifyCustomer.id, 9)
+      recentOrders = recentOrders.orders
+      if (recentOrders.length > 0) {
+        messageBlock.payload[0].text = 'Here are your recently placed orders. Select an order by sending the corresponding number for it:\n'
+        for (let i = 0; i < recentOrders.length; i++) {
+          messageBlock.payload[0].text += `\n${convertToEmoji(i)} Order ${recentOrders[i].name}`
+          messageBlock.payload[0].menu.push({ type: DYNAMIC, action: ORDER_STATUS, argument: recentOrders[i].name.substr(1) })
+        }
+      } else {
+        messageBlock.payload[0].text = 'You have not placed any orders within the last 60 days.'
+      }
+    } else {
+      messageBlock.payload[0].text = 'You have not placed any orders yet.'
+    }
+
+    messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
+    messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
+    return messageBlock
+  } catch (err) {
+    logger.serverLog(TAG, `Unable to get recent orders ${err}`, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to get recent orders.`)
+  }
+}
+
 const getOrderIdBlock = (chatbot, blockId, messageBlocks) => {
   messageBlocks.push({
     module: {
@@ -384,7 +469,7 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Here is your order status:\n`,
+          text: `Here is your order status for Order #${orderId}:\n`,
           componentType: 'text',
           specialKeys: {
             [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
@@ -397,7 +482,8 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
       companyId: chatbot.companyId
     }
     let orderStatus = await EcommerceProvider.checkOrderStatus(Number(orderId))
-    messageBlock.payload[0].text += `\nPayment: ${orderStatus.displayFinancialStatus}`
+    messageBlock.payload[0].text += `\nThis order was placed on ${new Date(orderStatus.createdAt)}`
+    messageBlock.payload[0].text += `\n\nPayment: ${orderStatus.displayFinancialStatus}`
     messageBlock.payload[0].text += `\nDelivery: ${orderStatus.displayFulfillmentStatus}`
 
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
@@ -523,11 +609,20 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
       companyId: chatbot.companyId
     }
     let productVariants = await EcommerceProvider.getVariantsOfSelectedProduct(product.id)
+    let storeInfo = await EcommerceProvider.fetchStoreInfo()
     for (let i = 0; i < productVariants.length; i++) {
       let productVariant = productVariants[i]
-      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${productVariant.name} (price: ${product.price})`
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${productVariant.name} (price: ${product.price} ${storeInfo.currency})`
       messageBlock.payload[0].menu.push({
-        type: DYNAMIC, action: SELECT_PRODUCT, argument: { variant_id: productVariant.id, product: `${productVariant.name} ${product.name}`, price: productVariant.price, inventory_quantity: productVariant.inventory_quantity }
+        type: DYNAMIC,
+        action: SELECT_PRODUCT,
+        argument: {
+          variant_id: productVariant.id,
+          product: `${productVariant.name} ${product.name}`,
+          price: productVariant.price,
+          inventory_quantity: productVariant.inventory_quantity,
+          currency: storeInfo.currency
+        }
       })
     }
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
@@ -551,7 +646,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: dedent(`You have selected ${product.product} (price: ${product.price}).\n
+          text: dedent(`You have selected ${product.product} (price: ${product.price} ${product.currency}).\n
                   Please select an option by sending the corresponding number for it:\n
                   ${convertToEmoji(0)} Add to Cart\n
                   ${specialKeyText(SHOW_CART_KEY)}
@@ -590,7 +685,7 @@ const getQuantityToAddBlock = async (chatbot, backId, contact, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `How many ${product.product}s (price: ${product.price}) would you like to add to your cart? (stock available: ${product.inventory_quantity})`,
+          text: `How many ${product.product}s (price: ${product.price} ${product.currency}) would you like to add to your cart? (stock available: ${product.inventory_quantity})`,
           componentType: 'text',
           action: { type: DYNAMIC, action: ADD_TO_CART, argument: product, input: true }
         }
@@ -636,7 +731,8 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
         quantity,
         product: product.product,
         inventory_quantity: product.inventory_quantity,
-        price: Number(product.price)
+        price: Number(product.price),
+        currency: product.currency
       })
     }
 
@@ -684,12 +780,16 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
     } else {
       messageBlock.payload[0].text += `Here is your cart:\n`
       let totalPrice = 0
+      let currency = ''
       for (let product of shoppingCart) {
+        if (!currency) {
+          currency = product.currency
+        }
         let price = product.quantity * product.price
         totalPrice += price
-        messageBlock.payload[0].text += `\n• ${product.product}, quantity: ${product.quantity}, price: ${price}`
+        messageBlock.payload[0].text += `\n• ${product.product}, quantity: ${product.quantity}, price: ${price} ${currency}`
       }
-      messageBlock.payload[0].text += `\n\nTotal price: ${totalPrice}\n\n`
+      messageBlock.payload[0].text += `\n\nTotal price: ${totalPrice} ${currency}\n\n`
       messageBlock.payload[0].menu.push(
         { type: DYNAMIC, action: SHOW_ITEMS_TO_REMOVE },
         { type: DYNAMIC, action: SHOW_ITEMS_TO_UPDATE },
@@ -747,7 +847,7 @@ const getQuantityToRemoveBlock = async (chatbot, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `How many ${product.product}s (price: ${product.price}) would you like to remove from your cart?  You currently have ${product.quantity} in your cart.`,
+          text: `How many ${product.product}s (price: ${product.price} ${product.currency}) would you like to remove from your cart?  You currently have ${product.quantity} in your cart.`,
           componentType: 'text',
           action: { type: DYNAMIC, action: REMOVE_FROM_CART, argument: product, input: true }
         }
@@ -814,7 +914,7 @@ const getQuantityToUpdateBlock = async (chatbot, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `What quantity would you like to set for ${product.product} (price: ${product.price})?`,
+          text: `What quantity would you like to set for ${product.product} (price: ${product.price} ${product.currency})?`,
           componentType: 'text',
           action: { type: DYNAMIC, action: UPDATE_CART, argument: product, input: true }
         }
@@ -893,7 +993,8 @@ const getUpdateCartBlock = async (chatbot, backId, contact, product, quantity) =
         quantity,
         product: product.product,
         inventory_quantity: product.inventory_quantity,
-        price: Number(product.price)
+        price: Number(product.price),
+        currency: product.currency
       })
     }
     logger.serverLog(TAG, `shoppingCart ${JSON.stringify(shoppingCart)}`, 'info')
@@ -1170,7 +1271,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             break
           }
           case ORDER_STATUS: {
-            messageBlock = await getOrderStatusBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : '')
+            messageBlock = await getOrderStatusBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : action.argument)
             break
           }
           case SELECT_PRODUCT: {
@@ -1227,6 +1328,10 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
           }
           case QUANTITY_TO_UPDATE: {
             messageBlock = await getQuantityToUpdateBlock(chatbot, action.argument)
+            break
+          }
+          case VIEW_RECENT_ORDERS: {
+            messageBlock = await getRecentOrdersBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, EcommerceProvider)
             break
           }
         }
