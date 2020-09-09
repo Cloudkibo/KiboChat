@@ -91,7 +91,7 @@ exports.create = function (req, res) {
               callback(error)
             })
         },
-        function (callback){
+        function (callback) {
           logger.serverLog(TAG, `Delete subscriber pending session from cronstack`)
           deletePendingSessionFromStack(req.body.contactId)
           callback(null)

@@ -73,90 +73,7 @@ exports.index = function (req, res) {
     })
 }
 
-function pushUnresolveAlertInStack(company, subscriber) {
-  utility.callApi(`companypreferences/query`, 'post', { companyId: company._id }, 'accounts')
-    .then(companypreferences => {
-      if (companypreferences.length > 0) {
-        var unresolveSessionAlert = companypreferences[0].unresolveSessionAlert
-        if (unresolveSessionAlert.enabled) {
-          var payload = {
-            type: 'unresolvedSession',
-            notification_interval: unresolveSessionAlert.notification_interval,
-            unit: unresolveSessionAlert.unit,
-            assignedMembers: unresolveSessionAlert.assignedMembers,
-            subscriber: subscriber,
-            companyId: company._id
-          }
-          var record = {
-            type: 'adminAlert',
-            payload: payload
-          }
-          var findSession = {
-            purpose: 'findAll',
-            match: {
-              type: 'adminAlert',
-              'payload.type': 'unresolvedSession',
-              'payload.subscriber._id': subscriber._id
-            }
-          }
-          utility.callApi(`cronStack/query`, 'post', findSession, 'kibochat')
-            .then(result => {
-              if (result.length < 1) {
-                utility.callApi(`cronStack`, 'post', record, 'kibochat')
-                  .then(savedRecord => {
-                    logger.serverLog(TAG, `Unresolved Session info pushed in cronStack ${savedRecord}`)
-                  })
-                  .catch(err => {
-                    logger.serverLog(TAG, `Unable to save session info in cronStack ${err}`, 'error')
-                  })
-              } else {
-                logger.serverLog(TAG, `Unresolved Session info already in cronStack`)
-              }
-            })
-            .catch(err => {
-              logger.serverLog(TAG, `Unable to find session info in cron stack ${err}`, 'error')
-            })
-        }
-      }
-    })
-    .catch(error => {
-      logger.serverLog(TAG, `Error while fetching company preferences ${error}`, 'error')
-    })
-}
-function pushSessionPendingAlertInStack(company, subscriber) {
-  logger.serverLog(TAG, 'In Pending Session Info')
-  utility.callApi(`companypreferences/query`, 'post', { companyId: company._id }, 'accounts')
-    .then(companypreferences => {
-      if (companypreferences.length > 0) {
-        var pendingSessionAlert = companypreferences[0].pendingSessionAlert
-        if (pendingSessionAlert.enabled) {
-          var payload = {
-            type: 'pendingSession',
-            notification_interval: pendingSessionAlert.notification_interval,
-            unit: pendingSessionAlert.unit,
-            assignedMembers: pendingSessionAlert.assignedMembers,
-            subscriber: subscriber,
-            companyId: company._id
-          }
-          var record = {
-            type: 'adminAlert',
-            payload: payload
-          }
-          utility.callApi(`cronStack`, 'post', record, 'kibochat')
-            .then(savedRecord => {
-              logger.serverLog(TAG, `Pending Session info pushed in cronStack ${savedRecord}`)
-            })
-            .catch(err => {
-              logger.serverLog(TAG, `Unable to push session info in cron stack ${err}`, 'error')
-            })
-        }
-      }
-    })
-    .catch(error => {
-      logger.serverLog(TAG, `Error while fetching company preferences ${error}`, 'error')
-    })
-}
-function saveLiveChat(page, subscriber, event) {
+function saveLiveChat (page, subscriber, event) {
   // record('messengerChatInComing')
   if (subscriber && !event.message.is_echo) {
     botController.respondUsingBot(page, subscriber, event.message.text)
@@ -204,7 +121,7 @@ function saveLiveChat(page, subscriber, event) {
       }
     })
 }
-function saveChatInDb(page, chatPayload, subscriber, event) {
+function saveChatInDb (page, chatPayload, subscriber, event) {
   if (
     Object.keys(chatPayload.payload).length > 0 &&
     chatPayload.payload.constructor === Object &&
@@ -272,7 +189,7 @@ function saveChatInDb(page, chatPayload, subscriber, event) {
 //   }
 // }
 
-function sendNotification(subscriber, payload, page) {
+function sendNotification (subscriber, payload, page) {
   let pageName = page.pageName
   let companyId = page.companyId
   let title = '[' + pageName + ']: ' + subscriber.firstName + ' ' + subscriber.lastName
@@ -321,7 +238,7 @@ function sendNotification(subscriber, payload, page) {
     })
 }
 
-function saveNotifications(subscriber, companyUsers, page) {
+function saveNotifications (subscriber, companyUsers, page) {
   companyUsers.forEach((companyUser, index) => {
     let notificationsData = {
       message: `${subscriber.firstName} ${subscriber.lastName} sent a message to page ${page.pageName}`,
@@ -361,7 +278,7 @@ function saveNotifications(subscriber, companyUsers, page) {
   })
 }
 
-function sendautomatedmsg(req, page) {
+function sendautomatedmsg (req, page) {
   if (req.message && req.message.text) {
     let index = -3
     if (req.message.text.toLowerCase() === 'stop' ||

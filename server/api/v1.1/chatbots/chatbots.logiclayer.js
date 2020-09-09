@@ -1,5 +1,3 @@
-let moment = require('moment')
-
 exports.preparePayload = function (companyId, userId, body) {
   let payload = {
     companyId: companyId,
