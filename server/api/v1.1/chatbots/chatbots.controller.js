@@ -315,8 +315,6 @@ exports.redirectToUrl = (req, res) => {
 exports.exportData = (req, res) => {
   analyticsDataLayer.findForBotSubscribersAnalyticsForSQL({companyId: req.user.companyId})
     .then(results => {
-      sendSuccessResponse(res, 200, results)
-      console.log('results.length', results.length)
       var subscriberIds = results.map(value => value.subscriberId)
       var unique = subscriberIds.filter((v, i, a) => a.indexOf(v) === i) 
       let subscribersData = []
@@ -335,7 +333,6 @@ exports.exportData = (req, res) => {
         }
         subscribersData.push('\n')
       }
-      console.log('subscribersData.length', subscribersData.length)
       sendSuccessResponse(res, 200, subscribersData)
     }).catch(error => {
       return sendErrorResponse(res, 500, error, 'Failed to fetch the chatbot details.')
