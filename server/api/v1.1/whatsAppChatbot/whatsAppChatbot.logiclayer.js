@@ -523,11 +523,20 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
       companyId: chatbot.companyId
     }
     let productVariants = await EcommerceProvider.getVariantsOfSelectedProduct(product.id)
+    let storeInfo = await EcommerceProvider.fetchStoreInfo()
     for (let i = 0; i < productVariants.length; i++) {
       let productVariant = productVariants[i]
-      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${productVariant.name} (price: ${product.price})`
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${productVariant.name} (price: ${product.price} ${storeInfo.currency})`
       messageBlock.payload[0].menu.push({
-        type: DYNAMIC, action: SELECT_PRODUCT, argument: { variant_id: productVariant.id, product: `${productVariant.name} ${product.name}`, price: productVariant.price, inventory_quantity: productVariant.inventory_quantity }
+        type: DYNAMIC,
+        action: SELECT_PRODUCT,
+        argument: {
+          variant_id: productVariant.id,
+          product: `${productVariant.name} ${product.name}`,
+          price: productVariant.price,
+          inventory_quantity: productVariant.inventory_quantity,
+          currency: storeInfo.currency
+        }
       })
     }
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
@@ -551,7 +560,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: dedent(`You have selected ${product.product} (price: ${product.price}).\n
+          text: dedent(`You have selected ${product.product} (price: ${product.price} ${product.currency}).\n
                   Please select an option by sending the corresponding number for it:\n
                   ${convertToEmoji(0)} Add to Cart\n
                   ${specialKeyText(SHOW_CART_KEY)}
@@ -590,7 +599,7 @@ const getQuantityToAddBlock = async (chatbot, backId, contact, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `How many ${product.product}s (price: ${product.price}) would you like to add to your cart? (stock available: ${product.inventory_quantity})`,
+          text: `How many ${product.product}s (price: ${product.price} ${product.currency}) would you like to add to your cart? (stock available: ${product.inventory_quantity})`,
           componentType: 'text',
           action: { type: DYNAMIC, action: ADD_TO_CART, argument: product, input: true }
         }
@@ -636,7 +645,8 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
         quantity,
         product: product.product,
         inventory_quantity: product.inventory_quantity,
-        price: Number(product.price)
+        price: Number(product.price),
+        currency: product.currency
       })
     }
 
@@ -684,12 +694,16 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
     } else {
       messageBlock.payload[0].text += `Here is your cart:\n`
       let totalPrice = 0
+      let currency = ''
       for (let product of shoppingCart) {
+        if (!currency) {
+          currency = product.currency
+        }
         let price = product.quantity * product.price
         totalPrice += price
-        messageBlock.payload[0].text += `\n• ${product.product}, quantity: ${product.quantity}, price: ${price}`
+        messageBlock.payload[0].text += `\n• ${product.product}, quantity: ${product.quantity}, price: ${price} ${currency}`
       }
-      messageBlock.payload[0].text += `\n\nTotal price: ${totalPrice}\n\n`
+      messageBlock.payload[0].text += `\n\nTotal price: ${totalPrice} ${currency}\n\n`
       messageBlock.payload[0].menu.push(
         { type: DYNAMIC, action: SHOW_ITEMS_TO_REMOVE },
         { type: DYNAMIC, action: SHOW_ITEMS_TO_UPDATE },
@@ -747,7 +761,7 @@ const getQuantityToRemoveBlock = async (chatbot, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `How many ${product.product}s (price: ${product.price}) would you like to remove from your cart?  You currently have ${product.quantity} in your cart.`,
+          text: `How many ${product.product}s (price: ${product.price} ${product.currency}) would you like to remove from your cart?  You currently have ${product.quantity} in your cart.`,
           componentType: 'text',
           action: { type: DYNAMIC, action: REMOVE_FROM_CART, argument: product, input: true }
         }
@@ -814,7 +828,7 @@ const getQuantityToUpdateBlock = async (chatbot, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `What quantity would you like to set for ${product.product} (price: ${product.price})?`,
+          text: `What quantity would you like to set for ${product.product} (price: ${product.price} ${product.currency})?`,
           componentType: 'text',
           action: { type: DYNAMIC, action: UPDATE_CART, argument: product, input: true }
         }
@@ -893,7 +907,8 @@ const getUpdateCartBlock = async (chatbot, backId, contact, product, quantity) =
         quantity,
         product: product.product,
         inventory_quantity: product.inventory_quantity,
-        price: Number(product.price)
+        price: Number(product.price),
+        currency: product.currency
       })
     }
     logger.serverLog(TAG, `shoppingCart ${JSON.stringify(shoppingCart)}`, 'info')
