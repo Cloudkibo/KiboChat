@@ -315,7 +315,7 @@ exports.redirectToUrl = (req, res) => {
 }
 
 exports.exportData = (req, res) => {
-  analyticsDataLayer.findForBotSubscribersAnalyticsForSQL({})
+  analyticsDataLayer.findForBotSubscribersAnalyticsForSQL({companyId: req.user.companyId})
     .then(results => {
       var subscriberIds = results.map(value => value.subscriberId)
       var unique = subscriberIds.filter((v, i, a) => a.indexOf(v) === i) 

@@ -79,4 +79,12 @@ router.post('/updatePlatform',
   validate({body: validationSchema.platformPayload}),
   controller.updatePlatform)
 
+router.get('/logout',
+  auth.isAuthenticated(),
+  controller.logout)
+
+router.get('/receivelogout',
+  auth.isAuthenticated(),
+  controller.receivelogout)
+
 module.exports = router
