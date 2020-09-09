@@ -727,14 +727,16 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
       if (quantity > product.inventory_quantity) {
         throw new Error(`${ERROR_INDICATOR}Your requested quantity exceeds the stock available (${product.inventory_quantity}). Please enter a quantity less than ${product.inventory_quantity}.`)
       }
-      shoppingCart.push({
-        variant_id: product.variant_id,
-        quantity,
-        product: product.product,
-        inventory_quantity: product.inventory_quantity,
-        price: Number(product.price),
-        currency: product.currency
-      })
+      if (quantity > 0) {
+        shoppingCart.push({
+          variant_id: product.variant_id,
+          quantity,
+          product: product.product,
+          inventory_quantity: product.inventory_quantity,
+          price: Number(product.price),
+          currency: product.currency
+        })
+      }
     }
 
     logger.serverLog(TAG, `shoppingCart ${JSON.stringify(shoppingCart)}`, 'info')
