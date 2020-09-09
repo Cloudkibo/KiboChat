@@ -788,7 +788,7 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
         }
         let price = product.quantity * product.price
         totalPrice += price
-        messageBlock.payload[0].text += `\n• ${product.product}, quantity: ${product.quantity}, price: ${price} ${currency}`
+        messageBlock.payload[0].text += `\n• Item: ${product.product}, Quantity: ${product.quantity}, Price: ${price} ${currency}`
       }
       messageBlock.payload[0].text += `\n\nTotal price: ${totalPrice} ${currency}\n\n`
       messageBlock.payload[0].menu.push(
