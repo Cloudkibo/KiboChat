@@ -29,6 +29,7 @@ router.get('/:id/stats/:n',
   controller.stats)
 
 router.post('/downloadAnalytics',
+  auth.isAuthenticated(),
   controller.exportData)
 
 router.get('/:id/fetch',
