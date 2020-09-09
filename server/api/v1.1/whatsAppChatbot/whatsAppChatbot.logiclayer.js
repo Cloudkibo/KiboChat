@@ -377,10 +377,8 @@ const getCheckOrdersBlock = (chatbot, blockId, orderStatusId, messageBlocks) => 
           { type: STATIC, blockId: orderStatusId }
         ],
         specialKeys: {
-          specialKeys: {
-            [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
-            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
-          }
+          [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
+          [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
         }
       }
     ],
