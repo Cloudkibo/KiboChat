@@ -543,12 +543,12 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
       payload: [
         {
           text: `You have selected ${product.name}. Please select a product variant:\n`,
-          componentType: 'text',
-          quickReplies: []
+          componentType: 'text'
         },
         {
           componentType: 'image',
-          fileurl: { url: product.image }
+          fileurl: { url: product.image },
+          quickReplies: []
         }
       ],
       userId: chatbot.userId,
