@@ -1229,8 +1229,9 @@ const getUpdateCartBlock = async (chatbot, backId, contact, product, quantity) =
 
 exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, userMessage) => {
   const input = userMessage.text.toLowerCase()
+  let startingBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
   if (!contact || !contact.lastMessageSentByBot) {
-    if (chatbot.triggers.includes(input)) {
+    if (startingBlock.triggers.includes(input)) {
       return getWelcomeMessageBlock(chatbot, contact, input)
     }
   } else {
@@ -1245,7 +1246,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, userMe
       }
     } catch (err) {
       logger.serverLog(TAG, `Invalid user input ${input} `, 'info')
-      if (chatbot.triggers.includes(input)) {
+      if (startingBlock.triggers.includes(input)) {
         return getWelcomeMessageBlock(chatbot, contact, input)
       } else {
         return invalidInput(chatbot, contact.lastMessageSentByBot, `${ERROR_INDICATOR}You entered an invalid response.`)
@@ -1335,7 +1336,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, userMe
         await messageBlockDataLayer.createForMessageBlock(messageBlock)
         return messageBlock
       } catch (err) {
-        if (chatbot.triggers.includes(input)) {
+        if (startingBlock.triggers.includes(input)) {
           return getWelcomeMessageBlock(chatbot, contact, input)
         } else {
           return invalidInput(chatbot, contact.lastMessageSentByBot, err.message)
