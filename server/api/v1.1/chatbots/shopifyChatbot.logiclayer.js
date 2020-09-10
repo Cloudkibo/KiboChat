@@ -113,7 +113,7 @@ exports.getMessageBlocks = (chatbot) => {
     userId: chatbot.userId,
     companyId: chatbot.companyId
   })
-  getOrderIdBlock(chatbot, orderStatusId, messageBlocks)
+  getCheckOrdersBlock(chatbot, mainMenuId, checkOrdersId, orderStatusId, messageBlocks)
   getReturnOrderIdBlock(chatbot, returnOrderId, messageBlocks)
   if (chatbot.botLinks && chatbot.botLinks.faqs) {
     messageBlocks[0].payload[0].quickReplies.push({
@@ -125,6 +125,48 @@ exports.getMessageBlocks = (chatbot) => {
   }
   messageBlockDataLayer.createBulkMessageBlocks(messageBlocks)
   return messageBlocks
+}
+
+const getCheckOrdersBlock = (chatbot, mainMenuId, blockId, orderStatusId, messageBlocks) => {
+  getOrderIdBlock(chatbot, orderStatusId, messageBlocks)
+  messageBlocks.push({
+    module: {
+      id: chatbot._id,
+      type: 'whatsapp_chatbot'
+    },
+    title: 'Check Orders',
+    uniqueId: blockId,
+    payload: [
+      {
+        text: DEFAULT_TEXT,
+        componentType: 'text',
+        quickReplies: [
+          {
+            content_type: 'text',
+            title: 'View Recent Orders',
+            payload: JSON.stringify({ type: DYNAMIC, action: VIEW_RECENT_ORDERS })
+          },
+          {
+            content_type: 'text',
+            title: 'View Specific Order Status',
+            payload: JSON.stringify({ type: STATIC, blockId: orderStatusId })
+          },
+          {
+            content_type: 'Show my Cart',
+            title: 'Go Home',
+            payload: JSON.stringify({ type: DYNAMIC, action: SHOW_MY_CART })
+          },
+          {
+            content_type: 'text',
+            title: 'Go Home',
+            payload: JSON.stringify({ type: STATIC, blockId: mainMenuId })
+          }
+        ]
+      }
+    ],
+    userId: chatbot.userId,
+    companyId: chatbot.companyId
+  })
 }
 
 const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider) => {
