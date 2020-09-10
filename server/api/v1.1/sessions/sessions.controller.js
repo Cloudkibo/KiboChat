@@ -247,7 +247,7 @@ function _sendNotification (subscriberId, status, companyId, userName) {
     }).catch(error => {
       logger.serverLog(TAG, `Error while fetching subscribers ${error}`, 'error')
     })
-} 
+}
 exports.changeStatus = function (req, res) {
   let socketPayload = {
     session_id: req.body._id,
@@ -328,7 +328,7 @@ exports.assignAgent = function (req, res) {
         room_id: req.user.companyId,
         body: {
           action: 'session_assign',
-          payload: {     
+          payload: {
             data: req.body,
             session_id: req.body.subscriberId,
             user_id: req.user._id,
@@ -459,18 +459,17 @@ exports.genericFind = function (req, res) {
     })
 }
 
-function pushUnresolveAlert(companyId, subscriberId) {
+function pushUnresolveAlert (companyId, subscriberId) {
   callApi('subscribers/query', 'post', {_id: subscriberId})
     .then(subscriber => {
       subscriber = subscriber[0]
       callApi(`companyprofile/query`, 'post', { _id: companyId })
-      .then(company => {
-        pushUnresolveAlertInStack(company, subscriber, 'messenger')
-      })
-      .catch(err => {
-        logger.serverLog(TAG, `Unable to fetch company ${err}`)
-      })
-     
+        .then(company => {
+          pushUnresolveAlertInStack(company, subscriber, 'messenger')
+        })
+        .catch(err => {
+          logger.serverLog(TAG, `Unable to fetch company ${err}`)
+        })
     })
     .catch(err => {
       logger.serverLog(TAG, `Unable to fetch subscriber ${err}`)

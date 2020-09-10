@@ -187,13 +187,13 @@ exports.callback = function (req, res) {
         }
       })
       .catch((error) => {
-        res.cookie('shopifySetupState', `Internal Server Error ${err}`)
+        res.cookie('shopifySetupState', `Internal Server Error ${error}`)
         res.clearCookie('shopifyToken')
         res.clearCookie('installByShopifyStore')
         res.status(error.statusCode >= 100 && error.statusCode < 600 ? error.statusCode : 500).send(error.error_description)
       })
   } else {
-    res.cookie('shopifySetupState', `Internal Server Error ${err}`)
+    res.cookie('shopifySetupState', `Internal Server Error`)
     res.clearCookie('shopifyToken')
     res.clearCookie('installByShopifyStore')
     res.status(400).send('Required parameters missing')
@@ -224,7 +224,7 @@ exports.testRoute = (req, res) => {
         shopUrl: shopifyIntegration.shopUrl,
         shopToken: shopifyIntegration.shopToken
       })
-      return shopify.fetchProducts(1038)
+      return shopify.findCustomerOrders(3367449755711, 10)
       // return shopify.createPermalinkForCart({
       // email: 'sojharo@gmail.com',
       // first_name: 'sojharo',
