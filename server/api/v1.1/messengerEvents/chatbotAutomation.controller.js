@@ -61,47 +61,52 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
 }
 
 exports.handleShopifyChatbot = async (event, page, subscriber) => {
-  let chatbot = await chatbotDataLayer.findOneChatBot({
-    pageId: page._id,
-    published: true,
-    type: 'automation',
-    vertical: 'commerce'
-  })
-  logger.serverLog(TAG, `shopify chatbot found ${JSON.stringify(chatbot)}`, 'info')
-  if (chatbot) {
-    const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
-    logger.serverLog(TAG, `shopify integration ${JSON.stringify(shopifyIntegration)}`, 'info')
-    if (shopifyIntegration) {
-      const ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
-        shopUrl: shopifyIntegration.shopUrl,
-        shopToken: shopifyIntegration.shopToken
-      })
-      let nextMessageBlock = await shopifyChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, subscriber, event.message)
-      logger.serverLog(TAG, `shopify chatbot next message block ${JSON.stringify(nextMessageBlock)}`, 'info')
-      if (nextMessageBlock) {
-        senderAction(event.sender.id, 'typing_on', page.accessToken)
-        intervalForEach(nextMessageBlock.payload, (item) => {
-          sendResponse(event.sender.id, item, subscriber, page.accessToken)
-          senderAction(event.sender.id, 'typing_off', page.accessToken)
-        }, 1500)
-        updateBotLifeStats(chatbot, false)
-        updateBotPeriodicStats(chatbot, false)
-        updateBotLifeStatsForBlock(nextMessageBlock, true)
-        updateBotPeriodicStatsForBlock(chatbot, true)
-        updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, nextMessageBlock)
-        let subscriberLastMessageAt = moment(subscriber.lastMessagedAt)
-        let dateNow = moment()
-        if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
-          updateBotPeriodicStatsForReturning(chatbot)
-        }
-        // new subscriber stats logic starts
-        let subscriberCreatedAt = moment(subscriber.datetime)
-        if (dateNow.diff(subscriberCreatedAt, 'seconds') <= 10) {
-          updateBotLifeStats(chatbot, true)
-          updateBotPeriodicStats(chatbot, true)
+  try {
+    let chatbot = await chatbotDataLayer.findOneChatBot({
+      pageId: page._id,
+      published: true,
+      type: 'automation',
+      vertical: 'commerce'
+    })
+    logger.serverLog(TAG, `shopify chatbot found ${JSON.stringify(chatbot)}`, 'info')
+    if (chatbot) {
+      const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
+      logger.serverLog(TAG, `shopify integration ${JSON.stringify(shopifyIntegration)}`, 'info')
+      if (shopifyIntegration) {
+        const ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
+          shopUrl: shopifyIntegration.shopUrl,
+          shopToken: shopifyIntegration.shopToken
+        })
+        let nextMessageBlock = await shopifyChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, subscriber, event.message)
+        logger.serverLog(TAG, `shopify chatbot next message block ${JSON.stringify(nextMessageBlock)}`, 'info')
+        if (nextMessageBlock) {
+          senderAction(event.sender.id, 'typing_on', page.accessToken)
+          intervalForEach(nextMessageBlock.payload, (item) => {
+            sendResponse(event.sender.id, item, subscriber, page.accessToken)
+            senderAction(event.sender.id, 'typing_off', page.accessToken)
+          }, 1500)
+          updateBotLifeStats(chatbot, false)
+          updateBotPeriodicStats(chatbot, false)
+          updateBotLifeStatsForBlock(nextMessageBlock, true)
+          updateBotPeriodicStatsForBlock(chatbot, true)
+          updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, nextMessageBlock)
+          let subscriberLastMessageAt = moment(subscriber.lastMessagedAt)
+          let dateNow = moment()
+          if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
+            updateBotPeriodicStatsForReturning(chatbot)
+          }
+          // new subscriber stats logic starts
+          let subscriberCreatedAt = moment(subscriber.datetime)
+          if (dateNow.diff(subscriberCreatedAt, 'seconds') <= 10) {
+            updateBotLifeStats(chatbot, true)
+            updateBotPeriodicStats(chatbot, true)
+          }
         }
       }
     }
+  } catch (err) {
+    logger.serverLog(TAG,
+      `error in fetching shopify chatbot ${err}`, 'error')
   }
 }
 
@@ -153,7 +158,7 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
     })
     .catch(error => {
       logger.serverLog(TAG,
-        `error in fetching chatbot ${JSON.stringify(error)}`, 'error')
+        `error in fetching manual chatbot ${error}`, 'error')
     })
 }
 
