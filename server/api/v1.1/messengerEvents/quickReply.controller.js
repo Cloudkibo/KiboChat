@@ -23,7 +23,7 @@ exports.index = function (req, res) {
     })
     .then(page => {
       page = page[0]
-      handleShopifyChatbot(messengerPayload.message, page, subscriber)
+      handleShopifyChatbot(messengerPayload, page, subscriber)
       if (logicLayer.isJsonString(messengerPayload.message.quick_reply.payload)) {
         let quickRepyPayload = JSON.parse(messengerPayload.message.quick_reply.payload)
         for (let i = 0; i < quickRepyPayload.length; i++) {
