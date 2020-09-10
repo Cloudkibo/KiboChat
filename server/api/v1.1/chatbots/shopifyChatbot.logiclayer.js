@@ -115,6 +115,7 @@ exports.getMessageBlocks = (chatbot) => {
   })
   getCheckOrdersBlock(chatbot, mainMenuId, checkOrdersId, orderStatusId, messageBlocks)
   getReturnOrderIdBlock(chatbot, returnOrderId, messageBlocks)
+  getSearchProductsBlock(chatbot, searchProductsId, messageBlocks)
   if (chatbot.botLinks && chatbot.botLinks.faqs) {
     messageBlocks[0].payload[0].quickReplies.push({
       content_type: 'text',
@@ -125,6 +126,26 @@ exports.getMessageBlocks = (chatbot) => {
   }
   messageBlockDataLayer.createBulkMessageBlocks(messageBlocks)
   return messageBlocks
+}
+
+const getSearchProductsBlock = async (chatbot, blockId, messageBlocks) => {
+  messageBlocks.push({
+    module: {
+      id: chatbot._id,
+      type: 'whatsapp_chatbot'
+    },
+    title: 'Search Products',
+    uniqueId: blockId,
+    payload: [
+      {
+        text: `Please enter the name of the product you wish to search for:\n`,
+        componentType: 'text',
+        action: { type: DYNAMIC, action: DISCOVER_PRODUCTS, input: true }
+      }
+    ],
+    userId: chatbot.userId,
+    companyId: chatbot.companyId
+  })
 }
 
 const getCheckOrdersBlock = (chatbot, mainMenuId, blockId, orderStatusId, messageBlocks) => {
@@ -152,7 +173,7 @@ const getCheckOrdersBlock = (chatbot, mainMenuId, blockId, orderStatusId, messag
             payload: JSON.stringify({ type: STATIC, blockId: orderStatusId })
           },
           {
-            content_type: 'Show my Cart',
+            content_type: 'text',
             title: 'Go Home',
             payload: JSON.stringify({ type: DYNAMIC, action: SHOW_MY_CART })
           },
@@ -509,7 +530,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
         },
         {
           componentType: 'image',
-          fileurl: product.image
+          fileurl: { url: product.image }
         }
       ],
       userId: chatbot.userId,
