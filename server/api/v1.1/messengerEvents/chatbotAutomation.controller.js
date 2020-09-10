@@ -67,14 +67,17 @@ exports.handleShopifyChatbot = async (event, page, subscriber) => {
     type: 'automation',
     vertical: 'commerce'
   })
+  logger.serverLog(TAG, `shopify chatbot found ${JSON.stringify(chatbot)}`, 'info')
   if (chatbot) {
     const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
+    logger.serverLog(TAG, `shopify integration ${JSON.stringify(shopifyIntegration)}`, 'info')
     if (shopifyIntegration) {
       const ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
         shopUrl: shopifyIntegration.shopUrl,
         shopToken: shopifyIntegration.shopToken
       })
       let nextMessageBlock = await shopifyChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, subscriber, event.message)
+      logger.serverLog(TAG, `shopify chatbot next message block ${JSON.stringify(nextMessageBlock)}`, 'info')
       if (nextMessageBlock) {
         senderAction(event.sender.id, 'typing_on', page.accessToken)
         intervalForEach(nextMessageBlock.payload, (item) => {
@@ -105,6 +108,7 @@ exports.handleShopifyChatbot = async (event, page, subscriber) => {
 exports.handleTriggerMessage = (req, page, subscriber) => {
   chatbotDataLayer.findOneChatBot({ pageId: page._id, published: true, type: 'manual' })
     .then(chatbot => {
+      logger.serverLog(TAG, `manual chatbot found ${JSON.stringify(chatbot)}`, 'info')
       if (chatbot) {
         let userText = req.message.text.toLowerCase().trim()
         messageBlockDataLayer.findOneMessageBlock({
@@ -113,6 +117,7 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
           triggers: userText
         })
           .then(messageBlock => {
+            logger.serverLog(TAG, `manual chatbot message block ${JSON.stringify(shopifyChatbotLogicLayer.getMessageBlocks)}`, 'info')
             if (messageBlock) {
               senderAction(req.sender.id, 'typing_on', page.accessToken)
               intervalForEach(messageBlock.payload, (item) => {
