@@ -62,6 +62,13 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
 
 exports.handleShopifyChatbot = async (event, page, subscriber) => {
   try {
+    logger.serverLog(TAG, `shopify chatbot page ${JSON.stringify(page)}`, 'info')
+    logger.serverLog(TAG, `searching for shopify chatbot ${JSON.stringify({
+      pageId: page._id,
+      published: true,
+      type: 'automation',
+      vertical: 'commerce'
+    })}`, 'info')
     let chatbot = await chatbotDataLayer.findOneChatBot({
       pageId: page._id,
       published: true,
