@@ -11,6 +11,7 @@ const TAG = 'api/v1/messengerEvents/chatbotAutomation.controller'
 const moment = require('moment')
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
 const EcommerceProvider = require('../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
+const { callApi } = require('../utility')
 
 exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
   chatbotDataLayer.findOneChatBot({ pageId: page._id, published: true })
@@ -60,6 +61,14 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
     })
 }
 
+const updateSubscriber = (query, newPayload, options) => {
+  return callApi(`subscribers/update`, 'put', {
+    query,
+    newPayload,
+    options: {}
+  })
+}
+
 exports.handleShopifyChatbot = async (event, page, subscriber) => {
   try {
     logger.serverLog(TAG, `shopify chatbot page ${JSON.stringify(page)}`, 'info')
@@ -86,6 +95,7 @@ exports.handleShopifyChatbot = async (event, page, subscriber) => {
         })
         logger.serverLog(TAG, `handleShopifyChatbot event ${JSON.stringify(event)}`, 'info')
         let nextMessageBlock = await shopifyChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, subscriber, event.message)
+        updateSubscriber({ _id: subscriber._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
         logger.serverLog(TAG, `shopify chatbot next message block ${JSON.stringify(nextMessageBlock)}`, 'info')
         if (nextMessageBlock) {
           senderAction(event.sender.id, 'typing_on', page.accessToken)
