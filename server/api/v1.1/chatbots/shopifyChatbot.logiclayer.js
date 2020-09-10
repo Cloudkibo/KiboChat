@@ -698,7 +698,8 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
         product: product.product,
         inventory_quantity: product.inventory_quantity,
         price: Number(product.price),
-        currency: product.currency
+        currency: product.currency,
+        image: product.image
       })
     }
 
@@ -879,7 +880,8 @@ const getShowItemsToRemoveBlock = (chatbot, backId, contact) => {
         {
           content_type: 'text',
           title: product.product,
-          payload: JSON.stringify({ type: DYNAMIC, action: QUANTITY_TO_REMOVE, argument: { ...product, productIndex: i } })
+          payload: JSON.stringify({ type: DYNAMIC, action: QUANTITY_TO_REMOVE, argument: { ...product, productIndex: i } }),
+          image_url: product.image
         })
     }
     messageBlock.payload[0].quickReplies.push(
@@ -1087,7 +1089,8 @@ const getShowItemsToUpdateBlock = (chatbot, backId, contact) => {
         {
           content_type: 'text',
           title: product.product,
-          payload: JSON.stringify({ type: DYNAMIC, action: QUANTITY_TO_UPDATE, argument: { ...product, productIndex: i } })
+          payload: JSON.stringify({ type: DYNAMIC, action: QUANTITY_TO_UPDATE, argument: { ...product, productIndex: i } }),
+          image_url: product.image
         })
     }
     messageBlock.payload[0].quickReplies.push(
@@ -1303,7 +1306,8 @@ const getUpdateCartBlock = async (chatbot, backId, contact, product, quantity) =
         product: product.product,
         inventory_quantity: product.inventory_quantity,
         price: Number(product.price),
-        currency: product.currency
+        currency: product.currency,
+        image: product.image
       })
     }
     logger.serverLog(TAG, `shoppingCart ${JSON.stringify(shoppingCart)}`, 'info')
