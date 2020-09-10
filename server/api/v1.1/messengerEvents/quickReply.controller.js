@@ -15,6 +15,7 @@ exports.index = function (req, res) {
   let pageId = messengerPayload.recipient.id
   let subscriberId = messengerPayload.sender.id
   let subscriber = {}
+  logger.serverLog(TAG, `quickReply ${JSON.stringify(messengerPayload)}`, 'info')
   utility.callApi('subscribers/query', 'post', { senderId: subscriberId })
     .then(gotSubscriber => {
       subscriber = gotSubscriber[0]
