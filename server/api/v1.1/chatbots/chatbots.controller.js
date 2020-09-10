@@ -11,6 +11,7 @@ const { sendErrorResponse, sendSuccessResponse } = require('../../global/respons
 const { kibochat, kiboengage } = require('../../global/constants').serverConstants
 const async = require('async')
 const { parse } = require('json2csv')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 
 exports.index = function (req, res) {
   callApi(`pages/query`, 'post', {companyId: req.user.companyId, connected: true})
@@ -34,6 +35,7 @@ exports.create = function (req, res) {
   let payload = logiclayer.preparePayload(req.user.companyId, req.user._id, req.body)
   datalayer.createForChatBot(payload)
     .then(chatbot => {
+      updateCompanyUsage(req.user.companyId, 'chatbot_automation', 1)
       _sendToClientUsingSocket(chatbot)
       return sendSuccessResponse(res, 201, chatbot, null)
     })
@@ -315,8 +317,6 @@ exports.redirectToUrl = (req, res) => {
 exports.exportData = (req, res) => {
   analyticsDataLayer.findForBotSubscribersAnalyticsForSQL({companyId: req.user.companyId})
     .then(results => {
-      sendSuccessResponse(res, 200, results)
-      console.log('results.length', results.length)
       var subscriberIds = results.map(value => value.subscriberId)
       var unique = subscriberIds.filter((v, i, a) => a.indexOf(v) === i) 
       let subscribersData = []
@@ -335,7 +335,6 @@ exports.exportData = (req, res) => {
         }
         subscribersData.push('\n')
       }
-      console.log('subscribersData.length', subscribersData.length)
       sendSuccessResponse(res, 200, subscribersData)
     }).catch(error => {
       return sendErrorResponse(res, 500, error, 'Failed to fetch the chatbot details.')
