@@ -1060,6 +1060,60 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
   }
 }
 
+const getShowItemsToUpdateBlock = (chatbot, backId, contact) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'messenger_shopify_chatbot'
+      },
+      title: 'Select Item to Update',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Please select an item in your cart for which you want to update the quantity:`,
+          componentType: 'text',
+          quickReplies: []
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+
+    let shoppingCart = contact.shoppingCart
+    for (let i = 0; i < shoppingCart.length; i++) {
+      let product = shoppingCart[i]
+      messageBlock.payload[0].quickReplies.push(
+        {
+          content_type: 'text',
+          title: product.product,
+          payload: JSON.stringify({ type: DYNAMIC, action: QUANTITY_TO_UPDATE, argument: { ...product, productIndex: i } })
+        })
+    }
+    messageBlock.payload[0].quickReplies.push(
+      {
+        content_type: 'text',
+        title: 'Show my Cart',
+        payload: JSON.stringify({ type: DYNAMIC, action: SHOW_MY_CART })
+      },
+      {
+        content_type: 'text',
+        title: 'Go Back',
+        payload: JSON.stringify({ type: STATIC, blockId: backId })
+      },
+      {
+        content_type: 'text',
+        title: 'Go Home',
+        payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
+      }
+    )
+    return messageBlock
+  } catch (err) {
+    logger.serverLog(TAG, `Unable to show items from cart ${err} `, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to show items from cart`)
+  }
+}
+
 const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider) => {
   try {
     let messageBlock = {
@@ -1343,6 +1397,10 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, userMe
             }
             case SHOW_ITEMS_TO_REMOVE: {
               messageBlock = await getShowItemsToRemoveBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
+              break
+            }
+            case SHOW_ITEMS_TO_UPDATE: {
+              messageBlock = await getShowItemsToUpdateBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
               break
             }
             case REMOVE_FROM_CART: {
