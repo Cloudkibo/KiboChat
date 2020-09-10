@@ -14,10 +14,10 @@ const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('.
 const { handleTriggerMessage, handleShopifyChatbot } = require('./chatbotAutomation.controller')
 
 exports.index = function (req, res) {
-  logger.serverLog(TAG, `payload received in page ${JSON.stringify(req.body.page)}`, 'debug')
-  logger.serverLog(TAG, `payload received in subscriber ${JSON.stringify(req.body.subscriber)}`, 'debug')
-  logger.serverLog(TAG, `payload received in event ${JSON.stringify(req.body.event)}`, 'debug')
-  logger.serverLog(TAG, `payload received in pushPendingSession ${JSON.stringify(req.body.pushPendingSessionInfo)}`, 'debug')
+  logger.serverLog(TAG, `payload received in page ${JSON.stringify(req.body.page)}`, 'info')
+  logger.serverLog(TAG, `payload received in subscriber ${JSON.stringify(req.body.subscriber)}`, 'info')
+  logger.serverLog(TAG, `payload received in event ${JSON.stringify(req.body.event)}`, 'info')
+  logger.serverLog(TAG, `payload received in pushPendingSession ${JSON.stringify(req.body.pushPendingSessionInfo)}`, 'info')
   res.status(200).json({
     status: 'success',
     description: `received the payload`
@@ -27,6 +27,7 @@ exports.index = function (req, res) {
   let event = req.body.event
   utility.callApi(`companyprofile/query`, 'post', { _id: page.companyId })
     .then(company => {
+      logger.serverLog(TAG, `company in messenger events session ${JSON.stringify(company)}`, 'info')
       if (!(company.automated_options === 'DISABLE_CHAT')) {
         if (subscriber.unSubscribedBy !== 'agent') {
           let updatePayload = { last_activity_time: Date.now() }
@@ -50,10 +51,12 @@ exports.index = function (req, res) {
                     logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
                   })
               }
-              logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
+              logger.serverLog(TAG, `subscriber updated successfully`, 'info')
               if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
+                logger.serverLog(TAG, `saving live chat`, 'info')
                 saveLiveChat(page, subscriber, event)
                 if (event.type !== 'get_started') {
+                  logger.serverLog(TAG, `handling chatbot`, 'info')
                   handleShopifyChatbot(event, page, subscriber)
                   handleTriggerMessage(event, page, subscriber)
                 }
