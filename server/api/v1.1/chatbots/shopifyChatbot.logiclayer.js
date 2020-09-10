@@ -659,7 +659,7 @@ const getQuantityToAddBlock = async (chatbot, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `How many ${product.product}s (price: ${product.price} ${product.currency}) would you like to add to your cart?`,
+          text: `How many ${product.product}s (price: ${product.price} ${product.currency}) would you like to add to your cart? (stock available: ${product.inventory_quantity})`,
           componentType: 'text',
           action: { type: DYNAMIC, action: ADD_TO_CART, argument: product, input: true }
         }
@@ -1267,7 +1267,7 @@ const getQuantityToUpdateBlock = async (chatbot, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `What quantity would you like to set for ${product.product} (price: ${product.price} ${product.currency})?`,
+          text: `What quantity would you like to set for ${product.product} (price: ${product.price} ${product.currency})? (stock available: ${product.inventory_quantity})`,
           componentType: 'text',
           action: { type: DYNAMIC, action: UPDATE_CART, argument: product, input: true }
         }
