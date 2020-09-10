@@ -184,7 +184,7 @@ exports.getMessageBlocks = (chatbot) => {
     userId: chatbot.userId,
     companyId: chatbot.companyId
   })
-  getCheckOrdersBlock(chatbot, checkOrdersId, orderStatusId, messageBlocks)
+  getCheckOrdersBlock(chatbot, mainMenuId, checkOrdersId, orderStatusId, messageBlocks)
   getReturnOrderIdBlock(chatbot, returnOrderId, messageBlocks)
   getSearchProductsBlock(chatbot, searchProductsId, messageBlocks)
   if (chatbot.botLinks && chatbot.botLinks.faqs) {
@@ -355,7 +355,7 @@ const getFaqsBlock = (chatbot, blockId, messageBlocks, backId) => {
   })
 }
 
-const getCheckOrdersBlock = (chatbot, blockId, orderStatusId, messageBlocks) => {
+const getCheckOrdersBlock = (chatbot, mainMenuId, blockId, orderStatusId, messageBlocks) => {
   getOrderIdBlock(chatbot, orderStatusId, messageBlocks)
   messageBlocks.push({
     module: {
@@ -378,7 +378,7 @@ const getCheckOrdersBlock = (chatbot, blockId, orderStatusId, messageBlocks) => 
         ],
         specialKeys: {
           [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
-          [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
+          [HOME_KEY]: { type: STATIC, blockId: mainMenuId }
         }
       }
     ],
