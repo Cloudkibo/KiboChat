@@ -1250,7 +1250,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
       if (chatbot.triggers.includes(input)) {
         return getWelcomeMessageBlock(chatbot, contact, input)
       } else {
-        return invalidInput(chatbot, contact.lastMessageSentByBot, `You entered an invalid response.`)
+        return invalidInput(chatbot, contact.lastMessageSentByBot, `${ERROR_INDICATOR}You entered an invalid response.`)
       }
     }
     if (action.type === DYNAMIC) {
