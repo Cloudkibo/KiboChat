@@ -202,7 +202,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Please select a product by sending the corresponding number for it:\n`,
+          text: `Please select a product:`,
           componentType: 'text',
           quickReplies: []
         }
@@ -214,14 +214,14 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
     if (input) {
       products = await EcommerceProvider.searchProducts(input)
       if (products.length > 0) {
-        messageBlock.payload[0].text = `Following products were found for "${input}". Please select a product:\n`
+        messageBlock.payload[0].text = `Following products were found for "${input}". Please select a product:`
       } else {
         messageBlock.payload[0].text = `No products found that match "${input}".`
       }
     } else {
       products = await EcommerceProvider.fetchProducts()
       if (products.length > 0) {
-        messageBlock.payload[0].text = `Please select a product:\n`
+        messageBlock.payload[0].text = `Please select a product:`
       } else {
         messageBlock.payload[0].text = `No products were found using discover.`
       }
@@ -489,7 +489,7 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ca
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Please select a product:\n`,
+          text: `Please select a product:`,
           componentType: 'text',
           quickReplies: []
         }
@@ -863,7 +863,7 @@ const getShowItemsToRemoveBlock = (chatbot, backId, contact) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Please select an item to remove from your cart: \n`,
+          text: `Please select an item to remove from your cart:`,
           componentType: 'text',
           quickReplies: []
         }
@@ -1084,7 +1084,7 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
       recentOrders = await EcommerceProvider.findCustomerOrders(contact.shopifyCustomer.id, 9)
       recentOrders = recentOrders.orders
       if (recentOrders.length > 0) {
-        messageBlock.payload[0].text = 'Here are your recently placed orders. Select an order to view its status:\n'
+        messageBlock.payload[0].text = 'Here are your recently placed orders. Select an order to view its status:'
         for (let i = 0; i < recentOrders.length; i++) {
           messageBlock.payload[0].quickReplies.push(
             {
@@ -1167,8 +1167,8 @@ const getWelcomeMessageBlock = async (chatbot, contact, input) => {
 
   welcomeMessage += `${input.charAt(0).toUpperCase() + input.substr(1).toLowerCase()}`
 
-  if (contact.name && contact.name !== contact.number) {
-    welcomeMessage += ` ${contact.name.split(' ')[0]}!`
+  if (contact.firstName) {
+    welcomeMessage += ` ${contact.firstName}!`
   } else {
     welcomeMessage += `!`
   }
