@@ -4,6 +4,7 @@ const logger = require('../../../components/logger')
 const TAG = 'api/v1/messengerEvents/quickReply.controller'
 const { saveLiveChat } = require('./sessions.controller')
 const logicLayer = require('./logiclayer')
+const { handleShopifyChatbot } = require('./chatbotAutomation.controller')
 
 exports.index = function (req, res) {
   res.status(200).json({
@@ -23,6 +24,7 @@ exports.index = function (req, res) {
       })
       .then(page => {
         page = page[0]
+        handleShopifyChatbot(quickRepyPayload, page, subscriber)
         for (let i = 0; i < quickRepyPayload.length; i++) {
           if (quickRepyPayload[i].action === '_chatbot') {
             chatbotAutomation.handleChatBotNextMessage(messengerPayload, page, subscriber, quickRepyPayload[i].blockUniqueId)
