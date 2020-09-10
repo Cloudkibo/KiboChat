@@ -76,6 +76,7 @@ exports.getMessageBlocks = (chatbot) => {
       type: 'messenger_shopify_chatbot'
     },
     title: 'Main Menu',
+    triggers: ['hi', 'hello'],
     uniqueId: mainMenuId,
     payload: [
       {
@@ -190,7 +191,7 @@ const getCheckOrdersBlock = (chatbot, mainMenuId, blockId, orderStatusId, messag
   })
 }
 
-const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider) => {
+const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, input) => {
   try {
     let messageBlock = {
       module: {
@@ -209,13 +210,29 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider) => {
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    let products = await EcommerceProvider.fetchProducts()
+    let products = []
+    if (input) {
+      products = await EcommerceProvider.searchProducts(input)
+      if (products.length > 0) {
+        messageBlock.payload[0].text = `Following products were found for "${input}". Please select a product:\n`
+      } else {
+        messageBlock.payload[0].text = `No products found that match "${input}".`
+      }
+    } else {
+      products = await EcommerceProvider.fetchProducts()
+      if (products.length > 0) {
+        messageBlock.payload[0].text = `Please select a product:\n`
+      } else {
+        messageBlock.payload[0].text = `No products were found using discover.`
+      }
+    }
     for (let i = 0; i < products.length; i++) {
       let product = products[i]
       messageBlock.payload[0].quickReplies.push({
         content_type: 'text',
         title: product.name,
-        payload: JSON.stringify({ type: DYNAMIC, action: PRODUCT_VARIANTS, argument: product })
+        payload: JSON.stringify({ type: DYNAMIC, action: PRODUCT_VARIANTS, argument: product }),
+        image_url: product.image
       })
     }
 
@@ -486,7 +503,8 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ca
       messageBlock.payload[0].quickReplies.push({
         content_type: 'text',
         title: product.name,
-        payload: JSON.stringify({ type: DYNAMIC, action: PRODUCT_VARIANTS, argument: product })
+        payload: JSON.stringify({ type: DYNAMIC, action: PRODUCT_VARIANTS, argument: product }),
+        image_url: product.image
       })
     }
     messageBlock.payload[0].quickReplies.push(
@@ -541,7 +559,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
     logger.serverLog(TAG, `store info ${JSON.stringify(storeInfo)}`, 'info')
     for (let i = 0; i < productVariants.length; i++) {
       let productVariant = productVariants[i]
-      messageBlock.payload[0].quickReplies.push({
+      messageBlock.payload[messageBlock.payload.length - 1].quickReplies.push({
         content_type: 'text',
         title: `${productVariant.name} (price: ${product.price} ${storeInfo.currency})`,
         payload: JSON.stringify({
@@ -557,7 +575,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
         })
       })
     }
-    messageBlock.payload[0].quickReplies.push(
+    messageBlock.payload[messageBlock.payload.length - 1].quickReplies.push(
       {
         content_type: 'text',
         title: 'Show my Cart',
@@ -1261,7 +1279,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, userMe
       let action = null
       logger.serverLog(TAG, `messenger shopify chatbot subscriber ${JSON.stringify(contact)} `, 'info')
       try {
-        let lastMessageSentByBot = contact.lastMessageSentByBot.payload[0]
+        let lastMessageSentByBot = contact.lastMessageSentByBot.payload[contact.lastMessageSentByBot.payload.length - 1]
         if (lastMessageSentByBot.action) {
           action = lastMessageSentByBot.action
         } else {
@@ -1292,7 +1310,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, userMe
               break
             }
             case DISCOVER_PRODUCTS: {
-              messageBlock = await getDiscoverProductsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider)
+              messageBlock = await getDiscoverProductsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : '')
               break
             }
             case ORDER_STATUS: {
