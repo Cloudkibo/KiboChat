@@ -1244,7 +1244,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, userMe
         if (lastMessageSentByBot.action) {
           action = lastMessageSentByBot.action
         } else {
-          action = JSON.parse(userMessage.quick_reply)
+          action = JSON.parse(userMessage.quick_reply.payload)
         }
       } catch (err) {
         logger.serverLog(TAG, `Invalid user input ${input} `, 'info')
