@@ -184,7 +184,7 @@ exports.getMessageBlocks = (chatbot) => {
     userId: chatbot.userId,
     companyId: chatbot.companyId
   })
-  getCheckOrdersBlock(chatbot, checkOrdersId, orderStatusId, messageBlocks)
+  getCheckOrdersBlock(chatbot, mainMenuId, checkOrdersId, orderStatusId, messageBlocks)
   getReturnOrderIdBlock(chatbot, returnOrderId, messageBlocks)
   getSearchProductsBlock(chatbot, searchProductsId, messageBlocks)
   if (chatbot.botLinks && chatbot.botLinks.faqs) {
@@ -355,7 +355,7 @@ const getFaqsBlock = (chatbot, blockId, messageBlocks, backId) => {
   })
 }
 
-const getCheckOrdersBlock = (chatbot, blockId, orderStatusId, messageBlocks) => {
+const getCheckOrdersBlock = (chatbot, mainMenuId, blockId, orderStatusId, messageBlocks) => {
   getOrderIdBlock(chatbot, orderStatusId, messageBlocks)
   messageBlocks.push({
     module: {
@@ -378,7 +378,7 @@ const getCheckOrdersBlock = (chatbot, blockId, orderStatusId, messageBlocks) => 
         ],
         specialKeys: {
           [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
-          [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
+          [HOME_KEY]: { type: STATIC, blockId: mainMenuId }
         }
       }
     ],
@@ -727,14 +727,16 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
       if (quantity > product.inventory_quantity) {
         throw new Error(`${ERROR_INDICATOR}Your requested quantity exceeds the stock available (${product.inventory_quantity}). Please enter a quantity less than ${product.inventory_quantity}.`)
       }
-      shoppingCart.push({
-        variant_id: product.variant_id,
-        quantity,
-        product: product.product,
-        inventory_quantity: product.inventory_quantity,
-        price: Number(product.price),
-        currency: product.currency
-      })
+      if (quantity > 0) {
+        shoppingCart.push({
+          variant_id: product.variant_id,
+          quantity,
+          product: product.product,
+          inventory_quantity: product.inventory_quantity,
+          price: Number(product.price),
+          currency: product.currency
+        })
+      }
     }
 
     logger.serverLog(TAG, `shoppingCart ${JSON.stringify(shoppingCart)}`, 'info')
@@ -1248,7 +1250,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
       if (chatbot.triggers.includes(input)) {
         return getWelcomeMessageBlock(chatbot, contact, input)
       } else {
-        return invalidInput(chatbot, contact.lastMessageSentByBot, `You entered an invalid response.`)
+        return invalidInput(chatbot, contact.lastMessageSentByBot, `${ERROR_INDICATOR}You entered an invalid response.`)
       }
     }
     if (action.type === DYNAMIC) {
