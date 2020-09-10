@@ -334,7 +334,7 @@ const getFaqsBlock = (chatbot, blockId, messageBlocks, backId) => {
     uniqueId: blockId,
     payload: [
       {
-        text: `View our FAQs here: ${chatbot.botLinks.faqs}}`,
+        text: `View our FAQs here: ${chatbot.botLinks.faqs}`,
         componentType: 'text',
         quickReplies: [
           {
