@@ -206,6 +206,24 @@ exports.getOrderStatus = (id, credentials) => {
             address2
           }
           displayFulfillmentStatus
+          lineItems(first: 100) {
+            edges {
+              node {
+                id
+                variant {
+                  id
+                }
+                variantTitle
+                quantity
+                sku
+                vendor
+                product {
+                  id
+                }
+                name
+              }
+            }
+          }
         }
       }
     }
@@ -216,6 +234,22 @@ exports.getOrderStatus = (id, credentials) => {
     shopify.graphql(query)
       .then(result => {
         let order = result.orders.edges[0].node
+        order = {
+          ...order,
+          lineItems: order.lineItems.edges.map(lineItem => {
+            return {
+              id: lineItem.node.id,
+              variantId: lineItem.node.variant,
+              title: lineItem.node.title,
+              quantity: lineItem.node.quantity,
+              sku: lineItem.node.sku,
+              variant_title: lineItem.node.variant_title,
+              vendor: lineItem.node.vendor,
+              product: lineItem.node.product,
+              name: lineItem.node.name
+            }
+          })
+        }
         resolve(order)
       })
       .catch(err => {
