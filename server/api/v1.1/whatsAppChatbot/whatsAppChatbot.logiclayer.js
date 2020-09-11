@@ -163,9 +163,9 @@ exports.getMessageBlocks = (chatbot) => {
     uniqueId: mainMenuId,
     payload: [
       {
-        text: dedent(`Please select an option by sending the corresponding number for it (e.g. send '1' to select Discover):\n
+        text: dedent(`Please select an option by sending the corresponding number for it (e.g. send '1' to select On Sale):\n
                 ${convertToEmoji(0)} All Categories
-                ${convertToEmoji(1)} Discover
+                ${convertToEmoji(1)} On Sale
                 ${convertToEmoji(2)} Search for a Product\n
                 ${specialKeyText(ORDER_STATUS_KEY)}
                 ${specialKeyText(SHOW_CART_KEY)}`),
@@ -299,7 +299,7 @@ const getReturnOrderBlock = async (chatbot, backId, EcommerceProvider, orderId) 
         id: chatbot._id,
         type: 'whatsapp_chatbot'
       },
-      title: 'Show My Cart',
+      title: 'Return Request',
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
@@ -482,7 +482,7 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
       companyId: chatbot.companyId
     }
     let orderStatus = await EcommerceProvider.checkOrderStatus(Number(orderId))
-    messageBlock.payload[0].text += `\nThis order was placed on ${new Date(orderStatus.createdAt)}`
+    messageBlock.payload[0].text += `\nThis order was placed on ${new Date(orderStatus.createdAt).toDateString()}`
     messageBlock.payload[0].text += `\n\nPayment: ${orderStatus.displayFinancialStatus}`
     messageBlock.payload[0].text += `\nDelivery: ${orderStatus.displayFulfillmentStatus}`
 
@@ -784,15 +784,21 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
       messageBlock.payload[0].text += `Here is your cart:\n`
       let totalPrice = 0
       let currency = ''
-      for (let product of shoppingCart) {
+      for (let i = 0; i < shoppingCart.length; i++) {
+        let product = shoppingCart[i]
         if (!currency) {
           currency = product.currency
         }
         let price = product.quantity * product.price
         totalPrice += price
-        messageBlock.payload[0].text += `\n• Item: ${product.product}, Quantity: ${product.quantity}, Price: ${price} ${currency}`
+        messageBlock.payload[0].text += `\n*Item*: ${product.product}`
+        messageBlock.payload[0].text += `\n*Quantity*: ${product.quantity}`
+        messageBlock.payload[0].text += `\n*Price*: ${price} ${currency}`
+        if (i + 1 < shoppingCart.length) {
+          messageBlock.payload[0].text += `\n`
+        }
       }
-      messageBlock.payload[0].text += `\n\nTotal price: ${totalPrice} ${currency}\n\n`
+      messageBlock.payload[0].text += `\n\n*Total price*: ${totalPrice} ${currency}\n\n`
       messageBlock.payload[0].menu.push(
         { type: DYNAMIC, action: SHOW_ITEMS_TO_REMOVE },
         { type: DYNAMIC, action: SHOW_ITEMS_TO_UPDATE },
@@ -850,7 +856,7 @@ const getQuantityToRemoveBlock = async (chatbot, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `How many ${product.product}s (price: ${product.price} ${product.currency}) would you like to remove from your cart?  You currently have ${product.quantity} in your cart.`,
+          text: `How many ${product.product}s would you like to remove from your cart?\n\nYou currently have ${product.quantity} in your cart.\n\n (price: ${product.price} ${product.currency})`,
           componentType: 'text',
           action: { type: DYNAMIC, action: REMOVE_FROM_CART, argument: product, input: true }
         }
@@ -917,7 +923,7 @@ const getQuantityToUpdateBlock = async (chatbot, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `What quantity would you like to set for ${product.product} (price: ${product.price} ${product.currency})?`,
+          text: `What quantity would you like to set for ${product.product}?\n\nYou currently have ${product.quantity} in your cart.\n\n(price: ${product.price} ${product.currency}) (stock available: ${product.inventory_quantity})`,
           componentType: 'text',
           action: { type: DYNAMIC, action: UPDATE_CART, argument: product, input: true }
         }
@@ -1138,9 +1144,11 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
         shopifyCustomer = shopifyCustomer[0]
       }
       logger.serverLog(TAG, `shopifyCustomer ${JSON.stringify(shopifyCustomer)}`, 'info')
-      updateWhatsAppContact({ _id: contact._id }, { shopifyCustomer }, null, {})
+      updateWhatsAppContact({ _id: contact._id }, { shopifyCustomer, shoppingCart: [] }, null, {})
     } else {
       shopifyCustomer = contact.shopifyCustomer
+
+      updateWhatsAppContact({ _id: contact._id }, { shoppingCart: [] }, null, {})
     }
     let checkoutLink = EcommerceProvider.createPermalinkForCart(shopifyCustomer, contact.shoppingCart)
 
