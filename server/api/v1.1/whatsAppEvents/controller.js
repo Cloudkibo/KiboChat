@@ -121,7 +121,7 @@ exports.messageReceived = function (req, res) {
     })
 }
 
-function createContact (data) {
+function createContact(data) {
   let number = `+${data.userData.number}`
   let name = data.userData.name
   let query = [
@@ -209,7 +209,7 @@ function storeChat (from, to, contact, messageData) {
       })
   })
 }
-function _sendMobileNotification (subscriber, payload, companyId) {
+function _sendMobileNotification(subscriber, payload, companyId) {
   let title = subscriber.name
   let body = payload.text
   let newPayload = {
@@ -253,7 +253,7 @@ function _sendMobileNotification (subscriber, payload, companyId) {
     })
 }
 
-function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
+function updateWhatsAppContact(query, bodyForUpdate, bodyForIncrement, options) {
   callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
     .then(updated => {
     })
@@ -290,7 +290,7 @@ exports.messageStatus = function (req, res) {
     })
 }
 
-function updateChat (message, body) {
+function updateChat(message, body) {
   let dateTime = Date.now()
   let matchQuery = {
     $or: [
@@ -332,7 +332,7 @@ function updateChat (message, body) {
   updateChatInDB(matchQuery, updated, dataToSend)
 }
 
-function updateChatInDB (match, updated, dataToSend) {
+function updateChatInDB(match, updated, dataToSend) {
   let updateData = {
     purpose: 'updateAll',
     match: match,
