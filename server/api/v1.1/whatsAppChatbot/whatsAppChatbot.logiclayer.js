@@ -502,9 +502,33 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     }
 
     if (orderStatus.shippingAddress) {
-      messageBlock.payload[0].text += `\n\n*Shipping Address*: ${orderStatus.shippingAddress.address1}, ${orderStatus.shippingAddress.city}, ${orderStatus.shippingAddress.country}`
-    } else {
-      messageBlock.payload[0].text += `\n\n*Shipping Address*: ${orderStatus.billingAddress.address1}, ${orderStatus.billingAddress.city}, ${orderStatus.billingAddress.country}`
+      messageBlock.payload[0].text += `\n\n*Shipping Address*: ${orderStatus.billingAddress.address1}`
+      if (orderStatus.shippingAddress.address2) {
+        messageBlock.payload[0].text += `, ${orderStatus.shippingAddress.address2}`
+      }
+      if (orderStatus.shippingAddress.city) {
+        messageBlock.payload[0].text += `, ${orderStatus.shippingAddress.city}`
+      }
+      if (orderStatus.shippingAddress.province) {
+        messageBlock.payload[0].text += `, ${orderStatus.shippingAddress.province}`
+      }
+      if (orderStatus.shippingAddress.country) {
+        messageBlock.payload[0].text += `, ${orderStatus.shippingAddress.country}`
+      }
+    } else if (orderStatus.billingAddress) {
+      messageBlock.payload[0].text += `\n\n*Shipping Address*: ${orderStatus.billingAddress.address1}`
+      if (orderStatus.billingAddress.address2) {
+        messageBlock.payload[0].text += `, ${orderStatus.billingAddress.address2}`
+      }
+      if (orderStatus.billingAddress.city) {
+        messageBlock.payload[0].text += `, ${orderStatus.billingAddress.city}`
+      }
+      if (orderStatus.billingAddress.province) {
+        messageBlock.payload[0].text += `, ${orderStatus.billingAddress.province}`
+      }
+      if (orderStatus.billingAddress.country) {
+        messageBlock.payload[0].text += `, ${orderStatus.billingAddress.country}`
+      }
     }
 
     messageBlock.payload[0].text += `\n\nThis order was placed on ${new Date(orderStatus.createdAt).toDateString()}`
