@@ -90,7 +90,7 @@ exports.getMessageBlocks = (chatbot) => {
           },
           {
             content_type: 'text',
-            title: 'Discover',
+            title: 'On Sale',
             payload: JSON.stringify({ type: DYNAMIC, action: DISCOVER_PRODUCTS })
           },
           {
@@ -416,8 +416,55 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
       companyId: chatbot.companyId
     }
     let orderStatus = await EcommerceProvider.checkOrderStatus(Number(orderId))
+    logger.serverLog(TAG, `orderStatus ${JSON.stringify(orderStatus)}`, 'info')
     messageBlock.payload[0].text += `\nPayment: ${orderStatus.displayFinancialStatus}`
     messageBlock.payload[0].text += `\nDelivery: ${orderStatus.displayFulfillmentStatus}`
+
+    if (orderStatus.lineItems) {
+      for (let i = 0; i < orderStatus.lineItems.length; i++) {
+        let product = orderStatus.lineItems[i]
+        if (i === 0) {
+          messageBlock.payload[0].text += `\n`
+        }
+        messageBlock.payload[0].text += `\nItem: ${product.name}`
+        messageBlock.payload[0].text += `\nQuantity: ${product.quantity}`
+        if (i + 1 < orderStatus.lineItems.length) {
+          messageBlock.payload[0].text += `\n`
+        }
+      }
+    }
+
+    if (orderStatus.shippingAddress) {
+      messageBlock.payload[0].text += `\n\nShipping Address: ${orderStatus.billingAddress.address1}`
+      if (orderStatus.shippingAddress.address2) {
+        messageBlock.payload[0].text += `, ${orderStatus.shippingAddress.address2}`
+      }
+      if (orderStatus.shippingAddress.city) {
+        messageBlock.payload[0].text += `, ${orderStatus.shippingAddress.city}`
+      }
+      if (orderStatus.shippingAddress.province) {
+        messageBlock.payload[0].text += `, ${orderStatus.shippingAddress.province}`
+      }
+      if (orderStatus.shippingAddress.country) {
+        messageBlock.payload[0].text += `, ${orderStatus.shippingAddress.country}`
+      }
+    } else if (orderStatus.billingAddress) {
+      messageBlock.payload[0].text += `\n\nShipping Address: ${orderStatus.billingAddress.address1}`
+      if (orderStatus.billingAddress.address2) {
+        messageBlock.payload[0].text += `, ${orderStatus.billingAddress.address2}`
+      }
+      if (orderStatus.billingAddress.city) {
+        messageBlock.payload[0].text += `, ${orderStatus.billingAddress.city}`
+      }
+      if (orderStatus.billingAddress.province) {
+        messageBlock.payload[0].text += `, ${orderStatus.billingAddress.province}`
+      }
+      if (orderStatus.billingAddress.country) {
+        messageBlock.payload[0].text += `, ${orderStatus.billingAddress.country}`
+      }
+    }
+
+    messageBlock.payload[0].text += `\n\nThis order was placed on ${new Date(orderStatus.createdAt).toDateString()}`
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to get order status ${err}`, 'error')
@@ -648,7 +695,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
   }
 }
 
-const getQuantityToAddBlock = async (chatbot, product) => {
+const getQuantityToAddBlock = async (chatbot, backId, contact, product) => {
   try {
     let messageBlock = {
       module: {
@@ -659,13 +706,25 @@ const getQuantityToAddBlock = async (chatbot, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `How many ${product.product}s (price: ${product.price} ${product.currency}) would you like to add to your cart? (stock available: ${product.inventory_quantity})`,
+          text: ``,
           componentType: 'text',
           action: { type: DYNAMIC, action: ADD_TO_CART, argument: product, input: true }
         }
       ],
       userId: chatbot.userId,
       companyId: chatbot.companyId
+    }
+    let shoppingCart = contact.shoppingCart ? contact.shoppingCart : []
+    let existingProductIndex = shoppingCart.findIndex((item) => item.variant_id === product.variant_id)
+    if (existingProductIndex > -1) {
+      if (shoppingCart[existingProductIndex].quantity >= product.inventory_quantity) {
+        let text = `Your cart already contains the maximum stock available for this product.`
+        return getShowMyCartBlock(chatbot, backId, contact, text)
+      } else {
+        messageBlock.payload[0].text = `How many ${product.product}s would you like to add to your cart?\n\nYou already have ${shoppingCart[existingProductIndex].quantity} in your cart.\n\n(price: ${product.price} ${product.currency}) (stock available: ${product.inventory_quantity})`
+      }
+    } else {
+      messageBlock.payload[0].text = `How many ${product.product}s would you like to add to your cart?\n\n(price: ${product.price} ${product.currency}) (stock available: ${product.inventory_quantity})`
     }
     return messageBlock
   } catch (err) {
@@ -838,7 +897,7 @@ const getQuantityToRemoveBlock = async (chatbot, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `How many ${product.product}s (price: ${product.price} ${product.currency}) would you like to remove from your cart?  You currently have ${product.quantity} in your cart.`,
+          text: `How many ${product.product}s would you like to remove from your cart?\n\nYou currently have ${product.quantity} in your cart.\n\n(price: ${product.price} ${product.currency})`,
           componentType: 'text',
           action: { type: DYNAMIC, action: REMOVE_FROM_CART, argument: product, input: true }
         }
@@ -1048,9 +1107,10 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
         shopifyCustomer = shopifyCustomer[0]
       }
       logger.serverLog(TAG, `shopifyCustomer ${JSON.stringify(shopifyCustomer)}`, 'info')
-      updateSubscriber({ _id: contact._id }, { shopifyCustomer }, {})
+      updateSubscriber({ _id: contact._id }, { shopifyCustomer, shoppingCart: [] }, {})
     } else {
       shopifyCustomer = contact.shopifyCustomer
+      updateSubscriber({ _id: contact._id }, { shoppingCart: [] }, null, {})
     }
     let checkoutLink = EcommerceProvider.createPermalinkForCart(shopifyCustomer, contact.shoppingCart)
 
@@ -1267,7 +1327,7 @@ const getQuantityToUpdateBlock = async (chatbot, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `What quantity would you like to set for ${product.product} (price: ${product.price} ${product.currency})? (stock available: ${product.inventory_quantity})`,
+          text: `What quantity would you like to set for ${product.product}?\n\nYou currently have ${product.quantity} in your cart.\n\n(price: ${product.price} ${product.currency}) (stock available: ${product.inventory_quantity})`,
           componentType: 'text',
           action: { type: DYNAMIC, action: UPDATE_CART, argument: product, input: true }
         }
@@ -1372,7 +1432,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, userMe
               break
             }
             case ORDER_STATUS: {
-              messageBlock = await getOrderStatusBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : '')
+              messageBlock = await getOrderStatusBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : action.argument)
               break
             }
             case SELECT_PRODUCT: {
@@ -1420,7 +1480,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, userMe
               break
             }
             case QUANTITY_TO_ADD: {
-              messageBlock = await getQuantityToAddBlock(chatbot, action.argument)
+              messageBlock = await getQuantityToAddBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument)
               break
             }
             case QUANTITY_TO_REMOVE: {
