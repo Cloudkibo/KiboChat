@@ -8,7 +8,7 @@ const needle = require('needle')
 const sessionLogicLayer = require('../sessions/sessions.logiclayer')
 const logicLayer = require('./logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
-// const { record } = require('../../global/messageStatistics')
+const { record } = require('../../global/messageStatistics')
 const { sendNotifications } = require('../../global/sendNotification')
 const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('../../global/messageAlerts')
 const { handleTriggerMessage } = require('./chatbotAutomation.controller')
@@ -73,7 +73,7 @@ exports.index = function (req, res) {
 }
 
 function saveLiveChat (page, subscriber, event) {
-  // record('messengerChatInComing')
+  record('messengerChatInComing')
   if (subscriber && !event.message.is_echo) {
     botController.respondUsingBot(page, subscriber, event.message.text)
   }
