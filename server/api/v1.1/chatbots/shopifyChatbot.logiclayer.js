@@ -798,7 +798,7 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
 
     let shoppingCart = contact.shoppingCart
     if (!shoppingCart || shoppingCart.length === 0) {
-      messageBlock.payload[0].text += `You have no items in your cart`
+      messageBlock.payload[0].text += `You have no items in your cart.`
     } else {
       messageBlock.payload[0].text += `Here is your cart:\n`
       let totalPrice = 0
