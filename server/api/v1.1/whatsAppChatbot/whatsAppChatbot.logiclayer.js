@@ -487,18 +487,24 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     messageBlock.payload[0].text += `\n*Payment*: ${orderStatus.displayFinancialStatus}`
     messageBlock.payload[0].text += `\n*Delivery*: ${orderStatus.displayFulfillmentStatus}`
 
-    for (let i = 0; i < orderStatus.lineItems.length; i++) {
-      let product = orderStatus.lineItems[i]
-      messageBlock.payload[0].text += `\n*Item*: ${product.name}`
-      messageBlock.payload[0].text += `\n*Quantity*: ${product.quantity}`
-      if (i + 1 < orderStatus.lineItems.length) {
-        messageBlock.payload[0].text += `\n`
+    if (orderStatus.lineItems) {
+      for (let i = 0; i < orderStatus.lineItems.length; i++) {
+        let product = orderStatus.lineItems[i]
+        messageBlock.payload[0].text += `\n*Item*: ${product.name}`
+        messageBlock.payload[0].text += `\n*Quantity*: ${product.quantity}`
+        if (i + 1 < orderStatus.lineItems.length) {
+          messageBlock.payload[0].text += `\n`
+        }
       }
     }
 
     messageBlock.payload[0].text += `\n\nThis order was placed on ${new Date(orderStatus.createdAt).toDateString()}`
 
-    messageBlock.payload[0].text += `\n\n*Shipping Address*: ${orderStatus.shippingAddress.address1}, ${orderStatus.shippingAddress.city}, ${orderStatus.shippingAddress.country}`
+    if (orderStatus.shippingAddress) {
+      messageBlock.payload[0].text += `\n\n*Shipping Address*: ${orderStatus.shippingAddress.address1}, ${orderStatus.shippingAddress.city}, ${orderStatus.shippingAddress.country}`
+    } else {
+      messageBlock.payload[0].text += `\n\n*Shipping Address*: ${orderStatus.billingAddress.address1}, ${orderStatus.billingAddress.city}, ${orderStatus.billingAddress.country}`
+    }
 
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
