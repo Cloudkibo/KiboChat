@@ -482,9 +482,56 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
       companyId: chatbot.companyId
     }
     let orderStatus = await EcommerceProvider.checkOrderStatus(Number(orderId))
-    messageBlock.payload[0].text += `\nThis order was placed on ${new Date(orderStatus.createdAt).toDateString()}`
-    messageBlock.payload[0].text += `\n\nPayment: ${orderStatus.displayFinancialStatus}`
-    messageBlock.payload[0].text += `\nDelivery: ${orderStatus.displayFulfillmentStatus}`
+
+    logger.serverLog(TAG, `orderStatus ${JSON.stringify(orderStatus)}`, 'info')
+    messageBlock.payload[0].text += `\n*Payment*: ${orderStatus.displayFinancialStatus}`
+    messageBlock.payload[0].text += `\n*Delivery*: ${orderStatus.displayFulfillmentStatus}`
+
+    if (orderStatus.lineItems) {
+      for (let i = 0; i < orderStatus.lineItems.length; i++) {
+        let product = orderStatus.lineItems[i]
+        if (i === 0) {
+          messageBlock.payload[0].text += `\n`
+        }
+        messageBlock.payload[0].text += `\n*Item*: ${product.name}`
+        messageBlock.payload[0].text += `\n*Quantity*: ${product.quantity}`
+        if (i + 1 < orderStatus.lineItems.length) {
+          messageBlock.payload[0].text += `\n`
+        }
+      }
+    }
+
+    if (orderStatus.shippingAddress) {
+      messageBlock.payload[0].text += `\n\n*Shipping Address*: ${orderStatus.billingAddress.address1}`
+      if (orderStatus.shippingAddress.address2) {
+        messageBlock.payload[0].text += `, ${orderStatus.shippingAddress.address2}`
+      }
+      if (orderStatus.shippingAddress.city) {
+        messageBlock.payload[0].text += `, ${orderStatus.shippingAddress.city}`
+      }
+      if (orderStatus.shippingAddress.province) {
+        messageBlock.payload[0].text += `, ${orderStatus.shippingAddress.province}`
+      }
+      if (orderStatus.shippingAddress.country) {
+        messageBlock.payload[0].text += `, ${orderStatus.shippingAddress.country}`
+      }
+    } else if (orderStatus.billingAddress) {
+      messageBlock.payload[0].text += `\n\n*Shipping Address*: ${orderStatus.billingAddress.address1}`
+      if (orderStatus.billingAddress.address2) {
+        messageBlock.payload[0].text += `, ${orderStatus.billingAddress.address2}`
+      }
+      if (orderStatus.billingAddress.city) {
+        messageBlock.payload[0].text += `, ${orderStatus.billingAddress.city}`
+      }
+      if (orderStatus.billingAddress.province) {
+        messageBlock.payload[0].text += `, ${orderStatus.billingAddress.province}`
+      }
+      if (orderStatus.billingAddress.country) {
+        messageBlock.payload[0].text += `, ${orderStatus.billingAddress.country}`
+      }
+    }
+
+    messageBlock.payload[0].text += `\n\nThis order was placed on ${new Date(orderStatus.createdAt).toDateString()}`
 
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
@@ -856,7 +903,7 @@ const getQuantityToRemoveBlock = async (chatbot, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `How many ${product.product}s would you like to remove from your cart?\n\nYou currently have ${product.quantity} in your cart.\n\n (price: ${product.price} ${product.currency})`,
+          text: `How many ${product.product}s would you like to remove from your cart?\n\nYou currently have ${product.quantity} in your cart.\n\n(price: ${product.price} ${product.currency})`,
           componentType: 'text',
           action: { type: DYNAMIC, action: REMOVE_FROM_CART, argument: product, input: true }
         }
