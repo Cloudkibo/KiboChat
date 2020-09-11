@@ -31,6 +31,7 @@ exports.index = function (req, res) {
           sendSuccessResponse(res, 200, user)
         }).catch(error => {
           logger.serverLog(TAG, `Error while fetching companyUser details ${util.inspect(error)}`, 'error')
+
           sendErrorResponse(res, 500, `Failed to fetching companyUser details ${JSON.stringify(error)}`)
         })
     }).catch(error => {
@@ -265,12 +266,30 @@ exports.updateShowIntegrations = function (req, res) {
 }
 
 exports.disconnectFacebook = function (req, res) {
-  utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: {connectFacebook: false}, options: {}})
-    .then(updated => {
-      return res.status(200).json({
-        status: 'success',
-        payload: 'Updated Successfully!'
-      })
+  utility.callApi(`companyProfile/query`, 'post', {ownerId: req.user._id})
+    .then(companyProfile => {
+      let updated = {connectFacebook: false}
+      if (companyProfile.twilio) {
+        updated.platform = 'sms'
+      } else if (companyProfile.whatsApp) {
+        updated.platform = 'whatsApp'
+      } else {
+        updated.platform = ''
+      }
+      utility.callApi(`companyUser/queryAll`, 'post', {companyId: req.user.companyId}, 'accounts')
+        .then(companyUsers => {
+          let userIds = companyUsers.map(companyUser => companyUser.userId._id)
+          utility.callApi(`user/update`, 'post', {query: {_id: {$in: userIds}}, newPayload: updated, options: {multi: true}})
+            .then(data => {
+              sendSuccessResponse(res, 200, 'Updated Successfully!')
+            })
+            .catch(err => {
+              sendErrorResponse(res, 500, err)
+            })               
+        }).catch(err => {
+          logger.serverLog(TAG, JSON.stringify(err), 'error')
+          sendErrorResponse(res, 500, err)
+        })
     })
     .catch(err => {
       res.status(500).json({status: 'failed', payload: err})
@@ -287,6 +306,32 @@ exports.updatePlatform = function (req, res) {
     .catch(err => {
       res.status(500).json({status: 'failed', payload: err})
     })
+}
+
+exports.logout = function (req, res) {
+  utility.callApi(`users/receivelogout`, 'get', {}, 'kiboengage', req.headers.authorization)
+    .then(response => {
+      return res.status(200).json({
+        status: 'success',
+        payload: 'send response successfully!'
+      })
+    }).catch(err => {
+      console.log('error', err)
+      res.status(500).json({status: 'failed', payload: `failed to sendLogoutEvent ${err}`})
+    })
+}
+
+exports.receivelogout = function (req, res) {
+  require('../../../config/socketio').sendMessageToClient({
+    room_id: req.user.companyId,
+    body: {
+      action: 'logout'
+    }
+  })
+  return res.status(200).json({
+    status: 'success',
+    payload: 'recieved logout event!'
+  })
 }
 
 function saveShopifyIntegration (shop, shopToken, userId, companyId) {
@@ -310,4 +355,30 @@ function saveShopifyIntegration (shop, shopToken, userId, companyId) {
           })
       }
     })
+}
+
+exports.logout = function (req, res) {
+  utility.callApi(`users/receivelogout`, 'get', {}, 'kiboengage', req.headers.authorization)
+    .then(response => {
+      return res.status(200).json({
+        status: 'success',
+        payload: 'send response successfully!'
+      })
+    }).catch(err => {
+      console.log('error', err)
+      res.status(500).json({status: 'failed', payload: `failed to sendLogoutEvent ${err}`})
+    })
+}
+
+exports.receivelogout = function (req, res) {
+  require('../../../config/socketio').sendMessageToClient({
+    room_id: req.user.companyId,
+    body: {
+      action: 'logout'
+    }
+  })
+  return res.status(200).json({
+    status: 'success',
+    payload: 'recieved logout event!'
+  })
 }
