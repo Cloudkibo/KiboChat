@@ -7,8 +7,10 @@ const { intervalForEach } = require('./../../../components/utility')
 const { facebookApiCaller } = require('./../../global/facebookApiCaller')
 const TAG = 'api/v1/messengerEvents/chatbotAutomation.controller'
 const moment = require('moment')
+const { record } = require('../../global/messageStatistics')
 
 exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
+  record('messengerChatInComing')
   chatbotDataLayer.findOneChatBot({pageId: page._id, published: true})
     .then(chatbot => {
       if (chatbot) {
@@ -57,6 +59,7 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
 }
 
 exports.handleTriggerMessage = (req, page, subscriber) => {
+  record('messengerChatInComing')
   chatbotDataLayer.findOneChatBot({pageId: page._id, published: true})
     .then(chatbot => {
       if (chatbot) {
@@ -107,6 +110,7 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
 }
 
 exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId) => {
+  record('messengerChatInComing')
   chatbotDataLayer.findOneChatBot({pageId: page._id, published: true})
     .then(chatbot => {
       if (chatbot) {
@@ -141,6 +145,7 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId) => {
 }
 
 exports.handleChatBotTestMessage = (req, page, subscriber) => {
+  record('messengerChatInComing')
   chatbotDataLayer.findOneChatBot({pageId: page._id})
     .then(chatbot => {
       if (chatbot) {
@@ -169,6 +174,7 @@ exports.handleChatBotTestMessage = (req, page, subscriber) => {
 
 function sendResponse (recipientId, payload, subscriber, accessToken) {
   let finalPayload = logicLayer.prepareSendAPIPayload(recipientId, payload, subscriber.firstName, subscriber.lastName, true)
+  record('messengerChatOutGoing')
   facebookApiCaller('v3.2', `me/messages?access_token=${accessToken}`, 'post', finalPayload)
     .then(response => {
       logger.serverLog(TAG, `response of sending block ${JSON.stringify(response.body)}`)
