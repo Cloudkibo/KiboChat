@@ -856,7 +856,7 @@ const getQuantityToRemoveBlock = async (chatbot, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `How many ${product.product}s (price: ${product.price} ${product.currency}) would you like to remove from your cart?  You currently have ${product.quantity} in your cart.`,
+          text: `How many ${product.product}s would you like to remove from your cart?\n\nYou currently have ${product.quantity} in your cart.\n\n (price: ${product.price} ${product.currency})`,
           componentType: 'text',
           action: { type: DYNAMIC, action: REMOVE_FROM_CART, argument: product, input: true }
         }
@@ -923,9 +923,7 @@ const getQuantityToUpdateBlock = async (chatbot, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: dedent(`What quantity would you like to set for ${product.product}?\n 
-                        You currently have ${product.quantity} in your cart.\n
-                        (price: ${product.price} ${product.currency}) (stock available: ${product.inventory_quantity})`),
+          text: `What quantity would you like to set for ${product.product}?\n\nYou currently have ${product.quantity} in your cart.\n\n(price: ${product.price} ${product.currency}) (stock available: ${product.inventory_quantity})`,
           componentType: 'text',
           action: { type: DYNAMIC, action: UPDATE_CART, argument: product, input: true }
         }
