@@ -798,18 +798,24 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
 
     let shoppingCart = contact.shoppingCart
     if (!shoppingCart || shoppingCart.length === 0) {
-      messageBlock.payload[0].text += `You have no items in your cart.`
+      messageBlock.payload[0].text += `You have no items in your cart`
     } else {
       messageBlock.payload[0].text += `Here is your cart:\n`
       let totalPrice = 0
-      let currency = null
-      for (let product of shoppingCart) {
+      let currency = ''
+      for (let i = 0; i < shoppingCart.length; i++) {
+        let product = shoppingCart[i]
         if (!currency) {
           currency = product.currency
         }
         let price = product.quantity * product.price
         totalPrice += price
-        messageBlock.payload[0].text += `\n• Item: ${product.product}, Quantity: ${product.quantity}, Price: ${price} ${currency}`
+        messageBlock.payload[0].text += `\nItem: ${product.product}`
+        messageBlock.payload[0].text += `\nQuantity: ${product.quantity}`
+        messageBlock.payload[0].text += `\nPrice: ${price} ${currency}`
+        if (i + 1 < shoppingCart.length) {
+          messageBlock.payload[0].text += `\n`
+        }
       }
       messageBlock.payload[0].text += `\n\nTotal price: ${totalPrice} ${currency}\n\n`
 
