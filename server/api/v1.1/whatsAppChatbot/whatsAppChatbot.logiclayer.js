@@ -924,8 +924,8 @@ const getQuantityToUpdateBlock = async (chatbot, product) => {
       payload: [
         {
           text: dedent(`What quantity would you like to set for ${product.product}?\n 
-              You currently have ${product.quantity} in your cart.\n
-              (price: ${product.price} ${product.currency}) (stock available: ${product.inventory_quantity})`),
+                        You currently have ${product.quantity} in your cart.\n
+                        (price: ${product.price} ${product.currency}) (stock available: ${product.inventory_quantity})`),
           componentType: 'text',
           action: { type: DYNAMIC, action: UPDATE_CART, argument: product, input: true }
         }
