@@ -82,7 +82,7 @@ exports.fetchProducts = (credentials) => {
 exports.searchProducts = (searchQuery, credentials) => {
   const shopify = initShopify(credentials)
   const query = `{
-    products(first: 10, query: "title:*${searchQuery}*") {
+    products(first: 10, query: "${searchQuery}") {
       edges {
         node {
           id
