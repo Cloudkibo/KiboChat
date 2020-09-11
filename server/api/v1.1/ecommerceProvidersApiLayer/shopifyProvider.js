@@ -197,6 +197,13 @@ exports.getOrderStatus = (id, credentials) => {
           phone
           shippingAddress {
             id
+            name
+            phone
+            city
+            country
+            province
+            address1
+            address2
           }
           displayFulfillmentStatus
         }
