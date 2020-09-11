@@ -483,7 +483,7 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     }
     let orderStatus = await EcommerceProvider.checkOrderStatus(Number(orderId))
 
-    logger.serverLog(TAG, `order status ${JSON.stringify(orderStatus)}`, 'info')
+    logger.serverLog(TAG, `orderStatus ${JSON.stringify(orderStatus)}`, 'info')
     messageBlock.payload[0].text += `\n*Payment*: ${orderStatus.displayFinancialStatus}`
     messageBlock.payload[0].text += `\n*Delivery*: ${orderStatus.displayFulfillmentStatus}`
 
