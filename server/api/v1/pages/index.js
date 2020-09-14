@@ -8,79 +8,64 @@ const controller = require('./pages.controller')
 
 router.get('/',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer(),
   controller.index)
 
 router.post('/allConnectedPages',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer(),
   controller.connectedPages)
 
 router.get('/allpages',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer(),
   controller.allPages)
 
 router.get('/addpages',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer(),
   controller.addPages)
 
 router.get('/otherPages',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer(),
   controller.otherPages)
 
 router.post('/enable',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer('write'),
   controller.enable)
 
 router.post('/disable',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer('write'),
   controller.disable)
 
 router.post('/createWelcomeMessage',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer('write'),
   validate({body: validationSchema.welcomeMessagePayload}),
   controller.createWelcomeMessage)
 
 router.post('/isWelcomeMessageEnabled',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer('write'),
   validate({body: validationSchema.enableDisableWelcomeMessagePayload}),
   controller.enableDisableWelcomeMessage)
 
 router.post('/saveGreetingText',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer('write'),
   controller.saveGreetingText)
 
 router.post('/whitelistDomain',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer('write'),
   controller.whitelistDomain)
 
 router.get('/fetchWhitelistedDomains/:_id',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer(),
   controller.fetchWhitelistedDomains)
 
 router.post('/deleteWhitelistDomain',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer('write'),
   controller.deleteWhitelistDomain)
 
 router.post('/isWhitelisted',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer(),
   controller.isWhitelisted)
 
 router.post('/refreshPages',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer('write'),
   controller.refreshPages)
 
 module.exports = router

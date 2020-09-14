@@ -12,25 +12,21 @@ const validationSchema = require('./validationSchema')
 
 router.post('/query',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer(),
   validate({ body: validationSchema.getIntentPayload }),
   controller.index)
 
 router.post('/',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer('write'),
   validate({ body: validationSchema.createPayload }),
   controller.create)
 
 router.post('/update',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer('write'),
   validate({body: validationSchema.updatePayload}),
   controller.update)
 
 router.post('/delete',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer('write'),
   validate({body: validationSchema.deletePayload}),
   controller.delete)
 

@@ -12,13 +12,11 @@ const validationSchema = require('./validationSchema')
 
 router.get('/',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer(),
   controller.index)
 
 router.post('/update',
   auth.isAuthenticated(),
   validate({body: validationSchema.updatePayload}),
-  auth.isSuperUserActingAsCustomer('write'),
   controller.update)
 
 module.exports = router

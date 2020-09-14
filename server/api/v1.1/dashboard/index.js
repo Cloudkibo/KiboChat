@@ -10,30 +10,25 @@ const controller = require('./dashboard.controller')
 
 router.get('/sentVsSeen/:pageId',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer(),
   controller.sentVsSeen)
 
 router.post('/sentVsSeenNew',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer(),
   // auth.doesPlanPermitsThisAction('broadcasts'),
   // auth.isUserAllowedToPerformThisAction('view_broadcasts'),
   controller.sentVsSeenNew)
 
 router.get('/stats',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer(),
   controller.stats)
 
 router.get('/toppages',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer(),
   controller.toppages)
 
 // todo remove this, after discuss - this id will be userid, this is bad code
 router.get('/:id',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer(),
   controller.index)
 
 router.get('/graphData/:days',
@@ -42,7 +37,6 @@ router.get('/graphData/:days',
 
 router.post('/subscriberSummary',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer(),
   // auth.doesPlanPermitsThisAction('manage_subscribers'),
   // auth.isUserAllowedToPerformThisAction('view_subscribers'),
   controller.subscriberSummary)

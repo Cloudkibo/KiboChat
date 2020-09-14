@@ -10,7 +10,6 @@ const { checkSMPStatus } = require('../../global/middleware')
 
 router.post('/',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer('write'),
   auth.doesPlanPermitsThisAction('livechat'),
   auth.doesRolePermitsThisAction('livechatPermission'),
   validate({body: validationSchema.createPayload}),
@@ -18,7 +17,6 @@ router.post('/',
 
 router.post('/getUrlMeta',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer(),
   auth.doesPlanPermitsThisAction('livechat'),
   auth.doesRolePermitsThisAction('livechatPermission'),
   validate({body: validationSchema.urlMetaPayload}),
@@ -26,7 +24,6 @@ router.post('/getUrlMeta',
 
 router.post('/search',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer(),
   auth.doesPlanPermitsThisAction('livechat'),
   auth.doesRolePermitsThisAction('livechatPermission'),
   validate({body: validationSchema.searchPayload}),
@@ -34,14 +31,12 @@ router.post('/search',
 
 router.post('/:subscriber_id',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer(),
   auth.doesPlanPermitsThisAction('livechat'),
   auth.doesRolePermitsThisAction('livechatPermission'),
   controller.index)
 
 router.get('/SMPStatus',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer(),
   checkSMPStatus(),
   controller.SMPStatus)
 
