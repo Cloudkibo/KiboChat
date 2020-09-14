@@ -19,7 +19,6 @@ router.post('/receiveSMS',
 
 router.post('/verify',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer(),
   validate({body: validationSchema.verifyPayload}),
   controller.verifyNumber)
 

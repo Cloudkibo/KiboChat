@@ -8,7 +8,6 @@ const auth = require('./../../../auth/auth.service')
 
 router.post('/',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer('write'),
   validate({body: validationSchema.createCodePayload}),
   controller.index)
 

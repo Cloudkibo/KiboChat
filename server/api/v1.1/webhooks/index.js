@@ -13,26 +13,20 @@ const controller = require('./webhooks.controller')
 const validate = require('express-jsonschema').validate
 const validationSchema = require('./validationSchema')
 
-router.get('/', 
-  auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer(),
-  controller.index)
+router.get('/', auth.isAuthenticated(), controller.index)
 
 router.post('/create',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer('write'),
   validate({body: validationSchema.createPayload}),
   controller.create)
 
 router.post('/edit',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer('write'),
   validate({body: validationSchema.editPayload}),
   controller.edit)
 
 router.post('/enabled',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer('write'),
   validate({body: validationSchema.enablePayload}),
   controller.enabled)
 

@@ -11,13 +11,11 @@ router.get('/', auth.isAuthenticated(), controller.index)
 
 router.post('/create',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer('write'),
   validate({body: validationSchema.createPayload}),
   controller.create)
 
 router.post('/markRead',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer('write'),
   validate({body: validationSchema.markReadPayload}),
   controller.markRead)
 
