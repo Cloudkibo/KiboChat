@@ -118,20 +118,6 @@ function isAuthenticated () {
 
 /**
  * Checks if the user role meets the minimum requirements of the route
- */
-function isAuthorizedSuperUser () {
-  return compose()
-    .use(function meetsRequirements (req, res, next) {
-      if (req.user.isSuperUser) {
-        next()
-      } else {
-        res.send(403)
-      }
-    })
-}
-
-/**
- * Checks if the user role meets the minimum requirements of the route
  * Note: maybe we don't use it
  */
 function hasRole (roleRequired) {
@@ -522,3 +508,17 @@ function isAuthorizedKiboAPITrigger (req) {
   if (config.kiboAPIIP.indexOf(ip) > -1) return true
   else return false
 }
+
+function isAuthorizedSuperUser () {
+  return compose()
+    .use(isAuthenticated())
+    .use(function meetsRequirements (req, res, next) {
+      if (req.user.isSuperUser) {
+        next()
+      } else {
+        res.send(403)
+      }
+    })
+}
+
+exports.isAuthorizedSuperUser = isAuthorizedSuperUser
