@@ -186,7 +186,7 @@ const getCheckOrdersBlock = (chatbot, mainMenuId, blockId, orderStatusId, messag
           },
           {
             content_type: 'text',
-            title: 'Go Home',
+            title: 'Show my Cart',
             payload: JSON.stringify({ type: DYNAMIC, action: SHOW_MY_CART })
           },
           {
