@@ -1617,6 +1617,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, userMe
       }
     }
   } catch (err) {
+    console.log('nextMessageBlock error', err.stack)
     logger.serverLog(TAG, `nextMessageBlock error ${err}`, 'error')
   }
 }
