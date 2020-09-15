@@ -47,7 +47,7 @@ exports.createMeeting = function (req, res) {
               zoomApiCaller('post', 'v2/users/me/meetings', meetingBody, {type: 'bearer', token: accessToken}, false)
                 .then(meetingResponse => {
                   data.joinUrl = meetingResponse.join_url
-                  _sendNotification(data,  req.user.companyId)
+                  _sendNotification(data, req.user.companyId)
                   const zoomMeetingPayload = logicLayer.prepareZoomMeetingPayload(data, meetingResponse)
                   callApi('zoomMeetings', 'post', zoomMeetingPayload)
                     .then(meetingCreated => {
@@ -145,13 +145,13 @@ const _sendNotification = (data, companyId) => {
                     logger.serverLog(TAG, `Failed to fetch members ${err}`, 'error')
                   })
               }
-          }).catch(error => {
-            logger.serverLog(TAG, `Error while fetching Last Message ${error}`, 'error')
-          })
+            }).catch(error => {
+              logger.serverLog(TAG, `Error while fetching Last Message ${error}`, 'error')
+            })
         }).catch(error => {
-            logger.serverLog(TAG, `Error while fetching companyUser ${error}`, 'error')
-          })
-      }).catch(err => {
-            logger.serverLog(TAG, `Failed to fetch subscriber ${err}`, 'error')
-          })
+          logger.serverLog(TAG, `Error while fetching companyUser ${error}`, 'error')
+        })
+    }).catch(err => {
+      logger.serverLog(TAG, `Failed to fetch subscriber ${err}`, 'error')
+    })
 }

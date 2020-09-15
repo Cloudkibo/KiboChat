@@ -13,12 +13,15 @@ const commerceConstants = require('./../ecommerceProvidersApiLayer/constants')
 const EcommerceProvider = require('./../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
 const whatsAppChatbotAnalyticsDataLayer = require('../whatsAppChatbot/whatsAppChatbot_analytics.datalayer')
 const moment = require('moment')
+const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('../../global/messageAlerts')
+const { record } = require('../../global/messageStatistics')
 
 exports.messageReceived = function (req, res) {
   res.status(200).json({
     status: 'success',
     description: `received the payload`
   })
+  record('whatsappChatInComing')
   whatsAppMapper.handleInboundMessageReceived(req.body.provider, req.body.event)
     .then(data => {
       createContact(data)
@@ -35,6 +38,10 @@ exports.messageReceived = function (req, res) {
                     .then(async (contact) => {
                       contact = contact[0]
                       // whatsapp chatbot
+                      pushUnresolveAlertInStack(company, contact, 'whatsApp')
+                      if (isNewContact) {
+                        pushSessionPendingAlertInStack(company, contact, 'whatsApp')
+                      }
                       if (data.messageData.componentType === 'text') {
                         let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot(company._id)
                         if (chatbot) {
@@ -58,10 +65,11 @@ exports.messageReceived = function (req, res) {
                                     recipientNumber: number,
                                     payload: messagePayload
                                   }
+                                  record('whatsappChatOutGoing')
                                   whatsAppMapper.whatsAppMapper(req.body.provider, ActionTypes.SEND_CHAT_MESSAGE, chatbotResponse)
                                 }
                                 updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
-                                const triggerWordsMatched = chatbot.triggers.includes(data.messageData.text) ? 1 : 0
+                                const triggerWordsMatched = chatbot.triggers.includes(data.messageData.text.toLowerCase()) ? 1 : 0
 
                                 if (isNewContact) {
                                   await whatsAppChatbotDataLayer.updateWhatsAppChatbot(chatbot.companyId, { $inc: { 'stats.triggerWordsMatched': triggerWordsMatched, 'stats.newSubscribers': 1 } })

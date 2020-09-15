@@ -43,6 +43,12 @@ module.exports = class EcommerceProvidersApiLayer {
     }
   }
 
+  searchProducts (query) {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.searchProducts(query, this.eCommerceProviderCredentials)
+    }
+  }
+
   fetchProductsInThisCategory (id) {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.fetchProductsInThisCategory(id, this.eCommerceProviderCredentials)
@@ -106,6 +112,12 @@ module.exports = class EcommerceProvidersApiLayer {
   createCustomer (firstName, lastName, email) {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.createCustomer(firstName, lastName, email, this.eCommerceProviderCredentials)
+    }
+  }
+
+  findCustomerOrders (customerId, limit) {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.findCustomerOrders(customerId, limit, this.eCommerceProviderCredentials)
     }
   }
 

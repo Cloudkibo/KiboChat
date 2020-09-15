@@ -5,6 +5,8 @@ const { sendSuccessResponse, sendErrorResponse } = require('../../global/respons
 const { sendNotifications } = require('../../global/sendNotification')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1/whatsAppSessions/whatsAppSessions.controller'
+const { pushUnresolveAlertInStack, deleteUnresolvedSessionFromStack } = require('../../global/messageAlerts')
+
 exports.fetchOpenSessions = function (req, res) {
   async.parallelLimit([
     function (callback) {
@@ -179,6 +181,17 @@ exports.changeStatus = function (req, res) {
       callApi('whatsAppContacts/query', 'post', {_id: req.body._id})
         .then(contact => {
           contact = contact[0]
+          if (req.body.status === 'resolved') {
+            deleteUnresolvedSessionFromStack(req.body._id)
+          } else {
+            callApi(`companyprofile/query`, 'post', { _id: req.user.companyId })
+              .then(company => {
+                pushUnresolveAlertInStack(company, contact, 'whatsApp')
+              })
+              .catch(err => {
+                logger.serverLog(TAG, `Unable to fetch company ${err}`)
+              })
+          }
           let lastMessageData = logicLayer.getQueryData('', 'aggregate', {contactId: req.body._id, companyId: req.user.companyId}, undefined, {_id: -1}, 1, undefined)
           callApi(`whatsAppChat/query`, 'post', lastMessageData, 'kibochat')
             .then(lastMessageResponse => {
@@ -336,7 +349,7 @@ exports.assignTeam = function (req, res) {
                 let lastMessageData = logicLayer.getQueryData('', 'aggregate', {companyId: req.user.companyId}, undefined, undefined, undefined, {_id: req.body.subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
                 let body = `You have been assigned a session as a agent in a ${req.body.teamName} team`
                 _sendNotification(title, body, subscriber, companyUsers, lastMessageData)
-            }).catch(err => {
+              }).catch(err => {
                 sendErrorResponse(res, 500, err)
               })
           }).catch(error => {
