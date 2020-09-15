@@ -376,7 +376,7 @@ exports.createUpdateShopifyChatbot = async (req, res) => {
       sendSuccessResponse(res, 200, chatbot, 'Shopify chatbot created successfully')
     }
   } catch (err) {
-    console.err(err.stack)
+    console.log(`Failed to create Shopify chatbot`, err.stack)
     sendErrorResponse(res, 500, err ? err.message : `Failed to create Shopify chatbot`, `Failed to create Shopify chatbot`)
   }
 }
