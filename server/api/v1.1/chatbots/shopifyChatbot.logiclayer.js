@@ -161,7 +161,7 @@ const getSearchProductsBlock = async (chatbot, blockId, messageBlocks, input) =>
 }
 
 const getCheckOrdersBlock = (chatbot, mainMenuId, blockId, orderStatusId, messageBlocks) => {
-  getOrderIdBlock(chatbot, orderStatusId, messageBlocks)
+  getOrderIdBlock(chatbot, orderStatusId, blockId, messageBlocks)
   messageBlocks.push({
     module: {
       id: chatbot._id,
