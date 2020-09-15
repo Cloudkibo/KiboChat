@@ -163,9 +163,9 @@ exports.getMessageBlocks = (chatbot) => {
     uniqueId: mainMenuId,
     payload: [
       {
-        text: dedent(`Please select an option by sending the corresponding number for it (e.g. send '1' to select Discover):\n
+        text: dedent(`Please select an option by sending the corresponding number for it (e.g. send '1' to select On Sale):\n
                 ${convertToEmoji(0)} All Categories
-                ${convertToEmoji(1)} Discover
+                ${convertToEmoji(1)} On Sale
                 ${convertToEmoji(2)} Search for a Product\n
                 ${specialKeyText(ORDER_STATUS_KEY)}
                 ${specialKeyText(SHOW_CART_KEY)}`),
@@ -184,7 +184,7 @@ exports.getMessageBlocks = (chatbot) => {
     userId: chatbot.userId,
     companyId: chatbot.companyId
   })
-  getCheckOrdersBlock(chatbot, checkOrdersId, orderStatusId, messageBlocks)
+  getCheckOrdersBlock(chatbot, mainMenuId, checkOrdersId, orderStatusId, messageBlocks)
   getReturnOrderIdBlock(chatbot, returnOrderId, messageBlocks)
   getSearchProductsBlock(chatbot, searchProductsId, messageBlocks)
   if (chatbot.botLinks && chatbot.botLinks.faqs) {
@@ -299,7 +299,7 @@ const getReturnOrderBlock = async (chatbot, backId, EcommerceProvider, orderId) 
         id: chatbot._id,
         type: 'whatsapp_chatbot'
       },
-      title: 'Show My Cart',
+      title: 'Return Request',
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
@@ -355,7 +355,7 @@ const getFaqsBlock = (chatbot, blockId, messageBlocks, backId) => {
   })
 }
 
-const getCheckOrdersBlock = (chatbot, blockId, orderStatusId, messageBlocks) => {
+const getCheckOrdersBlock = (chatbot, mainMenuId, blockId, orderStatusId, messageBlocks) => {
   getOrderIdBlock(chatbot, orderStatusId, messageBlocks)
   messageBlocks.push({
     module: {
@@ -378,7 +378,7 @@ const getCheckOrdersBlock = (chatbot, blockId, orderStatusId, messageBlocks) => 
         ],
         specialKeys: {
           [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
-          [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
+          [HOME_KEY]: { type: STATIC, blockId: mainMenuId }
         }
       }
     ],
@@ -482,9 +482,56 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
       companyId: chatbot.companyId
     }
     let orderStatus = await EcommerceProvider.checkOrderStatus(Number(orderId))
-    messageBlock.payload[0].text += `\nThis order was placed on ${new Date(orderStatus.createdAt)}`
-    messageBlock.payload[0].text += `\n\nPayment: ${orderStatus.displayFinancialStatus}`
-    messageBlock.payload[0].text += `\nDelivery: ${orderStatus.displayFulfillmentStatus}`
+
+    logger.serverLog(TAG, `orderStatus ${JSON.stringify(orderStatus)}`, 'info')
+    messageBlock.payload[0].text += `\n*Payment*: ${orderStatus.displayFinancialStatus}`
+    messageBlock.payload[0].text += `\n*Delivery*: ${orderStatus.displayFulfillmentStatus}`
+
+    if (orderStatus.lineItems) {
+      for (let i = 0; i < orderStatus.lineItems.length; i++) {
+        let product = orderStatus.lineItems[i]
+        if (i === 0) {
+          messageBlock.payload[0].text += `\n`
+        }
+        messageBlock.payload[0].text += `\n*Item*: ${product.name}`
+        messageBlock.payload[0].text += `\n*Quantity*: ${product.quantity}`
+        if (i + 1 < orderStatus.lineItems.length) {
+          messageBlock.payload[0].text += `\n`
+        }
+      }
+    }
+
+    if (orderStatus.shippingAddress) {
+      messageBlock.payload[0].text += `\n\n*Shipping Address*: ${orderStatus.billingAddress.address1}`
+      if (orderStatus.shippingAddress.address2) {
+        messageBlock.payload[0].text += `, ${orderStatus.shippingAddress.address2}`
+      }
+      if (orderStatus.shippingAddress.city) {
+        messageBlock.payload[0].text += `, ${orderStatus.shippingAddress.city}`
+      }
+      if (orderStatus.shippingAddress.province) {
+        messageBlock.payload[0].text += `, ${orderStatus.shippingAddress.province}`
+      }
+      if (orderStatus.shippingAddress.country) {
+        messageBlock.payload[0].text += `, ${orderStatus.shippingAddress.country}`
+      }
+    } else if (orderStatus.billingAddress) {
+      messageBlock.payload[0].text += `\n\n*Shipping Address*: ${orderStatus.billingAddress.address1}`
+      if (orderStatus.billingAddress.address2) {
+        messageBlock.payload[0].text += `, ${orderStatus.billingAddress.address2}`
+      }
+      if (orderStatus.billingAddress.city) {
+        messageBlock.payload[0].text += `, ${orderStatus.billingAddress.city}`
+      }
+      if (orderStatus.billingAddress.province) {
+        messageBlock.payload[0].text += `, ${orderStatus.billingAddress.province}`
+      }
+      if (orderStatus.billingAddress.country) {
+        messageBlock.payload[0].text += `, ${orderStatus.billingAddress.country}`
+      }
+    }
+
+    messageBlock.payload[0].text += `\n\nThis order was placed on ${new Date(orderStatus.createdAt).toDateString()}`
 
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
@@ -784,15 +831,21 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
       messageBlock.payload[0].text += `Here is your cart:\n`
       let totalPrice = 0
       let currency = ''
-      for (let product of shoppingCart) {
+      for (let i = 0; i < shoppingCart.length; i++) {
+        let product = shoppingCart[i]
         if (!currency) {
           currency = product.currency
         }
         let price = product.quantity * product.price
         totalPrice += price
-        messageBlock.payload[0].text += `\n• Item: ${product.product}, Quantity: ${product.quantity}, Price: ${price} ${currency}`
+        messageBlock.payload[0].text += `\n*Item*: ${product.product}`
+        messageBlock.payload[0].text += `\n*Quantity*: ${product.quantity}`
+        messageBlock.payload[0].text += `\n*Price*: ${price} ${currency}`
+        if (i + 1 < shoppingCart.length) {
+          messageBlock.payload[0].text += `\n`
+        }
       }
-      messageBlock.payload[0].text += `\n\nTotal price: ${totalPrice} ${currency}\n\n`
+      messageBlock.payload[0].text += `\n\n*Total price*: ${totalPrice} ${currency}\n\n`
       messageBlock.payload[0].menu.push(
         { type: DYNAMIC, action: SHOW_ITEMS_TO_REMOVE },
         { type: DYNAMIC, action: SHOW_ITEMS_TO_UPDATE },
@@ -850,7 +903,7 @@ const getQuantityToRemoveBlock = async (chatbot, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `How many ${product.product}s (price: ${product.price} ${product.currency}) would you like to remove from your cart?  You currently have ${product.quantity} in your cart.`,
+          text: `How many ${product.product}s would you like to remove from your cart?\n\nYou currently have ${product.quantity} in your cart.\n\n(price: ${product.price} ${product.currency})`,
           componentType: 'text',
           action: { type: DYNAMIC, action: REMOVE_FROM_CART, argument: product, input: true }
         }
@@ -917,7 +970,7 @@ const getQuantityToUpdateBlock = async (chatbot, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `What quantity would you like to set for ${product.product} (price: ${product.price} ${product.currency})?`,
+          text: `What quantity would you like to set for ${product.product}?\n\nYou currently have ${product.quantity} in your cart.\n\n(price: ${product.price} ${product.currency}) (stock available: ${product.inventory_quantity})`,
           componentType: 'text',
           action: { type: DYNAMIC, action: UPDATE_CART, argument: product, input: true }
         }
@@ -1138,9 +1191,11 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
         shopifyCustomer = shopifyCustomer[0]
       }
       logger.serverLog(TAG, `shopifyCustomer ${JSON.stringify(shopifyCustomer)}`, 'info')
-      updateWhatsAppContact({ _id: contact._id }, { shopifyCustomer }, null, {})
+      updateWhatsAppContact({ _id: contact._id }, { shopifyCustomer, shoppingCart: [] }, null, {})
     } else {
       shopifyCustomer = contact.shopifyCustomer
+
+      updateWhatsAppContact({ _id: contact._id }, { shoppingCart: [] }, null, {})
     }
     let checkoutLink = EcommerceProvider.createPermalinkForCart(shopifyCustomer, contact.shoppingCart)
 
@@ -1250,7 +1305,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
       if (chatbot.triggers.includes(input)) {
         return getWelcomeMessageBlock(chatbot, contact, input)
       } else {
-        return invalidInput(chatbot, contact.lastMessageSentByBot, `You entered an invalid response.`)
+        return invalidInput(chatbot, contact.lastMessageSentByBot, `${ERROR_INDICATOR}You entered an invalid response.`)
       }
     }
     if (action.type === DYNAMIC) {
