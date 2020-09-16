@@ -21,7 +21,7 @@ exports.index = function (req, res) {
         type = 'automated'
       }
       logger.serverLog(TAG, `messenger payload in chatbot test ${JSON.stringify(messengerPayload)}`)
-      return chatbotAutomation.handleChatBotTestMessage(messengerPayload, page, subscriberInfo, type)
+      chatbotAutomation.handleChatBotTestMessage(messengerPayload, page, subscriberInfo, type)
     })
     .catch(error => {
       console.log('error on getting subcribers', error.stack)

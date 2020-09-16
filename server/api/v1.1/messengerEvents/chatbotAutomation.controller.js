@@ -219,9 +219,9 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId) => {
 }
 
 exports.handleChatBotTestMessage = (req, page, subscriber, type) => {
-  return chatbotDataLayer.findOneChatBot({ pageId: page._id, type })
-  record('messengerChatInComing')
+  chatbotDataLayer.findOneChatBot({ pageId: page._id, type })
     .then(chatbot => {
+      record('messengerChatInComing')
       if (chatbot) {
         messageBlockDataLayer.findOneMessageBlock({ _id: chatbot.startingBlockId })
           .then(messageBlock => {
@@ -246,7 +246,7 @@ exports.handleChatBotTestMessage = (req, page, subscriber, type) => {
     })
 }
 
-function sendResponse (recipientId, payload, subscriber, accessToken) {
+function sendResponse(recipientId, payload, subscriber, accessToken) {
   let finalPayload = logicLayer.prepareSendAPIPayload(recipientId, payload, subscriber.firstName, subscriber.lastName, true)
   record('messengerChatOutGoing')
   facebookApiCaller('v3.2', `me/messages?access_token=${accessToken}`, 'post', finalPayload)
@@ -259,7 +259,7 @@ function sendResponse (recipientId, payload, subscriber, accessToken) {
     })
 }
 
-function senderAction (recipientId, action, accessToken) {
+function senderAction(recipientId, action, accessToken) {
   let payload = {
     recipient: {
       id: recipientId
@@ -276,7 +276,7 @@ function senderAction (recipientId, action, accessToken) {
     })
 }
 
-function _sendToClientUsingSocket (body) {
+function _sendToClientUsingSocket(body) {
   require('../../../config/socketio').sendMessageToClient({
     room_id: body.companyId,
     body: {
@@ -288,7 +288,7 @@ function _sendToClientUsingSocket (body) {
   })
 }
 
-function sendFallbackReply (senderId, page, fallbackReply, subscriber) {
+function sendFallbackReply(senderId, page, fallbackReply, subscriber) {
   senderAction(senderId, 'typing_on', page.accessToken)
   intervalForEach(fallbackReply, (item) => {
     sendResponse(senderId, item, subscriber, page.accessToken)
@@ -296,7 +296,7 @@ function sendFallbackReply (senderId, page, fallbackReply, subscriber) {
   }, 1500)
 }
 
-function updateBotLifeStats (chatbot, isNewSubscriber) {
+function updateBotLifeStats(chatbot, isNewSubscriber) {
   if (isNewSubscriber) {
     chatbotDataLayer.genericUpdateChatBot({ _id: chatbot._id }, { $inc: { 'stats.newSubscribers': 1 } })
       .then(updated => {
@@ -316,7 +316,7 @@ function updateBotLifeStats (chatbot, isNewSubscriber) {
   }
 }
 
-function updateBotPeriodicStats (chatbot, isNewSubscriber) {
+function updateBotPeriodicStats(chatbot, isNewSubscriber) {
   if (isNewSubscriber) {
     chatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
       {
@@ -352,7 +352,7 @@ function updateBotPeriodicStats (chatbot, isNewSubscriber) {
   }
 }
 
-function updateBotPeriodicStatsForBlock (chatbot, isForSentCount) {
+function updateBotPeriodicStatsForBlock(chatbot, isForSentCount) {
   if (isForSentCount) {
     chatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
       {
@@ -388,7 +388,7 @@ function updateBotPeriodicStatsForBlock (chatbot, isForSentCount) {
   }
 }
 
-function updateBotPeriodicStatsForReturning (chatbot) {
+function updateBotPeriodicStatsForReturning(chatbot) {
   chatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
     {
       chatbotId: chatbot._id,
@@ -406,7 +406,7 @@ function updateBotPeriodicStatsForReturning (chatbot) {
     })
 }
 
-function updateBotLifeStatsForBlock (messageBlock, isForSentCount) {
+function updateBotLifeStatsForBlock(messageBlock, isForSentCount) {
   if (isForSentCount) {
     messageBlockDataLayer.genericUpdateMessageBlock({ _id: messageBlock._id }, { $inc: { 'stats.sentCount': 1 } })
       .then(updated => {
@@ -426,7 +426,7 @@ function updateBotLifeStatsForBlock (messageBlock, isForSentCount) {
   }
 }
 
-function updateBotSubscribersAnalytics (chatbotId, companyId, subscriber, messageBlock) {
+function updateBotSubscribersAnalytics(chatbotId, companyId, subscriber, messageBlock) {
   chatbotAnalyticsDataLayer.findOneForBotSubscribersAnalytics({ messageBlockId: messageBlock._id, 'subscriber.id': subscriber._id })
     .then(gotBotSubscribersAnalytics => {
       if (!gotBotSubscribersAnalytics) {
@@ -457,7 +457,7 @@ function updateBotSubscribersAnalytics (chatbotId, companyId, subscriber, messag
     })
 }
 
-function updateBotSubscribersAnalyticsForSQL (chatbotId, companyId, subscriber, messageBlock) {
+function updateBotSubscribersAnalyticsForSQL(chatbotId, companyId, subscriber, messageBlock) {
   chatbotAnalyticsDataLayer.findForBotSubscribersAnalyticsForSQL({ messageBlockId: messageBlock._id, subscriberId: subscriber._id })
     .then(gotBotSubscribersAnalytics => {
       if (!gotBotSubscribersAnalytics || gotBotSubscribersAnalytics.length === 0) {
