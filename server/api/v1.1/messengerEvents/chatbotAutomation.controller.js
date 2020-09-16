@@ -219,7 +219,7 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId) => {
 }
 
 exports.handleChatBotTestMessage = (req, page, subscriber, type) => {
-  chatbotDataLayer.findOneChatBot({ pageId: page._id, type })
+  return chatbotDataLayer.findOneChatBot({ pageId: page._id, type })
   record('messengerChatInComing')
     .then(chatbot => {
       if (chatbot) {
