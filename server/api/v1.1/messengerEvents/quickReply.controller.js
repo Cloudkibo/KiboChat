@@ -16,23 +16,23 @@ exports.index = function (req, res) {
   let subscriberId = messengerPayload.sender.id
   let subscriber = {}
   logger.serverLog(TAG, `quickReply ${JSON.stringify(messengerPayload)}`, 'info')
-  utility.callApi('subscribers/query', 'post', { senderId: subscriberId })
-    .then(gotSubscriber => {
-      subscriber = gotSubscriber[0]
-      return utility.callApi('pages/query', 'post', { pageId, connected: true })
-    })
+  utility.callApi('pages/query', 'post', { pageId, connected: true })
     .then(page => {
       page = page[0]
-      handleShopifyChatbot(messengerPayload, page, subscriber)
-      if (logicLayer.isJsonString(messengerPayload.message.quick_reply.payload)) {
-        let quickRepyPayload = JSON.parse(messengerPayload.message.quick_reply.payload)
-        for (let i = 0; i < quickRepyPayload.length; i++) {
-          if (quickRepyPayload[i].action === '_chatbot') {
-            chatbotAutomation.handleChatBotNextMessage(messengerPayload, page, subscriber, quickRepyPayload[i].blockUniqueId)
+      utility.callApi('subscribers/query', 'post', { senderId: subscriberId, pageId: page._id })
+        .then(gotSubscriber => {
+          subscriber = gotSubscriber[0]
+          handleShopifyChatbot(messengerPayload, page, subscriber)
+          if (logicLayer.isJsonString(messengerPayload.message.quick_reply.payload)) {
+            let quickRepyPayload = JSON.parse(messengerPayload.message.quick_reply.payload)
+            for (let i = 0; i < quickRepyPayload.length; i++) {
+              if (quickRepyPayload[i].action === '_chatbot') {
+                chatbotAutomation.handleChatBotNextMessage(messengerPayload, page, subscriber, quickRepyPayload[i].blockUniqueId)
+              }
+            }
           }
-        }
-      }
-      saveLiveChat(page, subscriber, messengerPayload)
+          saveLiveChat(page, subscriber, messengerPayload)
+        })
     })
     .catch(error => {
       logger.serverLog(TAG, `error on getting subcribers ${error}`, 'error')
