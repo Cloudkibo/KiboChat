@@ -20,6 +20,7 @@ exports.index = function (req, res) {
       } else if (messengerPayload.optin.ref === '_shopify_chatbot') {
         type = 'automated'
       }
+      logger.serverLog(TAG, `messenger payload in chatbot test ${JSON.stringify(messengerPayload)}`)
       return chatbotAutomation.handleChatBotTestMessage(messengerPayload, page, subscriberInfo, type)
     })
     .catch(error => {
