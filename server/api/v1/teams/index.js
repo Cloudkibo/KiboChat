@@ -8,12 +8,14 @@ const controller = require('./teams.controller')
 
 router.post('/',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
   auth.doesPlanPermitsThisAction('team_members_management'),
   auth.isUserAllowedToPerformThisAction('view_teams'),
   controller.index)
 
 router.post('/create',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   auth.doesPlanPermitsThisAction('team_members_management'),
   auth.isUserAllowedToPerformThisAction('create_teams'),
   validate({body: validationSchema.teamPayload}),
@@ -21,6 +23,7 @@ router.post('/create',
 
 router.post('/update',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   auth.doesPlanPermitsThisAction('team_members_management'),
   auth.isUserAllowedToPerformThisAction('update_teams'),
   validate({body: validationSchema.teamUpdatePayload}),
@@ -28,12 +31,14 @@ router.post('/update',
 
 router.delete('/delete/:id',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   auth.doesPlanPermitsThisAction('team_members_management'),
   auth.isUserAllowedToPerformThisAction('delete_teams'),
   controller.deleteTeam)
 
 router.post('/addAgent',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   auth.doesPlanPermitsThisAction('team_members_management'),
   auth.isUserAllowedToPerformThisAction('update_teams'),
   validate({body: validationSchema.agentPayload}),
@@ -41,6 +46,7 @@ router.post('/addAgent',
 
 router.post('/addPage',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   auth.doesPlanPermitsThisAction('team_members_management'),
   auth.isUserAllowedToPerformThisAction('update_teams'),
   validate({body: validationSchema.pagePayload}),
@@ -48,24 +54,28 @@ router.post('/addPage',
 
 router.post('/removeAgent',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   auth.doesPlanPermitsThisAction('team_members_management'),
   auth.isUserAllowedToPerformThisAction('update_teams'),
   controller.removeAgent)
 
 router.post('/removePage',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   auth.doesPlanPermitsThisAction('team_members_management'),
   auth.isUserAllowedToPerformThisAction('update_teams'),
   controller.removePage)
 
 router.get('/fetchAgents/:id',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
   auth.doesPlanPermitsThisAction('team_members_management'),
   auth.isUserAllowedToPerformThisAction('update_teams'),
   controller.fetchAgents)
 
 router.get('/fetchPages/:id',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
   auth.doesPlanPermitsThisAction('team_members_management'),
   auth.isUserAllowedToPerformThisAction('update_teams'),
   controller.fetchPages)

@@ -10,21 +10,25 @@ const { attachProviderInfo } = require('../../middleware/whatsApp.middleware')
 
 router.post('/',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   attachProviderInfo(),
   validate({body: validationSchema.createPayload}),
   controller.create)
 
 router.post('/getChat/:contactId',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
   controller.index)
 
 router.post('/search',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
   validate({body: validationSchema.searchPayload}),
   controller.search)
 
 router.post('/set_custom_field_value',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   validate({body: validationSchema.setCustomFieldValue}),
   controller.setCustomFieldValue)
 

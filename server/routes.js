@@ -69,6 +69,7 @@ module.exports = function (app) {
   app.use('/api/adminAlerts', require('./api/v1.1/adminAlerts'))
   app.use('/api/addOns', require('./api/v1.1/addOns'))
   app.use('/api/whatsAppEvents', require('./api/v1.1/whatsAppEvents'))
+  app.use('/api/backdoor', require('./api/v1.1/backdoor'))
   // auth middleware go here if you authenticate on same server
 
   app.get('/', (req, res) => {
