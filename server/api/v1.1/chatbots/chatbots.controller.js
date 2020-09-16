@@ -16,7 +16,7 @@ exports.index = function (req, res) {
   callApi(`pages/query`, 'post', { companyId: req.user.companyId, connected: true })
     .then(pages => {
       let pageIds = logiclayer.prepareIdsArray(pages)
-      datalayer.findAllChatBots({ pageId: { $in: pageIds } })
+      datalayer.findAllChatBots({ pageId: { $in: pageIds }, type: 'manual' })
         .then(chatbots => {
           logiclayer.populatePageIdsInChatBots(pages, chatbots)
           return sendSuccessResponse(res, 200, chatbots, null)
