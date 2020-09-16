@@ -218,7 +218,7 @@ exports.handleChatBotTestMessage = (req, page, subscriber, type) => {
   chatbotDataLayer.findOneChatBot({ pageId: page._id, type })
     .then(chatbot => {
       if (chatbot) {
-        messageBlockDataLayer.findOneMessageBlock({ _id: chatbot.startingBlockId })
+        messageBlockDataLayer.findOneMessageBlock(type === 'automated' ? { uniqueId: chatbot.startingBlockId } : { _id: chatbot.startingBlockId })
           .then(messageBlock => {
             if (messageBlock) {
               _sendToClientUsingSocket(chatbot)
