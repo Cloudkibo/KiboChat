@@ -1498,7 +1498,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, userMe
     let startingBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
     if (!contact || !contact.lastMessageSentByBot) {
       if (startingBlock.triggers.includes(input)) {
-        return getWelcomeMessageBlock(chatbot, contact, input)
+        return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider, input)
       }
     } else {
       let action = null
