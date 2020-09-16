@@ -1499,8 +1499,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, userMe
     let startingBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
     if (!contact || !contact.lastMessageSentByBot) {
       if (startingBlock.triggers.includes(input)) {
-        let startingMessageBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
-        return startingMessageBlock
+        return startingBlock
       }
     } else {
       let action = null
@@ -1517,8 +1516,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, userMe
       } catch (err) {
         logger.serverLog(TAG, `Invalid user input ${input} `, 'info')
         if (startingBlock.triggers.includes(input)) {
-          let startingMessageBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
-          return startingMessageBlock
+          return startingBlock
         } else {
           return invalidInput(chatbot, contact.lastMessageSentByBot, `${ERROR_INDICATOR}You entered an invalid response.`)
         }
@@ -1612,8 +1610,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, userMe
           return messageBlock
         } catch (err) {
           if (startingBlock.triggers.includes(input)) {
-            let startingMessageBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
-            return startingMessageBlock
+            return startingBlock
           } else {
             return invalidInput(chatbot, contact.lastMessageSentByBot, err.message)
           }

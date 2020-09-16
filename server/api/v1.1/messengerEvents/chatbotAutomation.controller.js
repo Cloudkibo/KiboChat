@@ -19,7 +19,7 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
       if (chatbot) {
         if (req.postback && req.postback.payload && req.postback.payload === '<GET_STARTED_PAYLOAD>') {
           if (chatbot.startingBlockId) {
-            messageBlockDataLayer.findOneMessageBlock({ _id: chatbot.startingBlockId })
+            messageBlockDataLayer.findOneMessageBlock(chatbot.type === 'automated' ? { uniqueId: chatbot.startingBlockId } : { _id: chatbot.startingBlockId })
               .then(messageBlock => {
                 if (messageBlock) {
                   senderAction(req.sender.id, 'typing_on', page.accessToken)
@@ -420,36 +420,36 @@ function updateBotLifeStatsForBlock (messageBlock, isForSentCount) {
   }
 }
 
-function updateBotSubscribersAnalytics (chatbotId, companyId, subscriber, messageBlock) {
-  chatbotAnalyticsDataLayer.findOneForBotSubscribersAnalytics({ messageBlockId: messageBlock._id, 'subscriber.id': subscriber._id })
-    .then(gotBotSubscribersAnalytics => {
-      if (!gotBotSubscribersAnalytics) {
-        chatbotAnalyticsDataLayer.aggregateForBotSubscribersAnalytics({ 'subscriber.id': subscriber._id }, null, null, 10)
-          .then(gotAnalyticsArray => {
-            gotAnalyticsArray = gotAnalyticsArray.map(analyticsItem => {
-              return {
-                id: analyticsItem.messageBlockId,
-                title: analyticsItem.messageBlockTitle
-              }
-            })
-            chatbotAnalyticsDataLayer.createForBotSubscribersAnalytics({
-              chatbotId,
-              companyId,
-              subscriber: {
-                id: subscriber._id,
-                name: subscriber.firstName + ' ' + subscriber.lastName
-              },
-              messageBlockId: messageBlock.uniqueId,
-              messageBlockTitle: messageBlock.title,
-              blocksPath: [...gotAnalyticsArray, {
-                id: messageBlock.uniqueId,
-                title: messageBlock.title
-              }]
-            })
-          })
-      }
-    })
-}
+// function updateBotSubscribersAnalytics (chatbotId, companyId, subscriber, messageBlock) {
+//   chatbotAnalyticsDataLayer.findOneForBotSubscribersAnalytics({ messageBlockId: messageBlock._id, 'subscriber.id': subscriber._id })
+//     .then(gotBotSubscribersAnalytics => {
+//       if (!gotBotSubscribersAnalytics) {
+//         chatbotAnalyticsDataLayer.aggregateForBotSubscribersAnalytics({ 'subscriber.id': subscriber._id }, null, null, 10)
+//           .then(gotAnalyticsArray => {
+//             gotAnalyticsArray = gotAnalyticsArray.map(analyticsItem => {
+//               return {
+//                 id: analyticsItem.messageBlockId,
+//                 title: analyticsItem.messageBlockTitle
+//               }
+//             })
+//             chatbotAnalyticsDataLayer.createForBotSubscribersAnalytics({
+//               chatbotId,
+//               companyId,
+//               subscriber: {
+//                 id: subscriber._id,
+//                 name: subscriber.firstName + ' ' + subscriber.lastName
+//               },
+//               messageBlockId: messageBlock.uniqueId,
+//               messageBlockTitle: messageBlock.title,
+//               blocksPath: [...gotAnalyticsArray, {
+//                 id: messageBlock.uniqueId,
+//                 title: messageBlock.title
+//               }]
+//             })
+//           })
+//       }
+//     })
+// }
 
 function updateBotSubscribersAnalyticsForSQL (chatbotId, companyId, subscriber, messageBlock) {
   chatbotAnalyticsDataLayer.findForBotSubscribersAnalyticsForSQL({ messageBlockId: messageBlock._id, subscriberId: subscriber._id })
