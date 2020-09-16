@@ -218,9 +218,9 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId) => {
     })
 }
 
-exports.handleChatBotTestMessage = (req, page, subscriber) => {
+exports.handleChatBotTestMessage = (req, page, subscriber, type) => {
+  chatbotDataLayer.findOneChatBot({ pageId: page._id, type })
   record('messengerChatInComing')
-  chatbotDataLayer.findOneChatBot({ pageId: page._id })
     .then(chatbot => {
       if (chatbot) {
         messageBlockDataLayer.findOneMessageBlock({ _id: chatbot.startingBlockId })
