@@ -20,7 +20,7 @@ exports.index = function (req, res) {
       } else if (messengerPayload.optin.ref === '_shopify_chatbot') {
         type = 'automated'
       }
-      chatbotAutomation.handleChatBotTestMessage(messengerPayload, page, subscriberInfo, type)
+      return chatbotAutomation.handleChatBotTestMessage(messengerPayload, page, subscriberInfo, type)
     })
     .catch(error => {
       console.log('error on getting subcribers', error.stack)
