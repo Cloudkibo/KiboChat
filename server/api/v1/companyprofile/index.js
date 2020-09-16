@@ -34,13 +34,13 @@ router.post('/updateRole',
 
 router.post('/updatePlatform',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer(),
+  auth.isSuperUserActingAsCustomer('write'),
   validate({body: validationSchema.updatePlatformPayload}),
   controller.updatePlatform)
 
 router.post('/updatePlatformWhatsApp',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer(),
+  auth.isSuperUserActingAsCustomer('write'),
   validate({body: validationSchema.updatePlatformWhatsApp}),
   controller.updatePlatformWhatsApp)
 

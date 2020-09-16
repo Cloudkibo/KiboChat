@@ -17,8 +17,8 @@ router.get('/',
 
 router.post('/update',
   auth.isAuthenticated(),
-  validate({body: validationSchema.updatePayload}),
   auth.isSuperUserActingAsCustomer('write'),
+  validate({body: validationSchema.updatePayload}),
   controller.update)
 
 module.exports = router
