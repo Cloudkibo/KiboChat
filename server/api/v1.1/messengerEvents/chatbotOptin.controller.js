@@ -14,7 +14,13 @@ exports.index = function (req, res) {
   utility.callApi('pages/query', 'post', { pageId, connected: true })
     .then(page => {
       page = page[0]
-      chatbotAutomation.handleChatBotTestMessage(messengerPayload, page, subscriberInfo)
+      let type = ''
+      if (messengerPayload.optin.ref === '_chatbot') {
+        type = 'manual'
+      } else if (messengerPayload.optin.ref === '_shopify_chatbot') {
+        type = 'automated'
+      }
+      chatbotAutomation.handleChatBotTestMessage(messengerPayload, page, subscriberInfo, type)
     })
     .catch(error => {
       logger.serverLog(TAG, `error on getting subcribers ${error}`, 'error')
