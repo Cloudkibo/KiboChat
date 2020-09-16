@@ -60,7 +60,7 @@ exports.updateFaqsForStartingBlock = async (chatbot) => {
   }
 }
 
-exports.getMessageBlocks = (chatbot) => {
+exports.getMessageBlocks = (chatbot, storeName) => {
   const messageBlocks = []
   const mainMenuId = '' + new Date().getTime()
   const orderStatusId = '' + new Date().getTime() + 100
@@ -79,7 +79,7 @@ exports.getMessageBlocks = (chatbot) => {
     uniqueId: mainMenuId,
     payload: [
       {
-        text: DEFAULT_TEXT,
+        text: `Hi {{user_first_name}}! Welcome to ${storeName} chatbot!\n\n${DEFAULT_TEXT}`,
         componentType: 'text',
         quickReplies: [
           {
@@ -113,6 +113,7 @@ exports.getMessageBlocks = (chatbot) => {
     userId: chatbot.userId,
     companyId: chatbot.companyId
   })
+
   getCheckOrdersBlock(chatbot, mainMenuId, checkOrdersId, orderStatusId, messageBlocks)
   getReturnOrderIdBlock(chatbot, returnOrderId, messageBlocks)
   getSearchProductsBlock(chatbot, searchProductsId, messageBlocks)
@@ -1369,23 +1370,23 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
 //   }
 // }
 
-const getWelcomeMessageBlock = async (chatbot, contact, EcommerceProvider, input) => {
-  let welcomeMessage = ''
+// const getWelcomeMessageBlock = async (chatbot, contact, EcommerceProvider, input) => {
+//   let welcomeMessage = ''
 
-  welcomeMessage += `${input.charAt(0).toUpperCase() + input.substr(1).toLowerCase()}`
+//   welcomeMessage += `${input.charAt(0).toUpperCase() + input.substr(1).toLowerCase()}`
 
-  let storeInfo = await EcommerceProvider.fetchStoreInfo()
+//   let storeInfo = await EcommerceProvider.fetchStoreInfo()
 
-  if (contact.firstName) {
-    welcomeMessage += ` ${contact.firstName}!`
-  } else {
-    welcomeMessage += `!`
-  }
-  welcomeMessage += ` Welcome to ${storeInfo.name} chatbot!`
-  let messageBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
-  messageBlock.payload[0].text = `${welcomeMessage}\n\n` + messageBlock.payload[0].text
-  return messageBlock
-}
+//   if (contact.firstName) {
+//     welcomeMessage += ` ${contact.firstName}!`
+//   } else {
+//     welcomeMessage += `!`
+//   }
+//   welcomeMessage += ` Welcome to ${storeInfo.name} chatbot!`
+//   let messageBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
+//   messageBlock.payload[0].text = `${welcomeMessage}\n\n` + messageBlock.payload[0].text
+//   return messageBlock
+// }
 
 const invalidInput = async (chatbot, messageBlock, errMessage) => {
   if (messageBlock.uniqueId === chatbot.startingBlockId) {
@@ -1498,7 +1499,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, userMe
     let startingBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
     if (!contact || !contact.lastMessageSentByBot) {
       if (startingBlock.triggers.includes(input)) {
-        return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider, input)
+        return startingBlock
       }
     } else {
       let action = null
@@ -1515,7 +1516,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, userMe
       } catch (err) {
         logger.serverLog(TAG, `Invalid user input ${input} `, 'info')
         if (startingBlock.triggers.includes(input)) {
-          return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider, input)
+          return startingBlock
         } else {
           return invalidInput(chatbot, contact.lastMessageSentByBot, `${ERROR_INDICATOR}You entered an invalid response.`)
         }
@@ -1609,7 +1610,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, userMe
           return messageBlock
         } catch (err) {
           if (startingBlock.triggers.includes(input)) {
-            return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider, input)
+            return startingBlock
           } else {
             return invalidInput(chatbot, contact.lastMessageSentByBot, err.message)
           }
