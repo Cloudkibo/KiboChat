@@ -82,7 +82,7 @@ exports.fetchProducts = (credentials) => {
 exports.searchProducts = (searchQuery, credentials) => {
   const shopify = initShopify(credentials)
   const query = `{
-    products(first: 10, query: "title:*${searchQuery}*") {
+    products(first: 10, query: "${searchQuery}") {
       edges {
         node {
           id
@@ -197,8 +197,33 @@ exports.getOrderStatus = (id, credentials) => {
           phone
           shippingAddress {
             id
+            name
+            phone
+            city
+            country
+            province
+            address1
+            address2
           }
           displayFulfillmentStatus
+          lineItems(first: 100) {
+            edges {
+              node {
+                id
+                variant {
+                  id
+                }
+                variantTitle
+                quantity
+                sku
+                vendor
+                product {
+                  id
+                }
+                name
+              }
+            }
+          }
         }
       }
     }
@@ -209,6 +234,22 @@ exports.getOrderStatus = (id, credentials) => {
     shopify.graphql(query)
       .then(result => {
         let order = result.orders.edges[0].node
+        order = {
+          ...order,
+          lineItems: order.lineItems.edges.map(lineItem => {
+            return {
+              id: lineItem.node.id,
+              variantId: lineItem.node.variant,
+              title: lineItem.node.title,
+              quantity: lineItem.node.quantity,
+              sku: lineItem.node.sku,
+              variant_title: lineItem.node.variant_title,
+              vendor: lineItem.node.vendor,
+              product: lineItem.node.product,
+              name: lineItem.node.name
+            }
+          })
+        }
         resolve(order)
       })
       .catch(err => {

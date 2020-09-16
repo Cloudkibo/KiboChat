@@ -8,16 +8,17 @@ const needle = require('needle')
 const sessionLogicLayer = require('../sessions/sessions.logiclayer')
 const logicLayer = require('./logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
-// const { record } = require('../../global/messageStatistics')
+const { record } = require('../../global/messageStatistics')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 const { sendNotifications } = require('../../global/sendNotification')
 const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('../../global/messageAlerts')
 const { handleTriggerMessage, handleShopifyChatbot } = require('./chatbotAutomation.controller')
 
 exports.index = function (req, res) {
-  logger.serverLog(TAG, `payload received in page ${JSON.stringify(req.body.page)}`, 'debug')
-  logger.serverLog(TAG, `payload received in subscriber ${JSON.stringify(req.body.subscriber)}`, 'debug')
-  logger.serverLog(TAG, `payload received in event ${JSON.stringify(req.body.event)}`, 'debug')
-  logger.serverLog(TAG, `payload received in pushPendingSession ${JSON.stringify(req.body.pushPendingSessionInfo)}`, 'debug')
+  logger.serverLog(TAG, `payload received in page ${JSON.stringify(req.body.page)}`, 'info')
+  logger.serverLog(TAG, `payload received in subscriber ${JSON.stringify(req.body.subscriber)}`, 'info')
+  logger.serverLog(TAG, `payload received in event ${JSON.stringify(req.body.event)}`, 'info')
+  logger.serverLog(TAG, `payload received in pushPendingSession ${JSON.stringify(req.body.pushPendingSessionInfo)}`, 'info')
   res.status(200).json({
     status: 'success',
     description: `received the payload`
@@ -27,6 +28,7 @@ exports.index = function (req, res) {
   let event = req.body.event
   utility.callApi(`companyprofile/query`, 'post', { _id: page.companyId })
     .then(company => {
+      logger.serverLog(TAG, `company in messenger events session ${JSON.stringify(company)}`, 'info')
       if (!(company.automated_options === 'DISABLE_CHAT')) {
         if (subscriber.unSubscribedBy !== 'agent') {
           let updatePayload = { last_activity_time: Date.now() }
@@ -50,10 +52,12 @@ exports.index = function (req, res) {
                     logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
                   })
               }
-              logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
+              logger.serverLog(TAG, `subscriber updated successfully`, 'info')
               if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
+                logger.serverLog(TAG, `saving live chat`, 'info')
                 saveLiveChat(page, subscriber, event)
                 if (event.type !== 'get_started') {
+                  logger.serverLog(TAG, `handling chatbot`, 'info')
                   handleShopifyChatbot(event, page, subscriber)
                   handleTriggerMessage(event, page, subscriber)
                 }
@@ -74,7 +78,7 @@ exports.index = function (req, res) {
 }
 
 function saveLiveChat (page, subscriber, event) {
-  // record('messengerChatInComing')
+  record('messengerChatInComing')
   if (subscriber && !event.message.is_echo) {
     botController.respondUsingBot(page, subscriber, event.message.text)
   }
@@ -130,6 +134,7 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
   ) {
     LiveChatDataLayer.createFbMessageObject(chatPayload)
       .then(chat => {
+        updateCompanyUsage(page.companyId, 'chat_messages', 1)
         if (!event.message.is_echo) {
           setTimeout(() => {
             utility.callApi('subscribers/query', 'post', { _id: subscriber._id })

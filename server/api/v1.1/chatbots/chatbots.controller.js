@@ -14,6 +14,8 @@ const async = require('async')
 const shopifyDataLayer = require('../shopify/shopify.datalayer')
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
 const EcommerceProvider = require('../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
+const { parse } = require('json2csv')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 
 exports.index = function (req, res) {
   callApi(`pages/query`, 'post', { companyId: req.user.companyId, connected: true })
@@ -37,6 +39,7 @@ exports.create = function (req, res) {
   let payload = logiclayer.preparePayload(req.user.companyId, req.user._id, req.body)
   datalayer.createForChatBot(payload)
     .then(chatbot => {
+      updateCompanyUsage(req.user.companyId, 'chatbot_automation', 1)
       _sendToClientUsingSocket(chatbot)
       return sendSuccessResponse(res, 201, chatbot, null)
     })
@@ -316,34 +319,28 @@ exports.redirectToUrl = (req, res) => {
 }
 
 exports.exportData = (req, res) => {
-  const fetchmessageBlock = msgBlockDataLayer.findAllMessageBlock({ 'module.type': 'chatbot', 'module.id': req.body.chatBotId })
-  const fetchAnalyticsBlock = analyticsDataLayer.findBotSubscribersAnalytics({ chatbotId: req.body.chatBotId })
-  Promise.all([fetchmessageBlock, fetchAnalyticsBlock])
+  analyticsDataLayer.findForBotSubscribersAnalyticsForSQL({companyId: req.user.companyId})
     .then(results => {
-      let messageBlocks = results[0]
-      let blockAnalytics = results[1]
-      logger.serverLog(TAG, `blockAnalytics Length ${blockAnalytics.length}`)
-      logger.serverLog(TAG, `messageBlocks Length ${messageBlocks.length}`)
-      let blockAnalyticsData = []
-      async.each(messageBlocks, function (messageBlock, cb) {
-        let blockdata = {}
-        let data = blockAnalytics.filter(block => block.messageBlockId === messageBlock._id)
-        blockdata.chatBotName = req.body.pageName
-        blockdata.blockName = messageBlock.title
-        blockdata.subscriberClickCount = data.length
-        blockAnalyticsData.push(blockdata)
-        cb()
-      }, function (err) {
-        if (err) {
-          logger.serverLog(TAG, err, 'error')
-          sendErrorResponse(res, 500, `Failed to make data ${err}`)
-        } else {
-          sendSuccessResponse(res, 200, blockAnalyticsData)
+      var subscriberIds = results.map(value => value.subscriberId)
+      var unique = subscriberIds.filter((v, i, a) => a.indexOf(v) === i) 
+      let subscribersData = []
+      for (let i = 0; i < unique.length; i++) {
+        let subscribers = results.filter(value => value.subscriberId === unique[i])
+        let Path = JSON.parse(subscribers[subscribers.length - 1].blocksPath)
+        let name = subscribers[subscribers.length - 1].subscriberName
+        for (let j = 0; j < Path.length; j++) {
+          let blockdata = {}
+          blockdata.subscriberName = name
+          let subPath = Path.slice(0, j + 1)
+          for (let k = 0; k < subPath.length; k++) {
+            blockdata[`step ${k + 1}`] = subPath[k].title
+          }
+          subscribersData.push(blockdata)
         }
+        subscribersData.push('\n')
       }
-      )
-    })
-    .catch(error => {
+      sendSuccessResponse(res, 200, subscribersData)
+    }).catch(error => {
       return sendErrorResponse(res, 500, error, 'Failed to fetch the chatbot details.')
     })
 }
