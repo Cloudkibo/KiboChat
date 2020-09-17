@@ -1518,7 +1518,7 @@ const getUpdateCartBlock = async (chatbot, backId, contact, product, quantity) =
 exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, userMessage) => {
   try {
     logger.serverLog(TAG, `getNextMessageBlock userMessage ${JSON.stringify(userMessage)}`, 'info')
-    const input = userMessage.text.toLowerCase()
+    const input = userMessage.text ? userMessage.text.toLowerCase() : ''
     let startingBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
     if (!contact || !contact.lastMessageSentByBot) {
       if (startingBlock.triggers.includes(input)) {
