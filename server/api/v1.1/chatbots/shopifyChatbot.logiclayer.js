@@ -244,7 +244,8 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
     if (products.length > 0) {
       messageBlock.payload.push({
         componentType: 'gallery',
-        cards: []
+        cards: [],
+        quickReplies: []
       })
       for (let i = 0; i < products.length; i++) {
         let product = products[i]
@@ -659,7 +660,8 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
     if (productVariants.length > 0) {
       messageBlock.payload.push({
         componentType: 'gallery',
-        cards: []
+        cards: [],
+        quickReplies: []
       })
       for (let i = 0; i < productVariants.length; i++) {
         let productVariant = productVariants[i]
