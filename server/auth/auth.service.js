@@ -285,6 +285,21 @@ function validateApiKeys (req, res, next) {
 /**
  * Set token cookie directly for oAuth strategies
 */
+
+const _updateUserPlatform = (req, res) => {
+  apiCaller.callApi(`companyUser/queryAll`, 'post', {companyId: req.user.companyId}, 'accounts')
+    .then(companyUsers => {
+      let userIds = companyUsers.map(companyUser => companyUser.userId._id)
+      apiCaller.callApi(`user/update`, 'post', {query: {_id: {$in: userIds}}, newPayload: { $set: {platform: 'messenger'} }, options: {multi: true}})
+        .then(updatedProfile => {
+        })
+        .catch(err => {
+          logger.serverLog(TAG, `500: Internal server error ${err}`)
+        })               
+    }).catch(err => {
+      logger.serverLog(TAG, JSON.stringify(err), 'error')
+    })
+}
 function fbConnectDone (req, res) {
   let fbPayload = req.user
   let userid = req.cookies.userid
@@ -305,6 +320,7 @@ function fbConnectDone (req, res) {
       } else {
         apiCaller.callApi(`user/update`, 'post', {query: {_id: userid}, newPayload: {facebookInfo: fbPayload, connectFacebook: true, showIntegrations: false, platform: 'messenger'}, options: {}}, 'accounts', token)
           .then(updated => {
+            _updateUserPlatform(req, res)
             apiCaller.callApi(`user/query`, 'post', {_id: userid}, 'accounts', token)
               .then(user => {
                 if (!user) {
