@@ -96,7 +96,7 @@ exports.handleShopifyChatbot = async (event, page, subscriber) => {
           shopToken: shopifyIntegration.shopToken
         })
         logger.serverLog(TAG, `handleShopifyChatbot event ${JSON.stringify(event)}`, 'info')
-        let nextMessageBlock = await shopifyChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, subscriber, event.message)
+        let nextMessageBlock = await shopifyChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, subscriber, event)
         updateSubscriber({ _id: subscriber._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
         logger.serverLog(TAG, `shopify chatbot next message block ${JSON.stringify(nextMessageBlock)}`, 'info')
         if (nextMessageBlock) {

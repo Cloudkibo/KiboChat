@@ -1515,10 +1515,11 @@ const getUpdateCartBlock = async (chatbot, backId, contact, product, quantity) =
   }
 }
 
-exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, userMessage) => {
+exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event) => {
   try {
+    const userMessage = event.message
     logger.serverLog(TAG, `getNextMessageBlock userMessage ${JSON.stringify(userMessage)}`, 'info')
-    const input = userMessage.text ? userMessage.text.toLowerCase() : ''
+    const input = userMessage ? userMessage.text.toLowerCase() : ''
     let startingBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
     if (!contact || !contact.lastMessageSentByBot) {
       if (startingBlock.triggers.includes(input)) {
@@ -1531,8 +1532,8 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, userMe
         let lastMessageSentByBot = contact.lastMessageSentByBot.payload[contact.lastMessageSentByBot.payload.length - 1]
         if (userMessage.quick_reply && userMessage.quick_reply.payload) {
           action = JSON.parse(userMessage.quick_reply.payload)
-        } else if (userMessage.postback && userMessage.postback.payload) {
-          action = JSON.parse(userMessage.postback.payload)
+        } else if (event.postback && event.postback.payload) {
+          action = JSON.parse(event.postback.payload)
         } else if (lastMessageSentByBot.action) {
           action = lastMessageSentByBot.action
         } else {
