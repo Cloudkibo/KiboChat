@@ -226,7 +226,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
     if (input) {
       products = await EcommerceProvider.searchProducts(input)
       if (products.length > 0) {
-        messageBlock.payload[0].text = `Following products were found for "${input}". Please select a product:`
+        messageBlock.payload[0].text = `Following products were found for "${input}".\n\nPlease select a product:`
       } else {
         messageBlock.payload[0].text = `No products found that match "${input}".\n\nPlease enter the name of the product you wish to search for:`
         messageBlock.payload[0].action = { type: DYNAMIC, action: DISCOVER_PRODUCTS, input: true }
@@ -880,7 +880,12 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
     if (!shoppingCart || shoppingCart.length === 0) {
       messageBlock.payload[0].text += `You have no items in your cart.`
     } else {
-      messageBlock.payload[0].text += `Here is your cart:\n`
+      messageBlock.payload.push({
+        componentType: 'gallery',
+        cards: [],
+        quickReplies: []
+      })
+      messageBlock.payload[0].text += `Here is your cart.`
       let totalPrice = 0
       let currency = ''
       for (let i = 0; i < shoppingCart.length; i++) {
@@ -890,26 +895,27 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
         }
         let price = product.quantity * product.price
         totalPrice += price
-        messageBlock.payload[0].text += `\nItem: ${product.product}`
-        messageBlock.payload[0].text += `\nQuantity: ${product.quantity}`
-        messageBlock.payload[0].text += `\nPrice: ${price} ${currency}`
-        if (i + 1 < shoppingCart.length) {
-          messageBlock.payload[0].text += `\n`
-        }
-      }
-      messageBlock.payload[0].text += `\n\nTotal price: ${totalPrice} ${currency}\n\n`
 
-      messageBlock.payload[0].quickReplies.push(
-        {
-          content_type: 'text',
-          title: 'Remove an item',
-          payload: JSON.stringify({ type: DYNAMIC, action: SHOW_ITEMS_TO_REMOVE })
-        },
-        {
-          content_type: 'text',
-          title: 'Update quantity for an item',
-          payload: JSON.stringify({ type: DYNAMIC, action: SHOW_ITEMS_TO_UPDATE })
-        },
+        messageBlock.payload[1].cards.push({
+          title: product.name,
+          subtitle: `Price: ${product.price}\nQuantity: ${product.quantity}`,
+          buttons: [
+            {
+              title: 'Update Quantity',
+              type: 'postback',
+              payload: JSON.stringify({ type: DYNAMIC, action: QUANTITY_TO_UPDATE, argument: { ...product, productIndex: i } })
+            },
+            {
+              title: 'Remove',
+              type: 'postback',
+              payload: JSON.stringify({ type: DYNAMIC, action: QUANTITY_TO_REMOVE, argument: { ...product, productIndex: i } })
+            }
+          ]
+        })
+      }
+      messageBlock.payload[0].text += ` Total price is: ${totalPrice} ${currency}.`
+
+      messageBlock.payload[messageBlock.payload.length - 1].quickReplies.push(
         {
           content_type: 'text',
           title: 'Clear cart',
@@ -921,8 +927,7 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
           payload: JSON.stringify({ type: DYNAMIC, action: GET_CHECKOUT_EMAIL })
         })
     }
-    messageBlock.payload[0].text += DEFAULT_TEXT
-    messageBlock.payload[0].quickReplies.push(
+    messageBlock.payload[messageBlock.payload.length - 1].quickReplies.push(
       {
         content_type: 'text',
         title: 'Go Back',
