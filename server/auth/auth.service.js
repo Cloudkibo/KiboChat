@@ -270,7 +270,7 @@ const _updateUserPlatform = (req, res) => {
   apiCaller.callApi(`companyUser/queryAll`, 'post', {companyId: req.user.companyId}, 'accounts')
     .then(companyUsers => {
       let userIds = companyUsers.map(companyUser => companyUser.userId._id)
-      apiCaller.callApi(`user/update`, 'post', {query: {_id: {$in: userIds}}, newPayload: { $set: {platform: 'sms'} }, options: {multi: true}})
+      apiCaller.callApi(`user/update`, 'post', {query: {_id: {$in: userIds}}, newPayload: { $set: {platform: 'messenger'} }, options: {multi: true}})
         .then(updatedProfile => {
         })
         .catch(err => {

@@ -316,14 +316,19 @@ exports.disconnect = function (req, res) {
       let platform = logicLayer.getPlatformForSms(company, req.user)
       utility.callApi(`companyprofile/update`, 'put', {query: {_id: req.user.companyId}, newPayload: updated, options: {}})
         .then(updatedProfile => {
-          utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: {platform: platform}, options: {}})
-            .then(updated => {
-              sendSuccessResponse(res, 200, updatedProfile)
+          utility.callApi(`companyUser/queryAll`, 'post', {companyId: req.user.companyId}, 'accounts')
+            .then(companyUsers => {
+              let userIds = companyUsers.map(companyUser => companyUser.userId._id)
+              utility.callApi(`user/update`, 'post', {query: {_id: {$in: userIds}}, newPayload: { $set: {platform: platform} }, options: {multi: true}})
+                .then(data => {
+                  sendSuccessResponse(res, 200, updatedProfile)
+                })
+                .catch(err => {
+                  sendErrorResponse(res, 500, err)
+                })               
+            }).catch(err => {
+              logger.serverLog(TAG, JSON.stringify(err), 'error')
             })
-            .catch(err => {
-              sendErrorResponse(res, 500, err)
-            })
-          sendSuccessResponse(res, 200, updatedProfile)
         })
         .catch(err => {
           sendErrorResponse(res, 500, `Failed to update company profile ${err}`)
