@@ -645,7 +645,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `You have selected ${product.name}. Please select a product variant:\n`,
+          text: `You have selected ${product.name}.\n\nPlease select a product variant:`,
           componentType: 'text'
         }
       ],
@@ -666,7 +666,6 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
       for (let i = 0; i < productVariants.length; i++) {
         let productVariant = productVariants[i]
         messageBlock.payload[1].cards.push({
-          image_url: product.image,
           title: `${productVariant.name} ${product.name}`,
           subtitle: `Price: ${product.price} ${storeInfo.currency}`,
           buttons: [{
