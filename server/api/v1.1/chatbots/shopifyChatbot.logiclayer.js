@@ -1089,14 +1089,9 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Here is your checkout link: `,
+          text: `Your checkout link has been generated.`,
           componentType: 'text',
           quickReplies: [
-            {
-              content_type: 'text',
-              title: 'Show my Cart',
-              payload: JSON.stringify({ type: DYNAMIC, action: SHOW_MY_CART })
-            },
             {
               content_type: 'text',
               title: 'Go Home',
@@ -1125,7 +1120,11 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
     }
     let checkoutLink = EcommerceProvider.createPermalinkForCart(shopifyCustomer, contact.shoppingCart)
 
-    messageBlock.payload[0].text += `\n${checkoutLink} `
+    messageBlock.payload[0].buttons = [{
+      type: 'web_url',
+      title: 'Proceed to Checkout',
+      url: checkoutLink
+    }]
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to checkout ${err} `, 'error')
