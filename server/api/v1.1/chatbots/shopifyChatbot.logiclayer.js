@@ -239,17 +239,28 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
         messageBlock.payload[0].text = `No products were found using discover.`
       }
     }
-    for (let i = 0; i < products.length; i++) {
-      let product = products[i]
-      messageBlock.payload[0].quickReplies.push({
-        content_type: 'text',
-        title: product.name,
-        payload: JSON.stringify({ type: DYNAMIC, action: PRODUCT_VARIANTS, argument: product }),
-        image_url: product.image
+
+    logger.serverLog(TAG, `products found: ${JSON.stringify(products)}`, 'info')
+    if (products.length > 0) {
+      messageBlock.payload.push({
+        componentType: 'gallery',
+        cards: []
       })
+      for (let i = 0; i < products.length; i++) {
+        let product = products[i]
+        messageBlock.payload[1].cards.push({
+          image_url: product.image,
+          title: product.name,
+          buttons: [{
+            title: 'Select Product',
+            type: 'postback',
+            payload: JSON.stringify({ type: DYNAMIC, action: PRODUCT_VARIANTS, argument: product })
+          }]
+        })
+      }
     }
 
-    messageBlock.payload[0].quickReplies.push(
+    messageBlock.payload[messageBlock.payload.length - 1].quickReplies.push(
       {
         content_type: 'text',
         title: 'Show my Cart',
@@ -586,7 +597,9 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ca
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
+
     let products = await EcommerceProvider.fetchProductsInThisCategory(categoryId)
+
     for (let i = 0; i < products.length; i++) {
       let product = products[i]
       messageBlock.payload[0].quickReplies.push({
@@ -633,36 +646,44 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
         {
           text: `You have selected ${product.name}. Please select a product variant:\n`,
           componentType: 'text'
-        },
-        {
-          componentType: 'image',
-          fileurl: { url: product.image },
-          quickReplies: []
         }
       ],
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
     let productVariants = await EcommerceProvider.getVariantsOfSelectedProduct(product.id)
+    logger.serverLog(TAG, `product variants found: ${JSON.stringify(productVariants)}`, 'info')
     let storeInfo = await EcommerceProvider.fetchStoreInfo()
     logger.serverLog(TAG, `store info ${JSON.stringify(storeInfo)}`, 'info')
-    for (let i = 0; i < productVariants.length; i++) {
-      let productVariant = productVariants[i]
-      messageBlock.payload[messageBlock.payload.length - 1].quickReplies.push({
-        content_type: 'text',
-        title: `${productVariant.name} (price: ${product.price} ${storeInfo.currency})`,
-        payload: JSON.stringify({
-          type: DYNAMIC,
-          action: SELECT_PRODUCT,
-          argument: {
-            variant_id: productVariant.id,
-            product: `${productVariant.name} ${product.name}`,
-            price: productVariant.price,
-            inventory_quantity: productVariant.inventory_quantity,
-            currency: storeInfo.currency
-          }
-        })
+
+    if (productVariants.length > 0) {
+      messageBlock.payload.push({
+        componentType: 'gallery',
+        cards: []
       })
+      for (let i = 0; i < productVariants.length; i++) {
+        let productVariant = productVariants[i]
+        messageBlock.payload[1].cards.push({
+          image_url: product.image,
+          title: `${productVariant.name} ${product.name}`,
+          subtitle: `Price: ${product.price} ${storeInfo.currency}`,
+          buttons: [{
+            title: 'Select Product',
+            type: 'postback',
+            payload: JSON.stringify({
+              type: DYNAMIC,
+              action: SELECT_PRODUCT,
+              argument: {
+                variant_id: productVariant.id,
+                product: `${productVariant.name} ${product.name}`,
+                price: productVariant.price,
+                inventory_quantity: productVariant.inventory_quantity,
+                currency: storeInfo.currency
+              }
+            })
+          }]
+        })
+      }
     }
     messageBlock.payload[messageBlock.payload.length - 1].quickReplies.push(
       {
@@ -1508,6 +1529,8 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, userMe
         let lastMessageSentByBot = contact.lastMessageSentByBot.payload[contact.lastMessageSentByBot.payload.length - 1]
         if (userMessage.quick_reply && userMessage.quick_reply.payload) {
           action = JSON.parse(userMessage.quick_reply.payload)
+        } else if (userMessage.postback && userMessage.postback.payload) {
+          action = JSON.parse(userMessage.postback.payload)
         } else if (lastMessageSentByBot.action) {
           action = lastMessageSentByBot.action
         } else {
