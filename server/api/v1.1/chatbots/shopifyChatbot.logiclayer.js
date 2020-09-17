@@ -11,8 +11,6 @@ const {
   SHOW_MY_CART,
   ADD_TO_CART,
   REMOVE_FROM_CART,
-  SHOW_ITEMS_TO_REMOVE,
-  SHOW_ITEMS_TO_UPDATE,
   PROCEED_TO_CHECKOUT,
   RETURN_ORDER,
   GET_CHECKOUT_EMAIL,
@@ -1015,61 +1013,6 @@ const getQuantityToRemoveBlock = async (chatbot, backId, product) => {
   }
 }
 
-const getShowItemsToRemoveBlock = (chatbot, backId, contact) => {
-  try {
-    let messageBlock = {
-      module: {
-        id: chatbot._id,
-        type: 'messenger_shopify_chatbot'
-      },
-      title: 'Select Item to Remove',
-      uniqueId: '' + new Date().getTime(),
-      payload: [
-        {
-          text: `Please select an item to remove from your cart:`,
-          componentType: 'text',
-          quickReplies: []
-        }
-      ],
-      userId: chatbot.userId,
-      companyId: chatbot.companyId
-    }
-
-    let shoppingCart = contact.shoppingCart
-    for (let i = 0; i < shoppingCart.length; i++) {
-      let product = shoppingCart[i]
-      messageBlock.payload[0].quickReplies.push(
-        {
-          content_type: 'text',
-          title: product.product,
-          payload: JSON.stringify({ type: DYNAMIC, action: QUANTITY_TO_REMOVE, argument: { ...product, productIndex: i } }),
-          image_url: product.image
-        })
-    }
-    messageBlock.payload[0].quickReplies.push(
-      {
-        content_type: 'text',
-        title: 'Show my Cart',
-        payload: JSON.stringify({ type: DYNAMIC, action: SHOW_MY_CART })
-      },
-      {
-        content_type: 'text',
-        title: 'Go Back',
-        payload: JSON.stringify({ type: STATIC, blockId: backId })
-      },
-      {
-        content_type: 'text',
-        title: 'Go Home',
-        payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
-      }
-    )
-    return messageBlock
-  } catch (err) {
-    logger.serverLog(TAG, `Unable to show items from cart ${err} `, 'error')
-    throw new Error(`${ERROR_INDICATOR}Unable to show items from cart`)
-  }
-}
-
 const clearCart = async (chatbot, contact) => {
   try {
     let messageBlock = {
@@ -1239,61 +1182,6 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
   } catch (err) {
     logger.serverLog(TAG, `Unable to checkout ${err} `, 'error')
     throw new Error(`${ERROR_INDICATOR}Unable to show checkout`)
-  }
-}
-
-const getShowItemsToUpdateBlock = (chatbot, backId, contact) => {
-  try {
-    let messageBlock = {
-      module: {
-        id: chatbot._id,
-        type: 'messenger_shopify_chatbot'
-      },
-      title: 'Select Item to Update',
-      uniqueId: '' + new Date().getTime(),
-      payload: [
-        {
-          text: `Please select an item in your cart for which you want to update the quantity:`,
-          componentType: 'text',
-          quickReplies: []
-        }
-      ],
-      userId: chatbot.userId,
-      companyId: chatbot.companyId
-    }
-
-    let shoppingCart = contact.shoppingCart
-    for (let i = 0; i < shoppingCart.length; i++) {
-      let product = shoppingCart[i]
-      messageBlock.payload[0].quickReplies.push(
-        {
-          content_type: 'text',
-          title: product.product,
-          payload: JSON.stringify({ type: DYNAMIC, action: QUANTITY_TO_UPDATE, argument: { ...product, productIndex: i } }),
-          image_url: product.image
-        })
-    }
-    messageBlock.payload[0].quickReplies.push(
-      {
-        content_type: 'text',
-        title: 'Show my Cart',
-        payload: JSON.stringify({ type: DYNAMIC, action: SHOW_MY_CART })
-      },
-      {
-        content_type: 'text',
-        title: 'Go Back',
-        payload: JSON.stringify({ type: STATIC, blockId: backId })
-      },
-      {
-        content_type: 'text',
-        title: 'Go Home',
-        payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
-      }
-    )
-    return messageBlock
-  } catch (err) {
-    logger.serverLog(TAG, `Unable to show items from cart ${err} `, 'error')
-    throw new Error(`${ERROR_INDICATOR}Unable to show items from cart`)
   }
 }
 
@@ -1596,14 +1484,6 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
             }
             case RETURN_ORDER: {
               messageBlock = await getReturnOrderBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : '')
-              break
-            }
-            case SHOW_ITEMS_TO_REMOVE: {
-              messageBlock = await getShowItemsToRemoveBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
-              break
-            }
-            case SHOW_ITEMS_TO_UPDATE: {
-              messageBlock = await getShowItemsToUpdateBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
               break
             }
             case REMOVE_FROM_CART: {
