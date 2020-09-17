@@ -3,7 +3,6 @@ const {
   DYNAMIC,
   STATIC,
   PRODUCT_CATEGORIES,
-  FETCH_PRODUCTS,
   PRODUCT_VARIANTS,
   DISCOVER_PRODUCTS,
   ORDER_STATUS,
@@ -201,7 +200,7 @@ const getCheckOrdersBlock = (chatbot, mainMenuId, blockId, orderStatusId, messag
   })
 }
 
-const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, input) => {
+const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, input, categoryId) => {
   try {
     let messageBlock = {
       module: {
@@ -230,7 +229,11 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
         messageBlock.payload[0].action = { type: DYNAMIC, action: DISCOVER_PRODUCTS, input: true }
       }
     } else {
-      products = await EcommerceProvider.fetchProducts()
+      if (categoryId) {
+        products = await EcommerceProvider.fetchProductsInThisCategory(categoryId)
+      } else {
+        products = await EcommerceProvider.fetchProducts()
+      }
       if (products.length > 0) {
         messageBlock.payload[0].text = `Please select a product:`
       } else {
@@ -550,7 +553,7 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider) => 
       messageBlock.payload[0].quickReplies.push({
         content_type: 'text',
         title: category.name,
-        payload: JSON.stringify({ type: DYNAMIC, action: FETCH_PRODUCTS, argument: category.id })
+        payload: JSON.stringify({ type: DYNAMIC, action: DISCOVER_PRODUCTS, argument: category.id })
       })
     }
     messageBlock.payload[0].quickReplies.push(
@@ -574,61 +577,6 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider) => 
   } catch (err) {
     logger.serverLog(TAG, `Unable to get product categories ${err}`, 'error')
     throw new Error(`${ERROR_INDICATOR}Unable to get product categories`)
-  }
-}
-
-const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, categoryId) => {
-  try {
-    let messageBlock = {
-      module: {
-        id: chatbot._id,
-        type: 'messenger_shopify_chatbot'
-      },
-      title: 'Products in Category',
-      uniqueId: '' + new Date().getTime(),
-      payload: [
-        {
-          text: `Please select a product:`,
-          componentType: 'text',
-          quickReplies: []
-        }
-      ],
-      userId: chatbot.userId,
-      companyId: chatbot.companyId
-    }
-
-    let products = await EcommerceProvider.fetchProductsInThisCategory(categoryId)
-
-    for (let i = 0; i < products.length; i++) {
-      let product = products[i]
-      messageBlock.payload[0].quickReplies.push({
-        content_type: 'text',
-        title: product.name,
-        payload: JSON.stringify({ type: DYNAMIC, action: PRODUCT_VARIANTS, argument: product }),
-        image_url: product.image
-      })
-    }
-    messageBlock.payload[0].quickReplies.push(
-      {
-        content_type: 'text',
-        title: 'Show my Cart',
-        payload: JSON.stringify({ type: DYNAMIC, action: SHOW_MY_CART })
-      },
-      {
-        content_type: 'text',
-        title: 'Go Back',
-        payload: JSON.stringify({ type: STATIC, blockId: backId })
-      },
-      {
-        content_type: 'text',
-        title: 'Go Home',
-        payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
-      }
-    )
-    return messageBlock
-  } catch (err) {
-    logger.serverLog(TAG, `Unable to get products in category ${err}`, 'error')
-    throw new Error(`${ERROR_INDICATOR}Unable to get products in this category`)
   }
 }
 
@@ -1446,16 +1394,12 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
               messageBlock = await getProductCategoriesBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider)
               break
             }
-            case FETCH_PRODUCTS: {
-              messageBlock = await getProductsInCategoryBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument)
-              break
-            }
             case PRODUCT_VARIANTS: {
               messageBlock = await getProductVariantsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument)
               break
             }
             case DISCOVER_PRODUCTS: {
-              messageBlock = await getDiscoverProductsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : '')
+              messageBlock = await getDiscoverProductsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : '', action.argument ? action.argument : '')
               break
             }
             case ORDER_STATUS: {
