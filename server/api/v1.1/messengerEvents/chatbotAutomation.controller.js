@@ -374,7 +374,7 @@ function updateBotSubscribersAnalytics (chatbotId, companyId, subscriber, messag
 }
 
 function updateBotSubscribersAnalyticsForSQL (chatbotId, companyId, subscriber, messageBlock) {
-  chatbotAnalyticsDataLayer.findForBotSubscribersAnalyticsForSQL({ messageBlockId: messageBlock._id, subscriberId: subscriber._id })
+  chatbotAnalyticsDataLayer.findForBotSubscribersAnalyticsForSQL({ messageBlockId: messageBlock.uniqueId, subscriberId: subscriber._id })
     .then(gotBotSubscribersAnalytics => {
       if (!gotBotSubscribersAnalytics || gotBotSubscribersAnalytics.length === 0) {
         chatbotAnalyticsDataLayer.findForBotSubscribersAnalyticsForSQL({ subscriberId: subscriber._id })
