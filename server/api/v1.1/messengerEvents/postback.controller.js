@@ -13,7 +13,7 @@ exports.index = async (req, res) => {
     const pageId = messengerPayload.recipient.id
     const subscriberId = messengerPayload.sender.senderId
 
-    logger.serverLog(TAG, `postback ${JSON.stringify(messengerPayload)}`, 'info')
+    logger.serverLog(TAG, `postback event ${JSON.stringify(messengerPayload)}`, 'info')
 
     const pages = await utility.callApi('pages/query', 'post', { pageId, connected: true })
     const page = pages[0]
