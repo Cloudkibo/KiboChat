@@ -38,6 +38,16 @@ exports.getAdvancedSettings = function (req, res) {
     })
 }
 
+exports.switchToBasicPlan = function (req, res) {
+  utility.callApi(`companyprofile/switchToBasicPlan`, 'get', {}, 'accounts', req.headers.authorization)
+    .then(updatedProfile => {
+      sendSuccessResponse(res, 200, updatedProfile)
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, `Failed to update company profile ${err}`)
+    })
+}
+
 exports.updateAdvancedSettings = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
     .then(companyUser => {
@@ -57,16 +67,37 @@ exports.updateAdvancedSettings = function (req, res) {
     })
 }
 exports.invite = function (req, res) {
-  utility.callApi('companyprofile/invite', 'post', {email: req.body.email, name: req.body.name, role: req.body.role}, 'accounts', req.headers.authorization)
-    .then((result) => {
-      logger.serverLog(TAG, 'result from invite endpoint accounts', 'debug')
-      logger.serverLog(TAG, result, 'debug')
-      sendSuccessResponse(res, 200, result)
+  utility.callApi(`featureUsage/planQuery`, 'post', {planId: req.user.currentPlan})
+    .then(planUsage => {
+      planUsage = planUsage[0]
+      utility.callApi(`featureUsage/companyQuery`, 'post', {companyId: req.user.companyId})
+        .then(companyUsage => {
+          companyUsage = companyUsage[0]
+          if (planUsage.members !== -1 && companyUsage.members >= planUsage.members) {
+            return res.status(500).json({
+              status: 'failed',
+              description: `Your members limit has reached. Please upgrade your plan to invite more members.`
+            })
+          } else {
+            utility.callApi('companyprofile/invite', 'post', {email: req.body.email, name: req.body.name, role: req.body.role}, 'accounts', req.headers.authorization)
+              .then((result) => {
+                logger.serverLog(TAG, 'result from invite endpoint accounts', 'debug')
+                logger.serverLog(TAG, result, 'debug')
+                sendSuccessResponse(res, 200, result)
+              })
+              .catch((err) => {
+                logger.serverLog(TAG, 'result from invite endpoint accounts', 'debug')
+                logger.serverLog(TAG, err, 'debug')
+                sendErrorResponse(res, 500, err)
+              })
+          }
+        })
+        .catch(error => {
+          sendErrorResponse(res, 500, `Failed to company usage ${JSON.stringify(error)}`)
+        })
     })
-    .catch((err) => {
-      logger.serverLog(TAG, 'result from invite endpoint accounts', 'debug')
-      logger.serverLog(TAG, err, 'debug')
-      sendErrorResponse(res, 500, err)
+    .catch(error => {
+      sendErrorResponse(res, 500, `Failed to plan usage ${JSON.stringify(error)}`)
     })
 }
 
@@ -328,6 +359,7 @@ exports.disconnect = function (req, res) {
                 })               
             }).catch(err => {
               logger.serverLog(TAG, JSON.stringify(err), 'error')
+              sendErrorResponse(res, 500, err)
             })
         })
         .catch(err => {
@@ -335,7 +367,7 @@ exports.disconnect = function (req, res) {
         })
     })
     .catch(error => {
-      sendErrorResponse(res, 500, `Failed to company user ${JSON.stringify(error)}`)
+      sendErrorResponse(res, 500, `Failed to fetch company ${JSON.stringify(error)}`)
     })
 }
 
@@ -375,7 +407,49 @@ exports.fetchValidCallerIds = function (req, res) {
       }
     })
     .catch(error => {
-      sendErrorResponse(res, 500, `Failed to fetch valid caller Ids ${JSON.stringify(error)}`)
+      res.status(500).json({status: 'failed', payload: `Failed to fetch valid caller Ids ${JSON.stringify(error)}`})
+    })
+}
+
+exports.getKeys = function (req, res) {
+  utility.callApi('companyprofile/getKeys', 'get', {}, 'accounts', req.headers.authorization)
+    .then((result) => {
+      res.status(200).json({status: 'success', captchaKey: result.captchaKey, stripeKey: result.stripeKey})
+    })
+    .catch((err) => {
+      sendErrorResponse(res, 500, err)
+    })
+}
+
+exports.setCard = function (req, res) {
+  utility.callApi('companyprofile/setCard', 'post', req.body, 'accounts', req.headers.authorization)
+    .then((result) => {
+      sendSuccessResponse(res, 200, result)
+    })
+    .catch((err) => {
+      sendErrorResponse(res, 500, err)
+    })
+}
+
+exports.updatePlan = function (req, res) {
+  utility.callApi('companyprofile/updatePlan', 'post', req.body, 'accounts', req.headers.authorization)
+    .then((result) => {
+      sendSuccessResponse(res, 200, result)
+    })
+    .catch((err) => {
+      sendErrorResponse(res, 500, '', err)
+    })
+}
+
+exports.updateRole = function (req, res) {
+  utility.callApi('companyprofile/updateRole', 'post', {role: req.body.role, domain_email: req.body.domain_email}, 'accounts', req.headers.authorization)
+    .then((result) => {
+      logger.serverLog(TAG, 'result from invite endpoint accounts', 'debug')
+      logger.serverLog(TAG, result, 'debug')
+      res.status(200).json({status: 'success', payload: result})
+    })
+    .catch((err) => {
+      res.status(500).json({status: 'failed', payload: `${JSON.stringify(err)}`})
     })
 }
 exports.deleteWhatsAppInfo = function (req, res) {
