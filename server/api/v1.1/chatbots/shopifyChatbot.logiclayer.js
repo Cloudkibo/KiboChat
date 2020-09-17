@@ -1530,7 +1530,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
       logger.serverLog(TAG, `messenger shopify chatbot subscriber ${JSON.stringify(contact)} `, 'info')
       try {
         let lastMessageSentByBot = contact.lastMessageSentByBot.payload[contact.lastMessageSentByBot.payload.length - 1]
-        if (userMessage.quick_reply && userMessage.quick_reply.payload) {
+        if (userMessage && userMessage.quick_reply && userMessage.quick_reply.payload) {
           action = JSON.parse(userMessage.quick_reply.payload)
         } else if (event.postback && event.postback.payload) {
           action = JSON.parse(event.postback.payload)
