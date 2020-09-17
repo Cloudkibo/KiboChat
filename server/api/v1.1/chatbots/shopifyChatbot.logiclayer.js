@@ -896,7 +896,7 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
 
         messageBlock.payload[1].cards.push({
           title: product.product,
-          subtitle: `Price: ${product.price}\nQuantity: ${product.quantity}`,
+          subtitle: `Price: ${product.price}\nQuantity: ${product.quantity}\nTotal Price: ${price}`,
           buttons: [
             {
               title: 'Update Quantity',
