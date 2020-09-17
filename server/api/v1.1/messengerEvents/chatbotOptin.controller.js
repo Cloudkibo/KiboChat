@@ -14,9 +14,17 @@ exports.index = function (req, res) {
   utility.callApi('pages/query', 'post', { pageId, connected: true })
     .then(page => {
       page = page[0]
-      chatbotAutomation.handleChatBotTestMessage(messengerPayload, page, subscriberInfo)
+      let type = ''
+      if (messengerPayload.optin.ref === '_chatbot') {
+        type = 'manual'
+      } else if (messengerPayload.optin.ref === '_shopify_chatbot') {
+        type = 'automated'
+      }
+      logger.serverLog(TAG, `messenger payload in chatbot test ${JSON.stringify(messengerPayload)}`)
+      chatbotAutomation.handleChatBotTestMessage(messengerPayload, page, subscriberInfo, type)
     })
     .catch(error => {
+      console.log('error on getting subcribers', error.stack)
       logger.serverLog(TAG, `error on getting subcribers ${error}`, 'error')
     })
 }
