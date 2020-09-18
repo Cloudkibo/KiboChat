@@ -206,6 +206,7 @@ exports.enable = function (req, res) {
                                     text: 'Hi {{user_full_name}}! Thanks for getting in touch with us on Messenger. Please send us any questions you may have'
                                   }]
                               }
+                              req.body = {...req.body, ...{query}}
                               utility.callApi('pages/query', 'post', {_id: req.body._id})
                                 .then(pages => {
                                   let page = pages[0]
