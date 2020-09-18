@@ -86,7 +86,6 @@ router.get('/receivelogout',
 
 router.post('/updatePlatform',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer(),
   validate({body: validationSchema.platformPayload}),
   controller.updatePlatform)
 
