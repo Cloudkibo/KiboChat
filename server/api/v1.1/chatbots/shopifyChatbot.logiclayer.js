@@ -1379,14 +1379,12 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
           action = JSON.parse(event.postback.payload)
         } else if (lastMessageSentByBot.action) {
           action = lastMessageSentByBot.action
-        } else {
-          throw new Error('Invalid user input')
         }
       } catch (err) {
         logger.serverLog(TAG, `Invalid user input ${input} `, 'info')
         if (startingBlock.triggers.includes(input)) {
           return startingBlock
-        } else if (startingBlock.uniqueId !== contact.lastMessageSentByBot.uniqueId) {
+        } else {
           return invalidInput(chatbot, contact.lastMessageSentByBot, `${ERROR_INDICATOR}You entered an invalid response.`)
         }
       }
