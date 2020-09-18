@@ -40,6 +40,7 @@ exports.messageReceived = function (req, res) {
                       // whatsapp chatbot
                       pushUnresolveAlertInStack(company, contact, 'whatsApp')
                       if (isNewContact) {
+                        _sendEvent(company._id, contact)
                         pushSessionPendingAlertInStack(company, contact, 'whatsApp')
                       }
                       if (data.messageData.componentType === 'text') {
@@ -121,7 +122,19 @@ exports.messageReceived = function (req, res) {
     })
 }
 
-function createContact(data) {
+function _sendEvent (companyId, contact) {
+  require('./../../../config/socketio').sendMessageToClient({
+    room_id: companyId,
+    body: {
+      action: 'Whatsapp_new_subscriber',
+      payload: {
+        subscriber: contact
+      }
+    }
+  })
+}
+
+function createContact (data) {
   let number = `+${data.userData.number}`
   let name = data.userData.name
   let query = [
