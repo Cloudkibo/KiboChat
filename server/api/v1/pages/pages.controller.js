@@ -293,18 +293,16 @@ exports.enable = function (req, res) {
                                                   // sendOpAlert(resp.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
                                                 }
                                               })
-                                            // require('./../../../config/socketio').sendMessageToClient({
-                                            //   room_id: req.body.companyId,
-                                            //   body: {
-                                            //     action: 'page_connect',
-                                            //     payload: {
-                                            //       page_id: page.pageId,
-                                            //       user_id: req.user._id,
-                                            //       user_name: req.user.name,
-                                            //       company_id: req.body.companyId
-                                            //     }
-                                            //   }
-                                            // })
+                                            require('./../../../config/socketio').sendMessageToClient({
+                                              room_id: req.body.companyId,
+                                              body: {
+                                                action: 'page_connect',
+                                                payload: {
+                                                  data: req.body,
+                                                  company_id: req.body.companyId
+                                                }
+                                              }
+                                            })
                                             sendSuccessResponse(res, 200, 'Page connected successfully!')
                                           })
                                         })

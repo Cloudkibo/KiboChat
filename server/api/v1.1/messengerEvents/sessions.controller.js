@@ -25,10 +25,22 @@ exports.index = function (req, res) {
   let page = req.body.page
   let subscriber = req.body.subscriber
   let event = req.body.event
+  let newSubscriber = req.body.newSubscriber
   utility.callApi(`companyprofile/query`, 'post', { _id: page.companyId })
     .then(company => {
       if (!(company.automated_options === 'DISABLE_CHAT')) {
         if (subscriber.unSubscribedBy !== 'agent') {
+          if (newSubscriber) {
+            require('./../../../config/socketio').sendMessageToClient({
+              room_id: req.body.companyId,
+              body: {
+                action: 'Messenger_new_subscriber',
+                payload: {
+                  subscriber: subscriber
+                }
+              }
+            })
+          }
           let updatePayload = { last_activity_time: Date.now() }
           if (!event.message.is_echo) {
             if (subscriber.status === 'resolved') {
