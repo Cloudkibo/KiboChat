@@ -351,11 +351,14 @@ exports.exportData = (req, res) => {
 exports.updateShopifyChatbot = async (req, res) => {
   const updateResponse = await datalayer.genericUpdateChatBot({ _id: req.body.chatbotId }, req.body)
   sendSuccessResponse(res, 200, updateResponse, 'Shopify chatbot updated successfully')
+  let updatedChatbot = await datalayer.findOneChatBot({
+    _id: req.body.chatbotId
+  })
   if (req.body.botLinks && req.body.botLinks.faqs) {
-    let updatedChatbot = await datalayer.findOneChatBot({
-      _id: req.body.chatbotId
-    })
     shopifyLogicLayer.updateFaqsForStartingBlock(updatedChatbot)
+  }
+  if (req.body.triggers) {
+    shopifyLogicLayer.updateTriggers(updatedChatbot, req.body.triggers)
   }
 }
 
@@ -373,7 +376,6 @@ exports.createShopifyChatbot = async (req, res) => {
         pageId: req.body.pageId,
         companyId: req.user.companyId,
         userId: req.user._id,
-        triggers: ['hi', 'hello'],
         type: 'automated',
         vertical: 'commerce',
         botLinks: req.body.botLinks
