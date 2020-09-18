@@ -613,8 +613,10 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
         let productVariant = productVariants[i]
         messageBlock.payload[1].cards.push({
           title: `${productVariant.name} ${product.name}`,
-          subtitle: `Price: ${product.price} ${storeInfo.currency}`,
-          buttons: [{
+          subtitle: `Price: ${product.price} ${storeInfo.currency}`
+        })
+        if (productVariant.inventory_quantity > 0) {
+          messageBlock.payload[1].cards[i].buttons = [{
             title: 'Select Product',
             type: 'postback',
             payload: JSON.stringify({
@@ -629,7 +631,10 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
               }
             })
           }]
-        })
+          messageBlock.payload[1].cards[i].subtitle += `\nStock Available: ${productVariant.inventory_quantity}`
+        } else {
+          messageBlock.payload[1].cards[i].subtitle += `\nOut of Stock`
+        }
       }
     }
     messageBlock.payload[messageBlock.payload.length - 1].quickReplies.push(
@@ -844,7 +849,7 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
 
         messageBlock.payload[1].cards.push({
           title: product.product,
-          subtitle: `Price: ${product.price}\nQuantity: ${product.quantity}\nTotal Price: ${price}`,
+          subtitle: `Price: ${product.price} ${currency}\nQuantity: ${product.quantity}\nTotal Price: ${price} ${currency}`,
           buttons: [
             {
               title: 'Update Quantity',
