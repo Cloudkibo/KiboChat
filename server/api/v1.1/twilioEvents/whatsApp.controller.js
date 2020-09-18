@@ -32,6 +32,7 @@ exports.index = function (req, res) {
   }
 }
 function storeChat (from, to, contact, messageData) {
+  // this function is not being called any more. See whatsappEvents folder
   record('whatsappChatInComing')
   for (let i = 0; i < messageData.length; i++) {
     logicLayer.prepareChat(from, to, contact, messageData[i]).then(chatPayload => {

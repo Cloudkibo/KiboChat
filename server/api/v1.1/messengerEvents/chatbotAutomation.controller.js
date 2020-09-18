@@ -12,9 +12,11 @@ const moment = require('moment')
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
 const EcommerceProvider = require('../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
 const { callApi } = require('../utility')
+const { record } = require('../../global/messageStatistics')
 
 exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
-  chatbotDataLayer.findOneChatBot({ pageId: page._id, published: true })
+  record('messengerChatInComing')
+  chatbotDataLayer.findOneChatBot({pageId: page._id, published: true})
     .then(chatbot => {
       if (chatbot) {
         if (req.postback && req.postback.payload && req.postback.payload === '<GET_STARTED_PAYLOAD>') {
@@ -129,6 +131,7 @@ exports.handleShopifyChatbot = async (event, page, subscriber) => {
 }
 
 exports.handleTriggerMessage = (req, page, subscriber) => {
+  record('messengerChatInComing')
   chatbotDataLayer.findOneChatBot({ pageId: page._id, published: true, type: 'manual' })
     .then(chatbot => {
       logger.serverLog(TAG, `manual chatbot found ${JSON.stringify(chatbot)}`, 'info')
@@ -181,7 +184,8 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
 }
 
 exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId) => {
-  chatbotDataLayer.findOneChatBot({ pageId: page._id, published: true })
+  record('messengerChatInComing')
+  chatbotDataLayer.findOneChatBot({pageId: page._id, published: true})
     .then(chatbot => {
       if (chatbot) {
         messageBlockDataLayer.findOneMessageBlock({ uniqueId: uniqueId.toString() })
@@ -215,6 +219,7 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId) => {
 }
 
 exports.handleChatBotTestMessage = (req, page, subscriber, type) => {
+  record('messengerChatInComing')
   chatbotDataLayer.findOneChatBot({ pageId: page._id, type })
     .then(chatbot => {
       if (chatbot) {
@@ -243,6 +248,7 @@ exports.handleChatBotTestMessage = (req, page, subscriber, type) => {
 
 function sendResponse (recipientId, payload, subscriber, accessToken) {
   let finalPayload = logicLayer.prepareSendAPIPayload(recipientId, payload, subscriber.firstName, subscriber.lastName, true)
+  record('messengerChatOutGoing')
   facebookApiCaller('v3.2', `me/messages?access_token=${accessToken}`, 'post', finalPayload)
     .then(response => {
       logger.serverLog(TAG, `response of sending block ${JSON.stringify(response.body)}`)
@@ -452,7 +458,7 @@ function updateBotLifeStatsForBlock (messageBlock, isForSentCount) {
 // }
 
 function updateBotSubscribersAnalyticsForSQL (chatbotId, companyId, subscriber, messageBlock) {
-  chatbotAnalyticsDataLayer.findForBotSubscribersAnalyticsForSQL({ messageBlockId: messageBlock._id, subscriberId: subscriber._id })
+  chatbotAnalyticsDataLayer.findForBotSubscribersAnalyticsForSQL({ messageBlockId: messageBlock.uniqueId, subscriberId: subscriber._id })
     .then(gotBotSubscribersAnalytics => {
       if (!gotBotSubscribersAnalytics || gotBotSubscribersAnalytics.length === 0) {
         chatbotAnalyticsDataLayer.findForBotSubscribersAnalyticsForSQL({ subscriberId: subscriber._id })

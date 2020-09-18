@@ -3,7 +3,7 @@ const { callApi } = require('../utility')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
 exports.index = function (req, res) {
-  let notificationsData = LogicLayer.getQueryData('', 'findAll', {agentId: req.user._id, companyId: req.user.companyId})
+  let notificationsData = LogicLayer.getQueryData('', 'findAll', {agentId: req.user._id, companyId: req.user.companyId, platform: req.user.platform})
   callApi(`notifications/query`, 'post', notificationsData, 'kibochat')
     .then(notifications => {
       sendSuccessResponse(res, 200, {notifications: notifications})

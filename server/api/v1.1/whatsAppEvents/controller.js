@@ -14,12 +14,14 @@ const EcommerceProvider = require('./../ecommerceProvidersApiLayer/EcommerceProv
 const whatsAppChatbotAnalyticsDataLayer = require('../whatsAppChatbot/whatsAppChatbot_analytics.datalayer')
 const moment = require('moment')
 const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('../../global/messageAlerts')
+const { record } = require('../../global/messageStatistics')
 
 exports.messageReceived = function (req, res) {
   res.status(200).json({
     status: 'success',
     description: `received the payload`
   })
+  record('whatsappChatInComing')
   whatsAppMapper.handleInboundMessageReceived(req.body.provider, req.body.event)
     .then(data => {
       createContact(data)
@@ -63,6 +65,7 @@ exports.messageReceived = function (req, res) {
                                     recipientNumber: number,
                                     payload: messagePayload
                                   }
+                                  record('whatsappChatOutGoing')
                                   whatsAppMapper.whatsAppMapper(req.body.provider, ActionTypes.SEND_CHAT_MESSAGE, chatbotResponse)
                                 }
                                 updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
@@ -198,7 +201,7 @@ function storeChat (from, to, contact, messageData) {
             }
           }
         })
-        _sendMobileNotification(contact, message.payload, contact.companyId)
+        _sendNotification(contact, message.payload, contact.companyId)
         let query = { _id: contact._id }
         let updatePayload = { last_activity_time: Date.now(), status: 'new', pendingResponse: true, lastMessagedAt: Date.now() }
         let incrementPayload = { $inc: { unreadCount: 1, messagesCount: 1 } }
@@ -206,7 +209,33 @@ function storeChat (from, to, contact, messageData) {
       })
   })
 }
-function _sendMobileNotification (subscriber, payload, companyId) {
+function saveNotifications (contact, companyUsers) {
+  companyUsers.forEach((companyUser, index) => {
+    let notificationsData = {
+      message: `${contact.name} sent a message to your WhatsApp`,
+      category: { type: 'new_message', id: contact._id },
+      agentId: companyUser.userId._id,
+      companyId: companyUser.companyId,
+      platform: 'whatsApp'
+    }
+    callApi(`notifications`, 'post', notificationsData, 'kibochat')
+      .then(savedNotification => {
+        console.log('saved notification', savedNotification)
+          require('./../../../config/socketio').sendMessageToClient({
+            room_id: companyUser.companyId,
+            body: {
+              action: 'new_notification',
+              payload: notificationsData
+            }
+          })
+      })
+      .catch(error => {
+        logger.serverLog(TAG, `Failed to save notification ${error}`, 'error')
+      })
+  })
+}
+
+function _sendNotification (subscriber, payload, companyId) {
   let title = subscriber.name
   let body = payload.text
   let newPayload = {
@@ -223,10 +252,12 @@ function _sendMobileNotification (subscriber, payload, companyId) {
           subscriber.lastDateTime = gotLastMessage[0].datetime
           if (!subscriber.is_assigned) {
             sendNotifications(title, body, newPayload, companyUsers)
+            saveNotifications(subscriber, companyUsers)
           } else {
             if (subscriber.assigned_to.type === 'agent') {
               companyUsers = companyUsers.filter(companyUser => companyUser.userId._id === subscriber.assigned_to.id)
               sendNotifications(title, body, newPayload, companyUsers)
+              saveNotifications(subscriber, companyUsers)
             } else {
               callApi(`teams/agents/query`, 'post', { teamId: subscriber.assigned_to.id }, 'accounts')
                 .then(teamagents => {
@@ -237,6 +268,7 @@ function _sendMobileNotification (subscriber, payload, companyId) {
                     }
                   })
                   sendNotifications(title, body, newPayload, companyUsers)
+                  saveNotifications(subscriber, companyUsers)
                 }).catch(error => {
                   logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
                 })
