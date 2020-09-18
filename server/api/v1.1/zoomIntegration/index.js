@@ -9,10 +9,12 @@ const validationSchema = require('./validationSchema')
 
 router.get('/users',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
   controller.getZoomUsers)
 
 router.post('/meetings',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   validate({body: validationSchema.createMeetingPayload}),
   controller.createMeeting)
 

@@ -41,6 +41,16 @@ exports.update = function (req, res) {
   }
   utility.callApi(`whatsAppContacts/update`, 'put', subsriberData)
     .then(updated => {
+      require('./../../../config/socketio').sendMessageToClient({
+        room_id: req.body.companyId,
+        body: {
+          action: 'Whatsapp_subscriberName_update',
+          payload: {
+            subscriberId: req.params.id,
+            name: req.body.name
+          }
+        }
+      })
       sendSuccessResponse(res, 200, updated)
     })
     .catch(error => {
