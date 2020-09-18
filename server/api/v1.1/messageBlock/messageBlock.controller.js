@@ -12,7 +12,7 @@ const { sendErrorResponse, sendSuccessResponse } = require('../../global/respons
 
 exports.create = function (req, res) {
   let payload = logiclayer.preparePayload(req.user.companyId, req.user._id, req.body)
-  datalayer.genericUpdateMessageBlock({uniqueId: req.body.uniqueId}, payload, {upsert: true})
+  datalayer.genericUpdateMessageBlock({ uniqueId: req.body.uniqueId }, payload, { upsert: true })
     .then(messageBlock => {
       _sendToClientUsingSocket(messageBlock)
       updateUrlForClickCount(payload)
@@ -65,7 +65,7 @@ exports.attachment = function (req, res) {
     }
   } else if (utility.isFacebookVideoUrl(req.body.url.split('?')[0])) {
     let url = req.body.url.split('?')[0]
-    let options = {url}
+    let options = { url }
     ogs(options, (error, results) => {
       if (error) {
         return sendErrorResponse(res, 500, error, 'Error in fetching meta data of website. Please check if open graph is supported.')
@@ -87,7 +87,7 @@ exports.attachment = function (req, res) {
 
 function fetchMetaData (req, res) {
   let url = req.body.url
-  let options = {url}
+  let options = { url }
   ogs(options, (error, results) => {
     if (error) {
       return sendErrorResponse(res, 500, error, 'Failed to fetch youtube video url meta data.')
@@ -108,7 +108,7 @@ function _sendToClientUsingSocket (body) {
 }
 
 exports.delete = function (req, res) {
-  datalayer.deleteForMessageBlock({ _id: {$in: req.body.ids} })
+  datalayer.deleteForMessageBlock({ _id: { $in: req.body.ids } })
     .then(messageBlock => {
       return res.status(201).json({ status: 'success', payload: messageBlock })
     })
@@ -118,7 +118,7 @@ exports.delete = function (req, res) {
 }
 
 exports.scriptChatbotBlocks = function (req, res) {
-  datalayer.findAllMessageBlock({'module.type': 'chatbot'})
+  datalayer.findAllMessageBlock({ 'module.type': 'chatbot' })
     .then(messageBlocks => {
       for (let i = 0; i < messageBlocks.length; i++) {
         updateUrlForClickCount(messageBlocks[i])
@@ -145,7 +145,7 @@ function updateUrlForClickCount (payload) {
           urlDataLayer.createURLObject(urlPayload)
             .then(createdUrl => {
               payload.payload[1].buttons[0].urlForFacebook = `${config.domain}/api/chatbots/url/${createdUrl._id}`
-              datalayer.genericUpdateMessageBlock({uniqueId: payload.uniqueId}, payload, {upsert: false})
+              datalayer.genericUpdateMessageBlock({ uniqueId: payload.uniqueId }, payload, { upsert: false })
                 .then(updatedMessageBlock => {
                   logger.serverLog(TAG, `updated message block`, 'debug')
                 })
@@ -160,7 +160,7 @@ function updateUrlForClickCount (payload) {
           urlDataLayer.updateOneURL(foundUrl._id, { originalURL: payload.payload[1].buttons[0].url })
             .then(updatedUrl => {
               payload.payload[1].buttons[0].urlForFacebook = `${config.domain}/api/chatbots/url/${foundUrl._id}`
-              datalayer.genericUpdateMessageBlock({uniqueId: payload.uniqueId}, payload, {upsert: false})
+              datalayer.genericUpdateMessageBlock({ uniqueId: payload.uniqueId }, payload, { upsert: false })
                 .then(updatedMessageBlock => {
                   logger.serverLog(TAG, `updated message block`, 'debug')
                 })
