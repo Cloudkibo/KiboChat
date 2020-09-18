@@ -17,7 +17,16 @@ router.post('/',
 router.post('/shopifyChatbot',
   auth.isAuthenticated(),
   validate({ body: validationSchema.createPayload }),
-  controller.createUpdateShopifyChatbot)
+  controller.createShopifyChatbot)
+
+router.put('/shopifyChatbot',
+  auth.isAuthenticated(),
+  validate({ body: validationSchema.updatePayload }),
+  controller.updateShopifyChatbot)
+
+router.get('/shopifyChatbotTriggers/:chatbotId',
+  auth.isAuthenticated(),
+  controller.getShopifyChatbotTriggers)
 
 router.get('/',
   auth.isAuthenticated(),
