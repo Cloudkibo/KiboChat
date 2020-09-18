@@ -348,46 +348,44 @@ exports.exportData = (req, res) => {
     })
 }
 
-exports.createUpdateShopifyChatbot = async (req, res) => {
-  try {
-    let existingChatbot = await datalayer.findOneChatBot({
-      companyId: req.user.companyId,
-      pageId: req.body.pageId,
-      type: 'automated',
-      vertical: 'commerce'
+exports.updateShopifyChatbot = async (req, res) => {
+  const updateResponse = await datalayer.genericUpdateChatBot({ _id: req.body.chatbotId }, req.body)
+  sendSuccessResponse(res, 200, updateResponse, 'Shopify chatbot updated successfully')
+  if (req.body.botLinks && req.body.botLinks.faqs) {
+    let updatedChatbot = await datalayer.findOneChatBot({
+      _id: req.body.chatbotId
     })
-    if (existingChatbot) {
-      await datalayer.genericUpdateChatBot({ companyId: req.user.companyId, pageId: req.body.pageId }, req.body)
-      let updatedChatbot = { ...existingChatbot, ...req.body }
-      shopifyLogicLayer.updateFaqsForStartingBlock(updatedChatbot)
-      sendSuccessResponse(res, 200, updatedChatbot, 'Shopify chatbot updated successfully')
+    shopifyLogicLayer.updateFaqsForStartingBlock(updatedChatbot)
+  }
+}
+
+exports.createShopifyChatbot = async (req, res) => {
+  try {
+    const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: req.user.companyId })
+    logger.serverLog(TAG, `shopify integration ${JSON.stringify(shopifyIntegration)}`, 'info')
+    if (shopifyIntegration) {
+      const ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
+        shopUrl: shopifyIntegration.shopUrl,
+        shopToken: shopifyIntegration.shopToken
+      })
+      let storeInfo = await ecommerceProvider.fetchStoreInfo()
+      let chatbot = await datalayer.createForChatBot({
+        pageId: req.body.pageId,
+        companyId: req.user.companyId,
+        userId: req.user._id,
+        triggers: ['hi', 'hello'],
+        type: 'automated',
+        vertical: 'commerce',
+        botLinks: req.body.botLinks
+      })
+      let messageBlocks = shopifyLogicLayer.getMessageBlocks(chatbot, storeInfo.name)
+      await datalayer.genericUpdateChatBot({ companyId: req.user.companyId, pageId: req.body.pageId }, {
+        startingBlockId: messageBlocks[0].uniqueId
+      })
+      chatbot.startingBlockId = messageBlocks[0].uniqueId
+      sendSuccessResponse(res, 200, chatbot, 'Shopify chatbot created successfully')
     } else {
-      const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: req.user.companyId })
-      logger.serverLog(TAG, `shopify integration ${JSON.stringify(shopifyIntegration)}`, 'info')
-      if (shopifyIntegration) {
-        const ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
-          shopUrl: shopifyIntegration.shopUrl,
-          shopToken: shopifyIntegration.shopToken
-        })
-        let storeInfo = await ecommerceProvider.fetchStoreInfo()
-        let chatbot = await datalayer.createForChatBot({
-          pageId: req.body.pageId,
-          companyId: req.user.companyId,
-          userId: req.user._id,
-          triggers: ['hi', 'hello'],
-          type: 'automated',
-          vertical: 'commerce',
-          botLinks: req.body.botLinks
-        })
-        let messageBlocks = shopifyLogicLayer.getMessageBlocks(chatbot, storeInfo.name)
-        await datalayer.genericUpdateChatBot({ companyId: req.user.companyId, pageId: req.body.pageId }, {
-          startingBlockId: messageBlocks[0].uniqueId
-        })
-        chatbot.startingBlockId = messageBlocks[0].uniqueId
-        sendSuccessResponse(res, 200, chatbot, 'Shopify chatbot created successfully')
-      } else {
-        sendErrorResponse(res, 500, 'Shopify is not integrated', 'Shopify is not integrated')
-      }
+      sendErrorResponse(res, 500, 'Shopify is not integrated', 'Shopify is not integrated')
     }
   } catch (err) {
     console.log(`Failed to create Shopify chatbot`, err.stack)
