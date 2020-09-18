@@ -27,12 +27,6 @@ const TAG = 'api/v1️.1/whatsAppChatbot/whatsAppChatbot.logiclayer.js'
 const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 const { callApi } = require('../utility')
 
-exports.updateTriggers = async (chatbot, triggers) => {
-  messageBlockDataLayer.genericUpdateMessageBlock({ uniqueId: chatbot.startingBlockId }, {
-    triggers
-  })
-}
-
 exports.updateFaqsForStartingBlock = async (chatbot) => {
   let messageBlocks = []
   const faqsId = '' + new Date().getTime()
