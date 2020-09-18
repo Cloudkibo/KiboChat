@@ -51,7 +51,12 @@ function isAuthenticated () {
           .then(result => {
             // logger.serverLog(TAG, `response got ${result}`)
             if (result.status === 'success') {
-              req.user = result.user
+              if (result.actingAsUser) {
+                req.user = result.user
+                req.actingAsUser = result.actingAsUser
+              } else {
+                req.user = result.user
+              }
               next()
             } else {
               return res.status(401)
@@ -59,6 +64,7 @@ function isAuthenticated () {
             }
           })
           .catch(err => {
+            console.log('err1', err)
             if (err.statusCode && err.statusCode === 401) {
               return res.status(401)
                 .json({status: 'Unauthorized', description: 'jwt expired'})
@@ -113,20 +119,6 @@ function isAuthenticated () {
         user: req.user
       })
       next()
-    })
-}
-
-/**
- * Checks if the user role meets the minimum requirements of the route
- */
-function isAuthorizedSuperUser () {
-  return compose()
-    .use(function meetsRequirements (req, res, next) {
-      if (req.user.isSuperUser) {
-        next()
-      } else {
-        res.send(403)
-      }
     })
 }
 
@@ -189,6 +181,34 @@ function doesPlanPermitsThisAction (action) {
       .catch(err => {
         return res.status(500)
           .json({status: 'failed', description: `Internal Server Error: ${err}`})
+      })
+  })
+}
+
+function isUserAllowedToPerformThisAction (action) {
+  if (!action) throw new Error('Action needs to be set')
+  return compose().use((req, res, next) => {
+    apiCaller.callApi(`permissions/query`, 'post', {userId: req.user._id})
+      .then(permissions => {
+        if (permissions.length > 0) {
+          const permission = permissions[0]
+          if (permission[action]) {
+            next()
+          } else {
+            return res.status(403).json({
+              status: 'failed',
+              description: 'You do not have the permission to perform this action. Please contact admin.'
+            })
+          }
+        } else {
+          return res.status(500).json({
+            status: 'failed',
+            description: 'Fatal Error. Permissions not set. Please contact support.'
+          })
+        }
+      })
+      .catch(err => {
+        return res.status(500).json({status: 'failed', description: `Internal Server Error: ${err}`})
       })
   })
 }
@@ -265,6 +285,21 @@ function validateApiKeys (req, res, next) {
 /**
  * Set token cookie directly for oAuth strategies
 */
+
+const _updateUserPlatform = (req, res) => {
+  apiCaller.callApi(`companyUser/queryAll`, 'post', {companyId: req.user.companyId}, 'accounts')
+    .then(companyUsers => {
+      let userIds = companyUsers.map(companyUser => companyUser.userId._id)
+      apiCaller.callApi(`user/update`, 'post', {query: {_id: {$in: userIds}}, newPayload: { $set: {platform: 'messenger'} }, options: {multi: true}})
+        .then(updatedProfile => {
+        })
+        .catch(err => {
+          logger.serverLog(TAG, `500: Internal server error ${err}`)
+        })               
+    }).catch(err => {
+      logger.serverLog(TAG, JSON.stringify(err), 'error')
+    })
+}
 function fbConnectDone (req, res) {
   let fbPayload = req.user
   let userid = req.cookies.userid
@@ -285,6 +320,7 @@ function fbConnectDone (req, res) {
       } else {
         apiCaller.callApi(`user/update`, 'post', {query: {_id: userid}, newPayload: {facebookInfo: fbPayload, connectFacebook: true, showIntegrations: false, platform: 'messenger'}, options: {}}, 'accounts', token)
           .then(updated => {
+            _updateUserPlatform(req, res)
             apiCaller.callApi(`user/query`, 'post', {_id: userid}, 'accounts', token)
               .then(user => {
                 if (!user) {
@@ -328,7 +364,7 @@ function fbConnectDone (req, res) {
 
 // eslint-disable-next-line no-unused-vars
 function isAuthorizedWebHookTrigger (req, res, next) {
-  const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
+  /*const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
     req.socket.remoteAddress || req.connection.socket.remoteAddress
   logger.serverLog(TAG, req.ip, 'debug')
   logger.serverLog(TAG, ip, 'debug')
@@ -336,12 +372,12 @@ function isAuthorizedWebHookTrigger (req, res, next) {
   logger.serverLog(TAG, req.body, 'debug')
   // We need to change it to based on the requestee app
   if (config.allowedIps.indexOf(ip) > -1) next()
-  else res.send(403)
+  else res.send(403)*/
 }
 
 function isItWebhookServer () {
   return compose().use((req, res, next) => {
-    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
+    /*const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
       req.socket.remoteAddress || req.connection.socket.remoteAddress
     logger.serverLog(TAG, req.ip, 'debug')
     logger.serverLog(TAG, `ip from headers: ${ip}`, 'debug')
@@ -354,7 +390,8 @@ function isItWebhookServer () {
     } else {
       if (ip === '::ffff:' + config.webhook_ip) next()
       else res.send(403)
-    }
+    }*/
+    next()
   })
 }
 
@@ -365,11 +402,13 @@ function isKiboDash (req, res, next) {
 }
 
 exports.isAuthenticated = isAuthenticated
+exports.isSuperUserActingAsCustomer = isSuperUserActingAsCustomer
 exports.isAuthorizedSuperUser = isAuthorizedSuperUser
 exports.hasRole = hasRole
 exports.hasRequiredPlan = hasRequiredPlan
 exports.doesPlanPermitsThisAction = doesPlanPermitsThisAction
 exports.doesRolePermitsThisAction = doesRolePermitsThisAction
+exports.isUserAllowedToPerformThisAction = isUserAllowedToPerformThisAction
 exports.fbConnectDone = fbConnectDone
 exports.fetchPages = fetchPages
 exports.isKiboDash = isKiboDash
@@ -510,6 +549,26 @@ function updateUnapprovedPages (facebookPages, user, companyUser) {
   }
 }
 
+/**
+ * Checks if a super user is acting as customer
+ */
+function isSuperUserActingAsCustomer(modeOfAction) {
+  return compose()
+    .use((req, res, next) => {
+      if (req.actingAsUser) {
+        if(modeOfAction === 'write') {
+          return res.status(403)
+          .json({status: 'failed', description: `You are not allowed to perform this action`})
+        } else {
+          req.user = req.actingAsUser
+          next()
+        }
+      } else {
+        next()
+      }
+    })
+}
+
 // eslint-disable-next-line no-unused-vars
 function isAuthorizedKiboAPITrigger (req) {
   const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
@@ -522,3 +581,17 @@ function isAuthorizedKiboAPITrigger (req) {
   if (config.kiboAPIIP.indexOf(ip) > -1) return true
   else return false
 }
+
+function isAuthorizedSuperUser () {
+  return compose()
+    .use(isAuthenticated())
+    .use(function meetsRequirements (req, res, next) {
+      if (req.user.isSuperUser) {
+        next()
+      } else {
+        res.send(403)
+      }
+    })
+}
+
+exports.isAuthorizedSuperUser = isAuthorizedSuperUser
