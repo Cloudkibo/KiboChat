@@ -9,25 +9,30 @@ const multipartyMiddleware = multiparty()
 
 router.post('/',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
   controller.index)
 
 router.post('/uploadFile',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   multipartyMiddleware,
   validate({body: validationSchema.uploadPayload}),
   controller.uploadFile)
 
 router.post('/uploadNumbers',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   validate({body: validationSchema.uploadNumbersPayload}),
   controller.uploadNumbers)
 
 router.post('/update/:id',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   controller.update)
 
 router.get('/fetchLists',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
   controller.fetchLists)
 
 module.exports = router
