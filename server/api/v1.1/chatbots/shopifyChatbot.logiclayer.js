@@ -1386,7 +1386,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
         logger.serverLog(TAG, `Invalid user input ${input} `, 'info')
         if (startingBlock.triggers.includes(input)) {
           return startingBlock
-        } else {
+        } else if (startingBlock.uniqueId !== contact.lastMessageSentByBot.uniqueId) {
           return invalidInput(chatbot, contact.lastMessageSentByBot, `${ERROR_INDICATOR}You entered an invalid response.`)
         }
       }
