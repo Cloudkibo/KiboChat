@@ -37,10 +37,10 @@ router.get('/',
 
 router.put('/',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   auth.doesPlanPermitsThisAction('chatbot_automation'),
   auth.isUserAllowedToPerformThisAction('update_chatbot_automation'),
   validate({ body: validationSchema.updatePayload }),
-  auth.isSuperUserActingAsCustomer('write'),
   controller.update)
 
 router.get('/:id/details',
@@ -83,18 +83,18 @@ router.get('/:id/fetchBackup',
 
 router.post('/createBackup',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   auth.doesPlanPermitsThisAction('chatbot_automation'),
   auth.isUserAllowedToPerformThisAction('configure_chatbot_automation'),
   validate({ body: validationSchema.backupPayload }),
-  auth.isSuperUserActingAsCustomer('write'),
   controller.createBackup)
 
 router.post('/restoreBackup',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   auth.doesPlanPermitsThisAction('chatbot_automation'),
   auth.isUserAllowedToPerformThisAction('configure_chatbot_automation'),
   validate({ body: validationSchema.backupPayload }),
-  auth.isSuperUserActingAsCustomer('write'),
   controller.restoreBackup)
 
 router.get('/url/:id',
