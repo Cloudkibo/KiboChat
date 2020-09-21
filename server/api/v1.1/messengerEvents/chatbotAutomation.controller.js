@@ -16,7 +16,7 @@ const { record } = require('../../global/messageStatistics')
 
 exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
   record('messengerChatInComing')
-  chatbotDataLayer.findOneChatBot({pageId: page._id, published: true})
+  chatbotDataLayer.findOneChatBot({ pageId: page._id, published: true })
     .then(chatbot => {
       if (chatbot) {
         if (req.postback && req.postback.payload && req.postback.payload === '<GET_STARTED_PAYLOAD>') {
@@ -73,7 +73,10 @@ const updateSubscriber = (query, newPayload, options) => {
 
 exports.handleShopifyChatbot = async (event, page, subscriber) => {
   try {
-    logger.serverLog(TAG, `shopify chatbot page ${JSON.stringify(page)}`, 'info')
+    if (event.message && event.message.is_echo) {
+      logger.serverLog(TAG, 'echo message shopify chatbot', 'info')
+      return
+    }
     logger.serverLog(TAG, `searching for shopify chatbot ${JSON.stringify({
       pageId: page._id,
       published: true,
@@ -185,7 +188,7 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
 
 exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId) => {
   record('messengerChatInComing')
-  chatbotDataLayer.findOneChatBot({pageId: page._id, published: true})
+  chatbotDataLayer.findOneChatBot({ pageId: page._id, published: true })
     .then(chatbot => {
       if (chatbot) {
         messageBlockDataLayer.findOneMessageBlock({ uniqueId: uniqueId.toString() })
