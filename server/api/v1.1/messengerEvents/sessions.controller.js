@@ -9,6 +9,7 @@ const sessionLogicLayer = require('../sessions/sessions.logiclayer')
 const logicLayer = require('./logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
 const { record } = require('../../global/messageStatistics')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 const { sendNotifications } = require('../../global/sendNotification')
 const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('../../global/messageAlerts')
 const { handleTriggerMessage, handleShopifyChatbot } = require('./chatbotAutomation.controller')
@@ -25,10 +26,23 @@ exports.index = function (req, res) {
   let page = req.body.page
   let subscriber = req.body.subscriber
   let event = req.body.event
+  let newSubscriber = req.body.newSubscriber
   utility.callApi(`companyprofile/query`, 'post', { _id: page.companyId })
     .then(company => {
+      logger.serverLog(TAG, `company in messenger events session ${JSON.stringify(company)}`, 'debug')
       if (!(company.automated_options === 'DISABLE_CHAT')) {
         if (subscriber.unSubscribedBy !== 'agent') {
+          if (newSubscriber) {
+            require('./../../../config/socketio').sendMessageToClient({
+              room_id: req.body.companyId,
+              body: {
+                action: 'Messenger_new_subscriber',
+                payload: {
+                  subscriber: subscriber
+                }
+              }
+            })
+          }
           let updatePayload = { last_activity_time: Date.now() }
           if (!event.message.is_echo) {
             if (subscriber.status === 'resolved') {
@@ -50,10 +64,12 @@ exports.index = function (req, res) {
                     logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
                   })
               }
-              logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
+              logger.serverLog(TAG, `subscriber updated successfully`, 'info')
               if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
+                logger.serverLog(TAG, `saving live chat`, 'info')
                 saveLiveChat(page, subscriber, event)
                 if (event.type !== 'get_started') {
+                  logger.serverLog(TAG, `handling chatbot`, 'info')
                   handleShopifyChatbot(event, page, subscriber)
                   handleTriggerMessage(event, page, subscriber)
                 }
@@ -130,6 +146,7 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
   ) {
     LiveChatDataLayer.createFbMessageObject(chatPayload)
       .then(chat => {
+        updateCompanyUsage(page.companyId, 'chat_messages', 1)
         if (!event.message.is_echo) {
           setTimeout(() => {
             utility.callApi('subscribers/query', 'post', { _id: subscriber._id })
