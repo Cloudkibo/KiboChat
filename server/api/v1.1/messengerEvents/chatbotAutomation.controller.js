@@ -64,6 +64,7 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
 }
 
 const updateSubscriber = (query, newPayload, options) => {
+  logger.serverLog(TAG, `updating subscriber request ${JSON.stringify(query)}`)
   return callApi(`subscribers/update`, 'put', {
     query,
     newPayload,
