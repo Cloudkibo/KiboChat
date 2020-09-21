@@ -11,7 +11,7 @@ exports.index = async (req, res) => {
   try {
     const messengerPayload = req.body.entry[0].messaging[0]
     const pageId = messengerPayload.recipient.id
-    const subscriberId = messengerPayload.sender.senderId
+    const subscriberId = messengerPayload.sender.id
 
     logger.serverLog(TAG, `postback event ${JSON.stringify(messengerPayload)}`, 'info')
 
