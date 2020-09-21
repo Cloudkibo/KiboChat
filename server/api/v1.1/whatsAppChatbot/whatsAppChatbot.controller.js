@@ -20,7 +20,7 @@ exports.create = async (req, res) => {
       sendErrorResponse(res, 500, existingChatbot, `Chatbot already exists`)
     } else {
       let chatbot = await dataLayer.createWhatsAppChatbot(req)
-      updateCompanyProfileForChatbot(req.user.domain_email, chatbot._id)
+      updateCompanyProfileForChatbot(req.user.companyId, chatbot._id)
       let messageBlocks = logicLayer.getMessageBlocks(chatbot._id, req.user._id, req.user.companyId)
       chatbot = await dataLayer.updateWhatsAppChatbot(req.user.companyId, {
         startingBlockId: messageBlocks[0].uniqueId
@@ -84,9 +84,9 @@ exports.fetchAnalytics = async (req, res) => {
   }
 }
 
-function updateCompanyProfileForChatbot (domainEmail, chatbotId) {
+function updateCompanyProfileForChatbot (companyId, chatbotId) {
   let payload = {
-    query: {domain_email: domainEmail},
+    query: {_id: companyId},
     newPayload: {
       'whatsapp.activeWhatsappBot': chatbotId
     },
@@ -94,11 +94,11 @@ function updateCompanyProfileForChatbot (domainEmail, chatbotId) {
       upsert: false
     }
   }
-  utility.callApi(`companyUser/update`, 'put', payload, 'accounts')
+  utility.callApi(`companyprofile/update`, 'put', payload, 'accounts')
     .then(updated => {
-      logger.serverLog(TAG, `companyUsers updated successfully ${JSON.stringify(updated)}`, 'debug')
+      logger.serverLog(TAG, `company updated successfully ${JSON.stringify(updated)}`, 'debug')
     })
     .catch(err => {
-      logger.serverLog(TAG, `Failed to update companyUsers ${JSON.stringify(err)}`, 'error')
+      logger.serverLog(TAG, `Failed to update company ${JSON.stringify(err)}`, 'error')
     })
 }
