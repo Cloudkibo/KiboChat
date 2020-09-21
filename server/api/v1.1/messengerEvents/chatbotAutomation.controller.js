@@ -69,7 +69,7 @@ const updateSubscriber = (query, newPayload, options) => {
     newPayload,
     options
   }).then((updatedSubscriber) => {
-    logger.serverLog(TAG, `updateSubscriber response ${updatedSubscriber}`)
+    logger.serverLog(TAG, `updateSubscriber response ${JSON.stringify(updatedSubscriber)}`)
   })
 }
 
