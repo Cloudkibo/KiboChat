@@ -19,14 +19,12 @@ exports.createWhatsAppChatbot = (req) => {
   })
 }
 
-exports.fetchWhatsAppChatbot = (companyId) => {
+exports.fetchWhatsAppChatbot = (match) => {
   return new Promise(async (resolve, reject) => {
     try {
       let chatbot = await callApi('whatsAppChatbot/query', 'post', {
         purpose: 'findOne',
-        match: {
-          companyId: companyId
-        }
+        match: match
       }, 'kibochat')
       resolve(chatbot)
     } catch (err) {

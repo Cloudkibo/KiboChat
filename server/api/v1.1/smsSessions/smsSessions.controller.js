@@ -3,6 +3,8 @@ const { callApi } = require('../utility')
 const async = require('async')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const { pushUnresolveAlertInStack, deleteUnresolvedSessionFromStack } = require('../../global/messageAlerts')
+const logger = require('../../../components/logger')
+const TAG = 'api/v1.1/smsSessions/smsSessions.controller.js'
 
 exports.fetchOpenSessions = function (req, res) {
   async.parallelLimit([
@@ -198,12 +200,12 @@ exports.changeStatus = function (req, res) {
             deleteUnresolvedSessionFromStack(req.body._id)
           } else {
             callApi(`companyprofile/query`, 'post', { _id: req.user.companyId })
-            .then(company => {
-              pushUnresolveAlertInStack(company, contact, 'sms')
-            })
-            .catch(err => {
-              logger.serverLog(TAG, `Unable to fetch company ${err}`)
-            })
+              .then(company => {
+                pushUnresolveAlertInStack(company, contact, 'sms')
+              })
+              .catch(err => {
+                logger.serverLog(TAG, `Unable to fetch company ${err}`)
+              })
           }
           let lastMessageData = logicLayer.getQueryData('', 'aggregate', {contactId: req.params.id, companyId: req.user.companyId}, undefined, {_id: -1}, 1, undefined)
           callApi(`smsChat/query`, 'post', lastMessageData, 'kibochat')

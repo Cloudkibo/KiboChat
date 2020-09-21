@@ -44,7 +44,7 @@ exports.messageReceived = function (req, res) {
                         pushSessionPendingAlertInStack(company, contact, 'whatsApp')
                       }
                       if (data.messageData.componentType === 'text') {
-                        let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot(company._id)
+                        let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({_id: company.whatsapp.activeWhatsappBot})
                         if (chatbot) {
                           const shouldSend = chatbot.published || chatbot.testSubscribers.includes(contact.number)
                           if (shouldSend) {
@@ -235,13 +235,13 @@ function saveNotifications (contact, companyUsers) {
     callApi(`notifications`, 'post', notificationsData, 'kibochat')
       .then(savedNotification => {
         console.log('saved notification', savedNotification)
-          require('./../../../config/socketio').sendMessageToClient({
-            room_id: companyUser.companyId,
-            body: {
-              action: 'new_notification',
-              payload: notificationsData
-            }
-          })
+        require('./../../../config/socketio').sendMessageToClient({
+          room_id: companyUser.companyId,
+          body: {
+            action: 'new_notification',
+            payload: notificationsData
+          }
+        })
       })
       .catch(error => {
         logger.serverLog(TAG, `Failed to save notification ${error}`, 'error')
