@@ -251,7 +251,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
       })
       for (let i = 0; i < products.length; i++) {
         let product = products[i]
-        let priceString = storeInfo.currency === 'USD' ? `Price: $${product.price}` : `Price: ${product.price} ${storeInfo.currency}`
+        let priceString = storeInfo.currency === 'USD' ? `$${product.price}` : `${product.price} ${storeInfo.currency}`
         messageBlock.payload[1].cards.push({
           image_url: product.image,
           title: product.name,
