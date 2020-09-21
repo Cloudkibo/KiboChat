@@ -40,6 +40,7 @@ exports.messageReceived = function (req, res) {
                       // whatsapp chatbot
                       pushUnresolveAlertInStack(company, contact, 'whatsApp')
                       if (isNewContact) {
+                        _sendEvent(company._id, contact)
                         pushSessionPendingAlertInStack(company, contact, 'whatsApp')
                       }
                       if (data.messageData.componentType === 'text') {
@@ -119,6 +120,18 @@ exports.messageReceived = function (req, res) {
     .catch(error => {
       logger.serverLog(TAG, `Failed to map whatsapp message received data ${JSON.stringify(req.body)} ${error}`, 'error')
     })
+}
+
+function _sendEvent (companyId, contact) {
+  require('./../../../config/socketio').sendMessageToClient({
+    room_id: companyId,
+    body: {
+      action: 'Whatsapp_new_subscriber',
+      payload: {
+        subscriber: contact
+      }
+    }
+  })
 }
 
 function createContact (data) {
@@ -209,6 +222,7 @@ function storeChat (from, to, contact, messageData) {
       })
   })
 }
+
 function saveNotifications (contact, companyUsers) {
   companyUsers.forEach((companyUser, index) => {
     let notificationsData = {
@@ -282,7 +296,7 @@ function _sendNotification (subscriber, payload, companyId) {
     })
 }
 
-function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
+function updateWhatsAppContact(query, bodyForUpdate, bodyForIncrement, options) {
   callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
     .then(updated => {
     })
@@ -319,7 +333,7 @@ exports.messageStatus = function (req, res) {
     })
 }
 
-function updateChat (message, body) {
+function updateChat(message, body) {
   let dateTime = Date.now()
   let matchQuery = {
     $or: [
@@ -361,7 +375,7 @@ function updateChat (message, body) {
   updateChatInDB(matchQuery, updated, dataToSend)
 }
 
-function updateChatInDB (match, updated, dataToSend) {
+function updateChatInDB(match, updated, dataToSend) {
   let updateData = {
     purpose: 'updateAll',
     match: match,
