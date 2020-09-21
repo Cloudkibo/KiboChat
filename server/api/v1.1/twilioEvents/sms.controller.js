@@ -224,13 +224,13 @@ function saveNotifications (contact, companyUsers) {
     callApi(`notifications`, 'post', notificationsData, 'kibochat')
       .then(savedNotification => {
         console.log('saved notification', savedNotification)
-          require('./../../../config/socketio').sendMessageToClient({
-            room_id: companyUser.companyId,
-            body: {
-              action: 'new_notification',
-              payload: notificationsData
-            }
-          })
+        require('./../../../config/socketio').sendMessageToClient({
+          room_id: companyUser.companyId,
+          body: {
+            action: 'new_notification',
+            payload: notificationsData
+          }
+        })
       })
       .catch(error => {
         logger.serverLog(TAG, `Failed to save notification ${error}`, 'error')

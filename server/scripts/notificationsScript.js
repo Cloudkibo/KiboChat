@@ -30,9 +30,9 @@ exports.runLiveChatNotificationScript = function () {
                 .then(companyUsers => {
                   let assignedMembers
                   // logger.serverLog(TAG, `companyUsers ${JSON.stringify(companyUsers)}`)
-                  if (alert.payload.assignedMembers == 'buyer') {
+                  if (alert.payload.assignedMembers === 'buyer') {
                     assignedMembers = companyUsers.filter((companyUser) => companyUser.userId.role === 'buyer')
-                  } else if (alert.payload.assignedMembers == 'admins') {
+                  } else if (alert.payload.assignedMembers === 'admins') {
                     assignedMembers = companyUsers.filter((companyUser) => companyUser.userId.role === 'admin')
                   } else {
                     assignedMembers = companyUsers.filter((companyUser) => companyUser.userId.role !== 'agent')
@@ -63,7 +63,7 @@ exports.runLiveChatNotificationScript = function () {
       }
     })
     .catch(err => {
-        logger.serverlog(TAG, 'Unable to fetch cron stack')
+      logger.serverlog(TAG, 'Unable to fetch cron stack ' + JSON.stringify(err))
     })
 }
 
@@ -138,7 +138,7 @@ function generateAdminNotification (alert, user, cb) {
           cb()
         })
         .catch(err => {
-          err => cb(err)
+          cb(err)
         })
     })
     .catch(err => cb(err))

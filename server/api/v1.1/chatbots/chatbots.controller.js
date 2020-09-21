@@ -14,7 +14,6 @@ const async = require('async')
 const shopifyDataLayer = require('../shopify/shopify.datalayer')
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
 const EcommerceProvider = require('../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
-const { parse } = require('json2csv')
 
 exports.index = function (req, res) {
   callApi(`pages/query`, 'post', { companyId: req.user.companyId, connected: true })
@@ -320,7 +319,7 @@ exports.exportData = (req, res) => {
   analyticsDataLayer.findForBotSubscribersAnalyticsForSQL({companyId: req.user.companyId})
     .then(results => {
       var subscriberIds = results.map(value => value.subscriberId)
-      var unique = subscriberIds.filter((v, i, a) => a.indexOf(v) === i) 
+      var unique = subscriberIds.filter((v, i, a) => a.indexOf(v) === i)
       let subscribersData = []
       for (let i = 0; i < unique.length; i++) {
         let subscribers = results.filter(value => value.subscriberId === unique[i])
