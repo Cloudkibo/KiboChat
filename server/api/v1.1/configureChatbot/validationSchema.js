@@ -53,3 +53,13 @@ exports.createChatbotBlockPayload = {
     }
   }
 }
+
+exports.deleteChatbotBlockPayload = {
+  type: 'object',
+  properties: {
+    ids: {
+      type: 'array',
+      required: true
+    }
+  }
+}
