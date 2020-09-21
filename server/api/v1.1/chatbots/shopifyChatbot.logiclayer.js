@@ -854,9 +854,10 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
         totalPrice += price
 
         let priceString = currency === 'USD' ? `$${product.price}` : `${product.price} ${currency}`
+        let totalPriceString = currency === 'USD' ? `$${price}` : `${price} ${currency}`
         messageBlock.payload[1].cards.push({
           title: product.product,
-          subtitle: `Price: ${priceString}\nQuantity: ${product.quantity}\nTotal Price: ${price} ${currency}`,
+          subtitle: `Price: ${priceString}\nQuantity: ${product.quantity}\nTotal Price: ${totalPriceString}`,
           buttons: [
             {
               title: 'Update Quantity',
@@ -866,7 +867,7 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
             {
               title: 'Remove',
               type: 'postback',
-              payload: JSON.stringify({ type: DYNAMIC, action: REMOVE_FROM_CART, argument: product })
+              payload: JSON.stringify({ type: DYNAMIC, action: REMOVE_FROM_CART, argument: { ...product, productIndex: i } })
             }
           ]
         })
@@ -925,6 +926,7 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
     let text = `${quantity} ${productInfo.product}${quantity !== 1 ? 's have' : ' has'} been succesfully removed from your cart.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
+    console.log('Unable to remove item(s) from cart', err.stack)
     logger.serverLog(TAG, `Unable to remove item(s) from cart ${err} `, 'error')
     if (err.message) {
       throw new Error(`${ERROR_INDICATOR}${err.message}`)
