@@ -17,7 +17,7 @@ exports.prepareBlockPayload = function (user, body) {
     chatbotId: body.chatbotId,
     uniqueId: body.uniqueId,
     payload: JSON.stringify(body.payload),
-    options: JSON.stringify(body.payload),
+    options: JSON.stringify(body.options),
     triggers: JSON.stringify(body.triggers)
   }
   return payload
