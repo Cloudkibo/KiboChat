@@ -88,7 +88,7 @@ function updateCompanyProfileForChatbot (companyId, chatbotId) {
   let payload = {
     query: {_id: companyId},
     newPayload: {
-      'whatsapp.activeWhatsappBot': chatbotId
+      'whatsApp.activeWhatsappBot': chatbotId
     },
     options: {
       upsert: false
