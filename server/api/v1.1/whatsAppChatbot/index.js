@@ -9,18 +9,22 @@ const auth = require('../../../auth/auth.service')
 
 router.post('/',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   controller.create)
 
 router.get('/',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
   controller.fetch)
 
 router.get('/:id/stats/:n',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
   controller.fetchAnalytics)
 
 router.put('/',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   controller.update)
 
 module.exports = router
