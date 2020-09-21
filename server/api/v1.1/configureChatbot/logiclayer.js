@@ -11,12 +11,13 @@ exports.preparePayload = function (user, body) {
 
 exports.prepareBlockPayload = function (user, body) {
   const payload = {
+    title: body.title,
     companyId: user.companyId,
     userId: user._id,
     chatbotId: body.chatbotId,
     uniqueId: body.uniqueId,
     payload: JSON.stringify(body.payload),
-    options: JSON.stringify(body.payload),
+    options: JSON.stringify(body.options),
     triggers: JSON.stringify(body.triggers)
   }
   return payload

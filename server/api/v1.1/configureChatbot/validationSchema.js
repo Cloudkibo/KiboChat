@@ -19,7 +19,7 @@ exports.updateChatbotPayload = {
       required: true
     },
     published: {
-      type: 'string'
+      type: 'boolean'
     }
   }
 }
@@ -48,6 +48,16 @@ exports.createChatbotBlockPayload = {
       required: true
     },
     triggers: {
+      type: 'array',
+      required: true
+    }
+  }
+}
+
+exports.deleteChatbotBlockPayload = {
+  type: 'object',
+  properties: {
+    ids: {
       type: 'array',
       required: true
     }
