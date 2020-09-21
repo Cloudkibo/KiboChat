@@ -72,7 +72,10 @@ const updateSubscriber = (query, newPayload, options) => {
 
 exports.handleShopifyChatbot = async (event, page, subscriber) => {
   try {
-    logger.serverLog(TAG, `shopify chatbot page ${JSON.stringify(page)}`, 'info')
+    if (event.message && event.message.is_echo) {
+      logger.serverLog(TAG, 'echo message shopify chatbot', 'info')
+      return
+    }
     logger.serverLog(TAG, `searching for shopify chatbot ${JSON.stringify({
       pageId: page._id,
       published: true,
