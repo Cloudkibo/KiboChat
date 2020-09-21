@@ -29,4 +29,9 @@ router.post('/block',
   validate({ body: validationSchema.createChatbotBlockPayload }),
   controller.handleBlock)
 
+router.delete('/block/delete',
+  auth.isAuthenticated(),
+  validate({ body: validationSchema.deleteChatbotBlockPayload }),
+  controller.deleteBlock)
+
 module.exports = router

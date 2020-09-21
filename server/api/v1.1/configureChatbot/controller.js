@@ -18,7 +18,7 @@ exports.create = function (req, res) {
 exports.index = function (req, res) {
   datalayer.fetchChatbotRecords({companyId: req.user.companyId})
     .then(records => {
-      return sendSuccessResponse(res, 201, records)
+      return sendSuccessResponse(res, 200, records)
     })
     .catch(error => {
       return sendErrorResponse(res, 500, error, 'Failed to fetch chatbots.')
@@ -34,7 +34,7 @@ exports.details = function (req, res) {
         item.triggers = JSON.parse(item.triggers)
         return item
       })
-      return sendSuccessResponse(res, 201, blocks)
+      return sendSuccessResponse(res, 200, blocks)
     })
     .catch(error => {
       return sendErrorResponse(res, 500, error, 'Failed to fetch chatbot blocks')
@@ -44,7 +44,7 @@ exports.details = function (req, res) {
 exports.update = function (req, res) {
   datalayer.updateChatbotRecord({chatbotId: req.body.chatbotId}, {...req.body})
     .then(created => {
-      return sendSuccessResponse(res, 201, created, 'Chatbot updated successfully!')
+      return sendSuccessResponse(res, 200, created, 'Chatbot updated successfully!')
     })
     .catch(error => {
       return sendErrorResponse(res, 500, error, 'Failed to update chatbot.')
@@ -59,7 +59,7 @@ exports.handleBlock = function (req, res) {
       if (block) {
         datalayer.updateChatbotBlockRecord({uniqueId: req.body.uniqueId}, payload)
           .then(created => {
-            return sendSuccessResponse(res, 201, created, 'Chatbot created successfully!')
+            return sendSuccessResponse(res, 200, created, 'Chatbot created successfully!')
           })
           .catch(error => {
             return sendErrorResponse(res, 500, error, 'Failed to create chatbot.')
@@ -76,5 +76,15 @@ exports.handleBlock = function (req, res) {
     })
     .catch(error => {
       return sendErrorResponse(res, 500, error, 'Failed to fetch chatbot records')
+    })
+}
+
+exports.deleteBlock = function (req, res) {
+  datalayer.deleteChatbotBlocks({chatbotId: req.body.ids})
+    .then(deleted => {
+      return sendSuccessResponse(res, 200, deleted, 'Chatbot deleted successfully!')
+    })
+    .catch(error => {
+      return sendErrorResponse(res, 500, error, 'Failed to delete chatbot.')
     })
 }

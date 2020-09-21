@@ -9,6 +9,9 @@ const { intervalForEach } = require('./../../../components/utility')
 const { facebookApiCaller } = require('./../../global/facebookApiCaller')
 const TAG = 'api/v1/messengerEvents/chatbotAutomation.controller'
 const moment = require('moment')
+const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
+const EcommerceProvider = require('../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
+const { callApi } = require('../utility')
 const { record } = require('../../global/messageStatistics')
 
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
@@ -219,6 +222,7 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId) => {
 }
 
 exports.handleChatBotTestMessage = (req, page, subscriber, type) => {
+  record('messengerChatInComing')
   chatbotDataLayer.findOneChatBot({ pageId: page._id, type })
     .then(chatbot => {
       record('messengerChatInComing')
