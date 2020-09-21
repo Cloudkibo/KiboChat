@@ -220,6 +220,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
       companyId: chatbot.companyId
     }
     let products = []
+    let storeInfo = await EcommerceProvider.fetchStoreInfo()
     if (input) {
       products = await EcommerceProvider.searchProducts(input)
       if (products.length > 0) {
@@ -250,9 +251,11 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
       })
       for (let i = 0; i < products.length; i++) {
         let product = products[i]
+        let priceString = storeInfo.currency === 'USD' ? `Price: $${product.price}` : `Price: ${product.price} ${storeInfo.currency}`
         messageBlock.payload[1].cards.push({
           image_url: product.image,
           title: product.name,
+          subtitle: `Price: ${priceString}`,
           buttons: [{
             title: 'Select Product',
             type: 'postback',
@@ -611,9 +614,10 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
       })
       for (let i = 0; i < productVariants.length; i++) {
         let productVariant = productVariants[i]
+        let priceString = storeInfo.currency === 'USD' ? `Price: $${product.price}` : `Price: ${product.price} ${storeInfo.currency}`
         messageBlock.payload[1].cards.push({
           title: `${productVariant.name} ${product.name}`,
-          subtitle: `Price: ${product.price} ${storeInfo.currency}`
+          subtitle: priceString
         })
         if (productVariant.inventory_quantity > 0) {
           messageBlock.payload[1].cards[i].buttons = [{
@@ -663,6 +667,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
 
 const getSelectProductBlock = async (chatbot, backId, product) => {
   try {
+    let priceString = product.currency === 'USD' ? `$${product.price}` : `${product.price} ${product.currency}`
     let messageBlock = {
       module: {
         id: chatbot._id,
@@ -672,7 +677,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: dedent(`You have selected ${product.product} (price: ${product.price} ${product.currency}).\n
+          text: dedent(`You have selected ${product.product} (price: ${priceString}).\n
                   ${DEFAULT_TEXT}:`),
           componentType: 'text',
           quickReplies: [
@@ -745,6 +750,7 @@ const getQuantityToAddBlock = async (chatbot, backId, contact, product) => {
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
+    let priceString = product.currency === 'USD' ? `$${product.price}` : `${product.price} ${product.currency}`
     let shoppingCart = contact.shoppingCart ? contact.shoppingCart : []
     let existingProductIndex = shoppingCart.findIndex((item) => item.variant_id === product.variant_id)
     if (existingProductIndex > -1) {
@@ -752,10 +758,10 @@ const getQuantityToAddBlock = async (chatbot, backId, contact, product) => {
         let text = `Your cart already contains the maximum stock available for this product.`
         return getShowMyCartBlock(chatbot, backId, contact, text)
       } else {
-        messageBlock.payload[0].text = `How many ${product.product}s would you like to add to your cart?\n\nYou already have ${shoppingCart[existingProductIndex].quantity} in your cart.\n\n(price: ${product.price} ${product.currency}) (stock available: ${product.inventory_quantity})`
+        messageBlock.payload[0].text = `How many ${product.product}s would you like to add to your cart?\n\nYou already have ${shoppingCart[existingProductIndex].quantity} in your cart.\n\n(price: ${priceString}) (stock available: ${product.inventory_quantity})`
       }
     } else {
-      messageBlock.payload[0].text = `How many ${product.product}s would you like to add to your cart?\n\n(price: ${product.price} ${product.currency}) (stock available: ${product.inventory_quantity})`
+      messageBlock.payload[0].text = `How many ${product.product}s would you like to add to your cart?\n\n(price: ${priceString}) (stock available: ${product.inventory_quantity})`
     }
     return messageBlock
   } catch (err) {
@@ -847,9 +853,10 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
         let price = product.quantity * product.price
         totalPrice += price
 
+        let priceString = currency === 'USD' ? `$${product.price}` : `${product.price} ${currency}`
         messageBlock.payload[1].cards.push({
           title: product.product,
-          subtitle: `Price: ${product.price} ${currency}\nQuantity: ${product.quantity}\nTotal Price: ${price} ${currency}`,
+          subtitle: `Price: ${priceString}\nQuantity: ${product.quantity}\nTotal Price: ${price} ${currency}`,
           buttons: [
             {
               title: 'Update Quantity',
@@ -859,12 +866,13 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
             {
               title: 'Remove',
               type: 'postback',
-              payload: JSON.stringify({ type: DYNAMIC, action: QUANTITY_TO_REMOVE, argument: { ...product, productIndex: i } })
+              payload: JSON.stringify({ type: DYNAMIC, action: REMOVE_FROM_CART, argument: product })
             }
           ]
         })
       }
-      messageBlock.payload[0].text += ` Total price is: ${totalPrice} ${currency}.`
+      let totalPriceString = currency === 'USD' ? `$${totalPrice}` : `${totalPrice} ${currency}`
+      messageBlock.payload[0].text += ` Total price is: ${totalPriceString}.`
 
       messageBlock.payload[messageBlock.payload.length - 1].quickReplies.push(
         {
@@ -899,6 +907,9 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
 
 const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, quantity) => {
   try {
+    if (!quantity) {
+      quantity = productInfo.quantity
+    }
     quantity = Number(quantity)
     if (!Number.isInteger(quantity) || quantity < 0) {
       throw new Error(`${ERROR_INDICATOR}Invalid quantity given.`)
@@ -925,6 +936,7 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
 
 const getQuantityToRemoveBlock = async (chatbot, backId, product) => {
   try {
+    let priceString = product.currency === 'USD' ? `$${product.price}` : `${product.price} ${product.currency}`
     let messageBlock = {
       module: {
         id: chatbot._id,
@@ -934,7 +946,7 @@ const getQuantityToRemoveBlock = async (chatbot, backId, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `How many ${product.product}s would you like to remove from your cart?\n\nYou currently have ${product.quantity} in your cart.\n\n(price: ${product.price} ${product.currency})`,
+          text: `How many ${product.product}s would you like to remove from your cart?\n\nYou currently have ${product.quantity} in your cart.\n\n(price: ${priceString})`,
           componentType: 'text',
           action: { type: DYNAMIC, action: REMOVE_FROM_CART, argument: product, input: true },
           quickReplies: [
@@ -1276,6 +1288,7 @@ const invalidInput = async (chatbot, messageBlock, errMessage) => {
 
 const getQuantityToUpdateBlock = async (chatbot, backId, product) => {
   try {
+    let priceString = product.currency === 'USD' ? `$${product.price}` : `${product.price} ${product.currency}`
     let messageBlock = {
       module: {
         id: chatbot._id,
@@ -1285,7 +1298,7 @@ const getQuantityToUpdateBlock = async (chatbot, backId, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `What quantity would you like to set for ${product.product}?\n\nYou currently have ${product.quantity} in your cart.\n\n(price: ${product.price} ${product.currency}) (stock available: ${product.inventory_quantity})`,
+          text: `What quantity would you like to set for ${product.product}?\n\nYou currently have ${product.quantity} in your cart.\n\n(price: ${priceString}) (stock available: ${product.inventory_quantity})`,
           componentType: 'text',
           action: { type: DYNAMIC, action: UPDATE_CART, argument: product, input: true },
           quickReplies: [
