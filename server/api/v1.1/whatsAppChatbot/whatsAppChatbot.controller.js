@@ -3,20 +3,30 @@ const { sendSuccessResponse, sendErrorResponse } = require('../../global/respons
 const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 const dataLayer = require('./whatsAppChatbot.datalayer')
 const analyticsDataLayer = require('./whatsAppChatbot_analytics.datalayer')
+const utility = require('../utility/index.js')
+const logger = require('../../../components/logger')
+const TAG = 'api/v1/whatsAppChatbot/whatsAppChatbot.controller'
 
 exports.create = async (req, res) => {
   try {
-    let existingChatbot = await dataLayer.fetchWhatsAppChatbot(req.user.companyId)
-    if (existingChatbot) {
+    let existingChatbot = await dataLayer.fetchWhatsAppChatbot({companyId: req.user.companyId})
+    if (existingChatbot && req.user.companyId !== '5a89ecdaf6b0460c552bf7fe') {
+      // About the above company condition
+      // This is a demo requirement by Sir and not unnecessary hard coding
+      // Please don't remove this until discussed with Sir. We are just allowing
+      // CloudKibo company to have multiple whatsapp chatbots per company for
+      // demo purposes. Other companies can only have one whatsapp chatbot.
+      // - Sojharo
       sendErrorResponse(res, 500, existingChatbot, `Chatbot already exists`)
     } else {
       let chatbot = await dataLayer.createWhatsAppChatbot(req)
+      updateCompanyProfileForChatbot(req.user.domain_email, chatbot._id)
       let messageBlocks = logicLayer.getMessageBlocks(chatbot._id, req.user._id, req.user.companyId)
       chatbot = await dataLayer.updateWhatsAppChatbot(req.user.companyId, {
         startingBlockId: messageBlocks[0].uniqueId
       })
       sendSuccessResponse(res, 200, chatbot, 'WhatsApp chatbot created successfully')
-      await messageBlockDataLayer.createBulkMessageBlocks(messageBlocks)
+      messageBlockDataLayer.createBulkMessageBlocks(messageBlocks)
     }
   } catch (err) {
     sendErrorResponse(res, 500, err.message, `Failed to create WhatsApp chatbot`)
@@ -25,7 +35,7 @@ exports.create = async (req, res) => {
 
 exports.fetch = async (req, res) => {
   try {
-    let chatbot = await dataLayer.fetchWhatsAppChatbot(req.user.companyId)
+    let chatbot = await dataLayer.fetchWhatsAppChatbot({companyId: req.user.companyId})
     if (chatbot) {
       sendSuccessResponse(res, 200, chatbot, 'WhatsApp chatbot fetched successfully')
     } else {
@@ -72,4 +82,23 @@ exports.fetchAnalytics = async (req, res) => {
   } catch (err) {
     sendErrorResponse(res, 500, 'Failed to fetch analytics for chatbot')
   }
+}
+
+function updateCompanyProfileForChatbot (domainEmail, chatbotId) {
+  let payload = {
+    query: {domain_email: domainEmail},
+    newPayload: {
+      'whatsapp.activeWhatsappBot': chatbotId
+    },
+    options: {
+      upsert: false
+    }
+  }
+  utility.callApi(`companyUser/update`, 'put', payload, 'accounts')
+    .then(updated => {
+      logger.serverLog(TAG, `companyUsers updated successfully ${JSON.stringify(updated)}`, 'debug')
+    })
+    .catch(err => {
+      logger.serverLog(TAG, `Failed to update companyUsers ${JSON.stringify(err)}`, 'error')
+    })
 }

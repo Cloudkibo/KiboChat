@@ -8,4 +8,5 @@ exports.runWhatspdeleteScript = function () {
       logger.serverLog(TAG, `script run successfully`)
     }).catch(error => {
       logger.serverLog(TAG, `Error while run runWhatspdeleteScript ${error}`, 'error')
-    })}
+    })
+}

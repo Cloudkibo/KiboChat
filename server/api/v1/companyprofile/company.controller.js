@@ -394,7 +394,7 @@ exports.deleteWhatsAppInfo = function (req, res) {
                     })
                     .catch(err => {
                       callback(err)
-                    })               
+                    })
                 }).catch(err => {
                   logger.serverLog(TAG, JSON.stringify(err), 'error')
                 })
