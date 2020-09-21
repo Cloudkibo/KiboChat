@@ -44,7 +44,7 @@ exports.messageReceived = function (req, res) {
                         pushSessionPendingAlertInStack(company, contact, 'whatsApp')
                       }
                       if (data.messageData.componentType === 'text') {
-                        let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({_id: company.whatsapp.activeWhatsappBot})
+                        let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({_id: company.whatsApp.activeWhatsappBot})
                         if (chatbot) {
                           const shouldSend = chatbot.published || chatbot.testSubscribers.includes(contact.number)
                           if (shouldSend) {
