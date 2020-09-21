@@ -19,7 +19,7 @@ exports.updateChatbotPayload = {
       required: true
     },
     published: {
-      type: 'string'
+      type: 'boolean'
     }
   }
 }
