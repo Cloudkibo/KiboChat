@@ -80,7 +80,7 @@ exports.handleBlock = function (req, res) {
 }
 
 exports.deleteBlock = function (req, res) {
-  datalayer.deleteChatbotBlocks({chatbotId: req.body.ids})
+  datalayer.deleteChatbotBlocks({uniqueId: req.body.ids})
     .then(deleted => {
       return sendSuccessResponse(res, 200, deleted, 'Chatbot deleted successfully!')
     })
