@@ -29,6 +29,6 @@ exports.updateChatbotBlockRecord = (query, updated) => {
   return callApi(`chatbotBlock`, 'put', {query, updated}, kibodash)
 }
 
-exports.deleteChatbotBlockRecord = (query) => {
+exports.deleteChatbotBlocks = (query) => {
   return callApi(`chatbotBlock`, 'delete', query, kibodash)
 }
