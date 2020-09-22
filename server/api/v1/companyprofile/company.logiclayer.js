@@ -1,7 +1,7 @@
 exports.getPlatformForSms = function (company, user) {
   if (user.connectFacebook) {
     return 'messenger'
-  } else if (company.whatsApp) {
+  } else if (company.whatsApp && !(company.whatsApp.connected === false)) {
     return 'whatsApp'
   } else {
     return ''
