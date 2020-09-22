@@ -275,15 +275,19 @@ exports.disconnectFacebook = function (req, res) {
       } else {
         updated.platform = ''
       }
-      utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: updated, options: {}})
-        .then(updated => {
-          return res.status(200).json({
-            status: 'success',
-            payload: 'Updated Successfully!'
-          })
-        })
-        .catch(err => {
-          res.status(500).json({status: 'failed', payload: err})
+      utility.callApi(`companyUser/queryAll`, 'post', {companyId: req.user.companyId}, 'accounts')
+        .then(companyUsers => {
+          let userIds = companyUsers.map(companyUser => companyUser.userId._id)
+          utility.callApi(`user/update`, 'post', {query: {_id: {$in: userIds}}, newPayload: updated, options: {multi: true}})
+            .then(data => {
+              sendSuccessResponse(res, 200, 'Updated Successfully!')
+            })
+            .catch(err => {
+              sendErrorResponse(res, 500, err)
+            })               
+        }).catch(err => {
+          logger.serverLog(TAG, JSON.stringify(err), 'error')
+          sendErrorResponse(res, 500, err)
         })
     })
     .catch(err => {
