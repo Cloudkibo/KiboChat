@@ -23,9 +23,8 @@ exports.getAutomatedOptions = function (req, res) {
     .then(payload => {
       utility.callApi(`user/query`, 'post', {_id: payload.ownerId, connectFacebook: true}, 'accounts', req.headers.authorization)
         .then(users => {
-          console.log('users in getAutomatedOptions', users)
-          let user = users[0]
-          if (users) {
+          if (users.length > 0) {
+            let user = users[0]
             payload.facebookInfo = user.facebookInfo
             sendSuccessResponse(res, 200, payload)
           }      
