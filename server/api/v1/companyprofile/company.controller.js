@@ -27,6 +27,8 @@ exports.getAutomatedOptions = function (req, res) {
             let user = users[0]
             payload.facebookInfo = user.facebookInfo
             sendSuccessResponse(res, 200, payload)
+          } else {
+            sendSuccessResponse(res, 200, payload)
           }      
         }).catch(error => {
           sendErrorResponse(res, 500, `Failed to fetching user details ${JSON.stringify(error)}`)
