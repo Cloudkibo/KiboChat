@@ -14,6 +14,7 @@ exports.index = function (req, res) {
     .then(user => {
       utility.callApi(`companyUser/query`, 'post', {userId: user._id}, 'accounts', req.headers.authorization)
         .then(companyUser => {
+          var superUser = {}
           user.expoListToken = companyUser.expoListToken
           res.cookie('userId', user._id)
           res.cookie('companyId', companyUser.companyId)
@@ -28,7 +29,12 @@ exports.index = function (req, res) {
             res.cookie('shopifySetupState', 'completedAfterLogin')
             saveShopifyIntegration(shop, shopToken, user._id, companyUser.companyId)
           }
-          sendSuccessResponse(res, 200, user)
+          if (req.superUser) {
+            superUser = req.superUser
+          } else {
+            superUser = null
+          }
+          sendSuccessResponse(res, 200, {user, superUser})
         }).catch(error => {
           logger.serverLog(TAG, `Error while fetching companyUser details ${util.inspect(error)}`, 'error')
 
