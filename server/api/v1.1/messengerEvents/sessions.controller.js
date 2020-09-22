@@ -32,7 +32,7 @@ exports.index = function (req, res) {
         if (subscriber.unSubscribedBy !== 'agent') {
           if (newSubscriber) {
             require('./../../../config/socketio').sendMessageToClient({
-              room_id: req.body.companyId,
+              room_id: page.companyId,
               body: {
                 action: 'Messenger_new_subscriber',
                 payload: {
