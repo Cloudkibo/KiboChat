@@ -1,10 +1,8 @@
-
-exports.getActingAsUserPayload = function (req, actingUser, platforms) {
+exports.getActingAsUserPayload = function (body, actingUser) {
   let updated = {}
   if (req.body.type === 'set') {
     updated = {
-      actingAsUser: {domain_email: actingUser.domain_email, actingUser: actingUser, platforms: platforms, superUserPlatform: req.user.platform},
-      platform: actingUser.platform
+      actingAsUser: {domain_email: body.domain_email, name: body.name, actingUserplatform: actingUser.platform}
     }
   } else {
     updated = {
