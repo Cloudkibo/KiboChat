@@ -64,10 +64,13 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
 }
 
 const updateSubscriber = (query, newPayload, options) => {
+  logger.serverLog(TAG, `updating subscriber request ${JSON.stringify(query)}`)
   return callApi(`subscribers/update`, 'put', {
     query,
     newPayload,
-    options: {}
+    options
+  }).then((updatedSubscriber) => {
+    logger.serverLog(TAG, `updateSubscriber response ${JSON.stringify(updatedSubscriber)}`)
   })
 }
 
@@ -100,8 +103,8 @@ exports.handleShopifyChatbot = async (event, page, subscriber) => {
         })
         logger.serverLog(TAG, `handleShopifyChatbot event ${JSON.stringify(event)}`, 'info')
         let nextMessageBlock = await shopifyChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, subscriber, event)
-        updateSubscriber({ _id: subscriber._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
         logger.serverLog(TAG, `shopify chatbot next message block ${JSON.stringify(nextMessageBlock)}`, 'info')
+        updateSubscriber({ _id: subscriber._id }, { lastMessageSentByBot: nextMessageBlock }, {})
         if (nextMessageBlock) {
           senderAction(event.sender.id, 'typing_on', page.accessToken)
           intervalForEach(nextMessageBlock.payload, (item) => {
