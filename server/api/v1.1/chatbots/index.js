@@ -19,8 +19,8 @@ router.get('/',
 
 router.put('/',
   auth.isAuthenticated(),
-  validate({ body: validationSchema.updatePayload }),
   auth.isSuperUserActingAsCustomer('write'),
+  validate({ body: validationSchema.updatePayload }),
   controller.update)
 
 router.get('/:id/details',
@@ -55,14 +55,14 @@ router.get('/:id/fetchBackup',
 
 router.post('/createBackup',
   auth.isAuthenticated(),
-  validate({ body: validationSchema.backupPayload }),
   auth.isSuperUserActingAsCustomer('write'),
+  validate({ body: validationSchema.backupPayload }),
   controller.createBackup)
 
 router.post('/restoreBackup',
   auth.isAuthenticated(),
-  validate({ body: validationSchema.backupPayload }),
   auth.isSuperUserActingAsCustomer('write'),
+  validate({ body: validationSchema.backupPayload }),
   controller.restoreBackup)
 
 router.get('/url/:id',
