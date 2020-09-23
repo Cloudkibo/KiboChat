@@ -70,6 +70,7 @@ module.exports = function (app) {
   app.use('/api/addOns', require('./api/v1.1/addOns'))
   app.use('/api/whatsAppEvents', require('./api/v1.1/whatsAppEvents'))
   app.use('/api/configure/chatbot', require('./api/v1.1/configureChatbot'))
+  app.use('/api/attachment', require('./api/v1.1/attachment'))
   app.use('/api/backdoor', require('./api/v1.1/backdoor'))
   // auth middleware go here if you authenticate on same server
 

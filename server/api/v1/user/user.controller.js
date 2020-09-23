@@ -278,7 +278,6 @@ exports.disconnectFacebook = function (req, res) {
       if (companyProfile.twilio) {
         updated.platform = 'sms'
       } else if (companyProfile.whatsApp && !(companyProfile.whatsApp.connected === false)) {
-        console.log('true whatsapp condition')
         updated.platform = 'whatsApp'
       } else {
         updated.platform = ''
