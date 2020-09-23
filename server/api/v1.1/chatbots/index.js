@@ -8,6 +8,7 @@ const validationSchema = require('./validationSchema')
 
 router.post('/',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   validate({ body: validationSchema.createPayload }),
   controller.create)
 
@@ -27,44 +28,54 @@ router.get('/shopifyChatbotTriggers/:chatbotId',
 
 router.get('/',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
   controller.index)
 
 router.put('/',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   validate({ body: validationSchema.updatePayload }),
   controller.update)
 
 router.get('/:id/details',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
   controller.details)
 
 router.get('/:id/stats/:n',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
   controller.stats)
 
 router.post('/downloadAnalytics',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   controller.exportData)
 
 router.get('/:id/fetch',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
   controller.fetchChatbot)
 
 router.delete('/:id',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   controller.delete)
 
 router.get('/:id/fetchBackup',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
   controller.fetchBackup)
 
 router.post('/createBackup',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   validate({ body: validationSchema.backupPayload }),
   controller.createBackup)
 
 router.post('/restoreBackup',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   validate({ body: validationSchema.backupPayload }),
   controller.restoreBackup)
 

@@ -13,6 +13,7 @@ const multipartyMiddleware = multiparty()
 
 router.post('/upload',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   auth.doesPlanPermitsThisAction('broadcasts'),
   auth.doesRolePermitsThisAction('broadcastPermission'),
   multipartyMiddleware,
@@ -20,6 +21,7 @@ router.post('/upload',
 
 router.post('/uploadRecording',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   auth.doesPlanPermitsThisAction('broadcasts'),
   auth.doesRolePermitsThisAction('broadcastPermission'),
   multipartyMiddleware,
@@ -27,12 +29,14 @@ router.post('/uploadRecording',
 
 router.get('/delete/:id',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   auth.doesPlanPermitsThisAction('broadcasts'),
   auth.doesRolePermitsThisAction('broadcastPermission'),
   controller.delete)
 
 router.post('/addButton',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   auth.doesPlanPermitsThisAction('broadcasts'),
   auth.doesRolePermitsThisAction('broadcastPermission'),
   validate({body: validationSchema.addButtonPayload}),
@@ -40,6 +44,7 @@ router.post('/addButton',
 
 router.post('/editButton',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   auth.doesPlanPermitsThisAction('broadcasts'),
   auth.doesRolePermitsThisAction('broadcastPermission'),
   validate({body: validationSchema.editButtonPayload}),
@@ -47,18 +52,21 @@ router.post('/editButton',
 
 router.post('/sendConversation',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   auth.doesPlanPermitsThisAction('broadcasts'),
   auth.doesRolePermitsThisAction('broadcastPermission'),
   controller.sendConversation)
 
 router.delete('/deleteButton/:id',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   auth.doesPlanPermitsThisAction('broadcasts'),
   auth.doesRolePermitsThisAction('broadcastPermission'),
   controller.deleteButton)
 
 router.post('/urlMetaData/',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
   controller.urlMetaData)
 
 router.get('/download/:id', controller.download)

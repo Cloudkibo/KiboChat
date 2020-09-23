@@ -12,10 +12,12 @@ const validationSchema = require('./validationSchema')
 
 router.get('/',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
   controller.index)
 
 router.post('/update',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   validate({body: validationSchema.updatePayload}),
   controller.update)
 
