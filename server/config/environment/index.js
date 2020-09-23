@@ -39,9 +39,14 @@ const all = {
     password: process.env.SENDGRID_PASSWORD
   },
   shopify: {
-    app_key: process.env.SHOPIFY_KEY || '10128033d2dc6948f383edf548c2aa87',
+    app_key: process.env.SHOPIFY_KEY || 'test_api_key',
     app_host: 'https://kibochat.cloudkibo.com',
-    app_secret: process.env.SHOPIFY_SECRET || 'f41a001b86c700915c9cedc52b955d35'
+    app_secret: process.env.SHOPIFY_SECRET || 'test_api_secret'
+  },
+  bigcommerce: {
+    app_key: process.env.BIGCOMMERCE_KEY || '5bsotbk9bdq3wwiejhc6y014h1p2tje',
+    app_host: 'https://kibochat.cloudkibo.com',
+    app_secret: process.env.BIGCOMMERCE_SECRET || 'ee31988bcd4facf96a23f5d79aa3848fc5fab62c4ae31fb35125bc98ecb23949'
   }
 }
 

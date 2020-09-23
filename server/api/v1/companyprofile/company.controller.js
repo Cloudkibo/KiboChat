@@ -168,7 +168,7 @@ const _updateUserPlatform = (req, res) => {
         })
         .catch(err => {
           sendErrorResponse(res, 500, '', err)
-        })               
+        })
     }).catch(err => {
       logger.serverLog(TAG, JSON.stringify(err), 'error')
       sendErrorResponse(res, 500, '', err)
@@ -217,7 +217,7 @@ const _updateUser = (data, next) => {
         })
         .catch(err => {
           next(err)
-        })               
+        })
     }).catch(err => {
       logger.serverLog(TAG, JSON.stringify(err), 'error')
     })
@@ -325,7 +325,7 @@ exports.disconnect = function (req, res) {
                 })
                 .catch(err => {
                   sendErrorResponse(res, 500, err)
-                })               
+                })
             }).catch(err => {
               logger.serverLog(TAG, JSON.stringify(err), 'error')
             })
