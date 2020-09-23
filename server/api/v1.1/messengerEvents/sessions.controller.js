@@ -11,7 +11,7 @@ const notificationsUtility = require('../notifications/notifications.utility')
 const { record } = require('../../global/messageStatistics')
 const { sendNotifications } = require('../../global/sendNotification')
 const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('../../global/messageAlerts')
-const { handleTriggerMessage } = require('./chatbotAutomation.controller')
+const { handleTriggerMessage, handleShopifyChatbot } = require('./chatbotAutomation.controller')
 
 exports.index = function (req, res) {
   logger.serverLog(TAG, `payload received in page ${JSON.stringify(req.body.page)}`, 'debug')
@@ -25,10 +25,22 @@ exports.index = function (req, res) {
   let page = req.body.page
   let subscriber = req.body.subscriber
   let event = req.body.event
+  let newSubscriber = req.body.newSubscriber
   utility.callApi(`companyprofile/query`, 'post', { _id: page.companyId })
     .then(company => {
       if (!(company.automated_options === 'DISABLE_CHAT')) {
         if (subscriber.unSubscribedBy !== 'agent') {
+          if (newSubscriber) {
+            require('./../../../config/socketio').sendMessageToClient({
+              room_id: page.companyId,
+              body: {
+                action: 'Messenger_new_subscriber',
+                payload: {
+                  subscriber: subscriber
+                }
+              }
+            })
+          }
           let updatePayload = { last_activity_time: Date.now() }
           if (!event.message.is_echo) {
             if (subscriber.status === 'resolved') {
@@ -38,12 +50,12 @@ exports.index = function (req, res) {
             updatePayload.lastMessagedAt = Date.now()
           }
           if (req.body.pushPendingSessionInfo && JSON.stringify(req.body.pushPendingSessionInfo) === 'true') {
-            pushSessionPendingAlertInStack(company, subscriber, 'messenger')
+            pushSessionPendingAlertInStack(company, subscriber)
           }
-          utility.callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: updatePayload, options: {}})
+          utility.callApi('subscribers/update', 'put', { query: { _id: subscriber._id }, newPayload: updatePayload, options: {} })
             .then(updated => {
               if (!event.message.is_echo) {
-                utility.callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: {$inc: { unreadCount: 1, messagesCount: 1 }}, options: {}})
+                utility.callApi('subscribers/update', 'put', { query: { _id: subscriber._id }, newPayload: { $inc: { unreadCount: 1, messagesCount: 1 } }, options: {} })
                   .then(updated => {
                   })
                   .catch(error => {
@@ -54,10 +66,11 @@ exports.index = function (req, res) {
               if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
                 saveLiveChat(page, subscriber, event)
                 if (event.type !== 'get_started') {
+                  handleShopifyChatbot(event, page, subscriber)
                   handleTriggerMessage(event, page, subscriber)
                 }
                 if (!event.message.is_echo) {
-                  pushUnresolveAlertInStack(company, subscriber, 'messenger')
+                  pushUnresolveAlertInStack(company, subscriber)
                 }
               }
             })
@@ -77,7 +90,7 @@ function saveLiveChat (page, subscriber, event) {
   if (subscriber && !event.message.is_echo) {
     botController.respondUsingBot(page, subscriber, event.message.text)
   }
-  utility.callApi(`webhooks/query`, 'post', {pageId: page.pageId})
+  utility.callApi(`webhooks/query`, 'post', { pageId: page.pageId })
     .then(webhooks => {
       let webhook = webhooks[0]
       if (webhooks.length > 0 && webhook.isEnabled) {
@@ -131,7 +144,7 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
       .then(chat => {
         if (!event.message.is_echo) {
           setTimeout(() => {
-            utility.callApi('subscribers/query', 'post', {_id: subscriber._id})
+            utility.callApi('subscribers/query', 'post', { _id: subscriber._id })
               .then(sub => {
                 let payload = {
                   subscriber_id: sub[0]._id,
@@ -197,9 +210,9 @@ function sendNotification (subscriber, payload, page) {
     action: 'chat_messenger',
     subscriber: subscriber
   }
-  utility.callApi(`companyUser/queryAll`, 'post', {companyId: companyId}, 'accounts')
+  utility.callApi(`companyUser/queryAll`, 'post', { companyId: companyId }, 'accounts')
     .then(companyUsers => {
-      let lastMessageData = sessionLogicLayer.getQueryData('', 'aggregate', {company_id: companyId}, undefined, undefined, undefined, {_id: subscriber._id, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+      let lastMessageData = sessionLogicLayer.getQueryData('', 'aggregate', { company_id: companyId }, undefined, undefined, undefined, { _id: subscriber._id, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' } })
       utility.callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
         .then(gotLastMessage => {
           subscriber.lastPayload = gotLastMessage[0].payload
@@ -214,7 +227,7 @@ function sendNotification (subscriber, payload, page) {
               sendNotifications(title, body, newPayload, companyUsers)
               saveNotifications(subscriber, companyUsers, page)
             } else {
-              utility.callApi(`teams/agents/query`, 'post', {teamId: subscriber.assigned_to.id}, 'accounts')
+              utility.callApi(`teams/agents/query`, 'post', { teamId: subscriber.assigned_to.id }, 'accounts')
                 .then(teamagents => {
                   teamagents = teamagents.map(teamagent => teamagent.agentId._id)
                   companyUsers = companyUsers.filter(companyUser => {
@@ -248,7 +261,7 @@ function saveNotifications (subscriber, companyUsers, page) {
     }
     utility.callApi(`notifications`, 'post', notificationsData, 'kibochat')
       .then(savedNotification => {
-        utility.callApi(`permissions/query`, 'post', {companyId: companyUser.companyId, userId: companyUser.userId._id})
+        utility.callApi(`permissions/query`, 'post', { companyId: companyUser.companyId, userId: companyUser.userId._id })
           .then(userPermission => {
             if (userPermission.length > 0) {
               userPermission = userPermission[0]
@@ -341,7 +354,7 @@ function sendautomatedmsg (req, page) {
                 messageData = {
                   text: 'You have subscribed to our broadcasts. Send "stop" to unsubscribe'
                 }
-                utility.callApi(`subscribers`, 'put', {query: { senderId: req.sender.id }, newPayload: { isSubscribed: true }, options: {}})
+                utility.callApi(`subscribers`, 'put', { query: { senderId: req.sender.id }, newPayload: { isSubscribed: true }, options: {} })
                   .then(updated => {
                   })
                   .catch(error => {
@@ -429,7 +442,7 @@ function sendautomatedmsg (req, page) {
                       })
                     LiveChatDataLayer.createFbMessageObject(chatMessage)
                       .then(chatMessageSaved => {
-                        utility.callApi('subscribers/update', 'put', {query: {_id: subscribers[0]._id}, newPayload: {last_activity_time: Date.now()}, options: {}})
+                        utility.callApi('subscribers/update', 'put', { query: { _id: subscribers[0]._id }, newPayload: { last_activity_time: Date.now() }, options: {} })
                           .then(updated => {
                             logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
                           })

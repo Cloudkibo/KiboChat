@@ -19,7 +19,7 @@ exports.index = function (req, res) {
   } else {
     setTimeout(function () {
       const sender = req.body.entry[0].messaging[0].sender.id
-      utility.callApi('subscribers/query', 'post', {senderId: sender})
+      utility.callApi('subscribers/query', 'post', { senderId: sender })
         .then(subscriberFound => {
           subscriber = subscriberFound[0]
           subscriber.isNewSubscriber = true

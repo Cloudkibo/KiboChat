@@ -1,5 +1,4 @@
 const logger = require('../../components/logger')
-const util = require('util')
 const utility = require('../v1.1/utility')
 const TAG = 'api/global/messageAlerts.js'
 

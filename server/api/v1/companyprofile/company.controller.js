@@ -21,7 +21,18 @@ exports.members = function (req, res) {
 exports.getAutomatedOptions = function (req, res) {
   utility.callApi(`companyprofile/getAutomatedOptions`, 'get', {}, 'accounts', req.headers.authorization)
     .then(payload => {
-      sendSuccessResponse(res, 200, payload)
+      utility.callApi(`user/query`, 'post', {_id: payload.ownerId, connectFacebook: true}, 'accounts', req.headers.authorization)
+        .then(users => {
+          if (users.length > 0) {
+            let user = users[0]
+            payload.facebook = user.facebookInfo
+            sendSuccessResponse(res, 200, payload)
+          } else {
+            sendSuccessResponse(res, 200, payload)
+          }      
+        }).catch(error => {
+          sendErrorResponse(res, 500, `Failed to fetching user details ${JSON.stringify(error)}`)
+        })
     })
     .catch(err => {
       sendErrorResponse(res, 500, `Failed to fetch automated options ${err}`)
@@ -130,13 +141,7 @@ exports.updatePlatform = function (req, res) {
                 if (incomingPhoneNumbers && incomingPhoneNumbers.length > 0) {
                   utility.callApi(`companyprofile/update`, 'put', {query: {_id: companyUser.companyId}, newPayload: {twilio: {accountSID: req.body.twilio.accountSID, authToken: req.body.twilio.authToken}}, options: {}})
                     .then(updatedProfile => {
-                      utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: {platform: 'sms'}, options: {}})
-                        .then(updated => {
-                          sendSuccessResponse(res, 200, updatedProfile)
-                        })
-                        .catch(err => {
-                          sendErrorResponse(res, 500, '', err)
-                        })
+                      _updateUserPlatform(req, res)
                     })
                     .catch(err => {
                       sendErrorResponse(res, 500, '', `Failed to update company profile ${err}`)
@@ -161,6 +166,23 @@ exports.updatePlatform = function (req, res) {
     })
     .catch(error => {
       sendErrorResponse(res, 500, `Failed to company user ${JSON.stringify(error)}`)
+    })
+}
+
+const _updateUserPlatform = (req, res) => {
+  utility.callApi(`companyUser/queryAll`, 'post', {companyId: req.user.companyId}, 'accounts')
+    .then(companyUsers => {
+      let userIds = companyUsers.map(companyUser => companyUser.userId._id)
+      utility.callApi(`user/update`, 'post', {query: {_id: {$in: userIds}}, newPayload: { $set: {platform: 'sms'} }, options: {multi: true}})
+        .then(updatedProfile => {
+          sendSuccessResponse(res, 200, updatedProfile)
+        })
+        .catch(err => {
+          sendErrorResponse(res, 500, '', err)
+        })               
+    }).catch(err => {
+      logger.serverLog(TAG, JSON.stringify(err), 'error')
+      sendErrorResponse(res, 500, '', err)
     })
 }
 const _updateCompanyProfile = (data, next) => {
@@ -197,12 +219,18 @@ const _updateCompanyProfile = (data, next) => {
 }
 
 const _updateUser = (data, next) => {
-  utility.callApi('user/update', 'post', {query: {_id: data.userId}, newPayload: {platform: 'whatsApp'}, options: {}})
-    .then(updated => {
-      next(null, updated)
-    })
-    .catch(err => {
-      next(err)
+  utility.callApi(`companyUser/queryAll`, 'post', {companyId: data.companyId}, 'accounts')
+    .then(companyUsers => {
+      let userIds = companyUsers.map(companyUser => companyUser.userId._id)
+      utility.callApi(`user/update`, 'post', {query: {_id: {$in: userIds}}, newPayload: { $set: {platform: 'whatsApp'} }, options: {multi: true}})
+        .then(data => {
+          next(null, data)
+        })
+        .catch(err => {
+          next(err)
+        })               
+    }).catch(err => {
+      logger.serverLog(TAG, JSON.stringify(err), 'error')
     })
 }
 const _setWebhook = (data, next) => {
@@ -299,14 +327,19 @@ exports.disconnect = function (req, res) {
       let platform = logicLayer.getPlatformForSms(company, req.user)
       utility.callApi(`companyprofile/update`, 'put', {query: {_id: req.user.companyId}, newPayload: updated, options: {}})
         .then(updatedProfile => {
-          utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: {platform: platform}, options: {}})
-            .then(updated => {
-              sendSuccessResponse(res, 200, updatedProfile)
+          utility.callApi(`companyUser/queryAll`, 'post', {companyId: req.user.companyId}, 'accounts')
+            .then(companyUsers => {
+              let userIds = companyUsers.map(companyUser => companyUser.userId._id)
+              utility.callApi(`user/update`, 'post', {query: {_id: {$in: userIds}}, newPayload: { $set: {platform: platform} }, options: {multi: true}})
+                .then(data => {
+                  sendSuccessResponse(res, 200, updatedProfile)
+                })
+                .catch(err => {
+                  sendErrorResponse(res, 500, err)
+                })               
+            }).catch(err => {
+              logger.serverLog(TAG, JSON.stringify(err), 'error')
             })
-            .catch(err => {
-              sendErrorResponse(res, 500, err)
-            })
-          sendSuccessResponse(res, 200, updatedProfile)
         })
         .catch(err => {
           sendErrorResponse(res, 500, `Failed to update company profile ${err}`)
@@ -385,12 +418,18 @@ exports.deleteWhatsAppInfo = function (req, res) {
             },
             function (callback) {
               let platform = logicLayer.getPlatformForWhatsApp(company, req.user)
-              utility.callApi(`user/update`, 'post', {query: {_id: req.user._id}, newPayload: {platform: platform}, options: {}})
-                .then(data => {
-                  callback(null)
-                })
-                .catch(err => {
-                  callback(err)
+              utility.callApi(`companyUser/queryAll`, 'post', {companyId: req.user.companyId}, 'accounts')
+                .then(companyUsers => {
+                  let userIds = companyUsers.map(companyUser => companyUser.userId._id)
+                  utility.callApi(`user/update`, 'post', {query: {_id: {$in: userIds}}, newPayload: { $set: {platform: platform} }, options: {multi: true}})
+                    .then(data => {
+                      callback(null)
+                    })
+                    .catch(err => {
+                      callback(err)
+                    })
+                }).catch(err => {
+                  logger.serverLog(TAG, JSON.stringify(err), 'error')
                 })
             },
             function (callback) {
