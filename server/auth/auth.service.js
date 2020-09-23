@@ -513,6 +513,7 @@ function isSuperUserActingAsCustomer(modeOfAction) {
           return res.status(403)
           .json({status: 'failed', description: `You are not allowed to perform this action`})
         } else {
+          req.superUser = req.user
           req.user = req.actingAsUser
           next()
         }
