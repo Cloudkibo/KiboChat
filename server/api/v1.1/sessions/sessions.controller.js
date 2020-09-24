@@ -32,7 +32,7 @@ exports.fetchOpenSessions = function (req, res) {
         })
     },
     function (callback) {
-      let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId}, undefined, undefined, undefined, {_id: '$subscriber_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+      let lastMessageData = logicLayer.getQueryData('', 'aggregate', { company_id: req.user.companyId }, undefined, undefined, undefined, { _id: '$subscriber_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' } })
       callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
         .then(data => {
           callback(null, data)
@@ -49,7 +49,7 @@ exports.fetchOpenSessions = function (req, res) {
       let sessionsResponse = results[1]
       let lastMessageResponse = results[2]
       let sessions = logicLayer.putLastMessage(lastMessageResponse, sessionsResponse)
-      sendSuccessResponse(res, 200, {openSessions: sessions, count: countResopnse.length > 0 ? countResopnse[0].count : 0})
+      sendSuccessResponse(res, 200, { openSessions: sessions, count: countResopnse.length > 0 ? countResopnse[0].count : 0 })
     }
   })
 }
@@ -77,7 +77,7 @@ exports.fetchResolvedSessions = function (req, res) {
         })
     },
     function (callback) {
-      let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId}, undefined, undefined, undefined, {_id: '$subscriber_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+      let lastMessageData = logicLayer.getQueryData('', 'aggregate', { company_id: req.user.companyId }, undefined, undefined, undefined, { _id: '$subscriber_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' } })
       callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
         .then(data => {
           callback(null, data)
@@ -88,13 +88,13 @@ exports.fetchResolvedSessions = function (req, res) {
     }
   ], 10, function (err, results) {
     if (err) {
-      return res.status(500).json({status: 'failed', payload: err})
+      return res.status(500).json({ status: 'failed', payload: err })
     } else {
       let countResopnse = results[0]
       let sessionsResponse = results[1]
       let lastMessageResponse = results[2]
       let sessions = logicLayer.putLastMessage(lastMessageResponse, sessionsResponse)
-      sendSuccessResponse(res, 200, {closedSessions: sessions, count: countResopnse.length > 0 ? countResopnse[0].count : 0})
+      sendSuccessResponse(res, 200, { closedSessions: sessions, count: countResopnse.length > 0 ? countResopnse[0].count : 0 })
     }
   })
 }
@@ -121,8 +121,8 @@ exports.markread = function (req, res) {
 }
 
 function markreadLocal (req, callback) {
-  let updateData = logicLayer.getUpdateData('updateAll', {subscriber_id: req.params.id}, {status: 'seen'}, false, true)
-  callApi('subscribers/update', 'put', {query: {_id: req.params.id}, newPayload: {unreadCount: 0}, options: {}}, 'accounts', req.headers.authorization)
+  let updateData = logicLayer.getUpdateData('updateAll', { subscriber_id: req.params.id }, { status: 'seen' }, false, true)
+  callApi('subscribers/update', 'put', { query: { _id: req.params.id }, newPayload: { unreadCount: 0 }, options: {} }, 'accounts', req.headers.authorization)
     .then(subscriber => {
       callApi('livechat', 'put', updateData, 'kibochat')
         .then(updated => {
@@ -142,7 +142,7 @@ function markreadFacebook (req, callback) {
     .then(subscriber => {
       const data = {
         messaging_type: 'UPDATE',
-        recipient: {id: subscriber.senderId}, // this is the subscriber id
+        recipient: { id: subscriber.senderId }, // this is the subscriber id
         sender_action: 'mark_seen'
       }
       return needle('post', `https://graph.facebook.com/v6.0/me/messages?access_token=${subscriber.pageId.accessToken}`, data)
@@ -176,7 +176,7 @@ exports.show = function (req, res) {
           })
       },
       function (callback) {
-        let lastMessageData = logicLayer.getQueryData('', 'aggregate', {subscriber_id: req.params.id, company_id: req.user.companyId}, undefined, {_id: -1}, 1, undefined)
+        let lastMessageData = logicLayer.getQueryData('', 'aggregate', { subscriber_id: req.params.id, company_id: req.user.companyId }, undefined, { _id: -1 }, 1, undefined)
         callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
           .then(data => {
             callback(null, data)
@@ -203,7 +203,7 @@ exports.show = function (req, res) {
 }
 
 function _sendNotification (subscriberId, status, companyId, userName) {
-  callApi('subscribers/query', 'post', {_id: subscriberId})
+  callApi('subscribers/query', 'post', { _id: subscriberId })
     .then(gotSubscriber => {
       let subscriber = gotSubscriber[0]
       let newPayload = {
@@ -211,7 +211,7 @@ function _sendNotification (subscriberId, status, companyId, userName) {
         subscriber: subscriber
       }
       if (subscriber.is_assigned) {
-        let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: companyId}, undefined, undefined, undefined, {_id: subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+        let lastMessageData = logicLayer.getQueryData('', 'aggregate', { company_id: companyId }, undefined, undefined, undefined, { _id: subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' } })
         callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
           .then(gotLastMessage => {
             console.log('data in assignAgent', gotLastMessage)
@@ -220,13 +220,13 @@ function _sendNotification (subscriberId, status, companyId, userName) {
             subscriber.lastDateTime = gotLastMessage[0].datetime
             let title = '[' + subscriber.pageId.pageName + ']: ' + subscriber.firstName + ' ' + subscriber.lastName
             let body = `This session has been ${status === 'new' ? 'opened' : 'resolved'} by ${userName}`
-            callApi(`companyUser/queryAll`, 'post', {companyId: companyId}, 'accounts')
+            callApi(`companyUser/queryAll`, 'post', { companyId: companyId }, 'accounts')
               .then(companyUsers => {
                 if (subscriber.assigned_to.type === 'agent') {
                   companyUsers = companyUsers.filter(companyUser => companyUser.userId._id === subscriber.assigned_to.id)
                   sendNotifications(title, body, subscriber, companyUsers)
                 } else {
-                  callApi(`teams/agents/query`, 'post', {teamId: subscriber.assigned_to.id}, 'accounts')
+                  callApi(`teams/agents/query`, 'post', { teamId: subscriber.assigned_to.id }, 'accounts')
                     .then(teamagents => {
                       teamagents = teamagents.map(teamagent => teamagent.agentId._id)
                       companyUsers = companyUsers.filter(companyUser => {
@@ -256,13 +256,20 @@ exports.changeStatus = function (req, res) {
     status: req.body.status
   }
   _sendNotification(req.body._id, req.body.status, req.user.companyId, req.user.name)
-  callApi('subscribers/update', 'put', {query: {_id: req.body._id}, newPayload: {status: req.body.status}, options: {}})
+  callApi('subscribers/update', 'put', { query: { _id: req.body._id }, newPayload: { status: req.body.status }, options: {} })
     .then(updated => {
       if (req.body.status === 'resolved') {
         deleteUnresolvedSessionFromStack(req.body._id)
       } else {
         pushUnresolveAlert(req.user.companyId, req.body._id)
       }
+      console.log('sending session status socket', {
+        room_id: req.user.companyId,
+        body: {
+          action: 'session_status',
+          payload: socketPayload
+        }
+      })
       require('./../../../config/socketio').sendMessageToClient({
         room_id: req.user.companyId,
         body: {
@@ -270,6 +277,7 @@ exports.changeStatus = function (req, res) {
           payload: socketPayload
         }
       })
+      console.log('sent session status socket')
       sendSuccessResponse(res, 200, 'Status has been updated successfully!')
     })
     .catch(err => {
@@ -284,7 +292,7 @@ exports.assignAgent = function (req, res) {
     name: req.body.agentName
   }
   if (req.body.isAssigned) {
-    callApi('subscribers/query', 'post', {_id: req.body.subscriberId})
+    callApi('subscribers/query', 'post', { _id: req.body.subscriberId })
       .then(gotSubscriber => {
         let subscriber = gotSubscriber[0]
         let newPayload = {
@@ -293,9 +301,9 @@ exports.assignAgent = function (req, res) {
         }
         let title = '[' + subscriber.pageId.pageName + ']: ' + subscriber.firstName + ' ' + subscriber.lastName
         let body = 'You have been assigned a session as a agent'
-        callApi(`companyUser/queryAll`, 'post', {userId: req.body.agentId}, 'accounts', req.headers.authorization)
+        callApi(`companyUser/queryAll`, 'post', { userId: req.body.agentId }, 'accounts', req.headers.authorization)
           .then(companyUsers => {
-            let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId}, undefined, undefined, undefined, {_id: req.body.subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+            let lastMessageData = logicLayer.getQueryData('', 'aggregate', { company_id: req.user.companyId }, undefined, undefined, undefined, { _id: req.body.subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' } })
             callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
               .then(gotLastMessage => {
                 console.log('data in assignAgent', gotLastMessage)
@@ -318,8 +326,8 @@ exports.assignAgent = function (req, res) {
     'subscribers/update',
     'put',
     {
-      query: {_id: req.body.subscriberId},
-      newPayload: {assigned_to: assignedTo, is_assigned: req.body.isAssigned},
+      query: { _id: req.body.subscriberId },
+      newPayload: { assigned_to: assignedTo, is_assigned: req.body.isAssigned },
       options: {}
     }
   )
@@ -352,9 +360,9 @@ exports.assignTeam = function (req, res) {
     name: req.body.teamName
   }
   if (req.body.isAssigned) {
-    callApi(`companyUser/queryAll`, 'post', {companyId: req.user.companyId}, 'accounts')
+    callApi(`companyUser/queryAll`, 'post', { companyId: req.user.companyId }, 'accounts')
       .then(companyUsers => {
-        callApi(`teams/agents/query`, 'post', {teamId: req.body.teamId}, 'accounts')
+        callApi(`teams/agents/query`, 'post', { teamId: req.body.teamId }, 'accounts')
           .then(teamagents => {
             teamagents = teamagents.map(teamagent => teamagent.agentId._id)
             companyUsers = companyUsers.filter(companyUser => {
@@ -362,14 +370,14 @@ exports.assignTeam = function (req, res) {
                 return companyUser
               }
             })
-            callApi('subscribers/query', 'post', {_id: req.body.subscriberId})
+            callApi('subscribers/query', 'post', { _id: req.body.subscriberId })
               .then(gotSubscriber => {
                 let subscriber = gotSubscriber[0]
                 let newPayload = {
                   action: 'chat_messenger',
                   subscriber: subscriber
                 }
-                let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId}, undefined, undefined, undefined, {_id: req.body.subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+                let lastMessageData = logicLayer.getQueryData('', 'aggregate', { company_id: req.user.companyId }, undefined, undefined, undefined, { _id: req.body.subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' } })
                 callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
                   .then(gotLastMessage => {
                     console.log('data in assignAgent', gotLastMessage)
@@ -396,8 +404,8 @@ exports.assignTeam = function (req, res) {
     'subscribers/update',
     'put',
     {
-      query: {_id: req.body.subscriberId},
-      newPayload: {assigned_to: assignedTo, is_assigned: req.body.isAssigned},
+      query: { _id: req.body.subscriberId },
+      newPayload: { assigned_to: assignedTo, is_assigned: req.body.isAssigned },
       options: {}
     }
   )
@@ -424,8 +432,8 @@ exports.assignTeam = function (req, res) {
 
 exports.updatePendingResponse = function (req, res) {
   callApi('subscribers/update', 'put', {
-    query: {_id: req.body.id},
-    newPayload: {pendingResponse: req.body.pendingResponse},
+    query: { _id: req.body.id },
+    newPayload: { pendingResponse: req.body.pendingResponse },
     options: {}
   })
     .then(updated => {
@@ -460,7 +468,7 @@ exports.genericFind = function (req, res) {
 }
 
 function pushUnresolveAlert (companyId, subscriberId) {
-  callApi('subscribers/query', 'post', {_id: subscriberId})
+  callApi('subscribers/query', 'post', { _id: subscriberId })
     .then(subscriber => {
       subscriber = subscriber[0]
       callApi(`companyprofile/query`, 'post', { _id: companyId })
