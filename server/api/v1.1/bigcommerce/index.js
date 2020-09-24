@@ -26,3 +26,5 @@ router.get('/fetchStore',
 router.get('/testRoute',
   auth.isAuthenticated(),
   controller.testRoute) // this id will be userid
+
+module.exports = router

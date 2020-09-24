@@ -8,6 +8,7 @@ const { sendOpAlert } = require('../../global/operationalAlert')
 const { facebookApiCaller } = require('../../global/facebookApiCaller')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const shopifyDataLayer = require('../../v1.1/shopify/shopify.datalayer.js')
+const bigCommerceDataLayer = require('../../v1.1/bigcommerce/bigcommerce.datalayer.js')
 
 exports.index = function (req, res) {
   utility.callApi(`user`, 'get', {}, 'accounts', req.headers.authorization)
@@ -27,6 +28,13 @@ exports.index = function (req, res) {
             res.clearCookie('installByShopifyStore')
             res.cookie('shopifySetupState', 'completedAfterLogin')
             saveShopifyIntegration(shop, shopToken, user._id, companyUser.companyId)
+          }
+          // bigcommerce redirect work
+          if (req.headers.cookie && cookie.parse(req.headers.cookie).bigCommerceSetupState) {
+            let bigCommercePayload = JSON.parse(cookie.parse(req.headers.cookie).bigCommerceAuthPayload)
+            res.clearCookie('bigCommerceSetupState')
+            res.clearCookie('bigCommerceAuthPayload')
+            saveBigCommerceIntegration(bigCommercePayload, user._id, companyUser.companyId)
           }
           sendSuccessResponse(res, 200, user)
         }).catch(error => {
@@ -284,7 +292,7 @@ exports.disconnectFacebook = function (req, res) {
             })
             .catch(err => {
               sendErrorResponse(res, 500, err)
-            })               
+            })
         }).catch(err => {
           logger.serverLog(TAG, JSON.stringify(err), 'error')
           sendErrorResponse(res, 500, err)
@@ -327,6 +335,32 @@ function saveShopifyIntegration (shop, shopToken, userId, companyId) {
             logger.serverLog(TAG, 'shopify store integration creation error' + err, 'error')
           })
       }
+    })
+}
+
+function saveBigCommerceIntegration (payload, userId, companyId) {
+  const bigCommercePayload = {
+    userId,
+    companyId,
+    payload,
+    shopToken: payload.access_token
+  }
+  bigCommerceDataLayer.findOneBigCommerceIntegration({ companyId })
+    .then(bigCommerceIntegration => {
+      if (bigCommerceIntegration) {
+        logger.serverLog(TAG, 'bigcommerce integration already exists', 'debug')
+      } else {
+        bigCommerceDataLayer.createBigCommerceIntegration(bigCommercePayload)
+          .then(savedStore => {
+            logger.serverLog(TAG, 'bigcommerce store integration created', 'debug')
+          })
+          .catch(err => {
+            logger.serverLog(TAG, 'bigcommerce store integration creation error' + JSON.stringify(err), 'error')
+          })
+      }
+    })
+    .catch(err => {
+      logger.serverLog(TAG, 'bigcommerce store integration query error' + JSON.stringify(err), 'error')
     })
 }
 

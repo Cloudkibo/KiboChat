@@ -1,33 +1,35 @@
-const Shopify = require('shopify-api-node')
+const BigCommerce = require('node-bigcommerce')
+const config = require('./../../../config/environment/index')
 
 exports.fetchStoreInfo = (credentials) => {
-  const shopify = initShopify(credentials)
+  // const shopify = initBigCommerce(credentials)
   return new Promise(function (resolve, reject) {
-    shopify.shop.get()
-      .then(shop => {
-        console.log(shop)
-        resolve({
-          id: shop.id,
-          name: shop.name,
-          domain: shop.domain,
-          currency: shop.currency
-        })
-      })
-      .catch(err => {
-        reject(err)
-      })
+    resolve('Not implemented')
+    // shopify.shop.get()
+    // .then(shop => {
+    // resolve({
+    // id: shop.id,
+    // name: shop.name,
+    // domain: shop.domain,
+    // currency: shop.currency
+    // })
+    // })
+    // .catch(err => {
+    // reject(err)
+    // })
   })
 }
 
 exports.fetchAllProductCategories = (credentials) => {
-  const shopify = initShopify(credentials)
+  const bigCommerce = initBigCommerce(credentials)
   return new Promise(function (resolve, reject) {
-    shopify.customCollection.list({ limit: 10 })
-      .then(collections => {
-        collections = collections.map(collection => {
-          return { id: collection.id, name: collection.title }
+    bigCommerce.get('/catalog/categories')
+      .then(data => {
+        data = data.data
+        data = data.map(item => {
+          return { id: item.id, name: item.name }
         })
-        resolve(collections)
+        resolve(data)
       })
       .catch(err => {
         reject(err)
@@ -36,20 +38,23 @@ exports.fetchAllProductCategories = (credentials) => {
 }
 
 exports.fetchProductsInThisCategory = (id, credentials) => {
-  const shopify = initShopify(credentials)
+  const bigCommerce = initBigCommerce(credentials)
   return new Promise(function (resolve, reject) {
-    shopify.product.list({ collection_id: id, limit: 10 })
-      .then(products => {
-        products = products.map(product => {
-          return { id: product.id,
-            name: product.title,
-            product_type: product.product_type,
-            vendor: product.vendor,
-            price: product.variants[0].price,
-            image: product.image ? product.image.src : null
+    bigCommerce.get('/catalog/products?limit=10&categories:in=' + id)
+      .then(async data => {
+        data = data.data
+        data = await Promise.all(data.map(async item => {
+          let images = await bigCommerce.get(`/catalog/products/${item.id}/images`)
+          images = images.data
+          return { id: item.id,
+            name: item.name,
+            product_type: item.type,
+            vendor: null,
+            price: item.price,
+            image: images[0].url_standard
           }
-        })
-        resolve(products)
+        }))
+        resolve(data)
       })
       .catch(err => {
         reject(err)
@@ -58,20 +63,23 @@ exports.fetchProductsInThisCategory = (id, credentials) => {
 }
 
 exports.fetchProducts = (credentials) => {
-  const shopify = initShopify(credentials)
+  const bigCommerce = initBigCommerce(credentials)
   return new Promise(function (resolve, reject) {
-    shopify.product.list({ limit: 10 })
-      .then(products => {
-        products = products.map(product => {
-          return { id: product.id,
-            name: product.title,
-            product_type: product.product_type,
-            vendor: product.vendor,
-            price: product.variants[0].price,
-            image: product.image ? product.image.src : null
+    bigCommerce.get('/catalog/products?limit=10')
+      .then(async data => {
+        data = data.data
+        data = await Promise.all(data.map(async item => {
+          let images = await bigCommerce.get(`/catalog/products/${item.id}/images`)
+          images = images.data
+          return { id: item.id,
+            name: item.name,
+            product_type: item.type,
+            vendor: null,
+            price: item.price,
+            image: images[0].url_standard
           }
-        })
-        resolve(products)
+        }))
+        resolve(data)
       })
       .catch(err => {
         reject(err)
@@ -80,33 +88,10 @@ exports.fetchProducts = (credentials) => {
 }
 
 exports.searchProducts = (searchQuery, credentials) => {
-  const shopify = initShopify(credentials)
-  const query = `{
-    products(first: 10, query: "${searchQuery}") {
-      edges {
-        node {
-          id
-          title
-          productType
-          vendor
-          featuredImage {
-            id
-            originalSrc
-          }
-          variants(first: 1) {
-            edges {
-              node {
-                id
-                price
-              }
-            }
-          }
-        }
-      }
-    }
-  }`
+  const shopify = initBigCommerce(credentials)
 
   return new Promise(function (resolve, reject) {
+    const query = 'temp'
     shopify.graphql(query)
       .then(result => {
         let products = result.products.edges
@@ -129,19 +114,22 @@ exports.searchProducts = (searchQuery, credentials) => {
 }
 
 exports.getProductVariants = (id, credentials) => {
-  const shopify = initShopify(credentials)
+  const bigCommerce = initBigCommerce(credentials)
+  const nameReducer = (accumulator, current) => `${accumulator} ${current.label}`
   return new Promise(function (resolve, reject) {
-    shopify.productVariant.list(id, { limit: 10 })
-      .then(products => {
-        products = products.map(product => {
-          return { id: product.id,
-            name: product.title,
-            product_id: product.product_id,
-            price: product.price,
-            inventory_quantity: product.inventory_quantity
+    bigCommerce.get(`/catalog/products/${id}/variants`)
+      .then(data => {
+        data = data.data
+        data = data.map(item => {
+          return { id: item.id,
+            name: item.option_values.reduce(nameReducer, ''),
+            product_id: item.product_id,
+            price: item.price,
+            inventory_quantity: item.inventory_level,
+            image_url: item.image_url
           }
         })
-        resolve(products)
+        resolve(data)
       })
       .catch(err => {
         reject(err)
@@ -150,7 +138,7 @@ exports.getProductVariants = (id, credentials) => {
 }
 
 exports.getOrderStatus = (id, credentials) => {
-  const shopify = initShopify(credentials)
+  const shopify = initBigCommerce(credentials)
   const query = `{
     orders(first: 1, query: "name:#${id}") {
       edges {
@@ -254,7 +242,7 @@ exports.getOrderStatus = (id, credentials) => {
 }
 
 exports.getCustomerUsingId = (id, credentials) => {
-  const shopify = initShopify(credentials)
+  const shopify = initBigCommerce(credentials)
   return new Promise(function (resolve, reject) {
     shopify.customer.get(id, { limit: 10 })
       .then(customer => {
@@ -278,7 +266,7 @@ exports.getCustomerUsingId = (id, credentials) => {
 }
 
 exports.searchCustomerUsingPhone = (phone, credentials) => {
-  const shopify = initShopify(credentials)
+  const shopify = initBigCommerce(credentials)
   return new Promise(function (resolve, reject) {
     shopify.customer.search({ phone, limit: 10 })
       .then(customers => {
@@ -304,7 +292,7 @@ exports.searchCustomerUsingPhone = (phone, credentials) => {
 }
 
 exports.searchCustomerUsingEmail = (email, credentials) => {
-  const shopify = initShopify(credentials)
+  const shopify = initBigCommerce(credentials)
   return new Promise(function (resolve, reject) {
     shopify.customer.search({ email, limit: 10 })
       .then(customers => {
@@ -330,7 +318,7 @@ exports.searchCustomerUsingEmail = (email, credentials) => {
 }
 
 exports.createCustomer = (firstName, lastName, email, credentials) => {
-  const shopify = initShopify(credentials)
+  const shopify = initBigCommerce(credentials)
   return new Promise(function (resolve, reject) {
     shopify.customer.create({ email, first_name: firstName, last_name: lastName })
       .then(customer => {
@@ -343,7 +331,7 @@ exports.createCustomer = (firstName, lastName, email, credentials) => {
 }
 
 exports.findCustomerOrders = (customerId, limit, credentials) => {
-  const shopify = initShopify(credentials)
+  const shopify = initBigCommerce(credentials)
   const query = `{
     customers(first:1, query: "id:${customerId}") {
       edges {
@@ -423,10 +411,9 @@ exports.findCustomerOrders = (customerId, limit, credentials) => {
 //   }
 // ]
 exports.addOrUpdateProductToCart = (customerId, lineItems, cartToken, credentials) => {
-  const shopify = initShopify(credentials)
+  const shopify = initBigCommerce(credentials)
   return new Promise(function (resolve, reject) {
     if (cartToken) {
-      console.log('inside update CART')
       shopify.checkout.update(cartToken, { customer_id: customerId, line_items: lineItems })
         .then(result => {
           resolve(result)
@@ -435,7 +422,6 @@ exports.addOrUpdateProductToCart = (customerId, lineItems, cartToken, credential
           reject(err)
         })
     } else {
-      console.log('inside create CART')
       shopify.checkout.create({ customer_id: customerId, line_items: lineItems })
         .then(result => {
           resolve(result)
@@ -472,7 +458,7 @@ exports.createPermalinkForCart = (customer, lineItems, credentials) => {
 // Address object required as discussed in shopify api
 // https://shopify.dev/docs/admin-api/rest/reference/sales-channels/checkout
 exports.updateBillingAddressOnCart = (billingAddress, cartToken, credentials) => {
-  const shopify = initShopify(credentials)
+  const shopify = initBigCommerce(credentials)
   return new Promise(function (resolve, reject) {
     shopify.checkout.update(cartToken, { billing_address: billingAddress })
       .then(result => {
@@ -487,7 +473,7 @@ exports.updateBillingAddressOnCart = (billingAddress, cartToken, credentials) =>
 // Address object required as discussed in shopify api
 // https://shopify.dev/docs/admin-api/rest/reference/sales-channels/checkout
 exports.updateShippingAddressOnCart = (shippingAddress, cartToken, credentials) => {
-  const shopify = initShopify(credentials)
+  const shopify = initBigCommerce(credentials)
   return new Promise(function (resolve, reject) {
     shopify.checkout.update(cartToken, { shipping_address: shippingAddress })
       .then(result => {
@@ -501,7 +487,7 @@ exports.updateShippingAddressOnCart = (shippingAddress, cartToken, credentials) 
 
 // completing checkout means creating order
 exports.completeCheckout = (cartToken, credentials) => {
-  const shopify = initShopify(credentials)
+  const shopify = initBigCommerce(credentials)
   return new Promise(function (resolve, reject) {
     if (cartToken) {
       shopify.checkout.complete(cartToken)
@@ -518,7 +504,7 @@ exports.completeCheckout = (cartToken, credentials) => {
 }
 
 exports.cancelAnOrder = (orderId, credentials) => {
-  const shopify = initShopify(credentials)
+  const shopify = initBigCommerce(credentials)
   return new Promise(function (resolve, reject) {
     shopify.order.cancel(orderId)
       .then(result => {
@@ -531,7 +517,7 @@ exports.cancelAnOrder = (orderId, credentials) => {
 }
 
 exports.cancelAnOrderWithRefund = (orderId, refundAmount, currency, credentials) => {
-  const shopify = initShopify(credentials)
+  const shopify = initBigCommerce(credentials)
   return new Promise(function (resolve, reject) {
     shopify.order.cancel(orderId, { amount: refundAmount, currency })
       .then(result => {
@@ -544,7 +530,7 @@ exports.cancelAnOrderWithRefund = (orderId, refundAmount, currency, credentials)
 }
 
 exports.viewCart = (id, credentials) => {
-  const shopify = initShopify(credentials)
+  const shopify = initBigCommerce(credentials)
   return new Promise(function (resolve, reject) {
     shopify.checkout.list({ limit: 10 })
       .then(products => {
@@ -568,10 +554,13 @@ exports.viewCart = (id, credentials) => {
   })
 }
 
-function initShopify (credentials) {
-  const shopify = new Shopify({
-    shopName: credentials.shopUrl,
-    accessToken: credentials.shopToken
+function initBigCommerce (credentials) {
+  const bigCommerce = new BigCommerce({
+    clientId: config.bigcommerce.client_id,
+    accessToken: credentials.shopToken,
+    storeHash: credentials.storeHash.split('/')[1],
+    responseType: 'json',
+    apiVersion: 'v3'
   })
-  return shopify
+  return bigCommerce
 }

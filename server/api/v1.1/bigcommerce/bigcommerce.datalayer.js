@@ -1,14 +1,14 @@
 const { callApi } = require('../utility')
 const { accounts } = require('../../global/constants').serverConstants
 
-exports.createShopifyIntegration = (payload) => {
-  return callApi(`shopify`, 'post', payload, accounts)
+exports.createBigCommerceIntegration = (payload) => {
+  return callApi(`bigcommerce`, 'post', payload, accounts)
 }
 
-exports.findOneShopifyIntegration = (match) => {
+exports.findOneBigCommerceIntegration = (match) => {
   let query = {
     purpose: 'findOne',
     match: match
   }
-  return callApi(`shopify/query`, 'post', query, accounts)
+  return callApi(`bigcommerce/query`, 'post', query, accounts)
 }
