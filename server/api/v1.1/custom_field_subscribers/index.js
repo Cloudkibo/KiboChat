@@ -12,11 +12,13 @@ const validationSchema = require('./validationSchema')
 
 router.post('/set_custom_field_value',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   validate({body: validationSchema.setCustomFieldValue}),
   controller.setCustomFieldValue)
 
 router.get('/get_custom_field_subscriber/:subscriberId',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
   controller.getCustomFieldSubscriber
 )
 

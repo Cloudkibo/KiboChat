@@ -21,7 +21,18 @@ exports.members = function (req, res) {
 exports.getAutomatedOptions = function (req, res) {
   utility.callApi(`companyprofile/getAutomatedOptions`, 'get', {}, 'accounts', req.headers.authorization)
     .then(payload => {
-      sendSuccessResponse(res, 200, payload)
+      utility.callApi(`user/query`, 'post', {_id: payload.ownerId, connectFacebook: true}, 'accounts', req.headers.authorization)
+        .then(users => {
+          if (users.length > 0) {
+            let user = users[0]
+            payload.facebook = user.facebookInfo
+            sendSuccessResponse(res, 200, payload)
+          } else {
+            sendSuccessResponse(res, 200, payload)
+          }      
+        }).catch(error => {
+          sendErrorResponse(res, 500, `Failed to fetching user details ${JSON.stringify(error)}`)
+        })
     })
     .catch(err => {
       sendErrorResponse(res, 500, `Failed to fetch automated options ${err}`)

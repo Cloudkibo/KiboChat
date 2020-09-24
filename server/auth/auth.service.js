@@ -51,7 +51,12 @@ function isAuthenticated () {
           .then(result => {
             // logger.serverLog(TAG, `response got ${result}`)
             if (result.status === 'success') {
-              req.user = result.user
+              if (result.actingAsUser) {
+                req.user = result.user
+                req.actingAsUser = result.actingAsUser
+              } else {
+                req.user = result.user
+              }
               next()
             } else {
               return res.status(401)
@@ -113,20 +118,6 @@ function isAuthenticated () {
         user: req.user
       })
       next()
-    })
-}
-
-/**
- * Checks if the user role meets the minimum requirements of the route
- */
-function isAuthorizedSuperUser () {
-  return compose()
-    .use(function meetsRequirements (req, res, next) {
-      if (req.user.isSuperUser) {
-        next()
-      } else {
-        res.send(403)
-      }
     })
 }
 
@@ -381,6 +372,7 @@ function isKiboDash (req, res, next) {
 }
 
 exports.isAuthenticated = isAuthenticated
+exports.isSuperUserActingAsCustomer = isSuperUserActingAsCustomer
 exports.isAuthorizedSuperUser = isAuthorizedSuperUser
 exports.hasRole = hasRole
 exports.hasRequiredPlan = hasRequiredPlan
@@ -526,6 +518,27 @@ function updateUnapprovedPages (facebookPages, user, companyUser) {
   }
 }
 
+/**
+ * Checks if a super user is acting as customer
+ */
+function isSuperUserActingAsCustomer(modeOfAction) {
+  return compose()
+    .use((req, res, next) => {
+      if (req.actingAsUser) {
+        if(modeOfAction === 'write') {
+          return res.status(403)
+          .json({status: 'failed', description: `You are not allowed to perform this action`})
+        } else {
+          req.superUser = req.user
+          req.user = req.actingAsUser
+          next()
+        }
+      } else {
+        next()
+      }
+    })
+}
+
 // eslint-disable-next-line no-unused-vars
 function isAuthorizedKiboAPITrigger (req) {
   const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
@@ -538,3 +551,17 @@ function isAuthorizedKiboAPITrigger (req) {
   if (config.kiboAPIIP.indexOf(ip) > -1) return true
   else return false
 }
+
+function isAuthorizedSuperUser () {
+  return compose()
+    .use(isAuthenticated())
+    .use(function meetsRequirements (req, res, next) {
+      if (req.user.isSuperUser) {
+        next()
+      } else {
+        res.send(403)
+      }
+    })
+}
+
+exports.isAuthorizedSuperUser = isAuthorizedSuperUser
