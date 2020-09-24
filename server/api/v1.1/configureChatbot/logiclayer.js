@@ -4,6 +4,7 @@ exports.preparePayload = function (user, body) {
     userId: user._id,
     chatbotId: `cb-${new Date().getTime()}`,
     title: body.title,
+    startingBlockId: body.startingBlockId,
     published: false
   }
   return payload
