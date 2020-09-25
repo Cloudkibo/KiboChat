@@ -1,5 +1,6 @@
 const providers = require('./constants.js')
 const shopifyProvider = require('./shopifyProvider.js')
+const bigCommerceProvider = require('./bigCommerceProvider.js')
 
 module.exports = class EcommerceProvidersApiLayer {
   constructor (eCommerceProvider, eCommerceProviderCredentials) {
@@ -19,6 +20,15 @@ module.exports = class EcommerceProvidersApiLayer {
       } else {
         throw new Error('Shopify credentials require "shopUrl" and "shopToken" parameters')
       }
+    } else if (provider === providers.bigcommerce) {
+      if (
+        credentials.hasOwnProperty('storeHash') &&
+        credentials.hasOwnProperty('shopToken')
+      ) {
+        return true
+      } else {
+        throw new Error('BigCommerce credentials require "shopToken" parameter')
+      }
     } else if (provider === providers.woocommerce) {
       // TODO Implement this in V2
       throw new Error('WooCommerce is not implemented yet')
@@ -34,12 +44,16 @@ module.exports = class EcommerceProvidersApiLayer {
   fetchAllProductCategories () {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.fetchAllProductCategories(this.eCommerceProviderCredentials)
+    } else if (this.eCommerceProvider === providers.bigcommerce) {
+      return bigCommerceProvider.fetchAllProductCategories(this.eCommerceProviderCredentials)
     }
   }
 
   fetchProducts () {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.fetchProducts(this.eCommerceProviderCredentials)
+    } else if (this.eCommerceProvider === providers.bigcommerce) {
+      return bigCommerceProvider.fetchProducts(this.eCommerceProviderCredentials)
     }
   }
 
@@ -52,12 +66,16 @@ module.exports = class EcommerceProvidersApiLayer {
   fetchProductsInThisCategory (id) {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.fetchProductsInThisCategory(id, this.eCommerceProviderCredentials)
+    } else if (this.eCommerceProvider === providers.bigcommerce) {
+      return bigCommerceProvider.fetchProductsInThisCategory(id, this.eCommerceProviderCredentials)
     }
   }
 
   getVariantsOfSelectedProduct (id) {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.getProductVariants(id, this.eCommerceProviderCredentials)
+    } else if (this.eCommerceProvider === providers.bigcommerce) {
+      return bigCommerceProvider.getProductVariants(id, this.eCommerceProviderCredentials)
     }
   }
 

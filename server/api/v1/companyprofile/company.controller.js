@@ -29,7 +29,7 @@ exports.getAutomatedOptions = function (req, res) {
             sendSuccessResponse(res, 200, payload)
           } else {
             sendSuccessResponse(res, 200, payload)
-          }      
+          }
         }).catch(error => {
           sendErrorResponse(res, 500, `Failed to fetching user details ${JSON.stringify(error)}`)
         })

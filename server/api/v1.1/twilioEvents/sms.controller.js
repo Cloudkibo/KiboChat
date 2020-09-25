@@ -2,7 +2,7 @@ const logger = require('../../../components/logger')
 const TAG = '/api/v1/twilioEvents/controller.js'
 const { callApi } = require('../utility')
 const sessionLogicLayer = require('../smsSessions/smsSessions.logiclayer')
-const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('../../global/messageAlerts')
+const { pushUnresolveAlertInStack } = require('../../global/messageAlerts')
 
 exports.index = function (req, res) {
   res.status(200).json({
