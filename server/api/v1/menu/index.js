@@ -18,7 +18,7 @@ router.get('/',
 
 router.post('/indexByPage',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer('write'),
+  auth.isSuperUserActingAsCustomer(),
   auth.doesPlanPermitsThisAction('menu'),
   auth.doesRolePermitsThisAction('menuPermission'),
   controller.indexByPage)
