@@ -60,6 +60,8 @@ module.exports = class EcommerceProvidersApiLayer {
   searchProducts (query) {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.searchProducts(query, this.eCommerceProviderCredentials)
+    } else if (this.eCommerceProvider === providers.bigcommerce) {
+      return bigCommerceProvider.searchProducts(query, this.eCommerceProviderCredentials)
     }
   }
 
@@ -112,30 +114,40 @@ module.exports = class EcommerceProvidersApiLayer {
   fetchCustomerUsingId (id) {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.getCustomerUsingId(id, this.eCommerceProviderCredentials)
+    } else if (this.eCommerceProvider === providers.bigcommerce) {
+      return bigCommerceProvider.getCustomerUsingId(id, this.eCommerceProviderCredentials)
     }
   }
 
   searchCustomerUsingPhone (phone) {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.searchCustomerUsingPhone(phone, this.eCommerceProviderCredentials)
+    } else if (this.eCommerceProvider === providers.bigcommerce) {
+      return bigCommerceProvider.searchCustomerUsingPhone(phone, this.eCommerceProviderCredentials)
     }
   }
 
   searchCustomerUsingEmail (phone) {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.searchCustomerUsingEmail(phone, this.eCommerceProviderCredentials)
+    } else if (this.eCommerceProvider === providers.bigcommerce) {
+      return bigCommerceProvider.searchCustomerUsingEmail(phone, this.eCommerceProviderCredentials)
     }
   }
 
   createCustomer (firstName, lastName, email) {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.createCustomer(firstName, lastName, email, this.eCommerceProviderCredentials)
+    } else if (this.eCommerceProvider === providers.bigcommerce) {
+      return bigCommerceProvider.createCustomer(firstName, lastName, email, this.eCommerceProviderCredentials)
     }
   }
 
   findCustomerOrders (customerId, limit) {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.findCustomerOrders(customerId, limit, this.eCommerceProviderCredentials)
+    } else if (this.eCommerceProvider === providers.bigcommerce) {
+      return bigCommerceProvider.findCustomerOrders(customerId, limit, this.eCommerceProviderCredentials)
     }
   }
 

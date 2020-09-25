@@ -80,7 +80,7 @@ exports.testRoute = (req, res) => {
         shopToken: bigCommerceIntegration.shopToken,
         storeHash: bigCommerceIntegration.payload.context
       })
-      return bigCommerce.getVariantsOfSelectedProduct(77)
+      return bigCommerce.createCustomer('Baqar', 'Jafri', 'bjafri@yahoo.com')
       // return shopify.createPermalinkForCart({
       // email: 'sojharo@gmail.com',
       // first_name: 'sojharo',
@@ -94,6 +94,7 @@ exports.testRoute = (req, res) => {
       sendSuccessResponse(res, 200, shop)
     })
     .catch(err => {
+      console.log(err)
       sendErrorResponse(res, 500, `Failed to fetch subscribers
       ${JSON.stringify(err)}`)
     })
