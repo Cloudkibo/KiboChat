@@ -88,24 +88,24 @@ exports.fetchProducts = (credentials) => {
 }
 
 exports.searchProducts = (searchQuery, credentials) => {
-  const shopify = initBigCommerce(credentials)
+  const bigCommerce = initBigCommerce(credentials)
 
   return new Promise(function (resolve, reject) {
-    const query = 'temp'
-    shopify.graphql(query)
-      .then(result => {
-        let products = result.products.edges
-        products = products.map(product => {
-          product = product.node
-          return { id: product.id.split('/')[4],
-            name: product.title,
-            product_type: product.productType,
-            vendor: product.vendor,
-            price: product.variants.edges[0].node.price,
-            image: product.featuredImage ? product.featuredImage.originalSrc : null
+    bigCommerce.get(`/catalog/products?limit=10&keyword=${searchQuery}`)
+      .then(async data => {
+        data = data.data
+        data = await Promise.all(data.map(async item => {
+          let images = await bigCommerce.get(`/catalog/products/${item.id}/images`)
+          images = images.data
+          return { id: item.id,
+            name: item.name,
+            product_type: item.type,
+            vendor: null,
+            price: item.price,
+            image: images[0].url_standard
           }
-        })
-        resolve(products)
+        }))
+        resolve(data)
       })
       .catch(err => {
         reject(err)
@@ -242,22 +242,21 @@ exports.getOrderStatus = (id, credentials) => {
 }
 
 exports.getCustomerUsingId = (id, credentials) => {
-  const shopify = initBigCommerce(credentials)
+  const bigCommerce = initBigCommerce(credentials)
   return new Promise(function (resolve, reject) {
-    shopify.customer.get(id, { limit: 10 })
-      .then(customer => {
-        customer = {
-          id: customer.id,
-          email: customer.email,
-          first_name: customer.first_name,
-          last_name: customer.last_name,
-          phone: customer.phone,
-          orders_count: customer.orders_count,
-          total_spent: customer.total_spent,
-          currency: customer.currency,
-          default_address: customer.default_address
-        }
-        resolve(customer)
+    bigCommerce.get('/customers?id:in=' + id)
+      .then(data => {
+        data = data.data
+        data = data.map(item => {
+          return { id: item.id,
+            email: item.email,
+            first_name: item.first_name,
+            last_name: item.last_name,
+            phone: item.phone,
+            default_address: item.addresses
+          }
+        })
+        resolve(data[0])
       })
       .catch(err => {
         reject(err)
@@ -266,50 +265,27 @@ exports.getCustomerUsingId = (id, credentials) => {
 }
 
 exports.searchCustomerUsingPhone = (phone, credentials) => {
-  const shopify = initBigCommerce(credentials)
   return new Promise(function (resolve, reject) {
-    shopify.customer.search({ phone, limit: 10 })
-      .then(customers => {
-        customers = customers.map(customer => {
-          return {
-            id: customer.id,
-            email: customer.email,
-            first_name: customer.first_name,
-            last_name: customer.last_name,
-            phone: customer.phone,
-            orders_count: customer.orders_count,
-            total_spent: customer.total_spent,
-            currency: customer.currency,
-            default_address: customer.default_address
-          }
-        })
-        resolve(customers)
-      })
-      .catch(err => {
-        reject(err)
-      })
+    resolve('Not implemented')
   })
 }
 
 exports.searchCustomerUsingEmail = (email, credentials) => {
-  const shopify = initBigCommerce(credentials)
+  const bigCommerce = initBigCommerce(credentials)
   return new Promise(function (resolve, reject) {
-    shopify.customer.search({ email, limit: 10 })
-      .then(customers => {
-        customers = customers.map(customer => {
-          return {
-            id: customer.id,
-            email: customer.email,
-            first_name: customer.first_name,
-            last_name: customer.last_name,
-            phone: customer.phone,
-            orders_count: customer.orders_count,
-            total_spent: customer.total_spent,
-            currency: customer.currency,
-            default_address: customer.default_address
+    bigCommerce.get('/customers?email:in=' + email)
+      .then(data => {
+        data = data.data
+        data = data.map(item => {
+          return { id: item.id,
+            email: item.email,
+            first_name: item.first_name,
+            last_name: item.last_name,
+            phone: item.phone,
+            default_address: item.addresses
           }
         })
-        resolve(customers)
+        resolve(data)
       })
       .catch(err => {
         reject(err)
@@ -318,11 +294,12 @@ exports.searchCustomerUsingEmail = (email, credentials) => {
 }
 
 exports.createCustomer = (firstName, lastName, email, credentials) => {
-  const shopify = initBigCommerce(credentials)
+  const bigCommerce = initBigCommerce(credentials)
   return new Promise(function (resolve, reject) {
-    shopify.customer.create({ email, first_name: firstName, last_name: lastName })
-      .then(customer => {
-        resolve(customer)
+    bigCommerce.post('/customers', [{ email, last_name: lastName, first_name: firstName }])
+      .then(data => {
+        data = data.data
+        resolve(data)
       })
       .catch(err => {
         reject(err)
@@ -331,67 +308,17 @@ exports.createCustomer = (firstName, lastName, email, credentials) => {
 }
 
 exports.findCustomerOrders = (customerId, limit, credentials) => {
-  const shopify = initBigCommerce(credentials)
-  const query = `{
-    customers(first:1, query: "id:${customerId}") {
-      edges {
-        node {
-          id
-          email
-          firstName
-          lastName
-          phone
-          ordersCount
-          totalSpent
-          orders(first: 10) {
-            edges {
-              node {
-                id
-                name
-                billingAddress {
-                  id
-                  name
-                  phone
-                  city
-                  country
-                  province
-                  address1
-                  address2
-                }
-                confirmed
-                createdAt
-                currencyCode
-                displayFinancialStatus
-                email
-                fulfillments {
-                  id
-                  trackingInfo {
-                    company
-                    number
-                    url
-                  }
-                }
-                phone
-                shippingAddress {
-                  id
-                }
-                displayFulfillmentStatus
-              }
-            }
-          }
-        }
-      }
-    }
-  }`
-
+  const bigCommerce = initBigCommerce(credentials, 'v2')
   return new Promise(function (resolve, reject) {
-    shopify.graphql(query)
-      .then(result => {
-        let customer = result.customers.edges[0].node
-        customer.orders = customer.orders.edges.map(order => {
-          return order.node
+    bigCommerce.get(`/orders?customer_id=${customerId}&limit=${limit}`)
+      .then(data => {
+        let result = { id: customerId }
+        result.orders = data.map(item => {
+          return { id: item.id,
+            name: '#' + item.id
+          }
         })
-        resolve(customer)
+        resolve(result)
       })
       .catch(err => {
         reject(err)
@@ -554,13 +481,13 @@ exports.viewCart = (id, credentials) => {
   })
 }
 
-function initBigCommerce (credentials) {
+function initBigCommerce (credentials, version = 'v3') {
   const bigCommerce = new BigCommerce({
     clientId: config.bigcommerce.client_id,
     accessToken: credentials.shopToken,
     storeHash: credentials.storeHash.split('/')[1],
     responseType: 'json',
-    apiVersion: 'v3'
+    apiVersion: version
   })
   return bigCommerce
 }

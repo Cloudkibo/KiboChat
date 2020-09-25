@@ -349,45 +349,11 @@ exports.findCustomerOrders = (customerId, limit, credentials) => {
       edges {
         node {
           id
-          email
-          firstName
-          lastName
-          phone
-          ordersCount
-          totalSpent
           orders(first: 10) {
             edges {
               node {
                 id
                 name
-                billingAddress {
-                  id
-                  name
-                  phone
-                  city
-                  country
-                  province
-                  address1
-                  address2
-                }
-                confirmed
-                createdAt
-                currencyCode
-                displayFinancialStatus
-                email
-                fulfillments {
-                  id
-                  trackingInfo {
-                    company
-                    number
-                    url
-                  }
-                }
-                phone
-                shippingAddress {
-                  id
-                }
-                displayFulfillmentStatus
               }
             }
           }
