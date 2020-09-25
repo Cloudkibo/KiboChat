@@ -12,19 +12,19 @@ router.post('/',
   validate({ body: validationSchema.createPayload }),
   controller.create)
 
-router.post('/shopifyChatbot',
+router.post('/commerceChatbot',
   auth.isAuthenticated(),
   validate({ body: validationSchema.createPayload }),
-  controller.createShopifyChatbot)
+  controller.createCommerceChatbot)
 
-router.put('/shopifyChatbot',
+router.put('/commerceChatbot',
   auth.isAuthenticated(),
   validate({ body: validationSchema.updatePayload }),
-  controller.updateShopifyChatbot)
+  controller.updateCommerceChatbot)
 
-router.get('/shopifyChatbotTriggers/:chatbotId',
+router.get('/commerceChatbotTriggers/:chatbotId',
   auth.isAuthenticated(),
-  controller.getShopifyChatbotTriggers)
+  controller.getCommerceChatbotTriggers)
 
 router.get('/',
   auth.isAuthenticated(),

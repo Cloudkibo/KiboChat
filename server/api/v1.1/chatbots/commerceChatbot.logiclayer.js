@@ -21,7 +21,7 @@ const {
   UPDATE_CART,
   DEFAULT_TEXT,
   ERROR_INDICATOR
-} = require('./shopifyChatbotConstants')
+} = require('./commerceChatbotConstants')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/whatsAppChatbot/whatsAppChatbot.logiclayer.js'
 const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
@@ -55,6 +55,12 @@ exports.updateFaqsForStartingBlock = async (chatbot) => {
       messageBlockDataLayer.genericUpdateMessageBlock({ uniqueId: chatbot.startingBlockId }, startingBlock)
     }
   }
+}
+
+exports.updateStartingBlock = (chatbot, storeName) => {
+  const startingBlock = messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
+  startingBlock.payload[0].text = `Hi {{user_first_name}}! Welcome to ${storeName} chatbot!\n\n${DEFAULT_TEXT}`
+  messageBlockDataLayer.genericUpdateMessageBlock({ uniqueId: chatbot.startingBlockId }, startingBlock)
 }
 
 exports.getMessageBlocks = (chatbot, storeName) => {

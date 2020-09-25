@@ -1237,12 +1237,11 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
 //   }
 // }
 
-const getWelcomeMessageBlock = async (chatbot, contact, input) => {
-  let welcomeMessage = ''
+const getWelcomeMessageBlock = async (chatbot, contact, ecommerceProvider) => {
   let subscriberLastMessageAt = moment(contact.lastMessagedAt)
   let dateNow = moment()
-
-  welcomeMessage += `${input.charAt(0).toUpperCase() + input.substr(1).toLowerCase()}`
+  let storeInfo = await ecommerceProvider.fetchStoreInfo()
+  let welcomeMessage = 'Hi'
 
   if (contact.name && contact.name !== contact.number) {
     welcomeMessage += ` ${contact.name.split(' ')[0]}!`
@@ -1250,7 +1249,9 @@ const getWelcomeMessageBlock = async (chatbot, contact, input) => {
     welcomeMessage += `!`
   }
   if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1 && contact.lastMessageSentByBot) {
-    welcomeMessage += ` Welcome back!`
+    welcomeMessage += ` Welcome back to ${storeInfo.name}!`
+  } else {
+    welcomeMessage += ` Welcome to  ${storeInfo.name}!`
   }
   let messageBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
   messageBlock.payload[0].text = `${welcomeMessage}\n\n` + messageBlock.payload[0].text
@@ -1280,7 +1281,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
   input = input.toLowerCase()
   if (!contact || !contact.lastMessageSentByBot) {
     if (chatbot.triggers.includes(input)) {
-      return getWelcomeMessageBlock(chatbot, contact, input)
+      return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
     }
   } else {
     let action = null
@@ -1303,7 +1304,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
     } catch (err) {
       logger.serverLog(TAG, `Invalid user input ${input} `, 'info')
       if (chatbot.triggers.includes(input)) {
-        return getWelcomeMessageBlock(chatbot, contact, input)
+        return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
       } else {
         return invalidInput(chatbot, contact.lastMessageSentByBot, `${ERROR_INDICATOR}You entered an invalid response.`)
       }
@@ -1397,7 +1398,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
         return messageBlock
       } catch (err) {
         if (chatbot.triggers.includes(input)) {
-          return getWelcomeMessageBlock(chatbot, contact, input)
+          return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
         } else {
           return invalidInput(chatbot, contact.lastMessageSentByBot, err.message)
         }
