@@ -87,6 +87,8 @@ exports.deleteButton = function (req, res) {
 }
 exports.uploadRecording = function (req, res) {
   console.log('in uploadRecording')
+  console.log('req.files', req.files)
+  console.log('req.files.file', req.files.file)
   const today = new Date()
   const uid = crypto.randomBytes(5).toString('hex')
   const fext = req.files.file.name.split('.')
