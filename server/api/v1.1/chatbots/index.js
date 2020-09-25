@@ -16,16 +16,19 @@ router.post('/',
 
 router.post('/shopifyChatbot',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   validate({ body: validationSchema.createPayload }),
   controller.createShopifyChatbot)
 
 router.put('/shopifyChatbot',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   validate({ body: validationSchema.updatePayload }),
   controller.updateShopifyChatbot)
 
 router.get('/shopifyChatbotTriggers/:chatbotId',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
   controller.getShopifyChatbotTriggers)
 
 router.get('/',
