@@ -44,7 +44,7 @@ const all = {
     app_secret: process.env.SHOPIFY_SECRET || 'test_api_secret'
   },
   bigcommerce: {
-    app_key: process.env.BIGCOMMERCE_KEY || '5bsotbk9bdq3wwiejhc6y014h1p2tje',
+    client_id: process.env.BIGCOMMERCE_CLIENT_ID || '5bsotbk9bdq3wwiejhc6y014h1p2tje',
     app_host: 'https://kibochat.cloudkibo.com',
     app_secret: process.env.BIGCOMMERCE_SECRET || 'ee31988bcd4facf96a23f5d79aa3848fc5fab62c4ae31fb35125bc98ecb23949'
   }
