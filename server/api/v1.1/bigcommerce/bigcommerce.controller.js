@@ -51,9 +51,9 @@ exports.uninstall = (req, res) => {
   })
   try {
     bigCom.verify(req.query['signed_payload'])
-    res.status(200).send({message: 'Success'})
+    res.status(200).send({ message: 'Success' })
   } catch (err) {
-    res.status(501).send({message: `Internal Server Error ${JSON.stringify(err)}`})
+    res.status(501).send({ message: `Internal Server Error ${JSON.stringify(err)}` })
   }
 }
 

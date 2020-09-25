@@ -13,8 +13,9 @@ const bigCommerceDataLayer = require('../../v1.1/bigcommerce/bigcommerce.datalay
 exports.index = function (req, res) {
   utility.callApi(`user`, 'get', {}, 'accounts', req.headers.authorization)
     .then(user => {
-      utility.callApi(`companyUser/query`, 'post', {userId: user._id}, 'accounts', req.headers.authorization)
+      utility.callApi(`companyUser/query`, 'post', { userId: user._id }, 'accounts', req.headers.authorization)
         .then(companyUser => {
+          var superUser = {}
           user.expoListToken = companyUser.expoListToken
           res.cookie('userId', user._id)
           res.cookie('companyId', companyUser.companyId)
@@ -36,9 +37,15 @@ exports.index = function (req, res) {
             res.clearCookie('bigCommerceAuthPayload')
             saveBigCommerceIntegration(bigCommercePayload, user._id, companyUser.companyId)
           }
-          sendSuccessResponse(res, 200, user)
+          if (req.superUser) {
+            superUser = req.superUser
+          } else {
+            superUser = null
+          }
+          sendSuccessResponse(res, 200, { user, superUser })
         }).catch(error => {
           logger.serverLog(TAG, `Error while fetching companyUser details ${util.inspect(error)}`, 'error')
+
           sendErrorResponse(res, 500, `Failed to fetching companyUser details ${JSON.stringify(error)}`)
         })
     }).catch(error => {
@@ -96,7 +103,7 @@ exports.updateMode = function (req, res) {
 }
 
 exports.fbAppId = function (req, res) {
-  return res.status(200).json({status: 'success', payload: config.facebook.clientID})
+  return res.status(200).json({ status: 'success', payload: config.facebook.clientID })
 }
 
 exports.authenticatePassword = function (req, res) {
@@ -165,7 +172,7 @@ exports.cancelDeletion = function (req, res) {
 
 exports.validateFacebookConnected = function (req, res) {
   let companyAggregation = [
-    {'$match': {_id: req.user.companyId}},
+    { '$match': { _id: req.user.companyId } },
     { '$lookup': { from: 'users', localField: 'ownerId', foreignField: '_id', as: 'user' } },
     { '$unwind': '$user' }
   ]
@@ -209,7 +216,7 @@ exports.validateUserAccessToken = function (req, res) {
       })
   } else {
     let companyAggregation = [
-      {'$match': {_id: req.user.companyId}},
+      { '$match': { _id: req.user.companyId } },
       { '$lookup': { from: 'users', localField: 'ownerId', foreignField: '_id', as: 'user' } },
       { '$unwind': '$user' }
     ]
@@ -260,7 +267,7 @@ function _checkAcessTokenFromFb (facebookInfo, req) {
 
 exports.updateShowIntegrations = function (req, res) {
   let showIntegrations = req.body.showIntegrations
-  utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: {showIntegrations}, options: {}})
+  utility.callApi('user/update', 'post', { query: { _id: req.user._id }, newPayload: { showIntegrations }, options: {} })
     .then(updated => {
       return res.status(200).json({
         status: 'success',
@@ -268,14 +275,14 @@ exports.updateShowIntegrations = function (req, res) {
       })
     })
     .catch(err => {
-      res.status(500).json({status: 'failed', payload: err})
+      res.status(500).json({ status: 'failed', payload: err })
     })
 }
 
 exports.disconnectFacebook = function (req, res) {
-  utility.callApi(`companyProfile/query`, 'post', {ownerId: req.user._id})
+  utility.callApi(`companyProfile/query`, 'post', { ownerId: req.user._id })
     .then(companyProfile => {
-      let updated = {connectFacebook: false}
+      let updated = { connectFacebook: false }
       if (companyProfile.twilio) {
         updated.platform = 'sms'
       } else if (companyProfile.whatsApp && !(companyProfile.whatsApp.connected === false)) {
@@ -283,10 +290,10 @@ exports.disconnectFacebook = function (req, res) {
       } else {
         updated.platform = ''
       }
-      utility.callApi(`companyUser/queryAll`, 'post', {companyId: req.user.companyId}, 'accounts')
+      utility.callApi(`companyUser/queryAll`, 'post', { companyId: req.user.companyId }, 'accounts')
         .then(companyUsers => {
           let userIds = companyUsers.map(companyUser => companyUser.userId._id)
-          utility.callApi(`user/update`, 'post', {query: {_id: {$in: userIds}}, newPayload: updated, options: {multi: true}})
+          utility.callApi(`user/update`, 'post', { query: { _id: { $in: userIds } }, newPayload: updated, options: { multi: true } })
             .then(data => {
               sendSuccessResponse(res, 200, 'Updated Successfully!')
             })
@@ -299,11 +306,11 @@ exports.disconnectFacebook = function (req, res) {
         })
     })
     .catch(err => {
-      res.status(500).json({status: 'failed', payload: err})
+      res.status(500).json({ status: 'failed', payload: err })
     })
 }
 exports.updatePlatform = function (req, res) {
-  utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: {platform: req.body.platform}, options: {}})
+  utility.callApi('user/update', 'post', { query: { _id: req.user._id }, newPayload: { platform: req.body.platform }, options: {} })
     .then(updated => {
       return res.status(200).json({
         status: 'success',
@@ -311,7 +318,7 @@ exports.updatePlatform = function (req, res) {
       })
     })
     .catch(err => {
-      res.status(500).json({status: 'failed', payload: err})
+      res.status(500).json({ status: 'failed', payload: err })
     })
 }
 
@@ -373,7 +380,7 @@ exports.logout = function (req, res) {
       })
     }).catch(err => {
       console.log('error', err)
-      res.status(500).json({status: 'failed', payload: `failed to sendLogoutEvent ${err}`})
+      res.status(500).json({ status: 'failed', payload: `failed to sendLogoutEvent ${err}` })
     })
 }
 

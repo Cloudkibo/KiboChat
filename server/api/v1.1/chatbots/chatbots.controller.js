@@ -376,9 +376,9 @@ exports.updateCommerceChatbot = async (req, res) => {
       })
     } else if (req.body.storeType === commerceConstants.bigcommerce) {
       const bigCommerceIntegration = await bigCommerceDataLayer.findOneBigCommerceIntegration({ companyId: req.user.companyId })
-      ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
-        shopUrl: bigCommerceIntegration.shopUrl,
-        shopToken: bigCommerceIntegration.shopToken
+      ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
+        shopToken: bigCommerceIntegration.shopToken,
+        storeHash: bigCommerceIntegration.payload.context
       })
     }
     if (ecommerceProvider) {
@@ -399,9 +399,9 @@ exports.createCommerceChatbot = async (req, res) => {
       })
     } else if (req.body.storeType === commerceConstants.bigcommerce) {
       const bigCommerceIntegration = await bigCommerceDataLayer.findOneBigCommerceIntegration({ companyId: req.user.companyId })
-      ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
-        shopUrl: bigCommerceIntegration.shopUrl,
-        shopToken: bigCommerceIntegration.shopToken
+      ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
+        shopToken: bigCommerceIntegration.shopToken,
+        storeHash: bigCommerceIntegration.payload.context
       })
     }
     if (ecommerceProvider) {
