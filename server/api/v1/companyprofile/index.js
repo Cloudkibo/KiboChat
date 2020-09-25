@@ -77,7 +77,7 @@ router.post('/disconnect',
 
 router.post('/fetchValidCallerIds',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer(),
+  auth.isSuperUserActingAsCustomer('write'),
   validate({body: validationSchema.fetchValidCallerIds}),
   controller.fetchValidCallerIds)
 
