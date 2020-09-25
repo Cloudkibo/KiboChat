@@ -4,6 +4,7 @@ exports.preparePayload = function (user, body) {
     userId: user._id,
     chatbotId: `cb-${new Date().getTime()}`,
     title: body.title,
+    startingBlockId: body.startingBlockId,
     published: false
   }
   return payload
@@ -16,9 +17,9 @@ exports.prepareBlockPayload = function (user, body) {
     userId: user._id,
     chatbotId: body.chatbotId,
     uniqueId: body.uniqueId,
-    payload: JSON.stringify(body.payload),
-    options: JSON.stringify(body.options),
-    triggers: JSON.stringify(body.triggers)
+    payload: body.payload,
+    options: body.options,
+    triggers: body.triggers
   }
   return payload
 }
