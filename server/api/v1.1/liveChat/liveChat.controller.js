@@ -153,19 +153,19 @@ exports.create = function (req, res) {
           _removeSubsWaitingForUserInput(req.body.subscriber_id)
           logger.serverLog(TAG, `updated subscriber again ${updated}`)
           fbMessageObject.datetime = new Date()
-          require('./../../../config/socketio').sendMessageToClient({
-            room_id: req.user.companyId,
-            body: {
-              action: 'agent_replied',
-              payload: {
-                subscriber_id: req.body.subscriber_id,
-                message: fbMessageObject,
-                action: 'agent_replied',
-                user_id: req.user._id,
-                user_name: req.user.name
-              }
-            }
-          })
+          // require('./../../../config/socketio').sendMessageToClient({
+          //   room_id: req.user.companyId,
+          //   body: {
+          //     action: 'agent_replied',
+          //     payload: {
+          //       subscriber_id: req.body.subscriber_id,
+          //       message: fbMessageObject,
+          //       action: 'agent_replied',
+          //       user_id: req.user._id,
+          //       user_name: req.user.name
+          //     }
+          //   }
+          // })
           callback(null, updated)
         })
         .catch(err => {
@@ -209,7 +209,8 @@ exports.create = function (req, res) {
                 true
               )
               logger.serverLog(TAG, `got subscriber ${subscriber}`)
-              record('messengerChatOutGoing')
+              // record('messengerChatOutGoing')
+              logger.serverLog(TAG, `After got subscriber ${subscriber}`)
               request(
                 {
                   'method': 'POST',
@@ -248,6 +249,19 @@ exports.create = function (req, res) {
       return res.status(500).json({status: 'failed', payload: err})
     } else {
       let fbMessageObject = results[0]
+      require('./../../../config/socketio').sendMessageToClient({
+        room_id: req.user.companyId,
+        body: {
+          action: 'agent_replied',
+          payload: {
+            subscriber_id: req.body.subscriber_id,
+            message: fbMessageObject,
+            action: 'agent_replied',
+            user_id: req.user._id,
+            user_name: req.user.name
+          }
+        }
+      })
       let subscriber = results[4]
       let botId = ''
       async.parallelLimit([
