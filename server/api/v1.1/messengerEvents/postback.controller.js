@@ -1,7 +1,7 @@
 const utility = require('../utility')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1/messengerEvents/postback.controller'
-const { handleShopifyChatbot } = require('./chatbotAutomation.controller')
+const { handleCommerceChatbot } = require('./chatbotAutomation.controller')
 
 exports.index = async (req, res) => {
   res.status(200).json({
@@ -19,7 +19,7 @@ exports.index = async (req, res) => {
     const page = pages[0]
     const subscribers = await utility.callApi('subscribers/query', 'post', { senderId: subscriberId, pageId: page._id })
     const subscriber = subscribers[0]
-    handleShopifyChatbot(messengerPayload, page, subscriber)
+    handleCommerceChatbot(messengerPayload, page, subscriber)
   } catch (err) {
     logger.serverLog(TAG, `error in postback ${err}`, 'error')
   }
