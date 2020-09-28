@@ -138,102 +138,52 @@ exports.getProductVariants = (id, credentials) => {
 }
 
 exports.getOrderStatus = (id, credentials) => {
-  const shopify = initBigCommerce(credentials)
-  const query = `{
-    orders(first: 1, query: "name:#${id}") {
-      edges {
-        node {
-          id
-          name
-          billingAddress {
-            id
-            name
-            phone
-            city
-            country
-            province
-            address1
-            address2
-          }
-          confirmed
-          createdAt
-          currencyCode
-          customer {
-            id
-            email
-            firstName
-            lastName
-            phone
-            ordersCount
-            totalSpent
-          }
-          displayFinancialStatus
-          email
-          fulfillments {
-            id
-            trackingInfo {
-              company
-              number
-              url
-            }
-          }
-          phone
-          shippingAddress {
-            id
-            name
-            phone
-            city
-            country
-            province
-            address1
-            address2
-          }
-          displayFulfillmentStatus
-          lineItems(first: 100) {
-            edges {
-              node {
-                id
-                variant {
-                  id
-                }
-                variantTitle
-                quantity
-                sku
-                vendor
-                product {
-                  id
-                }
-                name
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  `
-
+  const bigCommerce = initBigCommerce(credentials, 'v2')
   return new Promise(function (resolve, reject) {
-    shopify.graphql(query)
-      .then(result => {
-        let order = result.orders.edges[0].node
-        order = {
-          ...order,
-          lineItems: order.lineItems.edges.map(lineItem => {
-            return {
-              id: lineItem.node.id,
-              variantId: lineItem.node.variant,
-              title: lineItem.node.title,
-              quantity: lineItem.node.quantity,
-              sku: lineItem.node.sku,
-              variant_title: lineItem.node.variant_title,
-              vendor: lineItem.node.vendor,
-              product: lineItem.node.product,
-              name: lineItem.node.name
-            }
-          })
+    bigCommerce.get(`/orders/${id}`)
+      .then(data => {
+        let temp = {
+          id: data.id,
+          name: `#${data.id}`,
+          billingAddress: {
+            name: `${data.billing_address.first_name} ${data.billing_address.last_name}`,
+            phone: data.billing_address.phone,
+            city: data.billing_address.city,
+            country: data.billing_address.country,
+            province: data.billing_address.state,
+            address1: data.billing_address.street_1,
+            address2: data.billing_address.street_2,
+            email: data.billing_address.email
+          },
+          createdAt: data.date_created,
+          currencyCode: data.currency_code,
+          displayFinancialStatus: data.payment_status,
+          email: data.billing_address.email,
+          shippingAddress: data.shipping_addresses,
+          displayFulfillmentStatus: data.status
         }
-        resolve(order)
+        bigCommerce.get(data.products.resource)
+          .then(items => {
+            temp.lineItems = items.map(item => {
+              return {
+                id: item.id,
+                variantId: {
+                  id: item.variant_id
+                },
+                sku: item.sku,
+                quantity: item.quantity,
+                vendor: null,
+                name: item.name,
+                product: {
+                  id: item.product_id
+                }
+              }
+            })
+            resolve(temp)
+          })
+          .catch(err => {
+            reject(err)
+          })
       })
       .catch(err => {
         reject(err)
@@ -326,37 +276,42 @@ exports.findCustomerOrders = (customerId, limit, credentials) => {
   })
 }
 
-// when creating a new cart, the cartToken provided here
-// will be null. once the cart is created, we will get cart
-// token from shopify, so this is used to create or update
-// a cart
 // lineItems will be array like
-// [
-//   {
-//     "variant_id": 39072856,
-//     "quantity": 5
-//   }
-// ]
-exports.addOrUpdateProductToCart = (customerId, lineItems, cartToken, credentials) => {
-  const shopify = initBigCommerce(credentials)
+// "line_items": [
+//     {
+//       "quantity": 2,
+//       "product_id": 107,
+//       "variant_id": 185 // (optional)
+//     }
+//   ]
+exports.createCart = (customerId, lineItems, credentials) => {
+  const bigCommerce = initBigCommerce(credentials)
   return new Promise(function (resolve, reject) {
-    if (cartToken) {
-      shopify.checkout.update(cartToken, { customer_id: customerId, line_items: lineItems })
-        .then(result => {
-          resolve(result)
-        })
-        .catch(err => {
-          reject(err)
-        })
-    } else {
-      shopify.checkout.create({ customer_id: customerId, line_items: lineItems })
-        .then(result => {
-          resolve(result)
-        })
-        .catch(err => {
-          reject(err)
-        })
+    let payload = {
+      customer_id: customerId,
+      line_items: lineItems
     }
+    bigCommerce.post('/carts', payload)
+      .then(result => {
+        result = result.data
+        resolve(result)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
+exports.viewCart = (cartId, credentials) => {
+  const bigCommerce = initBigCommerce(credentials)
+  return new Promise(function (resolve, reject) {
+    bigCommerce.get(`/carts/${cartId}`)
+      .then(result => {
+        resolve(result)
+      })
+      .catch(err => {
+        reject(err)
+      })
   })
 }
 
@@ -449,31 +404,6 @@ exports.cancelAnOrderWithRefund = (orderId, refundAmount, currency, credentials)
     shopify.order.cancel(orderId, { amount: refundAmount, currency })
       .then(result => {
         resolve(result)
-      })
-      .catch(err => {
-        reject(err)
-      })
-  })
-}
-
-exports.viewCart = (id, credentials) => {
-  const shopify = initBigCommerce(credentials)
-  return new Promise(function (resolve, reject) {
-    shopify.checkout.list({ limit: 10 })
-      .then(products => {
-        // products = products.map(product => {
-        // return { id: product.id,
-        // name: product.title,
-        // product_id: product.product_id,
-        // price: product.price,
-        // option1: product.option1,
-        // option2: product.option2,
-        // option3: product.option3,
-        // weight: product.weight,
-        // weight_unit: product.weight_unit
-        // }
-        // })
-        resolve(products)
       })
       .catch(err => {
         reject(err)

@@ -105,9 +105,27 @@ module.exports = class EcommerceProvidersApiLayer {
     }
   }
 
+  createCart (customerId, lineItems) {
+    if (this.eCommerceProvider === providers.shopify) {
+      // TODO Implement when we apply for Sales API on shopify
+    } else if (this.eCommerceProvider === providers.bigcommerce) {
+      return bigCommerceProvider.createCart(customerId, lineItems, this.eCommerceProviderCredentials)
+    }
+  }
+
+  viewCart (cartId) {
+    if (this.eCommerceProvider === providers.shopify) {
+      // TODO Implement when we apply for Sales API on shopify
+    } else if (this.eCommerceProvider === providers.bigcommerce) {
+      return bigCommerceProvider.viewCart(cartId, this.eCommerceProviderCredentials)
+    }
+  }
+
   checkOrderStatus (id) {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.getOrderStatus(id, this.eCommerceProviderCredentials)
+    } else if (this.eCommerceProvider === providers.bigcommerce) {
+      return bigCommerceProvider.getOrderStatus(id, this.eCommerceProviderCredentials)
     }
   }
 
@@ -148,12 +166,6 @@ module.exports = class EcommerceProvidersApiLayer {
       return shopifyProvider.findCustomerOrders(customerId, limit, this.eCommerceProviderCredentials)
     } else if (this.eCommerceProvider === providers.bigcommerce) {
       return bigCommerceProvider.findCustomerOrders(customerId, limit, this.eCommerceProviderCredentials)
-    }
-  }
-
-  addOrUpdateProductToCart (customerId, lineItems, cartToken) {
-    if (this.eCommerceProvider === providers.shopify) {
-      return shopifyProvider.addOrUpdateProductToCart(customerId, lineItems, cartToken, this.eCommerceProviderCredentials)
     }
   }
 
