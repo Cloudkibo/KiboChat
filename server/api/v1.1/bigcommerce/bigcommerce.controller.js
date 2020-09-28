@@ -80,15 +80,16 @@ exports.testRoute = (req, res) => {
         shopToken: bigCommerceIntegration.shopToken,
         storeHash: bigCommerceIntegration.payload.context
       })
-      return bigCommerce.createCustomer('Baqar', 'Jafri', 'bjafri@yahoo.com')
-      // return shopify.createPermalinkForCart({
-      // email: 'sojharo@gmail.com',
-      // first_name: 'sojharo',
-      // last_name: 'mangi'},
-      // [{
-      // variant_id: 32734085808191,
-      // quantity: 1
-      // }])
+      return bigCommerce.viewCart('78edeeeb-3504-41ee-86e5-72eb7b8e686a')
+      // return bigCommerce.createCart(
+      //   // created with id 78edeeeb-3504-41ee-86e5-72eb7b8e686a
+      //   1,
+      //   [{
+      //     product_id: 77,
+      //     quantity: 1,
+      //     variant_id: 1
+      //   }]
+      // )
     })
     .then(shop => {
       sendSuccessResponse(res, 200, shop)
