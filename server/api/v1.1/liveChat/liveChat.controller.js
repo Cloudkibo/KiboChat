@@ -153,7 +153,6 @@ exports.create = function (req, res) {
           _removeSubsWaitingForUserInput(req.body.subscriber_id)
           logger.serverLog(TAG, `updated subscriber again ${updated}`)
           fbMessageObject.datetime = new Date()
-          console.log('req.body_id', req.body_id)
           fbMessageObject._id = req.body._id
           require('./../../../config/socketio').sendMessageToClient({
             room_id: req.user.companyId,
@@ -211,7 +210,7 @@ exports.create = function (req, res) {
                 true
               )
               logger.serverLog(TAG, `got subscriber ${subscriber}`)
-              // record('messengerChatOutGoing')
+              record('messengerChatOutGoing')
               request(
                 {
                   'method': 'POST',
