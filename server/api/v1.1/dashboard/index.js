@@ -40,6 +40,7 @@ router.get('/:id',
 
 router.get('/graphData/:days',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
   auth.doesPlanPermitsThisAction('broadcasts'),
   auth.isUserAllowedToPerformThisAction('view_broadcasts'),
   controller.graphData)
