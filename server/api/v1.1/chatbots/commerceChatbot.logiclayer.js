@@ -1031,7 +1031,7 @@ const updateSubscriber = (query, newPayload, options) => {
 const getCheckoutEmailBlock = async (chatbot, contact, backId, newEmail) => {
   try {
     let messageBlock = null
-    if (!newEmail && contact.shopifyCustomer && contact.shopifyCustomer.email) {
+    if (!newEmail && contact.commerceCustomer && contact.commerceCustomer.email) {
       messageBlock = {
         module: {
           id: chatbot._id,
@@ -1041,7 +1041,7 @@ const getCheckoutEmailBlock = async (chatbot, contact, backId, newEmail) => {
         uniqueId: '' + new Date().getTime(),
         payload: [
           {
-            text: `Would you like to use ${contact.shopifyCustomer.email} as your email?`,
+            text: `Would you like to use ${contact.commerceCustomer.email} as your email?`,
             componentType: 'text',
             quickReplies: [
               {
@@ -1129,21 +1129,21 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
       companyId: chatbot.companyId
     }
 
-    let shopifyCustomer = null
+    let commerceCustomer = null
     if (newEmail) {
-      shopifyCustomer = await EcommerceProvider.searchCustomerUsingEmail(newEmail)
-      if (shopifyCustomer.length === 0) {
-        shopifyCustomer = await EcommerceProvider.createCustomer('', '', newEmail)
+      commerceCustomer = await EcommerceProvider.searchCustomerUsingEmail(newEmail)
+      if (commerceCustomer.length === 0) {
+        commerceCustomer = await EcommerceProvider.createCustomer('', '', newEmail)
       } else {
-        shopifyCustomer = shopifyCustomer[0]
+        commerceCustomer = commerceCustomer[0]
       }
-      logger.serverLog(TAG, `shopifyCustomer ${JSON.stringify(shopifyCustomer)}`, 'info')
-      updateSubscriber({ _id: contact._id }, { shopifyCustomer, shoppingCart: [] }, {})
+      logger.serverLog(TAG, `commerceCustomer ${JSON.stringify(commerceCustomer)}`, 'info')
+      updateSubscriber({ _id: contact._id }, { commerceCustomer, shoppingCart: [] }, {})
     } else {
-      shopifyCustomer = contact.shopifyCustomer
+      commerceCustomer = contact.commerceCustomer
       updateSubscriber({ _id: contact._id }, { shoppingCart: [] }, null, {})
     }
-    let checkoutLink = EcommerceProvider.createPermalinkForCart(shopifyCustomer, contact.shoppingCart)
+    let checkoutLink = EcommerceProvider.createPermalinkForCart(commerceCustomer, contact.shoppingCart)
 
     messageBlock.payload[0].buttons = [{
       type: 'web_url',
@@ -1177,8 +1177,8 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
       companyId: chatbot.companyId
     }
     let recentOrders = []
-    if (contact.shopifyCustomer) {
-      recentOrders = await EcommerceProvider.findCustomerOrders(contact.shopifyCustomer.id, 9)
+    if (contact.commerceCustomer) {
+      recentOrders = await EcommerceProvider.findCustomerOrders(contact.commerceCustomer.id, 9)
       recentOrders = recentOrders.orders
       if (recentOrders.length > 0) {
         messageBlock.payload[0].text = 'Here are your recently placed orders. Select an order to view its status:'
