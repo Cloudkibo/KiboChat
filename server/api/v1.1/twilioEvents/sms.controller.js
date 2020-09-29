@@ -49,7 +49,7 @@ exports.index = function (req, res) {
                         }
                       }
                     })
-                    chatbotResponder.respondUsingChatbot('sms', 'twilio', company._id)
+                    chatbotResponder.respondUsingChatbot('sms', 'twilio', {...company, number: req.body.To}, req.body.Body, contact)
                     _sendNotification(contact, contact.companyId)
                     updateContact(contact._id, {last_activity_time: Date.now(), lastMessagedAt: Date.now(), hasChat: true, pendingResponse: true, status: 'new'})
                     updateContact(contact._id, {$inc: { unreadCount: 1, messagesCount: 1 }})
