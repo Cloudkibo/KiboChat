@@ -1,19 +1,49 @@
 const chatbotDatalayer = require('../api/v1.1/configureChatbot/datalayer')
 const logger = require('../components/logger')
 const TAG = '/chatbotResponder/index.js'
+const { smsMapper } = require('../smsMapper')
+const { ActionTypes } = require('../smsMapper/constants')
+const { callApi } = require('../api/v1.1/utility')
 
-exports.respondUsingChatbot = (platform, provider, companyId, message) => {
-  chatbotDatalayer.fetchChatbotRecords({companyId})
+exports.respondUsingChatbot = (platform, provider, company, message, contact) => {
+  chatbotDatalayer.fetchChatbotRecords({companyId: company._id, published: true})
     .then(chatbots => {
       const chatbot = chatbots[0]
-      if (chatbot && chatbot.published) {
-        if (chatbot.startingBlockId) {
-          let userText = message.toLowerCase().trim()
-          chatbotDatalayer.fetchChatbotBlockRecords({
-            companyId,
-            chatbotId: chatbot.chatbotId,
-            uniqueId: chatbot.startingBlockId
-          })
+      const userText = message.toLowerCase().trim()
+      if (chatbot) {
+        if (contact.chatbotContext) {
+          _handleUserInput(userText, contact.chatbotContext)
+            .then(result => {
+              if (result.status === 'success') {
+                _respond(platform, provider, company, contact, {uniqueId: result.payload})
+              } else {
+                smsMapper(provider, ActionTypes.SEND_TEXT_MESSAGE, {text: result.description, subscriber: contact, company})
+                  .then(sent => {
+                    logger.serverLog(TAG, 'chatbot fallback reply sent', 'debug')
+                  })
+                  .catch(err => {
+                    logger.serverLog(TAG, err, 'error')
+                  })
+              }
+            })
+            .catch(err => {
+              logger.serverLog(TAG, err, 'error')
+            })
+        } else if (chatbot.startingBlockId) {
+          _respond(
+            platform,
+            provider,
+            company,
+            contact,
+            {
+              uniqueId: chatbot.startingBlockId,
+              '$contains': {
+                type: 'array',
+                field: 'triggers',
+                value: userText
+              }
+            }
+          )
         } else {
           logger.serverLog(TAG, 'chatbot startingBlockId is not set', 'error')
         }
@@ -24,4 +54,59 @@ exports.respondUsingChatbot = (platform, provider, companyId, message) => {
     .catch(err => {
       logger.serverLog(TAG, err, 'error')
     })
+}
+
+const _respond = (platform, provider, company, contact, criteria) => {
+  chatbotDatalayer.fetchChatbotBlockRecords(criteria)
+    .then(chatbotBlocks => {
+      const block = chatbotBlocks[0]
+      if (block) {
+        if (platform === 'sms') {
+          smsMapper(provider, ActionTypes.RESPOND_USING_CHATBOT, {payload: block.payload, options: block.options, subscriber: contact, company})
+            .then(sent => {
+              logger.serverLog(TAG, 'chatbot responded', 'debug')
+            })
+            .catch(err => {
+              logger.serverLog(TAG, err, 'error')
+            })
+        }
+        if (block.options.length > 0) {
+          callApi(`contacts/update`, 'put', {query: {_id: contact._id}, newPayload: {$set: {chatbotContext: block.uniqueId}}, options: {}})
+            .then(updated => {
+              logger.serverLog(TAG, 'context is set', 'debug')
+            })
+            .catch(err => {
+              logger.serverLog(TAG, err, 'error')
+            })
+        } else {
+          callApi(`contacts/update`, 'put', {query: {_id: contact._id}, newPayload: {$unset: {chatbotContext: 1}}, options: {}})
+            .then(updated => {
+              logger.serverLog(TAG, 'context is unset', 'debug')
+            })
+            .catch(err => {
+              logger.serverLog(TAG, err, 'error')
+            })
+        }
+      }
+    })
+    .catch(err => {
+      logger.serverLog(TAG, err, 'error')
+    })
+}
+
+const _handleUserInput = (userText, context) => {
+  return new Promise((resolve, reject) => {
+    chatbotDatalayer.fetchChatbotBlockRecords({uniqueId: context})
+      .then(blocks => {
+        const block = blocks[0]
+        const options = block.options.map((item) => item.code)
+        const index = options.indexOf(userText)
+        if (index === -1) {
+          resolve({status: 'failed', description: 'You have entered an incorrect option. Please try again.'})
+        } else {
+          resolve({status: 'success', payload: block.options[index].blockId})
+        }
+      })
+      .catch(err => { reject(err) })
+  })
 }
