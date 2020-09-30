@@ -80,7 +80,8 @@ exports.testRoute = (req, res) => {
         shopToken: bigCommerceIntegration.shopToken,
         storeHash: bigCommerceIntegration.payload.context
       })
-      return bigCommerce.viewCart('78edeeeb-3504-41ee-86e5-72eb7b8e686a')
+      // return bigCommerce.viewCart('78edeeeb-3504-41ee-86e5-72eb7b8e686a')
+      return bigCommerce.createPermalinkForCartBigCommerce('78edeeeb-3504-41ee-86e5-72eb7b8e686a')
       // return bigCommerce.createCart(
       //   // created with id 78edeeeb-3504-41ee-86e5-72eb7b8e686a
       //   1,

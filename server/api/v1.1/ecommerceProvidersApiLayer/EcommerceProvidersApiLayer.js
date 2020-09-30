@@ -105,6 +105,12 @@ module.exports = class EcommerceProvidersApiLayer {
     }
   }
 
+  createPermalinkForCartBigCommerce (cartId) {
+    if (this.eCommerceProvider === providers.bigcommerce) {
+      return bigCommerceProvider.createPermalinkForCart(cartId, this.eCommerceProviderCredentials)
+    }
+  }
+
   createCart (customerId, lineItems) {
     if (this.eCommerceProvider === providers.shopify) {
       // TODO Implement when we apply for Sales API on shopify
