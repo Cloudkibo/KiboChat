@@ -33,13 +33,6 @@ router.post('/getAll',
 
 router.get('/subscribeBack/:id',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer('write'),
-  auth.doesPlanPermitsThisAction('manage_subscribers'),
-  auth.isUserAllowedToPerformThisAction('view_subscribers'),
-  controller.getAll)
-
-router.get('/subscribeBack/:id',
-  auth.isAuthenticated(),
   auth.doesPlanPermitsThisAction('unsubscribe_subscribers'),
   auth.isUserAllowedToPerformThisAction('unsubsubscribe_subscribers'),
   controller.subscribeBack)
