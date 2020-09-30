@@ -1,4 +1,5 @@
 var path = require('path')
+const { appendOptions } = require('../logiclayer')
 
 exports.prepareSendMessagePayload = (body) => {
   let route = ''
@@ -132,4 +133,34 @@ exports.prepareInvitationPayload = (data) => {
     language: 'en'
   }
   return MessageObject
+}
+
+exports.prepareChatbotPayload = (company, contact, payload, options) => {
+  return new Promise((resolve, reject) => {
+    let route = ''
+    let message = {
+      token: company.whatsApp.accessToken,
+      number_details: JSON.stringify([{phone: contact.number}])
+    }
+    if (payload.componentType === 'text') {
+      message.message = payload.text + appendOptions(options)
+      route = 'text'
+    } else if (payload.componentType === 'image' || payload.mediaType === 'image') {
+      message.image = payload.fileurl.url
+      route = 'image'
+    } else if (payload.componentType === 'video' || payload.mediaType === 'video') {
+      message.video = payload.fileurl.url
+      route = 'video'
+    } else if (payload.componentType === 'file') {
+      message.file = payload.fileurl.url
+      route = 'file'
+    } else if (payload.componentType === 'audio') {
+      message.audio = payload.fileurl.url
+      route = 'audio'
+    } else if (payload.componentType === 'card') {
+      message.message = payload.url
+      route = 'text'
+    }
+    resolve({message, route})
+  })
 }

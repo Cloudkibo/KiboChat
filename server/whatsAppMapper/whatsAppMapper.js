@@ -23,6 +23,10 @@ function callAction (action, data, provider) {
       return provider.setWebhook(data)
     case ActionTypes.VERIFY_CREDENTIALS:
       return provider.verifyCredentials(data)
+    case ActionTypes.RESPOND_USING_CHATBOT:
+      return provider.respondUsingChatbot(data)
+    case ActionTypes.SEND_TEXT_MESSAGE:
+      return provider.sendTextMessage(data)
     default: break
   }
 }
