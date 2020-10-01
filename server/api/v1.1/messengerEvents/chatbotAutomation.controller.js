@@ -2,6 +2,7 @@ const chatbotDataLayer = require('./../chatbots/chatbots.datalayer')
 const chatbotAnalyticsDataLayer = require('./../chatbots/chatbots_analytics.datalayer')
 const messageBlockDataLayer = require('./../messageBlock/messageBlock.datalayer')
 const shopifyDataLayer = require('../shopify/shopify.datalayer')
+const bigCommerceDataLayer = require('../bigcommerce/bigcommerce.datalayer')
 const logicLayer = require('./logiclayer')
 const shopifyChatbotLogicLayer = require('../chatbots/commerceChatbot.logiclayer')
 const logger = require('../../../components/logger')
@@ -102,7 +103,7 @@ exports.handleCommerceChatbot = async (event, page, subscriber) => {
           shopToken: shopifyIntegration.shopToken
         })
       } else if (chatbot.storeType === commerceConstants.bigcommerce) {
-        const bigCommerceIntegration = await shopifyDataLayer.findOneBigCommerceIntegration({ companyId: chatbot.companyId })
+        const bigCommerceIntegration = await bigCommerceDataLayer.findOneBigCommerceIntegration({ companyId: chatbot.companyId })
         ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
           shopToken: bigCommerceIntegration.shopToken,
           storeHash: bigCommerceIntegration.payload.context
