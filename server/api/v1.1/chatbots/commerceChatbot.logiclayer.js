@@ -797,6 +797,7 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
       }
       shoppingCart.push({
         variant_id: product.variant_id,
+        product_id: product.product_id,
         quantity,
         product: product.product,
         inventory_quantity: product.inventory_quantity,
@@ -1370,6 +1371,7 @@ const getUpdateCartBlock = async (chatbot, backId, contact, product, quantity) =
     } else if (quantity > 0) {
       shoppingCart.push({
         variant_id: product.variant_id,
+        product_id: product.product_id,
         quantity,
         product: product.product,
         inventory_quantity: product.inventory_quantity,
