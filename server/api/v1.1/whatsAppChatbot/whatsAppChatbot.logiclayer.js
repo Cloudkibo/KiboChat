@@ -91,7 +91,7 @@ exports.validateWhatsAppChatbotPayload = (payload) => {
   return bool
 }
 
-function convertToEmoji(num) {
+function convertToEmoji (num) {
   if (isNaN(num)) {
     throw new Error(`${ERROR_INDICATOR}invalid number`)
   } else {
@@ -105,7 +105,7 @@ function convertToEmoji(num) {
   }
 }
 
-function specialKeyText(key) {
+function specialKeyText (key) {
   switch (key) {
     case FAQS_KEY:
       return `Send '${key.toUpperCase()}' for faqs`
@@ -1102,7 +1102,7 @@ const clearCart = async (chatbot, contact) => {
   }
 }
 
-function updateWhatsAppContact(query, bodyForUpdate, bodyForIncrement, options) {
+function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
   callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
     .then(updated => {
     })
@@ -1424,6 +1424,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
     } else if (chatbot.storeType === commerceConstants.bigcommerce) {
       const bigcommerceCart = await EcommerceProvider.createCart(commerceCustomer.id, contact.shoppingCart)
       checkoutLink = await EcommerceProvider.createPermalinkForCartBigCommerce(bigcommerceCart.id)
+      checkoutLink = checkoutLink.data.cart_url
     }
 
     if (checkoutLink) {
