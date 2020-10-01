@@ -8,11 +8,12 @@ const { sendOpAlert } = require('../../global/operationalAlert')
 const { facebookApiCaller } = require('../../global/facebookApiCaller')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const shopifyDataLayer = require('../../v1.1/shopify/shopify.datalayer.js')
+const bigCommerceDataLayer = require('../../v1.1/bigcommerce/bigcommerce.datalayer.js')
 
 exports.index = function (req, res) {
   utility.callApi(`user`, 'get', {}, 'accounts', req.headers.authorization)
     .then(user => {
-      utility.callApi(`companyUser/query`, 'post', {userId: user._id}, 'accounts', req.headers.authorization)
+      utility.callApi(`companyUser/query`, 'post', { userId: user._id }, 'accounts', req.headers.authorization)
         .then(companyUser => {
           var superUser = {}
           user.expoListToken = companyUser.expoListToken
@@ -29,12 +30,19 @@ exports.index = function (req, res) {
             res.cookie('shopifySetupState', 'completedAfterLogin')
             saveShopifyIntegration(shop, shopToken, user._id, companyUser.companyId)
           }
+          // bigcommerce redirect work
+          if (req.headers.cookie && cookie.parse(req.headers.cookie).bigCommerceSetupState) {
+            let bigCommercePayload = JSON.parse(cookie.parse(req.headers.cookie).bigCommerceAuthPayload)
+            res.clearCookie('bigCommerceSetupState')
+            res.clearCookie('bigCommerceAuthPayload')
+            saveBigCommerceIntegration(bigCommercePayload, user._id, companyUser.companyId)
+          }
           if (req.superUser) {
             superUser = req.superUser
           } else {
             superUser = null
           }
-          sendSuccessResponse(res, 200, {user, superUser})
+          sendSuccessResponse(res, 200, { user, superUser })
         }).catch(error => {
           logger.serverLog(TAG, `Error while fetching companyUser details ${util.inspect(error)}`, 'error')
 
@@ -95,7 +103,7 @@ exports.updateMode = function (req, res) {
 }
 
 exports.fbAppId = function (req, res) {
-  return res.status(200).json({status: 'success', payload: config.facebook.clientID})
+  return res.status(200).json({ status: 'success', payload: config.facebook.clientID })
 }
 
 exports.authenticatePassword = function (req, res) {
@@ -164,7 +172,7 @@ exports.cancelDeletion = function (req, res) {
 
 exports.validateFacebookConnected = function (req, res) {
   let companyAggregation = [
-    {'$match': {_id: req.user.companyId}},
+    { '$match': { _id: req.user.companyId } },
     { '$lookup': { from: 'users', localField: 'ownerId', foreignField: '_id', as: 'user' } },
     { '$unwind': '$user' }
   ]
@@ -208,7 +216,7 @@ exports.validateUserAccessToken = function (req, res) {
       })
   } else {
     let companyAggregation = [
-      {'$match': {_id: req.user.companyId}},
+      { '$match': { _id: req.user.companyId } },
       { '$lookup': { from: 'users', localField: 'ownerId', foreignField: '_id', as: 'user' } },
       { '$unwind': '$user' }
     ]
@@ -259,7 +267,7 @@ function _checkAcessTokenFromFb (facebookInfo, req) {
 
 exports.updateShowIntegrations = function (req, res) {
   let showIntegrations = req.body.showIntegrations
-  utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: {showIntegrations}, options: {}})
+  utility.callApi('user/update', 'post', { query: { _id: req.user._id }, newPayload: { showIntegrations }, options: {} })
     .then(updated => {
       return res.status(200).json({
         status: 'success',
@@ -267,14 +275,14 @@ exports.updateShowIntegrations = function (req, res) {
       })
     })
     .catch(err => {
-      res.status(500).json({status: 'failed', payload: err})
+      res.status(500).json({ status: 'failed', payload: err })
     })
 }
 
 exports.disconnectFacebook = function (req, res) {
-  utility.callApi(`companyProfile/query`, 'post', {ownerId: req.user._id})
+  utility.callApi(`companyProfile/query`, 'post', { ownerId: req.user._id })
     .then(companyProfile => {
-      let updated = {connectFacebook: false}
+      let updated = { connectFacebook: false }
       if (companyProfile.twilio) {
         updated.platform = 'sms'
       } else if (companyProfile.whatsApp && !(companyProfile.whatsApp.connected === false)) {
@@ -282,27 +290,27 @@ exports.disconnectFacebook = function (req, res) {
       } else {
         updated.platform = ''
       }
-      utility.callApi(`companyUser/queryAll`, 'post', {companyId: req.user.companyId}, 'accounts')
+      utility.callApi(`companyUser/queryAll`, 'post', { companyId: req.user.companyId }, 'accounts')
         .then(companyUsers => {
           let userIds = companyUsers.map(companyUser => companyUser.userId._id)
-          utility.callApi(`user/update`, 'post', {query: {_id: {$in: userIds}}, newPayload: updated, options: {multi: true}})
+          utility.callApi(`user/update`, 'post', { query: { _id: { $in: userIds } }, newPayload: updated, options: { multi: true } })
             .then(data => {
               sendSuccessResponse(res, 200, 'Updated Successfully!')
             })
             .catch(err => {
               sendErrorResponse(res, 500, err)
-            })               
+            })
         }).catch(err => {
           logger.serverLog(TAG, JSON.stringify(err), 'error')
           sendErrorResponse(res, 500, err)
         })
     })
     .catch(err => {
-      res.status(500).json({status: 'failed', payload: err})
+      res.status(500).json({ status: 'failed', payload: err })
     })
 }
 exports.updatePlatform = function (req, res) {
-  utility.callApi('user/update', 'post', {query: {_id: req.user._id}, newPayload: {platform: req.body.platform}, options: {}})
+  utility.callApi('user/update', 'post', { query: { _id: req.user._id }, newPayload: { platform: req.body.platform }, options: {} })
     .then(updated => {
       return res.status(200).json({
         status: 'success',
@@ -310,8 +318,34 @@ exports.updatePlatform = function (req, res) {
       })
     })
     .catch(err => {
-      res.status(500).json({status: 'failed', payload: err})
+      res.status(500).json({ status: 'failed', payload: err })
     })
+}
+
+exports.logout = function (req, res) {
+  utility.callApi(`users/receivelogout`, 'get', {}, 'kiboengage', req.headers.authorization)
+    .then(response => {
+      return res.status(200).json({
+        status: 'success',
+        payload: 'send response successfully!'
+      })
+    }).catch(err => {
+      console.log('error', err)
+      res.status(500).json({status: 'failed', payload: `failed to sendLogoutEvent ${err}`})
+    })
+}
+
+exports.receivelogout = function (req, res) {
+  require('../../../config/socketio').sendMessageToClient({
+    room_id: req.user.companyId,
+    body: {
+      action: 'logout'
+    }
+  })
+  return res.status(200).json({
+    status: 'success',
+    payload: 'recieved logout event!'
+  })
 }
 
 function saveShopifyIntegration (shop, shopToken, userId, companyId) {
@@ -337,6 +371,32 @@ function saveShopifyIntegration (shop, shopToken, userId, companyId) {
     })
 }
 
+function saveBigCommerceIntegration (payload, userId, companyId) {
+  const bigCommercePayload = {
+    userId,
+    companyId,
+    payload,
+    shopToken: payload.access_token
+  }
+  bigCommerceDataLayer.findOneBigCommerceIntegration({ companyId })
+    .then(bigCommerceIntegration => {
+      if (bigCommerceIntegration) {
+        logger.serverLog(TAG, 'bigcommerce integration already exists', 'debug')
+      } else {
+        bigCommerceDataLayer.createBigCommerceIntegration(bigCommercePayload)
+          .then(savedStore => {
+            logger.serverLog(TAG, 'bigcommerce store integration created', 'debug')
+          })
+          .catch(err => {
+            logger.serverLog(TAG, 'bigcommerce store integration creation error' + JSON.stringify(err), 'error')
+          })
+      }
+    })
+    .catch(err => {
+      logger.serverLog(TAG, 'bigcommerce store integration query error' + JSON.stringify(err), 'error')
+    })
+}
+
 exports.logout = function (req, res) {
   utility.callApi(`users/receivelogout`, 'get', {}, 'kiboengage', req.headers.authorization)
     .then(response => {
@@ -346,7 +406,7 @@ exports.logout = function (req, res) {
       })
     }).catch(err => {
       console.log('error', err)
-      res.status(500).json({status: 'failed', payload: `failed to sendLogoutEvent ${err}`})
+      res.status(500).json({ status: 'failed', payload: `failed to sendLogoutEvent ${err}` })
     })
 }
 

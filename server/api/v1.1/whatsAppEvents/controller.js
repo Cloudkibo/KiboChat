@@ -15,6 +15,7 @@ const whatsAppChatbotAnalyticsDataLayer = require('../whatsAppChatbot/whatsAppCh
 const moment = require('moment')
 const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('../../global/messageAlerts')
 const { record } = require('../../global/messageStatistics')
+const chatbotResponder = require('../../../chatbotResponder')
 
 exports.messageReceived = function (req, res) {
   res.status(200).json({
@@ -48,12 +49,21 @@ exports.messageReceived = function (req, res) {
                         if (chatbot) {
                           const shouldSend = chatbot.published || chatbot.testSubscribers.includes(contact.number)
                           if (shouldSend) {
-                            const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
-                            if (shopifyIntegration) {
-                              const ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
+                            let ecommerceProvider = null
+                            if (chatbot.storeType === commerceConstants.shopify) {
+                              const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
+                              ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
                                 shopUrl: shopifyIntegration.shopUrl,
                                 shopToken: shopifyIntegration.shopToken
                               })
+                            } else if (chatbot.storeType === commerceConstants.bigcommerce) {
+                              const bigCommerceIntegration = await shopifyDataLayer.findOneBigCommerceIntegration({ companyId: chatbot.companyId })
+                              ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
+                                shopToken: bigCommerceIntegration.shopToken,
+                                storeHash: bigCommerceIntegration.payload.context
+                              })
+                            }
+                            if (ecommerceProvider) {
                               let nextMessageBlock = await whatsAppChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text)
                               if (nextMessageBlock) {
                                 for (let messagePayload of nextMessageBlock.payload) {
@@ -104,6 +114,7 @@ exports.messageReceived = function (req, res) {
                       }
                       if (contact && contact.isSubscribed) {
                         storeChat(number, company.whatsApp.businessNumber, contact, data.messageData, 'whatsApp')
+                        chatbotResponder.respondUsingChatbot('whatsApp', req.body.provider, company, data.messageData.text, contact)
                       }
                     })
                     .catch(error => {
@@ -227,6 +238,7 @@ function storeChat (from, to, contact, messageData, format) {
       })
   })
 }
+
 function saveNotifications (contact, companyUsers) {
   companyUsers.forEach((companyUser, index) => {
     let notificationsData = {
@@ -300,7 +312,7 @@ function _sendNotification (subscriber, payload, companyId) {
     })
 }
 
-function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
+function updateWhatsAppContact(query, bodyForUpdate, bodyForIncrement, options) {
   callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
     .then(updated => {
     })
@@ -337,7 +349,7 @@ exports.messageStatus = function (req, res) {
     })
 }
 
-function updateChat (message, body) {
+function updateChat(message, body) {
   let dateTime = Date.now()
   let matchQuery = {
     $or: [
@@ -379,7 +391,7 @@ function updateChat (message, body) {
   updateChatInDB(matchQuery, updated, dataToSend)
 }
 
-function updateChatInDB (match, updated, dataToSend) {
+function updateChatInDB(match, updated, dataToSend) {
   let updateData = {
     purpose: 'updateAll',
     match: match,
