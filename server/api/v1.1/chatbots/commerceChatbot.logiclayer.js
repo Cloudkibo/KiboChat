@@ -1152,6 +1152,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
     } else if (chatbot.storeType === commerceConstants.bigcommerce) {
       const bigcommerceCart = await EcommerceProvider.createCart(commerceCustomer.id, contact.shoppingCart)
       checkoutLink = await EcommerceProvider.createPermalinkForCartBigCommerce(bigcommerceCart.id)
+      checkoutLink = checkoutLink.data.cart_url
     }
 
     if (checkoutLink) {
