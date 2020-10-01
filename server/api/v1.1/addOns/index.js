@@ -16,4 +16,12 @@ router.post('/',
   validate({ body: validationSchema.createPayload }),
   controller.create)
 
+router.get('/',
+  auth.isAuthenticated(),
+  controller.index)
+
+router.get('/company',
+  auth.isAuthenticated(),
+  controller.companyAddOns)
+
 module.exports = router
