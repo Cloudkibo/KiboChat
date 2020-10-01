@@ -34,6 +34,7 @@ const TAG = 'api/v1️.1/whatsAppChatbot/whatsAppChatbot.logiclayer.js'
 const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 const { callApi } = require('../utility')
 const moment = require('moment')
+const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
 
 exports.criteriaForPeriodicBotStats = (chatbotId, days) => {
   let matchAggregate = {
@@ -1411,15 +1412,26 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
       updateWhatsAppContact({ _id: contact._id }, { commerceCustomer, shoppingCart: [] }, null, {})
     } else {
       commerceCustomer = contact.commerceCustomer
-
       updateWhatsAppContact({ _id: contact._id }, { shoppingCart: [] }, null, {})
     }
-    let checkoutLink = EcommerceProvider.createPermalinkForCart(commerceCustomer, contact.shoppingCart)
 
-    messageBlock.payload[0].text += `\n${checkoutLink} `
+    let checkoutLink = ''
+    if (chatbot.storeType === commerceConstants.shopify) {
+      checkoutLink = await EcommerceProvider.createPermalinkForCart(commerceCustomer, contact.shoppingCart)
+    } else if (chatbot.storeType === commerceConstants.bigcommerce) {
+      const bigcommerceCart = await EcommerceProvider.createCart(commerceCustomer.id, contact.shoppingCart)
+      checkoutLink = await EcommerceProvider.createPermalinkForCartBigCommerce(bigcommerceCart.id)
+    }
 
-    messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)} `
-    messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)} `
+    if (checkoutLink) {
+      messageBlock.payload[0].text += `\n${checkoutLink} `
+      messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)} `
+      messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)} `
+    } else {
+      logger.serverLog(TAG, `checkoutLink isn't defined`, 'error')
+      throw new Error()
+    }
+
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to checkout ${err} `, 'error')

@@ -26,6 +26,7 @@ const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/whatsAppChatbot/whatsAppChatbot.logiclayer.js'
 const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 const { callApi } = require('../utility')
+const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
 
 exports.updateFaqsForStartingBlock = async (chatbot) => {
   let messageBlocks = []
@@ -1143,13 +1144,24 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
       commerceCustomer = contact.commerceCustomer
       updateSubscriber({ _id: contact._id }, { shoppingCart: [] }, null, {})
     }
-    let checkoutLink = EcommerceProvider.createPermalinkForCart(commerceCustomer, contact.shoppingCart)
+    let checkoutLink = ''
+    if (chatbot.storeType === commerceConstants.shopify) {
+      checkoutLink = await EcommerceProvider.createPermalinkForCart(commerceCustomer, contact.shoppingCart)
+    } else if (chatbot.storeType === commerceConstants.bigcommerce) {
+      const bigcommerceCart = await EcommerceProvider.createCart(commerceCustomer.id, contact.shoppingCart)
+      checkoutLink = await EcommerceProvider.createPermalinkForCartBigCommerce(bigcommerceCart.id)
+    }
 
-    messageBlock.payload[0].buttons = [{
-      type: 'web_url',
-      title: 'Proceed to Checkout',
-      url: checkoutLink
-    }]
+    if (checkoutLink) {
+      messageBlock.payload[0].buttons = [{
+        type: 'web_url',
+        title: 'Proceed to Checkout',
+        url: checkoutLink
+      }]
+    } else {
+      logger.serverLog(TAG, `checkoutLink isn't defined`, 'error')
+      throw new Error()
+    }
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to checkout ${err} `, 'error')
