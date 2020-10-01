@@ -667,6 +667,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
         action: SELECT_PRODUCT,
         argument: {
           variant_id: productVariant.id,
+          product_id: productVariant.product_id,
           product: `${productVariant.name} ${product.name}`,
           price: productVariant.price ? productVariant.price : product.price,
           inventory_quantity: productVariant.inventory_quantity,
