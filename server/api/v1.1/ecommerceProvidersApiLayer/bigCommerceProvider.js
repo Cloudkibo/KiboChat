@@ -249,7 +249,7 @@ exports.createCustomer = (firstName, lastName, email, credentials) => {
     bigCommerce.post('/customers', [{ email, last_name: lastName, first_name: firstName }])
       .then(data => {
         data = data.data
-        resolve(data)
+        resolve(data[0])
       })
       .catch(err => {
         reject(err)
