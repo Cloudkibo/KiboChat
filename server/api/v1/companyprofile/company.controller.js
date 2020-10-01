@@ -26,6 +26,10 @@ exports.getAutomatedOptions = function (req, res) {
           if (users.length > 0) {
             let user = users[0]
             payload.facebook = user.facebookInfo
+            payload.buyerInfo = {
+              name: user.name,
+              email: user.email
+            }
             sendSuccessResponse(res, 200, payload)
           } else {
             sendSuccessResponse(res, 200, payload)
