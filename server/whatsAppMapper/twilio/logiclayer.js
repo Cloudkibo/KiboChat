@@ -1,5 +1,6 @@
 const config = require('../../config/environment/index')
 var path = require('path')
+const { appendOptions } = require('../logiclayer')
 
 exports.prepareSendMessagePayload = (body) => {
   let MessageObject = {
@@ -89,4 +90,23 @@ exports.prepareReceivedMessageData = (event) => {
     }
   }
   return payload
+}
+
+exports.prepareChatbotPayload = (company, contact, payload, options) => {
+  return new Promise((resolve, reject) => {
+    console.log(payload)
+    let message = {
+      from: `whatsapp:${company.whatsApp.businessNumber}`,
+      to: `whatsapp:${contact.number}`,
+      statusCallback: `${config.api_urls['webhook']}/webhooks/twilio`
+    }
+    if (payload.componentType === 'text') {
+      message.body = payload.text + appendOptions(options)
+    } else if (['image', 'file', 'audio', 'video', 'media'].includes(payload.componentType)) {
+      message.mediaUrl = payload.fileurl.url
+    } else if (payload.componentType === 'card') {
+      message.body = payload.url
+    }
+    resolve(message)
+  })
 }
