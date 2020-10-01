@@ -44,7 +44,7 @@ exports.messageReceived = function (req, res) {
                         pushSessionPendingAlertInStack(company, contact, 'whatsApp')
                       }
                       if (data.messageData.componentType === 'text') {
-                        let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({_id: company.whatsApp.activeWhatsappBot})
+                        let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ _id: company.whatsApp.activeWhatsappBot })
                         if (chatbot) {
                           const shouldSend = chatbot.published || chatbot.testSubscribers.includes(contact.number)
                           if (shouldSend) {
@@ -68,6 +68,9 @@ exports.messageReceived = function (req, res) {
                                   }
                                   record('whatsappChatOutGoing')
                                   whatsAppMapper.whatsAppMapper(req.body.provider, ActionTypes.SEND_CHAT_MESSAGE, chatbotResponse)
+                                  if (company.saveAutomationMessages) {
+                                    storeChat(company.whatsApp.businessNumber, number, contact, nextMessageBlock.payload, 'convos')
+                                  }
                                 }
                                 updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
                                 const triggerWordsMatched = chatbot.triggers.includes(data.messageData.text.toLowerCase()) ? 1 : 0
@@ -100,7 +103,7 @@ exports.messageReceived = function (req, res) {
                         }
                       }
                       if (contact && contact.isSubscribed) {
-                        storeChat(number, company.whatsApp.businessNumber, contact, data.messageData)
+                        storeChat(number, company.whatsApp.businessNumber, contact, data.messageData, 'whatsApp')
                       }
                     })
                     .catch(error => {
@@ -195,11 +198,11 @@ function createContact (data) {
   })
 }
 
-function storeChat (from, to, contact, messageData) {
-  logicLayer.prepareChat(from, to, contact, messageData).then(chatPayload => {
+function storeChat (from, to, contact, messageData, format) {
+  logicLayer.prepareChat(from, to, contact, messageData, format).then(chatPayload => {
     callApi(`whatsAppChat`, 'post', chatPayload, 'kibochat')
       .then(message => {
-        message.payload.format = 'whatsApp'
+        message.payload.format = format
         require('./../../../config/socketio').sendMessageToClient({
           room_id: contact.companyId,
           body: {
@@ -214,11 +217,13 @@ function storeChat (from, to, contact, messageData) {
             }
           }
         })
-        _sendNotification(contact, message.payload, contact.companyId)
-        let query = { _id: contact._id }
-        let updatePayload = { last_activity_time: Date.now(), status: 'new', pendingResponse: true, lastMessagedAt: Date.now() }
-        let incrementPayload = { $inc: { unreadCount: 1, messagesCount: 1 } }
-        updateWhatsAppContact(query, updatePayload, incrementPayload, {})
+        if (format === 'whatsApp') {
+          _sendNotification(contact, message.payload, contact.companyId)
+          let query = { _id: contact._id }
+          let updatePayload = { last_activity_time: Date.now(), status: 'new', pendingResponse: true, lastMessagedAt: Date.now() }
+          let incrementPayload = { $inc: { unreadCount: 1, messagesCount: 1 } }
+          updateWhatsAppContact(query, updatePayload, incrementPayload, {})
+        }
       })
   })
 }
