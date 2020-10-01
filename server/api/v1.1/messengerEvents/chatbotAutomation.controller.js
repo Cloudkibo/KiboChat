@@ -3,7 +3,7 @@ const chatbotAnalyticsDataLayer = require('./../chatbots/chatbots_analytics.data
 const messageBlockDataLayer = require('./../messageBlock/messageBlock.datalayer')
 const shopifyDataLayer = require('../shopify/shopify.datalayer')
 const logicLayer = require('./logiclayer')
-const shopifyChatbotLogicLayer = require('../chatbots/shopifyChatbot.logiclayer')
+const shopifyChatbotLogicLayer = require('../chatbots/commerceChatbot.logiclayer')
 const logger = require('../../../components/logger')
 const { intervalForEach } = require('./../../../components/utility')
 const { facebookApiCaller } = require('./../../global/facebookApiCaller')
@@ -73,13 +73,13 @@ const updateSubscriber = (query, newPayload, options) => {
   })
 }
 
-exports.handleShopifyChatbot = async (event, page, subscriber) => {
+exports.handleCommerceChatbot = async (event, page, subscriber) => {
   try {
     if (event.message && event.message.is_echo) {
-      logger.serverLog(TAG, 'echo message shopify chatbot', 'info')
+      logger.serverLog(TAG, 'echo message commerce chatbot', 'info')
       return
     }
-    logger.serverLog(TAG, `searching for shopify chatbot ${JSON.stringify({
+    logger.serverLog(TAG, `searching for commerce chatbot ${JSON.stringify({
       pageId: page._id,
       published: true,
       type: 'automated',
@@ -91,18 +91,26 @@ exports.handleShopifyChatbot = async (event, page, subscriber) => {
       type: 'automated',
       vertical: 'commerce'
     })
-    logger.serverLog(TAG, `shopify chatbot found ${JSON.stringify(chatbot)}`, 'info')
+    logger.serverLog(TAG, `commerce chatbot found ${JSON.stringify(chatbot)}`, 'info')
     if (chatbot) {
-      const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
-      logger.serverLog(TAG, `shopify integration ${JSON.stringify(shopifyIntegration)}`, 'info')
-      if (shopifyIntegration) {
-        const ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
+      let ecommerceProvider = null
+      if (chatbot.storeType === commerceConstants.shopify) {
+        const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
+        ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
           shopUrl: shopifyIntegration.shopUrl,
           shopToken: shopifyIntegration.shopToken
         })
-        logger.serverLog(TAG, `handleShopifyChatbot event ${JSON.stringify(event)}`, 'info')
+      } else if (chatbot.storeType === commerceConstants.bigcommerce) {
+        const bigCommerceIntegration = await shopifyDataLayer.findOneBigCommerceIntegration({ companyId: chatbot.companyId })
+        ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
+          shopToken: bigCommerceIntegration.shopToken,
+          storeHash: bigCommerceIntegration.payload.context
+        })
+      }
+      if (ecommerceProvider) {
+        logger.serverLog(TAG, `handleCommerceChatbot event ${JSON.stringify(event)}`, 'info')
         let nextMessageBlock = await shopifyChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, subscriber, event)
-        logger.serverLog(TAG, `shopify chatbot next message block ${JSON.stringify(nextMessageBlock)}`, 'info')
+        logger.serverLog(TAG, `commerce chatbot next message block ${JSON.stringify(nextMessageBlock)}`, 'info')
         updateSubscriber({ _id: subscriber._id }, { lastMessageSentByBot: nextMessageBlock }, {})
         if (nextMessageBlock) {
           senderAction(event.sender.id, 'typing_on', page.accessToken)
@@ -131,7 +139,7 @@ exports.handleShopifyChatbot = async (event, page, subscriber) => {
     }
   } catch (err) {
     logger.serverLog(TAG,
-      `error in fetching shopify chatbot ${err}`, 'error')
+      `error in fetching commerce chatbot ${err}`, 'error')
   }
 }
 

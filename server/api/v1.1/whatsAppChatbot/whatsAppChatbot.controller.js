@@ -9,7 +9,7 @@ const TAG = 'api/v1/whatsAppChatbot/whatsAppChatbot.controller'
 
 exports.create = async (req, res) => {
   try {
-    let existingChatbot = await dataLayer.fetchWhatsAppChatbot({companyId: req.user.companyId})
+    let existingChatbot = await dataLayer.fetchWhatsAppChatbot({ companyId: req.user.companyId })
     if (existingChatbot && req.user.companyId !== '5a89ecdaf6b0460c552bf7fe') {
       // About the above company condition
       // This is a demo requirement by Sir and not unnecessary hard coding
@@ -35,7 +35,7 @@ exports.create = async (req, res) => {
 
 exports.fetch = async (req, res) => {
   try {
-    let chatbot = await dataLayer.fetchWhatsAppChatbot({companyId: req.user.companyId})
+    let chatbot = await dataLayer.fetchWhatsAppChatbot({ companyId: req.user.companyId })
     if (chatbot) {
       sendSuccessResponse(res, 200, chatbot, 'WhatsApp chatbot fetched successfully')
     } else {
@@ -49,8 +49,10 @@ exports.fetch = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     let updatedChatbot = await dataLayer.updateWhatsAppChatbot(req.user.companyId, req.body)
-    logicLayer.updateFaqsForStartingBlock(updatedChatbot)
     sendSuccessResponse(res, 200, updatedChatbot, 'WhatsApp chatbot updated successfully')
+    if (req.body.botLinks && req.body.botLinks.faqs) {
+      logicLayer.updateFaqsForStartingBlock(updatedChatbot)
+    }
   } catch (err) {
     sendErrorResponse(res, 500, err.message, `Failed to update WhatsApp chatbot`)
   }
@@ -86,7 +88,7 @@ exports.fetchAnalytics = async (req, res) => {
 
 function updateCompanyProfileForChatbot (companyId, chatbotId) {
   let payload = {
-    query: {_id: companyId},
+    query: { _id: companyId },
     newPayload: {
       'whatsApp.activeWhatsappBot': chatbotId
     },

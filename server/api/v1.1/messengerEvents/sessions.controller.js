@@ -12,7 +12,7 @@ const { record } = require('../../global/messageStatistics')
 const { updateCompanyUsage } = require('../../global/billingPricing')
 const { sendNotifications } = require('../../global/sendNotification')
 const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('../../global/messageAlerts')
-const { handleTriggerMessage, handleShopifyChatbot } = require('./chatbotAutomation.controller')
+const { handleTriggerMessage, handleCommerceChatbot } = require('./chatbotAutomation.controller')
 
 exports.index = function (req, res) {
   logger.serverLog(TAG, `payload received in page ${JSON.stringify(req.body.page)}`, 'debug')
@@ -69,8 +69,7 @@ exports.index = function (req, res) {
                 logger.serverLog(TAG, `saving live chat`, 'info')
                 saveLiveChat(page, subscriber, event)
                 if (event.type !== 'get_started') {
-                  logger.serverLog(TAG, `handling chatbot`, 'info')
-                  handleShopifyChatbot(event, page, subscriber)
+                  handleCommerceChatbot(event, page, subscriber)
                   handleTriggerMessage(event, page, subscriber)
                 }
                 if (!event.message.is_echo) {
