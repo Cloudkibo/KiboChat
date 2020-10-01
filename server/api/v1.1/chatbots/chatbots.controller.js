@@ -412,7 +412,8 @@ exports.createCommerceChatbot = async (req, res) => {
         userId: req.user._id,
         type: 'automated',
         vertical: 'commerce',
-        botLinks: req.body.botLinks
+        botLinks: req.body.botLinks,
+        storeType: req.body.storeType
       })
       let messageBlocks = commerceLogicLayer.getMessageBlocks(chatbot, storeInfo.name)
       await datalayer.genericUpdateChatBot({ companyId: req.user.companyId, pageId: req.body.pageId }, {

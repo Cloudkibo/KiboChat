@@ -621,7 +621,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
       })
       for (let i = 0; i < productVariants.length; i++) {
         let productVariant = productVariants[i]
-        let priceString = storeInfo.currency === 'USD' ? `Price: $${product.price}` : `Price: ${product.price} ${storeInfo.currency}`
+        let priceString = storeInfo.currency === 'USD' ? `Price: $${productVariant.price ? productVariant.price : product.price}` : `Price: ${productVariant.price ? productVariant.price : product.price} ${storeInfo.currency}`
         messageBlock.payload[1].cards.push({
           title: `${productVariant.name} ${product.name}`,
           subtitle: priceString
@@ -636,7 +636,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
               argument: {
                 variant_id: productVariant.id,
                 product: `${productVariant.name} ${product.name}`,
-                price: productVariant.price,
+                price: productVariant.price ? productVariant.price : product.price,
                 inventory_quantity: productVariant.inventory_quantity,
                 currency: storeInfo.currency
               }
@@ -1134,7 +1134,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
     if (newEmail) {
       commerceCustomer = await EcommerceProvider.searchCustomerUsingEmail(newEmail)
       if (commerceCustomer.length === 0) {
-        commerceCustomer = await EcommerceProvider.createCustomer('', '', newEmail)
+        commerceCustomer = await EcommerceProvider.createCustomer(contact.firstName, contact.lastName, newEmail)
       } else {
         commerceCustomer = commerceCustomer[0]
       }
