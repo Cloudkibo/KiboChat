@@ -61,7 +61,8 @@ exports.fetchStore = (req, res) => {
   dataLayer.findOneBigCommerceIntegration({ companyId: req.user.companyId })
     .then(bigCommerceIntegration => {
       const bigCommerce = new EcommerceProviders(commerceConstants.bigcommerce, {
-        shopToken: bigCommerceIntegration.shopToken
+        shopToken: bigCommerceIntegration.shopToken,
+        storeHash: bigCommerceIntegration.payload.context
       })
       return bigCommerce.fetchStoreInfo()
     })
