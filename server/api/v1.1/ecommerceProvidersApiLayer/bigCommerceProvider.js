@@ -10,7 +10,8 @@ exports.fetchStoreInfo = (credentials) => {
           id: shop.id,
           name: shop.name,
           domain: shop.domain,
-          currency: shop.currency
+          currency: shop.currency,
+          type: 'bigcommerce'
         })
       })
       .catch(err => {
