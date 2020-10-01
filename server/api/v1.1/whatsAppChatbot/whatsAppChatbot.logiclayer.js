@@ -661,14 +661,14 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
     logger.serverLog(TAG, `store info ${JSON.stringify(storeInfo)}`, 'info')
     for (let i = 0; i < productVariants.length; i++) {
       let productVariant = productVariants[i]
-      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${productVariant.name} (price: ${product.price} ${storeInfo.currency})`
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${productVariant.name} (price: ${productVariant.price ? productVariant.price : product.price} ${storeInfo.currency})`
       messageBlock.payload[0].menu.push({
         type: DYNAMIC,
         action: SELECT_PRODUCT,
         argument: {
           variant_id: productVariant.id,
           product: `${productVariant.name} ${product.name}`,
-          price: productVariant.price,
+          price: productVariant.price ? productVariant.price : product.price,
           inventory_quantity: productVariant.inventory_quantity,
           currency: storeInfo.currency
         }
