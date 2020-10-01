@@ -315,6 +315,42 @@ exports.viewCart = (cartId, credentials) => {
   })
 }
 
+// itemId should be like edbd622d-4302-4aa0-9735-88e6977b3335
+exports.updateCart = (cartId, itemId, productId, quantity, credentials) => {
+  const bigCommerce = initBigCommerce(credentials)
+  const payload = {
+    line_item: {
+      quantity: quantity,
+      product_id: productId
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    bigCommerce.put(`/carts/${cartId}/items/${itemId}`, payload)
+      .then(result => {
+        resolve(result)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
+exports.createOrder = (cartId, credentials) => {
+  const bigCommerce = initBigCommerce(credentials)
+  return new Promise(function (resolve, reject) {
+    bigCommerce.get(`/checkouts/${cartId}`)
+      .then(result => {
+        return bigCommerce.post(`/checkouts/${cartId}/orders`)
+      })
+      .then(result => {
+        resolve(result)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
 exports.createPermalinkForCart = (cartId, credentials) => {
   const bigCommerce = initBigCommerce(credentials)
   return new Promise(function (resolve, reject) {
@@ -328,12 +364,12 @@ exports.createPermalinkForCart = (cartId, credentials) => {
   })
 }
 
-// Address object required as discussed in shopify api
-// https://shopify.dev/docs/admin-api/rest/reference/sales-channels/checkout
-exports.updateBillingAddressOnCart = (billingAddress, cartToken, credentials) => {
-  const shopify = initBigCommerce(credentials)
+// Address object required as discussed in bigcommerce api
+// https://developer.bigcommerce.com/api-reference/cart-checkout/server-server-checkout-api/checkout-billing-address/checkoutsbillingaddressbycheckoutidpost
+exports.updateBillingAddressOnCart = (cartId, addressId, address, credentials) => {
+  const bigCommerce = initBigCommerce(credentials)
   return new Promise(function (resolve, reject) {
-    shopify.checkout.update(cartToken, { billing_address: billingAddress })
+    bigCommerce.put(`/checkouts/${cartId}/billing-address/${addressId}`, address)
       .then(result => {
         resolve(result)
       })

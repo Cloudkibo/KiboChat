@@ -93,6 +93,14 @@ module.exports = class EcommerceProvidersApiLayer {
     }
   }
 
+  updateBillingAddressOnCartBigCommerce (cartId, addressId, address) {
+    if (this.eCommerceProvider === providers.shopify) {
+      // TODO Implement when we apply for Sales API on shopify
+    } else if (this.eCommerceProvider === providers.bigcommerce) {
+      return bigCommerceProvider.updateBillingAddressOnCart(cartId, addressId, address, this.eCommerceProviderCredentials)
+    }
+  }
+
   updateShippingAddressOnCart (shippingAddress, cartToken) {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.updateShippingAddressOnCart(shippingAddress, cartToken, this.eCommerceProviderCredentials)
@@ -124,6 +132,22 @@ module.exports = class EcommerceProvidersApiLayer {
       // TODO Implement when we apply for Sales API on shopify
     } else if (this.eCommerceProvider === providers.bigcommerce) {
       return bigCommerceProvider.viewCart(cartId, this.eCommerceProviderCredentials)
+    }
+  }
+
+  updateCart (cartId, itemId, productId, quantity) {
+    if (this.eCommerceProvider === providers.shopify) {
+      // TODO Implement when we apply for Sales API on shopify
+    } else if (this.eCommerceProvider === providers.bigcommerce) {
+      return bigCommerceProvider.updateCart(cartId, itemId, productId, quantity, this.eCommerceProviderCredentials)
+    }
+  }
+
+  createOrder (cartId) {
+    if (this.eCommerceProvider === providers.shopify) {
+      // TODO Implement when we apply for Sales API on shopify
+    } else if (this.eCommerceProvider === providers.bigcommerce) {
+      return bigCommerceProvider.createOrder(cartId, this.eCommerceProviderCredentials)
     }
   }
 
