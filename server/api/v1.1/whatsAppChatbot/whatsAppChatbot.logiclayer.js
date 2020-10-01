@@ -91,7 +91,7 @@ exports.validateWhatsAppChatbotPayload = (payload) => {
   return bool
 }
 
-function convertToEmoji (num) {
+function convertToEmoji(num) {
   if (isNaN(num)) {
     throw new Error(`${ERROR_INDICATOR}invalid number`)
   } else {
@@ -105,7 +105,7 @@ function convertToEmoji (num) {
   }
 }
 
-function specialKeyText (key) {
+function specialKeyText(key) {
   switch (key) {
     case FAQS_KEY:
       return `Send '${key.toUpperCase()}' for faqs`
@@ -778,6 +778,7 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
       if (quantity > 0) {
         shoppingCart.push({
           variant_id: product.variant_id,
+          product_id: product.product_id,
           quantity,
           product: product.product,
           inventory_quantity: product.inventory_quantity,
@@ -1047,6 +1048,7 @@ const getUpdateCartBlock = async (chatbot, backId, contact, product, quantity) =
     } else if (quantity > 0) {
       shoppingCart.push({
         variant_id: product.variant_id,
+        product_id: product.product_id,
         quantity,
         product: product.product,
         inventory_quantity: product.inventory_quantity,
@@ -1099,7 +1101,7 @@ const clearCart = async (chatbot, contact) => {
   }
 }
 
-function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
+function updateWhatsAppContact(query, bodyForUpdate, bodyForIncrement, options) {
   callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
     .then(updated => {
     })
