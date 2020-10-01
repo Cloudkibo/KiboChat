@@ -5,7 +5,6 @@ exports.fetchStoreInfo = (credentials) => {
   return new Promise(function (resolve, reject) {
     shopify.shop.get()
       .then(shop => {
-        console.log(shop)
         resolve({
           id: shop.id,
           name: shop.name,

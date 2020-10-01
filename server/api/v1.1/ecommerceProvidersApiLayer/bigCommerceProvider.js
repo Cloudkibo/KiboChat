@@ -2,21 +2,20 @@ const BigCommerce = require('node-bigcommerce')
 const config = require('./../../../config/environment/index')
 
 exports.fetchStoreInfo = (credentials) => {
-  // const shopify = initBigCommerce(credentials)
+  const bigCommerce = initBigCommerce(credentials, 'v2')
   return new Promise(function (resolve, reject) {
-    resolve('Not implemented')
-    // shopify.shop.get()
-    // .then(shop => {
-    // resolve({
-    // id: shop.id,
-    // name: shop.name,
-    // domain: shop.domain,
-    // currency: shop.currency
-    // })
-    // })
-    // .catch(err => {
-    // reject(err)
-    // })
+    bigCommerce.get('/store')
+      .then(shop => {
+        resolve({
+          id: shop.id,
+          name: shop.name,
+          domain: shop.domain,
+          currency: shop.currency
+        })
+      })
+      .catch(err => {
+        reject(err)
+      })
   })
 }
 

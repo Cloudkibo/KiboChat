@@ -38,6 +38,8 @@ module.exports = class EcommerceProvidersApiLayer {
   fetchStoreInfo () {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.fetchStoreInfo(this.eCommerceProviderCredentials)
+    } else if (this.eCommerceProvider === providers.bigcommerce) {
+      return bigCommerceProvider.fetchStoreInfo(this.eCommerceProviderCredentials)
     }
   }
 
