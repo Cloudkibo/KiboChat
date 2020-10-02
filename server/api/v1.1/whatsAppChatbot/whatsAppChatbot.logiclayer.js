@@ -189,7 +189,7 @@ exports.getMessageBlocks = (chatbot) => {
   getReturnOrderIdBlock(chatbot, returnOrderId, messageBlocks)
   getSearchProductsBlock(chatbot, searchProductsId, messageBlocks)
   if (chatbot.botLinks && chatbot.botLinks.faqs) {
-    messageBlocks[0].payload[0].text = `\n${specialKeyText(FAQS_KEY, 'faqs')} FAQs`
+    messageBlocks[0].payload[0].text += `\n${specialKeyText(FAQS_KEY, 'faqs')} FAQs`
     messageBlocks[0].payload[0].specialKeys[FAQS_KEY] = { type: STATIC, blockId: faqsId }
     getFaqsBlock(chatbot, faqsId, messageBlocks, mainMenuId)
   }

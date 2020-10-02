@@ -69,7 +69,7 @@ exports.messageReceived = function (req, res) {
                             logger.serverLog(TAG, `whatsapp ecommerceProvider ${JSON.stringify(ecommerceProvider)}`, 'info')
                             if (ecommerceProvider) {
                               let nextMessageBlock = await whatsAppChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text)
-                              logger.serverLog(TAG, `whatsapp nextMessageBlock ${nextMessageBlock}`, 'info')
+                              logger.serverLog(TAG, `whatsapp nextMessageBlock ${JSON.stringify(nextMessageBlock)}`, 'info')
                               if (nextMessageBlock) {
                                 for (let messagePayload of nextMessageBlock.payload) {
                                   let chatbotResponse = {
