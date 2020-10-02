@@ -1,5 +1,6 @@
 const { callApi } = require('../../api/v1/utility')
 const logiclayer = require('./logiclayer')
+const async = require('async')
 
 exports.getCompany = (body) => {
   return new Promise((resolve, reject) => {
@@ -11,22 +12,25 @@ exports.getCompany = (body) => {
 
 exports.respondUsingChatbot = ({payload, options, company, subscriber}) => {
   return new Promise((resolve, reject) => {
-    const textPayload = payload.find((item) => item.componentType === 'text')
-    logiclayer.prepareChatbotPayload(textPayload, options)
-      .then(text => {
-        const client = twilioClient(company)
-        client.messages.create({
-          body: text,
-          from: company.number,
-          to: subscriber.number
+    async.each(payload, function (item, cb) {
+      logiclayer.prepareChatbotPayload(company, subscriber, item, options)
+        .then(message => {
+          const client = twilioClient(company)
+          client.messages.create(message)
+            .then(res => {
+              resolve({status: 'success'})
+            })
+            .catch(err => {
+              reject(err)
+            })
         })
-          .then(res => {
-            resolve({status: 'success'})
-          })
-          .catch(err => {
-            reject(err)
-          })
-      })
+    }, function (err) {
+      if (err) {
+        reject(err)
+      } else {
+        resolve({status: 'success'})
+      }
+    })
   })
 }
 
