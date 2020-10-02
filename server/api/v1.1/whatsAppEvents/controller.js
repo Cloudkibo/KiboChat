@@ -47,6 +47,7 @@ exports.messageReceived = function (req, res) {
                       if (data.messageData.componentType === 'text') {
                         let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ _id: company.whatsApp.activeWhatsappBot })
                         if (chatbot) {
+                          logger.serverLog(TAG, `whatsapp chatbot ${chatbot}`, 'info')
                           const shouldSend = chatbot.published || chatbot.testSubscribers.includes(contact.number)
                           if (shouldSend) {
                             let ecommerceProvider = null
@@ -63,8 +64,10 @@ exports.messageReceived = function (req, res) {
                                 storeHash: bigCommerceIntegration.payload.context
                               })
                             }
+                            logger.serverLog(TAG, `whatsapp ecommerceProvider ${ecommerceProvider}`, 'info')
                             if (ecommerceProvider) {
                               let nextMessageBlock = await whatsAppChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text)
+                              logger.serverLog(TAG, `whatsapp nextMessageBlock ${nextMessageBlock}`, 'info')
                               if (nextMessageBlock) {
                                 for (let messagePayload of nextMessageBlock.payload) {
                                   let chatbotResponse = {
