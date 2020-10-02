@@ -23,7 +23,7 @@ router.get('/switchToBasicPlan',
   auth.isSuperUserActingAsCustomer(),
   controller.switchToBasicPlan)
 
-router.post('/invite',
+router.post('/invite', 
   auth.isAuthenticated(), 
   auth.isSuperUserActingAsCustomer('write'),
   auth.doesPlanPermitsThisAction('invite_members'),
