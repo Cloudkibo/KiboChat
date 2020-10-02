@@ -65,10 +65,12 @@ router.get('/disconnectFacebook',
 
 router.get('/validateUserAccessToken',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
   controller.validateUserAccessToken)
 
 router.get('/validateFacebookConnected',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
   controller.validateFacebookConnected)
 
 router.post('/updatePlatform',
