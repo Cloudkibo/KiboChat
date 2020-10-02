@@ -8,6 +8,7 @@ const sessionLogicLayer = require('../whatsAppSessions/whatsAppSessions.logiclay
 const whatsAppChatbotDataLayer = require('../whatsAppChatbot/whatsAppChatbot.datalayer')
 const whatsAppChatbotLogicLayer = require('../whatsAppChatbot/whatsAppChatbot.logiclayer')
 const shopifyDataLayer = require('../shopify/shopify.datalayer')
+const bigcommerceDataLayer = require('../bigcommerce/bigcommerce.datalayer')
 const { ActionTypes } = require('../../../whatsAppMapper/constants')
 const commerceConstants = require('./../ecommerceProvidersApiLayer/constants')
 const EcommerceProvider = require('./../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
@@ -58,7 +59,7 @@ exports.messageReceived = function (req, res) {
                                 shopToken: shopifyIntegration.shopToken
                               })
                             } else if (chatbot.storeType === commerceConstants.bigcommerce) {
-                              const bigCommerceIntegration = await shopifyDataLayer.findOneBigCommerceIntegration({ companyId: chatbot.companyId })
+                              const bigCommerceIntegration = await bigcommerceDataLayer.findOneBigCommerceIntegration({ companyId: chatbot.companyId })
                               ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
                                 shopToken: bigCommerceIntegration.shopToken,
                                 storeHash: bigCommerceIntegration.payload.context
