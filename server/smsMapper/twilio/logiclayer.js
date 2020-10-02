@@ -1,13 +1,18 @@
-exports.prepareChatbotPayload = (data, options) => {
+
+exports.prepareChatbotPayload = (company, subscriber, data, options) => {
+  let message = {
+    from: company.number,
+    to: subscriber.number
+  }
   return new Promise((resolve, reject) => {
-    let payload = ''
-    switch (data.componentType) {
-      case 'text':
-        payload = data.text + _appendOptions(options)
-        break
-      default:
+    if (data.componentType === 'text') {
+      message.body = data.text + _appendOptions(options)
+    } else if (['image', 'file', 'audio', 'video', 'media'].includes(data.componentType)) {
+      message.mediaUrl = data.fileurl.url
+    } else if (data.componentType === 'card') {
+      message.body = data.url
     }
-    resolve(payload)
+    resolve(message)
   })
 }
 
