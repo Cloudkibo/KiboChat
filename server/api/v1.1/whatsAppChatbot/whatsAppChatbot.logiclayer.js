@@ -719,7 +719,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
     }
 
     if (product.inventory_quantity > 0) {
-      messageBlock.payload[0].text += `\nPlease select an option by sending the corresponding number for it:\n${convertToEmoji(0)} Add to Cart\n`
+      messageBlock.payload[0].text += `\nPlease select an option by sending the corresponding number for it:\n\n${convertToEmoji(0)} Add to Cart\n`
     } else {
       messageBlock.payload[0].text += `\nThis product is currently out of stock. Please check again later.\n`
     }
