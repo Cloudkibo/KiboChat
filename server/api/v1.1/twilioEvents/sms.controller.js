@@ -3,13 +3,17 @@ const TAG = '/api/v1/twilioEvents/controller.js'
 const { callApi } = require('../utility')
 const sessionLogicLayer = require('../smsSessions/smsSessions.logiclayer')
 const { pushUnresolveAlertInStack } = require('../../global/messageAlerts')
+const { ActionTypes } = require('../../../smsMapper/constants')
+const { smsMapper } = require('../../../smsMapper')
+const chatbotResponder = require('../../../chatbotResponder')
 
 exports.index = function (req, res) {
   res.status(200).json({
     status: 'success',
     description: `received the payload`
   })
-  callApi(`companyprofile/query`, 'post', {'twilio.accountSID': req.body.AccountSid})
+
+  smsMapper('twilio', ActionTypes.GET_COMPANY, req.body)
     .then(company => {
       callApi(`user/query`, 'post', {_id: company.ownerId})
         .then(user => {
@@ -45,6 +49,7 @@ exports.index = function (req, res) {
                         }
                       }
                     })
+                    chatbotResponder.respondUsingChatbot('sms', 'twilio', {...company, number: req.body.To}, req.body.Body, contact)
                     _sendNotification(contact, contact.companyId)
                     updateContact(contact._id, {last_activity_time: Date.now(), lastMessagedAt: Date.now(), hasChat: true, pendingResponse: true, status: 'new'})
                     updateContact(contact._id, {$inc: { unreadCount: 1, messagesCount: 1 }})
@@ -68,7 +73,7 @@ exports.index = function (req, res) {
         })
     })
     .catch(error => {
-      logger.serverLog(TAG, `Failed to fetch company ${JSON.stringify(error)}`, 'error')
+      logger.serverLog(TAG, `Failed to get company ${JSON.stringify(error)}`, 'error')
     })
 }
 

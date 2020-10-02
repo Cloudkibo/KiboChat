@@ -17,7 +17,7 @@ router.get('/getAutomatedOptions',
   controller.getAutomatedOptions)
 
 router.post('/invite',
-  auth.isAuthenticated(),
+  auth.isAuthenticated(), 
   auth.isSuperUserActingAsCustomer('write'),
   controller.invite)
 
@@ -52,7 +52,7 @@ router.post('/disconnect',
 
 router.post('/fetchValidCallerIds',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer(),
+  auth.isSuperUserActingAsCustomer('write'),
   validate({body: validationSchema.fetchValidCallerIds}),
   controller.fetchValidCallerIds)
 

@@ -14,16 +14,19 @@ router.post('/',
 
 router.post('/commerceChatbot',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   validate({ body: validationSchema.createPayload }),
   controller.createCommerceChatbot)
 
 router.put('/commerceChatbot',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   validate({ body: validationSchema.updatePayload }),
   controller.updateCommerceChatbot)
 
 router.get('/commerceChatbotTriggers/:chatbotId',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
   controller.getCommerceChatbotTriggers)
 
 router.get('/',

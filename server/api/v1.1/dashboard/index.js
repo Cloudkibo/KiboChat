@@ -38,6 +38,7 @@ router.get('/:id',
 
 router.get('/graphData/:days',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
   controller.graphData)
 
 router.post('/subscriberSummary',
