@@ -701,12 +701,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: dedent(`You have selected ${product.product} (price: ${product.price} ${product.currency}).\n
-                  Please select an option by sending the corresponding number for it:\n
-                  ${convertToEmoji(0)} Add to Cart\n
-                  ${specialKeyText(SHOW_CART_KEY)}
-                  ${specialKeyText(BACK_KEY)}
-                  ${specialKeyText(HOME_KEY)}`),
+          text: `You have selected ${product.product} (price: ${product.price} ${product.currency}) (stock available: ${product.inventory_quantity}).\n`,
           componentType: 'text',
           menu: [
             { type: DYNAMIC, action: QUANTITY_TO_ADD, argument: product },
@@ -722,6 +717,15 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
+
+    if (product.inventory_quantity > 0) {
+      messageBlock.payload[0].text += `\nPlease select an option by sending the corresponding number for it:\n${convertToEmoji(0)} Add to Cart\n`
+    } else {
+      messageBlock.payload[0].text += `\nThis product is currently out of stock. Please check again later.\n`
+    }
+
+    messageBlock.payload[0].text += `\n${specialKeyText(SHOW_CART_KEY)}\n${specialKeyText(BACK_KEY)}\n${specialKeyText(HOME_KEY)}`
+
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to select product ${err}`, 'error')
