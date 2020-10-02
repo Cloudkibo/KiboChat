@@ -9,40 +9,48 @@ const validationSchema = require('./validationSchema')
 router.post('/',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer('write'),
+  auth.doesPlanPermitsThisAction('chatbot_automation'),
+  auth.isUserAllowedToPerformThisAction('create_chatbot_automation'),
   validate({ body: validationSchema.createPayload }),
   controller.create)
 
-router.post('/shopifyChatbot',
+router.post('/commerceChatbot',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer('write'),
   validate({ body: validationSchema.createPayload }),
-  controller.createShopifyChatbot)
+  controller.createCommerceChatbot)
 
-router.put('/shopifyChatbot',
+router.put('/commerceChatbot',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer('write'),
   validate({ body: validationSchema.updatePayload }),
-  controller.updateShopifyChatbot)
+  controller.updateCommerceChatbot)
 
-router.get('/shopifyChatbotTriggers/:chatbotId',
+router.get('/commerceChatbotTriggers/:chatbotId',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer(),
-  controller.getShopifyChatbotTriggers)
+  controller.getCommerceChatbotTriggers)
 
 router.get('/',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer(),
+  auth.doesPlanPermitsThisAction('chatbot_automation'),
+  auth.isUserAllowedToPerformThisAction('configure_chatbot_automation'),
   controller.index)
 
 router.put('/',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer('write'),
+  auth.doesPlanPermitsThisAction('chatbot_automation'),
+  auth.isUserAllowedToPerformThisAction('update_chatbot_automation'),
   validate({ body: validationSchema.updatePayload }),
   controller.update)
 
 router.get('/:id/details',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer(),
+  auth.doesPlanPermitsThisAction('chatbot_automation'),
+  auth.isUserAllowedToPerformThisAction('configure_chatbot_automation'),
   controller.details)
 
 router.get('/:id/stats/:n',
@@ -58,27 +66,37 @@ router.post('/downloadAnalytics',
 router.get('/:id/fetch',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer(),
+  auth.doesPlanPermitsThisAction('chatbot_automation'),
+  auth.isUserAllowedToPerformThisAction('configure_chatbot_automation'),
   controller.fetchChatbot)
 
 router.delete('/:id',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer('write'),
+  auth.doesPlanPermitsThisAction('chatbot_automation'),
+  auth.isUserAllowedToPerformThisAction('configure_chatbot_automation'),
   controller.delete)
 
 router.get('/:id/fetchBackup',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer(),
+  auth.doesPlanPermitsThisAction('chatbot_automation'),
+  auth.isUserAllowedToPerformThisAction('configure_chatbot_automation'),
   controller.fetchBackup)
 
 router.post('/createBackup',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer('write'),
+  auth.doesPlanPermitsThisAction('chatbot_automation'),
+  auth.isUserAllowedToPerformThisAction('configure_chatbot_automation'),
   validate({ body: validationSchema.backupPayload }),
   controller.createBackup)
 
 router.post('/restoreBackup',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer('write'),
+  auth.doesPlanPermitsThisAction('chatbot_automation'),
+  auth.isUserAllowedToPerformThisAction('configure_chatbot_automation'),
   validate({ body: validationSchema.backupPayload }),
   controller.restoreBackup)
 

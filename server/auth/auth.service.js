@@ -64,6 +64,7 @@ function isAuthenticated () {
             }
           })
           .catch(err => {
+            console.log('err1', err)
             if (err.statusCode && err.statusCode === 401) {
               return res.status(401)
                 .json({status: 'Unauthorized', description: 'jwt expired'})
@@ -184,6 +185,34 @@ function doesPlanPermitsThisAction (action) {
   })
 }
 
+function isUserAllowedToPerformThisAction (action) {
+  if (!action) throw new Error('Action needs to be set')
+  return compose().use((req, res, next) => {
+    apiCaller.callApi(`permissions/query`, 'post', {userId: req.user._id})
+      .then(permissions => {
+        if (permissions.length > 0) {
+          const permission = permissions[0]
+          if (permission[action]) {
+            next()
+          } else {
+            return res.status(403).json({
+              status: 'failed',
+              description: 'You do not have the permission to perform this action. Please contact admin.'
+            })
+          }
+        } else {
+          return res.status(500).json({
+            status: 'failed',
+            description: 'Fatal Error. Permissions not set. Please contact support.'
+          })
+        }
+      })
+      .catch(err => {
+        return res.status(500).json({status: 'failed', description: `Internal Server Error: ${err}`})
+      })
+  })
+}
+
 function doesRolePermitsThisAction (action) {
   if (!action) throw new Error('Action needs to be set')
 
@@ -266,7 +295,7 @@ const _updateUserPlatform = (req, res) => {
         })
         .catch(err => {
           logger.serverLog(TAG, `500: Internal server error ${err}`)
-        })               
+        })
     }).catch(err => {
       logger.serverLog(TAG, JSON.stringify(err), 'error')
     })
@@ -335,7 +364,7 @@ function fbConnectDone (req, res) {
 
 // eslint-disable-next-line no-unused-vars
 function isAuthorizedWebHookTrigger (req, res, next) {
-  const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
+  /*const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
     req.socket.remoteAddress || req.connection.socket.remoteAddress
   logger.serverLog(TAG, req.ip, 'debug')
   logger.serverLog(TAG, ip, 'debug')
@@ -343,12 +372,12 @@ function isAuthorizedWebHookTrigger (req, res, next) {
   logger.serverLog(TAG, req.body, 'debug')
   // We need to change it to based on the requestee app
   if (config.allowedIps.indexOf(ip) > -1) next()
-  else res.send(403)
+  else res.send(403)*/
 }
 
 function isItWebhookServer () {
   return compose().use((req, res, next) => {
-    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
+    /*const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
       req.socket.remoteAddress || req.connection.socket.remoteAddress
     logger.serverLog(TAG, req.ip, 'debug')
     logger.serverLog(TAG, `ip from headers: ${ip}`, 'debug')
@@ -361,7 +390,8 @@ function isItWebhookServer () {
     } else {
       if (ip === '::ffff:' + config.webhook_ip) next()
       else res.send(403)
-    }
+    }*/
+    next()
   })
 }
 
@@ -378,6 +408,7 @@ exports.hasRole = hasRole
 exports.hasRequiredPlan = hasRequiredPlan
 exports.doesPlanPermitsThisAction = doesPlanPermitsThisAction
 exports.doesRolePermitsThisAction = doesRolePermitsThisAction
+exports.isUserAllowedToPerformThisAction = isUserAllowedToPerformThisAction
 exports.fbConnectDone = fbConnectDone
 exports.fetchPages = fetchPages
 exports.isKiboDash = isKiboDash
@@ -521,13 +552,13 @@ function updateUnapprovedPages (facebookPages, user, companyUser) {
 /**
  * Checks if a super user is acting as customer
  */
-function isSuperUserActingAsCustomer(modeOfAction) {
+function isSuperUserActingAsCustomer (modeOfAction) {
   return compose()
     .use((req, res, next) => {
       if (req.actingAsUser) {
-        if(modeOfAction === 'write') {
+        if (modeOfAction === 'write') {
           return res.status(403)
-          .json({status: 'failed', description: `You are not allowed to perform this action`})
+            .json({status: 'failed', description: `You are not allowed to perform this action`})
         } else {
           req.superUser = req.user
           req.user = req.actingAsUser

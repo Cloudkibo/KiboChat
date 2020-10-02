@@ -8,6 +8,7 @@ const sessionLogicLayer = require('../whatsAppSessions/whatsAppSessions.logiclay
 const whatsAppChatbotDataLayer = require('../whatsAppChatbot/whatsAppChatbot.datalayer')
 const whatsAppChatbotLogicLayer = require('../whatsAppChatbot/whatsAppChatbot.logiclayer')
 const shopifyDataLayer = require('../shopify/shopify.datalayer')
+const bigcommerceDataLayer = require('../bigcommerce/bigcommerce.datalayer')
 const { ActionTypes } = require('../../../whatsAppMapper/constants')
 const commerceConstants = require('./../ecommerceProvidersApiLayer/constants')
 const EcommerceProvider = require('./../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
@@ -25,6 +26,7 @@ exports.messageReceived = function (req, res) {
   record('whatsappChatInComing')
   whatsAppMapper.handleInboundMessageReceived(req.body.provider, req.body.event)
     .then(data => {
+      logger.serverLog(TAG, `received whatsapp event ${JSON.stringify(data)}`, 'info')
       createContact(data)
         .then((isNewContact) => {
           let number = `+${data.userData.number}`
@@ -45,17 +47,29 @@ exports.messageReceived = function (req, res) {
                         pushSessionPendingAlertInStack(company, contact, 'whatsApp')
                       }
                       if (data.messageData.componentType === 'text') {
-                        let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({_id: company.whatsApp.activeWhatsappBot})
+                        let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ _id: company.whatsApp.activeWhatsappBot })
                         if (chatbot) {
+                          logger.serverLog(TAG, `whatsapp chatbot ${JSON.stringify(chatbot)}`, 'info')
                           const shouldSend = chatbot.published || chatbot.testSubscribers.includes(contact.number)
                           if (shouldSend) {
-                            const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
-                            if (shopifyIntegration) {
-                              const ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
+                            let ecommerceProvider = null
+                            if (chatbot.storeType === commerceConstants.shopify) {
+                              const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
+                              ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
                                 shopUrl: shopifyIntegration.shopUrl,
                                 shopToken: shopifyIntegration.shopToken
                               })
+                            } else if (chatbot.storeType === commerceConstants.bigcommerce) {
+                              const bigCommerceIntegration = await bigcommerceDataLayer.findOneBigCommerceIntegration({ companyId: chatbot.companyId })
+                              ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
+                                shopToken: bigCommerceIntegration.shopToken,
+                                storeHash: bigCommerceIntegration.payload.context
+                              })
+                            }
+                            logger.serverLog(TAG, `whatsapp ecommerceProvider ${JSON.stringify(ecommerceProvider)}`, 'info')
+                            if (ecommerceProvider) {
                               let nextMessageBlock = await whatsAppChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text)
+                              logger.serverLog(TAG, `whatsapp nextMessageBlock ${JSON.stringify(nextMessageBlock)}`, 'info')
                               if (nextMessageBlock) {
                                 for (let messagePayload of nextMessageBlock.payload) {
                                   let chatbotResponse = {
@@ -224,6 +238,7 @@ function storeChat (from, to, contact, messageData) {
       })
   })
 }
+
 function saveNotifications (contact, companyUsers) {
   companyUsers.forEach((companyUser, index) => {
     let notificationsData = {
@@ -297,7 +312,7 @@ function _sendNotification (subscriber, payload, companyId) {
     })
 }
 
-function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
+function updateWhatsAppContact(query, bodyForUpdate, bodyForIncrement, options) {
   callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
     .then(updated => {
     })
@@ -334,7 +349,7 @@ exports.messageStatus = function (req, res) {
     })
 }
 
-function updateChat (message, body) {
+function updateChat(message, body) {
   let dateTime = Date.now()
   let matchQuery = {
     $or: [
@@ -376,7 +391,7 @@ function updateChat (message, body) {
   updateChatInDB(matchQuery, updated, dataToSend)
 }
 
-function updateChatInDB (match, updated, dataToSend) {
+function updateChatInDB(match, updated, dataToSend) {
   let updateData = {
     purpose: 'updateAll',
     match: match,
