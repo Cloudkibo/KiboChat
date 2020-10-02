@@ -24,6 +24,7 @@ exports.messageReceived = function (req, res) {
   record('whatsappChatInComing')
   whatsAppMapper.handleInboundMessageReceived(req.body.provider, req.body.event)
     .then(data => {
+      logger.serverLog(TAG, `received whatsapp event ${JSON.stringify(data)}`, 'info')
       createContact(data)
         .then((isNewContact) => {
           let number = `+${data.userData.number}`
