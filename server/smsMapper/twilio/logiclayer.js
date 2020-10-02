@@ -1,4 +1,3 @@
-
 exports.prepareChatbotPayload = (company, subscriber, data, options) => {
   let message = {
     from: company.number,
