@@ -16,6 +16,7 @@ const whatsAppChatbotAnalyticsDataLayer = require('../whatsAppChatbot/whatsAppCh
 const moment = require('moment')
 const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('../../global/messageAlerts')
 const { record } = require('../../global/messageStatistics')
+const chatbotResponder = require('../../../chatbotResponder')
 
 exports.messageReceived = function (req, res) {
   res.status(200).json({
@@ -115,6 +116,7 @@ exports.messageReceived = function (req, res) {
                       }
                       if (contact && contact.isSubscribed) {
                         storeChat(number, company.whatsApp.businessNumber, contact, data.messageData)
+                        chatbotResponder.respondUsingChatbot('whatsApp', req.body.provider, company, data.messageData.text, contact)
                       }
                     })
                     .catch(error => {
