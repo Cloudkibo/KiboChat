@@ -4,6 +4,10 @@ exports.createPayload = {
     pageId: {
       type: 'string',
       required: true
+    },
+    storeType: {
+      type: 'string',
+      required: true
     }
   }
 }

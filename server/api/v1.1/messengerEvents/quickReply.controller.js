@@ -4,7 +4,7 @@ const logger = require('../../../components/logger')
 const TAG = 'api/v1/messengerEvents/quickReply.controller'
 const { saveLiveChat } = require('./sessions.controller')
 const logicLayer = require('./logiclayer')
-const { handleShopifyChatbot } = require('./chatbotAutomation.controller')
+const { handleCommerceChatbot } = require('./chatbotAutomation.controller')
 
 exports.index = function (req, res) {
   res.status(200).json({
@@ -22,7 +22,7 @@ exports.index = function (req, res) {
       utility.callApi('subscribers/query', 'post', { senderId: subscriberId, pageId: page._id })
         .then(gotSubscriber => {
           subscriber = gotSubscriber[0]
-          handleShopifyChatbot(messengerPayload, page, subscriber)
+          handleCommerceChatbot(messengerPayload, page, subscriber)
           if (logicLayer.isJsonString(messengerPayload.message.quick_reply.payload)) {
             let quickRepyPayload = JSON.parse(messengerPayload.message.quick_reply.payload)
             for (let i = 0; i < quickRepyPayload.length; i++) {
