@@ -623,7 +623,8 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
         cards: [],
         quickReplies: []
       })
-      for (let i = 0; i < productVariants.length; i++) {
+      let productVariantsLength = productVariants.length > 10 ? 10 : productVariants.length
+      for (let i = 0; i < productVariantsLength; i++) {
         let productVariant = productVariants[i]
         let priceString = storeInfo.currency === 'USD' ? `Price: $${productVariant.price ? productVariant.price : product.price}` : `Price: ${productVariant.price ? productVariant.price : product.price} ${storeInfo.currency}`
         messageBlock.payload[1].cards.push({

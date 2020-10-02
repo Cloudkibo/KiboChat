@@ -663,7 +663,8 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
     let productVariants = await EcommerceProvider.getVariantsOfSelectedProduct(product.id)
     let storeInfo = await EcommerceProvider.fetchStoreInfo()
     logger.serverLog(TAG, `store info ${JSON.stringify(storeInfo)}`, 'info')
-    for (let i = 0; i < productVariants.length; i++) {
+    let productVariantsLength = productVariants.length > 10 ? 10 : productVariants.length
+    for (let i = 0; i < productVariantsLength; i++) {
       let productVariant = productVariants[i]
       messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${productVariant.name} (price: ${productVariant.price ? productVariant.price : product.price} ${storeInfo.currency})`
       messageBlock.payload[0].menu.push({
