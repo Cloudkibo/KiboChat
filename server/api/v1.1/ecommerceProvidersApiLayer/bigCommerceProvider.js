@@ -263,11 +263,15 @@ exports.findCustomerOrders = (customerId, limit, credentials) => {
     bigCommerce.get(`/orders?customer_id=${customerId}&limit=${limit}`)
       .then(data => {
         let result = { id: customerId }
-        result.orders = data.map(item => {
-          return { id: item.id,
-            name: '#' + item.id
-          }
-        })
+        if (data) {
+          result.orders = data.map(item => {
+            return { id: item.id,
+              name: '#' + item.id
+            }
+          })
+        } else {
+          result.orders = []
+        }
         resolve(result)
       })
       .catch(err => {
