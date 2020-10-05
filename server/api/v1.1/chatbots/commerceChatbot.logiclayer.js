@@ -1146,10 +1146,9 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
         commerceCustomer = commerceCustomer[0]
       }
       logger.serverLog(TAG, `commerceCustomer ${JSON.stringify(commerceCustomer)}`, 'info')
-      updateSubscriber({ _id: contact._id }, { commerceCustomer, shoppingCart: [] }, {})
+      updateSubscriber({ _id: contact._id }, { commerceCustomer }, {})
     } else {
       commerceCustomer = contact.commerceCustomer
-      updateSubscriber({ _id: contact._id }, { shoppingCart: [] }, null, {})
     }
     let checkoutLink = ''
     if (chatbot.storeType === commerceConstants.shopify) {
@@ -1159,6 +1158,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
       checkoutLink = await EcommerceProvider.createPermalinkForCartBigCommerce(bigcommerceCart.id)
       checkoutLink = checkoutLink.data.cart_url
     }
+    updateSubscriber({ _id: contact._id }, { shoppingCart: [] }, null, {})
 
     if (checkoutLink) {
       messageBlock.payload[0].buttons = [{
