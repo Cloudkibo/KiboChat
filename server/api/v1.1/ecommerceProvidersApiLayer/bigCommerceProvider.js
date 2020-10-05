@@ -91,7 +91,7 @@ exports.searchProducts = (searchQuery, credentials) => {
   const bigCommerce = initBigCommerce(credentials)
 
   return new Promise(function (resolve, reject) {
-    bigCommerce.get(`/catalog/products?limit=10&keyword=${searchQuery}`)
+    bigCommerce.get(`/catalog/products?limit=10&keyword=${escape(searchQuery)}`)
       .then(async data => {
         data = data.data
         data = await Promise.all(data.map(async item => {
