@@ -81,7 +81,8 @@ exports.testRoute = (req, res) => {
         shopToken: bigCommerceIntegration.shopToken,
         storeHash: bigCommerceIntegration.payload.context
       })
-      return bigCommerce.createOrder('78edeeeb-3504-41ee-86e5-72eb7b8e686a')
+      // return bigCommerce.createOrder('78edeeeb-3504-41ee-86e5-72eb7b8e686a')
+      return bigCommerce.findCustomerOrders(1, 10)
       // return bigCommerce.createPermalinkForCartBigCommerce('78edeeeb-3504-41ee-86e5-72eb7b8e686a')
       // return bigCommerce.updateCart('78edeeeb-3504-41ee-86e5-72eb7b8e686a', 'edbd622d-4302-4aa0-9735-88e6977b3335', 77, 3)
       // return bigCommerce.createCart(
