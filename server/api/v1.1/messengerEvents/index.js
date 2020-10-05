@@ -12,6 +12,8 @@ const welcomeMessage = require('./welcomeMessage.controller')
 const quickReply = require('./quickReply.controller')
 const chatbotOptin = require('./chatbotOptin.controller')
 const postback = require('./postback.controller')
+const seenController = require('./seen.controller')
+const deliveryController = require('./delivery.controller')
 
 router.post('/sessions', auth.isItWebhookServer(), sessionsController.index)
 router.post('/messagingReferrals', auth.isItWebhookServer(), messagingReferrals.index)
@@ -22,5 +24,7 @@ router.post('/welcomeMessage', auth.isItWebhookServer(), welcomeMessage.index)
 router.post('/quickReply', auth.isItWebhookServer(), quickReply.index)
 router.post('/chatbotOptin', auth.isItWebhookServer(), chatbotOptin.index)
 router.post('/postback', auth.isItWebhookServer(), postback.index)
+router.post('/seen', auth.isItWebhookServer(), seenController.index)
+router.post('/delivery', auth.isItWebhookServer(), deliveryController.index)
 
 module.exports = router
