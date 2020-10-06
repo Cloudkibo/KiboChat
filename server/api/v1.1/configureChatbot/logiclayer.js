@@ -3,6 +3,7 @@ exports.preparePayload = function (user, body) {
     companyId: user.companyId,
     userId: user._id,
     chatbotId: `cb-${new Date().getTime()}`,
+    platform: user.platform,
     title: body.title,
     startingBlockId: body.startingBlockId,
     published: false
