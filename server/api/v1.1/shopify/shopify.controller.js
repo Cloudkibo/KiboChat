@@ -217,6 +217,21 @@ exports.fetchStore = (req, res) => {
     })
 }
 
+exports.eraseCustomerData = (req, res) => {
+  sendSuccessResponse(res, 200, {status: 'success',
+    description: 'Customer data is not retained on our systems'})
+}
+
+exports.getCustomerData = (req, res) => {
+  sendSuccessResponse(res, 200, {status: 'success',
+    description: 'Customer data is not retained on our systems'})
+}
+
+exports.eraseShopData = (req, res) => {
+  sendSuccessResponse(res, 200, {status: 'success',
+    description: 'Customer data is not retained on our systems.'})
+}
+
 exports.testRoute = (req, res) => {
   dataLayer.findOneShopifyIntegration({ companyId: req.user.companyId })
     .then(shopifyIntegration => {
