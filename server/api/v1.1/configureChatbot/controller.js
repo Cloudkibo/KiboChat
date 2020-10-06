@@ -28,13 +28,13 @@ exports.index = function (req, res) {
 exports.details = function (req, res) {
   datalayer.fetchChatbotBlockRecords({chatbotId: req.params.id})
     .then(records => {
-      const blocks = records.map((item) => {
-        item.payload = JSON.parse(item.payload)
-        item.options = JSON.parse(item.options)
-        item.triggers = JSON.parse(item.triggers)
-        return item
-      })
-      return sendSuccessResponse(res, 200, blocks)
+      // const blocks = records.map((item) => {
+      //   item.payload = JSON.parse(item.payload)
+      //   item.options = JSON.parse(item.options)
+      //   item.triggers = JSON.parse(item.triggers)
+      //   return item
+      // })
+      return sendSuccessResponse(res, 200, records)
     })
     .catch(error => {
       return sendErrorResponse(res, 500, error, 'Failed to fetch chatbot blocks')

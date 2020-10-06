@@ -13,6 +13,7 @@ const controller = require('./shopify.controller')
 
 router.post('/',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
   controller.index) // this id will be userid
 
 router.get('/install', // handle installing of app from shopify app store
@@ -23,10 +24,12 @@ router.get('/callback',
 
 router.get('/fetchStore',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
   controller.fetchStore) // this id will be userid
 
 router.get('/testRoute',
   auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
   controller.testRoute) // this id will be userid
 
 // router.post('/checkout-create',

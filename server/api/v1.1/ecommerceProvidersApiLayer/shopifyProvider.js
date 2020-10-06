@@ -5,12 +5,12 @@ exports.fetchStoreInfo = (credentials) => {
   return new Promise(function (resolve, reject) {
     shopify.shop.get()
       .then(shop => {
-        console.log(shop)
         resolve({
           id: shop.id,
           name: shop.name,
           domain: shop.domain,
-          currency: shop.currency
+          currency: shop.currency,
+          type: 'bigcommerce'
         })
       })
       .catch(err => {
@@ -138,11 +138,6 @@ exports.getProductVariants = (id, credentials) => {
             name: product.title,
             product_id: product.product_id,
             price: product.price,
-            option1: product.option1,
-            option2: product.option2,
-            option3: product.option3,
-            weight: product.weight,
-            weight_unit: product.weight_unit,
             inventory_quantity: product.inventory_quantity
           }
         })
@@ -354,45 +349,11 @@ exports.findCustomerOrders = (customerId, limit, credentials) => {
       edges {
         node {
           id
-          email
-          firstName
-          lastName
-          phone
-          ordersCount
-          totalSpent
           orders(first: 10) {
             edges {
               node {
                 id
                 name
-                billingAddress {
-                  id
-                  name
-                  phone
-                  city
-                  country
-                  province
-                  address1
-                  address2
-                }
-                confirmed
-                createdAt
-                currencyCode
-                displayFinancialStatus
-                email
-                fulfillments {
-                  id
-                  trackingInfo {
-                    company
-                    number
-                    url
-                  }
-                }
-                phone
-                shippingAddress {
-                  id
-                }
-                displayFulfillmentStatus
               }
             }
           }

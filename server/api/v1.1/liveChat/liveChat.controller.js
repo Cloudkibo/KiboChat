@@ -153,19 +153,20 @@ exports.create = function (req, res) {
           _removeSubsWaitingForUserInput(req.body.subscriber_id)
           logger.serverLog(TAG, `updated subscriber again ${updated}`)
           fbMessageObject.datetime = new Date()
-          // require('./../../../config/socketio').sendMessageToClient({
-          //   room_id: req.user.companyId,
-          //   body: {
-          //     action: 'agent_replied',
-          //     payload: {
-          //       subscriber_id: req.body.subscriber_id,
-          //       message: fbMessageObject,
-          //       action: 'agent_replied',
-          //       user_id: req.user._id,
-          //       user_name: req.user.name
-          //     }
-          //   }
-          // })
+          fbMessageObject._id = req.body._id
+          require('./../../../config/socketio').sendMessageToClient({
+            room_id: req.user.companyId,
+            body: {
+              action: 'agent_replied',
+              payload: {
+                subscriber_id: req.body.subscriber_id,
+                message: fbMessageObject,
+                action: 'agent_replied',
+                user_id: req.user._id,
+                user_name: req.user.name
+              }
+            }
+          })
           callback(null, updated)
         })
         .catch(err => {

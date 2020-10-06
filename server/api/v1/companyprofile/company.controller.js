@@ -26,10 +26,14 @@ exports.getAutomatedOptions = function (req, res) {
           if (users.length > 0) {
             let user = users[0]
             payload.facebook = user.facebookInfo
+            payload.buyerInfo = {
+              name: user.name,
+              email: user.email
+            }
             sendSuccessResponse(res, 200, payload)
           } else {
             sendSuccessResponse(res, 200, payload)
-          }      
+          }
         }).catch(error => {
           sendErrorResponse(res, 500, `Failed to fetching user details ${JSON.stringify(error)}`)
         })
@@ -179,7 +183,7 @@ const _updateUserPlatform = (req, res) => {
         })
         .catch(err => {
           sendErrorResponse(res, 500, '', err)
-        })               
+        })
     }).catch(err => {
       logger.serverLog(TAG, JSON.stringify(err), 'error')
       sendErrorResponse(res, 500, '', err)
@@ -228,7 +232,7 @@ const _updateUser = (data, next) => {
         })
         .catch(err => {
           next(err)
-        })               
+        })
     }).catch(err => {
       logger.serverLog(TAG, JSON.stringify(err), 'error')
     })
@@ -336,7 +340,7 @@ exports.disconnect = function (req, res) {
                 })
                 .catch(err => {
                   sendErrorResponse(res, 500, err)
-                })               
+                })
             }).catch(err => {
               logger.serverLog(TAG, JSON.stringify(err), 'error')
             })
