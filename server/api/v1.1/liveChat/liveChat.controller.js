@@ -233,7 +233,7 @@ exports.create = function (req, res) {
                 })
             })
             .catch(err => {
-              res.status(500).json({status: 'failed', payload: `Failed to fetch automated options ${err}`})
+              res.status(500).json({status: 'failed', description: `Failed to fetch automated options ${err}`})
             })
         })
         .catch(err => {
@@ -246,7 +246,7 @@ exports.create = function (req, res) {
     }
   ], 10, function (err, results) {
     if (err) {
-      return res.status(500).json({status: 'failed', payload: err})
+      return res.status(500).json({status: 'failed', description: err})
     } else {
       let fbMessageObject = results[0]
       let subscriber = results[4]
