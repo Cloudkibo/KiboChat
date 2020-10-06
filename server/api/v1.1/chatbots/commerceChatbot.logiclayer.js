@@ -786,7 +786,7 @@ const getQuantityToAddBlock = async (chatbot, backId, contact, product) => {
 const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) => {
   try {
     quantity = Number(quantity)
-    if (!Number.isInteger(quantity) || quantity < 0) {
+    if (!Number.isInteger(quantity) || quantity <= 0) {
       throw new Error(`${ERROR_INDICATOR}Invalid quantity given.`)
     }
     let shoppingCart = contact.shoppingCart ? contact.shoppingCart : []
@@ -815,7 +815,7 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
 
     logger.serverLog(TAG, `shoppingCart ${JSON.stringify(shoppingCart)}`, 'info')
     updateSubscriber({ _id: contact._id }, { shoppingCart }, null, {})
-    let text = `${quantity} ${product.product}${quantity !== 1 ? 's have' : ' has'} been succesfully added to your cart.`
+    let text = `${quantity} ${product.product}${quantity !== 1 ? 's have' : 'has'} been succesfully added to your cart.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
     logger.serverLog(TAG, `Unable to add to cart ${err}`, 'error')
@@ -937,7 +937,7 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
       throw new Error(`${ERROR_INDICATOR}Invalid quantity given.`)
     }
     updateSubscriber({ _id: contact._id }, { shoppingCart }, null, {})
-    let text = `${quantity} ${productInfo.product}${quantity !== 1 ? 's have' : ' has'} been succesfully removed from your cart.`
+    let text = `${quantity} ${productInfo.product}${quantity !== 1 ? 's have' : 'has'} been succesfully removed from your cart.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
     console.log('Unable to remove item(s) from cart', err.stack)
