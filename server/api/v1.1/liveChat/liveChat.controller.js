@@ -12,6 +12,8 @@ const { sendSuccessResponse, sendErrorResponse } = require('../../global/respons
 const { record } = require('../../global/messageStatistics')
 const { sendOpAlert } = require('../../global/operationalAlert')
 const { deletePendingSessionFromStack } = require('../../global/messageAlerts')
+const { updateCompanyUsage } = require('../../global/billingPricing')
+
 
 exports.index = function (req, res) {
   if (req.params.subscriber_id) {
@@ -150,23 +152,10 @@ exports.create = function (req, res) {
       }
       callApi(`subscribers/update`, 'put', subscriberData)
         .then(updated => {
+          updateCompanyUsage(req.user.companyId, 'chat_messages', 1)
           _removeSubsWaitingForUserInput(req.body.subscriber_id)
           logger.serverLog(TAG, `updated subscriber again ${updated}`)
           fbMessageObject.datetime = new Date()
-          fbMessageObject._id = req.body._id
-          require('./../../../config/socketio').sendMessageToClient({
-            room_id: req.user.companyId,
-            body: {
-              action: 'agent_replied',
-              payload: {
-                subscriber_id: req.body.subscriber_id,
-                message: fbMessageObject,
-                action: 'agent_replied',
-                user_id: req.user._id,
-                user_name: req.user.name
-              }
-            }
-          })
           callback(null, updated)
         })
         .catch(err => {
@@ -295,6 +284,20 @@ exports.create = function (req, res) {
           logger.serverLog(TAG, `error found ${err}`)
           sendErrorResponse(res, 400, 'Meta data not found')
         } else {
+          fbMessageObject._id = req.body._id
+          require('./../../../config/socketio').sendMessageToClient({
+            room_id: req.user.companyId,
+            body: {
+              action: 'agent_replied',
+              payload: {
+                subscriber_id: req.body.subscriber_id,
+                message: fbMessageObject,
+                action: 'agent_replied',
+                user_id: req.user._id,
+                user_name: req.user.name
+              }
+            }
+          })
           sendSuccessResponse(res, 200, fbMessageObject)
         }
       })
