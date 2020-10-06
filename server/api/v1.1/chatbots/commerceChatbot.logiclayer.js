@@ -1162,8 +1162,11 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
     if (chatbot.storeType === commerceConstants.shopify) {
       checkoutLink = await EcommerceProvider.createPermalinkForCart(commerceCustomer, contact.shoppingCart)
     } else if (chatbot.storeType === commerceConstants.bigcommerce) {
+      logger.serverLog(TAG, `creating bigcommerce cart ${commerceCustomer.id} ${JSON.stringify(contact.shoppingCart)}`)
       const bigcommerceCart = await EcommerceProvider.createCart(commerceCustomer.id, contact.shoppingCart)
+      logger.serverLog(TAG, `bigcommerce cart created ${JSON.stringify(bigcommerceCart)}`)
       checkoutLink = await EcommerceProvider.createPermalinkForCartBigCommerce(bigcommerceCart.id)
+      logger.serverLog(TAG, `bigcommerce checkoutLink generated ${JSON.stringify(checkoutLink)}`)
       checkoutLink = checkoutLink.data.cart_url
     }
     updateSubscriber({ _id: contact._id }, { shoppingCart: [] }, null, {})
