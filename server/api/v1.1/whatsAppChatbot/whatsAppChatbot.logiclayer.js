@@ -849,6 +849,7 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
           currency = product.currency
         }
         let price = product.quantity * product.price
+        price = Number(price.toFixed(2))
         totalPrice += price
         messageBlock.payload[0].text += `\n*Item*: ${product.product}`
         messageBlock.payload[0].text += `\n*Quantity*: ${product.quantity}`

@@ -865,6 +865,7 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
           currency = product.currency
         }
         let price = product.quantity * product.price
+        price = Number(price.toFixed(2))
         totalPrice += price
 
         let priceString = currency === 'USD' ? `$${product.price}` : `${product.price} ${currency}`
