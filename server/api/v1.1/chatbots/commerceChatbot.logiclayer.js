@@ -1314,8 +1314,13 @@ const invalidInput = async (chatbot, messageBlock, errMessage) => {
   return messageBlock
 }
 
-const getQuantityToUpdateBlock = async (chatbot, backId, product) => {
+const getQuantityToUpdateBlock = async (chatbot, backId, product, contact) => {
   try {
+    let shoppingCart = contact.shoppingCart ? contact.shoppingCart : []
+    let existingProductIndex = shoppingCart.findIndex((item) => item.variant_id === product.variant_id)
+    if (existingProductIndex === -1) {
+      product.quantity = 0
+    }
     let priceString = product.currency === 'USD' ? `$${product.price}` : `${product.price} ${product.currency}`
     let messageBlock = {
       module: {
