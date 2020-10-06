@@ -1502,7 +1502,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
               break
             }
             case QUANTITY_TO_UPDATE: {
-              messageBlock = await getQuantityToUpdateBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument)
+              messageBlock = await getQuantityToUpdateBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument, contact)
               break
             }
             case VIEW_RECENT_ORDERS: {
