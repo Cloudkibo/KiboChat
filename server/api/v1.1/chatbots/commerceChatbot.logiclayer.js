@@ -904,15 +904,17 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
     messageBlock.payload[messageBlock.payload.length - 1].quickReplies.push(
       {
         content_type: 'text',
-        title: 'Go Back',
-        payload: JSON.stringify({ type: STATIC, blockId: backId })
-      },
-      {
-        content_type: 'text',
         title: 'Go Home',
         payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
       }
     )
+    if (!optionalText) {
+      messageBlock.payload[messageBlock.payload.length - 1].quickReplies.push({
+        content_type: 'text',
+        title: 'Go Back',
+        payload: JSON.stringify({ type: STATIC, blockId: backId })
+      })
+    }
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to show cart ${err}`, 'error')
@@ -922,6 +924,12 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
 
 const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, quantity) => {
   try {
+    let shoppingCart = contact.shoppingCart ? contact.shoppingCart : []
+    let existingProductIndex = shoppingCart.findIndex((item) => item.variant_id === productInfo.variant_id)
+    if (existingProductIndex === -1) {
+      let text = `This product no longer exists in your cart`
+      return getShowMyCartBlock(chatbot, backId, contact, text)
+    }
     if (!quantity) {
       quantity = productInfo.quantity
     }
@@ -929,7 +937,6 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
     if (!Number.isInteger(quantity) || quantity < 0) {
       throw new Error(`${ERROR_INDICATOR}Invalid quantity given.`)
     }
-    let shoppingCart = contact.shoppingCart
     shoppingCart[productInfo.productIndex].quantity -= quantity
     if (shoppingCart[productInfo.productIndex].quantity === 0) {
       shoppingCart.splice(productInfo.productIndex, 1)
