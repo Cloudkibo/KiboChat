@@ -1,5 +1,5 @@
 const logiclayer = require('./chatbots.logiclayer')
-const shopifyLogicLayer = require('./shopifyChatbot.logiclayer')
+const commerceLogicLayer = require('./commerceChatbot.logiclayer')
 const datalayer = require('./chatbots.datalayer')
 const analyticsDataLayer = require('./chatbots_analytics.datalayer')
 const msgBlockDataLayer = require('./../messageBlock/messageBlock.datalayer')
@@ -12,6 +12,7 @@ const { sendErrorResponse, sendSuccessResponse } = require('../../global/respons
 const { kibochat, kiboengage } = require('../../global/constants').serverConstants
 const async = require('async')
 const shopifyDataLayer = require('../shopify/shopify.datalayer')
+const bigCommerceDataLayer = require('../bigcommerce/bigcommerce.datalayer')
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
 const EcommerceProvider = require('../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
 
@@ -316,7 +317,7 @@ exports.redirectToUrl = (req, res) => {
 }
 
 exports.exportData = (req, res) => {
-  analyticsDataLayer.findForBotSubscribersAnalyticsForSQL({companyId: req.user.companyId})
+  analyticsDataLayer.findForBotSubscribersAnalyticsForSQL({ companyId: req.user.companyId })
     .then(results => {
       var subscriberIds = results.map(value => value.subscriberId)
       var unique = subscriberIds.filter((v, i, a) => a.indexOf(v) === i)
@@ -343,7 +344,7 @@ exports.exportData = (req, res) => {
     })
 }
 
-exports.getShopifyChatbotTriggers = async (req, res) => {
+exports.getCommerceChatbotTriggers = async (req, res) => {
   let chatbot = await datalayer.findOneChatBot({
     _id: req.params.chatbotId
   })
@@ -351,31 +352,59 @@ exports.getShopifyChatbotTriggers = async (req, res) => {
   sendSuccessResponse(res, 200, messageBlock.triggers)
 }
 
-exports.updateShopifyChatbot = async (req, res) => {
+exports.updateCommerceChatbot = async (req, res) => {
   const updateResponse = await datalayer.genericUpdateChatBot({ _id: req.body.chatbotId }, req.body)
-  sendSuccessResponse(res, 200, updateResponse, 'Shopify chatbot updated successfully')
+  sendSuccessResponse(res, 200, updateResponse, 'Commerce chatbot updated successfully')
   let updatedChatbot = await datalayer.findOneChatBot({
     _id: req.body.chatbotId
   })
   if (req.body.botLinks && req.body.botLinks.faqs) {
-    shopifyLogicLayer.updateFaqsForStartingBlock(updatedChatbot)
+    commerceLogicLayer.updateFaqsForStartingBlock(updatedChatbot)
   }
   if (req.body.triggers) {
     msgBlockDataLayer.genericUpdateMessageBlock({ uniqueId: updatedChatbot.startingBlockId }, {
       triggers: req.body.triggers
     })
   }
-}
-
-exports.createShopifyChatbot = async (req, res) => {
-  try {
-    const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: req.user.companyId })
-    logger.serverLog(TAG, `shopify integration ${JSON.stringify(shopifyIntegration)}`, 'info')
-    if (shopifyIntegration) {
-      const ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
+  if (req.body.storeType) {
+    let ecommerceProvider = null
+    if (req.body.storeType === commerceConstants.shopify) {
+      const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: req.user.companyId })
+      ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
         shopUrl: shopifyIntegration.shopUrl,
         shopToken: shopifyIntegration.shopToken
       })
+    } else if (req.body.storeType === commerceConstants.bigcommerce) {
+      const bigCommerceIntegration = await bigCommerceDataLayer.findOneBigCommerceIntegration({ companyId: req.user.companyId })
+      ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
+        shopToken: bigCommerceIntegration.shopToken,
+        storeHash: bigCommerceIntegration.payload.context
+      })
+    }
+    if (ecommerceProvider) {
+      let storeInfo = await ecommerceProvider.fetchStoreInfo()
+      commerceLogicLayer.updateStartingBlock(updatedChatbot, storeInfo.name)
+    }
+  }
+}
+
+exports.createCommerceChatbot = async (req, res) => {
+  try {
+    let ecommerceProvider = null
+    if (req.body.storeType === commerceConstants.shopify) {
+      const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: req.user.companyId })
+      ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
+        shopUrl: shopifyIntegration.shopUrl,
+        shopToken: shopifyIntegration.shopToken
+      })
+    } else if (req.body.storeType === commerceConstants.bigcommerce) {
+      const bigCommerceIntegration = await bigCommerceDataLayer.findOneBigCommerceIntegration({ companyId: req.user.companyId })
+      ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
+        shopToken: bigCommerceIntegration.shopToken,
+        storeHash: bigCommerceIntegration.payload.context
+      })
+    }
+    if (ecommerceProvider) {
       let storeInfo = await ecommerceProvider.fetchStoreInfo()
       let chatbot = await datalayer.createForChatBot({
         pageId: req.body.pageId,
@@ -383,19 +412,20 @@ exports.createShopifyChatbot = async (req, res) => {
         userId: req.user._id,
         type: 'automated',
         vertical: 'commerce',
-        botLinks: req.body.botLinks
+        botLinks: req.body.botLinks,
+        storeType: req.body.storeType
       })
-      let messageBlocks = shopifyLogicLayer.getMessageBlocks(chatbot, storeInfo.name)
+      let messageBlocks = commerceLogicLayer.getMessageBlocks(chatbot, storeInfo.name)
       await datalayer.genericUpdateChatBot({ companyId: req.user.companyId, pageId: req.body.pageId }, {
         startingBlockId: messageBlocks[0].uniqueId
       })
       chatbot.startingBlockId = messageBlocks[0].uniqueId
-      sendSuccessResponse(res, 200, chatbot, 'Shopify chatbot created successfully')
+      sendSuccessResponse(res, 200, chatbot, 'Commerce chatbot created successfully')
     } else {
-      sendErrorResponse(res, 500, 'Shopify is not integrated', 'Shopify is not integrated')
+      sendErrorResponse(res, 500, 'No e-commerce provider is integrated', 'No e-commerce provider is integrated')
     }
   } catch (err) {
-    console.log(`Failed to create Shopify chatbot`, err.stack)
-    sendErrorResponse(res, 500, err ? err.message : `Failed to create Shopify chatbot`, `Failed to create Shopify chatbot`)
+    console.log(`Failed to create commerce chatbot`, err.stack)
+    sendErrorResponse(res, 500, err ? err.message : `Failed to create commerce chatbot`, `Failed to create commerce chatbot`)
   }
 }

@@ -266,7 +266,7 @@ const _updateUserPlatform = (req, res) => {
         })
         .catch(err => {
           logger.serverLog(TAG, `500: Internal server error ${err}`)
-        })               
+        })
     }).catch(err => {
       logger.serverLog(TAG, JSON.stringify(err), 'error')
     })
@@ -521,13 +521,13 @@ function updateUnapprovedPages (facebookPages, user, companyUser) {
 /**
  * Checks if a super user is acting as customer
  */
-function isSuperUserActingAsCustomer(modeOfAction) {
+function isSuperUserActingAsCustomer (modeOfAction) {
   return compose()
     .use((req, res, next) => {
       if (req.actingAsUser) {
-        if(modeOfAction === 'write') {
+        if (modeOfAction === 'write') {
           return res.status(403)
-          .json({status: 'failed', description: `You are not allowed to perform this action`})
+            .json({status: 'failed', description: `You are not allowed to perform this action`})
         } else {
           req.superUser = req.user
           req.user = req.actingAsUser

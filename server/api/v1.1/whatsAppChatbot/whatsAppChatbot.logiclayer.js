@@ -34,6 +34,7 @@ const TAG = 'api/v1️.1/whatsAppChatbot/whatsAppChatbot.logiclayer.js'
 const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 const { callApi } = require('../utility')
 const moment = require('moment')
+const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
 
 exports.criteriaForPeriodicBotStats = (chatbotId, days) => {
   let matchAggregate = {
@@ -188,7 +189,7 @@ exports.getMessageBlocks = (chatbot) => {
   getReturnOrderIdBlock(chatbot, returnOrderId, messageBlocks)
   getSearchProductsBlock(chatbot, searchProductsId, messageBlocks)
   if (chatbot.botLinks && chatbot.botLinks.faqs) {
-    messageBlocks[0].payload[0].text = `\n${specialKeyText(FAQS_KEY, 'faqs')} FAQs`
+    messageBlocks[0].payload[0].text += `\n${specialKeyText(FAQS_KEY, 'faqs')} FAQs`
     messageBlocks[0].payload[0].specialKeys[FAQS_KEY] = { type: STATIC, blockId: faqsId }
     getFaqsBlock(chatbot, faqsId, messageBlocks, mainMenuId)
   }
@@ -412,8 +413,8 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
       companyId: chatbot.companyId
     }
     let recentOrders = []
-    if (contact.shopifyCustomer) {
-      recentOrders = await EcommerceProvider.findCustomerOrders(contact.shopifyCustomer.id, 9)
+    if (contact.commerceCustomer) {
+      recentOrders = await EcommerceProvider.findCustomerOrders(contact.commerceCustomer.id, 9)
       recentOrders = recentOrders.orders
       if (recentOrders.length > 0) {
         messageBlock.payload[0].text = 'Here are your recently placed orders. Select an order by sending the corresponding number for it:\n'
@@ -484,8 +485,12 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     let orderStatus = await EcommerceProvider.checkOrderStatus(Number(orderId))
 
     logger.serverLog(TAG, `orderStatus ${JSON.stringify(orderStatus)}`, 'info')
-    messageBlock.payload[0].text += `\n*Payment*: ${orderStatus.displayFinancialStatus}`
-    messageBlock.payload[0].text += `\n*Delivery*: ${orderStatus.displayFulfillmentStatus}`
+    if (orderStatus.displayFinancialStatus) {
+      messageBlock.payload[0].text += `\n*Payment*: ${orderStatus.displayFinancialStatus}`
+    }
+    if (orderStatus.displayFulfillmentStatus) {
+      messageBlock.payload[0].text += `\n*Delivery*: ${orderStatus.displayFulfillmentStatus}`
+    }
 
     if (orderStatus.lineItems) {
       for (let i = 0; i < orderStatus.lineItems.length; i++) {
@@ -658,16 +663,18 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
     let productVariants = await EcommerceProvider.getVariantsOfSelectedProduct(product.id)
     let storeInfo = await EcommerceProvider.fetchStoreInfo()
     logger.serverLog(TAG, `store info ${JSON.stringify(storeInfo)}`, 'info')
-    for (let i = 0; i < productVariants.length; i++) {
+    let productVariantsLength = productVariants.length > 10 ? 10 : productVariants.length
+    for (let i = 0; i < productVariantsLength; i++) {
       let productVariant = productVariants[i]
-      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${productVariant.name} (price: ${product.price} ${storeInfo.currency})`
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${productVariant.name} (price: ${productVariant.price ? productVariant.price : product.price} ${storeInfo.currency})`
       messageBlock.payload[0].menu.push({
         type: DYNAMIC,
         action: SELECT_PRODUCT,
         argument: {
           variant_id: productVariant.id,
+          product_id: productVariant.product_id,
           product: `${productVariant.name} ${product.name}`,
-          price: productVariant.price,
+          price: productVariant.price ? productVariant.price : product.price,
           inventory_quantity: productVariant.inventory_quantity,
           currency: storeInfo.currency
         }
@@ -694,12 +701,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: dedent(`You have selected ${product.product} (price: ${product.price} ${product.currency}).\n
-                  Please select an option by sending the corresponding number for it:\n
-                  ${convertToEmoji(0)} Add to Cart\n
-                  ${specialKeyText(SHOW_CART_KEY)}
-                  ${specialKeyText(BACK_KEY)}
-                  ${specialKeyText(HOME_KEY)}`),
+          text: `You have selected ${product.product} (price: ${product.price} ${product.currency}) (stock available: ${product.inventory_quantity}).\n`,
           componentType: 'text',
           menu: [
             { type: DYNAMIC, action: QUANTITY_TO_ADD, argument: product },
@@ -715,6 +717,15 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
+
+    if (product.inventory_quantity > 0) {
+      messageBlock.payload[0].text += `\nPlease select an option by sending the corresponding number for it:\n\n${convertToEmoji(0)} Add to Cart\n`
+    } else {
+      messageBlock.payload[0].text += `\nThis product is currently out of stock. Please check again later.\n`
+    }
+
+    messageBlock.payload[0].text += `\n${specialKeyText(SHOW_CART_KEY)}\n${specialKeyText(BACK_KEY)}\n${specialKeyText(HOME_KEY)}`
+
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to select product ${err}`, 'error')
@@ -777,6 +788,7 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
       if (quantity > 0) {
         shoppingCart.push({
           variant_id: product.variant_id,
+          product_id: product.product_id,
           quantity,
           product: product.product,
           inventory_quantity: product.inventory_quantity,
@@ -1046,6 +1058,7 @@ const getUpdateCartBlock = async (chatbot, backId, contact, product, quantity) =
     } else if (quantity > 0) {
       shoppingCart.push({
         variant_id: product.variant_id,
+        product_id: product.product_id,
         quantity,
         product: product.product,
         inventory_quantity: product.inventory_quantity,
@@ -1110,7 +1123,7 @@ function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options)
 const getCheckoutEmailBlock = async (chatbot, contact, newEmail) => {
   try {
     let messageBlock = null
-    if (!newEmail && contact.shopifyCustomer && contact.shopifyCustomer.email) {
+    if (!newEmail && contact.commerceCustomer && contact.commerceCustomer.email) {
       messageBlock = {
         module: {
           id: chatbot._id,
@@ -1120,7 +1133,7 @@ const getCheckoutEmailBlock = async (chatbot, contact, newEmail) => {
         uniqueId: '' + new Date().getTime(),
         payload: [
           {
-            text: dedent(`Would you like to use ${contact.shopifyCustomer.email} as your email?\n
+            text: dedent(`Would you like to use ${contact.commerceCustomer.email} as your email?\n
                         Send '0' for Yes
                         Send '1' for No`),
             componentType: 'text',
@@ -1159,6 +1172,223 @@ const getCheckoutEmailBlock = async (chatbot, contact, newEmail) => {
   }
 }
 
+// const getCheckoutAddressBlock = async (chatbot, contact, address) => {
+//   try {
+//     let messageBlock = null
+//     if (!address && !address.address1 && contact.commerceCustomer && contact.commerceCustomer.defaultAddress.address1) {
+//       messageBlock = {
+//         module: {
+//           id: chatbot._id,
+//           type: 'whatsapp_chatbot'
+//         },
+//         title: 'Address1',
+//         uniqueId: '' + new Date().getTime(),
+//         payload: [
+//           {
+//             text: dedent(`Would you like to use ${contact.defaultAddress.address1} as your street address?\n
+//                         Send '0' for Yes
+//                         Send '1' for No`),
+//             componentType: 'text',
+//             menu: [
+//               { type: DYNAMIC, action: GET_CHECKOUT_CITY, argument: { address: contact.commerceCustomer.defaultAddress.address1 } },
+//               { type: DYNAMIC, action: GET_CHECKOUT_ADDRESS, argument: { ...address, address1: '' } }
+//             ]
+//           }
+//         ],
+//         userId: chatbot.userId,
+//         companyId: chatbot.companyId
+//       }
+//     } else {
+//       messageBlock = {
+//         module: {
+//           id: chatbot._id,
+//           type: 'whatsapp_chatbot'
+//         },
+//         title: 'Checkout Email',
+//         uniqueId: '' + new Date().getTime(),
+//         payload: [
+//           {
+//             text: `Please enter your street address: `,
+//             componentType: 'text',
+//             action: { type: DYNAMIC, action: GET_CHECKOUT_CITY, input: true, argument: { ...address, address1: '' } }
+//           }
+//         ],
+//         userId: chatbot.userId,
+//         companyId: chatbot.companyId
+//       }
+//     }
+//     return messageBlock
+//   } catch (err) {
+//     logger.serverLog(TAG, `Unable to input street address ${err} `, 'error')
+//     throw new Error(`${ERROR_INDICATOR}Unable to input street address`)
+//   }
+// }
+
+// const getCheckoutCityBlock = async (chatbot, contact, address, userInput) => {
+//   try {
+//     if (userInput && address && !address.address1) {
+//       address.address1 = userInput
+//     }
+//     let messageBlock = null
+//     if (!address && !address.city && contact.commerceCustomer && contact.commerceCustomer.defaultAddress.city) {
+//       messageBlock = {
+//         module: {
+//           id: chatbot._id,
+//           type: 'whatsapp_chatbot'
+//         },
+//         title: 'City',
+//         uniqueId: '' + new Date().getTime(),
+//         payload: [
+//           {
+//             text: dedent(`Would you like to use ${contact.defaultAddress.city} as your city?\n
+//                         Send '0' for Yes
+//                         Send '1' for No`),
+//             componentType: 'text',
+//             menu: [
+//               { type: DYNAMIC, action: GET_CHECKOUT_COUNTRY, argument: { ...address, city: contact.defaultAddress.city } },
+//               { type: DYNAMIC, action: GET_CHECKOUT_CITY, argument: { ...address, city: '' } }
+//             ]
+//           }
+//         ],
+//         userId: chatbot.userId,
+//         companyId: chatbot.companyId
+//       }
+//     } else {
+//       messageBlock = {
+//         module: {
+//           id: chatbot._id,
+//           type: 'whatsapp_chatbot'
+//         },
+//         title: 'Checkout Email',
+//         uniqueId: '' + new Date().getTime(),
+//         payload: [
+//           {
+//             text: `Please enter your city: `,
+//             componentType: 'text',
+//             action: { type: DYNAMIC, action: GET_CHECKOUT_COUNTRY, input: true, argument: { ...address, city: '' } }
+//           }
+//         ],
+//         userId: chatbot.userId,
+//         companyId: chatbot.companyId
+//       }
+//     }
+//     return messageBlock
+//   } catch (err) {
+//     logger.serverLog(TAG, `Unable to input city ${err} `, 'error')
+//     throw new Error(`${ERROR_INDICATOR}Unable to input city`)
+//   }
+// }
+
+// const getCheckoutCountryBlock = async (chatbot, contact, address, userInput) => {
+//   try {
+//     if (userInput && address && !address.city) {
+//       address.city = userInput
+//     }
+//     let messageBlock = null
+//     if (!address && !address.city && contact.commerceCustomer && contact.commerceCustomer.defaultAddress.country) {
+//       messageBlock = {
+//         module: {
+//           id: chatbot._id,
+//           type: 'whatsapp_chatbot'
+//         },
+//         title: 'Address1',
+//         uniqueId: '' + new Date().getTime(),
+//         payload: [
+//           {
+//             text: dedent(`Would you like to use ${contact.defaultAddress.country} as your country?\n
+//                         Send '0' for Yes
+//                         Send '1' for No`),
+//             componentType: 'text',
+//             menu: [
+//               { type: DYNAMIC, action: GET_CHECKOUT_ZIP_CODE, argument: { ...address, country: contact.defaultAddress.country } },
+//               { type: DYNAMIC, action: GET_CHECKOUT_COUNTRY, argument: { ...address, country: '' } }
+//             ]
+//           }
+//         ],
+//         userId: chatbot.userId,
+//         companyId: chatbot.companyId
+//       }
+//     } else {
+//       messageBlock = {
+//         module: {
+//           id: chatbot._id,
+//           type: 'whatsapp_chatbot'
+//         },
+//         title: 'Checkout Email',
+//         uniqueId: '' + new Date().getTime(),
+//         payload: [
+//           {
+//             text: `Please enter your country: `,
+//             componentType: 'text',
+//             action: { type: DYNAMIC, action: GET_CHECKOUT_ZIP_CODE, input: true, argument: { ...address, country: '' } }
+//           }
+//         ],
+//         userId: chatbot.userId,
+//         companyId: chatbot.companyId
+//       }
+//     }
+//     return messageBlock
+//   } catch (err) {
+//     logger.serverLog(TAG, `Unable to input country ${err} `, 'error')
+//     throw new Error(`${ERROR_INDICATOR}Unable to input country`)
+//   }
+// }
+
+// const getCheckoutZipCodeBlock = async (chatbot, contact, address, userInput) => {
+//   try {
+//     if (userInput && address && !address.country) {
+//       address.country = userInput
+//     }
+//     let messageBlock = null
+//     if (!address && !address.zip && contact.commerceCustomer && contact.commerceCustomer.defaultAddress.zip) {
+//       messageBlock = {
+//         module: {
+//           id: chatbot._id,
+//           type: 'whatsapp_chatbot'
+//         },
+//         title: 'Address1',
+//         uniqueId: '' + new Date().getTime(),
+//         payload: [
+//           {
+//             text: dedent(`Would you like to use ${contact.defaultAddress.zip} as your postal code?\n
+//                         Send '0' for Yes
+//                         Send '1' for No`),
+//             componentType: 'text',
+//             menu: [
+//               { type: DYNAMIC, action: GET_CHECKOUT_EMAIL, argument: { ...address, zip: contact.defaultAddress.zip } },
+//               { type: DYNAMIC, action: GET_CHECKOUT_ZIP_CODE, argument: { ...address, zip: '' } }
+//             ]
+//           }
+//         ],
+//         userId: chatbot.userId,
+//         companyId: chatbot.companyId
+//       }
+//     } else {
+//       messageBlock = {
+//         module: {
+//           id: chatbot._id,
+//           type: 'whatsapp_chatbot'
+//         },
+//         title: 'Checkout Email',
+//         uniqueId: '' + new Date().getTime(),
+//         payload: [
+//           {
+//             text: `Please enter your country: `,
+//             componentType: 'text',
+//             action: { type: DYNAMIC, action: GET_CHECKOUT_EMAIL, input: true, argument: { ...address, country: '' } }
+//           }
+//         ],
+//         userId: chatbot.userId,
+//         companyId: chatbot.companyId
+//       }
+//     }
+//     return messageBlock
+//   } catch (err) {
+//     logger.serverLog(TAG, `Unable to input country ${err} `, 'error')
+//     throw new Error(`${ERROR_INDICATOR}Unable to input country`)
+//   }
+// }
+
 const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, newEmail) => {
   try {
     let messageBlock = {
@@ -1182,27 +1412,39 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
       companyId: chatbot.companyId
     }
 
-    let shopifyCustomer = null
+    let commerceCustomer = null
     if (newEmail) {
-      shopifyCustomer = await EcommerceProvider.searchCustomerUsingEmail(newEmail)
-      if (shopifyCustomer.length === 0) {
-        shopifyCustomer = await EcommerceProvider.createCustomer('', '', newEmail)
+      commerceCustomer = await EcommerceProvider.searchCustomerUsingEmail(newEmail)
+      if (commerceCustomer.length === 0) {
+        commerceCustomer = await EcommerceProvider.createCustomer('firstName', 'lastName', newEmail)
       } else {
-        shopifyCustomer = shopifyCustomer[0]
+        commerceCustomer = commerceCustomer[0]
       }
-      logger.serverLog(TAG, `shopifyCustomer ${JSON.stringify(shopifyCustomer)}`, 'info')
-      updateWhatsAppContact({ _id: contact._id }, { shopifyCustomer, shoppingCart: [] }, null, {})
+      logger.serverLog(TAG, `commerceCustomer ${JSON.stringify(commerceCustomer)}`, 'info')
+      updateWhatsAppContact({ _id: contact._id }, { commerceCustomer, shoppingCart: [] }, null, {})
     } else {
-      shopifyCustomer = contact.shopifyCustomer
-
+      commerceCustomer = contact.commerceCustomer
       updateWhatsAppContact({ _id: contact._id }, { shoppingCart: [] }, null, {})
     }
-    let checkoutLink = EcommerceProvider.createPermalinkForCart(shopifyCustomer, contact.shoppingCart)
 
-    messageBlock.payload[0].text += `\n${checkoutLink} `
+    let checkoutLink = ''
+    if (chatbot.storeType === commerceConstants.shopify) {
+      checkoutLink = await EcommerceProvider.createPermalinkForCart(commerceCustomer, contact.shoppingCart)
+    } else if (chatbot.storeType === commerceConstants.bigcommerce) {
+      const bigcommerceCart = await EcommerceProvider.createCart(commerceCustomer.id, contact.shoppingCart)
+      checkoutLink = await EcommerceProvider.createPermalinkForCartBigCommerce(bigcommerceCart.id)
+      checkoutLink = checkoutLink.data.cart_url
+    }
 
-    messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)} `
-    messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)} `
+    if (checkoutLink) {
+      messageBlock.payload[0].text += `\n${checkoutLink} `
+      messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)} `
+      messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)} `
+    } else {
+      logger.serverLog(TAG, `checkoutLink isn't defined`, 'error')
+      throw new Error()
+    }
+
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to checkout ${err} `, 'error')
@@ -1237,12 +1479,11 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
 //   }
 // }
 
-const getWelcomeMessageBlock = async (chatbot, contact, input) => {
-  let welcomeMessage = ''
+const getWelcomeMessageBlock = async (chatbot, contact, ecommerceProvider) => {
   let subscriberLastMessageAt = moment(contact.lastMessagedAt)
   let dateNow = moment()
-
-  welcomeMessage += `${input.charAt(0).toUpperCase() + input.substr(1).toLowerCase()}`
+  let storeInfo = await ecommerceProvider.fetchStoreInfo()
+  let welcomeMessage = 'Hi'
 
   if (contact.name && contact.name !== contact.number) {
     welcomeMessage += ` ${contact.name.split(' ')[0]}!`
@@ -1250,7 +1491,9 @@ const getWelcomeMessageBlock = async (chatbot, contact, input) => {
     welcomeMessage += `!`
   }
   if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1 && contact.lastMessageSentByBot) {
-    welcomeMessage += ` Welcome back!`
+    welcomeMessage += ` Welcome back to ${storeInfo.name}!`
+  } else {
+    welcomeMessage += ` Welcome to  ${storeInfo.name}!`
   }
   let messageBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
   messageBlock.payload[0].text = `${welcomeMessage}\n\n` + messageBlock.payload[0].text
@@ -1280,7 +1523,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
   input = input.toLowerCase()
   if (!contact || !contact.lastMessageSentByBot) {
     if (chatbot.triggers.includes(input)) {
-      return getWelcomeMessageBlock(chatbot, contact, input)
+      return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
     }
   } else {
     let action = null
@@ -1303,7 +1546,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
     } catch (err) {
       logger.serverLog(TAG, `Invalid user input ${input} `, 'info')
       if (chatbot.triggers.includes(input)) {
-        return getWelcomeMessageBlock(chatbot, contact, input)
+        return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
       } else {
         return invalidInput(chatbot, contact.lastMessageSentByBot, `${ERROR_INDICATOR}You entered an invalid response.`)
       }
@@ -1397,7 +1640,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
         return messageBlock
       } catch (err) {
         if (chatbot.triggers.includes(input)) {
-          return getWelcomeMessageBlock(chatbot, contact, input)
+          return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
         } else {
           return invalidInput(chatbot, contact.lastMessageSentByBot, err.message)
         }

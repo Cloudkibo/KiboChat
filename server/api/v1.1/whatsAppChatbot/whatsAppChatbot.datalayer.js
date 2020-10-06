@@ -9,7 +9,8 @@ exports.createWhatsAppChatbot = (req) => {
         userId: req.user._id,
         companyId: req.user.companyId,
         botLinks: req.body.botLinks ? req.body.botLinks : undefined,
-        testSubscribers: req.body.testSubscribers ? req.body.testSubscribers : []
+        testSubscribers: req.body.testSubscribers ? req.body.testSubscribers : [],
+        storeType: req.body.storeType
       }, 'kibochat')
       resolve(createdChatbot)
     } catch (err) {

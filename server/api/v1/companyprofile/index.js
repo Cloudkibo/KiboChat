@@ -17,7 +17,7 @@ router.get('/getAutomatedOptions',
   controller.getAutomatedOptions)
 
 router.post('/invite',
-  auth.isAuthenticated(), 
+  auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer('write'),
   controller.invite)
 
