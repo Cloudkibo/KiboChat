@@ -246,7 +246,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
       if (products.length > 0) {
         messageBlock.payload[0].text = `Following products were found for "${input}". Please select a product by sending the corresponding number for it or enter another product name to search again:\n`
       } else {
-        messageBlock.payload[0].text = `No products found that match "${input}".\n\nEnter another product name to search again::`
+        messageBlock.payload[0].text = `No products found that match "${input}".\n\nEnter another product name to search again:`
       }
       messageBlock.payload[0].action = { type: DYNAMIC, action: DISCOVER_PRODUCTS, input: true }
     } else {
