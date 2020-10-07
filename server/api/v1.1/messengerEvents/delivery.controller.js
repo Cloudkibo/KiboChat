@@ -24,7 +24,7 @@ function updateChatDelivered (req) {
             room_id: session.companyId,
             body: {
               action: 'message_delivered',
-              payload: {session: session}
+              payload: {event: 'delivered', session: session}
             }
           })
         })

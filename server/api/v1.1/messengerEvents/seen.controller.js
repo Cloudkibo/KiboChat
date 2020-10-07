@@ -22,7 +22,7 @@ function updateChatSeen (req) {
             room_id: session.companyId,
             body: {
               action: 'message_seen',
-              payload: {session: session}
+              payload: {event: 'seen', session: session}
             }
           })
         })
