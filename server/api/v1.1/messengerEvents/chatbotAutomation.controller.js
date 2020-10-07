@@ -8,6 +8,7 @@ const shopifyChatbotLogicLayer = require('../chatbots/commerceChatbot.logiclayer
 const logger = require('../../../components/logger')
 const { intervalForEach } = require('./../../../components/utility')
 const { facebookApiCaller } = require('./../../global/facebookApiCaller')
+const { getTimeDiffInMinutes } = require('./../../global/utility')
 const TAG = 'api/v1/messengerEvents/chatbotAutomation.controller'
 const moment = require('moment')
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
@@ -147,49 +148,60 @@ exports.handleCommerceChatbot = async (event, page, subscriber) => {
 
 exports.handleTriggerMessage = (req, page, subscriber) => {
   record('messengerChatInComing')
-  chatbotDataLayer.findOneChatBot({ pageId: page._id, published: true, type: 'manual' })
+  chatbotDataLayer.findOneChatBot({ pageId: page._id, type: 'manual' })
     .then(chatbot => {
       logger.serverLog(TAG, `manual chatbot found ${JSON.stringify(chatbot)}`, 'info')
       if (chatbot) {
-        let userText = req.message.text.toLowerCase().trim()
-        messageBlockDataLayer.findOneMessageBlock({
-          'module.type': 'chatbot',
-          'module.id': chatbot._id,
-          triggers: userText
-        })
-          .then(messageBlock => {
-            logger.serverLog(TAG, `manual chatbot message block ${JSON.stringify(shopifyChatbotLogicLayer.getMessageBlocks)}`, 'info')
-            if (messageBlock) {
-              senderAction(req.sender.id, 'typing_on', page.accessToken)
-              intervalForEach(messageBlock.payload, (item) => {
-                sendResponse(req.sender.id, item, subscriber, page.accessToken)
-                senderAction(req.sender.id, 'typing_off', page.accessToken)
-              }, 1500)
-              updateBotLifeStats(chatbot, false)
-              updateBotPeriodicStats(chatbot, false)
-              updateBotLifeStatsForBlock(messageBlock, true)
-              updateBotPeriodicStatsForBlock(chatbot, true)
-              updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, messageBlock)
-              let subscriberLastMessageAt = moment(subscriber.lastMessagedAt)
-              let dateNow = moment()
-              if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
-                updateBotPeriodicStatsForReturning(chatbot)
-              }
-              // new subscriber stats logic starts
-              let subscriberCreatedAt = moment(subscriber.datetime)
-              if (dateNow.diff(subscriberCreatedAt, 'seconds') <= 10) {
-                updateBotLifeStats(chatbot, true)
-                updateBotPeriodicStats(chatbot, true)
-              }
-              // new subscriber stats logic ends
-            } else if (chatbot.fallbackReplyEnabled) {
-              sendFallbackReply(req.sender.id, page, chatbot.fallbackReply, subscriber)
-            }
+        let shouldSend = false
+        if (chatbot.testSession && !chatbot.published) {
+          const startTestTime = new Date(chatbot.testSession.datetime)
+          if (getTimeDiffInMinutes(startTestTime, new Date()) <= 15) {
+            shouldSend = true
+          }
+        } else if (chatbot.published) {
+          shouldSend = true
+        }
+        if (shouldSend) {
+          let userText = req.message.text.toLowerCase().trim()
+          messageBlockDataLayer.findOneMessageBlock({
+            'module.type': 'chatbot',
+            'module.id': chatbot._id,
+            triggers: userText
           })
-          .catch(error => {
-            logger.serverLog(TAG,
-              `error in fetching message block ${JSON.stringify(error)}`, 'error')
-          })
+            .then(messageBlock => {
+              logger.serverLog(TAG, `manual chatbot message block ${JSON.stringify(shopifyChatbotLogicLayer.getMessageBlocks)}`, 'info')
+              if (messageBlock) {
+                senderAction(req.sender.id, 'typing_on', page.accessToken)
+                intervalForEach(messageBlock.payload, (item) => {
+                  sendResponse(req.sender.id, item, subscriber, page.accessToken)
+                  senderAction(req.sender.id, 'typing_off', page.accessToken)
+                }, 1500)
+                updateBotLifeStats(chatbot, false)
+                updateBotPeriodicStats(chatbot, false)
+                updateBotLifeStatsForBlock(messageBlock, true)
+                updateBotPeriodicStatsForBlock(chatbot, true)
+                updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, messageBlock)
+                let subscriberLastMessageAt = moment(subscriber.lastMessagedAt)
+                let dateNow = moment()
+                if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
+                  updateBotPeriodicStatsForReturning(chatbot)
+                }
+                // new subscriber stats logic starts
+                let subscriberCreatedAt = moment(subscriber.datetime)
+                if (dateNow.diff(subscriberCreatedAt, 'seconds') <= 10) {
+                  updateBotLifeStats(chatbot, true)
+                  updateBotPeriodicStats(chatbot, true)
+                }
+                // new subscriber stats logic ends
+              } else if (chatbot.fallbackReplyEnabled) {
+                sendFallbackReply(req.sender.id, page, chatbot.fallbackReply, subscriber)
+              }
+            })
+            .catch(error => {
+              logger.serverLog(TAG,
+                `error in fetching message block ${JSON.stringify(error)}`, 'error')
+            })
+        }
       }
     })
     .catch(error => {
@@ -200,34 +212,46 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
 
 exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId) => {
   record('messengerChatInComing')
-  chatbotDataLayer.findOneChatBot({ pageId: page._id, published: true })
+  chatbotDataLayer.findOneChatBot({ pageId: page._id })
     .then(chatbot => {
       if (chatbot) {
-        messageBlockDataLayer.findOneMessageBlock({ uniqueId: uniqueId.toString() })
-          .then(messageBlock => {
-            if (messageBlock) {
-              senderAction(req.sender.id, 'typing_on', page.accessToken)
-              intervalForEach(messageBlock.payload, (item) => {
-                sendResponse(req.sender.id, item, subscriber, page.accessToken)
-                senderAction(req.sender.id, 'typing_off', page.accessToken)
-              }, 1500)
-              updateBotLifeStatsForBlock(messageBlock, true)
-              updateBotPeriodicStatsForBlock(chatbot, true)
-              updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, messageBlock)
-              let subscriberLastMessageAt = moment(subscriber.lastMessagedAt)
-              let dateNow = moment()
-              if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
-                updateBotPeriodicStatsForReturning(chatbot)
+        let shouldSend = false
+        if (chatbot.testSession && !chatbot.published) {
+          const startTestTime = new Date(chatbot.testSession.datetime)
+          if (getTimeDiffInMinutes(startTestTime, new Date()) <= 15) {
+            shouldSend = true
+          }
+        } else if (chatbot.published) {
+          shouldSend = true
+        }
+        if (shouldSend) {
+          messageBlockDataLayer.findOneMessageBlock({ uniqueId: uniqueId.toString() })
+            .then(messageBlock => {
+              if (messageBlock) {
+                senderAction(req.sender.id, 'typing_on', page.accessToken)
+                intervalForEach(messageBlock.payload, (item) => {
+                  sendResponse(req.sender.id, item, subscriber, page.accessToken)
+                  senderAction(req.sender.id, 'typing_off', page.accessToken)
+                }, 1500)
+                updateBotLifeStatsForBlock(messageBlock, true)
+                updateBotPeriodicStatsForBlock(chatbot, true)
+                updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, messageBlock)
+                let subscriberLastMessageAt = moment(subscriber.lastMessagedAt)
+                let dateNow = moment()
+                if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
+                  updateBotPeriodicStatsForReturning(chatbot)
+                }
               }
-            }
-          })
-          .catch(error => {
-            logger.serverLog(TAG,
-              `error in fetching message block ${JSON.stringify(error)}`, 'error')
-          })
+            })
+            .catch(error => {
+              logger.serverLog(TAG,
+                `error in fetching message block ${JSON.stringify(error)}`, 'error')
+            })
+        }
       }
     })
     .catch(error => {
+      console.log(error)
       logger.serverLog(TAG,
         `error in fetching chatbot ${JSON.stringify(error)}`, 'error')
     })
@@ -248,6 +272,7 @@ exports.handleChatBotTestMessage = (req, page, subscriber, type) => {
                 senderAction(req.sender.id, 'typing_off', page.accessToken)
               }, 1500)
             }
+            saveTesterInfoForLater(page._id, subscriber.id, chatbot)
           })
           .catch(error => {
             logger.serverLog(TAG,
@@ -512,6 +537,22 @@ function updateBotSubscribersAnalyticsForSQL (chatbotId, companyId, subscriber, 
     .catch(err => {
       logger.serverLog(TAG, `Failed to fetch the subscriber analytics message block in sql ${JSON.stringify(err)}`, 'error')
     })
+}
+
+function saveTesterInfoForLater (pageId, subscriberId, chatBot) {
+  const query = {
+    pageId,
+    _id: chatBot._id
+  }
+  const updated = {
+    testSession: {
+      subscriberId,
+      datetime: new Date()
+    }
+  }
+  chatbotDataLayer.genericUpdateChatBot(query, updated)
+    .then(resp => logger.serverLog(TAG, `saved test info`, 'debug'))
+    .catch(err => logger.serverLog(TAG, `err test Info JSON.stringify(err)`, 'err'))
 }
 
 exports.updateBotPeriodicStatsForBlock = updateBotPeriodicStatsForBlock
