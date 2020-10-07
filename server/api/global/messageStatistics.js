@@ -155,7 +155,9 @@ exports.getRecords = function (featureName, fn) {
 
 // todo will remove this part
 exports.record = function (featureName) {
-  recordRedis(featureName)
+  if (config.env !== 'development') {
+    recordRedis(featureName)
+  }
   //   findRecord(featureName, (err, record) => {
   //     if (err) {
   //       return logger.serverLog(TAG, `error in message statistics ${JSON.stringify(err)}`)
