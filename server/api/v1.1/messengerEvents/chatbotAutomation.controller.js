@@ -8,7 +8,6 @@ const shopifyChatbotLogicLayer = require('../chatbots/commerceChatbot.logiclayer
 const logger = require('../../../components/logger')
 const { intervalForEach } = require('./../../../components/utility')
 const { facebookApiCaller } = require('./../../global/facebookApiCaller')
-const { getTimeDiffInMinutes } = require('./../../global/utility')
 const TAG = 'api/v1/messengerEvents/chatbotAutomation.controller'
 const moment = require('moment')
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
