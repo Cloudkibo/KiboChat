@@ -154,8 +154,7 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
       if (chatbot) {
         let shouldSend = false
         if (chatbot.testSession && !chatbot.published) {
-          const startTestTime = new Date(chatbot.testSession.datetime)
-          if (getTimeDiffInMinutes(startTestTime, new Date()) <= 15) {
+          if (chatbot.testSession.subscriberId === subscriber.senderId) {
             shouldSend = true
           }
         } else if (chatbot.published) {
@@ -217,8 +216,7 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId) => {
       if (chatbot) {
         let shouldSend = false
         if (chatbot.testSession && !chatbot.published) {
-          const startTestTime = new Date(chatbot.testSession.datetime)
-          if (getTimeDiffInMinutes(startTestTime, new Date()) <= 15) {
+          if (chatbot.testSession.subscriberId === subscriber.senderId) {
             shouldSend = true
           }
         } else if (chatbot.published) {
@@ -546,13 +544,12 @@ function saveTesterInfoForLater (pageId, subscriberId, chatBot) {
   }
   const updated = {
     testSession: {
-      subscriberId,
-      datetime: new Date()
+      subscriberId
     }
   }
   chatbotDataLayer.genericUpdateChatBot(query, updated)
     .then(resp => logger.serverLog(TAG, `saved test info`, 'debug'))
-    .catch(err => logger.serverLog(TAG, `err test Info JSON.stringify(err)`, 'err'))
+    .catch(err => logger.serverLog(TAG, `err test Info ${JSON.stringify(err)}`, 'err'))
 }
 
 exports.updateBotPeriodicStatsForBlock = updateBotPeriodicStatsForBlock
