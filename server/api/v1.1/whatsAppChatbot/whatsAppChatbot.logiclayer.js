@@ -702,7 +702,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `You have selected ${product.product} (price: ${product.price} ${product.currency}) (stock available: ${product.inventory_quantity}).\n`,
+          text: `You have selected ${product.product}\n\n(price: ${product.price} ${product.currency}) (stock available: ${product.inventory_quantity}).\n`,
           componentType: 'text',
           menu: [
             { type: DYNAMIC, action: QUANTITY_TO_ADD, argument: product },
@@ -745,7 +745,7 @@ const getQuantityToAddBlock = async (chatbot, backId, contact, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `How many ${product.product}s (price: ${product.price} ${product.currency}) would you like to add to your cart? (stock available: ${product.inventory_quantity})`,
+          text: `How many ${product.product}s (price: ${product.price} ${product.currency}) would you like to add to your cart?\n\n(stock available: ${product.inventory_quantity})`,
           componentType: 'text',
           action: { type: DYNAMIC, action: ADD_TO_CART, argument: product, input: true }
         }
@@ -771,7 +771,7 @@ const getQuantityToAddBlock = async (chatbot, backId, contact, product) => {
 const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) => {
   try {
     quantity = Number(quantity)
-    if (!Number.isInteger(quantity) || quantity < 0) {
+    if (!Number.isInteger(quantity) || quantity <= 0) {
       throw new Error(`${ERROR_INDICATOR}Invalid quantity given.`)
     }
     let shoppingCart = contact.shoppingCart ? contact.shoppingCart : []
@@ -801,7 +801,7 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
 
     logger.serverLog(TAG, `shoppingCart ${JSON.stringify(shoppingCart)}`, 'info')
     updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
-    let text = `${quantity} ${product.product}${quantity !== 1 ? 's have' : ' has'} been succesfully added to your cart.`
+    let text = `${quantity} ${product.product}${quantity !== 1 ? 's have' : 'has'} been succesfully added to your cart.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
     logger.serverLog(TAG, `Unable to add to cart ${err}`, 'error')
@@ -850,6 +850,7 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
           currency = product.currency
         }
         let price = product.quantity * product.price
+        price = Number(price.toFixed(2))
         totalPrice += price
         messageBlock.payload[0].text += `\n*Item*: ${product.product}`
         messageBlock.payload[0].text += `\n*Quantity*: ${product.quantity}`
@@ -893,7 +894,7 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
       throw new Error(`${ERROR_INDICATOR}Invalid quantity given.`)
     }
     updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
-    let text = `${quantity} ${productInfo.product}${quantity !== 1 ? 's have' : ' has'} been succesfully removed from your cart.`
+    let text = `${quantity} ${productInfo.product}${quantity !== 1 ? 's have' : 'has'} been succesfully removed from your cart.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
     logger.serverLog(TAG, `Unable to remove item(s) from cart ${err} `, 'error')
@@ -1421,21 +1422,23 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
       } else {
         commerceCustomer = commerceCustomer[0]
       }
-      logger.serverLog(TAG, `commerceCustomer ${JSON.stringify(commerceCustomer)}`, 'info')
-      updateWhatsAppContact({ _id: contact._id }, { commerceCustomer, shoppingCart: [] }, null, {})
+      updateWhatsAppContact({ _id: contact._id }, { commerceCustomer }, null, {})
     } else {
       commerceCustomer = contact.commerceCustomer
-      updateWhatsAppContact({ _id: contact._id }, { shoppingCart: [] }, null, {})
     }
-
+    logger.serverLog(TAG, `commerceCustomer ${JSON.stringify(commerceCustomer)}`, 'info')
     let checkoutLink = ''
     if (chatbot.storeType === commerceConstants.shopify) {
       checkoutLink = await EcommerceProvider.createPermalinkForCart(commerceCustomer, contact.shoppingCart)
     } else if (chatbot.storeType === commerceConstants.bigcommerce) {
+      logger.serverLog(TAG, `creating bigcommerce cart ${commerceCustomer.id} ${JSON.stringify(contact.shoppingCart)}`)
       const bigcommerceCart = await EcommerceProvider.createCart(commerceCustomer.id, contact.shoppingCart)
+      logger.serverLog(TAG, `bigcommerce cart created ${JSON.stringify(bigcommerceCart)}`)
       checkoutLink = await EcommerceProvider.createPermalinkForCartBigCommerce(bigcommerceCart.id)
+      logger.serverLog(TAG, `bigcommerce checkoutLink generated ${JSON.stringify(checkoutLink)}`)
       checkoutLink = checkoutLink.data.cart_url
     }
+    updateWhatsAppContact({ _id: contact._id }, { shoppingCart: [] }, null, {})
 
     if (checkoutLink) {
       messageBlock.payload[0].text += `\n${checkoutLink} `
