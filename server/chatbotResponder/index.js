@@ -7,7 +7,7 @@ const { ActionTypes } = require('../smsMapper/constants')
 const { callApi } = require('../api/v1.1/utility')
 
 exports.respondUsingChatbot = (platform, provider, company, message, contact) => {
-  chatbotDatalayer.fetchChatbotRecords({companyId: company._id, published: true})
+  chatbotDatalayer.fetchChatbotRecords({companyId: company._id, published: true, platform})
     .then(chatbots => {
       const chatbot = chatbots[0]
       const userText = message.toLowerCase().trim()
