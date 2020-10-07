@@ -1541,8 +1541,9 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
           } else {
             throw new Error(`${ERROR_INDICATOR}Invalid User Input`)
           }
+        } else {
+          action = lastMessageSentByBot.menu[menuInput]
         }
-        action = lastMessageSentByBot.menu[menuInput]
       } else if (lastMessageSentByBot.action) {
         action = lastMessageSentByBot.action
       } else {
