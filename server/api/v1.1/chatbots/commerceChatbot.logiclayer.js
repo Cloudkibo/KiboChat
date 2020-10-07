@@ -235,7 +235,6 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
       } else {
         messageBlock.payload[0].text = `No products found that match "${input}".\n\nEnter another product name to search again:`
       }
-      messageBlock.payload[0].action = { type: DYNAMIC, action: DISCOVER_PRODUCTS, input: true }
     } else {
       if (categoryId) {
         products = await EcommerceProvider.fetchProductsInThisCategory(categoryId)
@@ -289,6 +288,9 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
         payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
       }
     )
+    if (input) {
+      messageBlock.payload[messageBlock.payload.length - 1].action = { type: DYNAMIC, action: DISCOVER_PRODUCTS, input: true }
+    }
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to discover products ${err}`, 'error')
