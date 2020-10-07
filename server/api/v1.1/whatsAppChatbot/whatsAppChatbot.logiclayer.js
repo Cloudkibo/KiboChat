@@ -1536,7 +1536,11 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
       } else if (lastMessageSentByBot.menu) {
         let menuInput = parseInt(input)
         if (isNaN(menuInput) || menuInput >= lastMessageSentByBot.menu.length) {
-          throw new Error(`${ERROR_INDICATOR}Invalid User Input`)
+          if (lastMessageSentByBot.action) {
+            action = lastMessageSentByBot.action
+          } else {
+            throw new Error(`${ERROR_INDICATOR}Invalid User Input`)
+          }
         }
         action = lastMessageSentByBot.menu[menuInput]
       } else if (lastMessageSentByBot.action) {
