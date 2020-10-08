@@ -289,7 +289,7 @@ exports.stats = function (req, res) {
                 payload.totalPages = allPagesWithoutDuplicates.length
                 callApi('subscribers/query', 'post', {companyId: companyUser.companyId, completeInfo: true, isSubscribed: true, pageId: {$in: result.pageIds}})
                   .then(subscribers => {
-                    logger.serverLog(TAG, `subscribers retrieved: ${subscribers}`, 'error')
+                    // logger.serverLog(TAG, `subscribers retrieved: ${subscribers}`, 'error')
                     payload.subscribers = subscribers.length
                     let mappedUnreadCounts = subscribers.map(subscriber => subscriber.unreadCount)
                     payload.unreadCount = mappedUnreadCounts.reduce((a, b) => a + b, 0)
