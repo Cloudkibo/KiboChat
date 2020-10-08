@@ -91,17 +91,3 @@ const _deleteDialogFlowIntent = (data) => {
     'DELETE'
   )
 }
-
-const _deleteIntentRecordInDb = (data) => {
-  return intentsDataLayer.updateOneIntent(
-    {
-      _id: data.intentId
-    },
-    {
-      name: data.name,
-      questions: data.questions,
-      answer: data.answer,
-      dialogflowIntentId: data.dialogflowIntentId
-    }
-  )
-}
