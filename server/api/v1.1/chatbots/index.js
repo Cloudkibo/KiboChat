@@ -17,7 +17,7 @@ router.post('/',
 router.post('/commerceChatbot',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer('write'),
-  validate({ body: validationSchema.createPayload }),
+  validate({ body: validationSchema.createCommercePayload }),
   controller.createCommerceChatbot)
 
 router.put('/commerceChatbot',
