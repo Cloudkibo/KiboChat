@@ -244,10 +244,11 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
     if (input) {
       products = await EcommerceProvider.searchProducts(input)
       if (products.length > 0) {
-        messageBlock.payload[0].text = `Following products were found for "${input}". Please select a product by sending the corresponding number for it:\n`
+        messageBlock.payload[0].text = `Following products were found for "${input}". Please select a product by sending the corresponding number for it or enter another product name to search again:\n`
       } else {
-        messageBlock.payload[0].text = `No products found that match "${input}".`
+        messageBlock.payload[0].text = `No products found that match "${input}".\n\nEnter another product name to search again:`
       }
+      messageBlock.payload[0].action = { type: DYNAMIC, action: DISCOVER_PRODUCTS, input: true }
     } else {
       products = await EcommerceProvider.fetchProducts()
       if (products.length > 0) {
@@ -1538,9 +1539,14 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
       } else if (lastMessageSentByBot.menu) {
         let menuInput = parseInt(input)
         if (isNaN(menuInput) || menuInput >= lastMessageSentByBot.menu.length || menuInput < 0) {
-          throw new Error(`${ERROR_INDICATOR}Invalid User Input`)
+          if (isNaN(menuInput) && lastMessageSentByBot.action) {
+            action = lastMessageSentByBot.action
+          } else {
+            throw new Error(`${ERROR_INDICATOR}Invalid User Input`)
+          }
+        } else {
+          action = lastMessageSentByBot.menu[menuInput]
         }
-        action = lastMessageSentByBot.menu[menuInput]
       } else if (lastMessageSentByBot.action) {
         action = lastMessageSentByBot.action
       } else {

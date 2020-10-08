@@ -16,7 +16,6 @@ const { callApi } = require('../utility')
 const { record } = require('../../global/messageStatistics')
 
 exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
-  record('messengerChatInComing')
   chatbotDataLayer.findOneChatBot({ pageId: page._id, published: true })
     .then(chatbot => {
       if (chatbot) {
@@ -257,6 +256,7 @@ exports.handleChatBotTestMessage = (req, page, subscriber, type) => {
   record('messengerChatInComing')
   chatbotDataLayer.findOneChatBot({ pageId: page._id, type })
     .then(chatbot => {
+      record('messengerChatInComing')
       if (chatbot) {
         messageBlockDataLayer.findOneMessageBlock(type === 'automated' ? { uniqueId: chatbot.startingBlockId } : { _id: chatbot.startingBlockId })
           .then(messageBlock => {

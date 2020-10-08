@@ -81,17 +81,18 @@ exports.testRoute = (req, res) => {
         shopToken: bigCommerceIntegration.shopToken,
         storeHash: bigCommerceIntegration.payload.context
       })
+      // return bigCommerce.getVariantsOfSelectedProduct(112)
       // return bigCommerce.createOrder('78edeeeb-3504-41ee-86e5-72eb7b8e686a')
-      return bigCommerce.findCustomerOrders(1, 10)
-      // return bigCommerce.createPermalinkForCartBigCommerce('78edeeeb-3504-41ee-86e5-72eb7b8e686a')
-      // return bigCommerce.updateCart('78edeeeb-3504-41ee-86e5-72eb7b8e686a', 'edbd622d-4302-4aa0-9735-88e6977b3335', 77, 3)
+      // return bigCommerce.findCustomerOrders(1, 10)
+      return bigCommerce.createPermalinkForCartBigCommerce('33ff1896-dfa9-47dd-8701-b49a48393ab7')
+      // return bigCommerce.updateCart('33ff1896-dfa9-47dd-8701-b49a48393ab7', 'edbd622d-4302-4aa0-9735-88e6977b3335', 77, 3)
       // return bigCommerce.createCart(
-      //   // created with id 78edeeeb-3504-41ee-86e5-72eb7b8e686a
-      //   1,
+      //   // created with id 33ff1896-dfa9-47dd-8701-b49a48393ab7
+      //   3,
       //   [{
-      //     product_id: 77,
+      //     product_id: 112,
       //     quantity: 1,
-      //     variant_id: 1
+      //     variant_id: 78
       //   }]
       // )
     })

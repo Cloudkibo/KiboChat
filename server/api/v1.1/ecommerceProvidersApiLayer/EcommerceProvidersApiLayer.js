@@ -122,6 +122,9 @@ module.exports = class EcommerceProvidersApiLayer {
   }
 
   createCart (customerId, lineItems) {
+    if (lineItems.length === 0) {
+      throw new Error('lineItems should not be an empty array')
+    }
     if (this.eCommerceProvider === providers.shopify) {
       // TODO Implement when we apply for Sales API on shopify
     } else if (this.eCommerceProvider === providers.bigcommerce) {
