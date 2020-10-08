@@ -4,6 +4,16 @@ exports.createPayload = {
     pageId: {
       type: 'string',
       required: true
+    }
+  }
+}
+
+exports.createCommercePayload = {
+  type: 'object',
+  properties: {
+    pageId: {
+      type: 'string',
+      required: true
     },
     storeType: {
       type: 'string',
