@@ -294,7 +294,7 @@ exports.enable = function (req, res) {
                                                   if (resp.body.error) {
                                                     logger.serverLog(TAG,
                                                       `Page connect error ${JSON.stringify(
-                                                        resp.body.error)}`, 'error')
+                                                        resp.body.error)}`, 'debug')
                                                     const errorMessage = resp.body.error.message
                                                     if (errorMessage && errorMessage.includes('administrative permission')) {
                                                       sendSuccessResponse(res, 200, { adminError: 'Page connected successfully, but certain actions such as setting welcome message will not work due to your page role' })
