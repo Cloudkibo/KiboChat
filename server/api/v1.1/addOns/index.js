@@ -20,6 +20,10 @@ router.get('/',
   auth.isAuthenticated(),
   controller.index)
 
+router.get('/:id/purchase',
+  auth.isAuthenticated(),
+  controller.purchaseAddOn)
+
 router.get('/company',
   auth.isAuthenticated(),
   controller.companyAddOns)
