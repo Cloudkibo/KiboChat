@@ -94,7 +94,17 @@ exports.handleCommerceChatbot = async (event, page, subscriber) => {
       vertical: 'commerce'
     })
     logger.serverLog(TAG, `commerce chatbot found ${JSON.stringify(chatbot)}`, 'info')
-    if (chatbot) {
+    let shouldSend = false
+    let isSendingToTester = false
+    if (chatbot && chatbot.testSession && !chatbot.published) {
+      if (chatbot.testSession.subscriberId === subscriber.senderId) {
+        shouldSend = true
+        isSendingToTester = true
+      }
+    } else if (chatbot.published) {
+      shouldSend = true
+    }
+    if (shouldSend) {
       let ecommerceProvider = null
       if (chatbot.storeType === commerceConstants.shopify) {
         const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
@@ -120,19 +130,21 @@ exports.handleCommerceChatbot = async (event, page, subscriber) => {
             sendResponse(event.sender.id, item, subscriber, page.accessToken)
             senderAction(event.sender.id, 'typing_off', page.accessToken)
           }, 1500)
-          updateBotLifeStats(chatbot, false)
-          updateBotPeriodicStats(chatbot, false)
-          updateBotLifeStatsForBlock(nextMessageBlock, true)
-          updateBotPeriodicStatsForBlock(chatbot, true)
-          updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, nextMessageBlock)
+          if (!isSendingToTester) {
+            updateBotLifeStats(chatbot, false)
+            updateBotPeriodicStats(chatbot, false)
+            updateBotLifeStatsForBlock(nextMessageBlock, true)
+            updateBotPeriodicStatsForBlock(chatbot, true)
+            updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, nextMessageBlock)
+          }
           let subscriberLastMessageAt = moment(subscriber.lastMessagedAt)
           let dateNow = moment()
-          if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
+          if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1 && !isSendingToTester) {
             updateBotPeriodicStatsForReturning(chatbot)
           }
           // new subscriber stats logic starts
           let subscriberCreatedAt = moment(subscriber.datetime)
-          if (dateNow.diff(subscriberCreatedAt, 'seconds') <= 10) {
+          if (dateNow.diff(subscriberCreatedAt, 'seconds') <= 10 && !isSendingToTester) {
             updateBotLifeStats(chatbot, true)
             updateBotPeriodicStats(chatbot, true)
           }
