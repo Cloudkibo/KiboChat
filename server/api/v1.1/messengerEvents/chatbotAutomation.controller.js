@@ -82,13 +82,11 @@ exports.handleCommerceChatbot = async (event, page, subscriber) => {
     }
     logger.serverLog(TAG, `searching for commerce chatbot ${JSON.stringify({
       pageId: page._id,
-      published: true,
       type: 'automated',
       vertical: 'commerce'
     })}`, 'info')
     let chatbot = await chatbotDataLayer.findOneChatBot({
       pageId: page._id,
-      published: true,
       type: 'automated',
       vertical: 'commerce'
     })
@@ -103,6 +101,7 @@ exports.handleCommerceChatbot = async (event, page, subscriber) => {
     } else if (chatbot.published) {
       shouldSend = true
     }
+    logger.serverLog('commerce chatbot shouldSend', shouldSend)
     if (shouldSend) {
       let ecommerceProvider = null
       if (chatbot.storeType === commerceConstants.shopify) {
