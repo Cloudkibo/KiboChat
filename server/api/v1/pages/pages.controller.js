@@ -8,9 +8,9 @@ let config = require('./../../../config/environment')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
 exports.index = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }) // fetch company user
     .then(companyuser => {
-      utility.callApi(`pages/query`, 'post', {companyId: companyuser.companyId}) // fetch all pages of company
+      utility.callApi(`pages/query`, 'post', { companyId: companyuser.companyId }) // fetch all pages of company
         .then(pages => {
           let pagesToSend = logicLayer.removeDuplicates(pages)
           return res.status(200).json({
@@ -34,27 +34,27 @@ exports.index = function (req, res) {
 }
 
 exports.allPages = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }) // fetch company user
     .then(companyuser => {
-      utility.callApi(`pages/query`, 'post', {connected: true, companyId: companyuser.companyId}) // fetch connected pages
+      utility.callApi(`pages/query`, 'post', { connected: true, companyId: companyuser.companyId }) // fetch connected pages
         .then(pages => {
           let subscribeAggregate = [
-            {$match: {isSubscribed: true, completeInfo: true}},
+            { $match: { isSubscribed: true, completeInfo: true } },
             {
               $group: {
-                _id: {pageId: '$pageId'},
-                count: {$sum: 1}
+                _id: { pageId: '$pageId' },
+                count: { $sum: 1 }
               }
             }
           ]
           utility.callApi(`subscribers/aggregate`, 'post', subscribeAggregate)
             .then(subscribesCount => {
               let unsubscribeAggregate = [
-                {$match: {isSubscribed: false, completeInfo: true}},
+                { $match: { isSubscribed: false, completeInfo: true } },
                 {
                   $group: {
-                    _id: {pageId: '$pageId'},
-                    count: {$sum: 1}
+                    _id: { pageId: '$pageId' },
+                    count: { $sum: 1 }
                   }
                 }
               ]
@@ -98,7 +98,7 @@ exports.allPages = function (req, res) {
 }
 
 exports.connectedPages = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }) // fetch company user
     .then(companyuser => {
       let criterias = logicLayer.getCriterias(req.body, companyuser)
       utility.callApi(`pages/aggregate`, 'post', criterias.countCriteria) // fetch connected pages count
@@ -106,22 +106,22 @@ exports.connectedPages = function (req, res) {
           utility.callApi(`pages/aggregate`, 'post', criterias.fetchCriteria) // fetch connected pages
             .then(pages => {
               let subscribeAggregate = [
-                {$match: {isSubscribed: true, completeInfo: true}},
+                { $match: { isSubscribed: true, completeInfo: true } },
                 {
                   $group: {
-                    _id: {pageId: '$pageId'},
-                    count: {$sum: 1}
+                    _id: { pageId: '$pageId' },
+                    count: { $sum: 1 }
                   }
                 }
               ]
               utility.callApi(`subscribers/aggregate`, 'post', subscribeAggregate)
                 .then(subscribesCount => {
                   let unsubscribeAggregate = [
-                    {$match: {isSubscribed: false, completeInfo: true}},
+                    { $match: { isSubscribed: false, completeInfo: true } },
                     {
                       $group: {
-                        _id: {pageId: '$pageId'},
-                        count: {$sum: 1}
+                        _id: { pageId: '$pageId' },
+                        count: { $sum: 1 }
                       }
                     }
                   ]
@@ -132,7 +132,7 @@ exports.connectedPages = function (req, res) {
                       updatedPages = logicLayer.appendUnsubscribesCount(updatedPages, unsubscribesCount)
                       res.status(200).json({
                         status: 'success',
-                        payload: {pages: updatedPages, count: count.length > 0 ? count[0].count : 0}
+                        payload: { pages: updatedPages, count: count.length > 0 ? count[0].count : 0 }
                       })
                     })
                     .catch(error => {
@@ -172,11 +172,11 @@ exports.connectedPages = function (req, res) {
 }
 
 exports.enable = function (req, res) {
-  utility.callApi('companyuser/query', 'post', {domain_email: req.user.domain_email, populate: 'companyId'})
+  utility.callApi('companyuser/query', 'post', { domain_email: req.user.domain_email, populate: 'companyId' })
     .then(companyUser => {
-      utility.callApi(`featureUsage/planQuery`, 'post', {planId: companyUser.companyId.planId})
+      utility.callApi(`featureUsage/planQuery`, 'post', { planId: companyUser.companyId.planId })
         .then(planUsage => {
-          utility.callApi(`featureUsage/companyQuery`, 'post', {companyId: companyUser.companyId._id})
+          utility.callApi(`featureUsage/companyQuery`, 'post', { companyId: companyUser.companyId._id })
             .then(companyUsage => {
               // add paid plan check later
               // if (planUsage.facebook_pages !== -1 && companyUsage.facebook_pages >= planUsage.facebook_pages) {
@@ -191,9 +191,9 @@ exports.enable = function (req, res) {
                     .then(response => {
                       if (response.body.error) {
                         // sendOpAlert(response.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
-                        return res.status(400).json({status: 'failed', payload: response.body.error.message, type: 'invalid_permissions'})
+                        return res.status(400).json({ status: 'failed', payload: response.body.error.message, type: 'invalid_permissions' })
                       } else {
-                        utility.callApi(`pages/query`, 'post', {pageId: req.body.pageId, connected: true})
+                        utility.callApi(`pages/query`, 'post', { pageId: req.body.pageId, connected: true })
                           .then(pageConnected => {
                             if (pageConnected.length === 0) {
                               let query = {
@@ -207,7 +207,7 @@ exports.enable = function (req, res) {
                                   }]
                               }
                               Object.assign(req.body, query)
-                              utility.callApi('pages/query', 'post', {_id: req.body._id})
+                              utility.callApi('pages/query', 'post', { _id: req.body._id })
                                 .then(pages => {
                                   let page = pages[0]
 
@@ -223,7 +223,7 @@ exports.enable = function (req, res) {
                                   // query.reachEstimationId = reachEstimation.body.reach_estimation_id
                                   utility.callApi(`pages/${req.body._id}`, 'put', query) // connect page
                                     .then(connectPage => {
-                                      utility.callApi(`pages/whitelistDomain`, 'post', {page_id: page.pageId, whitelistDomains: [`${config.domain}`]}, 'accounts', req.headers.authorization)
+                                      utility.callApi(`pages/whitelistDomain`, 'post', { page_id: page.pageId, whitelistDomains: [`${config.domain}`] }, 'accounts', req.headers.authorization)
                                         .then(whitelistDomains => {
                                         })
                                         .catch(error => {
@@ -231,7 +231,7 @@ exports.enable = function (req, res) {
                                             `Failed to whitelist domain ${JSON.stringify(error)}`, 'error')
                                         })
                                       utility.callApi(`featureUsage/updateCompany`, 'put', {
-                                        query: {companyId: req.body.companyId},
+                                        query: { companyId: req.body.companyId },
                                         newPayload: { $inc: { facebook_pages: 1 } },
                                         options: {}
                                       })
@@ -241,12 +241,12 @@ exports.enable = function (req, res) {
                                         .catch(error => {
                                           sendErrorResponse(res, 500, `Failed to update company usage ${JSON.stringify(error)}`)
                                         })
-                                      utility.callApi(`subscribers/update`, 'put', {query: {pageId: page._id}, newPayload: {isEnabledByPage: true}, options: {}}) // update subscribers
+                                      utility.callApi(`subscribers/update`, 'put', { query: { pageId: page._id }, newPayload: { isEnabledByPage: true }, options: {} }) // update subscribers
                                         .then(updatedSubscriber => {
                                           // eslint-disable-next-line no-unused-vars
                                           const options = {
                                             url: `https://graph.facebook.com/v6.0/${page.pageId}/subscribed_apps?access_token=${page.accessToken}`,
-                                            qs: {access_token: page.accessToken},
+                                            qs: { access_token: page.accessToken },
                                             method: 'POST'
                                           }
                                           let bodyToSend = {
@@ -263,7 +263,7 @@ exports.enable = function (req, res) {
                                               // sendOpAlert(response.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
                                             }
                                             if (response.body.success) {
-                                              let updateConnectedFacebook = {query: {pageId: page.pageId}, newPayload: {connectedFacebook: true}, options: {multi: true}}
+                                              let updateConnectedFacebook = { query: { pageId: page.pageId }, newPayload: { connectedFacebook: true }, options: { multi: true } }
                                               utility.callApi(`pages/update`, 'post', updateConnectedFacebook) // connect page
                                                 .then(updatedPage => {
                                                 })
@@ -284,14 +284,25 @@ exports.enable = function (req, res) {
                                             }
                                             const requesturl = `https://graph.facebook.com/v6.0/me/messenger_profile?access_token=${page.accessToken}`
                                             needle.request('post', requesturl, valueForMenu,
-                                              {json: true}, function (err, resp) {
+                                              { json: true }, function (err, resp) {
                                                 if (err) {
                                                   logger.serverLog(TAG,
                                                     `Internal Server Error ${JSON.stringify(
                                                       err)}`, 'error')
                                                 }
                                                 if (resp.body.error) {
+                                                  logger.serverLog(TAG,
+                                                    `Page connect error ${JSON.stringify(
+                                                      resp.body.error)}`, 'error')
+                                                  const errorMessage = resp.body.error.message
+                                                  if (errorMessage && errorMessage.includes('administrative permission')) {
+                                                    sendSuccessResponse(res, 200, { adminError: 'Page connected successfully, but certain actions such as setting welcome message will not work due to your page role' })
+                                                  } else {
+                                                    sendSuccessResponse(res, 200, 'Page connected successfully')
+                                                  }
                                                   // sendOpAlert(resp.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
+                                                } else {
+                                                  sendSuccessResponse(res, 200, 'Page connected successfully')
                                                 }
                                               })
                                             require('./../../../config/socketio').sendMessageToClient({
@@ -304,7 +315,6 @@ exports.enable = function (req, res) {
                                                 }
                                               }
                                             })
-                                            sendSuccessResponse(res, 200, 'Page connected successfully!')
                                           })
                                         })
                                         .catch(error => {
@@ -314,20 +324,20 @@ exports.enable = function (req, res) {
                                     .catch(error => {
                                       sendErrorResponse(res, 500, `Failed to connect page ${JSON.stringify(error)}`)
                                     })
-                                    //   } else {
-                                    //     logger.serverLog(TAG, `Failed to start reach estimation`, 'error')
-                                    //   }
-                                    // })
-                                    // .catch(err => {
-                                    //   logger.serverLog(TAG, `Error at find page ${err}`, 'error')
-                                    // })
+                                  //   } else {
+                                  //     logger.serverLog(TAG, `Failed to start reach estimation`, 'error')
+                                  //   }
+                                  // })
+                                  // .catch(err => {
+                                  //   logger.serverLog(TAG, `Error at find page ${err}`, 'error')
+                                  // })
                                 })
                                 .catch(err => {
                                   logger.serverLog(TAG, `Error at find page ${err}`, 'error')
                                   sendErrorResponse(res, 500, err)
                                 })
                             } else {
-                              sendSuccessResponse(res, 200, {msg: `Page is already connected by ${pageConnected[0].userId.facebookInfo.name} (${pageConnected[0].userId.email}).`})
+                              sendSuccessResponse(res, 200, { msg: `Page is already connected by ${pageConnected[0].userId.facebookInfo.name} (${pageConnected[0].userId.email}).` })
                             }
                           })
                       }
@@ -354,13 +364,13 @@ exports.enable = function (req, res) {
 }
 
 exports.disable = function (req, res) {
-  utility.callApi(`pages/${req.body._id}`, 'put', {connected: false}) // disconnect page
+  utility.callApi(`pages/${req.body._id}`, 'put', { connected: false }) // disconnect page
     .then(disconnectPage => {
       logger.serverLog(TAG, 'updated page successfully')
-      utility.callApi(`subscribers/update`, 'put', {query: {pageId: req.body._id}, newPayload: {isEnabledByPage: false}, options: {multi: true}}) // update subscribers
+      utility.callApi(`subscribers/update`, 'put', { query: { pageId: req.body._id }, newPayload: { isEnabledByPage: false }, options: { multi: true } }) // update subscribers
         .then(updatedSubscriber => {
           utility.callApi(`featureUsage/updateCompany`, 'put', {
-            query: {companyId: req.body.companyId},
+            query: { companyId: req.body.companyId },
             newPayload: { $inc: { facebook_pages: -1 } },
             options: {}
           })
@@ -375,7 +385,7 @@ exports.disable = function (req, res) {
             })
           const options = {
             url: `https://graph.facebook.com/v6.0/${req.body.pageId}/subscribed_apps?access_token=${req.body.accessToken}`,
-            qs: {access_token: req.body.accessToken},
+            qs: { access_token: req.body.accessToken },
             method: 'DELETE'
           }
           needle.delete(options.url, options, (error, response) => {
@@ -419,7 +429,7 @@ exports.disable = function (req, res) {
 }
 
 exports.createWelcomeMessage = function (req, res) {
-  utility.callApi(`pages/${req.body._id}`, 'put', {welcomeMessage: req.body.welcomeMessage})
+  utility.callApi(`pages/${req.body._id}`, 'put', { welcomeMessage: req.body.welcomeMessage })
     .then(updatedWelcomeMessage => {
       return res.status(200).json({
         status: 'success',
@@ -435,7 +445,7 @@ exports.createWelcomeMessage = function (req, res) {
 }
 
 exports.enableDisableWelcomeMessage = function (req, res) {
-  utility.callApi(`pages/${req.body._id}`, 'put', {isWelcomeMessageEnabled: req.body.isWelcomeMessageEnabled})
+  utility.callApi(`pages/${req.body._id}`, 'put', { isWelcomeMessageEnabled: req.body.isWelcomeMessageEnabled })
     .then(enabled => {
       return res.status(200).json({
         status: 'success',
@@ -453,7 +463,7 @@ exports.whitelistDomain = function (req, res) {
   const pageId = req.body.page_id
   const whitelistDomains = req.body.whitelistDomains
 
-  utility.callApi(`pages/whitelistDomain`, 'post', {page_id: pageId, whitelistDomains: whitelistDomains}, 'accounts', req.headers.authorization)
+  utility.callApi(`pages/whitelistDomain`, 'post', { page_id: pageId, whitelistDomains: whitelistDomains }, 'accounts', req.headers.authorization)
     .then(updatedwhitelistDomains => {
       return res.status(200).json({
         status: 'success',
@@ -490,7 +500,7 @@ exports.deleteWhitelistDomain = function (req, res) {
   const pageId = req.body.page_id
   const whitelistDomain = req.body.whitelistDomain
 
-  utility.callApi(`pages/deleteWhitelistDomain`, 'post', {page_id: pageId, whitelistDomain: whitelistDomain}, 'accounts', req.headers.authorization)
+  utility.callApi(`pages/deleteWhitelistDomain`, 'post', { page_id: pageId, whitelistDomain: whitelistDomain }, 'accounts', req.headers.authorization)
     .then(whitelistDomains => {
       return res.status(200).json({
         status: 'success',
@@ -519,11 +529,11 @@ exports.isWhitelisted = function (req, res) {
 exports.saveGreetingText = function (req, res) {
   const pageId = req.body.pageId
   const greetingText = req.body.greetingText
-  utility.callApi(`pages/${pageId}/greetingText`, 'put', {greetingText: greetingText}, 'accounts', req.headers.authorization)
+  utility.callApi(`pages/${pageId}/greetingText`, 'put', { greetingText: greetingText }, 'accounts', req.headers.authorization)
     .then(updatedGreetingText => {
-      utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email})
+      utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
         .then(companyuser => {
-          utility.callApi(`pages/query`, 'post', {pageId: pageId, companyId: companyuser.companyId})
+          utility.callApi(`pages/query`, 'post', { pageId: pageId, companyId: companyuser.companyId })
             .then(gotPage => {
               const pageToken = gotPage && gotPage[0].accessToken
               if (pageToken) {
@@ -535,7 +545,7 @@ exports.saveGreetingText = function (req, res) {
                       'text': greetingText
                     }]
                 }
-                needle.request('post', requesturl, valueForMenu, {json: true},
+                needle.request('post', requesturl, valueForMenu, { json: true },
                   function (err, resp) {
                     if (!err) {
                       return res.status(200).json({
@@ -572,9 +582,9 @@ exports.saveGreetingText = function (req, res) {
 }
 
 exports.addPages = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }) // fetch company user
     .then(companyuser => {
-      utility.callApi(`pages/query`, 'post', {companyId: companyuser.companyId, isApproved: true}) // fetch all pages of company
+      utility.callApi(`pages/query`, 'post', { companyId: companyuser.companyId, isApproved: true }) // fetch all pages of company
         .then(pages => {
           let pagesToSend = logicLayer.removeDuplicates(pages)
           return res.status(200).json({
@@ -598,9 +608,9 @@ exports.addPages = function (req, res) {
 }
 
 exports.otherPages = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
+  utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }) // fetch company user
     .then(companyuser => {
-      utility.callApi(`pages/query`, 'post', {companyId: companyuser.companyId, connected: false, userId: req.user._id}) // fetch all pages of company
+      utility.callApi(`pages/query`, 'post', { companyId: companyuser.companyId, connected: false, userId: req.user._id }) // fetch all pages of company
         .then(pages => {
           return res.status(200).json({
             status: 'success',
@@ -624,11 +634,11 @@ exports.otherPages = function (req, res) {
 
 // eslint-disable-next-line no-unused-vars
 function createTag (user, page, tag, req) {
-  needle('post', `https://graph.facebook.com/v6.0/me/custom_labels?access_token=${page.accessToken}`, {'name': tag})
+  needle('post', `https://graph.facebook.com/v6.0/me/custom_labels?access_token=${page.accessToken}`, { 'name': tag })
     .then(label => {
       if (label.body.error) {
         if (label.body.error.code === 100) {
-          utility.callApi('tags/query', 'post', {defaultTag: true, pageId: req.body._id, companyId: req.user.companyId, tag: tag})
+          utility.callApi('tags/query', 'post', { defaultTag: true, pageId: req.body._id, companyId: req.user.companyId, tag: tag })
             .then(defaultTag => {
               if (defaultTag.length === 0) {
                 needle('get', `https://graph.facebook.com/v6.0/me/custom_labels?fields=name&access_token=${page.accessToken}`)
