@@ -1172,7 +1172,6 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
       checkoutLink = checkoutLink.data.cart_url
     }
     updateSubscriber({ _id: contact._id }, { shoppingCart: [] }, null, {})
-
     if (checkoutLink) {
       messageBlock.payload[0].buttons = [{
         type: 'web_url',
