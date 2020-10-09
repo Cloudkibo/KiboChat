@@ -70,7 +70,9 @@ exports.index = function (req, res) {
                 saveLiveChat(page, subscriber, event)
                 if (event.type !== 'get_started') {
                   handleCommerceChatbot(event, page, subscriber)
-                  handleTriggerMessage(event, page, subscriber)
+                  if (event.message.text) {
+                    handleTriggerMessage(event, page, subscriber)
+                  }
                 }
                 if (!event.message.is_echo) {
                   pushUnresolveAlertInStack(company, subscriber)
