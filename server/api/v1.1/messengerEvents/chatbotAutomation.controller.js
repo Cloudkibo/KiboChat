@@ -152,9 +152,11 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
       logger.serverLog(TAG, `manual chatbot found ${JSON.stringify(chatbot)}`, 'info')
       if (chatbot) {
         let shouldSend = false
+        let isSendingToTester = false
         if (chatbot.testSession && !chatbot.published) {
           if (chatbot.testSession.subscriberId === subscriber.senderId) {
             shouldSend = true
+            isSendingToTester = true
           }
         } else if (chatbot.published) {
           shouldSend = true
@@ -174,19 +176,21 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
                   sendResponse(req.sender.id, item, subscriber, page.accessToken)
                   senderAction(req.sender.id, 'typing_off', page.accessToken)
                 }, 1500)
-                updateBotLifeStats(chatbot, false)
-                updateBotPeriodicStats(chatbot, false)
-                updateBotLifeStatsForBlock(messageBlock, true)
-                updateBotPeriodicStatsForBlock(chatbot, true)
-                updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, messageBlock)
+                if (!isSendingToTester) {
+                  updateBotLifeStats(chatbot, false)
+                  updateBotPeriodicStats(chatbot, false)
+                  updateBotLifeStatsForBlock(messageBlock, true)
+                  updateBotPeriodicStatsForBlock(chatbot, true)
+                  updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, messageBlock)
+                }
                 let subscriberLastMessageAt = moment(subscriber.lastMessagedAt)
                 let dateNow = moment()
-                if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
+                if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1 && !isSendingToTester) {
                   updateBotPeriodicStatsForReturning(chatbot)
                 }
                 // new subscriber stats logic starts
                 let subscriberCreatedAt = moment(subscriber.datetime)
-                if (dateNow.diff(subscriberCreatedAt, 'seconds') <= 10) {
+                if (dateNow.diff(subscriberCreatedAt, 'seconds') <= 10 && !isSendingToTester) {
                   updateBotLifeStats(chatbot, true)
                   updateBotPeriodicStats(chatbot, true)
                 }
@@ -214,9 +218,11 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId) => {
     .then(chatbot => {
       if (chatbot) {
         let shouldSend = false
+        let isSendingToTester = false
         if (chatbot.testSession && !chatbot.published) {
           if (chatbot.testSession.subscriberId === subscriber.senderId) {
             shouldSend = true
+            isSendingToTester = true
           }
         } else if (chatbot.published) {
           shouldSend = true
@@ -230,12 +236,14 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId) => {
                   sendResponse(req.sender.id, item, subscriber, page.accessToken)
                   senderAction(req.sender.id, 'typing_off', page.accessToken)
                 }, 1500)
-                updateBotLifeStatsForBlock(messageBlock, true)
-                updateBotPeriodicStatsForBlock(chatbot, true)
-                updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, messageBlock)
+                if (!isSendingToTester) {
+                  updateBotLifeStatsForBlock(messageBlock, true)
+                  updateBotPeriodicStatsForBlock(chatbot, true)
+                  updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, messageBlock)
+                }
                 let subscriberLastMessageAt = moment(subscriber.lastMessagedAt)
                 let dateNow = moment()
-                if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
+                if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1 && !isSendingToTester) {
                   updateBotPeriodicStatsForReturning(chatbot)
                 }
               }
