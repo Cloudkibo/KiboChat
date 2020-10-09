@@ -786,7 +786,7 @@ const getQuantityToAddBlock = async (chatbot, backId, contact, product) => {
 const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) => {
   try {
     quantity = Number(quantity)
-    if (!Number.isInteger(quantity) || quantity < 0) {
+    if (!Number.isInteger(quantity) || quantity <= 0) {
       throw new Error(`${ERROR_INDICATOR}Invalid quantity given.`)
     }
     let shoppingCart = contact.shoppingCart ? contact.shoppingCart : []
@@ -815,7 +815,7 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
 
     logger.serverLog(TAG, `shoppingCart ${JSON.stringify(shoppingCart)}`, 'info')
     updateSubscriber({ _id: contact._id }, { shoppingCart }, null, {})
-    let text = `${quantity} ${product.product}${quantity !== 1 ? 's have' : ' has'} been succesfully added to your cart.`
+    let text = `${quantity} ${product.product}${quantity !== 1 ? 's have' : 'has'} been succesfully added to your cart.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
     logger.serverLog(TAG, `Unable to add to cart ${err}`, 'error')
@@ -865,6 +865,7 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
           currency = product.currency
         }
         let price = product.quantity * product.price
+        price = Number(price.toFixed(2))
         totalPrice += price
 
         let priceString = currency === 'USD' ? `$${product.price}` : `${product.price} ${currency}`
@@ -904,15 +905,17 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
     messageBlock.payload[messageBlock.payload.length - 1].quickReplies.push(
       {
         content_type: 'text',
-        title: 'Go Back',
-        payload: JSON.stringify({ type: STATIC, blockId: backId })
-      },
-      {
-        content_type: 'text',
         title: 'Go Home',
         payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
       }
     )
+    if (!optionalText) {
+      messageBlock.payload[messageBlock.payload.length - 1].quickReplies.push({
+        content_type: 'text',
+        title: 'Go Back',
+        payload: JSON.stringify({ type: STATIC, blockId: backId })
+      })
+    }
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to show cart ${err}`, 'error')
@@ -922,6 +925,12 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
 
 const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, quantity) => {
   try {
+    let shoppingCart = contact.shoppingCart ? contact.shoppingCart : []
+    let existingProductIndex = shoppingCart.findIndex((item) => item.variant_id === productInfo.variant_id)
+    if (existingProductIndex === -1) {
+      let text = `This product no longer exists in your cart`
+      return getShowMyCartBlock(chatbot, backId, contact, text)
+    }
     if (!quantity) {
       quantity = productInfo.quantity
     }
@@ -929,7 +938,6 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
     if (!Number.isInteger(quantity) || quantity < 0) {
       throw new Error(`${ERROR_INDICATOR}Invalid quantity given.`)
     }
-    let shoppingCart = contact.shoppingCart
     shoppingCart[productInfo.productIndex].quantity -= quantity
     if (shoppingCart[productInfo.productIndex].quantity === 0) {
       shoppingCart.splice(productInfo.productIndex, 1)
@@ -937,7 +945,7 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
       throw new Error(`${ERROR_INDICATOR}Invalid quantity given.`)
     }
     updateSubscriber({ _id: contact._id }, { shoppingCart }, null, {})
-    let text = `${quantity} ${productInfo.product}${quantity !== 1 ? 's have' : ' has'} been succesfully removed from your cart.`
+    let text = `${quantity} ${productInfo.product}${quantity !== 1 ? 's have' : 'has'} been succesfully removed from your cart.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
     console.log('Unable to remove item(s) from cart', err.stack)
@@ -1154,8 +1162,11 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
     if (chatbot.storeType === commerceConstants.shopify) {
       checkoutLink = await EcommerceProvider.createPermalinkForCart(commerceCustomer, contact.shoppingCart)
     } else if (chatbot.storeType === commerceConstants.bigcommerce) {
+      logger.serverLog(TAG, `creating bigcommerce cart ${commerceCustomer.id} ${JSON.stringify(contact.shoppingCart)}`)
       const bigcommerceCart = await EcommerceProvider.createCart(commerceCustomer.id, contact.shoppingCart)
+      logger.serverLog(TAG, `bigcommerce cart created ${JSON.stringify(bigcommerceCart)}`)
       checkoutLink = await EcommerceProvider.createPermalinkForCartBigCommerce(bigcommerceCart.id)
+      logger.serverLog(TAG, `bigcommerce checkoutLink generated ${JSON.stringify(checkoutLink)}`)
       checkoutLink = checkoutLink.data.cart_url
     }
     updateSubscriber({ _id: contact._id }, { shoppingCart: [] }, null, {})
@@ -1314,8 +1325,13 @@ const invalidInput = async (chatbot, messageBlock, errMessage) => {
   return messageBlock
 }
 
-const getQuantityToUpdateBlock = async (chatbot, backId, product) => {
+const getQuantityToUpdateBlock = async (chatbot, backId, product, contact) => {
   try {
+    let shoppingCart = contact.shoppingCart ? contact.shoppingCart : []
+    let existingProductIndex = shoppingCart.findIndex((item) => item.variant_id === product.variant_id)
+    if (existingProductIndex === -1) {
+      product.quantity = 0
+    }
     let priceString = product.currency === 'USD' ? `$${product.price}` : `${product.price} ${product.currency}`
     let messageBlock = {
       module: {
@@ -1497,7 +1513,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
               break
             }
             case QUANTITY_TO_UPDATE: {
-              messageBlock = await getQuantityToUpdateBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument)
+              messageBlock = await getQuantityToUpdateBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument, contact)
               break
             }
             case VIEW_RECENT_ORDERS: {

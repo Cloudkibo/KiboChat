@@ -16,7 +16,7 @@ exports.create = function (req, res) {
 }
 
 exports.index = function (req, res) {
-  datalayer.fetchChatbotRecords({companyId: req.user.companyId})
+  datalayer.fetchChatbotRecords({companyId: req.user.companyId, platform: req.user.platform})
     .then(records => {
       return sendSuccessResponse(res, 200, records)
     })
@@ -28,12 +28,6 @@ exports.index = function (req, res) {
 exports.details = function (req, res) {
   datalayer.fetchChatbotBlockRecords({chatbotId: req.params.id})
     .then(records => {
-      // const blocks = records.map((item) => {
-      //   item.payload = JSON.parse(item.payload)
-      //   item.options = JSON.parse(item.options)
-      //   item.triggers = JSON.parse(item.triggers)
-      //   return item
-      // })
       return sendSuccessResponse(res, 200, records)
     })
     .catch(error => {
@@ -42,13 +36,34 @@ exports.details = function (req, res) {
 }
 
 exports.update = function (req, res) {
-  datalayer.updateChatbotRecord({chatbotId: req.body.chatbotId}, {...req.body})
-    .then(created => {
-      return sendSuccessResponse(res, 200, created, 'Chatbot updated successfully!')
-    })
-    .catch(error => {
-      return sendErrorResponse(res, 500, error, 'Failed to update chatbot.')
-    })
+  const published = req.body.published
+  if (published) {
+    datalayer.fetchChatbotRecords({companyId: req.user.companyId, platform: req.user.platform, published})
+      .then(records => {
+        if (records.length > 0) {
+          return sendErrorResponse(res, 500, null, `On ${req.user.platform} platform, a chabot is already published. You can not publish more than one chatbot.`)
+        } else {
+          datalayer.updateChatbotRecord({chatbotId: req.body.chatbotId}, {...req.body})
+            .then(created => {
+              return sendSuccessResponse(res, 200, created, 'Chatbot updated successfully!')
+            })
+            .catch(error => {
+              return sendErrorResponse(res, 500, error, 'Failed to update chatbot.')
+            })
+        }
+      })
+      .catch(error => {
+        return sendErrorResponse(res, 500, error, 'Failed to update chatbot.')
+      })
+  } else {
+    datalayer.updateChatbotRecord({chatbotId: req.body.chatbotId}, {...req.body})
+      .then(created => {
+        return sendSuccessResponse(res, 200, created, 'Chatbot updated successfully!')
+      })
+      .catch(error => {
+        return sendErrorResponse(res, 500, error, 'Failed to update chatbot.')
+      })
+  }
 }
 
 exports.handleBlock = function (req, res) {
