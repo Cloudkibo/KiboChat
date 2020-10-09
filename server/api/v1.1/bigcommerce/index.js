@@ -19,6 +19,9 @@ router.get('/load',
 router.get('/uninstall',
   controller.uninstall) // this id will be userid
 
+router.get('/redirect',
+  controller.redirect)
+
 router.get('/fetchStore',
   auth.isAuthenticated(),
   controller.fetchStore) // this id will be userid
