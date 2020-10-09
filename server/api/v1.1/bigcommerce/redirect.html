@@ -6,7 +6,7 @@
     <script>
       const url = window.location.search.split('=').slice(1).join('=')
       setTimeout(function () {
-        window.location.replace(url)
+        window.location.replace(unescape(url))
       }, 3000)
     </script>
   </head>
