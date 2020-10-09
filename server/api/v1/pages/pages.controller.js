@@ -288,7 +288,7 @@ exports.enable = function (req, res) {
                                                 if (err) {
                                                   logger.serverLog(TAG,
                                                     `Internal Server Error ${JSON.stringify(
-                                                      err)}`, 'error')
+                                                      err)}`, 'debug')
                                                 }
                                                 if (resp.body.error) {
                                                   logger.serverLog(TAG,
