@@ -57,6 +57,10 @@ exports.uninstall = (req, res) => {
   }
 }
 
+exports.redirect = function (req, res) {
+  res.sendFile(path.join(__dirname, '/redirect.html'))
+}
+
 exports.fetchStore = (req, res) => {
   dataLayer.findOneBigCommerceIntegration({ companyId: req.user.companyId })
     .then(bigCommerceIntegration => {

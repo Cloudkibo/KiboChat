@@ -360,7 +360,9 @@ exports.createPermalinkForCart = (cartId, credentials) => {
   return new Promise(function (resolve, reject) {
     bigCommerce.post(`/carts/${cartId}/redirect_urls`)
       .then(result => {
-        resolve(result)
+        const cartUrl = result.data.cart_url
+        const redirectUrl = `${config.domain}/api/bigcommerce/redirect?url=${cartUrl}`
+        resolve({ data: { cart_url: redirectUrl } })
       })
       .catch(err => {
         reject(err)
