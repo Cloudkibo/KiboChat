@@ -231,10 +231,9 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
     if (input) {
       products = await EcommerceProvider.searchProducts(input)
       if (products.length > 0) {
-        messageBlock.payload[0].text = `Following products were found for "${input}".\n\nPlease select a product:`
+        messageBlock.payload[0].text = `Following products were found for "${input}".\n\nPlease select a product or enter another product name to search again:`
       } else {
-        messageBlock.payload[0].text = `No products found that match "${input}".\n\nPlease enter the name of the product you wish to search for:`
-        messageBlock.payload[0].action = { type: DYNAMIC, action: DISCOVER_PRODUCTS, input: true }
+        messageBlock.payload[0].text = `No products found that match "${input}".\n\nEnter another product name to search again:`
       }
     } else {
       if (categoryId) {
@@ -289,6 +288,9 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
         payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
       }
     )
+    if (input) {
+      messageBlock.payload[messageBlock.payload.length - 1].action = { type: DYNAMIC, action: DISCOVER_PRODUCTS, input: true }
+    }
     return messageBlock
   } catch (err) {
     logger.serverLog(TAG, `Unable to discover products ${err}`, 'error')
@@ -1481,7 +1483,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
               break
             }
             case GET_CHECKOUT_EMAIL: {
-              messageBlock = await getCheckoutEmailBlock(chatbot, contact, action.argument)
+              messageBlock = await getCheckoutEmailBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, action.argument)
               break
             }
             case PROCEED_TO_CHECKOUT: {
