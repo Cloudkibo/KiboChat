@@ -46,7 +46,7 @@ const sendMobileNotifications = (expoListToken, title, bodyMessage, data, user) 
                   return expoToken
                 }
               })
-              utility.callApi('companyUser/update', 'post', {query: {userId: user._id}, newPayload: {expoListToken: expoListToken}, options: {}})
+              utility.callApi('companyUser/update', 'put', {query: {userId: user._id}, newPayload: {expoListToken: expoListToken}, options: {}})
                 .then(updated => {
                   logger.serverLog(TAG, `Update successfully expoList token in Company Table`)
                 })
