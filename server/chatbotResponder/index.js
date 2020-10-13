@@ -11,53 +11,68 @@ exports.respondUsingChatbot = (platform, provider, company, message, contact) =>
     .then(chatbots => {
       const chatbot = chatbots[0]
       const userText = message.toLowerCase().trim()
-      if (chatbot) {
-        console.log(chatbot)
-        if (contact.chatbotContext) {
-          _handleUserInput(userText, contact.chatbotContext)
-            .then(result => {
-              if (result.status === 'success') {
-                _respond(platform, provider, company, contact, {uniqueId: result.payload})
-              } else {
-                _callMapperFunction(
-                  platform,
-                  provider,
-                  {
-                    text: result.description,
-                    subscriber: contact,
-                    company
-                  },
-                  ActionTypes.SEND_TEXT_MESSAGE
-                )
-                  .then(sent => {
-                    logger.serverLog(TAG, 'fallback reply is sent', 'debug')
+      if (chatbot && chatbot.startingBlockId) {
+        // fetch blocks with matching trigger
+        _fetchChatbotBlocks({
+          companyId: company._id,
+          chatbotId: chatbot.chatbotId,
+          '$contains': {
+            type: 'array',
+            field: 'triggers',
+            value: userText
+          }
+        })
+          .then(blocks => {
+            let block = blocks[0]
+            if (block) {
+              // trigger matched
+              _respond(platform, provider, company, contact, block)
+            } else {
+              // trigger not matched. check chatbot context
+              if (contact.chatbotContext) {
+                _handleUserInput(userText, contact.chatbotContext)
+                  .then(result => {
+                    if (result.status === 'success') {
+                      // correct option, send next block
+                      _fetchChatbotBlocks({uniqueId: result.payload})
+                        .then(result => {
+                          block = result[0]
+                          if (block) {
+                            _respond(platform, provider, company, contact, block)
+                          }
+                        })
+                        .catch(err => {
+                          logger.serverLog(TAG, err, 'error')
+                        })
+                    } else {
+                      // incorrect option, send fallback reply
+                      _callMapperFunction(
+                        platform,
+                        provider,
+                        {
+                          text: result.description,
+                          subscriber: contact,
+                          company
+                        },
+                        ActionTypes.SEND_TEXT_MESSAGE
+                      )
+                        .then(sent => {
+                          logger.serverLog(TAG, 'fallback reply is sent', 'debug')
+                        })
+                        .catch(err => {
+                          logger.serverLog(TAG, err, 'error')
+                        })
+                    }
                   })
                   .catch(err => {
                     logger.serverLog(TAG, err, 'error')
                   })
               }
-            })
-            .catch(err => {
-              logger.serverLog(TAG, err, 'error')
-            })
-        } else if (chatbot.startingBlockId) {
-          _respond(
-            platform,
-            provider,
-            company,
-            contact,
-            {
-              uniqueId: chatbot.startingBlockId,
-              '$contains': {
-                type: 'array',
-                field: 'triggers',
-                value: userText
-              }
             }
-          )
-        } else {
-          logger.serverLog(TAG, 'chatbot startingBlockId is not set', 'error')
-        }
+          })
+          .catch(err => {
+            logger.serverLog(TAG, err, 'error')
+          })
       } else {
         logger.serverLog(TAG, 'chatbot not found or is diabled', 'debug')
       }
@@ -67,33 +82,28 @@ exports.respondUsingChatbot = (platform, provider, company, message, contact) =>
     })
 }
 
-const _respond = (platform, provider, company, contact, criteria) => {
-  chatbotDatalayer.fetchChatbotBlockRecords(criteria)
-    .then(chatbotBlocks => {
-      const block = chatbotBlocks[0]
-      if (block) {
-        _callMapperFunction(
-          platform,
-          provider,
-          {
-            payload: block.payload,
-            options: block.options,
-            subscriber: contact,
-            company
-          },
-          ActionTypes.RESPOND_USING_CHATBOT
-        )
-          .then(sent => {
-            logger.serverLog(TAG, 'chatbot responded', 'debug')
-            if (block.options.length > 0) {
-              _setChatbotContext(platform, contact, block)
-            } else {
-              _unsetChatbotContext(platform, contact)
-            }
-          })
-          .catch(err => {
-            logger.serverLog(TAG, err, 'error')
-          })
+const _fetchChatbotBlocks = (criteria) => {
+  return chatbotDatalayer.fetchChatbotBlockRecords(criteria)
+}
+
+const _respond = (platform, provider, company, contact, block) => {
+  _callMapperFunction(
+    platform,
+    provider,
+    {
+      payload: block.payload,
+      options: block.options,
+      subscriber: contact,
+      company
+    },
+    ActionTypes.RESPOND_USING_CHATBOT
+  )
+    .then(sent => {
+      logger.serverLog(TAG, 'chatbot responded', 'debug')
+      if (block.options.length > 0) {
+        _setChatbotContext(platform, contact, block)
+      } else {
+        _unsetChatbotContext(platform, contact)
       }
     })
     .catch(err => {
