@@ -48,7 +48,11 @@ module.exports = function (app) {
          * well-known web vulnerabilities by setting
          * HTTP headers appropriately.
          */
-    app.use(helmet())
+    app.use(
+      helmet({
+        frameguard: false
+      })
+    )
   }
 
   if (env === 'development' || env === 'test') {
