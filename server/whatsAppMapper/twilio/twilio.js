@@ -113,7 +113,7 @@ exports.getNormalizedMessageReceivedData = (event) => {
 
 exports.respondUsingChatbot = ({payload, options, company, subscriber}) => {
   return new Promise((resolve, reject) => {
-    async.each(payload, function (item, cb) {
+    async.eachSeries(payload, function (item, cb) {
       logicLayer.prepareChatbotPayload(company, subscriber, item, options)
         .then(message => {
           const client = twilioClient(company)
