@@ -92,15 +92,17 @@ exports.install = function (req, res) {
 exports.callback = function (req, res) {
   const { shop, hmac, code, state } = req.query
   logger.serverLog(TAG, `parsing shopify cookie ${req.headers.cookie}`, 'info')
-  const stateCookie = cookie.parse(req.headers.cookie).state
-  //  const userId = JSON.parse(cookie.parse(req.headers.cookie).userId)
-  //  const companyId = JSON.parse(cookie.parse(req.headers.cookie).companyId)
-  //  const pageId = cookie.parse(req.headers.cookie).pageId
-  if (state !== stateCookie) {
-    res.cookie('shopifySetupState', 'Request origin cannot be verified')
-    res.clearCookie('shopifyToken')
-    res.clearCookie('installByShopifyStore')
-    return res.redirect('/errorMessage')
+  if (req.headers.cookie) {
+    const stateCookie = cookie.parse(req.headers.cookie).state
+    //  const userId = JSON.parse(cookie.parse(req.headers.cookie).userId)
+    //  const companyId = JSON.parse(cookie.parse(req.headers.cookie).companyId)
+    //  const pageId = cookie.parse(req.headers.cookie).pageId
+    if (state !== stateCookie) {
+      res.cookie('shopifySetupState', 'Request origin cannot be verified')
+      res.clearCookie('shopifyToken')
+      res.clearCookie('installByShopifyStore')
+      return res.redirect('/errorMessage')
+    }
   }
 
   if (shop && hmac && code) {
