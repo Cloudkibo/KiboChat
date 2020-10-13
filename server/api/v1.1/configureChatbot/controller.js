@@ -1,8 +1,9 @@
 const logiclayer = require('./logiclayer')
 const datalayer = require('./datalayer')
-// const logger = require('../../../components/logger')
-// const TAG = 'api/v1.1/chatbots/chatbots.controller.js'
+const logger = require('../../../components/logger')
+const TAG = 'api/v1.1/chatbots/chatbots.controller.js'
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
+const { callApi } = require('../utility')
 
 exports.create = function (req, res) {
   const payload = logiclayer.preparePayload(req.user, req.body)
@@ -35,9 +36,34 @@ exports.details = function (req, res) {
     })
 }
 
+const _unsetChatbotContext = (companyId, platform) => {
+  let module = ''
+  if (platform === 'sms') {
+    module = 'contacts'
+  } else if (platform === 'whatsApp') {
+    module = 'whatsAppContacts'
+  }
+  callApi(
+    `${module}/update`,
+    'put',
+    {
+      query: {companyId, chatbotContext: {$exists: true}},
+      newPayload: {$unset: {chatbotContext: 1}},
+      options: {multi: true}
+    }
+  )
+    .then(updated => {
+      logger.serverLog(TAG, 'context is unset', 'debug')
+    })
+    .catch(err => {
+      logger.serverLog(TAG, err, 'error')
+    })
+}
+
 exports.update = function (req, res) {
   const published = req.body.published
   if (published) {
+    _unsetChatbotContext(req.user.companyId, req.user.platform)
     datalayer.fetchChatbotRecords({companyId: req.user.companyId, platform: req.user.platform, published})
       .then(records => {
         if (records.length > 0) {
