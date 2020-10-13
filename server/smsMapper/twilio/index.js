@@ -12,7 +12,7 @@ exports.getCompany = (body) => {
 
 exports.respondUsingChatbot = ({payload, options, company, subscriber}) => {
   return new Promise((resolve, reject) => {
-    async.eachOfSeries(payload, function (item, cb) {
+    async.eachSeries(payload, function (item, cb) {
       logiclayer.prepareChatbotPayload(company, subscriber, item, options)
         .then(message => {
           const client = twilioClient(company)

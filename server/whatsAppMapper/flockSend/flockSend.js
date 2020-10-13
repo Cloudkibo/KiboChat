@@ -131,7 +131,7 @@ exports.verifyCredentials = (body) => {
 
 exports.respondUsingChatbot = ({payload, options, company, subscriber}) => {
   return new Promise((resolve, reject) => {
-    async.eachOfSeries(payload, function (item, cb) {
+    async.eachSeries(payload, function (item, cb) {
       logicLayer.prepareChatbotPayload(company, subscriber, item, options)
         .then(({route, message}) => {
           flockSendApiCaller(`connect/official/v2/${route}`, 'post', message)
