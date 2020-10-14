@@ -93,13 +93,13 @@ exports.handleCommerceChatbot = async (event, page, subscriber) => {
     logger.serverLog(TAG, `commerce chatbot found ${JSON.stringify(chatbot)}`, 'info')
     let shouldSend = false
     let isSendingToTester = false
-    if (chatbot && chatbot.testSession && !chatbot.published) {
-      if (chatbot.testSession.subscriberId === subscriber.senderId) {
+    if (chatbot) {
+      if (chatbot.testSession && !chatbot.published && chatbot.testSession.subscriberId === subscriber.senderId) {
         shouldSend = true
         isSendingToTester = true
+      } else if (chatbot.published) {
+        shouldSend = true
       }
-    } else if (chatbot.published) {
-      shouldSend = true
     }
     logger.serverLog('commerce chatbot shouldSend', shouldSend)
     if (shouldSend) {
