@@ -188,8 +188,6 @@ exports.callback = function (req, res) {
         } else {
           logger.serverLog(TAG, `shopify else condition (tokenCookie)`, 'info')
           res.cookie('shopifySetupState', 'startedFromAppNotAuthenticated')
-          res.clearCookie('shopifyToken')
-          res.clearCookie('installByShopifyStore')
           res.cookie('shopifyToken', accessToken)
           // the login in that screen should redirect to kibochat only
           res.sendFile(path.join(__dirname, '/proceedToIntegratePage.html'))
