@@ -54,7 +54,6 @@ exports.update = function (req, res) {
     isYoutubePlayable: req.body.isYoutubePlayable,
     builderPreference: req.body.builderPreference
   }
-  console.log('dataToUpdate', dataToUpdate)
   datalayer.genericUpdateChatBot({ _id: req.body.chatbotId }, dataToUpdate)
     .then(chatbotUpdated => {
       return sendSuccessResponse(res, 200, chatbotUpdated, 'Updated the chatbot publish status')
