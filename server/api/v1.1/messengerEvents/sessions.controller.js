@@ -28,9 +28,12 @@ exports.index = function (req, res) {
   let newSubscriber = req.body.newSubscriber
   utility.callApi(`companyprofile/query`, 'post', { _id: page.companyId })
     .then(company => {
+      logger.serverLog(TAG, `Found company ${JSON.stringify(company)}`, 'info')
       if (!(company.automated_options === 'DISABLE_CHAT')) {
         if (subscriber.unSubscribedBy !== 'agent') {
+          logger.serverLog(TAG, `Not unsubscribed by agent`, 'info')
           if (newSubscriber) {
+            logger.serverLog(TAG, `New subscriber ${JSON.stringify(company)}`, 'info')
             require('./../../../config/socketio').sendMessageToClient({
               room_id: page.companyId,
               body: {
@@ -42,7 +45,7 @@ exports.index = function (req, res) {
             })
           }
           let updatePayload = { last_activity_time: Date.now() }
-          if (!event.message.is_echo) {
+          if (event.message && !event.message.is_echo) {
             if (subscriber.status === 'resolved') {
               updatePayload.status = 'new'
             }
@@ -52,18 +55,21 @@ exports.index = function (req, res) {
           if (req.body.pushPendingSessionInfo && JSON.stringify(req.body.pushPendingSessionInfo) === 'true') {
             pushSessionPendingAlertInStack(company, subscriber)
           }
+          logger.serverLog(TAG, `Updated payload ${JSON.stringify(updatePayload)}`, 'info')
           utility.callApi('subscribers/update', 'put', { query: { _id: subscriber._id }, newPayload: updatePayload, options: {} })
             .then(updated => {
-              if (!event.message.is_echo) {
+              logger.serverLog(TAG, `Update subsciber ${JSON.stringify(updated)}`, 'info')
+              if (event.message && !event.message.is_echo) {
                 utility.callApi('subscribers/update', 'put', { query: { _id: subscriber._id }, newPayload: { $inc: { unreadCount: 1, messagesCount: 1 } }, options: {} })
                   .then(updated => {
+                    logger.serverLog(TAG, `Update unread count ${JSON.stringify(updated)}`, 'info')
                   })
                   .catch(error => {
                     logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
                   })
               }
-              logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
-              if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
+              logger.serverLog(TAG, `subscriber updated successfully`, 'info')
+              if ((event.message && !event.message.is_echo) || (event.message && event.message.is_echo && company.saveAutomationMessages)) {
                 saveLiveChat(page, subscriber, event)
                 if (event.type !== 'get_started') {
                   handleCommerceChatbot(event, page, subscriber)
@@ -71,7 +77,7 @@ exports.index = function (req, res) {
                     handleTriggerMessage(event, page, subscriber)
                   }
                 }
-                if (!event.message.is_echo) {
+                if (event.message && !event.message.is_echo) {
                   pushUnresolveAlertInStack(company, subscriber)
                 }
               }
