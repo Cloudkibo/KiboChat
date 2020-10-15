@@ -64,16 +64,18 @@ exports.index = function (req, res) {
                   })
               }
               logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
-              if ((event.message && !event.message.is_echo) || (event.message && event.message.is_echo && company.saveAutomationMessages)) {
-                saveLiveChat(page, subscriber, event)
-                if (event.type !== 'get_started') {
-                  handleCommerceChatbot(event, page, subscriber)
-                  if (event.message.text) {
-                    handleTriggerMessage(event, page, subscriber)
+              if (event.message) {
+                if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
+                  saveLiveChat(page, subscriber, event)
+                  if (event.type !== 'get_started') {
+                    handleCommerceChatbot(event, page, subscriber)
+                    if (event.message.text) {
+                      handleTriggerMessage(event, page, subscriber)
+                    }
                   }
-                }
-                if (event.message && !event.message.is_echo) {
-                  pushUnresolveAlertInStack(company, subscriber)
+                  if (!event.message.is_echo) {
+                    pushUnresolveAlertInStack(company, subscriber)
+                  }
                 }
               }
             })
