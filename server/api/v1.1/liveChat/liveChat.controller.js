@@ -196,7 +196,7 @@ exports.create = function (req, res) {
                 true
               )
               logger.serverLog(TAG, `got subscriber ${subscriber}`)
-              //record('messengerChatOutGoing')
+              record('messengerChatOutGoing')
               request(
                 {
                   'method': 'POST',
