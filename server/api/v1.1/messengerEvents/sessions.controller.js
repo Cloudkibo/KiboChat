@@ -94,7 +94,6 @@ function saveLiveChat (page, subscriber, event) {
   if (subscriber && !event.message.is_echo) {
     botController.respondUsingBot(page, subscriber, event.message.text)
   }
-  sendWebhook('LIVE_CHAT_ACTIONS', 'messenger', {session_id: subscriber._id}, page)
   // utility.callApi(`webhooks/query`, 'post', { pageId: page.pageId })
   //   .then(webhooks => {
   //     let webhook = webhooks[0]
@@ -145,6 +144,14 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
     !event.message.delivery &&
     !event.message.read
   ) {
+    !event.message.is_echo && sendWebhook('NEW_CHAT_MESSAGE', 'messenger', {
+      facebookSubscriberId: subscriber.senderId,
+      subscriberName: subscriber.firstName + '' + subscriber.lastName,
+      datetime: new Date(),
+      facebookPageId: page.pageId,
+      pageName: page.pageName,
+      payload: chatPayload.payload
+    }, page)
     LiveChatDataLayer.createFbMessageObject(chatPayload)
       .then(chat => {
         if (!event.message.is_echo) {

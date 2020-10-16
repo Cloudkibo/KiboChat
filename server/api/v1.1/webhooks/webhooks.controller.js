@@ -1,6 +1,7 @@
 const utility = require('../utility')
 const needle = require('needle')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
+const { sendWebhook } = require('../../global/sendWebhook')
 
 exports.index = function (req, res) {
   utility.callApi(`webhooks/query`, 'post', {companyId: req.user.companyId})
@@ -79,4 +80,9 @@ exports.enabled = function (req, res) {
     .catch(error => {
       sendErrorResponse(res, 500, `Failed to update webhook ${JSON.stringify(error)}`)
     })
+}
+exports.sendWebhook = function (req, res) {
+  console.log('in controller')
+  sendWebhook(req.body.type, req.body.platform, req.body.payload, req.body.page)
+  sendSuccessResponse(res, 200, 'Webhook received successfully')
 }
