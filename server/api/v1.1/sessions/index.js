@@ -36,6 +36,13 @@ router.get('/:id',
   auth.isUserAllowedToPerformThisAction('manage_livechat'),
   controller.show)
 
+router.post('/single',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
+  auth.doesPlanPermitsThisAction('livechat'),
+  auth.doesRolePermitsThisAction('livechatPermission'),
+  controller.singleSession)
+
 router.post('/changeStatus',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer('write'),

@@ -15,10 +15,10 @@ const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('.
 const { handleTriggerMessage, handleCommerceChatbot } = require('./chatbotAutomation.controller')
 
 exports.index = function (req, res) {
-  logger.serverLog(TAG, `payload received in page ${JSON.stringify(req.body.page)}`, 'debug')
-  logger.serverLog(TAG, `payload received in subscriber ${JSON.stringify(req.body.subscriber)}`, 'debug')
-  logger.serverLog(TAG, `payload received in event ${JSON.stringify(req.body.event)}`, 'debug')
-  logger.serverLog(TAG, `payload received in pushPendingSession ${JSON.stringify(req.body.pushPendingSessionInfo)}`, 'debug')
+  // logger.serverLog(TAG, `payload received in page ${JSON.stringify(req.body.page)}`, 'debug')
+  // logger.serverLog(TAG, `payload received in subscriber ${JSON.stringify(req.body.subscriber)}`, 'debug')
+  // logger.serverLog(TAG, `payload received in event ${JSON.stringify(req.body.event)}`, 'debug')
+  // logger.serverLog(TAG, `payload received in pushPendingSession ${JSON.stringify(req.body.pushPendingSessionInfo)}`, 'debug')
   res.status(200).json({
     status: 'success',
     description: `received the payload`
@@ -44,7 +44,7 @@ exports.index = function (req, res) {
             })
           }
           let updatePayload = { last_activity_time: Date.now() }
-          if (!event.message.is_echo) {
+          if (event.message && !event.message.is_echo) {
             if (subscriber.status === 'resolved') {
               updatePayload.status = 'new'
             }
@@ -56,9 +56,10 @@ exports.index = function (req, res) {
           }
           utility.callApi('subscribers/update', 'put', { query: { _id: subscriber._id }, newPayload: updatePayload, options: {} })
             .then(updated => {
-              if (!event.message.is_echo) {
+              if (event.message && !event.message.is_echo) {
                 utility.callApi('subscribers/update', 'put', { query: { _id: subscriber._id }, newPayload: { $inc: { unreadCount: 1, messagesCount: 1 } }, options: {} })
                   .then(updated => {
+                    logger.serverLog(TAG, `Updated unread count ${JSON.stringify(updated)}`, 'debug')
                   })
                   .catch(error => {
                     logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
@@ -74,9 +75,6 @@ exports.index = function (req, res) {
                     handleTriggerMessage(event, page, subscriber)
                   }
                 }
-                if (!event.message.is_echo) {
-                  pushUnresolveAlertInStack(company, subscriber)
-                }
               }
             })
             .catch(error => {
@@ -91,7 +89,7 @@ exports.index = function (req, res) {
 }
 
 function saveLiveChat (page, subscriber, event) {
-  record('messengerChatInComing')
+  //record('messengerChatInComing')
   if (subscriber && !event.message.is_echo) {
     botController.respondUsingBot(page, subscriber, event.message.text)
   }
