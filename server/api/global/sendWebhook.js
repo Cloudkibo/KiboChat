@@ -6,7 +6,6 @@ const config = require('../../config/environment/index')
 const sgMail = require('@sendgrid/mail')
 
 exports.sendWebhook = (type, platform, payload, page) => {
-  console.log('in function')
   utility.callApi(`webhooks/query`, 'post', { pageId: page._id, isEnabled: true })
     .then(webhooks => {
       let webhook = webhooks[0]
@@ -20,7 +19,6 @@ exports.sendWebhook = (type, platform, payload, page) => {
               platform,
               payload: payload
             }
-            console.log('data sending', data)
             needle.post(webhook.webhook_url, data, {json: true},
               (error, response) => {
                 if (error) logger.serverLog(TAG, `Cannot send webhook event ${err}`, 'error')
