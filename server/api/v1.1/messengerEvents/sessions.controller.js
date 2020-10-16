@@ -14,10 +14,10 @@ const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('.
 const { handleTriggerMessage, handleCommerceChatbot } = require('./chatbotAutomation.controller')
 
 exports.index = function (req, res) {
-  logger.serverLog(TAG, `payload received in page ${JSON.stringify(req.body.page)}`, 'info')
-  logger.serverLog(TAG, `payload received in subscriber ${JSON.stringify(req.body.subscriber)}`, 'info')
-  logger.serverLog(TAG, `payload received in event ${JSON.stringify(req.body.event)}`, 'info')
-  logger.serverLog(TAG, `payload received in pushPendingSession ${JSON.stringify(req.body.pushPendingSessionInfo)}`, 'info')
+  // logger.serverLog(TAG, `payload received in page ${JSON.stringify(req.body.page)}`, 'debug')
+  // logger.serverLog(TAG, `payload received in subscriber ${JSON.stringify(req.body.subscriber)}`, 'debug')
+  // logger.serverLog(TAG, `payload received in event ${JSON.stringify(req.body.event)}`, 'debug')
+  // logger.serverLog(TAG, `payload received in pushPendingSession ${JSON.stringify(req.body.pushPendingSessionInfo)}`, 'debug')
   res.status(200).json({
     status: 'success',
     description: `received the payload`
@@ -28,12 +28,9 @@ exports.index = function (req, res) {
   let newSubscriber = req.body.newSubscriber
   utility.callApi(`companyprofile/query`, 'post', { _id: page.companyId })
     .then(company => {
-      logger.serverLog(TAG, `Found company ${JSON.stringify(company)}`, 'info')
       if (!(company.automated_options === 'DISABLE_CHAT')) {
         if (subscriber.unSubscribedBy !== 'agent') {
-          logger.serverLog(TAG, `Not unsubscribed by agent`, 'info')
           if (newSubscriber) {
-            logger.serverLog(TAG, `New subscriber ${JSON.stringify(company)}`, 'info')
             require('./../../../config/socketio').sendMessageToClient({
               room_id: page.companyId,
               body: {
@@ -55,30 +52,30 @@ exports.index = function (req, res) {
           if (req.body.pushPendingSessionInfo && JSON.stringify(req.body.pushPendingSessionInfo) === 'true') {
             pushSessionPendingAlertInStack(company, subscriber)
           }
-          logger.serverLog(TAG, `Updated payload ${JSON.stringify(updatePayload)}`, 'info')
           utility.callApi('subscribers/update', 'put', { query: { _id: subscriber._id }, newPayload: updatePayload, options: {} })
             .then(updated => {
-              logger.serverLog(TAG, `Update subsciber ${JSON.stringify(updated)}`, 'info')
               if (event.message && !event.message.is_echo) {
                 utility.callApi('subscribers/update', 'put', { query: { _id: subscriber._id }, newPayload: { $inc: { unreadCount: 1, messagesCount: 1 } }, options: {} })
                   .then(updated => {
-                    logger.serverLog(TAG, `Update unread count ${JSON.stringify(updated)}`, 'info')
+                    logger.serverLog(TAG, `Updated unread count ${JSON.stringify(updated)}`, 'debug')
                   })
                   .catch(error => {
                     logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
                   })
               }
-              logger.serverLog(TAG, `subscriber updated successfully`, 'info')
-              if ((event.message && !event.message.is_echo) || (event.message && event.message.is_echo && company.saveAutomationMessages)) {
-                saveLiveChat(page, subscriber, event)
-                if (event.type !== 'get_started') {
-                  handleCommerceChatbot(event, page, subscriber)
-                  if (event.message.text) {
-                    handleTriggerMessage(event, page, subscriber)
+              logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
+              if (event.message) {
+                if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
+                  saveLiveChat(page, subscriber, event)
+                  if (event.type !== 'get_started') {
+                    handleCommerceChatbot(event, page, subscriber)
+                    if (event.message.text) {
+                      handleTriggerMessage(event, page, subscriber)
+                    }
                   }
-                }
-                if (event.message && !event.message.is_echo) {
-                  pushUnresolveAlertInStack(company, subscriber)
+                  if (!event.message.is_echo) {
+                    pushUnresolveAlertInStack(company, subscriber)
+                  }
                 }
               }
             })
