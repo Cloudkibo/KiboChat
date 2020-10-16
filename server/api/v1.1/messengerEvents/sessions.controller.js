@@ -94,43 +94,6 @@ function saveLiveChat (page, subscriber, event) {
   if (subscriber && !event.message.is_echo) {
     botController.respondUsingBot(page, subscriber, event.message.text)
   }
-  sendWebhook('LIVE_CHAT_ACTIONS', 'messenger', {session_id: subscriber._id}, page)
-  // utility.callApi(`webhooks/query`, 'post', { pageId: page.pageId })
-  //   .then(webhooks => {
-  //     let webhook = webhooks[0]
-  //     if (webhooks.length > 0 && webhook.isEnabled) {
-  //       logger.serverLog(TAG, `webhook in live chat ${webhook}`, 'error')
-  //       needle.get(webhook.webhook_url, (err, r) => {
-  //         if (err) {
-  //           logger.serverLog(TAG, err, 'error')
-  //           logger.serverLog(TAG, `response ${r.statusCode}`, 'error')
-  //         } else if (r.statusCode === 200) {
-  //           if (webhook.optIn.LIVE_CHAT_ACTIONS) {
-  //             var data = {
-  //               subscription_type: 'LIVE_CHAT_ACTIONS',
-  //               payload: JSON.stringify({
-  //                 format: 'facebook',
-  //                 subscriberId: subscriber.senderId,
-  //                 pageId: page.pageId,
-  //                 session_id: subscriber._id,
-  //                 company_id: page.companyId,
-  //                 payload: event.message
-  //               })
-  //             }
-  //             needle.post(webhook.webhook_url, data,
-  //               (error, response) => {
-  //                 if (error) logger.serverLog(TAG, err, 'error')
-  //               })
-  //           }
-  //         } else {
-  //           notificationsUtility.saveNotification(webhook)
-  //         }
-  //       })
-  //     }
-  //   })
-  //   .catch(error => {
-  //     logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(error)}`, 'error')
-  //   })
   logicLayer.prepareLiveChatPayload(event.message, subscriber, page)
     .then(chatPayload => {
       if ((event.message && !event.message.is_echo) || (event.message && event.message.is_echo && event.message.metadata !== 'SENT_FROM_KIBOPUSH')) {
@@ -145,6 +108,14 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
     !event.message.delivery &&
     !event.message.read
   ) {
+    !event.message.is_echo && sendWebhook('NEW_CHAT_MESSAGE', 'messenger', {
+      facebookSubscriberId: subscriber.senderId,
+      subscriberName: subscriber.firstName + '' + subscriber.lastName,
+      datetime: new Date(),
+      facebookPageId: page.pageId,
+      pageName: page.pageName,
+      payload: chatPayload.payload
+    }, page)
     LiveChatDataLayer.createFbMessageObject(chatPayload)
       .then(chat => {
         if (!event.message.is_echo) {

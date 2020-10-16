@@ -17,9 +17,9 @@ exports.sendWebhook = (type, platform, payload, page) => {
             var data = {
               type,
               platform,
-              payload: JSON.stringify(payload)
+              payload: payload
             }
-            needle.post(webhook.webhook_url, data,
+            needle.post(webhook.webhook_url, data, {json: true},
               (error, response) => {
                 if (error) logger.serverLog(TAG, `Cannot send webhook event ${err}`, 'error')
               })
