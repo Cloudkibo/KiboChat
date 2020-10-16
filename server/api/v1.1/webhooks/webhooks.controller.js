@@ -82,7 +82,6 @@ exports.enabled = function (req, res) {
     })
 }
 exports.sendWebhook = function (req, res) {
-  console.log('in controller')
   sendWebhook(req.body.type, req.body.platform, req.body.payload, req.body.page)
   sendSuccessResponse(res, 200, 'Webhook received successfully')
 }
