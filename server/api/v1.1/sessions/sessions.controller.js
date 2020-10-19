@@ -202,6 +202,43 @@ exports.show = function (req, res) {
   }
 }
 
+exports.singleSession = function (req, res) {
+  async.parallelLimit([
+    function (callback) {
+      let data = logicLayer.payloadForSingleSession(req, 'resolved')
+      callApi('subscribers/aggregate', 'post', data)
+        .then(subscribers => {
+          console.log('subscriber', subscribers[0])
+          callback(null, subscribers[0])
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      let lastMessageData = logicLayer.getQueryData('', 'aggregate', { subscriber_id: req.params.id, company_id: req.user.companyId }, undefined, { _id: -1 }, 1, undefined)
+      callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
+        .then(data => {
+          callback(null, data)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    }
+  ], 10, function (err, results) {
+    if (err) {
+      sendErrorResponse(res, 500, err)
+    } else {
+      let subscriber = results[0]
+      let lastMessageResponse = results[1]
+      subscriber.lastPayload = lastMessageResponse.length > 0 && lastMessageResponse[0].payload
+      subscriber.lastRepliedBy = lastMessageResponse.length > 0 && lastMessageResponse[0].replied_by
+      subscriber.lastDateTime = lastMessageResponse.length > 0 && lastMessageResponse[0].datetime
+      sendSuccessResponse(res, 200, subscriber)
+    }
+  })
+}
+
 function _sendNotification (subscriberId, status, companyId, userName) {
   callApi('subscribers/query', 'post', { _id: subscriberId })
     .then(gotSubscriber => {

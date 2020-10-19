@@ -211,37 +211,28 @@ exports.enable = function (req, res) {
                                 utility.callApi('pages/query', 'post', { _id: req.body._id })
                                   .then(pages => {
                                     let page = pages[0]
-
-                                    query.welcomeMessage = page.welcomeMessage ? page.welcomeMessage : query.welcomeMessage
-                                    // initiate reach estimation
-                                    // needle('post', `https://graph.facebook.com/v6.0/me/broadcast_reach_estimations?access_token=${page.accessToken}`)
-                                    //   .then(reachEstimation => {
-                                    //     if (reachEstimation.body.error) {
-                                    //       sendOpAlert(reachEstimation.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
-                                    //     }
-                                    //     console.log('reachEstimation response', reachEstimation.body)
-                                    //     if (reachEstimation.body.reach_estimation_id) {
-                                    // query.reachEstimationId = reachEstimation.body.reach_estimation_id
-                                    utility.callApi(`pages/${req.body._id}`, 'put', query) // connect page
-                                      .then(connectPage => {
-                                        utility.callApi(`pages/whitelistDomain`, 'post', { page_id: page.pageId, whitelistDomains: [`${config.domain}`] }, 'accounts', req.headers.authorization)
-                                          .then(whitelistDomains => {
-                                          })
-                                          .catch(error => {
-                                            logger.serverLog(TAG,
-                                              `Failed to whitelist domain ${JSON.stringify(error)}`, 'error')
-                                          })
-                                        utility.callApi(`featureUsage/updateCompany`, 'put', {
-                                          query: { companyId: req.body.companyId },
-                                          newPayload: { $inc: { facebook_pages: 1 } },
-                                          options: {}
+                                  query.welcomeMessage = page.welcomeMessage ? page.welcomeMessage : query.welcomeMessage
+                                  // initiate reach estimation
+                                  // needle('post', `https://graph.facebook.com/v6.0/me/broadcast_reach_estimations?access_token=${page.accessToken}`)
+                                  //   .then(reachEstimation => {
+                                  //     if (reachEstimation.body.error) {
+                                  //       sendOpAlert(reachEstimation.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
+                                  //     }
+                                  //     console.log('reachEstimation response', reachEstimation.body)
+                                  //     if (reachEstimation.body.reach_estimation_id) {
+                                  // query.reachEstimationId = reachEstimation.body.reach_estimation_id
+                                  utility.callApi(`pages/${req.body._id}`, 'put', query) // connect page
+                                    .then(connectPage => {
+                                      utility.callApi(`featureUsage/updateCompany`, 'put', {
+                                        query: { companyId: req.body.companyId },
+                                        newPayload: { $inc: { facebook_pages: 1 } },
+                                        options: {}
+                                      })
+                                        .then(updated => {
+                                          // console.log('update company')
                                         })
-                                          .then(updated => {
-                                            // console.log('update company')
-                                          })
-                                          .catch(error => {
-                                            sendErrorResponse(res, 500, `Failed to update company usage ${JSON.stringify(error)}`)
-                                          })
+                                        .catch(error => {
+                                          sendErrorResponse(res, 500, `Failed to update company usage ${JSON.stringify(error)}`)
                                         utility.callApi(`subscribers/update`, 'put', { query: { pageId: page._id }, newPayload: { isEnabledByPage: true }, options: {} }) // update subscribers
                                           .then(updatedSubscriber => {
                                             // eslint-disable-next-line no-unused-vars
@@ -302,8 +293,14 @@ exports.enable = function (req, res) {
                                                       sendSuccessResponse(res, 200, 'Page connected successfully')
                                                     }
                                                   } else {
+                                                    _updateWhitlistDomain(req, page)
                                                     sendSuccessResponse(res, 200, 'Page connected successfully')
                                                   }
+
+                                                  // sendOpAlert(resp.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
+                                                } else {
+                                                  _updateWhitlistDomain(req, page)
+                                                  sendSuccessResponse(res, 200, 'Page connected successfully')
                                                 })
                                               require('./../../../config/socketio').sendMessageToClient({
                                                 room_id: req.body.companyId,
@@ -362,6 +359,16 @@ exports.enable = function (req, res) {
     .catch(error => {
       sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
+}
+
+const _updateWhitlistDomain = (req, page) => { 
+  utility.callApi(`pages/whitelistDomain`, 'post', { page_id: page.pageId, whitelistDomains: [`${config.domain}`] }, 'accounts', req.headers.authorization)
+  .then(whitelistDomains => {
+  })
+  .catch(error => {
+    logger.serverLog(TAG,
+      `Failed to whitelist domain ${JSON.stringify(error)}`, 'error')
+  })
 }
 
 exports.disable = function (req, res) {
