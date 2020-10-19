@@ -291,6 +291,7 @@ exports.enable = function (req, res) {
                                                     _updateWhitlistDomain(req, page)
                                                     sendSuccessResponse(res, 200, 'Page connected successfully')
                                                   }
+
                                                   // sendOpAlert(resp.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
                                                 } else {
                                                   _updateWhitlistDomain(req, page)
