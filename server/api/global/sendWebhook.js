@@ -24,7 +24,6 @@ exports.sendWebhook = (type, platform, payload, page) => {
                 if (error) logger.serverLog(TAG, `Cannot send webhook event ${err}`, 'error')
               })
           } else {
-            updateWebhook(webhook)
             saveNotification(webhook, page, platform)
             sendEmail(webhook, webhook.userId, page)
           }
@@ -137,7 +136,7 @@ function getEmailBody (webhookUrl, userName, pageName) {
                                                                         <div>&nbsp;</div>
                                                                         <div>Hope you are doing well!</div>
                                                                         <div>&nbsp;</div>
-                                                                        <div>The server at your given URL ${webhookUrl} for page ${pageName} is not live. Please verify that your callback server is functioning in order to receive webhook events from KiboPush.</div>
+                                                                        <div>The server at your given URL ${webhookUrl} for page ${pageName} is not live. Please verify that your callback server is functioning and then enable it from KiboPush Settings in order to receive webhook events.</div>
                                                                         <div>&nbsp;</div>
                                                                         <div>If you have any queries, you can send message to our <a href="https://www.facebook.com/kibopush/" style="background-color: rgb(255, 255, 255); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; font-family: arial; font-size: 14px;">Facebook Page</a>. Our admins will get back to you. Or, you can join our <a href="https://www.facebook.com/groups/kibopush/">Facebook Community</a>.</div>
                                                                         <div>&nbsp;</div>
