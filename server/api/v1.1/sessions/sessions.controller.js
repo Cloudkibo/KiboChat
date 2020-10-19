@@ -141,7 +141,6 @@ function markreadFacebook (req, callback) {
   callApi(`subscribers/${req.params.id}`, 'get', {}, 'accounts', req.headers.authorization)
     .then(subscriber => {
       const data = {
-        messaging_type: 'UPDATE',
         recipient: { id: subscriber.senderId }, // this is the subscriber id
         sender_action: 'mark_seen'
       }
@@ -152,7 +151,7 @@ function markreadFacebook (req, callback) {
         logger.serverLog(TAG, `marked read on Facebook error ${JSON.stringify(resp.error)}`, 'error')
         callback(resp.error)
       } else {
-        logger.serverLog(TAG, `marked read on Facebook response ${JSON.stringify(resp.body)}`, 'error')
+        logger.serverLog(TAG, `marked read on Facebook response ${JSON.stringify(resp.body)}`, 'info')
         callback(null, resp.body)
       }
     })
