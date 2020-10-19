@@ -5,6 +5,7 @@ const TAG = 'api/v1/messengerEvents/quickReply.controller'
 const { saveLiveChat } = require('./sessions.controller')
 const logicLayer = require('./logiclayer')
 const { handleCommerceChatbot } = require('./chatbotAutomation.controller')
+const { sendWebhook } = require('../../global/sendWebhook')
 
 exports.index = function (req, res) {
   res.status(200).json({
@@ -22,6 +23,13 @@ exports.index = function (req, res) {
       utility.callApi('subscribers/query', 'post', { senderId: subscriberId, pageId: page._id })
         .then(gotSubscriber => {
           subscriber = gotSubscriber[0]
+          sendWebhook('NEW_CHAT_MESSAGE', 'facebook', {
+            from: 'subscriber',
+            recipientId: page.pageId,
+            senderId: subscriber.senderId,
+            timestamp: Date.now(),
+            message: messengerPayload.message
+          }, page)
           handleCommerceChatbot(messengerPayload, page, subscriber)
           if (logicLayer.isJsonString(messengerPayload.message.quick_reply.payload)) {
             let quickRepyPayload = JSON.parse(messengerPayload.message.quick_reply.payload)
