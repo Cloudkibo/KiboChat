@@ -176,41 +176,41 @@ exports.enable = function (req, res) {
     .then(companyUser => {
       utility.callApi(`featureUsage/planQuery`, 'post', { planId: companyUser.companyId.planId })
         .then(planUsage => {
-          planUsage = planUsage[0]
           utility.callApi(`featureUsage/companyQuery`, 'post', { companyId: companyUser.companyId._id })
             .then(companyUsage => {
-              companyUsage = companyUsage[0]
-              if (planUsage.facebook_pages !== -1 && companyUsage.facebook_pages >= planUsage.facebook_pages) {
-                return res.status(500).json({
-                  status: 'failed',
-                  description: `Your pages limit has reached. Please upgrade your plan to connect more pages.`
-                })
-              } else {
-                utility.callApi(`pages/${req.body._id}`, 'get', {}) // fetch page
-                  .then(page => {
-                    needle('get', `https://graph.facebook.com/v6.0/me?access_token=${page.accessToken}`)
-                      .then(response => {
-                        if (response.body.error) {
-                          // sendOpAlert(response.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
-                          return res.status(400).json({ status: 'failed', payload: response.body.error.message, type: 'invalid_permissions' })
-                        } else {
-                          utility.callApi(`pages/query`, 'post', { pageId: req.body.pageId, connected: true })
-                            .then(pageConnected => {
-                              if (pageConnected.length === 0) {
-                                let query = {
-                                  connected: true,
-                                  isWelcomeMessageEnabled: true,
-                                  welcomeMessage: [
-                                    {
-                                      id: 0,
-                                      componentType: 'text',
-                                      text: 'Hi {{user_full_name}}! Thanks for getting in touch with us on Messenger. Please send us any questions you may have'
-                                    }]
-                                }
-                                Object.assign(req.body, query)
-                                utility.callApi('pages/query', 'post', { _id: req.body._id })
-                                  .then(pages => {
-                                    let page = pages[0]
+              // add paid plan check later
+              // if (planUsage.facebook_pages !== -1 && companyUsage.facebook_pages >= planUsage.facebook_pages) {
+              //   return res.status(500).json({
+              //     status: 'failed',
+              //     description: `Your pages limit has reached. Please upgrade your plan to premium in order to connect more pages.`
+              //   })
+              // }
+              utility.callApi(`pages/${req.body._id}`, 'get', {}) // fetch page
+                .then(page => {
+                  needle('get', `https://graph.facebook.com/v6.0/me?access_token=${page.accessToken}`)
+                    .then(response => {
+                      if (response.body.error) {
+                        // sendOpAlert(response.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
+                        return res.status(400).json({ status: 'failed', payload: response.body.error.message, type: 'invalid_permissions' })
+                      } else {
+                        utility.callApi(`pages/query`, 'post', { pageId: req.body.pageId, connected: true })
+                          .then(pageConnected => {
+                            if (pageConnected.length === 0) {
+                              let query = {
+                                connected: true,
+                                isWelcomeMessageEnabled: true,
+                                welcomeMessage: [
+                                  {
+                                    id: 0,
+                                    componentType: 'text',
+                                    text: 'Hi {{user_full_name}}! Thanks for getting in touch with us on Messenger. Please send us any questions you may have'
+                                  }]
+                              }
+                              Object.assign(req.body, query)
+                              utility.callApi('pages/query', 'post', { _id: req.body._id })
+                                .then(pages => {
+                                  let page = pages[0]
+
                                   query.welcomeMessage = page.welcomeMessage ? page.welcomeMessage : query.welcomeMessage
                                   // initiate reach estimation
                                   // needle('post', `https://graph.facebook.com/v6.0/me/broadcast_reach_estimations?access_token=${page.accessToken}`)
@@ -233,65 +233,60 @@ exports.enable = function (req, res) {
                                         })
                                         .catch(error => {
                                           sendErrorResponse(res, 500, `Failed to update company usage ${JSON.stringify(error)}`)
-                                        utility.callApi(`subscribers/update`, 'put', { query: { pageId: page._id }, newPayload: { isEnabledByPage: true }, options: {} }) // update subscribers
-                                          .then(updatedSubscriber => {
-                                            // eslint-disable-next-line no-unused-vars
-                                            const options = {
-                                              url: `https://graph.facebook.com/v6.0/${page.pageId}/subscribed_apps?access_token=${page.accessToken}`,
-                                              qs: { access_token: page.accessToken },
-                                              method: 'POST'
+                                        })
+                                      utility.callApi(`subscribers/update`, 'put', { query: { pageId: page._id }, newPayload: { isEnabledByPage: true }, options: {} }) // update subscribers
+                                        .then(updatedSubscriber => {
+                                          // eslint-disable-next-line no-unused-vars
+                                          const options = {
+                                            url: `https://graph.facebook.com/v6.0/${page.pageId}/subscribed_apps?access_token=${page.accessToken}`,
+                                            qs: { access_token: page.accessToken },
+                                            method: 'POST'
+                                          }
+                                          let bodyToSend = {
+                                            subscribed_fields: [
+                                              'feed', 'conversations', 'mention', 'messages', 'message_echoes', 'message_deliveries', 'messaging_optins', 'messaging_postbacks', 'message_reads', 'messaging_referrals', 'messaging_policy_enforcement']
+                                          }
+                                          needle.post(`https://graph.facebook.com/v3.2/me/subscribed_apps?access_token=${page.accessToken}`, bodyToSend, (error, response) => {
+                                            console.log('response.body', response.body)
+                                            if (error) {
+                                              console.log('error in subscribed_apps', error)
+                                              sendErrorResponse(res, 5000, JSON.stringify(error))
                                             }
-                                            let bodyToSend = {
-                                              subscribed_fields: [
-                                                'feed', 'conversations', 'mention', 'messages', 'message_echoes', 'message_deliveries', 'messaging_optins', 'messaging_postbacks', 'message_reads', 'messaging_referrals', 'messaging_policy_enforcement']
+                                            if (response.body.error) {
+                                              // sendOpAlert(response.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
                                             }
-                                            needle.post(`https://graph.facebook.com/v3.2/me/subscribed_apps?access_token=${page.accessToken}`, bodyToSend, (error, response) => {
-                                              console.log('response.body', response.body)
-                                              if (error) {
-                                                console.log('error in subscribed_apps', error)
-                                                sendErrorResponse(res, 5000, JSON.stringify(error))
-                                              }
-                                              if (response.body.error) {
-                                                // sendOpAlert(response.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
-                                              }
-                                              if (response.body.success) {
-                                                let updateConnectedFacebook = { query: { pageId: page.pageId }, newPayload: { connectedFacebook: true }, options: { multi: true } }
-                                                utility.callApi(`pages/update`, 'post', updateConnectedFacebook) // connect page
-                                                  .then(updatedPage => {
-                                                  })
-                                                  .catch(error => {
-                                                    logger.serverLog(TAG,
-                                                      `Failed to updatedPage ${JSON.stringify(error)}`, 'error')
-                                                  })
-                                              }
-                                              var valueForMenu = {
-                                                'get_started': {
-                                                  'payload': '<GET_STARTED_PAYLOAD>'
-                                                },
-                                                'greeting': [
-                                                  {
-                                                    'locale': 'default',
-                                                    'text': 'Hi {{user_full_name}}! Please tap on getting started to start the conversation.'
-                                                  }]
-                                              }
-                                              const requesturl = `https://graph.facebook.com/v6.0/me/messenger_profile?access_token=${page.accessToken}`
-                                              needle.request('post', requesturl, valueForMenu,
-                                                { json: true }, function (err, resp) {
-                                                  if (err) {
-                                                    logger.serverLog(TAG,
-                                                      `Internal Server Error ${JSON.stringify(
-                                                        err)}`, 'error')
-                                                  }
-                                                  if (resp.body.error) {
-                                                    logger.serverLog(TAG,
-                                                      `Page connect error ${JSON.stringify(
-                                                        resp.body.error)}`, 'debug')
-                                                    const errorMessage = resp.body.error.message
-                                                    if (errorMessage && errorMessage.includes('administrative permission')) {
-                                                      sendSuccessResponse(res, 200, { adminError: 'Page connected successfully, but certain actions such as setting welcome message will not work due to your page role' })
-                                                    } else {
-                                                      sendSuccessResponse(res, 200, 'Page connected successfully')
-                                                    }
+                                            if (response.body.success) {
+                                              let updateConnectedFacebook = { query: { pageId: page.pageId }, newPayload: { connectedFacebook: true }, options: { multi: true } }
+                                              utility.callApi(`pages/update`, 'post', updateConnectedFacebook) // connect page
+                                                .then(updatedPage => {
+                                                })
+                                                .catch(error => {
+                                                  logger.serverLog(TAG,
+                                                    `Failed to updatedPage ${JSON.stringify(error)}`, 'error')
+                                                })
+                                            }
+                                            var valueForMenu = {
+                                              'get_started': {
+                                                'payload': '<GET_STARTED_PAYLOAD>'
+                                              },
+                                              'greeting': [
+                                                {
+                                                  'locale': 'default',
+                                                  'text': 'Hi {{user_full_name}}! Please tap on getting started to start the conversation.'
+                                                }]
+                                            }
+                                            const requesturl = `https://graph.facebook.com/v6.0/me/messenger_profile?access_token=${page.accessToken}`
+                                            needle.request('post', requesturl, valueForMenu,
+                                              { json: true }, function (err, resp) {
+                                                if (err) {
+                                                  logger.serverLog(TAG,
+                                                    `Internal Server Error ${JSON.stringify(
+                                                      err)}`, 'debug')
+                                                }
+                                                if (resp.body.error) {
+                                                  const errorMessage = resp.body.error.message
+                                                  if (errorMessage && errorMessage.includes('administrative permission')) {
+                                                    sendSuccessResponse(res, 200, { adminError: 'Page connected successfully, but certain actions such as setting welcome message will not work due to your page role' })
                                                   } else {
                                                     _updateWhitlistDomain(req, page)
                                                     sendSuccessResponse(res, 200, 'Page connected successfully')
@@ -301,52 +296,52 @@ exports.enable = function (req, res) {
                                                 } else {
                                                   _updateWhitlistDomain(req, page)
                                                   sendSuccessResponse(res, 200, 'Page connected successfully')
-                                                })
-                                              require('./../../../config/socketio').sendMessageToClient({
-                                                room_id: req.body.companyId,
-                                                body: {
-                                                  action: 'page_connect',
-                                                  payload: {
-                                                    data: req.body,
-                                                    company_id: req.body.companyId
-                                                  }
                                                 }
                                               })
+                                            require('./../../../config/socketio').sendMessageToClient({
+                                              room_id: req.body.companyId,
+                                              body: {
+                                                action: 'page_connect',
+                                                payload: {
+                                                  data: req.body,
+                                                  company_id: req.body.companyId
+                                                }
+                                              }
                                             })
                                           })
-                                          .catch(error => {
-                                            sendErrorResponse(res, 500, `Failed to update subscriber ${JSON.stringify(error)}`)
-                                          })
-                                      })
-                                      .catch(error => {
-                                        sendErrorResponse(res, 500, `Failed to connect page ${JSON.stringify(error)}`)
-                                      })
-                                    //   } else {
-                                    //     logger.serverLog(TAG, `Failed to start reach estimation`, 'error')
-                                    //   }
-                                    // })
-                                    // .catch(err => {
-                                    //   logger.serverLog(TAG, `Error at find page ${err}`, 'error')
-                                    // })
-                                  })
-                                  .catch(err => {
-                                    logger.serverLog(TAG, `Error at find page ${err}`, 'error')
-                                    sendErrorResponse(res, 500, err)
-                                  })
-                              } else {
-                                sendSuccessResponse(res, 200, { msg: `Page is already connected by ${pageConnected[0].userId.facebookInfo.name} (${pageConnected[0].userId.email}).` })
-                              }
-                            })
-                        }
-                      })
-                      .catch(error => {
-                        sendErrorResponse(res, 500, `Failed to check page token ${JSON.stringify(error)}`)
-                      })
-                  })
-                  .catch(error => {
-                    sendErrorResponse(res, 500, `Failed to fetch page ${JSON.stringify(error)}`)
-                  })
-              }
+                                        })
+                                        .catch(error => {
+                                          sendErrorResponse(res, 500, `Failed to update subscriber ${JSON.stringify(error)}`)
+                                        })
+                                    })
+                                    .catch(error => {
+                                      sendErrorResponse(res, 500, `Failed to connect page ${JSON.stringify(error)}`)
+                                    })
+                                  //   } else {
+                                  //     logger.serverLog(TAG, `Failed to start reach estimation`, 'error')
+                                  //   }
+                                  // })
+                                  // .catch(err => {
+                                  //   logger.serverLog(TAG, `Error at find page ${err}`, 'error')
+                                  // })
+                                })
+                                .catch(err => {
+                                  logger.serverLog(TAG, `Error at find page ${err}`, 'error')
+                                  sendErrorResponse(res, 500, err)
+                                })
+                            } else {
+                              sendSuccessResponse(res, 200, { msg: `Page is already connected by ${pageConnected[0].userId.facebookInfo.name} (${pageConnected[0].userId.email}).` })
+                            }
+                          })
+                      }
+                    })
+                    .catch(error => {
+                      sendErrorResponse(res, 500, `Failed to check page token ${JSON.stringify(error)}`)
+                    })
+                })
+                .catch(error => {
+                  sendErrorResponse(res, 500, `Failed to fetch page ${JSON.stringify(error)}`)
+                })
             })
             .catch(error => {
               sendErrorResponse(res, 500, `Failed to fetch company usage ${JSON.stringify(error)}`)
@@ -362,6 +357,8 @@ exports.enable = function (req, res) {
 }
 
 const _updateWhitlistDomain = (req, page) => { 
+  console.log('page.pageId in _updateWhitlistDomain ', page.pageId)
+  console.log('page.pageId in config.domain ', config.domain)
   utility.callApi(`pages/whitelistDomain`, 'post', { page_id: page.pageId, whitelistDomains: [`${config.domain}`] }, 'accounts', req.headers.authorization)
   .then(whitelistDomains => {
   })
