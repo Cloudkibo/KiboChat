@@ -162,7 +162,7 @@ function markreadFacebook (req, callback) {
 }
 
 exports.show = function (req, res) {
-  console.log('params', req.param)
+  logger.serverLog(TAG, `fetching session ${req.params.id}`, 'info')
   if (req.params.id) {
     async.parallelLimit([
       function (callback) {
@@ -249,6 +249,7 @@ function _sendNotification (subscriberId, status, companyId, userName) {
     })
 }
 exports.changeStatus = function (req, res) {
+  logger.serverLog(TAG, 'sessions changeStatus endpoint hit', 'info')
   let socketPayload = {
     session_id: req.body._id,
     user_id: req.user._id,
@@ -263,13 +264,7 @@ exports.changeStatus = function (req, res) {
       } else {
         pushUnresolveAlert(req.user.companyId, req.body._id)
       }
-      console.log('sending session status socket', {
-        room_id: req.user.companyId,
-        body: {
-          action: 'session_status',
-          payload: socketPayload
-        }
-      })
+      logger.serverLog(TAG, `sending session status socket room id ${req.user.companyId} ${JSON.stringify(socketPayload)}`, 'info')
       require('./../../../config/socketio').sendMessageToClient({
         room_id: req.user.companyId,
         body: {
@@ -277,10 +272,11 @@ exports.changeStatus = function (req, res) {
           payload: socketPayload
         }
       })
-      console.log('sent session status socket')
+      logger.serverLog(TAG, 'sent session status socket', 'info')
       sendSuccessResponse(res, 200, 'Status has been updated successfully!')
     })
     .catch(err => {
+      logger.serverLog(TAG, `error updating session status ${err}`, 'error')
       sendErrorResponse(res, 500, err)
     })
 }
