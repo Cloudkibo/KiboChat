@@ -284,9 +284,6 @@ exports.enable = function (req, res) {
                                                       err)}`, 'debug')
                                                 }
                                                 if (resp.body.error) {
-                                                  logger.serverLog(TAG,
-                                                    `Page connect error ${JSON.stringify(
-                                                      resp.body.error)}`, 'error')
                                                   const errorMessage = resp.body.error.message
                                                   if (errorMessage && errorMessage.includes('administrative permission')) {
                                                     sendSuccessResponse(res, 200, { adminError: 'Page connected successfully, but certain actions such as setting welcome message will not work due to your page role' })
@@ -359,6 +356,8 @@ exports.enable = function (req, res) {
 }
 
 const _updateWhitlistDomain = (req, page) => { 
+  console.log('page.pageId in _updateWhitlistDomain ', page.pageId)
+  console.log('page.pageId in config.domain ', config.domain)
   utility.callApi(`pages/whitelistDomain`, 'post', { page_id: page.pageId, whitelistDomains: [`${config.domain}`] }, 'accounts', req.headers.authorization)
   .then(whitelistDomains => {
   })
