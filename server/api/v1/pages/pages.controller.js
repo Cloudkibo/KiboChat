@@ -290,6 +290,7 @@ exports.enable = function (req, res) {
                                                     if (errorMessage && errorMessage.includes('administrative permission')) {
                                                       sendSuccessResponse(res, 200, { adminError: 'Page connected successfully, but certain actions such as setting welcome message will not work due to your page role' })
                                                     } else {
+                                                      _updateWhitlistDomain(req, page)
                                                       sendSuccessResponse(res, 200, 'Page connected successfully')
                                                     }
                                                   } else {
@@ -297,10 +298,6 @@ exports.enable = function (req, res) {
                                                     sendSuccessResponse(res, 200, 'Page connected successfully')
                                                   }
                                                   // sendOpAlert(resp.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
-                                                } else {
-                                                  _updateWhitlistDomain(req, page)
-                                                  sendSuccessResponse(res, 200, 'Page connected successfully')
-
                                                 })
                                               require('./../../../config/socketio').sendMessageToClient({
                                                 room_id: req.body.companyId,
@@ -333,7 +330,7 @@ exports.enable = function (req, res) {
                                     logger.serverLog(TAG, `Error at find page ${err}`, 'error')
                                     sendErrorResponse(res, 500, err)
                                   })
-                              } else {
+                              }) } else {
                                 sendSuccessResponse(res, 200, { msg: `Page is already connected by ${pageConnected[0].userId.facebookInfo.name} (${pageConnected[0].userId.email}).` })
                               }
                             })
