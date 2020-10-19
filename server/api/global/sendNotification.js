@@ -23,10 +23,10 @@ const sendMobileNotifications = (expoListToken, title, bodyMessage, data, user) 
   let tickets = []
   let deviceNotRegistered = [];
   (async () => {
+    let maxLengthChunck = 0
     for (let [index_chunk, chunk] of chunks.entries()) {
       try {
         logger.serverLog(`while expo chunk length ${chunk.length}`)
-        let maxLengthChunck = 0
         if(index_chunk=== 0) {
           maxLengthChunck = chunk.length
         }
