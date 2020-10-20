@@ -44,4 +44,9 @@ router.post('/enabled',
   validate({body: validationSchema.enablePayload}),
   controller.enabled)
 
+router.post('/sendWebhook',
+  auth.isItWebhookServer(),
+  validate({body: validationSchema.sendWebhookPayload}),
+  controller.sendWebhook)
+
 module.exports = router

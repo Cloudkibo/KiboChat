@@ -14,6 +14,7 @@ const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
 const EcommerceProvider = require('../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
 const { callApi } = require('../utility')
 const { record } = require('../../global/messageStatistics')
+const { sendWebhook } = require('../../global/sendWebhook')
 
 exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
   chatbotDataLayer.findOneChatBot({ pageId: page._id, published: true })
@@ -222,7 +223,7 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
     })
 }
 
-exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId) => {
+exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId, parentBlockTitle) => {
   record('messengerChatInComing')
   chatbotDataLayer.findOneChatBot({ pageId: page._id })
     .then(chatbot => {
@@ -238,6 +239,14 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId) => {
           shouldSend = true
         }
         if (shouldSend) {
+          sendWebhook('CHATBOT_OPTION_SELECTED', 'facebook', {
+            psid: subscriber.senderId,
+            pageId: page.pageId,
+            blockTitle: parentBlockTitle,
+            option: req.message.text,
+            chatbotTitle: page.pageName,
+            timestamp: Date.now()
+          }, page)
           messageBlockDataLayer.findOneMessageBlock({ uniqueId: uniqueId.toString() })
             .then(messageBlock => {
               if (messageBlock) {
