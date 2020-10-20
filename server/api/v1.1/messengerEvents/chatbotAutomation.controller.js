@@ -17,51 +17,56 @@ const { record } = require('../../global/messageStatistics')
 
 exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
   record('messengerChatInComing')
-  chatbotDataLayer.findOneChatBot({ pageId: page._id, published: true })
-    .then(chatbot => {
-      if (chatbot) {
-        if (req.postback && req.postback.payload && req.postback.payload === '<GET_STARTED_PAYLOAD>') {
-          if (chatbot.startingBlockId) {
-            messageBlockDataLayer.findOneMessageBlock(chatbot.type === 'automated' ? { uniqueId: chatbot.startingBlockId } : { _id: chatbot.startingBlockId })
-              .then(messageBlock => {
-                if (messageBlock) {
-                  senderAction(req.sender.id, 'typing_on', page.accessToken)
-                  intervalForEach(messageBlock.payload, (item) => {
-                    sendResponse(req.sender.id, item, subscriber, page.accessToken)
-                    senderAction(req.sender.id, 'typing_off', page.accessToken)
-                  }, 1500)
-                  updateBotLifeStatsForBlock(messageBlock, true)
-                  updateBotPeriodicStatsForBlock(chatbot, true)
-                  updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, messageBlock)
+  isSubscriberChattingToAgent(subscriber._id, (err, time) => {
+    let diffInSeconds = Math.abs((new Date()) - time) / 1000 / 60
+    if (diffInSeconds > 30) {
+      chatbotDataLayer.findOneChatBot({ pageId: page._id, published: true })
+        .then(chatbot => {
+          if (chatbot) {
+            if (req.postback && req.postback.payload && req.postback.payload === '<GET_STARTED_PAYLOAD>') {
+              if (chatbot.startingBlockId) {
+                messageBlockDataLayer.findOneMessageBlock(chatbot.type === 'automated' ? { uniqueId: chatbot.startingBlockId } : { _id: chatbot.startingBlockId })
+                  .then(messageBlock => {
+                    if (messageBlock) {
+                      senderAction(req.sender.id, 'typing_on', page.accessToken)
+                      intervalForEach(messageBlock.payload, (item) => {
+                        sendResponse(req.sender.id, item, subscriber, page.accessToken)
+                        senderAction(req.sender.id, 'typing_off', page.accessToken)
+                      }, 1500)
+                      updateBotLifeStatsForBlock(messageBlock, true)
+                      updateBotPeriodicStatsForBlock(chatbot, true)
+                      updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, messageBlock)
+                    }
+                  })
+                  .catch(error => {
+                    logger.serverLog(TAG,
+                      `error in fetching message block ${JSON.stringify(error)}`,
+                      'error')
+                    logger.serverLog(TAG,
+                      `error in fetching message block ${error}`,
+                      'error')
+                  })
+                if (req.postback && req.postback.payload) {
+                  if (subscriber.hasOwnProperty('isNewSubscriber')) {
+                    updateBotLifeStats(chatbot, subscriber.isNewSubscriber)
+                    updateBotPeriodicStats(chatbot, subscriber.isNewSubscriber)
+                  }
                 }
-              })
-              .catch(error => {
+              } else {
                 logger.serverLog(TAG,
-                  `error in fetching message block ${JSON.stringify(error)}`,
-                  'error')
-                logger.serverLog(TAG,
-                  `error in fetching message block ${error}`,
-                  'error')
-              })
-            if (req.postback && req.postback.payload) {
-              if (subscriber.hasOwnProperty('isNewSubscriber')) {
-                updateBotLifeStats(chatbot, subscriber.isNewSubscriber)
-                updateBotPeriodicStats(chatbot, subscriber.isNewSubscriber)
+                  `DATA INCONSISTENCY ERROR in following chatbot, no startingBlockId given ${JSON.stringify(chatbot)}`, 'error')
               }
+            } else if (chatbot.fallbackReplyEnabled) {
+              sendFallbackReply(req.sender.id, page, chatbot.fallbackReply, subscriber)
             }
-          } else {
-            logger.serverLog(TAG,
-              `DATA INCONSISTENCY ERROR in following chatbot, no startingBlockId given ${JSON.stringify(chatbot)}`, 'error')
           }
-        } else if (chatbot.fallbackReplyEnabled) {
-          sendFallbackReply(req.sender.id, page, chatbot.fallbackReply, subscriber)
-        }
-      }
-    })
-    .catch(error => {
-      logger.serverLog(TAG,
-        `error in fetching chatbot ${JSON.stringify(error)}`, 'error')
-    })
+        })
+        .catch(error => {
+          logger.serverLog(TAG,
+            `error in fetching chatbot ${JSON.stringify(error)}`, 'error')
+        })
+    }
+  })
 }
 
 const updateSubscriber = (query, newPayload, options) => {
@@ -567,6 +572,16 @@ function saveTesterInfoForLater (pageId, subscriberId, chatBot) {
   chatbotDataLayer.genericUpdateChatBot(query, updated)
     .then(resp => logger.serverLog(TAG, `saved test info`, 'debug'))
     .catch(err => logger.serverLog(TAG, `err test Info ${JSON.stringify(err)}`, 'err'))
+}
+
+function isSubscriberChattingToAgent (subscriberId, cb) {
+  callApi(`subscribers/query`, 'post', { _id: subscriberId })
+    .then(subscriber => {
+      cb(null, subscriber.last_activity_time)
+    })
+    .catch(err => {
+      cb(err)
+    })
 }
 
 exports.updateBotPeriodicStatsForBlock = updateBotPeriodicStatsForBlock
