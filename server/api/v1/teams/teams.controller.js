@@ -3,89 +3,110 @@ const utility = require('../utility')
 const logger = require('../../../components/logger')
 const TAG = 'api/v2/pages/teams.controller.js'
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 
 exports.index = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
-    .then(companyuser => {
-      let teamQuery = {companyId: companyuser.companyId, platform: req.user.platform}
-      if (req.body && req.body.pageId) {
-        teamQuery.teamPagesIds = req.body.pageId
+  let teamQuery = {companyId: req.user.companyId, platform: req.user.platform}
+  if (req.body && req.body.pageId) {
+    teamQuery.teamPagesIds = req.body.pageId
+  }
+  utility.callApi(`teams/query`, 'post', teamQuery) // fetch all teams of company
+    .then(teams => {
+      if (teams && teams.length > 0) {
+        utility.callApi(`teams/agents/distinct`, 'post', {companyId: req.user.companyId}) // fetch distinct team agents
+          .then(agentIds => {
+            populateAgentIds(agentIds)
+              .then(result => {
+                utility.callApi(`user/query`, 'post', {_id: {$in: result.agentIds}}) // fetch unique agents info
+                  .then(uniqueAgents => {
+                    utility.callApi(`teams/pages/distinct`, 'post', {companyId: req.user.companyId}) // fetch distinct team pages
+                      .then(pageIds => {
+                        utility.callApi(`pages/query`, 'post', {_id: {$in: pageIds}}) // fetch unique pages info
+                          .then(uniquePages => {
+                            sendSuccessResponse(res, 200, {teams: teams, teamUniqueAgents: uniqueAgents, teamUniquePages: uniquePages})
+                          })
+                      })
+                      .catch(error => {
+                        sendErrorResponse(res, 500, `Failed to fetch distinct team pages ${JSON.stringify(error)}`)
+                      })
+                  })
+                  .catch(error => {
+                    sendErrorResponse(res, 500, `Failed to fetch unique team agents ${JSON.stringify(error)}`)
+                  })
+              })
+          })
+          .catch(error => {
+            sendErrorResponse(res, 500, `Failed to fetch distinct team agents ${JSON.stringify(error)}`)
+          })
+      } else {
+        sendSuccessResponse(res, 200, {teams: [], teamUniqueAgents: [], teamUniquePages: []})
       }
-      utility.callApi(`teams/query`, 'post', teamQuery) // fetch all teams of company
-        .then(teams => {
-          utility.callApi(`teams/agents/distinct`, 'post', {companyId: companyuser.companyId}) // fetch distinct team agents
-            .then(agentIds => {
-              populateAgentIds(agentIds)
-                .then(result => {
-                  utility.callApi(`user/query`, 'post', {_id: {$in: result.agentIds}}) // fetch unique agents info
-                    .then(uniqueAgents => {
-                      utility.callApi(`teams/pages/distinct`, 'post', {companyId: companyuser.companyId}) // fetch distinct team pages
-                        .then(pageIds => {
-                          utility.callApi(`pages/query`, 'post', {_id: {$in: pageIds}}) // fetch unique pages info
-                            .then(uniquePages => {
-                              sendSuccessResponse(res, 200, {teams: teams, teamUniqueAgents: uniqueAgents, teamUniquePages: uniquePages})
-                            })
-                        })
-                        .catch(error => {
-                          sendErrorResponse(res, 500, `Failed to fetch distinct team pages ${JSON.stringify(error)}`)
-                        })
-                    })
-                    .catch(error => {
-                      sendErrorResponse(res, 500, `Failed to fetch unique team agents ${JSON.stringify(error)}`)
-                    })
-                })
-            })
-            .catch(error => {
-              sendErrorResponse(res, 500, `Failed to fetch distinct team agents ${JSON.stringify(error)}`)
-            })
-        })
-        .catch(error => {
-          sendErrorResponse(res, 500, `Failed to fetch teams ${JSON.stringify(error)}`)
-        })
     })
     .catch(error => {
-      sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
+      sendErrorResponse(res, 500, `Failed to fetch teams ${JSON.stringify(error)}`)
     })
 }
 
 exports.createTeam = function (req, res) {
-  utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
-    .then(companyuser => {
-      let teamPayload = logicLayer.getTeamPayload(req, companyuser)
-      let agentIds = req.body.agentIds
-      let pageIds = req.body.pageIds
-      utility.callApi(`teams`, 'post', teamPayload) // create team
-        .then(createdTeam => {
-          agentIds.forEach(agentId => {
-            let teamAgentsPayload = logicLayer.getTeamAgentsPayload(createdTeam, companyuser, agentId)
-            utility.callApi(`teams/agents`, 'post', teamAgentsPayload) // create team agent
-              .then(createdAgent => {
-                logger.serverLog(TAG, 'Team agent created successfully!', 'debug')
+  utility.callApi(`featureUsage/planQuery`, 'post', {planId: req.user.currentPlan})
+    .then(planUsage => {
+      planUsage = planUsage[0]
+      utility.callApi(`featureUsage/companyQuery`, 'post', {companyId: req.user.companyId})
+        .then(companyUsage => {
+          companyUsage = companyUsage[0]
+          if (planUsage.teams !== -1 && companyUsage.teams >= planUsage.teams) {
+            return res.status(500).json({
+              status: 'failed',
+              description: `Your teams limit has reached. Please upgrade your plan to create more teams.`
+            })
+          } else {
+            utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
+              .then(companyuser => {
+                let teamPayload = logicLayer.getTeamPayload(req, companyuser)
+                let agentIds = req.body.agentIds
+                let pageIds = req.body.pageIds
+                utility.callApi(`teams`, 'post', teamPayload) // create team
+                  .then(createdTeam => {
+                    updateCompanyUsage(req.user.companyId, 'teams', 1)
+                    agentIds.forEach(agentId => {
+                      let teamAgentsPayload = logicLayer.getTeamAgentsPayload(createdTeam, companyuser, agentId)
+                      utility.callApi(`teams/agents`, 'post', teamAgentsPayload) // create team agent
+                        .then(createdAgent => {
+                          logger.serverLog(TAG, 'Team agent created successfully!', 'debug')
+                        })
+                        .catch(error => {
+                          logger.serverLog(TAG, `Failed to create agent ${JSON.stringify(error)}`, 'error')
+                        })
+                    })
+                    if (req.body.pageIds) {
+                      pageIds.forEach(pageId => {
+                        let teamPagesPayload = logicLayer.getTeamPagesPayload(createdTeam, companyuser, pageId)
+                        utility.callApi(`teams/pages`, 'post', teamPagesPayload) // create team page
+                          .then(createdPage => {
+                            logger.serverLog(TAG, 'Team page created successfully!', 'debug')
+                          })
+                          .catch(error => {
+                            logger.serverLog(TAG, `Failed to create page ${JSON.stringify(error)}`, 'error')
+                          })
+                      })
+                    }
+                    sendSuccessResponse(res, 200, 'Team created successfully!')
+                  })
+                  .catch(error => {
+                    sendErrorResponse(res, 500, `Failed to create team ${JSON.stringify(error)}`)
+                  })
               })
               .catch(error => {
-                logger.serverLog(TAG, `Failed to create agent ${JSON.stringify(error)}`, 'error')
+                sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
               })
-          })
-          if (req.body.pageIds) {
-            pageIds.forEach(pageId => {
-              let teamPagesPayload = logicLayer.getTeamPagesPayload(createdTeam, companyuser, pageId)
-              utility.callApi(`teams/pages`, 'post', teamPagesPayload) // create team page
-                .then(createdPage => {
-                  logger.serverLog(TAG, 'Team page created successfully!', 'debug')
-                })
-                .catch(error => {
-                  logger.serverLog(TAG, `Failed to create page ${JSON.stringify(error)}`, 'error')
-                })
-            })
           }
-          sendSuccessResponse(res, 200, 'Team created successfully!')
         })
         .catch(error => {
-          sendErrorResponse(res, 500, `Failed to create team ${JSON.stringify(error)}`)
+          sendErrorResponse(res, 500, `Failed to fetch company usage ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
-      sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
+      sendErrorResponse(res, 500, `Failed to fetch plan usage ${JSON.stringify(error)}`)
     })
 }
 
@@ -103,6 +124,7 @@ exports.updateTeam = function (req, res) {
 exports.deleteTeam = function (req, res) {
   utility.callApi(`teams/delete/${req.params.id}`, 'delete', {}) // delete team
     .then(deletedTeam => {
+      updateCompanyUsage(req.user.companyId, 'teams', -1)
       sendSuccessResponse(res, 200, 'Team deleted successfully!')
     })
     .catch(error => {
@@ -244,9 +266,7 @@ function populateAgentIds (agentIds) {
       if (agentIds[i].agentId) {
         agentIdsToSend.push(agentIds[i].agentId._id)
       }
-      if (i === agentIds.length - 1) {
-        resolve({agentIds: agentIdsToSend})
-      }
     }
+    resolve({agentIds: agentIdsToSend})
   })
 }
