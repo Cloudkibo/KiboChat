@@ -4,6 +4,7 @@
 const callApi = require('../utility')
 const async = require('async')
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 
 exports.index = function (req, res) {
   callApi.callApi('companyuser/query', 'post', {domain_email: req.user.domain_email})
@@ -47,39 +48,61 @@ exports.index = function (req, res) {
 }
 
 exports.create = function (req, res) {
-  callApi.callApi(`tags/query`, 'post', {companyId: req.user.companyId, tag: req.body.tag})
-    .then(tags => {
-      if (tags.length > 0) {
-        sendErrorResponse(res, 500, '', `Tag with similar name already exists`)
-      } else {
-        let tagPayload = {
-          tag: req.body.tag,
-          userId: req.user._id,
-          companyId: req.user.companyId
-        }
-        callApi.callApi('tags/', 'post', tagPayload)
-          .then(newTag => {
-            require('./../../../config/socketio').sendMessageToClient({
-              room_id: req.user.companyId,
-              body: {
-                action: 'new_tag',
-                payload: {
-                  _id: newTag._id,
-                  tag: newTag.tag,
-                  status: 'Unassigned',
-                  subscribersCount: 0
-                }
-              }
+  callApi.callApi(`featureUsage/planQuery`, 'post', {planId: req.user.currentPlan})
+    .then(planUsage => {
+      planUsage = planUsage[0]
+      callApi.callApi(`featureUsage/companyQuery`, 'post', {companyId: req.user.companyId})
+        .then(companyUsage => {
+          companyUsage = companyUsage[0]
+          if (planUsage.tags !== -1 && companyUsage.tags >= planUsage.tags) {
+            return res.status(500).json({
+              status: 'failed',
+              description: `Your tags limit has reached. Please upgrade your plan to create more tags.`
             })
-            sendSuccessResponse(res, 200, newTag)
-          })
-          .catch(err => {
-            sendErrorResponse(res, 500, '', `Internal Server Error in saving tag${JSON.stringify(err)}`)
-          })
-      }
+          } else {
+            callApi.callApi(`tags/query`, 'post', {companyId: req.user.companyId, tag: req.body.tag})
+              .then(tags => {
+                if (tags.length > 0) {
+                  sendErrorResponse(res, 500, '', `Tag with similar name already exists`)
+                } else {
+                  let tagPayload = {
+                    tag: req.body.tag,
+                    userId: req.user._id,
+                    companyId: req.user.companyId
+                  }
+                  callApi.callApi('tags/', 'post', tagPayload)
+                    .then(newTag => {
+                      updateCompanyUsage(req.user.companyId, 'tags', 1)
+                      require('./../../../config/socketio').sendMessageToClient({
+                        room_id: req.user.companyId,
+                        body: {
+                          action: 'new_tag',
+                          payload: {
+                            _id: newTag._id,
+                            tag: newTag.tag,
+                            status: 'Unassigned',
+                            subscribersCount: 0
+                          }
+                        }
+                      })
+                      sendSuccessResponse(res, 200, newTag)
+                    })
+                    .catch(err => {
+                      sendErrorResponse(res, 500, '', `Internal Server Error in saving tag${JSON.stringify(err)}`)
+                    })
+                }
+              })
+              .catch(err => {
+                sendErrorResponse(res, 500, '', `Failed to fetch tags ${JSON.stringify(err)}`)
+              })
+          }
+        })
+        .catch(err => {
+          sendErrorResponse(res, 500, '', `Failed to company usage ${JSON.stringify(err)}`)
+        })
     })
     .catch(err => {
-      sendErrorResponse(res, 500, '', `Failed to fetch tags ${JSON.stringify(err)}`)
+      sendErrorResponse(res, 500, '', `Failed to plan usage ${JSON.stringify(err)}`)
     })
 }
 
@@ -156,6 +179,7 @@ exports.delete = function (req, res) {
           if (err) {
             sendErrorResponse(res, 500, '', `Failed to delete tag ${err}`)
           } else {
+            updateCompanyUsage(req.user.companyId, 'tags', -1)
             require('./../../../config/socketio').sendMessageToClient({
               room_id: req.user.companyId,
               body: {

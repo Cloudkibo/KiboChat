@@ -8,6 +8,7 @@ const async = require('async')
 const { sendNotifications } = require('../../global/sendNotification')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const { pushUnresolveAlertInStack, deleteUnresolvedSessionFromStack } = require('../../global/messageAlerts')
+const { sendWebhook } = require('../../global/sendWebhook')
 
 exports.fetchOpenSessions = function (req, res) {
   async.parallelLimit([
@@ -141,18 +142,20 @@ function markreadFacebook (req, callback) {
   callApi(`subscribers/${req.params.id}`, 'get', {}, 'accounts', req.headers.authorization)
     .then(subscriber => {
       const data = {
-        messaging_type: 'UPDATE',
         recipient: { id: subscriber.senderId }, // this is the subscriber id
         sender_action: 'mark_seen'
       }
       return needle('post', `https://graph.facebook.com/v6.0/me/messages?access_token=${subscriber.pageId.accessToken}`, data)
     })
     .then(resp => {
-      if (resp.error) {
+      if (resp.body && resp.body.error) {
+        logger.serverLog(TAG, `marked read on Facebook error ${JSON.stringify(resp.body.error)}`, 'error')
+        callback(resp.body.error)
+      } else if (resp.error) {
         logger.serverLog(TAG, `marked read on Facebook error ${JSON.stringify(resp.error)}`, 'error')
         callback(resp.error)
       } else {
-        logger.serverLog(TAG, `marked read on Facebook response ${JSON.stringify(resp.body)}`, 'error')
+        logger.serverLog(TAG, `marked read on Facebook response ${JSON.stringify(resp.body)}`, 'info')
         callback(null, resp.body)
       }
     })
@@ -162,7 +165,7 @@ function markreadFacebook (req, callback) {
 }
 
 exports.show = function (req, res) {
-  console.log('params', req.param)
+  logger.serverLog(TAG, `fetching session ${req.params.id}`, 'info')
   if (req.params.id) {
     async.parallelLimit([
       function (callback) {
@@ -200,6 +203,43 @@ exports.show = function (req, res) {
   } else {
     sendErrorResponse(res, 400, 'Parameter subscriber_id is required!')
   }
+}
+
+exports.singleSession = function (req, res) {
+  async.parallelLimit([
+    function (callback) {
+      let data = logicLayer.payloadForSingleSession(req, 'resolved')
+      callApi('subscribers/aggregate', 'post', data)
+        .then(subscribers => {
+          console.log('subscriber', subscribers[0])
+          callback(null, subscribers[0])
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      let lastMessageData = logicLayer.getQueryData('', 'aggregate', { subscriber_id: req.params.id, company_id: req.user.companyId }, undefined, { _id: -1 }, 1, undefined)
+      callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
+        .then(data => {
+          callback(null, data)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    }
+  ], 10, function (err, results) {
+    if (err) {
+      sendErrorResponse(res, 500, err)
+    } else {
+      let subscriber = results[0]
+      let lastMessageResponse = results[1]
+      subscriber.lastPayload = lastMessageResponse.length > 0 && lastMessageResponse[0].payload
+      subscriber.lastRepliedBy = lastMessageResponse.length > 0 && lastMessageResponse[0].replied_by
+      subscriber.lastDateTime = lastMessageResponse.length > 0 && lastMessageResponse[0].datetime
+      sendSuccessResponse(res, 200, subscriber)
+    }
+  })
 }
 
 function _sendNotification (subscriberId, status, companyId, userName) {
@@ -249,6 +289,7 @@ function _sendNotification (subscriberId, status, companyId, userName) {
     })
 }
 exports.changeStatus = function (req, res) {
+  logger.serverLog(TAG, 'sessions changeStatus endpoint hit', 'info')
   let socketPayload = {
     session_id: req.body._id,
     user_id: req.user._id,
@@ -263,13 +304,7 @@ exports.changeStatus = function (req, res) {
       } else {
         pushUnresolveAlert(req.user.companyId, req.body._id)
       }
-      console.log('sending session status socket', {
-        room_id: req.user.companyId,
-        body: {
-          action: 'session_status',
-          payload: socketPayload
-        }
-      })
+      logger.serverLog(TAG, `sending session status socket room id ${req.user.companyId} ${JSON.stringify(socketPayload)}`, 'info')
       require('./../../../config/socketio').sendMessageToClient({
         room_id: req.user.companyId,
         body: {
@@ -277,24 +312,25 @@ exports.changeStatus = function (req, res) {
           payload: socketPayload
         }
       })
-      console.log('sent session status socket')
+      logger.serverLog(TAG, 'sent session status socket', 'info')
       sendSuccessResponse(res, 200, 'Status has been updated successfully!')
     })
     .catch(err => {
+      logger.serverLog(TAG, `error updating session status ${err}`, 'error')
       sendErrorResponse(res, 500, err)
     })
 }
 
 exports.assignAgent = function (req, res) {
-  let assignedTo = {
-    type: 'agent',
-    id: req.body.agentId,
-    name: req.body.agentName
-  }
-  if (req.body.isAssigned) {
-    callApi('subscribers/query', 'post', { _id: req.body.subscriberId })
-      .then(gotSubscriber => {
-        let subscriber = gotSubscriber[0]
+  callApi('subscribers/query', 'post', { _id: req.body.subscriberId })
+    .then(gotSubscriber => {
+      let subscriber = gotSubscriber[0]
+      let assignedTo = {
+        type: 'agent',
+        id: req.body.agentId,
+        name: req.body.agentName
+      }
+      if (req.body.isAssigned) {
         let newPayload = {
           action: 'chat_messenger',
           subscriber: subscriber
@@ -318,34 +354,50 @@ exports.assignAgent = function (req, res) {
             logger.serverLog(TAG, `Error while fetching companyUser details ${(error)}`, 'error')
             sendErrorResponse(res, 500, `Failed to fetching companyUser details ${JSON.stringify(error)}`)
           })
-      }).catch(err => {
-        sendErrorResponse(res, 500, err)
-      })
-  }
-  callApi(
-    'subscribers/update',
-    'put',
-    {
-      query: { _id: req.body.subscriberId },
-      newPayload: { assigned_to: assignedTo, is_assigned: req.body.isAssigned },
-      options: {}
-    }
-  )
-    .then(updated => {
-      require('./../../../config/socketio').sendMessageToClient({
-        room_id: req.user.companyId,
-        body: {
-          action: 'session_assign',
-          payload: {
-            data: req.body,
-            session_id: req.body.subscriberId,
-            user_id: req.user._id,
-            user_name: req.user.name,
-            assigned_to: assignedTo
-          }
+      }
+      callApi(
+        'subscribers/update',
+        'put',
+        {
+          query: { _id: req.body.subscriberId },
+          newPayload: { assigned_to: assignedTo, is_assigned: req.body.isAssigned },
+          options: {}
         }
-      })
-      sendSuccessResponse(res, 200, 'Agent has been assigned successfully!')
+      )
+        .then(updated => {
+          req.body.isAssigned
+            ? sendWebhook('SESSION_ASSIGNED', 'facebook', {
+              psid: subscriber.senderId,
+              pageId: subscriber.pageId.pageId,
+              assignedTo: 'agent',
+              name: req.body.agentName,
+              assignedBy: req.user.name,
+              timestamp: Date.now()
+            }, subscriber.pageId)
+            : sendWebhook('SESSION_UNASSIGNED', 'facebook', {
+              psid: subscriber.senderId,
+              pageId: subscriber.pageId.pageId,
+              unassignedBy: req.user.name,
+              timestamp: Date.now()
+            }, subscriber.pageId)
+          require('./../../../config/socketio').sendMessageToClient({
+            room_id: req.user.companyId,
+            body: {
+              action: 'session_assign',
+              payload: {
+                data: req.body,
+                session_id: req.body.subscriberId,
+                user_id: req.user._id,
+                user_name: req.user.name,
+                assigned_to: assignedTo
+              }
+            }
+          })
+          sendSuccessResponse(res, 200, 'Agent has been assigned successfully!')
+        })
+        .catch(err => {
+          sendErrorResponse(res, 500, err)
+        })
     })
     .catch(err => {
       sendErrorResponse(res, 500, err)
@@ -353,26 +405,25 @@ exports.assignAgent = function (req, res) {
 }
 
 exports.assignTeam = function (req, res) {
-  console.log('req.user', req.user.companyId)
-  let assignedTo = {
-    type: 'team',
-    id: req.body.teamId,
-    name: req.body.teamName
-  }
-  if (req.body.isAssigned) {
-    callApi(`companyUser/queryAll`, 'post', { companyId: req.user.companyId }, 'accounts')
-      .then(companyUsers => {
-        callApi(`teams/agents/query`, 'post', { teamId: req.body.teamId }, 'accounts')
-          .then(teamagents => {
-            teamagents = teamagents.map(teamagent => teamagent.agentId._id)
-            companyUsers = companyUsers.filter(companyUser => {
-              if (teamagents.includes(companyUser.userId._id)) {
-                return companyUser
-              }
-            })
-            callApi('subscribers/query', 'post', { _id: req.body.subscriberId })
-              .then(gotSubscriber => {
-                let subscriber = gotSubscriber[0]
+  callApi('subscribers/query', 'post', { _id: req.body.subscriberId })
+    .then(gotSubscriber => {
+      let subscriber = gotSubscriber[0]
+      let assignedTo = {
+        type: 'team',
+        id: req.body.teamId,
+        name: req.body.teamName
+      }
+      if (req.body.isAssigned) {
+        callApi(`companyUser/queryAll`, 'post', { companyId: req.user.companyId }, 'accounts')
+          .then(companyUsers => {
+            callApi(`teams/agents/query`, 'post', { teamId: req.body.teamId }, 'accounts')
+              .then(teamagents => {
+                teamagents = teamagents.map(teamagent => teamagent.agentId._id)
+                companyUsers = companyUsers.filter(companyUser => {
+                  if (teamagents.includes(companyUser.userId._id)) {
+                    return companyUser
+                  }
+                })
                 let newPayload = {
                   action: 'chat_messenger',
                   subscriber: subscriber
@@ -396,37 +447,52 @@ exports.assignTeam = function (req, res) {
           }).catch(error => {
             logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
           })
-      }).catch(error => {
-        logger.serverLog(TAG, `Error while fetching companyUser ${error}`, 'error')
-      })
-  }
-  callApi(
-    'subscribers/update',
-    'put',
-    {
-      query: { _id: req.body.subscriberId },
-      newPayload: { assigned_to: assignedTo, is_assigned: req.body.isAssigned },
-      options: {}
-    }
-  )
-    .then(updated => {
-      require('./../../../config/socketio').sendMessageToClient({
-        room_id: req.user.companyId,
-        body: {
-          action: 'session_assign',
-          payload: {
-            data: req.body,
-            session_id: req.body.subscriberId,
-            user_id: req.user._id,
-            user_name: req.user.name,
-            assigned_to: assignedTo
-          }
+      }
+      callApi(
+        'subscribers/update',
+        'put',
+        {
+          query: { _id: req.body.subscriberId },
+          newPayload: { assigned_to: assignedTo, is_assigned: req.body.isAssigned },
+          options: {}
         }
-      })
-      sendSuccessResponse(res, 200, 'Team has been assigned successfully!')
-    })
-    .catch(err => {
-      sendErrorResponse(res, 500, err)
+      )
+        .then(updated => {
+          req.body.isAssigned
+            ? sendWebhook('SESSION_ASSIGNED', 'facebook', {
+              psid: subscriber.senderId,
+              pageId: subscriber.pageId.pageId,
+              assignedTo: 'team',
+              name: req.body.teamName,
+              assignedBy: req.user.name,
+              timestamp: Date.now()
+            }, subscriber.pageId)
+            : sendWebhook('SESSION_UNASSIGNED', 'facebook', {
+              psid: subscriber.senderId,
+              pageId: subscriber.pageId.pageId,
+              unassignedBy: req.user.name,
+              timestamp: Date.now()
+            }, subscriber.pageId)
+          require('./../../../config/socketio').sendMessageToClient({
+            room_id: req.user.companyId,
+            body: {
+              action: 'session_assign',
+              payload: {
+                data: req.body,
+                session_id: req.body.subscriberId,
+                user_id: req.user._id,
+                user_name: req.user.name,
+                assigned_to: assignedTo
+              }
+            }
+          })
+          sendSuccessResponse(res, 200, 'Team has been assigned successfully!')
+        })
+        .catch(err => {
+          sendErrorResponse(res, 500, err)
+        })
+    }).catch(error => {
+      logger.serverLog(TAG, `Error while fetching companyUser ${error}`, 'error')
     })
 }
 
