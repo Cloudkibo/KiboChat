@@ -147,7 +147,10 @@ function markreadFacebook (req, callback) {
       return needle('post', `https://graph.facebook.com/v6.0/me/messages?access_token=${subscriber.pageId.accessToken}`, data)
     })
     .then(resp => {
-      if (resp.error) {
+      if (resp.body.error) {
+        logger.serverLog(TAG, `marked read on Facebook error ${JSON.stringify(resp.body.error)}`, 'error')
+        callback(resp.body.error)
+      } else if (resp.error) {
         logger.serverLog(TAG, `marked read on Facebook error ${JSON.stringify(resp.error)}`, 'error')
         callback(resp.error)
       } else {
