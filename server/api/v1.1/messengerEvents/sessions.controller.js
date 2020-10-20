@@ -37,7 +37,7 @@ exports.index = function (req, res) {
         if (!event.message.metadata) from = 'facebook_page'
         else if (event.message.metadata === 'SENT_FROM_CHATBOT') from = 'kibopush'
       }
-      from && sendWebhook('NEW_CHAT_MESSAGE', 'facebook', {
+      from && sendWebhook('CHAT_MESSAGE', 'facebook', {
         from: event.message.metadata === 'SENT_FROM_CHATBOT' ? 'kibopush'
           : event.message.is_echo ? 'facebook_page' : 'subscriber',
         recipientId: event.message.is_echo ? subscriber.senderId : page.pageId,

@@ -224,7 +224,7 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
     })
 }
 
-exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId, quickReplyPayload) => {
+exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId, parentBlockTitle) => {
   record('messengerChatInComing')
   chatbotDataLayer.findOneChatBot({ pageId: page._id })
     .then(chatbot => {
@@ -243,7 +243,7 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId, quickReplyP
           sendWebhook('CHATBOT_OPTION_SELECTED', 'facebook', {
             psid: subscriber.senderId,
             pageId: page.pageId,
-            blockTitle: '',
+            blockTitle: parentBlockTitle,
             option: req.message.text,
             chatbotTitle: page.pageName,
             timestamp: Date.now()
@@ -533,10 +533,6 @@ function updateBotSubscribersAnalyticsForSQL (chatbotId, companyId, subscriber, 
                 title: analyticsItem.messageBlockTitle
               }
             })
-            let path = JSON.stringify([...gotAnalyticsArray, {
-              id: messageBlock.uniqueId,
-              title: messageBlock.title
-            }])
             chatbotAnalyticsDataLayer.createForBotSubscribersAnalyticsForSQL({
               chatbotId,
               companyId,

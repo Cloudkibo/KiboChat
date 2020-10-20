@@ -210,7 +210,7 @@ exports.create = function (req, res) {
     } else {
       let fbMessageObject = results[0]
       let subscriber = results[3]
-      sendWebhook('NEW_CHAT_MESSAGE', 'facebook', {
+      sendWebhook('CHAT_MESSAGE', 'facebook', {
         from: 'kibopush',
         recipientId: subscriber.senderId,
         senderId: subscriber.pageId.pageId,

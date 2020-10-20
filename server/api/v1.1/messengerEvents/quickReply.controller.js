@@ -23,7 +23,7 @@ exports.index = function (req, res) {
       utility.callApi('subscribers/query', 'post', { senderId: subscriberId, pageId: page._id })
         .then(gotSubscriber => {
           subscriber = gotSubscriber[0]
-          sendWebhook('NEW_CHAT_MESSAGE', 'facebook', {
+          sendWebhook('CHAT_MESSAGE', 'facebook', {
             from: 'subscriber',
             recipientId: page.pageId,
             senderId: subscriber.senderId,
@@ -35,7 +35,7 @@ exports.index = function (req, res) {
             let quickRepyPayload = JSON.parse(messengerPayload.message.quick_reply.payload)
             for (let i = 0; i < quickRepyPayload.length; i++) {
               if (quickRepyPayload[i].action === '_chatbot') {
-                chatbotAutomation.handleChatBotNextMessage(messengerPayload, page, subscriber, quickRepyPayload[i].blockUniqueId)
+                chatbotAutomation.handleChatBotNextMessage(messengerPayload, page, subscriber, quickRepyPayload[i].blockUniqueId, quickRepyPayload[i].parentBlockTitle)
               }
             }
           }
