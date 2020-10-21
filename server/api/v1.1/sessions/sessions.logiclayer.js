@@ -1,8 +1,12 @@
 // const util = require('util')
 
-exports.getCount = (req, status) => {
+exports.getCount = (req, status, company) => {
+  let matchBody = {'companyId': req.user.companyId, completeInfo: true}
+  if (company.hideChatSessions) {
+    matchBody.messagesCount = { $gt: 0 }
+  }
   let aggregateData = [
-    { $match: {'companyId': req.user.companyId, completeInfo: true} },
+    { $match: matchBody },
     { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
     { $unwind: '$pageId' },
     { $project: {
@@ -27,9 +31,13 @@ exports.getCount = (req, status) => {
   return aggregateData
 }
 
-exports.getSessions = (req, status) => {
+exports.getSessions = (req, status, company) => {
+  let matchBody = {'companyId': req.user.companyId, completeInfo: true}
+  if (company.hideChatSessions) {
+    matchBody.messagesCount = { $gt: 0 }
+  }
   let aggregateData = [
-    { $match: {'companyId': req.user.companyId, completeInfo: true} },
+    { $match: matchBody },
     { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
     { $unwind: '$pageId' },
     { $project: {
