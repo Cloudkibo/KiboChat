@@ -12,6 +12,7 @@ const { sendSuccessResponse, sendErrorResponse } = require('../../global/respons
 const { record } = require('../../global/messageStatistics')
 const { sendOpAlert } = require('../../global/operationalAlert')
 const { deletePendingSessionFromStack } = require('../../global/messageAlerts')
+const { sendWebhook } = require('../../global/sendWebhook')
 
 exports.index = function (req, res) {
   if (req.params.subscriber_id) {
@@ -92,33 +93,6 @@ exports.create = function (req, res) {
       callApi(`livechat`, 'post', fbMessageObject, 'kibochat')
         .then(message => {
           callback(null, message)
-        })
-        .catch(err => {
-          callback(err)
-        })
-    },
-    // Send webhook response
-    function (callback) {
-      callApi(`webhooks/query/`, 'post', { pageId: req.body.sender_fb_id })
-        .then(webhook => {
-          webhook = webhook[0]
-          if (webhook && webhook.isEnabled) {
-            needle('get', webhook.webhook_url)
-              .then(r => {
-                if (r.statusCode === 200) {
-                  logicLayer.webhookPost(needle, webhook, req, res)
-                  callback(null, webhook)
-                } else {
-                  webhookUtility.saveNotification(webhook)
-                  callback(null, webhook)
-                }
-              })
-              .catch(err => {
-                callback(err)
-              })
-          } else {
-            callback(null, webhook)
-          }
         })
         .catch(err => {
           callback(err)
@@ -238,7 +212,14 @@ exports.create = function (req, res) {
       return res.status(500).json({status: 'failed', payload: err})
     } else {
       let fbMessageObject = results[0]
-      let subscriber = results[4]
+      let subscriber = results[3]
+      sendWebhook('CHAT_MESSAGE', 'facebook', {
+        from: 'kibopush',
+        recipientId: subscriber.senderId,
+        senderId: subscriber.pageId.pageId,
+        timestamp: Date.now(),
+        message: req.body.payload
+      }, subscriber.pageId)
       let botId = ''
       async.parallelLimit([
         // Update Bot Block list
