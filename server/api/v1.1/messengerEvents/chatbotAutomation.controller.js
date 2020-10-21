@@ -84,9 +84,9 @@ const updateSubscriber = (query, newPayload, options) => {
   })
 }
 
-exports.handleCommerceChatbot = async (event, page, subscriber) => {
+exports.handleCommerceChatbot = (event, page, subscriber) => {
   shouldAvoidSendingAutomatedMessage(subscriber)
-    .then(shouldAvoid => {
+    .then(shouldAvoid => async {
       if (!shouldAvoid) {
         try {
           if (event.message && event.message.is_echo) {
