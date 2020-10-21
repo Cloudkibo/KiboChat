@@ -558,45 +558,47 @@ function updateBotLifeStatsForBlock (messageBlock, isForSentCount) {
 // }
 
 function updateBotSubscribersAnalyticsForSQL (chatbotId, companyId, subscriber, messageBlock) {
-  chatbotAnalyticsDataLayer.findForBotSubscribersAnalyticsForSQL({ messageBlockId: messageBlock.uniqueId, subscriberId: subscriber._id })
-    .then(gotBotSubscribersAnalytics => {
-      if (!gotBotSubscribersAnalytics || gotBotSubscribersAnalytics.length === 0) {
-        chatbotAnalyticsDataLayer.findForBotSubscribersAnalyticsForSQL({ subscriberId: subscriber._id })
-          .then(gotAnalyticsArray => {
-            gotAnalyticsArray = gotAnalyticsArray.map(analyticsItem => {
-              return {
-                id: analyticsItem.messageBlockId,
-                title: analyticsItem.messageBlockTitle
-              }
-            })
-            chatbotAnalyticsDataLayer.createForBotSubscribersAnalyticsForSQL({
-              chatbotId,
-              companyId,
-              subscriberId: subscriber._id,
-              subscriberName: subscriber.firstName + ' ' + subscriber.lastName,
-              messageBlockId: messageBlock.uniqueId,
-              messageBlockTitle: messageBlock.title,
-              blocksPath: JSON.stringify([...gotAnalyticsArray, {
-                id: messageBlock.uniqueId,
-                title: messageBlock.title
-              }])
-            })
-              .then(result => {
-                logger.serverLog(TAG, 'Saved the subscriber analytics', 'debug')
-                logger.serverLog(TAG, `${JSON.stringify(result)}`, 'debug')
+  if (subscriber.companyId === '5f3f639e50495a53845512c7') {
+    chatbotAnalyticsDataLayer.findForBotSubscribersAnalyticsForSQL({ messageBlockId: messageBlock.uniqueId, subscriberId: subscriber._id })
+      .then(gotBotSubscribersAnalytics => {
+        if (!gotBotSubscribersAnalytics || gotBotSubscribersAnalytics.length === 0) {
+          chatbotAnalyticsDataLayer.findForBotSubscribersAnalyticsForSQL({ subscriberId: subscriber._id })
+            .then(gotAnalyticsArray => {
+              gotAnalyticsArray = gotAnalyticsArray.map(analyticsItem => {
+                return {
+                  id: analyticsItem.messageBlockId,
+                  title: analyticsItem.messageBlockTitle
+                }
               })
-              .catch(err => {
-                logger.serverLog(TAG, `Failed to save the subscriber analytics in sql ${JSON.stringify(err)}`, 'error')
+              chatbotAnalyticsDataLayer.createForBotSubscribersAnalyticsForSQL({
+                chatbotId,
+                companyId,
+                subscriberId: subscriber._id,
+                subscriberName: subscriber.firstName + ' ' + subscriber.lastName,
+                messageBlockId: messageBlock.uniqueId,
+                messageBlockTitle: messageBlock.title,
+                blocksPath: JSON.stringify([...gotAnalyticsArray, {
+                  id: messageBlock.uniqueId,
+                  title: messageBlock.title
+                }])
               })
-          })
-          .catch(err => {
-            logger.serverLog(TAG, `Failed to fetch the subscriber analytics in sql ${JSON.stringify(err)}`, 'error')
-          })
-      }
-    })
-    .catch(err => {
-      logger.serverLog(TAG, `Failed to fetch the subscriber analytics message block in sql ${JSON.stringify(err)}`, 'error')
-    })
+                .then(result => {
+                  logger.serverLog(TAG, 'Saved the subscriber analytics', 'debug')
+                  logger.serverLog(TAG, `${JSON.stringify(result)}`, 'debug')
+                })
+                .catch(err => {
+                  logger.serverLog(TAG, `Failed to save the subscriber analytics in sql ${JSON.stringify(err)}`, 'error')
+                })
+            })
+            .catch(err => {
+              logger.serverLog(TAG, `Failed to fetch the subscriber analytics in sql ${JSON.stringify(err)}`, 'error')
+            })
+        }
+      })
+      .catch(err => {
+        logger.serverLog(TAG, `Failed to fetch the subscriber analytics message block in sql ${JSON.stringify(err)}`, 'error')
+      })
+  }
 }
 
 function saveTesterInfoForLater (pageId, subscriberId, chatBot) {
