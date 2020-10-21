@@ -9,6 +9,8 @@ const controller = require('./commentCapture.controller')
 router.get('/',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer(),
+  auth.doesPlanPermitsThisAction('comment_capture'),
+  auth.isUserAllowedToPerformThisAction('view_comment_capture_rules'),
   controller.index)
 
 router.get('/:id',
@@ -17,18 +19,25 @@ router.get('/:id',
   controller.viewPost)
 
 router.post('/create',
-  auth.isAuthenticated('write'),
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
+  auth.doesPlanPermitsThisAction('comment_capture'),
+  auth.isUserAllowedToPerformThisAction('create_comment_capture_rules'),
   controller.create)
 
 router.post('/edit',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer('write'),
+  auth.doesPlanPermitsThisAction('comment_capture'),
+  auth.isUserAllowedToPerformThisAction('update_comment_capture_rules'),
   validate({body: validationSchema.postUpdatePayload}),
   controller.edit)
 
 router.delete('/delete/:id',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer('write'),
+  auth.doesPlanPermitsThisAction('comment_capture'),
+  auth.isUserAllowedToPerformThisAction('delete_comment_capture_rules'),
   controller.delete)
 
 module.exports = router
