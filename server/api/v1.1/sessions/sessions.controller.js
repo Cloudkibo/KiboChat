@@ -10,93 +10,105 @@ const { sendSuccessResponse, sendErrorResponse } = require('../../global/respons
 const { pushUnresolveAlertInStack, deleteUnresolvedSessionFromStack } = require('../../global/messageAlerts')
 
 exports.fetchOpenSessions = function (req, res) {
-  async.parallelLimit([
-    function (callback) {
-      let data = logicLayer.getCount(req, 'new')
-      callApi('subscribers/aggregate', 'post', data)
-        .then(result => {
-          callback(null, result)
-        })
-        .catch(err => {
-          callback(err)
-        })
-    },
-    function (callback) {
-      let data = logicLayer.getSessions(req, 'new')
-      callApi('subscribers/aggregate', 'post', data)
-        .then(result => {
-          callback(null, result)
-        })
-        .catch(err => {
-          callback(err)
-        })
-    },
-    function (callback) {
-      let lastMessageData = logicLayer.getQueryData('', 'aggregate', { company_id: req.user.companyId }, undefined, undefined, undefined, { _id: '$subscriber_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' } })
-      callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
-        .then(data => {
-          callback(null, data)
-        })
-        .catch(err => {
-          callback(err)
-        })
-    }
-  ], 10, function (err, results) {
-    if (err) {
+  callApi('companyprofile/query', 'post', { _id: req.user.companyId }, 'accounts')
+    .then(companyData => {
+      async.parallelLimit([
+        function (callback) {
+          let data = logicLayer.getCount(req, 'new')
+          callApi('subscribers/aggregate', 'post', data)
+            .then(result => {
+              callback(null, result)
+            })
+            .catch(err => {
+              callback(err)
+            })
+        },
+        function (callback) {
+          let data = logicLayer.getSessions(req, 'new', companyData)
+          callApi('subscribers/aggregate', 'post', data)
+            .then(result => {
+              callback(null, result)
+            })
+            .catch(err => {
+              callback(err)
+            })
+        },
+        function (callback) {
+          let lastMessageData = logicLayer.getQueryData('', 'aggregate', { company_id: req.user.companyId }, undefined, undefined, undefined, { _id: '$subscriber_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' } })
+          callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
+            .then(data => {
+              callback(null, data)
+            })
+            .catch(err => {
+              callback(err)
+            })
+        }
+      ], 10, function (err, results) {
+        if (err) {
+          sendErrorResponse(res, 500, err)
+        } else {
+          let countResopnse = results[0]
+          let sessionsResponse = results[1]
+          let lastMessageResponse = results[2]
+          let sessions = logicLayer.putLastMessage(lastMessageResponse, sessionsResponse)
+          sendSuccessResponse(res, 200, { openSessions: sessions, count: countResopnse.length > 0 ? countResopnse[0].count : 0 })
+        }
+      })
+    })
+    .catch(err => {
       sendErrorResponse(res, 500, err)
-    } else {
-      let countResopnse = results[0]
-      let sessionsResponse = results[1]
-      let lastMessageResponse = results[2]
-      let sessions = logicLayer.putLastMessage(lastMessageResponse, sessionsResponse)
-      sendSuccessResponse(res, 200, { openSessions: sessions, count: countResopnse.length > 0 ? countResopnse[0].count : 0 })
-    }
-  })
+    })
 }
 
 exports.fetchResolvedSessions = function (req, res) {
-  async.parallelLimit([
-    function (callback) {
-      let data = logicLayer.getCount(req, 'resolved')
-      callApi('subscribers/aggregate', 'post', data)
-        .then(result => {
-          callback(null, result)
-        })
-        .catch(err => {
-          callback(err)
-        })
-    },
-    function (callback) {
-      let data = logicLayer.getSessions(req, 'resolved')
-      callApi('subscribers/aggregate', 'post', data)
-        .then(result => {
-          callback(null, result)
-        })
-        .catch(err => {
-          callback(err)
-        })
-    },
-    function (callback) {
-      let lastMessageData = logicLayer.getQueryData('', 'aggregate', { company_id: req.user.companyId }, undefined, undefined, undefined, { _id: '$subscriber_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' } })
-      callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
-        .then(data => {
-          callback(null, data)
-        })
-        .catch(err => {
-          callback(err)
-        })
-    }
-  ], 10, function (err, results) {
-    if (err) {
-      return res.status(500).json({ status: 'failed', payload: err })
-    } else {
-      let countResopnse = results[0]
-      let sessionsResponse = results[1]
-      let lastMessageResponse = results[2]
-      let sessions = logicLayer.putLastMessage(lastMessageResponse, sessionsResponse)
-      sendSuccessResponse(res, 200, { closedSessions: sessions, count: countResopnse.length > 0 ? countResopnse[0].count : 0 })
-    }
-  })
+  callApi('companyprofile/query', 'post', { _id: req.user.companyId }, 'accounts')
+    .then(companyData => {
+      async.parallelLimit([
+        function (callback) {
+          let data = logicLayer.getCount(req, 'resolved')
+          callApi('subscribers/aggregate', 'post', data)
+            .then(result => {
+              callback(null, result)
+            })
+            .catch(err => {
+              callback(err)
+            })
+        },
+        function (callback) {
+          let data = logicLayer.getSessions(req, 'resolved', companyData)
+          callApi('subscribers/aggregate', 'post', data)
+            .then(result => {
+              callback(null, result)
+            })
+            .catch(err => {
+              callback(err)
+            })
+        },
+        function (callback) {
+          let lastMessageData = logicLayer.getQueryData('', 'aggregate', { company_id: req.user.companyId }, undefined, undefined, undefined, { _id: '$subscriber_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' } })
+          callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
+            .then(data => {
+              callback(null, data)
+            })
+            .catch(err => {
+              callback(err)
+            })
+        }
+      ], 10, function (err, results) {
+        if (err) {
+          return res.status(500).json({ status: 'failed', payload: err })
+        } else {
+          let countResopnse = results[0]
+          let sessionsResponse = results[1]
+          let lastMessageResponse = results[2]
+          let sessions = logicLayer.putLastMessage(lastMessageResponse, sessionsResponse)
+          sendSuccessResponse(res, 200, { closedSessions: sessions, count: countResopnse.length > 0 ? countResopnse[0].count : 0 })
+        }
+      })
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, err)
+    })
 }
 
 exports.markread = function (req, res) {
