@@ -9,6 +9,7 @@ const sessionLogicLayer = require('../sessions/sessions.logiclayer')
 const logicLayer = require('./logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
 const { record } = require('../../global/messageStatistics')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 const { sendNotifications } = require('../../global/sendNotification')
 const { sendWebhook } = require('../../global/sendWebhook')
 
@@ -66,18 +67,16 @@ exports.index = function (req, res) {
               utility.callApi('subscribers/update', 'put', { query: { _id: subscriber._id }, newPayload: _prepareSubscriberUpdatePayload(event, subscriber, company), options: {} })
                 .then(updated => {
                   logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
-                  if (event.message) {
-                    if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
-                      saveLiveChat(page, subscriber, event)
-                      if (event.type !== 'get_started') {
-                        handleCommerceChatbot(event, page, subscriber)
-                        if (event.message.text) {
-                          handleTriggerMessage(event, page, subscriber)
-                        }
+                  if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
+                    saveLiveChat(page, subscriber, event, chatPayload)
+                    if (event.type !== 'get_started') {
+                      handleCommerceChatbot(event, page, subscriber)
+                      if (event.message.text) {
+                        handleTriggerMessage(event, page, subscriber)
                       }
-                      if (!event.message.is_echo) {
-                        pushUnresolveAlertInStack(company, subscriber)
-                      }
+                    }
+                    if (!event.message.is_echo) {
+                      pushUnresolveAlertInStack(company, subscriber)
                     }
                   }
                 })
@@ -118,6 +117,7 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
   ) {
     LiveChatDataLayer.createFbMessageObject(chatPayload)
       .then(chat => {
+        updateCompanyUsage(page.companyId, 'chat_messages', 1)
         if (!event.message.is_echo) {
           setTimeout(() => {
             utility.callApi('subscribers/query', 'post', { _id: subscriber._id })
