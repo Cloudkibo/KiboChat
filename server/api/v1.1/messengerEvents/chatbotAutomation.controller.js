@@ -609,7 +609,7 @@ function shouldAvoidSendingAutomatedMessage (subscriber) {
   return new Promise((resolve, reject) => {
     callApi(`companyprofile/query`, 'post', { _id: subscriber.companyId })
       .then(company => {
-        if (company.automated_options === 'MIX_CHAT') {
+        if (company.automated_options === 'MIX_CHAT' && subscriber.agent_activity_time) {
           const diffInMinutes = Math.abs((new Date()) - subscriber.agent_activity_time) / 1000 / 60
           if (diffInMinutes > 30) {
             resolve(false)
