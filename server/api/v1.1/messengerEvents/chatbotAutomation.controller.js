@@ -86,7 +86,7 @@ const updateSubscriber = (query, newPayload, options) => {
 
 exports.handleCommerceChatbot = (event, page, subscriber) => {
   shouldAvoidSendingAutomatedMessage(subscriber)
-    .then(shouldAvoid => async {
+    .then(async (shouldAvoid) => {
       if (!shouldAvoid) {
         try {
           if (event.message && event.message.is_echo) {
@@ -98,7 +98,7 @@ exports.handleCommerceChatbot = (event, page, subscriber) => {
             type: 'automated',
             vertical: 'commerce'
           })}`, 'info')
-          let chatbot = await chatbotDataLayer.findOneChatBot({ 
+          let chatbot = await chatbotDataLayer.findOneChatBot({
             pageId: page._id,
             type: 'automated',
             vertical: 'commerce'
