@@ -46,15 +46,6 @@ exports.index = function (req, res) {
           }
           utility.callApi('subscribers/update', 'put', { query: { _id: subscriber._id }, newPayload: _prepareSubscriberUpdatePayload(event, subscriber, company), options: {} })
             .then(updated => {
-              if (event.message && !event.message.is_echo) {
-                utility.callApi('subscribers/update', 'put', { query: { _id: subscriber._id }, newPayload: { $inc: { unreadCount: 1, messagesCount: 1 } }, options: {} })
-                  .then(updated => {
-                    logger.serverLog(TAG, `Updated unread count ${JSON.stringify(updated)}`, 'debug')
-                  })
-                  .catch(error => {
-                    logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
-                  })
-              }
               logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
               if (event.message) {
                 if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
