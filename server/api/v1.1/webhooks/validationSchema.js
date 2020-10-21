@@ -52,3 +52,24 @@ exports.enablePayload = {
     }
   }
 }
+exports.sendWebhookPayload = {
+  type: 'object',
+  properties: {
+    type: {
+      type: 'string',
+      required: true
+    },
+    payload: {
+      type: 'object',
+      required: true
+    },
+    platform: {
+      type: 'string',
+      required: true
+    },
+    page: {
+      type: 'object',
+      required: true
+    }
+  }
+}
