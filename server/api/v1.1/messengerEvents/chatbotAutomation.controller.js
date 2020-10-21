@@ -67,6 +67,10 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
           })
       }
     })
+    .catch(error => {
+      logger.serverLog(TAG,
+        `error in checking subsriber last message time from agent ${JSON.stringify(error)}`, 'error')
+    })
 }
 
 const updateSubscriber = (query, newPayload, options) => {
@@ -164,6 +168,10 @@ exports.handleCommerceChatbot = async (event, page, subscriber) => {
         }
       }
     })
+    .catch(error => {
+      logger.serverLog(TAG,
+        `error in checking subsriber last message time from agent ${JSON.stringify(error)}`, 'error')
+    })
 }
 
 exports.handleTriggerMessage = (req, page, subscriber) => {
@@ -236,6 +244,10 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
           })
       }
     })
+    .catch(error => {
+      logger.serverLog(TAG,
+        `error in checking subsriber last message time from agent ${JSON.stringify(error)}`, 'error')
+    })
 }
 
 exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId) => {
@@ -289,6 +301,10 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId) => {
               `error in fetching chatbot ${JSON.stringify(error)}`, 'error')
           })
       }
+    })
+    .catch(error => {
+      logger.serverLog(TAG,
+        `error in checking subsriber last message time from agent ${JSON.stringify(error)}`, 'error')
     })
 }
 
