@@ -21,7 +21,8 @@ exports.create = function (req, res) {
         var url = req.body.webhook_url + '?token=' + req.body.token
         needle.get(url, (err, r) => {
           if (err) {
-            sendErrorResponse(res, 400, 'This URL contains an invalid domain or the server at the given URL is not live.')
+            let errorMsg = 'The URL could not be validated. Callback verification failed with the Status Code = ' + r.statusCode
+            sendErrorResponse(res, 400, errorMsg)
           } else {
             if (r.statusCode === 200) {
               let webhookPayload = {
@@ -40,7 +41,8 @@ exports.create = function (req, res) {
                   sendErrorResponse(res, 500, `Failed to save webhook ${JSON.stringify(error)}`)
                 })
             } else {
-              sendErrorResponse(res, 400, '', 'This URL contains an invalid domain or the server at the given URL is not live.')
+              let errorMsg = 'The URL could not be validated. Callback verification failed with the Status Code = ' + r.statusCode
+              sendErrorResponse(res, 400, '', errorMsg)
             }
           }
         })
@@ -54,7 +56,8 @@ exports.edit = function (req, res) {
   var url = req.body.webhook_url + '?token=' + req.body.token
   needle.get(url, (err, r) => {
     if (err) {
-      sendErrorResponse(res, 500, '', 'This URL contains an invalid domain or the server at the given URL is not live.')
+      let errorMsg = 'The URL could not be validated. Callback verification failed with the Status Code = ' + r.statusCode
+      sendErrorResponse(res, 500, '', errorMsg)
     } else if (r.statusCode === 200) {
       let webhookPayload = {
         webhook_url: req.body.webhook_url,
@@ -68,7 +71,8 @@ exports.edit = function (req, res) {
           sendErrorResponse(res, 500, `Failed to update webhook ${JSON.stringify(error)}`)
         })
     } else {
-      sendErrorResponse(res, 400, '', 'This URL contains an invalid domain or the server at the given URL is not live.')
+      let errorMsg = 'The URL could not be validated. Callback verification failed with the Status Code = ' + r.statusCode
+      sendErrorResponse(res, 400, '', errorMsg)
     }
   })
 }
