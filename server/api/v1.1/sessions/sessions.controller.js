@@ -14,7 +14,7 @@ exports.fetchOpenSessions = function (req, res) {
     .then(companyData => {
       async.parallelLimit([
         function (callback) {
-          let data = logicLayer.getCount(req, 'new')
+          let data = logicLayer.getCount(req, 'new', companyData)
           callApi('subscribers/aggregate', 'post', data)
             .then(result => {
               callback(null, result)
@@ -65,7 +65,7 @@ exports.fetchResolvedSessions = function (req, res) {
     .then(companyData => {
       async.parallelLimit([
         function (callback) {
-          let data = logicLayer.getCount(req, 'resolved')
+          let data = logicLayer.getCount(req, 'resolved', companyData)
           callApi('subscribers/aggregate', 'post', data)
             .then(result => {
               callback(null, result)
