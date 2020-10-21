@@ -619,7 +619,9 @@ function shouldAvoidSendingAutomatedMessage (subscriber) {
     callApi(`companyprofile/query`, 'post', { _id: subscriber.companyId })
       .then(company => {
         if (company.automated_options === 'MIX_CHAT' && subscriber.agent_activity_time) {
-          const diffInMinutes = Math.abs((new Date()) - subscriber.agent_activity_time) / 1000 / 60
+          const currentDate = new Date()
+          const agentTime = new Date(subscriber.agent_activity_time)
+          const diffInMinutes = Math.abs(currentDate - agentTime) / 1000 / 60
           if (diffInMinutes > 30) {
             resolve(false)
           } else {
