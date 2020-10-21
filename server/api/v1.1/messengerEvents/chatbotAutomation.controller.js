@@ -18,50 +18,59 @@ const { sendWebhook } = require('../../global/sendWebhook')
 
 exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
   record('messengerChatInComing')
-  chatbotDataLayer.findOneChatBot({ pageId: page._id, published: true })
-    .then(chatbot => {
-      if (chatbot) {
-        if (req.postback && req.postback.payload && req.postback.payload === '<GET_STARTED_PAYLOAD>') {
-          if (chatbot.startingBlockId) {
-            messageBlockDataLayer.findOneMessageBlock(chatbot.type === 'automated' ? { uniqueId: chatbot.startingBlockId } : { _id: chatbot.startingBlockId })
-              .then(messageBlock => {
-                if (messageBlock) {
-                  senderAction(req.sender.id, 'typing_on', page.accessToken)
-                  intervalForEach(messageBlock.payload, (item) => {
-                    sendResponse(req.sender.id, item, subscriber, page.accessToken)
-                    senderAction(req.sender.id, 'typing_off', page.accessToken)
-                  }, 1500)
-                  updateBotLifeStatsForBlock(messageBlock, true)
-                  updateBotPeriodicStatsForBlock(chatbot, true)
-                  updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, messageBlock)
+  shouldAvoidSendingAutomatedMessage(subscriber)
+    .then(shouldAvoid => {
+      if (!shouldAvoid) {
+        chatbotDataLayer.findOneChatBot({ pageId: page._id, published: true })
+          .then(chatbot => {
+            if (chatbot) {
+              if (req.postback && req.postback.payload && req.postback.payload === '<GET_STARTED_PAYLOAD>') {
+                if (chatbot.startingBlockId) {
+                  messageBlockDataLayer.findOneMessageBlock(chatbot.type === 'automated' ? { uniqueId: chatbot.startingBlockId } : { _id: chatbot.startingBlockId })
+                    .then(messageBlock => {
+                      if (messageBlock) {
+                        senderAction(req.sender.id, 'typing_on', page.accessToken)
+                        intervalForEach(messageBlock.payload, (item) => {
+                          sendResponse(req.sender.id, item, subscriber, page.accessToken)
+                          senderAction(req.sender.id, 'typing_off', page.accessToken)
+                        }, 1500)
+                        updateBotLifeStatsForBlock(messageBlock, true)
+                        updateBotPeriodicStatsForBlock(chatbot, true)
+                        updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, messageBlock)
+                      }
+                    })
+                    .catch(error => {
+                      logger.serverLog(TAG,
+                        `error in fetching message block ${JSON.stringify(error)}`,
+                        'error')
+                      logger.serverLog(TAG,
+                        `error in fetching message block ${error}`,
+                        'error')
+                    })
+                  if (req.postback && req.postback.payload) {
+                    if (subscriber.hasOwnProperty('isNewSubscriber')) {
+                      updateBotLifeStats(chatbot, subscriber.isNewSubscriber)
+                      updateBotPeriodicStats(chatbot, subscriber.isNewSubscriber)
+                    }
+                  }
+                } else {
+                  logger.serverLog(TAG,
+                    `DATA INCONSISTENCY ERROR in following chatbot, no startingBlockId given ${JSON.stringify(chatbot)}`, 'error')
                 }
-              })
-              .catch(error => {
-                logger.serverLog(TAG,
-                  `error in fetching message block ${JSON.stringify(error)}`,
-                  'error')
-                logger.serverLog(TAG,
-                  `error in fetching message block ${error}`,
-                  'error')
-              })
-            if (req.postback && req.postback.payload) {
-              if (subscriber.hasOwnProperty('isNewSubscriber')) {
-                updateBotLifeStats(chatbot, subscriber.isNewSubscriber)
-                updateBotPeriodicStats(chatbot, subscriber.isNewSubscriber)
+              } else if (chatbot.fallbackReplyEnabled) {
+                sendFallbackReply(req.sender.id, page, chatbot.fallbackReply, subscriber)
               }
             }
-          } else {
+          })
+          .catch(error => {
             logger.serverLog(TAG,
-              `DATA INCONSISTENCY ERROR in following chatbot, no startingBlockId given ${JSON.stringify(chatbot)}`, 'error')
-          }
-        } else if (chatbot.fallbackReplyEnabled) {
-          sendFallbackReply(req.sender.id, page, chatbot.fallbackReply, subscriber)
-        }
+              `error in fetching chatbot ${JSON.stringify(error)}`, 'error')
+          })
       }
     })
     .catch(error => {
       logger.serverLog(TAG,
-        `error in fetching chatbot ${JSON.stringify(error)}`, 'error')
+        `error in checking subsriber last message time from agent ${JSON.stringify(error)}`, 'error')
     })
 }
 
@@ -76,124 +85,69 @@ const updateSubscriber = (query, newPayload, options) => {
   })
 }
 
-exports.handleCommerceChatbot = async (event, page, subscriber) => {
-  try {
-    if (event.message && event.message.is_echo) {
-      logger.serverLog(TAG, 'echo message commerce chatbot', 'info')
-      return
-    }
-    logger.serverLog(TAG, `searching for commerce chatbot ${JSON.stringify({
-      pageId: page._id,
-      type: 'automated',
-      vertical: 'commerce'
-    })}`, 'info')
-    let chatbot = await chatbotDataLayer.findOneChatBot({
-      pageId: page._id,
-      type: 'automated',
-      vertical: 'commerce'
-    })
-    logger.serverLog(TAG, `commerce chatbot found ${JSON.stringify(chatbot)}`, 'info')
-    let shouldSend = false
-    let isSendingToTester = false
-    if (chatbot) {
-      if (chatbot.testSession && !chatbot.published && chatbot.testSession.subscriberId === subscriber.senderId) {
-        shouldSend = true
-        isSendingToTester = true
-      } else if (chatbot.published) {
-        shouldSend = true
-      }
-    }
-    logger.serverLog('commerce chatbot shouldSend', shouldSend)
-    if (shouldSend) {
-      let ecommerceProvider = null
-      if (chatbot.storeType === commerceConstants.shopify) {
-        const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
-        ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
-          shopUrl: shopifyIntegration.shopUrl,
-          shopToken: shopifyIntegration.shopToken
-        })
-      } else if (chatbot.storeType === commerceConstants.bigcommerce) {
-        const bigCommerceIntegration = await bigCommerceDataLayer.findOneBigCommerceIntegration({ companyId: chatbot.companyId })
-        ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
-          shopToken: bigCommerceIntegration.shopToken,
-          storeHash: bigCommerceIntegration.payload.context
-        })
-      }
-      if (ecommerceProvider) {
-        logger.serverLog(TAG, `handleCommerceChatbot event ${JSON.stringify(event)}`, 'info')
-        let nextMessageBlock = await shopifyChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, subscriber, event)
-        logger.serverLog(TAG, `commerce chatbot next message block ${JSON.stringify(nextMessageBlock)}`, 'info')
-        updateSubscriber({ _id: subscriber._id }, { lastMessageSentByBot: nextMessageBlock }, {})
-        if (nextMessageBlock) {
-          senderAction(event.sender.id, 'typing_on', page.accessToken)
-          intervalForEach(nextMessageBlock.payload, (item) => {
-            sendResponse(event.sender.id, item, subscriber, page.accessToken)
-            senderAction(event.sender.id, 'typing_off', page.accessToken)
-          }, 1500)
-          if (!isSendingToTester) {
-            updateBotLifeStats(chatbot, false)
-            updateBotPeriodicStats(chatbot, false)
-            updateBotLifeStatsForBlock(nextMessageBlock, true)
-            updateBotPeriodicStatsForBlock(chatbot, true)
-            updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, nextMessageBlock)
+exports.handleCommerceChatbot = (event, page, subscriber) => {
+  shouldAvoidSendingAutomatedMessage(subscriber)
+    .then(async (shouldAvoid) => {
+      if (!shouldAvoid) {
+        try {
+          if (event.message && event.message.is_echo) {
+            logger.serverLog(TAG, 'echo message commerce chatbot', 'info')
+            return
           }
-          let subscriberLastMessageAt = moment(subscriber.lastMessagedAt)
-          let dateNow = moment()
-          if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1 && !isSendingToTester) {
-            updateBotPeriodicStatsForReturning(chatbot)
-          }
-          // new subscriber stats logic starts
-          let subscriberCreatedAt = moment(subscriber.datetime)
-          if (dateNow.diff(subscriberCreatedAt, 'seconds') <= 10 && !isSendingToTester) {
-            updateBotLifeStats(chatbot, true)
-            updateBotPeriodicStats(chatbot, true)
-          }
-        }
-      }
-    }
-  } catch (err) {
-    logger.serverLog(TAG,
-      `error in fetching commerce chatbot ${err}`, 'error')
-  }
-}
-
-exports.handleTriggerMessage = (req, page, subscriber) => {
-  record('messengerChatInComing')
-  chatbotDataLayer.findOneChatBot({ pageId: page._id, type: 'manual' })
-    .then(chatbot => {
-      logger.serverLog(TAG, `manual chatbot found ${JSON.stringify(chatbot)}`, 'info')
-      if (chatbot) {
-        let shouldSend = false
-        let isSendingToTester = false
-        if (chatbot.testSession && !chatbot.published) {
-          if (chatbot.testSession.subscriberId === subscriber.senderId) {
-            shouldSend = true
-            isSendingToTester = true
-          }
-        } else if (chatbot.published) {
-          shouldSend = true
-        }
-        if (shouldSend) {
-          let userText = req.message.text.toLowerCase().trim()
-          messageBlockDataLayer.findOneMessageBlock({
-            'module.type': 'chatbot',
-            'module.id': chatbot._id,
-            triggers: userText
+          logger.serverLog(TAG, `searching for commerce chatbot ${JSON.stringify({
+            pageId: page._id,
+            type: 'automated',
+            vertical: 'commerce'
+          })}`, 'info')
+          let chatbot = await chatbotDataLayer.findOneChatBot({
+            pageId: page._id,
+            type: 'automated',
+            vertical: 'commerce'
           })
-            .then(messageBlock => {
-              logger.serverLog(TAG, `manual chatbot message block ${JSON.stringify(shopifyChatbotLogicLayer.getMessageBlocks)}`, 'info')
-              if (messageBlock) {
-                senderAction(req.sender.id, 'typing_on', page.accessToken)
-                intervalForEach(messageBlock.payload, (item) => {
-                  sendResponse(req.sender.id, item, subscriber, page.accessToken)
-                  senderAction(req.sender.id, 'typing_off', page.accessToken)
+          logger.serverLog(TAG, `commerce chatbot found ${JSON.stringify(chatbot)}`, 'info')
+          let shouldSend = false
+          let isSendingToTester = false
+          if (chatbot && chatbot.testSession && !chatbot.published) {
+            if (chatbot.testSession.subscriberId === subscriber.senderId) {
+              shouldSend = true
+              isSendingToTester = true
+            }
+          } else if (chatbot.published) {
+            shouldSend = true
+          }
+          logger.serverLog('commerce chatbot shouldSend', shouldSend)
+          if (shouldSend) {
+            let ecommerceProvider = null
+            if (chatbot.storeType === commerceConstants.shopify) {
+              const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
+              ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
+                shopUrl: shopifyIntegration.shopUrl,
+                shopToken: shopifyIntegration.shopToken
+              })
+            } else if (chatbot.storeType === commerceConstants.bigcommerce) {
+              const bigCommerceIntegration = await bigCommerceDataLayer.findOneBigCommerceIntegration({ companyId: chatbot.companyId })
+              ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
+                shopToken: bigCommerceIntegration.shopToken,
+                storeHash: bigCommerceIntegration.payload.context
+              })
+            }
+            if (ecommerceProvider) {
+              logger.serverLog(TAG, `handleCommerceChatbot event ${JSON.stringify(event)}`, 'info')
+              let nextMessageBlock = await shopifyChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, subscriber, event)
+              logger.serverLog(TAG, `commerce chatbot next message block ${JSON.stringify(nextMessageBlock)}`, 'info')
+              updateSubscriber({ _id: subscriber._id }, { lastMessageSentByBot: nextMessageBlock }, {})
+              if (nextMessageBlock) {
+                senderAction(event.sender.id, 'typing_on', page.accessToken)
+                intervalForEach(nextMessageBlock.payload, (item) => {
+                  sendResponse(event.sender.id, item, subscriber, page.accessToken)
+                  senderAction(event.sender.id, 'typing_off', page.accessToken)
                 }, 1500)
                 if (!isSendingToTester) {
                   updateBotLifeStats(chatbot, false)
                   updateBotPeriodicStats(chatbot, false)
-                  updateBotLifeStatsForBlock(messageBlock, true)
+                  updateBotLifeStatsForBlock(nextMessageBlock, true)
                   updateBotPeriodicStatsForBlock(chatbot, true)
-                  updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, messageBlock)
+                  updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, nextMessageBlock)
                 }
                 let subscriberLastMessageAt = moment(subscriber.lastMessagedAt)
                 let dateNow = moment()
@@ -206,78 +160,160 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
                   updateBotLifeStats(chatbot, true)
                   updateBotPeriodicStats(chatbot, true)
                 }
-                // new subscriber stats logic ends
-              } else if (chatbot.fallbackReplyEnabled) {
-                sendFallbackReply(req.sender.id, page, chatbot.fallbackReply, subscriber)
               }
-            })
-            .catch(error => {
-              logger.serverLog(TAG,
-                `error in fetching message block ${JSON.stringify(error)}`, 'error')
-            })
+            }
+          }
+        } catch (err) {
+          logger.serverLog(TAG,
+            `error in fetching commerce chatbot ${err}`, 'error')
         }
       }
     })
     .catch(error => {
       logger.serverLog(TAG,
-        `error in fetching manual chatbot ${error}`, 'error')
+        `error in checking subsriber last message time from agent ${JSON.stringify(error)}`, 'error')
+    })
+}
+
+exports.handleTriggerMessage = (req, page, subscriber) => {
+  record('messengerChatInComing')
+  shouldAvoidSendingAutomatedMessage(subscriber)
+    .then(shouldAvoid => {
+      if (!shouldAvoid) {
+        chatbotDataLayer.findOneChatBot({ pageId: page._id, type: 'manual' })
+          .then(chatbot => {
+            logger.serverLog(TAG, `manual chatbot found ${JSON.stringify(chatbot)}`, 'info')
+            if (chatbot) {
+              let shouldSend = false
+              let isSendingToTester = false
+              if (chatbot.testSession && !chatbot.published) {
+                if (chatbot.testSession.subscriberId === subscriber.senderId) {
+                  shouldSend = true
+                  isSendingToTester = true
+                }
+              } else if (chatbot.published) {
+                shouldSend = true
+              }
+              if (shouldSend) {
+                let userText = req.message.text.toLowerCase().trim()
+                messageBlockDataLayer.findOneMessageBlock({
+                  'module.type': 'chatbot',
+                  'module.id': chatbot._id,
+                  triggers: userText
+                })
+                  .then(messageBlock => {
+                    logger.serverLog(TAG, `manual chatbot message block ${JSON.stringify(shopifyChatbotLogicLayer.getMessageBlocks)}`, 'info')
+                    if (messageBlock) {
+                      senderAction(req.sender.id, 'typing_on', page.accessToken)
+                      intervalForEach(messageBlock.payload, (item) => {
+                        sendResponse(req.sender.id, item, subscriber, page.accessToken)
+                        senderAction(req.sender.id, 'typing_off', page.accessToken)
+                      }, 1500)
+                      if (!isSendingToTester) {
+                        updateBotLifeStats(chatbot, false)
+                        updateBotPeriodicStats(chatbot, false)
+                        updateBotLifeStatsForBlock(messageBlock, true)
+                        updateBotPeriodicStatsForBlock(chatbot, true)
+                        updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, messageBlock)
+                      }
+                      let subscriberLastMessageAt = moment(subscriber.lastMessagedAt)
+                      let dateNow = moment()
+                      if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1 && !isSendingToTester) {
+                        updateBotPeriodicStatsForReturning(chatbot)
+                      }
+                      // new subscriber stats logic starts
+                      let subscriberCreatedAt = moment(subscriber.datetime)
+                      if (dateNow.diff(subscriberCreatedAt, 'seconds') <= 10 && !isSendingToTester) {
+                        updateBotLifeStats(chatbot, true)
+                        updateBotPeriodicStats(chatbot, true)
+                      }
+                      // new subscriber stats logic ends
+                    } else if (chatbot.fallbackReplyEnabled) {
+                      sendFallbackReply(req.sender.id, page, chatbot.fallbackReply, subscriber)
+                    }
+                  })
+                  .catch(error => {
+                    logger.serverLog(TAG,
+                      `error in fetching message block ${JSON.stringify(error)}`, 'error')
+                  })
+              }
+            }
+          })
+          .catch(error => {
+            logger.serverLog(TAG,
+              `error in fetching manual chatbot ${error}`, 'error')
+          })
+      }
+    })
+    .catch(error => {
+      logger.serverLog(TAG,
+        `error in checking subsriber last message time from agent ${JSON.stringify(error)}`, 'error')
     })
 }
 
 exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId, parentBlockTitle) => {
   record('messengerChatInComing')
-  chatbotDataLayer.findOneChatBot({ pageId: page._id })
-    .then(chatbot => {
-      if (chatbot) {
-        let shouldSend = false
-        let isSendingToTester = false
-        if (chatbot.testSession && !chatbot.published) {
-          if (chatbot.testSession.subscriberId === subscriber.senderId) {
-            shouldSend = true
-            isSendingToTester = true
-          }
-        } else if (chatbot.published) {
-          shouldSend = true
-        }
-        if (shouldSend) {
-          sendWebhook('CHATBOT_OPTION_SELECTED', 'facebook', {
-            psid: subscriber.senderId,
-            pageId: page.pageId,
-            blockTitle: parentBlockTitle,
-            option: req.message.text,
-            chatbotTitle: page.pageName,
-            timestamp: Date.now()
-          }, page)
-          messageBlockDataLayer.findOneMessageBlock({ uniqueId: uniqueId.toString() })
-            .then(messageBlock => {
-              if (messageBlock) {
-                senderAction(req.sender.id, 'typing_on', page.accessToken)
-                intervalForEach(messageBlock.payload, (item) => {
-                  sendResponse(req.sender.id, item, subscriber, page.accessToken)
-                  senderAction(req.sender.id, 'typing_off', page.accessToken)
-                }, 1500)
-                if (!isSendingToTester) {
-                  updateBotLifeStatsForBlock(messageBlock, true)
-                  updateBotPeriodicStatsForBlock(chatbot, true)
-                  updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, messageBlock)
+  shouldAvoidSendingAutomatedMessage(subscriber)
+    .then(shouldAvoid => {
+      if (!shouldAvoid) {
+        chatbotDataLayer.findOneChatBot({ pageId: page._id })
+          .then(chatbot => {
+            if (chatbot) {
+              let shouldSend = false
+              let isSendingToTester = false
+              if (chatbot.testSession && !chatbot.published) {
+                if (chatbot.testSession.subscriberId === subscriber.senderId) {
+                  shouldSend = true
+                  isSendingToTester = true
                 }
-                let subscriberLastMessageAt = moment(subscriber.lastMessagedAt)
-                let dateNow = moment()
-                if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1 && !isSendingToTester) {
-                  updateBotPeriodicStatsForReturning(chatbot)
-                }
+              } else if (chatbot.published) {
+                shouldSend = true
               }
-            })
-            .catch(error => {
-              logger.serverLog(TAG,
-                `error in fetching message block ${JSON.stringify(error)}`, 'error')
-            })
-        }
+              if (shouldSend) {
+                sendWebhook('CHATBOT_OPTION_SELECTED', 'facebook', {
+                  psid: subscriber.senderId,
+                  pageId: page.pageId,
+                  blockTitle: parentBlockTitle,
+                  option: req.message.text,
+                  chatbotTitle: page.pageName,
+                  timestamp: Date.now()
+                }, page)
+                messageBlockDataLayer.findOneMessageBlock({ uniqueId: uniqueId.toString() })
+                  .then(messageBlock => {
+                    if (messageBlock) {
+                      senderAction(req.sender.id, 'typing_on', page.accessToken)
+                      intervalForEach(messageBlock.payload, (item) => {
+                        sendResponse(req.sender.id, item, subscriber, page.accessToken)
+                        senderAction(req.sender.id, 'typing_off', page.accessToken)
+                      }, 1500)
+                      if (!isSendingToTester) {
+                        updateBotLifeStatsForBlock(messageBlock, true)
+                        updateBotPeriodicStatsForBlock(chatbot, true)
+                        updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, messageBlock)
+                      }
+                      let subscriberLastMessageAt = moment(subscriber.lastMessagedAt)
+                      let dateNow = moment()
+                      if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1 && !isSendingToTester) {
+                        updateBotPeriodicStatsForReturning(chatbot)
+                      }
+                    }
+                  })
+                  .catch(error => {
+                    logger.serverLog(TAG,
+                      `error in fetching message block ${JSON.stringify(error)}`, 'error')
+                  })
+              }
+            }
+          })
+          .catch(error => {
+            logger.serverLog(TAG,
+              `error in fetching chatbot ${JSON.stringify(error)}`, 'error')
+          })
       }
     })
     .catch(error => {
       logger.serverLog(TAG,
-        `error in fetching chatbot ${JSON.stringify(error)}`, 'error')
+        `error in checking subsriber last message time from agent ${JSON.stringify(error)}`, 'error')
     })
 }
 
@@ -576,6 +612,27 @@ function saveTesterInfoForLater (pageId, subscriberId, chatBot) {
   chatbotDataLayer.genericUpdateChatBot(query, updated)
     .then(resp => logger.serverLog(TAG, `saved test info`, 'debug'))
     .catch(err => logger.serverLog(TAG, `err test Info ${JSON.stringify(err)}`, 'err'))
+}
+
+function shouldAvoidSendingAutomatedMessage (subscriber) {
+  return new Promise((resolve, reject) => {
+    callApi(`companyprofile/query`, 'post', { _id: subscriber.companyId })
+      .then(company => {
+        if (company.automated_options === 'MIX_CHAT' && subscriber.agent_activity_time) {
+          const currentDate = new Date()
+          const agentTime = new Date(subscriber.agent_activity_time)
+          const diffInMinutes = Math.abs(currentDate - agentTime) / 1000 / 60
+          if (diffInMinutes > 30) {
+            resolve(false)
+          } else {
+            resolve(true)
+          }
+        } else {
+          resolve(false)
+        }
+      })
+      .catch(err => reject(err))
+  })
 }
 
 exports.updateBotPeriodicStatsForBlock = updateBotPeriodicStatsForBlock
