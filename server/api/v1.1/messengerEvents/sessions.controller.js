@@ -69,8 +69,21 @@ exports.index = function (req, res) {
                 updatePayload.pendingResponse = true
                 updatePayload.lastMessagedAt = Date.now()
               }
-              if (req.body.pushPendingSessionInfo && JSON.stringify(req.body.pushPendingSessionInfo) === 'true') {
-                pushSessionPendingAlertInStack(company, subscriber)
+            })
+          }
+          if (req.body.pushPendingSessionInfo && JSON.stringify(req.body.pushPendingSessionInfo) === 'true') {
+            pushSessionPendingAlertInStack(company, subscriber)
+          }
+          utility.callApi('subscribers/update', 'put', { query: { _id: subscriber._id }, newPayload: _prepareSubscriberUpdatePayload(event, subscriber, company), options: {} })
+            .then(updated => {
+              if (event.message && !event.message.is_echo) {
+                utility.callApi('subscribers/update', 'put', { query: { _id: subscriber._id }, newPayload: { $inc: { unreadCount: 1, messagesCount: 1 } }, options: {} })
+                  .then(updated => {
+                    logger.serverLog(TAG, `Updated unread count ${JSON.stringify(updated)}`, 'debug')
+                  })
+                  .catch(error => {
+                    logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
+                  })
               }
               utility.callApi('subscribers/update', 'put', { query: { _id: subscriber._id }, newPayload: updatePayload, options: {} })
                 .then(updated => {
@@ -460,6 +473,28 @@ function sendautomatedmsg (req, page) {
         }
       })
   }
+}
+
+const _prepareSubscriberUpdatePayload = (event, subscriber, company) => {
+  let updated = {}
+  if (event.message && event.message.is_echo) {
+    if (company.saveAutomationMessages) {
+      if (['SENT_FROM_KIBOPUSH', 'SENT_FROM_CHATBOT'].indexOf(event.message.metadata) === -1) {
+        updated = { $inc: { messagesCount: 1 }, $set: {unreadCount: 0, last_activity_time: Date.now()} }
+      }
+    }
+  } else if (event.message) {
+    updated = {
+      $inc: { unreadCount: 1, messagesCount: 1 },
+      $set: {
+        last_activity_time: Date.now(),
+        pendingResponse: true,
+        lastMessagedAt: Date.now(),
+        status: subscriber.status === 'resolved' ? 'new' : subscriber.status
+      }
+    }
+  }
+  return updated
 }
 
 exports.saveLiveChat = saveLiveChat
