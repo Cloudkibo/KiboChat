@@ -14,10 +14,10 @@ const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('.
 const { handleTriggerMessage, handleCommerceChatbot } = require('./chatbotAutomation.controller')
 
 exports.index = function (req, res) {
-  logger.serverLog(TAG, `payload received in page ${JSON.stringify(req.body.page)}`, 'debug')
-  logger.serverLog(TAG, `payload received in subscriber ${JSON.stringify(req.body.subscriber)}`, 'debug')
-  logger.serverLog(TAG, `payload received in event ${JSON.stringify(req.body.event)}`, 'debug')
-  logger.serverLog(TAG, `payload received in pushPendingSession ${JSON.stringify(req.body.pushPendingSessionInfo)}`, 'debug')
+  // logger.serverLog(TAG, `payload received in page ${JSON.stringify(req.body.page)}`, 'debug')
+  // logger.serverLog(TAG, `payload received in subscriber ${JSON.stringify(req.body.subscriber)}`, 'debug')
+  // logger.serverLog(TAG, `payload received in event ${JSON.stringify(req.body.event)}`, 'debug')
+  // logger.serverLog(TAG, `payload received in pushPendingSession ${JSON.stringify(req.body.pushPendingSessionInfo)}`, 'debug')
   res.status(200).json({
     status: 'success',
     description: `received the payload`
@@ -41,38 +41,24 @@ exports.index = function (req, res) {
               }
             })
           }
-          let updatePayload = { last_activity_time: Date.now() }
-          if (!event.message.is_echo) {
-            if (subscriber.status === 'resolved') {
-              updatePayload.status = 'new'
-            }
-            updatePayload.pendingResponse = true
-            updatePayload.lastMessagedAt = Date.now()
-          }
           if (req.body.pushPendingSessionInfo && JSON.stringify(req.body.pushPendingSessionInfo) === 'true') {
             pushSessionPendingAlertInStack(company, subscriber)
           }
-          utility.callApi('subscribers/update', 'put', { query: { _id: subscriber._id }, newPayload: updatePayload, options: {} })
+          utility.callApi('subscribers/update', 'put', { query: { _id: subscriber._id }, newPayload: _prepareSubscriberUpdatePayload(event, subscriber, company), options: {} })
             .then(updated => {
-              if (!event.message.is_echo) {
-                utility.callApi('subscribers/update', 'put', { query: { _id: subscriber._id }, newPayload: { $inc: { unreadCount: 1, messagesCount: 1 } }, options: {} })
-                  .then(updated => {
-                  })
-                  .catch(error => {
-                    logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
-                  })
-              }
               logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
-              if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
-                saveLiveChat(page, subscriber, event)
-                if (event.type !== 'get_started') {
-                  handleCommerceChatbot(event, page, subscriber)
-                  if (event.message.text) {
-                    handleTriggerMessage(event, page, subscriber)
+              if (event.message) {
+                if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
+                  saveLiveChat(page, subscriber, event)
+                  if (event.type !== 'get_started') {
+                    handleCommerceChatbot(event, page, subscriber)
+                    if (event.message.text) {
+                      handleTriggerMessage(event, page, subscriber)
+                    }
                   }
-                }
-                if (!event.message.is_echo) {
-                  pushUnresolveAlertInStack(company, subscriber)
+                  if (!event.message.is_echo) {
+                    pushUnresolveAlertInStack(company, subscriber)
+                  }
                 }
               }
             })
@@ -88,7 +74,7 @@ exports.index = function (req, res) {
 }
 
 function saveLiveChat (page, subscriber, event) {
-  record('messengerChatInComing')
+  //record('messengerChatInComing')
   if (subscriber && !event.message.is_echo) {
     botController.respondUsingBot(page, subscriber, event.message.text)
   }
@@ -470,6 +456,28 @@ function sendautomatedmsg (req, page) {
         }
       })
   }
+}
+
+const _prepareSubscriberUpdatePayload = (event, subscriber, company) => {
+  let updated = {}
+  if (event.message && event.message.is_echo) {
+    if (company.saveAutomationMessages) {
+      if (['SENT_FROM_KIBOPUSH', 'SENT_FROM_CHATBOT'].indexOf(event.message.metadata) === -1) {
+        updated = { $inc: { messagesCount: 1 }, $set: {unreadCount: 0, last_activity_time: Date.now()} }
+      }
+    }
+  } else if (event.message) {
+    updated = {
+      $inc: { unreadCount: 1, messagesCount: 1 },
+      $set: {
+        last_activity_time: Date.now(),
+        pendingResponse: true,
+        lastMessagedAt: Date.now(),
+        status: subscriber.status === 'resolved' ? 'new' : subscriber.status
+      }
+    }
+  }
+  return updated
 }
 
 exports.saveLiveChat = saveLiveChat

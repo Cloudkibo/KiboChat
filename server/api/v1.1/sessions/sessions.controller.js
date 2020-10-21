@@ -162,7 +162,7 @@ function markreadFacebook (req, callback) {
 }
 
 exports.show = function (req, res) {
-  console.log('params', req.param)
+  logger.serverLog(TAG, `fetching session ${req.params.id}`, 'info')
   if (req.params.id) {
     async.parallelLimit([
       function (callback) {
@@ -200,6 +200,43 @@ exports.show = function (req, res) {
   } else {
     sendErrorResponse(res, 400, 'Parameter subscriber_id is required!')
   }
+}
+
+exports.singleSession = function (req, res) {
+  async.parallelLimit([
+    function (callback) {
+      let data = logicLayer.payloadForSingleSession(req, 'resolved')
+      callApi('subscribers/aggregate', 'post', data)
+        .then(subscribers => {
+          console.log('subscriber', subscribers[0])
+          callback(null, subscribers[0])
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      let lastMessageData = logicLayer.getQueryData('', 'aggregate', { subscriber_id: req.params.id, company_id: req.user.companyId }, undefined, { _id: -1 }, 1, undefined)
+      callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
+        .then(data => {
+          callback(null, data)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    }
+  ], 10, function (err, results) {
+    if (err) {
+      sendErrorResponse(res, 500, err)
+    } else {
+      let subscriber = results[0]
+      let lastMessageResponse = results[1]
+      subscriber.lastPayload = lastMessageResponse.length > 0 && lastMessageResponse[0].payload
+      subscriber.lastRepliedBy = lastMessageResponse.length > 0 && lastMessageResponse[0].replied_by
+      subscriber.lastDateTime = lastMessageResponse.length > 0 && lastMessageResponse[0].datetime
+      sendSuccessResponse(res, 200, subscriber)
+    }
+  })
 }
 
 function _sendNotification (subscriberId, status, companyId, userName) {
@@ -249,6 +286,7 @@ function _sendNotification (subscriberId, status, companyId, userName) {
     })
 }
 exports.changeStatus = function (req, res) {
+  logger.serverLog(TAG, 'sessions changeStatus endpoint hit', 'info')
   let socketPayload = {
     session_id: req.body._id,
     user_id: req.user._id,
@@ -263,13 +301,7 @@ exports.changeStatus = function (req, res) {
       } else {
         pushUnresolveAlert(req.user.companyId, req.body._id)
       }
-      console.log('sending session status socket', {
-        room_id: req.user.companyId,
-        body: {
-          action: 'session_status',
-          payload: socketPayload
-        }
-      })
+      logger.serverLog(TAG, `sending session status socket room id ${req.user.companyId} ${JSON.stringify(socketPayload)}`, 'info')
       require('./../../../config/socketio').sendMessageToClient({
         room_id: req.user.companyId,
         body: {
@@ -277,10 +309,11 @@ exports.changeStatus = function (req, res) {
           payload: socketPayload
         }
       })
-      console.log('sent session status socket')
+      logger.serverLog(TAG, 'sent session status socket', 'info')
       sendSuccessResponse(res, 200, 'Status has been updated successfully!')
     })
     .catch(err => {
+      logger.serverLog(TAG, `error updating session status ${err}`, 'error')
       sendErrorResponse(res, 500, err)
     })
 }
