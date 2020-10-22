@@ -232,7 +232,9 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
         var galleryCard = {}
         galleryCard.image_url = card.image_url
         galleryCard.title = card.title
-        galleryCard.buttons = card.buttons
+        if (card.buttons && card.buttons.length > 0) {
+          galleryCard.buttons = card.buttons
+        }
         galleryCard.subtitle = card.subtitle
         if (card.default_action) {
           galleryCard.default_action = card.default_action
