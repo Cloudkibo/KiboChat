@@ -1,8 +1,12 @@
 // const util = require('util')
 
-exports.getCount = (req, status) => {
+exports.getCount = (req, status, company) => {
+  let matchBody = {'companyId': req.user.companyId, completeInfo: true}
+  if (company.hideChatSessions) {
+    matchBody.messagesCount = { $gt: 0 }
+  }
   let aggregateData = [
-    { $match: {'companyId': req.user.companyId, completeInfo: true} },
+    { $match: matchBody },
     { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
     { $unwind: '$pageId' },
     { $project: {
@@ -10,11 +14,13 @@ exports.getCount = (req, status) => {
       companyId: 1,
       pageId: 1,
       isSubscribed: 1,
+      disabledByPlan: 1,
       status: 1,
       pendingResponse: 1,
       unreadCount: 1} },
     { $match: {
       'isSubscribed': true,
+      'disabledByPlan': false,
       'status': status,
       'name': {$regex: '.*' + req.body.filter_criteria.search_value + '.*', $options: 'i'},
       'pageId._id': req.body.filter_criteria.page_value !== '' ? req.body.filter_criteria.page_value : {$exists: true},
@@ -27,9 +33,13 @@ exports.getCount = (req, status) => {
   return aggregateData
 }
 
-exports.getSessions = (req, status) => {
+exports.getSessions = (req, status, company) => {
+  let matchBody = {'companyId': req.user.companyId, completeInfo: true}
+  if (company.hideChatSessions) {
+    matchBody.messagesCount = { $gt: 0 }
+  }
   let aggregateData = [
-    { $match: {'companyId': req.user.companyId, completeInfo: true} },
+    { $match: matchBody },
     { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
     { $unwind: '$pageId' },
     { $project: {
@@ -37,6 +47,7 @@ exports.getSessions = (req, status) => {
       companyId: 1,
       pageId: 1,
       isSubscribed: 1,
+      disabledByPlan: 1,
       status: 1,
       last_activity_time: 1,
       _id: 1,
@@ -54,6 +65,7 @@ exports.getSessions = (req, status) => {
     { $sort: {last_activity_time: req.body.filter_criteria.sort_value} },
     { $match: {
       'isSubscribed': true,
+      'disabledByPlan': false,
       'status': status,
       'name': {$regex: '.*' + req.body.filter_criteria.search_value + '.*', $options: 'i'},
       'pageId._id': req.body.filter_criteria.page_value !== '' ? req.body.filter_criteria.page_value : {$exists: true},

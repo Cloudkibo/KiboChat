@@ -27,7 +27,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
       }),
       'message': {
         'text': text,
-        'metadata': 'This is a meta data'
+        'metadata': 'SENT_FROM_CHATBOT'
       }
     }
     if (body.quickReplies && body.quickReplies.length > 0) {
@@ -61,7 +61,8 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
             'text': text,
             'buttons': body.buttons
           }
-        }
+        },
+        'metadata': 'SENT_FROM_CHATBOT'
       }
     }
     if (body.quickReplies && body.quickReplies.length > 0) {
@@ -108,7 +109,8 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
               mediaElement
             ]
           }
-        }
+        },
+        'metadata': 'SENT_FROM_CHATBOT'
       }
     }
     if (body.quickReplies && body.quickReplies.length > 0) {
@@ -124,7 +126,8 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
           'payload': {
             'attachment_id': body.fileurl.attachment_id
           }
-        }
+        },
+        'metadata': 'SENT_FROM_CHATBOT'
       }
     } else {
       message = {
@@ -133,7 +136,8 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
           'payload': {
             'url': body.fileurl.url
           }
-        }
+        },
+        'metadata': 'SENT_FROM_CHATBOT'
       }
     }
 
@@ -163,7 +167,8 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
           'payload': {
             'url': body.fileurl
           }
-        }
+        },
+        'metadata': 'SENT_FROM_CHATBOT'
       })
     }
   } else if (body.componentType === 'card') {
@@ -189,7 +194,8 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
               }
             ]
           }
-        }
+        },
+        'metadata': 'SENT_FROM_CHATBOT'
       }
     }
     if (body.buttons && body.buttons.length > 0) {
@@ -216,6 +222,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
     if (body.quickReplies && body.quickReplies.length > 0) {
       payload.message.quick_replies = body.quickReplies
     }
+    payload.message.metadata = 'SENT_FROM_CHATBOT'
     payload.message = JSON.stringify(payload.message)
   } else if (body.componentType === 'gallery') {
     var galleryCards = []
@@ -225,7 +232,9 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
         var galleryCard = {}
         galleryCard.image_url = card.image_url
         galleryCard.title = card.title
-        galleryCard.buttons = card.buttons
+        if (card.buttons && card.buttons.length > 0) {
+          galleryCard.buttons = card.buttons
+        }
         galleryCard.subtitle = card.subtitle
         if (card.default_action) {
           galleryCard.default_action = card.default_action
@@ -245,7 +254,8 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
             'template_type': 'generic',
             'elements': galleryCards
           }
-        }
+        },
+        'metadata': 'SENT_FROM_CHATBOT'
       }
     }
     if (body.quickReplies && body.quickReplies.length > 0) {
@@ -267,7 +277,8 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
             'elements': body.listItems,
             'buttons': body.buttons
           }
-        }
+        },
+        'metadata': 'SENT_FROM_CHATBOT'
       })
     }
   }

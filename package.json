@@ -26,6 +26,7 @@
   },
   "homepage": "repo_readme_path",
   "dependencies": {
+    "@sendgrid/mail": "^7.3.0",
     "async": "^2.6.1",
     "bluebird": "^3.5.2",
     "body-parser": "^1.18.3",

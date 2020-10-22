@@ -26,12 +26,11 @@ exports.serverLog = function (label, data, type = 'info') {
     console.log(type, `${namespace} - ${data}`)
     // todo use log levels like info, warn, error and debug
     // logger.info(`${namespace} - ${data}`)
-  } else {
-    if (config.env === 'production' && config.papertrail_log_levels.split(',').indexOf(type) > -1) {
-      logger.log(type, `${namespace} - ${data}`)
-    } else {
-      logger.log(type, `${namespace} - ${data}`)
-    }
+  } else if (
+    (config.env === 'production' && config.papertrail_log_levels.split(',').indexOf(type) > -1) ||
+    config.env === 'staging'
+  ) {
+    logger.log(type, `${namespace} - ${data}`)
   }
 }
 
