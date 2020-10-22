@@ -351,8 +351,6 @@ function sendResponse (recipientId, payload, subscriber, accessToken) {
   record('messengerChatOutGoing')
   facebookApiCaller('v3.2', `me/messages?access_token=${accessToken}`, 'post', finalPayload)
     .then(response => {
-      console.log(`chatbot sent ${JSON.stringify(finalPayload)}`)
-      console.log(`facebook response of sending block ${JSON.stringify(response.body)}`)
       logger.serverLog(TAG, `response of sending block ${JSON.stringify(response.body)}`)
     })
     .catch(error => {
