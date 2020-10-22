@@ -36,7 +36,6 @@ const sendMobileNotifications = (expoListToken, title, bodyMessage, data, user) 
         tickets.push(...ticketChunk)
         for (let [index_ticket, ticket] of ticketChunk) {
           if (ticket.status === 'error') {
-            logger.serverLog(`while sending notification ${util.inspect(ticket.details.error)}`)
             if (ticket.details.error === 'DeviceNotRegistered') {
               deviceNotRegistered.push(expoListToken[(index_chunk*maxLengthChunck)+index_ticket])
             }
