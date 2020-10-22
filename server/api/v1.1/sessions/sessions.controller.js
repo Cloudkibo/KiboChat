@@ -5,6 +5,7 @@ const logicLayer = require('./sessions.logiclayer')
 const needle = require('needle')
 // const util = require('util')
 const async = require('async')
+const moment = require('moment')
 const { sendNotifications } = require('../../global/sendNotification')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const { pushUnresolveAlertInStack, deleteUnresolvedSessionFromStack } = require('../../global/messageAlerts')
@@ -153,22 +154,30 @@ function markreadLocal (req, callback) {
 function markreadFacebook (req, callback) {
   callApi(`subscribers/${req.params.id}`, 'get', {}, 'accounts', req.headers.authorization)
     .then(subscriber => {
-      const data = {
-        recipient: { id: subscriber.senderId }, // this is the subscriber id
-        sender_action: 'mark_seen'
-      }
-      return needle('post', `https://graph.facebook.com/v6.0/me/messages?access_token=${subscriber.pageId.accessToken}`, data)
-    })
-    .then(resp => {
-      if (resp.body && resp.body.error) {
-        logger.serverLog(TAG, `marked read on Facebook error ${JSON.stringify(resp.body.error)}`, 'error')
-        callback(resp.body.error)
-      } else if (resp.error) {
-        logger.serverLog(TAG, `marked read on Facebook error ${JSON.stringify(resp.error)}`, 'error')
-        callback(resp.error)
+      if (subscriber && subscriber.lastMessagedAt && moment(subscriber.lastMessagedAt).isAfter(moment().subtract(24, 'hours'))) {
+        const data = {
+          recipient: { id: subscriber.senderId }, // this is the subscriber id
+          sender_action: 'mark_seen'
+        }
+        needle('post', `https://graph.facebook.com/v6.0/me/messages?access_token=${subscriber.pageId.accessToken}`, data)
+          .then(resp => {
+            if (resp.body && resp.body.error) {
+              logger.serverLog(TAG, `marked read on Facebook error ${JSON.stringify(resp.body.error)}`, 'error')
+              callback(resp.body.error)
+            } else if (resp.error) {
+              logger.serverLog(TAG, `marked read on Facebook error ${JSON.stringify(resp.error)}`, 'error')
+              callback(resp.error)
+            } else {
+              logger.serverLog(TAG, `marked read on Facebook response ${JSON.stringify(resp.body)}`, 'info')
+              callback(null, resp.body)
+            }
+          })
+          .catch(err => {
+            logger.serverLog(TAG, `marked read on Facebook error ${JSON.stringify(err)}`, 'error')
+            callback(err)
+          })
       } else {
-        logger.serverLog(TAG, `marked read on Facebook response ${JSON.stringify(resp.body)}`, 'info')
-        callback(null, resp.body)
+        callback(null)
       }
     })
     .catch(err => {
