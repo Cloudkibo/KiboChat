@@ -12,6 +12,10 @@ exports.index = function (req, res) {
     status: 'success',
     description: `received the payload`
   })
+
+  logger.serverLog(TAG, `postback event ${JSON.stringify(messengerPayload)}`, 'info')
+  logger.serverLog(TAG, `postback event recipient ${JSON.stringify(messengerPayload.recipient)}`, 'info')
+  logger.serverLog(TAG, `postback event sender.id ${JSON.stringify(messengerPayload.sender)}`, 'info')
   let messengerPayload = req.body.entry[0].messaging[0]
   let pageId = messengerPayload.recipient.id
   let subscriberId = messengerPayload.sender.id
