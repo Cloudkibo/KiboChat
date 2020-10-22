@@ -522,7 +522,7 @@ exports.deleteWhatsAppInfo = function (req, res) {
 exports.getAdvancedSettings = function (req, res) {
   utility.callApi('companyprofile/query', 'post', {_id: req.user.companyId})
     .then(company => {
-      sendSuccessResponse(res, 200, {saveAutomationMessages: company.saveAutomationMessages, hideChatSessions: company.hideChatSessions })
+      sendSuccessResponse(res, 200, { saveAutomationMessages: company.saveAutomationMessages, hideChatSessions: company.hideChatSessions })
     })
     .catch(err => {
       logger.serverLog(TAG, err, 'error')
