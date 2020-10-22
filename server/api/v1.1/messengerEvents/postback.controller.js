@@ -19,9 +19,11 @@ exports.index = async (req, res) => {
 
     const pages = await utility.callApi('pages/query', 'post', { pageId, connected: true })
     const page = pages[0]
-    const subscribers = await utility.callApi('subscribers/query', 'post', { senderId: subscriberId, pageId: page._id })
-    const subscriber = subscribers[0]
-    handleCommerceChatbot(messengerPayload, page, subscriber)
+    if (page) {
+      const subscribers = await utility.callApi('subscribers/query', 'post', { senderId: subscriberId, pageId: page._id })
+      const subscriber = subscribers[0]
+      handleCommerceChatbot(messengerPayload, page, subscriber)
+    }
   } catch (err) {
     logger.serverLog(TAG, `error in postback ${err}`, 'error')
   }
