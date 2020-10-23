@@ -23,20 +23,26 @@ const sendMobileNotifications = (expoListToken, title, bodyMessage, data, user) 
   let tickets = []
   let deviceNotRegistered = [];
   (async () => {
-    for (let chunk of chunks) {
+    let maxLengthChunck = 0
+    for (let [index_chunk, chunk] of chunks.entries()) {
       try {
+        logger.serverLog(`while expo chunk length ${chunk.length}`)
+        if(index_chunk=== 0) {
+          maxLengthChunck = chunk.length
+        }
+        logger.serverLog(`while expo maxLengthChunck length ${maxLengthChunck}`)
         let ticketChunk = await expo.sendPushNotificationsAsync(chunk)
         logger.serverLog(TAG, `ticketChunk ${JSON.stringify(ticketChunk)}`)
         tickets.push(...ticketChunk)
-        for (let ticket of ticketChunk) {
+        for (let [index_ticket, ticket] of ticketChunk) {
           if (ticket.status === 'error') {
-            logger.serverLog(`Error while sending notification ${util.inspect(ticket.details.error)}`)
             if (ticket.details.error === 'DeviceNotRegistered') {
-              let token = ticket.message.split('"')
-              deviceNotRegistered.push(token[1])
+              deviceNotRegistered.push(expoListToken[(index_chunk*maxLengthChunck)+index_ticket])
             }
           }
         }
+        logger.serverLog(`while expo DeviceNotRegistered ${deviceNotRegistered}`)
+        logger.serverLog(`while expo DeviceNotRegistered length ${deviceNotRegistered.length}`)
         if (deviceNotRegistered.length > 0) {
           utility.callApi(`companyUser/query`, 'post', {userId: user._id})
             .then(companyUser => {
@@ -46,6 +52,7 @@ const sendMobileNotifications = (expoListToken, title, bodyMessage, data, user) 
                   return expoToken
                 }
               })
+              logger.serverLog(`while valid expoToken ${expoListToken}`)
               utility.callApi('companyUser/update', 'put', {query: {userId: user._id}, newPayload: {expoListToken: expoListToken}, options: {}})
                 .then(updated => {
                   logger.serverLog(TAG, `Update successfully expoList token in Company Table`)

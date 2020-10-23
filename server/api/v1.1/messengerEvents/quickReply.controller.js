@@ -12,7 +12,12 @@ exports.index = function (req, res) {
     status: 'success',
     description: `received the payload`
   })
+
+
   let messengerPayload = req.body.entry[0].messaging[0]
+  console.log(`postback event ${JSON.stringify(messengerPayload)}`)
+  console.log( `postback event recipient ${JSON.stringify(messengerPayload.recipient)}`)
+  console.log(`postback event sender.id ${JSON.stringify(messengerPayload.sender)}`)
   let pageId = messengerPayload.recipient.id
   let subscriberId = messengerPayload.sender.id
   let subscriber = {}
@@ -20,27 +25,29 @@ exports.index = function (req, res) {
   utility.callApi('pages/query', 'post', { pageId, connected: true })
     .then(page => {
       page = page[0]
-      utility.callApi('subscribers/query', 'post', { senderId: subscriberId, pageId: page._id })
-        .then(gotSubscriber => {
-          subscriber = gotSubscriber[0]
-          sendWebhook('CHAT_MESSAGE', 'facebook', {
-            from: 'subscriber',
-            recipientId: page.pageId,
-            senderId: subscriber.senderId,
-            timestamp: Date.now(),
-            message: messengerPayload.message
-          }, page)
-          handleCommerceChatbot(messengerPayload, page, subscriber)
-          if (logicLayer.isJsonString(messengerPayload.message.quick_reply.payload)) {
-            let quickRepyPayload = JSON.parse(messengerPayload.message.quick_reply.payload)
-            for (let i = 0; i < quickRepyPayload.length; i++) {
-              if (quickRepyPayload[i].action === '_chatbot') {
-                chatbotAutomation.handleChatBotNextMessage(messengerPayload, page, subscriber, quickRepyPayload[i].blockUniqueId, quickRepyPayload[i].parentBlockTitle)
+      if(page) {
+        utility.callApi('subscribers/query', 'post', { senderId: subscriberId, pageId: page._id })
+          .then(gotSubscriber => {
+            subscriber = gotSubscriber[0]
+            sendWebhook('CHAT_MESSAGE', 'facebook', {
+              from: 'subscriber',
+              recipientId: page.pageId,
+              senderId: subscriber.senderId,
+              timestamp: Date.now(),
+              message: messengerPayload.message
+            }, page)
+            handleCommerceChatbot(messengerPayload, page, subscriber)
+            if (logicLayer.isJsonString(messengerPayload.message.quick_reply.payload)) {
+              let quickRepyPayload = JSON.parse(messengerPayload.message.quick_reply.payload)
+              for (let i = 0; i < quickRepyPayload.length; i++) {
+                if (quickRepyPayload[i].action === '_chatbot') {
+                  chatbotAutomation.handleChatBotNextMessage(messengerPayload, page, subscriber, quickRepyPayload[i].blockUniqueId, quickRepyPayload[i].parentBlockTitle)
+                }
               }
             }
-          }
-          saveLiveChat(page, subscriber, messengerPayload)
-        })
+            saveLiveChat(page, subscriber, messengerPayload)
+          })
+      }
     })
     .catch(error => {
       logger.serverLog(TAG, `error on getting subcribers ${error}`, 'error')
