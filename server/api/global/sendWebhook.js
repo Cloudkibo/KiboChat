@@ -10,24 +10,19 @@ exports.sendWebhook = (type, platform, payload, page) => {
     .then(webhooks => {
       let webhook = webhooks[0]
       if (webhook && webhook.optIn[type]) {
-        needle.get(webhook.webhook_url, (err, r) => {
-          if (err) {
-            logger.serverLog(TAG, `Cannot connect to url ${err}`)
-          } else if (r.statusCode === 200) {
-            var data = {
-              type,
-              platform,
-              payload: payload
+        var data = {
+          type,
+          platform,
+          payload: payload
+        }
+        needle.post(webhook.webhook_url, data, {json: true},
+          (error, response) => {
+            if (error || response.statusCode !== 200) {
+              logger.serverLog(TAG, `Cannot send webhook event ${error || response.body}`, 'error')
+              saveNotification(webhook, page, platform)
+              sendEmail(webhook, webhook.userId, page)
             }
-            needle.post(webhook.webhook_url, data, {json: true},
-              (error, response) => {
-                if (error) logger.serverLog(TAG, `Cannot send webhook event ${err}`, 'error')
-              })
-          } else {
-            saveNotification(webhook, page, platform)
-            sendEmail(webhook, webhook.userId, page)
-          }
-        })
+          })
       }
     })
     .catch(error => {
@@ -50,10 +45,17 @@ function saveNotification (webhook, page, platform) {
     category: {type: 'webhook_failed', id: page._id},
     agentId: webhook.userId._id,
     companyId: webhook.companyId,
-    platform: platform
+    platform: platform === 'facebook' ? 'messenger' : platform
   }
   utility.callApi(`notifications`, 'post', notificationsData, 'kibochat')
     .then(savedNotification => {
+      require('./../../../config/socketio').sendMessageToClient({
+        room_id: page.companyId,
+        body: {
+          action: 'new_notification',
+          payload: notificationsData
+        }
+      })
     })
     .catch(error => {
       logger.serverLog(TAG, `Failed to create notification ${error}`, 'error')
@@ -136,7 +138,7 @@ function getEmailBody (webhookUrl, userName, pageName) {
                                                                         <div>&nbsp;</div>
                                                                         <div>Hope you are doing well!</div>
                                                                         <div>&nbsp;</div>
-                                                                        <div>The server at your given URL ${webhookUrl} for page ${pageName} is not live. Please verify that your callback server is functioning and then enable it from KiboPush Settings in order to receive webhook events.</div>
+                                                                        <div>The server at your given URL ${webhookUrl} for page ${pageName} is not live. Please verify that your webhook server is functioning in order to receive webhook events.</div>
                                                                         <div>&nbsp;</div>
                                                                         <div>If you have any queries, you can send message to our <a href="https://www.facebook.com/kibopush/" style="background-color: rgb(255, 255, 255); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; font-family: arial; font-size: 14px;">Facebook Page</a>. Our admins will get back to you. Or, you can join our <a href="https://www.facebook.com/groups/kibopush/">Facebook Community</a>.</div>
                                                                         <div>&nbsp;</div>
