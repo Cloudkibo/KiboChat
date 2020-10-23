@@ -398,6 +398,8 @@ exports.assignAgent = function (req, res) {
             : sendWebhook('SESSION_UNASSIGNED', 'facebook', {
               psid: subscriber.senderId,
               pageId: subscriber.pageId.pageId,
+              unassigned: 'agent',
+              name: req.body.agentName,
               unassignedBy: req.user.name,
               timestamp: Date.now()
             }, subscriber.pageId)
@@ -491,6 +493,8 @@ exports.assignTeam = function (req, res) {
             : sendWebhook('SESSION_UNASSIGNED', 'facebook', {
               psid: subscriber.senderId,
               pageId: subscriber.pageId.pageId,
+              unassigned: 'team',
+              name: req.body.teamName,
               unassignedBy: req.user.name,
               timestamp: Date.now()
             }, subscriber.pageId)

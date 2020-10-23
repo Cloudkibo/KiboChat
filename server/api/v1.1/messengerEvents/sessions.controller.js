@@ -21,6 +21,7 @@ exports.index = function (req, res) {
   // logger.serverLog(TAG, `payload received in subscriber ${JSON.stringify(req.body.subscriber)}`, 'debug')
   // logger.serverLog(TAG, `payload received in event ${JSON.stringify(req.body.event)}`, 'debug')
   // logger.serverLog(TAG, `payload received in pushPendingSession ${JSON.stringify(req.body.pushPendingSessionInfo)}`, 'debug')
+  console.log('event gott', req.body.event)
   res.status(200).json({
     status: 'success',
     description: `received the payload`
@@ -29,67 +30,75 @@ exports.index = function (req, res) {
   let subscriber = req.body.subscriber
   let event = req.body.event
   let newSubscriber = req.body.newSubscriber
-  logicLayer.prepareLiveChatPayload(event.message, subscriber, page)
-    .then(chatPayload => {
-      let from
-      if (!event.message.is_echo) {
-        from = 'subscriber'
-      } else {
-        if (!event.message.metadata) from = 'facebook_page'
-        else if (event.message.metadata === 'SENT_FROM_CHATBOT') from = 'kibopush'
-      }
-      from && sendWebhook('CHAT_MESSAGE', 'facebook', {
-        from: event.message.metadata === 'SENT_FROM_CHATBOT' ? 'kibopush'
-          : event.message.is_echo ? 'facebook_page' : 'subscriber',
-        recipientId: event.message.is_echo ? subscriber.senderId : page.pageId,
-        senderId: event.message.is_echo ? page.pageId : subscriber.senderId,
-        timestamp: Date.now(),
-        message: chatPayload.payload
-      }, page)
-      utility.callApi(`companyprofile/query`, 'post', { _id: page.companyId })
-        .then(company => {
-          if (!(company.automated_options === 'DISABLE_CHAT')) {
-            if (subscriber.unSubscribedBy !== 'agent') {
-              if (newSubscriber) {
-                require('./../../../config/socketio').sendMessageToClient({
-                  room_id: page.companyId,
-                  body: {
-                    action: 'Messenger_new_subscriber',
-                    payload: {
-                      subscriber: subscriber
-                    }
-                  }
-                })
-              }
-              if (req.body.pushPendingSessionInfo && JSON.stringify(req.body.pushPendingSessionInfo) === 'true') {
-                pushSessionPendingAlertInStack(company, subscriber)
-              }
-              utility.callApi('subscribers/update', 'put', { query: { _id: subscriber._id }, newPayload: _prepareSubscriberUpdatePayload(event, subscriber, company), options: {} })
-                .then(updated => {
-                  logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
-                  if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
-                    saveLiveChat(page, subscriber, event, chatPayload)
-                    if (event.type !== 'get_started') {
-                      handleCommerceChatbot(event, page, subscriber)
-                      if (event.message.text) {
-                        handleTriggerMessage(event, page, subscriber)
+
+  if (event.message) {
+    logicLayer.prepareLiveChatPayload(event.message, subscriber, page)
+      .then(chatPayload => {
+        console.log('chatPayload got', chatPayload.payload)
+        if (Object.keys(chatPayload.payload).length > 0 && chatPayload.payload.constructor === Object) {
+          let from
+          if (!event.message.is_echo) {
+            from = 'subscriber'
+          } else {
+            if (!event.message.metadata) from = 'facebook_page'
+            else from = 'kibopush'
+          }
+          console.log('from', from)
+          from && sendWebhook('CHAT_MESSAGE', 'facebook', {
+            from: from,
+            recipientId: event.message.is_echo ? subscriber.senderId : page.pageId,
+            senderId: event.message.is_echo ? page.pageId : subscriber.senderId,
+            timestamp: Date.now(),
+            message: chatPayload.payload
+          }, page)
+        }
+        utility.callApi(`companyprofile/query`, 'post', { _id: page.companyId })
+          .then(company => {
+            if (!(company.automated_options === 'DISABLE_CHAT')) {
+              if (subscriber.unSubscribedBy !== 'agent') {
+                if (newSubscriber) {
+                  require('./../../../config/socketio').sendMessageToClient({
+                    room_id: page.companyId,
+                    body: {
+                      action: 'Messenger_new_subscriber',
+                      payload: {
+                        subscriber: subscriber
                       }
                     }
-                    if (!event.message.is_echo) {
-                      pushUnresolveAlertInStack(company, subscriber)
+                  })
+                }
+                if (req.body.pushPendingSessionInfo && JSON.stringify(req.body.pushPendingSessionInfo) === 'true') {
+                  pushSessionPendingAlertInStack(company, subscriber)
+                }
+                utility.callApi('subscribers/update', 'put', { query: { _id: subscriber._id }, newPayload: _prepareSubscriberUpdatePayload(event, subscriber, company), options: {} })
+                  .then(updated => {
+                    logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
+                    if (event.message) {
+                      if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
+                        saveLiveChat(page, subscriber, event)
+                        if (event.type !== 'get_started') {
+                          handleCommerceChatbot(event, page, subscriber)
+                          if (event.message.text) {
+                            handleTriggerMessage(event, page, subscriber)
+                          }
+                        }
+                        if (!event.message.is_echo) {
+                          pushUnresolveAlertInStack(company, subscriber)
+                        }
+                      }
                     }
-                  }
-                })
-                .catch(error => {
-                  logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
-                })
+                  })
+                  .catch(error => {
+                    logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
+                  })
+              }
             }
-          }
-        })
-        .catch(error => {
-          logger.serverLog(TAG, `Failed to fetch company profile ${JSON.stringify(error)}`, 'error')
-        })
-    })
+          })
+          .catch(error => {
+            logger.serverLog(TAG, `Failed to fetch company profile ${JSON.stringify(error)}`, 'error')
+          })
+      })
+    }
 }
 
 function saveLiveChat (page, subscriber, event, chatPayload) {
@@ -320,7 +329,8 @@ function sendautomatedmsg (req, page) {
                 text: 'Are you sure you want to unsubscribe?',
                 buttons: buttonsInPayload
               }
-            }
+            },
+            'metadata': 'This is a meta data'
           }
           unsubscribeResponse = true
         } else if (index === -111) {
@@ -328,7 +338,8 @@ function sendautomatedmsg (req, page) {
             .then(subscribers => {
               if (subscribers.length > 0) {
                 messageData = {
-                  text: 'You have subscribed to our broadcasts. Send "stop" to unsubscribe'
+                  text: 'You have subscribed to our broadcasts. Send "stop" to unsubscribe',
+                  'metadata': 'This is a meta data'
                 }
                 utility.callApi(`subscribers`, 'put', { query: { senderId: req.sender.id }, newPayload: { isSubscribed: true }, options: {} })
                   .then(updated => {
