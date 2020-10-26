@@ -377,7 +377,8 @@ const prepareUrlMeta = (data) => {
           if (!error) {
             const payload = {
               type: 'url-card',
-              text: results.data.ogUrl,
+              link: results.data.ogUrl,
+              text: data.text,
               title: results.data.ogTitle && results.data.ogTitle,
               description: results.data.ogDescription && results.data.ogDescription,
               imageUrl: results.data.ogImage && results.data.ogImage.url
