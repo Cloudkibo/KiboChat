@@ -43,17 +43,17 @@ module.exports = class EcommerceProvidersApiLayer {
     }
   }
 
-  fetchAllProductCategories () {
+  fetchAllProductCategories (paginationParams) {
     if (this.eCommerceProvider === providers.shopify) {
-      return shopifyProvider.fetchAllProductCategories(this.eCommerceProviderCredentials)
+      return shopifyProvider.fetchAllProductCategories(paginationParams, this.eCommerceProviderCredentials)
     } else if (this.eCommerceProvider === providers.bigcommerce) {
       return bigCommerceProvider.fetchAllProductCategories(this.eCommerceProviderCredentials)
     }
   }
 
-  fetchProducts () {
+  fetchProducts (paginationParams) {
     if (this.eCommerceProvider === providers.shopify) {
-      return shopifyProvider.fetchProducts(this.eCommerceProviderCredentials)
+      return shopifyProvider.fetchProducts(paginationParams, this.eCommerceProviderCredentials)
     } else if (this.eCommerceProvider === providers.bigcommerce) {
       return bigCommerceProvider.fetchProducts(this.eCommerceProviderCredentials)
     }
@@ -67,17 +67,17 @@ module.exports = class EcommerceProvidersApiLayer {
     }
   }
 
-  fetchProductsInThisCategory (id) {
+  fetchProductsInThisCategory (id, paginationParams) {
     if (this.eCommerceProvider === providers.shopify) {
-      return shopifyProvider.fetchProductsInThisCategory(id, this.eCommerceProviderCredentials)
+      return shopifyProvider.fetchProductsInThisCategory(id, paginationParams, this.eCommerceProviderCredentials)
     } else if (this.eCommerceProvider === providers.bigcommerce) {
       return bigCommerceProvider.fetchProductsInThisCategory(id, this.eCommerceProviderCredentials)
     }
   }
 
-  getVariantsOfSelectedProduct (id) {
+  getVariantsOfSelectedProduct (id, paginationParams) {
     if (this.eCommerceProvider === providers.shopify) {
-      return shopifyProvider.getProductVariants(id, this.eCommerceProviderCredentials)
+      return shopifyProvider.getProductVariants(id, paginationParams, this.eCommerceProviderCredentials)
     } else if (this.eCommerceProvider === providers.bigcommerce) {
       return bigCommerceProvider.getProductVariants(id, this.eCommerceProviderCredentials)
     }
