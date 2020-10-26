@@ -364,7 +364,6 @@ function prepareLiveChatPayload (message, subscriber, page) {
 
 const prepareUrlMeta = (data) => {
   return new Promise((resolve, reject) => {
-    console.log('data.attachments', JSON.stringify(data.attachments))
     if (data.attachments && data.attachments.length > 0) {
       if (['video', 'audio', 'image', 'location', 'file'].includes(data.attachments[0].type)) {
         resolve(data)
