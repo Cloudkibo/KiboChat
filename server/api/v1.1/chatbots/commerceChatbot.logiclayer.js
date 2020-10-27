@@ -249,6 +249,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
     }
 
     logger.serverLog(TAG, `products found: ${JSON.stringify(products)}`, 'info')
+    console.log(`products found: ${JSON.stringify(products)}`)
     if (products.length > 0) {
       messageBlock.payload.push({
         componentType: 'gallery',
@@ -305,6 +306,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
     }
     return messageBlock
   } catch (err) {
+    console.log(`Unable to discover products ${err}`, err.stack)
     logger.serverLog(TAG, `Unable to discover products ${err}`, 'error')
     throw new Error(`${ERROR_INDICATOR}Unable to discover products`)
   }
