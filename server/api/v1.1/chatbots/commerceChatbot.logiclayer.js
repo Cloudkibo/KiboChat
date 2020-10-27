@@ -23,7 +23,7 @@ const {
   ERROR_INDICATOR
 } = require('./commerceChatbotConstants')
 const logger = require('../../../components/logger')
-const TAG = 'api/v1️.1/chatbos/commerceChatbot.logiclayer.js'
+const TAG = 'api/v1️.1/chatbots/commerceChatbot.logiclayer.js'
 const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 const { callApi } = require('../utility')
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
