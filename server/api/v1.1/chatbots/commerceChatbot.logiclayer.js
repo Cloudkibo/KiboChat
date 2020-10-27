@@ -277,7 +277,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
           buttons: [{
             title: 'View More',
             type: 'postback',
-            payload: JSON.stringify({ type: DYNAMIC, action: DISCOVER_PRODUCTS, argument: { paginationParams: products.nextPageParameters } })
+            payload: JSON.stringify({ type: DYNAMIC, action: DISCOVER_PRODUCTS, argument: { paginationParams: products.nextPageParameters, categoryId: argument.categoryId } })
           }]
         })
       }
