@@ -1455,6 +1455,7 @@ const getUpdateCartBlock = async (chatbot, backId, contact, product, quantity) =
 exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event) => {
   try {
     logger.serverLog(TAG, `getNextMessageBlock event ${JSON.stringify(event)}`, 'info')
+    console.log(`getNextMessageBlock event ${JSON.stringify(event)}`)
     const userMessage = event.message
     const input = userMessage ? userMessage.text.toLowerCase() : ''
     let startingBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
@@ -1483,6 +1484,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
           return invalidInput(chatbot, contact.lastMessageSentByBot, `${ERROR_INDICATOR}You entered an invalid response.`)
         }
       }
+      console.log(`getNextMessageBlock action ${JSON.stringify(action)}`)
       if (action.type === DYNAMIC) {
         try {
           let messageBlock = null
