@@ -249,6 +249,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
     }
 
     logger.serverLog(TAG, `products found: ${JSON.stringify(products)}`, 'info')
+    console.log(`products found: ${JSON.stringify(products)}`)
     if (products.length > 0) {
       messageBlock.payload.push({
         componentType: 'gallery',
@@ -271,6 +272,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
       }
 
       if (products.nextPageParameters) {
+        console.log('products.nextPageParameters', products.nextPageParameters)
         messageBlock.payload[1].cards.push({
           title: 'View More',
           subtitle: `Click on the "View More" button to view more products`,
@@ -305,6 +307,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
     }
     return messageBlock
   } catch (err) {
+    console.log(`Unable to discover products ${err}`, err.stack)
     logger.serverLog(TAG, `Unable to discover products ${err}`, 'error')
     throw new Error(`${ERROR_INDICATOR}Unable to discover products`)
   }
@@ -1452,6 +1455,7 @@ const getUpdateCartBlock = async (chatbot, backId, contact, product, quantity) =
 exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event) => {
   try {
     logger.serverLog(TAG, `getNextMessageBlock event ${JSON.stringify(event)}`, 'info')
+    console.log(`getNextMessageBlock event ${JSON.stringify(event)}`)
     const userMessage = event.message
     const input = userMessage ? userMessage.text.toLowerCase() : ''
     let startingBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
@@ -1480,6 +1484,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
           return invalidInput(chatbot, contact.lastMessageSentByBot, `${ERROR_INDICATOR}You entered an invalid response.`)
         }
       }
+      console.log(`getNextMessageBlock action ${JSON.stringify(action)}`)
       if (action.type === DYNAMIC) {
         try {
           let messageBlock = null
