@@ -10,7 +10,7 @@ exports.fetchStoreInfo = (credentials) => {
           name: shop.name,
           domain: shop.domain,
           currency: shop.currency,
-          type: 'bigcommerce'
+          type: 'shopify'
         })
       })
       .catch(err => {
@@ -19,14 +19,19 @@ exports.fetchStoreInfo = (credentials) => {
   })
 }
 
-exports.fetchAllProductCategories = (credentials) => {
+exports.fetchAllProductCategories = (paginationParams, credentials) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
-    shopify.customCollection.list({ limit: 10 })
+    paginationParams = paginationParams || { limit: 9 }
+    shopify.customCollection.list(paginationParams)
       .then(collections => {
+        let nextPageParameters = collections.nextPageParameters
         collections = collections.map(collection => {
           return { id: collection.id, name: collection.title }
         })
+        if (nextPageParameters) {
+          collections.nextPageParameters = nextPageParameters
+        }
         resolve(collections)
       })
       .catch(err => {
@@ -35,11 +40,14 @@ exports.fetchAllProductCategories = (credentials) => {
   })
 }
 
-exports.fetchProductsInThisCategory = (id, credentials) => {
+exports.fetchProductsInThisCategory = (id, paginationParams, credentials) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
-    shopify.product.list({ collection_id: id, limit: 10 })
+    paginationParams = paginationParams || { limit: 9 }
+    paginationParams.collection_id = id
+    shopify.product.list(paginationParams)
       .then(products => {
+        let nextPageParameters = products.nextPageParameters
         products = products.map(product => {
           return { id: product.id,
             name: product.title,
@@ -49,6 +57,9 @@ exports.fetchProductsInThisCategory = (id, credentials) => {
             image: product.image ? product.image.src : null
           }
         })
+        if (nextPageParameters) {
+          products.nextPageParameters = nextPageParameters
+        }
         resolve(products)
       })
       .catch(err => {
@@ -57,11 +68,13 @@ exports.fetchProductsInThisCategory = (id, credentials) => {
   })
 }
 
-exports.fetchProducts = (credentials) => {
+exports.fetchProducts = (paginationParams, credentials) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
-    shopify.product.list({ limit: 10 })
+    paginationParams = paginationParams || { limit: 9 }
+    shopify.product.list(paginationParams)
       .then(products => {
+        let nextPageParameters = products.nextPageParameters
         products = products.map(product => {
           return { id: product.id,
             name: product.title,
@@ -71,6 +84,9 @@ exports.fetchProducts = (credentials) => {
             image: product.image ? product.image.src : null
           }
         })
+        if (nextPageParameters) {
+          products.nextPageParameters = nextPageParameters
+        }
         resolve(products)
       })
       .catch(err => {
@@ -128,11 +144,13 @@ exports.searchProducts = (searchQuery, credentials) => {
   })
 }
 
-exports.getProductVariants = (id, credentials) => {
+exports.getProductVariants = (id, paginationParams, credentials) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
-    shopify.productVariant.list(id, { limit: 10 })
+    paginationParams = paginationParams || { limit: 9 }
+    shopify.productVariant.list(id, paginationParams)
       .then(products => {
+        let nextPageParameters = products.nextPageParameters
         products = products.map(product => {
           return { id: product.id,
             name: product.title,
@@ -141,6 +159,9 @@ exports.getProductVariants = (id, credentials) => {
             inventory_quantity: product.inventory_quantity
           }
         })
+        if (nextPageParameters) {
+          products.nextPageParameters = nextPageParameters
+        }
         resolve(products)
       })
       .catch(err => {
@@ -537,7 +558,8 @@ exports.viewCart = (id, credentials) => {
 function initShopify (credentials) {
   const shopify = new Shopify({
     shopName: credentials.shopUrl,
-    accessToken: credentials.shopToken
+    accessToken: credentials.shopToken,
+    apiVersion: '2019-07'
   })
   return shopify
 }
