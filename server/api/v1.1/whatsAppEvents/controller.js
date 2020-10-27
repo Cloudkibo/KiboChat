@@ -238,6 +238,7 @@ function storeChat (from, to, contact, messageData) {
       })
   })
 }
+
 function saveNotifications (contact, companyUsers) {
   companyUsers.forEach((companyUser, index) => {
     let notificationsData = {
@@ -311,7 +312,7 @@ function _sendNotification (subscriber, payload, companyId) {
     })
 }
 
-function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
+function updateWhatsAppContact(query, bodyForUpdate, bodyForIncrement, options) {
   callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
     .then(updated => {
     })
@@ -348,7 +349,7 @@ exports.messageStatus = function (req, res) {
     })
 }
 
-function updateChat (message, body) {
+function updateChat(message, body) {
   let dateTime = Date.now()
   let matchQuery = {
     $or: [
@@ -390,7 +391,7 @@ function updateChat (message, body) {
   updateChatInDB(matchQuery, updated, dataToSend)
 }
 
-function updateChatInDB (match, updated, dataToSend) {
+function updateChatInDB(match, updated, dataToSend) {
   let updateData = {
     purpose: 'updateAll',
     match: match,
