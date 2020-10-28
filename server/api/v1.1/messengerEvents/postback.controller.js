@@ -13,9 +13,7 @@ exports.index = async (req, res) => {
     const messengerPayload = req.body.entry[0].messaging[0]
     const pageId = messengerPayload.recipient.id
     const subscriberId = messengerPayload.sender.id
-
-    logger.serverLog(TAG, `postback event ${JSON.stringify(messengerPayload)}`, 'info')
-
+    console.log(`kibochat postback controller ${JSON.stringify(messengerPayload)}`)
     const pages = await utility.callApi('pages/query', 'post', { pageId, connected: true })
     const page = pages[0]
     if (page) {
