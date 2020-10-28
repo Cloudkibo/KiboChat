@@ -255,7 +255,9 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId, parentBlock
   record('messengerChatInComing')
   shouldAvoidSendingAutomatedMessage(subscriber)
     .then(shouldAvoid => {
+      console.log('shouldAvoid sending', shouldAvoid)
       if (!shouldAvoid) {
+        console.log('searching for manual chatbot', { pageId: page._id, type: 'manual' })
         chatbotDataLayer.findOneChatBot({ pageId: page._id, type: 'manual' })
           .then(chatbot => {
             console.log('manual chatbot', chatbot)
