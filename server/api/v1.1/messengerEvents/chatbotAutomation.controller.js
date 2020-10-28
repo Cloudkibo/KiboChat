@@ -262,7 +262,7 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
 }
 
 exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId, parentBlockTitle) => {
-  console.log('handleChatbotNextMessage')
+  console.log('in handleChatbotNextMessage')
   record('messengerChatInComing')
   shouldAvoidSendingAutomatedMessage(subscriber)
     .then(shouldAvoid => {
@@ -319,6 +319,7 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId, parentBlock
                     }
                   })
                   .catch(error => {
+                    console.log(`error in fetching message block ${error}`)
                     logger.serverLog(TAG,
                       `error in fetching message block ${JSON.stringify(error)}`, 'error')
                   })
@@ -326,12 +327,14 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId, parentBlock
             }
           })
           .catch(error => {
+            console.log(`error in fetching chatbot ${error}`)
             logger.serverLog(TAG,
               `error in fetching chatbot ${JSON.stringify(error)}`, 'error')
           })
       }
     })
     .catch(error => {
+      console.log(`error in checking subsriber last message time from agent ${error}`)
       logger.serverLog(TAG,
         `error in checking subsriber last message time from agent ${JSON.stringify(error)}`, 'error')
     })
