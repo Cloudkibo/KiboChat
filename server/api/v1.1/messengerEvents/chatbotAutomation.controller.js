@@ -293,7 +293,7 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId, parentBlock
                   psid: subscriber.senderId,
                   pageId: page.pageId,
                   blockTitle: parentBlockTitle,
-                  option: req.message.text,
+                  option: req.message ? req.message.text : req.postback.title,
                   chatbotTitle: page.pageName,
                   timestamp: Date.now()
                 }, page)
