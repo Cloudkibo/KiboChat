@@ -216,7 +216,7 @@ const getSearchProductsBlock = async (chatbot, blockId, messageBlocks) => {
   })
 }
 
-const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, input) => {
+const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, input, argument) => {
   try {
     let messageBlock = {
       module: {
@@ -250,7 +250,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
       }
       messageBlock.payload[0].action = { type: DYNAMIC, action: DISCOVER_PRODUCTS, input: true }
     } else {
-      products = await EcommerceProvider.fetchProducts()
+      products = await EcommerceProvider.fetchProducts(argument.paginationParams)
       if (products.length > 0) {
         messageBlock.payload[0].text = `Please select a product by sending the corresponding number for it:\n`
       } else {
@@ -261,7 +261,13 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
       let product = products[i]
       messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${product.name}`
       messageBlock.payload[0].menu.push({
-        type: DYNAMIC, action: PRODUCT_VARIANTS, argument: product
+        type: DYNAMIC, action: PRODUCT_VARIANTS, argument: {product}
+      })
+    }
+    if (products.nextPageParameters) {
+      messageBlock.payload[0].text += `\n${convertToEmoji(products.length)} View More`
+      messageBlock.payload[0].menu.push({
+        type: DYNAMIC, action: DISCOVER_PRODUCTS, argument: {paginationParams: products.nextPageParameters}
       })
     }
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
@@ -549,7 +555,7 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
   }
 }
 
-const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider) => {
+const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider, argument) => {
   try {
     let messageBlock = {
       module: {
@@ -573,12 +579,18 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider) => 
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    let productCategories = await EcommerceProvider.fetchAllProductCategories()
+    let productCategories = await EcommerceProvider.fetchAllProductCategories(argument.paginationParams)
     for (let i = 0; i < productCategories.length; i++) {
       let category = productCategories[i]
       messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${category.name}`
       messageBlock.payload[0].menu.push({
         type: DYNAMIC, action: FETCH_PRODUCTS, argument: category.id
+      })
+    }
+    if (productCategories.nextPageParameters) {
+      messageBlock.payload[0].text += `\n${convertToEmoji(productCategories.length)} View More`
+      messageBlock.payload[0].menu.push({
+        type: DYNAMIC, action: PRODUCT_CATEGORIES, argument: {paginationParams: productCategories.nextPageParameters}
       })
     }
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
@@ -591,7 +603,7 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider) => 
   }
 }
 
-const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, categoryId) => {
+const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, argument) => {
   try {
     let messageBlock = {
       module: {
@@ -615,12 +627,18 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ca
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    let products = await EcommerceProvider.fetchProductsInThisCategory(categoryId)
+    let products = await EcommerceProvider.fetchProductsInThisCategory(argument.categoryId, argument.paginationParams)
     for (let i = 0; i < products.length; i++) {
       let product = products[i]
       messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${product.name}`
       messageBlock.payload[0].menu.push({
-        type: DYNAMIC, action: PRODUCT_VARIANTS, argument: product
+        type: DYNAMIC, action: PRODUCT_VARIANTS, argument: {product}
+      })
+    }
+    if (products.nextPageParameters) {
+      messageBlock.payload[0].text += `\n${convertToEmoji(products.length)} View More`
+      messageBlock.payload[0].menu.push({
+        type: DYNAMIC, action: FETCH_PRODUCTS, argument: {categoryId: argument.categoryId, paginationParams: products.nextPageParameters}
       })
     }
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
@@ -633,8 +651,9 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ca
   }
 }
 
-const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, product) => {
+const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, argument) => {
   try {
+    const product = argument.product
     let messageBlock = {
       module: {
         id: chatbot._id,
@@ -664,8 +683,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
     let productVariants = await EcommerceProvider.getVariantsOfSelectedProduct(product.id)
     let storeInfo = await EcommerceProvider.fetchStoreInfo()
     logger.serverLog(TAG, `store info ${JSON.stringify(storeInfo)}`, 'info')
-    let productVariantsLength = productVariants.length > 10 ? 10 : productVariants.length
-    for (let i = 0; i < productVariantsLength; i++) {
+    for (let i = 0; i < productVariants.length; i++) {
       let productVariant = productVariants[i]
       messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${productVariant.name} (price: ${productVariant.price ? productVariant.price : product.price} ${storeInfo.currency})`
       messageBlock.payload[0].menu.push({
@@ -679,6 +697,12 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, produ
           inventory_quantity: productVariant.inventory_quantity,
           currency: storeInfo.currency
         }
+      })
+    }
+    if (productVariants.nextPageParameters) {
+      messageBlock.payload[0].text += `\n${convertToEmoji(productVariants.length)} View More`
+      messageBlock.payload[0].menu.push({
+        type: DYNAMIC, action: PRODUCT_CATEGORIES, argument: {product, paginationParams: productVariants.nextPageParameters}
       })
     }
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
@@ -1565,7 +1589,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
         let messageBlock = null
         switch (action.action) {
           case PRODUCT_CATEGORIES: {
-            messageBlock = await getProductCategoriesBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider)
+            messageBlock = await getProductCategoriesBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument ? action.argument : {})
             break
           }
           case FETCH_PRODUCTS: {
@@ -1577,7 +1601,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             break
           }
           case DISCOVER_PRODUCTS: {
-            messageBlock = await getDiscoverProductsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : '')
+            messageBlock = await getDiscoverProductsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : '', action.argument ? action.argument : {})
             break
           }
           case ORDER_STATUS: {

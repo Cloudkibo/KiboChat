@@ -7,9 +7,10 @@ const auth = require('../../../auth/auth.service')
 const validate = require('express-jsonschema').validate
 const validationSchema = require('./validationSchema')
 
-router.get('/',
+router.post('/',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer(),
+  validate({body: validationSchema.queryPayload}),
   controller.index)
 
 router.post('/create',
