@@ -256,8 +256,9 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId, parentBlock
   shouldAvoidSendingAutomatedMessage(subscriber)
     .then(shouldAvoid => {
       if (!shouldAvoid) {
-        chatbotDataLayer.findOneChatBot({ pageId: page._id })
+        chatbotDataLayer.findOneChatBot({ pageId: page._id, type: 'manual' })
           .then(chatbot => {
+            console.log('manual chatbot', chatbot)
             if (chatbot) {
               let shouldSend = false
               let isSendingToTester = false
@@ -280,6 +281,7 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId, parentBlock
                 }, page)
                 messageBlockDataLayer.findOneMessageBlock({ uniqueId: uniqueId.toString() })
                   .then(messageBlock => {
+                    console.log('manual chatbot messageBlock', messageBlock)
                     if (messageBlock) {
                       senderAction(req.sender.id, 'typing_on', page.accessToken)
                       intervalForEach(messageBlock.payload, (item) => {
