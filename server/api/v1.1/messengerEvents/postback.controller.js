@@ -22,11 +22,9 @@ exports.index = async (req, res) => {
       chatbotAutomation.handleCommerceChatbot(messengerPayload, page, subscriber)
       if (logicLayer.isJsonString(messengerPayload.postback.payload)) {
         let manualChatbotPayload = JSON.parse(messengerPayload.postback.payload)
-        for (let i = 0; i < manualChatbotPayload.length; i++) {
-          if (manualChatbotPayload[i].action === '_chatbot') {
-            console.log('handleChatBotNextMessage')
-            chatbotAutomation.handleChatBotNextMessage(messengerPayload, page, subscriber, manualChatbotPayload[i].blockUniqueId, manualChatbotPayload[i].parentBlockTitle)
-          }
+        if (manualChatbotPayload && manualChatbotPayload.action === '_chatbot') {
+          console.log('handleChatBotNextMessage')
+          chatbotAutomation.handleChatBotNextMessage(messengerPayload, page, subscriber, manualChatbotPayload.blockUniqueId, manualChatbotPayload[i].parentBlockTitle)
         }
       }
     }
