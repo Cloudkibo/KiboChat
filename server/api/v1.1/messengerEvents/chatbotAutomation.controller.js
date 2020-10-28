@@ -327,7 +327,7 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId, parentBlock
             }
           })
           .catch(error => {
-            console.log(`error in fetching chatbot ${error}`)
+            console.log(`error in fetching chatbot ${error}`, error.stack)
             logger.serverLog(TAG,
               `error in fetching chatbot ${JSON.stringify(error)}`, 'error')
           })
