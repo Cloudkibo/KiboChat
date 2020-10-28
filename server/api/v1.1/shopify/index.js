@@ -22,6 +22,9 @@ router.get('/install', // handle installing of app from shopify app store
 router.get('/callback',
   controller.callback) // this id will be userid
 
+router.post('/app-uninstall',
+  controller.handleAppUninstall) // this id will be userid
+
 router.get('/fetchStore',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer(),
