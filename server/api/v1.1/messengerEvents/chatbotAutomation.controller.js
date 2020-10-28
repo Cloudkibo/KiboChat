@@ -297,7 +297,7 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId, parentBlock
                 }, page)
                 messageBlockDataLayer.findOneMessageBlock({ uniqueId: uniqueId.toString() })
                   .then(messageBlock => {
-                    console.log('manual messageBlock', messageBlock)
+                    console.log('manual chatbot messageBlock', messageBlock)
                     if (messageBlock) {
                       senderAction(req.sender.id, 'typing_on', page.accessToken)
                       intervalForEach(messageBlock.payload, (item) => {
