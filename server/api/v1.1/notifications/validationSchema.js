@@ -33,3 +33,18 @@ exports.markReadPayload = {
     'notificationId'
   ]
 }
+
+exports.queryPayload = {
+  'type': 'object',
+  'properties': {
+    'records': {
+      'type': 'number'
+    },
+    'lastId': {
+      'type': 'string'
+    }
+  },
+  'required': [
+    'records'
+  ]
+}

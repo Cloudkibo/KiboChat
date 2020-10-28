@@ -1,17 +1,96 @@
 const LogicLayer = require('./notifications.logiclayer')
 const { callApi } = require('../utility')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
+const async = require('async')
 
 exports.index = function (req, res) {
-  let notificationsData = LogicLayer.getQueryData('', 'findAll', {agentId: req.user._id, companyId: req.user.companyId, platform: req.user.platform})
-  callApi(`notifications/query`, 'post', notificationsData, 'kibochat')
-    .then(notifications => {
-      sendSuccessResponse(res, 200, {notifications: notifications})
+  const data = {
+    user: req.user,
+    lastId: req.body.lastId,
+    records: req.body.records
+  }
+  async.parallelLimit([
+    _fetchTotalCount.bind(null, data),
+    _fetchUnreadCount.bind(null, data),
+    _fetchNotifications.bind(null, data)
+  ], 10, function (err, results) {
+    if (err) {
+      return sendErrorResponse(res, 500, `Failed to fetch notifications ${JSON.stringify(err)}`)
+    } else {
+      const totalCount = results[0].length > 0 ? results[0][0].count : 0
+      const unreadCount = results[1].length > 0 ? results[1][0].count : 0
+      const notifications = results[2]
+      return sendSuccessResponse(res, 200, {totalCount, unreadCount, notifications})
+    }
+  })
+}
+
+const _fetchTotalCount = (data, cb) => {
+  const criteria = {
+    purpose: 'aggregate',
+    query: [
+      {$match: {
+        agentId: data.user._id,
+        companyId: data.user.companyId,
+        platform: data.user.platform
+      }},
+      {$group: {_id: null, count: {$sum: 1}}}
+    ]
+  }
+  callApi(`notifications/query`, 'post', criteria, 'kibochat')
+    .then(count => {
+      cb(null, count)
     })
     .catch(error => {
-      sendErrorResponse(res, 500, `Failed to fetch notifications ${JSON.stringify(error)}`)
+      cb(error)
     })
 }
+
+const _fetchUnreadCount = (data, cb) => {
+  const criteria = {
+    purpose: 'aggregate',
+    query: [
+      {$match: {
+        agentId: data.user._id,
+        companyId: data.user.companyId,
+        platform: data.user.platform,
+        seen: false
+      }},
+      {$group: {_id: null, count: {$sum: 1}}}
+    ]
+  }
+  callApi(`notifications/query`, 'post', criteria, 'kibochat')
+    .then(count => {
+      cb(null, count)
+    })
+    .catch(error => {
+      cb(error)
+    })
+}
+
+const _fetchNotifications = (data, cb) => {
+  const criteria = {
+    purpose: 'aggregate',
+    query: [
+      {$sort: {_id: -1}},
+      {$match: {
+        agentId: data.user._id,
+        companyId: data.user.companyId,
+        platform: data.user.platform,
+        _id: data.lastId ? {$lt: data.lastId} : {$exists: true}
+      }},
+      {$limit: data.records}
+    ]
+  }
+  callApi(`notifications/query`, 'post', criteria, 'kibochat')
+    .then(notifications => {
+      cb(null, notifications)
+    })
+    .catch(error => {
+      cb(error)
+    })
+}
+
 exports.create = function (req, res) {
   if (req.body.agentIds.length > 0) {
     req.body.agentIds.forEach((agentId, i) => {
