@@ -53,3 +53,11 @@ exports.updateWhatsAppChatbot = (companyId, updated) => {
     }
   })
 }
+
+exports.deleteForChatBot = (queryObject) => {
+  let query = {
+    purpose: 'deleteMany',
+    match: queryObject
+  }
+  return callApi(`whatsAppChatbot`, 'delete', query, 'kibochat')
+}

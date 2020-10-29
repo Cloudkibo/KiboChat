@@ -12,10 +12,14 @@ const request = require('request-promise')
 const TAG = 'api/shopify/shopify.controller.js'
 const utility = require('../utility')
 const dataLayer = require('./shopify.datalayer')
+const messengerChatbotDataLayer = require('../chatbots/chatbots.datalayer')
+const whatsAppChatbotDataLayer = require('../whatsAppChatbot/whatsAppChatbot.datalayer')
+const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 const EcommerceProviders = require('./../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
 const commerceConstants = require('./../ecommerceProvidersApiLayer/constants')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const path = require('path')
+const Shopify = require('shopify-api-node')
 
 exports.index = function (req, res) {
   const shop = req.body.shop
@@ -89,6 +93,69 @@ exports.install = function (req, res) {
   res.redirect(installUrl)
 }
 
+function registerWebhooks (shop, token) {
+  const shopify = new Shopify({
+    shopName: shop,
+    accessToken: token
+  })
+  shopify.webhook.create({
+    topic: 'app/uninstalled',
+    address: `${config.domain}/api/shopify/app-uninstall`,
+    format: 'json'
+  }).then((response) => {
+    logger.serverLog(TAG, 'App Uninstall webhook created')
+  }).catch((err) => {
+    logger.serverLog(TAG, 'Error Creating App Uninstall Webhook' + JSON.stringify(err))
+  })
+}
+
+exports.handleAppUninstall = async function (req, res) {
+  const shopUrl = req.header('X-Shopify-Shop-Domain')
+  try {
+    const shopifyIntegration = await dataLayer.findOneShopifyIntegration({ shopUrl: shopUrl })
+
+    dataLayer.deleteShopifyIntegration({
+      shopToken: shopifyIntegration.shopToken,
+      shopUrl: shopifyIntegration.shopUrl,
+      userId: shopifyIntegration.userId,
+      companyId: shopifyIntegration.companyId
+    })
+
+    const messengerChatbots = await messengerChatbotDataLayer.findAllChatBots({
+      type: 'automated',
+      vertical: 'commerce',
+      storeType: 'shopify'
+    })
+
+    messengerChatbots.forEach(chatbot => {
+      messengerChatbotDataLayer.deleteForChatBot({
+        _id: chatbot._id
+      })
+      messageBlockDataLayer.deleteForMessageBlock({
+        'module.id': chatbot._id
+      })
+    })
+
+    const whatsAppChatbots = await whatsAppChatbotDataLayer.findAllChatBots({
+      type: 'automated',
+      vertical: 'commerce',
+      storeType: 'shopify'
+    })
+
+    whatsAppChatbots.forEach(chatbot => {
+      whatsAppChatbotDataLayer.deleteForChatBot({
+        _id: chatbot._id
+      })
+      messageBlockDataLayer.deleteForMessageBlock({
+        'module.id': chatbot._id
+      })
+    })
+    res.status(200).json({ status: 'success' })
+  } catch (err) {
+    return res.status(500).json({ status: 'failed', error: err })
+  }
+}
+
 exports.callback = function (req, res) {
   const { shop, hmac, code, state } = req.query
   logger.serverLog(TAG, `parsing shopify cookie ${req.headers.cookie}`, 'info')
@@ -147,7 +214,7 @@ exports.callback = function (req, res) {
         logger.serverLog(TAG, `shopify access token response ${JSON.stringify(accessTokenResponse)}`, 'info')
         const accessToken = accessTokenResponse.access_token
         const tokenCookie = req.headers.cookie ? cookie.parse(req.headers.cookie).token : null
-
+        registerWebhooks(shop, accessToken)
         if (tokenCookie) {
           logger.serverLog(TAG, `shopify token cookie ${tokenCookie}`, 'info')
           const userIdCookie = cookie.parse(req.headers.cookie).userId
