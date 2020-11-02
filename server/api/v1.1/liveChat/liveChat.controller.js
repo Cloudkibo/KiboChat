@@ -143,7 +143,7 @@ exports.create = function (req, res) {
           let subscriberSenderId = JSON.stringify({
             'id': subscriber.senderId
           })
-          if (subscriber.source === 'chat_plugin') {
+          if (subscriber.source === 'chat_plugin' && !subscriber.senderId) {
             subscriberSenderId = JSON.stringify({
               'user_ref': subscriber.user_ref
             })
