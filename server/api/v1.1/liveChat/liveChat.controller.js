@@ -140,6 +140,14 @@ exports.create = function (req, res) {
     function (callback) {
       callApi(`subscribers/${req.body.subscriber_id}`, 'get', {}, 'accounts', req.headers.authorization)
         .then(subscriber => {
+          let subscriberSenderId = JSON.stringify({
+            'id': subscriber.senderId
+          })
+          if (subscriber.source === 'chat_plugin') {
+            subscriberSenderId = JSON.stringify({
+              'user_ref': subscriber.user_ref
+            })
+          }
           callApi(`companyprofile/getAutomatedOptions`, 'get', {}, 'accounts', req.headers.authorization)
             .then(payload => {
               if (payload.showAgentName) {
@@ -152,9 +160,7 @@ exports.create = function (req, res) {
                       'json': true,
                       'formData': {
                         'messaging_type': 'RESPONSE',
-                        'recipient': JSON.stringify({
-                          'id': subscriber.senderId
-                        }),
+                        'recipient': subscriberSenderId,
                         'message': JSON.stringify({
                           'text': `${req.body.replied_by.name} sent:`,
                           'metadata': 'SENT_FROM_KIBOPUSH'
@@ -166,7 +172,7 @@ exports.create = function (req, res) {
                 }
               }
               let messageData = logicLayer.prepareSendAPIPayload(
-                subscriber.senderId,
+                subscriberSenderId,
                 req.body.payload,
                 subscriber.firstName,
                 subscriber.lastName,

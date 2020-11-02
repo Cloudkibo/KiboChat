@@ -75,9 +75,7 @@ exports.prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) =
     }
     payload = {
       'messaging_type': messageType,
-      'recipient': JSON.stringify({
-        'id': subscriberId
-      }),
+      'recipient': subscriberId,
       'message': JSON.stringify({
         'text': text,
         'metadata': 'SENT_FROM_KIBOPUSH'
@@ -99,9 +97,7 @@ exports.prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) =
     }
     payload = {
       'messaging_type': messageType,
-      'recipient': JSON.stringify({
-        'id': subscriberId
-      }),
+      'recipient': subscriberId,
       'message': JSON.stringify({
         'attachment': {
           'type': 'template',
@@ -126,9 +122,7 @@ exports.prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) =
     }
     payload = {
       'messaging_type': messageType,
-      'recipient': JSON.stringify({
-        'id': subscriberId
-      }),
+      'recipient': subscriberId,
       'message': JSON.stringify({
         'attachment': {
           'type': body.componentType,
@@ -145,9 +139,7 @@ exports.prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) =
     body.componentType) > -1) {
     payload = {
       'messaging_type': messageType,
-      'recipient': JSON.stringify({
-        'id': subscriberId
-      }),
+      'recipient': subscriberId,
       'message': JSON.stringify({
         'attachment': {
           'type': 'image',
@@ -161,9 +153,7 @@ exports.prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) =
   } else if (body.componentType === 'card') {
     payload = {
       'messaging_type': messageType,
-      'recipient': JSON.stringify({
-        'id': subscriberId
-      }),
+      'recipient': subscriberId,
       'message': JSON.stringify({
         'attachment': {
           'type': 'template',
@@ -200,9 +190,7 @@ exports.prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) =
     }
     payload = {
       'messaging_type': messageType,
-      'recipient': JSON.stringify({
-        'id': subscriberId
-      }),
+      'recipient': subscriberId,
       'message': JSON.stringify({
         'attachment': {
           'type': 'template',
@@ -217,9 +205,7 @@ exports.prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) =
   } else if (body.componentType === 'list') {
     payload = {
       'messaging_type': messageType,
-      'recipient': JSON.stringify({
-        'id': subscriberId
-      }),
+      'recipient': subscriberId,
       'message': JSON.stringify({
         'attachment': {
           'type': 'template',
