@@ -26,7 +26,7 @@ exports.index = async (req, res) => {
         let manualChatbotPayload = JSON.parse(messengerPayload.postback.payload)
         if (manualChatbotPayload && manualChatbotPayload.action === '_chatbot') {
           console.log('handleChatBotNextMessage')
-          chatbotAutomation.handleChatBotNextMessage(messengerPayload, page, subscriber, manualChatbotPayload.blockUniqueId, manualChatbotPayload[i].parentBlockTitle)
+          chatbotAutomation.handleChatBotNextMessage(messengerPayload, page, subscriber, manualChatbotPayload.blockUniqueId, manualChatbotPayload.parentBlockTitle)
         }
       }
     }
