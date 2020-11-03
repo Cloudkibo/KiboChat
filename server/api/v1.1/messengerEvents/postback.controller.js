@@ -1,7 +1,8 @@
 const utility = require('../utility')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1/messengerEvents/postback.controller'
-const { handleCommerceChatbot } = require('./chatbotAutomation.controller')
+const chatbotAutomation = require('./chatbotAutomation.controller')
+const logicLayer = require('./logiclayer')
 
 exports.index = async (req, res) => {
   res.status(200).json({
@@ -17,9 +18,18 @@ exports.index = async (req, res) => {
 
     const pages = await utility.callApi('pages/query', 'post', { pageId, connected: true })
     const page = pages[0]
-    const subscribers = await utility.callApi('subscribers/query', 'post', { senderId: subscriberId, pageId: page._id })
-    const subscriber = subscribers[0]
-    handleCommerceChatbot(messengerPayload, page, subscriber)
+    if (page) {
+      const subscribers = await utility.callApi('subscribers/query', 'post', { senderId: subscriberId, pageId: page._id })
+      const subscriber = subscribers[0]
+      chatbotAutomation.handleCommerceChatbot(messengerPayload, page, subscriber)
+      if (logicLayer.isJsonString(messengerPayload.postback.payload)) {
+        let manualChatbotPayload = JSON.parse(messengerPayload.postback.payload)
+        if (manualChatbotPayload && manualChatbotPayload.action === '_chatbot') {
+          console.log('handleChatBotNextMessage')
+          chatbotAutomation.handleChatBotNextMessage(messengerPayload, page, subscriber, manualChatbotPayload.blockUniqueId, manualChatbotPayload[i].parentBlockTitle)
+        }
+      }
+    }
   } catch (err) {
     logger.serverLog(TAG, `error in postback ${err}`, 'error')
   }
