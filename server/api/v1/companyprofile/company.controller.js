@@ -456,7 +456,7 @@ exports.deleteWhatsAppInfo = function (req, res) {
                   purpose: 'deleteMany',
                   match: {companyId: req.user.companyId}
                 }
-                utility.callApi(`whatsAppBroadcasts`, 'delete', query, 'kiboengage')
+                utility.callApi(`whatsAppBroadcasts`, 'delete', query, 'kiboengagedblayer')
                   .then(data => {
                     callback(null, data)
                   })
@@ -473,7 +473,7 @@ exports.deleteWhatsAppInfo = function (req, res) {
                   purpose: 'deleteMany',
                   match: {companyId: req.user.companyId}
                 }
-                utility.callApi(`whatsAppBroadcastMessages`, 'delete', query, 'kiboengage')
+                utility.callApi(`whatsAppBroadcastMessages`, 'delete', query, 'kiboengagedblayer')
                   .then(data => {
                     callback(null, data)
                   })
@@ -484,23 +484,6 @@ exports.deleteWhatsAppInfo = function (req, res) {
                 callback(null)
               }
             },
-            // function (callback) {
-            //   if (req.body.type === 'Disconnect' && req.body.connected) {
-            //     let query = {
-            //       purpose: 'deleteMany',
-            //       match: {companyId: req.user.companyId}
-            //     }
-            //     utility.callApi('queue', 'delete', query, 'kiboengage')
-            //       .then(data => {
-            //         callback(null, data)
-            //       })
-            //       .catch(err => {
-            //         callback(err)
-            //       })
-            //   } else {
-            //     callback(null)
-            //   }
-            // },
             function (callback) {
               if (req.body.type === 'Disconnect' && req.body.connected) {
                 let query = {
@@ -547,7 +530,7 @@ const deleteWhatsappMessages = (companyId, skipRecords, LimitRecords) => {
     skip: skipRecords,
     limit: LimitRecords
   }
-  utility.callApi('whatsAppBroadcastMessages/query', 'post', query, 'kiboengage')
+  utility.callApi('whatsAppBroadcastMessages/query', 'post', query, 'kiboengagedblayer')
     .then(messages => {
       logger.serverLog(TAG, `message.length in deleteWhatsappMessages ${(messages.length)} `)
       let messageIds = messages.map(message => message.messageId)
@@ -556,7 +539,7 @@ const deleteWhatsappMessages = (companyId, skipRecords, LimitRecords) => {
           'queue',
           'delete',
           {purpose: 'deleteMany', match: {'payload.id': {$in: messageIds}}},
-          'kiboengage')
+          'kiboengagedblayer')
           .then(deleted => {
             logger.serverLog(TAG, `No of message deleted from Queue Message ${JSON.stringify(deleted)}`)
             deleteWhatsappMessages(companyId, skipRecords + 50, LimitRecords)
@@ -569,7 +552,7 @@ const deleteWhatsappMessages = (companyId, skipRecords, LimitRecords) => {
           purpose: 'deleteMany',
           match: {companyId: companyId}
         }
-        utility.callApi(`whatsAppBroadcastMessages`, 'delete', query, 'kiboengage')
+        utility.callApi(`whatsAppBroadcastMessages`, 'delete', query, 'kiboengagedblayer')
           .then(deleted => {
             logger.serverLog(TAG, `Deleted whatsAppBroadcastMessages Succeefully ${JSON.stringify(deleted)}`)
           }).catch(err => {
