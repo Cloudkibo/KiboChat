@@ -249,7 +249,7 @@ function _checkAcessTokenFromFb (facebookInfo, req) {
       facebookApiCaller('v6.0', `me?access_token=${facebookInfo.fbToken}`, 'get')
         .then(response => {
           if (response.body.error) {
-            if (response.body.error.code && response.body.error.code !== '190') {
+            if (response.body.error.code && response.body.error.code !== 190) {
               sendOpAlert(response.body.error, 'error validating user access token', '', req.user._id, req.user.companyId)
             } else {
               logger.serverLog(TAG, `Session has been invalidated ${JSON.stringify(response.body.error)}`, 'info')
