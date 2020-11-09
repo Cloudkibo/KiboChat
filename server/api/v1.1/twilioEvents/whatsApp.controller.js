@@ -23,11 +23,13 @@ exports.index = function (req, res) {
             }
           })
           .catch(error => {
-            logger.serverLog(TAG, `Failed to fetch contact ${JSON.stringify(error)}`, 'error')
+            const message = error || 'Failed to fetch contact'
+            logger.serverLog(message, `${TAG}: exports.index`, req.body, {}, 'error')
           })
       })
       .catch(error => {
-        logger.serverLog(TAG, `Failed to company profile ${JSON.stringify(error)}`, 'error')
+        const message = error || 'Failed to company profile'
+        logger.serverLog(message, `${TAG}: exports.index`, req.body, {}, 'error')
       })
   }
 }
@@ -75,10 +77,10 @@ function handleUnsubscribe (contact, company, user) {
       to: `whatsapp:${contact.number}`
     })
     .then(response => {
-      logger.serverLog(TAG, `response from twilio ${JSON.stringify(response)}`)
     })
     .catch(error => {
-      logger.serverLog(TAG, `error at sending message ${error}`, 'error')
+      const message = error || 'error at sending message'
+      logger.serverLog(message, `${TAG}: exports.handleUnsubscribe`, {}, {}, 'error')
     })
   let message = {
     senderNumber: company.twilioWhatsApp.sandboxNumber,
@@ -103,7 +105,8 @@ function handleUnsubscribe (contact, company, user) {
         .then(updated => {
         })
         .catch(error => {
-          logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`, 'error')
+          const message = error || 'Failed to update contact'
+          logger.serverLog(message, `${TAG}: exports.handleUnsubscribe`, {}, {}, 'error')
         })
     })
 }
@@ -121,10 +124,10 @@ function handleSubscribe (contact, company, user) {
       to: `whatsapp:${contact.number}`
     })
     .then(response => {
-      logger.serverLog(TAG, `response from twilio ${JSON.stringify(response)}`)
     })
     .catch(error => {
-      logger.serverLog(TAG, `error at sending message ${error}`, 'error')
+      const message = error || 'error at sending message'
+      logger.serverLog(message, `${TAG}: exports.handleSubscribe`, {}, {}, 'error')
     })
   let message = {
     senderNumber: company.twilioWhatsApp.sandboxNumber,
@@ -149,7 +152,8 @@ function handleSubscribe (contact, company, user) {
         .then(updated => {
         })
         .catch(error => {
-          logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`, 'error')
+          const message = error || 'Failed to update contact'
+          logger.serverLog(message, `${TAG}: exports.handleSubscribe`, {}, {}, 'error')
         })
     })
 }
@@ -158,13 +162,15 @@ function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options)
     .then(updated => {
     })
     .catch(error => {
-      logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`, 'error')
+      const message = error || 'Failed to update contact'
+      logger.serverLog(message, `${TAG}: exports.updateWhatsAppContact`, {}, {}, 'error')
     })
   callApi(`whatsAppContacts/update`, 'put', {query: query, newPayload: bodyForIncrement, options: options})
     .then(updated => {
     })
     .catch(error => {
-      logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`, 'error')
+      const message = error || 'Failed to update contact'
+      logger.serverLog(message, `${TAG}: exports.updateWhatsAppContact`, {}, {}, 'error')
     })
 }
 exports.trackStatusWhatsAppChat = function (req, res) {
@@ -196,7 +202,8 @@ exports.trackStatusWhatsAppChat = function (req, res) {
           })
       })
       .catch(err => {
-        logger.serverLog(TAG, `Failed to update chat ${JSON.stringify(err)}`, 'error')
+        const message = error || 'Failed to update contact'
+        logger.serverLog(message, `${TAG}: exports.trackStatusWhatsAppChat`, {}, {}, 'error')
       })
   }
 }

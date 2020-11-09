@@ -33,20 +33,19 @@ exports.index = function (req, res) {
           facebookApiCaller('v4.0', `me/messages?access_token=${page.accessToken}`, 'POST', data)
             .then(response => {
               if (response.body.error) {
-                logger.serverLog(TAG, response.body.error, 'error')
-              } else {
-                logger.serverLog(TAG, 'Talk to human message sent successfully')
+                const message = response.body.error || 'error in message statistics'
+                logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
               }
             })
             .catch(err => {
-              logger.serverLog(TAG, err, 'error')
+              const message = err || 'error in fetching chatbots'
+              logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
             })
 
           let payload = JSON.parse(messengerPayload.message.quick_reply.payload)
           waitingSubscribersDL.findOneWaitingSubscriberObjectUsingQuery({'subscriberId._id': subscriber._id, botId: payload.bot_id})
             .then(waitingSubscriber => {
               if (waitingSubscriber) {
-                logger.serverLog(TAG, `Waiting Subscriber already created`, 'error')
               } else {
                 subscriber.fullName = subscriber.firstName + ' ' + subscriber.lastName
                 waitingSubscribersDL.createWaitingSubscriberObject({
@@ -57,35 +56,36 @@ exports.index = function (req, res) {
                   question: payload.question
                 })
                   .then(created => {
-                    logger.serverLog(TAG, `Created waitingSubscriber ${JSON.stringify(created)}`)
                   })
                   .catch(err => {
-                    logger.serverLog(TAG, `Failed to create waitingSubscriber ${JSON.stringify(err)}`, 'error')
+                    const message = err || 'Failed to create waitingSubscriber'
+                    logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
                   })
               }
             })
             .catch(err => {
-              logger.serverLog(TAG, `Failed to fetch waitingSubscriber ${JSON.stringify(err)}`, 'error')
+              const message = err || 'Failed to fetch waitingSubscriber'
+              logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
             })
         })
         .catch(err => {
-          logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(err)}`, 'error')
+          const message = err || 'Failed to fetch subscriber'
+          logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
         })
     })
     .catch(err => {
-      logger.serverLog(TAG, `Failed to fetch page ${JSON.stringify(err)}`, 'error')
+      const message = err || 'Failed to fetch subscriber'
+      logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
     })
 }
 
 exports.respondUsingBot = (page, subscriber, text) => {
-  logger.serverLog(TAG, 'respondUsingBot is hit')
   smartRepliesDL.findOneBotObjectUsingQuery({pageId: page._id})
     .then(bot => {
       if (bot && bot.isActive === 'true') {
         waitingSubscribersDL.findOneWaitingSubscriberObjectUsingQuery({'subscriberId._id': subscriber._id, botId: bot._id})
           .then(waitingSubscriber => {
             if (waitingSubscriber) {
-              logger.serverLog(TAG, 'subscriber is in waiting list')
             } else {
               let dialogflowData = {
                 queryInput: {
@@ -103,7 +103,6 @@ exports.respondUsingBot = (page, subscriber, text) => {
                 .then(result => {
                   let path = result.data.queryResult.intent.name.split('/')
                   let intentId = path[path.length - 1]
-                  logger.serverLog(TAG, `Intent found ${intentId}`)
                   intentsDL.findOneIntent({dialogflowIntentId: intentId})
                     .then(intent => {
                       if (intent) {
@@ -114,23 +113,26 @@ exports.respondUsingBot = (page, subscriber, text) => {
                       }
                     })
                     .catch(err => {
-                      logger.serverLog(TAG, err, 'error')
+                      const message = err || 'error in responding using bot'
+                      logger.serverLog(message, `${TAG}: exports.respondUsingBot`, {}, {}, 'error')
                     })
                 })
                 .catch(err => {
-                  logger.serverLog(TAG, err, 'error')
+                  const message = err || 'error in responding using bot'
+                  logger.serverLog(message, `${TAG}: exports.respondUsingBot`, {}, {}, 'error')
                 })
             }
           })
           .catch(err => {
-            logger.serverLog(TAG, err, 'error')
+            const message = err || 'error in responding using bot'
+            logger.serverLog(message, `${TAG}: exports.respondUsingBot`, {}, {}, 'error')
           })
       } else {
-        logger.serverLog(TAG, 'bot not found and is disabled.')
       }
     })
     .catch(err => {
-      logger.serverLog(TAG, err, 'error')
+      const message = err || 'error in responding using bot'
+      logger.serverLog(message, `${TAG}: exports.respondUsingBot`, {}, {}, 'error')
     })
 }
 
@@ -139,10 +141,10 @@ const _handleIntentFound = (bot, payload, subscriber, page) => {
   const sendMessages = batchApi.sendMessages(subscriber, payload, page)
   Promise.all([updateHitCount, sendMessages])
     .then(result => {
-      logger.serverLog(TAG, 'Bot replied successfully!')
     })
     .catch(err => {
-      logger.serverLog(TAG, err, 'error')
+      const message = err || 'error in responding using bot'
+      logger.serverLog(message, `${TAG}: exports._handleIntentFound`, {}, {}, 'error')
     })
 }
 
@@ -157,10 +159,10 @@ const _handleIntentNotFound = (bot, text) => {
   const createUnansweredQuestion = unansweredQuestionsDL.createUnansweredQuestionObject(unansweredQuestionData)
   Promise.all([updateMissCount, createUnansweredQuestion])
     .then(results => {
-      logger.serverLog(TAG, 'No intent found for given query')
     })
     .catch(err => {
-      logger.serverLog(TAG, err, 'error')
+      const message = err || 'error in responding using bot'
+      logger.serverLog(message, `${TAG}: exports._handleIntentNotFound`, {}, {}, 'error')
     })
 }
 

@@ -12,7 +12,8 @@ const _callBatchAPI = (batch, accessToken) => {
   return new Promise((resolve, reject) => {
     const r = request.post('https://graph.facebook.com', (err, httpResponse, body) => {
       if (err) {
-        logger.serverLog(TAG, `Batch api error ${JSON.stringify(err)}`, 'error')
+        const message = err || 'Batch api error'
+        logger.serverLog(message, `${TAG}: exports._callBatchApi`, body, {}, 'error')
       } else {
         body = JSON.parse(body)
         resolve(body)

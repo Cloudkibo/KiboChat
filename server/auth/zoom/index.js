@@ -25,7 +25,6 @@ router.get('/callback', (req, res) => {
     }
     zoomApiCaller('post', 'oauth/token', params, {type: 'basic'}, true)
       .then(response => {
-        logger.serverLog(TAG, `Token response ${JSON.stringify(response)}`)
         const accessToken = response.access_token
         const refreshToken = response.refresh_token
         if (accessToken) {
@@ -42,31 +41,33 @@ router.get('/callback', (req, res) => {
                         res.redirect('/successMessage')
                       })
                       .catch(err => {
-                        logger.serverLog(TAG, `Failed to save zoom user ${err}`)
+                        const message = err || 'Failed to save zoom user'
+                        logger.serverLog(message, `${TAG}: exports.callback`, {}, {}, 'error')
                         res.redirect('/ErrorMessage')
                       })
                   }
                 })
                 .catch(err => {
-                  logger.serverLog(TAG, `Failed to save zoom user ${err}`)
+                  const message = err || 'Failed to save zoom user'
+                  logger.serverLog(message, `${TAG}: exports.callback`, {}, {}, 'error')
                   res.redirect('/ErrorMessage')
                 })
             })
             .catch(err => {
-              logger.serverLog(TAG, `Failed to fetch zoom user ${err}`)
+              const message = err || 'Failed to save zoom user'
+              logger.serverLog(message, `${TAG}: exports.callback`, {}, {}, 'error')
               res.redirect('/ErrorMessage')
             })
         } else {
-          logger.serverLog(TAG, 'zoom accessToken not found')
           res.redirect('/ErrorMessage')
         }
       })
       .catch(err => {
-        logger.serverLog(TAG, `Failed to fetch accessToken ${err}`)
+        const message = err || 'Failed to fetch accessToken'
+        logger.serverLog(message, `${TAG}: exports.callback`, {}, {}, 'error')
         res.redirect('/ErrorMessage')
       })
   } else {
-    logger.serverLog(TAG, 'Parameters are missing')
     res.redirect('/ErrorMessage')
   }
 })

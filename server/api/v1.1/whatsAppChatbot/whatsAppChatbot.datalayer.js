@@ -14,7 +14,8 @@ exports.createWhatsAppChatbot = (req) => {
       }, 'kibochat')
       resolve(createdChatbot)
     } catch (err) {
-      logger.serverLog(TAG, `Failed to create whatsapp chatbot ${err}`, 'error')
+      const message = err || 'Failed to create whatsapp chatbot'
+      logger.serverLog(message, `${TAG}: exports.createWhatsAppChatbot`, {}, {}, 'error')
       reject(err)
     }
   })
@@ -29,7 +30,8 @@ exports.fetchWhatsAppChatbot = (match) => {
       }, 'kibochat')
       resolve(chatbot)
     } catch (err) {
-      logger.serverLog(TAG, `Failed to fetch whatsapp chatbot ${err}`, 'error')
+      const message = err || 'Failed to fetch whatsapp chatbot'
+      logger.serverLog(message, `${TAG}: exports.fetchWhatsAppChatbot`, {}, {}, 'error')
       reject(err)
     }
   })
@@ -48,7 +50,8 @@ exports.updateWhatsAppChatbot = (companyId, updated) => {
       chatbot = { ...chatbot, ...updated }
       resolve(chatbot)
     } catch (err) {
-      logger.serverLog(TAG, `Failed to update whatsapp chatbot ${err}`, 'error')
+      const message = err || 'Failed to update whatsapp chatbot'
+      logger.serverLog(message, `${TAG}: exports.updateWhatsAppChatbot`, {}, {}, 'error')
       reject(err)
     }
   })

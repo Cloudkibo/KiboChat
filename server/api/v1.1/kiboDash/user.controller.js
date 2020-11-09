@@ -34,7 +34,8 @@ exports.index = (req, res) => {
       sendSuccessResponse(res, 200, result)
     })
     .catch((err) => {
-      logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
+      const message = err || 'Error in fetching data from KiboDash'
+      logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
       sendErrorResponse(res, 500, '', err)
     })
 }
@@ -45,7 +46,8 @@ exports.ranged = (req, res) => {
       sendSuccessResponse(res, 200, result)
     })
     .catch((err) => {
-      logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
+      const message = err || 'Error in fetching data from KiboDash'
+      logger.serverLog(message, `${TAG}: exports.ranged`, {}, {}, 'error')
       sendErrorResponse(res, 500, '', err)
     })
 }
@@ -56,7 +58,8 @@ exports.oneUser = (req, res) => {
       sendSuccessResponse(res, 200, result)
     })
     .catch((err) => {
-      logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
+      const message = err || 'Error in fetching data from KiboDash'
+      logger.serverLog(message, `${TAG}: exports.oneUser`, {}, {}, 'error')
       sendErrorResponse(res, 500, '', err)
     })
 }
@@ -68,7 +71,8 @@ exports.oneUserRanged = (req, res) => {
       sendSuccessResponse(res, 200, result)
     })
     .catch((err) => {
-      logger.serverLog(TAG, `Error in fetching data from KiboDash ${JSON.stringify(err)}`, 'error')
+      const message = err || 'Error in fetching data from KiboDash'
+      logger.serverLog(message, `${TAG}: exports.oneUserRanged`, {}, {}, 'error')
       sendErrorResponse(res, 500, '', err)
     })
 }

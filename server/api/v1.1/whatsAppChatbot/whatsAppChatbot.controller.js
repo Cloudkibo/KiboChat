@@ -98,9 +98,9 @@ function updateCompanyProfileForChatbot (companyId, chatbotId) {
   }
   utility.callApi(`companyprofile/update`, 'put', payload, 'accounts')
     .then(updated => {
-      logger.serverLog(TAG, `company updated successfully ${JSON.stringify(updated)}`, 'debug')
     })
     .catch(err => {
-      logger.serverLog(TAG, `Failed to update company ${JSON.stringify(err)}`, 'error')
+      const message = err || 'Failed to update company'
+      logger.serverLog(message, `${TAG}: exports.updateCompanyProfileForChatbot`, {}, { payload }, 'error')
     })
 }

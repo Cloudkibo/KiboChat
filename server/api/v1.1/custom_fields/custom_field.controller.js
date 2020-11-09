@@ -12,7 +12,6 @@ exports.index = function (req, res) {
       }
       callApi.callApi('custom_fields/query', 'post', { purpose: 'findAll', match: { $or: [{companyId: companyUser.companyId}, {default: true}] } })
         .then(customFields => {
-          logger.serverLog(CUSTOMFIELD, `got custom fields ${JSON.stringify(customFields)}`, 'debug')
           sendSuccessResponse(res, 200, customFields)
         })
         .catch(err => {

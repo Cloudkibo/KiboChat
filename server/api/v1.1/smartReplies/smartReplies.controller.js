@@ -92,7 +92,6 @@ const _createBotRecordInDB = (data, callback) => {
 }
 
 exports.create = function (req, res) {
-  logger.serverLog(TAG, `Create Bot Request ${req.body.pageId}-${req.body.botName}`, 'debug')
   utility.callApi(`featureUsage/planQuery`, 'post', {planId: req.user.currentPlan})
     .then(planUsage => {
       planUsage = planUsage[0]
@@ -137,7 +136,6 @@ exports.create = function (req, res) {
 }
 
 exports.edit = function (req, res) {
-  logger.serverLog(`Updating bot info ${JSON.stringify(req.body)}`, 'debug')
   BotsDataLayer.genericUpdateBotObject({ _id: req.body.botId }, { isActive: req.body.isActive, botName: req.body.botName })
     .then(result => {
       sendSuccessResponse(res, 200, 'Bot updated successfully!')
@@ -188,12 +186,14 @@ exports.trainBot = function (req, res) {
             sendSuccessResponse(res, 200, 'Bot trained succssfully!')
           })
           .catch(err => {
-            logger.serverLog(TAG, err, 'error')
+            const message = err || 'Failed to train bot.'
+            logger.serverLog(message, `${TAG}: exports.trainBot`, req.body, {}, 'error')
             sendErrorResponse(res, 500, 'Failed to train bot.')
           })
       })
       .catch(err => {
-        logger.serverLog(TAG, err, 'error')
+        const message = err || 'Failed to train bot.'
+        logger.serverLog(message, `${TAG}: exports.trainBot`, req.body, {}, 'error')
         sendErrorResponse(res, 500, 'Failed to train bot.')
       })
   } else {
@@ -206,13 +206,14 @@ exports.trainBot = function (req, res) {
             sendSuccessResponse(res, 200, 'Bot trained succssfully!')
           })
           .catch(err => {
-            logger.serverLog(TAG, err, 'error')
+            const message = err || 'Failed to train bot.'
+            logger.serverLog(message, `${TAG}: exports.trainBot`, req.body, {}, 'error')
             sendErrorResponse(res, 500, 'Failed to train bot.')
           })
       })
       .catch(err => {
-        logger.serverLog(TAG, err, 'error')
-        console.log(err)
+        const message = err || 'Failed to train bot.'
+        logger.serverLog(message, `${TAG}: exports.trainBot`, req.body, {}, 'error')
         sendErrorResponse(res, 500, 'Failed to train bot.')
       })
   }
@@ -251,7 +252,6 @@ exports.waitingReply = function (req, res) {
 }
 
 exports.details = function (req, res) {
-  logger.serverLog(`Bot details are following ${JSON.stringify(req.body)}`, 'debug')
   BotsDataLayer.findOneBotObject(req.body.botId)
     .then(bot => {
       utility.callApi(`pages/query`, 'post', {_id: bot.pageId})
@@ -269,10 +269,8 @@ exports.details = function (req, res) {
 }
 
 exports.unAnsweredQueries = function (req, res) {
-  logger.serverLog(TAG, `Fetching unanswered queries ${JSON.stringify(req.body)}`, 'debug')
   UnAnsweredQuestions.findAllUnansweredQuestionObjectsUsingQuery({botId: req.body.botId})
     .then(queries => {
-      logger.serverLog(`Returning UnAnswered Queries ${JSON.stringify(queries)}`, 'debug')
       sendSuccessResponse(res, 200, queries)
     })
     .catch(err => {
@@ -297,7 +295,8 @@ exports.waitSubscribers = function (req, res) {
     _getWaitingSubscribers.bind(null, criteria.fetchCriteria)
   ], 10, function (err, results) {
     if (err) {
-      logger.serverLog(TAG, err, 'error')
+      const message = err || 'Failed to fetch waiting subscribers'
+      logger.serverLog(message, `${TAG}: exports.waitSubscribers`, {}, {}, 'error')
       sendErrorResponse(res, 500, 'Failed to fetch waiting subscribers')
     } else {
       let payload = {
@@ -310,7 +309,6 @@ exports.waitSubscribers = function (req, res) {
 }
 
 exports.removeWaitSubscribers = function (req, res) {
-  logger.serverLog(TAG, `going to delete waiting subscribers ${JSON.stringify(req.body)}`, 'debug')
   WaitingSubscribers.deleteWaitingSubscriberObject(req.body._id)
     .then(result => {
       sendSuccessResponse(res, 200, result)
@@ -358,7 +356,8 @@ exports.delete = function (req, res) {
           _deleteBotRecordInDB.bind(null, bot)
         ], function (err) {
           if (err) {
-            logger.serverLog(TAG, err, 'error')
+            const message = err || 'error in message statistics'
+            logger.serverLog(message, `${TAG}: exports.delete`, {}, {}, 'error')
             sendErrorResponse(res, 500, 'Failed to delete bot.')
           } else {
             updateCompanyUsage(req.user.companyId, 'bots', -1)
@@ -383,7 +382,8 @@ function populateBot (bots, req) {
           }
         })
         .catch(err => {
-          logger.serverLog(TAG, `Failed to fetch bots ${JSON.stringify(err)}`, 'error')
+          const message = err || 'Failed to fetch bots'
+          logger.serverLog(message, `${TAG}: exports.populateBot`, {}, {}, 'error')
           reject(err)
         })
     }

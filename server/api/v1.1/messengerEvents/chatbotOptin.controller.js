@@ -20,10 +20,10 @@ exports.index = function (req, res) {
       } else if (messengerPayload.optin.ref === '_commerce_chatbot') {
         type = 'automated'
       }
-      logger.serverLog(TAG, `messenger payload in chatbot test ${JSON.stringify(messengerPayload)}`)
       chatbotAutomation.handleChatBotTestMessage(messengerPayload, page, subscriberInfo, type)
     })
     .catch(error => {
-      logger.serverLog(TAG, `error on getting subcribers ${error}`, 'error')
+      const message = error || 'error on getting subcribers'
+      return logger.serverLog(message, `${TAG}: exports.index`, req.body, {}, 'error')
     })
 }

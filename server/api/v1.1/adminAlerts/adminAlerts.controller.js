@@ -21,7 +21,6 @@ exports.index = function (req, res) {
 }
 
 exports.update = function (req, res) {
-  logger.serverLog(TAG, 'update endpoint of admin alerts is hit', 'debug')
   var newPayload = {
     pendingSessionAlert: req.body.pendingSessionAlert,
     unresolveSessionAlert: req.body.unresolveSessionAlert
@@ -31,7 +30,8 @@ exports.update = function (req, res) {
       sendSuccessResponse(res, 200, 'Notification settings updated succssfully')
     })
     .catch(err => {
-      logger.serverLog(TAG, `Error occured while updating notification settings ${err}`, 'error')
+      const message = err || 'Error occured while updating notification settings'
+      logger.serverLog(message, `${TAG}: exports.update`, req.body, newPayload, 'error')
       sendErrorResponse(res, 500, 'Error occured while updating notification settings')
     })
 }

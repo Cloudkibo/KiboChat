@@ -14,7 +14,7 @@ exports.index = async (req, res) => {
     const messengerPayload = req.body.entry[0].messaging[0]
     const pageId = messengerPayload.recipient.id
     const subscriberId = messengerPayload.sender.id
-    console.log(`kibochat postback controller ${JSON.stringify(messengerPayload)}`)
+
     const pages = await utility.callApi('pages/query', 'post', { pageId, connected: true })
     const page = pages[0]
     if (page) {
@@ -31,7 +31,7 @@ exports.index = async (req, res) => {
       saveLiveChat(page, subscriber, {...messengerPayload, message: {text: messengerPayload.postback.title}})
     }
   } catch (err) {
-    console.log('error in postback', err)
-    logger.serverLog(TAG, `error in postback ${err}`, 'error')
+    const message = err || 'error in postback'
+    return logger.serverLog(message, `${TAG}: exports.index`, req.body, {}, 'error')
   }
 }

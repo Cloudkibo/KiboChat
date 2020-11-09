@@ -204,7 +204,8 @@ exports.changeStatus = function (req, res) {
                 pushUnresolveAlertInStack(company, contact, 'sms')
               })
               .catch(err => {
-                logger.serverLog(TAG, `Unable to fetch company ${err}`)
+                const message = err || 'Unable to fetch company'
+                return logger.serverLog(message, `${TAG}: exports.changeStatus`, req.body, {}, 'error')
               })
           }
           let lastMessageData = logicLayer.getQueryData('', 'aggregate', {contactId: req.params.id, companyId: req.user.companyId}, undefined, {_id: -1}, 1, undefined)

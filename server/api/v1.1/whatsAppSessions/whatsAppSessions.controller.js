@@ -160,18 +160,21 @@ function _sendStatusNotification (subscriberId, status, companyId, userName) {
                       })
                       sendNotifications(title, body, newPayload, companyUsers)
                     }).catch(error => {
-                      logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
+                      const message = error || 'Error while fetching agents'
+                      logger.serverLog(message, `${TAG}: exports._sendStatusNotification`, {}, {}, 'error')
                     })
                 } else {
                   sendNotifications(title, body, newPayload, companyUsers)
                 }
               }).catch(error => {
-                logger.serverLog(TAG, `Error while fetching companyUsers ${error}`, 'error')
+                const message = error || 'Error while fetching companyUsers'
+                logger.serverLog(message, `${TAG}: exports._sendStatusNotification`, {}, {}, 'error')
               })
           })
       }
     }).catch(error => {
-      logger.serverLog(TAG, `Error while fetching subscribers ${error}`, 'error')
+      const message = error || 'Error while fetching subscribers'
+      logger.serverLog(message, `${TAG}: exports._sendStatusNotification`, {}, {}, 'error')
     })
 }
 exports.changeStatus = function (req, res) {
@@ -189,7 +192,8 @@ exports.changeStatus = function (req, res) {
                 pushUnresolveAlertInStack(company, contact, 'whatsApp')
               })
               .catch(err => {
-                logger.serverLog(TAG, `Unable to fetch company ${err}`)
+                const message = err || 'Unable to fetch company'
+                logger.serverLog(message, `${TAG}: exports.changeStatus`, {}, {}, 'error')
               })
           }
           let lastMessageData = logicLayer.getQueryData('', 'aggregate', {contactId: req.body._id, companyId: req.user.companyId}, undefined, {_id: -1}, 1, undefined)
@@ -266,7 +270,8 @@ function _sendNotification (title, body, subscriber, companyUsers, lastMessageDa
       }
       sendNotifications(title, body, newPayload, companyUsers)
     }).catch(error => {
-      logger.serverLog(TAG, `Error while fetching lastMessageData details ${(error)}`, 'error')
+      const message = error || 'Error while fetching lastMessageData details'
+      logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { body }, 'error')
     })
 }
 
@@ -287,7 +292,8 @@ exports.assignAgent = function (req, res) {
             let lastMessageData = logicLayer.getQueryData('', 'aggregate', {companyId: req.user.companyId}, undefined, undefined, undefined, {_id: req.body.subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
             _sendNotification(title, body, subscriber, companyUsers, lastMessageData)
           }).catch(error => {
-            logger.serverLog(TAG, `Error while fetching companyUser details ${(error)}`, 'error')
+            const message = error || 'Error while fetching companyUser details'
+            logger.serverLog(message, `${TAG}: exports.assignAgent`, req.body, {}, 'error')
             sendErrorResponse(res, 500, `Failed to fetching companyUser details ${JSON.stringify(error)}`)
           })
       }).catch(err => {
@@ -353,10 +359,12 @@ exports.assignTeam = function (req, res) {
                 sendErrorResponse(res, 500, err)
               })
           }).catch(error => {
-            logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
+            const message = error || 'Error while fetching agents'
+            logger.serverLog(message, `${TAG}: exports.assignTeam`, {}, {}, 'error')
           })
       }).catch(error => {
-        logger.serverLog(TAG, `Error while fetching companyUser ${error}`, 'error')
+        const message = error || 'Error while fetching companyUser'
+        logger.serverLog(message, `${TAG}: exports.assignTeam`, {}, {}, 'error')
       })
   }
   callApi(
