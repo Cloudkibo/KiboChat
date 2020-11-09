@@ -35,9 +35,6 @@ exports.index = function (req, res) {
                       if (err) {
                       } else {
                         if (res.statusCode !== 200) {
-                          logger.serverLog(TAG,
-                            `At send message landingPage ${JSON.stringify(
-                              res.body.error)}`, 'error')
                         }
                       }
                     })
@@ -45,14 +42,17 @@ exports.index = function (req, res) {
               }
             })
             .catch(err => {
-              logger.serverLog(TAG, `Failed to fetch landingPage ${JSON.stringify(err)}`, 'error')
+              const message = err || 'Failed to fetch landingPage'
+              return logger.serverLog(message, `${TAG}: exports.index`, req.body, {}, 'error')
             })
         })
         .catch(err => {
-          logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(err)}`, 'error')
+          const message = err || 'Failed to fetch subscriber'
+          return logger.serverLog(message, `${TAG}: exports.index`, req.body, {}, 'error')
         })
     })
     .catch(err => {
-      logger.serverLog(TAG, `Failed to fetch page ${JSON.stringify(err)}`, 'error')
+      const message = err || 'Failed to fetch page'
+      return logger.serverLog(message, `${TAG}: exports.index`, req.body, {}, 'error')
     })
 }

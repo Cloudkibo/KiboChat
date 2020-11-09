@@ -162,18 +162,16 @@ function markreadFacebook (req, callback) {
         needle('post', `https://graph.facebook.com/v6.0/me/messages?access_token=${subscriber.pageId.accessToken}`, data)
           .then(resp => {
             if (resp.body && resp.body.error) {
-              logger.serverLog(TAG, `marked read on Facebook error ${JSON.stringify(resp.body.error)}`, 'error')
               callback(resp.body.error)
             } else if (resp.error) {
-              logger.serverLog(TAG, `marked read on Facebook error ${JSON.stringify(resp.error)}`, 'error')
               callback(resp.error)
             } else {
-              logger.serverLog(TAG, `marked read on Facebook response ${JSON.stringify(resp.body)}`, 'info')
               callback(null, resp.body)
             }
           })
           .catch(err => {
-            logger.serverLog(TAG, `marked read on Facebook error ${JSON.stringify(err)}`, 'error')
+            const message = err || 'marked read on Facebook error'
+            logger.serverLog(message, `${TAG}: exports.markreadFacebook`, {}, { req }, 'error')
             callback(err)
           })
       } else {
@@ -186,7 +184,6 @@ function markreadFacebook (req, callback) {
 }
 
 exports.show = function (req, res) {
-  logger.serverLog(TAG, `fetching session ${req.params.id}`, 'info')
   if (req.params.id) {
     async.parallelLimit([
       function (callback) {
@@ -297,20 +294,22 @@ function _sendNotification (subscriberId, status, companyId, userName) {
                       })
                       sendNotifications(title, body, newPayload, companyUsers)
                     }).catch(error => {
-                      logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
+                      const message = error || 'Error while fetching agents'
+                      logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { subscriberId, companyId }, 'error')
                     })
                 }
               }).catch(error => {
-                logger.serverLog(TAG, `Error while fetching companyUsers ${error}`, 'error')
+                const message = error || 'Error while fetching companyUsers'
+                logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { subscriberId, companyId }, 'error')
               })
           })
       }
     }).catch(error => {
-      logger.serverLog(TAG, `Error while fetching subscribers ${error}`, 'error')
+      const message = error || 'Error while fetching subscribers'
+      logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { subscriberId, companyId }, 'error')
     })
 }
 exports.changeStatus = function (req, res) {
-  logger.serverLog(TAG, 'sessions changeStatus endpoint hit', 'info')
   let socketPayload = {
     session_id: req.body._id,
     user_id: req.user._id,
@@ -325,7 +324,6 @@ exports.changeStatus = function (req, res) {
       } else {
         pushUnresolveAlert(req.user.companyId, req.body._id)
       }
-      logger.serverLog(TAG, `sending session status socket room id ${req.user.companyId} ${JSON.stringify(socketPayload)}`, 'info')
       require('./../../../config/socketio').sendMessageToClient({
         room_id: req.user.companyId,
         body: {
@@ -333,11 +331,11 @@ exports.changeStatus = function (req, res) {
           payload: socketPayload
         }
       })
-      logger.serverLog(TAG, 'sent session status socket', 'info')
       sendSuccessResponse(res, 200, 'Status has been updated successfully!')
     })
     .catch(err => {
-      logger.serverLog(TAG, `error updating session status ${err}`, 'error')
+      const message = err || 'error updating session status'
+      logger.serverLog(message, `${TAG}: exports.changeStatus`, req.body, {}, 'error')
       sendErrorResponse(res, 500, err)
     })
 }
@@ -369,10 +367,12 @@ exports.assignAgent = function (req, res) {
                 subscriber.lastDateTime = gotLastMessage[0].datetime
                 sendNotifications(title, body, newPayload, companyUsers)
               }).catch(error => {
-                logger.serverLog(TAG, `Error while fetching lastMessageData details ${(error)}`, 'error')
+                const message = error || 'Error while fetching lastMessageData details'
+                logger.serverLog(message, `${TAG}: exports.assignAgent`, req.body, {}, 'error')
               })
           }).catch(error => {
-            logger.serverLog(TAG, `Error while fetching companyUser details ${(error)}`, 'error')
+            const message = error || 'Error while fetching companyUser details'
+            logger.serverLog(message, `${TAG}: exports.assignAgent`, req.body, {}, 'error')
             sendErrorResponse(res, 500, `Failed to fetching companyUser details ${JSON.stringify(error)}`)
           })
       }
@@ -462,13 +462,15 @@ exports.assignTeam = function (req, res) {
                     let body = `You have been assigned a session as a agent in a ${req.body.teamName} team`
                     sendNotifications(title, body, newPayload, companyUsers)
                   }).catch(error => {
-                    logger.serverLog(TAG, `Error while fetching subscriber last message ${error}`, 'error')
+                    const message = error || 'Error while fetching subscriber last message'
+                    logger.serverLog(message, `${TAG}: exports.assignTeam`, req.body, {}, 'error')
                   })
               }).catch(err => {
                 sendErrorResponse(res, 500, err)
               })
           }).catch(error => {
-            logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
+            const message = error || 'Error while fetching agents'
+            logger.serverLog(message, `${TAG}: exports.assignTeam`, req.body, {}, 'error')
           })
       }
       callApi(
@@ -517,7 +519,8 @@ exports.assignTeam = function (req, res) {
           sendErrorResponse(res, 500, err)
         })
     }).catch(error => {
-      logger.serverLog(TAG, `Error while fetching companyUser ${error}`, 'error')
+      const message = error || 'Error while fetching companyUser'
+      logger.serverLog(message, `${TAG}: exports.assignTeam`, req.body, {}, 'error')
     })
 }
 
@@ -567,10 +570,12 @@ function pushUnresolveAlert (companyId, subscriberId) {
           pushUnresolveAlertInStack(company, subscriber, 'messenger')
         })
         .catch(err => {
-          logger.serverLog(TAG, `Unable to fetch company ${err}`)
+          const message = err || 'Unable to fetch company'
+          logger.serverLog(message, `${TAG}: exports.pushUnresolveAlert`, {}, { companyId, subscriberId }, 'error')
         })
     })
     .catch(err => {
-      logger.serverLog(TAG, `Unable to fetch subscriber ${err}`)
+      const message = err || 'Unable to fetch subscriber'
+      logger.serverLog(message, `${TAG}: exports.pushUnresolveAlert`, {}, { companyId, subscriberId }, 'error')
     })
 }

@@ -44,12 +44,13 @@ exports.index = function (req, res) {
           }
           sendSuccessResponse(res, 200, { user, superUser })
         }).catch(error => {
-          logger.serverLog(TAG, `Error while fetching companyUser details ${util.inspect(error)}`, 'error')
-
+          const message = error || 'Error while fetching companyUser details'
+          logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
           sendErrorResponse(res, 500, `Failed to fetching companyUser details ${JSON.stringify(error)}`)
         })
     }).catch(error => {
-      logger.serverLog(TAG, `Error while fetching user details ${util.inspect(error)}`, 'error')
+      const message = error || 'Error while fetching user details'
+      logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
       sendErrorResponse(res, 500, `Failed to fetching user details ${JSON.stringify(error)}`)
     })
 }
@@ -62,7 +63,8 @@ exports.updateChecks = function (req, res) {
         payload: user
       })
     }).catch(error => {
-      logger.serverLog(TAG, `Error while updating checks ${util.inspect(error)}`)
+      const message = error || 'Error while updating checks'
+      logger.serverLog(message, `${TAG}: exports.updateChecks`, {}, {}, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to update checks ${JSON.stringify(error)}`
@@ -78,7 +80,8 @@ exports.updateSkipConnect = function (req, res) {
         payload: user
       })
     }).catch(error => {
-      logger.serverLog(TAG, `Error at updateSkipConnect  ${util.inspect(error)}`)
+      const message = error || 'Error at updateSkipConnect'
+      logger.serverLog(message, `${TAG}: exports.updateSkipConnect`, {}, {}, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to updateSkipConnect ${JSON.stringify(error)}`
@@ -94,7 +97,8 @@ exports.updateMode = function (req, res) {
         payload: user
       })
     }).catch(error => {
-      logger.serverLog(TAG, `Error while updating mode ${util.inspect(error)}`)
+      const message = error || 'Error while updating mode'
+      logger.serverLog(message, `${TAG}: exports.updateMode`, {}, {}, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to update mode ${JSON.stringify(error)}`
@@ -114,7 +118,8 @@ exports.authenticatePassword = function (req, res) {
         payload: status
       })
     }).catch(error => {
-      logger.serverLog(TAG, `Error while authenticating password ${util.inspect(error)}`)
+      const message = error || 'Error while authenticating password'
+      logger.serverLog(message, `${TAG}: exports.authenticatePassword`, {}, {}, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to authenticate password ${JSON.stringify(error)}`
@@ -130,7 +135,8 @@ exports.addAccountType = function (req, res) {
         payload: status
       })
     }).catch(error => {
-      logger.serverLog(TAG, `Error while adding account type ${util.inspect(error)}`)
+      const message = error || 'Error while adding account type'
+      logger.serverLog(message, `${TAG}: exports.addAccountType`, {}, {}, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to add account type ${JSON.stringify(error)}`
@@ -146,7 +152,8 @@ exports.enableDelete = function (req, res) {
         payload: updatedUser
       })
     }).catch(error => {
-      logger.serverLog(TAG, `Error while enabling GDPR delete ${util.inspect(error)}`)
+      const message = error || 'Error while enabling GDPR delete'
+      logger.serverLog(message, `${TAG}: exports.enableDelete`, {}, {}, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to enable GDPR delete ${JSON.stringify(error)}`
@@ -162,7 +169,8 @@ exports.cancelDeletion = function (req, res) {
         payload: updatedUser
       })
     }).catch(error => {
-      logger.serverLog(TAG, `Error while disabling GDPR delete ${util.inspect(error)}`)
+      const message = error || 'Error while disabling GDPR delete'
+      logger.serverLog(message, `${TAG}: exports.enableDelete`, {}, {}, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to disable GDPR delete ${JSON.stringify(error)}`
@@ -305,7 +313,8 @@ exports.disconnectFacebook = function (req, res) {
               sendErrorResponse(res, 500, err)
             })
         }).catch(err => {
-          logger.serverLog(TAG, JSON.stringify(err), 'error')
+          const message = err || 'error in disconnect'
+          logger.serverLog(message, `${TAG}: exports.disconnectFacebook`, {}, {}, 'error')
           sendErrorResponse(res, 500, err)
         })
     })
@@ -336,14 +345,13 @@ function saveShopifyIntegration (shop, shopToken, userId, companyId) {
   shopifyDataLayer.findOneShopifyIntegration({ companyId })
     .then(shopifyIntegration => {
       if (shopifyIntegration) {
-        logger.serverLog(TAG, 'shopify integration already exists', 'debug')
       } else {
         shopifyDataLayer.createShopifyIntegration(shopifyPayload)
           .then(savedStore => {
-            logger.serverLog(TAG, 'shopify store integration created', 'debug')
           })
           .catch(err => {
-            logger.serverLog(TAG, 'shopify store integration creation error' + err, 'error')
+            const message = err || 'shopify store integration creation error'
+            logger.serverLog(message, `${TAG}: exports.saveShopifyIntegration`, {}, { shopifyPayload }, 'error')
           })
       }
     })
@@ -359,19 +367,19 @@ function saveBigCommerceIntegration (payload, userId, companyId) {
   bigCommerceDataLayer.findOneBigCommerceIntegration({ companyId })
     .then(bigCommerceIntegration => {
       if (bigCommerceIntegration) {
-        logger.serverLog(TAG, 'bigcommerce integration already exists', 'debug')
       } else {
         bigCommerceDataLayer.createBigCommerceIntegration(bigCommercePayload)
           .then(savedStore => {
-            logger.serverLog(TAG, 'bigcommerce store integration created', 'debug')
           })
           .catch(err => {
-            logger.serverLog(TAG, 'bigcommerce store integration creation error' + JSON.stringify(err), 'error')
+            const message = err || 'bigcommerce store integration creation error'
+            logger.serverLog(message, `${TAG}: exports.saveBigCommerceIntegration`, {}, {}, 'error')
           })
       }
     })
     .catch(err => {
-      logger.serverLog(TAG, 'bigcommerce store integration query error' + JSON.stringify(err), 'error')
+      const message = err || 'bigcommerce store integration query error'
+      logger.serverLog(message, `${TAG}: exports.saveBigCommerceIntegration`, {}, {}, 'error')
     })
 }
 

@@ -53,10 +53,10 @@ const _unsetChatbotContext = (companyId, platform) => {
     }
   )
     .then(updated => {
-      logger.serverLog(TAG, 'context is unset', 'debug')
     })
     .catch(err => {
-      logger.serverLog(TAG, err, 'error')
+      const message = err || 'error in message statistics'
+      return logger.serverLog(message, `${TAG}: exports._unsetChatbotContext`, {}, {}, 'error')
     })
 }
 

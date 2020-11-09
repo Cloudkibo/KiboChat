@@ -34,28 +34,30 @@ function pushUnresolveAlertInStack (company, subscriber, platform) {
               if (result.length < 1) {
                 utility.callApi(`cronStack`, 'post', record, 'kibochat')
                   .then(savedRecord => {
-                    logger.serverLog(TAG, `Unresolved Session info pushed in cronStack ${savedRecord}`)
                   })
                   .catch(err => {
-                    logger.serverLog(TAG, `Unable to save session info in cronStack ${err}`, 'error')
+                    const message = err || 'Unable to save session info in cronStack'
+                    logger.serverLog(message, `${TAG}: exports.pushUnresolveAlertInStack`, {}, {}, 'error')
                   })
               } else {
-                logger.serverLog(TAG, `Unresolved Session info already in cronStack`)
+                const message = 'Unresolved Session info already in cronStack'
+                logger.serverLog(message, `${TAG}: exports.pushUnresolveAlertInStack`, {}, {}, 'debug')
               }
             })
             .catch(err => {
-              logger.serverLog(TAG, `Unable to find session info in cron stack ${err}`, 'error')
+              const message = err || 'Unable to save session info in cronStack'
+              logger.serverLog(message, `${TAG}: exports.pushUnresolveAlertInStack`, {}, {}, 'error')
             })
         }
       }
     })
     .catch(error => {
-      logger.serverLog(TAG, `Error while fetching company preferences ${error}`, 'error')
+      const message = error || 'Error while fetching company preferences'
+      logger.serverLog(message, `${TAG}: exports.pushUnresolveAlertInStack`, {}, {}, 'error')
     })
 }
 
 function pushSessionPendingAlertInStack (company, subscriber, platform) {
-  logger.serverLog(TAG, 'In Pending Session Info')
   utility.callApi(`companypreferences/query`, 'post', {companyId: company._id}, 'accounts')
     .then(companypreferences => {
       if (companypreferences.length > 0) {
@@ -76,21 +78,21 @@ function pushSessionPendingAlertInStack (company, subscriber, platform) {
           }
           utility.callApi(`cronStack`, 'post', record, 'kibochat')
             .then(savedRecord => {
-              logger.serverLog(TAG, `Pending Session info pushed in cronStack ${savedRecord}`)
             })
             .catch(err => {
-              logger.serverLog(TAG, `Unable to push session info in cron stack ${err}`, 'error')
+              const message = err || 'Unable to push session info in cronStack'
+              logger.serverLog(message, `${TAG}: exports.pushSessionPendingAlertInStack`, {}, company, 'error')
             })
         }
       }
     })
     .catch(error => {
-      logger.serverLog(TAG, `Error while fetching company preferences ${error}`, 'error')
+      const message = error || 'Error while fetching company preferences'
+      logger.serverLog(message, `${TAG}: exports.pushSessionPendingAlertInStack`, {}, company, 'error')
     })
 }
 
 function deleteUnresolvedSessionFromStack (subscriberId) {
-  console.log('Inside delete unresolved session', subscriberId)
   var deleteData = {
     purpose: 'deleteMany',
     match: {
@@ -101,15 +103,14 @@ function deleteUnresolvedSessionFromStack (subscriberId) {
   }
   utility.callApi(`cronstack`, 'delete', deleteData, 'kibochat')
     .then(updatedRecord => {
-      logger.serverLog('Unresolved session info deleted successfully from cronStack')
     })
     .catch(err => {
-      logger.serverLog(`Error while deleting unresolve session alert from cronStack ${err}`)
+      const message = err || 'Error while deleting unresolve session alert from cronStack'
+      logger.serverLog(message, `${TAG}: exports.deleteUnresolvedSessionFromStack`, {}, deleteData, 'error')
     })
 }
 
 function deletePendingSessionFromStack (subscriberId) {
-  console.log('Inside delete unresolved session', subscriberId)
   var deleteData = {
     purpose: 'deleteMany',
     match: {
@@ -120,10 +121,10 @@ function deletePendingSessionFromStack (subscriberId) {
   }
   utility.callApi(`cronstack`, 'delete', deleteData, 'kibochat')
     .then(updatedRecord => {
-      logger.serverLog('Pending session info deleted successfully from cronStack')
     })
     .catch(err => {
-      logger.serverLog(`Error while deleting pending session alert from cronStack ${err}`)
+      const message = err || 'Error while deleting pending session alert from cronStack'
+      logger.serverLog(message, `${TAG}: exports.deletePendingSessionFromStack`, {}, deleteData, 'error')
     })
 }
 

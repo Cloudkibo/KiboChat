@@ -275,7 +275,8 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
     return messageBlock
   } catch (err) {
-    logger.serverLog(TAG, `Unable to discover products ${err}`, 'error')
+    const message = err || 'Unable to discover products'
+    logger.serverLog(message, `${TAG}: exports.getDiscoverProductsBlock`, {}, {}, 'error')
     throw new Error(`${ERROR_INDICATOR}Unable to discover products`)
   }
 }
@@ -330,7 +331,8 @@ const getReturnOrderBlock = async (chatbot, backId, EcommerceProvider, orderId) 
 
     return messageBlock
   } catch (err) {
-    logger.serverLog(TAG, `Unable to return order ${err}`, 'error')
+    const message = err || 'Unable to return order'
+    logger.serverLog(message, `${TAG}: exports.getReturnOrderBlock`, {}, {}, 'error')
     throw new Error(`${ERROR_INDICATOR}Unable to return order. Please make sure your order ID is valid.`)
   }
 }
@@ -441,7 +443,8 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
     return messageBlock
   } catch (err) {
-    logger.serverLog(TAG, `Unable to get recent orders ${err}`, 'error')
+    const message = err || 'Unable to get recent orders'
+    logger.serverLog(message, `${TAG}: exports.getRecentOrdersBlock`, {}, {}, 'error')
     throw new Error(`${ERROR_INDICATOR}Unable to get recent orders.`)
   }
 }
@@ -491,7 +494,6 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     }
     let orderStatus = await EcommerceProvider.checkOrderStatus(Number(orderId))
 
-    logger.serverLog(TAG, `orderStatus ${JSON.stringify(orderStatus)}`, 'info')
     if (orderStatus.displayFinancialStatus) {
       messageBlock.payload[0].text += `\n*Payment*: ${orderStatus.displayFinancialStatus}`
     }
@@ -550,7 +552,8 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
     return messageBlock
   } catch (err) {
-    logger.serverLog(TAG, `Unable to get order status ${err}`, 'error')
+    const message = err || 'Unable to get order status'
+    logger.serverLog(message, `${TAG}: exports.getOrderStatusBlock`, {}, {}, 'error')
     throw new Error(`${ERROR_INDICATOR}Unable to get order status. Please make sure your order ID is valid.`)
   }
 }
@@ -598,7 +601,8 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider, arg
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
     return messageBlock
   } catch (err) {
-    logger.serverLog(TAG, `Unable to get product categories ${err}`, 'error')
+    const message = err || 'Unable to get product categories'
+    logger.serverLog(message, `${TAG}: exports.getProductCategoriesBlock`, {}, {}, 'error')
     throw new Error(`${ERROR_INDICATOR}Unable to get product categories`)
   }
 }
@@ -646,7 +650,8 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ar
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
     return messageBlock
   } catch (err) {
-    logger.serverLog(TAG, `Unable to get products in category ${err}`, 'error')
+    const message = err || 'Unable to get products in category'
+    logger.serverLog(message, `${TAG}: exports.getProductsInCategoryBlock`, {}, {}, 'error')
     throw new Error(`${ERROR_INDICATOR}Unable to get products in this category`)
   }
 }
@@ -682,7 +687,6 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, argum
     }
     let productVariants = await EcommerceProvider.getVariantsOfSelectedProduct(product.id)
     let storeInfo = await EcommerceProvider.fetchStoreInfo()
-    logger.serverLog(TAG, `store info ${JSON.stringify(storeInfo)}`, 'info')
     for (let i = 0; i < productVariants.length; i++) {
       let productVariant = productVariants[i]
       messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${productVariant.name} (price: ${productVariant.price ? productVariant.price : product.price} ${storeInfo.currency})`
@@ -710,7 +714,8 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, argum
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
     return messageBlock
   } catch (err) {
-    logger.serverLog(TAG, `Unable to get product variants ${err}`, 'error')
+    const message = err || 'Unable to get product variants'
+    logger.serverLog(message, `${TAG}: exports.getProductVariantsBlock`, {}, {}, 'error')
     throw new Error(`${ERROR_INDICATOR}Unable to get product variants`)
   }
 }
@@ -753,6 +758,8 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
 
     return messageBlock
   } catch (err) {
+    const message = err || 'Unable to select product'
+    logger.serverLog(message, `${TAG}: exports.getSelectProductBlock`, {}, {}, 'error')
     logger.serverLog(TAG, `Unable to select product ${err}`, 'error')
     throw new Error(`${ERROR_INDICATOR}Unable to select product`)
   }
@@ -787,7 +794,8 @@ const getQuantityToAddBlock = async (chatbot, backId, contact, product) => {
     }
     return messageBlock
   } catch (err) {
-    logger.serverLog(TAG, `Unable to add product(s) to cart ${err}`, 'error')
+    const message = err || 'Unable to add product(s) to cart'
+    logger.serverLog(message, `${TAG}: exports.getQuantityToAddBlock`, {}, {}, 'error')
     throw new Error(`${ERROR_INDICATOR}Unable to add product(s) to cart`)
   }
 }
@@ -823,12 +831,12 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
       }
     }
 
-    logger.serverLog(TAG, `shoppingCart ${JSON.stringify(shoppingCart)}`, 'info')
     updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
     let text = `${quantity} ${product.product}${quantity !== 1 ? 's have' : 'has'} been succesfully added to your cart.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
-    logger.serverLog(TAG, `Unable to add to cart ${err}`, 'error')
+    const message = err || 'Unable to add to cart'
+    logger.serverLog(message, `${TAG}: exports.getAddToCartBlock`, {}, {}, 'error')
     if (err.message) {
       throw new Error(`${ERROR_INDICATOR}${err.message}`)
     } else {
@@ -899,7 +907,8 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
     return messageBlock
   } catch (err) {
-    logger.serverLog(TAG, `Unable to show cart ${err}`, 'error')
+    const message = err || 'Unable to show cart'
+    logger.serverLog(message, `${TAG}: exports.getShowMyCartBlock`, {}, {}, 'error')
     throw new Error(`${ERROR_INDICATOR}Unable to show cart`)
   }
 }
@@ -921,7 +930,8 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
     let text = `${quantity} ${productInfo.product}${quantity !== 1 ? 's have' : 'has'} been succesfully removed from your cart.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
-    logger.serverLog(TAG, `Unable to remove item(s) from cart ${err} `, 'error')
+    const message = err || 'Unable to remove item(s) from cart'
+    logger.serverLog(message, `${TAG}: exports.getRemoveFromCartBlock`, {}, {}, 'error')
     if (err.message) {
       throw new Error(`${ERROR_INDICATOR}${err.message}`)
     } else {
@@ -951,7 +961,8 @@ const getQuantityToRemoveBlock = async (chatbot, product) => {
     }
     return messageBlock
   } catch (err) {
-    logger.serverLog(TAG, `Unable to remove product(s) from cart ${err} `, 'error')
+    const message = err || 'Unable to remove product(s) from cart'
+    logger.serverLog(message, `${TAG}: exports.getQuantityToRemoveBlock`, {}, {}, 'error')
     throw new Error(`${ERROR_INDICATOR}Unable to remove product(s) from cart`)
   }
 }
@@ -992,7 +1003,8 @@ const getShowItemsToRemoveBlock = (chatbot, backId, contact) => {
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)} `
     return messageBlock
   } catch (err) {
-    logger.serverLog(TAG, `Unable to show items from cart ${err} `, 'error')
+    const message = err || 'Unable to show items from cart'
+    logger.serverLog(message, `${TAG}: exports.getShowItemsToRemoveBlock`, {}, {}, 'error')
     throw new Error(`${ERROR_INDICATOR}Unable to show items from cart`)
   }
 }
@@ -1018,7 +1030,8 @@ const getQuantityToUpdateBlock = async (chatbot, product) => {
     }
     return messageBlock
   } catch (err) {
-    logger.serverLog(TAG, `Unable to update product(s) in cart ${err} `, 'error')
+    const message = err || 'Unable to update product(s) in cart'
+    logger.serverLog(message, `${TAG}: exports.getQuantityToUpdateBlock`, {}, {}, 'error')
     throw new Error(`${ERROR_INDICATOR}Unable to update product(s) in cart`)
   }
 }
@@ -1059,7 +1072,8 @@ const getShowItemsToUpdateBlock = (chatbot, backId, contact) => {
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)} `
     return messageBlock
   } catch (err) {
-    logger.serverLog(TAG, `Unable to show items from cart ${err} `, 'error')
+    const message = err || 'Unable to show items from cart'
+    logger.serverLog(message, `${TAG}: exports.getShowItemsToUpdateBlock`, {}, {}, 'error')
     throw new Error(`${ERROR_INDICATOR}Unable to show items from cart`)
   }
 }
@@ -1092,12 +1106,12 @@ const getUpdateCartBlock = async (chatbot, backId, contact, product, quantity) =
         currency: product.currency
       })
     }
-    logger.serverLog(TAG, `shoppingCart ${JSON.stringify(shoppingCart)}`, 'info')
     updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
     let text = `${product.product} quantity has been updated to ${quantity}.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
-    logger.serverLog(TAG, `Unable to update cart ${err}`, 'error')
+    const message = err || 'Unable to update cart'
+    logger.serverLog(message, `${TAG}: exports.getUpdateCartBlock`, {}, {}, 'error')
     if (err.message) {
       throw new Error(`${ERROR_INDICATOR}${err.message}`)
     } else {
@@ -1132,7 +1146,8 @@ const clearCart = async (chatbot, contact) => {
     updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
     return messageBlock
   } catch (err) {
-    logger.serverLog(TAG, `Unable to clear cart ${err} `, 'error')
+    const message = err || 'Unable to clear cart'
+    logger.serverLog(message, `${TAG}: exports.clearCart`, {}, {}, 'error')
     throw new Error(`${ERROR_INDICATOR}Unable to clear cart`)
   }
 }
@@ -1142,7 +1157,8 @@ function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options)
     .then(updated => {
     })
     .catch(error => {
-      logger.serverLog(TAG, `Failed to update contact ${error} `, 'error')
+      const message = error || 'Failed to update contact'
+      logger.serverLog(message, `${TAG}: exports.updateWhatsAppContact`, {}, {}, 'error')
     })
 }
 
@@ -1193,7 +1209,8 @@ const getCheckoutEmailBlock = async (chatbot, contact, newEmail) => {
     }
     return messageBlock
   } catch (err) {
-    logger.serverLog(TAG, `Unable to checkout ${err} `, 'error')
+    const message = err || 'Unable to checkout'
+    logger.serverLog(message, `${TAG}: exports.getCheckoutEmailBlock`, {}, {}, 'error')
     throw new Error(`${ERROR_INDICATOR}Unable to show checkout`)
   }
 }
@@ -1450,16 +1467,12 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
     } else {
       commerceCustomer = contact.commerceCustomer
     }
-    logger.serverLog(TAG, `commerceCustomer ${JSON.stringify(commerceCustomer)}`, 'info')
     let checkoutLink = ''
     if (chatbot.storeType === commerceConstants.shopify) {
       checkoutLink = await EcommerceProvider.createPermalinkForCart(commerceCustomer, contact.shoppingCart)
     } else if (chatbot.storeType === commerceConstants.bigcommerce) {
-      logger.serverLog(TAG, `creating bigcommerce cart ${commerceCustomer.id} ${JSON.stringify(contact.shoppingCart)}`)
       const bigcommerceCart = await EcommerceProvider.createCart(commerceCustomer.id, contact.shoppingCart)
-      logger.serverLog(TAG, `bigcommerce cart created ${JSON.stringify(bigcommerceCart)}`)
       checkoutLink = await EcommerceProvider.createPermalinkForCartBigCommerce(bigcommerceCart.id)
-      logger.serverLog(TAG, `bigcommerce checkoutLink generated ${JSON.stringify(checkoutLink)}`)
       checkoutLink = checkoutLink.data.cart_url
     }
     updateWhatsAppContact({ _id: contact._id }, { shoppingCart: [] }, null, {})
@@ -1469,13 +1482,13 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
       messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)} `
       messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)} `
     } else {
-      logger.serverLog(TAG, `checkoutLink isn't defined`, 'error')
       throw new Error()
     }
 
     return messageBlock
   } catch (err) {
-    logger.serverLog(TAG, `Unable to checkout ${err} `, 'error')
+    const message = err || 'Unable to checkout'
+    logger.serverLog(message, `${TAG}: exports.getCheckoutBlock`, {}, {}, 'error')
     throw new Error(`${ERROR_INDICATOR}Unable to show checkout. Please make sure you have entered a correct email.`)
   }
 }
@@ -1534,7 +1547,6 @@ const invalidInput = async (chatbot, messageBlock, errMessage) => {
   }
 
   if (messageBlock.payload[0].text.includes(ERROR_INDICATOR)) {
-    logger.serverLog(TAG, `whatsapp invalid input contains error_indicator`, 'info')
     messageBlock.payload[0].text = messageBlock.payload[0].text.split('\n').filter((line) => {
       return !line.includes(ERROR_INDICATOR)
     }).join('\n')
@@ -1543,7 +1555,6 @@ const invalidInput = async (chatbot, messageBlock, errMessage) => {
     messageBlock.payload[0].text = `${errMessage}\n\n` + messageBlock.payload[0].text
   }
 
-  logger.serverLog(TAG, `whatsapp chatbot invalid input ${JSON.stringify(messageBlock)} `, 'info')
   return messageBlock
 }
 
@@ -1555,7 +1566,6 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
     }
   } else {
     let action = null
-    logger.serverLog(TAG, `whatsapp chatbot contact ${JSON.stringify(contact)} `, 'info')
     let lastMessageSentByBot = contact.lastMessageSentByBot.payload[0]
     try {
       if (lastMessageSentByBot.specialKeys && lastMessageSentByBot.specialKeys[input]) {
@@ -1577,7 +1587,8 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
         throw new Error(`${ERROR_INDICATOR}Invalid User Input`)
       }
     } catch (err) {
-      logger.serverLog(TAG, `Invalid user input ${input} `, 'info')
+      const message = err || 'Invalid user input'
+      logger.serverLog(message, `${TAG}: exports.getNextMessageBlock`, {}, {}, 'error')
       if (chatbot.triggers.includes(input)) {
         return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
       } else {

@@ -14,15 +14,12 @@ function onDisconnect (socket) {
 
 // When the user connects.. perform this
 function onConnect (socket) {
-  logger.serverLog(TAG, 'On Connect Called Server Side')
   socket.emit('message', {hello: 'hello'})
   socket.on('logClient', function (data) {
-    logger.serverLog(TAG, 'Got A Message From Log Client ')
     logger.clientLog(data.tag, data.data)
   })
 
   socket.on('message', (data) => {
-    logger.serverLog(TAG, `Joining room for ${JSON.stringify(data)}`)
     if (data.action === 'join_room') {
       socket.join(data.room_id)
     }
@@ -50,12 +47,10 @@ exports.setup = function (socketio) {
   // }));
 
   socketio.on('connection', function (socket) {
-    logger.serverLog(TAG, 'On Connect Called Server Side')
     socket.connectedAt = new Date()
 
     // Call onDisconnect.
     socket.on('disconnect', function () {
-      logger.serverLog(TAG, 'On Disconnect Called Server Side')
       onDisconnect(socket)
       // logger.serverLog(TAG, `SOCKET ${socket.id} DISCONNECTED AT ${new Date()}`)
     })

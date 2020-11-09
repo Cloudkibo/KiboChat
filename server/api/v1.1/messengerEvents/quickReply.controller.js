@@ -16,11 +16,10 @@ exports.index = function (req, res) {
   let pageId = messengerPayload.recipient.id
   let subscriberId = messengerPayload.sender.id
   let subscriber = {}
-  logger.serverLog(TAG, `quickReply ${JSON.stringify(messengerPayload)}`, 'info')
   utility.callApi('pages/query', 'post', { pageId, connected: true })
     .then(page => {
       page = page[0]
-      if(page) {
+      if (page) {
         utility.callApi('subscribers/query', 'post', { senderId: subscriberId, pageId: page._id })
           .then(gotSubscriber => {
             subscriber = gotSubscriber[0]
@@ -45,6 +44,7 @@ exports.index = function (req, res) {
       }
     })
     .catch(error => {
-      logger.serverLog(TAG, `error on getting subcribers ${error}`, 'error')
+      const message = error || 'error on getting subcribers'
+      return logger.serverLog(message, `${TAG}: exports.index`, req.body, {}, 'error')
     })
 }

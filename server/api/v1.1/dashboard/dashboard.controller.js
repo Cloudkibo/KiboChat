@@ -336,8 +336,6 @@ exports.toppages = function (req, res) {
               }
             }])
             .then(gotSubscribersCount => {
-              logger.serverLog(TAG, `pages: ${pages}`, 'debug')
-              logger.serverLog(TAG, `gotSubscribersCount ${gotSubscribersCount}`, 'debug')
               let pagesPayload = []
               for (let i = 0; i < pages.length; i++) {
                 pagesPayload.push({
@@ -352,7 +350,6 @@ exports.toppages = function (req, res) {
                   subscribers: 0
                 })
               }
-              logger.serverLog(TAG, `pagesPayload: ${pagesPayload}`, 'debug')
               for (let i = 0; i < pagesPayload.length; i++) {
                 for (let j = 0; j < gotSubscribersCount.length; j++) {
                   if (pagesPayload[i]._id.toString() ===

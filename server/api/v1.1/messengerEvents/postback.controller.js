@@ -14,8 +14,6 @@ exports.index = async (req, res) => {
     const pageId = messengerPayload.recipient.id
     const subscriberId = messengerPayload.sender.id
 
-    logger.serverLog(TAG, `postback event ${JSON.stringify(messengerPayload)}`, 'info')
-
     const pages = await utility.callApi('pages/query', 'post', { pageId, connected: true })
     const page = pages[0]
     if (page) {
@@ -31,6 +29,7 @@ exports.index = async (req, res) => {
       }
     }
   } catch (err) {
-    logger.serverLog(TAG, `error in postback ${err}`, 'error')
+    const message = err || 'error in postback'
+    return logger.serverLog(message, `${TAG}: exports.index`, req.body, {}, 'error')
   }
 }

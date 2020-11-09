@@ -15,11 +15,11 @@ exports.uninstallApp = function (req, res) {
       if (uninstallPayload.user_data_retention === 'true') {
         callApi('zoomUsers', 'put', {purpose: 'updateAll', match: {zoomId: uninstallPayload.user_id}, updated: {connected: false}})
           .then(updated => {
-            logger.serverLog(TAG, 'zoom disconnected successfully')
             _sendSocketEvent(uninstallPayload, zoomUser)
           })
           .catch(err => {
-            logger.serverLog(TAG, err, 'error')
+            const message = err || 'error in uninstall app'
+            logger.serverLog(message, `${TAG}: exports.uninstallApp`, req.body, {}, 'error')
           })
       } else {
         callApi('zoomUsers', 'delete', {purpose: 'deleteMany', match: {zoomId: uninstallPayload.user_id}})
@@ -33,20 +33,22 @@ exports.uninstallApp = function (req, res) {
             }
             zoomApiCaller('post', 'oauth/data/compliance', complianceBody, {type: 'basic'}, false)
               .then(complianceResponse => {
-                logger.serverLog(TAG, `zoom disconnected successfully and data has been removed ${JSON.stringify(complianceResponse.body)}`)
                 _sendSocketEvent(uninstallPayload, zoomUser)
               })
               .catch(err => {
-                logger.serverLog(TAG, err, 'error')
+                const message = err || 'error in uninstall app'
+                logger.serverLog(message, `${TAG}: exports.uninstallApp`, req.body, {}, 'error')
               })
           })
           .catch(err => {
-            logger.serverLog(TAG, err, 'error')
+            const message = err || 'error in uninstall app'
+            logger.serverLog(message, `${TAG}: exports.uninstallApp`, req.body, {}, 'error')
           })
       }
     })
     .catch(err => {
-      logger.serverLog(TAG, err, 'error')
+      const message = err || 'error in uninstall app'
+      logger.serverLog(message, `${TAG}: exports.uninstallApp`, req.body, {}, 'error')
     })
 }
 

@@ -81,11 +81,13 @@ exports.upload = function (req, res) {
                                     })
                                       .then(updated => {})
                                       .catch(error => {
-                                        logger.serverLog(TAG, `Failed to update company usage ${JSON.stringify(error)}`)
+                                        const message = error || 'Failed to update company usage'
+                                        logger.serverLog(message, `${TAG}: exports.upload`, {}, {}, 'error')
                                       })
                                   })
                                   .catch(error => {
-                                    logger.serverLog(TAG, `Failed to save phone number ${JSON.stringify(error)}`)
+                                    const message = error || 'Failed to save phone number'
+                                    logger.serverLog(message, `${TAG}: exports.upload`, {}, {}, 'error')
                                   })
                               } else {
                                 let filename = logicLayer.getFiles(phone[0], req, newFileName)
@@ -112,25 +114,30 @@ exports.upload = function (req, res) {
                                                 .then(savedList => {
                                                 })
                                                 .catch(error => {
-                                                  logger.serverLog(TAG, `Failed to update list ${JSON.stringify(error)}`)
+                                                  const message = error || 'Failed to update list'
+                                                  logger.serverLog(message, `${TAG}: exports.upload`, {}, {}, 'error')
                                                 })
                                             })
                                             .catch(error => {
-                                              logger.serverLog(TAG, `Failed to fetch subscribers ${JSON.stringify(error)}`)
+                                              const message = error || 'Failed to fetch subscribers'
+                                              logger.serverLog(message, `${TAG}: exports.upload`, {}, {}, 'error')
                                             })
                                         }
                                       })
                                       .catch(error => {
-                                        logger.serverLog(TAG, `Failed to update number ${JSON.stringify(error)}`)
+                                        const message = error || 'Failed to update number'
+                                        logger.serverLog(message, `${TAG}: exports.upload`, {}, {}, 'error')
                                       })
                                   })
                                   .catch(error => {
-                                    logger.serverLog(TAG, `Failed to update number ${JSON.stringify(error)}`)
+                                    const message = error || 'Failed to update number'
+                                    logger.serverLog(message, `${TAG}: exports.upload`, {}, {}, 'error')
                                   })
                               }
                             })
                             .catch(error => {
-                              logger.serverLog(TAG, `Failed to update number ${JSON.stringify(error)}`)
+                              const message = error || 'Failed to update number'
+                              logger.serverLog(message, `${TAG}: exports.upload`, {}, {}, 'error')
                             })
                           utility.callApi(`pages/query`, 'post', {userId: req.user._id, connected: true, pageId: req.body.pageId})
                             .then(pages => {
@@ -155,15 +162,15 @@ exports.upload = function (req, res) {
                                   },
                                   function (err, res) {
                                     if (err) {
-                                      return logger.serverLog(TAG,
-                                        `At invite to messenger using phone ${JSON.stringify(
-                                          err)}`)
+                                      const message = err || 'At invite to messenger using phone'
+                                      return logger.serverLog(message, `${TAG}: exports.upload`, {}, {}, 'error')
                                     }
                                   })
                               })
                             })
                             .catch(error => {
-                              logger.serverLog(TAG, `Failed to fetch pages ${JSON.stringify(error)}`)
+                              const message = error || 'Failed to fetch pages'
+                              logger.serverLog(message, `${TAG}: exports.upload`, {}, {}, 'error')
                             })
                           if (respSent === false) {
                             respSent = true
@@ -236,7 +243,6 @@ exports.sendNumbers = function (req, res) {
               }
               utility.callApi(`lists/update`, 'post', {query: query, newPayload: update, options: {upsert: true}})
                 .then(savedList => {
-                  logger.serverLog('List - Other Saved', savedList)
                 })
                 .catch(error => {
                   return res.status(500).json({

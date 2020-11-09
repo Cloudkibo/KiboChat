@@ -26,7 +26,8 @@ exports.install = function (req, res) {
       res.sendFile(path.join(__dirname, '/proceedToIntegratePage.html'))
     })
     .catch(err => {
-      logger.serverLog(TAG, `bigcommerce installation error ${JSON.stringify(err)}`, 'error')
+      const message = err || 'bigcommerce installation error'
+      logger.serverLog(message, `${TAG}: exports.install`, req.query, {}, 'error')
       res.sendFile(path.join(__dirname, '/errorPage.html'))
     })
 }

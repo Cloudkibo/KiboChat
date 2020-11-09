@@ -70,7 +70,6 @@ exports.create = function (req, res) {
         })
         .then(response => {
           let MessageObject = logicLayer.prepareChat(req.body, companyUser)
-          logger.serverLog(TAG, `response from twilio ${JSON.stringify(response)}`)
           async.parallelLimit([
             function (callback) {
               callApi(`smsChat`, 'post', MessageObject, 'kibochat')

@@ -8,14 +8,12 @@ exports.index = function (req, res) {
     status: 'success',
     description: `received the payload`
   })
-  logger.serverLog(TAG, `in delivery ${JSON.stringify(req.body)}`)
   updateChatDelivered(req.body.entry[0].messaging[0])
 }
 
 function updateChatDelivered (req) {
   LiveChatDataLayer.genericUpdate({ recipient_fb_id: req.sender.id, sender_fb_id: req.recipient.id, delivered: false }, { delivered: true, deliveryDateTime: Date.now() })
     .then(updated => {
-      logger.serverLog(TAG, `Livechat delivered updated successfully`)
       utility.callApi('subscribers/query', 'post', { senderId: req.sender.id })
         .then(session => {
           console.log('Sessions', session)
@@ -29,10 +27,12 @@ function updateChatDelivered (req) {
           })
         })
         .catch(err => {
-          logger.serverLog(TAG, `ERROR at fetching session ${JSON.stringify(err)}`)
+          const message = err || 'ERROR at fetching session'
+          return logger.serverLog(message, `${TAG}: exports.updateChatDelivered`, {}, req, 'error')
         })
     })
     .catch(err => {
-      logger.serverLog(TAG, `ERROR at updating LiveChat delivered ${JSON.stringify(err)}`)
+      const message = err || 'ERROR at updating LiveChat delivered'
+      return logger.serverLog(message, `${TAG}: exports.updateChatDelivered`, {}, req, 'error')
     })
 }

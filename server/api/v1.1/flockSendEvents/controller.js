@@ -25,12 +25,14 @@ exports.index = function (req, res) {
               }
             })
             .catch(error => {
-              logger.serverLog(TAG, `Failed to fetch contact ${JSON.stringify(error)}`, 'error')
+              const message = error || 'Failed to fetch contact'
+              return logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
             })
         })
       })
       .catch(error => {
-        logger.serverLog(TAG, `Failed to company profile ${JSON.stringify(error)}`, 'error')
+        const message = error || 'Failed to fetch company profile'
+        return logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
       })
   }
 }
@@ -65,13 +67,15 @@ function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options)
     .then(updated => {
     })
     .catch(error => {
-      logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`, 'error')
+      const message = error || 'Failed to update contact'
+      return logger.serverLog(message, `${TAG}: exports.updateWhatsAppContact`, {}, {}, 'error')
     })
   callApi(`whatsAppContacts/update`, 'put', {query: query, newPayload: bodyForIncrement, options: options})
     .then(updated => {
     })
     .catch(error => {
-      logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`, 'error')
+      const message = error || 'Failed to update contact'
+      return logger.serverLog(message, `${TAG}: exports.updateWhatsAppContact`, {}, {}, 'error')
     })
 }
 exports.messageStatus = function (req, res) {
@@ -92,7 +96,8 @@ exports.messageStatus = function (req, res) {
         }
       })
       .catch((err) => {
-        logger.serverLog(TAG, `Failed to fetch whatsAppBroadcastMessages data ${err}`, 'error')
+        const message = err || 'Failed to fetch whatsAppBroadcastMessages data'
+        return logger.serverLog(message, `${TAG}: exports.messageStatus`, {}, {}, 'error')
       })
   }
 }
@@ -152,6 +157,7 @@ function updateChatInDB (match, updated, dataToSend) {
       })
     })
     .catch((err) => {
-      logger.serverLog(`Failed to update message ${err}`, 'error')
+      const message = err || 'Failed to update message'
+      return logger.serverLog(message, `${TAG}: exports.updateChatInDB`, {}, {}, 'error')
     })
 }

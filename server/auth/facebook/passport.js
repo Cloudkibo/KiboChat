@@ -28,8 +28,6 @@ exports.setup = function (User, config) {
     },
     (accessToken, refreshToken, profile, done) => {
       if (profile._json) {
-        logger.serverLog(TAG, `facebook auth done for: ${
-          profile._json.name} with fb id: ${profile._json.id}`)
       }
 
       let FBExtension = new PassportFacebookExtension(config.facebook.clientID,
@@ -39,15 +37,13 @@ exports.setup = function (User, config) {
       FBExtension.permissionsGiven(profile.id, accessToken)
         .then(permissions => {
           profile.permissions = permissions
-          logger.serverLog(TAG,
-            `Permissions given: ${JSON.stringify(profile.permissions)}`)
         })
         .fail(e => {
-          logger.serverLog(TAG, `Permissions check error: ${e}`)
+          const message = e || 'Permissions check error'
+          logger.serverLog(message, `${TAG}: exports.setup`, {}, {}, 'error')
         })
 
       FBExtension.extendShortToken(accessToken).then((error) => {
-        logger.serverLog(TAG, `Extending token error: ${JSON.stringify(error)}`)
         return done(error)
       }).fail((response) => {
         accessToken = response.access_token
@@ -55,10 +51,9 @@ exports.setup = function (User, config) {
         'id,name,locale,email,timezone,gender,picture' +
         '&access_token='}${accessToken}`, options, (err, resp) => {
           if (err !== null) {
-            logger.serverLog(TAG, 'error from graph api to get user data: ')
-            logger.serverLog(TAG, JSON.stringify(err))
+            const message = err || 'error from graph api to get user data'
+            logger.serverLog(message, `${TAG}: exports.setup`, {}, {}, 'error')
           }
-          logger.serverLog(TAG, JSON.stringify(resp.body))
 
           if (err) return done(err)
 
