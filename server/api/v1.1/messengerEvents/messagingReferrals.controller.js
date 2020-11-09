@@ -21,7 +21,7 @@ exports.index = function (req, res) {
             .then(pageReferral => {
               pageReferral = pageReferral[0]
               for (let i = 0; i < pageReferral.reply.length; i++) {
-                let messageData = logicLayer.prepareSendAPIPayload(subscriber.senderId, pageReferral.reply[i], subscriber.firstName, subscriber.lastName, true)
+                let messageData = logicLayer.prepareSendAPIPayload(subscriber.senderId, pageReferral.reply[i], subscriber.firstName, subscriber.lastName, true, 'SENT_FROM_MESSAGING_REFERRAL')
                 request(
                   {
                     'method': 'POST',
