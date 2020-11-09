@@ -172,7 +172,6 @@ exports.updatePlatform = function (req, res) {
             let client = require('twilio')(accountSid, authToken)
             client.incomingPhoneNumbers
               .list().then((incomingPhoneNumbers) => {
-                console.log('incomingPhoneNumbers', incomingPhoneNumbers)
                 if (incomingPhoneNumbers && incomingPhoneNumbers.length > 0) {
                   utility.callApi(`companyprofile/update`, 'put', {query: {_id: companyUser.companyId}, newPayload: {twilio: {accountSID: req.body.twilio.accountSID, authToken: req.body.twilio.authToken}}, options: {}})
                     .then(updatedProfile => {
@@ -333,7 +332,8 @@ exports.updatePlatformWhatsApp = function (req, res) {
   ]
   utility.callApi(`companyprofile/aggregate`, 'post', query) // fetch company user
     .then(companyprofile => {
-      if (!companyprofile[0]) {
+      console.log('companyprofile', companyprofile)
+      if (!companyprofile[0] || req.body.businessNumber === '+14155238886') {
         let data = {body: req.body, companyId: req.user.companyId, userId: req.user._id}
         async.series([
           _verifyCredentials.bind(null, data),
@@ -468,7 +468,6 @@ exports.updateRole = function (req, res) {
     })
 }
 exports.deleteWhatsAppInfo = function (req, res) {
-  console.log('called deleteWhatsAppInfo')
   utility.callApi('user/authenticatePassword', 'post', {email: req.user.email, password: req.body.password})
     .then(authenticated => {
       utility.callApi(`companyprofile/query`, 'post', {ownerId: req.user._id})
@@ -506,7 +505,7 @@ exports.deleteWhatsAppInfo = function (req, res) {
                     })
                     .catch(err => {
                       callback(err)
-                    })               
+                    })
                 }).catch(err => {
                   logger.serverLog(TAG, JSON.stringify(err), 'error')
                 })
