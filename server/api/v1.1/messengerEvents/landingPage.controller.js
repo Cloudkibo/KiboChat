@@ -22,7 +22,7 @@ exports.index = function (req, res) {
               landingPage = landingPage[0]
               if (landingPage.isActive) {
                 for (let i = 0; i < landingPage.optInMessage.length; i++) {
-                  let messageData = logicLayer.prepareSendAPIPayload(subscriber.senderId, landingPage.optInMessage[i], subscriber.firstName, subscriber.lastName, true)
+                  let messageData = logicLayer.prepareSendAPIPayload(subscriber.senderId, landingPage.optInMessage[i], subscriber.firstName, subscriber.lastName, true, 'SENT_FROM_LANDING_PAGE')
                   request(
                     {
                       'method': 'POST',

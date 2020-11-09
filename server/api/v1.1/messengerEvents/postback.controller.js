@@ -3,6 +3,7 @@ const logger = require('../../../components/logger')
 const TAG = 'api/v1/messengerEvents/postback.controller'
 const chatbotAutomation = require('./chatbotAutomation.controller')
 const logicLayer = require('./logiclayer')
+const { saveLiveChat } = require('./sessions.controller')
 
 exports.index = async (req, res) => {
   res.status(200).json({
@@ -29,6 +30,7 @@ exports.index = async (req, res) => {
           chatbotAutomation.handleChatBotNextMessage(messengerPayload, page, subscriber, manualChatbotPayload.blockUniqueId, manualChatbotPayload.parentBlockTitle)
         }
       }
+      saveLiveChat(page, subscriber, {...messengerPayload, message: {text: messengerPayload.postback.title}})
     }
   } catch (err) {
     logger.serverLog(TAG, `error in postback ${err}`, 'error')

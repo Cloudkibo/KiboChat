@@ -32,6 +32,7 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
                         senderAction(req.sender.id, 'typing_on', page.accessToken)
                         intervalForEach(messageBlock.payload, (item) => {
                           sendResponse(req.sender.id, item, subscriber, page.accessToken)
+                          saveLiveChatMessage(page, subscriber, item)
                           senderAction(req.sender.id, 'typing_off', page.accessToken)
                         }, 1500)
                         updateBotLifeStatsForBlock(messageBlock, true)
@@ -140,6 +141,7 @@ exports.handleCommerceChatbot = (event, page, subscriber) => {
                 senderAction(event.sender.id, 'typing_on', page.accessToken)
                 intervalForEach(nextMessageBlock.payload, (item) => {
                   sendResponse(event.sender.id, item, subscriber, page.accessToken)
+                  saveLiveChatMessage(page, subscriber, item)
                   senderAction(event.sender.id, 'typing_off', page.accessToken)
                 }, 1500)
                 if (!isSendingToTester) {
@@ -202,11 +204,12 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
                   triggers: userText
                 })
                   .then(messageBlock => {
-                    logger.serverLog(TAG, `manual chatbot message block ${JSON.stringify(shopifyChatbotLogicLayer.getMessageBlocks)}`, 'info')
+                    logger.serverLog(TAG, `manual chatbot message block ${JSON.stringify(messageBlock)}`, 'info')
                     if (messageBlock) {
                       senderAction(req.sender.id, 'typing_on', page.accessToken)
                       intervalForEach(messageBlock.payload, (item) => {
                         sendResponse(req.sender.id, item, subscriber, page.accessToken)
+                        saveLiveChatMessage(page, subscriber, item)
                         senderAction(req.sender.id, 'typing_off', page.accessToken)
                       }, 1500)
                       if (!isSendingToTester) {
@@ -234,7 +237,7 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
                   })
                   .catch(error => {
                     logger.serverLog(TAG,
-                      `error in fetching message block ${JSON.stringify(error)}`, 'error')
+                      `error in fetching message block ${error}`, 'error')
                   })
               }
             }
@@ -255,12 +258,9 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId, parentBlock
   record('messengerChatInComing')
   shouldAvoidSendingAutomatedMessage(subscriber)
     .then(shouldAvoid => {
-      console.log('shouldAvoid sending', shouldAvoid)
       if (!shouldAvoid) {
-        console.log('searching for manual chatbot', { pageId: page._id, type: 'manual' })
         chatbotDataLayer.findOneChatBot({ pageId: page._id, type: 'manual' })
           .then(chatbot => {
-            console.log('manual chatbot', chatbot)
             if (chatbot) {
               let shouldSend = false
               let isSendingToTester = false
@@ -283,11 +283,11 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId, parentBlock
                 }, page)
                 messageBlockDataLayer.findOneMessageBlock({ uniqueId: uniqueId.toString() })
                   .then(messageBlock => {
-                    console.log('manual chatbot messageBlock', messageBlock)
                     if (messageBlock) {
                       senderAction(req.sender.id, 'typing_on', page.accessToken)
                       intervalForEach(messageBlock.payload, (item) => {
                         sendResponse(req.sender.id, item, subscriber, page.accessToken)
+                        saveLiveChatMessage(page, subscriber, item)
                         senderAction(req.sender.id, 'typing_off', page.accessToken)
                       }, 1500)
                       if (!isSendingToTester) {
@@ -333,6 +333,7 @@ exports.handleChatBotTestMessage = (req, page, subscriber, type) => {
               senderAction(req.sender.id, 'typing_on', page.accessToken)
               intervalForEach(messageBlock.payload, (item) => {
                 sendResponse(req.sender.id, item, subscriber, page.accessToken)
+                saveLiveChatMessage(page, subscriber, item)
                 senderAction(req.sender.id, 'typing_off', page.accessToken)
               }, 1500)
             }
@@ -396,6 +397,7 @@ function sendFallbackReply (senderId, page, fallbackReply, subscriber) {
   senderAction(senderId, 'typing_on', page.accessToken)
   intervalForEach(fallbackReply, (item) => {
     sendResponse(senderId, item, subscriber, page.accessToken)
+    saveLiveChatMessage(page, subscriber, item)
     senderAction(senderId, 'typing_off', page.accessToken)
   }, 1500)
 }
@@ -639,6 +641,21 @@ function shouldAvoidSendingAutomatedMessage (subscriber) {
       })
       .catch(err => reject(err))
   })
+}
+
+function saveLiveChatMessage (page, subscriber, item) {
+  const message = {
+    format: 'convos',
+    sender_id: page._id,
+    recipient_id: subscriber._id,
+    sender_fb_id: subscriber.senderId,
+    recipient_fb_id: page.pageId,
+    subscriber_id: subscriber._id,
+    company_id: page.companyId,
+    status: 'unseen',
+    payload: item
+  }
+  require('./sessions.controller').saveChatInDb(page, message, subscriber, {message: {is_echo: true}})
 }
 
 exports.updateBotPeriodicStatsForBlock = updateBotPeriodicStatsForBlock
