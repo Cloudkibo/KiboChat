@@ -5,8 +5,8 @@ const TAG = 'scripts/WhatsappDeleteData.js'
 exports.runWhatspdeleteScript = function () {
   utility.callApi(`scripts/deleteWhatsappData`, 'get', {}, 'accounts')
     .then(response => {
-      logger.serverLog(TAG, `script run successfully`)
     }).catch(error => {
-      logger.serverLog(TAG, `Error while run runWhatspdeleteScript ${error}`, 'error')
+      const message = error || 'Error while run runWhatspdeleteScript'
+      logger.serverLog(message, `${TAG}: exports.runWhatspdeleteScript`, {}, {}, 'error')
     })
 }

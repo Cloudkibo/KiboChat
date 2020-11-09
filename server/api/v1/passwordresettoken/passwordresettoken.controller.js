@@ -8,12 +8,11 @@ const utility = require('../utility')
 exports.change = function (req, res) {
   utility.callApi('reset_password/change', 'post', {old_password: req.body.old_password, new_password: req.body.new_password}, 'accounts', req.headers.authorization)
     .then((result) => {
-      logger.serverLog(TAG, 'result from invite endpoint accounts')
-      logger.serverLog(TAG, result)
       res.status(200).json({status: 'success', description: result})
     })
     .catch((err) => {
-      logger.serverLog(TAG, err)
+      const message = err || 'error in message statistics'
+      logger.serverLog(message, `${TAG}: exports.change`, {}, {}, 'error')
       res.status(200).json({status: 'failed', description: err.error.description})
     })
   /* let userId = req.user._id

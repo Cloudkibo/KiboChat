@@ -39,12 +39,12 @@ module.exports = function (app, httpapp, config) {
   require('./socketio').setup(socket)
 
   server.listen(config.port, () => {
-    logger.serverLog(TAG, `Project server STARTED on ${
+    console.log(TAG, `Project server STARTED on ${
       config.port} in ${config.env} modes`)
   })
 
   httpsServer.listen(config.secure_port, () => {
-    logger.serverLog(TAG, `Project server STARTED on ${
+    console.log(TAG, `Project server STARTED on ${
       config.secure_port} in ${config.env} mode`)
   })
 

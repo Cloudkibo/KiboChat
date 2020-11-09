@@ -68,8 +68,8 @@ exports.create = function (req, res) {
                 `https://graph.facebook.com/v6.0/${page.pageId}?fields=access_token&access_token=${currentUser.facebookInfo.fbToken}`,
                 (err, resp) => {
                   if (err) {
-                    logger.serverLog(TAG,
-                      `Page accesstoken from graph api Error${JSON.stringify(err)}`, 'error')
+                    const message = err || 'Page accesstoken from graph api'
+                    return logger.serverLog(message, `${TAG}: exports.create`, {}, {}, 'error')
                   }
                   let messageData = logicLayer.setMessage(req.body.payload)
                   if (messageData.image) {
@@ -77,7 +77,8 @@ exports.create = function (req, res) {
                       `https://graph.facebook.com/${page.pageId}/photos?access_token=${resp.body.access_token}`,
                       messageData, (err, resp) => {
                         if (err) {
-                          logger.serverLog(TAG, err, 'error')
+                          const message = err || 'Page accesstoken from graph api'
+                          return logger.serverLog(message, `${TAG}: exports.create`, {}, {}, 'error')
                         }
                         let postId = resp.body.post_id ? resp.body.post_id : resp.body.id
                         utility.callApi(`comment_capture/update`, 'put', {query: {_id: postCreated._id}, newPayload: {post_id: postId}, options: {}})
@@ -93,7 +94,8 @@ exports.create = function (req, res) {
                       `https://graph.facebook.com/${page.pageId}/videos?access_token=${resp.body.access_token}`,
                       messageData, (err, resp) => {
                         if (err) {
-                          logger.serverLog(TAG, err, 'error')
+                          const message = err || 'Page accesstoken from graph api'
+                          return logger.serverLog(message, `${TAG}: exports.create`, {}, {}, 'error')
                         }
                         let postId = resp.body.post_id ? resp.body.post_id : resp.body.id
                         utility.callApi(`comment_capture/update`, 'put', {query: {_id: postCreated._id}, newPayload: {post_id: postId}, options: {}})
@@ -109,7 +111,8 @@ exports.create = function (req, res) {
                       `https://graph.facebook.com/${page.pageId}/feed?access_token=${resp.body.access_token}`,
                       messageData, (err, resp) => {
                         if (err) {
-                          logger.serverLog(TAG, err, 'error')
+                          const message = err || 'Page accesstoken from graph api'
+                          return logger.serverLog(message, `${TAG}: exports.create`, {}, {}, 'error')
                         }
                         let postId = resp.body.post_id ? resp.body.post_id : resp.body.id
                         utility.callApi(`comment_capture/update`, 'put', {query: {_id: postCreated._id}, newPayload: {post_id: postId}, options: {}})

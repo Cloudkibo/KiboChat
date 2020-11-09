@@ -18,7 +18,8 @@ exports.sendWebhook = (type, platform, payload, page) => {
         needle.post(webhook.webhook_url, data, {json: true},
           (error, response) => {
             if (error || response.statusCode !== 200) {
-              logger.serverLog(TAG, `Cannot send webhook event ${error || response.body}`, 'error')
+              const message = error || 'Cannot send webhook event'
+              logger.serverLog(message, `${TAG}: exports.sendWebhook`, {}, data, 'error')
               saveNotification(webhook, page, platform)
               sendEmail(webhook, webhook.userId, page)
             }
@@ -26,7 +27,8 @@ exports.sendWebhook = (type, platform, payload, page) => {
       }
     })
     .catch(error => {
-      logger.serverLog(TAG, `Failed to fetch webhook ${JSON.stringify(error)}`, 'error')
+      const message = error || 'Failed to fetch webhook'
+      logger.serverLog(message, `${TAG}: exports.sendWebhook`, {}, payload, 'error')
     })
 }
 
@@ -35,7 +37,8 @@ function updateWebhook (webhook) {
     .then(updated => {
     })
     .catch(error => {
-      logger.serverLog(TAG, `Failed to update webhook ${JSON.stringify(error)}`, 'error')
+      const message = error || 'Failed to update webhook'
+      logger.serverLog(message, `${TAG}: exports.updateWebhook`, {}, webhook, 'error')
     })
 }
 
@@ -58,7 +61,8 @@ function saveNotification (webhook, page, platform) {
       })
     })
     .catch(error => {
-      logger.serverLog(TAG, `Failed to create notification ${error}`, 'error')
+      const message = error || 'Failed to create notification'
+      return logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, notificationsData, 'error')
     })
 }
 
@@ -74,7 +78,8 @@ function sendEmail (webhook, user, page) {
     .then(response => {
     })
     .catch(err => {
-      logger.serverLog(TAG, `Failed to send email ${JSON.stringify(err)}`, 'error')
+      const message = err || 'Failed to send email'
+      return logger.serverLog(message, `${TAG}: exports.sendEmail`, {}, msg, 'error')
     })
 }
 

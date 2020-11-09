@@ -74,8 +74,6 @@ exports.disable = function (req, res) {
 }
 
 exports.save = function (req, res) {
-  logger.serverLog(TAG, `incoming body ${JSON.stringify(req.body)}`, 'debug')
-
   if (!_.has(req.body, 'company_id')) {
     sendErrorResponse(res, 400, '', 'Parameters are missing. company_id is required')
   }

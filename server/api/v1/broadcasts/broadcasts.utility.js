@@ -45,7 +45,6 @@ function deleteFile (id) {
     if (err) {
       logger.serverLog(err, 'error')
     } else {
-      logger.serverLog('file deleted successfully')
     }
   })
 }

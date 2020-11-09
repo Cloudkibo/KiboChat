@@ -14,12 +14,14 @@ function saveNotification (webhook, req) {
   callApi(`notifications`, 'post', notificationsData, 'kibochat')
     .then(savedNotification => {})
     .catch(error => {
-      logger.serverLog(TAG, `Failed to create notification ${JSON.stringify(error)}`, 'error')
+      const message = error || 'Failed to create notification'
+      logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, {webhook, req}, 'error')
     })
   utility.callApi(`webhooks/${webhook._id}`, 'put', {isEnabled: false, error_message: 'URL not live'})
     .then(companyUser => {})
     .catch(error => {
-      logger.serverLog(TAG, `Failed to update webhook ${JSON.stringify(error)}`, 'error')
+      const message = error || 'Failed to update webhook'
+      logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, {webhook, req}, 'error')
     })
   let sendgrid = require('sendgrid')(config.sendgrid.username,
     config.sendgrid.password)
@@ -67,7 +69,8 @@ function limitReachedNotification (module, company) {
   callApi(`notifications`, 'post', notificationsData, 'kibochat')
     .then(savedNotification => {})
     .catch(error => {
-      logger.serverLog(TAG, `Failed to create notification ${JSON.stringify(error)}`, 'error')
+      const message = error || 'Failed to create notification'
+      logger.serverLog(message, `${TAG}: exports.limitReachedNotification`, {}, { module, company }, 'error')
     })
 }
 exports.saveNotification = saveNotification

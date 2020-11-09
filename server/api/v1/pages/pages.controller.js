@@ -261,8 +261,8 @@ exports.enable = function (req, res) {
                                                 .then(updatedPage => {
                                                 })
                                                 .catch(error => {
-                                                  logger.serverLog(TAG,
-                                                    `Failed to updatedPage ${JSON.stringify(error)}`, 'error')
+                                                  const message = error || 'Failed to updatedPage'
+                                                  logger.serverLog(message, `${TAG}: exports.enable`, {}, {}, 'error')
                                                 })
                                             }
                                             var valueForMenu = {
@@ -279,14 +279,10 @@ exports.enable = function (req, res) {
                                             needle.request('post', requesturl, valueForMenu,
                                               { json: true }, function (err, resp) {
                                                 if (err) {
-                                                  logger.serverLog(TAG,
-                                                    `Internal Server Error ${JSON.stringify(
-                                                      err)}`, 'debug')
+                                                  const message = error || 'Internal Server Error'
+                                                  logger.serverLog(message, `${TAG}: exports.enable`, {}, {}, 'error')
                                                 }
                                                 if (resp.body.error) {
-                                                  logger.serverLog(TAG,
-                                                    `Page connect error ${JSON.stringify(
-                                                      resp.body.error)}`, 'error')
                                                   const errorMessage = resp.body.error.message
                                                   if (errorMessage && errorMessage.includes('administrative permission')) {
                                                     sendSuccessResponse(res, 200, { adminError: 'Page connected successfully, but certain actions such as setting welcome message will not work due to your page role' })
@@ -328,7 +324,8 @@ exports.enable = function (req, res) {
                                   // })
                                 })
                                 .catch(err => {
-                                  logger.serverLog(TAG, `Error at find page ${err}`, 'error')
+                                  const message = err || 'Error at find page'
+                                  logger.serverLog(message, `${TAG}: exports.enable`, {}, {}, 'error')
                                   sendErrorResponse(res, 500, err)
                                 })
                             } else {
@@ -358,20 +355,19 @@ exports.enable = function (req, res) {
     })
 }
 
-const _updateWhiteListDomain = (req, page) => { 
+const _updateWhiteListDomain = (req, page) => {
   utility.callApi(`pages/whitelistDomain`, 'post', { page_id: page.pageId, whitelistDomains: [`${config.domain}`] }, 'accounts', req.headers.authorization)
-  .then(whitelistDomains => {
-  })
-  .catch(error => {
-    logger.serverLog(TAG,
-      `Failed to whitelist domain ${JSON.stringify(error)}`, 'error')
-  })
+    .then(whitelistDomains => {
+    })
+    .catch(error => {
+      const message = error || 'Failed to whitelist domain'
+      logger.serverLog(message, `${TAG}: exports.enable`, {}, {}, 'error')
+    })
 }
 
 exports.disable = function (req, res) {
   utility.callApi(`pages/${req.body._id}`, 'put', { connected: false }) // disconnect page
     .then(disconnectPage => {
-      logger.serverLog(TAG, 'updated page successfully')
       utility.callApi(`subscribers/update`, 'put', { query: { pageId: req.body._id }, newPayload: { isEnabledByPage: false }, options: { multi: true } }) // update subscribers
         .then(updatedSubscriber => {
           utility.callApi(`featureUsage/updateCompany`, 'put', {
@@ -380,7 +376,6 @@ exports.disable = function (req, res) {
             options: {}
           })
             .then(updated => {
-              logger.serverLog(TAG, 'company updated successfully')
             })
             .catch(error => {
               return res.status(500).json({
@@ -559,8 +554,8 @@ exports.saveGreetingText = function (req, res) {
                       })
                     }
                     if (err) {
-                      logger.serverLog(TAG,
-                        `Internal Server Error ${JSON.stringify(err)}`)
+                      const message = err || 'Internal Server Error'
+                      logger.serverLog(message, `${TAG}: exports.enable`, {}, {}, 'error')
                     }
                   })
               } else {
@@ -659,24 +654,27 @@ function createTag (user, page, tag, req) {
                     }
                     utility.callApi('tags', 'post', tagData)
                       .then(created => {
-                        logger.serverLog(TAG, `default tag created successfully!`, 'debug')
                       })
                       .catch(err => {
-                        logger.serverLog(TAG, `Error at save tag ${err}`, 'error')
+                        const message = err || 'Error at save tag'
+                        logger.serverLog(message, `${TAG}: exports.createTag`, {}, { user, page, tag }, 'error')
                       })
                   })
 
                   .catch(err => {
-                    logger.serverLog(TAG, `Error at find default tags from facebook ${err}`, 'error')
+                    const message = err || 'Error at find default tags from facebook'
+                    logger.serverLog(message, `${TAG}: exports.createTag`, {}, { user, page, tag }, 'error')
                   })
               }
             })
             .catch(err => {
-              logger.serverLog(TAG, `Error at find default tags ${err}`, 'error')
+              const message = err || 'Error at find default tags'
+              logger.serverLog(message, `${TAG}: exports.createTag`, {}, { user, page, tag }, 'error')
             })
         } else {
           // sendOpAlert(label.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
-          logger.serverLog(TAG, `Error at facebook error ${label.body.error}`, 'error')
+          const message = label.body.error || 'Error at facebook error'
+          logger.serverLog(message, `${TAG}: exports.createTag`, {}, { user, page, tag }, 'error')
         }
       } else if (label.body.id) {
         let tagData = {
@@ -689,18 +687,19 @@ function createTag (user, page, tag, req) {
         }
         utility.callApi('tags', 'post', tagData)
           .then(created => {
-            logger.serverLog(TAG, `default tag created successfully!`, 'debug')
-            console.log('successfully create tag', tag)
           })
           .catch(err => {
-            logger.serverLog(TAG, `Error at save tag ${err}`, 'error')
+            const message = err || 'Error at save tag'
+            logger.serverLog(message, `${TAG}: exports.createTag`, {}, { user, page, tag }, 'error')
           })
       } else {
-        logger.serverLog(TAG, `else Error at create tag on Facebook ${JSON.stringify(label.body.error)}`, 'error')
+        const message = label.body.error || 'else Error at create tag on Facebook'
+        logger.serverLog(message, `${TAG}: exports.createTag`, {}, { user, page, tag }, 'error')
       }
     })
     .catch(err => {
-      logger.serverLog(TAG, `Error at create tag on Facebook ${JSON.stringify(err)}`, 'error')
+      const message = err || 'Error at create tag on Facebook'
+      logger.serverLog(message, `${TAG}: exports.createTag`, {}, { user, page, tag }, 'error')
     })
 }
 

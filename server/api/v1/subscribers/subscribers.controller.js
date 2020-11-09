@@ -110,43 +110,31 @@ const getAllSubscribers = function (subscribers, count, req, res) {
   var utcDate = dt.toUTCString()
   dt = new Date()
   utcDate = dt.toUTCString()
-  logger.serverLog(TAG, `subscribers/aggregate data subscribers ${utcDate}`, 'info')
   let subscriberIds = logicLayer.getSubscriberIds(subscribers)
-  logger.serverLog(TAG, `subscriberIds: ${util.inspect(subscriberIds)}`, 'debug')
   utility.callApi(`tags/query`, 'post', { companyId: req.user.companyId })
     .then(tags => {
       dt = new Date()
       utcDate = dt.toUTCString()
-      logger.serverLog(TAG, `tags/query ${utcDate}`, 'info')
 
       let tagIds = tags.map((t) => t._id)
       utility.callApi(`tags_subscriber/query`, 'post', { subscriberId: { $in: subscriberIds }, tagId: {$in: tagIds} })
         .then(tagSubscribers => {
           dt = new Date()
           utcDate = dt.toUTCString()
-          logger.serverLog(TAG, `tags_subscriber/query data subscribers ${utcDate}`, 'info')
-          //  logger.serverLog(TAG, `tags subscribers: ${util.inspect(tagSubscribers)}`, 'debug')
           let subscribersPayload = logicLayer.getSusbscribersPayload(subscribers, tagSubscribers, tagIds, req.body.filter_criteria.tag_value)
-          // logger.serverLog(TAG, `subscribersPayload: ${util.inspect(subscribersPayload)}`, 'debug')
           // start append custom Fields
           utility.callApi('custom_fields/query', 'post', { purpose: 'findAll', match: { $or: [{companyId: req.user.companyId}, {default: true}] } })
             .then(customFields => {
               dt = new Date()
               utcDate = dt.toUTCString()
-              logger.serverLog(TAG, `custom_fields/query ${utcDate}`, 'info')
-              // logger.serverLog(TAG, `customFields: ${util.inspect(customFields)}`, 'debug')
               let customFieldIds = customFields.map((cf) => cf._id)
               utility.callApi('custom_field_subscribers/query', 'post', {purpose: 'findAll', match: {subscriberId: {$in: subscriberIds}, customFieldId: {$in: customFieldIds}}})
                 .then(customFieldSubscribers => {
                   dt = new Date()
                   utcDate = dt.toUTCString()
-                  logger.serverLog(TAG, `customFieldSubscribers/query ${utcDate}`, 'info')
-                  logger.serverLog(TAG, `customFieldSubscribers: ${util.inspect(customFieldSubscribers)}`, 'debug')
                   let finalPayload = logicLayer.getFinalPayload(subscribersPayload, customFields, customFieldSubscribers)
-                  logger.serverLog(TAG, `subscribersFinalPayload: ${util.inspect(finalPayload)}`, 'debug')
                   dt = new Date()
                   utcDate = dt.toUTCString()
-                  logger.serverLog(TAG, `before send success response ${utcDate}`, 'info')
                   sendSuccessResponse(res, 200, {subscribers: finalPayload, count: count.length > 0 ? count[0].count : 0})
                 })
                 .catch(error => {
@@ -169,7 +157,6 @@ const getAllSubscribers = function (subscribers, count, req, res) {
 exports.getAll = function (req, res) {
   var dt = new Date()
   var utcDate = dt.toUTCString()
-  logger.serverLog(TAG, `starting function time ${utcDate}`, 'info')
   let tagIDs = []
   let tagValue = []
   if (req.body.filter_criteria.tag_value) {
@@ -178,15 +165,10 @@ exports.getAll = function (req, res) {
       .then(tags => {
         dt = new Date()
         utcDate = dt.toUTCString()
-        logger.serverLog(TAG, `After tags Query ${utcDate}`, 'info')
         tagIDs = tags.map((tag) => tag._id)
-        console.log('tagIDs', tagIDs)
         let criterias = logicLayer.getCriteriasTags(req, tagIDs)
         utility.callApi(`tags_subscriber/aggregate`, 'post', criterias.countCriteria) // fetch subscribers count
           .then(count => {
-            console.log('subscribers by filter count', count)
-
-            logger.serverLog(TAG, `tags_subscribers/aggregate count ${utcDate}`, 'info')
             utility.callApi(`tags_subscriber/aggregate`, 'post', criterias.fetchCriteria) // fetch subscribers count
               .then(subscribers => {
                 console.log('subscribers by filter', subscribers)
@@ -199,26 +181,27 @@ exports.getAll = function (req, res) {
                 getAllSubscribers(newSubscribersArray, count, req, res)
               })
               .catch(err => {
-                logger.serverLog(TAG, `Failed to fetch subscriber data  ${JSON.stringify(err)}`, 'error')
+                const message = err || 'Failed to fetch subscriber data'
+                logger.serverLog(message, `${TAG}: exports.getAll`, {}, {}, 'error')
               })
           })
           .catch(err => {
-            logger.serverLog(TAG, `Failed to fetch subscriber count  ${JSON.stringify(err)}`, 'error')
+            const message = err || 'Failed to fetch subscriber count'
+            logger.serverLog(message, `${TAG}: exports.getAll`, {}, {}, 'error')
           })
       })
       .catch(err => {
-        logger.serverLog(TAG, `Failed to fetch tag  ${JSON.stringify(err)}`, 'error')
+        const message = err || 'Failed to fetch tag'
+        logger.serverLog(message, `${TAG}: exports.getAll`, {}, {}, 'error')
       })
   } else {
     dt = new Date()
     utcDate = dt.toUTCString()
-    logger.serverLog(TAG, `After tags Query Loop  ${utcDate}`, 'info')
     let criterias = logicLayer.getCriterias(req, tagIDs)
     utility.callApi(`subscribers/aggregate`, 'post', criterias.countCriteria) // fetch subscribers count
       .then(count => {
         dt = new Date()
         utcDate = dt.toUTCString()
-        logger.serverLog(TAG, `subscribers/aggregate count ${utcDate}`, 'info')
 
         utility.callApi(`subscribers/aggregate`, 'post', criterias.fetchCriteria) // fetch subscribers
           .then(subscribers => {
@@ -321,8 +304,8 @@ exports.unSubscribe = function (req, res) {
         `https://graph.facebook.com/v6.0/${userPage.pageId}?fields=access_token&access_token=${currentUser.facebookInfo.fbToken}`,
         (err, resp) => {
           if (err) {
-            logger.serverLog(TAG,
-              `Page access token from graph api error ${JSON.stringify(err)}`)
+            const message = err || 'Page access token from graph api error'
+            logger.serverLog(message, `${TAG}: exports.recordRedis`, {}, {}, 'error')
           }
           const messageData = {
             text: 'We have unsubscribed you from our page. We will notify you when we subscribe you again. Thanks'
@@ -370,6 +353,7 @@ function saveNotifications (companyUser, subscriber, req) {
   utility.callApi('notifications', 'post', notificationsData, 'kibochat')
     .then(savedNotification => { })
     .catch(error => {
-      logger.serverLog(TAG, `Failed to create notification ${JSON.stringify(error)}`)
+      const message = error || 'Failed to create notification'
+      logger.serverLog(message, `${TAG}: exports.saveNotifications`, {}, { companyUser, subscriber }, 'error')
     })
 }

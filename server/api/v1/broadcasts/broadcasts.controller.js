@@ -39,7 +39,8 @@ exports.delete = function (req, res) {
   // unlink file
   fs.unlink(dir + '/' + req.params.id, function (err) {
     if (err) {
-      logger.serverLog(TAG, err)
+      const message = err || 'error in deleting file'
+      logger.serverLog(message, `${TAG}: exports.delete`, {}, {}, 'error')
       return res.status(404)
         .json({status: 'failed', description: 'File not found'})
     } else {
@@ -106,11 +107,6 @@ exports.uploadRecording = function (req, res) {
         description: 'internal server error' + JSON.stringify(err)
       })
     } else {
-      logger.serverLog(TAG, `file uploaded on KiboPush: ${JSON.stringify({
-        id: serverPath,
-        url: `${config.domain}/api/broadcasts/download/${serverPath}`
-      })}`)
-
       return res.status(201).json({
         status: 'success',
         payload: {
@@ -140,14 +136,6 @@ exports.upload = function (req, res) {
       description: 'No file submitted'
     })
   }
-  logger.serverLog(TAG,
-    `req.files.file ${JSON.stringify(req.files.file.path)}`)
-  logger.serverLog(TAG,
-    `req.files.file ${JSON.stringify(req.files.file.name)}`)
-  logger.serverLog(TAG,
-    `dir ${JSON.stringify(dir)}`)
-  logger.serverLog(TAG,
-    `serverPath ${JSON.stringify(serverPath)}`)
   fs.rename(
     req.files.file.path,
     dir + '/userfiles/' + serverPath,
@@ -163,14 +151,8 @@ exports.upload = function (req, res) {
         let writeData = fs.createWriteStream(dir + '/userfiles/' + req.files.file.name)
         readData.pipe(writeData)
       }
-      logger.serverLog(TAG,
-        `file uploaded on KiboPush, uploading it on Facebook: ${JSON.stringify({
-          id: serverPath,
-          url: `${config.domain}/api/broadcasts/download/${serverPath}`
-        })}`)
       if (req.body.pages && req.body.pages !== 'undefined' && req.body.pages.length > 0) {
         let pages = JSON.parse(req.body.pages)
-        logger.serverLog(TAG, `Pages in upload file ${pages}`)
         utility.callApi(`pages/${pages[0]}`, 'get', {})
           .then(page => {
             needle.get(
@@ -209,8 +191,6 @@ exports.upload = function (req, res) {
                         description: 'unable to upload attachment on Facebook, sending response' + JSON.stringify(err)
                       })
                     } else {
-                      logger.serverLog(TAG,
-                        `file uploaded on Facebook ${JSON.stringify(resp.body)}`)
                       return res.status(201).json({
                         status: 'success',
                         payload: {
@@ -246,8 +226,8 @@ exports.download = function (req, res) {
   try {
     res.sendfile(req.params.id, {root: dir})
   } catch (err) {
-    logger.serverLog(TAG,
-      `Inside Download file, err = ${JSON.stringify(err)}`)
+    const message = err || 'Inside download file error'
+    logger.serverLog(message, `${TAG}: exports.download`, {}, {}, 'error')
     res.status(404)
       .json({status: 'success', payload: 'Not Found ' + JSON.stringify(err)})
   }
