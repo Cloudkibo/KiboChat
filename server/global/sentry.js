@@ -1,15 +1,12 @@
-const Raven = require('raven')
+const Sentry = require('@sentry/node')
 
 exports.sendAlert = function (message, path, data, otherInfo, level) {
-  try {
-    throw new Error(message)
-  } catch (e) {
-    const title = message instanceof Error ? message : e
-    Raven.context(() => {
-      Raven.captureException(title, {
-        extra: {path, data, otherInfo},
-        level
-      })
-    })
-  }
+  const title = message instanceof Error ? message : new Error(message)
+  Sentry.withScope(scope => {
+    scope.setExtra('path', path)
+    scope.setExtra('data', JSON.stringify(data))
+    scope.setExtra('otherInfo', JSON.stringify(otherInfo))
+    scope.setLevel('level', level)
+    Sentry.captureException(title)
+  })
 }
