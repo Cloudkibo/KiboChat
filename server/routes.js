@@ -4,6 +4,7 @@ const path = require('path')
 const multiparty = require('connect-multiparty')
 const multipartyMiddleware = multiparty()
 const fs = require('fs')
+const Sentry = require('@sentry/node')
 
 module.exports = function (app) {
   // API middlewares go here
@@ -74,6 +75,7 @@ module.exports = function (app) {
   app.use('/api/bigcommerce', require('./api/v1.1/bigcommerce'))
   app.use('/api/attachment', require('./api/v1.1/attachment'))
   app.use('/api/backdoor', require('./api/v1.1/backdoor'))
+
   // auth middleware go here if you authenticate on same server
 
   app.get('/', (req, res) => {
@@ -189,6 +191,7 @@ module.exports = function (app) {
   })
 
   if (env === 'production' || env === 'staging') {
-    app.use(Raven.errorHandler())
+    app.use(Sentry.Handlers.errorHandler())
+    app.use(Sentry.Handlers.requestHandler())
   }
 }
