@@ -5,19 +5,18 @@ const { sendSuccessResponse, sendErrorResponse } = require('../../global/respons
 const { callGoogleApi } = require('../../global/googleApiCaller')
 
 exports.index = function (req, res) {
-  logger.serverLog(TAG, 'create endpoint of intents is hit', 'debug')
   dataLayer.findAllIntents({ botId: req.body.botId })
     .then(intents => {
       sendSuccessResponse(res, 200, intents)
     })
     .catch(err => {
-      logger.serverLog(TAG, `Error occured while fetching intent ${err}`, 'error')
+      const message = err || 'Error occured while fetching intent'
+      logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
       sendErrorResponse(res, 500, 'Error occured while creating intent')
     })
 }
 
 exports.create = function (req, res) {
-  logger.serverLog(TAG, 'create endpoint of intents is hit', 'debug')
   dataLayer.findOneIntent({ name: req.body.name })
     .then(intent => {
       if (intent) {
@@ -32,38 +31,40 @@ exports.create = function (req, res) {
             sendSuccessResponse(res, 200, 'Intent created succssfully!')
           })
           .catch(err => {
-            logger.serverLog(TAG, `Error occured while creating intent ${err}`, 'error')
+            const message = err || 'Error occured while creating intent'
+            logger.serverLog(message, `${TAG}: exports.create`, req.body, {}, 'error')
             sendErrorResponse(res, 500, 'Error occured while creating intent')
           })
       }
     })
     .catch(err => {
-      logger.serverLog(TAG, `Error occured while fetching intent ${err}`, 'error')
+      const message = err || 'Error occured while fetching intent'
+      logger.serverLog(message, `${TAG}: exports.create`, req.body, {}, 'error')
       sendErrorResponse(res, 500, 'Error occured while creating intent')
     })
 }
 
 exports.update = function (req, res) {
-  logger.serverLog(TAG, 'create endpoint of intents is hit', 'debug')
   dataLayer.updateOneIntent({ _id: req.body.intentId }, { name: req.body.name })
     .then(updatedObj => {
       sendSuccessResponse(res, 200, 'Intent updated successfully!')
     })
     .catch(err => {
-      logger.serverLog(TAG, `Error occured while updating intent ${err}`, 'error')
+      const message = err || 'Error occured while updating intent'
+      logger.serverLog(message, `${TAG}: exports.update`, req.body, {}, 'error')
       sendErrorResponse(res, 500, 'Error occured while updating intent')
     })
 }
 
 exports.delete = function (req, res) {
-  logger.serverLog(TAG, 'delete endpoint of intents is hit', 'debug')
   if (!req.body.dialogflowIntentId) {
     dataLayer.deleteOneIntent({ _id: req.body.intentId })
       .then(deletedObj => {
         sendSuccessResponse(res, 200, 'Intent deleted successfully!')
       })
       .catch(err => {
-        logger.serverLog(TAG, err, 'error')
+        const message = err || 'Failed to delete intent.'
+        logger.serverLog(message, `${TAG}: exports.delete`, req.body, {}, 'error')
         sendErrorResponse(res, 500, 'Failed to delete intent.')
       })
   } else {
@@ -74,12 +75,14 @@ exports.delete = function (req, res) {
             sendSuccessResponse(res, 200, 'Intent deleted successfully!')
           })
           .catch(err => {
-            logger.serverLog(TAG, err, 'error')
+            const message = err || 'Failed to delete intent.'
+            logger.serverLog(message, `${TAG}: exports.delete`, req.body, {}, 'error')
             sendErrorResponse(res, 500, 'Failed to delete intent.')
           })
       })
       .catch(err => {
-        logger.serverLog(TAG, `Error occured while deleting intent ${err}`, 'error')
+        const message = err || 'Error occured while deleting intent'
+        logger.serverLog(message, `${TAG}: exports.delete`, req.body, {}, 'error')
         sendErrorResponse(res, 500, 'Error occured while deleting intent')
       })
   }
@@ -89,19 +92,5 @@ const _deleteDialogFlowIntent = (data) => {
   return callGoogleApi(
     `https://dialogflow.googleapis.com/v2/projects/${data.gcpPojectId.toLowerCase()}/agent/intents/${data.dialogflowIntentId}`,
     'DELETE'
-  )
-}
-
-const _deleteIntentRecordInDb = (data) => {
-  return intentsDataLayer.updateOneIntent(
-    {
-      _id: data.intentId
-    },
-    {
-      name: data.name,
-      questions: data.questions,
-      answer: data.answer,
-      dialogflowIntentId: data.dialogflowIntentId
-    }
   )
 }

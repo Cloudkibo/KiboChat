@@ -40,5 +40,6 @@ module.exports = {
   COVIS: 'http://209.97.155.81/api',
   zoomClientId: process.env.ZOOM_CLIENT_ID,
   zoomClientSecret: process.env.ZOOM_CLIENT_SECRET,
-  zoomRedirectUri: process.env.ZOOM_REDIRECT_URI
+  zoomRedirectUri: process.env.ZOOM_REDIRECT_URI,
+  papertrail_log_levels: process.env.PAPERTRAIL_LOG_LEVELS
 }

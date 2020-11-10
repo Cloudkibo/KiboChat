@@ -22,10 +22,22 @@ router.get('/install', // handle installing of app from shopify app store
 router.get('/callback',
   controller.callback) // this id will be userid
 
+router.post('/app-uninstall',
+  controller.handleAppUninstall) // this id will be userid
+
 router.get('/fetchStore',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer(),
   controller.fetchStore) // this id will be userid
+
+router.post('/gdpr/erasecustomer',
+  controller.eraseCustomerData) // this id will be userid
+
+router.post('/gdpr/eraseshop',
+  controller.eraseShopData) // this id will be userid
+
+router.post('/gdpr/getcustomerdata',
+  controller.getCustomerData) // this id will be userid
 
 router.get('/testRoute',
   auth.isAuthenticated(),

@@ -1,5 +1,5 @@
 const logiclayer = require('./chatbots.logiclayer')
-const shopifyLogicLayer = require('./shopifyChatbot.logiclayer')
+const commerceLogicLayer = require('./commerceChatbot.logiclayer')
 const datalayer = require('./chatbots.datalayer')
 const analyticsDataLayer = require('./chatbots_analytics.datalayer')
 const msgBlockDataLayer = require('./../messageBlock/messageBlock.datalayer')
@@ -12,6 +12,7 @@ const { sendErrorResponse, sendSuccessResponse } = require('../../global/respons
 const { kibochat, kiboengage } = require('../../global/constants').serverConstants
 const async = require('async')
 const shopifyDataLayer = require('../shopify/shopify.datalayer')
+const bigCommerceDataLayer = require('../bigcommerce/bigcommerce.datalayer')
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
 const EcommerceProvider = require('../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
 
@@ -50,7 +51,8 @@ exports.update = function (req, res) {
     published: req.body.published,
     fallbackReply: req.body.fallbackReply,
     fallbackReplyEnabled: req.body.fallbackReplyEnabled,
-    isYoutubePlayable: req.body.isYoutubePlayable
+    isYoutubePlayable: req.body.isYoutubePlayable,
+    builderPreference: req.body.builderPreference
   }
   datalayer.genericUpdateChatBot({ _id: req.body.chatbotId }, dataToUpdate)
     .then(chatbotUpdated => {
@@ -97,7 +99,8 @@ exports.stats = (req, res) => {
       }
     })
     .catch(error => {
-      logger.serverLog(TAG, error, 'error')
+      const message = error || 'error in chatbots controller stats'
+      logger.serverLog(message, `${TAG}: exports.stats`, {}, { criteria, groupCriteria }, 'error')
       sendErrorResponse(res, 500, 'Failed to fetch analytics for chatbot')
     })
 }
@@ -108,7 +111,8 @@ exports.fetchChatbot = function (req, res) {
       sendSuccessResponse(res, 200, chatbot)
     })
     .catch(err => {
-      logger.serverLog(TAG, err, 'error')
+      const message = err || 'Failed to fetch chatbot'
+      logger.serverLog(message, `${TAG}: exports.fetchChatbot`, {}, {}, 'error')
       sendErrorResponse(res, 500, 'Failed to fetch chatbot')
     })
 }
@@ -131,6 +135,8 @@ exports.delete = function (req, res) {
       return res.status(201).json({ status: 'success', payload: chatbot })
     })
     .catch(error => {
+      const message = error || 'Failed to delete chatbot'
+      logger.serverLog(message, `${TAG}: exports.delete`, {}, {}, 'error')
       return res.status(500).json({ status: 'failed', payload: `Failed to delete chatbot ${error}` })
     })
 }
@@ -141,7 +147,8 @@ exports.fetchBackup = function (req, res) {
       sendSuccessResponse(res, 200, backup)
     })
     .catch(err => {
-      logger.serverLog(TAG, err, 'error')
+      const message = err || 'Failed to fetch backup'
+      logger.serverLog(message, `${TAG}: exports.fetchBackup`, {}, {}, 'error')
       sendErrorResponse(res, 500, 'Failed to fetch backup')
     })
 }
@@ -191,7 +198,8 @@ exports.createBackup = function (req, res) {
         cb()
       }, function (err) {
         if (err) {
-          logger.serverLog(TAG, err, 'error')
+          const message = err || 'Failed to create backup'
+          logger.serverLog(message, `${TAG}: exports.createChatBotBackup`, {}, {}, 'error')
           sendErrorResponse(res, 500, 'Failed to create backup')
         } else {
           Promise.all(backupCalls)
@@ -199,14 +207,16 @@ exports.createBackup = function (req, res) {
               sendSuccessResponse(res, 200, 'Backup created successfully')
             })
             .catch(err => {
-              logger.serverLog(TAG, err, 'error')
+              const message = err || 'Failed to create backup'
+              logger.serverLog(message, `${TAG}: exports.createChatBotBackup`, {}, {}, 'error')
               sendErrorResponse(res, 500, 'Failed to create backup')
             })
         }
       })
     })
     .catch(err => {
-      logger.serverLog(TAG, err, 'error')
+      const message = err || 'Failed to create backup'
+      logger.serverLog(message, `${TAG}: exports.createChatBotBackup`, {}, {}, 'error')
       sendErrorResponse(res, 500, 'Failed to create backup')
     })
 }
@@ -249,7 +259,8 @@ exports.restoreBackup = function (req, res) {
         cb()
       }, function (err) {
         if (err) {
-          logger.serverLog(TAG, err, 'error')
+          const message = err || 'Failed to restore backup'
+          logger.serverLog(message, `${TAG}: exports.restoreBackup`, {}, {}, 'error')
           sendErrorResponse(res, 500, 'Failed to restore backup')
         } else {
           Promise.all(backupCalls)
@@ -262,35 +273,37 @@ exports.restoreBackup = function (req, res) {
                       sendSuccessResponse(res, 200, 'Backup restored successfully')
                     })
                     .catch(err => {
-                      logger.serverLog(TAG, err, 'error')
+                      const message = err || 'Failed to restore backup'
+                      logger.serverLog(message, `${TAG}: exports.restoreBackup`, {}, {}, 'error')
                       sendErrorResponse(res, 500, 'Failed to restore backup')
                     })
                 })
                 .catch(err => {
-                  logger.serverLog(TAG, err, 'error')
+                  const message = err || 'Failed to restore backup'
+                  logger.serverLog(message, `${TAG}: exports.restoreBackup`, {}, {}, 'error')
                   sendErrorResponse(res, 500, 'Failed to restore backup')
                 })
             })
             .catch(err => {
-              logger.serverLog(TAG, err, 'error')
+              const message = err || 'Failed to restore backup'
+              logger.serverLog(message, `${TAG}: exports.restoreBackup`, {}, {}, 'error')
               sendErrorResponse(res, 500, 'Failed to restore backup')
             })
         }
       })
     })
     .catch(err => {
-      logger.serverLog(TAG, err, 'error')
+      const message = err || 'Failed to restore backup'
+      logger.serverLog(message, `${TAG}: exports.restoreBackup`, {}, {}, 'error')
       sendErrorResponse(res, 500, 'Failed to restore backup')
     })
 }
 
 exports.redirectToUrl = (req, res) => {
   if (!req.headers['user-agent'].startsWith('facebook')) {
-    logger.serverLog(TAG, `chatbot click count increased ${req.params.id}`, 'debug')
     urlDataLayer.findOneURL(req.params.id)
       .then(URLObject => {
         if (URLObject) {
-          logger.serverLog(TAG, `URLObject found, incrementing click ${JSON.stringify(URLObject)}`, 'debug')
           msgBlockDataLayer.findOneMessageBlock({ uniqueId: URLObject.module.id })
             .then(msgBlockFound => {
               chatbotAutomation.updateBotLifeStatsForBlock(msgBlockFound, false)
@@ -316,7 +329,7 @@ exports.redirectToUrl = (req, res) => {
 }
 
 exports.exportData = (req, res) => {
-  analyticsDataLayer.findForBotSubscribersAnalyticsForSQL({companyId: req.user.companyId})
+  analyticsDataLayer.findForBotSubscribersAnalyticsForSQL({ companyId: req.user.companyId })
     .then(results => {
       var subscriberIds = results.map(value => value.subscriberId)
       var unique = subscriberIds.filter((v, i, a) => a.indexOf(v) === i)
@@ -343,7 +356,7 @@ exports.exportData = (req, res) => {
     })
 }
 
-exports.getShopifyChatbotTriggers = async (req, res) => {
+exports.getCommerceChatbotTriggers = async (req, res) => {
   let chatbot = await datalayer.findOneChatBot({
     _id: req.params.chatbotId
   })
@@ -351,31 +364,59 @@ exports.getShopifyChatbotTriggers = async (req, res) => {
   sendSuccessResponse(res, 200, messageBlock.triggers)
 }
 
-exports.updateShopifyChatbot = async (req, res) => {
+exports.updateCommerceChatbot = async (req, res) => {
   const updateResponse = await datalayer.genericUpdateChatBot({ _id: req.body.chatbotId }, req.body)
-  sendSuccessResponse(res, 200, updateResponse, 'Shopify chatbot updated successfully')
+  sendSuccessResponse(res, 200, updateResponse, 'Commerce chatbot updated successfully')
   let updatedChatbot = await datalayer.findOneChatBot({
     _id: req.body.chatbotId
   })
   if (req.body.botLinks && req.body.botLinks.faqs) {
-    shopifyLogicLayer.updateFaqsForStartingBlock(updatedChatbot)
+    commerceLogicLayer.updateFaqsForStartingBlock(updatedChatbot)
   }
   if (req.body.triggers) {
     msgBlockDataLayer.genericUpdateMessageBlock({ uniqueId: updatedChatbot.startingBlockId }, {
       triggers: req.body.triggers
     })
   }
-}
-
-exports.createShopifyChatbot = async (req, res) => {
-  try {
-    const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: req.user.companyId })
-    logger.serverLog(TAG, `shopify integration ${JSON.stringify(shopifyIntegration)}`, 'info')
-    if (shopifyIntegration) {
-      const ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
+  if (req.body.storeType) {
+    let ecommerceProvider = null
+    if (req.body.storeType === commerceConstants.shopify) {
+      const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: req.user.companyId })
+      ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
         shopUrl: shopifyIntegration.shopUrl,
         shopToken: shopifyIntegration.shopToken
       })
+    } else if (req.body.storeType === commerceConstants.bigcommerce) {
+      const bigCommerceIntegration = await bigCommerceDataLayer.findOneBigCommerceIntegration({ companyId: req.user.companyId })
+      ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
+        shopToken: bigCommerceIntegration.shopToken,
+        storeHash: bigCommerceIntegration.payload.context
+      })
+    }
+    if (ecommerceProvider) {
+      let storeInfo = await ecommerceProvider.fetchStoreInfo()
+      commerceLogicLayer.updateStartingBlock(updatedChatbot, storeInfo.name)
+    }
+  }
+}
+
+exports.createCommerceChatbot = async (req, res) => {
+  try {
+    let ecommerceProvider = null
+    if (req.body.storeType === commerceConstants.shopify) {
+      const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: req.user.companyId })
+      ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
+        shopUrl: shopifyIntegration.shopUrl,
+        shopToken: shopifyIntegration.shopToken
+      })
+    } else if (req.body.storeType === commerceConstants.bigcommerce) {
+      const bigCommerceIntegration = await bigCommerceDataLayer.findOneBigCommerceIntegration({ companyId: req.user.companyId })
+      ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
+        shopToken: bigCommerceIntegration.shopToken,
+        storeHash: bigCommerceIntegration.payload.context
+      })
+    }
+    if (ecommerceProvider) {
       let storeInfo = await ecommerceProvider.fetchStoreInfo()
       let chatbot = await datalayer.createForChatBot({
         pageId: req.body.pageId,
@@ -383,19 +424,20 @@ exports.createShopifyChatbot = async (req, res) => {
         userId: req.user._id,
         type: 'automated',
         vertical: 'commerce',
-        botLinks: req.body.botLinks
+        botLinks: req.body.botLinks,
+        storeType: req.body.storeType
       })
-      let messageBlocks = shopifyLogicLayer.getMessageBlocks(chatbot, storeInfo.name)
+      let messageBlocks = commerceLogicLayer.getMessageBlocks(chatbot, storeInfo.name)
       await datalayer.genericUpdateChatBot({ companyId: req.user.companyId, pageId: req.body.pageId }, {
         startingBlockId: messageBlocks[0].uniqueId
       })
       chatbot.startingBlockId = messageBlocks[0].uniqueId
-      sendSuccessResponse(res, 200, chatbot, 'Shopify chatbot created successfully')
+      sendSuccessResponse(res, 200, chatbot, 'Commerce chatbot created successfully')
     } else {
-      sendErrorResponse(res, 500, 'Shopify is not integrated', 'Shopify is not integrated')
+      sendErrorResponse(res, 500, 'No e-commerce provider is integrated', 'No e-commerce provider is integrated')
     }
   } catch (err) {
-    console.log(`Failed to create Shopify chatbot`, err.stack)
-    sendErrorResponse(res, 500, err ? err.message : `Failed to create Shopify chatbot`, `Failed to create Shopify chatbot`)
+    console.log(`Failed to create commerce chatbot`, err.stack)
+    sendErrorResponse(res, 500, err ? err.message : `Failed to create commerce chatbot`, `Failed to create commerce chatbot`)
   }
 }

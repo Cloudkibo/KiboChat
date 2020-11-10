@@ -55,7 +55,8 @@ exports.index = function (req, res) {
                     updateContact(contact._id, {$inc: { unreadCount: 1, messagesCount: 1 }})
                   })
                   .catch(error => {
-                    logger.serverLog(TAG, `Failed to create sms ${error}`, 'error')
+                    const message = error || 'Failed to create sms'
+                    logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
                   })
                 if (req.body.Body !== '' && (req.body.Body.toLowerCase() === 'unsubscribe' || req.body.Body.toLowerCase() === 'stop')) {
                   handleUnsub(user, company, contact, req.body)
@@ -65,15 +66,18 @@ exports.index = function (req, res) {
               }
             })
             .catch(error => {
-              logger.serverLog(TAG, `Failed to fetch contact ${error}`, 'error')
+              const message = error || 'Failed to fetch contact'
+              logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
             })
         })
         .catch(error => {
-          logger.serverLog(TAG, `Failed to fetch user ${JSON.stringify(error)}`, 'error')
+          const message = error || 'Failed to fetch user'
+          logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
         })
     })
     .catch(error => {
-      logger.serverLog(TAG, `Failed to get company ${JSON.stringify(error)}`, 'error')
+      const message = error || 'Failed to get company'
+      logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
     })
 }
 
@@ -87,7 +91,8 @@ function updateContact (contactId, newPayload) {
     .then(updated => {
     })
     .catch(error => {
-      logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`, 'error')
+      const message = error || 'Failed to update contact'
+      logger.serverLog(message, `${TAG}: exports.updateContact`, {}, {}, 'error')
     })
 }
 
@@ -103,10 +108,10 @@ function handleUnsub (user, company, contact, body) {
       to: contact.number
     })
     .then(response => {
-      logger.serverLog(TAG, `response from twilio ${JSON.stringify(response)}`)
     })
     .catch(error => {
-      logger.serverLog(TAG, `error at sending message ${error}`, 'error')
+      const message = error || 'error at sending message'
+      logger.serverLog(message, `${TAG}: exports.handleUnsub`, {}, {}, 'error')
     })
   let message = {
     senderNumber: company.twilioWhatsApp.sandboxNumber,
@@ -131,7 +136,8 @@ function handleUnsub (user, company, contact, body) {
         .then(updated => {
         })
         .catch(error => {
-          logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`, 'error')
+          const message = error || 'Failed to update contact'
+          logger.serverLog(message, `${TAG}: exports.handleUnsub`, {}, {}, 'error')
         })
     })
 }
@@ -147,10 +153,10 @@ function handleSub (user, company, contact, body) {
       to: contact.number
     })
     .then(response => {
-      logger.serverLog(TAG, `response from twilio ${JSON.stringify(response)}`)
     })
     .catch(error => {
-      logger.serverLog(TAG, `error at sending message ${error}`, 'error')
+      const message = error || 'error at sending message'
+      logger.serverLog(message, `${TAG}: exports.handleSub`, {}, {}, 'error')
     })
   let message = {
     senderNumber: company.twilioWhatsApp.sandboxNumber,
@@ -175,7 +181,8 @@ function handleSub (user, company, contact, body) {
         .then(updated => {
         })
         .catch(error => {
-          logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`, 'error')
+          const message = error || 'Failed to update contact'
+          logger.serverLog(message, `${TAG}: exports.handleSub`, {}, {}, 'error')
         })
     })
 }
@@ -205,15 +212,18 @@ function _sendNotification (subscriber, companyId) {
                   })
                   saveNotifications(subscriber, companyUsers)
                 }).catch(error => {
-                  logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
+                  const message = error || 'Error while fetching agents'
+                  logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, {}, 'error')
                 })
             }
           }
         }).catch(error => {
-          logger.serverLog(TAG, `Error while fetching Last Message ${error}`, 'error')
+          const message = error || 'Error while fetching Last Message'
+          logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, {}, 'error')
         })
     }).catch(error => {
-      logger.serverLog(TAG, `Error while fetching companyUser ${error}`, 'error')
+      const message = error || 'Error while fetching companyUser'
+      logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, {}, 'error')
     })
 }
 
@@ -238,7 +248,8 @@ function saveNotifications (contact, companyUsers) {
         })
       })
       .catch(error => {
-        logger.serverLog(TAG, `Failed to save notification ${error}`, 'error')
+        const message = error || 'Failed to save notification'
+        logger.serverLog(message, `${TAG}: exports.saveNotifications`, {}, {}, 'error')
       })
   })
 }

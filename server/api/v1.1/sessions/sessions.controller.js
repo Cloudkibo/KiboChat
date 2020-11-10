@@ -5,98 +5,112 @@ const logicLayer = require('./sessions.logiclayer')
 const needle = require('needle')
 // const util = require('util')
 const async = require('async')
+const moment = require('moment')
 const { sendNotifications } = require('../../global/sendNotification')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const { pushUnresolveAlertInStack, deleteUnresolvedSessionFromStack } = require('../../global/messageAlerts')
+const { sendWebhook } = require('../../global/sendWebhook')
 
 exports.fetchOpenSessions = function (req, res) {
-  async.parallelLimit([
-    function (callback) {
-      let data = logicLayer.getCount(req, 'new')
-      callApi('subscribers/aggregate', 'post', data)
-        .then(result => {
-          callback(null, result)
-        })
-        .catch(err => {
-          callback(err)
-        })
-    },
-    function (callback) {
-      let data = logicLayer.getSessions(req, 'new')
-      callApi('subscribers/aggregate', 'post', data)
-        .then(result => {
-          callback(null, result)
-        })
-        .catch(err => {
-          callback(err)
-        })
-    },
-    function (callback) {
-      let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId}, undefined, undefined, undefined, {_id: '$subscriber_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
-      callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
-        .then(data => {
-          callback(null, data)
-        })
-        .catch(err => {
-          callback(err)
-        })
-    }
-  ], 10, function (err, results) {
-    if (err) {
+  callApi('companyprofile/query', 'post', { _id: req.user.companyId }, 'accounts')
+    .then(companyData => {
+      async.parallelLimit([
+        function (callback) {
+          let data = logicLayer.getCount(req, 'new', companyData)
+          callApi('subscribers/aggregate', 'post', data)
+            .then(result => {
+              callback(null, result)
+            })
+            .catch(err => {
+              callback(err)
+            })
+        },
+        function (callback) {
+          let data = logicLayer.getSessions(req, 'new', companyData)
+          callApi('subscribers/aggregate', 'post', data)
+            .then(result => {
+              callback(null, result)
+            })
+            .catch(err => {
+              callback(err)
+            })
+        },
+        function (callback) {
+          let lastMessageData = logicLayer.getQueryData('', 'aggregate', { company_id: req.user.companyId }, undefined, undefined, undefined, { _id: '$subscriber_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' } })
+          callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
+            .then(data => {
+              callback(null, data)
+            })
+            .catch(err => {
+              callback(err)
+            })
+        }
+      ], 10, function (err, results) {
+        if (err) {
+          sendErrorResponse(res, 500, err)
+        } else {
+          let countResopnse = results[0]
+          let sessionsResponse = results[1]
+          let lastMessageResponse = results[2]
+          let sessions = logicLayer.putLastMessage(lastMessageResponse, sessionsResponse)
+          sendSuccessResponse(res, 200, { openSessions: sessions, count: countResopnse.length > 0 ? countResopnse[0].count : 0 })
+        }
+      })
+    })
+    .catch(err => {
       sendErrorResponse(res, 500, err)
-    } else {
-      let countResopnse = results[0]
-      let sessionsResponse = results[1]
-      let lastMessageResponse = results[2]
-      let sessions = logicLayer.putLastMessage(lastMessageResponse, sessionsResponse)
-      sendSuccessResponse(res, 200, {openSessions: sessions, count: countResopnse.length > 0 ? countResopnse[0].count : 0})
-    }
-  })
+    })
 }
 
 exports.fetchResolvedSessions = function (req, res) {
-  async.parallelLimit([
-    function (callback) {
-      let data = logicLayer.getCount(req, 'resolved')
-      callApi('subscribers/aggregate', 'post', data)
-        .then(result => {
-          callback(null, result)
-        })
-        .catch(err => {
-          callback(err)
-        })
-    },
-    function (callback) {
-      let data = logicLayer.getSessions(req, 'resolved')
-      callApi('subscribers/aggregate', 'post', data)
-        .then(result => {
-          callback(null, result)
-        })
-        .catch(err => {
-          callback(err)
-        })
-    },
-    function (callback) {
-      let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId}, undefined, undefined, undefined, {_id: '$subscriber_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
-      callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
-        .then(data => {
-          callback(null, data)
-        })
-        .catch(err => {
-          callback(err)
-        })
-    }
-  ], 10, function (err, results) {
-    if (err) {
-      return res.status(500).json({status: 'failed', payload: err})
-    } else {
-      let countResopnse = results[0]
-      let sessionsResponse = results[1]
-      let lastMessageResponse = results[2]
-      let sessions = logicLayer.putLastMessage(lastMessageResponse, sessionsResponse)
-      sendSuccessResponse(res, 200, {closedSessions: sessions, count: countResopnse.length > 0 ? countResopnse[0].count : 0})
-    }
-  })
+  callApi('companyprofile/query', 'post', { _id: req.user.companyId }, 'accounts')
+    .then(companyData => {
+      async.parallelLimit([
+        function (callback) {
+          let data = logicLayer.getCount(req, 'resolved', companyData)
+          callApi('subscribers/aggregate', 'post', data)
+            .then(result => {
+              callback(null, result)
+            })
+            .catch(err => {
+              callback(err)
+            })
+        },
+        function (callback) {
+          let data = logicLayer.getSessions(req, 'resolved', companyData)
+          callApi('subscribers/aggregate', 'post', data)
+            .then(result => {
+              callback(null, result)
+            })
+            .catch(err => {
+              callback(err)
+            })
+        },
+        function (callback) {
+          let lastMessageData = logicLayer.getQueryData('', 'aggregate', { company_id: req.user.companyId }, undefined, undefined, undefined, { _id: '$subscriber_id', payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' } })
+          callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
+            .then(data => {
+              callback(null, data)
+            })
+            .catch(err => {
+              callback(err)
+            })
+        }
+      ], 10, function (err, results) {
+        if (err) {
+          return res.status(500).json({ status: 'failed', payload: err })
+        } else {
+          let countResopnse = results[0]
+          let sessionsResponse = results[1]
+          let lastMessageResponse = results[2]
+          let sessions = logicLayer.putLastMessage(lastMessageResponse, sessionsResponse)
+          sendSuccessResponse(res, 200, { closedSessions: sessions, count: countResopnse.length > 0 ? countResopnse[0].count : 0 })
+        }
+      })
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, err)
+    })
 }
 
 exports.markread = function (req, res) {
@@ -121,8 +135,8 @@ exports.markread = function (req, res) {
 }
 
 function markreadLocal (req, callback) {
-  let updateData = logicLayer.getUpdateData('updateAll', {subscriber_id: req.params.id}, {status: 'seen'}, false, true)
-  callApi('subscribers/update', 'put', {query: {_id: req.params.id}, newPayload: {unreadCount: 0}, options: {}}, 'accounts', req.headers.authorization)
+  let updateData = logicLayer.getUpdateData('updateAll', { subscriber_id: req.params.id }, { status: 'seen' }, false, true)
+  callApi('subscribers/update', 'put', { query: { _id: req.params.id }, newPayload: { unreadCount: 0 }, options: {} }, 'accounts', req.headers.authorization)
     .then(subscriber => {
       callApi('livechat', 'put', updateData, 'kibochat')
         .then(updated => {
@@ -140,20 +154,28 @@ function markreadLocal (req, callback) {
 function markreadFacebook (req, callback) {
   callApi(`subscribers/${req.params.id}`, 'get', {}, 'accounts', req.headers.authorization)
     .then(subscriber => {
-      const data = {
-        messaging_type: 'UPDATE',
-        recipient: {id: subscriber.senderId}, // this is the subscriber id
-        sender_action: 'mark_seen'
-      }
-      return needle('post', `https://graph.facebook.com/v6.0/me/messages?access_token=${subscriber.pageId.accessToken}`, data)
-    })
-    .then(resp => {
-      if (resp.error) {
-        logger.serverLog(TAG, `marked read on Facebook error ${JSON.stringify(resp.error)}`, 'error')
-        callback(resp.error)
+      if (subscriber && subscriber.lastMessagedAt && moment(subscriber.lastMessagedAt).isAfter(moment().subtract(24, 'hours'))) {
+        const data = {
+          recipient: { id: subscriber.senderId }, // this is the subscriber id
+          sender_action: 'mark_seen'
+        }
+        needle('post', `https://graph.facebook.com/v6.0/me/messages?access_token=${subscriber.pageId.accessToken}`, data)
+          .then(resp => {
+            if (resp.body && resp.body.error) {
+              callback(resp.body.error)
+            } else if (resp.error) {
+              callback(resp.error)
+            } else {
+              callback(null, resp.body)
+            }
+          })
+          .catch(err => {
+            const message = err || 'marked read on Facebook error'
+            logger.serverLog(message, `${TAG}: exports.markreadFacebook`, {}, { req }, 'error')
+            callback(err)
+          })
       } else {
-        logger.serverLog(TAG, `marked read on Facebook response ${JSON.stringify(resp.body)}`, 'error')
-        callback(null, resp.body)
+        callback(null)
       }
     })
     .catch(err => {
@@ -162,7 +184,6 @@ function markreadFacebook (req, callback) {
 }
 
 exports.show = function (req, res) {
-  console.log('params', req.param)
   if (req.params.id) {
     async.parallelLimit([
       function (callback) {
@@ -176,7 +197,7 @@ exports.show = function (req, res) {
           })
       },
       function (callback) {
-        let lastMessageData = logicLayer.getQueryData('', 'aggregate', {subscriber_id: req.params.id, company_id: req.user.companyId}, undefined, {_id: -1}, 1, undefined)
+        let lastMessageData = logicLayer.getQueryData('', 'aggregate', { subscriber_id: req.params.id, company_id: req.user.companyId }, undefined, { _id: -1 }, 1, undefined)
         callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
           .then(data => {
             callback(null, data)
@@ -202,8 +223,45 @@ exports.show = function (req, res) {
   }
 }
 
+exports.singleSession = function (req, res) {
+  async.parallelLimit([
+    function (callback) {
+      let data = logicLayer.payloadForSingleSession(req, 'resolved')
+      callApi('subscribers/aggregate', 'post', data)
+        .then(subscribers => {
+          console.log('subscriber', subscribers[0])
+          callback(null, subscribers[0])
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      let lastMessageData = logicLayer.getQueryData('', 'aggregate', { subscriber_id: req.params.id, company_id: req.user.companyId }, undefined, { _id: -1 }, 1, undefined)
+      callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
+        .then(data => {
+          callback(null, data)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    }
+  ], 10, function (err, results) {
+    if (err) {
+      sendErrorResponse(res, 500, err)
+    } else {
+      let subscriber = results[0]
+      let lastMessageResponse = results[1]
+      subscriber.lastPayload = lastMessageResponse.length > 0 && lastMessageResponse[0].payload
+      subscriber.lastRepliedBy = lastMessageResponse.length > 0 && lastMessageResponse[0].replied_by
+      subscriber.lastDateTime = lastMessageResponse.length > 0 && lastMessageResponse[0].datetime
+      sendSuccessResponse(res, 200, subscriber)
+    }
+  })
+}
+
 function _sendNotification (subscriberId, status, companyId, userName) {
-  callApi('subscribers/query', 'post', {_id: subscriberId})
+  callApi('subscribers/query', 'post', { _id: subscriberId })
     .then(gotSubscriber => {
       let subscriber = gotSubscriber[0]
       let newPayload = {
@@ -211,7 +269,7 @@ function _sendNotification (subscriberId, status, companyId, userName) {
         subscriber: subscriber
       }
       if (subscriber.is_assigned) {
-        let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: companyId}, undefined, undefined, undefined, {_id: subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+        let lastMessageData = logicLayer.getQueryData('', 'aggregate', { company_id: companyId }, undefined, undefined, undefined, { _id: subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' } })
         callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
           .then(gotLastMessage => {
             console.log('data in assignAgent', gotLastMessage)
@@ -220,13 +278,13 @@ function _sendNotification (subscriberId, status, companyId, userName) {
             subscriber.lastDateTime = gotLastMessage[0].datetime
             let title = '[' + subscriber.pageId.pageName + ']: ' + subscriber.firstName + ' ' + subscriber.lastName
             let body = `This session has been ${status === 'new' ? 'opened' : 'resolved'} by ${userName}`
-            callApi(`companyUser/queryAll`, 'post', {companyId: companyId}, 'accounts')
+            callApi(`companyUser/queryAll`, 'post', { companyId: companyId }, 'accounts')
               .then(companyUsers => {
                 if (subscriber.assigned_to.type === 'agent') {
                   companyUsers = companyUsers.filter(companyUser => companyUser.userId._id === subscriber.assigned_to.id)
                   sendNotifications(title, body, subscriber, companyUsers)
                 } else {
-                  callApi(`teams/agents/query`, 'post', {teamId: subscriber.assigned_to.id}, 'accounts')
+                  callApi(`teams/agents/query`, 'post', { teamId: subscriber.assigned_to.id }, 'accounts')
                     .then(teamagents => {
                       teamagents = teamagents.map(teamagent => teamagent.agentId._id)
                       companyUsers = companyUsers.filter(companyUser => {
@@ -236,16 +294,19 @@ function _sendNotification (subscriberId, status, companyId, userName) {
                       })
                       sendNotifications(title, body, newPayload, companyUsers)
                     }).catch(error => {
-                      logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
+                      const message = error || 'Error while fetching agents'
+                      logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { subscriberId, companyId }, 'error')
                     })
                 }
               }).catch(error => {
-                logger.serverLog(TAG, `Error while fetching companyUsers ${error}`, 'error')
+                const message = error || 'Error while fetching companyUsers'
+                logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { subscriberId, companyId }, 'error')
               })
           })
       }
     }).catch(error => {
-      logger.serverLog(TAG, `Error while fetching subscribers ${error}`, 'error')
+      const message = error || 'Error while fetching subscribers'
+      logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { subscriberId, companyId }, 'error')
     })
 }
 exports.changeStatus = function (req, res) {
@@ -256,7 +317,7 @@ exports.changeStatus = function (req, res) {
     status: req.body.status
   }
   _sendNotification(req.body._id, req.body.status, req.user.companyId, req.user.name)
-  callApi('subscribers/update', 'put', {query: {_id: req.body._id}, newPayload: {status: req.body.status}, options: {}})
+  callApi('subscribers/update', 'put', { query: { _id: req.body._id }, newPayload: { status: req.body.status }, options: {} })
     .then(updated => {
       if (req.body.status === 'resolved') {
         deleteUnresolvedSessionFromStack(req.body._id)
@@ -273,29 +334,31 @@ exports.changeStatus = function (req, res) {
       sendSuccessResponse(res, 200, 'Status has been updated successfully!')
     })
     .catch(err => {
+      const message = err || 'error updating session status'
+      logger.serverLog(message, `${TAG}: exports.changeStatus`, req.body, {}, 'error')
       sendErrorResponse(res, 500, err)
     })
 }
 
 exports.assignAgent = function (req, res) {
-  let assignedTo = {
-    type: 'agent',
-    id: req.body.agentId,
-    name: req.body.agentName
-  }
-  if (req.body.isAssigned) {
-    callApi('subscribers/query', 'post', {_id: req.body.subscriberId})
-      .then(gotSubscriber => {
-        let subscriber = gotSubscriber[0]
+  callApi('subscribers/query', 'post', { _id: req.body.subscriberId })
+    .then(gotSubscriber => {
+      let subscriber = gotSubscriber[0]
+      let assignedTo = {
+        type: 'agent',
+        id: req.body.agentId,
+        name: req.body.agentName
+      }
+      if (req.body.isAssigned) {
         let newPayload = {
           action: 'chat_messenger',
           subscriber: subscriber
         }
         let title = '[' + subscriber.pageId.pageName + ']: ' + subscriber.firstName + ' ' + subscriber.lastName
         let body = 'You have been assigned a session as a agent'
-        callApi(`companyUser/queryAll`, 'post', {userId: req.body.agentId}, 'accounts', req.headers.authorization)
+        callApi(`companyUser/queryAll`, 'post', { userId: req.body.agentId }, 'accounts', req.headers.authorization)
           .then(companyUsers => {
-            let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId}, undefined, undefined, undefined, {_id: req.body.subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+            let lastMessageData = logicLayer.getQueryData('', 'aggregate', { company_id: req.user.companyId }, undefined, undefined, undefined, { _id: req.body.subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' } })
             callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
               .then(gotLastMessage => {
                 console.log('data in assignAgent', gotLastMessage)
@@ -304,40 +367,60 @@ exports.assignAgent = function (req, res) {
                 subscriber.lastDateTime = gotLastMessage[0].datetime
                 sendNotifications(title, body, newPayload, companyUsers)
               }).catch(error => {
-                logger.serverLog(TAG, `Error while fetching lastMessageData details ${(error)}`, 'error')
+                const message = error || 'Error while fetching lastMessageData details'
+                logger.serverLog(message, `${TAG}: exports.assignAgent`, req.body, {}, 'error')
               })
           }).catch(error => {
-            logger.serverLog(TAG, `Error while fetching companyUser details ${(error)}`, 'error')
+            const message = error || 'Error while fetching companyUser details'
+            logger.serverLog(message, `${TAG}: exports.assignAgent`, req.body, {}, 'error')
             sendErrorResponse(res, 500, `Failed to fetching companyUser details ${JSON.stringify(error)}`)
           })
-      }).catch(err => {
-        sendErrorResponse(res, 500, err)
-      })
-  }
-  callApi(
-    'subscribers/update',
-    'put',
-    {
-      query: {_id: req.body.subscriberId},
-      newPayload: {assigned_to: assignedTo, is_assigned: req.body.isAssigned},
-      options: {}
-    }
-  )
-    .then(updated => {
-      require('./../../../config/socketio').sendMessageToClient({
-        room_id: req.user.companyId,
-        body: {
-          action: 'session_assign',
-          payload: {
-            data: req.body,
-            session_id: req.body.subscriberId,
-            user_id: req.user._id,
-            user_name: req.user.name,
-            assigned_to: assignedTo
-          }
+      }
+      callApi(
+        'subscribers/update',
+        'put',
+        {
+          query: { _id: req.body.subscriberId },
+          newPayload: { assigned_to: assignedTo, is_assigned: req.body.isAssigned },
+          options: {}
         }
-      })
-      sendSuccessResponse(res, 200, 'Agent has been assigned successfully!')
+      )
+        .then(updated => {
+          req.body.isAssigned
+            ? sendWebhook('SESSION_ASSIGNED', 'facebook', {
+              psid: subscriber.senderId,
+              pageId: subscriber.pageId.pageId,
+              assignedTo: 'agent',
+              name: req.body.agentName,
+              assignedBy: req.user.name,
+              timestamp: Date.now()
+            }, subscriber.pageId)
+            : sendWebhook('SESSION_UNASSIGNED', 'facebook', {
+              psid: subscriber.senderId,
+              pageId: subscriber.pageId.pageId,
+              unassigned: 'agent',
+              name: req.body.agentName,
+              unassignedBy: req.user.name,
+              timestamp: Date.now()
+            }, subscriber.pageId)
+          require('./../../../config/socketio').sendMessageToClient({
+            room_id: req.user.companyId,
+            body: {
+              action: 'session_assign',
+              payload: {
+                data: req.body,
+                session_id: req.body.subscriberId,
+                user_id: req.user._id,
+                user_name: req.user.name,
+                assigned_to: assignedTo
+              }
+            }
+          })
+          sendSuccessResponse(res, 200, 'Agent has been assigned successfully!')
+        })
+        .catch(err => {
+          sendErrorResponse(res, 500, err)
+        })
     })
     .catch(err => {
       sendErrorResponse(res, 500, err)
@@ -345,31 +428,30 @@ exports.assignAgent = function (req, res) {
 }
 
 exports.assignTeam = function (req, res) {
-  console.log('req.user', req.user.companyId)
-  let assignedTo = {
-    type: 'team',
-    id: req.body.teamId,
-    name: req.body.teamName
-  }
-  if (req.body.isAssigned) {
-    callApi(`companyUser/queryAll`, 'post', {companyId: req.user.companyId}, 'accounts')
-      .then(companyUsers => {
-        callApi(`teams/agents/query`, 'post', {teamId: req.body.teamId}, 'accounts')
-          .then(teamagents => {
-            teamagents = teamagents.map(teamagent => teamagent.agentId._id)
-            companyUsers = companyUsers.filter(companyUser => {
-              if (teamagents.includes(companyUser.userId._id)) {
-                return companyUser
-              }
-            })
-            callApi('subscribers/query', 'post', {_id: req.body.subscriberId})
-              .then(gotSubscriber => {
-                let subscriber = gotSubscriber[0]
+  callApi('subscribers/query', 'post', { _id: req.body.subscriberId })
+    .then(gotSubscriber => {
+      let subscriber = gotSubscriber[0]
+      let assignedTo = {
+        type: 'team',
+        id: req.body.teamId,
+        name: req.body.teamName
+      }
+      if (req.body.isAssigned) {
+        callApi(`companyUser/queryAll`, 'post', { companyId: req.user.companyId }, 'accounts')
+          .then(companyUsers => {
+            callApi(`teams/agents/query`, 'post', { teamId: req.body.teamId }, 'accounts')
+              .then(teamagents => {
+                teamagents = teamagents.map(teamagent => teamagent.agentId._id)
+                companyUsers = companyUsers.filter(companyUser => {
+                  if (teamagents.includes(companyUser.userId._id)) {
+                    return companyUser
+                  }
+                })
                 let newPayload = {
                   action: 'chat_messenger',
                   subscriber: subscriber
                 }
-                let lastMessageData = logicLayer.getQueryData('', 'aggregate', {company_id: req.user.companyId}, undefined, undefined, undefined, {_id: req.body.subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' }})
+                let lastMessageData = logicLayer.getQueryData('', 'aggregate', { company_id: req.user.companyId }, undefined, undefined, undefined, { _id: req.body.subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' } })
                 callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
                   .then(gotLastMessage => {
                     console.log('data in assignAgent', gotLastMessage)
@@ -380,52 +462,72 @@ exports.assignTeam = function (req, res) {
                     let body = `You have been assigned a session as a agent in a ${req.body.teamName} team`
                     sendNotifications(title, body, newPayload, companyUsers)
                   }).catch(error => {
-                    logger.serverLog(TAG, `Error while fetching subscriber last message ${error}`, 'error')
+                    const message = error || 'Error while fetching subscriber last message'
+                    logger.serverLog(message, `${TAG}: exports.assignTeam`, req.body, {}, 'error')
                   })
               }).catch(err => {
                 sendErrorResponse(res, 500, err)
               })
           }).catch(error => {
-            logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
+            const message = error || 'Error while fetching agents'
+            logger.serverLog(message, `${TAG}: exports.assignTeam`, req.body, {}, 'error')
           })
-      }).catch(error => {
-        logger.serverLog(TAG, `Error while fetching companyUser ${error}`, 'error')
-      })
-  }
-  callApi(
-    'subscribers/update',
-    'put',
-    {
-      query: {_id: req.body.subscriberId},
-      newPayload: {assigned_to: assignedTo, is_assigned: req.body.isAssigned},
-      options: {}
-    }
-  )
-    .then(updated => {
-      require('./../../../config/socketio').sendMessageToClient({
-        room_id: req.user.companyId,
-        body: {
-          action: 'session_assign',
-          payload: {
-            data: req.body,
-            session_id: req.body.subscriberId,
-            user_id: req.user._id,
-            user_name: req.user.name,
-            assigned_to: assignedTo
-          }
+      }
+      callApi(
+        'subscribers/update',
+        'put',
+        {
+          query: { _id: req.body.subscriberId },
+          newPayload: { assigned_to: assignedTo, is_assigned: req.body.isAssigned },
+          options: {}
         }
-      })
-      sendSuccessResponse(res, 200, 'Team has been assigned successfully!')
-    })
-    .catch(err => {
-      sendErrorResponse(res, 500, err)
+      )
+        .then(updated => {
+          req.body.isAssigned
+            ? sendWebhook('SESSION_ASSIGNED', 'facebook', {
+              psid: subscriber.senderId,
+              pageId: subscriber.pageId.pageId,
+              assignedTo: 'team',
+              name: req.body.teamName,
+              assignedBy: req.user.name,
+              timestamp: Date.now()
+            }, subscriber.pageId)
+            : sendWebhook('SESSION_UNASSIGNED', 'facebook', {
+              psid: subscriber.senderId,
+              pageId: subscriber.pageId.pageId,
+              unassigned: 'team',
+              name: req.body.teamName,
+              unassignedBy: req.user.name,
+              timestamp: Date.now()
+            }, subscriber.pageId)
+          require('./../../../config/socketio').sendMessageToClient({
+            room_id: req.user.companyId,
+            body: {
+              action: 'session_assign',
+              payload: {
+                data: req.body,
+                session_id: req.body.subscriberId,
+                user_id: req.user._id,
+                user_name: req.user.name,
+                assigned_to: assignedTo
+              }
+            }
+          })
+          sendSuccessResponse(res, 200, 'Team has been assigned successfully!')
+        })
+        .catch(err => {
+          sendErrorResponse(res, 500, err)
+        })
+    }).catch(error => {
+      const message = error || 'Error while fetching companyUser'
+      logger.serverLog(message, `${TAG}: exports.assignTeam`, req.body, {}, 'error')
     })
 }
 
 exports.updatePendingResponse = function (req, res) {
   callApi('subscribers/update', 'put', {
-    query: {_id: req.body.id},
-    newPayload: {pendingResponse: req.body.pendingResponse},
+    query: { _id: req.body.id },
+    newPayload: { pendingResponse: req.body.pendingResponse },
     options: {}
   })
     .then(updated => {
@@ -460,7 +562,7 @@ exports.genericFind = function (req, res) {
 }
 
 function pushUnresolveAlert (companyId, subscriberId) {
-  callApi('subscribers/query', 'post', {_id: subscriberId})
+  callApi('subscribers/query', 'post', { _id: subscriberId })
     .then(subscriber => {
       subscriber = subscriber[0]
       callApi(`companyprofile/query`, 'post', { _id: companyId })
@@ -468,10 +570,12 @@ function pushUnresolveAlert (companyId, subscriberId) {
           pushUnresolveAlertInStack(company, subscriber, 'messenger')
         })
         .catch(err => {
-          logger.serverLog(TAG, `Unable to fetch company ${err}`)
+          const message = err || 'Unable to fetch company'
+          logger.serverLog(message, `${TAG}: exports.pushUnresolveAlert`, {}, { companyId, subscriberId }, 'error')
         })
     })
     .catch(err => {
-      logger.serverLog(TAG, `Unable to fetch subscriber ${err}`)
+      const message = err || 'Unable to fetch subscriber'
+      logger.serverLog(message, `${TAG}: exports.pushUnresolveAlert`, {}, { companyId, subscriberId }, 'error')
     })
 }

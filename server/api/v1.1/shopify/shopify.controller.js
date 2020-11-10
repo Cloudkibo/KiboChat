@@ -12,10 +12,14 @@ const request = require('request-promise')
 const TAG = 'api/shopify/shopify.controller.js'
 const utility = require('../utility')
 const dataLayer = require('./shopify.datalayer')
+const messengerChatbotDataLayer = require('../chatbots/chatbots.datalayer')
+const whatsAppChatbotDataLayer = require('../whatsAppChatbot/whatsAppChatbot.datalayer')
+const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 const EcommerceProviders = require('./../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
 const commerceConstants = require('./../ecommerceProvidersApiLayer/constants')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const path = require('path')
+const Shopify = require('shopify-api-node')
 
 exports.index = function (req, res) {
   const shop = req.body.shop
@@ -89,17 +93,82 @@ exports.install = function (req, res) {
   res.redirect(installUrl)
 }
 
+function registerWebhooks (shop, token) {
+  const shopify = new Shopify({
+    shopName: shop,
+    accessToken: token
+  })
+  shopify.webhook.create({
+    topic: 'app/uninstalled',
+    address: `${config.domain}/api/shopify/app-uninstall`,
+    format: 'json'
+  }).then((response) => {
+  }).catch((err) => {
+    const message = err || 'Error Creating App Uninstall Webhook'
+    logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
+  })
+}
+
+exports.handleAppUninstall = async function (req, res) {
+  const shopUrl = req.header('X-Shopify-Shop-Domain')
+  try {
+    const shopifyIntegration = await dataLayer.findOneShopifyIntegration({ shopUrl: shopUrl })
+
+    dataLayer.deleteShopifyIntegration({
+      shopToken: shopifyIntegration.shopToken,
+      shopUrl: shopifyIntegration.shopUrl,
+      userId: shopifyIntegration.userId,
+      companyId: shopifyIntegration.companyId
+    })
+
+    const messengerChatbots = await messengerChatbotDataLayer.findAllChatBots({
+      type: 'automated',
+      vertical: 'commerce',
+      storeType: 'shopify'
+    })
+
+    messengerChatbots.forEach(chatbot => {
+      messengerChatbotDataLayer.deleteForChatBot({
+        _id: chatbot._id
+      })
+      messageBlockDataLayer.deleteForMessageBlock({
+        'module.id': chatbot._id
+      })
+    })
+
+    const whatsAppChatbots = await whatsAppChatbotDataLayer.findAllChatBots({
+      type: 'automated',
+      vertical: 'commerce',
+      storeType: 'shopify'
+    })
+
+    whatsAppChatbots.forEach(chatbot => {
+      whatsAppChatbotDataLayer.deleteForChatBot({
+        _id: chatbot._id
+      })
+      messageBlockDataLayer.deleteForMessageBlock({
+        'module.id': chatbot._id
+      })
+    })
+    res.status(200).json({ status: 'success' })
+  } catch (err) {
+    return res.status(500).json({ status: 'failed', error: err })
+  }
+}
+
 exports.callback = function (req, res) {
   const { shop, hmac, code, state } = req.query
-  const stateCookie = cookie.parse(req.headers.cookie).state
-  //  const userId = JSON.parse(cookie.parse(req.headers.cookie).userId)
-  //  const companyId = JSON.parse(cookie.parse(req.headers.cookie).companyId)
-  //  const pageId = cookie.parse(req.headers.cookie).pageId
-  if (state !== stateCookie) {
-    res.cookie('shopifySetupState', 'Request origin cannot be verified')
-    res.clearCookie('shopifyToken')
-    res.clearCookie('installByShopifyStore')
-    return res.redirect('/errorMessage')
+  if (req.headers.cookie) {
+    const stateCookie = cookie.parse(req.headers.cookie).state
+    //  const userId = JSON.parse(cookie.parse(req.headers.cookie).userId)
+    //  const companyId = JSON.parse(cookie.parse(req.headers.cookie).companyId)
+    //  const pageId = cookie.parse(req.headers.cookie).pageId
+    if (state !== stateCookie) {
+      res.cookie('shopifySetupState', 'Request origin cannot be verified')
+      res.clearCookie('shopifyToken')
+      res.clearCookie('installByShopifyStore')
+      return res.redirect('/errorMessage')
+    }
   }
 
   if (shop && hmac && code) {
@@ -142,8 +211,8 @@ exports.callback = function (req, res) {
     request.post(accessTokenRequestUrl, { json: accessTokenPayload })
       .then((accessTokenResponse) => {
         const accessToken = accessTokenResponse.access_token
-        const tokenCookie = cookie.parse(req.headers.cookie).token
-
+        const tokenCookie = req.headers.cookie ? cookie.parse(req.headers.cookie).token : null
+        registerWebhooks(shop, accessToken)
         if (tokenCookie) {
           const userIdCookie = cookie.parse(req.headers.cookie).userId
           const companyIdCookie = cookie.parse(req.headers.cookie).companyId
@@ -163,13 +232,14 @@ exports.callback = function (req, res) {
               } else {
                 dataLayer.createShopifyIntegration(shopifyPayload)
                   .then(savedStore => {
-                    logger.serverLog(TAG, 'shopify store integration created', 'debug')
                     res.cookie('shopifySetupState', 'completedUsingAuth')
                     res.clearCookie('shopifyToken')
                     res.clearCookie('installByShopifyStore')
                     res.redirect('/successMessage')
                   })
                   .catch(err => {
+                    const message = err || 'unable to create shopify integration error'
+                    logger.serverLog(message, `${TAG}: exports.callback`, {}, { query: req.query }, 'error')
                     res.cookie('shopifySetupState', `Internal Server Error ${err}`)
                     res.clearCookie('shopifyToken')
                     res.clearCookie('installByShopifyStore')
@@ -179,14 +249,14 @@ exports.callback = function (req, res) {
             })
         } else {
           res.cookie('shopifySetupState', 'startedFromAppNotAuthenticated')
-          res.clearCookie('shopifyToken')
-          res.clearCookie('installByShopifyStore')
           res.cookie('shopifyToken', accessToken)
           // the login in that screen should redirect to kibochat only
           res.sendFile(path.join(__dirname, '/proceedToIntegratePage.html'))
         }
       })
       .catch((error) => {
+        const message = error || 'shopify callback error'
+        logger.serverLog(message, `${TAG}: exports.callback`, {}, { query: req.query }, 'error')
         res.cookie('shopifySetupState', `Internal Server Error ${error}`)
         res.clearCookie('shopifyToken')
         res.clearCookie('installByShopifyStore')
@@ -217,6 +287,21 @@ exports.fetchStore = (req, res) => {
     })
 }
 
+exports.eraseCustomerData = (req, res) => {
+  sendSuccessResponse(res, 200, {status: 'success',
+    description: 'Customer data is not retained on our systems'})
+}
+
+exports.getCustomerData = (req, res) => {
+  sendSuccessResponse(res, 200, {status: 'success',
+    description: 'Customer data is not retained on our systems'})
+}
+
+exports.eraseShopData = (req, res) => {
+  sendSuccessResponse(res, 200, {status: 'success',
+    description: 'Customer data is not retained on our systems.'})
+}
+
 exports.testRoute = (req, res) => {
   dataLayer.findOneShopifyIntegration({ companyId: req.user.companyId })
     .then(shopifyIntegration => {
@@ -224,7 +309,9 @@ exports.testRoute = (req, res) => {
         shopUrl: shopifyIntegration.shopUrl,
         shopToken: shopifyIntegration.shopToken
       })
-      return shopify.searchProducts('sport')
+      return shopify.fetchProductsInThisCategory(166185566271)
+      // return shopify.findCustomerOrders('3367449755711')
+      // return shopify.checkOrderStatus('1037')
       // return shopify.createPermalinkForCart({
       // email: 'sojharo@gmail.com',
       // first_name: 'sojharo',

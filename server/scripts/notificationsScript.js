@@ -48,22 +48,24 @@ exports.runLiveChatNotificationScript = function () {
                   })
                 })
                 .catch(err => {
-                  logger.serverLog(TAG, 'Unable to fetch company users')
+                  const message = err || 'Unable to fetch company users'
+                  logger.serverLog(message, `${TAG}: exports.runLiveChatNotificationScript`, {}, {}, 'error')
                   cb(err)
                 })
             }
           }
         }, function (err) {
           if (err) {
-            logger.serverLog(TAG, `Unable to generate admin alerts ${err}`, 'error')
+            const message = err || 'Unable to generate admin alerts'
+            logger.serverLog(message, `${TAG}: exports.runLiveChatNotificationScript`, {}, {}, 'error')
           } else {
-            logger.serverLog(TAG, 'Admin alerts generated')
           }
         })
       }
     })
     .catch(err => {
-      logger.serverlog(TAG, 'Unable to fetch cron stack ' + JSON.stringify(err))
+      const message = err || 'Unable to fetch cron stack'
+      logger.serverLog(message, `${TAG}: exports.runLiveChatNotificationScript`, {}, {}, 'error')
     })
 }
 
@@ -78,7 +80,6 @@ function deleteCronStackRecord (alert, cb) {
   }
   utility.callApi(`cronstack`, 'delete', deleteData, 'kibochat')
     .then(updatedRecord => {
-      logger.serverLog(TAG, `Cron stack record deleted successfully: subscriber: ${alert.payload.subscriber._id}, type:${alert.payload.type}`)
       cb()
     })
     .catch(err => {
@@ -112,7 +113,6 @@ function generateAdminNotification (alert, user, cb) {
   }
   utility.callApi(`notifications`, 'post', notification, 'kibochat')
     .then(savedNotification => {
-      logger.serverLog(TAG, `Notification Saved: ${JSON.stringify(notification)}`)
       utility.callApi(`permissions/query`, 'post', {companyId: user.companyId, userId: user.userId._id})
         .then(userPermission => {
           if (userPermission.length > 0) {

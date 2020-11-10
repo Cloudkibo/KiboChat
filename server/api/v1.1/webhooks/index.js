@@ -13,7 +13,7 @@ const controller = require('./webhooks.controller')
 const validate = require('express-jsonschema').validate
 const validationSchema = require('./validationSchema')
 
-router.get('/', 
+router.get('/',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer(),
   controller.index)
@@ -35,5 +35,10 @@ router.post('/enabled',
   auth.isSuperUserActingAsCustomer('write'),
   validate({body: validationSchema.enablePayload}),
   controller.enabled)
+
+router.post('/sendWebhook',
+  auth.isItWebhookServer(),
+  validate({body: validationSchema.sendWebhookPayload}),
+  controller.sendWebhook)
 
 module.exports = router

@@ -21,12 +21,12 @@ exports.sendSMS = function (req, res) {
         to: number
       })
       .then(response => {
-        logger.serverLog(TAG, `response from twilio ${JSON.stringify(response)}`)
         success++
         cb()
       })
       .catch(error => {
-        logger.serverLog(TAG, `error at sending message ${error}`, 'error')
+        const message = error || 'error at sending message'
+        logger.serverLog(message, `${TAG}: exports.sendSMS`, req.body, {}, 'error')
         failed++
         cb()
       })
@@ -56,7 +56,6 @@ exports.verifyNumber = function (req, res) {
             sendSuccessResponse(res, 200, null, 'Number is valid')
           })
           .catch(err => {
-            logger.serverLog(TAG, err, 'error')
             sendErrorResponse(res, 403, null, 'Please enter a valid number of format E.164')
           })
       } else {
@@ -64,7 +63,8 @@ exports.verifyNumber = function (req, res) {
       }
     })
     .catch(err => {
-      logger.serverLog(TAG, err, 'error')
+      const message = err || 'An unexpected error occurred. Please try again later'
+      logger.serverLog(message, `${TAG}: exports.verifyNumber`, {}, {}, 'error')
       sendErrorResponse(res, 500, null, 'An unexpected error occurred. Please try again later')
     })
 }

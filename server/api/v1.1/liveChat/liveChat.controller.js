@@ -12,6 +12,7 @@ const { sendSuccessResponse, sendErrorResponse } = require('../../global/respons
 const { record } = require('../../global/messageStatistics')
 const { sendOpAlert } = require('../../global/operationalAlert')
 const { deletePendingSessionFromStack } = require('../../global/messageAlerts')
+const { sendWebhook } = require('../../global/sendWebhook')
 
 exports.index = function (req, res) {
   if (req.params.subscriber_id) {
@@ -64,12 +65,10 @@ exports.search = function (req, res) {
 
 exports.geturlmeta = function (req, res) {
   var url = req.body.url
-  logger.serverLog(TAG, `Url for Meta: ${url}`, 'error')
   og(url, (err, meta) => {
     if (err) {
       sendErrorResponse(res, 404, '', 'Meta data not found')
     } else {
-      logger.serverLog(TAG, `Url Meta: ${meta}`, 'error')
       sendSuccessResponse(res, 200, meta)
     }
   })
@@ -97,33 +96,6 @@ exports.create = function (req, res) {
           callback(err)
         })
     },
-    // Send webhook response
-    function (callback) {
-      callApi(`webhooks/query/`, 'post', { pageId: req.body.sender_fb_id })
-        .then(webhook => {
-          webhook = webhook[0]
-          if (webhook && webhook.isEnabled) {
-            needle('get', webhook.webhook_url)
-              .then(r => {
-                if (r.statusCode === 200) {
-                  logicLayer.webhookPost(needle, webhook, req, res)
-                  callback(null, webhook)
-                } else {
-                  webhookUtility.saveNotification(webhook)
-                  callback(null, webhook)
-                }
-              })
-              .catch(err => {
-                callback(err)
-              })
-          } else {
-            callback(null, webhook)
-          }
-        })
-        .catch(err => {
-          callback(err)
-        })
-    },
     // increment messagesCount in subscribers table
     function (callback) {
       let subscriberData = {
@@ -133,7 +105,6 @@ exports.create = function (req, res) {
       }
       callApi(`subscribers/update`, 'put', subscriberData)
         .then(updated => {
-          logger.serverLog(TAG, `updated subscriber ${updated}`)
           callback(null, updated)
         })
         .catch(err => {
@@ -145,28 +116,16 @@ exports.create = function (req, res) {
       let subscriberData = {
         query: {_id: req.body.subscriber_id},
         newPayload: {
-          last_activity_time: Date.now(), agent_activity_time: Date.now(), pendingResponse: false},
+          last_activity_time: Date.now(),
+          agent_activity_time: Date.now(),
+          pendingResponse: false
+        },
         options: {}
       }
       callApi(`subscribers/update`, 'put', subscriberData)
         .then(updated => {
           _removeSubsWaitingForUserInput(req.body.subscriber_id)
-          logger.serverLog(TAG, `updated subscriber again ${updated}`)
           fbMessageObject.datetime = new Date()
-          fbMessageObject._id = req.body._id
-          require('./../../../config/socketio').sendMessageToClient({
-            room_id: req.user.companyId,
-            body: {
-              action: 'agent_replied',
-              payload: {
-                subscriber_id: req.body.subscriber_id,
-                message: fbMessageObject,
-                action: 'agent_replied',
-                user_id: req.user._id,
-                user_name: req.user.name
-              }
-            }
-          })
           callback(null, updated)
         })
         .catch(err => {
@@ -177,6 +136,14 @@ exports.create = function (req, res) {
     function (callback) {
       callApi(`subscribers/${req.body.subscriber_id}`, 'get', {}, 'accounts', req.headers.authorization)
         .then(subscriber => {
+          let subscriberSenderId = JSON.stringify({
+            'id': subscriber.senderId
+          })
+          if (subscriber.source === 'chat_plugin' && !subscriber.senderId) {
+            subscriberSenderId = JSON.stringify({
+              'user_ref': subscriber.user_ref
+            })
+          }
           callApi(`companyprofile/getAutomatedOptions`, 'get', {}, 'accounts', req.headers.authorization)
             .then(payload => {
               if (payload.showAgentName) {
@@ -189,9 +156,7 @@ exports.create = function (req, res) {
                       'json': true,
                       'formData': {
                         'messaging_type': 'RESPONSE',
-                        'recipient': JSON.stringify({
-                          'id': subscriber.senderId
-                        }),
+                        'recipient': subscriberSenderId,
                         'message': JSON.stringify({
                           'text': `${req.body.replied_by.name} sent:`,
                           'metadata': 'SENT_FROM_KIBOPUSH'
@@ -203,13 +168,12 @@ exports.create = function (req, res) {
                 }
               }
               let messageData = logicLayer.prepareSendAPIPayload(
-                subscriber.senderId,
+                subscriberSenderId,
                 req.body.payload,
                 subscriber.firstName,
                 subscriber.lastName,
                 true
               )
-              logger.serverLog(TAG, `got subscriber ${subscriber}`)
               record('messengerChatOutGoing')
               request(
                 {
@@ -240,7 +204,6 @@ exports.create = function (req, res) {
           callback(err)
         })
     }, function (callback) {
-      logger.serverLog(TAG, `Delete subscriber pending session from cronstack`)
       deletePendingSessionFromStack(req.body.subscriber_id)
       callback(null)
     }
@@ -249,16 +212,21 @@ exports.create = function (req, res) {
       return res.status(500).json({status: 'failed', payload: err})
     } else {
       let fbMessageObject = results[0]
-      let subscriber = results[4]
+      let subscriber = results[3]
+      sendWebhook('CHAT_MESSAGE', 'facebook', {
+        from: 'kibopush',
+        recipientId: subscriber.senderId,
+        senderId: subscriber.pageId.pageId,
+        timestamp: Date.now(),
+        message: req.body.payload
+      }, subscriber.pageId)
       let botId = ''
       async.parallelLimit([
         // Update Bot Block list
         function (callback) {
           let botsData = logicLayer.getQueryData('', 'findOne', { pageId: subscriber.pageId._id, companyId: subscriber.companyId })
-          logger.serverLog(TAG, `botsData ${botsData}`)
           callApi(`smart_replies/query`, 'post', botsData, 'kibochat')
             .then(bot => {
-              logger.serverLog(TAG, `bot found ${bot}`)
               if (!bot) {
                 callback(null, 'No bot found!')
               } else {
@@ -271,7 +239,6 @@ exports.create = function (req, res) {
               }
             })
             .then(result => {
-              logger.serverLog(TAG, `result ${result}`)
               let timeNow = new Date()
               let automationQueue = {
                 automatedMessageId: botId,
@@ -286,15 +253,31 @@ exports.create = function (req, res) {
               callback(null, automationObject)
             })
             .catch(err => {
-              logger.serverLog(TAG, `in catch1 ${err}`)
+              const message = err || 'create live chat error'
+              logger.serverLog(message, `${TAG}: exports.create`, {}, {}, 'error')
               callback(err)
             })
         }
       ], 10, function (err, values) {
         if (err) {
-          logger.serverLog(TAG, `error found ${err}`)
+          const message = err || 'Meta data not found'
+          logger.serverLog(message, `${TAG}: exports.create`, {}, {}, 'error')
           sendErrorResponse(res, 400, 'Meta data not found')
         } else {
+          fbMessageObject._id = req.body._id
+          require('./../../../config/socketio').sendMessageToClient({
+            room_id: req.user.companyId,
+            body: {
+              action: 'agent_replied',
+              payload: {
+                subscriber_id: req.body.subscriber_id,
+                message: fbMessageObject,
+                action: 'agent_replied',
+                user_id: req.user._id,
+                user_name: req.user.name
+              }
+            }
+          })
           sendSuccessResponse(res, 200, fbMessageObject)
         }
       })
@@ -308,9 +291,9 @@ const _removeSubsWaitingForUserInput = (subscriberId) => {
   }
   callApi(`subscribers/update`, 'put', {query: {_id: subscriberId, waitingForUserInput: { '$ne': null }}, newPayload: {waitingForUserInput: waitingForUserInput}, options: {}})
     .then(updated => {
-      logger.serverLog(TAG, `Succesfully updated subscriber _removeSubsWaitingForUserInput`)
     })
     .catch(err => {
-      logger.serverLog(TAG, `Failed to update subscriber ${JSON.stringify(err)}`)
+      const message = err || 'Failed to update subscriber'
+      logger.serverLog(message, `${TAG}: exports._removeSubsWaitingForUserInput`, {}, {}, 'error')
     })
 }

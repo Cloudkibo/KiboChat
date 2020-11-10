@@ -8,6 +8,20 @@ exports.createPayload = {
   }
 }
 
+exports.createCommercePayload = {
+  type: 'object',
+  properties: {
+    pageId: {
+      type: 'string',
+      required: true
+    },
+    storeType: {
+      type: 'string',
+      required: true
+    }
+  }
+}
+
 exports.updatePayload = {
   type: 'object',
   properties: {

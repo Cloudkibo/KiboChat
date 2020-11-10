@@ -12,22 +12,22 @@ router.post('/',
   validate({ body: validationSchema.createPayload }),
   controller.create)
 
-router.post('/shopifyChatbot',
+router.post('/commerceChatbot',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer('write'),
-  validate({ body: validationSchema.createPayload }),
-  controller.createShopifyChatbot)
+  validate({ body: validationSchema.createCommercePayload }),
+  controller.createCommerceChatbot)
 
-router.put('/shopifyChatbot',
+router.put('/commerceChatbot',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer('write'),
   validate({ body: validationSchema.updatePayload }),
-  controller.updateShopifyChatbot)
+  controller.updateCommerceChatbot)
 
-router.get('/shopifyChatbotTriggers/:chatbotId',
+router.get('/commerceChatbotTriggers/:chatbotId',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer(),
-  controller.getShopifyChatbotTriggers)
+  controller.getCommerceChatbotTriggers)
 
 router.get('/',
   auth.isAuthenticated(),

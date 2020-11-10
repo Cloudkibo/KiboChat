@@ -7,7 +7,7 @@ exports.getActingAsUserPayload = function (body, actingUser) {
   } else {
     updated = {
       $unset: {actingAsUser: 1}
-   }
+    }
   }
   return updated
 }

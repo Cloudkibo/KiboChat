@@ -1,6 +1,7 @@
 const needle = require('needle')
 const logicLayer = require('./logiclayer')
 const { callApi } = require('../../api/v1/utility')
+const async = require('async')
 
 exports.sendChatMessage = (body) => {
   return new Promise((resolve, reject) => {
@@ -108,4 +109,51 @@ exports.getNormalizedMessageReceivedData = (event) => {
       reject(err)
     }
   })
+}
+
+exports.respondUsingChatbot = ({payload, options, company, subscriber}) => {
+  return new Promise((resolve, reject) => {
+    async.eachSeries(payload, function (item, cb) {
+      logicLayer.prepareChatbotPayload(company, subscriber, item, options)
+        .then(message => {
+          const client = twilioClient(company)
+          client.messages.create(message)
+            .then(res => {
+              cb()
+            })
+            .catch(err => { cb(err) })
+        })
+        .catch(err => { cb(err) })
+    }, function (err) {
+      if (err) {
+        reject(err)
+      } else {
+        resolve({status: 'success'})
+      }
+    })
+  })
+}
+
+exports.sendTextMessage = ({text, company, subscriber}) => {
+  return new Promise((resolve, reject) => {
+    const client = twilioClient(company)
+    client.messages.create({
+      body: text,
+      from: `whatsapp:${company.businessNumber}`,
+      to: `whatsapp:${subscriber.number}`
+    })
+      .then(res => {
+        resolve({status: 'success'})
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
+function twilioClient (company) {
+  const accountSid = company.whatsApp.accountSID
+  const authToken = company.whatsApp.accessToken
+  const client = require('twilio')(accountSid, authToken)
+  return client
 }

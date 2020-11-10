@@ -1,8 +1,12 @@
 // const util = require('util')
 
-exports.getCount = (req, status) => {
+exports.getCount = (req, status, company) => {
+  let matchBody = {'companyId': req.user.companyId, completeInfo: true}
+  if (company.hideChatSessions) {
+    matchBody.messagesCount = { $gt: 0 }
+  }
   let aggregateData = [
-    { $match: {'companyId': req.user.companyId, completeInfo: true} },
+    { $match: matchBody },
     { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
     { $unwind: '$pageId' },
     { $project: {
@@ -27,9 +31,13 @@ exports.getCount = (req, status) => {
   return aggregateData
 }
 
-exports.getSessions = (req, status) => {
+exports.getSessions = (req, status, company) => {
+  let matchBody = {'companyId': req.user.companyId, completeInfo: true}
+  if (company.hideChatSessions) {
+    matchBody.messagesCount = { $gt: 0 }
+  }
   let aggregateData = [
-    { $match: {'companyId': req.user.companyId, completeInfo: true} },
+    { $match: matchBody },
     { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
     { $unwind: '$pageId' },
     { $project: {
@@ -170,6 +178,37 @@ exports.prepareSessionsData = (sessionsData, body) => {
     }
   }
   return tempSessionsData
+}
+
+exports.payloadForSingleSession = (req, status) => {
+  let aggregateData = [
+    { $match: {'companyId': req.user.companyId, 'completeInfo': true, 'senderId': req.body.psid} },
+    { $lookup: {from: 'pages', localField: 'pageId', foreignField: '_id', as: 'pageId'} },
+    { $unwind: '$pageId' },
+    { $project: {
+      name: {$concat: ['$firstName', ' ', '$lastName']},
+      firstName: 1,
+      lastName: 1,
+      companyId: 1,
+      pageId: 1,
+      isSubscribed: 1,
+      status: 1,
+      last_activity_time: 1,
+      _id: 1,
+      profilePic: 1,
+      senderId: 1,
+      gender: 1,
+      locale: 1,
+      is_assigned: 1,
+      assigned_to: 1,
+      lastMessagedAt: 1,
+      pendingResponse: 1,
+      waitingForUserInput: 1,
+      messagesCount: 1,
+      unreadCount: 1} },
+    { $match: {'isSubscribed': true, 'pageId.connected': true} }
+  ]
+  return aggregateData
 }
 
 exports.appendUnreadCountData = appendUnreadCountData

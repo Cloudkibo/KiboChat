@@ -128,3 +128,57 @@ exports.verifyCredentials = (body) => {
     resolve()
   })
 }
+
+exports.respondUsingChatbot = ({payload, options, company, subscriber}) => {
+  return new Promise((resolve, reject) => {
+    async.eachSeries(payload, function (item, cb) {
+      logicLayer.prepareChatbotPayload(company, subscriber, item, options)
+        .then(({route, message}) => {
+          flockSendApiCaller(`connect/official/v2/${route}`, 'post', message)
+            .then(response => {
+              let parsed = JSON.parse(response.body)
+              if (parsed.code !== 200) {
+                cb(parsed.message)
+              } else {
+                cb()
+              }
+            })
+            .catch(error => {
+              cb(error)
+            })
+        })
+        .catch(err => { cb(err) })
+    }, function (err) {
+      if (err) {
+        reject(err)
+      } else {
+        resolve({status: 'success'})
+      }
+    })
+  })
+}
+
+exports.sendTextMessage = ({text, company, subscriber}) => {
+  return new Promise((resolve, reject) => {
+    flockSendApiCaller(
+      `connect/official/v2/text`,
+      'post',
+      {
+        token: company.whatsApp.accessToken,
+        number_details: JSON.stringify([{phone: subscriber.number}]),
+        message: text
+      }
+    )
+      .then(response => {
+        let parsed = JSON.parse(response.body)
+        if (parsed.code !== 200) {
+          reject(parsed.message)
+        } else {
+          resolve({status: 'success'})
+        }
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
+}

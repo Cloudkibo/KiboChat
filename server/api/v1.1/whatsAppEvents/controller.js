@@ -8,6 +8,7 @@ const sessionLogicLayer = require('../whatsAppSessions/whatsAppSessions.logiclay
 const whatsAppChatbotDataLayer = require('../whatsAppChatbot/whatsAppChatbot.datalayer')
 const whatsAppChatbotLogicLayer = require('../whatsAppChatbot/whatsAppChatbot.logiclayer')
 const shopifyDataLayer = require('../shopify/shopify.datalayer')
+const bigcommerceDataLayer = require('../bigcommerce/bigcommerce.datalayer')
 const { ActionTypes } = require('../../../whatsAppMapper/constants')
 const commerceConstants = require('./../ecommerceProvidersApiLayer/constants')
 const EcommerceProvider = require('./../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
@@ -15,6 +16,7 @@ const whatsAppChatbotAnalyticsDataLayer = require('../whatsAppChatbot/whatsAppCh
 const moment = require('moment')
 const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('../../global/messageAlerts')
 const { record } = require('../../global/messageStatistics')
+const chatbotResponder = require('../../../chatbotResponder')
 
 exports.messageReceived = function (req, res) {
   res.status(200).json({
@@ -48,12 +50,21 @@ exports.messageReceived = function (req, res) {
                         if (chatbot) {
                           const shouldSend = chatbot.published || chatbot.testSubscribers.includes(contact.number)
                           if (shouldSend) {
-                            const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
-                            if (shopifyIntegration) {
-                              const ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
+                            let ecommerceProvider = null
+                            if (chatbot.storeType === commerceConstants.shopify) {
+                              const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
+                              ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
                                 shopUrl: shopifyIntegration.shopUrl,
                                 shopToken: shopifyIntegration.shopToken
                               })
+                            } else if (chatbot.storeType === commerceConstants.bigcommerce) {
+                              const bigCommerceIntegration = await bigcommerceDataLayer.findOneBigCommerceIntegration({ companyId: chatbot.companyId })
+                              ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
+                                shopToken: bigCommerceIntegration.shopToken,
+                                storeHash: bigCommerceIntegration.payload.context
+                              })
+                            }
+                            if (ecommerceProvider) {
                               let nextMessageBlock = await whatsAppChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text)
                               if (nextMessageBlock) {
                                 for (let messagePayload of nextMessageBlock.payload) {
@@ -104,24 +115,29 @@ exports.messageReceived = function (req, res) {
                       }
                       if (contact && contact.isSubscribed) {
                         storeChat(number, company.whatsApp.businessNumber, contact, data.messageData, 'whatsApp')
+                        chatbotResponder.respondUsingChatbot('whatsApp', req.body.provider, company, data.messageData.text, contact)
                       }
                     })
                     .catch(error => {
-                      logger.serverLog(TAG, `Failed to fetch contact ${error}`, 'error')
+                      const message = error || 'Failed to fetch contact'
+                      logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {}, 'error')
                     })
                 })
               })
               .catch(error => {
-                logger.serverLog(TAG, `Failed to company profile ${JSON.stringify(error)}`, 'error')
+                const message = error || 'Failed to company profile'
+                logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {}, 'error')
               })
           }
         })
         .catch((error) => {
-          logger.serverLog(TAG, `Failed to create contact ${JSON.stringify(error)}`, 'error')
+          const message = error || 'failed to create contact'
+          logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {}, 'error')
         })
     })
     .catch(error => {
-      logger.serverLog(TAG, `Failed to map whatsapp message received data ${JSON.stringify(req.body)} ${error}`, 'error')
+      const message = error || 'Failed to map whatsapp message received data'
+      logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {}, 'error')
     })
 }
 
@@ -248,7 +264,8 @@ function saveNotifications (contact, companyUsers) {
         })
       })
       .catch(error => {
-        logger.serverLog(TAG, `Failed to save notification ${error}`, 'error')
+        const message = error || 'Failed to save notification'
+        logger.serverLog(message, `${TAG}: exports.saveNotifications`, {}, { contact }, 'error')
       })
   })
 }
@@ -288,15 +305,18 @@ function _sendNotification (subscriber, payload, companyId) {
                   sendNotifications(title, body, newPayload, companyUsers)
                   saveNotifications(subscriber, companyUsers)
                 }).catch(error => {
-                  logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
+                  const message = error || 'Error while fetching agents'
+                  logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { payload }, 'error')
                 })
             }
           }
         }).catch(error => {
-          logger.serverLog(TAG, `Error while fetching Last Message ${error}`, 'error')
+          const message = error || 'Error while fetching Last Message'
+          logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { payload }, 'error')
         })
     }).catch(error => {
-      logger.serverLog(TAG, `Error while fetching companyUser ${error}`, 'error')
+      const message = error || 'Error while fetching companyUser'
+      logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { payload }, 'error')
     })
 }
 
@@ -305,7 +325,8 @@ function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options)
     .then(updated => {
     })
     .catch(error => {
-      logger.serverLog(TAG, `Failed to update contact ${JSON.stringify(error)}`, 'error')
+      const message = error || 'Failed to update contact'
+      logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { query, bodyForUpdate }, 'error')
     })
 }
 
@@ -328,12 +349,14 @@ exports.messageStatus = function (req, res) {
             }
           })
           .catch((err) => {
-            logger.serverLog(TAG, `Failed to fetch whatsAppBroadcastMessages data ${err}`, 'error')
+            const message = err || 'Failed to fetch whatsAppBroadcastMessages data'
+            logger.serverLog(message, `${TAG}: exports.messageStatus`, req.body, {}, 'error')
           })
       }
     })
     .catch(error => {
-      logger.serverLog(TAG, `Failed to map whatsapp message status data ${JSON.stringify(req.body)} ${error}`, 'error')
+      const message = error || 'Failed to map whatsapp message status data'
+      logger.serverLog(message, `${TAG}: exports.messageStatus`, req.body, {}, 'error')
     })
 }
 
@@ -393,6 +416,7 @@ function updateChatInDB (match, updated, dataToSend) {
       })
     })
     .catch((err) => {
-      logger.serverLog(`Failed to update message ${err}`, 'error')
+      const message = err || 'Failed to update message'
+      logger.serverLog(message, `${TAG}: exports.updateChatInDB`, {}, { match, updated, dataToSend }, 'error')
     })
 }

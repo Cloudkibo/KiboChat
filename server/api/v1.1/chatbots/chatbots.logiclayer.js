@@ -2,6 +2,7 @@ exports.preparePayload = function (companyId, userId, body) {
   let payload = {
     companyId: companyId,
     userId: userId,
+    type: 'manual',
     ...body
   }
   return payload
@@ -71,7 +72,8 @@ exports.blockPayload = function (backup) {
 }
 
 exports.criteriaForPeriodicBotStats = (chatbotId, days) => {
-  let matchAggregate = { chatbotId: chatbotId,
+  let matchAggregate = {
+    chatbotId: chatbotId,
     'dateToday': {
       $gte: new Date(
         (new Date() - (days * 24 * 60 * 60 * 1000))),

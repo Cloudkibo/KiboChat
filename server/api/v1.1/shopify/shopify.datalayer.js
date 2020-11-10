@@ -12,3 +12,11 @@ exports.findOneShopifyIntegration = (match) => {
   }
   return callApi(`shopify/query`, 'post', query, accounts)
 }
+
+exports.deleteShopifyIntegration = (queryObject) => {
+  let query = {
+    purpose: 'deleteOne',
+    match: queryObject
+  }
+  return callApi(`shopify`, 'delete', query, accounts)
+}

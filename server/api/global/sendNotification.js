@@ -23,17 +23,18 @@ const sendMobileNotifications = (expoListToken, title, bodyMessage, data, user) 
   let tickets = []
   let deviceNotRegistered = [];
   (async () => {
-    for (let chunk of chunks) {
+    let maxLengthChunck = 0
+    for (let [index_chunk, chunk] of chunks.entries()) {
       try {
+        if (index_chunk === 0) {
+          maxLengthChunck = chunk.length
+        }
         let ticketChunk = await expo.sendPushNotificationsAsync(chunk)
-        logger.serverLog(TAG, `ticketChunk ${JSON.stringify(ticketChunk)}`)
         tickets.push(...ticketChunk)
-        for (let ticket of ticketChunk) {
+        for (let [index_ticket, ticket] of ticketChunk) {
           if (ticket.status === 'error') {
-            logger.serverLog(`Error while sending notification ${util.inspect(ticket.details.error)}`)
             if (ticket.details.error === 'DeviceNotRegistered') {
-              let token = ticket.message.split('"')
-              deviceNotRegistered.push(token[1])
+              deviceNotRegistered.push(expoListToken[(index_chunk * maxLengthChunck) + index_ticket])
             }
           }
         }
@@ -46,26 +47,27 @@ const sendMobileNotifications = (expoListToken, title, bodyMessage, data, user) 
                   return expoToken
                 }
               })
-              utility.callApi('companyUser/update', 'post', {query: {userId: user._id}, newPayload: {expoListToken: expoListToken}, options: {}})
+              utility.callApi('companyUser/update', 'put', {query: {userId: user._id}, newPayload: {expoListToken: expoListToken}, options: {}})
                 .then(updated => {
-                  logger.serverLog(TAG, `Update successfully expoList token in Company Table`)
                 })
                 .catch(err => {
-                  logger.serverLog(TAG, `Failed to update expo token in Company Table ${util.inspect(err)}`, 'error')
+                  const message = err || 'Failed to update expo token in Company Table'
+                  return logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, expoListToken, 'error')
                 })
             }).catch(error => {
-              logger.serverLog(TAG, `Error while fetching companyUser details ${util.inspect(error)}`, 'error')
+              const message = error || 'Error while fetching companyUser details'
+              return logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, expoListToken, 'error')
             })
         }
       } catch (error) {
-        logger.serverLog(`Error while sending notification ${util.inspect(error)}`)
+        const message = error || 'Error while sending notification'
+        return logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, expoListToken, 'error')
       }
     }
   })()
 }
 
 function sendNotifications (title, body, payload, companyUsers) {
-  logger.serverLog(TAG, `companyUsers ${companyUsers}`)
   for (let i = 0; i < companyUsers.length; i++) {
     let expoListToken = companyUsers[i].expoListToken
     if (expoListToken.length > 0) {

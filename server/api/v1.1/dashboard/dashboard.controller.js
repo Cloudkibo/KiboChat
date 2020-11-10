@@ -289,7 +289,7 @@ exports.stats = function (req, res) {
                 payload.totalPages = allPagesWithoutDuplicates.length
                 callApi('subscribers/query', 'post', {companyId: companyUser.companyId, completeInfo: true, isSubscribed: true, pageId: {$in: result.pageIds}})
                   .then(subscribers => {
-                    logger.serverLog(TAG, `subscribers retrieved: ${subscribers}`, 'error')
+                    // logger.serverLog(TAG, `subscribers retrieved: ${subscribers}`, 'error')
                     payload.subscribers = subscribers.length
                     let mappedUnreadCounts = subscribers.map(subscriber => subscriber.unreadCount)
                     payload.unreadCount = mappedUnreadCounts.reduce((a, b) => a + b, 0)
@@ -336,8 +336,6 @@ exports.toppages = function (req, res) {
               }
             }])
             .then(gotSubscribersCount => {
-              logger.serverLog(TAG, `pages: ${pages}`, 'debug')
-              logger.serverLog(TAG, `gotSubscribersCount ${gotSubscribersCount}`, 'debug')
               let pagesPayload = []
               for (let i = 0; i < pages.length; i++) {
                 pagesPayload.push({
@@ -352,7 +350,6 @@ exports.toppages = function (req, res) {
                   subscribers: 0
                 })
               }
-              logger.serverLog(TAG, `pagesPayload: ${pagesPayload}`, 'debug')
               for (let i = 0; i < pagesPayload.length; i++) {
                 for (let j = 0; j < gotSubscribersCount.length; j++) {
                   if (pagesPayload[i]._id.toString() ===

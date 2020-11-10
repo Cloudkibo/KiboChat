@@ -70,10 +70,23 @@ module.exports = function (app) {
   app.use('/api/whatsAppEvents', require('./api/v1.1/whatsAppEvents'))
   app.use('/api/backdoor', require('./api/v1.1/backdoor'))
   app.use('/api/configure/chatbot', require('./api/v1.1/configureChatbot'))
+  app.use('/api/bigcommerce', require('./api/v1.1/bigcommerce'))
   app.use('/api/attachment', require('./api/v1.1/attachment'))
   // auth middleware go here if you authenticate on same server
 
   app.get('/', (req, res) => {
+    res.cookie('environment', config.env,
+      { expires: new Date(Date.now() + 900000) })
+    res.cookie('url_production', 'https://kibochat.cloudkibo.com',
+      { expires: new Date(Date.now() + 900000) })
+    res.cookie('url_staging', 'https://skibochat.cloudkibo.com',
+      { expires: new Date(Date.now() + 900000) })
+    res.cookie('url_development', 'http://localhost:3022',
+      { expires: new Date(Date.now() + 900000) })
+    res.sendFile(path.join(config.root, 'client/index.html'))
+  })
+
+  app.get('/liveChat/*', (req, res) => {
     res.cookie('environment', config.env,
       { expires: new Date(Date.now() + 900000) })
     res.cookie('url_production', 'https://kibochat.cloudkibo.com',

@@ -9,11 +9,13 @@ exports.createWhatsAppChatbot = (req) => {
         userId: req.user._id,
         companyId: req.user.companyId,
         botLinks: req.body.botLinks ? req.body.botLinks : undefined,
-        testSubscribers: req.body.testSubscribers ? req.body.testSubscribers : []
+        testSubscribers: req.body.testSubscribers ? req.body.testSubscribers : [],
+        storeType: req.body.storeType
       }, 'kibochat')
       resolve(createdChatbot)
     } catch (err) {
-      logger.serverLog(TAG, `Failed to create whatsapp chatbot ${err}`, 'error')
+      const message = err || 'Failed to create whatsapp chatbot'
+      logger.serverLog(message, `${TAG}: exports.createWhatsAppChatbot`, {}, {}, 'error')
       reject(err)
     }
   })
@@ -28,7 +30,8 @@ exports.fetchWhatsAppChatbot = (match) => {
       }, 'kibochat')
       resolve(chatbot)
     } catch (err) {
-      logger.serverLog(TAG, `Failed to fetch whatsapp chatbot ${err}`, 'error')
+      const message = err || 'Failed to fetch whatsapp chatbot'
+      logger.serverLog(message, `${TAG}: exports.fetchWhatsAppChatbot`, {}, {}, 'error')
       reject(err)
     }
   })
@@ -47,8 +50,17 @@ exports.updateWhatsAppChatbot = (companyId, updated) => {
       chatbot = { ...chatbot, ...updated }
       resolve(chatbot)
     } catch (err) {
-      logger.serverLog(TAG, `Failed to update whatsapp chatbot ${err}`, 'error')
+      const message = err || 'Failed to update whatsapp chatbot'
+      logger.serverLog(message, `${TAG}: exports.updateWhatsAppChatbot`, {}, {}, 'error')
       reject(err)
     }
   })
+}
+
+exports.deleteForChatBot = (queryObject) => {
+  let query = {
+    purpose: 'deleteMany',
+    match: queryObject
+  }
+  return callApi(`whatsAppChatbot`, 'delete', query, 'kibochat')
 }

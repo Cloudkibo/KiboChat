@@ -42,7 +42,6 @@ exports.refreshAccessToken = (zoomUser) => {
     }
     zoomApiCaller('post', 'oauth/token', params, {type: 'basic'}, true)
       .then(response => {
-        logger.serverLog(TAG, `zoom refresh access token response ${JSON.stringify(response)}`)
         const accessToken = response.access_token
         const refreshToken = response.refresh_token
         if (accessToken) {
