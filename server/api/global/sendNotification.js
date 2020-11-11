@@ -24,17 +24,17 @@ const sendMobileNotifications = (expoListToken, title, bodyMessage, data, user) 
   let deviceNotRegistered = [];
   (async () => {
     let maxLengthChunck = 0
-    for (let [index_chunk, chunk] of chunks.entries()) {
+    for (let [indexChunk, chunk] of chunks) {
       try {
-        if (index_chunk === 0) {
+        if (indexChunk === 0) {
           maxLengthChunck = chunk.length
         }
         let ticketChunk = await expo.sendPushNotificationsAsync(chunk)
         tickets.push(...ticketChunk)
-        for (let [index_ticket, ticket] of ticketChunk) {
+        for (let [indexTicket, ticket] of ticketChunk) {
           if (ticket.status === 'error') {
             if (ticket.details.error === 'DeviceNotRegistered') {
-              deviceNotRegistered.push(expoListToken[(index_chunk * maxLengthChunck) + index_ticket])
+              deviceNotRegistered.push(expoListToken[(indexChunk * maxLengthChunck) + indexTicket])
             }
           }
         }
@@ -60,8 +60,10 @@ const sendMobileNotifications = (expoListToken, title, bodyMessage, data, user) 
             })
         }
       } catch (error) {
-        const message = error || 'Error while sending notification'
-        return logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, expoListToken, 'error')
+        if (!error.includes('conflicting tokens')) {
+          const message = error || 'Error while sending notification'
+          return logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, expoListToken, 'error')
+        }
       }
     }
   })()
