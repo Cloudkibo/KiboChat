@@ -60,10 +60,8 @@ const sendMobileNotifications = (expoListToken, title, bodyMessage, data, user) 
             })
         }
       } catch (error) {
-        if (!error.includes('conflicting tokens')) {
-          const message = error || 'Error while sending notification'
-          return logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, expoListToken, 'error')
-        }
+        const message = error || 'Error while sending notification'
+        return logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, expoListToken, 'error')
       }
     }
   })()
