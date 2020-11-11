@@ -22,12 +22,14 @@ const appObj = (config.env === 'production' || config.env === 'staging') ? app :
   appObj.use(Raven.requestHandler())
 } */
 
-Sentry.init({
-  dsn: 'https://6c7958e0570f455381d6f17122fbd117@o132281.ingest.sentry.io/292307',
-  release: 'KiboChat@1.0.0',
-  environment: config.env,
-  serverName: 'KiboChat'
-})
+if (config.env === 'production' || config.env === 'staging') {
+  Sentry.init({
+    dsn: 'https://6c7958e0570f455381d6f17122fbd117@o132281.ingest.sentry.io/292307',
+    release: 'KiboChat@1.0.0',
+    environment: config.env,
+    serverName: 'KiboChat'
+  })
+}
 
 cron.schedule('*/1 * * * *', NotificationsScript.runLiveChatNotificationScript)
 cron.schedule('0 13 * * *', WhatsappScript.runWhatspdeleteScript) //  daily 6 pm pakistan time
