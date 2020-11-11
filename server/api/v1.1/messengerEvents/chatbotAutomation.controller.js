@@ -105,7 +105,7 @@ exports.handleCommerceChatbot = (event, page, subscriber) => {
               shouldSend = true
               isSendingToTester = true
             }
-          } else if (chatbot.published) {
+          } else if (chatbot && chatbot.published) {
             shouldSend = true
           }
           if (shouldSend) {
