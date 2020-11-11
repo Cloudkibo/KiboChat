@@ -16,15 +16,16 @@ function updateChatDelivered (req) {
     .then(updated => {
       utility.callApi('subscribers/query', 'post', { senderId: req.sender.id })
         .then(session => {
-          console.log('Sessions', session)
           session = session[0]
-          require('./../../../config/socketio').sendMessageToClient({
-            room_id: session.companyId,
-            body: {
-              action: 'message_delivered',
-              payload: {event: 'delivered', session: session}
-            }
-          })
+          if (session) {
+            require('./../../../config/socketio').sendMessageToClient({
+              room_id: session.companyId,
+              body: {
+                action: 'message_delivered',
+                payload: {event: 'delivered', session: session}
+              }
+            })
+          }
         })
         .catch(err => {
           const message = err || 'ERROR at fetching session'

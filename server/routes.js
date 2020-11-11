@@ -1,5 +1,4 @@
 const config = require('./config/environment/index')
-const Raven = require('raven')
 const path = require('path')
 const multiparty = require('connect-multiparty')
 const multipartyMiddleware = multiparty()

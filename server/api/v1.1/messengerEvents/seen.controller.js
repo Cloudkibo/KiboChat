@@ -17,13 +17,15 @@ function updateChatSeen (req) {
       utility.callApi('subscribers/query', 'post', { senderId: req.sender.id })
         .then(session => {
           session = session[0]
-          require('./../../../config/socketio').sendMessageToClient({
-            room_id: session.companyId,
-            body: {
-              action: 'message_seen',
-              payload: {event: 'seen', session: session}
-            }
-          })
+          if (session) {
+            require('./../../../config/socketio').sendMessageToClient({
+              room_id: session.companyId,
+              body: {
+                action: 'message_seen',
+                payload: {event: 'seen', session: session}
+              }
+            })
+          }
         })
         .catch(err => {
           const message = err || 'ERROR at fetching session'
