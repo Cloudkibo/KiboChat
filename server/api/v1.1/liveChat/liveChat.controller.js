@@ -247,7 +247,7 @@ exports.create = function (req, res) {
                 type: 'bot',
                 scheduledTime: timeNow.setMinutes(timeNow.getMinutes() + 30)
               }
-              return callApi(`automation_queue/create`, 'post', automationQueue, 'kiboengage')
+              return callApi(`automation_queue`, 'post', automationQueue, 'kiboengage')
             })
             .then(automationObject => {
               callback(null, automationObject)
