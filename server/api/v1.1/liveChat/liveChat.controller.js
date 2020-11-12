@@ -3,9 +3,7 @@ const logicLayer = require('./liveChat.logiclayer')
 const TAG = '/api/v1/liveChat/liveChat.controller.js'
 const og = require('open-graph')
 const { callApi } = require('../utility')
-const needle = require('needle')
 const request = require('request')
-const webhookUtility = require('../notifications/notifications.utility')
 // const util = require('util')
 const async = require('async')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
@@ -13,6 +11,7 @@ const { record } = require('../../global/messageStatistics')
 const { sendOpAlert } = require('../../global/operationalAlert')
 const { deletePendingSessionFromStack } = require('../../global/messageAlerts')
 const { sendWebhook } = require('../../global/sendWebhook')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 
 exports.index = function (req, res) {
   if (req.params.subscriber_id) {
@@ -124,6 +123,7 @@ exports.create = function (req, res) {
       }
       callApi(`subscribers/update`, 'put', subscriberData)
         .then(updated => {
+          updateCompanyUsage(req.user.companyId, 'chat_messages', 1)
           _removeSubsWaitingForUserInput(req.body.subscriber_id)
           fbMessageObject.datetime = new Date()
           callback(null, updated)
@@ -247,7 +247,7 @@ exports.create = function (req, res) {
                 type: 'bot',
                 scheduledTime: timeNow.setMinutes(timeNow.getMinutes() + 30)
               }
-              return callApi(`automation_queue/create`, 'post', automationQueue, 'kiboengage')
+              return callApi(`automation_queue`, 'post', automationQueue, 'kiboengage')
             })
             .then(automationObject => {
               callback(null, automationObject)
