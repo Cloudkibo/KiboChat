@@ -39,9 +39,10 @@ const sendMobileNotifications = (expoListToken, title, bodyMessage, data, user) 
         let ticketChunk = await expo.sendPushNotificationsAsync(chunk)
         console.log('ticketChunk', ticketChunk)
         tickets.push(...ticketChunk)
-        for (let [indexTicket, ticket] of ticketChunk) {
-          if (ticket.status === 'error') {
-            if (ticket.details.error === 'DeviceNotRegistered') {
+        console.log('tickets', tickets)
+        for (let indexTicket = 0; indexTicket < ticketChunk.length; indexTicket++) {
+          if (ticketChunk[indexTicket].status === 'error') {
+            if (ticketChunk[indexTicket].details.error === 'DeviceNotRegistered') {
               deviceNotRegistered.push(expoListToken[(indexChunk * maxLengthChunck) + indexTicket])
             }
           }
