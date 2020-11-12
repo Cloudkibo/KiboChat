@@ -21,7 +21,6 @@ exports.index = function (req, res) {
   // logger.serverLog(TAG, `payload received in subscriber ${JSON.stringify(req.body.subscriber)}`, 'debug')
   // logger.serverLog(TAG, `payload received in event ${JSON.stringify(req.body.event)}`, 'debug')
   // logger.serverLog(TAG, `payload received in pushPendingSession ${JSON.stringify(req.body.pushPendingSessionInfo)}`, 'debug')
-  console.log('event gott', req.body.event)
   res.status(200).json({
     status: 'success',
     description: `received the payload`
@@ -34,7 +33,6 @@ exports.index = function (req, res) {
   if (event.message) {
     logicLayer.prepareLiveChatPayload(event.message, subscriber, page)
       .then(chatPayload => {
-        console.log('chatPayload got', chatPayload.payload)
         if (Object.keys(chatPayload.payload).length > 0 && chatPayload.payload.constructor === Object) {
           let from
           if (!event.message.is_echo) {
@@ -43,7 +41,6 @@ exports.index = function (req, res) {
             if (!event.message.metadata) from = 'facebook_page'
             else from = 'kibopush'
           }
-          console.log('from', from)
           from && sendWebhook('CHAT_MESSAGE', 'facebook', {
             from: from,
             recipientId: event.message.is_echo ? subscriber.senderId : page.pageId,
@@ -119,14 +116,12 @@ function saveLiveChat (page, subscriber, event, chatPayload) {
   }
 }
 function saveChatInDb (page, chatPayload, subscriber, event) {
-  console.log({page, chatPayload, subscriber, event})
   if (
     Object.keys(chatPayload.payload).length > 0 &&
     chatPayload.payload.constructor === Object &&
     !event.message.delivery &&
     !event.message.read
   ) {
-    console.log('inside if')
     LiveChatDataLayer.createFbMessageObject(chatPayload)
       .then(chat => {
         updateCompanyUsage(page.companyId, 'chat_messages', 1)
