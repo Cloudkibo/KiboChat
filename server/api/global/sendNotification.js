@@ -21,6 +21,7 @@ const sendMobileNotifications = (expoListToken, title, bodyMessage, data, user) 
   })
   console.log('expoListToken', expoListToken)
   let chunks = expo.chunkPushNotifications(messages)
+  console.log('chunks got', chunks)
   let tickets = []
   let deviceNotRegistered = [];
   (async () => {
