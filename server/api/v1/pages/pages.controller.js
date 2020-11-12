@@ -283,11 +283,14 @@ exports.enable = function (req, res) {
                                                   logger.serverLog(message, `${TAG}: exports.enable`, {}, {}, 'error')
                                                 }
                                                 if (resp.body.error) {
+                                                  const msg = resp.body.error.message || 'Page connect error'
                                                   const errorMessage = resp.body.error.message
                                                   if (errorMessage && errorMessage.includes('administrative permission')) {
+                                                    logger.serverLog(msg, `${TAG}: exports.enable`, req.body, {page: page}, 'info')
                                                     sendSuccessResponse(res, 200, { adminError: 'Page connected successfully, but certain actions such as setting welcome message will not work due to your page role' })
                                                   } else {
-                                                    _updateWhitlistDomain(req, page)
+                                                    logger.serverLog(msg, `${TAG}: exports.enable`, req.body, {page: page, error: req.body.error}, 'error')
+                                                    _updateWhiteListDomain(req, page)
                                                     sendSuccessResponse(res, 200, 'Page connected successfully')
                                                   }
 
