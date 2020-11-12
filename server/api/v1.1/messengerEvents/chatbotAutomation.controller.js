@@ -32,6 +32,7 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
                         senderAction(req.sender.id, 'typing_on', page.accessToken)
                         intervalForEach(messageBlock.payload, (item) => {
                           sendResponse(req.sender.id, item, subscriber, page.accessToken)
+                          saveLiveChatMessage(page, subscriber, item)
                           senderAction(req.sender.id, 'typing_off', page.accessToken)
                         }, 1500)
                         updateBotLifeStatsForBlock(messageBlock, true)
@@ -94,8 +95,13 @@ exports.handleCommerceChatbot = (event, page, subscriber) => {
           })
           let shouldSend = false
           let isSendingToTester = false
-          if (chatbot && chatbot.testSession && !chatbot.published) {
-            if (chatbot.testSession.subscriberId === subscriber.senderId) {
+          if (chatbot && chatbot.testSession && !chatbot.published &&
+          chatbot.testSession.sessionStartTime) {
+            const currentDate = new Date()
+            const testSessionTime = new Date(chatbot.testSession.sessionStartTime)
+            const diffInMinutes = Math.abs(currentDate - testSessionTime) / 1000 / 60
+            if (chatbot.testSession.subscriberId === subscriber.senderId &&
+            diffInMinutes <= 60) {
               shouldSend = true
               isSendingToTester = true
             }
@@ -124,6 +130,7 @@ exports.handleCommerceChatbot = (event, page, subscriber) => {
                 senderAction(event.sender.id, 'typing_on', page.accessToken)
                 intervalForEach(nextMessageBlock.payload, (item) => {
                   sendResponse(event.sender.id, item, subscriber, page.accessToken)
+                  saveLiveChatMessage(page, subscriber, item)
                   senderAction(event.sender.id, 'typing_off', page.accessToken)
                 }, 1500)
                 if (!isSendingToTester) {
@@ -169,8 +176,13 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
             if (chatbot) {
               let shouldSend = false
               let isSendingToTester = false
-              if (chatbot.testSession && !chatbot.published) {
-                if (chatbot.testSession.subscriberId === subscriber.senderId) {
+              if (chatbot.testSession && !chatbot.published &&
+              chatbot.testSession.sessionStartTime) {
+                const currentDate = new Date()
+                const testSessionTime = new Date(chatbot.testSession.sessionStartTime)
+                const diffInMinutes = Math.abs(currentDate - testSessionTime) / 1000 / 60
+                if (chatbot.testSession.subscriberId === subscriber.senderId &&
+                  diffInMinutes <= 60) {
                   shouldSend = true
                   isSendingToTester = true
                 }
@@ -189,6 +201,7 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
                       senderAction(req.sender.id, 'typing_on', page.accessToken)
                       intervalForEach(messageBlock.payload, (item) => {
                         sendResponse(req.sender.id, item, subscriber, page.accessToken)
+                        saveLiveChatMessage(page, subscriber, item)
                         senderAction(req.sender.id, 'typing_off', page.accessToken)
                       }, 1500)
                       if (!isSendingToTester) {
@@ -234,6 +247,7 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
 }
 
 exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId, parentBlockTitle) => {
+  console.log('in handleChatbotNextMessage')
   record('messengerChatInComing')
   shouldAvoidSendingAutomatedMessage(subscriber)
     .then(shouldAvoid => {
@@ -243,8 +257,13 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId, parentBlock
             if (chatbot) {
               let shouldSend = false
               let isSendingToTester = false
-              if (chatbot.testSession && !chatbot.published) {
-                if (chatbot.testSession.subscriberId === subscriber.senderId) {
+              if (chatbot.testSession && !chatbot.published &&
+              chatbot.testSession.sessionStartTime) {
+                const currentDate = new Date()
+                const testSessionTime = new Date(chatbot.testSession.sessionStartTime)
+                const diffInMinutes = Math.abs(currentDate - testSessionTime) / 1000 / 60
+                if (chatbot.testSession.subscriberId === subscriber.senderId &&
+                diffInMinutes <= 60) {
                   shouldSend = true
                   isSendingToTester = true
                 }
@@ -266,6 +285,7 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId, parentBlock
                       senderAction(req.sender.id, 'typing_on', page.accessToken)
                       intervalForEach(messageBlock.payload, (item) => {
                         sendResponse(req.sender.id, item, subscriber, page.accessToken)
+                        saveLiveChatMessage(page, subscriber, item)
                         senderAction(req.sender.id, 'typing_off', page.accessToken)
                       }, 1500)
                       if (!isSendingToTester) {
@@ -311,6 +331,7 @@ exports.handleChatBotTestMessage = (req, page, subscriber, type) => {
               senderAction(req.sender.id, 'typing_on', page.accessToken)
               intervalForEach(messageBlock.payload, (item) => {
                 sendResponse(req.sender.id, item, subscriber, page.accessToken)
+                saveLiveChatMessage(page, subscriber, item)
                 senderAction(req.sender.id, 'typing_off', page.accessToken)
               }, 1500)
             }
@@ -372,6 +393,7 @@ function sendFallbackReply (senderId, page, fallbackReply, subscriber) {
   senderAction(senderId, 'typing_on', page.accessToken)
   intervalForEach(fallbackReply, (item) => {
     sendResponse(senderId, item, subscriber, page.accessToken)
+    saveLiveChatMessage(page, subscriber, item)
     senderAction(senderId, 'typing_off', page.accessToken)
   }, 1500)
 }
@@ -589,7 +611,8 @@ function saveTesterInfoForLater (pageId, subscriberId, chatBot) {
   }
   const updated = {
     testSession: {
-      subscriberId
+      subscriberId,
+      sessionStartTime: new Date()
     }
   }
   chatbotDataLayer.genericUpdateChatBot(query, updated)
@@ -616,6 +639,21 @@ function shouldAvoidSendingAutomatedMessage (subscriber) {
       })
       .catch(err => reject(err))
   })
+}
+
+function saveLiveChatMessage (page, subscriber, item) {
+  const message = {
+    format: 'convos',
+    sender_id: page._id,
+    recipient_id: subscriber._id,
+    sender_fb_id: subscriber.senderId,
+    recipient_fb_id: page.pageId,
+    subscriber_id: subscriber._id,
+    company_id: page.companyId,
+    status: 'unseen',
+    payload: item
+  }
+  require('./sessions.controller').saveChatInDb(page, message, subscriber, {message: {is_echo: true}})
 }
 
 exports.updateBotPeriodicStatsForBlock = updateBotPeriodicStatsForBlock
