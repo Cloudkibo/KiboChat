@@ -284,21 +284,30 @@ function validateApiKeys (req, res, next) {
 /**
  * Set token cookie directly for oAuth strategies
 */
-
-const _updateUserPlatform = (req, res) => {
-  apiCaller.callApi(`companyUser/queryAll`, 'post', {companyId: req.user.companyId}, 'accounts')
-    .then(companyUsers => {
-      let userIds = companyUsers.map(companyUser => companyUser.userId._id)
-      apiCaller.callApi(`user/update`, 'post', {query: {_id: {$in: userIds}}, newPayload: { $set: {platform: 'messenger'} }, options: {multi: true}})
-        .then(updatedProfile => {
-        })
-        .catch(err => {
-          const message = err || '500: Internal server error'
-          logger.serverLog(message, `${TAG}: exports._updateUserPlatform`, {}, {}, 'error')
+const _updateUserPlatform = (req, res, userid) => {
+  apiCaller.callApi(`companyProfile/query`, 'post', {ownerId: userid}, 'accounts')
+    .then(companyProfile => {
+      apiCaller.callApi(`companyUser/queryAll`, 'post', {companyId: companyProfile._id}, 'accounts')
+        .then(companyUsers => {
+          let userIds = companyUsers.map(companyUser => {
+            if (companyUser.userId) {
+              return companyUser.userId._id
+            }
+          })
+          apiCaller.callApi(`user/update`, 'post', {query: {_id: {$in: userIds}}, newPayload: { $set: {platform: 'messenger'} }, options: {multi: true}})
+            .then(updatedProfile => {
+            })
+            .catch(err => {
+              const message = err || 'Internal server error'
+              logger.serverLog(message, `${TAG}: _updateUserPlatform`, req.body, {}, 'error')
+            })
+        }).catch(err => {
+          const message = err || 'Internal server error'
+          logger.serverLog(message, `${TAG}: _updateUserPlatform`, req.body, {}, 'error')
         })
     }).catch(err => {
-      const message = err || '500: Internal server error'
-      logger.serverLog(message, `${TAG}: exports._updateUserPlatform`, {}, {}, 'error')
+      const message = err || 'Internal server error'
+      logger.serverLog(message, `${TAG}: _updateUserPlatform`, req.body, {}, 'error')
     })
 }
 
@@ -327,7 +336,7 @@ function fbConnectDone (req, res) {
       } else {
         apiCaller.callApi(`user/update`, 'post', {query: {_id: userid}, newPayload: {facebookInfo: fbPayload, connectFacebook: true, showIntegrations: false, platform: 'messenger'}, options: {}}, 'accounts', token)
           .then(updated => {
-            _updateUserPlatform(req, res)
+            _updateUserPlatform(req, res, userid)
             apiCaller.callApi(`user/query`, 'post', {_id: userid}, 'accounts', token)
               .then(user => {
                 if (!user) {

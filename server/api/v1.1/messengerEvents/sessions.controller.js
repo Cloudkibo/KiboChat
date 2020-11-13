@@ -116,12 +116,14 @@ function saveLiveChat (page, subscriber, event, chatPayload) {
   }
 }
 function saveChatInDb (page, chatPayload, subscriber, event) {
+  console.log({page, chatPayload, subscriber, event})
   if (
     Object.keys(chatPayload.payload).length > 0 &&
     chatPayload.payload.constructor === Object &&
     !event.message.delivery &&
     !event.message.read
   ) {
+    console.log('inside if')
     LiveChatDataLayer.createFbMessageObject(chatPayload)
       .then(chat => {
         updateCompanyUsage(page.companyId, 'chat_messages', 1)
