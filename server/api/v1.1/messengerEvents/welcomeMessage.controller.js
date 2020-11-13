@@ -17,14 +17,14 @@ exports.index = function (req, res) {
     // again and again
     chatbotAutomation.handleChatBotWelcomeMessage(event, page, subscriber)
   } else {
-    setTimeout(function () {
-      const sender = req.body.entry[0].messaging[0].sender.id
-      utility.callApi('subscribers/query', 'post', { senderId: sender })
-        .then(subscriberFound => {
+    const sender = req.body.entry[0].messaging[0].sender.id
+    utility.callApi('subscribers/query', 'post', { senderId: sender })
+      .then(subscriberFound => {
+        if (subscriberFound.length > 0) {
           subscriber = subscriberFound[0]
           subscriber.isNewSubscriber = true
           chatbotAutomation.handleChatBotWelcomeMessage(event, page, subscriber)
-        })
-    }, 2500)
+        }
+      })
   }
 }
