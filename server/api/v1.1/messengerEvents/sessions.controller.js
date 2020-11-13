@@ -34,7 +34,7 @@ exports.index = function (req, res) {
     logicLayer.prepareLiveChatPayload(event.message, subscriber, page)
       .then(chatPayload => {
         console.log('chatPayload got', chatPayload.payload)
-        if (Object.keys(chatPayload.payload).length > 0 && chatPayload.payload.constructor === Object) {
+        if (chatPayload.payload && Object.keys(chatPayload.payload).length > 0 && chatPayload.payload.constructor === Object) {
           let from
           if (!event.message.is_echo) {
             from = 'subscriber'

@@ -287,7 +287,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse, me
 
 function prepareMessageData (message) {
   let messageData = {}
-  if (message.attachments) {
+  if (message.attachments && message.attachments[0].payload) {
     if (message.attachments[0].payload.template_type === 'generic' && message.attachments[0].payload.elements.length === 1) {
       messageData = message.attachments[0].payload.elements[0]
       messageData.componentType = 'card'
