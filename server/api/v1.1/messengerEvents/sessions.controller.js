@@ -33,7 +33,7 @@ exports.index = function (req, res) {
   if (event.message) {
     logicLayer.prepareLiveChatPayload(event.message, subscriber, page)
       .then(chatPayload => {
-        if (Object.keys(chatPayload.payload).length > 0 && chatPayload.payload.constructor === Object) {
+        if (chatPayload.payload && chatPayload.payload.constructor === Object && Object.keys(chatPayload.payload).length > 0) {
           let from
           if (!event.message.is_echo) {
             from = 'subscriber'
@@ -116,14 +116,12 @@ function saveLiveChat (page, subscriber, event, chatPayload) {
   }
 }
 function saveChatInDb (page, chatPayload, subscriber, event) {
-  console.log({page, chatPayload, subscriber, event})
   if (
     Object.keys(chatPayload.payload).length > 0 &&
     chatPayload.payload.constructor === Object &&
     !event.message.delivery &&
     !event.message.read
   ) {
-    console.log('inside if')
     LiveChatDataLayer.createFbMessageObject(chatPayload)
       .then(chat => {
         updateCompanyUsage(page.companyId, 'chat_messages', 1)
