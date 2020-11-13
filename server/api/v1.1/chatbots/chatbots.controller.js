@@ -99,7 +99,8 @@ exports.stats = (req, res) => {
       }
     })
     .catch(error => {
-      logger.serverLog(TAG, error, 'error')
+      const message = error || 'error in chatbots controller stats'
+      logger.serverLog(message, `${TAG}: exports.stats`, {}, { criteria, groupCriteria }, 'error')
       sendErrorResponse(res, 500, 'Failed to fetch analytics for chatbot')
     })
 }
@@ -110,7 +111,8 @@ exports.fetchChatbot = function (req, res) {
       sendSuccessResponse(res, 200, chatbot)
     })
     .catch(err => {
-      logger.serverLog(TAG, err, 'error')
+      const message = err || 'Failed to fetch chatbot'
+      logger.serverLog(message, `${TAG}: exports.fetchChatbot`, {}, {}, 'error')
       sendErrorResponse(res, 500, 'Failed to fetch chatbot')
     })
 }
@@ -133,6 +135,8 @@ exports.delete = function (req, res) {
       return res.status(201).json({ status: 'success', payload: chatbot })
     })
     .catch(error => {
+      const message = error || 'Failed to delete chatbot'
+      logger.serverLog(message, `${TAG}: exports.delete`, {}, {}, 'error')
       return res.status(500).json({ status: 'failed', payload: `Failed to delete chatbot ${error}` })
     })
 }
@@ -143,7 +147,8 @@ exports.fetchBackup = function (req, res) {
       sendSuccessResponse(res, 200, backup)
     })
     .catch(err => {
-      logger.serverLog(TAG, err, 'error')
+      const message = err || 'Failed to fetch backup'
+      logger.serverLog(message, `${TAG}: exports.fetchBackup`, {}, {}, 'error')
       sendErrorResponse(res, 500, 'Failed to fetch backup')
     })
 }
@@ -193,7 +198,8 @@ exports.createBackup = function (req, res) {
         cb()
       }, function (err) {
         if (err) {
-          logger.serverLog(TAG, err, 'error')
+          const message = err || 'Failed to create backup'
+          logger.serverLog(message, `${TAG}: exports.createChatBotBackup`, {}, {}, 'error')
           sendErrorResponse(res, 500, 'Failed to create backup')
         } else {
           Promise.all(backupCalls)
@@ -201,14 +207,16 @@ exports.createBackup = function (req, res) {
               sendSuccessResponse(res, 200, 'Backup created successfully')
             })
             .catch(err => {
-              logger.serverLog(TAG, err, 'error')
+              const message = err || 'Failed to create backup'
+              logger.serverLog(message, `${TAG}: exports.createChatBotBackup`, {}, {}, 'error')
               sendErrorResponse(res, 500, 'Failed to create backup')
             })
         }
       })
     })
     .catch(err => {
-      logger.serverLog(TAG, err, 'error')
+      const message = err || 'Failed to create backup'
+      logger.serverLog(message, `${TAG}: exports.createChatBotBackup`, {}, {}, 'error')
       sendErrorResponse(res, 500, 'Failed to create backup')
     })
 }
@@ -251,7 +259,8 @@ exports.restoreBackup = function (req, res) {
         cb()
       }, function (err) {
         if (err) {
-          logger.serverLog(TAG, err, 'error')
+          const message = err || 'Failed to restore backup'
+          logger.serverLog(message, `${TAG}: exports.restoreBackup`, {}, {}, 'error')
           sendErrorResponse(res, 500, 'Failed to restore backup')
         } else {
           Promise.all(backupCalls)
@@ -264,35 +273,37 @@ exports.restoreBackup = function (req, res) {
                       sendSuccessResponse(res, 200, 'Backup restored successfully')
                     })
                     .catch(err => {
-                      logger.serverLog(TAG, err, 'error')
+                      const message = err || 'Failed to restore backup'
+                      logger.serverLog(message, `${TAG}: exports.restoreBackup`, {}, {}, 'error')
                       sendErrorResponse(res, 500, 'Failed to restore backup')
                     })
                 })
                 .catch(err => {
-                  logger.serverLog(TAG, err, 'error')
+                  const message = err || 'Failed to restore backup'
+                  logger.serverLog(message, `${TAG}: exports.restoreBackup`, {}, {}, 'error')
                   sendErrorResponse(res, 500, 'Failed to restore backup')
                 })
             })
             .catch(err => {
-              logger.serverLog(TAG, err, 'error')
+              const message = err || 'Failed to restore backup'
+              logger.serverLog(message, `${TAG}: exports.restoreBackup`, {}, {}, 'error')
               sendErrorResponse(res, 500, 'Failed to restore backup')
             })
         }
       })
     })
     .catch(err => {
-      logger.serverLog(TAG, err, 'error')
+      const message = err || 'Failed to restore backup'
+      logger.serverLog(message, `${TAG}: exports.restoreBackup`, {}, {}, 'error')
       sendErrorResponse(res, 500, 'Failed to restore backup')
     })
 }
 
 exports.redirectToUrl = (req, res) => {
   if (!req.headers['user-agent'].startsWith('facebook')) {
-    logger.serverLog(TAG, `chatbot click count increased ${req.params.id}`, 'debug')
     urlDataLayer.findOneURL(req.params.id)
       .then(URLObject => {
         if (URLObject) {
-          logger.serverLog(TAG, `URLObject found, incrementing click ${JSON.stringify(URLObject)}`, 'debug')
           msgBlockDataLayer.findOneMessageBlock({ uniqueId: URLObject.module.id })
             .then(msgBlockFound => {
               chatbotAutomation.updateBotLifeStatsForBlock(msgBlockFound, false)

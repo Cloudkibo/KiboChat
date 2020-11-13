@@ -158,7 +158,8 @@ const _getDuplicateRecords = (data) => {
           })
           .catch(error => {
             resolve(0)
-            logger.serverLog(TAG, `Failed to fetch contacts ${JSON.stringify(error)}`, 'error')
+            const message = error || 'error in message statistics'
+            logger.serverLog(message, `${TAG}: exports._getDuplicateRecords`, {}, { data }, 'error')
           })
       })
   })
@@ -184,7 +185,8 @@ exports.sendMessage = function (req, res) {
       _sendTemplateMessage.bind(null, data)
     ], function (err) {
       if (err) {
-        logger.serverLog(TAG, `Failed to send invitation template. ${err}`)
+        const message = err || 'Failed to send invitation template'
+        logger.serverLog(message, `${TAG}: exports.sendMessage`, req.body, {}, 'error')
         sendErrorResponse(res, 500, '', err)
       } else {
         sendSuccessResponse(res, 200, 'Message Sent Successfully')
@@ -259,7 +261,8 @@ const _saveSubscriber = (data, contact) => {
       _updateSubscriber(whatsAppContact)
     })
     .catch((err) => {
-      logger.serverLog(TAG, `Failed to create subscriber ${err}`, 'error')
+      const message = err || 'Failed to create subscriber'
+      logger.serverLog(message, `${TAG}: exports._saveSubscriber`, {}, { data, contact }, 'error')
     })
 }
 
@@ -269,7 +272,8 @@ const _saveChat = (data, contact) => {
     .then(message => {
     })
     .catch((err) => {
-      logger.serverLog(TAG, `Failed to save chat ${err}`, 'error')
+      const message = err || 'Failed to save chat'
+      logger.serverLog(message, `${TAG}: exports._saveChat`, {}, { data, contact }, 'error')
     })
 }
 
@@ -285,6 +289,7 @@ const _updateSubscriber = (contact) => {
   utility.callApi(`whatsAppContacts/update`, 'put', subscriberData)
     .then(updated => {
     }).catch((err) => {
-      logger.serverLog(TAG, `Failed to update subscriber ${err}`, 'error')
+      const message = err || 'Failed to update subscriber'
+      logger.serverLog(message, `${TAG}: exports._updateSubscriber`, {}, { contact }, 'error')
     })
 }

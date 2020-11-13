@@ -17,7 +17,8 @@ exports.getZoomUsers = function (req, res) {
       }
     })
     .catch(err => {
-      logger.serverLog(TAG, err, 'error')
+      const message = err || 'error in get Zoom Users'
+      logger.serverLog(message, `${TAG}: exports.getZoomUsers`, {}, {}, 'error')
       sendErrorResponse(res, 500, undefined, 'Failed to get zoom integration')
     })
 }
@@ -57,8 +58,8 @@ exports.createMeeting = function (req, res) {
                             sendSuccessResponse(res, 200, {joinUrl: meetingResponse.join_url})
                           })
                           .catch(err => {
-                            logger.serverLog(TAG, err, 'error')
-                            sendErrorResponse(res, 500, undefined, 'Failed to update api calls count')
+                            const message = err || 'error in get Zoom Users'
+                            logger.serverLog(message, `${TAG}: exports.createMeeting`, {}, {}, 'error')
                           })
                       } else {
                         callApi('zoomUsers', 'put', {purpose: 'updateOne', match: {_id: zoomUser._id}, updated: {meetingsPerDay: {datetime: new Date(), apiCalls: 1}}})
@@ -66,18 +67,21 @@ exports.createMeeting = function (req, res) {
                             sendSuccessResponse(res, 200, {joinUrl: meetingResponse.join_url})
                           })
                           .catch(err => {
-                            logger.serverLog(TAG, err, 'error')
+                            const message = err || 'Failed to update api calls count'
+                            logger.serverLog(message, `${TAG}: exports.createMeeting`, {}, {}, 'error')
                             sendErrorResponse(res, 500, undefined, 'Failed to update api calls count')
                           })
                       }
                     })
                     .catch(err => {
-                      logger.serverLog(TAG, err, 'error')
+                      const message = err || 'Failed to create zoom meeting record'
+                      logger.serverLog(message, `${TAG}: exports.createMeeting`, {}, { zoomMeetingPayload }, 'error')
                       sendErrorResponse(res, 500, undefined, 'Failed to create zoom meeting record')
                     })
                 })
                 .catch(err => {
-                  logger.serverLog(TAG, err, 'error')
+                  const message = err || 'Failed to create zoom meeting'
+                  logger.serverLog(message, `${TAG}: exports.createMeeting`, {}, {}, 'error')
                   sendErrorResponse(res, 500, undefined, 'Failed to create zoom meeting')
                 })
             } else {
@@ -85,13 +89,15 @@ exports.createMeeting = function (req, res) {
             }
           })
           .catch(err => {
-            logger.serverLog(TAG, err, 'error')
+            const message = err || 'Failed to refresh access token'
+            logger.serverLog(message, `${TAG}: exports.createMeeting`, {}, {}, 'error')
             sendErrorResponse(res, 500, undefined, 'Failed to refresh access token')
           })
       }
     })
     .catch(err => {
-      logger.serverLog(TAG, err, 'error')
+      const message = err || 'Failed to fetch zoom user'
+      logger.serverLog(message, `${TAG}: exports.createMeeting`, {}, {}, 'error')
       sendErrorResponse(res, 500, undefined, 'Failed to fetch zoom user')
     })
 }
@@ -127,7 +133,8 @@ const _sendNotification = (data, companyId) => {
                     )
                   })
                   .catch(err => {
-                    logger.serverLog(TAG, `Failed to fetch members ${err}`, 'error')
+                    const message = err || 'Failed to fetch members'
+                    logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, {}, 'error')
                   })
               } else if (!subscriber.is_assigned) {
                 sendNotifications('Zoom Meeting', notificationMessage, subscriber, companyUsers)
@@ -142,16 +149,20 @@ const _sendNotification = (data, companyId) => {
                     )
                   })
                   .catch(err => {
-                    logger.serverLog(TAG, `Failed to fetch members ${err}`, 'error')
+                    const message = err || 'Failed to fetch members'
+                    logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, {}, 'error')
                   })
               }
             }).catch(error => {
-              logger.serverLog(TAG, `Error while fetching Last Message ${error}`, 'error')
+              const message = error || 'Error while fetching Last Message'
+              logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, {}, 'error')
             })
         }).catch(error => {
-          logger.serverLog(TAG, `Error while fetching companyUser ${error}`, 'error')
+          const message = error || 'Error while fetching companyUser'
+          logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, {}, 'error')
         })
     }).catch(err => {
-      logger.serverLog(TAG, `Failed to fetch subscriber ${err}`, 'error')
+      const message = err || 'Failed to fetch subscriber'
+      logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, {}, 'error')
     })
 }

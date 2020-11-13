@@ -36,23 +36,25 @@ exports.index = function (req, res) {
                         `At send message pageReferralt ${JSON.stringify(err)}`, 'error')
                     } else {
                       if (res.statusCode !== 200) {
-                        logger.serverLog(TAG,
-                          `At send message page referral ${JSON.stringify(
-                            res.body.error)}`, 'error')
+                        const message = req.body.error || 'At send message page referral'
+                        return logger.serverLog(message, `${TAG}: exports.index`, req.body, {}, 'error')
                       }
                     }
                   })
               }
             })
             .catch(err => {
-              logger.serverLog(TAG, `Failed to fetch page referral ${JSON.stringify(err)}`, 'error')
+              const message = err || 'Failed to fetch page referral'
+              return logger.serverLog(message, `${TAG}: exports.index`, req.body, {}, 'error')
             })
         })
         .catch(err => {
-          logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(err)}`, 'error')
+          const message = err || 'Failed to fetch subscriber'
+          return logger.serverLog(message, `${TAG}: exports.index`, req.body, {}, 'error')
         })
     })
     .catch(err => {
-      logger.serverLog(TAG, `Failed to fetch page ${JSON.stringify(err)}`, 'error')
+      const message = err || 'Failed to fetch page'
+      return logger.serverLog(message, `${TAG}: exports.index`, req.body, {}, 'error')
     })
 }

@@ -10,10 +10,12 @@ exports.connectRedis = function () {
   if (config.env !== 'development') {
     client = redis.createClient()
     client.on('connect', () => {
-      logger.serverLog(TAG, 'connected to redis', 'info')
+      const message = 'connected to redis'
+      logger.serverLog(message, `${TAG}: exports.connectRedis`, {}, {}, 'info')
     })
     client.on('error', (err) => {
-      logger.serverLog(TAG, 'unable connected to redis ' + JSON.stringify(err), 'info')
+      const message = err || 'unable connected to redis'
+      logger.serverLog(message, `${TAG}: exports.connectRedis`, {}, {}, 'error')
     })
   }
 }
@@ -21,7 +23,8 @@ exports.connectRedis = function () {
 function recordRedis (featureName) {
   findRedisObject(featureName, (err, record) => {
     if (err) {
-      return logger.serverLog(TAG, `error in message statistics ${JSON.stringify(err)}`)
+      const message = err || 'error in message statistics'
+      return logger.serverLog(message, `${TAG}: exports.recordRedis`, {}, record, 'error')
     }
     if (!record) {
       createRedisObject(featureName)
@@ -97,7 +100,8 @@ function findAllKeys (fn) {
 function deleteAllKeys (arrObjs) {
   client.multi(arrObjs).exec(function (err, replies) {
     if (err) {
-      return logger.serverLog(TAG, `error in message statistics delete all keys ${JSON.stringify(err)}`)
+      const message = err || 'error in message statistics delete all keys'
+      return logger.serverLog(message, `${TAG}: exports.deleteAllKeys`, {}, arrObjs, 'error')
     }
   })
 }

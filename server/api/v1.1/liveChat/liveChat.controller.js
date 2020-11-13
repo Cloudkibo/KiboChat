@@ -65,12 +65,10 @@ exports.search = function (req, res) {
 
 exports.geturlmeta = function (req, res) {
   var url = req.body.url
-  logger.serverLog(TAG, `Url for Meta: ${url}`, 'error')
   og(url, (err, meta) => {
     if (err) {
       sendErrorResponse(res, 404, '', 'Meta data not found')
     } else {
-      logger.serverLog(TAG, `Url Meta: ${meta}`, 'error')
       sendSuccessResponse(res, 200, meta)
     }
   })
@@ -107,7 +105,6 @@ exports.create = function (req, res) {
       }
       callApi(`subscribers/update`, 'put', subscriberData)
         .then(updated => {
-          logger.serverLog(TAG, `updated subscriber ${updated}`)
           callback(null, updated)
         })
         .catch(err => {
@@ -128,7 +125,6 @@ exports.create = function (req, res) {
       callApi(`subscribers/update`, 'put', subscriberData)
         .then(updated => {
           _removeSubsWaitingForUserInput(req.body.subscriber_id)
-          logger.serverLog(TAG, `updated subscriber again ${updated}`)
           fbMessageObject.datetime = new Date()
           callback(null, updated)
         })
@@ -178,7 +174,6 @@ exports.create = function (req, res) {
                 subscriber.lastName,
                 true
               )
-              logger.serverLog(TAG, `got subscriber ${subscriber}`)
               record('messengerChatOutGoing')
               request(
                 {
@@ -193,9 +188,14 @@ exports.create = function (req, res) {
                     callback(err)
                   } else if (res.statusCode !== 200) {
                     callback(res.body.error)
-                    if (res.body.error) {
-                      sendOpAlert(res.body.error, 'comment controller in kiboengage', req.body.sender_id, req.user._id, req.user.companyId)
+                    let severity = 'error'
+                    /* Error code 10 shows message is sent outside 24 hrs window. This error message shows on screen
+                    hence logging this as info */
+                    if (res.body.error.code && res.body.error.code === 10) {
+                      severity = 'info'
                     }
+                    let message = (res.body.error && res.body.error.message) || 'Error while sending message in live chat'
+                    logger.serverLog(message, TAG, req.body, {messageData: messageData, subscriber: subscriber}, severity)
                   } else {
                     callback(null, subscriber)
                   }
@@ -209,7 +209,6 @@ exports.create = function (req, res) {
           callback(err)
         })
     }, function (callback) {
-      logger.serverLog(TAG, `Delete subscriber pending session from cronstack`)
       deletePendingSessionFromStack(req.body.subscriber_id)
       callback(null)
     }
@@ -231,10 +230,8 @@ exports.create = function (req, res) {
         // Update Bot Block list
         function (callback) {
           let botsData = logicLayer.getQueryData('', 'findOne', { pageId: subscriber.pageId._id, companyId: subscriber.companyId })
-          logger.serverLog(TAG, `botsData ${botsData}`)
           callApi(`smart_replies/query`, 'post', botsData, 'kibochat')
             .then(bot => {
-              logger.serverLog(TAG, `bot found ${bot}`)
               if (!bot) {
                 callback(null, 'No bot found!')
               } else {
@@ -247,7 +244,6 @@ exports.create = function (req, res) {
               }
             })
             .then(result => {
-              logger.serverLog(TAG, `result ${result}`)
               let timeNow = new Date()
               let automationQueue = {
                 automatedMessageId: botId,
@@ -256,19 +252,21 @@ exports.create = function (req, res) {
                 type: 'bot',
                 scheduledTime: timeNow.setMinutes(timeNow.getMinutes() + 30)
               }
-              return callApi(`automation_queue/create`, 'post', automationQueue, 'kiboengage')
+              return callApi(`automation_queue`, 'post', automationQueue, 'kiboengage')
             })
             .then(automationObject => {
               callback(null, automationObject)
             })
             .catch(err => {
-              logger.serverLog(TAG, `in catch1 ${err}`)
+              const message = err || 'create live chat error'
+              logger.serverLog(message, `${TAG}: exports.create`, {}, {}, 'error')
               callback(err)
             })
         }
       ], 10, function (err, values) {
         if (err) {
-          logger.serverLog(TAG, `error found ${err}`)
+          const message = err || 'Meta data not found'
+          logger.serverLog(message, `${TAG}: exports.create`, {}, {}, 'error')
           sendErrorResponse(res, 400, 'Meta data not found')
         } else {
           fbMessageObject._id = req.body._id
@@ -298,9 +296,9 @@ const _removeSubsWaitingForUserInput = (subscriberId) => {
   }
   callApi(`subscribers/update`, 'put', {query: {_id: subscriberId, waitingForUserInput: { '$ne': null }}, newPayload: {waitingForUserInput: waitingForUserInput}, options: {}})
     .then(updated => {
-      logger.serverLog(TAG, `Succesfully updated subscriber _removeSubsWaitingForUserInput`)
     })
     .catch(err => {
-      logger.serverLog(TAG, `Failed to update subscriber ${JSON.stringify(err)}`)
+      const message = err || 'Failed to update subscriber'
+      logger.serverLog(message, `${TAG}: exports._removeSubsWaitingForUserInput`, {}, {}, 'error')
     })
 }

@@ -147,14 +147,15 @@ function updateUrlForClickCount (payload) {
               payload.payload[1].buttons[0].urlForFacebook = `${config.domain}/api/chatbots/url/${createdUrl._id}`
               datalayer.genericUpdateMessageBlock({ uniqueId: payload.uniqueId }, payload, { upsert: false })
                 .then(updatedMessageBlock => {
-                  logger.serverLog(TAG, `updated message block`, 'debug')
                 })
                 .catch(err => {
-                  logger.serverLog(TAG, `error in updating Url ${JSON.stringify(err)}`, 'error')
+                  const message = err || 'error in updating Url'
+                  return logger.serverLog(message, `${TAG}: exports.updateUrlForClickCount`, {}, payload, 'error')
                 })
             })
             .catch(err => {
-              logger.serverLog(TAG, `error in fetching Url ${JSON.stringify(err)}`, 'error')
+              const message = err || 'error in fetching Url'
+              logger.serverLog(message, `${TAG}: exports.updateUrlForClickCount`, {}, payload, 'error')
             })
         } else {
           urlDataLayer.updateOneURL(foundUrl._id, { originalURL: payload.payload[1].buttons[0].url })
@@ -162,20 +163,21 @@ function updateUrlForClickCount (payload) {
               payload.payload[1].buttons[0].urlForFacebook = `${config.domain}/api/chatbots/url/${foundUrl._id}`
               datalayer.genericUpdateMessageBlock({ uniqueId: payload.uniqueId }, payload, { upsert: false })
                 .then(updatedMessageBlock => {
-                  logger.serverLog(TAG, `updated message block`, 'debug')
                 })
                 .catch(err => {
-                  logger.serverLog(TAG, `error in updating Url ${JSON.stringify(err)}`, 'error')
+                  const message = err || 'error in updating Url'
+                  logger.serverLog(message, `${TAG}: exports.updateUrlForClickCount`, {}, payload, 'error')
                 })
-              logger.serverLog(TAG, 'updated the original url for chatbot', 'debug')
             })
             .catch(err => {
-              logger.serverLog(TAG, `error in updating Url ${JSON.stringify(err)}`, 'error')
+              const message = err || 'error in updating Url'
+              logger.serverLog(message, `${TAG}: exports.updateUrlForClickCount`, {}, payload, 'error')
             })
         }
       })
       .catch(err => {
-        logger.serverLog(TAG, `error in fetching Url ${JSON.stringify(err)}`, 'error')
+        const message = err || 'error in fetching Url'
+        logger.serverLog(message, `${TAG}: exports.updateUrlForClickCount`, {}, payload, 'error')
       })
   }
 }

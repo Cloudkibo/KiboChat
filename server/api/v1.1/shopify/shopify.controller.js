@@ -103,9 +103,9 @@ function registerWebhooks (shop, token) {
     address: `${config.domain}/api/shopify/app-uninstall`,
     format: 'json'
   }).then((response) => {
-    logger.serverLog(TAG, 'App Uninstall webhook created')
   }).catch((err) => {
-    logger.serverLog(TAG, 'Error Creating App Uninstall Webhook' + JSON.stringify(err))
+    const message = err || 'Error Creating App Uninstall Webhook'
+    logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
   })
 }
 
@@ -158,7 +158,6 @@ exports.handleAppUninstall = async function (req, res) {
 
 exports.callback = function (req, res) {
   const { shop, hmac, code, state } = req.query
-  logger.serverLog(TAG, `parsing shopify cookie ${req.headers.cookie}`, 'info')
   if (req.headers.cookie) {
     const stateCookie = cookie.parse(req.headers.cookie).state
     //  const userId = JSON.parse(cookie.parse(req.headers.cookie).userId)
@@ -211,12 +210,10 @@ exports.callback = function (req, res) {
 
     request.post(accessTokenRequestUrl, { json: accessTokenPayload })
       .then((accessTokenResponse) => {
-        logger.serverLog(TAG, `shopify access token response ${JSON.stringify(accessTokenResponse)}`, 'info')
         const accessToken = accessTokenResponse.access_token
         const tokenCookie = req.headers.cookie ? cookie.parse(req.headers.cookie).token : null
         registerWebhooks(shop, accessToken)
         if (tokenCookie) {
-          logger.serverLog(TAG, `shopify token cookie ${tokenCookie}`, 'info')
           const userIdCookie = cookie.parse(req.headers.cookie).userId
           const companyIdCookie = cookie.parse(req.headers.cookie).companyId
           const shopifyPayload = {
@@ -228,23 +225,21 @@ exports.callback = function (req, res) {
           dataLayer.findOneShopifyIntegration({ companyId: companyIdCookie })
             .then(shopifyIntegration => {
               if (shopifyIntegration) {
-                logger.serverLog(TAG, `shopify integration found ${shopifyIntegration}`, 'info')
                 res.cookie('shopifySetupState', 'already exists')
                 res.clearCookie('shopifyToken')
                 res.clearCookie('installByShopifyStore')
                 res.redirect('/alreadyConnected')
               } else {
-                logger.serverLog(TAG, `no shopify integration found ${shopifyIntegration}`, 'info')
                 dataLayer.createShopifyIntegration(shopifyPayload)
                   .then(savedStore => {
-                    logger.serverLog(TAG, 'shopify store integration created', 'debug')
                     res.cookie('shopifySetupState', 'completedUsingAuth')
                     res.clearCookie('shopifyToken')
                     res.clearCookie('installByShopifyStore')
                     res.redirect('/successMessage')
                   })
                   .catch(err => {
-                    logger.serverLog(TAG, `unable to create shopify integration error ${err}`, 'error')
+                    const message = err || 'unable to create shopify integration error'
+                    logger.serverLog(message, `${TAG}: exports.callback`, {}, { query: req.query }, 'error')
                     res.cookie('shopifySetupState', `Internal Server Error ${err}`)
                     res.clearCookie('shopifyToken')
                     res.clearCookie('installByShopifyStore')
@@ -253,7 +248,6 @@ exports.callback = function (req, res) {
               }
             })
         } else {
-          logger.serverLog(TAG, `shopify else condition (tokenCookie)`, 'info')
           res.cookie('shopifySetupState', 'startedFromAppNotAuthenticated')
           res.cookie('shopifyToken', accessToken)
           // the login in that screen should redirect to kibochat only
@@ -261,14 +255,14 @@ exports.callback = function (req, res) {
         }
       })
       .catch((error) => {
-        logger.serverLog(TAG, `shopify callback error ${JSON.stringify(error)}`, 'error')
+        const message = error || 'shopify callback error'
+        logger.serverLog(message, `${TAG}: exports.callback`, {}, { query: req.query }, 'error')
         res.cookie('shopifySetupState', `Internal Server Error ${error}`)
         res.clearCookie('shopifyToken')
         res.clearCookie('installByShopifyStore')
         res.status(error.statusCode >= 100 && error.statusCode < 600 ? error.statusCode : 500).send(error.error_description)
       })
   } else {
-    logger.serverLog(TAG, `shopify else condition (shop && hmac && code)`, 'info')
     res.cookie('shopifySetupState', `Internal Server Error`)
     res.clearCookie('shopifyToken')
     res.clearCookie('installByShopifyStore')

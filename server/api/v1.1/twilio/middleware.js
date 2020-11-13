@@ -20,7 +20,6 @@ function validateNumbers () {
             cb()
           })
           .catch(err => {
-            logger.serverLog(TAG, `Invalid number - ${err}`, 'error')
             invalidNumbers.push(number)
             cb()
           })

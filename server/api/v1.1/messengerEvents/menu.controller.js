@@ -18,17 +18,18 @@ exports.index = function (req, res) {
       callApi(`subscribers/query`, 'post', { pageId: page._id, companyId: page.companyId, senderId: sender, completeInfo: true })
         .then(subscriber => {
           subscriber = subscriber[0]
-          logger.serverLog(TAG, `subscriber fetched ${JSON.stringify(subscriber)}`, 'debug')
           if (subscriber) {
             sendMenuReplyToSubscriber(replyPayload, subscriber.senderId, subscriber.firstName, subscriber.lastName, subscriber.pageId.accessToken)
           }
         })
         .catch(err => {
-          logger.serverLog(TAG, `Failed to fetch subscriber ${JSON.stringify(err)}`, 'error')
+          const message = err || 'Failed to fetch subscriber'
+          return logger.serverLog(message, `${TAG}: exports.index`, req.body, {}, 'error')
         })
     })
     .catch(err => {
-      logger.serverLog(TAG, `Failed to fetch page ${JSON.stringify(err)}`, 'error')
+      const message = err || 'Failed to fetch page'
+      return logger.serverLog(message, `${TAG}: exports.index`, req.body, {}, 'error')
     })
 }
 
@@ -48,11 +49,9 @@ function sendMenuReplyToSubscriber (replyPayload, senderId, firstName, lastName,
         if (err) {
         } else {
           if (res.statusCode !== 200) {
-            logger.serverLog(TAG,
-              `At send message landingPage ${JSON.stringify(
-                res.body.error)}`, 'error')
+            const message = req.body.error || 'At send message landingPage'
+            return logger.serverLog(message, `${TAG}: exports.sendMenuReplyToSubscriber`, {}, {replyPayload, senderId, firstName, lastName}, 'error')
           }
-          logger.serverLog(TAG, `At sendMenuReplyToSubscriber response ${JSON.stringify(res.body)}`)
         }
       })
   }

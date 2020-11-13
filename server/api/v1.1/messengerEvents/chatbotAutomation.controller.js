@@ -41,12 +41,8 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
                       }
                     })
                     .catch(error => {
-                      logger.serverLog(TAG,
-                        `error in fetching message block ${JSON.stringify(error)}`,
-                        'error')
-                      logger.serverLog(TAG,
-                        `error in fetching message block ${error}`,
-                        'error')
+                      const message = error || 'error in fetching message block'
+                      logger.serverLog(message, `${TAG}: exports.handleChatBotWelcomeMessage`, req, subscriber, 'error')
                     })
                   if (req.postback && req.postback.payload) {
                     if (subscriber.hasOwnProperty('isNewSubscriber')) {
@@ -55,8 +51,8 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
                     }
                   }
                 } else {
-                  logger.serverLog(TAG,
-                    `DATA INCONSISTENCY ERROR in following chatbot, no startingBlockId given ${JSON.stringify(chatbot)}`, 'error')
+                  const message = 'DATA INCONSISTENCY ERROR in following chatbot, no startingBlockId given'
+                  return logger.serverLog(message, `${TAG}: exports.handleChatBotWelcomeMessage`, req, subscriber, 'error')
                 }
               } else if (chatbot.fallbackReplyEnabled) {
                 sendFallbackReply(req.sender.id, page, chatbot.fallbackReply, subscriber)
@@ -64,25 +60,23 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
             }
           })
           .catch(error => {
-            logger.serverLog(TAG,
-              `error in fetching chatbot ${JSON.stringify(error)}`, 'error')
+            const message = error || 'error in fetching chatbot'
+            return logger.serverLog(message, `${TAG}: exports.handleChatBotWelcomeMessage`, req, subscriber, 'error')
           })
       }
     })
     .catch(error => {
-      logger.serverLog(TAG,
-        `error in checking subsriber last message time from agent ${JSON.stringify(error)}`, 'error')
+      const message = error || 'error in checking subsriber last message time from agent'
+      return logger.serverLog(message, `${TAG}: exports.handleChatBotWelcomeMessage`, req, subscriber, 'error')
     })
 }
 
 const updateSubscriber = (query, newPayload, options) => {
-  logger.serverLog(TAG, `updating subscriber request ${JSON.stringify(query)}`)
   return callApi(`subscribers/update`, 'put', {
     query,
     newPayload,
     options
   }).then((updatedSubscriber) => {
-    logger.serverLog(TAG, `updateSubscriber response ${JSON.stringify(updatedSubscriber)}`)
   })
 }
 
@@ -92,20 +86,13 @@ exports.handleCommerceChatbot = (event, page, subscriber) => {
       if (!shouldAvoid) {
         try {
           if (event.message && event.message.is_echo) {
-            logger.serverLog(TAG, 'echo message commerce chatbot', 'info')
             return
           }
-          logger.serverLog(TAG, `searching for commerce chatbot ${JSON.stringify({
-            pageId: page._id,
-            type: 'automated',
-            vertical: 'commerce'
-          })}`, 'info')
           let chatbot = await chatbotDataLayer.findOneChatBot({
             pageId: page._id,
             type: 'automated',
             vertical: 'commerce'
           })
-          logger.serverLog(TAG, `commerce chatbot found ${JSON.stringify(chatbot)}`, 'info')
           let shouldSend = false
           let isSendingToTester = false
           if (chatbot && chatbot.testSession && !chatbot.published) {
@@ -113,10 +100,9 @@ exports.handleCommerceChatbot = (event, page, subscriber) => {
               shouldSend = true
               isSendingToTester = true
             }
-          } else if (chatbot.published) {
+          } else if (chatbot && chatbot.published) {
             shouldSend = true
           }
-          logger.serverLog('commerce chatbot shouldSend', shouldSend)
           if (shouldSend) {
             let ecommerceProvider = null
             if (chatbot.storeType === commerceConstants.shopify) {
@@ -133,9 +119,7 @@ exports.handleCommerceChatbot = (event, page, subscriber) => {
               })
             }
             if (ecommerceProvider) {
-              logger.serverLog(TAG, `handleCommerceChatbot event ${JSON.stringify(event)}`, 'info')
               let nextMessageBlock = await shopifyChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, subscriber, event)
-              logger.serverLog(TAG, `commerce chatbot next message block ${JSON.stringify(nextMessageBlock)}`, 'info')
               updateSubscriber({ _id: subscriber._id }, { lastMessageSentByBot: nextMessageBlock }, {})
               if (nextMessageBlock) {
                 senderAction(event.sender.id, 'typing_on', page.accessToken)
@@ -166,14 +150,14 @@ exports.handleCommerceChatbot = (event, page, subscriber) => {
             }
           }
         } catch (err) {
-          logger.serverLog(TAG,
-            `error in fetching commerce chatbot ${err}`, 'error')
+          const message = err || 'error in fetching commerce chatbot'
+          return logger.serverLog(message, `${TAG}: exports.handleCommerceChatbot`, {}, subscriber, 'error')
         }
       }
     })
     .catch(error => {
-      logger.serverLog(TAG,
-        `error in checking subsriber last message time from agent ${JSON.stringify(error)}`, 'error')
+      const message = error || 'error in checking subsriber last message time from agent'
+      return logger.serverLog(message, `${TAG}: exports.handleCommerceChatbot`, {}, subscriber, 'error')
     })
 }
 
@@ -184,7 +168,6 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
       if (!shouldAvoid) {
         chatbotDataLayer.findOneChatBot({ pageId: page._id, type: 'manual' })
           .then(chatbot => {
-            logger.serverLog(TAG, `manual chatbot found ${JSON.stringify(chatbot)}`, 'info')
             if (chatbot) {
               let shouldSend = false
               let isSendingToTester = false
@@ -193,7 +176,7 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
                   shouldSend = true
                   isSendingToTester = true
                 }
-              } else if (chatbot.published) {
+              } else if (chatbot && chatbot.published) {
                 shouldSend = true
               }
               if (shouldSend) {
@@ -204,7 +187,6 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
                   triggers: userText
                 })
                   .then(messageBlock => {
-                    logger.serverLog(TAG, `manual chatbot message block ${JSON.stringify(messageBlock)}`, 'info')
                     if (messageBlock) {
                       senderAction(req.sender.id, 'typing_on', page.accessToken)
                       intervalForEach(messageBlock.payload, (item) => {
@@ -236,21 +218,21 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
                     }
                   })
                   .catch(error => {
-                    logger.serverLog(TAG,
-                      `error in fetching message block ${error}`, 'error')
+                    const message = error || 'error in fetching message block'
+                    return logger.serverLog(message, `${TAG}: exports.handleTriggerMessage`, {}, subscriber, 'error')
                   })
               }
             }
           })
           .catch(error => {
-            logger.serverLog(TAG,
-              `error in fetching manual chatbot ${error}`, 'error')
+            const message = error || 'error in fetching manual chatbot'
+            return logger.serverLog(message, `${TAG}: exports.handleTriggerMessage`, {}, subscriber, 'error')
           })
       }
     })
     .catch(error => {
-      logger.serverLog(TAG,
-        `error in checking subsriber last message time from agent ${JSON.stringify(error)}`, 'error')
+      const message = error || 'error in checking subsriber last message time from agent'
+      return logger.serverLog(message, `${TAG}: exports.handleTriggerMessage`, {}, subscriber, 'error')
     })
 }
 
@@ -303,21 +285,21 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId, parentBlock
                     }
                   })
                   .catch(error => {
-                    logger.serverLog(TAG,
-                      `error in fetching message block ${JSON.stringify(error)}`, 'error')
+                    const message = error || 'error in fetching message block'
+                    return logger.serverLog(message, `${TAG}: exports.handleChatBotNextMessage`, {}, subscriber, 'error')
                   })
               }
             }
           })
           .catch(error => {
-            logger.serverLog(TAG,
-              `error in fetching chatbot ${JSON.stringify(error)}`, 'error')
+            const message = error || 'error in fetching chatbot'
+            return logger.serverLog(message, `${TAG}: exports.handleChatBotNextMessage`, {}, subscriber, 'error')
           })
       }
     })
     .catch(error => {
-      logger.serverLog(TAG,
-        `error in checking subsriber last message time from agent ${JSON.stringify(error)}`, 'error')
+      const message = error || 'error in checking subsriber last message time from agent'
+      return logger.serverLog(message, `${TAG}: exports.handleChatBotNextMessage`, {}, subscriber, 'error')
     })
 }
 
@@ -340,14 +322,14 @@ exports.handleChatBotTestMessage = (req, page, subscriber, type) => {
             saveTesterInfoForLater(page._id, subscriber.id, chatbot)
           })
           .catch(error => {
-            logger.serverLog(TAG,
-              `error in fetching message block ${JSON.stringify(error)}`, 'error')
+            const message = error || 'error in fetching message block'
+            return logger.serverLog(message, `${TAG}: exports.handleChatBotTestMessage`, {}, subscriber, 'error')
           })
       }
     })
     .catch(error => {
-      logger.serverLog(TAG,
-        `error in fetching chatbot ${JSON.stringify(error)}`, 'error')
+      const message = error || 'error in fetching chatbot'
+      return logger.serverLog(message, `${TAG}: exports.handleChatBotTestMessage`, {}, subscriber, 'error')
     })
 }
 
@@ -356,7 +338,6 @@ function sendResponse (recipientId, payload, subscriber, accessToken) {
   record('messengerChatOutGoing')
   facebookApiCaller('v3.2', `me/messages?access_token=${accessToken}`, 'post', finalPayload)
     .then(response => {
-      logger.serverLog(TAG, `response of sending block ${JSON.stringify(response.body)}`)
     })
     .catch(error => {
       return logger.serverLog(TAG,
@@ -373,7 +354,6 @@ function senderAction (recipientId, action, accessToken) {
   }
   facebookApiCaller('v3.2', `me/messages?access_token=${accessToken}`, 'post', payload)
     .then(result => {
-      logger.serverLog(TAG, `response of sending action ${JSON.stringify(result.body)}`, 'debug')
     })
     .catch(err => {
       return logger.serverLog(TAG,
@@ -406,18 +386,18 @@ function updateBotLifeStats (chatbot, isNewSubscriber) {
   if (isNewSubscriber) {
     chatbotDataLayer.genericUpdateChatBot({ _id: chatbot._id }, { $inc: { 'stats.newSubscribers': 1 } })
       .then(updated => {
-        logger.serverLog(TAG, `bot stats updated successfully`, 'debug')
       })
       .catch(error => {
-        logger.serverLog(TAG, `Failed to update bot stats ${JSON.stringify(error)}`, 'error')
+        const message = error || 'Failed to update bot stats'
+        return logger.serverLog(message, `${TAG}: exports.updateBotLifeStats`, {}, chatbot, 'error')
       })
   } else {
     chatbotDataLayer.genericUpdateChatBot({ _id: chatbot._id }, { $inc: { 'stats.triggerWordsMatched': 1 } })
       .then(updated => {
-        logger.serverLog(TAG, `bot stats updated successfully`, 'debug')
       })
       .catch(error => {
-        logger.serverLog(TAG, `Failed to update bot stats ${JSON.stringify(error)}`, 'error')
+        const message = error || 'Failed to update bot stats'
+        return logger.serverLog(message, `${TAG}: exports.updateBotLifeStats`, {}, chatbot, 'error')
       })
   }
 }
@@ -434,10 +414,10 @@ function updateBotPeriodicStats (chatbot, isNewSubscriber) {
       { upsert: true }
     )
       .then(updated => {
-        logger.serverLog(TAG, `bot periodic stats updated successfully`, 'debug')
       })
       .catch(error => {
-        logger.serverLog(TAG, `Failed to update bot periodic stats ${JSON.stringify(error)}`, 'error')
+        const message = error || 'Failed to update bot periodic stats'
+        return logger.serverLog(message, `${TAG}: exports.updateBotPeriodicStats`, {}, chatbot, 'error')
       })
   } else {
     chatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
@@ -450,10 +430,10 @@ function updateBotPeriodicStats (chatbot, isNewSubscriber) {
       { upsert: true }
     )
       .then(updated => {
-        logger.serverLog(TAG, `bot periodic stats updated successfully`, 'debug')
       })
       .catch(error => {
-        logger.serverLog(TAG, `Failed to update bot periodic stats ${JSON.stringify(error)}`, 'error')
+        const message = error || 'Failed to update bot periodic stats'
+        return logger.serverLog(message, `${TAG}: exports.updateBotPeriodicStats`, {}, chatbot, 'error')
       })
   }
 }
@@ -470,10 +450,10 @@ function updateBotPeriodicStatsForBlock (chatbot, isForSentCount) {
       { upsert: true }
     )
       .then(updated => {
-        logger.serverLog(TAG, `bot periodic stats updated successfully`, 'debug')
       })
       .catch(error => {
-        logger.serverLog(TAG, `Failed to update bot periodic stats ${JSON.stringify(error)}`, 'error')
+        const message = error || 'Failed to update bot periodic stats'
+        return logger.serverLog(message, `${TAG}: exports.updateBotPeriodicStatsForBlock`, {}, chatbot, 'error')
       })
   } else {
     chatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
@@ -486,10 +466,10 @@ function updateBotPeriodicStatsForBlock (chatbot, isForSentCount) {
       { upsert: true }
     )
       .then(updated => {
-        logger.serverLog(TAG, `bot periodic stats updated successfully`, 'debug')
       })
       .catch(error => {
-        logger.serverLog(TAG, `Failed to update bot periodic stats ${JSON.stringify(error)}`, 'error')
+        const message = error || 'Failed to update bot periodic stats'
+        return logger.serverLog(message, `${TAG}: exports.updateBotPeriodicStatsForBlock`, {}, chatbot, 'error')
       })
   }
 }
@@ -505,10 +485,10 @@ function updateBotPeriodicStatsForReturning (chatbot) {
     { upsert: true }
   )
     .then(updated => {
-      logger.serverLog(TAG, `bot periodic stats updated successfully`, 'debug')
     })
     .catch(error => {
-      logger.serverLog(TAG, `Failed to update bot periodic stats ${JSON.stringify(error)}`, 'error')
+      const message = error || 'Failed to update bot periodic stats'
+      return logger.serverLog(message, `${TAG}: exports.updateBotPeriodicStatsForReturning`, {}, chatbot, 'error')
     })
 }
 
@@ -516,18 +496,18 @@ function updateBotLifeStatsForBlock (messageBlock, isForSentCount) {
   if (isForSentCount) {
     messageBlockDataLayer.genericUpdateMessageBlock({ _id: messageBlock._id }, { $inc: { 'stats.sentCount': 1 } })
       .then(updated => {
-        logger.serverLog(TAG, `bot block stats updated successfully`, 'debug')
       })
       .catch(error => {
-        logger.serverLog(TAG, `Failed to update block bot stats ${JSON.stringify(error)}`, 'error')
+        const message = error || 'Failed to update block bot stats, is sent count true'
+        return logger.serverLog(message, `${TAG}: exports.updateBotLifeStatsForBlock`, {}, messageBlock, 'error')
       })
   } else {
     messageBlockDataLayer.genericUpdateMessageBlock({ _id: messageBlock._id }, { $inc: { 'stats.urlBtnClickedCount': 1 } })
       .then(updated => {
-        logger.serverLog(TAG, `bot block stats updated successfully`, 'debug')
       })
       .catch(error => {
-        logger.serverLog(TAG, `Failed to update block bot stats ${JSON.stringify(error)}`, 'error')
+        const message = error || 'Failed to update block bot stats'
+        return logger.serverLog(message, `${TAG}: exports.updateBotLifeStatsForBlock`, {}, messageBlock, 'error')
       })
   }
 }
@@ -589,20 +569,21 @@ function updateBotSubscribersAnalyticsForSQL (chatbotId, companyId, subscriber, 
                 }])
               })
                 .then(result => {
-                  logger.serverLog(TAG, 'Saved the subscriber analytics', 'debug')
-                  logger.serverLog(TAG, `${JSON.stringify(result)}`, 'debug')
                 })
                 .catch(err => {
-                  logger.serverLog(TAG, `Failed to save the subscriber analytics in sql ${JSON.stringify(err)}`, 'error')
+                  const message = err || 'Failed to save the subscriber analytics in sql'
+                  return logger.serverLog(message, `${TAG}: exports.updateBotSubscribersAnalyticsForSQL`, {}, subscriber, 'error')
                 })
             })
             .catch(err => {
-              logger.serverLog(TAG, `Failed to fetch the subscriber analytics in sql ${JSON.stringify(err)}`, 'error')
+              const message = err || 'Failed to fetch the subscriber analytics in sql'
+              return logger.serverLog(message, `${TAG}: exports.updateBotSubscribersAnalyticsForSQL`, {}, subscriber, 'error')
             })
         }
       })
       .catch(err => {
-        logger.serverLog(TAG, `Failed to fetch the subscriber analytics message block in sql ${JSON.stringify(err)}`, 'error')
+        const message = err || 'Failed to fetch the subscriber analytics message block in sql'
+        return logger.serverLog(message, `${TAG}: exports.updateBotSubscribersAnalyticsForSQL`, {}, subscriber, 'error')
       })
   }
 }

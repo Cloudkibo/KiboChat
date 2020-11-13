@@ -8,7 +8,6 @@ exports.index = function (req, res) {
     status: 'success',
     description: `received the payload`
   })
-  logger.serverLog(TAG, `in seen ${JSON.stringify(req.body)}`)
   updateChatSeen(req.body.entry[0].messaging[0])
 }
 
@@ -18,19 +17,23 @@ function updateChatSeen (req) {
       utility.callApi('subscribers/query', 'post', { senderId: req.sender.id })
         .then(session => {
           session = session[0]
-          require('./../../../config/socketio').sendMessageToClient({
-            room_id: session.companyId,
-            body: {
-              action: 'message_seen',
-              payload: {event: 'seen', session: session}
-            }
-          })
+          if (session) {
+            require('./../../../config/socketio').sendMessageToClient({
+              room_id: session.companyId,
+              body: {
+                action: 'message_seen',
+                payload: {event: 'seen', session: session}
+              }
+            })
+          }
         })
         .catch(err => {
-          logger.serverLog(TAG, `ERROR at fetching session ${JSON.stringify(err)}`)
+          const message = err || 'ERROR at fetching session'
+          return logger.serverLog(message, `${TAG}: exports.updateChatSeen`, {}, { req }, 'error')
         })
     })
     .catch(err => {
-      logger.serverLog(TAG, `ERROR at updating LiveChat seen ${JSON.stringify(err)}`)
+      const message = err || 'ERROR at updating LiveChat seen'
+      return logger.serverLog(message, `${TAG}: exports.updateChatSeen`, {}, { req }, 'error')
     })
 }

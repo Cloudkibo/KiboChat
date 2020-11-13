@@ -42,7 +42,8 @@ exports.respondUsingChatbot = (platform, provider, company, message, contact) =>
                           }
                         })
                         .catch(err => {
-                          logger.serverLog(TAG, err, 'error')
+                          const message = err || 'error in chat bot response'
+                          logger.serverLog(message, `${TAG}: exports.respondUsingChatbot`, {}, {}, 'error')
                         })
                     } else {
                       // incorrect option, send fallback reply
@@ -57,28 +58,30 @@ exports.respondUsingChatbot = (platform, provider, company, message, contact) =>
                         ActionTypes.SEND_TEXT_MESSAGE
                       )
                         .then(sent => {
-                          logger.serverLog(TAG, 'fallback reply is sent', 'debug')
                         })
                         .catch(err => {
-                          logger.serverLog(TAG, err, 'error')
+                          const message = err || 'error in chat bot response'
+                          logger.serverLog(message, `${TAG}: exports.respondUsingChatbot`, {}, {}, 'error')
                         })
                     }
                   })
                   .catch(err => {
-                    logger.serverLog(TAG, err, 'error')
+                    const message = err || 'error in chat bot response'
+                    logger.serverLog(message, `${TAG}: exports.respondUsingChatbot`, {}, {}, 'error')
                   })
               }
             }
           })
           .catch(err => {
-            logger.serverLog(TAG, err, 'error')
+            const message = err || 'error in chat bot response'
+            logger.serverLog(message, `${TAG}: exports.respondUsingChatbot`, {}, {}, 'error')
           })
       } else {
-        logger.serverLog(TAG, 'chatbot not found or is diabled', 'debug')
       }
     })
     .catch(err => {
-      logger.serverLog(TAG, err, 'error')
+      const message = err || 'error in chat bot response'
+      logger.serverLog(message, `${TAG}: exports.respondUsingChatbot`, {}, {}, 'error')
     })
 }
 
@@ -99,7 +102,6 @@ const _respond = (platform, provider, company, contact, block) => {
     ActionTypes.RESPOND_USING_CHATBOT
   )
     .then(sent => {
-      logger.serverLog(TAG, 'chatbot responded', 'debug')
       if (block.options.length > 0) {
         _setChatbotContext(platform, contact, block)
       } else {
@@ -107,7 +109,8 @@ const _respond = (platform, provider, company, contact, block) => {
       }
     })
     .catch(err => {
-      logger.serverLog(TAG, err, 'error')
+      const message = err || 'error in chat bot response'
+      logger.serverLog(message, `${TAG}: exports._respond`, {}, {}, 'error')
     })
 }
 
@@ -145,10 +148,10 @@ const _setChatbotContext = (platform, contact, block) => {
   }
   callApi(`${module}/update`, 'put', {query: {_id: contact._id}, newPayload: {$set: {chatbotContext: block.uniqueId}}, options: {}})
     .then(updated => {
-      logger.serverLog(TAG, 'context is set', 'debug')
     })
     .catch(err => {
-      logger.serverLog(TAG, err, 'error')
+      const message = err || 'error in set chatbot context'
+      logger.serverLog(message, `${TAG}: exports._setChatbotContext`, {}, {}, 'error')
     })
 }
 
@@ -161,9 +164,9 @@ const _unsetChatbotContext = (platform, contact) => {
   }
   callApi(`${module}/update`, 'put', {query: {_id: contact._id}, newPayload: {$unset: {chatbotContext: 1}}, options: {}})
     .then(updated => {
-      logger.serverLog(TAG, 'context is unset', 'debug')
     })
     .catch(err => {
-      logger.serverLog(TAG, err, 'error')
+      const message = err || 'error in unset chatbot context'
+      logger.serverLog(message, `${TAG}: exports._unsetChatbotContext`, {}, {}, 'error')
     })
 }

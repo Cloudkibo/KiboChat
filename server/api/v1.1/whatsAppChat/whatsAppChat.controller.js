@@ -92,7 +92,6 @@ exports.create = function (req, res) {
             })
         },
         function (callback) {
-          logger.serverLog(TAG, `Delete subscriber pending session from cronstack`)
           deletePendingSessionFromStack(req.body.contactId)
           callback(null)
         }
@@ -135,7 +134,8 @@ function updateChat (messageId, chat) {
       console.log('chat updated', updated)
     })
     .catch((err) => {
-      logger.serverLog(TAG, `Failed to update chat ${err}`, 'error')
+      const message = err || 'Failed to update chat'
+      logger.serverLog(message, `${TAG}: exports.updateChat`, {}, { chat }, 'error')
     })
 }
 

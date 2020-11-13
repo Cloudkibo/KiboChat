@@ -71,7 +71,6 @@ exports.index = function (req, res) {
                 }
                 utility.callApi('subscribers/update', 'put', { query: { _id: subscriber._id }, newPayload: _prepareSubscriberUpdatePayload(event, subscriber, company), options: {} })
                   .then(updated => {
-                    logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
                     if (event.message) {
                       if (!event.message.is_echo || (event.message.is_echo && company.saveAutomationMessages)) {
                         saveLiveChat(page, subscriber, event)
@@ -88,16 +87,18 @@ exports.index = function (req, res) {
                     }
                   })
                   .catch(error => {
-                    logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
+                    const message = error || 'Failed to update session'
+                    return logger.serverLog(message, `${TAG}: exports.index`, req.body, {}, 'error')
                   })
               }
             }
           })
           .catch(error => {
-            logger.serverLog(TAG, `Failed to fetch company profile ${JSON.stringify(error)}`, 'error')
+            const message = error || 'Failed to fetch company profile'
+            return logger.serverLog(message, `${TAG}: exports.index`, req.body, {}, 'error')
           })
       })
-    }
+  }
 }
 
 function saveLiveChat (page, subscriber, event, chatPayload) {
@@ -168,7 +169,8 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
         }
       })
       .catch(error => {
-        logger.serverLog(TAG, `Failed to create live chate ${JSON.stringify(error)}`, 'error')
+        const message = error || 'Failed to create live chate'
+        return logger.serverLog(message, `${TAG}: exports.saveChatInDb`, {}, { chatPayload, event, subscriber }, 'error')
       })
   }
 }
@@ -223,15 +225,18 @@ function sendNotification (subscriber, payload, page) {
                   sendNotifications(title, body, newPayload, companyUsers)
                   saveNotifications(subscriber, companyUsers, pageName)
                 }).catch(error => {
-                  logger.serverLog(TAG, `Error while fetching agents ${error}`, 'error')
+                  const message = error || 'Error while fetching agents'
+                  return logger.serverLog(message, `${TAG}: exports.sendNotification`, {}, { subscriber, payload }, 'error')
                 })
             }
           }
         }).catch(error => {
-          logger.serverLog(TAG, `Error while fetching Last Message ${error}`, 'error')
+          const message = error || 'Error while fetching Last Message'
+          return logger.serverLog(message, `${TAG}: exports.sendNotification`, {}, { subscriber, payload }, 'error')
         })
     }).catch(error => {
-      logger.serverLog(TAG, `Error while fetching companyUser ${error}`, 'error')
+      const message = error || 'Error while fetching companyUser'
+      return logger.serverLog(message, `${TAG}: exports.sendNotification`, {}, { subscriber, payload }, 'error')
     })
 }
 
@@ -266,11 +271,13 @@ function saveNotifications (subscriber, companyUsers, page) {
             })
           })
           .catch(err => {
-            logger.serverLog(TAG, `Failed to fetch user permissions ${err}`, 'error')
+            const message = err || 'Failed to fetch user permissions'
+            return logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, { companyUsers }, 'error')
           })
       })
       .catch(error => {
-        logger.serverLog(TAG, `Failed to save notification ${error}`, 'error')
+        const message = error || 'Failed to save notification'
+        return logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, { companyUsers }, 'error')
       })
   })
 }
@@ -293,8 +300,8 @@ function sendautomatedmsg (req, page) {
       `https://graph.facebook.com/v6.0/${req.recipient.id}?fields=access_token&access_token=${page.userId.facebookInfo.fbToken}`,
       (err3, response) => {
         if (err3) {
-          logger.serverLog(TAG,
-            `Page token error from graph api ${JSON.stringify(err3)}`, 'error')
+          const message = err3 || 'Page token error from graph api'
+          return logger.serverLog(message, `${TAG}: exports.sendautomatedmsg`, {}, req, 'error')
         }
         let messageData = {}
         const Yes = 'yes'
@@ -345,7 +352,8 @@ function sendautomatedmsg (req, page) {
                   .then(updated => {
                   })
                   .catch(error => {
-                    logger.serverLog(TAG, `Failed to update subscriber ${JSON.stringify(error)}`, 'error')
+                    const message = err3 || 'Failed to update subscriber'
+                    return logger.serverLog(message, `${TAG}: exports.sendautomatedmsg`, {}, req, 'error')
                   })
                 const data = {
                   messaging_type: 'RESPONSE',
@@ -359,7 +367,8 @@ function sendautomatedmsg (req, page) {
               }
             })
             .catch(error => {
-              logger.serverLog(TAG, `Failed to fetch subscribers ${JSON.stringify(error)}`, 'error')
+              const message = error || 'Failed to fetch subscriber'
+              return logger.serverLog(message, `${TAG}: exports.sendautomatedmsg`, {}, req, 'error')
             })
         }
 
@@ -392,10 +401,10 @@ function sendautomatedmsg (req, page) {
                       .then(webhookss => {
                         let webhooks = webhookss[0]
                         if (webhookss.length > 0 && webhooks.isEnabled) {
-                          logger.serverLog(TAG, `webhook in live chat ${webhooks}`, 'debug')
                           needle.get(webhooks.webhook_url, (err, r) => {
                             if (err) {
-                              logger.serverLog(TAG, err, 'debug')
+                              const message = err || 'error in sending webhooks'
+                              return logger.serverLog(message, `${TAG}: exports.sendautomatedmsg`, {}, req, 'error')
                             } else if (r.statusCode === 200) {
                               if (webhooks.optIn.LIVE_CHAT_ACTIONS) {
                                 var data = {
@@ -425,21 +434,23 @@ function sendautomatedmsg (req, page) {
                         }
                       })
                       .catch(error => {
-                        logger.serverLog(TAG, `Failed to fetch webhook ${JSON.stringify(error)}`, 'debug')
+                        const message = error || 'Failed to fetch webhook'
+                        return logger.serverLog(message, `${TAG}: exports.recordRedis`, {}, req, 'error')
                       })
                     LiveChatDataLayer.createFbMessageObject(chatMessage)
                       .then(chatMessageSaved => {
                         utility.callApi('subscribers/update', 'put', { query: { _id: subscribers[0]._id }, newPayload: { last_activity_time: Date.now() }, options: {} })
                           .then(updated => {
-                            logger.serverLog(TAG, `subscriber updated successfully`, 'debug')
                           })
                           .catch(error => {
-                            logger.serverLog(TAG, `Failed to update session ${JSON.stringify(error)}`, 'error')
+                            const message = error || 'Failed to update session'
+                            return logger.serverLog(message, `${TAG}: exports.sendautomatedmsg`, {}, req, 'error')
                           })
                       })
                   })
                   .catch(error => {
-                    logger.serverLog(TAG, `Failed to fetch subscribers ${JSON.stringify(error)}`, 'error')
+                    const message = error || 'Failed to fetch subscribers'
+                    return logger.serverLog(message, `${TAG}: exports.sendautomatedmsg`, {}, req, 'error')
                   })
               }
             })
