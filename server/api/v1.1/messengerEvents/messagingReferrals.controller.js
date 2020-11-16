@@ -32,8 +32,8 @@ exports.index = function (req, res) {
                   },
                   (err, res) => {
                     if (err) {
-                      return logger.serverLog(TAG,
-                        `At send message pageReferralt ${JSON.stringify(err)}`, 'error')
+                      const message = err || 'At send message pageReferralt '
+                      return logger.serverLog(message, `${TAG}: exports.index`, req.body, {}, 'error')
                     } else {
                       if (res.statusCode !== 200) {
                         const message = req.body.error || 'At send message page referral'

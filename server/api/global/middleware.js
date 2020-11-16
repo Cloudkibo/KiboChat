@@ -4,6 +4,8 @@ const { callApi } = require('../v1.1/utility')
 const async = require('async')
 const { facebookApiCaller } = require('./facebookApiCaller')
 const config = require('../../config/environment')
+const logger = require('../../components/logger')
+const TAG = 'api/global/middleware.js'
 
 exports.checkSMPStatus = () => {
   return compose().use((req, res, next) => {
@@ -21,6 +23,8 @@ exports.checkSMPStatus = () => {
         }
       })
       .catch(err => {
+        const message = err || 'unable fetch pages'
+        logger.serverLog(message, `${TAG}: exports.checkSMPStatus`, {}, {user: req.user}, 'error')
         return res.status(500)
           .json({ status: 'failed', description: `Internal Server Error: ${err}` })
       })
@@ -45,6 +49,8 @@ function checkStatusForEachPage (pages, next, req, res) {
     }
   }, function (err) {
     if (err) {
+      const message = err || 'error in async each'
+      logger.serverLog(message, `${TAG}: exports.checkStatusForEachPage`, {}, {pages, user: req.user}, 'error')
       return res.status(500)
         .json({ status: 'failed', description: `Internal Server Error: ${err}` })
     } else {
@@ -80,6 +86,8 @@ function isApprovedForSMP (page) {
           }
         })
         .catch(err => {
+          const message = err || 'error in fb call'
+          logger.serverLog(message, `${TAG}: exports.isApprovedForSMP`, {}, {page}, 'error')
           reject(err)
         })
     } else {

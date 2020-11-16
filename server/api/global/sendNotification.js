@@ -52,16 +52,16 @@ const sendMobileNotifications = (expoListToken, title, bodyMessage, data, user) 
                 })
                 .catch(err => {
                   const message = err || 'Failed to update expo token in Company Table'
-                  return logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, expoListToken, 'error')
+                  return logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, {expoListToken, title, bodyMessage, data, user}, 'error')
                 })
             }).catch(error => {
               const message = error || 'Error while fetching companyUser details'
-              return logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, expoListToken, 'error')
+              return logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, {expoListToken, title, bodyMessage, data, user}, 'error')
             })
         }
       } catch (error) {
         const message = error || 'Error while sending notification'
-        return logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, expoListToken, 'error')
+        return logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, {expoListToken, title, bodyMessage, data, user}, 'error')
       }
     }
   })()

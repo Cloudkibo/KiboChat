@@ -17,7 +17,7 @@ exports.saveNotification = (agentIds, companyId, message, category) => {
   }, function (err) {
     if (err) {
       const message = err || 'error in saveNotification'
-      return logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, notification, 'error')
+      return logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, {agentIds, companyId, message, category}, 'error')
     } else {
       require('./../../config/socketio').sendMessageToClient({
         room_id: companyId,

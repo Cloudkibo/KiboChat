@@ -120,7 +120,7 @@ exports.messageReceived = function (req, res) {
                     })
                     .catch(error => {
                       const message = error || 'Failed to fetch contact'
-                      logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {}, 'error')
+                      logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {user: req.user}, 'error')
                     })
                 })
               })
@@ -132,12 +132,12 @@ exports.messageReceived = function (req, res) {
         })
         .catch((error) => {
           const message = error || 'failed to create contact'
-          logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {}, 'error')
+          logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {user: req.user}, 'error')
         })
     })
     .catch(error => {
       const message = error || 'Failed to map whatsapp message received data'
-      logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {user: req.user}, 'error')
     })
 }
 
@@ -201,6 +201,8 @@ function createContact (data) {
                 }
               })
               .catch(error => {
+                const message = error || 'Failed to map whatsapp contact'
+                logger.serverLog(message, `${TAG}: exports.createContact`, {}, {data}, 'error')
                 reject(error)
               })
           })
@@ -209,6 +211,8 @@ function createContact (data) {
         }
       })
       .catch(error => {
+        const message = error || 'Failed to company profile'
+        logger.serverLog(message, `${TAG}: exports.createContact`, {}, {data}, 'error')
         reject(error)
       })
   })
@@ -265,7 +269,7 @@ function saveNotifications (contact, companyUsers) {
       })
       .catch(error => {
         const message = error || 'Failed to save notification'
-        logger.serverLog(message, `${TAG}: exports.saveNotifications`, {}, { contact }, 'error')
+        logger.serverLog(message, `${TAG}: exports.saveNotifications`, {}, { contact, companyUsers }, 'error')
       })
   })
 }
@@ -306,17 +310,17 @@ function _sendNotification (subscriber, payload, companyId) {
                   saveNotifications(subscriber, companyUsers)
                 }).catch(error => {
                   const message = error || 'Error while fetching agents'
-                  logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { payload }, 'error')
+                  logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { subscriber, payload, companyId }, 'error')
                 })
             }
           }
         }).catch(error => {
           const message = error || 'Error while fetching Last Message'
-          logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { payload }, 'error')
+          logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { subscriber, payload, companyId }, 'error')
         })
     }).catch(error => {
       const message = error || 'Error while fetching companyUser'
-      logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { payload }, 'error')
+      logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { subscriber, payload, companyId }, 'error')
     })
 }
 
@@ -326,7 +330,7 @@ function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options)
     })
     .catch(error => {
       const message = error || 'Failed to update contact'
-      logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { query, bodyForUpdate }, 'error')
+      logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { query, bodyForUpdate, bodyForIncrement, options }, 'error')
     })
 }
 
@@ -350,13 +354,13 @@ exports.messageStatus = function (req, res) {
           })
           .catch((err) => {
             const message = err || 'Failed to fetch whatsAppBroadcastMessages data'
-            logger.serverLog(message, `${TAG}: exports.messageStatus`, req.body, {}, 'error')
+            logger.serverLog(message, `${TAG}: exports.messageStatus`, req.body, {user: req.user}, 'error')
           })
       }
     })
     .catch(error => {
       const message = error || 'Failed to map whatsapp message status data'
-      logger.serverLog(message, `${TAG}: exports.messageStatus`, req.body, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.messageStatus`, req.body, {user: req.user}, 'error')
     })
 }
 

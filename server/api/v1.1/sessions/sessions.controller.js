@@ -47,6 +47,8 @@ exports.fetchOpenSessions = function (req, res) {
         }
       ], 10, function (err, results) {
         if (err) {
+          const message = err || 'Failed to in fetching using async'
+          logger.serverLog(message, `${TAG}: exports.fetchOpenSessions`, {}, {user: req.user}, 'error')
           sendErrorResponse(res, 500, err)
         } else {
           let countResopnse = results[0]
@@ -58,6 +60,8 @@ exports.fetchOpenSessions = function (req, res) {
       })
     })
     .catch(err => {
+      const message = err || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.fetchOpenSessions`, {}, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err)
     })
 }
@@ -98,6 +102,8 @@ exports.fetchResolvedSessions = function (req, res) {
         }
       ], 10, function (err, results) {
         if (err) {
+          const message = err || 'Failed to fetch in async'
+          logger.serverLog(message, `${TAG}: exports.fetchResolvedSessions`, {}, {user: req.user}, 'error')
           return res.status(500).json({ status: 'failed', payload: err })
         } else {
           let countResopnse = results[0]
@@ -109,6 +115,8 @@ exports.fetchResolvedSessions = function (req, res) {
       })
     })
     .catch(err => {
+      const message = err || 'Failed to company user'
+      logger.serverLog(message, `${TAG}: exports.fetchResolvedSessions`, {}, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err)
     })
 }
@@ -124,6 +132,8 @@ exports.markread = function (req, res) {
       }
     ], 10, function (err, results) {
       if (err) {
+        const message = err || 'Failed to fetch in async'
+        logger.serverLog(message, `${TAG}: exports.markread`, {}, {user: req.user, params: req.params}, 'error')
         sendErrorResponse(res, 500, err)
       } else {
         sendSuccessResponse(res, 200, 'Chat has been marked read successfully!')
@@ -208,6 +218,8 @@ exports.show = function (req, res) {
       }
     ], 10, function (err, results) {
       if (err) {
+        const message = err || 'error in async call'
+        logger.serverLog(message, `${TAG}: exports.show`, {}, { params: req.params }, 'error')
         sendErrorResponse(res, 500, err)
       } else {
         let subscriber = results[0]
@@ -248,6 +260,8 @@ exports.singleSession = function (req, res) {
     }
   ], 10, function (err, results) {
     if (err) {
+      const message = err || 'error in async call'
+      logger.serverLog(message, `${TAG}: exports.singleSession`, {}, { params: req.params }, 'error')
       sendErrorResponse(res, 500, err)
     } else {
       let subscriber = results[0]
@@ -295,18 +309,18 @@ function _sendNotification (subscriberId, status, companyId, userName) {
                       sendNotifications(title, body, newPayload, companyUsers)
                     }).catch(error => {
                       const message = error || 'Error while fetching agents'
-                      logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { subscriberId, companyId }, 'error')
+                      logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { subscriberId, status, companyId, userName }, 'error')
                     })
                 }
               }).catch(error => {
                 const message = error || 'Error while fetching companyUsers'
-                logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { subscriberId, companyId }, 'error')
+                logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { subscriberId, status, companyId, userName }, 'error')
               })
           })
       }
     }).catch(error => {
       const message = error || 'Error while fetching subscribers'
-      logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { subscriberId, companyId }, 'error')
+      logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { subscriberId, status, companyId, userName }, 'error')
     })
 }
 exports.changeStatus = function (req, res) {
@@ -335,7 +349,7 @@ exports.changeStatus = function (req, res) {
     })
     .catch(err => {
       const message = err || 'error updating session status'
-      logger.serverLog(message, `${TAG}: exports.changeStatus`, req.body, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.changeStatus`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err)
     })
 }
@@ -361,18 +375,17 @@ exports.assignAgent = function (req, res) {
             let lastMessageData = logicLayer.getQueryData('', 'aggregate', { company_id: req.user.companyId }, undefined, undefined, undefined, { _id: req.body.subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' } })
             callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
               .then(gotLastMessage => {
-                console.log('data in assignAgent', gotLastMessage)
                 subscriber.lastPayload = gotLastMessage[0].payload
                 subscriber.lastRepliedBy = gotLastMessage[0].replied_by
                 subscriber.lastDateTime = gotLastMessage[0].datetime
                 sendNotifications(title, body, newPayload, companyUsers)
               }).catch(error => {
                 const message = error || 'Error while fetching lastMessageData details'
-                logger.serverLog(message, `${TAG}: exports.assignAgent`, req.body, {}, 'error')
+                logger.serverLog(message, `${TAG}: exports.assignAgent`, req.body, {user: req.user}, 'error')
               })
           }).catch(error => {
             const message = error || 'Error while fetching companyUser details'
-            logger.serverLog(message, `${TAG}: exports.assignAgent`, req.body, {}, 'error')
+            logger.serverLog(message, `${TAG}: exports.assignAgent`, req.body, {user: req.user}, 'error')
             sendErrorResponse(res, 500, `Failed to fetching companyUser details ${JSON.stringify(error)}`)
           })
       }
@@ -419,10 +432,14 @@ exports.assignAgent = function (req, res) {
           sendSuccessResponse(res, 200, 'Agent has been assigned successfully!')
         })
         .catch(err => {
+          const message = err || 'Error in updating subscriber'
+          logger.serverLog(message, `${TAG}: exports.assignAgent`, req.body, {user: req.user}, 'error')
           sendErrorResponse(res, 500, err)
         })
     })
     .catch(err => {
+      const message = err || 'Error in querying subscriber'
+      logger.serverLog(message, `${TAG}: exports.assignAgent`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err)
     })
 }
@@ -463,14 +480,14 @@ exports.assignTeam = function (req, res) {
                     sendNotifications(title, body, newPayload, companyUsers)
                   }).catch(error => {
                     const message = error || 'Error while fetching subscriber last message'
-                    logger.serverLog(message, `${TAG}: exports.assignTeam`, req.body, {}, 'error')
+                    logger.serverLog(message, `${TAG}: exports.assignTeam`, req.body, {user: req.user}, 'error')
                   })
               }).catch(err => {
                 sendErrorResponse(res, 500, err)
               })
           }).catch(error => {
             const message = error || 'Error while fetching agents'
-            logger.serverLog(message, `${TAG}: exports.assignTeam`, req.body, {}, 'error')
+            logger.serverLog(message, `${TAG}: exports.assignTeam`, req.body, {user: req.user}, 'error')
           })
       }
       callApi(
@@ -516,11 +533,13 @@ exports.assignTeam = function (req, res) {
           sendSuccessResponse(res, 200, 'Team has been assigned successfully!')
         })
         .catch(err => {
+          const message = err || 'Error while updating subscriber'
+          logger.serverLog(message, `${TAG}: exports.assignTeam`, req.body, {user: req.user}, 'error')
           sendErrorResponse(res, 500, err)
         })
     }).catch(error => {
       const message = error || 'Error while fetching companyUser'
-      logger.serverLog(message, `${TAG}: exports.assignTeam`, req.body, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.assignTeam`, req.body, {user: req.user}, 'error')
     })
 }
 
@@ -546,6 +565,8 @@ exports.updatePendingResponse = function (req, res) {
       sendSuccessResponse(res, 200, 'Pending Response updates successfully')
     })
     .catch(err => {
+      const message = err || 'Error while updating subscriber'
+      logger.serverLog(message, `${TAG}: exports.updatePendingResponse`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err)
     })
 }
@@ -557,6 +578,8 @@ exports.genericFind = function (req, res) {
       sendSuccessResponse(res, 200, session)
     })
     .catch(error => {
+      const message = error || 'Failed to fetch sessions'
+      logger.serverLog(message, `${TAG}: exports.genericFind`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch sessions ${JSON.stringify(error)}`)
     })
 }
@@ -571,7 +594,7 @@ function pushUnresolveAlert (companyId, subscriberId) {
         })
         .catch(err => {
           const message = err || 'Unable to fetch company'
-          logger.serverLog(message, `${TAG}: exports.pushUnresolveAlert`, {}, { companyId, subscriberId }, 'error')
+          logger.serverLog(message, `${TAG}: exports.pushUnresolveAlert`, {}, { companyId, subscriber }, 'error')
         })
     })
     .catch(err => {

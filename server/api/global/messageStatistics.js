@@ -24,7 +24,7 @@ function recordRedis (featureName) {
   findRedisObject(featureName, (err, record) => {
     if (err) {
       const message = err || 'error in message statistics'
-      return logger.serverLog(message, `${TAG}: exports.recordRedis`, {}, record, 'error')
+      return logger.serverLog(message, `${TAG}: exports.recordRedis`, {}, {record}, 'error')
     }
     if (!record) {
       createRedisObject(featureName)
@@ -66,6 +66,8 @@ function findRedisObject (featureName, cb) {
   let key = featureName + '-' + year + ':' + month + ':' + day + ':' + hours + ':' + minutes
   client.get(key, (err, obj) => {
     if (err) {
+      const message = err || 'error in finding redis object'
+      logger.serverLog(message, `${TAG}: exports.findRedisObject`, {}, {key}, 'error')
       return cb(err)
     }
     cb(null, obj)
@@ -75,6 +77,8 @@ function findRedisObject (featureName, cb) {
 function findAllKeys (fn) {
   client.keys('*', (err, objs) => {
     if (err) {
+      const message = err || 'error in finding redis all keys'
+      logger.serverLog(message, `${TAG}: exports.findAllKeys`, {}, {}, 'error')
       return fn(`error in message statistics find all keys ${JSON.stringify(err)}`)
     }
     if (objs && objs.length > 0) {
@@ -86,6 +90,8 @@ function findAllKeys (fn) {
       }
       client.multi(arrObjs).exec(function (err, replies) {
         if (err) {
+          const message = err || 'error in finding redis multi all keys'
+          logger.serverLog(message, `${TAG}: exports.findAllKeys`, {}, {}, 'error')
           return fn(`error in message statistics multi all keys ${JSON.stringify(err)}`)
         }
         deleteAllKeys(arrObjsDel)
@@ -101,7 +107,7 @@ function deleteAllKeys (arrObjs) {
   client.multi(arrObjs).exec(function (err, replies) {
     if (err) {
       const message = err || 'error in message statistics delete all keys'
-      return logger.serverLog(message, `${TAG}: exports.deleteAllKeys`, {}, arrObjs, 'error')
+      return logger.serverLog(message, `${TAG}: exports.deleteAllKeys`, {}, {arrObjs}, 'error')
     }
   })
 }
@@ -127,6 +133,8 @@ function shouldDelete (key) {
 exports.getRecords = function (featureName, fn) {
   findAllKeys((err, data) => {
     if (err) {
+      const message = err || 'error in getting redis records'
+      logger.serverLog(message, `${TAG}: exports.getRecords`, {}, { featureName }, 'error')
       return fn(err)
     }
     let result = []

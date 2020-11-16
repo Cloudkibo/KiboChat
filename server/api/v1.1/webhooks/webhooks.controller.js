@@ -2,6 +2,8 @@ const utility = require('../utility')
 const needle = require('needle')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const { sendWebhook } = require('../../global/sendWebhook')
+const logger = require('../../../components/logger')
+const TAG = 'api/v1.1/verificationtoken/verificationtoken.controller.js'
 
 exports.index = function (req, res) {
   utility.callApi(`webhooks/query`, 'post', {companyId: req.user.companyId})
@@ -9,6 +11,8 @@ exports.index = function (req, res) {
       sendSuccessResponse(res, 200, webhooks)
     })
     .catch(error => {
+      const message = error || 'Failed to fetch webhooks'
+      logger.serverLog(message, `${TAG}: exports.index`, {}, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch webhooks ${JSON.stringify(error)}`)
     })
 }
@@ -38,6 +42,8 @@ exports.create = function (req, res) {
                   sendSuccessResponse(res, 200, webhook)
                 })
                 .catch(error => {
+                  const message = error || 'Failed to fetch webhooks'
+                  logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
                   sendErrorResponse(res, 500, `Failed to save webhook ${JSON.stringify(error)}`)
                 })
             } else {
@@ -49,6 +55,8 @@ exports.create = function (req, res) {
       }
     })
     .catch(error => {
+      const message = error || 'Failed to fetch webhooks'
+      logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch webhook ${JSON.stringify(error)}`)
     })
 }
@@ -68,6 +76,8 @@ exports.edit = function (req, res) {
           sendSuccessResponse(res, 200, webhook)
         })
         .catch(error => {
+          const message = error || 'Failed to update webhooks'
+          logger.serverLog(message, `${TAG}: exports.edit`, req.body, {user: req.user}, 'error')
           sendErrorResponse(res, 500, `Failed to update webhook ${JSON.stringify(error)}`)
         })
     } else {
@@ -82,6 +92,8 @@ exports.enabled = function (req, res) {
       sendSuccessResponse(res, 200, webhook)
     })
     .catch(error => {
+      const message = error || 'Failed to update webhooks'
+      logger.serverLog(message, `${TAG}: exports.enabled`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to update webhook ${JSON.stringify(error)}`)
     })
 }

@@ -26,7 +26,7 @@ exports.sendSMS = function (req, res) {
       })
       .catch(error => {
         const message = error || 'error at sending message'
-        logger.serverLog(message, `${TAG}: exports.sendSMS`, req.body, {}, 'error')
+        logger.serverLog(message, `${TAG}: exports.sendSMS`, req.body, {user: req.user}, 'error')
         failed++
         cb()
       })
@@ -41,7 +41,10 @@ exports.receiveSMS = function (req, res) {
   // map response to template and call lab work api
   callApi('twilio/receiveMessage', 'post', req.body, 'COVIS')
     .then(result => {})
-    .catch(err => { console.log(err) })
+    .catch(err => { 
+      const message = err || 'error at receiving message'
+      logger.serverLog(message, `${TAG}: exports.receiveSMS`, req.body, {}, 'error')
+    })
   res.writeHead(200, { 'Content-Type': 'text/xml' })
   res.end(twiml.toString())
 }
@@ -64,7 +67,7 @@ exports.verifyNumber = function (req, res) {
     })
     .catch(err => {
       const message = err || 'An unexpected error occurred. Please try again later'
-      logger.serverLog(message, `${TAG}: exports.verifyNumber`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.verifyNumber`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, null, 'An unexpected error occurred. Please try again later')
     })
 }

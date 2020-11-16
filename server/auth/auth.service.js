@@ -67,6 +67,8 @@ function isAuthenticated () {
               return res.status(401)
                 .json({status: 'Unauthorized', description: 'jwt expired'})
             } else {
+              const message = err || 'error in authorising user'
+              logger.serverLog(message, `${TAG}: exports.isAuthenticated`, {}, {user: req.user}, 'error')
               return res.status(500)
                 .json({status: 'failed', description: `Internal Server Error: ${err}`})
             }
@@ -101,6 +103,8 @@ function isAuthenticated () {
               next()
             })
             .catch(err => {
+              const message = err || 'error in authorising user acting as super user'
+              logger.serverLog(message, `${TAG}: exports.isAuthenticated`, {}, {user: req.user}, 'error')
               return res.status(500)
                 .json({status: 'failed', description: `Internal Server Error: ${err}`})
             })
@@ -177,6 +181,8 @@ function doesPlanPermitsThisAction (action) {
         }
       })
       .catch(err => {
+        const message = err || 'error in getting plan permission for action'
+        logger.serverLog(message, `${TAG}: exports.doesPlanPermitsThisAction`, {}, {action, user: req.user}, 'error')
         return res.status(500)
           .json({status: 'failed', description: `Internal Server Error: ${err}`})
       })
@@ -208,6 +214,8 @@ function doesRolePermitsThisAction (action) {
         }
       })
       .catch(err => {
+        const message = err || 'error in getting role permission for action'
+        logger.serverLog(message, `${TAG}: exports.doesRolePermitsThisAction`, {}, {action, user: req.user}, 'error')
         return res.status(500)
           .json({status: 'failed', description: `Internal Server Error: ${err}`})
       })
@@ -231,6 +239,8 @@ function validateApiKeys (req, res, next) {
               next()
             })
             .catch(err => {
+              const message = err || 'error in validate api keys'
+              logger.serverLog(message, `${TAG}: exports.validateApiKeys`, {}, {user: req.user}, 'error')
               return res.status(500)
                 .json({status: 'failed', description: `Internal Server Error: ${err}`})
             })
@@ -265,11 +275,11 @@ const _updateUserPlatform = (req, res) => {
         })
         .catch(err => {
           const message = err || '500: Internal server error'
-          logger.serverLog(message, `${TAG}: exports._updateUserPlatform`, {}, {}, 'error')
+          logger.serverLog(message, `${TAG}: exports._updateUserPlatform`, {}, {user: req.user}, 'error')
         })
     }).catch(err => {
       const message = err || '500: Internal server error'
-      logger.serverLog(message, `${TAG}: exports._updateUserPlatform`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports._updateUserPlatform`, {}, {user: req.user}, 'error')
     })
 }
 function fbConnectDone (req, res) {
@@ -304,7 +314,7 @@ function fbConnectDone (req, res) {
                     })
                     .catch(err => {
                       const message = err || '500: Internal server error'
-                      logger.serverLog(message, `${TAG}: exports.fbConnectDone`, {}, {}, 'error')
+                      logger.serverLog(message, `${TAG}: exports.fbConnectDone`, {}, {user: req.user}, 'error')
                       res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
                     })
                 }
@@ -316,20 +326,20 @@ function fbConnectDone (req, res) {
               })
               .catch(err => {
                 const message = err || '500: Internal server error'
-                logger.serverLog(message, `${TAG}: exports.fbConnectDone`, {}, {}, 'error')
+                logger.serverLog(message, `${TAG}: exports.fbConnectDone`, {}, {user: req.user}, 'error')
                 res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
               })
           })
           .catch(err => {
             const message = err || '500: Internal server error'
-            logger.serverLog(message, `${TAG}: exports.fbConnectDone`, {}, {}, 'error')
+            logger.serverLog(message, `${TAG}: exports.fbConnectDone`, {}, {user: req.user}, 'error')
             res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
           })
       }
     })
     .catch(err => {
       const message = err || '500: Internal server error'
-      logger.serverLog(message, `${TAG}: exports.fbConnectDone`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.fbConnectDone`, {}, {user: req.user}, 'error')
       res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
     })
 }
@@ -388,7 +398,7 @@ function fetchPages (url, user, req, token) {
   needle.get(url, options, (err, resp) => {
     if (err !== null) {
       const message = err || 'error from graph api to get pages list data'
-      logger.serverLog(message, `${TAG}: exports.fetchPages`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.fetchPages`, {}, {url, user}, 'error')
       return
     }
     // logger.serverLog(TAG, 'resp from graph api to get pages list data: ')
@@ -444,7 +454,7 @@ function fetchPages (url, user, req, token) {
                         })
                         .catch(err => {
                           const message = err || 'failed to create page'
-                          logger.serverLog(message, `${TAG}: exports.fetchPages`, {}, {}, 'error')
+                          logger.serverLog(message, `${TAG}: exports.fetchPages`, {}, {url, user}, 'error')
                         })
                     } else {
                       let updatedPayload = {
@@ -465,7 +475,7 @@ function fetchPages (url, user, req, token) {
                         })
                         .catch(err => {
                           const message = err || 'failed to update page'
-                          logger.serverLog(message, `${TAG}: exports.fetchPages`, {}, {}, 'error')
+                          logger.serverLog(message, `${TAG}: exports.fetchPages`, {}, {url, user}, 'error')
                         })
                     }
                   })
@@ -477,7 +487,7 @@ function fetchPages (url, user, req, token) {
       })
       .catch(err => {
         const message = err || 'Internal Server Error'
-        logger.serverLog(message, `${TAG}: exports.fetchPages`, {}, {}, 'error')
+        logger.serverLog(message, `${TAG}: exports.fetchPages`, {}, {url, user}, 'error')
       })
     if (cursor && cursor.next) {
       fetchPages(cursor.next, user, req)

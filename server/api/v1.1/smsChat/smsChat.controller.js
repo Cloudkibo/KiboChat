@@ -39,6 +39,8 @@ exports.index = function (req, res) {
       }
     ], 10, function (err, results) {
       if (err) {
+        const message = err || 'Error in async calls'
+        logger.serverLog(message, `${TAG}: exports.index`, req.body, {params: req.params, user: req.user}, 'error')
         sendErrorResponse(res, 500, err)
       } else {
         let chatCount = results[0]
@@ -124,6 +126,8 @@ exports.create = function (req, res) {
             }
           ], 10, function (err, results) {
             if (err) {
+              const message = err || 'Error in async calls while sending message'
+              logger.serverLog(message, `${TAG}: exports.create`, req.body, {params: req.params, user: req.user}, 'error')
               sendErrorResponse(res, 500, `Failed to send message ${JSON.stringify(err)}`)
             } else {
               sendSuccessResponse(res, 200, results[0])
@@ -131,11 +135,14 @@ exports.create = function (req, res) {
           })
         })
         .catch(error => {
-          sendOpAlert(error, 'Failed to send twilio message', req.body.contactId, req.user._id, req.user.companyId)
+          const message = error || 'Failed to send twilio message'
+          logger.serverLog(message, `${TAG}: exports.create`, req.body, {params: req.params, user: req.user}, 'error')
           sendErrorResponse(res, 500, `Failed to send message ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.create`, req.body, {params: req.params, user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
@@ -154,6 +161,8 @@ exports.search = function (req, res) {
       sendSuccessResponse(res, 200, chats)
     })
     .catch(err => {
+      const message = err || 'Failed to search in sms'
+      logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', err)
     })
 }

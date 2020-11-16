@@ -19,7 +19,7 @@ exports.sendWebhook = (type, platform, payload, page) => {
           (error, response) => {
             if (error || response.statusCode !== 200) {
               const message = error || 'Cannot send webhook event'
-              logger.serverLog(message, `${TAG}: exports.sendWebhook`, {}, data, 'error')
+              logger.serverLog(message, `${TAG}: exports.sendWebhook`, {}, {type, platform, payload, page}, 'error')
               saveNotification(webhook, page, platform)
               sendEmail(webhook, webhook.userId, page)
             }
@@ -28,7 +28,7 @@ exports.sendWebhook = (type, platform, payload, page) => {
     })
     .catch(error => {
       const message = error || 'Failed to fetch webhook'
-      logger.serverLog(message, `${TAG}: exports.sendWebhook`, {}, payload, 'error')
+      logger.serverLog(message, `${TAG}: exports.sendWebhook`, {}, {type, platform, payload, page}, 'error')
     })
 }
 
@@ -38,7 +38,7 @@ function updateWebhook (webhook) {
     })
     .catch(error => {
       const message = error || 'Failed to update webhook'
-      logger.serverLog(message, `${TAG}: exports.updateWebhook`, {}, webhook, 'error')
+      logger.serverLog(message, `${TAG}: exports.updateWebhook`, {}, {webhook}, 'error')
     })
 }
 
@@ -62,7 +62,7 @@ function saveNotification (webhook, page, platform) {
     })
     .catch(error => {
       const message = error || 'Failed to create notification'
-      return logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, notificationsData, 'error')
+      return logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, {notificationsData}, 'error')
     })
 }
 
@@ -79,7 +79,7 @@ function sendEmail (webhook, user, page) {
     })
     .catch(err => {
       const message = err || 'Failed to send email'
-      return logger.serverLog(message, `${TAG}: exports.sendEmail`, {}, msg, 'error')
+      return logger.serverLog(message, `${TAG}: exports.sendEmail`, {}, {msg, webhook, user, page}, 'error')
     })
 }
 

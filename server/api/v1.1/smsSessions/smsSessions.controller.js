@@ -40,6 +40,8 @@ exports.fetchOpenSessions = function (req, res) {
     }
   ], 10, function (err, results) {
     if (err) {
+      const message = err || 'Error in async calls'
+      logger.serverLog(message, `${TAG}: exports.fetchOpenSessions`, {}, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err)
     } else {
       let countResopnse = results[0]
@@ -84,6 +86,8 @@ exports.fetchResolvedSessions = function (req, res) {
     }
   ], 10, function (err, results) {
     if (err) {
+      const message = err || 'Error in async calls'
+      logger.serverLog(message, `${TAG}: exports.fetchResolvedSessions`, {}, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err)
     } else {
       let countResopnse = results[0]
@@ -118,6 +122,8 @@ exports.markread = function (req, res) {
       }
     ], 10, function (err, results) {
       if (err) {
+        const message = err || 'Error in async calls'
+        logger.serverLog(message, `${TAG}: exports.markread`, {}, {user: req.use, params: req.params}, 'error')
         sendErrorResponse(res, 500, err)
       } else {
         sendSuccessResponse(res, 200, 'Chat has been marked read successfully!')
@@ -150,6 +156,8 @@ exports.updatePendingResponse = function (req, res) {
       sendSuccessResponse(res, 200, 'Pending Response updates successfully')
     })
     .catch(err => {
+      const message = err || 'Error in updating contact'
+      logger.serverLog(message, `${TAG}: exports.updatePendingResponse`, req.body, {user: req.use}, 'error')
       sendErrorResponse(res, 500, err)
     })
 }
@@ -186,6 +194,8 @@ exports.assignAgent = function (req, res) {
       sendSuccessResponse(res, 200, 'Agent has been assigned successfully!')
     })
     .catch(err => {
+      const message = err || 'Error in updating contact'
+      logger.serverLog(message, `${TAG}: exports.assignAgent`, req.body, {user: req.use}, 'error')
       sendErrorResponse(res, 500, err)
     })
 }
@@ -205,7 +215,7 @@ exports.changeStatus = function (req, res) {
               })
               .catch(err => {
                 const message = err || 'Unable to fetch company'
-                return logger.serverLog(message, `${TAG}: exports.changeStatus`, req.body, {}, 'error')
+                return logger.serverLog(message, `${TAG}: exports.changeStatus`, req.body, {user: req.user}, 'error')
               })
           }
           let lastMessageData = logicLayer.getQueryData('', 'aggregate', {contactId: req.params.id, companyId: req.user.companyId}, undefined, {_id: -1}, 1, undefined)
@@ -231,14 +241,20 @@ exports.changeStatus = function (req, res) {
               sendSuccessResponse(res, 200, 'Status has been updated successfully!')
             })
             .catch(err => {
+              const message = err || 'Unable to fetch sms chat'
+              logger.serverLog(message, `${TAG}: exports.changeStatus`, req.body, {user: req.user}, 'error')
               sendErrorResponse(res, 500, err)
             })
         })
         .catch(err => {
+          const message = err || 'Unable to fetch query'
+          logger.serverLog(message, `${TAG}: exports.changeStatus`, req.body, {user: req.user}, 'error')
           sendErrorResponse(res, 500, err)
         })
     })
     .catch(err => {
+      const message = err || 'Unable to contacts update'
+      logger.serverLog(message, `${TAG}: exports.changeStatus`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err)
     })
 }
@@ -275,6 +291,8 @@ exports.assignTeam = function (req, res) {
       sendSuccessResponse(res, 200, 'Team has been assigned successfully!')
     })
     .catch(err => {
+      const message = err || 'Unable to contacts update'
+      logger.serverLog(message, `${TAG}: exports.assignTeam`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err)
     })
 }
@@ -296,6 +314,8 @@ exports.getTwilioNumbers = function (req, res) {
         })
     })
     .catch(error => {
+      const message = err || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.getTwilioNumbers`, {}, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
