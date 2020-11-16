@@ -9,6 +9,7 @@ const sessionLogicLayer = require('../sessions/sessions.logiclayer')
 const logicLayer = require('./logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
 const { record } = require('../../global/messageStatistics')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 const { sendNotifications } = require('../../global/sendNotification')
 const { sendWebhook } = require('../../global/sendWebhook')
 
@@ -32,8 +33,7 @@ exports.index = function (req, res) {
   if (event.message) {
     logicLayer.prepareLiveChatPayload(event.message, subscriber, page)
       .then(chatPayload => {
-        console.log('chatPayload got', chatPayload.payload)
-        if (Object.keys(chatPayload.payload).length > 0 && chatPayload.payload.constructor === Object) {
+        if (chatPayload.payload && chatPayload.payload.constructor === Object && Object.keys(chatPayload.payload).length > 0) {
           let from
           if (!event.message.is_echo) {
             from = 'subscriber'
@@ -74,7 +74,7 @@ exports.index = function (req, res) {
                         saveLiveChat(page, subscriber, event)
                         if (event.type !== 'get_started') {
                           handleCommerceChatbot(event, page, subscriber)
-                          if (event.message.text) {
+                          if (event.message.text && (!event.message.is_echo || (event.message.is_echo && event.message.metadata !== 'SENT_FROM_KIBOPUSH'))) {
                             handleTriggerMessage(event, page, subscriber)
                           }
                         }
@@ -100,7 +100,7 @@ exports.index = function (req, res) {
 }
 
 function saveLiveChat (page, subscriber, event, chatPayload) {
-  // record('messengerChatInComing')
+  record('messengerChatInComing')
   if (subscriber && !event.message.is_echo) {
     botController.respondUsingBot(page, subscriber, event.message.text)
   }
@@ -124,6 +124,7 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
   ) {
     LiveChatDataLayer.createFbMessageObject(chatPayload)
       .then(chat => {
+        updateCompanyUsage(page.companyId, 'chat_messages', 1)
         if (!event.message.is_echo) {
           setTimeout(() => {
             utility.callApi('subscribers/query', 'post', { _id: subscriber._id })
@@ -495,3 +496,4 @@ const _prepareSubscriberUpdatePayload = (event, subscriber, company) => {
 }
 
 exports.saveLiveChat = saveLiveChat
+exports.saveChatInDb = saveChatInDb

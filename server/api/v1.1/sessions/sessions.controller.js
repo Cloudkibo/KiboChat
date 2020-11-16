@@ -241,8 +241,11 @@ exports.singleSession = function (req, res) {
       let data = logicLayer.payloadForSingleSession(req, 'resolved')
       callApi('subscribers/aggregate', 'post', data)
         .then(subscribers => {
-          console.log('subscriber', subscribers[0])
-          callback(null, subscribers[0])
+          if (subscribers.length > 0) {
+            callback(null, subscribers[0])
+          } else {
+            callback(new Error('Subscriber not found!'))
+          }
         })
         .catch(err => {
           callback(err)

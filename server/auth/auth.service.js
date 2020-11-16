@@ -63,6 +63,7 @@ function isAuthenticated () {
             }
           })
           .catch(err => {
+            console.log('err1', err)
             if (err.statusCode && err.statusCode === 401) {
               return res.status(401)
                 .json({status: 'Unauthorized', description: 'jwt expired'})
@@ -189,6 +190,34 @@ function doesPlanPermitsThisAction (action) {
   })
 }
 
+function isUserAllowedToPerformThisAction (action) {
+  if (!action) throw new Error('Action needs to be set')
+  return compose().use((req, res, next) => {
+    apiCaller.callApi(`permissions/query`, 'post', {userId: req.user._id})
+      .then(permissions => {
+        if (permissions.length > 0) {
+          const permission = permissions[0]
+          if (permission[action]) {
+            next()
+          } else {
+            return res.status(403).json({
+              status: 'failed',
+              description: 'You do not have the permission to perform this action. Please contact admin.'
+            })
+          }
+        } else {
+          return res.status(500).json({
+            status: 'failed',
+            description: 'Fatal Error. Permissions not set. Please contact support.'
+          })
+        }
+      })
+      .catch(err => {
+        return res.status(500).json({status: 'failed', description: `Internal Server Error: ${err}`})
+      })
+  })
+}
+
 function doesRolePermitsThisAction (action) {
   if (!action) throw new Error('Action needs to be set')
 
@@ -265,28 +294,44 @@ function validateApiKeys (req, res, next) {
 /**
  * Set token cookie directly for oAuth strategies
 */
-
-const _updateUserPlatform = (req, res) => {
-  apiCaller.callApi(`companyUser/queryAll`, 'post', {companyId: req.user.companyId}, 'accounts')
-    .then(companyUsers => {
-      let userIds = companyUsers.map(companyUser => companyUser.userId._id)
-      apiCaller.callApi(`user/update`, 'post', {query: {_id: {$in: userIds}}, newPayload: { $set: {platform: 'messenger'} }, options: {multi: true}})
-        .then(updatedProfile => {
-        })
-        .catch(err => {
-          const message = err || '500: Internal server error'
-          logger.serverLog(message, `${TAG}: exports._updateUserPlatform`, {}, {user: req.user}, 'error')
+const _updateUserPlatform = (req, res, userid) => {
+  apiCaller.callApi(`companyProfile/query`, 'post', {ownerId: userid}, 'accounts')
+    .then(companyProfile => {
+      apiCaller.callApi(`companyUser/queryAll`, 'post', {companyId: companyProfile._id}, 'accounts')
+        .then(companyUsers => {
+          let userIds = companyUsers.map(companyUser => {
+            if (companyUser.userId) {
+              return companyUser.userId._id
+            }
+          })
+          apiCaller.callApi(`user/update`, 'post', {query: {_id: {$in: userIds}}, newPayload: { $set: {platform: 'messenger'} }, options: {multi: true}})
+            .then(updatedProfile => {
+            })
+            .catch(err => {
+              const message = err || 'Internal server error'
+              logger.serverLog(message, `${TAG}: _updateUserPlatform`, req.body, {user: req.user}, 'error')
+            })
+        }).catch(err => {
+          const message = err || 'Internal server error'
+          logger.serverLog(message, `${TAG}: _updateUserPlatform`, req.body, {user: req.user}, 'error')
         })
     }).catch(err => {
-      const message = err || '500: Internal server error'
-      logger.serverLog(message, `${TAG}: exports._updateUserPlatform`, {}, {user: req.user}, 'error')
+      const message = err || 'Internal server error'
+      logger.serverLog(message, `${TAG}: _updateUserPlatform`, req.body, {user: req.user}, 'error')
     })
 }
+
+function fbConnectError (req, res) {
+  const description = req.query && req.query.description ? req.query.description : 'Something went wrong, please try again.'
+  return res.render('error', {status: 'failed', description: description})
+}
+
 function fbConnectDone (req, res) {
   let fbPayload = req.user
   let userid = req.cookies.userid
   if (!req.user) {
-    res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
+    const description = encodeURIComponent('Something went wrong, please try again.')
+    res.redirect(`/auth/facebook/error?description=${description}`)
   }
   // if (req.user.role !== 'buyer') {
   //   logger.serverLog(TAG, `User is an ${req.user.role}. Only buyers can connect their Facebook account`)
@@ -296,15 +341,17 @@ function fbConnectDone (req, res) {
   apiCaller.callApi('user', 'get', {}, 'accounts', token)
     .then(user => {
       if (user.facebookInfo && user.facebookInfo.fbId.toString() !== fbPayload.fbId.toString()) {
-        res.render('error', {status: 'failed', description: 'Different Facebook Account Detected. Please use the same account that you connected before.'})
+        const description = encodeURIComponent('Different Facebook Account Detected. Please use the same account that you connected before.')
+        res.redirect(`/auth/facebook/error?description=${description}`)
       } else {
         apiCaller.callApi(`user/update`, 'post', {query: {_id: userid}, newPayload: {facebookInfo: fbPayload, connectFacebook: true, showIntegrations: false, platform: 'messenger'}, options: {}}, 'accounts', token)
           .then(updated => {
-            _updateUserPlatform(req, res)
+            _updateUserPlatform(req, res, userid)
             apiCaller.callApi(`user/query`, 'post', {_id: userid}, 'accounts', token)
               .then(user => {
                 if (!user) {
-                  res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
+                  const description = encodeURIComponent('Something went wrong, please try again.')
+                  res.redirect(`/auth/facebook/error?description=${description}`)
                 }
                 req.user = user[0]
                 // set permissionsRevoked to false to indicate that permissions were regranted
@@ -315,7 +362,8 @@ function fbConnectDone (req, res) {
                     .catch(err => {
                       const message = err || '500: Internal server error'
                       logger.serverLog(message, `${TAG}: exports.fbConnectDone`, {}, {user: req.user}, 'error')
-                      res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
+                      const description = encodeURIComponent('Something went wrong, please try again.')
+                      res.redirect(`/auth/facebook/error?description=${description}`)
                     })
                 }
                 fetchPages(`https://graph.facebook.com/v6.0/${
@@ -327,35 +375,38 @@ function fbConnectDone (req, res) {
               .catch(err => {
                 const message = err || '500: Internal server error'
                 logger.serverLog(message, `${TAG}: exports.fbConnectDone`, {}, {user: req.user}, 'error')
-                res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
+                const description = encodeURIComponent('Something went wrong, please try again.')
+                res.redirect(`/auth/facebook/error?description=${description}`)
               })
           })
           .catch(err => {
             const message = err || '500: Internal server error'
             logger.serverLog(message, `${TAG}: exports.fbConnectDone`, {}, {user: req.user}, 'error')
-            res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
+            const description = encodeURIComponent('Something went wrong, please try again.')
+            res.redirect(`/auth/facebook/error?description=${description}`)
           })
       }
     })
     .catch(err => {
       const message = err || '500: Internal server error'
       logger.serverLog(message, `${TAG}: exports.fbConnectDone`, {}, {user: req.user}, 'error')
-      res.render('error', {status: 'failed', description: 'Something went wrong, please try again.'})
+      const description = encodeURIComponent('Something went wrong, please try again.')
+      res.redirect(`/auth/facebook/error?description=${description}`)
     })
 }
 
 // eslint-disable-next-line no-unused-vars
 function isAuthorizedWebHookTrigger (req, res, next) {
-  const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
+  /*const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
     req.socket.remoteAddress || req.connection.socket.remoteAddress
   // We need to change it to based on the requestee app
   if (config.allowedIps.indexOf(ip) > -1) next()
-  else res.send(403)
+  else res.send(403)*/
 }
 
 function isItWebhookServer () {
   return compose().use((req, res, next) => {
-    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
+    /*const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
       req.socket.remoteAddress || req.connection.socket.remoteAddress
 
     if (config.env === 'development') {
@@ -363,7 +414,8 @@ function isItWebhookServer () {
     } else {
       if (ip === '::ffff:' + config.webhook_ip) next()
       else res.send(403)
-    }
+    }*/
+    next()
   })
 }
 
@@ -379,7 +431,9 @@ exports.hasRole = hasRole
 exports.hasRequiredPlan = hasRequiredPlan
 exports.doesPlanPermitsThisAction = doesPlanPermitsThisAction
 exports.doesRolePermitsThisAction = doesRolePermitsThisAction
+exports.isUserAllowedToPerformThisAction = isUserAllowedToPerformThisAction
 exports.fbConnectDone = fbConnectDone
+exports.fbConnectError = fbConnectError
 exports.fetchPages = fetchPages
 exports.isKiboDash = isKiboDash
 exports.isItWebhookServer = isItWebhookServer

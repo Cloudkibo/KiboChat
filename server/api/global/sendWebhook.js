@@ -52,7 +52,7 @@ function saveNotification (webhook, page, platform) {
   }
   utility.callApi(`notifications`, 'post', notificationsData, 'kibochat')
     .then(savedNotification => {
-      require('./../../../config/socketio').sendMessageToClient({
+      require('../../config/socketio').sendMessageToClient({
         room_id: page.companyId,
         body: {
           action: 'new_notification',
