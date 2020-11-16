@@ -23,6 +23,8 @@ exports.sendWebhook = (type, platform, payload, page) => {
               saveNotification(webhook, page, platform)
               sendEmail(webhook, webhook.userId, page)
             } else if (response.statusCode !== 200) {
+              const message = error || 'Cannot send webhook event'
+              logger.serverLog(message, `${TAG}: exports.sendWebhook`, {}, data, 'info')
               saveNotification(webhook, page, platform)
               sendEmail(webhook, webhook.userId, page)
             }
