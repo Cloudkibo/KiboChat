@@ -60,25 +60,27 @@ exports.prepareTemplates = () => {
 
 exports.prepareReceivedMessageData = (event) => {
   let payload = {}
-  if (event.NumMedia === '0' && event.Body !== '') { // text only
+  if ((event.NumMedia === '0' || !event.MediaContentType0) && event.Body !== '') { // text only
     payload = { componentType: 'text', text: event.Body }
-  } else if (event.NumMedia !== '0' && event.Body !== '' && event.MediaContentType0.includes('image')) { // text with media
-    payload = { componentType: 'text', text: event.Body }
-    payload = { componentType: 'image', fileurl: { url: event.MediaUrl0 } }
-  } else if (event.NumMedia !== '0' && event.Body !== '' && event.MediaContentType0.includes('video')) { // text with media
-    payload = { componentType: 'text', text: event.Body }
-    payload = { componentType: 'video', fileurl: { url: event.MediaUrl0 } }
-  } else if (event.NumMedia !== '0') { // media only
-    if (event.MediaContentType0.includes('image')) {
+  } else if (event.MediaContentType0) {
+    if (event.NumMedia !== '0' && event.Body !== '' && event.MediaContentType0.includes('image')) { // text with media
+      payload = { componentType: 'text', text: event.Body }
       payload = { componentType: 'image', fileurl: { url: event.MediaUrl0 } }
-    } else if (event.MediaContentType0.includes('pdf')) {
-      payload = { componentType: 'file', fileurl: { url: event.MediaUrl0 }, fileName: event.Body }
-    } else if (event.MediaContentType0.includes('audio')) {
-      payload = { componentType: 'audio', fileurl: { url: event.MediaUrl0 } }
-    } else if (event.MediaContentType0.includes('video')) {
+    } else if (event.NumMedia !== '0' && event.Body !== '' && event.MediaContentType0.includes('video')) { // text with media
+      payload = { componentType: 'text', text: event.Body }
       payload = { componentType: 'video', fileurl: { url: event.MediaUrl0 } }
-    } else if (event.MediaContentType0.includes('vcard')) {
-      payload = { componentType: 'file', fileurl: { url: event.MediaUrl0 }, fileName: 'Contact Card' }
+    } else if (event.NumMedia !== '0') { // media only
+      if (event.MediaContentType0.includes('image')) {
+        payload = { componentType: 'image', fileurl: { url: event.MediaUrl0 } }
+      } else if (event.MediaContentType0.includes('pdf')) {
+        payload = { componentType: 'file', fileurl: { url: event.MediaUrl0 }, fileName: event.Body }
+      } else if (event.MediaContentType0.includes('audio')) {
+        payload = { componentType: 'audio', fileurl: { url: event.MediaUrl0 } }
+      } else if (event.MediaContentType0.includes('video')) {
+        payload = { componentType: 'video', fileurl: { url: event.MediaUrl0 } }
+      } else if (event.MediaContentType0.includes('vcard')) {
+        payload = { componentType: 'file', fileurl: { url: event.MediaUrl0 }, fileName: 'Contact Card' }
+      }
     }
   } else if (event.Latitude && event.Longitude) {
     payload = {

@@ -17,9 +17,12 @@ exports.sendWebhook = (type, platform, payload, page) => {
         }
         needle.post(webhook.webhook_url, data, {json: true},
           (error, response) => {
-            if (error || response.statusCode !== 200) {
+            if (error) {
               const message = error || 'Cannot send webhook event'
               logger.serverLog(message, `${TAG}: exports.sendWebhook`, {}, data, 'error')
+              saveNotification(webhook, page, platform)
+              sendEmail(webhook, webhook.userId, page)
+            } else if (response.statusCode !== 200) {
               saveNotification(webhook, page, platform)
               sendEmail(webhook, webhook.userId, page)
             }
