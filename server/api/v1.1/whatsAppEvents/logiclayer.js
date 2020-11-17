@@ -1,7 +1,7 @@
 const { openGraphScrapper } = require('../../global/utility')
 
 exports.prepareChat = (from, to, contact, body, format) => {
-  return new Promise(function (resolve, reject) {
+  return new Promise((resolve, reject) => {
     let MessageObject = {
       senderNumber: from,
       recipientNumber: to,
@@ -11,6 +11,7 @@ exports.prepareChat = (from, to, contact, body, format) => {
       status: 'unseen',
       format
     }
+    console.log('MessageObject', JSON.stringify(MessageObject))
     resolve(MessageObject)
     // getMetaData(MessageObject).then(result => {
     //   resolve(MessageObject)

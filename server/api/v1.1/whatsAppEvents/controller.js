@@ -233,6 +233,7 @@ function storeChat (from, to, contact, messageData, format) {
   console.log('messageData', JSON.stringify(messageData))
   console.log('format', JSON.stringify(format))
   logicLayer.prepareChat(from, to, contact, messageData, format).then(chatPayload => {
+    console.log('prepared chat', JSON.stringify(chatPayload))
     callApi(`whatsAppChat`, 'post', chatPayload, 'kibochat')
       .then(message => {
         console.log('message stored', message)
