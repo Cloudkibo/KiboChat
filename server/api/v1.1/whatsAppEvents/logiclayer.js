@@ -1,7 +1,7 @@
 const { openGraphScrapper } = require('../../global/utility')
 
 exports.prepareChat = (from, to, contact, body, format) => {
-  return new Promise((resolve, reject) => {
+  return new Promise(function (resolve, reject) {
     let MessageObject = {
       senderNumber: from,
       recipientNumber: to,
@@ -11,20 +11,14 @@ exports.prepareChat = (from, to, contact, body, format) => {
       status: 'unseen',
       format
     }
-    console.log('MessageObject', JSON.stringify(MessageObject))
-    getMetaData(MessageObject)
-      .then(result => {
-        resolve(MessageObject)
-      })
-      .catch(err => {
-        console.log('prepareChat err', err)
-        reject(err)
-      })
+    resolve(MessageObject)
+    // getMetaData(MessageObject).then(result => {
+    //   resolve(MessageObject)
+    // })
   })
 }
 
 function getmetaurl (text) {
-  console.log('getmetaurl', text)
   /* eslint-disable */
   var urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig
   /* eslint-enable */
@@ -37,20 +31,17 @@ function getmetaurl (text) {
 }
 
 function getMetaData (body) {
-  console.log('getMetaData body', JSON.stringify(body))
-  return new Promise((resolve, reject) => {
-    console.log('getMetaData body inside promise', JSON.stringify(body))
+  return new Promise(function (resolve, reject) {
     if (body.payload.componentType === 'text') {
       let isUrl = getmetaurl(body.payload.text)
-      console.log('isUrl', isUrl)
-      if (isUrl) {
+      if (isUrl !== null && isUrl !== '') {
         openGraphScrapper(isUrl)
           .then(meta => {
             body.url_meta = meta
             resolve(body)
           })
-          .catch((err) => {
-            reject(err)
+          .catch(() => {
+            resolve(body)
           })
       } else {
         resolve(body)
