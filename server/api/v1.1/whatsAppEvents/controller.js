@@ -122,7 +122,9 @@ exports.messageReceived = function (req, res) {
                             console.log('company', JSON.stringify(company))
                             if (company.saveAutomationMessages && responseBlock) {
                               console.log('saving automation message')
-                              storeChat(company.whatsApp.businessNumber, number, contact, responseBlock.payload, 'convos')
+                              for (let i = 0; i < responseBlock.payload.length; i++) {
+                                storeChat(company.whatsApp.businessNumber, number, contact, responseBlock.payload[i], 'convos')
+                              }
                             }
                           } catch (err) {
                             const message = err || 'Failed to respond using chatbot'
