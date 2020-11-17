@@ -11,9 +11,14 @@ exports.prepareChat = (from, to, contact, body, format) => {
       status: 'unseen',
       format
     }
-    getMetaData(MessageObject).then(result => {
-      resolve(MessageObject)
-    })
+    getMetaData(MessageObject)
+      .then(result => {
+        resolve(MessageObject)
+      })
+      .catch(err => {
+        console.log('prepareChat err', err)
+        reject(err)
+      })
   })
 }
 
@@ -33,6 +38,7 @@ function getMetaData (body) {
   return new Promise(function (resolve, reject) {
     if (body.payload.componentType === 'text') {
       let isUrl = getmetaurl(body.payload.text)
+      console.log('isUrl', isUrl)
       if (isUrl) {
         openGraphScrapper(isUrl)
           .then(meta => {
