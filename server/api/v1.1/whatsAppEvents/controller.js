@@ -118,13 +118,8 @@ exports.messageReceived = function (req, res) {
                         if (data.messageData.componentType === 'text') {
                           try {
                             const responseBlock = await chatbotResponder.respondUsingChatbot('whatsApp', req.body.provider, company, data.messageData.text, contact)
-                            console.log('responseBlock', JSON.stringify(responseBlock))
-                            console.log('company', JSON.stringify(company))
                             if (company.saveAutomationMessages && responseBlock) {
-                              console.log('saving automation message')
-                              for (let i = 0; i < responseBlock.payload.length; i++) {
-                                storeChat(company.whatsApp.businessNumber, number, contact, responseBlock.payload[i], 'convos')
-                              }
+                              storeChat(company.whatsApp.businessNumber, number, contact, responseBlock.payload, 'convos')
                             }
                           } catch (err) {
                             const message = err || 'Failed to respond using chatbot'
@@ -230,15 +225,9 @@ function createContact (data) {
 }
 
 function storeChat (from, to, contact, messageData, format) {
-  console.log('from', JSON.stringify(from))
-  console.log('to', JSON.stringify(to))
-  console.log('messageData', JSON.stringify(messageData))
-  console.log('format', JSON.stringify(format))
   logicLayer.prepareChat(from, to, contact, messageData, format).then(chatPayload => {
-    console.log('prepared chat', JSON.stringify(chatPayload))
     callApi(`whatsAppChat`, 'post', chatPayload, 'kibochat')
       .then(message => {
-        console.log('message stored', message)
         message.payload.format = format
         require('./../../../config/socketio').sendMessageToClient({
           room_id: contact.companyId,
@@ -261,10 +250,6 @@ function storeChat (from, to, contact, messageData, format) {
           let incrementPayload = { $inc: { unreadCount: 1, messagesCount: 1 } }
           updateWhatsAppContact(query, updatePayload, incrementPayload, {})
         }
-      })
-      .catch(err => {
-        console.log('error when saving chat message', err)
-        console.log(err.stack)
       })
   })
 }
