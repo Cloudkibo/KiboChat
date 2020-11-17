@@ -115,14 +115,16 @@ exports.messageReceived = function (req, res) {
                       }
                       if (contact && contact.isSubscribed) {
                         storeChat(number, company.whatsApp.businessNumber, contact, data.messageData, 'whatsApp')
-                        try {
-                          const responseBlock = await chatbotResponder.respondUsingChatbot('whatsApp', req.body.provider, company, data.messageData.text, contact)
-                          if (company.saveAutomationMessages && responseBlock) {
-                            storeChat(company.whatsApp.businessNumber, number, contact, responseBlock.payload, 'convos')
+                        if (data.messageData.componentType === 'text') {
+                          try {
+                            const responseBlock = await chatbotResponder.respondUsingChatbot('whatsApp', req.body.provider, company, data.messageData.text, contact)
+                            if (company.saveAutomationMessages && responseBlock) {
+                              storeChat(company.whatsApp.businessNumber, number, contact, responseBlock.payload, 'convos')
+                            }
+                          } catch (err) {
+                            const message = err || 'Failed to respond using chatbot'
+                            logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {}, 'error')
                           }
-                        } catch (err) {
-                          const message = err || 'Failed to respond using chatbot'
-                          logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {}, 'error')
                         }
                       }
                     })
@@ -329,7 +331,7 @@ function _sendNotification (subscriber, payload, companyId) {
     })
 }
 
-function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
+function updateWhatsAppContact(query, bodyForUpdate, bodyForIncrement, options) {
   callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
     .then(updated => {
     })
@@ -369,7 +371,7 @@ exports.messageStatus = function (req, res) {
     })
 }
 
-function updateChat (message, body) {
+function updateChat(message, body) {
   let dateTime = Date.now()
   let matchQuery = {
     $or: [
@@ -411,7 +413,7 @@ function updateChat (message, body) {
   updateChatInDB(matchQuery, updated, dataToSend)
 }
 
-function updateChatInDB (match, updated, dataToSend) {
+function updateChatInDB(match, updated, dataToSend) {
   let updateData = {
     purpose: 'updateAll',
     match: match,
