@@ -11,6 +11,7 @@ exports.prepareChat = (from, to, contact, body, format) => {
       status: 'unseen',
       format
     }
+    console.log('MessageObject', JSON.stringify(MessageObject))
     getMetaData(MessageObject)
       .then(result => {
         resolve(MessageObject)
@@ -23,6 +24,7 @@ exports.prepareChat = (from, to, contact, body, format) => {
 }
 
 function getmetaurl (text) {
+  console.log('getmetaurl', text)
   /* eslint-disable */
   var urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig
   /* eslint-enable */
@@ -36,6 +38,7 @@ function getmetaurl (text) {
 
 function getMetaData (body) {
   return new Promise(function (resolve, reject) {
+    console.log('getMetaData body', JSON.stringify(body))
     if (body.payload.componentType === 'text') {
       let isUrl = getmetaurl(body.payload.text)
       console.log('isUrl', isUrl)
