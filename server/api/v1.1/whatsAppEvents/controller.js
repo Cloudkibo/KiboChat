@@ -228,9 +228,14 @@ function createContact (data) {
 }
 
 function storeChat (from, to, contact, messageData, format) {
+  console.log('from', JSON.stringify(from))
+  console.log('to', JSON.stringify(to))
+  console.log('messageData', JSON.stringify(messageData))
+  console.log('format', JSON.stringify(format))
   logicLayer.prepareChat(from, to, contact, messageData, format).then(chatPayload => {
     callApi(`whatsAppChat`, 'post', chatPayload, 'kibochat')
       .then(message => {
+        console.log('message stored', message)
         message.payload.format = format
         require('./../../../config/socketio').sendMessageToClient({
           room_id: contact.companyId,
