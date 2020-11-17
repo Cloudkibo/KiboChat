@@ -118,7 +118,10 @@ exports.messageReceived = function (req, res) {
                         if (data.messageData.componentType === 'text') {
                           try {
                             const responseBlock = await chatbotResponder.respondUsingChatbot('whatsApp', req.body.provider, company, data.messageData.text, contact)
+                            console.log('responseBlock', JSON.stringify(responseBlock))
+                            console.log('company', JSON.stringify(company))
                             if (company.saveAutomationMessages && responseBlock) {
+                              console.log('saving automation message')
                               storeChat(company.whatsApp.businessNumber, number, contact, responseBlock.payload, 'convos')
                             }
                           } catch (err) {
@@ -331,7 +334,7 @@ function _sendNotification (subscriber, payload, companyId) {
     })
 }
 
-function updateWhatsAppContact(query, bodyForUpdate, bodyForIncrement, options) {
+function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
   callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
     .then(updated => {
     })
@@ -371,7 +374,7 @@ exports.messageStatus = function (req, res) {
     })
 }
 
-function updateChat(message, body) {
+function updateChat (message, body) {
   let dateTime = Date.now()
   let matchQuery = {
     $or: [
@@ -413,7 +416,7 @@ function updateChat(message, body) {
   updateChatInDB(matchQuery, updated, dataToSend)
 }
 
-function updateChatInDB(match, updated, dataToSend) {
+function updateChatInDB (match, updated, dataToSend) {
   let updateData = {
     purpose: 'updateAll',
     match: match,
