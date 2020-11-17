@@ -1,7 +1,7 @@
 const { openGraphScrapper } = require('../../global/utility')
 
 exports.prepareChat = (from, to, contact, body, format) => {
-  return new Promise(function (resolve, reject) {
+  return new Promise((resolve, reject) => {
     let MessageObject = {
       senderNumber: from,
       recipientNumber: to,
@@ -37,8 +37,9 @@ function getmetaurl (text) {
 }
 
 function getMetaData (body) {
-  return new Promise(function (resolve, reject) {
-    console.log('getMetaData body', JSON.stringify(body))
+  console.log('getMetaData body', JSON.stringify(body))
+  return new Promise((resolve, reject) => {
+    console.log('getMetaData body inside promise', JSON.stringify(body))
     if (body.payload.componentType === 'text') {
       let isUrl = getmetaurl(body.payload.text)
       console.log('isUrl', isUrl)
