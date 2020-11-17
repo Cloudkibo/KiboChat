@@ -33,14 +33,14 @@ function getMetaData (body) {
   return new Promise(function (resolve, reject) {
     if (body.payload.componentType === 'text') {
       let isUrl = getmetaurl(body.payload.text)
-      if (isUrl !== null && isUrl !== '') {
+      if (isUrl) {
         openGraphScrapper(isUrl)
           .then(meta => {
             body.url_meta = meta
             resolve(body)
           })
-          .catch(() => {
-            resolve(body)
+          .catch((err) => {
+            reject(err)
           })
       } else {
         resolve(body)
