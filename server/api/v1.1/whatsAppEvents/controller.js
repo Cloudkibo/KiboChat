@@ -254,6 +254,10 @@ function storeChat (from, to, contact, messageData, format) {
           updateWhatsAppContact(query, updatePayload, incrementPayload, {})
         }
       })
+      .catch(err => {
+        console.log('error when saving chat message', err)
+        console.log(err.stack)
+      })
   })
 }
 
