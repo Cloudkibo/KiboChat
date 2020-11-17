@@ -115,7 +115,9 @@ exports.messageReceived = function (req, res) {
                       }
                       if (contact && contact.isSubscribed) {
                         storeChat(number, company.whatsApp.businessNumber, contact, data.messageData, 'whatsApp')
-                        chatbotResponder.respondUsingChatbot('whatsApp', req.body.provider, company, data.messageData.text, contact)
+                        if (data.messageData.componentType === 'text') {
+                          chatbotResponder.respondUsingChatbot('whatsApp', req.body.provider, company, data.messageData.text, contact)
+                        }
                       }
                     })
                     .catch(error => {
