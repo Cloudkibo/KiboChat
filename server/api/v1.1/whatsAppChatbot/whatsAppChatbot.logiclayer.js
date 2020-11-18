@@ -631,9 +631,7 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ar
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    console.log('getProductsInCategoryBlock argument', JSON.stringify(argument))
     let products = await EcommerceProvider.fetchProductsInThisCategory(argument.categoryId, argument.paginationParams)
-    console.log('fetchProductsInThisCategory products', products)
     for (let i = 0; i < products.length; i++) {
       let product = products[i]
       messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${product.name}`
