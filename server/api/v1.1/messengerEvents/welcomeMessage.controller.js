@@ -38,6 +38,5 @@ exports.index = function (req, res) {
       }).catch(error => {
         const message = error || 'Failed to fetch page'
         return logger.serverLog(message, `${TAG}: exports.index`, req.body, {companyId: page.companyId}, 'error')
-      })
   }
 }

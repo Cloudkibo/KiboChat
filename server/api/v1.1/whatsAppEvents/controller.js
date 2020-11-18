@@ -116,7 +116,15 @@ exports.messageReceived = function (req, res) {
                       if (contact && contact.isSubscribed) {
                         storeChat(number, company.whatsApp.businessNumber, contact, data.messageData, 'whatsApp')
                         if (data.messageData.componentType === 'text') {
-                          chatbotResponder.respondUsingChatbot('whatsApp', req.body.provider, company, data.messageData.text, contact)
+                          try {
+                            const responseBlock = await chatbotResponder.respondUsingChatbot('whatsApp', req.body.provider, company, data.messageData.text, contact)
+                            if (company.saveAutomationMessages && responseBlock) {
+                              storeChat(company.whatsApp.businessNumber, number, contact, responseBlock.payload, 'convos')
+                            }
+                          } catch (err) {
+                            const message = err || 'Failed to respond using chatbot'
+                            logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {}, 'error')
+                          }
                         }
                       }
                     })
@@ -245,6 +253,7 @@ function storeChat (from, to, contact, messageData, format) {
       })
   })
 }
+
 function saveNotifications (contact, companyUsers) {
   companyUsers.forEach((companyUser, index) => {
     let notificationsData = {
