@@ -83,7 +83,7 @@ module.exports = function (app) {
       }
 
       const message = err || 'JsonSchemaValidation error'
-      logger.serverLog(message, `${TAG}: exports._callBatchApi`, req.body, {responseData}, 'error')
+      logger.serverLog(message, `${TAG}: general error handler for JsonSchemaValidation errors`, req.body, {responseData}, 'error')
 
       res.status(400).json(responseData)
     } else {
