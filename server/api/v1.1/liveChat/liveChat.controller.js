@@ -252,10 +252,14 @@ exports.create = function (req, res) {
                   scheduledTime: timeNow.setMinutes(timeNow.getMinutes() + 30)
                 }
                 return callApi(`automation_queue`, 'post', automationQueue, 'kiboengage')
+              } else {
+                return null
               }
             })
             .then(automationObject => {
-              callback(null, automationObject)
+              if (automationObject) {
+                callback(null, automationObject)
+              }
             })
             .catch(err => {
               const message = err || 'create live chat error'
