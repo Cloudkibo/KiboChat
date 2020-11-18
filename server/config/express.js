@@ -82,7 +82,7 @@ module.exports = function (app) {
         validations: err.validations
       }
 
-      const message = err || 'JsonSchemaValidation error for r'
+      const message = err || `JsonSchemaValidation error`
       logger.serverLog(message, `${TAG}: ${req.path ? req.path : req.originalUrl}`, req.body, {responseData}, 'error')
 
       res.status(400).json(responseData)
