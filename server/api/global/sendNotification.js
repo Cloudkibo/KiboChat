@@ -61,7 +61,9 @@ const sendMobileNotifications = (expoListToken, title, bodyMessage, data, user) 
         }
       } catch (error) {
         const message = error || 'Error while sending notification'
-        return logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, expoListToken, 'error')
+        if (message && message.code !== 'PUSH_TOO_MANY_EXPERIENCE_IDS') {
+          return logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, expoListToken, 'error')
+        }
       }
     }
   })()
