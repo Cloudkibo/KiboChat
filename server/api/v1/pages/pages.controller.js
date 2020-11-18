@@ -296,7 +296,7 @@ exports.enable = function (req, res) {
 
                                                   // sendOpAlert(resp.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
                                                 } else {
-                                                  _updateWhitlistDomain(req, page)
+                                                  _updateWhiteListDomain(req, page)
                                                   sendSuccessResponse(res, 200, 'Page connected successfully')
                                                 }
                                               })
