@@ -108,18 +108,6 @@ exports.createTeam = function (req, res) {
                 const message = error || 'Failed to create agent'
                 logger.serverLog(message, `${TAG}: exports.createTeam`, req.body, {user: req.user}, 'error')
               })
-          })
-          if (req.body.pageIds) {
-            pageIds.forEach(pageId => {
-              let teamPagesPayload = logicLayer.getTeamPagesPayload(createdTeam, companyuser, pageId)
-              utility.callApi(`teams/pages`, 'post', teamPagesPayload) // create team page
-                .then(createdPage => {
-                })
-                .catch(error => {
-                  const message = error || 'Failed to create page'
-                  logger.serverLog(message, `${TAG}: exports.createTeam`, req.body, {user: req.user}, 'error')
-                })
-            })
           }
         })
         .catch(error => {
