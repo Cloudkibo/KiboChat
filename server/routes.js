@@ -4,6 +4,8 @@ const multiparty = require('connect-multiparty')
 const multipartyMiddleware = multiparty()
 const fs = require('fs')
 const Sentry = require('@sentry/node')
+const logger = require('../components/logger')
+const TAG = 'server/routes.js'
 
 module.exports = function (app) {
   // API middlewares go here
@@ -67,11 +69,14 @@ module.exports = function (app) {
   app.use('/api/shopify', require('./api/v1.1/shopify'))
   app.use('/api/whatsAppChatbot', require('./api/v1.1/whatsAppChatbot'))
   app.use('/api/adminAlerts', require('./api/v1.1/adminAlerts'))
+  app.use('/api/addOns', require('./api/v1.1/addOns'))
   app.use('/api/whatsAppEvents', require('./api/v1.1/whatsAppEvents'))
   app.use('/api/backdoor', require('./api/v1.1/backdoor'))
   app.use('/api/configure/chatbot', require('./api/v1.1/configureChatbot'))
   app.use('/api/bigcommerce', require('./api/v1.1/bigcommerce'))
   app.use('/api/attachment', require('./api/v1.1/attachment'))
+  app.use('/api/backdoor', require('./api/v1.1/backdoor'))
+
   // auth middleware go here if you authenticate on same server
 
   app.get('/', (req, res) => {
@@ -184,6 +189,27 @@ module.exports = function (app) {
     res.redirect('/')
   }).post((req, res) => {
     res.redirect('/')
+  })
+
+  /*
+    Setup a general error handler for JsonSchemaValidation errors.
+  */
+  app.use(function (err, req, res, next) {
+    if (err.name === 'JsonSchemaValidation') {
+      const responseData = {
+        statusText: 'Bad Request',
+        jsonSchemaValidation: true,
+        validations: err.validations
+      }
+
+      const message = err || `JsonSchemaValidation error`
+      logger.serverLog(message, `${TAG}: ${req.path ? req.path : req.originalUrl}`, req.body, {responseData}, 'error')
+
+      res.status(400).json(responseData)
+    } else {
+    // pass error to next error middleware handler
+      next(err)
+    }
   })
 
   if (env === 'production' || env === 'staging') {

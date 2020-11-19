@@ -11,9 +11,13 @@ exports.prepareChat = (from, to, contact, body, format) => {
       status: 'unseen',
       format
     }
-    getMetaData(MessageObject).then(result => {
-      resolve(MessageObject)
-    })
+    getMetaData(MessageObject)
+      .then(result => {
+        resolve(MessageObject)
+      })
+      .catch(err => {
+        reject(err)
+      })
   })
 }
 
@@ -39,8 +43,8 @@ function getMetaData (body) {
             body.url_meta = meta
             resolve(body)
           })
-          .catch(() => {
-            resolve(body)
+          .catch((err) => {
+            reject(err)
           })
       } else {
         resolve(body)
