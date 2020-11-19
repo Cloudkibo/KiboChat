@@ -1,7 +1,7 @@
 const Sentry = require('@sentry/node')
 
 exports.sendAlert = function (message, path, data, otherInfo, level) {
-  const title = message instanceof Error ? message : new Error(message)
+  const title = message instanceof Error ? message : new Error(JSON.stringify(message))
   Sentry.withScope(scope => {
     scope.setExtra('path', path)
     scope.setExtra('data', JSON.stringify(data))
