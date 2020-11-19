@@ -80,10 +80,10 @@ exports.createTeam = function (req, res) {
                       let teamAgentsPayload = logicLayer.getTeamAgentsPayload(createdTeam, companyuser, agentId)
                       utility.callApi(`teams/agents`, 'post', teamAgentsPayload) // create team agent
                         .then(createdAgent => {
-                          logger.serverLog(TAG, 'Team agent created successfully!', 'debug')
                         })
                         .catch(error => {
-                          logger.serverLog(TAG, `Failed to create agent ${JSON.stringify(error)}`, 'error')
+                          const message = error || 'Failed to create agent'
+                          logger.serverLog(message, `${TAG}: exports.createTeam`, req.body, {user: req.user}, 'error')
                         })
                     })
                     if (req.body.pageIds) {
@@ -91,16 +91,18 @@ exports.createTeam = function (req, res) {
                         let teamPagesPayload = logicLayer.getTeamPagesPayload(createdTeam, companyuser, pageId)
                         utility.callApi(`teams/pages`, 'post', teamPagesPayload) // create team page
                           .then(createdPage => {
-                            logger.serverLog(TAG, 'Team page created successfully!', 'debug')
                           })
                           .catch(error => {
-                            logger.serverLog(TAG, `Failed to create page ${JSON.stringify(error)}`, 'error')
+                            const message = error || 'Failed to create page'
+                            logger.serverLog(message, `${TAG}: exports.createTeam`, req.body, {user: req.user}, 'error')
                           })
                       })
                     }
                     sendSuccessResponse(res, 200, 'Team created successfully!')
                   })
                   .catch(error => {
+                    const message = error || 'Failed to create team'
+                    logger.serverLog(message, `${TAG}: exports.createTeam`, req.body, {user: req.user}, 'error')
                     sendErrorResponse(res, 500, `Failed to create team ${JSON.stringify(error)}`)
                   })
               })

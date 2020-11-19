@@ -108,18 +108,18 @@ exports.invite = function (req, res) {
           } else {
             utility.callApi('companyprofile/invite', 'post', {email: req.body.email, name: req.body.name, role: req.body.role}, 'accounts', req.headers.authorization)
               .then((result) => {
-                logger.serverLog(TAG, 'result from invite endpoint accounts', 'debug')
-                logger.serverLog(TAG, result, 'debug')
                 sendSuccessResponse(res, 200, result)
               })
               .catch((err) => {
-                logger.serverLog(TAG, 'result from invite endpoint accounts', 'debug')
-                logger.serverLog(TAG, err, 'debug')
+                const message = err || 'error from invite company profile'
+                logger.serverLog(message, `${TAG}: exports.invite`, req.body, {user: req.user}, 'error')
                 sendErrorResponse(res, 500, err)
               })
           }
         })
         .catch(error => {
+          const message = error || 'error from company usage for feature'
+          logger.serverLog(message, `${TAG}: exports.invite`, req.body, {user: req.user}, 'error')
           sendErrorResponse(res, 500, `Failed to company usage ${JSON.stringify(error)}`)
         })
     })
@@ -146,8 +146,6 @@ exports.updateAutomatedOptions = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
     .then(companyUser => {
       if (!companyUser) {
-        const message = 'The user account does not belong to any company. Please contact support'
-        logger.serverLog(message, `${TAG}: exports.updateAutomatedOptions`, req.body, {user: req.user}, 'error')
         sendErrorResponse(res, 404, '', 'The user account does not belong to any company. Please contact support')
       }
 
@@ -178,8 +176,6 @@ exports.updatePlatform = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
     .then(companyUser => {
       if (!companyUser) {
-        const message = 'The user account does not belong to any company. Please contact support'
-        logger.serverLog(message, `${TAG}: exports.updatePlatform`, req.body, {user: req.user}, 'error')
         sendErrorResponse(res, 404, '', 'The user account does not belong to any company. Please contact support')
       }
       needle.get(
@@ -276,8 +272,6 @@ const _updateCompanyProfile = (data, next) => {
       next(null, updatedProfile)
     })
     .catch(err => {
-      const message = err || 'error in updating company'
-      logger.serverLog(message, `${TAG}: exports._updateCompanyProfile`, {}, { data }, 'error')
       next(err)
     })
   // } else {
@@ -294,8 +288,6 @@ const _updateUser = (data, next) => {
           next(null, data)
         })
         .catch(err => {
-          const message = err || 'error in updating user'
-          logger.serverLog(message, `${TAG}: exports._updateUser`, {}, { data }, 'error')
           next(err)
         })
     }).catch(err => {
@@ -309,8 +301,6 @@ const _setWebhook = (data, next) => {
       next(null, data)
     })
     .catch(error => {
-      const message = error || 'error in whatsapp mapper'
-      logger.serverLog(message, `${TAG}: exports._setWebhook`, {}, { data }, 'error')
       next(error)
     })
 }
@@ -320,8 +310,6 @@ const _verifyCredentials = (data, next) => {
       next(null, data)
     })
     .catch(error => {
-      const message = error || 'error in whatsapp mapper'
-      logger.serverLog(message, `${TAG}: exports._verifyCredentials`, {}, { data }, 'error')
       next(error)
     })
 }
@@ -484,6 +472,8 @@ exports.getKeys = function (req, res) {
       res.status(200).json({status: 'success', captchaKey: result.captchaKey, stripeKey: result.stripeKey})
     })
     .catch((err) => {
+      const message = err || 'error in getting keys in companyprofile'
+      logger.serverLog(message, `${TAG}: exports.getKeys`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err)
     })
 }
@@ -494,6 +484,8 @@ exports.setCard = function (req, res) {
       sendSuccessResponse(res, 200, result)
     })
     .catch((err) => {
+      const message = err || 'error in setting card in companyprofile'
+      logger.serverLog(message, `${TAG}: exports.setCard`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err)
     })
 }
@@ -504,6 +496,8 @@ exports.updatePlan = function (req, res) {
       sendSuccessResponse(res, 200, result)
     })
     .catch((err) => {
+      const message = err || 'error in updating plan in companyprofile'
+      logger.serverLog(message, `${TAG}: exports.updatePlan`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', err)
     })
 }
@@ -511,11 +505,11 @@ exports.updatePlan = function (req, res) {
 exports.updateRole = function (req, res) {
   utility.callApi('companyprofile/updateRole', 'post', {role: req.body.role, domain_email: req.body.domain_email}, 'accounts', req.headers.authorization)
     .then((result) => {
-      logger.serverLog(TAG, 'result from invite endpoint accounts', 'debug')
-      logger.serverLog(TAG, result, 'debug')
       res.status(200).json({status: 'success', payload: result})
     })
     .catch((err) => {
+      const message = err || 'error in updating role in companyprofile'
+      logger.serverLog(message, `${TAG}: exports.updateRole`, req.body, {user: req.user}, 'error')
       res.status(500).json({status: 'failed', payload: `${JSON.stringify(err)}`})
     })
 }
@@ -543,8 +537,6 @@ exports.deleteWhatsAppInfo = function (req, res) {
                   callback(null, data)
                 })
                 .catch(err => {
-                  const message = err || 'Failed to update company profile'
-                  logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, req.body, {user: req.user}, 'error')
                   callback(err)
                 })
             },
@@ -558,8 +550,6 @@ exports.deleteWhatsAppInfo = function (req, res) {
                       callback(null)
                     })
                     .catch(err => {
-                      const message = err || 'Failed to update user profile'
-                      logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, req.body, {user: req.user}, 'error')
                       callback(err)
                     })
                 }).catch(err => {
@@ -574,8 +564,6 @@ exports.deleteWhatsAppInfo = function (req, res) {
                     callback(null, data)
                   })
                   .catch(err => {
-                    const message = err || 'whatsapp contact delete many'
-                    logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, req.body, {user: req.user}, 'error')
                     callback(err)
                   })
               } else {
@@ -593,8 +581,6 @@ exports.deleteWhatsAppInfo = function (req, res) {
                     callback(null, data)
                   })
                   .catch(err => {
-                    const message = err || 'whatsapp broadcast delete error'
-                    logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, req.body, {user: req.user}, 'error')
                     callback(err)
                   })
               } else {
@@ -612,8 +598,6 @@ exports.deleteWhatsAppInfo = function (req, res) {
                     callback(null, data)
                   })
                   .catch(err => {
-                    const message = err || 'whatsapp broadcast messages delete error'
-                    logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, req.body, {user: req.user}, 'error')
                     callback(err)
                   })
               } else {
@@ -632,8 +616,6 @@ exports.deleteWhatsAppInfo = function (req, res) {
                     callback(null, data)
                   })
                   .catch(err => {
-                    const message = err || 'whatsapp chat messages delete error'
-                    logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, req.body, {user: req.user}, 'error')
                     callback(err)
                   })
               } else {

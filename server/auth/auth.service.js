@@ -212,6 +212,8 @@ function isUserAllowedToPerformThisAction (action) {
         }
       })
       .catch(err => {
+        const message = err || 'error in getting permissions'
+        logger.serverLog(message, `${TAG}: exports.isUserAllowedToPerformThisAction`, {}, {action, user: req.user}, 'error')
         return res.status(500).json({status: 'failed', description: `Internal Server Error: ${err}`})
       })
   })
@@ -479,7 +481,8 @@ function fetchPages (url, user, req, token) {
             }
             needle.get(options2.url, options2, (error, fanCount) => {
               if (error !== null) {
-                return logger.serverLog(TAG, `Error occurred ${error}`)
+                const message = err || 'effor from graph api of facebook, fan_count and username'
+                return logger.serverLog(message, `${TAG}: exports.fetchPages`, {}, {url, user}, 'error')
               } else {
                 // logger.serverLog(TAG, `Data by fb for page likes ${JSON.stringify(
                 //   fanCount.body.fan_count)}`)
