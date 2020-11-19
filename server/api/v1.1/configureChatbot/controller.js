@@ -81,14 +81,14 @@ exports.update = function (req, res) {
             })
             .catch(error => {
               const message = error || 'Failed to update chatbot.'
-              logger.serverLog(message, `${TAG}: exports.update`, req.body, {}, 'error')
+              logger.serverLog(message, `${TAG}: exports.update`, req.body, {user: req.user, records}, 'error')
               return sendErrorResponse(res, 500, error, 'Failed to update chatbot.')
             })
         }
       })
       .catch(error => {
         const message = error || 'Failed to update chatbot.'
-        logger.serverLog(message, `${TAG}: exports.update`, req.body, {}, 'error')
+        logger.serverLog(message, `${TAG}: exports.update`, req.body, {user: req.user}, 'error')
         return sendErrorResponse(res, 500, error, 'Failed to update chatbot.')
       })
   } else {
@@ -98,7 +98,7 @@ exports.update = function (req, res) {
       })
       .catch(error => {
         const message = error || 'Failed to update chatbot.'
-        logger.serverLog(message, `${TAG}: exports.update`, req.body, {}, 'error')
+        logger.serverLog(message, `${TAG}: exports.update`, req.body, {user: req.user}, 'error')
         return sendErrorResponse(res, 500, error, 'Failed to update chatbot.')
       })
   }
@@ -116,7 +116,7 @@ exports.handleBlock = function (req, res) {
           })
           .catch(error => {
             const message = error || 'Failed to create chatbot.'
-            logger.serverLog(message, `${TAG}: exports.handleBlock`, req.body, {}, 'error')
+            logger.serverLog(message, `${TAG}: exports.handleBlock`, req.body, {user: req.user, block}, 'error')
             return sendErrorResponse(res, 500, error, 'Failed to create chatbot.')
           })
       } else {
@@ -126,14 +126,14 @@ exports.handleBlock = function (req, res) {
           })
           .catch(error => {
             const message = error || 'Failed to create chatbot.'
-            logger.serverLog(message, `${TAG}: exports.handleBlock`, req.body, {}, 'error')
+            logger.serverLog(message, `${TAG}: exports.handleBlock`, req.body, {user: req.user}, 'error')
             return sendErrorResponse(res, 500, error, 'Failed to create chatbot block')
           })
       }
     })
     .catch(error => {
       const message = error || 'Failed to fetch chatbot records.'
-      logger.serverLog(message, `${TAG}: exports.handleBlock`, req.body, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.handleBlock`, req.body, {user: req.user}, 'error')
       return sendErrorResponse(res, 500, error, 'Failed to fetch chatbot records')
     })
 }
@@ -145,7 +145,7 @@ exports.deleteBlock = function (req, res) {
     })
     .catch(error => {
       const message = error || 'Failed to delete chatbot.'
-      logger.serverLog(message, `${TAG}: exports.deleteBlock`, req.body, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.deleteBlock`, req.body, {user: req.user}, 'error')
       return sendErrorResponse(res, 500, error, 'Failed to delete chatbot.')
     })
 }
