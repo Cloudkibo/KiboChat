@@ -587,7 +587,7 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider, arg
       let category = productCategories[i]
       messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${category.name}`
       messageBlock.payload[0].menu.push({
-        type: DYNAMIC, action: FETCH_PRODUCTS, argument: category.id
+        type: DYNAMIC, action: FETCH_PRODUCTS, argument: {categoryId: category.id}
       })
     }
     if (productCategories.nextPageParameters) {
