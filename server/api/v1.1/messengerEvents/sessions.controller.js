@@ -345,12 +345,13 @@ function sendautomatedmsg (req, page) {
                   text: 'You have subscribed to our broadcasts. Send "stop" to unsubscribe',
                   'metadata': 'This is a meta data'
                 }
-                utility.callApi(`subscribers`, 'put', { query: { senderId: req.sender.id }, newPayload: { isSubscribed: true }, options: {} })
+                utility.callApi(`subscribers/update`, 'put', { query: { senderId: req.sender.id }, newPayload: { isSubscribed: true }, options: {} })
                   .then(updated => {
+                    logger.serverLog('Subscriber isSubscribed Updated', `${TAG}: exports.sendautomatedmsg`, {}, {req: JSON.stringify(req)}, 'debug')
                   })
                   .catch(error => {
                     const message = error || 'Failed to update subscriber'
-                    return logger.serverLog(message, `${TAG}: exports.sendautomatedmsg`, {}, {req}, 'error')
+                    return logger.serverLog(message, `${TAG}: exports.sendautomatedmsg`, {}, {req: JSON.stringify(req)}, 'error')
                   })
                 const data = {
                   messaging_type: 'RESPONSE',
