@@ -3,16 +3,14 @@ const logicLayer = require('./liveChat.logiclayer')
 const TAG = '/api/v1/liveChat/liveChat.controller.js'
 const og = require('open-graph')
 const { callApi } = require('../utility')
-const needle = require('needle')
 const request = require('request')
-const webhookUtility = require('../notifications/notifications.utility')
 // const util = require('util')
 const async = require('async')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const { record } = require('../../global/messageStatistics')
-const { sendOpAlert } = require('../../global/operationalAlert')
 const { deletePendingSessionFromStack } = require('../../global/messageAlerts')
 const { sendWebhook } = require('../../global/sendWebhook')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 
 exports.index = function (req, res) {
   if (req.params.subscriber_id) {
@@ -34,6 +32,8 @@ exports.index = function (req, res) {
         sendSuccessResponse(res, 200, payload)
       })
       .catch(err => {
+        const message = err || 'Error in fetching live chat'
+        logger.serverLog(message, `${TAG}: exports.index`, req.body, {user: req.user, params: req.params}, 'error')
         sendErrorResponse(res, 500, err)
       })
   } else {
@@ -59,6 +59,8 @@ exports.search = function (req, res) {
       sendSuccessResponse(res, 200, chats)
     })
     .catch(err => {
+      const message = err || 'Error in searching live chat'
+      logger.serverLog(message, `${TAG}: exports.search`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', err)
     })
 }
@@ -124,6 +126,7 @@ exports.create = function (req, res) {
       }
       callApi(`subscribers/update`, 'put', subscriberData)
         .then(updated => {
+          updateCompanyUsage(req.user.companyId, 'chat_messages', 1)
           _removeSubsWaitingForUserInput(req.body.subscriber_id)
           fbMessageObject.datetime = new Date()
           callback(null, updated)
@@ -214,6 +217,8 @@ exports.create = function (req, res) {
     }
   ], 10, function (err, results) {
     if (err) {
+      const message = err || 'Error in callback function in async'
+      logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
       return res.status(500).json({status: 'failed', payload: err})
     } else {
       let fbMessageObject = results[0]
@@ -234,6 +239,7 @@ exports.create = function (req, res) {
             .then(bot => {
               if (!bot) {
                 callback(null, 'No bot found!')
+                return null
               } else {
                 // TODO This is crashing when agent has a bot and sending an attahment from livechat
                 botId = bot._id
@@ -244,29 +250,35 @@ exports.create = function (req, res) {
               }
             })
             .then(result => {
-              let timeNow = new Date()
-              let automationQueue = {
-                automatedMessageId: botId,
-                subscriberId: subscriber._id,
-                companyId: req.body.company_id,
-                type: 'bot',
-                scheduledTime: timeNow.setMinutes(timeNow.getMinutes() + 30)
+              if (result) {
+                let timeNow = new Date()
+                let automationQueue = {
+                  automatedMessageId: botId,
+                  subscriberId: subscriber._id,
+                  companyId: req.body.company_id,
+                  type: 'bot',
+                  scheduledTime: timeNow.setMinutes(timeNow.getMinutes() + 30)
+                }
+                return callApi(`automation_queue`, 'post', automationQueue, 'kiboengage')
+              } else {
+                return null
               }
-              return callApi(`automation_queue`, 'post', automationQueue, 'kiboengage')
             })
             .then(automationObject => {
-              callback(null, automationObject)
+              if (automationObject) {
+                callback(null, automationObject)
+              }
             })
             .catch(err => {
               const message = err || 'create live chat error'
-              logger.serverLog(message, `${TAG}: exports.create`, {}, {}, 'error')
+              logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
               callback(err)
             })
         }
       ], 10, function (err, values) {
         if (err) {
           const message = err || 'Meta data not found'
-          logger.serverLog(message, `${TAG}: exports.create`, {}, {}, 'error')
+          logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
           sendErrorResponse(res, 400, 'Meta data not found')
         } else {
           fbMessageObject._id = req.body._id
@@ -299,6 +311,6 @@ const _removeSubsWaitingForUserInput = (subscriberId) => {
     })
     .catch(err => {
       const message = err || 'Failed to update subscriber'
-      logger.serverLog(message, `${TAG}: exports._removeSubsWaitingForUserInput`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports._removeSubsWaitingForUserInput`, {}, {waitingForUserInput, subscriberId}, 'error')
     })
 }

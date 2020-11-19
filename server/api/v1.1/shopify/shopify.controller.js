@@ -43,6 +43,8 @@ exports.index = function (req, res) {
       })
       .catch(err => {
         if (err) {
+          const message = err || 'Error in finding companyuser for shopify'
+          logger.serverLog(message, `${TAG}: exports.index`, req.body, { user: req.user }, 'error')
           return res.status(500).send('Error in finding companyuser for shopify')
         }
       })
@@ -110,10 +112,11 @@ function registerWebhooks (shop, token) {
 }
 
 exports.handleAppUninstall = async function (req, res) {
+  console.log('shopify handleAppUninstall')
   const shopUrl = req.header('X-Shopify-Shop-Domain')
   try {
     const shopifyIntegration = await dataLayer.findOneShopifyIntegration({ shopUrl: shopUrl })
-
+    console.log('shopifyIntegration', shopifyIntegration)
     dataLayer.deleteShopifyIntegration({
       shopToken: shopifyIntegration.shopToken,
       shopUrl: shopifyIntegration.shopUrl,
@@ -152,6 +155,8 @@ exports.handleAppUninstall = async function (req, res) {
     })
     res.status(200).json({ status: 'success' })
   } catch (err) {
+    const message = err || 'Error in handling app uninstall'
+    logger.serverLog(message, `${TAG}: exports.handleAppUninstall`, {}, { header: req.header }, 'error')
     return res.status(500).json({ status: 'failed', error: err })
   }
 }
@@ -283,6 +288,8 @@ exports.fetchStore = (req, res) => {
       sendSuccessResponse(res, 200, shop)
     })
     .catch(err => {
+      const message = err || 'Failed to fetch shop info'
+      logger.serverLog(message, `${TAG}: exports.fetchStore`, {}, { user: req.user }, 'error')
       sendErrorResponse(res, 500, `Failed to fetch shop info ${JSON.stringify(err)}`)
     })
 }

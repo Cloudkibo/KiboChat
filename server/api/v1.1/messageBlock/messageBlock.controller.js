@@ -21,12 +21,17 @@ exports.create = function (req, res) {
         if (messageBlock.upserted) updatePayload.startingBlockId = messageBlock.upserted[0]._id
         chatbotDataLayer.genericUpdateChatBot(
           { _id: req.body.chatbotId }, updatePayload)
-          .then(updated => logger.serverLog(TAG, `chatbot updated for triggers ${JSON.stringify(updated)}`))
-          .catch(error => logger.serverLog(TAG, `error in chatbot update for triggers ${JSON.stringify(error)}`))
+          .then(updated => {})
+          .catch(error => {
+            const message = error || 'error in chatbot update for triggers'
+            logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
+          })
       }
       return sendSuccessResponse(res, 201, messageBlock, 'Created or updated successfully')
     })
     .catch(error => {
+      const message = error || 'Failed to create the message block'
+      logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
       return sendErrorResponse(res, 500, error, 'Failed to create the message block.')
     })
 }
@@ -53,11 +58,15 @@ exports.attachment = function (req, res) {
                 }
               })
               .catch(error => {
+                const message = error || 'Failed to upload youtube video to facebook.'
+                logger.serverLog(message, `${TAG}: exports.attachment`, req.body, {user: req.user}, 'error')
                 return sendErrorResponse(res, 500, error.body, 'Failed to upload youtube video to facebook. Check with admin.')
               })
           }
         })
         .catch(error => {
+          const message = error || 'Failed to work on the attachment'
+          logger.serverLog(message, `${TAG}: exports.attachment`, req.body, {user: req.user}, 'error')
           return sendErrorResponse(res, 500, error.body, 'Failed to work on the attachment. Please contact admin.')
         })
     } else {
@@ -90,6 +99,8 @@ function fetchMetaData (req, res) {
   let options = { url }
   ogs(options, (error, results) => {
     if (error) {
+      const message = error || 'Failed to fetch youtube video url meta data.'
+      logger.serverLog(message, `${TAG}: exports.fetchMetaData`, req.body, {user: req.user}, 'error')
       return sendErrorResponse(res, 500, error, 'Failed to fetch youtube video url meta data.')
     }
     return sendSuccessResponse(res, 200, results.data, 'Fetched youtube video')
@@ -113,6 +124,8 @@ exports.delete = function (req, res) {
       return res.status(201).json({ status: 'success', payload: messageBlock })
     })
     .catch(error => {
+      const message = error || 'Failed to delete messageBlock'
+      logger.serverLog(message, `${TAG}: exports.delete`, req.body, {user: req.user}, 'error')
       return res.status(500).json({ status: 'failed', payload: `Failed to delete messageBlock ${error}` })
     })
 }
@@ -126,6 +139,8 @@ exports.scriptChatbotBlocks = function (req, res) {
       return res.status(201).json({ status: 'success', payload: messageBlocks })
     })
     .catch(error => {
+      const message = error || 'Failed to find chatbot blocks'
+      logger.serverLog(message, `${TAG}: exports.scriptChatbotBlocks`, {}, {user: req.user}, 'error')
       return res.status(500).json({ status: 'failed', payload: `Failed script ${error}` })
     })
 }
@@ -150,12 +165,12 @@ function updateUrlForClickCount (payload) {
                 })
                 .catch(err => {
                   const message = err || 'error in updating Url'
-                  return logger.serverLog(message, `${TAG}: exports.updateUrlForClickCount`, {}, payload, 'error')
+                  return logger.serverLog(message, `${TAG}: exports.updateUrlForClickCount`, {}, {payload}, 'error')
                 })
             })
             .catch(err => {
               const message = err || 'error in fetching Url'
-              logger.serverLog(message, `${TAG}: exports.updateUrlForClickCount`, {}, payload, 'error')
+              logger.serverLog(message, `${TAG}: exports.updateUrlForClickCount`, {}, {payload}, 'error')
             })
         } else {
           urlDataLayer.updateOneURL(foundUrl._id, { originalURL: payload.payload[1].buttons[0].url })
@@ -166,18 +181,18 @@ function updateUrlForClickCount (payload) {
                 })
                 .catch(err => {
                   const message = err || 'error in updating Url'
-                  logger.serverLog(message, `${TAG}: exports.updateUrlForClickCount`, {}, payload, 'error')
+                  logger.serverLog(message, `${TAG}: exports.updateUrlForClickCount`, {}, {payload}, 'error')
                 })
             })
             .catch(err => {
               const message = err || 'error in updating Url'
-              logger.serverLog(message, `${TAG}: exports.updateUrlForClickCount`, {}, payload, 'error')
+              logger.serverLog(message, `${TAG}: exports.updateUrlForClickCount`, {}, {payload}, 'error')
             })
         }
       })
       .catch(err => {
         const message = err || 'error in fetching Url'
-        logger.serverLog(message, `${TAG}: exports.updateUrlForClickCount`, {}, payload, 'error')
+        logger.serverLog(message, `${TAG}: exports.updateUrlForClickCount`, {}, {payload}, 'error')
       })
   }
 }

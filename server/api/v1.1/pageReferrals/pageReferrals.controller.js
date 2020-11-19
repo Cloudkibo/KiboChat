@@ -1,6 +1,8 @@
 const utility = require('../utility')
 const logicLayer = require('./pageReferrals.logiclayer')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
+const logger = require('../../../components/logger')
+const TAG = 'api/v1/notifications/notifications.utility.js'
 
 exports.index = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
@@ -13,10 +15,14 @@ exports.index = function (req, res) {
           sendSuccessResponse(res, 200, pageReferrals)
         })
         .catch(error => {
+          const message = error || 'Failed to fetch pageReferrals'
+          logger.serverLog(message, `${TAG}: exports.index`, {}, {user: req.user}, 'error')
           sendErrorResponse(res, 500, `Failed to fetch pageReferrals ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.index`, {}, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
@@ -26,6 +32,8 @@ exports.view = function (req, res) {
       sendSuccessResponse(res, 200, pageReferrals[0])
     })
     .catch(error => {
+      const message = error || 'Failed to fetch pageReferral'
+      logger.serverLog(message, `${TAG}: exports.view`, {}, {user: req.user, params: req.params}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch pageReferral ${JSON.stringify(error)}`)
     })
 }
@@ -35,6 +43,8 @@ exports.delete = function (req, res) {
       sendSuccessResponse(res, 200, result)
     })
     .catch(error => {
+      const message = error || 'Failed to delete pageReferral'
+      logger.serverLog(message, `${TAG}: exports.delete`, {}, {user: req.user, params: req.params}, 'error')
       sendErrorResponse(res, 500, `Failed to delete pageReferral ${JSON.stringify(error)}`)
     })
 }
@@ -57,6 +67,8 @@ exports.create = function (req, res) {
                       sendSuccessResponse(res, 200, craetedPageReferral)
                     })
                     .catch(error => {
+                      const message = error || 'Failed to create pageReferral'
+                      logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user, params: req.params}, 'error')
                       sendErrorResponse(res, 500, `Failed to create pageReferral ${JSON.stringify(error)}`)
                     })
                 }
@@ -67,15 +79,21 @@ exports.create = function (req, res) {
                 sendSuccessResponse(res, 200, craetedPageReferral)
               })
               .catch(error => {
+                const message = error || 'Failed to create pageReferral'
+                logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user, params: req.params}, 'error')
                 sendErrorResponse(res, 500, `Failed to create pageReferral ${JSON.stringify(error)}`)
               })
           }
         })
         .catch(error => {
+          const message = error || 'Failed to fetch pageReferral'
+          logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user, params: req.params}, 'error')
           sendErrorResponse(res, 500, `Failed to fetch pageReferrals ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user, params: req.params}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
@@ -98,6 +116,8 @@ exports.update = function (req, res) {
                       sendSuccessResponse(res, 200, updatedPageReferral)
                     })
                     .catch(error => {
+                      const message = error || 'Failed to update pageReferral'
+                      logger.serverLog(message, `${TAG}: exports.update`, req.body, {user: req.user}, 'error')
                       sendErrorResponse(res, 500, `Failed to update pageReferral ${JSON.stringify(error)}`)
                     })
                 }
@@ -108,15 +128,21 @@ exports.update = function (req, res) {
                 sendSuccessResponse(res, 200, updatedPageReferral)
               })
               .catch(error => {
+                const message = error || 'Failed to update pageReferral'
+                logger.serverLog(message, `${TAG}: exports.update`, req.body, {user: req.user}, 'error')
                 sendErrorResponse(res, 500, `Failed to update pageReferral ${JSON.stringify(error)}`)
               })
           }
         })
         .catch(error => {
+          const message = error || 'Failed to fetch pageReferral'
+          logger.serverLog(message, `${TAG}: exports.update`, req.body, {user: req.user}, 'error')
           sendErrorResponse(res, 500, `Failed to fetch pageReferrals ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.update`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }

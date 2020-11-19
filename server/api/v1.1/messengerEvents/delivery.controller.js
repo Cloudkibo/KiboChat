@@ -29,11 +29,11 @@ function updateChatDelivered (req) {
         })
         .catch(err => {
           const message = err || 'ERROR at fetching session'
-          return logger.serverLog(message, `${TAG}: exports.updateChatDelivered`, {}, req, 'error')
+          return logger.serverLog(message, `${TAG}: exports.updateChatDelivered`, {}, {req}, 'error')
         })
     })
     .catch(err => {
       const message = err || 'ERROR at updating LiveChat delivered'
-      return logger.serverLog(message, `${TAG}: exports.updateChatDelivered`, {}, req, 'error')
+      return logger.serverLog(message, `${TAG}: exports.updateChatDelivered`, {}, {req}, 'error')
     })
 }

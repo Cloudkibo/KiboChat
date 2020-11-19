@@ -1,5 +1,7 @@
 const utility = require('../utility')
 const logicLayer = require('./lists.logiclayer')
+const logger = require('../../../components/logger')
+const TAG = 'api/lists/lists.controller.js'
 
 exports.allLists = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email })
@@ -15,6 +17,8 @@ exports.allLists = function (req, res) {
           return res.status(201).json({status: 'success', payload: lists})
         })
         .catch(error => {
+          const message = error || 'error in all lists'
+          logger.serverLog(message, `${TAG}: exports.allLists`, req.body, { user: req.user }, 'error')
           return res.status(500).json({
             status: 'failed',
             payload: `Failed to fetch lists ${JSON.stringify(error)}`
@@ -22,6 +26,8 @@ exports.allLists = function (req, res) {
         })
     })
     .catch(error => {
+      const message = error || 'error in all lists'
+      logger.serverLog(message, `${TAG}: exports.allLists`, req.body, { user: req.user }, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to fetch company user ${JSON.stringify(error)}`
@@ -50,6 +56,8 @@ exports.getAll = function (req, res) {
               }
             })
             .catch(error => {
+              const message = error || 'error in get all'
+              logger.serverLog(message, `${TAG}: exports.getAll`, req.body, { user: req.user }, 'error')
               return res.status(500).json({
                 status: 'failed',
                 payload: `Failed to fetch lists ${JSON.stringify(error)}`
@@ -57,6 +65,8 @@ exports.getAll = function (req, res) {
             })
         })
         .catch(error => {
+          const message = error || 'error in get all'
+          logger.serverLog(message, `${TAG}: exports.getAll`, req.body, { user: req.user }, 'error')
           return res.status(500).json({
             status: 'failed',
             payload: `Failed to fetch list count ${JSON.stringify(error)}`
@@ -64,6 +74,8 @@ exports.getAll = function (req, res) {
         })
     })
     .catch(error => {
+      const message = error || 'error in get all'
+      logger.serverLog(message, `${TAG}: exports.getAll`, req.body, { user: req.user }, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to fetch company user ${JSON.stringify(error)}`
@@ -104,6 +116,8 @@ exports.createList = function (req, res) {
                     .then(updated => {
                     })
                     .catch(error => {
+                      const message = error || 'error in update company'
+                      logger.serverLog(message, `${TAG}: exports.createList`, req.body, { user: req.user }, 'error')
                       return res.status(500).json({
                         status: 'failed',
                         payload: `Failed to update company usage ${JSON.stringify(error)}`
@@ -112,6 +126,8 @@ exports.createList = function (req, res) {
                   return res.status(201).json({status: 'success', payload: listCreated})
                 })
                 .catch(error => {
+                  const message = error || 'error in create list'
+                  logger.serverLog(message, `${TAG}: exports.createList`, req.body, { user: req.user }, 'error')
                   return res.status(500).json({
                     status: 'failed',
                     payload: `Failed to create list ${JSON.stringify(error)}`
@@ -119,6 +135,8 @@ exports.createList = function (req, res) {
                 })
             })
             .catch(error => {
+              const message = error || 'error in getting feature usage'
+              logger.serverLog(message, `${TAG}: exports.createList`, req.body, { user: req.user }, 'error')
               return res.status(500).json({
                 status: 'failed',
                 payload: `Failed to fetch company usage ${JSON.stringify(error)}`
@@ -126,6 +144,8 @@ exports.createList = function (req, res) {
             })
         })
         .catch(error => {
+          const message = error || 'error in getting plan'
+          logger.serverLog(message, `${TAG}: exports.createList`, req.body, { user: req.user }, 'error')
           return res.status(500).json({
             status: 'failed',
             payload: `Failed to plan usage ${JSON.stringify(error)}`
@@ -133,6 +153,8 @@ exports.createList = function (req, res) {
         })
     })
     .catch(error => {
+      const message = error || 'error in getting company user'
+      logger.serverLog(message, `${TAG}: exports.createList`, req.body, { user: req.user }, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to company profile ${JSON.stringify(error)}`
@@ -149,6 +171,8 @@ exports.editList = function (req, res) {
       return res.status(200).json({status: 'success', payload: savedList})
     })
     .catch(error => {
+      const message = error || 'error in edit list'
+      logger.serverLog(message, `${TAG}: exports.editList`, req.body, { user: req.user }, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to edit ${JSON.stringify(error)}`
@@ -180,6 +204,8 @@ exports.viewList = function (req, res) {
                           return res.status(201).json({status: 'success', payload: subscribers})
                         })
                         .catch(error => {
+                          const message = error || 'error in view list'
+                          logger.serverLog(message, `${TAG}: exports.viewList`, req.body, { user: req.user }, 'error')
                           return res.status(500).json({
                             status: 'failed',
                             payload: `Failed to fetch list content ${JSON.stringify(error)}`
@@ -187,6 +213,8 @@ exports.viewList = function (req, res) {
                         })
                     })
                     .catch(error => {
+                      const message = error || 'Failed to fetch subscribers'
+                      logger.serverLog(message, `${TAG}: exports.viewList`, req.body, { user: req.user }, 'error')
                       return res.status(500).json({
                         status: 'failed',
                         payload: `Failed to fetch subscribers ${JSON.stringify(error)}`
@@ -200,6 +228,8 @@ exports.viewList = function (req, res) {
                 }
               })
               .catch(error => {
+                const message = error || 'Failed to fetch numbers'
+                logger.serverLog(message, `${TAG}: exports.viewList`, req.body, { user: req.user }, 'error')
                 return res.status(500).json({
                   status: 'failed',
                   payload: `Failed to fetch numbers ${JSON.stringify(error)}`
@@ -213,6 +243,8 @@ exports.viewList = function (req, res) {
                   .json({status: 'success', payload: subscribers})
               })
               .catch(error => {
+                const message = error || 'Failed to fetch subscribers'
+                logger.serverLog(message, `${TAG}: exports.viewList`, req.body, { user: req.user }, 'error')
                 return res.status(500).json({
                   status: 'failed',
                   payload: `Failed to fetch subscribers ${JSON.stringify(error)}`
@@ -221,6 +253,8 @@ exports.viewList = function (req, res) {
           }
         })
         .catch(error => {
+          const message = error || 'Failed to fetch list'
+          logger.serverLog(message, `${TAG}: exports.viewList`, req.body, { user: req.user }, 'error')
           return res.status(500).json({
             status: 'failed',
             payload: `Failed to fetch list ${JSON.stringify(error)}`
@@ -228,6 +262,8 @@ exports.viewList = function (req, res) {
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.viewList`, req.body, { user: req.user }, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to fetch company user ${JSON.stringify(error)}`
@@ -246,6 +282,8 @@ exports.deleteList = function (req, res) {
           })
             .then(updated => {})
             .catch(error => {
+              const message = error || 'Failed to update company usage'
+              logger.serverLog(message, `${TAG}: exports.deleteList`, req.body, { user: req.user }, 'error')
               return res.status(500).json({
                 status: 'failed',
                 payload: `Failed to update company usage ${JSON.stringify(error)}`
@@ -254,6 +292,8 @@ exports.deleteList = function (req, res) {
           res.status(201).json({status: 'success', payload: result})
         })
         .catch(error => {
+          const message = error || 'Failed to delete list'
+          logger.serverLog(message, `${TAG}: exports.deleteList`, req.body, { user: req.user }, 'error')
           return res.status(500).json({
             status: 'failed',
             payload: `Failed to delete list ${JSON.stringify(error)}`
@@ -261,6 +301,8 @@ exports.deleteList = function (req, res) {
         })
     })
     .catch(error => {
+      const message = error || 'Failed to delete list'
+      logger.serverLog(message, `${TAG}: exports.deleteList`, req.body, { user: req.user }, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to delete list ${JSON.stringify(error)}`

@@ -41,6 +41,8 @@ exports.upload = function (req, res) {
                 .then(savedList => {
                   fs.rename(req.files.file.path, directory.dir + '/userfiles/' + directory.serverPath, err => {
                     if (err) {
+                      const message = err || 'internal server error'
+                      logger.serverLog(message, `${TAG}: exports.upload`, req.body, {user: req.user, files: req.files}, 'error')
                       return res.status(500).json({
                         status: 'failed',
                         description: 'internal server error' + JSON.stringify(err)
@@ -82,12 +84,12 @@ exports.upload = function (req, res) {
                                       .then(updated => {})
                                       .catch(error => {
                                         const message = error || 'Failed to update company usage'
-                                        logger.serverLog(message, `${TAG}: exports.upload`, {}, {}, 'error')
+                                        logger.serverLog(message, `${TAG}: exports.upload`, req.body, {user: req.user, files: req.files}, 'error')
                                       })
                                   })
                                   .catch(error => {
                                     const message = error || 'Failed to save phone number'
-                                    logger.serverLog(message, `${TAG}: exports.upload`, {}, {}, 'error')
+                                    logger.serverLog(message, `${TAG}: exports.upload`, req.body, {user: req.user, files: req.files}, 'error')
                                   })
                               } else {
                                 let filename = logicLayer.getFiles(phone[0], req, newFileName)
@@ -115,29 +117,29 @@ exports.upload = function (req, res) {
                                                 })
                                                 .catch(error => {
                                                   const message = error || 'Failed to update list'
-                                                  logger.serverLog(message, `${TAG}: exports.upload`, {}, {}, 'error')
+                                                  logger.serverLog(message, `${TAG}: exports.upload`, req.body, {user: req.user, files: req.files}, 'error')
                                                 })
                                             })
                                             .catch(error => {
                                               const message = error || 'Failed to fetch subscribers'
-                                              logger.serverLog(message, `${TAG}: exports.upload`, {}, {}, 'error')
+                                              logger.serverLog(message, `${TAG}: exports.upload`, req.body, {user: req.user, files: req.files}, 'error')
                                             })
                                         }
                                       })
                                       .catch(error => {
                                         const message = error || 'Failed to update number'
-                                        logger.serverLog(message, `${TAG}: exports.upload`, {}, {}, 'error')
+                                        logger.serverLog(message, `${TAG}: exports.upload`, req.body, {user: req.user, files: req.files}, 'error')
                                       })
                                   })
                                   .catch(error => {
                                     const message = error || 'Failed to update number'
-                                    logger.serverLog(message, `${TAG}: exports.upload`, {}, {}, 'error')
+                                    logger.serverLog(message, `${TAG}: exports.upload`, req.body, {user: req.user, files: req.files}, 'error')
                                   })
                               }
                             })
                             .catch(error => {
                               const message = error || 'Failed to update number'
-                              logger.serverLog(message, `${TAG}: exports.upload`, {}, {}, 'error')
+                              logger.serverLog(message, `${TAG}: exports.upload`, req.body, {user: req.user, files: req.files}, 'error')
                             })
                           utility.callApi(`pages/query`, 'post', {userId: req.user._id, connected: true, pageId: req.body.pageId})
                             .then(pages => {
@@ -163,14 +165,14 @@ exports.upload = function (req, res) {
                                   function (err, res) {
                                     if (err) {
                                       const message = err || 'At invite to messenger using phone'
-                                      return logger.serverLog(message, `${TAG}: exports.upload`, {}, {}, 'error')
+                                      return logger.serverLog(message, `${TAG}: exports.upload`, req.body, {user: req.user, files: req.files}, 'error')
                                     }
                                   })
                               })
                             })
                             .catch(error => {
                               const message = error || 'Failed to fetch pages'
-                              logger.serverLog(message, `${TAG}: exports.upload`, {}, {}, 'error')
+                              logger.serverLog(message, `${TAG}: exports.upload`, req.body, {user: req.user, files: req.files}, 'error')
                             })
                           if (respSent === false) {
                             respSent = true
@@ -191,6 +193,8 @@ exports.upload = function (req, res) {
                   })
                 })
                 .catch(error => {
+                  const message = error || 'Failed to fetch update list'
+                  logger.serverLog(message, `${TAG}: exports.upload`, req.body, {user: req.user, files: req.files}, 'error')
                   return res.status(500).json({
                     status: 'failed',
                     payload: `Failed to fetch update list ${JSON.stringify(error)}`
@@ -198,6 +202,8 @@ exports.upload = function (req, res) {
                 })
             })
             .catch(error => {
+              const message = error || 'Failed to fetch company usage'
+              logger.serverLog(message, `${TAG}: exports.upload`, req.body, {user: req.user, files: req.files}, 'error')
               return res.status(500).json({
                 status: 'failed',
                 payload: `Failed to fetch company usage ${JSON.stringify(error)}`
@@ -205,6 +211,8 @@ exports.upload = function (req, res) {
             })
         })
         .catch(error => {
+          const message = error || 'Failed to fetch plan usage'
+          logger.serverLog(message, `${TAG}: exports.upload`, req.body, {user: req.user, files: req.files}, 'error')
           return res.status(500).json({
             status: 'failed',
             payload: `Failed to fetch plan usage ${JSON.stringify(error)}`
@@ -212,6 +220,8 @@ exports.upload = function (req, res) {
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.upload`, req.body, {user: req.user, files: req.files}, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to fetch company user ${JSON.stringify(error)}`
@@ -245,6 +255,8 @@ exports.sendNumbers = function (req, res) {
                 .then(savedList => {
                 })
                 .catch(error => {
+                  const message = error || 'Failed to update list'
+                  logger.serverLog(message, `${TAG}: exports.sendNumbers`, req.body, {user: req.user}, 'error')
                   return res.status(500).json({
                     status: 'failed',
                     payload: `Failed to update list ${JSON.stringify(error)}`
@@ -278,6 +290,8 @@ exports.sendNumbers = function (req, res) {
                                 .then(updated => {
                                 })
                                 .catch(error => {
+                                  const message = error || 'Failed to update company usage'
+                                  logger.serverLog(message, `${TAG}: exports.sendNumbers`, req.body, {user: req.user}, 'error')
                                   return res.status(500).json({
                                     status: 'failed',
                                     payload: `Failed to update company usage ${JSON.stringify(error)}`
@@ -285,6 +299,8 @@ exports.sendNumbers = function (req, res) {
                                 })
                             })
                             .catch(error => {
+                              const message = error || 'Failed to update number'
+                              logger.serverLog(message, `${TAG}: exports.sendNumbers`, req.body, {user: req.user}, 'error')
                               return res.status(500).json({
                                 status: 'failed',
                                 payload: `Failed to update number ${JSON.stringify(error)}`
@@ -314,6 +330,8 @@ exports.sendNumbers = function (req, res) {
                                         utility.callApi(`lists/update`, 'post', {query: query, newPayload: update, options: {}})
                                           .then(savedList => {})
                                           .catch(error => {
+                                            const message = error || 'Failed to update list'
+                                            logger.serverLog(message, `${TAG}: exports.sendNumbers`, req.body, {user: req.user}, 'error')
                                             return res.status(500).json({
                                               status: 'failed',
                                               payload: `Failed to update list ${JSON.stringify(error)}`
@@ -321,6 +339,8 @@ exports.sendNumbers = function (req, res) {
                                           })
                                       })
                                       .catch(error => {
+                                        const message = error || 'Failed to fetch subscribers'
+                                        logger.serverLog(message, `${TAG}: exports.sendNumbers`, req.body, {user: req.user}, 'error')
                                         return res.status(500).json({
                                           status: 'failed',
                                           payload: `Failed to fetch subscribers ${JSON.stringify(error)}`
@@ -329,6 +349,8 @@ exports.sendNumbers = function (req, res) {
                                   }
                                 })
                                 .catch(error => {
+                                  const message = error || 'Failed to fetch number'
+                                  logger.serverLog(message, `${TAG}: exports.sendNumbers`, req.body, {user: req.user}, 'error')
                                   return res.status(500).json({
                                     status: 'failed',
                                     payload: `Failed to fetch number ${JSON.stringify(error)}`
@@ -336,6 +358,8 @@ exports.sendNumbers = function (req, res) {
                                 })
                             })
                             .catch(error => {
+                              const message = error || 'Failed to update phone number'
+                              logger.serverLog(message, `${TAG}: exports.sendNumbers`, req.body, {user: req.user}, 'error')
                               return res.status(500).json({
                                 status: 'failed',
                                 payload: `Failed to update phone number ${JSON.stringify(error)}`
@@ -344,6 +368,8 @@ exports.sendNumbers = function (req, res) {
                         }
                       })
                       .catch(error => {
+                        const message = error || 'Failed to fetch numbers'
+                        logger.serverLog(message, `${TAG}: exports.sendNumbers`, req.body, {user: req.user}, 'error')
                         return res.status(500).json({
                           status: 'failed',
                           payload: `Failed to fetch numbers ${JSON.stringify(error)}`
@@ -370,6 +396,8 @@ exports.sendNumbers = function (req, res) {
                         },
                         function (err, res) {
                           if (err) {
+                            const message = err || 'Error At invite to messenger using phone'
+                            logger.serverLog(message, `${TAG}: exports.sendNumbers`, req.body, {user: req.user}, 'error')
                             return logger.serverLog(TAG,
                               `Error At invite to messenger using phone ${JSON.stringify(
                                 err)}`)
@@ -378,6 +406,8 @@ exports.sendNumbers = function (req, res) {
                     })
                   })
                   .catch(error => {
+                    const message = error || 'Failed to fetch connected pages'
+                    logger.serverLog(message, `${TAG}: exports.sendNumbers`, req.body, {user: req.user}, 'error')
                     return res.status(500).json({
                       status: 'failed',
                       payload: `Failed to fetch connected pages ${JSON.stringify(error)}`
@@ -390,6 +420,8 @@ exports.sendNumbers = function (req, res) {
               })
             })
             .catch(error => {
+              const message = error || 'Failed to fetch company usage'
+              logger.serverLog(message, `${TAG}: exports.sendNumbers`, req.body, {user: req.user}, 'error')
               return res.status(500).json({
                 status: 'failed',
                 payload: `Failed to fetch company usage ${JSON.stringify(error)}`
@@ -397,12 +429,16 @@ exports.sendNumbers = function (req, res) {
             })
         })
         .catch(error => {
+          const message = error || 'Failed to fetch plan usage'
+          logger.serverLog(message, `${TAG}: exports.sendNumbers`, req.body, {user: req.user}, 'error')
           return res.status(500).json({
             status: 'failed',
             payload: `Failed to fetch plan usage ${JSON.stringify(error)}`
           })
         })
         .catch(error => {
+          const message = error || 'Failed to fetch company user'
+          logger.serverLog(message, `${TAG}: exports.sendNumbers`, req.body, {user: req.user}, 'error')
           return res.status(500).json({
             status: 'failed',
             payload: `Failed to fetch company user ${JSON.stringify(error)}`
@@ -421,6 +457,8 @@ exports.pendingSubscription = function (req, res) {
             .json({status: 'success', payload: phonenumbers})
         })
         .catch(error => {
+          const message = error || 'Failed to fetch numbers'
+          logger.serverLog(message, `${TAG}: exports.pendingSubscription`, {}, {params: req.params}, 'error')
           return res.status(500).json({
             status: 'failed',
             payload: `Failed to fetch numbers ${JSON.stringify(error)}`
@@ -428,6 +466,8 @@ exports.pendingSubscription = function (req, res) {
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.pendingSubscription`, {}, {params: req.params}, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to fetch company user ${JSON.stringify(error)}`

@@ -7,82 +7,91 @@ const { ActionTypes } = require('../smsMapper/constants')
 const { callApi } = require('../api/v1.1/utility')
 
 exports.respondUsingChatbot = (platform, provider, company, message, contact) => {
-  chatbotDatalayer.fetchChatbotRecords({companyId: company._id, published: true, platform})
-    .then(chatbots => {
-      const chatbot = chatbots[0]
-      const userText = message.toLowerCase().trim()
-      if (chatbot && chatbot.startingBlockId) {
+  return new Promise((resolve, reject) => {
+    chatbotDatalayer.fetchChatbotRecords({companyId: company._id, published: true, platform})
+      .then(chatbots => {
+        const chatbot = chatbots[0]
+        const userText = message.toLowerCase().trim()
+        if (chatbot && chatbot.startingBlockId) {
         // fetch blocks with matching trigger
-        _fetchChatbotBlocks({
-          companyId: company._id,
-          chatbotId: chatbot.chatbotId,
-          '$contains': {
-            type: 'array',
-            field: 'triggers',
-            value: userText
-          }
-        })
-          .then(blocks => {
-            let block = blocks[0]
-            if (block) {
-              // trigger matched
-              _respond(platform, provider, company, contact, block)
-            } else {
-              // trigger not matched. check chatbot context
-              if (contact.chatbotContext) {
-                _handleUserInput(userText, contact.chatbotContext)
-                  .then(result => {
-                    if (result.status === 'success') {
-                      // correct option, send next block
-                      _fetchChatbotBlocks({uniqueId: result.payload})
-                        .then(result => {
-                          block = result[0]
-                          if (block) {
-                            _respond(platform, provider, company, contact, block)
-                          }
-                        })
-                        .catch(err => {
-                          const message = err || 'error in chat bot response'
-                          logger.serverLog(message, `${TAG}: exports.respondUsingChatbot`, {}, {}, 'error')
-                        })
-                    } else {
-                      // incorrect option, send fallback reply
-                      _callMapperFunction(
-                        platform,
-                        provider,
-                        {
-                          text: result.description,
-                          subscriber: contact,
-                          company
-                        },
-                        ActionTypes.SEND_TEXT_MESSAGE
-                      )
-                        .then(sent => {
-                        })
-                        .catch(err => {
-                          const message = err || 'error in chat bot response'
-                          logger.serverLog(message, `${TAG}: exports.respondUsingChatbot`, {}, {}, 'error')
-                        })
-                    }
-                  })
-                  .catch(err => {
-                    const message = err || 'error in chat bot response'
-                    logger.serverLog(message, `${TAG}: exports.respondUsingChatbot`, {}, {}, 'error')
-                  })
-              }
+          _fetchChatbotBlocks({
+            companyId: company._id,
+            chatbotId: chatbot.chatbotId,
+            '$contains': {
+              type: 'array',
+              field: 'triggers',
+              value: userText
             }
           })
-          .catch(err => {
-            const message = err || 'error in chat bot response'
-            logger.serverLog(message, `${TAG}: exports.respondUsingChatbot`, {}, {}, 'error')
-          })
-      } else {
-      }
-    })
-    .catch(err => {
-      const message = err || 'error in chat bot response'
-      logger.serverLog(message, `${TAG}: exports.respondUsingChatbot`, {}, {}, 'error')
-    })
+            .then(blocks => {
+              let block = blocks[0]
+              if (block) {
+              // trigger matched
+                _respond(platform, provider, company, contact, block)
+                resolve(block)
+              } else {
+              // trigger not matched. check chatbot context
+                if (contact.chatbotContext) {
+                  _handleUserInput(userText, contact.chatbotContext)
+                    .then(result => {
+                      if (result.status === 'success') {
+                      // correct option, send next block
+                        _fetchChatbotBlocks({uniqueId: result.payload})
+                          .then(result => {
+                            block = result[0]
+                            if (block) {
+                              _respond(platform, provider, company, contact, block)
+                              resolve(block)
+                            }
+                          })
+                          .catch(err => {
+                            const message = err || 'error in chat bot response'
+                            logger.serverLog(message, `${TAG}: exports.respondUsingChatbot`, {}, {platform, provider, company, message, contact}, 'error')
+                            reject(err)
+                          })
+                      } else {
+                      // incorrect option, send fallback reply
+                        _callMapperFunction(
+                          platform,
+                          provider,
+                          {
+                            text: result.description,
+                            subscriber: contact,
+                            company
+                          },
+                          ActionTypes.SEND_TEXT_MESSAGE
+                        )
+                          .then(sent => {
+                          })
+                          .catch(err => {
+                            const message = err || 'error in chat bot response'
+                            logger.serverLog(message, `${TAG}: exports.respondUsingChatbot`, {}, {platform, provider, company, message, contact}, 'error')
+                            reject(err)
+                          })
+                      }
+                    })
+                    .catch(err => {
+                      const message = err || 'error in chat bot response'
+                      logger.serverLog(message, `${TAG}: exports.respondUsingChatbot`, {}, {platform, provider, company, message, contact}, 'error')
+                      reject(err)
+                    })
+                }
+              }
+            })
+            .catch(err => {
+              const message = err || 'error in chat bot response'
+              logger.serverLog(message, `${TAG}: exports.respondUsingChatbot`, {}, {platform, provider, company, message, contact}, 'error')
+              reject(err)
+            })
+        } else {
+        }
+      })
+      .catch(err => {
+        const message = err || 'error in chat bot response'
+        logger.serverLog(message, `${TAG}: exports.respondUsingChatbot`, {}, {platform, provider, company, message, contact}, 'error')
+        reject(err)
+      })
+  })
 }
 
 const _fetchChatbotBlocks = (criteria) => {
@@ -110,7 +119,7 @@ const _respond = (platform, provider, company, contact, block) => {
     })
     .catch(err => {
       const message = err || 'error in chat bot response'
-      logger.serverLog(message, `${TAG}: exports._respond`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports._respond`, {}, {platform, provider, company, contact, block}, 'error')
     })
 }
 
@@ -127,7 +136,11 @@ const _handleUserInput = (userText, context) => {
           resolve({status: 'success', payload: block.options[index].blockId})
         }
       })
-      .catch(err => { reject(err) })
+      .catch(err => {
+        const message = err || 'error in chat bot block records'
+        logger.serverLog(message, `${TAG}: exports._handleUserInput`, {}, {userText, context}, 'error')
+        reject(err)
+      })
   })
 }
 
@@ -151,7 +164,7 @@ const _setChatbotContext = (platform, contact, block) => {
     })
     .catch(err => {
       const message = err || 'error in set chatbot context'
-      logger.serverLog(message, `${TAG}: exports._setChatbotContext`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports._setChatbotContext`, {}, {platform, contact, block}, 'error')
     })
 }
 
@@ -167,6 +180,6 @@ const _unsetChatbotContext = (platform, contact) => {
     })
     .catch(err => {
       const message = err || 'error in unset chatbot context'
-      logger.serverLog(message, `${TAG}: exports._unsetChatbotContext`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports._unsetChatbotContext`, {}, {platform, contact}, 'error')
     })
 }

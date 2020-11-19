@@ -11,6 +11,7 @@ const config = require('../../../config/environment')
 const async = require('async')
 const { callApi } = require('../utility')
 const intentsDataLayer = require('../intents/datalayer')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 
 exports.index = function (req, res) {
   BotsDataLayer.findAllBotObjectsUsingQuery({ companyId: req.user.companyId })
@@ -25,6 +26,8 @@ exports.index = function (req, res) {
       }
     })
     .catch(err => {
+      const message = err || 'Error fetching bots from companyId'
+      logger.serverLog(message, `${TAG}: exports.index`, {}, { user: req.user }, 'error')
       sendErrorResponse(res, 500, `Error fetching bots from companyId ${err}`)
     })
 }
@@ -91,26 +94,48 @@ const _createBotRecordInDB = (data, callback) => {
 }
 
 exports.create = function (req, res) {
-  let data = {
-    user: req.user,
-    pageId: req.body.pageId,
-    botName: req.body.botName,
-    gcpPojectId: `${req.body.botName}-${req.body.pageId.substring(req.body.pageId.length - 4)}`,
-    dialogFlowAgentId: `${req.body.botName}-${req.body.pageId.substring(req.body.pageId.length - 4)}`
-  }
-  async.series([
-    _createGCPProject.bind(null, data),
-    _createDialogFlowAgent.bind(null, data),
-    _createBotRecordInDB.bind(null, data)
-  ], function (err) {
-    if (err) {
-      const message = err || 'Failed to create bot.'
-      logger.serverLog(message, `${TAG}: exports.create`, req.body, {}, 'error')
-      sendErrorResponse(res, 500, 'Failed to create bot.')
-    } else {
-      sendSuccessResponse(res, 200, data.botData)
-    }
-  })
+  utility.callApi(`featureUsage/planQuery`, 'post', {planId: req.user.currentPlan})
+    .then(planUsage => {
+      planUsage = planUsage[0]
+      utility.callApi(`featureUsage/companyQuery`, 'post', {companyId: req.user.companyId})
+        .then(companyUsage => {
+          companyUsage = companyUsage[0]
+          if (planUsage.bots !== -1 && companyUsage.bots >= planUsage.bots) {
+            return res.status(500).json({
+              status: 'failed',
+              description: `Your smart replies limit has reached. Please upgrade your plan to create more smart replies.`
+            })
+          } else {
+            let data = {
+              user: req.user,
+              pageId: req.body.pageId,
+              botName: req.body.botName,
+              gcpPojectId: `${req.body.botName}-${req.body.pageId.substring(req.body.pageId.length - 4)}`,
+              dialogFlowAgentId: `${req.body.botName}-${req.body.pageId.substring(req.body.pageId.length - 4)}`
+            }
+            async.series([
+              _createGCPProject.bind(null, data),
+              _createDialogFlowAgent.bind(null, data),
+              _createBotRecordInDB.bind(null, data)
+            ], function (err) {
+              if (err) {
+                const message = err || 'Failed to create bot.'
+                logger.serverLog(message, `${TAG}: exports.create`, req.body, {data}, 'error')
+                sendErrorResponse(res, 500, 'Failed to create bot.')
+              } else {
+                updateCompanyUsage(req.user.companyId, 'bots', 1)
+                sendSuccessResponse(res, 200, data.botData)
+              }
+            })
+          }
+        })
+        .catch(err => {
+          sendErrorResponse(res, 500, `Error fetching company usage ${err}`)
+        })
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, `Error fetching plan usage ${err}`)
+    })
 }
 
 exports.edit = function (req, res) {
@@ -119,6 +144,8 @@ exports.edit = function (req, res) {
       sendSuccessResponse(res, 200, 'Bot updated successfully!')
     })
     .catch(err => {
+      const message = err || 'Error in updating bot status'
+      logger.serverLog(message, `${TAG}: exports.edit`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', `Error in updating bot status${JSON.stringify(err)}`)
     })
 }
@@ -165,13 +192,13 @@ exports.trainBot = function (req, res) {
           })
           .catch(err => {
             const message = err || 'Failed to train bot.'
-            logger.serverLog(message, `${TAG}: exports.trainBot`, req.body, {}, 'error')
+            logger.serverLog(message, `${TAG}: exports.trainBot`, req.body, {user: req.user}, 'error')
             sendErrorResponse(res, 500, 'Failed to train bot.')
           })
       })
       .catch(err => {
         const message = err || 'Failed to train bot.'
-        logger.serverLog(message, `${TAG}: exports.trainBot`, req.body, {}, 'error')
+        logger.serverLog(message, `${TAG}: exports.trainBot`, req.body, {user: req.user}, 'error')
         sendErrorResponse(res, 500, 'Failed to train bot.')
       })
   } else {
@@ -185,13 +212,13 @@ exports.trainBot = function (req, res) {
           })
           .catch(err => {
             const message = err || 'Failed to train bot.'
-            logger.serverLog(message, `${TAG}: exports.trainBot`, req.body, {}, 'error')
+            logger.serverLog(message, `${TAG}: exports.trainBot`, req.body, {user: req.user}, 'error')
             sendErrorResponse(res, 500, 'Failed to train bot.')
           })
       })
       .catch(err => {
         const message = err || 'Failed to train bot.'
-        logger.serverLog(message, `${TAG}: exports.trainBot`, req.body, {}, 'error')
+        logger.serverLog(message, `${TAG}: exports.trainBot`, req.body, {user: req.user}, 'error')
         sendErrorResponse(res, 500, 'Failed to train bot.')
       })
   }
@@ -217,14 +244,20 @@ exports.waitingReply = function (req, res) {
               sendSuccessResponse(res, 200, subscribersPayload)
             })
             .catch(err => {
+              const message = err || 'Error fetching subscribers in waiting reply'
+              logger.serverLog(message, `${TAG}: exports.waitingReply`, {}, {user: req.user}, 'error')
               sendErrorResponse(res, 500, `Error fetching subscribers in waiting reply ${err}`)
             })
         })
         .catch(err => {
+          const message = err || 'Error fetching subscribers in waiting reply'
+          logger.serverLog(message, `${TAG}: exports.waitingReply`, {}, {user: req.user}, 'error')
           sendErrorResponse(res, 500, '', `Error fetching subscribers in waiting reply ${err}`)
         })
     })
     .catch(err => {
+      const message = err || 'Error fetching company user'
+      logger.serverLog(message, `${TAG}: exports.waitingReply`, {}, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', `Error fetching company user ${err}`)
     })
 }
@@ -238,10 +271,14 @@ exports.details = function (req, res) {
           sendSuccessResponse(res, 200, bot)
         })
         .catch(err => {
+          const message = err || 'Error in fetching page'
+          logger.serverLog(message, `${TAG}: exports.details`, req.body, {user: req.user}, 'error')
           sendErrorResponse(res, 500, '', `Error in fetching page ${JSON.stringify(err)}`)
         })
     })
     .catch(err => {
+      const message = err || 'Error in finding bot details'
+      logger.serverLog(message, `${TAG}: exports.details`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', `Error in finding bot details ${JSON.stringify(err)}`)
     })
 }
@@ -252,6 +289,8 @@ exports.unAnsweredQueries = function (req, res) {
       sendSuccessResponse(res, 200, queries)
     })
     .catch(err => {
+      const message = err || 'Error in finding unanswered queries'
+      logger.serverLog(message, `${TAG}: exports.unAnsweredQueries`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', `Error in finding unanswered queries ${JSON.stringify(err)}`)
     })
 }
@@ -274,7 +313,7 @@ exports.waitSubscribers = function (req, res) {
   ], 10, function (err, results) {
     if (err) {
       const message = err || 'Failed to fetch waiting subscribers'
-      logger.serverLog(message, `${TAG}: exports.waitSubscribers`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.waitSubscribers`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, 'Failed to fetch waiting subscribers')
     } else {
       let payload = {
@@ -292,6 +331,8 @@ exports.removeWaitSubscribers = function (req, res) {
       sendSuccessResponse(res, 200, result)
     })
     .catch(err => {
+      const message = err || 'Error in removing waiting subscribers'
+      logger.serverLog(message, `${TAG}: exports.removeWaitSubscribers`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', `Error in removing waiting subscribers ${JSON.stringify(err)}`)
     })
 }
@@ -322,7 +363,6 @@ const _deleteBotRecordInDB = (bot, callback) => {
 exports.delete = function (req, res) {
   callApi('user/authenticatePassword', 'post', {email: req.user.email, password: req.body.password})
     .then(authenticated => {
-      console.log('i am authenticated', authenticated)
       return BotsDataLayer.findOneBotObject(req.body.botId)
     })
     .then(bot => {
@@ -334,16 +374,19 @@ exports.delete = function (req, res) {
           _deleteBotRecordInDB.bind(null, bot)
         ], function (err) {
           if (err) {
-            const message = err || 'error in message statistics'
-            logger.serverLog(message, `${TAG}: exports.delete`, {}, {}, 'error')
+            const message = err || 'error in async'
+            logger.serverLog(message, `${TAG}: exports.delete`, {}, {user: req.user}, 'error')
             sendErrorResponse(res, 500, 'Failed to delete bot.')
           } else {
+            updateCompanyUsage(req.user.companyId, 'bots', -1)
             sendSuccessResponse(res, 200, 'Bot deleted succssfully!')
           }
         })
       }
     })
     .catch(err => {
+      const message = err || 'Error in finding bot object'
+      logger.serverLog(message, `${TAG}: exports.delete`, {}, {user: req.user}, 'error')
       sendErrorResponse(res, 500, 'Incorrect password', `Error in finding bot object ${JSON.stringify(err)}`)
     })
 }
@@ -360,7 +403,7 @@ function populateBot (bots, req) {
         })
         .catch(err => {
           const message = err || 'Failed to fetch bots'
-          logger.serverLog(message, `${TAG}: exports.populateBot`, {}, {}, 'error')
+          logger.serverLog(message, `${TAG}: exports.populateBot`, {}, {bots}, 'error')
           reject(err)
         })
     }

@@ -15,6 +15,7 @@ const shopifyDataLayer = require('../shopify/shopify.datalayer')
 const bigCommerceDataLayer = require('../bigcommerce/bigcommerce.datalayer')
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
 const EcommerceProvider = require('../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 
 exports.index = function (req, res) {
   callApi(`pages/query`, 'post', { companyId: req.user.companyId, connected: true })
@@ -26,10 +27,14 @@ exports.index = function (req, res) {
           return sendSuccessResponse(res, 200, chatbots, null)
         })
         .catch(error => {
+          const message = error || 'Failed to fetch the chatbots'
+          logger.serverLog(message, `${TAG}: exports.index`, {}, {user: req.user}, 'error')
           return sendErrorResponse(res, 500, error, 'Failed to fetch the chatbots.')
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch the pages'
+      logger.serverLog(message, `${TAG}: exports.index`, {}, {user: req.user}, 'error')
       return sendErrorResponse(res, 500, error, 'Failed to fetch the pages.')
     })
 }
@@ -38,10 +43,13 @@ exports.create = function (req, res) {
   let payload = logiclayer.preparePayload(req.user.companyId, req.user._id, req.body)
   datalayer.createForChatBot(payload)
     .then(chatbot => {
+      updateCompanyUsage(req.user.companyId, 'chatbot_automation', 1)
       _sendToClientUsingSocket(chatbot)
       return sendSuccessResponse(res, 201, chatbot, null)
     })
     .catch(error => {
+      const message = error || 'Failed to create the chatbot'
+      logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
       return sendErrorResponse(res, 500, error, 'Failed to create the chatbot.')
     })
 }
@@ -59,6 +67,8 @@ exports.update = function (req, res) {
       return sendSuccessResponse(res, 200, chatbotUpdated, 'Updated the chatbot publish status')
     })
     .catch(error => {
+      const message = error || 'Failed to update the chatbot'
+      logger.serverLog(message, `${TAG}: exports.update`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, error, `Failed to update chatbot ${JSON.stringify(error)}`)
     })
 }
@@ -69,6 +79,8 @@ exports.details = function (req, res) {
       return sendSuccessResponse(res, 200, messageBlocks, null)
     })
     .catch(error => {
+      const message = error || 'Failed to fetch the chatbot details.'
+      logger.serverLog(message, `${TAG}: exports.details`, {}, {user: req.user, params: req.params}, 'error')
       return sendErrorResponse(res, 500, error, 'Failed to fetch the chatbot details.')
     })
 }
@@ -112,7 +124,7 @@ exports.fetchChatbot = function (req, res) {
     })
     .catch(err => {
       const message = err || 'Failed to fetch chatbot'
-      logger.serverLog(message, `${TAG}: exports.fetchChatbot`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.fetchChatbot`, {}, {user: req.user, params: req.params}, 'error')
       sendErrorResponse(res, 500, 'Failed to fetch chatbot')
     })
 }
@@ -136,7 +148,7 @@ exports.delete = function (req, res) {
     })
     .catch(error => {
       const message = error || 'Failed to delete chatbot'
-      logger.serverLog(message, `${TAG}: exports.delete`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.delete`, {}, {user: req.user, params: req.params}, 'error')
       return res.status(500).json({ status: 'failed', payload: `Failed to delete chatbot ${error}` })
     })
 }
@@ -148,7 +160,7 @@ exports.fetchBackup = function (req, res) {
     })
     .catch(err => {
       const message = err || 'Failed to fetch backup'
-      logger.serverLog(message, `${TAG}: exports.fetchBackup`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.fetchBackup`, {}, {user: req.user, params: req.params}, 'error')
       sendErrorResponse(res, 500, 'Failed to fetch backup')
     })
 }
@@ -199,7 +211,7 @@ exports.createBackup = function (req, res) {
       }, function (err) {
         if (err) {
           const message = err || 'Failed to create backup'
-          logger.serverLog(message, `${TAG}: exports.createChatBotBackup`, {}, {}, 'error')
+          logger.serverLog(message, `${TAG}: exports.createChatBotBackup`, req.body, {user: req.user}, 'error')
           sendErrorResponse(res, 500, 'Failed to create backup')
         } else {
           Promise.all(backupCalls)
@@ -208,7 +220,7 @@ exports.createBackup = function (req, res) {
             })
             .catch(err => {
               const message = err || 'Failed to create backup'
-              logger.serverLog(message, `${TAG}: exports.createChatBotBackup`, {}, {}, 'error')
+              logger.serverLog(message, `${TAG}: exports.createChatBotBackup`, req.body, {user: req.user}, 'error')
               sendErrorResponse(res, 500, 'Failed to create backup')
             })
         }
@@ -216,7 +228,7 @@ exports.createBackup = function (req, res) {
     })
     .catch(err => {
       const message = err || 'Failed to create backup'
-      logger.serverLog(message, `${TAG}: exports.createChatBotBackup`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.createChatBotBackup`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, 'Failed to create backup')
     })
 }
@@ -260,7 +272,7 @@ exports.restoreBackup = function (req, res) {
       }, function (err) {
         if (err) {
           const message = err || 'Failed to restore backup'
-          logger.serverLog(message, `${TAG}: exports.restoreBackup`, {}, {}, 'error')
+          logger.serverLog(message, `${TAG}: exports.restoreBackup`, req.body, {user: req.user}, 'error')
           sendErrorResponse(res, 500, 'Failed to restore backup')
         } else {
           Promise.all(backupCalls)
@@ -274,19 +286,19 @@ exports.restoreBackup = function (req, res) {
                     })
                     .catch(err => {
                       const message = err || 'Failed to restore backup'
-                      logger.serverLog(message, `${TAG}: exports.restoreBackup`, {}, {}, 'error')
+                      logger.serverLog(message, `${TAG}: exports.restoreBackup`, req.body, {user: req.user}, 'error')
                       sendErrorResponse(res, 500, 'Failed to restore backup')
                     })
                 })
                 .catch(err => {
                   const message = err || 'Failed to restore backup'
-                  logger.serverLog(message, `${TAG}: exports.restoreBackup`, {}, {}, 'error')
+                  logger.serverLog(message, `${TAG}: exports.restoreBackup`, req.body, {user: req.user}, 'error')
                   sendErrorResponse(res, 500, 'Failed to restore backup')
                 })
             })
             .catch(err => {
               const message = err || 'Failed to restore backup'
-              logger.serverLog(message, `${TAG}: exports.restoreBackup`, {}, {}, 'error')
+              logger.serverLog(message, `${TAG}: exports.restoreBackup`, req.body, {user: req.user}, 'error')
               sendErrorResponse(res, 500, 'Failed to restore backup')
             })
         }
@@ -294,7 +306,7 @@ exports.restoreBackup = function (req, res) {
     })
     .catch(err => {
       const message = err || 'Failed to restore backup'
-      logger.serverLog(message, `${TAG}: exports.restoreBackup`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.restoreBackup`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, 'Failed to restore backup')
     })
 }
@@ -313,6 +325,8 @@ exports.redirectToUrl = (req, res) => {
             })
             .catch(err => {
               if (err) {
+                const message = err || 'Internal Server Error'
+                logger.serverLog(message, `${TAG}: exports.redirectToUrl`, {}, {user: req.user, params: req.params}, 'error')
                 sendErrorResponse(res, 500, '', `Internal Server Error ${JSON.stringify(err)}`)
               }
             })
@@ -322,6 +336,8 @@ exports.redirectToUrl = (req, res) => {
       })
       .catch(err => {
         if (err) {
+          const message = err || 'Internal Server Error'
+          logger.serverLog(message, `${TAG}: exports.redirectToUrl`, {}, {user: req.user, params: req.params}, 'error')
           sendErrorResponse(res, 500, '', `Internal Server Error ${JSON.stringify(err)}`)
         }
       })
@@ -349,9 +365,10 @@ exports.exportData = (req, res) => {
         }
         subscribersData.push('\n')
       }
-      console.log('subscribersData.length', subscribersData.length)
       sendSuccessResponse(res, 200, subscribersData)
     }).catch(error => {
+      const message = error || 'Failed to fetch the chatbot data.'
+      logger.serverLog(message, `${TAG}: exports.exportData`, {}, {user: req.user, params: req.params}, 'error')
       return sendErrorResponse(res, 500, error, 'Failed to fetch the chatbot details.')
     })
 }
@@ -437,7 +454,8 @@ exports.createCommerceChatbot = async (req, res) => {
       sendErrorResponse(res, 500, 'No e-commerce provider is integrated', 'No e-commerce provider is integrated')
     }
   } catch (err) {
-    console.log(`Failed to create commerce chatbot`, err.stack)
+    const message = err || 'Failed to fetch the chatbot data.'
+    logger.serverLog(message, `${TAG}: exports.createCommerceChatbot`, req.body, {user: req.user}, 'error')
     sendErrorResponse(res, 500, err ? err.message : `Failed to create commerce chatbot`, `Failed to create commerce chatbot`)
   }
 }

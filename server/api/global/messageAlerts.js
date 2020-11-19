@@ -37,23 +37,23 @@ function pushUnresolveAlertInStack (company, subscriber, platform) {
                   })
                   .catch(err => {
                     const message = err || 'Unable to save session info in cronStack'
-                    logger.serverLog(message, `${TAG}: exports.pushUnresolveAlertInStack`, {}, {}, 'error')
+                    logger.serverLog(message, `${TAG}: exports.pushUnresolveAlertInStack`, {}, {company, subscriber, platform}, 'error')
                   })
               } else {
                 const message = 'Unresolved Session info already in cronStack'
-                logger.serverLog(message, `${TAG}: exports.pushUnresolveAlertInStack`, {}, {}, 'debug')
+                logger.serverLog(message, `${TAG}: exports.pushUnresolveAlertInStack`, {}, {company, subscriber, platform}, 'debug')
               }
             })
             .catch(err => {
               const message = err || 'Unable to save session info in cronStack'
-              logger.serverLog(message, `${TAG}: exports.pushUnresolveAlertInStack`, {}, {}, 'error')
+              logger.serverLog(message, `${TAG}: exports.pushUnresolveAlertInStack`, {}, {company, subscriber, platform}, 'error')
             })
         }
       }
     })
     .catch(error => {
       const message = error || 'Error while fetching company preferences'
-      logger.serverLog(message, `${TAG}: exports.pushUnresolveAlertInStack`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.pushUnresolveAlertInStack`, {}, {company, subscriber, platform}, 'error')
     })
 }
 
@@ -81,14 +81,14 @@ function pushSessionPendingAlertInStack (company, subscriber, platform) {
             })
             .catch(err => {
               const message = err || 'Unable to push session info in cronStack'
-              logger.serverLog(message, `${TAG}: exports.pushSessionPendingAlertInStack`, {}, company, 'error')
+              logger.serverLog(message, `${TAG}: exports.pushSessionPendingAlertInStack`, {}, {company, subscriber, platform}, 'error')
             })
         }
       }
     })
     .catch(error => {
       const message = error || 'Error while fetching company preferences'
-      logger.serverLog(message, `${TAG}: exports.pushSessionPendingAlertInStack`, {}, company, 'error')
+      logger.serverLog(message, `${TAG}: exports.pushSessionPendingAlertInStack`, {}, {company, subscriber, platform}, 'error')
     })
 }
 
@@ -106,7 +106,7 @@ function deleteUnresolvedSessionFromStack (subscriberId) {
     })
     .catch(err => {
       const message = err || 'Error while deleting unresolve session alert from cronStack'
-      logger.serverLog(message, `${TAG}: exports.deleteUnresolvedSessionFromStack`, {}, deleteData, 'error')
+      logger.serverLog(message, `${TAG}: exports.deleteUnresolvedSessionFromStack`, {}, {deleteData}, 'error')
     })
 }
 
@@ -124,7 +124,7 @@ function deletePendingSessionFromStack (subscriberId) {
     })
     .catch(err => {
       const message = err || 'Error while deleting pending session alert from cronStack'
-      logger.serverLog(message, `${TAG}: exports.deletePendingSessionFromStack`, {}, deleteData, 'error')
+      logger.serverLog(message, `${TAG}: exports.deletePendingSessionFromStack`, {}, {deleteData}, 'error')
     })
 }
 

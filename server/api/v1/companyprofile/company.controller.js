@@ -15,6 +15,8 @@ exports.members = function (req, res) {
       sendSuccessResponse(res, 200, members)
     })
     .catch(err => {
+      const message = err || 'error in getting company members'
+      logger.serverLog(message, `${TAG}: exports.members`, {}, {}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch members ${err}`)
     })
 }
@@ -35,10 +37,14 @@ exports.getAutomatedOptions = function (req, res) {
             sendSuccessResponse(res, 200, payload)
           }
         }).catch(error => {
+          const message = error || 'error in getting user in getting automated options'
+          logger.serverLog(message, `${TAG}: exports.getAutomatedOptions`, {}, {payload}, 'error')
           sendErrorResponse(res, 500, `Failed to fetching user details ${JSON.stringify(error)}`)
         })
     })
     .catch(err => {
+      const message = err || 'error in getting automated options'
+      logger.serverLog(message, `${TAG}: exports.getAutomatedOptions`, {}, {}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch automated options ${err}`)
     })
 }
@@ -49,7 +55,19 @@ exports.getAdvancedSettings = function (req, res) {
       sendSuccessResponse(res, 200, payload)
     })
     .catch(err => {
+      const message = err || 'error in getting advanced settings'
+      logger.serverLog(message, `${TAG}: exports.getAdvancedSettings`, {}, {}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch advanced settings in company profile ${err}`)
+    })
+}
+
+exports.switchToBasicPlan = function (req, res) {
+  utility.callApi(`companyprofile/switchToBasicPlan`, 'get', {}, 'accounts', req.headers.authorization)
+    .then(updatedProfile => {
+      sendSuccessResponse(res, 200, updatedProfile)
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, `Failed to update company profile ${err}`)
     })
 }
 
@@ -64,21 +82,50 @@ exports.updateAdvancedSettings = function (req, res) {
           sendSuccessResponse(res, 200, updatedProfile)
         })
         .catch(err => {
+          const message = err || 'Failed to update company profile'
+          logger.serverLog(message, `${TAG}: exports.updateAdvancedSettings`, req.body, {user: req.user}, 'error')
           sendErrorResponse(res, 500, `Failed to update company profile ${err}`)
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.updateAdvancedSettings`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to company user ${JSON.stringify(error)}`)
     })
 }
 exports.invite = function (req, res) {
-  utility.callApi('companyprofile/invite', 'post', {email: req.body.email, name: req.body.name, role: req.body.role}, 'accounts', req.headers.authorization)
-    .then((result) => {
-      sendSuccessResponse(res, 200, result)
+  utility.callApi(`featureUsage/planQuery`, 'post', {planId: req.user.currentPlan})
+    .then(planUsage => {
+      planUsage = planUsage[0]
+      utility.callApi(`featureUsage/companyQuery`, 'post', {companyId: req.user.companyId})
+        .then(companyUsage => {
+          companyUsage = companyUsage[0]
+          if (planUsage.members !== -1 && companyUsage.members >= planUsage.members) {
+            return res.status(500).json({
+              status: 'failed',
+              description: `Your members limit has reached. Please upgrade your plan to invite more members.`
+            })
+          } else {
+            utility.callApi('companyprofile/invite', 'post', {email: req.body.email, name: req.body.name, role: req.body.role}, 'accounts', req.headers.authorization)
+              .then((result) => {
+                logger.serverLog(TAG, 'result from invite endpoint accounts', 'debug')
+                logger.serverLog(TAG, result, 'debug')
+                sendSuccessResponse(res, 200, result)
+              })
+              .catch((err) => {
+                logger.serverLog(TAG, 'result from invite endpoint accounts', 'debug')
+                logger.serverLog(TAG, err, 'debug')
+                sendErrorResponse(res, 500, err)
+              })
+          }
+        })
+        .catch(error => {
+          sendErrorResponse(res, 500, `Failed to company usage ${JSON.stringify(error)}`)
+        })
     })
     .catch((err) => {
       const message = err || 'result from invite endpoint accounts'
-      logger.serverLog(message, `${TAG}: exports.invite`, req.body, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.invite`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err)
     })
 }
@@ -89,6 +136,8 @@ exports.updateRole = function (req, res) {
       sendSuccessResponse(res, 200, result)
     })
     .catch((err) => {
+      const message = err || 'Failed to update role'
+      logger.serverLog(message, `${TAG}: exports.updateRole`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err.error.payload)
     })
 }
@@ -97,6 +146,8 @@ exports.updateAutomatedOptions = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
     .then(companyUser => {
       if (!companyUser) {
+        const message = 'The user account does not belong to any company. Please contact support'
+        logger.serverLog(message, `${TAG}: exports.updateAutomatedOptions`, req.body, {user: req.user}, 'error')
         sendErrorResponse(res, 404, '', 'The user account does not belong to any company. Please contact support')
       }
 
@@ -111,10 +162,14 @@ exports.updateAutomatedOptions = function (req, res) {
           sendSuccessResponse(res, 200, updatedProfile)
         })
         .catch(err => {
+          const message = err || 'Failed to update company profile'
+          logger.serverLog(message, `${TAG}: exports.updateAutomatedOptions`, req.body, {user: req.user}, 'error')
           sendErrorResponse(res, 500, `Failed to update company profile ${err}`)
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.updateAutomatedOptions`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to company user ${JSON.stringify(error)}`)
     })
 }
@@ -123,12 +178,16 @@ exports.updatePlatform = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
     .then(companyUser => {
       if (!companyUser) {
+        const message = 'The user account does not belong to any company. Please contact support'
+        logger.serverLog(message, `${TAG}: exports.updatePlatform`, req.body, {user: req.user}, 'error')
         sendErrorResponse(res, 404, '', 'The user account does not belong to any company. Please contact support')
       }
       needle.get(
         `https://${req.body.twilio.accountSID}:${req.body.twilio.authToken}@api.twilio.com/2010-04-01/Accounts`,
         (err, resp) => {
           if (err) {
+            const message = err || 'unable to authenticate twilio account'
+            logger.serverLog(message, `${TAG}: exports.updatePlatform`, req.body, {user: req.user}, 'error')
             sendErrorResponse(res, 401, '', 'unable to authenticate twilio account')
           }
           if (resp.statusCode === 200) {
@@ -143,6 +202,8 @@ exports.updatePlatform = function (req, res) {
                       _updateUserPlatform(req, res)
                     })
                     .catch(err => {
+                      const message = err || 'Failed to update company profile'
+                      logger.serverLog(message, `${TAG}: exports.updatePlatform`, req.body, {user: req.user}, 'error')
                       sendErrorResponse(res, 500, '', `Failed to update company profile ${err}`)
                     })
                   for (let i = 0; i < incomingPhoneNumbers.length; i++) {
@@ -164,6 +225,8 @@ exports.updatePlatform = function (req, res) {
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.updatePlatform`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to company user ${JSON.stringify(error)}`)
     })
 }
@@ -177,11 +240,13 @@ const _updateUserPlatform = (req, res) => {
           sendSuccessResponse(res, 200, updatedProfile)
         })
         .catch(err => {
+          const message = err || 'Failed to fetch company user'
+          logger.serverLog(message, `${TAG}: exports._updateUserPlatform`, req.body, {user: req.user}, 'error')
           sendErrorResponse(res, 500, '', err)
         })
     }).catch(err => {
       const message = err || 'error in message statistics'
-      logger.serverLog(message, `${TAG}: exports._updateUserPlatform`, {}, { user: req.user }, 'error')
+      logger.serverLog(message, `${TAG}: exports._updateUserPlatform`, req.body, { user: req.user }, 'error')
       sendErrorResponse(res, 500, '', err)
     })
 }
@@ -211,6 +276,8 @@ const _updateCompanyProfile = (data, next) => {
       next(null, updatedProfile)
     })
     .catch(err => {
+      const message = err || 'error in updating company'
+      logger.serverLog(message, `${TAG}: exports._updateCompanyProfile`, {}, { data }, 'error')
       next(err)
     })
   // } else {
@@ -227,6 +294,8 @@ const _updateUser = (data, next) => {
           next(null, data)
         })
         .catch(err => {
+          const message = err || 'error in updating user'
+          logger.serverLog(message, `${TAG}: exports._updateUser`, {}, { data }, 'error')
           next(err)
         })
     }).catch(err => {
@@ -240,6 +309,8 @@ const _setWebhook = (data, next) => {
       next(null, data)
     })
     .catch(error => {
+      const message = error || 'error in whatsapp mapper'
+      logger.serverLog(message, `${TAG}: exports._setWebhook`, {}, { data }, 'error')
       next(error)
     })
 }
@@ -249,6 +320,8 @@ const _verifyCredentials = (data, next) => {
       next(null, data)
     })
     .catch(error => {
+      const message = error || 'error in whatsapp mapper'
+      logger.serverLog(message, `${TAG}: exports._verifyCredentials`, {}, { data }, 'error')
       next(error)
     })
 }
@@ -299,7 +372,6 @@ exports.updatePlatformWhatsApp = function (req, res) {
   ]
   utility.callApi(`companyprofile/aggregate`, 'post', query) // fetch company user
     .then(companyprofile => {
-      console.log('companyprofile', companyprofile)
       if (!companyprofile[0] || req.body.businessNumber === '+14155238886') {
         let data = {body: req.body, companyId: req.user.companyId, userId: req.user._id}
         async.series([
@@ -309,6 +381,8 @@ exports.updatePlatformWhatsApp = function (req, res) {
           _setWebhook.bind(null, data)
         ], function (err) {
           if (err) {
+            const message = err || 'error in async series call'
+            logger.serverLog(message, `${TAG}: exports.updatePlatformWhatsApp`, req.body, { user: req.user }, 'error')
             sendErrorResponse(res, 500, '', `${err}`)
           } else {
             sendSuccessResponse(res, 200, {description: 'updated successfully', showModal: req.body.changeWhatsAppTwilio})
@@ -319,6 +393,8 @@ exports.updatePlatformWhatsApp = function (req, res) {
       }
     })
     .catch((err) => {
+      const message = err || 'Failed to fetch company'
+      logger.serverLog(message, `${TAG}: exports.updatePlatformWhatsApp`, req.body, { user: req.user }, 'error')
       sendErrorResponse(res, 500, `Failed to fetch company ${err}`)
     })
 }
@@ -337,6 +413,8 @@ exports.disconnect = function (req, res) {
                   sendSuccessResponse(res, 200, updatedProfile)
                 })
                 .catch(err => {
+                  const message = err || 'Failed to update user'
+                  logger.serverLog(message, `${TAG}: exports.disconnect`, {}, { user: req.user }, 'error')
                   sendErrorResponse(res, 500, err)
                 })
             }).catch(err => {
@@ -345,10 +423,14 @@ exports.disconnect = function (req, res) {
             })
         })
         .catch(err => {
+          const message = err || 'Failed to update company profile'
+          logger.serverLog(message, `${TAG}: exports.disconnect`, {}, {user: req.user}, 'error')
           sendErrorResponse(res, 500, `Failed to update company profile ${err}`)
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetchcompany user'
+      logger.serverLog(message, `${TAG}: exports.disconnect`, {}, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to company user ${JSON.stringify(error)}`)
     })
 }
@@ -375,13 +457,13 @@ exports.fetchValidCallerIds = function (req, res) {
                   })
                   .catch(error => {
                     const message = error || 'Failed to save contact'
-                    logger.serverLog(message, `${TAG}: exports.fetchValidCallerIds`, req.body, {}, 'error')
+                    logger.serverLog(message, `${TAG}: exports.fetchValidCallerIds`, req.body, {user: req.user}, 'error')
                   })
               }
             })
             .catch(error => {
               const message = error || 'Failed to fetch contact'
-              logger.serverLog(message, `${TAG}: exports.fetchValidCallerIds`, req.body, {}, 'error')
+              logger.serverLog(message, `${TAG}: exports.fetchValidCallerIds`, req.body, {user: req.user}, 'error')
             })
           if (index === (callerIds.length - 1)) {
             sendSuccessResponse(res, 200, 'Contacts updated successfully')
@@ -390,7 +472,51 @@ exports.fetchValidCallerIds = function (req, res) {
       }
     })
     .catch(error => {
+      const message = error || 'Failed to fetch contact'
+      logger.serverLog(message, `${TAG}: exports.fetchValidCallerIds`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch valid caller Ids ${JSON.stringify(error)}`)
+    })
+}
+
+exports.getKeys = function (req, res) {
+  utility.callApi('companyprofile/getKeys', 'get', {}, 'accounts', req.headers.authorization)
+    .then((result) => {
+      res.status(200).json({status: 'success', captchaKey: result.captchaKey, stripeKey: result.stripeKey})
+    })
+    .catch((err) => {
+      sendErrorResponse(res, 500, err)
+    })
+}
+
+exports.setCard = function (req, res) {
+  utility.callApi('companyprofile/setCard', 'post', req.body, 'accounts', req.headers.authorization)
+    .then((result) => {
+      sendSuccessResponse(res, 200, result)
+    })
+    .catch((err) => {
+      sendErrorResponse(res, 500, err)
+    })
+}
+
+exports.updatePlan = function (req, res) {
+  utility.callApi('companyprofile/updatePlan', 'post', req.body, 'accounts', req.headers.authorization)
+    .then((result) => {
+      sendSuccessResponse(res, 200, result)
+    })
+    .catch((err) => {
+      sendErrorResponse(res, 500, '', err)
+    })
+}
+
+exports.updateRole = function (req, res) {
+  utility.callApi('companyprofile/updateRole', 'post', {role: req.body.role, domain_email: req.body.domain_email}, 'accounts', req.headers.authorization)
+    .then((result) => {
+      logger.serverLog(TAG, 'result from invite endpoint accounts', 'debug')
+      logger.serverLog(TAG, result, 'debug')
+      res.status(200).json({status: 'success', payload: result})
+    })
+    .catch((err) => {
+      res.status(500).json({status: 'failed', payload: `${JSON.stringify(err)}`})
     })
 }
 exports.deleteWhatsAppInfo = function (req, res) {
@@ -417,6 +543,8 @@ exports.deleteWhatsAppInfo = function (req, res) {
                   callback(null, data)
                 })
                 .catch(err => {
+                  const message = err || 'Failed to update company profile'
+                  logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, req.body, {user: req.user}, 'error')
                   callback(err)
                 })
             },
@@ -430,11 +558,13 @@ exports.deleteWhatsAppInfo = function (req, res) {
                       callback(null)
                     })
                     .catch(err => {
+                      const message = err || 'Failed to update user profile'
+                      logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, req.body, {user: req.user}, 'error')
                       callback(err)
                     })
                 }).catch(err => {
                   const message = err || 'error in companyUser'
-                  logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, {}, req.user, 'error')
+                  logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, req.body, {user: req.user}, 'error')
                 })
             },
             function (callback) {
@@ -444,6 +574,8 @@ exports.deleteWhatsAppInfo = function (req, res) {
                     callback(null, data)
                   })
                   .catch(err => {
+                    const message = err || 'whatsapp contact delete many'
+                    logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, req.body, {user: req.user}, 'error')
                     callback(err)
                   })
               } else {
@@ -461,6 +593,8 @@ exports.deleteWhatsAppInfo = function (req, res) {
                     callback(null, data)
                   })
                   .catch(err => {
+                    const message = err || 'whatsapp broadcast delete error'
+                    logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, req.body, {user: req.user}, 'error')
                     callback(err)
                   })
               } else {
@@ -478,6 +612,8 @@ exports.deleteWhatsAppInfo = function (req, res) {
                     callback(null, data)
                   })
                   .catch(err => {
+                    const message = err || 'whatsapp broadcast messages delete error'
+                    logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, req.body, {user: req.user}, 'error')
                     callback(err)
                   })
               } else {
@@ -496,6 +632,8 @@ exports.deleteWhatsAppInfo = function (req, res) {
                     callback(null, data)
                   })
                   .catch(err => {
+                    const message = err || 'whatsapp chat messages delete error'
+                    logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, req.body, {user: req.user}, 'error')
                     callback(err)
                   })
               } else {
@@ -505,7 +643,7 @@ exports.deleteWhatsAppInfo = function (req, res) {
           ], 10, function (err, results) {
             if (err) {
               const message = err || 'Failed to delete whatsapp info'
-              logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, {}, {}, 'error')
+              logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, req.body, req.user, 'error')
               sendErrorResponse(res, 500, `Failed to delete whatsapp info ${err}`)
             } else {
               if (req.body.type === 'Disconnect' && req.body.connected && company.whatsApp.provider === 'flockSend') {
@@ -516,10 +654,14 @@ exports.deleteWhatsAppInfo = function (req, res) {
           })
         })
         .catch((err) => {
+          const message = err || 'failed to fetch company profile'
+          logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, req.body, req.user, 'error')
           sendErrorResponse(res, 500, err)
         })
     })
     .catch((err) => {
+      const message = err || 'failed to authenticate user'
+      logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, req.body, req.user, 'error')
       sendErrorResponse(res, 500, err)
     })
 }
@@ -533,7 +675,6 @@ const deleteWhatsappMessages = (companyId, skipRecords, LimitRecords) => {
   }
   utility.callApi('whatsAppBroadcastMessages/query', 'post', query, 'kiboengagedblayer')
     .then(messages => {
-      logger.serverLog(TAG, `message.length in deleteWhatsappMessages ${(messages.length)} `)
       let messageIds = messages.map(message => message.messageId)
       if (messages.length > 0) {
         utility.callApi(
@@ -542,11 +683,11 @@ const deleteWhatsappMessages = (companyId, skipRecords, LimitRecords) => {
           {purpose: 'deleteMany', match: {'payload.id': {$in: messageIds}}},
           'kiboengagedblayer')
           .then(deleted => {
-            logger.serverLog(TAG, `No of message deleted from Queue Message ${JSON.stringify(deleted)}`)
             deleteWhatsappMessages(companyId, skipRecords + 50, LimitRecords)
           })
           .catch(err => {
-            logger.serverLog(TAG, `Failed to delete messages from Whatsapp message Queue  ${err}`, 'error')
+            const message = err || 'failed to authenticate user'
+            logger.serverLog(message, `${TAG}: exports.deleteWhatsappMessages`, {}, {companyId, skipRecords, LimitRecords}, 'error')
           })
       } else {
         let query = {
@@ -555,13 +696,14 @@ const deleteWhatsappMessages = (companyId, skipRecords, LimitRecords) => {
         }
         utility.callApi(`whatsAppBroadcastMessages`, 'delete', query, 'kiboengagedblayer')
           .then(deleted => {
-            logger.serverLog(TAG, `Deleted whatsAppBroadcastMessages Succeefully ${JSON.stringify(deleted)}`)
           }).catch(err => {
-            logger.serverLog(TAG, `Failed to delete tweet from Whatsapp message Queue ${err}`, 'error')
+            const message = err || 'failed to delete whatsapp broadcast messages'
+            logger.serverLog(message, `${TAG}: exports.deleteWhatsappMessages`, {}, {companyId, skipRecords, LimitRecords}, 'error')
           })
       }
     }).catch(err => {
-      logger.serverLog(TAG, err, 'error')
+      const message = err || 'failed to fetch whatsapp broadcast messages'
+      logger.serverLog(message, `${TAG}: exports.deleteWhatsappMessages`, {}, {companyId, skipRecords, LimitRecords}, 'error')
     })
 }
 
@@ -584,7 +726,7 @@ exports.updateAdvancedSettings = function (req, res) {
     })
     .catch(err => {
       const message = err || 'Failed to update advanced settings'
-      logger.serverLog(message, `${TAG}: exports.updateAdvancedSettings`, {}, { user: req.user }, 'error')
+      logger.serverLog(message, `${TAG}: exports.updateAdvancedSettings`, req.body, { user: req.user }, 'error')
       sendErrorResponse(res, 500, null, 'Failed to update advanced settings')
     })
 }
@@ -616,7 +758,7 @@ exports.enableMember = function (req, res) {
     })
     .catch(err => {
       const message = err || 'Failed to activate member'
-      logger.serverLog(message, `${TAG}: exports.disableMember`, {}, { user: req.user }, 'error')
+      logger.serverLog(message, `${TAG}: exports.enableMember`, {}, { user: req.user }, 'error')
       sendErrorResponse(res, 500, 'Incorrect password', `Incorrect password`)
     })
 }
@@ -627,6 +769,8 @@ exports.getWhatsAppMessageTemplates = function (req, res) {
       sendSuccessResponse(res, 200, templates, 'Retrieved templates successfully')
     })
     .catch(error => {
+      const message = error || 'Error retrieving templates'
+      logger.serverLog(message, `${TAG}: exports.getWhatsAppMessageTemplates`, {}, { user: req.user }, 'error')
       sendErrorResponse(res, 500, error, 'Error retrieving templates')
     })
 }
