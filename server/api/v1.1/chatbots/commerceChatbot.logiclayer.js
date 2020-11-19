@@ -270,6 +270,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
       }
 
       if (products.nextPageParameters) {
+        console.log('products.nextPageParameters', products.nextPageParameters)
         messageBlock.payload[1].cards.push({
           title: 'View More',
           subtitle: `Click on the "View More" button to view more products`,
@@ -1483,6 +1484,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
           return invalidInput(chatbot, contact.lastMessageSentByBot, `${ERROR_INDICATOR}You entered an invalid response.`)
         }
       }
+      console.log(`getNextMessageBlock action ${JSON.stringify(action)}`)
       if (action.type === DYNAMIC) {
         try {
           let messageBlock = null
