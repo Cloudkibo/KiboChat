@@ -41,6 +41,8 @@ exports.load = function (req, res) {
     bigCom.verify(req.query['signed_payload'])
     res.sendFile(path.join(__dirname, '/welcome.html'))
   } catch (err) {
+    const message = err || 'bigcommerce load page error'
+    logger.serverLog(message, `${TAG}: exports.load`, {}, {query: req.query}, 'error')
     res.sendFile(path.join(__dirname, '/errorPage.html'))
   }
 }

@@ -115,8 +115,6 @@ const uploadVideo = (data) => {
       `https://graph.facebook.com/v6.0/${data.pageId}?fields=access_token&access_token=${data.userAccessToken}`,
       (err, resp2) => {
         if (err) {
-          const message = err || 'Failed to get page access_token'
-          logger.serverLog(message, `${TAG}: exports.uploadVideo`, {}, {data}, 'error')
           reject(util.inspect(err))
         }
         let pageAccessToken = resp2.body.access_token
@@ -141,8 +139,6 @@ const uploadVideo = (data) => {
           },
           function (err, resp) {
             if (err) {
-              const message = err || 'Failed to upload attachment on Facebook'
-              logger.serverLog(message, `${TAG}: exports.uploadVideo`, {}, {data}, 'error')
               reject(util.inspect(err))
             } else {
               resolve(resp.body.attachment_id)
@@ -156,8 +152,6 @@ const deleteVideo = (data) => {
   return new Promise((resolve, reject) => {
     fs.unlink(data.serverPath, (error) => {
       if (error) {
-        const message = error || 'Failed to delete video'
-        logger.serverLog(message, `${TAG}: exports.deleteVideo`, {}, {data}, 'error')
         reject(util.inspect(error))
       } else {
         resolve('Deleted successfully!')
@@ -175,14 +169,10 @@ const fetchPage = (botId, authToken) => {
             resolve(page)
           })
           .catch(err => {
-            const message = err || 'Failed to fetch page'
-            logger.serverLog(message, `${TAG}: exports.fetchPage`, {}, {botId}, 'error')
             reject(util.inspect(err))
           })
       })
       .catch(err => {
-        const message = err || 'Failed to fetch bot'
-        logger.serverLog(message, `${TAG}: exports.fetchPage`, {}, {botId}, 'error')
         reject(util.inspect(err))
       })
   })
@@ -415,7 +405,6 @@ function trainBot (payload, token) {
       if (err) {
         const message = err || 'Error Occured In Training WIT.AI app'
         logger.serverLog(message, `${TAG}: exports.trainBot`, {}, {payload, token}, 'error')
-        return logger.serverLog('Error Occured In Training WIT.AI app', 'error')
       }
     })
 }

@@ -180,9 +180,7 @@ const _getDuplicateRecords = (data) => {
             resolve(results.length > 0 ? results[0].count : 0)
           })
           .catch(error => {
-            resolve(0)
-            const message = error || 'error in message statistics'
-            logger.serverLog(message, `${TAG}: exports._getDuplicateRecords`, {}, { data }, 'error')
+            reject(error)
           })
       })
   })

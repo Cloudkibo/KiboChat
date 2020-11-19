@@ -203,8 +203,6 @@ function createContact (data) {
                 }
               })
               .catch(error => {
-                const message = error || 'Failed to map whatsapp contact'
-                logger.serverLog(message, `${TAG}: exports.createContact`, {}, {data}, 'error')
                 reject(error)
               })
           })
@@ -213,8 +211,6 @@ function createContact (data) {
         }
       })
       .catch(error => {
-        const message = error || 'Failed to company profile'
-        logger.serverLog(message, `${TAG}: exports.createContact`, {}, {data}, 'error')
         reject(error)
       })
   })

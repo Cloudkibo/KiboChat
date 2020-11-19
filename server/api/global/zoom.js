@@ -25,8 +25,6 @@ const zoomApiCaller = (method, path, data, auth, qs) => {
       options,
       (err, response) => {
         if (err) {
-          const message = err || 'error in zoom api'
-          logger.serverLog(message, `${TAG}: exports.zoomApiCaller`, {}, {method, path, data}, 'error')
           reject(err)
         } else {
           resolve(response.body)
@@ -50,8 +48,6 @@ exports.refreshAccessToken = (zoomUser) => {
           callApi('zoomUsers', 'put', {purpose: 'updateOne', match: {_id: zoomUser._id}, updated: {accessToken, refreshToken}})
             .then(updated => resolve(accessToken))
             .catch(err => {
-              const message = err || 'unable to update zoom users table record'
-              logger.serverLog(message, `${TAG}: exports.refreshAccessToken`, {}, {zoomUser}, 'error')
               reject(err)
             })
         } else {
@@ -59,8 +55,6 @@ exports.refreshAccessToken = (zoomUser) => {
         }
       })
       .catch(err => {
-        const message = err || 'error in zoom api call'
-        logger.serverLog(message, `${TAG}: exports.refreshAccessToken`, {}, {zoomUser}, 'error')
         reject(err)
       })
   })

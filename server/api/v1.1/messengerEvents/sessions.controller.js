@@ -425,7 +425,10 @@ function sendautomatedmsg (req, page) {
                                 }
                                 needle.post(webhooks[0].webhook_url, data,
                                   (error, response) => {
-                                    if (error) logger.serverLog(TAG, err, 'debug')
+                                    if (error) {
+                                      const message = error || 'Failed to send webhook'
+                                      logger.serverLog(message, `${TAG}: exports.sendautomatedmsg`, {}, {req}, 'error')
+                                    }
                                   })
                               }
                             } else {
@@ -438,7 +441,7 @@ function sendautomatedmsg (req, page) {
                       })
                       .catch(error => {
                         const message = error || 'Failed to fetch webhook'
-                        return logger.serverLog(message, `${TAG}: exports.recordRedis`, {}, {req}, 'error')
+                        return logger.serverLog(message, `${TAG}: exports.sendautomatedmsg`, {}, {req}, 'error')
                       })
                     LiveChatDataLayer.createFbMessageObject(chatMessage)
                       .then(chatMessageSaved => {

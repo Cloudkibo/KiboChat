@@ -220,7 +220,7 @@ exports.upload = function (req, res) {
               })
           })
           .catch(error => {
-            const message = err || 'unable to get page'
+            const message = error || 'unable to get page'
             logger.serverLog(message, `${TAG}: exports.upload`, req.body, {files: req.files, pages}, 'error')
             return res.status(500).json({status: 'failed', payload: `Failed to fetch page ${JSON.stringify(error)}`})
           })
