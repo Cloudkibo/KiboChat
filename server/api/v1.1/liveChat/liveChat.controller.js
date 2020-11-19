@@ -32,6 +32,8 @@ exports.index = function (req, res) {
         sendSuccessResponse(res, 200, payload)
       })
       .catch(err => {
+        const message = err || 'Error in fetching live chat'
+        logger.serverLog(message, `${TAG}: exports.index`, req.body, {user: req.user, params: req.params}, 'error')
         sendErrorResponse(res, 500, err)
       })
   } else {
@@ -57,6 +59,8 @@ exports.search = function (req, res) {
       sendSuccessResponse(res, 200, chats)
     })
     .catch(err => {
+      const message = err || 'Error in searching live chat'
+      logger.serverLog(message, `${TAG}: exports.search`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', err)
     })
 }
@@ -213,6 +217,8 @@ exports.create = function (req, res) {
     }
   ], 10, function (err, results) {
     if (err) {
+      const message = err || 'Error in callback function in async'
+      logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
       return res.status(500).json({status: 'failed', payload: err})
     } else {
       let fbMessageObject = results[0]
@@ -265,14 +271,14 @@ exports.create = function (req, res) {
             })
             .catch(err => {
               const message = err || 'create live chat error'
-              logger.serverLog(message, `${TAG}: exports.create`, {}, {}, 'error')
+              logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
               callback(err)
             })
         }
       ], 10, function (err, values) {
         if (err) {
           const message = err || 'Meta data not found'
-          logger.serverLog(message, `${TAG}: exports.create`, {}, {}, 'error')
+          logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
           sendErrorResponse(res, 400, 'Meta data not found')
         } else {
           fbMessageObject._id = req.body._id
@@ -305,6 +311,6 @@ const _removeSubsWaitingForUserInput = (subscriberId) => {
     })
     .catch(err => {
       const message = err || 'Failed to update subscriber'
-      logger.serverLog(message, `${TAG}: exports._removeSubsWaitingForUserInput`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports._removeSubsWaitingForUserInput`, {}, {waitingForUserInput, subscriberId}, 'error')
     })
 }

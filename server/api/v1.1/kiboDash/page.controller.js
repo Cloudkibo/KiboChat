@@ -41,7 +41,7 @@ exports.index = (req, res) => {
     })
     .catch((err) => {
       const message = err || 'Error in fetching data from KiboDash'
-      logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.index`, {}, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err)
     })
 }
@@ -53,7 +53,7 @@ exports.ranged = (req, res) => {
     })
     .catch((err) => {
       const message = err || 'Error in fetching data from KiboDash'
-      logger.serverLog(message, `${TAG}: exports.ranged`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.ranged`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', err)
     })
 }
@@ -65,7 +65,7 @@ exports.onePage = (req, res) => {
     })
     .catch((err) => {
       const message = err || 'Error in fetching data from KiboDash'
-      logger.serverLog(message, `${TAG}: exports.onePage`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.onePage`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', err)
     })
 }
@@ -78,7 +78,7 @@ exports.onePageRanged = (req, res) => {
     })
     .catch((err) => {
       const message = err || 'Error in fetching data from KiboDash'
-      logger.serverLog(message, `${TAG}: exports.onePageRanged`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.onePageRanged`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', err)
     })
 }
@@ -95,7 +95,7 @@ exports.topPages = (req, res) => {
           })
           .catch((err) => {
             const message = err || 'Error in fetching data from KiboDash'
-            logger.serverLog(message, `${TAG}: exports.topRange`, {}, {}, 'error')
+            logger.serverLog(message, `${TAG}: exports.topRange`, req.body, {user: req.user}, 'error')
             sendErrorResponse(res, 500, '', err)
           })
       } else {
@@ -104,7 +104,7 @@ exports.topPages = (req, res) => {
     })
     .catch((err) => {
       const message = err || 'Error in fetching data from KiboDash'
-      logger.serverLog(message, `${TAG}: exports.topPages`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.topPages`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', err)
     })
 }

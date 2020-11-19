@@ -2,7 +2,7 @@ const logicLayer = require('./pages.logiclayer')
 const utility = require('../utility')
 const needle = require('needle')
 const logger = require('../../../components/logger')
-const TAG = 'api/v2/pages/pages.controller.js'
+const TAG = 'api/v1/pages/pages.controller.js'
 const broadcastUtility = require('../broadcasts/broadcasts.utility')
 let config = require('./../../../config/environment')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
@@ -19,6 +19,8 @@ exports.index = function (req, res) {
           })
         })
         .catch(error => {
+          const message = error || 'Failed to fetch pages'
+          logger.serverLog(message, `${TAG}: exports.index`, {}, {user: req.user}, 'error')
           return res.status(500).json({
             status: 'failed',
             payload: `Failed to fetch pages ${JSON.stringify(error)}`
@@ -26,6 +28,8 @@ exports.index = function (req, res) {
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.index`, {}, {user: req.user}, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to fetch company user ${JSON.stringify(error)}`
@@ -69,6 +73,8 @@ exports.allPages = function (req, res) {
                   })
                 })
                 .catch(error => {
+                  const message = error || 'Failed to fetch company user'
+                  logger.serverLog(message, `${TAG}: exports.allPages`, {}, {user: req.user}, 'error')
                   return res.status(500).json({
                     status: 'failed',
                     payload: `Failed to fetch unsubscribes ${JSON.stringify(error)}`
@@ -76,6 +82,8 @@ exports.allPages = function (req, res) {
                 })
             })
             .catch(error => {
+              const message = error || 'Failed to fetch subscribes'
+              logger.serverLog(message, `${TAG}: exports.allPages`, {}, {user: req.user}, 'error')
               return res.status(500).json({
                 status: 'failed',
                 payload: `Failed to fetch subscribes ${JSON.stringify(error)}`
@@ -83,6 +91,8 @@ exports.allPages = function (req, res) {
             })
         })
         .catch(error => {
+          const message = error || 'Failed to fetch connected pages'
+          logger.serverLog(message, `${TAG}: exports.allPages`, {}, {user: req.user}, 'error')
           return res.status(500).json({
             status: 'failed',
             payload: `Failed to fetch connected pages ${JSON.stringify(error)}`
@@ -90,6 +100,8 @@ exports.allPages = function (req, res) {
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.allPages`, {}, {user: req.user}, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to fetch company user ${JSON.stringify(error)}`
@@ -136,6 +148,8 @@ exports.connectedPages = function (req, res) {
                       })
                     })
                     .catch(error => {
+                      const message = error || 'Failed to fetch company user'
+                      logger.serverLog(message, `${TAG}: exports.connectedPages`, {}, {user: req.user}, 'error')
                       return res.status(500).json({
                         status: 'failed',
                         payload: `Failed to fetch unsubscribes ${JSON.stringify(error)}`
@@ -143,6 +157,8 @@ exports.connectedPages = function (req, res) {
                     })
                 })
                 .catch(error => {
+                  const message = error || 'Failed to fetch subscribes'
+                  logger.serverLog(message, `${TAG}: exports.connectedPages`, {}, {user: req.user}, 'error')
                   return res.status(500).json({
                     status: 'failed',
                     payload: `Failed to fetch subscribes ${JSON.stringify(error)}`
@@ -150,6 +166,8 @@ exports.connectedPages = function (req, res) {
                 })
             })
             .catch(error => {
+              const message = error || 'Failed to fetch connected pages'
+              logger.serverLog(message, `${TAG}: exports.connectedPages`, {}, {user: req.user}, 'error')
               return res.status(500).json({
                 status: 'failed',
                 payload: `Failed to fetch connected pages ${JSON.stringify(error)}`
@@ -157,6 +175,8 @@ exports.connectedPages = function (req, res) {
             })
         })
         .catch(error => {
+          const message = error || 'Failed to fetch connected pages count'
+          logger.serverLog(message, `${TAG}: exports.connectedPages`, {}, {user: req.user}, 'error')
           return res.status(500).json({
             status: 'failed',
             payload: `Failed to fetch connected pages count ${JSON.stringify(error)}`
@@ -164,6 +184,8 @@ exports.connectedPages = function (req, res) {
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.connectedPages`, {}, {user: req.user}, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to fetch company user ${JSON.stringify(error)}`
@@ -190,6 +212,8 @@ exports.enable = function (req, res) {
                   needle('get', `https://graph.facebook.com/v6.0/me?access_token=${page.accessToken}`)
                     .then(response => {
                       if (response.body.error) {
+                        const message = response.body.error || 'Failed to fetch company user'
+                        logger.serverLog(message, `${TAG}: exports.enable`, {}, {user: req.user}, 'error')
                         // sendOpAlert(response.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
                         return res.status(400).json({ status: 'failed', payload: response.body.error.message, type: 'invalid_permissions' })
                       } else {
@@ -232,6 +256,8 @@ exports.enable = function (req, res) {
                                           // console.log('update company')
                                         })
                                         .catch(error => {
+                                          const message = response.body.error || 'Failed to update company usage'
+                                          logger.serverLog(message, `${TAG}: exports.enable`, {}, {user: req.user}, 'error')
                                           sendErrorResponse(res, 500, `Failed to update company usage ${JSON.stringify(error)}`)
                                         })
                                       utility.callApi(`subscribers/update`, 'put', { query: { pageId: page._id }, newPayload: { isEnabledByPage: true }, options: {} }) // update subscribers
@@ -247,13 +273,14 @@ exports.enable = function (req, res) {
                                               'feed', 'conversations', 'mention', 'messages', 'message_echoes', 'message_deliveries', 'messaging_optins', 'messaging_postbacks', 'message_reads', 'messaging_referrals', 'messaging_policy_enforcement']
                                           }
                                           needle.post(`https://graph.facebook.com/v3.2/me/subscribed_apps?access_token=${page.accessToken}`, bodyToSend, (error, response) => {
-                                            console.log('response.body', response.body)
                                             if (error) {
-                                              console.log('error in subscribed_apps', error)
-                                              sendErrorResponse(res, 5000, JSON.stringify(error))
+                                              const message = error || 'Failed to see fb app all'
+                                              logger.serverLog(message, `${TAG}: exports.enable`, {}, {user: req.user}, 'error')
+                                              sendErrorResponse(res, 500, JSON.stringify(error))
                                             }
                                             if (response.body.error) {
-                                              // sendOpAlert(response.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
+                                              const message = response.body.error || 'Failed to see fb app all'
+                                              logger.serverLog(message, `${TAG}: exports.enable`, {}, {user: req.user}, 'error')
                                             }
                                             if (response.body.success) {
                                               let updateConnectedFacebook = { query: { pageId: page.pageId }, newPayload: { connectedFacebook: true }, options: { multi: true } }
@@ -262,7 +289,7 @@ exports.enable = function (req, res) {
                                                 })
                                                 .catch(error => {
                                                   const message = error || 'Failed to updatedPage'
-                                                  logger.serverLog(message, `${TAG}: exports.enable`, {}, {}, 'error')
+                                                  logger.serverLog(message, `${TAG}: exports.enable`, {}, {user: req.user}, 'error')
                                                 })
                                             }
                                             var valueForMenu = {
@@ -279,8 +306,8 @@ exports.enable = function (req, res) {
                                             needle.request('post', requesturl, valueForMenu,
                                               { json: true }, function (err, resp) {
                                                 if (err) {
-                                                  const message = error || 'Internal Server Error'
-                                                  logger.serverLog(message, `${TAG}: exports.enable`, {}, {}, 'error')
+                                                  const message = err || 'Internal Server Error'
+                                                  logger.serverLog(message, `${TAG}: exports.enable`, {}, {user: req.user}, 'error')
                                                 }
                                                 if (resp.body.error) {
                                                   const msg = resp.body.error.message || 'Page connect error'
@@ -313,10 +340,14 @@ exports.enable = function (req, res) {
                                           })
                                         })
                                         .catch(error => {
+                                          const message = error || 'Failed to update subscriber'
+                                          logger.serverLog(message, `${TAG}: exports.enable`, {}, {user: req.user}, 'error')
                                           sendErrorResponse(res, 500, `Failed to update subscriber ${JSON.stringify(error)}`)
                                         })
                                     })
                                     .catch(error => {
+                                      const message = error || 'Failed to connect page'
+                                      logger.serverLog(message, `${TAG}: exports.enable`, {}, {user: req.user}, 'error')
                                       sendErrorResponse(res, 500, `Failed to connect page ${JSON.stringify(error)}`)
                                     })
                                   //   } else {
@@ -329,7 +360,7 @@ exports.enable = function (req, res) {
                                 })
                                 .catch(err => {
                                   const message = err || 'Error at find page'
-                                  logger.serverLog(message, `${TAG}: exports.enable`, {}, {}, 'error')
+                                  logger.serverLog(message, `${TAG}: exports.enable`, {}, {user: req.user}, 'error')
                                   sendErrorResponse(res, 500, err)
                                 })
                             } else {
@@ -339,22 +370,32 @@ exports.enable = function (req, res) {
                       }
                     })
                     .catch(error => {
+                      const message = error || 'Failed to check page token'
+                      logger.serverLog(message, `${TAG}: exports.enable`, {}, {user: req.user}, 'error')
                       sendErrorResponse(res, 500, `Failed to check page token ${JSON.stringify(error)}`)
                     })
                 })
                 .catch(error => {
+                  const message = error || 'Failed to fetch page'
+                  logger.serverLog(message, `${TAG}: exports.enable`, {}, {user: req.user}, 'error')
                   sendErrorResponse(res, 500, `Failed to fetch page ${JSON.stringify(error)}`)
                 })
             })
             .catch(error => {
+              const message = error || 'Failed to fetch company usage'
+              logger.serverLog(message, `${TAG}: exports.enable`, {}, {user: req.user}, 'error')
               sendErrorResponse(res, 500, `Failed to fetch company usage ${JSON.stringify(error)}`)
             })
         })
         .catch(error => {
+          const message = error || 'Failed to fetch plan usage'
+          logger.serverLog(message, `${TAG}: exports.enable`, {}, {user: req.user}, 'error')
           sendErrorResponse(res, 500, `Failed to fetch plan usage ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.enable`, {}, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
@@ -365,7 +406,7 @@ const _updateWhiteListDomain = (req, page) => {
     })
     .catch(error => {
       const message = error || 'Failed to whitelist domain'
-      logger.serverLog(message, `${TAG}: exports.enable`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports._updateWhiteListDomain`, {}, { page }, 'error')
     })
 }
 
@@ -382,6 +423,8 @@ exports.disable = function (req, res) {
             .then(updated => {
             })
             .catch(error => {
+              const message = error || 'Failed to update company usage'
+              logger.serverLog(message, `${TAG}: exports.disable`, req.body, { user: req.user }, 'error')
               return res.status(500).json({
                 status: 'failed',
                 payload: `Failed to update company usage ${JSON.stringify(error)}`
@@ -394,6 +437,8 @@ exports.disable = function (req, res) {
           }
           needle.delete(options.url, options, (error, response) => {
             if (error) {
+              const message = error || 'Failed to get subscribed app'
+              logger.serverLog(message, `${TAG}: exports.disable`, req.body, { user: req.user }, 'error')
               return res.status(500).json({
                 status: 'failed',
                 payload: JSON.stringify(error)
@@ -418,6 +463,8 @@ exports.disable = function (req, res) {
           })
         })
         .catch(error => {
+          const message = error || 'Failed to update subscribers'
+          logger.serverLog(message, `${TAG}: exports.disable`, req.body, { user: req.user }, 'error')
           return res.status(500).json({
             status: 'failed',
             payload: `Failed to update subscribers ${JSON.stringify(error)}`
@@ -425,6 +472,8 @@ exports.disable = function (req, res) {
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch page'
+      logger.serverLog(message, `${TAG}: exports.disable`, req.body, { user: req.user }, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to fetch page ${JSON.stringify(error)}`
@@ -441,6 +490,8 @@ exports.createWelcomeMessage = function (req, res) {
       })
     })
     .catch(error => {
+      const message = error || 'Failed to update welcome message'
+      logger.serverLog(message, `${TAG}: exports.createWelcomeMessage`, req.body, { user: req.user }, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to update welcome message ${JSON.stringify(error)}`
@@ -457,6 +508,8 @@ exports.enableDisableWelcomeMessage = function (req, res) {
       })
     })
     .catch(error => {
+      const message = error || 'Failed to update welcome message'
+      logger.serverLog(message, `${TAG}: exports.enableDisableWelcomeMessage`, req.body, { user: req.user }, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to update welcome message ${JSON.stringify(error)}`
@@ -475,6 +528,8 @@ exports.whitelistDomain = function (req, res) {
       })
     })
     .catch(error => {
+      const message = error || 'Failed to save whitelist domains'
+      logger.serverLog(message, `${TAG}: exports.whitelistDomain`, req.body, { user: req.user }, 'error')
       return res.status(500).json({
         status: 'failed',
         description: `Failed to save whitelist domains ${JSON.stringify(error)}`
@@ -493,6 +548,8 @@ exports.fetchWhitelistedDomains = function (req, res) {
       })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch whitelist domains'
+      logger.serverLog(message, `${TAG}: exports.fetchWhitelistedDomains`, req.body, { user: req.user }, 'error')
       return res.status(500).json({
         status: 'failed',
         description: `Failed to fetch whitelist domains ${JSON.stringify(error)}`
@@ -512,6 +569,8 @@ exports.deleteWhitelistDomain = function (req, res) {
       })
     })
     .catch(error => {
+      const message = error || 'Failed to delete whitelist domains'
+      logger.serverLog(message, `${TAG}: exports.deleteWhitelistDomain`, req.body, { user: req.user }, 'error')
       return res.status(500).json({
         status: 'failed',
         description: `Failed to delete whitelist domains ${JSON.stringify(error)}`
@@ -520,12 +579,19 @@ exports.deleteWhitelistDomain = function (req, res) {
 }
 
 exports.isWhitelisted = function (req, res) {
-  console.log('req body brdut', req.user)
   broadcastUtility.isWhiteListedDomain(req.body.domain, req.body.pageId, req.user)
     .then(result => {
       return res.status(200).json({
         status: 'success',
         payload: result.returnValue
+      })
+    })
+    .catch(error => {
+      const message = error || 'Failed to check whitelist domains'
+      logger.serverLog(message, `${TAG}: exports.isWhitelisted`, req.body, { user: req.user }, 'error')
+      return res.status(500).json({
+        status: 'failed',
+        description: `Failed to check whitelist domains ${JSON.stringify(error)}`
       })
     })
 }
@@ -559,7 +625,7 @@ exports.saveGreetingText = function (req, res) {
                     }
                     if (err) {
                       const message = err || 'Internal Server Error'
-                      logger.serverLog(message, `${TAG}: exports.enable`, {}, {}, 'error')
+                      logger.serverLog(message, `${TAG}: exports.saveGreetingText`, req.body, {user: req.user}, 'error')
                     }
                   })
               } else {
@@ -571,6 +637,8 @@ exports.saveGreetingText = function (req, res) {
             })
         })
         .catch(error => {
+          const message = error || 'Failed to fetch companyUser'
+          logger.serverLog(message, `${TAG}: exports.saveGreetingText`, req.body, { user: req.user }, 'error')
           return res.status(500).json({
             status: 'failed',
             payload: `Failed to fetch companyUser ${JSON.stringify(error)}`
@@ -578,6 +646,8 @@ exports.saveGreetingText = function (req, res) {
         })
     })
     .catch(error => {
+      const message = error || 'Failed to update greeting text message'
+      logger.serverLog(message, `${TAG}: exports.saveGreetingText`, req.body, { user: req.user }, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to update greeting text message ${JSON.stringify(error)}`
@@ -597,6 +667,8 @@ exports.addPages = function (req, res) {
           })
         })
         .catch(error => {
+          const message = error || 'Failed to update greeting text message'
+          logger.serverLog(message, `${TAG}: exports.addPages`, req.body, { user: req.user }, 'error')
           return res.status(500).json({
             status: 'failed',
             payload: `Failed to fetch pages ${JSON.stringify(error)}`
@@ -604,6 +676,8 @@ exports.addPages = function (req, res) {
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.addPages`, req.body, { user: req.user }, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to fetch company user ${JSON.stringify(error)}`
@@ -622,6 +696,8 @@ exports.otherPages = function (req, res) {
           })
         })
         .catch(error => {
+          const message = error || 'Failed to fetch pages'
+          logger.serverLog(message, `${TAG}: exports.otherPages`, req.body, { user: req.user }, 'error')
           return res.status(500).json({
             status: 'failed',
             payload: `Failed to fetch pages ${JSON.stringify(error)}`
@@ -629,6 +705,8 @@ exports.otherPages = function (req, res) {
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.otherPages`, req.body, { user: req.user }, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to fetch company user ${JSON.stringify(error)}`
@@ -713,6 +791,8 @@ exports.refreshPages = function (req, res) {
       sendSuccessResponse(res, 200, response)
     })
     .catch(error => {
+      const message = error || 'Failed to refresh pages'
+      logger.serverLog(message, `${TAG}: exports.refreshPages`, {}, { user: req.user }, 'error')
       sendErrorResponse(res, 500, `Failed to refresh pages ${JSON.stringify(error)}`)
     })
 }

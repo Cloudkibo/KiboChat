@@ -52,6 +52,6 @@ exports.index = function (req, res) {
     })
     .catch(error => {
       const message = error || 'error on getting subcribers'
-      return logger.serverLog(message, `${TAG}: exports.index`, req.body, {}, 'error')
+      return logger.serverLog(message, `${TAG}: exports.index`, req.body, {messengerPayload}, 'error')
     })
 }

@@ -5,7 +5,7 @@ const dataLayer = require('./whatsAppChatbot.datalayer')
 const analyticsDataLayer = require('./whatsAppChatbot_analytics.datalayer')
 const utility = require('../utility/index.js')
 const logger = require('../../../components/logger')
-const TAG = 'api/v1/whatsAppChatbot/whatsAppChatbot.controller'
+const TAG = 'api/v1.1/whatsAppChatbot/whatsAppChatbot.controller'
 
 exports.create = async (req, res) => {
   try {
@@ -29,6 +29,8 @@ exports.create = async (req, res) => {
       messageBlockDataLayer.createBulkMessageBlocks(messageBlocks)
     }
   } catch (err) {
+    const message = err || 'Failed to create WhatsApp chatbot'
+    logger.serverLog(message, `${TAG}: exports.create`, req.body, { user: req.user }, 'error')
     sendErrorResponse(res, 500, err.message, `Failed to create WhatsApp chatbot`)
   }
 }
@@ -42,6 +44,8 @@ exports.fetch = async (req, res) => {
       sendErrorResponse(res, 500, chatbot, `No WhatsApp chatbot found`)
     }
   } catch (err) {
+    const message = err || 'Failed to fetch WhatsApp chatbot'
+    logger.serverLog(message, `${TAG}: exports.fetch`, {}, { user: req.user }, 'error')
     sendErrorResponse(res, 500, err.message, `Failed to fetch WhatsApp chatbot`)
   }
 }
@@ -54,6 +58,8 @@ exports.update = async (req, res) => {
       logicLayer.updateFaqsForStartingBlock(updatedChatbot)
     }
   } catch (err) {
+    const message = err || 'Failed to update WhatsApp chatbot'
+    logger.serverLog(message, `${TAG}: exports.update`, req.body, { user: req.user }, 'error')
     sendErrorResponse(res, 500, err.message, `Failed to update WhatsApp chatbot`)
   }
 }
@@ -82,6 +88,8 @@ exports.fetchAnalytics = async (req, res) => {
       }, null)
     }
   } catch (err) {
+    const message = err || 'Failed to fetch analytics for chatbot'
+    logger.serverLog(message, `${TAG}: exports.fetchAnalytics`, {}, { user: req.user, params: req.params }, 'error')
     sendErrorResponse(res, 500, 'Failed to fetch analytics for chatbot')
   }
 }

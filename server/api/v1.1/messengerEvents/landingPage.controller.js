@@ -33,6 +33,8 @@ exports.index = function (req, res) {
                     },
                     (err, res) => {
                       if (err) {
+                        const message = err || 'ERROR at calling fb'
+                        return logger.serverLog(message, `${TAG}: exports.index`, req.body, {}, 'error')
                       } else {
                         if (res.statusCode !== 200) {
                         }

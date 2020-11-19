@@ -49,6 +49,8 @@ exports.fetchOpenSessions = function (req, res) {
     }
   ], 10, function (err, results) {
     if (err) {
+      const message = err || 'Error while async calls'
+      logger.serverLog(message, `${TAG}: exports.fetchOpenSessions`, {}, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err)
     } else {
       let countResopnse = results[0]
@@ -94,6 +96,8 @@ exports.fetchResolvedSessions = function (req, res) {
     }
   ], 10, function (err, results) {
     if (err) {
+      const message = err || 'Error while async calls'
+      logger.serverLog(message, `${TAG}: exports.fetchResolvedSessions`, {}, {user: req.user}, 'error')
       return res.status(500).json({status: 'failed', payload: err})
     } else {
       let countResopnse = results[0]
@@ -115,10 +119,14 @@ exports.markread = function (req, res) {
             sendSuccessResponse(res, 200, 'Chat has been marked read successfully!')
           })
           .catch(err => {
+            const message = err || 'Error while whatsapp update'
+            logger.serverLog(message, `${TAG}: exports.markread`, {}, {user: req.user, params: req.params}, 'error')
             sendErrorResponse(res, 500, err)
           })
       })
       .catch(err => {
+        const message = err || 'Error while whatsapp update'
+        logger.serverLog(message, `${TAG}: exports.markread`, {}, {user: req.user, params: req.params}, 'error')
         sendErrorResponse(res, 500, err)
       })
   } else {
@@ -161,20 +169,20 @@ function _sendStatusNotification (subscriberId, status, companyId, userName) {
                       sendNotifications(title, body, newPayload, companyUsers)
                     }).catch(error => {
                       const message = error || 'Error while fetching agents'
-                      logger.serverLog(message, `${TAG}: exports._sendStatusNotification`, {}, {}, 'error')
+                      logger.serverLog(message, `${TAG}: exports._sendStatusNotification`, {}, {subscriberId, status, companyId, userName}, 'error')
                     })
                 } else {
                   sendNotifications(title, body, newPayload, companyUsers)
                 }
               }).catch(error => {
                 const message = error || 'Error while fetching companyUsers'
-                logger.serverLog(message, `${TAG}: exports._sendStatusNotification`, {}, {}, 'error')
+                logger.serverLog(message, `${TAG}: exports._sendStatusNotification`, {}, {subscriberId, status, companyId, userName}, 'error')
               })
           })
       }
     }).catch(error => {
       const message = error || 'Error while fetching subscribers'
-      logger.serverLog(message, `${TAG}: exports._sendStatusNotification`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports._sendStatusNotification`, {}, {subscriberId, status, companyId, userName}, 'error')
     })
 }
 exports.changeStatus = function (req, res) {
@@ -193,7 +201,7 @@ exports.changeStatus = function (req, res) {
               })
               .catch(err => {
                 const message = err || 'Unable to fetch company'
-                logger.serverLog(message, `${TAG}: exports.changeStatus`, {}, {}, 'error')
+                logger.serverLog(message, `${TAG}: exports.changeStatus`, req.body, {user: req.user}, 'error')
               })
           }
           let lastMessageData = logicLayer.getQueryData('', 'aggregate', {contactId: req.body._id, companyId: req.user.companyId}, undefined, {_id: -1}, 1, undefined)
@@ -219,14 +227,20 @@ exports.changeStatus = function (req, res) {
               sendSuccessResponse(res, 200, 'Status has been updated successfully!')
             })
             .catch(err => {
+              const message = err || 'Unable to whatsapp chat query'
+              logger.serverLog(message, `${TAG}: exports.changeStatus`, req.body, {user: req.user}, 'error')
               sendErrorResponse(res, 500, err)
             })
         })
         .catch(err => {
+          const message = err || 'Unable to whatsapp contact query'
+          logger.serverLog(message, `${TAG}: exports.changeStatus`, req.body, {user: req.user}, 'error')
           sendErrorResponse(res, 500, err)
         })
     })
     .catch(err => {
+      const message = err || 'Unable to whatsapp contact update'
+      logger.serverLog(message, `${TAG}: exports.changeStatus`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err)
     })
 }
@@ -253,6 +267,8 @@ exports.updatePendingResponse = function (req, res) {
       sendSuccessResponse(res, 200, 'Pending Response updates successfully')
     })
     .catch(err => {
+      const message = err || 'Unable to whatsapp contact update'
+      logger.serverLog(message, `${TAG}: exports.updatePendingResponse`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err)
     })
 }
@@ -271,7 +287,7 @@ function _sendNotification (title, body, subscriber, companyUsers, lastMessageDa
       sendNotifications(title, body, newPayload, companyUsers)
     }).catch(error => {
       const message = error || 'Error while fetching lastMessageData details'
-      logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { body }, 'error')
+      logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { title, body, subscriber, companyUsers, lastMessageData }, 'error')
     })
 }
 
@@ -293,10 +309,12 @@ exports.assignAgent = function (req, res) {
             _sendNotification(title, body, subscriber, companyUsers, lastMessageData)
           }).catch(error => {
             const message = error || 'Error while fetching companyUser details'
-            logger.serverLog(message, `${TAG}: exports.assignAgent`, req.body, {}, 'error')
+            logger.serverLog(message, `${TAG}: exports.assignAgent`, req.body, {user: req.user}, 'error')
             sendErrorResponse(res, 500, `Failed to fetching companyUser details ${JSON.stringify(error)}`)
           })
       }).catch(err => {
+        const message = err || 'Error while fetching whatsapp contacts query'
+        logger.serverLog(message, `${TAG}: exports.assignAgent`, req.body, {user: req.user}, 'error')
         sendErrorResponse(res, 500, err)
       })
   }
@@ -326,6 +344,8 @@ exports.assignAgent = function (req, res) {
       sendSuccessResponse(res, 200, 'Agent has been assigned successfully!')
     })
     .catch(err => {
+      const message = err || 'Error while fetching whatsapp contacts update'
+      logger.serverLog(message, `${TAG}: exports.assignAgent`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err)
     })
 }
@@ -356,15 +376,17 @@ exports.assignTeam = function (req, res) {
                 let body = `You have been assigned a session as a agent in a ${req.body.teamName} team`
                 _sendNotification(title, body, subscriber, companyUsers, lastMessageData)
               }).catch(err => {
+                const message = err || 'Error while fetching agents'
+                logger.serverLog(message, `${TAG}: exports.assignTeam`, req.body, {user: req.user}, 'error')
                 sendErrorResponse(res, 500, err)
               })
           }).catch(error => {
             const message = error || 'Error while fetching agents'
-            logger.serverLog(message, `${TAG}: exports.assignTeam`, {}, {}, 'error')
+            logger.serverLog(message, `${TAG}: exports.assignTeam`, req.body, {user: req.user}, 'error')
           })
       }).catch(error => {
         const message = error || 'Error while fetching companyUser'
-        logger.serverLog(message, `${TAG}: exports.assignTeam`, {}, {}, 'error')
+        logger.serverLog(message, `${TAG}: exports.assignTeam`, req.body, {user: req.user}, 'error')
       })
   }
   callApi(
@@ -393,6 +415,8 @@ exports.assignTeam = function (req, res) {
       sendSuccessResponse(res, 200, 'Team has been assigned successfully!')
     })
     .catch(err => {
+      const message = err || 'Error while whatsapp contacts update'
+      logger.serverLog(message, `${TAG}: exports.assignTeam`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err)
     })
 }

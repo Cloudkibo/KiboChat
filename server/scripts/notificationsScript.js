@@ -49,7 +49,7 @@ exports.runLiveChatNotificationScript = function () {
                 })
                 .catch(err => {
                   const message = err || 'Unable to fetch company users'
-                  logger.serverLog(message, `${TAG}: exports.runLiveChatNotificationScript`, {}, {}, 'error')
+                  logger.serverLog(message, `${TAG}: exports.runLiveChatNotificationScript`, {}, {alerts}, 'error')
                   cb(err)
                 })
             }
@@ -57,7 +57,7 @@ exports.runLiveChatNotificationScript = function () {
         }, function (err) {
           if (err) {
             const message = err || 'Unable to generate admin alerts'
-            logger.serverLog(message, `${TAG}: exports.runLiveChatNotificationScript`, {}, {}, 'error')
+            logger.serverLog(message, `${TAG}: exports.runLiveChatNotificationScript`, {}, {alerts}, 'error')
           } else {
           }
         })
@@ -65,7 +65,7 @@ exports.runLiveChatNotificationScript = function () {
     })
     .catch(err => {
       const message = err || 'Unable to fetch cron stack'
-      logger.serverLog(message, `${TAG}: exports.runLiveChatNotificationScript`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.runLiveChatNotificationScript`, {}, {findAdminAlerts}, 'error')
     })
 }
 

@@ -47,11 +47,8 @@ function sendMenuReplyToSubscriber (replyPayload, senderId, firstName, lastName,
       },
       (err, res) => {
         if (err) {
-        } else {
-          if (res.statusCode !== 200) {
-            const message = req.body.error || 'At send message landingPage'
-            return logger.serverLog(message, `${TAG}: exports.sendMenuReplyToSubscriber`, {}, {replyPayload, senderId, firstName, lastName}, 'error')
-          }
+          const message = err || 'At send message to fb'
+          logger.serverLog(message, `${TAG}: exports.sendMenuReplyToSubscriber`, {}, {replyPayload, senderId, firstName, lastName}, 'error')
         }
       })
   }

@@ -22,6 +22,8 @@ exports.index = function (req, res) {
               })
             })
             .catch(error => {
+              const message = error || 'Failed to fetch tags subscribers'
+              logger.serverLog(message, `${TAG}: exports.index`, {}, {user: req.user}, 'error')
               return res.status(500).json({
                 status: 'failed',
                 payload: `Failed to fetch tags subscribers ${JSON.stringify(error)}`
@@ -29,6 +31,8 @@ exports.index = function (req, res) {
             })
         })
         .catch(error => {
+          const message = error || 'Failed to fetch subscribers'
+          logger.serverLog(message, `${TAG}: exports.index`, {}, {user: req.user}, 'error')
           return res.status(500).json({
             status: 'failed',
             payload: `Failed to fetch subscribers ${JSON.stringify(error)}`
@@ -36,6 +40,8 @@ exports.index = function (req, res) {
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.index`, {}, {user: req.user}, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to fetch company user ${JSON.stringify(error)}`
@@ -58,6 +64,8 @@ exports.allSubscribers = function (req, res) {
               })
             })
             .catch(error => {
+              const message = error || 'Failed to fetch tags subscribers'
+              logger.serverLog(message, `${TAG}: exports.allSubscribers`, {}, {user: req.user}, 'error')
               return res.status(500).json({
                 status: 'failed',
                 payload: `Failed to fetch tags subscribers ${JSON.stringify(error)}`
@@ -65,6 +73,8 @@ exports.allSubscribers = function (req, res) {
             })
         })
         .catch(error => {
+          const message = error || 'Failed to fetch subscribers'
+          logger.serverLog(message, `${TAG}: exports.allSubscribers`, {}, {user: req.user}, 'error')
           return res.status(500).json({
             status: 'failed',
             payload: `Failed to fetch subscribers ${JSON.stringify(error)}`
@@ -72,6 +82,8 @@ exports.allSubscribers = function (req, res) {
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.allSubscribers`, {}, {user: req.user}, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to fetch company user ${JSON.stringify(error)}`
@@ -91,6 +103,8 @@ exports.allLocales = function (req, res) {
           })
         })
         .catch(error => {
+          const message = error || 'Failed to fetch locales'
+          logger.serverLog(message, `${TAG}: exports.allLocales`, {}, {user: req.user}, 'error')
           return res.status(500).json({
             status: 'failed',
             payload: `Failed to fetch locales ${JSON.stringify(error)}`
@@ -98,6 +112,8 @@ exports.allLocales = function (req, res) {
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.allLocales`, {}, {user: req.user}, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to fetch company user ${JSON.stringify(error)}`
@@ -138,19 +154,27 @@ const getAllSubscribers = function (subscribers, count, req, res) {
                   sendSuccessResponse(res, 200, {subscribers: finalPayload, count: count.length > 0 ? count[0].count : 0})
                 })
                 .catch(error => {
+                  const message = error || 'Failed to fetch custom_Field_subscribers'
+                  logger.serverLog(message, `${TAG}: exports.getAllSubscribers`, {}, {user: req.user, subscribers}, 'error')
                   sendErrorResponse(res, 500, `Failed to fetch custom_Field_subscribers ${JSON.stringify(error)}`)
                 })
             })
             .catch(error => {
+              const message = error || 'Failed to fetch custom_Fields'
+              logger.serverLog(message, `${TAG}: exports.getAllSubscribers`, {}, {user: req.user, subscribers}, 'error')
               sendErrorResponse(res, 500, `Failed to fetch custom_Fields ${JSON.stringify(error)}`)
             })
         })
         // end append custom Fields
         .catch(error => {
+          const message = error || 'Failed to fetch tags subscribers'
+          logger.serverLog(message, `${TAG}: exports.getAllSubscribers`, {}, {user: req.user, subscribers}, 'error')
           sendErrorResponse(res, 500, `Failed to fetch tags subscribers ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch tags'
+      logger.serverLog(message, `${TAG}: exports.getAllSubscribers`, {}, {user: req.user, subscribers}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch tags ${JSON.stringify(error)}`)
     })
 }
@@ -182,17 +206,17 @@ exports.getAll = function (req, res) {
               })
               .catch(err => {
                 const message = err || 'Failed to fetch subscriber data'
-                logger.serverLog(message, `${TAG}: exports.getAll`, {}, {}, 'error')
+                logger.serverLog(message, `${TAG}: exports.getAll`, req.body, {user: req.user}, 'error')
               })
           })
           .catch(err => {
             const message = err || 'Failed to fetch subscriber count'
-            logger.serverLog(message, `${TAG}: exports.getAll`, {}, {}, 'error')
+            logger.serverLog(message, `${TAG}: exports.getAll`, req.body, {user: req.user}, 'error')
           })
       })
       .catch(err => {
         const message = err || 'Failed to fetch tag'
-        logger.serverLog(message, `${TAG}: exports.getAll`, {}, {}, 'error')
+        logger.serverLog(message, `${TAG}: exports.getAll`, req.body, {user: req.user}, 'error')
       })
   } else {
     dt = new Date()
@@ -208,10 +232,14 @@ exports.getAll = function (req, res) {
             getAllSubscribers(subscribers, count, req, res)
           })
           .catch(error => {
+            const message = error || 'Failed to fetch subscribers'
+            logger.serverLog(message, `${TAG}: exports.getAll`, req.body, {user: req.user}, 'error')
             sendErrorResponse(res, 500, `Failed to fetch subscribers ${JSON.stringify(error)}`)
           })
       })
       .catch(error => {
+        const message = error || 'Failed to fetch subscribers count'
+        logger.serverLog(message, `${TAG}: exports.getAll`, req.body, {user: req.user}, 'error')
         sendErrorResponse(res, 500, `Failed to fetch subscriber count ${JSON.stringify(error)}`)
       })
   }
@@ -226,6 +254,8 @@ exports.subscribeBack = function (req, res) {
       })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch subscriber'
+      logger.serverLog(message, `${TAG}: exports.getAll`, {}, {params: req.params}, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to fetch subscriber ${JSON.stringify(error)}`
@@ -243,6 +273,8 @@ exports.updatePicture = function (req, res) {
       })
     })
     .catch(err => {
+      const message = err || 'Failed to fetch subscriber'
+      logger.serverLog(message, `${TAG}: exports.updatePicture`, req.body, {user: req.user}, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to update subscriber data ${JSON.stringify(err)}`
@@ -259,6 +291,8 @@ exports.updateData = function (req, res) {
       })
     })
     .catch(err => {
+      const message = err || 'Failed to fetch subscriber'
+      logger.serverLog(message, `${TAG}: exports.updateData`, req.body, {user: req.user}, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to fetch subscribers ${JSON.stringify(err)}`
@@ -305,7 +339,7 @@ exports.unSubscribe = function (req, res) {
         (err, resp) => {
           if (err) {
             const message = err || 'Page access token from graph api error'
-            logger.serverLog(message, `${TAG}: exports.recordRedis`, {}, {}, 'error')
+            logger.serverLog(message, `${TAG}: exports.unSubscribe`, req.body, {}, 'error')
           }
           const messageData = {
             text: 'We have unsubscribed you from our page. We will notify you when we subscribe you again. Thanks'
@@ -319,6 +353,8 @@ exports.unSubscribe = function (req, res) {
             `https://graph.facebook.com/v6.0/me/messages?access_token=${resp.body.access_token}`,
             data, (err, resp) => {
               if (err) {
+                const message = err || 'Failed to call fb api'
+                logger.serverLog(message, `${TAG}: exports.unSubscribe`, req.body, {user: req.user}, 'error')
                 return res.status(500).json({
                   status: 'failed',
                   description: JSON.stringify(err)
@@ -340,6 +376,8 @@ exports.unSubscribe = function (req, res) {
         })
     })
     .catch(err => {
+      const message = err || 'Failed to fetch user'
+      logger.serverLog(message, `${TAG}: exports.unSubscribe`, req.body, {user: req.user}, 'error')
       res.status(500).json({ status: 'failed', payload: `Failed to fetch user ${JSON.stringify(err)}` })
     })
 }

@@ -27,15 +27,21 @@ exports.index = function (req, res) {
                           })
                       })
                       .catch(error => {
+                        const message = error || 'Failed to fetch distinct team pages'
+                        logger.serverLog(message, `${TAG}: exports.index`, req.body, {user: req.user}, 'error')
                         sendErrorResponse(res, 500, `Failed to fetch distinct team pages ${JSON.stringify(error)}`)
                       })
                   })
                   .catch(error => {
+                    const message = error || 'Failed to fetch unique team agents'
+                    logger.serverLog(message, `${TAG}: exports.index`, req.body, {user: req.user}, 'error')
                     sendErrorResponse(res, 500, `Failed to fetch unique team agents ${JSON.stringify(error)}`)
                   })
               })
           })
           .catch(error => {
+            const message = error || 'Failed to fetch distinct team agents'
+            logger.serverLog(message, `${TAG}: exports.index`, req.body, {user: req.user}, 'error')
             sendErrorResponse(res, 500, `Failed to fetch distinct team agents ${JSON.stringify(error)}`)
           })
       } else {
@@ -43,6 +49,8 @@ exports.index = function (req, res) {
       }
     })
     .catch(error => {
+      const message = error || 'Failed to fetch teams'
+      logger.serverLog(message, `${TAG}: exports.index`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch teams ${JSON.stringify(error)}`)
     })
 }
@@ -97,16 +105,33 @@ exports.createTeam = function (req, res) {
                   })
               })
               .catch(error => {
-                sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
+                const message = error || 'Failed to create agent'
+                logger.serverLog(message, `${TAG}: exports.createTeam`, req.body, {user: req.user}, 'error')
               })
+          })
+          if (req.body.pageIds) {
+            pageIds.forEach(pageId => {
+              let teamPagesPayload = logicLayer.getTeamPagesPayload(createdTeam, companyuser, pageId)
+              utility.callApi(`teams/pages`, 'post', teamPagesPayload) // create team page
+                .then(createdPage => {
+                })
+                .catch(error => {
+                  const message = error || 'Failed to create page'
+                  logger.serverLog(message, `${TAG}: exports.createTeam`, req.body, {user: req.user}, 'error')
+                })
+            })
           }
         })
         .catch(error => {
-          sendErrorResponse(res, 500, `Failed to fetch company usage ${JSON.stringify(error)}`)
+          const message = error || 'Failed to create team'
+          logger.serverLog(message, `${TAG}: exports.createTeam`, req.body, {user: req.user}, 'error')
+          sendErrorResponse(res, 500, `Failed to create team ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
-      sendErrorResponse(res, 500, `Failed to fetch plan usage ${JSON.stringify(error)}`)
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.createTeam`, req.body, {user: req.user}, 'error')
+      sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
 
@@ -117,6 +142,8 @@ exports.updateTeam = function (req, res) {
       sendSuccessResponse(res, 200, team)
     })
     .catch(error => {
+      const message = error || 'Failed to update team'
+      logger.serverLog(message, `${TAG}: exports.updateTeam`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to update team ${JSON.stringify(error)}`)
     })
 }
@@ -128,6 +155,8 @@ exports.deleteTeam = function (req, res) {
       sendSuccessResponse(res, 200, 'Team deleted successfully!')
     })
     .catch(error => {
+      const message = error || 'Failed to delete team'
+      logger.serverLog(message, `${TAG}: exports.deleteTeam`, {}, {user: req.user, params: req.params}, 'error')
       sendErrorResponse(res, 500, `Failed to delete team ${JSON.stringify(error)}`)
     })
 }
@@ -146,20 +175,25 @@ exports.addAgent = function (req, res) {
                 sendSuccessResponse(res, 200, 'Agent added successfully!')
               })
               .catch(error => {
+                const message = error || 'Failed to create team agent'
+                logger.serverLog(message, `${TAG}: exports.addAgent`, req.body, {user: req.user}, 'error')
                 sendErrorResponse(res, 500, `Failed to create team agent ${JSON.stringify(error)}`)
               })
           }
         }).catch(error => {
+          const message = error || 'Failed to fetch agent'
+          logger.serverLog(message, `${TAG}: exports.addAgent`, req.body, {user: req.user}, 'error')
           sendErrorResponse(res, 500, `Failed to fetch agent ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company User'
+      logger.serverLog(message, `${TAG}: exports.addAgent`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch company User ${JSON.stringify(error)}`)
     })
 }
 
 exports.addPage = function (req, res) {
-  console.log('call add Page')
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
     .then(companyuser => {
       let pagePayload = logicLayer.getTeamPagesPayload({_id: req.body.teamId}, companyuser, req.body.pageId)
@@ -173,14 +207,20 @@ exports.addPage = function (req, res) {
                 sendSuccessResponse(res, 200, 'Page added successfully!')
               })
               .catch(error => {
+                const message = error || 'Failed to create team page'
+                logger.serverLog(message, `${TAG}: exports.addPage`, req.body, {user: req.user}, 'error')
                 sendErrorResponse(res, 500, `Failed to create team page ${JSON.stringify(error)}`)
               })
           }
         })
         .catch(error => {
+          const message = error || 'Failed to fetch Page'
+          logger.serverLog(message, `${TAG}: exports.addPage`, req.body, {user: req.user}, 'error')
           sendErrorResponse(res, 500, `Failed to fetch Page ${JSON.stringify(error)}`)
         })
     }).catch(error => {
+      const message = error || 'Failed to fetch company User'
+      logger.serverLog(message, `${TAG}: exports.addPage`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch company User ${JSON.stringify(error)}`)
     })
 }
@@ -194,6 +234,8 @@ exports.removeAgent = function (req, res) {
           .then(deletedAgent => {
           })
           .catch(error => {
+            const message = error || 'Failed to delete team agent'
+            logger.serverLog(message, `${TAG}: exports.removeAgent`, req.body, {user: req.user}, 'error')
             sendErrorResponse(res, 500, `Failed to delete team agent ${JSON.stringify(error)}`)
           })
         if (i === req.body.agentId.length - 1) {
@@ -202,6 +244,8 @@ exports.removeAgent = function (req, res) {
       }
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company User'
+      logger.serverLog(message, `${TAG}: exports.removeAgent`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch company User ${JSON.stringify(error)}`)
     })
 }
@@ -215,6 +259,8 @@ exports.removePage = function (req, res) {
           .then(craetedPage => {
           })
           .catch(error => {
+            const message = error || 'Failed to delete team page'
+            logger.serverLog(message, `${TAG}: exports.removePage`, req.body, {user: req.user}, 'error')
             sendErrorResponse(res, 500, `Failed to delete team page ${JSON.stringify(error)}`)
           })
         if (i === req.body.pageId.length - 1) {
@@ -223,6 +269,8 @@ exports.removePage = function (req, res) {
       }
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company User'
+      logger.serverLog(message, `${TAG}: exports.removePage`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch company User ${JSON.stringify(error)}`)
     })
 }
@@ -235,10 +283,14 @@ exports.fetchAgents = function (req, res) {
           sendSuccessResponse(res, 200, agents)
         })
         .catch(error => {
+          const message = error || 'Failed to fetch team agents'
+          logger.serverLog(message, `${TAG}: exports.fetchAgents`, req.body, {user: req.user}, 'error')
           sendErrorResponse(res, 500, `Failed to fetch team agents ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company User'
+      logger.serverLog(message, `${TAG}: exports.fetchAgents`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch company User ${JSON.stringify(error)}`)
     })
 }
@@ -251,11 +303,15 @@ exports.fetchPages = function (req, res) {
           sendSuccessResponse(res, 200, agents)
         })
         .catch(error => {
+          const message = error || 'Failed to fetch team pages'
+          logger.serverLog(message, `${TAG}: exports.fetchPages`, req.body, {user: req.user}, 'error')
           sendErrorResponse(res, 500, `Failed to fetch team pages ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
-      sendErrorResponse(res, 500, `Failed to fetch com pany User ${JSON.stringify(error)}`)
+      const message = error || 'Failed to fetch company User'
+      logger.serverLog(message, `${TAG}: exports.fetchPages`, req.body, {user: req.user}, 'error')
+      sendErrorResponse(res, 500, `Failed to fetch company User ${JSON.stringify(error)}`)
     })
 }
 

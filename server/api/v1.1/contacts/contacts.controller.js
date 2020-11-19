@@ -21,14 +21,20 @@ exports.index = function (req, res) {
               sendSuccessResponse(res, 200, {contacts: contacts, count: count.length > 0 ? count[0].count : 0})
             })
             .catch(error => {
+              const message = error || 'Failed to fetch subscribers'
+              logger.serverLog(message, `${TAG}: exports.index`, req.body, {user: req.user}, 'error')
               sendErrorResponse(res, 500, `Failed to fetch subscribers ${JSON.stringify(error)}`)
             })
         })
         .catch(error => {
+          const message = error || 'Failed to fetch subscriber count'
+          logger.serverLog(message, `${TAG}: exports.index`, req.body, {user: req.user}, 'error')
           sendErrorResponse(res, 500, `Failed to fetch subscriber count ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.index`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
@@ -36,6 +42,8 @@ exports.uploadFile = function (req, res) {
   let directory = phoneNumberLogicLayer.directory(req)
   fs.rename(req.files.file.path, path.join(directory.dir, '/userfiles/', directory.serverPath), err => {
     if (err) {
+      const message = err || 'internal server error on file move'
+      logger.serverLog(message, `${TAG}: exports.uploadFile`, req.body, {user: req.user, files: req.files}, 'error')
       sendErrorResponse(res, 500, '', 'internal server error' + JSON.stringify(err))
     }
     let data = {
@@ -49,7 +57,7 @@ exports.uploadFile = function (req, res) {
     ], function (err) {
       if (err) {
         const message = err || 'Failed to create autoposting'
-        logger.serverLog(message, `${TAG}: exports.uploadFile`, {}, {}, 'error')
+        logger.serverLog(message, `${TAG}: exports.uploadFile`, req.body, {user: req.user, files: req.files}, 'error')
         sendErrorResponse(res, 500, '', err)
       } else {
         sendSuccessResponse(res, 200, 'Contacts saved successfully')
@@ -89,8 +97,8 @@ const _saveContacts = (data, next) => {
                 .then(saved => {
                 })
                 .catch(error => {
-                  const message = err || 'Failed to save contact'
-                  return logger.serverLog(message, `${TAG}: exports._saveContacts`, {}, {}, 'error')
+                  const message = error || 'Failed to save contact'
+                  return logger.serverLog(message, `${TAG}: exports._saveContacts`, {}, {data}, 'error')
                 })
             } else if (data.body.listId !== 'master') {
               phone = phone[0]
@@ -108,15 +116,15 @@ const _saveContacts = (data, next) => {
                   .then(updated => {
                   })
                   .catch(error => {
-                    const message = err || 'failed to update contact'
-                    return logger.serverLog(message, `${TAG}: exports._saveContacts`, {}, {}, 'error')
+                    const message = error || 'failed to update contact'
+                    return logger.serverLog(message, `${TAG}: exports._saveContacts`, {}, {data}, 'error')
                   })
               }
             }
           })
           .catch(error => {
-            const message = err || 'failed to fetch contact'
-            return logger.serverLog(message, `${TAG}: exports._saveContacts`, {}, {}, 'error')
+            const message = error || 'failed to fetch contact'
+            return logger.serverLog(message, `${TAG}: exports._saveContacts`, {}, {data}, 'error')
           })
       }
     })
@@ -140,8 +148,8 @@ exports.uploadNumbers = function (req, res) {
                 .then(saved => {
                 })
                 .catch(error => {
-                  const message = err || 'Failed to save contact'
-                  return logger.serverLog(message, `${TAG}: exports.uploadNumbers`, {}, {}, 'error')
+                  const message = error || 'Failed to save contact'
+                  return logger.serverLog(message, `${TAG}: exports.uploadNumbers`, req.body, {user: req.user}, 'error')
                 })
             }
             if (i === req.body.numbers.length - 1) {
@@ -150,11 +158,13 @@ exports.uploadNumbers = function (req, res) {
           })
           .catch(error => {
             const message = error || 'Failed to fetch contact'
-            return logger.serverLog(message, `${TAG}: exports.uploadNumbers`, {}, {}, 'error')
+            return logger.serverLog(message, `${TAG}: exports.uploadNumbers`, req.body, {user: req.user}, 'error')
           })
       }
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.uploadNumbers`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
@@ -169,6 +179,8 @@ exports.update = function (req, res) {
       sendSuccessResponse(res, 200, updated)
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.update`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
@@ -178,6 +190,8 @@ exports.fetchLists = function (req, res) {
       sendSuccessResponse(res, 200, lists)
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.fetchLists`, {}, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }

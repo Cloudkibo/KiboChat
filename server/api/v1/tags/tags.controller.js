@@ -3,6 +3,8 @@
  */
 const callApi = require('../utility')
 const async = require('async')
+const logger = require('../../../components/logger')
+const TAG = 'api/v2/tags/tags.controller.js'
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
 const { updateCompanyUsage } = require('../../global/billingPricing')
 
@@ -29,6 +31,8 @@ exports.index = function (req, res) {
               .catch(err => callback(err))
           }, (err) => {
             if (err) {
+              const message = err || 'Internal Server Error in fetching tags'
+              logger.serverLog(message, `${TAG}: exports.index`, {}, {user: req.user}, 'error')
               return sendErrorResponse(res, 500, {}, `Internal Server Error in fetching tags ${JSON.stringify(err)}`)
             }
             return sendSuccessResponse(res, 200, tags)
@@ -36,12 +40,16 @@ exports.index = function (req, res) {
         })
         .catch(err => {
           if (err) {
+            const message = err || 'Internal Server Error in fetching tags'
+            logger.serverLog(message, `${TAG}: exports.index`, {}, {user: req.user}, 'error')
             return sendErrorResponse(res, 500, {}, `Internal Server Error in fetching tags ${JSON.stringify(err)}`)
           }
         })
     })
     .catch(err => {
       if (err) {
+        const message = err || 'Internal Server Error in fetching tags'
+        logger.serverLog(message, `${TAG}: exports.index`, {}, {user: req.user}, 'error')
         return sendErrorResponse(res, 500, {}, `Internal Server Error in fetching tags ${JSON.stringify(err)}`)
       }
     })
@@ -88,20 +96,28 @@ exports.create = function (req, res) {
                       sendSuccessResponse(res, 200, newTag)
                     })
                     .catch(err => {
+                      const message = err || 'Internal Server Error in saving tags'
+                      logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
                       sendErrorResponse(res, 500, '', `Internal Server Error in saving tag${JSON.stringify(err)}`)
                     })
                 }
               })
               .catch(err => {
+                const message = err || 'Failed to fetch tags'
+                logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
                 sendErrorResponse(res, 500, '', `Failed to fetch tags ${JSON.stringify(err)}`)
               })
           }
         })
         .catch(err => {
+          const message = err || 'Failed to fetch company'
+          logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
           sendErrorResponse(res, 500, '', `Failed to company usage ${JSON.stringify(err)}`)
         })
     })
     .catch(err => {
+      const message = err || 'Failed to fetch plan usage'
+      logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', `Failed to plan usage ${JSON.stringify(err)}`)
     })
 }
@@ -126,6 +142,8 @@ exports.rename = function (req, res) {
             sendSuccessResponse(res, 200, 'Tag has been deleted successfully!')
           })
           .catch(err => {
+            const message = err || 'Failed to edit tag'
+            logger.serverLog(message, `${TAG}: exports.rename`, req.body, {user: req.user}, 'error')
             sendErrorResponse(res, 404, '', `Failed to edit tag ${err}`)
           })
       } else {
@@ -133,6 +151,8 @@ exports.rename = function (req, res) {
       }
     })
     .catch(err => {
+      const message = err || 'Internal Server Error'
+      logger.serverLog(message, `${TAG}: exports.rename`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', `Internal Server Error ${JSON.stringify(err)}`)
     })
 }
@@ -177,6 +197,8 @@ exports.delete = function (req, res) {
           }
         ], 10, function (err, results) {
           if (err) {
+            const message = err || 'Failed to delete tag'
+            logger.serverLog(message, `${TAG}: exports.delete`, req.body, {user: req.user}, 'error')
             sendErrorResponse(res, 500, '', `Failed to delete tag ${err}`)
           } else {
             updateCompanyUsage(req.user.companyId, 'tags', -1)
@@ -197,6 +219,8 @@ exports.delete = function (req, res) {
       }
     })
     .catch(err => {
+      const message = err || 'Failed to find tag'
+      logger.serverLog(message, `${TAG}: exports.delete`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', `Failed to find tags ${err}`)
     })
 }
@@ -231,6 +255,8 @@ exports.assign = function (req, res) {
     }
   ], 10, function (err, results) {
     if (err) {
+      const message = err || 'Internal Server Error in Assigning tag'
+      logger.serverLog(message, `${TAG}: exports.assign`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', `Internal Server Error in Assigning tag ${JSON.stringify(err)}`)
     }
     require('./../../../config/socketio').sendMessageToClient({
@@ -274,6 +300,8 @@ exports.unassign = function (req, res) {
     }
   ], 10, function (err, results) {
     if (err) {
+      const message = err || 'Internal Server Error in unassigning tag'
+      logger.serverLog(message, `${TAG}: exports.assign`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', `Internal Server Error in unassigning tag ${err}`)
     }
     require('./../../../config/socketio').sendMessageToClient({
@@ -304,6 +332,8 @@ exports.subscribertags = function (req, res) {
       sendSuccessResponse(res, 200, payload)
     })
     .catch(err => {
+      const message = err || 'Internal server error in fetching tag subscribers'
+      logger.serverLog(message, `${TAG}: exports.assign`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', `Internal server error in fetching tag subscribers. ${err}`)
     })
 }

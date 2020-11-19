@@ -40,7 +40,7 @@ exports.delete = function (req, res) {
   fs.unlink(dir + '/' + req.params.id, function (err) {
     if (err) {
       const message = err || 'error in deleting file'
-      logger.serverLog(message, `${TAG}: exports.delete`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.delete`, {}, {params: req.params}, 'error')
       return res.status(404)
         .json({status: 'failed', description: 'File not found'})
     } else {
@@ -55,6 +55,8 @@ exports.addButton = function (req, res) {
       res.status(200).json({status: 'success', payload: buttonPayload})
     })
     .catch(err => {
+      const message = err || 'failed to add button'
+      logger.serverLog(message, `${TAG}: exports.addButton`, req.body, {}, 'error')
       res.status(500).json({status: 'failed', description: `Failed to add button ${err}`})
     })
 }
@@ -64,7 +66,8 @@ exports.sendConversation = function (req, res) {
       return res.status(200).json({status: 'success', payload: result})
     })
     .catch(err => {
-      console.log(err)
+      const message = err || 'failed to send conversation'
+      logger.serverLog(message, `${TAG}: exports.sendConversation`, req.body, {}, 'error')
       return res.status(500).json({status: 'failed', description: `Failed to send conversation ${err}`})
     })
 }
@@ -74,6 +77,8 @@ exports.editButton = function (req, res) {
       res.status(200).json({status: 'success', payload: buttonPayload})
     })
     .catch(err => {
+      const message = err || 'failed to edit button'
+      logger.serverLog(message, `${TAG}: exports.editButton`, req.body, {}, 'error')
       res.status(500).json({status: 'failed', description: `Failed to add button ${err}`})
     })
 }
@@ -83,6 +88,8 @@ exports.deleteButton = function (req, res) {
       res.status(200).json({status: 'success', payload: buttonPayload})
     })
     .catch(err => {
+      const message = err || 'failed to delete button'
+      logger.serverLog(message, `${TAG}: exports.deleteButton`, {}, {params: req.params}, 'error')
       res.status(500).json({status: 'failed', description: `Failed to add button ${err}`})
     })
 }
@@ -105,6 +112,8 @@ exports.uploadRecording = function (req, res) {
 
   fs.rename(req.files.file.path, `${dir}/userfiles/${serverPath}`, (err) => {
     if (err) {
+      const message = err || 'error in moving file'
+      logger.serverLog(message, `${TAG}: exports.uploadRecording`, {}, {files: req.files}, 'error')
       return res.status(500).json({
         status: 'failed',
         description: 'internal server error' + JSON.stringify(err)
@@ -144,6 +153,8 @@ exports.upload = function (req, res) {
     dir + '/userfiles/' + serverPath,
     err => {
       if (err) {
+        const message = err || 'error in moving file'
+        logger.serverLog(message, `${TAG}: exports.uploadRecording`, req.body, {files: req.files}, 'error')
         return res.status(500).json({
           status: 'failed',
           description: 'internal server error' + JSON.stringify(err)
@@ -162,6 +173,8 @@ exports.upload = function (req, res) {
               `https://graph.facebook.com/v6.0/${page.pageId}?fields=access_token&access_token=${page.userId.facebookInfo.fbToken}`,
               (err, resp2) => {
                 if (err) {
+                  const message = err || 'unable to get page access token'
+                  logger.serverLog(message, `${TAG}: exports.upload`, req.body, {files: req.files, pages}, 'error')
                   return res.status(500).json({
                     status: 'failed',
                     description: 'unable to get page access_token: ' + JSON.stringify(err)
@@ -189,6 +202,8 @@ exports.upload = function (req, res) {
                   },
                   function (err, resp) {
                     if (err) {
+                      const message = err || 'unable to upload attachment to facebook'
+                      logger.serverLog(message, `${TAG}: exports.upload`, req.body, {files: req.files, pages}, 'error')
                       return res.status(500).json({
                         status: 'failed',
                         description: 'unable to upload attachment on Facebook, sending response' + JSON.stringify(err)
@@ -208,6 +223,8 @@ exports.upload = function (req, res) {
               })
           })
           .catch(error => {
+            const message = err || 'unable to get page'
+            logger.serverLog(message, `${TAG}: exports.upload`, req.body, {files: req.files, pages}, 'error')
             return res.status(500).json({status: 'failed', payload: `Failed to fetch page ${JSON.stringify(error)}`})
           })
       } else {
@@ -230,7 +247,7 @@ exports.download = function (req, res) {
     res.sendfile(req.params.id, {root: dir})
   } catch (err) {
     const message = err || 'Inside download file error'
-    logger.serverLog(message, `${TAG}: exports.download`, {}, {}, 'error')
+    logger.serverLog(message, `${TAG}: exports.download`, {}, {params: req.params}, 'error')
     res.status(404)
       .json({status: 'success', payload: 'Not Found ' + JSON.stringify(err)})
   }

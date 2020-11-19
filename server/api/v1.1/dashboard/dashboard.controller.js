@@ -18,6 +18,8 @@ exports.index = function (req, res) {
     })
     .catch(err => {
       if (err) {
+        const message = err || 'Failed to get pages aggregate'
+        logger.serverLog(message, `${TAG}: exports.index`, {}, {user: req.user}, 'error')
         sendErrorResponse(res, 500, '', JSON.stringify(err))
       }
     })
@@ -55,19 +57,27 @@ exports.sentVsSeen = function (req, res) {
                   sendSuccessResponse(res, 200, datacounts)
                 })
                 .catch(err => {
+                  const message = err || 'Failed to get bots'
+                  logger.serverLog(message, `${TAG}: exports.sentVsSeen`, {}, {user: req.user, params: req.params}, 'error')
                   sendErrorResponse(res, 500, '', `Failed to get bots ${err}}`)
                 })
             })
             .catch(err => {
+              const message = err || 'Failed to get sessions'
+              logger.serverLog(message, `${TAG}: exports.sentVsSeen`, {}, {user: req.user, params: req.params}, 'error')
               sendErrorResponse(res, 500, '', `Failed to get sessions ${err}}`)
             })
         })
         .catch(err => {
+          const message = err || 'Failed to get pages'
+          logger.serverLog(message, `${TAG}: exports.sentVsSeen`, {}, {user: req.user, params: req.params}, 'error')
           sendErrorResponse(res, 500, '', `Failed to get pages ${err}}`)
         })
     })
     .catch(err => {
       if (err) {
+        const message = err || 'Failed to get pages'
+        logger.serverLog(message, `${TAG}: exports.sentVsSeen`, {}, {user: req.user, params: req.params}, 'error')
         sendErrorResponse(res, 500, '', `Failed to get pages ${err}}`)
       }
     })
@@ -129,18 +139,26 @@ exports.sentVsSeenNew = function (req, res) {
                         sendSuccessResponse(res, 200, payload)
                       })
                       .catch(err => {
-                        sendErrorResponse(res, 500, `Error in getting graphdaya ${JSON.stringify(err)}`)
+                        const message = err || 'Error in getting graphdata'
+                        logger.serverLog(message, `${TAG}: exports.sentVsSeenNew`, {}, {user: req.user, params: req.params}, 'error')
+                        sendErrorResponse(res, 500, `Error in getting graphdata ${JSON.stringify(err)}`)
                       })
                   })
                   .catch(err => {
+                    const message = err || 'Failed to get bots'
+                    logger.serverLog(message, `${TAG}: exports.sentVsSeenNew`, {}, {user: req.user, params: req.params}, 'error')
                     sendErrorResponse(res, 500, '', `Failed to get bots ${err}}`)
                   })
               })
               .catch(err => {
-                sendErrorResponse(res, 500, '', `Failed to get bots ${err}}`)
+                const message = err || 'Failed to get sessions'
+                logger.serverLog(message, `${TAG}: exports.sentVsSeenNew`, {}, {user: req.user, params: req.params}, 'error')
+                sendErrorResponse(res, 500, '', `Failed to get sessions ${err}}`)
               })
           })
           .catch(err => {
+            const message = err || 'Failed to get pages'
+            logger.serverLog(message, `${TAG}: exports.sentVsSeenNew`, {}, {user: req.user, params: req.params}, 'error')
             sendErrorResponse(res, 500, '', `Failed to get pages ${err}}`)
           })
       } else {
@@ -192,24 +210,34 @@ exports.sentVsSeenNew = function (req, res) {
                         sendSuccessResponse(res, 200, payload)
                       })
                       .catch(err => {
-                        sendErrorResponse(res, 500, '', `Error in getting graphdaya ${JSON.stringify(err)}`)
+                        const message = err || 'Error in getting graphdata'
+                        logger.serverLog(message, `${TAG}: exports.sentVsSeenNew`, {}, {user: req.user, params: req.params}, 'error')
+                        sendErrorResponse(res, 500, '', `Error in getting graphdata ${JSON.stringify(err)}`)
                       })
                   })
                   .catch(err => {
+                    const message = err || 'Failed to get bots'
+                    logger.serverLog(message, `${TAG}: exports.sentVsSeenNew`, {}, {user: req.user, params: req.params}, 'error')
                     sendErrorResponse(res, 500, '', `Failed to get bots ${err}}`)
                   })
               })
               .catch(err => {
+                const message = err || 'Failed to get sessions'
+                logger.serverLog(message, `${TAG}: exports.sentVsSeenNew`, {}, {user: req.user, params: req.params}, 'error')
                 sendErrorResponse(res, 500, '', `Failed to get sessions ${err}}`)
               })
           })
           .catch(err => {
+            const message = err || 'Failed to get connected pages'
+            logger.serverLog(message, `${TAG}: exports.sentVsSeenNew`, {}, {user: req.user, params: req.params}, 'error')
             sendErrorResponse(res, 500, '', `Failed to get connected pages ${err}}`)
           })
       }
     })
     .catch(err => {
       if (err) {
+        const message = err || 'Internal Server Error'
+        logger.serverLog(message, `${TAG}: exports.sentVsSeenNew`, {}, {user: req.user, params: req.params}, 'error')
         sendErrorResponse(res, 500, '', `Internal Server Error ${JSON.stringify(err)}`)
       }
     })
@@ -247,19 +275,27 @@ exports.sentVsSeen = function (req, res) {
                   sendSuccessResponse(res, 200, datacounts)
                 })
                 .catch(err => {
+                  const message = err || 'Failed to get bots'
+                  logger.serverLog(message, `${TAG}: exports.sentVsSeen`, {}, {user: req.user, params: req.params}, 'error')
                   sendErrorResponse(res, 500, '', `Failed to get bots ${err}}`)
                 })
             })
             .catch(err => {
+              const message = err || 'Failed to get sessions'
+              logger.serverLog(message, `${TAG}: exports.sentVsSeen`, {}, {user: req.user, params: req.params}, 'error')
               sendErrorResponse(res, 500, '', `Failed to get sessions ${err}}`)
             })
         })
         .catch(err => {
+          const message = err || 'Failed to get pages'
+          logger.serverLog(message, `${TAG}: exports.sentVsSeen`, {}, {user: req.user, params: req.params}, 'error')
           sendErrorResponse(res, 500, '', `Failed to get pages ${err}}`)
         })
     })
     .catch(err => {
       if (err) {
+        const message = err || 'Internal Server Error'
+        logger.serverLog(message, `${TAG}: exports.sentVsSeen`, {}, {user: req.user, params: req.params}, 'error')
         sendErrorResponse(res, 500, '', `Internal Server Error ${JSON.stringify(err)}`)
       }
     })
@@ -303,19 +339,27 @@ exports.stats = function (req, res) {
                     //   .catch()
                   })
                   .catch(err => {
+                    const message = err || 'failed to get livechat messages'
+                    logger.serverLog(message, `${TAG}: exports.stats`, {}, {user: req.user, params: req.params}, 'error')
                     sendErrorResponse(res, 500, '', `failed to get livechat messages ${err}`)
                   })
               })
           })
             .catch(err => {
+              const message = err || 'failed to get allPages'
+              logger.serverLog(message, `${TAG}: exports.stats`, {}, {user: req.user, params: req.params}, 'error')
               sendErrorResponse(res, 500, '', `failed to get allPages ${err}`)
             })
         })
         .catch(err => {
+          const message = err || 'failed to get connected pages'
+          logger.serverLog(message, `${TAG}: exports.stats`, {}, {user: req.user, params: req.params}, 'error')
           sendErrorResponse(res, 500, '', `failed to get connected pages ${err}`)
         })
     })
     .catch(err => {
+      const message = err || 'failed to get companyuser'
+      logger.serverLog(message, `${TAG}: exports.stats`, {}, {user: req.user, params: req.params}, 'error')
       sendErrorResponse(res, 500, '', `failed to get companyuser ${err}`)
     })
 }
@@ -365,18 +409,24 @@ exports.toppages = function (req, res) {
             })
             .catch(err => {
               if (err) {
+                const message = err || 'Error in getting pages subscriber count'
+                logger.serverLog(message, `${TAG}: exports.toppages`, {}, {user: req.user}, 'error')
                 sendErrorResponse(res, 500, '', `Error in getting pages subscriber count ${err}`)
               }
             })
         })
         .catch(err => {
           if (err) {
+            const message = err || 'Error in getting pages'
+            logger.serverLog(message, `${TAG}: exports.toppages`, {}, {user: req.user}, 'error')
             sendErrorResponse(res, 500, '', `Error in getting pages ${err}`)
           }
         })
     })
     .catch(err => {
       if (err) {
+        const message = err || 'Error in getting company user object'
+        logger.serverLog(message, `${TAG}: exports.toppages`, {}, {user: req.user}, 'error')
         sendErrorResponse(res, 500, '', `Internal Server Error ${JSON.stringify(err)}`)
       }
     })
@@ -402,6 +452,8 @@ function graphDataNew (body, companyUser, pagesArray) {
         resolve({ sessionsgraphdata: sessionsgraphdata })
       })
       .catch(err => {
+        const message = err || 'Error in getting sessions'
+        logger.serverLog(message, `${TAG}: exports.graphDataNew`, {}, {body, companyUser, pagesArray}, 'error')
         reject(err)
       })
   })
@@ -437,11 +489,15 @@ exports.graphData = function (req, res) {
           sendSuccessResponse(res, 200, {sessionsgraphdata})
         })
         .catch(err => {
+          const message = err || 'Error in getting sessions count'
+          logger.serverLog(message, `${TAG}: exports.graphData`, {}, {user: req.user, params: req.params}, 'error')
           sendErrorResponse(res, 500, '', `Error in getting sessions count ${JSON.stringify(err)}`)
         })
     })
     .catch(err => {
       if (err) {
+        const message = err || 'Error in getting company user'
+        logger.serverLog(message, `${TAG}: exports.graphData`, {}, {user: req.user, params: req.params}, 'error')
         sendErrorResponse(res, 500, '', `Internal Server Error ${JSON.stringify(err)}`)
       }
     })
@@ -484,23 +540,33 @@ exports.subscriberSummary = function (req, res) {
                         sendSuccessResponse(res, 200, data)
                       })
                       .catch(err => {
+                        const message = err || 'Error in getting graphdata'
+                        logger.serverLog(message, `${TAG}: exports.subscriberSummary`, {}, {user: req.user}, 'error')
                         sendErrorResponse(res, 500, '', `Error in getting graphdata ${JSON.stringify(err)}`)
                       })
                   })
                   .catch(err => {
+                    const message = err || 'Error in getting unsubscribers'
+                    logger.serverLog(message, `${TAG}: exports.subscriberSummary`, {}, {user: req.user}, 'error')
                     sendErrorResponse(res, 500, '', `Error in getting unsubscribers ${JSON.stringify(err)}`)
                   })
               })
               .catch(err => {
+                const message = err || 'Error in getting subscribers'
+                logger.serverLog(message, `${TAG}: exports.subscriberSummary`, {}, {user: req.user}, 'error')
                 sendErrorResponse(res, 500, '', `Error in getting subscribers ${JSON.stringify(err)}`)
               })
           })
         })
         .catch(err => {
+          const message = err || 'Error in getting pages'
+          logger.serverLog(message, `${TAG}: exports.subscriberSummary`, {}, {user: req.user}, 'error')
           sendErrorResponse(res, 500, '', `Internal Server Error ${JSON.stringify(err)}`)
         })
     })
     .catch(err => {
+      const message = err || 'Error in getting company users'
+      logger.serverLog(message, `${TAG}: exports.subscriberSummary`, {}, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', `Internal Server Error ${JSON.stringify(err)}`)
     })
 }

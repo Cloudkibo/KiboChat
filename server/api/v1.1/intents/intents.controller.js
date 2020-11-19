@@ -11,7 +11,7 @@ exports.index = function (req, res) {
     })
     .catch(err => {
       const message = err || 'Error occured while fetching intent'
-      logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.index`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, 'Error occured while creating intent')
     })
 }
@@ -32,14 +32,14 @@ exports.create = function (req, res) {
           })
           .catch(err => {
             const message = err || 'Error occured while creating intent'
-            logger.serverLog(message, `${TAG}: exports.create`, req.body, {}, 'error')
+            logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
             sendErrorResponse(res, 500, 'Error occured while creating intent')
           })
       }
     })
     .catch(err => {
       const message = err || 'Error occured while fetching intent'
-      logger.serverLog(message, `${TAG}: exports.create`, req.body, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, 'Error occured while creating intent')
     })
 }
@@ -51,7 +51,7 @@ exports.update = function (req, res) {
     })
     .catch(err => {
       const message = err || 'Error occured while updating intent'
-      logger.serverLog(message, `${TAG}: exports.update`, req.body, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.update`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, 'Error occured while updating intent')
     })
 }
@@ -64,7 +64,7 @@ exports.delete = function (req, res) {
       })
       .catch(err => {
         const message = err || 'Failed to delete intent.'
-        logger.serverLog(message, `${TAG}: exports.delete`, req.body, {}, 'error')
+        logger.serverLog(message, `${TAG}: exports.delete`, req.body, {user: req.user}, 'error')
         sendErrorResponse(res, 500, 'Failed to delete intent.')
       })
   } else {
@@ -76,13 +76,13 @@ exports.delete = function (req, res) {
           })
           .catch(err => {
             const message = err || 'Failed to delete intent.'
-            logger.serverLog(message, `${TAG}: exports.delete`, req.body, {}, 'error')
+            logger.serverLog(message, `${TAG}: exports.delete`, req.body, {user: req.user}, 'error')
             sendErrorResponse(res, 500, 'Failed to delete intent.')
           })
       })
       .catch(err => {
         const message = err || 'Error occured while deleting intent'
-        logger.serverLog(message, `${TAG}: exports.delete`, req.body, {}, 'error')
+        logger.serverLog(message, `${TAG}: exports.delete`, req.body, {user: req.user}, 'error')
         sendErrorResponse(res, 500, 'Error occured while deleting intent')
       })
   }
