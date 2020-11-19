@@ -45,7 +45,7 @@ exports.index = function (req, res) {
           sendSuccessResponse(res, 200, { user, superUser })
         }).catch(error => {
           const message = error || 'Error while fetching companyUser details'
-          logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
+          logger.serverLog(message, `${TAG}: exports.index`, {}, {user}, 'error')
           sendErrorResponse(res, 500, `Failed to fetching companyUser details ${JSON.stringify(error)}`)
         })
     }).catch(error => {
@@ -264,8 +264,6 @@ function _checkAcessTokenFromFb (facebookInfo, req) {
         .then(response => {
           if (response.body.error) {
             if (response.body.error.code && response.body.error.code !== 190) {
-              const message = response.body.error || 'Error while validating access token'
-              logger.serverLog(message, `${TAG}: exports._checkAcessTokenFromFb`, {}, {user: req.user}, 'error')
             } else {
               logger.serverLog(TAG, `Session has been invalidated ${JSON.stringify(response.body.error)}`, 'info')
             }
@@ -275,8 +273,6 @@ function _checkAcessTokenFromFb (facebookInfo, req) {
           }
         })
         .catch((err) => {
-          const message = err || 'Error while validating access token'
-          logger.serverLog(message, `${TAG}: exports._checkAcessTokenFromFb`, {}, {user: req.user}, 'error')
           reject(err)
         })
     } else {

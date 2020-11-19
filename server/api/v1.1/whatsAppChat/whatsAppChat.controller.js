@@ -123,7 +123,7 @@ exports.create = function (req, res) {
       })
     })
     .catch(error => {
-      const message = err || 'Failed to save message'
+      const message = error || 'Failed to save message'
       logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user, params: req.params}, 'error')
       sendErrorResponse(res, 500, `Failed to save message ${error}`)
     })
@@ -262,6 +262,8 @@ exports.setCustomFieldValue = function (req, res) {
     }
   })
     .catch(err => {
+      const message = err || 'Failed to fetch custom field value'
+      logger.serverLog(message, `${TAG}: exports.setCustomFieldValue`, req.body, { user: req.user }, 'error')
       sendErrorResponse(res, 500, `Internal Server ${(err)}`)
     })
 }

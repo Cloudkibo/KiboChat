@@ -270,8 +270,6 @@ exports.create = function (req, res) {
               }
             })
             .catch(err => {
-              const message = err || 'create live chat error'
-              logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
               callback(err)
             })
         }

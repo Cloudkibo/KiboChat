@@ -141,6 +141,8 @@ exports.create = function (req, res) {
                         if (!err) {
                         }
                         if (JSON.stringify(resp.body.error)) {
+                          const message = resp.body.error || 'error in calling facebook api messenger profile'
+                          logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
                           return res.status(404).json({
                             status: 'error',
                             description: JSON.stringify(resp.body.error)
@@ -187,6 +189,8 @@ exports.create = function (req, res) {
                           logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
                         }
                         if (JSON.stringify(resp.body.error)) {
+                          const message = resp.body.error || 'error in calling facebook api messenger profile'
+                          logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
                           return res.status(404).json({
                             status: 'error',
                             description: JSON.stringify(resp.body.error)

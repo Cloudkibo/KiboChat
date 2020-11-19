@@ -157,6 +157,11 @@ const _createDialogFlowIntent = (data) => {
     'POST',
     intentData
   )
+    .then()
+    .catch(err => {
+      const message = err || 'Error in creating dialogflow intent'
+      logger.serverLog(message, `${TAG}: exports._createDialogFlowIntent`, {}, {data}, 'error')
+    })
 }
 
 const _updateDialogFlowIntent = (data) => {
@@ -166,6 +171,11 @@ const _updateDialogFlowIntent = (data) => {
     'PATCH',
     intentData
   )
+    .then()
+    .catch(err => {
+      const message = err || 'Error in updating dialogflow intent'
+      logger.serverLog(message, `${TAG}: exports._updateDialogFlowIntent`, {}, {data}, 'error')
+    })
 }
 
 const _updateIntentRecordInDb = (data) => {

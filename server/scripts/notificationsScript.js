@@ -48,8 +48,6 @@ exports.runLiveChatNotificationScript = function () {
                   })
                 })
                 .catch(err => {
-                  const message = err || 'Unable to fetch company users'
-                  logger.serverLog(message, `${TAG}: exports.runLiveChatNotificationScript`, {}, {alerts}, 'error')
                   cb(err)
                 })
             }
