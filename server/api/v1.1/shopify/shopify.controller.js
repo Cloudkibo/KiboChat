@@ -124,7 +124,9 @@ exports.handleAppUninstall = async function (req, res) {
     const messengerChatbots = await messengerChatbotDataLayer.findAllChatBots({
       type: 'automated',
       vertical: 'commerce',
-      storeType: 'shopify'
+      storeType: 'shopify',
+      userId: shopifyIntegration.userId,
+      companyId: shopifyIntegration.companyId
     })
 
     messengerChatbots.forEach(chatbot => {
