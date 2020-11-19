@@ -128,8 +128,6 @@ const _handleUserInput = (userText, context) => {
         }
       })
       .catch(err => {
-        const message = err || 'error in chat bot block records'
-        logger.serverLog(message, `${TAG}: exports._handleUserInput`, {}, {userText, context}, 'error')
         reject(err)
       })
   })
