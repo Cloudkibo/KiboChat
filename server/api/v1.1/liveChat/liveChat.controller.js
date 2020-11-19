@@ -8,7 +8,6 @@ const request = require('request')
 const async = require('async')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const { record } = require('../../global/messageStatistics')
-const { sendOpAlert } = require('../../global/operationalAlert')
 const { deletePendingSessionFromStack } = require('../../global/messageAlerts')
 const { sendWebhook } = require('../../global/sendWebhook')
 const { updateCompanyUsage } = require('../../global/billingPricing')
@@ -240,6 +239,7 @@ exports.create = function (req, res) {
             .then(bot => {
               if (!bot) {
                 callback(null, 'No bot found!')
+                return null
               } else {
                 // TODO This is crashing when agent has a bot and sending an attahment from livechat
                 botId = bot._id
@@ -250,18 +250,24 @@ exports.create = function (req, res) {
               }
             })
             .then(result => {
-              let timeNow = new Date()
-              let automationQueue = {
-                automatedMessageId: botId,
-                subscriberId: subscriber._id,
-                companyId: req.body.company_id,
-                type: 'bot',
-                scheduledTime: timeNow.setMinutes(timeNow.getMinutes() + 30)
+              if (result) {
+                let timeNow = new Date()
+                let automationQueue = {
+                  automatedMessageId: botId,
+                  subscriberId: subscriber._id,
+                  companyId: req.body.company_id,
+                  type: 'bot',
+                  scheduledTime: timeNow.setMinutes(timeNow.getMinutes() + 30)
+                }
+                return callApi(`automation_queue`, 'post', automationQueue, 'kiboengage')
+              } else {
+                return null
               }
-              return callApi(`automation_queue`, 'post', automationQueue, 'kiboengage')
             })
             .then(automationObject => {
-              callback(null, automationObject)
+              if (automationObject) {
+                callback(null, automationObject)
+              }
             })
             .catch(err => {
               const message = err || 'create live chat error'
