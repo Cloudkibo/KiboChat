@@ -62,6 +62,7 @@ function isAuthenticated () {
             }
           })
           .catch(err => {
+            console.log('err1', err)
             if (err.statusCode && err.statusCode === 401) {
               return res.status(401)
                 .json({status: 'Unauthorized', description: 'jwt expired'})
@@ -184,6 +185,34 @@ function doesPlanPermitsThisAction (action) {
         logger.serverLog(message, `${TAG}: exports.doesPlanPermitsThisAction`, {}, {action, user: req.user}, 'error')
         return res.status(500)
           .json({status: 'failed', description: `Internal Server Error: ${err}`})
+      })
+  })
+}
+
+function isUserAllowedToPerformThisAction (action) {
+  if (!action) throw new Error('Action needs to be set')
+  return compose().use((req, res, next) => {
+    apiCaller.callApi(`permissions/query`, 'post', {userId: req.user._id})
+      .then(permissions => {
+        if (permissions.length > 0) {
+          const permission = permissions[0]
+          if (permission[action]) {
+            next()
+          } else {
+            return res.status(403).json({
+              status: 'failed',
+              description: 'You do not have the permission to perform this action. Please contact admin.'
+            })
+          }
+        } else {
+          return res.status(500).json({
+            status: 'failed',
+            description: 'Fatal Error. Permissions not set. Please contact support.'
+          })
+        }
+      })
+      .catch(err => {
+        return res.status(500).json({status: 'failed', description: `Internal Server Error: ${err}`})
       })
   })
 }
@@ -367,16 +396,16 @@ function fbConnectDone (req, res) {
 
 // eslint-disable-next-line no-unused-vars
 function isAuthorizedWebHookTrigger (req, res, next) {
-  const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
+  /*const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
     req.socket.remoteAddress || req.connection.socket.remoteAddress
   // We need to change it to based on the requestee app
   if (config.allowedIps.indexOf(ip) > -1) next()
-  else res.send(403)
+  else res.send(403)*/
 }
 
 function isItWebhookServer () {
   return compose().use((req, res, next) => {
-    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
+    /*const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
       req.socket.remoteAddress || req.connection.socket.remoteAddress
 
     if (config.env === 'development') {
@@ -384,7 +413,8 @@ function isItWebhookServer () {
     } else {
       if (ip === '::ffff:' + config.webhook_ip) next()
       else res.send(403)
-    }
+    }*/
+    next()
   })
 }
 
@@ -400,6 +430,7 @@ exports.hasRole = hasRole
 exports.hasRequiredPlan = hasRequiredPlan
 exports.doesPlanPermitsThisAction = doesPlanPermitsThisAction
 exports.doesRolePermitsThisAction = doesRolePermitsThisAction
+exports.isUserAllowedToPerformThisAction = isUserAllowedToPerformThisAction
 exports.fbConnectDone = fbConnectDone
 exports.fbConnectError = fbConnectError
 exports.fetchPages = fetchPages

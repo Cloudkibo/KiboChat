@@ -24,17 +24,19 @@ exports.index = function (req, res) {
     utility.callApi(`pages/query`, 'post', { pageId: pageId, connected: true }, 'accounts')
       .then(page => {
         page = page[0]
-        utility.callApi('subscribers/query', 'post', {pageId: page._id, senderId: sender, companyId: page.companyId})
-          .then(subscriberFound => {
-            if (subscriberFound.length > 0) {
-              subscriber = subscriberFound[0]
-              subscriber.isNewSubscriber = true
-              chatbotAutomation.handleChatBotWelcomeMessage(event, page, subscriber)
-            }
-          }).catch(error => {
-            const message = error || 'Failed to fetch subscriber'
-            return logger.serverLog(message, `${TAG}: exports.index`, req.body, {companyId: page.companyId}, 'error')
-          })
+        if (page) {
+          utility.callApi('subscribers/query', 'post', {pageId: page._id, senderId: sender, companyId: page.companyId})
+            .then(subscriberFound => {
+              if (subscriberFound.length > 0) {
+                subscriber = subscriberFound[0]
+                subscriber.isNewSubscriber = true
+                chatbotAutomation.handleChatBotWelcomeMessage(event, page, subscriber)
+              }
+            }).catch(error => {
+              const message = error || 'Failed to fetch subscriber'
+              return logger.serverLog(message, `${TAG}: exports.index`, req.body, {companyId: page.companyId}, 'error')
+            })
+        }
       }).catch(error => {
         const message = error || 'Failed to fetch page'
         return logger.serverLog(message, `${TAG}: exports.index`, req.body, {companyId: page.companyId}, 'error')
