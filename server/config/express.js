@@ -57,20 +57,6 @@ module.exports = function (app) {
     )
   }
 
-  if (env === 'development' || env === 'test') {
-    /**
-         * HTTP request logger
-         */
-
-    app.use(morgan('dev'))
-
-    /**
-         * Development-only error handler middleware.
-         */
-
-    app.use(errorHandler()) // Error handler - has to be last
-  }
-
   /*
     Setup a general error handler for JsonSchemaValidation errors.
   */
@@ -87,8 +73,22 @@ module.exports = function (app) {
 
       res.status(400).json(responseData)
     } else {
-    // pass error to next error middleware handler
+      // pass error to next error middleware handler
       next(err)
     }
   })
+
+  if (env === 'development' || env === 'test') {
+    /**
+         * HTTP request logger
+         */
+
+    app.use(morgan('dev'))
+
+    /**
+         * Development-only error handler middleware.
+         */
+
+    app.use(errorHandler()) // Error handler - has to be last
+  }
 }
