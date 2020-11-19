@@ -13,7 +13,7 @@ const _callBatchAPI = (batch, accessToken) => {
     const r = request.post('https://graph.facebook.com', (err, httpResponse, body) => {
       if (err) {
         const message = err || 'Batch api error'
-        logger.serverLog(message, `${TAG}: exports._callBatchApi`, body, {}, 'error')
+        logger.serverLog(message, `${TAG}: exports._callBatchApi`, body, { batch }, 'error')
       } else {
         body = JSON.parse(body)
         resolve(body)

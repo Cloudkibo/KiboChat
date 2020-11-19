@@ -2,6 +2,7 @@
 // const CUSTOMFIELD = 'api/custom_field/custom_field.controller.js'
 const callApi = require('../utility')
 const logger = require('../../../components/logger')
+const TAG = 'api/custom_field_subscriber/custom_field_subscriber.controller.js'
 const customField = '/api/v1.1/custom_field_subscribers/custom_field_subscriber.controller.js'
 const util = require('util')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
@@ -58,12 +59,16 @@ exports.setCustomFieldValue = function (req, res) {
             }
           })
           .catch(err => {
+            const message = err || 'Internal Server'
+            logger.serverLog(message, `${TAG}: exports.setCustomFieldValue`, req.body, {user: req.user}, 'error')
             sendErrorResponse(res, 500, `Internal Server ${(err)}`)
           })
       })
     }
   })
     .catch(err => {
+      const message = err || 'Internal Server'
+      logger.serverLog(message, `${TAG}: exports.setCustomFieldValue`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Internal Server ${(err)}`)
     })
 }
@@ -76,6 +81,8 @@ exports.getCustomFieldSubscriber = function (req, res) {
       sendSuccessResponse(res, 200, foundCustomFieldSubscriber)
     })
     .catch(err => {
+      const message = err || 'Internal Server'
+      logger.serverLog(message, `${TAG}: exports.getCustomFieldSubscriber`, {}, {params: req.params}, 'error')
       sendErrorResponse(res, 500, '', `Internal Server ${(err)}`)
     })
 }

@@ -1,7 +1,7 @@
 const { callApi } = require('../utility')
 const logicLayer = require('./logiclayer')
 const logger = require('../../../components/logger')
-const TAG = '/api/v1/flockSendEvents/controller.js'
+const TAG = '/api/v1.1/flockSendEvents/controller.js'
 
 exports.index = function (req, res) {
   res.status(200).json({
@@ -26,13 +26,13 @@ exports.index = function (req, res) {
             })
             .catch(error => {
               const message = error || 'Failed to fetch contact'
-              return logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
+              return logger.serverLog(message, `${TAG}: exports.index`, req.body, {user: req.user}, 'error')
             })
         })
       })
       .catch(error => {
         const message = error || 'Failed to fetch company profile'
-        return logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
+        return logger.serverLog(message, `${TAG}: exports.index`, req.body, {user: req.user}, 'error')
       })
   }
 }
@@ -68,14 +68,14 @@ function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options)
     })
     .catch(error => {
       const message = error || 'Failed to update contact'
-      return logger.serverLog(message, `${TAG}: exports.updateWhatsAppContact`, {}, {}, 'error')
+      return logger.serverLog(message, `${TAG}: exports.updateWhatsAppContact`, {}, {query, bodyForUpdate, bodyForIncrement, options}, 'error')
     })
   callApi(`whatsAppContacts/update`, 'put', {query: query, newPayload: bodyForIncrement, options: options})
     .then(updated => {
     })
     .catch(error => {
       const message = error || 'Failed to update contact'
-      return logger.serverLog(message, `${TAG}: exports.updateWhatsAppContact`, {}, {}, 'error')
+      return logger.serverLog(message, `${TAG}: exports.updateWhatsAppContact`, {}, {query, bodyForUpdate, bodyForIncrement, options}, 'error')
     })
 }
 exports.messageStatus = function (req, res) {
@@ -97,7 +97,7 @@ exports.messageStatus = function (req, res) {
       })
       .catch((err) => {
         const message = err || 'Failed to fetch whatsAppBroadcastMessages data'
-        return logger.serverLog(message, `${TAG}: exports.messageStatus`, {}, {}, 'error')
+        return logger.serverLog(message, `${TAG}: exports.messageStatus`, req.body, {user: req.user}, 'error')
       })
   }
 }
@@ -158,6 +158,6 @@ function updateChatInDB (match, updated, dataToSend) {
     })
     .catch((err) => {
       const message = err || 'Failed to update message'
-      return logger.serverLog(message, `${TAG}: exports.updateChatInDB`, {}, {}, 'error')
+      return logger.serverLog(message, `${TAG}: exports.updateChatInDB`, {}, {match, updated, dataToSend}, 'error')
     })
 }

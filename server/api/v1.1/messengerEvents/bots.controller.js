@@ -34,12 +34,12 @@ exports.index = function (req, res) {
             .then(response => {
               if (response.body.error) {
                 const message = response.body.error || 'error in message statistics'
-                logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
+                logger.serverLog(message, `${TAG}: exports.index`, req.body, {messengerPayload}, 'error')
               }
             })
             .catch(err => {
               const message = err || 'error in fetching chatbots'
-              logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
+              logger.serverLog(message, `${TAG}: exports.index`, req.body, {messengerPayload}, 'error')
             })
 
           let payload = JSON.parse(messengerPayload.message.quick_reply.payload)
@@ -59,23 +59,23 @@ exports.index = function (req, res) {
                   })
                   .catch(err => {
                     const message = err || 'Failed to create waitingSubscriber'
-                    logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
+                    logger.serverLog(message, `${TAG}: exports.index`, req.body, {payload}, 'error')
                   })
               }
             })
             .catch(err => {
               const message = err || 'Failed to fetch waitingSubscriber'
-              logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
+              logger.serverLog(message, `${TAG}: exports.index`, req.body, {payload}, 'error')
             })
         })
         .catch(err => {
           const message = err || 'Failed to fetch subscriber'
-          logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
+          logger.serverLog(message, `${TAG}: exports.index`, req.body, {}, 'error')
         })
     })
     .catch(err => {
       const message = err || 'Failed to fetch subscriber'
-      logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.index`, req.body, {}, 'error')
     })
 }
 
@@ -114,25 +114,25 @@ exports.respondUsingBot = (page, subscriber, text) => {
                     })
                     .catch(err => {
                       const message = err || 'error in responding using bot'
-                      logger.serverLog(message, `${TAG}: exports.respondUsingBot`, {}, {}, 'error')
+                      logger.serverLog(message, `${TAG}: exports.respondUsingBot`, {}, {page, subscriber, text}, 'error')
                     })
                 })
                 .catch(err => {
                   const message = err || 'error in responding using bot'
-                  logger.serverLog(message, `${TAG}: exports.respondUsingBot`, {}, {}, 'error')
+                  logger.serverLog(message, `${TAG}: exports.respondUsingBot`, {}, {page, subscriber, text}, 'error')
                 })
             }
           })
           .catch(err => {
             const message = err || 'error in responding using bot'
-            logger.serverLog(message, `${TAG}: exports.respondUsingBot`, {}, {}, 'error')
+            logger.serverLog(message, `${TAG}: exports.respondUsingBot`, {}, {page, subscriber, text}, 'error')
           })
       } else {
       }
     })
     .catch(err => {
       const message = err || 'error in responding using bot'
-      logger.serverLog(message, `${TAG}: exports.respondUsingBot`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.respondUsingBot`, {}, {page, subscriber, text}, 'error')
     })
 }
 
@@ -144,7 +144,7 @@ const _handleIntentFound = (bot, payload, subscriber, page) => {
     })
     .catch(err => {
       const message = err || 'error in responding using bot'
-      logger.serverLog(message, `${TAG}: exports._handleIntentFound`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports._handleIntentFound`, {}, {bot, payload, subscriber, page}, 'error')
     })
 }
 
@@ -162,7 +162,7 @@ const _handleIntentNotFound = (bot, text) => {
     })
     .catch(err => {
       const message = err || 'error in responding using bot'
-      logger.serverLog(message, `${TAG}: exports._handleIntentNotFound`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports._handleIntentNotFound`, {}, {bot, text}, 'error')
     })
 }
 

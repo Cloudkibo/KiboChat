@@ -19,7 +19,7 @@ exports.uninstallApp = function (req, res) {
           })
           .catch(err => {
             const message = err || 'error in uninstall app'
-            logger.serverLog(message, `${TAG}: exports.uninstallApp`, req.body, {}, 'error')
+            logger.serverLog(message, `${TAG}: exports.uninstallApp`, req.body, {user: req.user}, 'error')
           })
       } else {
         callApi('zoomUsers', 'delete', {purpose: 'deleteMany', match: {zoomId: uninstallPayload.user_id}})
@@ -37,18 +37,18 @@ exports.uninstallApp = function (req, res) {
               })
               .catch(err => {
                 const message = err || 'error in uninstall app'
-                logger.serverLog(message, `${TAG}: exports.uninstallApp`, req.body, {}, 'error')
+                logger.serverLog(message, `${TAG}: exports.uninstallApp`, req.body, {user: req.user}, 'error')
               })
           })
           .catch(err => {
             const message = err || 'error in uninstall app'
-            logger.serverLog(message, `${TAG}: exports.uninstallApp`, req.body, {}, 'error')
+            logger.serverLog(message, `${TAG}: exports.uninstallApp`, req.body, {user: req.user}, 'error')
           })
       }
     })
     .catch(err => {
       const message = err || 'error in uninstall app'
-      logger.serverLog(message, `${TAG}: exports.uninstallApp`, req.body, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.uninstallApp`, req.body, {user: req.user}, 'error')
     })
 }
 

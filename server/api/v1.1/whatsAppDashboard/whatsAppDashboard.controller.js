@@ -3,6 +3,8 @@ const utility = require('../utility')
 const LogicLayer = require('./whatsAppDashboard.logiclayer')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const async = require('async')
+const logger = require('../../../components/logger')
+const TAG = 'api/v1.1/whatsAppDashboard/whatsAppDashboard.controller.js'
 
 exports.index = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }) // fetch company user
@@ -18,14 +20,20 @@ exports.index = function (req, res) {
               sendSuccessResponse(res, 200, {subscribers: contacts.length > 0 ? contacts[0].count : 0, chats: chats.length > 0 ? chats[0].count : 0})
             })
             .catch(error => {
+              const message = error || 'Failed to broadcast count'
+              logger.serverLog(message, `${TAG}: exports.index`, {}, { user: req.user }, 'error')
               sendErrorResponse(res, 500, `Failed to broadcast count ${JSON.stringify(error)}`)
             })
         })
         .catch(error => {
+          const message = error || 'Failed to fetch subscriber count'
+          logger.serverLog(message, `${TAG}: exports.index`, {}, { user: req.user }, 'error')
           sendErrorResponse(res, 500, `Failed to fetch subscriber count ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.index`, {}, { user: req.user }, 'error')
       sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
@@ -49,18 +57,26 @@ exports.subscriberSummary = function (req, res) {
                   sendSuccessResponse(res, 200, data)
                 })
                 .catch(err => {
+                  const message = err || 'Error in getting graphdata'
+                  logger.serverLog(message, `${TAG}: exports.subscriberSummary`, req.body, { user: req.user }, 'error')
                   sendErrorResponse(res, 500, '', `Error in getting graphdata ${JSON.stringify(err)}`)
                 })
             })
             .catch(err => {
+              const message = err || 'Error in getting unsubscribers'
+              logger.serverLog(message, `${TAG}: exports.subscriberSummary`, req.body, { user: req.user }, 'error')
               sendErrorResponse(res, 500, '', `Error in getting unsubscribers ${JSON.stringify(err)}`)
             })
         })
         .catch(err => {
+          const message = err || 'Error in getting subscribers'
+          logger.serverLog(message, `${TAG}: exports.subscriberSummary`, req.body, { user: req.user }, 'error')
           sendErrorResponse(res, 500, '', `Error in getting subscribers ${JSON.stringify(err)}`)
         })
     })
     .catch(err => {
+      const message = err || 'Error in getting company user'
+      logger.serverLog(message, `${TAG}: exports.subscriberSummary`, req.body, { user: req.user }, 'error')
       sendErrorResponse(res, 500, '', `Internal Server Error ${JSON.stringify(err)}`)
     })
 }
@@ -81,17 +97,25 @@ exports.sentSeen = function (req, res) {
               sendSuccessResponse(res, 200, data)
             })
             .catch(err => {
+              const message = err || 'Error in getting graphdata'
+              logger.serverLog(message, `${TAG}: exports.sentSeen`, req.body, { user: req.user }, 'error')
               sendErrorResponse(res, 500, '', `Error in getting graphdata ${JSON.stringify(err)}`)
             })
         })
         .catch(err => {
+          const message = err || 'Error in getting unsubscribers'
+          logger.serverLog(message, `${TAG}: exports.sentSeen`, req.body, { user: req.user }, 'error')
           sendErrorResponse(res, 500, '', `Error in getting unsubscribers ${JSON.stringify(err)}`)
         })
     })
     .catch(err => {
+      const message = err || 'Error in getting subscribers'
+      logger.serverLog(message, `${TAG}: exports.sentSeen`, req.body, { user: req.user }, 'error')
       sendErrorResponse(res, 500, '', `Error in getting subscribers ${JSON.stringify(err)}`)
     })
     .catch(err => {
+      const message = err || 'Internal Server Error'
+      logger.serverLog(message, `${TAG}: exports.sentSeen`, req.body, { user: req.user }, 'error')
       sendErrorResponse(res, 500, '', `Internal Server Error ${JSON.stringify(err)}`)
     })
 }
@@ -110,6 +134,8 @@ exports.metrics = function (req, res) {
     _getActiveSubscribers.bind(null, activeSubscribersQuery)
   ], 10, function (err, results) {
     if (err) {
+      const message = err || 'Error in async calls'
+      logger.serverLog(message, `${TAG}: exports.metrics`, req.body, { user: req.user }, 'error')
       sendErrorResponse(res, 500, err)
     } else {
       let activeSubscribers = []

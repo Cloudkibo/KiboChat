@@ -1,5 +1,7 @@
 const LogicLayer = require('./logiclayer')
 const utility = require('../utility')
+const logger = require('../../../components/logger')
+const TAG = 'api/v1.1/attachment/controller.js'
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
 
 exports.actingAsUser = function (req, res) {
@@ -13,10 +15,14 @@ exports.actingAsUser = function (req, res) {
             sendSuccessResponse(res, 200, updatedUser)
           })
           .catch(err => {
+            const message = err || 'Failed to update user'
+            logger.serverLog(message, `${TAG}: exports.actingAsUser`, req.body, {user: req.user}, 'error')
             sendErrorResponse(res, 500, err)
           })
       })
       .catch(err => {
+        const message = err || 'Unable to get company user'
+        logger.serverLog(message, `${TAG}: exports.actingAsUser`, req.body, {user: req.user}, 'error')
         sendErrorResponse(res, 500, `Unable to get company user ${err}`)
       })
   } else {
@@ -28,10 +34,14 @@ exports.actingAsUser = function (req, res) {
             sendSuccessResponse(res, 200, updatedUser)
           })
           .catch(err => {
+            const message = err || 'Unable to update user'
+            logger.serverLog(message, `${TAG}: exports.actingAsUser`, req.body, {user: req.user}, 'error')
             sendErrorResponse(res, 500, err)
           })
       })
       .catch(err => {
+        const message = err || 'Unable to update user'
+        logger.serverLog(message, `${TAG}: exports.actingAsUser`, req.body, {user: req.user}, 'error')
         sendErrorResponse(res, 500, err)
       })
   }
