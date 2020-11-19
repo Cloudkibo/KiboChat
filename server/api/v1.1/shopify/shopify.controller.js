@@ -125,7 +125,6 @@ exports.handleAppUninstall = async function (req, res) {
       type: 'automated',
       vertical: 'commerce',
       storeType: 'shopify',
-      userId: shopifyIntegration.userId,
       companyId: shopifyIntegration.companyId
     })
 
