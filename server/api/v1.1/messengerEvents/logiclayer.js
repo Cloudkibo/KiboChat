@@ -2,7 +2,7 @@ const url = require('url')
 const ogs = require('open-graph-scraper')
 const utility = require('./../../../components/utility')
 
-function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
+function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse, metadata = 'SENT_FROM_KIBOPUSH') {
   let messageType = isResponse ? 'RESPONSE' : 'UPDATE'
   let payload = {}
   let message = {}
@@ -27,7 +27,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
       }),
       'message': {
         'text': text,
-        'metadata': 'SENT_FROM_CHATBOT'
+        'metadata': metadata
       }
     }
     if (body.quickReplies && body.quickReplies.length > 0) {
@@ -62,7 +62,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
             'buttons': body.buttons
           }
         },
-        'metadata': 'SENT_FROM_CHATBOT'
+        'metadata': metadata
       }
     }
     if (body.quickReplies && body.quickReplies.length > 0) {
@@ -110,7 +110,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
             ]
           }
         },
-        'metadata': 'SENT_FROM_CHATBOT'
+        'metadata': metadata
       }
     }
     if (body.quickReplies && body.quickReplies.length > 0) {
@@ -127,7 +127,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
             'attachment_id': body.fileurl.attachment_id
           }
         },
-        'metadata': 'SENT_FROM_CHATBOT'
+        'metadata': metadata
       }
     } else {
       message = {
@@ -137,7 +137,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
             'url': body.fileurl.url
           }
         },
-        'metadata': 'SENT_FROM_CHATBOT'
+        'metadata': metadata
       }
     }
 
@@ -168,7 +168,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
             'url': body.fileurl
           }
         },
-        'metadata': 'SENT_FROM_CHATBOT'
+        'metadata': metadata
       })
     }
   } else if (body.componentType === 'card') {
@@ -195,7 +195,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
             ]
           }
         },
-        'metadata': 'SENT_FROM_CHATBOT'
+        'metadata': metadata
       }
     }
     if (body.buttons && body.buttons.length > 0) {
@@ -222,7 +222,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
     if (body.quickReplies && body.quickReplies.length > 0) {
       payload.message.quick_replies = body.quickReplies
     }
-    payload.message.metadata = 'SENT_FROM_CHATBOT'
+    payload.message.metadata = metadata
     payload.message = JSON.stringify(payload.message)
   } else if (body.componentType === 'gallery') {
     var galleryCards = []
@@ -255,7 +255,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
             'elements': galleryCards
           }
         },
-        'metadata': 'SENT_FROM_CHATBOT'
+        'metadata': metadata
       }
     }
     if (body.quickReplies && body.quickReplies.length > 0) {
@@ -278,7 +278,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
             'buttons': body.buttons
           }
         },
-        'metadata': 'SENT_FROM_CHATBOT'
+        'metadata': metadata
       })
     }
   }
@@ -287,7 +287,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse) {
 
 function prepareMessageData (message) {
   let messageData = {}
-  if (message.attachments) {
+  if (message.attachments && message.attachments.length > 0 && message.attachments[0].payload) {
     if (message.attachments[0].payload.template_type === 'generic' && message.attachments[0].payload.elements.length === 1) {
       messageData = message.attachments[0].payload.elements[0]
       messageData.componentType = 'card'

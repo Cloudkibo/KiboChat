@@ -24,16 +24,16 @@ const sendMobileNotifications = (expoListToken, title, bodyMessage, data, user) 
   let deviceNotRegistered = [];
   (async () => {
     let maxLengthChunck = 0
-    for (let [indexChunk, chunk] of chunks) {
+    for (let [indexChunk, chunk] of chunks.entries()) {
       try {
         if (indexChunk === 0) {
           maxLengthChunck = chunk.length
         }
         let ticketChunk = await expo.sendPushNotificationsAsync(chunk)
         tickets.push(...ticketChunk)
-        for (let [indexTicket, ticket] of ticketChunk) {
-          if (ticket.status === 'error') {
-            if (ticket.details.error === 'DeviceNotRegistered') {
+        for (let indexTicket = 0; indexTicket < ticketChunk.length; indexTicket++) {
+          if (ticketChunk[indexTicket].status === 'error') {
+            if (ticketChunk[indexTicket].details.error === 'DeviceNotRegistered') {
               deviceNotRegistered.push(expoListToken[(indexChunk * maxLengthChunck) + indexTicket])
             }
           }
@@ -60,8 +60,10 @@ const sendMobileNotifications = (expoListToken, title, bodyMessage, data, user) 
             })
         }
       } catch (error) {
-        const message = error || 'Error while sending notification'
-        return logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, {expoListToken, title, bodyMessage, data, user}, 'error')
+        if (message && message.code !== 'PUSH_TOO_MANY_EXPERIENCE_IDS') {
+          const message = error || 'Error while sending notification'
+          return logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, {expoListToken, title, bodyMessage, data, user}, 'error')
+        }
       }
     }
   })()
