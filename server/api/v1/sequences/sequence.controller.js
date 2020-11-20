@@ -3,7 +3,7 @@ const logger = require('../../../components/logger')
 const TAG = 'api/v1/sequences/sequence.controller.js'
 
 exports.allSequences = function (req, res) {
-  utility.callApi(`sequenceMessaging/allSequences`, 'get', {}, 'kiboengage')
+  utility.callApi(`sequenceMessaging/allSequences`, 'get', {}, 'kiboengage', req.headers.authorization)
     .then(sequences => {
       res.status(200).json({status: 'success', payload: sequences})
     })
