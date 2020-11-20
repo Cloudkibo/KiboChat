@@ -139,7 +139,7 @@ exports.handleAppUninstall = async function (req, res) {
       })
     })
 
-    const whatsAppChatbots = await whatsAppChatbotDataLayer.findAllChatBots({
+    const whatsAppChatbots = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({
       type: 'automated',
       vertical: 'commerce',
       storeType: 'shopify'
