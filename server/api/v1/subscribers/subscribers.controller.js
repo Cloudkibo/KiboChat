@@ -273,8 +273,8 @@ exports.updatePicture = function (req, res) {
       })
     })
     .catch(err => {
-      const message = err || 'Failed to fetch subscriber'
-      logger.serverLog(message, `${TAG}: exports.updatePicture`, req.body, {user: req.user}, 'error')
+      const message = err || 'Failed to fetch subscriber Picture'
+      logger.serverLog(message, `${TAG}: exports.updatePicture`, req.body, {user: req.user}, 'debug')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to update subscriber data ${JSON.stringify(err)}`
