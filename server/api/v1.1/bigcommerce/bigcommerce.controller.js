@@ -69,11 +69,15 @@ exports.redirect = function (req, res) {
 exports.fetchStore = (req, res) => {
   dataLayer.findOneBigCommerceIntegration({ companyId: req.user.companyId })
     .then(bigCommerceIntegration => {
-      const bigCommerce = new EcommerceProviders(commerceConstants.bigcommerce, {
-        shopToken: bigCommerceIntegration.shopToken,
-        storeHash: bigCommerceIntegration.payload.context
-      })
-      return bigCommerce.fetchStoreInfo()
+      if (bigCommerceIntegration) {
+        const bigCommerce = new EcommerceProviders(commerceConstants.bigcommerce, {
+          shopToken: bigCommerceIntegration.shopToken,
+          storeHash: bigCommerceIntegration.payload.context
+        })
+        return bigCommerce.fetchStoreInfo()
+      } else {
+        return 'shop not found'
+      }
     })
     .then(shop => {
       sendSuccessResponse(res, 200, shop)

@@ -80,7 +80,9 @@ exports.messageReceived = function (req, res) {
                                   record('whatsappChatOutGoing')
                                   whatsAppMapper.whatsAppMapper(req.body.provider, ActionTypes.SEND_CHAT_MESSAGE, chatbotResponse)
                                   if (company.saveAutomationMessages) {
-                                    storeChat(company.whatsApp.businessNumber, number, contact, nextMessageBlock.payload, 'convos')
+                                    for (let i = 0; i < nextMessageBlock.payload.length; i++) {
+                                      storeChat(company.whatsApp.businessNumber, number, contact, nextMessageBlock.payload[i], 'convos')
+                                    }
                                   }
                                 }
                                 updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
@@ -131,7 +133,17 @@ exports.messageReceived = function (req, res) {
                       if (contact && contact.isSubscribed) {
                         storeChat(number, company.whatsApp.businessNumber, contact, data.messageData, 'whatsApp')
                         if (data.messageData.componentType === 'text') {
-                          chatbotResponder.respondUsingChatbot('whatsApp', req.body.provider, company, data.messageData.text, contact)
+                          try {
+                            const responseBlock = await chatbotResponder.respondUsingChatbot('whatsApp', req.body.provider, company, data.messageData.text, contact)
+                            if (company.saveAutomationMessages && responseBlock) {
+                              for (let i = 0; i < responseBlock.payload.length; i++) {
+                                storeChat(company.whatsApp.businessNumber, number, contact, responseBlock.payload[i], 'convos')
+                              }
+                            }
+                          } catch (err) {
+                            const message = err || 'Failed to respond using chatbot'
+                            logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {}, 'error')
+                          }
                         }
                       }
                     })
@@ -218,6 +230,8 @@ function createContact (data) {
                 }
               })
               .catch(error => {
+                const message = error || 'Failed to map whatsapp contact'
+                logger.serverLog(message, `${TAG}: exports.createContact`, {}, {data}, 'error')
                 reject(error)
               })
           })
@@ -226,6 +240,8 @@ function createContact (data) {
         }
       })
       .catch(error => {
+        const message = error || 'Failed to company profile'
+        logger.serverLog(message, `${TAG}: exports.createContact`, {}, {data}, 'error')
         reject(error)
       })
   })
@@ -264,6 +280,7 @@ function storeChat (from, to, contact, messageData, format) {
       })
   })
 }
+
 function saveNotifications (contact, companyUsers) {
   companyUsers.forEach((companyUser, index) => {
     let notificationsData = {

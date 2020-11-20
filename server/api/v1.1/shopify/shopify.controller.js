@@ -112,10 +112,11 @@ function registerWebhooks (shop, token) {
 }
 
 exports.handleAppUninstall = async function (req, res) {
+  console.log('shopify handleAppUninstall')
   const shopUrl = req.header('X-Shopify-Shop-Domain')
   try {
     const shopifyIntegration = await dataLayer.findOneShopifyIntegration({ shopUrl: shopUrl })
-
+    console.log('shopifyIntegration', shopifyIntegration)
     dataLayer.deleteShopifyIntegration({
       shopToken: shopifyIntegration.shopToken,
       shopUrl: shopifyIntegration.shopUrl,
@@ -139,7 +140,7 @@ exports.handleAppUninstall = async function (req, res) {
       })
     })
 
-    const whatsAppChatbots = await whatsAppChatbotDataLayer.findAllChatBots({
+    const whatsAppChatbots = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({
       type: 'automated',
       vertical: 'commerce',
       storeType: 'shopify'
