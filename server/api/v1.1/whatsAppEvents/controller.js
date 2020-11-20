@@ -92,6 +92,11 @@ exports.messageReceived = function (req, res) {
                                     { chatbotId: chatbot._id, companyId: chatbot.companyId, dateToday: moment(new Date()).format('YYYY-MM-DD') },
                                     { $inc: { sentCount: 1, newSubscribersCount: 1, triggerWordsMatched } },
                                     { upsert: true })
+                                    .then(updated => {})
+                                    .catch(err => {
+                                      const message = err || 'Failed to update WhatsApp chatbot analytics'
+                                      logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {chatbotId: chatbot._id, companyId: chatbot.companyId}, 'error')
+                                    })
                                 } else {
                                   whatsAppChatbotDataLayer.updateWhatsAppChatbot(chatbot.companyId, { $inc: { 'stats.triggerWordsMatched': triggerWordsMatched } })
                                   let subscriberLastMessageAt = moment(contact.lastMessagedAt)
@@ -101,11 +106,21 @@ exports.messageReceived = function (req, res) {
                                       { chatbotId: chatbot._id, companyId: chatbot.companyId, dateToday: moment(new Date()).format('YYYY-MM-DD') },
                                       { $inc: { sentCount: 1, returningSubscribers: 1, triggerWordsMatched } },
                                       { upsert: true })
+                                      .then(updated => {})
+                                      .catch(err => {
+                                        const message = err || 'Failed to update WhatsApp chatbot analytics'
+                                        logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {chatbotId: chatbot._id, companyId: chatbot.companyId}, 'error')
+                                      })
                                   } else {
                                     whatsAppChatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
                                       { chatbotId: chatbot._id, companyId: chatbot.companyId, dateToday: moment(new Date()).format('YYYY-MM-DD') },
                                       { $inc: { sentCount: 1, triggerWordsMatched } },
                                       { upsert: true })
+                                      .then(updated => {})
+                                      .catch(err => {
+                                        const message = err || 'Failed to update WhatsApp chatbot analytics'
+                                        logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {chatbotId: chatbot._id, companyId: chatbot.companyId}, 'error')
+                                      })
                                   }
                                 }
                               }
@@ -242,6 +257,10 @@ function storeChat (from, to, contact, messageData, format) {
           let incrementPayload = { $inc: { unreadCount: 1, messagesCount: 1 } }
           updateWhatsAppContact(query, updatePayload, incrementPayload, {})
         }
+      })
+      .catch(err => {
+        const message = err || 'Failed to save WhatsApp chat'
+        logger.serverLog(message, `${TAG}: storeChat`, chatPayload, {from, to, contact, messageData, format}, 'error')
       })
   })
 }
