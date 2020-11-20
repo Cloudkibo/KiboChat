@@ -279,11 +279,15 @@ exports.callback = function (req, res) {
 exports.fetchStore = (req, res) => {
   dataLayer.findOneShopifyIntegration({ companyId: req.user.companyId })
     .then(shopifyIntegration => {
-      const shopify = new EcommerceProviders(commerceConstants.shopify, {
-        shopUrl: shopifyIntegration.shopUrl,
-        shopToken: shopifyIntegration.shopToken
-      })
-      return shopify.fetchStoreInfo()
+      if (shopifyIntegration) {
+        const shopify = new EcommerceProviders(commerceConstants.shopify, {
+          shopUrl: shopifyIntegration.shopUrl,
+          shopToken: shopifyIntegration.shopToken
+        })
+        return shopify.fetchStoreInfo()
+      } else {
+        return null
+      }
     })
     .then(shop => {
       sendSuccessResponse(res, 200, shop)
