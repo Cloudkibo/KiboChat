@@ -76,7 +76,7 @@ exports.fetchStore = (req, res) => {
         })
         return bigCommerce.fetchStoreInfo()
       } else {
-        return 'shop not found'
+        return null
       }
     })
     .then(shop => {
