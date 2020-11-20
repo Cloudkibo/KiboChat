@@ -77,6 +77,8 @@ exports.attachment = function (req, res) {
     let options = { url }
     ogs(options, (error, results) => {
       if (error) {
+        const message = error || 'Failed to fetching meta data of website'
+        logger.serverLog(message, `${TAG}: exports.attachment`, req.body, {user: req.user}, 'error')
         return sendErrorResponse(res, 500, error, 'Error in fetching meta data of website. Please check if open graph is supported.')
       }
       if (results.data.ogType) {

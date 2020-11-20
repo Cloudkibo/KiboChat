@@ -20,6 +20,8 @@ exports.urlMetaData = (req, res) => {
           payload: results.data
         })
       } else {
+        const message = error || 'error in fetching url meta data'
+        logger.serverLog(message, `${TAG}: exports.urlMetaData`, req.body, {user: req.user}, 'error')
         return res.status(500).json({
           status: 'failed',
           description: `Failed to retrieve url ${results.error}`
