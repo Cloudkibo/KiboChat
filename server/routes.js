@@ -4,7 +4,7 @@ const multiparty = require('connect-multiparty')
 const multipartyMiddleware = multiparty()
 const fs = require('fs')
 const Sentry = require('@sentry/node')
-const logger = require('../components/logger')
+const logger = require('../../components/logger')
 const TAG = 'server/routes.js'
 
 module.exports = function (app) {
