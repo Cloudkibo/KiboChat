@@ -31,7 +31,7 @@ exports.index = (req, res) => {
     })
     .catch((err) => {
       const message = err || 'Error in fetching data from KiboDash'
-      logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.index`, {}, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', err)
     })
 }
@@ -43,7 +43,7 @@ exports.ranged = (req, res) => {
     })
     .catch((err) => {
       const message = err || 'Error in fetching data from KiboDash'
-      logger.serverLog(message, `${TAG}: exports.ranged`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.ranged`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', err)
     })
 }

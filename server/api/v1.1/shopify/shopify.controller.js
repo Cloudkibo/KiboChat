@@ -43,6 +43,8 @@ exports.index = function (req, res) {
       })
       .catch(err => {
         if (err) {
+          const message = err || 'Error in finding companyuser for shopify'
+          logger.serverLog(message, `${TAG}: exports.index`, req.body, { user: req.user }, 'error')
           return res.status(500).send('Error in finding companyuser for shopify')
         }
       })
@@ -124,7 +126,8 @@ exports.handleAppUninstall = async function (req, res) {
     const messengerChatbots = await messengerChatbotDataLayer.findAllChatBots({
       type: 'automated',
       vertical: 'commerce',
-      storeType: 'shopify'
+      storeType: 'shopify',
+      companyId: shopifyIntegration.companyId
     })
 
     messengerChatbots.forEach(chatbot => {
@@ -136,7 +139,7 @@ exports.handleAppUninstall = async function (req, res) {
       })
     })
 
-    const whatsAppChatbots = await whatsAppChatbotDataLayer.findAllChatBots({
+    const whatsAppChatbots = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({
       type: 'automated',
       vertical: 'commerce',
       storeType: 'shopify'
@@ -152,6 +155,8 @@ exports.handleAppUninstall = async function (req, res) {
     })
     res.status(200).json({ status: 'success' })
   } catch (err) {
+    const message = err || 'Error in handling app uninstall'
+    logger.serverLog(message, `${TAG}: exports.handleAppUninstall`, {}, { header: req.header }, 'error')
     return res.status(500).json({ status: 'failed', error: err })
   }
 }
@@ -212,7 +217,6 @@ exports.callback = function (req, res) {
       .then((accessTokenResponse) => {
         const accessToken = accessTokenResponse.access_token
         const tokenCookie = req.headers.cookie ? cookie.parse(req.headers.cookie).token : null
-        registerWebhooks(shop, accessToken)
         if (tokenCookie) {
           const userIdCookie = cookie.parse(req.headers.cookie).userId
           const companyIdCookie = cookie.parse(req.headers.cookie).companyId
@@ -230,6 +234,7 @@ exports.callback = function (req, res) {
                 res.clearCookie('installByShopifyStore')
                 res.redirect('/alreadyConnected')
               } else {
+                registerWebhooks(shop, accessToken)
                 dataLayer.createShopifyIntegration(shopifyPayload)
                   .then(savedStore => {
                     res.cookie('shopifySetupState', 'completedUsingAuth')
@@ -283,6 +288,8 @@ exports.fetchStore = (req, res) => {
       sendSuccessResponse(res, 200, shop)
     })
     .catch(err => {
+      const message = err || 'Failed to fetch shop info'
+      logger.serverLog(message, `${TAG}: exports.fetchStore`, {}, { user: req.user }, 'error')
       sendErrorResponse(res, 500, `Failed to fetch shop info ${JSON.stringify(err)}`)
     })
 }

@@ -115,8 +115,6 @@ const uploadVideo = (data) => {
       `https://graph.facebook.com/v6.0/${data.pageId}?fields=access_token&access_token=${data.userAccessToken}`,
       (err, resp2) => {
         if (err) {
-          const message = err || 'Failed to get page access_token'
-          logger.serverLog(message, `${TAG}: exports.uploadVideo`, {}, {}, 'error')
           reject(util.inspect(err))
         }
         let pageAccessToken = resp2.body.access_token
@@ -141,8 +139,6 @@ const uploadVideo = (data) => {
           },
           function (err, resp) {
             if (err) {
-              const message = err || 'Failed to upload attachment on Facebook'
-              logger.serverLog(message, `${TAG}: exports.uploadVideo`, {}, {}, 'error')
               reject(util.inspect(err))
             } else {
               resolve(resp.body.attachment_id)
@@ -407,7 +403,8 @@ function trainBot (payload, token) {
     },
     (err, witres) => {
       if (err) {
-        return logger.serverLog('Error Occured In Training WIT.AI app', 'error')
+        const message = err || 'Error Occured In Training WIT.AI app'
+        logger.serverLog(message, `${TAG}: exports.trainBot`, {}, {payload, token}, 'error')
       }
     })
 }

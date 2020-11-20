@@ -1,5 +1,7 @@
 const chatbotAutomation = require('./chatbotAutomation.controller')
 const utility = require('../utility')
+const logger = require('../../../components/logger')
+const TAG = 'api/v1/messengerEvents/welcomeMessage.controller'
 
 exports.index = function (req, res) {
   res.status(200).json({
@@ -17,14 +19,25 @@ exports.index = function (req, res) {
     // again and again
     chatbotAutomation.handleChatBotWelcomeMessage(event, page, subscriber)
   } else {
-    setTimeout(function () {
-      const sender = req.body.entry[0].messaging[0].sender.id
-      utility.callApi('subscribers/query', 'post', { senderId: sender })
-        .then(subscriberFound => {
-          subscriber = subscriberFound[0]
-          subscriber.isNewSubscriber = true
-          chatbotAutomation.handleChatBotWelcomeMessage(event, page, subscriber)
-        })
-    }, 2500)
+    const sender = req.body.entry[0].messaging[0].sender.id
+    const pageId = req.body.entry[0].messaging[0].recipient.id
+    utility.callApi(`pages/query`, 'post', { pageId: pageId, connected: true }, 'accounts')
+      .then(page => {
+        page = page[0]
+        utility.callApi('subscribers/query', 'post', {pageId: page._id, senderId: sender, companyId: page.companyId})
+          .then(subscriberFound => {
+            if (subscriberFound.length > 0) {
+              subscriber = subscriberFound[0]
+              subscriber.isNewSubscriber = true
+              chatbotAutomation.handleChatBotWelcomeMessage(event, page, subscriber)
+            }
+          }).catch(error => {
+            const message = error || 'Failed to fetch subscriber'
+            return logger.serverLog(message, `${TAG}: exports.index`, req.body, {companyId: page.companyId}, 'error')
+          })
+      }).catch(error => {
+        const message = error || 'Failed to fetch page'
+        return logger.serverLog(message, `${TAG}: exports.index`, req.body, {companyId: page.companyId}, 'error')
+      })
   }
 }

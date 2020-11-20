@@ -1,4 +1,6 @@
 const ogs = require('open-graph-scraper')
+const logger = require('../../components/logger')
+const TAG = 'api/global/utility.js'
 
 const openGraphScrapper = function (url) {
   let options = {url}

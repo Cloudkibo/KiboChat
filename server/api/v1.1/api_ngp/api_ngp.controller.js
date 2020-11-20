@@ -19,6 +19,8 @@ exports.index = function (req, res) {
       sendSuccessResponse(res, 200, settings)
     })
     .catch(error => {
+      const message = error || 'API settings not initialized or invalid user. Call enable API to initialize them.'
+      logger.serverLog(message, `${TAG}: exports.index`, {}, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', `API settings not initialized or invalid user. Call enable API to initialize them.${error}`)
     })
 }
@@ -35,6 +37,8 @@ exports.enable = function (req, res) {
             sendSuccessResponse(res, 200, savedSettings)
           })
           .catch(error => {
+            const message = error || 'Failed to enable api'
+            logger.serverLog(message, `${TAG}: exports.enable`, req.body, {user: req.user}, 'error')
             sendErrorResponse(res, 500, '', `Failed to enable api ${JSON.stringify(error)}`)
           })
       } else {
@@ -44,11 +48,15 @@ exports.enable = function (req, res) {
             sendSuccessResponse(res, 200, savedSettings)
           })
           .catch(error => {
+            const message = error || 'Failed to enable api'
+            logger.serverLog(message, `${TAG}: exports.enable`, req.body, {user: req.user}, 'error')
             sendErrorResponse(res, 500, '', `Failed to enable api ${JSON.stringify(error)}`)
           })
       }
     })
     .catch(error => {
+      const message = error || 'API settings not initialized or invalid user'
+      logger.serverLog(message, `${TAG}: exports.enable`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', `API settings not initialized or invalid user. Call enable API to initialize them.${error}`)
     })
 }
@@ -65,10 +73,14 @@ exports.disable = function (req, res) {
           sendSuccessResponse(res, 200, savedSettings)
         })
         .catch(error => {
-          sendErrorResponse(res, 500, '', `Failed to enable api ${JSON.stringify(error)}`)
+          const message = error || 'Failed to disable api'
+          logger.serverLog(message, `${TAG}: exports.disable`, req.body, {user: req.user}, 'error')
+          sendErrorResponse(res, 500, '', `Failed to disable api ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
+      const message = error || 'API settings not initialized or invalid user'
+      logger.serverLog(message, `${TAG}: exports.disable`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', `API settings not initialized or invalid user. Call enable API to initialize them.${error}`)
     })
 }
@@ -103,10 +115,14 @@ exports.save = function (req, res) {
           sendSuccessResponse(res, 200, savedSettings)
         })
         .catch(error => {
-          sendErrorResponse(res, 500, '', `Failed to enable api ${JSON.stringify(error)}`)
+          const message = error || 'Failed to save api'
+          logger.serverLog(message, `${TAG}: exports.save`, req.body, {user: req.user}, 'error')
+          sendErrorResponse(res, 500, '', `Failed to save api ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
+      const message = error || 'API settings not initialized or invalid user'
+      logger.serverLog(message, `${TAG}: exports.save`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', `API settings not initialized or invalid user. Call enable API to initialize them.${error}`)
     })
 }

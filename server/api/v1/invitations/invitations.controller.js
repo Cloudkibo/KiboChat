@@ -12,6 +12,8 @@ exports.index = function (req, res) {
       })
     })
     .catch(err => {
+      const message = err || 'error in getting invitations'
+      logger.serverLog(message, `${TAG}: exports.index`, req.body, { user: req.user }, 'error')
       return res.status(500).json({
         status: 'failed',
         description: `Internal Server Error ${JSON.stringify(err)}`
@@ -28,6 +30,8 @@ exports.cancel = function (req, res) {
       })
     })
     .catch(err => {
+      const message = err || 'error in canceling invitations'
+      logger.serverLog(message, `${TAG}: exports.cancel`, req.body, { user: req.user }, 'error')
       return res.status(500).json({
         status: 'failed',
         description: `Internal Server Error ${JSON.stringify(err)}`
@@ -41,8 +45,8 @@ exports.invite = function (req, res) {
       res.status(200).json(result)
     })
     .catch((err) => {
-      const message = err || 'result from invite endpoint accounts'
-      logger.serverLog(message, `${TAG}: exports.invite`, req.body, {}, 'error')
+      const message = err || 'error from invite endpoint accounts'
+      logger.serverLog(message, `${TAG}: exports.invite`, req.body, { user: req.user }, 'error')
       res.status(500).json(err)
     })
 }

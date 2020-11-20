@@ -1,6 +1,6 @@
 const utility = require('../utility')
 const logger = require('../../../components/logger')
-const TAG = 'api/v2/user/user.controller.js'
+const TAG = 'api/v1/user/user.controller.js'
 const util = require('util')
 const cookie = require('cookie')
 const config = require('./../../../config/environment/index')
@@ -45,7 +45,7 @@ exports.index = function (req, res) {
           sendSuccessResponse(res, 200, { user, superUser })
         }).catch(error => {
           const message = error || 'Error while fetching companyUser details'
-          logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
+          logger.serverLog(message, `${TAG}: exports.index`, {}, {user}, 'error')
           sendErrorResponse(res, 500, `Failed to fetching companyUser details ${JSON.stringify(error)}`)
         })
     }).catch(error => {
@@ -64,7 +64,7 @@ exports.updateChecks = function (req, res) {
       })
     }).catch(error => {
       const message = error || 'Error while updating checks'
-      logger.serverLog(message, `${TAG}: exports.updateChecks`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.updateChecks`, req.body, {user: req.user}, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to update checks ${JSON.stringify(error)}`
@@ -81,7 +81,7 @@ exports.updateSkipConnect = function (req, res) {
       })
     }).catch(error => {
       const message = error || 'Error at updateSkipConnect'
-      logger.serverLog(message, `${TAG}: exports.updateSkipConnect`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.updateSkipConnect`, {}, {user: req.user}, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to updateSkipConnect ${JSON.stringify(error)}`
@@ -98,7 +98,7 @@ exports.updateMode = function (req, res) {
       })
     }).catch(error => {
       const message = error || 'Error while updating mode'
-      logger.serverLog(message, `${TAG}: exports.updateMode`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.updateMode`, req.body, {user: req.user}, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to update mode ${JSON.stringify(error)}`
@@ -119,7 +119,7 @@ exports.authenticatePassword = function (req, res) {
       })
     }).catch(error => {
       const message = error || 'Error while authenticating password'
-      logger.serverLog(message, `${TAG}: exports.authenticatePassword`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.authenticatePassword`, {}, {user: req.user}, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to authenticate password ${JSON.stringify(error)}`
@@ -136,7 +136,7 @@ exports.addAccountType = function (req, res) {
       })
     }).catch(error => {
       const message = error || 'Error while adding account type'
-      logger.serverLog(message, `${TAG}: exports.addAccountType`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.addAccountType`, {}, {user: req.user}, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to add account type ${JSON.stringify(error)}`
@@ -153,7 +153,7 @@ exports.enableDelete = function (req, res) {
       })
     }).catch(error => {
       const message = error || 'Error while enabling GDPR delete'
-      logger.serverLog(message, `${TAG}: exports.enableDelete`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.enableDelete`, req.body, {user: req.user}, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to enable GDPR delete ${JSON.stringify(error)}`
@@ -170,7 +170,7 @@ exports.cancelDeletion = function (req, res) {
       })
     }).catch(error => {
       const message = error || 'Error while disabling GDPR delete'
-      logger.serverLog(message, `${TAG}: exports.enableDelete`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.enableDelete`, {}, {user: req.user}, 'error')
       return res.status(500).json({
         status: 'failed',
         payload: `Failed to disable GDPR delete ${JSON.stringify(error)}`
@@ -200,6 +200,8 @@ exports.validateFacebookConnected = function (req, res) {
       sendSuccessResponse(res, 200, dataTosend)
     })
     .catch(err => {
+      const message = err || 'Error while disabling GDPR delete'
+      logger.serverLog(message, `${TAG}: exports.validateFacebookConnected`, {}, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err)
     })
 }
@@ -220,6 +222,8 @@ exports.validateUserAccessToken = function (req, res) {
             profilePic: req.user.facebookInfo && req.user.facebookInfo.profilePic ? req.user.facebookInfo.profilePic : ''
           }
         }
+        const message = err || 'Error while validating access token'
+        logger.serverLog(message, `${TAG}: exports.validateUserAccessToken`, {}, {user: req.user, dataToSend}, 'error')
         sendErrorResponse(res, 500, dataToSend)
       })
   } else {
@@ -245,6 +249,8 @@ exports.validateUserAccessToken = function (req, res) {
                 profilePic: company.user.facebookInfo && company.user.facebookInfo.profilePic ? company.user.facebookInfo.profilePic : ''
               }
             }
+            const message = err || 'Error while validating access token'
+            logger.serverLog(message, `${TAG}: exports.validateUserAccessToken`, {}, {user: req.user, dataToSend}, 'error')
             sendErrorResponse(res, 500, dataToSend)
           })
       })
@@ -258,7 +264,6 @@ function _checkAcessTokenFromFb (facebookInfo, req) {
         .then(response => {
           if (response.body.error) {
             if (response.body.error.code && response.body.error.code !== 190) {
-              sendOpAlert(response.body.error, 'error validating user access token', '', req.user._id, req.user.companyId)
             } else {
               logger.serverLog(TAG, `Session has been invalidated ${JSON.stringify(response.body.error)}`, 'info')
             }
@@ -268,7 +273,6 @@ function _checkAcessTokenFromFb (facebookInfo, req) {
           }
         })
         .catch((err) => {
-          sendOpAlert(err, 'error validating user access token', '', req.user._id, req.user.companyId)
           reject(err)
         })
     } else {
@@ -287,6 +291,8 @@ exports.updateShowIntegrations = function (req, res) {
       })
     })
     .catch(err => {
+      const message = err || 'Error updating user object'
+      logger.serverLog(message, `${TAG}: exports.updateShowIntegrations`, req.body, {user: req.user}, 'error')
       res.status(500).json({ status: 'failed', payload: err })
     })
 }
@@ -310,15 +316,19 @@ exports.disconnectFacebook = function (req, res) {
               sendSuccessResponse(res, 200, 'Updated Successfully!')
             })
             .catch(err => {
+              const message = err || 'Error updating user object'
+              logger.serverLog(message, `${TAG}: exports.disconnectFacebook`, {}, {user: req.user}, 'error')
               sendErrorResponse(res, 500, err)
             })
         }).catch(err => {
           const message = err || 'error in disconnect'
-          logger.serverLog(message, `${TAG}: exports.disconnectFacebook`, {}, {}, 'error')
+          logger.serverLog(message, `${TAG}: exports.disconnectFacebook`, {}, {user: req.user}, 'error')
           sendErrorResponse(res, 500, err)
         })
     })
     .catch(err => {
+      const message = err || 'error in fetching company user'
+      logger.serverLog(message, `${TAG}: exports.disconnectFacebook`, {}, {user: req.user}, 'error')
       res.status(500).json({ status: 'failed', payload: err })
     })
 }
@@ -331,6 +341,8 @@ exports.updatePlatform = function (req, res) {
       })
     })
     .catch(err => {
+      const message = err || 'error in updating user'
+      logger.serverLog(message, `${TAG}: exports.updatePlatform`, {}, {user: req.user}, 'error')
       res.status(500).json({ status: 'failed', payload: err })
     })
 }
@@ -373,13 +385,13 @@ function saveBigCommerceIntegration (payload, userId, companyId) {
           })
           .catch(err => {
             const message = err || 'bigcommerce store integration creation error'
-            logger.serverLog(message, `${TAG}: exports.saveBigCommerceIntegration`, {}, {}, 'error')
+            logger.serverLog(message, `${TAG}: exports.saveBigCommerceIntegration`, {}, {bigCommercePayload}, 'error')
           })
       }
     })
     .catch(err => {
       const message = err || 'bigcommerce store integration query error'
-      logger.serverLog(message, `${TAG}: exports.saveBigCommerceIntegration`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.saveBigCommerceIntegration`, {}, {bigCommercePayload}, 'error')
     })
 }
 
@@ -391,7 +403,8 @@ exports.logout = function (req, res) {
         payload: 'send response successfully!'
       })
     }).catch(err => {
-      console.log('error', err)
+      const message = err || 'failed to sendLogoutEvent'
+      logger.serverLog(message, `${TAG}: exports.logout`, {}, {user: req.user}, 'error')
       res.status(500).json({ status: 'failed', payload: `failed to sendLogoutEvent ${err}` })
     })
 }

@@ -34,7 +34,6 @@ exports.index = function (req, res) {
                 callApi(`smsChat`, 'post', MessageObject, 'kibochat')
                   .then(message => {
                     message.payload.format = 'twilio'
-                    console.log('socket data', contact)
                     require('./../../../config/socketio').sendMessageToClient({
                       room_id: contact.companyId,
                       body: {
@@ -56,7 +55,7 @@ exports.index = function (req, res) {
                   })
                   .catch(error => {
                     const message = error || 'Failed to create sms'
-                    logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
+                    logger.serverLog(message, `${TAG}: exports.index`, req.body, {MessageObject}, 'error')
                   })
                 if (req.body.Body !== '' && (req.body.Body.toLowerCase() === 'unsubscribe' || req.body.Body.toLowerCase() === 'stop')) {
                   handleUnsub(user, company, contact, req.body)
@@ -67,17 +66,17 @@ exports.index = function (req, res) {
             })
             .catch(error => {
               const message = error || 'Failed to fetch contact'
-              logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
+              logger.serverLog(message, `${TAG}: exports.index`, req.body, { user }, 'error')
             })
         })
         .catch(error => {
           const message = error || 'Failed to fetch user'
-          logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
+          logger.serverLog(message, `${TAG}: exports.index`, req.body, {company}, 'error')
         })
     })
     .catch(error => {
       const message = error || 'Failed to get company'
-      logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.index`, req.body, {}, 'error')
     })
 }
 
@@ -92,7 +91,7 @@ function updateContact (contactId, newPayload) {
     })
     .catch(error => {
       const message = error || 'Failed to update contact'
-      logger.serverLog(message, `${TAG}: exports.updateContact`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.updateContact`, {}, {contactId, newPayload}, 'error')
     })
 }
 
@@ -111,7 +110,7 @@ function handleUnsub (user, company, contact, body) {
     })
     .catch(error => {
       const message = error || 'error at sending message'
-      logger.serverLog(message, `${TAG}: exports.handleUnsub`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.handleUnsub`, {}, {user, company, contact, body}, 'error')
     })
   let message = {
     senderNumber: company.twilioWhatsApp.sandboxNumber,
@@ -137,7 +136,7 @@ function handleUnsub (user, company, contact, body) {
         })
         .catch(error => {
           const message = error || 'Failed to update contact'
-          logger.serverLog(message, `${TAG}: exports.handleUnsub`, {}, {}, 'error')
+          logger.serverLog(message, `${TAG}: exports.handleUnsub`, {}, {user, company, contact, body}, 'error')
         })
     })
 }
@@ -156,7 +155,7 @@ function handleSub (user, company, contact, body) {
     })
     .catch(error => {
       const message = error || 'error at sending message'
-      logger.serverLog(message, `${TAG}: exports.handleSub`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.handleSub`, {}, {user, company, contact, body}, 'error')
     })
   let message = {
     senderNumber: company.twilioWhatsApp.sandboxNumber,
@@ -182,7 +181,7 @@ function handleSub (user, company, contact, body) {
         })
         .catch(error => {
           const message = error || 'Failed to update contact'
-          logger.serverLog(message, `${TAG}: exports.handleSub`, {}, {}, 'error')
+          logger.serverLog(message, `${TAG}: exports.handleSub`, {}, {user, company, contact, body, message}, 'error')
         })
     })
 }
@@ -213,17 +212,17 @@ function _sendNotification (subscriber, companyId) {
                   saveNotifications(subscriber, companyUsers)
                 }).catch(error => {
                   const message = error || 'Error while fetching agents'
-                  logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, {}, 'error')
+                  logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, {subscriber, companyId}, 'error')
                 })
             }
           }
         }).catch(error => {
           const message = error || 'Error while fetching Last Message'
-          logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, {}, 'error')
+          logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, {subscriber, companyId}, 'error')
         })
     }).catch(error => {
       const message = error || 'Error while fetching companyUser'
-      logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, {subscriber, companyId}, 'error')
     })
 }
 
@@ -238,7 +237,6 @@ function saveNotifications (contact, companyUsers) {
     }
     callApi(`notifications`, 'post', notificationsData, 'kibochat')
       .then(savedNotification => {
-        console.log('saved notification', savedNotification)
         require('./../../../config/socketio').sendMessageToClient({
           room_id: companyUser.companyId,
           body: {
@@ -249,7 +247,7 @@ function saveNotifications (contact, companyUsers) {
       })
       .catch(error => {
         const message = error || 'Failed to save notification'
-        logger.serverLog(message, `${TAG}: exports.saveNotifications`, {}, {}, 'error')
+        logger.serverLog(message, `${TAG}: exports.saveNotifications`, {}, {notificationsData, contact, companyUsers}, 'error')
       })
   })
 }

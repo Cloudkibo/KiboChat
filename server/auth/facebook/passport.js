@@ -40,7 +40,7 @@ exports.setup = function (User, config) {
         })
         .fail(e => {
           const message = e || 'Permissions check error'
-          logger.serverLog(message, `${TAG}: exports.setup`, {}, {}, 'error')
+          logger.serverLog(message, `${TAG}: exports.setup`, {}, {profile}, 'error')
         })
 
       FBExtension.extendShortToken(accessToken).then((error) => {
@@ -52,7 +52,7 @@ exports.setup = function (User, config) {
         '&access_token='}${accessToken}`, options, (err, resp) => {
           if (err !== null) {
             const message = err || 'error from graph api to get user data'
-            logger.serverLog(message, `${TAG}: exports.setup`, {}, {}, 'error')
+            logger.serverLog(message, `${TAG}: exports.setup`, {}, {profile}, 'error')
           }
 
           if (err) return done(err)

@@ -36,7 +36,7 @@ exports.index = (req, res) => {
     })
     .catch((err) => {
       const message = err || 'Error in fetching data from KiboDash'
-      logger.serverLog(message, `${TAG}: exports.index`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.index`, {}, {user: req.user}, 'error')
       sendSuccessResponse(res, 500, err)
     })
 }
@@ -48,7 +48,7 @@ exports.ranged = (req, res) => {
     })
     .catch((err) => {
       const message = err || 'Error in fetching data from KiboDash'
-      logger.serverLog(message, `${TAG}: exports.ranged`, req.body, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.ranged`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err)
     })
 }
@@ -60,7 +60,7 @@ exports.userwise = (req, res) => {
     })
     .catch((err) => {
       const message = err || 'Error in fetching data from KiboDash'
-      logger.serverLog(message, `${TAG}: exports.userwise`, req.body, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.userwise`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err)
     })
 }
@@ -73,7 +73,7 @@ exports.userwiseRanged = (req, res) => {
     })
     .catch((err) => {
       const message = err || 'Error in fetching data from KiboDash'
-      logger.serverLog(message, `${TAG}: exports.userwiseRanged`, req.body, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.userwiseRanged`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err)
     })
 }

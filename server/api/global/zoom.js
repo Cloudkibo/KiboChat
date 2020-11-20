@@ -47,12 +47,16 @@ exports.refreshAccessToken = (zoomUser) => {
         if (accessToken) {
           callApi('zoomUsers', 'put', {purpose: 'updateOne', match: {_id: zoomUser._id}, updated: {accessToken, refreshToken}})
             .then(updated => resolve(accessToken))
-            .catch(err => reject(err))
+            .catch(err => {
+              reject(err)
+            })
         } else {
           reject(new Error('Failed to refresh access token'))
         }
       })
-      .catch(err => reject(err))
+      .catch(err => {
+        reject(err)
+      })
   })
 }
 

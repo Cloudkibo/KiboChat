@@ -1,4 +1,5 @@
 const logger = require('../../../components/logger')
+const TAG = 'api/custom_field/custom_field.controller.js'
 const CUSTOMFIELD = 'api/custom_field/custom_field.controller.js'
 const callApi = require('../utility')
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
@@ -15,12 +16,16 @@ exports.index = function (req, res) {
         })
         .catch(err => {
           if (err) {
+            const message = err || 'Internal Server Error in fetching customFields'
+            logger.serverLog(message, `${TAG}: exports.index`, {}, {user: req.user}, 'error')
             sendErrorResponse(res, 500, '', `Internal Server Error in fetching customFields${JSON.stringify(err)}`)
           }
         })
     })
     .catch(err => {
       if (err) {
+        const message = err || 'Internal Server Error in fetching customer'
+        logger.serverLog(message, `${TAG}: exports.index`, {}, {user: req.user}, 'error')
         sendErrorResponse(res, 500, '', `Internal Server Error in fetching customer${JSON.stringify(err)}`)
       }
     })
@@ -53,10 +58,14 @@ exports.create = function (req, res) {
           sendSuccessResponse(res, 200, newCustomField)
         })
         .catch(err => {
+          const message = err || 'Internal Server Error in custom fields'
+          logger.serverLog(message, `${TAG}: exports.index`, req.body, {user: req.user}, 'error')
           sendErrorResponse(res, 500, '', err)
         })
     })
     .catch(err => {
+      const message = err || 'Internal Server Error in fetching company user'
+      logger.serverLog(message, `${TAG}: exports.index`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', `Internal Server Error in fetching company user${JSON.stringify(err)}`)
     })
 }
@@ -87,10 +96,14 @@ exports.update = function (req, res) {
           sendSuccessResponse(res, 200, updated)
         })
         .catch(err => {
+          const message = err || 'Internal Server Error in updating custom fields'
+          logger.serverLog(message, `${TAG}: exports.update`, req.body, {user: req.user}, 'error')
           sendErrorResponse(res, 500, '', err)
         })
     })
     .catch(err => {
+      const message = err || 'Internal Server Error in finding custom fields'
+      logger.serverLog(message, `${TAG}: exports.update`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', `can not find custom field with given information${JSON.stringify(err)}`)
     })
 }
@@ -115,10 +128,14 @@ exports.delete = function (req, res) {
                 sendSuccessResponse(res, 200, 'Custom Field removed successfully')
               })
               .catch(err => {
+                const message = err || 'Failed to remove custom field'
+                logger.serverLog(message, `${TAG}: exports.delete`, req.body, {user: req.user}, 'error')
                 sendErrorResponse(res, 500, '', `Failed to remove custom field ${err}`)
               })
           })
           .catch(err => {
+            const message = err || 'Failed to remove custom field subscriber'
+            logger.serverLog(message, `${TAG}: exports.delete`, req.body, {user: req.user}, 'error')
             sendErrorResponse(res, 500, '', `Failed to remove custom field subscriber${err}`)
           })
       } else {
@@ -136,11 +153,15 @@ exports.delete = function (req, res) {
             sendSuccessResponse(res, 200, '', 'Custom Field removed successfully')
           })
           .catch(err => {
+            const message = err || 'Failed to remove custom field'
+            logger.serverLog(message, `${TAG}: exports.delete`, req.body, {user: req.user}, 'error')
             sendErrorResponse(res, 500, '', `Failed to remove custom field ${err}`)
           })
       }
     })
     .catch(err => {
+      const message = err || 'Failed to remove custom field subscriber'
+      logger.serverLog(message, `${TAG}: exports.delete`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', `Failed to find custom field subsriber${err}`)
     })
 }

@@ -16,6 +16,8 @@ exports.index = function (req, res) {
       sendSuccessResponse(res, 200, payload)
     })
     .catch(error => {
+      const message = error || 'Failed to fetch companypreferences'
+      logger.serverLog(message, `${TAG}: exports.index`, {}, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch companypreferences ${JSON.stringify(error)}`)
     })
 }
@@ -31,7 +33,7 @@ exports.update = function (req, res) {
     })
     .catch(err => {
       const message = err || 'Error occured while updating notification settings'
-      logger.serverLog(message, `${TAG}: exports.update`, req.body, newPayload, 'error')
+      logger.serverLog(message, `${TAG}: exports.update`, req.body, {newPayload}, 'error')
       sendErrorResponse(res, 500, 'Error occured while updating notification settings')
     })
 }

@@ -413,7 +413,6 @@ exports.addOrUpdateProductToCart = (customerId, lineItems, cartToken, credential
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
     if (cartToken) {
-      console.log('inside update CART')
       shopify.checkout.update(cartToken, { customer_id: customerId, line_items: lineItems })
         .then(result => {
           resolve(result)
@@ -422,7 +421,6 @@ exports.addOrUpdateProductToCart = (customerId, lineItems, cartToken, credential
           reject(err)
         })
     } else {
-      console.log('inside create CART')
       shopify.checkout.create({ customer_id: customerId, line_items: lineItems })
         .then(result => {
           resolve(result)

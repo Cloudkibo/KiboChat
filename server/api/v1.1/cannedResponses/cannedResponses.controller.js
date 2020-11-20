@@ -10,7 +10,7 @@ exports.index = function (req, res) {
     })
     .catch(err => {
       const message = err || 'Error occured while fetching responses'
-      logger.serverLog(message, `${TAG}: exports.index`, req.user, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.index`, {}, {user: req.user}, 'error')
       sendErrorResponse(res, 500, 'Error occured while fetching responses')
     })
 }
@@ -28,7 +28,7 @@ exports.create = function (req, res) {
     })
     .catch(err => {
       const message = err || 'Error occured while creating canned responses'
-      logger.serverLog(message, `${TAG}: exports.create`, req.body, payload, 'error')
+      logger.serverLog(message, `${TAG}: exports.create`, req.body, {payload, user: req.user}, 'error')
       sendErrorResponse(res, 500, 'Error occured while creating canned response')
     })
 }
@@ -40,7 +40,7 @@ exports.edit = function (req, res) {
     })
     .catch(err => {
       const message = err || 'Error occured while updating canned responses'
-      logger.serverLog(message, `${TAG}: exports.edit`, req.body, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.edit`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, 'Error occured while updating canned response')
     })
 }
@@ -52,7 +52,7 @@ exports.delete = function (req, res) {
     })
     .catch(err => {
       const message = err || 'Error occured while updating canned responses'
-      logger.serverLog(message, `${TAG}: exports.delete`, req.body, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.delete`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, 'Failed to delete canned response.')
     })
 }

@@ -5,7 +5,7 @@ const { sendSuccessResponse, sendErrorResponse } = require('../../global/respons
 const { sendOpAlert } = require('../../global/operationalAlert')
 const { whatsAppMapper } = require('../../../whatsAppMapper/whatsAppMapper')
 const logger = require('../../../components/logger')
-const TAG = '/api/v1/whatsAppChat/whatsAppChat.controller.js'
+const TAG = '/api/v1.1/whatsAppChat/whatsAppChat.controller.js'
 const { record } = require('../../global/messageStatistics')
 const {ActionTypes} = require('../../../whatsAppMapper/constants')
 const { deletePendingSessionFromStack } = require('../../global/messageAlerts')
@@ -42,6 +42,8 @@ exports.index = function (req, res) {
       }
     ], 10, function (err, results) {
       if (err) {
+        const message = err || 'Failed to update webhooks'
+        logger.serverLog(message, `${TAG}: exports.index`, req.body, {user: req.user, params: req.params}, 'error')
         sendErrorResponse(res, 500, err)
       } else {
         let chatCount = results[0]
@@ -97,6 +99,8 @@ exports.create = function (req, res) {
         }
       ], 10, function (err, results) {
         if (err) {
+          const message = err || 'Failed to update webhooks'
+          logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user, params: req.params}, 'error')
           sendErrorResponse(res, 500, err)
         } else {
           let data = {...message}
@@ -119,6 +123,8 @@ exports.create = function (req, res) {
       })
     })
     .catch(error => {
+      const message = error || 'Failed to save message'
+      logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user, params: req.params}, 'error')
       sendErrorResponse(res, 500, `Failed to save message ${error}`)
     })
 }
@@ -131,11 +137,10 @@ function updateChat (messageId, chat) {
   }
   callApi(`whatsAppChat`, 'put', query, 'kibochat')
     .then(updated => {
-      console.log('chat updated', updated)
     })
     .catch((err) => {
       const message = err || 'Failed to update chat'
-      logger.serverLog(message, `${TAG}: exports.updateChat`, {}, { chat }, 'error')
+      logger.serverLog(message, `${TAG}: exports.updateChat`, {}, { messageId, chat }, 'error')
     })
 }
 
@@ -153,6 +158,8 @@ exports.search = function (req, res) {
       sendSuccessResponse(res, 200, chats)
     })
     .catch(err => {
+      const message = err || 'Failed to search chat'
+      logger.serverLog(message, `${TAG}: exports.search`, req.body, { user: req.user, searchData }, 'error')
       sendErrorResponse(res, 500, '', err)
     })
 }
@@ -188,6 +195,8 @@ exports.assignAgent = function (req, res) {
       sendSuccessResponse(res, 200, 'Agent has been assigned successfully!')
     })
     .catch(err => {
+      const message = err || 'Failed to assign agent'
+      logger.serverLog(message, `${TAG}: exports.assignAgent`, req.body, { user: req.user }, 'error')
       sendErrorResponse(res, 500, err)
     })
 }
@@ -245,12 +254,16 @@ exports.setCustomFieldValue = function (req, res) {
             }
           })
           .catch(err => {
+            const message = err || 'Failed to set custom field value'
+            logger.serverLog(message, `${TAG}: exports.setCustomFieldValue`, req.body, { user: req.user }, 'error')
             sendErrorResponse(res, 500, `Internal Server ${(err)}`)
           })
       })
     }
   })
     .catch(err => {
+      const message = err || 'Failed to fetch custom field value'
+      logger.serverLog(message, `${TAG}: exports.setCustomFieldValue`, req.body, { user: req.user }, 'error')
       sendErrorResponse(res, 500, `Internal Server ${(err)}`)
     })
 }

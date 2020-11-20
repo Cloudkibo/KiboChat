@@ -27,7 +27,7 @@ exports.install = function (req, res) {
     })
     .catch(err => {
       const message = err || 'bigcommerce installation error'
-      logger.serverLog(message, `${TAG}: exports.install`, req.query, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.install`, {}, {query: req.query}, 'error')
       res.sendFile(path.join(__dirname, '/errorPage.html'))
     })
 }
@@ -41,6 +41,8 @@ exports.load = function (req, res) {
     bigCom.verify(req.query['signed_payload'])
     res.sendFile(path.join(__dirname, '/welcome.html'))
   } catch (err) {
+    const message = err || 'bigcommerce load page error'
+    logger.serverLog(message, `${TAG}: exports.load`, {}, {query: req.query}, 'error')
     res.sendFile(path.join(__dirname, '/errorPage.html'))
   }
 }
@@ -54,6 +56,8 @@ exports.uninstall = (req, res) => {
     bigCom.verify(req.query['signed_payload'])
     res.status(200).send({ message: 'Success' })
   } catch (err) {
+    const message = err || 'Internal Server Error on verifying bigcom'
+    logger.serverLog(message, `${TAG}: exports.uninstall`, {}, {query: req.query}, 'error')
     res.status(501).send({ message: `Internal Server Error ${JSON.stringify(err)}` })
   }
 }
@@ -65,16 +69,22 @@ exports.redirect = function (req, res) {
 exports.fetchStore = (req, res) => {
   dataLayer.findOneBigCommerceIntegration({ companyId: req.user.companyId })
     .then(bigCommerceIntegration => {
-      const bigCommerce = new EcommerceProviders(commerceConstants.bigcommerce, {
-        shopToken: bigCommerceIntegration.shopToken,
-        storeHash: bigCommerceIntegration.payload.context
-      })
-      return bigCommerce.fetchStoreInfo()
+      if (bigCommerceIntegration) {
+        const bigCommerce = new EcommerceProviders(commerceConstants.bigcommerce, {
+          shopToken: bigCommerceIntegration.shopToken,
+          storeHash: bigCommerceIntegration.payload.context
+        })
+        return bigCommerce.fetchStoreInfo()
+      } else {
+        return 'shop not found'
+      }
     })
     .then(shop => {
       sendSuccessResponse(res, 200, shop)
     })
     .catch(err => {
+      const message = err || 'Failed to fetch shop info'
+      logger.serverLog(message, `${TAG}: exports.fetchStore`, {}, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch shop info ${JSON.stringify(err)}`)
     })
 }

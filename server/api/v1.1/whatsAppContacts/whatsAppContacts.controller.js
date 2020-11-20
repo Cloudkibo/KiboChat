@@ -6,7 +6,7 @@ const fs = require('fs')
 const async = require('async')
 const csv = require('csv-parser')
 const logger = require('../../../components/logger')
-const TAG = 'api/whatsAppContacts/whatsAppContacts.controller.js'
+const TAG = 'api/v1.1/whatsAppContacts/whatsAppContacts.controller.js'
 const {ActionTypes} = require('../../../whatsAppMapper/constants')
 const { whatsAppMapper } = require('../../../whatsAppMapper/whatsAppMapper')
 
@@ -21,14 +21,20 @@ exports.index = function (req, res) {
               sendSuccessResponse(res, 200, {contacts: contacts, count: count.length > 0 ? count[0].count : 0})
             })
             .catch(error => {
+              const message = error || 'Failed to fetch subscribers'
+              logger.serverLog(message, `${TAG}: exports.index`, req.body, { user: req.user, criterias }, 'error')
               sendErrorResponse(res, 500, `Failed to fetch subscribers ${JSON.stringify(error)}`)
             })
         })
         .catch(error => {
+          const message = error || 'Failed to fetch subscriber count'
+          logger.serverLog(message, `${TAG}: exports.index`, req.body, { user: req.user, criterias }, 'error')
           sendErrorResponse(res, 500, `Failed to fetch subscriber count ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.index`, req.body, { user: req.user }, 'error')
       sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
@@ -54,6 +60,8 @@ exports.update = function (req, res) {
       sendSuccessResponse(res, 200, updated)
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.update`, req.body, { user: req.user, params: req.params }, 'error')
       sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
@@ -80,6 +88,8 @@ exports.unSubscribe = function (req, res) {
       sendSuccessResponse(res, 200, updated)
     })
     .catch(err => {
+      const message = err || 'Failed to update contact'
+      logger.serverLog(message, `${TAG}: exports.unSubscribe`, {}, { user: req.user, params: req.params }, 'error')
       sendErrorResponse(res, 500, `Failed to update contact ${JSON.stringify(err)}`)
     })
 }
@@ -102,6 +112,8 @@ exports.create = function (req, res) {
                 sendSuccessResponse(res, 200, newContact)
               })
               .catch(error => {
+                const message = error || 'Failed to create new contact'
+                logger.serverLog(message, `${TAG}: exports.create`, req.body, { user: req.user, params: req.params }, 'error')
                 sendErrorResponse(res, 500, `Failed to create new contact ${JSON.stringify(error)}`)
               })
           } else {
@@ -109,10 +121,14 @@ exports.create = function (req, res) {
           }
         })
         .catch(error => {
+          const message = error || 'Failed to fetch whatsapp contact'
+          logger.serverLog(message, `${TAG}: exports.create`, req.body, { user: req.user, params: req.params }, 'error')
           sendErrorResponse(res, 500, `Failed to fetch whatsapp contact ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.create`, req.body, { user: req.user, params: req.params }, 'error')
       sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
@@ -120,6 +136,8 @@ exports.getDuplicateSubscribers = function (req, res) {
   let directory = logicLayer.directory(req)
   fs.rename(req.files.file.path, path.join(directory.dir, '/userfiles/', directory.serverPath), err => {
     if (err) {
+      const message = err || 'Failed to move file'
+      logger.serverLog(message, `${TAG}: exports.getDuplicateSubscribers`, req.body, { user: req.user, files: req.files }, 'error')
       sendErrorResponse(res, 500, '', 'internal server error' + JSON.stringify(err))
     }
     let data = {
@@ -130,6 +148,11 @@ exports.getDuplicateSubscribers = function (req, res) {
     _getDuplicateRecords(data)
       .then(result => {
         sendSuccessResponse(res, 200, result)
+      })
+      .catch(err => {
+        const message = err || 'Failed to get duplicate records'
+        logger.serverLog(message, `${TAG}: exports.getDuplicateSubscribers`, req.body, { user: req.user, files: req.files }, 'error')
+        sendErrorResponse(res, 500, '', 'internal server error' + JSON.stringify(err))
       })
   })
 }
@@ -157,9 +180,7 @@ const _getDuplicateRecords = (data) => {
             resolve(results.length > 0 ? results[0].count : 0)
           })
           .catch(error => {
-            resolve(0)
-            const message = error || 'error in message statistics'
-            logger.serverLog(message, `${TAG}: exports._getDuplicateRecords`, {}, { data }, 'error')
+            reject(error)
           })
       })
   })
@@ -169,6 +190,8 @@ exports.sendMessage = function (req, res) {
   let directory = logicLayer.directory(req)
   fs.rename(req.files.file.path, path.join(directory.dir, '/userfiles/', directory.serverPath), err => {
     if (err) {
+      const message = err || 'Failed to send message'
+      logger.serverLog(message, `${TAG}: exports.sendMessage`, req.body, { user: req.user }, 'error')
       sendErrorResponse(res, 500, '', 'internal server error' + JSON.stringify(err))
     }
     let data = {
@@ -186,7 +209,7 @@ exports.sendMessage = function (req, res) {
     ], function (err) {
       if (err) {
         const message = err || 'Failed to send invitation template'
-        logger.serverLog(message, `${TAG}: exports.sendMessage`, req.body, {}, 'error')
+        logger.serverLog(message, `${TAG}: exports.sendMessage`, req.body, { user: req.user }, 'error')
         sendErrorResponse(res, 500, '', err)
       } else {
         sendSuccessResponse(res, 200, 'Message Sent Successfully')
@@ -273,7 +296,7 @@ const _saveChat = (data, contact) => {
     })
     .catch((err) => {
       const message = err || 'Failed to save chat'
-      logger.serverLog(message, `${TAG}: exports._saveChat`, {}, { data, contact }, 'error')
+      logger.serverLog(message, `${TAG}: exports._saveChat`, {}, { data, contact, MessageObject }, 'error')
     })
 }
 
@@ -290,6 +313,6 @@ const _updateSubscriber = (contact) => {
     .then(updated => {
     }).catch((err) => {
       const message = err || 'Failed to update subscriber'
-      logger.serverLog(message, `${TAG}: exports._updateSubscriber`, {}, { contact }, 'error')
+      logger.serverLog(message, `${TAG}: exports._updateSubscriber`, {}, { contact, subscriberData }, 'error')
     })
 }

@@ -13,10 +13,14 @@ exports.index = function (req, res) {
           sendSuccessResponse(res, 200, posts)
         })
         .catch(error => {
+          const message = error || 'Failed to get fetch posts'
+          logger.serverLog(message, `${TAG}: exports.index`, {}, {user: req.user}, 'error')
           sendErrorResponse(res, 500, `Failed to get fetch posts ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.index`, {}, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
@@ -27,6 +31,8 @@ exports.viewPost = function (req, res) {
       sendSuccessResponse(res, 200, post)
     })
     .catch(error => {
+      const message = error || 'Failed to fetch post'
+      logger.serverLog(message, `${TAG}: exports.viewPost`, {}, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch post ${JSON.stringify(error)}`)
     })
 }
@@ -69,7 +75,7 @@ exports.create = function (req, res) {
                 (err, resp) => {
                   if (err) {
                     const message = err || 'Page accesstoken from graph api'
-                    return logger.serverLog(message, `${TAG}: exports.create`, {}, {}, 'error')
+                    return logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
                   }
                   let messageData = logicLayer.setMessage(req.body.payload)
                   if (messageData.image) {
@@ -78,7 +84,7 @@ exports.create = function (req, res) {
                       messageData, (err, resp) => {
                         if (err) {
                           const message = err || 'Page accesstoken from graph api'
-                          return logger.serverLog(message, `${TAG}: exports.create`, {}, {}, 'error')
+                          return logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
                         }
                         let postId = resp.body.post_id ? resp.body.post_id : resp.body.id
                         utility.callApi(`comment_capture/update`, 'put', {query: {_id: postCreated._id}, newPayload: {post_id: postId}, options: {}})
@@ -86,6 +92,8 @@ exports.create = function (req, res) {
                             sendSuccessResponse(res, 200, postCreated)
                           })
                           .catch(error => {
+                            const message = err || 'Failed to create post'
+                            logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
                             sendErrorResponse(res, 500, `Failed to create post ${JSON.stringify(error)}`)
                           })
                       })
@@ -95,7 +103,7 @@ exports.create = function (req, res) {
                       messageData, (err, resp) => {
                         if (err) {
                           const message = err || 'Page accesstoken from graph api'
-                          return logger.serverLog(message, `${TAG}: exports.create`, {}, {}, 'error')
+                          return logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
                         }
                         let postId = resp.body.post_id ? resp.body.post_id : resp.body.id
                         utility.callApi(`comment_capture/update`, 'put', {query: {_id: postCreated._id}, newPayload: {post_id: postId}, options: {}})
@@ -103,6 +111,8 @@ exports.create = function (req, res) {
                             sendSuccessResponse(res, 200, postCreated)
                           })
                           .catch(error => {
+                            const message = err || 'Failed to create post'
+                            logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
                             sendErrorResponse(res, 500, `Failed to create post ${JSON.stringify(error)}`)
                           })
                       })
@@ -112,7 +122,7 @@ exports.create = function (req, res) {
                       messageData, (err, resp) => {
                         if (err) {
                           const message = err || 'Page accesstoken from graph api'
-                          return logger.serverLog(message, `${TAG}: exports.create`, {}, {}, 'error')
+                          return logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
                         }
                         let postId = resp.body.post_id ? resp.body.post_id : resp.body.id
                         utility.callApi(`comment_capture/update`, 'put', {query: {_id: postCreated._id}, newPayload: {post_id: postId}, options: {}})
@@ -120,6 +130,8 @@ exports.create = function (req, res) {
                             sendSuccessResponse(res, 200, postCreated)
                           })
                           .catch(error => {
+                            const message = err || 'Failed to create post'
+                            logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
                             sendErrorResponse(res, 500, `Failed to create post ${JSON.stringify(error)}`)
                           })
                       })
@@ -127,14 +139,20 @@ exports.create = function (req, res) {
                 })
             })
             .catch(error => {
+              const message = error || 'Failed to fetch page'
+              logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
               sendErrorResponse(res, 500, `Failed to fetch page ${JSON.stringify(error)}`)
             })
         })
         .catch(error => {
+          const message = error || 'Failed to create post'
+          logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
           sendErrorResponse(res, 500, `Failed to create post ${JSON.stringify(error)}`)
         })
     })
     .catch(error => {
+      const message = error || 'Failed to fetch company user'
+      logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
 }
@@ -144,6 +162,8 @@ exports.edit = function (req, res) {
       sendSuccessResponse(res, 200, result)
     })
     .catch(error => {
+      const message = error || 'Failed to update post'
+      logger.serverLog(message, `${TAG}: exports.edit`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to update post ${JSON.stringify(error)}`)
     })
 }
@@ -153,6 +173,8 @@ exports.delete = function (req, res) {
       sendSuccessResponse(res, 200, result)
     })
     .catch(error => {
+      const message = error || 'Failed to delete post'
+      logger.serverLog(message, `${TAG}: exports.delete`, {}, {params: req.params}, 'error')
       sendErrorResponse(res, 500, `Failed to delete post ${JSON.stringify(error)}`)
     })
 }
