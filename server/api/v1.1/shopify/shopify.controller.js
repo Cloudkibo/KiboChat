@@ -217,7 +217,6 @@ exports.callback = function (req, res) {
       .then((accessTokenResponse) => {
         const accessToken = accessTokenResponse.access_token
         const tokenCookie = req.headers.cookie ? cookie.parse(req.headers.cookie).token : null
-        registerWebhooks(shop, accessToken)
         if (tokenCookie) {
           const userIdCookie = cookie.parse(req.headers.cookie).userId
           const companyIdCookie = cookie.parse(req.headers.cookie).companyId
@@ -235,6 +234,7 @@ exports.callback = function (req, res) {
                 res.clearCookie('installByShopifyStore')
                 res.redirect('/alreadyConnected')
               } else {
+                registerWebhooks(shop, accessToken)
                 dataLayer.createShopifyIntegration(shopifyPayload)
                   .then(savedStore => {
                     res.cookie('shopifySetupState', 'completedUsingAuth')
