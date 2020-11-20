@@ -285,7 +285,7 @@ exports.fetchStore = (req, res) => {
         })
         return shopify.fetchStoreInfo()
       } else {
-        return 'shop not found'
+        return null
       }
     })
     .then(shop => {
