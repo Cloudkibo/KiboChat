@@ -357,9 +357,7 @@ function sendResponse (recipientId, payload, subscriber, accessToken) {
     })
     .catch(error => {
       const message = error || 'error in sending message'
-      logger.serverLog(message, `${TAG}: exports.sendResponse`, {}, {recipientId, payload, subscriber, accessToken}, 'error')
-      return logger.serverLog(TAG,
-        `error in sending message ${JSON.stringify(error)}`, 'error')
+      return logger.serverLog(message, `${TAG}: exports.sendResponse`, {}, {recipientId, payload, subscriber, accessToken}, 'error')
     })
 }
 
@@ -375,9 +373,7 @@ function senderAction (recipientId, action, accessToken) {
     })
     .catch(err => {
       const message = err || 'error in sending action'
-      logger.serverLog(message, `${TAG}: exports.senderAction`, {}, {recipientId, action, accessToken}, 'error')
-      return logger.serverLog(TAG,
-        `error in sending action ${JSON.stringify(err)}`, 'error')
+      return logger.serverLog(message, `${TAG}: exports.senderAction`, {}, {recipientId, action, accessToken}, 'error')
     })
 }
 
@@ -645,8 +641,6 @@ function shouldAvoidSendingAutomatedMessage (subscriber) {
         }
       })
       .catch(err => {
-        const message = err || 'err test Info'
-        logger.serverLog(message, `${TAG}: exports.shouldAvoidSendingAutomatedMessage`, {}, {subscriber}, 'error')
         reject(err)
       })
   })

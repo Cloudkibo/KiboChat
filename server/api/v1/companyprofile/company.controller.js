@@ -662,7 +662,7 @@ exports.deleteWhatsAppInfo = function (req, res) {
     .catch((err) => {
       const message = err || 'failed to authenticate user'
       if (message !== 'Incorrect password') {
-        logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, req.body, req.user, 'error')
+        logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, req.body, {user: req.user}, 'error')
       }
       sendErrorResponse(res, 500, err)
     })

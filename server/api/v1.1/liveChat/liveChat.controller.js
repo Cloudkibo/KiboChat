@@ -69,6 +69,8 @@ exports.geturlmeta = function (req, res) {
   var url = req.body.url
   og(url, (err, meta) => {
     if (err) {
+      const message = err || 'Error in getting url meta'
+      logger.serverLog(message, `${TAG}: exports.geturlmeta`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 404, '', 'Meta data not found')
     } else {
       sendSuccessResponse(res, 200, meta)
