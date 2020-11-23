@@ -57,7 +57,7 @@ module.exports = function (app) {
     )
   }
 
-   /*
+  /*
     Setup a general error handler for JsonSchemaValidation errors.
   */
   app.use(function (err, req, res, next) {
@@ -77,7 +77,7 @@ module.exports = function (app) {
       next(err)
     }
   })
-  
+ 
   if (env === 'development' || env === 'test') {
     /**
          * HTTP request logger
