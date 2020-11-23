@@ -1477,102 +1477,105 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
         }
       } catch (err) {
         const message = err || 'Invalid user input'
-        logger.serverLog(message, `${TAG}: exports.getNextMessageBlock`, {}, {}, 'error')
+        logger.serverLog(message, `${TAG}: exports.getNextMessageBlock`, {}, {chatbot, EcommerceProvider, contact, event}, 'error')
         if (startingBlock.triggers.includes(input)) {
           return startingBlock
         } else {
           return invalidInput(chatbot, contact.lastMessageSentByBot, `${ERROR_INDICATOR}You entered an invalid response.`)
         }
       }
-      console.log(`getNextMessageBlock action ${JSON.stringify(action)}`)
-      if (action.type === DYNAMIC) {
-        try {
-          let messageBlock = null
-          switch (action.action) {
-            case PRODUCT_CATEGORIES: {
-              messageBlock = await getProductCategoriesBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument ? action.argument : {})
-              break
+      if (action) {
+        if (action.type === DYNAMIC) {
+          try {
+            let messageBlock = null
+            switch (action.action) {
+              case PRODUCT_CATEGORIES: {
+                messageBlock = await getProductCategoriesBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument ? action.argument : {})
+                break
+              }
+              case PRODUCT_VARIANTS: {
+                messageBlock = await getProductVariantsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument)
+                break
+              }
+              case DISCOVER_PRODUCTS: {
+                messageBlock = await getDiscoverProductsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : '', action.argument ? action.argument : {})
+                break
+              }
+              case ORDER_STATUS: {
+                messageBlock = await getOrderStatusBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : action.argument)
+                break
+              }
+              case SELECT_PRODUCT: {
+                messageBlock = await getSelectProductBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument)
+                break
+              }
+              case ADD_TO_CART: {
+                messageBlock = await getAddToCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument, action.input ? input : '')
+                break
+              }
+              case SHOW_MY_CART: {
+                messageBlock = await getShowMyCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
+                break
+              }
+              case GET_CHECKOUT_EMAIL: {
+                messageBlock = await getCheckoutEmailBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, action.argument)
+                break
+              }
+              case PROCEED_TO_CHECKOUT: {
+                messageBlock = await getCheckoutBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, contact, action.input ? input : '')
+                break
+              }
+              case RETURN_ORDER: {
+                messageBlock = await getReturnOrderBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : '')
+                break
+              }
+              case REMOVE_FROM_CART: {
+                messageBlock = await getRemoveFromCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument, action.input ? input : '')
+                break
+              }
+              case CLEAR_CART: {
+                messageBlock = await clearCart(chatbot, contact)
+                break
+              }
+              case UPDATE_CART: {
+                messageBlock = await getUpdateCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument, action.input ? input : '')
+                break
+              }
+              case QUANTITY_TO_ADD: {
+                messageBlock = await getQuantityToAddBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument)
+                break
+              }
+              case QUANTITY_TO_REMOVE: {
+                messageBlock = await getQuantityToRemoveBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument)
+                break
+              }
+              case QUANTITY_TO_UPDATE: {
+                messageBlock = await getQuantityToUpdateBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument, contact)
+                break
+              }
+              case VIEW_RECENT_ORDERS: {
+                messageBlock = await getRecentOrdersBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, EcommerceProvider)
+                break
+              }
             }
-            case PRODUCT_VARIANTS: {
-              messageBlock = await getProductVariantsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument)
-              break
-            }
-            case DISCOVER_PRODUCTS: {
-              messageBlock = await getDiscoverProductsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : '', action.argument ? action.argument : {})
-              break
-            }
-            case ORDER_STATUS: {
-              messageBlock = await getOrderStatusBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : action.argument)
-              break
-            }
-            case SELECT_PRODUCT: {
-              messageBlock = await getSelectProductBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument)
-              break
-            }
-            case ADD_TO_CART: {
-              messageBlock = await getAddToCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument, action.input ? input : '')
-              break
-            }
-            case SHOW_MY_CART: {
-              messageBlock = await getShowMyCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
-              break
-            }
-            case GET_CHECKOUT_EMAIL: {
-              messageBlock = await getCheckoutEmailBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, action.argument)
-              break
-            }
-            case PROCEED_TO_CHECKOUT: {
-              messageBlock = await getCheckoutBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, contact, action.input ? input : '')
-              break
-            }
-            case RETURN_ORDER: {
-              messageBlock = await getReturnOrderBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : '')
-              break
-            }
-            case REMOVE_FROM_CART: {
-              messageBlock = await getRemoveFromCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument, action.input ? input : '')
-              break
-            }
-            case CLEAR_CART: {
-              messageBlock = await clearCart(chatbot, contact)
-              break
-            }
-            case UPDATE_CART: {
-              messageBlock = await getUpdateCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument, action.input ? input : '')
-              break
-            }
-            case QUANTITY_TO_ADD: {
-              messageBlock = await getQuantityToAddBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument)
-              break
-            }
-            case QUANTITY_TO_REMOVE: {
-              messageBlock = await getQuantityToRemoveBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument)
-              break
-            }
-            case QUANTITY_TO_UPDATE: {
-              messageBlock = await getQuantityToUpdateBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument, contact)
-              break
-            }
-            case VIEW_RECENT_ORDERS: {
-              messageBlock = await getRecentOrdersBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, EcommerceProvider)
-              break
+            await messageBlockDataLayer.createForMessageBlock(messageBlock)
+            return messageBlock
+          } catch (err) {
+            if (startingBlock.triggers.includes(input)) {
+              return startingBlock
+            } else {
+              return invalidInput(chatbot, contact.lastMessageSentByBot, err.message)
             }
           }
-          await messageBlockDataLayer.createForMessageBlock(messageBlock)
-          return messageBlock
-        } catch (err) {
-          if (startingBlock.triggers.includes(input)) {
-            return startingBlock
-          } else {
-            return invalidInput(chatbot, contact.lastMessageSentByBot, err.message)
-          }
+        } else if (action.type === STATIC) {
+          return messageBlockDataLayer.findOneMessageBlock({ uniqueId: action.blockId })
         }
-      } else if (action.type === STATIC) {
-        return messageBlockDataLayer.findOneMessageBlock({ uniqueId: action.blockId })
+      } else {
+        return null
       }
     }
   } catch (err) {
     const message = err || 'nextMessageBlock error'
-    logger.serverLog(message, `${TAG}: exports.getNextMessageBlock`, {}, {}, 'error')
+    logger.serverLog(message, `${TAG}: exports.getNextMessageBlock`, {}, {chatbot, EcommerceProvider, contact, event}, 'error')
   }
 }
