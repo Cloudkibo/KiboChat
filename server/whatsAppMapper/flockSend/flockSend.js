@@ -57,7 +57,6 @@ exports.getTemplates = (body) => {
     }
     flockSendApiCaller('templates-fetch', 'post', authData)
       .then(resp => {
-        console.log('response from template', resp)
         let templates = logicLayer.prepareTemplates(resp.body)
         resolve(templates)
       })
