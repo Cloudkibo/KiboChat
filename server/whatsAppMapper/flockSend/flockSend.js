@@ -125,7 +125,23 @@ exports.setWebhook = (body) => {
 
 exports.verifyCredentials = (body) => {
   return new Promise((resolve, reject) => {
-    resolve()
+    const authData = {
+      'token': body.accessToken
+    }
+    flockSendApiCaller('templates-fetch', 'post', authData)
+      .then(resp => {
+        if (!Array.isArray(resp.body)) {
+          resp.body = JSON.parse(resp.body)
+        }
+        if (resp && resp.body && resp.body.code === 198 && resp.body.message === 'Invalid token') {
+          throw new Error('You have entered invalid Flock send access token. Please enter correct Flock send access token')
+        } else {
+          resolve(resp)
+        }
+      })
+      .catch((err) => {
+        reject(err)
+      })
   })
 }
 
