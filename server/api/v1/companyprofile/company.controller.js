@@ -292,20 +292,25 @@ const _verifyCredentials = (data, next) => {
 }
 
 const _checkTwilioVersion = (data, next) => {
-  whatsAppMapper(data.body.provider, ActionTypes.CHECK_TWILLO_VERSION, data.body)
-    .then(response => {
-      if (response.body.type === 'Trial' && !data.isSuperUser) {
-        next(new Error('This is a trial account. Please connect a paid version of Twilio account.'))
-      } else {
-        next(null, data)
-      }
-    })
-    .catch(error => {
-      const message = error || 'error in whatsapp mapper'
-      logger.serverLog(message, `${TAG}: exports._checkTwilioVersion`, {}, { data }, 'error')
-      next(error)
-    })
+  if (data.body.provider === 'twilio') {
+    whatsAppMapper(data.body.provider, ActionTypes.CHECK_TWILLO_VERSION, data.body)
+      .then(response => {
+        if (response.body.type === 'Trial' && !data.isSuperUser) {
+          next(new Error('This is a trial account. Please connect a paid version of Twilio account.'))
+        } else {
+          next(null, data)
+        }
+      })
+      .catch(error => {
+        const message = error || 'error in whatsapp mapper'
+        logger.serverLog(message, `${TAG}: exports._checkTwilioVersion`, {}, { data }, 'error')
+        next(error)
+      })
+  } else {
+    next(null, data)
+  }
 }
+
 exports.updatePlatformWhatsApp = function (req, res) {
   // let query = {
   //   _id: req.user.companyId,
@@ -363,7 +368,7 @@ exports.updatePlatformWhatsApp = function (req, res) {
           _setWebhook.bind(null, data)
         ], function (err) {
           if (err) {
-            if (!err.message || err.message.includes('trial account')) {
+            if (!err.message || !err.message.includes('trial account')) {
               const message = err || 'error in async series call'
               logger.serverLog(message, `${TAG}: exports.updatePlatformWhatsApp`, req.body, { user: req.user }, 'error')
             }
