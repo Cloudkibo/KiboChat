@@ -120,8 +120,8 @@ exports.handleCommerceChatbot = (event, page, subscriber) => {
             }
             if (ecommerceProvider) {
               let nextMessageBlock = await shopifyChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, subscriber, event)
-              updateSubscriber({ _id: subscriber._id }, { lastMessageSentByBot: nextMessageBlock }, {})
               if (nextMessageBlock) {
+                updateSubscriber({ _id: subscriber._id }, { lastMessageSentByBot: nextMessageBlock }, {})
                 senderAction(event.sender.id, 'typing_on', page.accessToken)
                 intervalForEach(nextMessageBlock.payload, (item) => {
                   sendResponse(event.sender.id, item, subscriber, page.accessToken)
