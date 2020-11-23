@@ -39,6 +39,22 @@ exports.verifyCredentials = (body) => {
       })
   })
 }
+
+exports.checkTwillioVersion = (body) => {
+  return new Promise((resolve, reject) => {
+    needle('get', `https://${body.accountSID}:${body.accessToken}@api.twilio.com/2010-04-01/Accounts/${body.accountSID}.json`)
+      .then(resp => {
+        if (resp.statusCode === 200) {
+          resolve(resp)
+        } else {
+          reject(Error('Error in finding twilio version'))
+        }
+      })
+      .catch((err) => {
+        reject(err)
+      })
+  })
+}
 exports.getTemplates = (body) => {
   return new Promise((resolve, reject) => {
     let templates = logicLayer.prepareTemplates()
