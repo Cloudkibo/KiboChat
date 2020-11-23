@@ -27,6 +27,8 @@ function callAction (action, data, provider) {
       return provider.respondUsingChatbot(data)
     case ActionTypes.SEND_TEXT_MESSAGE:
       return provider.sendTextMessage(data)
+    case ActionTypes.CHECK_TWILLO_VERSION:
+      return provider.checkTwillioVersion(data)
     default: break
   }
 }
