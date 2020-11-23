@@ -1,6 +1,7 @@
 const { callApi } = require('../utility')
 const logger = require('../../../components/logger')
 const TAG = '/api/v1/whatsAppChatbot/whatsAppChatbot.datalayer.js'
+const { kibochat } = require('../../global/constants').serverConstants
 
 exports.createWhatsAppChatbot = (req) => {
   return new Promise(async (resolve, reject) => {
@@ -11,7 +12,7 @@ exports.createWhatsAppChatbot = (req) => {
         botLinks: req.body.botLinks ? req.body.botLinks : undefined,
         testSubscribers: req.body.testSubscribers ? req.body.testSubscribers : [],
         storeType: req.body.storeType
-      }, 'kibochat')
+      }, kibochat)
       resolve(createdChatbot)
     } catch (err) {
       const message = err || 'Failed to create whatsapp chatbot'
@@ -27,11 +28,27 @@ exports.fetchWhatsAppChatbot = (match) => {
       let chatbot = await callApi('whatsAppChatbot/query', 'post', {
         purpose: 'findOne',
         match: match
-      }, 'kibochat')
+      }, kibochat)
       resolve(chatbot)
     } catch (err) {
       const message = err || 'Failed to fetch whatsapp chatbot'
       logger.serverLog(message, `${TAG}: exports.fetchWhatsAppChatbot`, {}, {}, 'error')
+      reject(err)
+    }
+  })
+}
+
+exports.fetchAllWhatsAppChatbots = (match) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let chatbot = await callApi('whatsAppChatbot/query', 'post', {
+        purpose: 'findAll',
+        match: match
+      }, kibochat)
+      resolve(chatbot)
+    } catch (err) {
+      const message = err || 'Failed to fetch whatsapp chatbots'
+      logger.serverLog(message, `${TAG}: exports.fetchAllWhatsAppChatbots`, {}, {}, 'error')
       reject(err)
     }
   })
@@ -46,7 +63,7 @@ exports.updateWhatsAppChatbot = (companyId, updated) => {
           companyId: companyId
         },
         updated
-      }, 'kibochat')
+      }, kibochat)
       chatbot = { ...chatbot, ...updated }
       resolve(chatbot)
     } catch (err) {
@@ -62,5 +79,5 @@ exports.deleteForChatBot = (queryObject) => {
     purpose: 'deleteMany',
     match: queryObject
   }
-  return callApi(`whatsAppChatbot`, 'delete', query, 'kibochat')
+  return callApi(`whatsAppChatbot`, 'delete', query, kibochat)
 }

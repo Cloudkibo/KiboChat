@@ -17,6 +17,7 @@ const moment = require('moment')
 const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('../../global/messageAlerts')
 const { record } = require('../../global/messageStatistics')
 const chatbotResponder = require('../../../chatbotResponder')
+const configureChatbotDatalayer = require('./../configureChatbot/datalayer')
 
 exports.messageReceived = function (req, res) {
   res.status(200).json({
@@ -44,6 +45,13 @@ exports.messageReceived = function (req, res) {
                       if (isNewContact) {
                         _sendEvent(company._id, contact)
                         pushSessionPendingAlertInStack(company, contact, 'whatsApp')
+                      }
+                      if (company._id === '5a89ecdaf6b0460c552bf7fe') {
+                        // NOTE: This if condition is temporary testing code for
+                        // adil. We will remove this in future. It will only run for
+                        // our own company. Please don't remove this. - Sojharo
+                        temporarySuperBotTestHandling(data, contact, company, number, req, isNewContact)
+                        return
                       }
                       if (data.messageData.componentType === 'text') {
                         let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ _id: company.whatsApp.activeWhatsappBot })
@@ -288,7 +296,6 @@ function saveNotifications (contact, companyUsers) {
     }
     callApi(`notifications`, 'post', notificationsData, 'kibochat')
       .then(savedNotification => {
-        console.log('saved notification', savedNotification)
         require('./../../../config/socketio').sendMessageToClient({
           room_id: companyUser.companyId,
           body: {
@@ -453,4 +460,180 @@ function updateChatInDB (match, updated, dataToSend) {
       const message = err || 'Failed to update message'
       logger.serverLog(message, `${TAG}: exports.updateChatInDB`, {}, { match, updated, dataToSend }, 'error')
     })
+}
+
+// NOTE: This is just a temporary function to give capability of super chatbot
+// to adil which will activate selected chatbots for demo purposes.
+// This will only be called if chatbot is on our own company.
+// This code will be removed in future there it may contain some repetitive code from
+// above - Sojharo
+async function temporarySuperBotTestHandling (data, contact, company, number, req, isNewContact) {
+  if (data.messageData.text === 'select' || !contact.activeChatbotId) {
+    try {
+      let chatbots = await whatsAppChatbotDataLayer.fetchAllWhatsAppChatbots({ companyId: company._id, published: true })
+      chatbots = chatbots.map(chatbot => {
+        return {botId: chatbot._id, title: chatbot.type, built: 'automated', ...chatbot}
+      })
+
+      let sqlChatbots = await configureChatbotDatalayer.fetchChatbotRecords({platform: 'whatsApp', companyId: company._id, published: true})
+      sqlChatbots = sqlChatbots.map(chatbot => {
+        return {botId: chatbot.chatbotId, built: 'custom', ...chatbot}
+      })
+
+      const allChatbots = [...sqlChatbots, ...chatbots]
+
+      let nextMessageBlock = whatsAppChatbotLogicLayer.getChatbotsListMessageBlock(allChatbots)
+      if (nextMessageBlock) {
+        sendWhatsAppMessage(nextMessageBlock, data, number, req)
+        updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
+      }
+    } catch (err) {
+      const message = err || 'Error in async await calls above'
+      logger.serverLog(message, `${TAG}: exports.temporarySuperBotTestHandling`, req.body, {data, contact, company, number, req, isNewContact}, 'error')
+    }
+  } else if (contact.lastMessageSentByBot && contact.lastMessageSentByBot.module.id === 'sojharo-s-chatbot-custom-id') {
+    const menuInput = parseInt(data.messageData.text)
+    const lastMessageSentByBot = contact.lastMessageSentByBot.payload[0]
+
+    if (!isNaN(menuInput)) {
+      const selectedBot = lastMessageSentByBot.menu[menuInput]
+      const nextMessageBlock = whatsAppChatbotLogicLayer.getChatbotSelectedMessageBlock(selectedBot.title)
+
+      if (nextMessageBlock) {
+        sendWhatsAppMessage(nextMessageBlock, data, number, req)
+        updateWhatsAppContact({ _id: contact._id },
+          { lastMessageSentByBot: nextMessageBlock,
+            activeChatbotId: selectedBot.botId,
+            activeChatbotBuilt: selectedBot.built
+          }, null, {})
+      }
+    }
+  } else {
+    temporarySuperBotResponseHandling(data, contact, company, number, req, isNewContact)
+  }
+}
+
+// NOTE: This is just a temporary function to give capability of super chatbot
+// to adil which will activate selected chatbots for demo purposes.
+// This will only be called if chatbot is on our own company.
+// This code will be removed in future there it may contain some repetitive code from
+// above - Sojharo
+async function temporarySuperBotResponseHandling (data, contact, company, number, req, isNewContact) {
+  if (data.messageData.componentType === 'text' && contact.activeChatbotBuilt === 'automated') {
+    let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ _id: contact.activeChatbotId })
+    if (chatbot) {
+      const shouldSend = chatbot.published || chatbot.testSubscribers.includes(contact.number)
+      if (shouldSend) {
+        let ecommerceProvider = null
+        if (chatbot.storeType === commerceConstants.shopify) {
+          const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
+          ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
+            shopUrl: shopifyIntegration.shopUrl,
+            shopToken: shopifyIntegration.shopToken
+          })
+        } else if (chatbot.storeType === commerceConstants.bigcommerce) {
+          const bigCommerceIntegration = await bigcommerceDataLayer.findOneBigCommerceIntegration({ companyId: chatbot.companyId })
+          ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
+            shopToken: bigCommerceIntegration.shopToken,
+            storeHash: bigCommerceIntegration.payload.context
+          })
+        }
+        if (ecommerceProvider) {
+          let nextMessageBlock = await whatsAppChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text)
+          if (nextMessageBlock) {
+            for (let messagePayload of nextMessageBlock.payload) {
+              let chatbotResponse = {
+                whatsApp: {
+                  accessToken: data.accessToken,
+                  accountSID: data.accountSID,
+                  businessNumber: data.businessNumber
+                },
+                recipientNumber: number,
+                payload: messagePayload
+              }
+              record('whatsappChatOutGoing')
+              whatsAppMapper.whatsAppMapper(req.body.provider, ActionTypes.SEND_CHAT_MESSAGE, chatbotResponse)
+              if (company.saveAutomationMessages) {
+                for (let i = 0; i < nextMessageBlock.payload.length; i++) {
+                  storeChat(company.whatsApp.businessNumber, number, contact, nextMessageBlock.payload[i], 'convos')
+                }
+              }
+            }
+            updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
+            const triggerWordsMatched = chatbot.triggers.includes(data.messageData.text.toLowerCase()) ? 1 : 0
+
+            if (isNewContact) {
+              await whatsAppChatbotDataLayer.updateWhatsAppChatbot(chatbot.companyId, { $inc: { 'stats.triggerWordsMatched': triggerWordsMatched, 'stats.newSubscribers': 1 } })
+              whatsAppChatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
+                { chatbotId: chatbot._id, companyId: chatbot.companyId, dateToday: moment(new Date()).format('YYYY-MM-DD') },
+                { $inc: { sentCount: 1, newSubscribersCount: 1, triggerWordsMatched } },
+                { upsert: true })
+                .then(updated => {})
+                .catch(err => {
+                  const message = err || 'Failed to update WhatsApp chatbot analytics'
+                  logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {chatbotId: chatbot._id, companyId: chatbot.companyId}, 'error')
+                })
+            } else {
+              whatsAppChatbotDataLayer.updateWhatsAppChatbot(chatbot.companyId, { $inc: { 'stats.triggerWordsMatched': triggerWordsMatched } })
+              let subscriberLastMessageAt = moment(contact.lastMessagedAt)
+              let dateNow = moment()
+              if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
+                whatsAppChatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
+                  { chatbotId: chatbot._id, companyId: chatbot.companyId, dateToday: moment(new Date()).format('YYYY-MM-DD') },
+                  { $inc: { sentCount: 1, returningSubscribers: 1, triggerWordsMatched } },
+                  { upsert: true })
+                  .then(updated => {})
+                  .catch(err => {
+                    const message = err || 'Failed to update WhatsApp chatbot analytics'
+                    logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {chatbotId: chatbot._id, companyId: chatbot.companyId}, 'error')
+                  })
+              } else {
+                whatsAppChatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
+                  { chatbotId: chatbot._id, companyId: chatbot.companyId, dateToday: moment(new Date()).format('YYYY-MM-DD') },
+                  { $inc: { sentCount: 1, triggerWordsMatched } },
+                  { upsert: true })
+                  .then(updated => {})
+                  .catch(err => {
+                    const message = err || 'Failed to update WhatsApp chatbot analytics'
+                    logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {chatbotId: chatbot._id, companyId: chatbot.companyId}, 'error')
+                  })
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  if (contact && contact.isSubscribed && contact.activeChatbotBuilt === 'custom') {
+    storeChat(number, company.whatsApp.businessNumber, contact, data.messageData, 'whatsApp')
+    if (data.messageData.componentType === 'text') {
+      try {
+        const responseBlock = await chatbotResponder.respondUsingChatbot('whatsApp', req.body.provider, company, data.messageData.text, contact, true)
+        if (company.saveAutomationMessages && responseBlock) {
+          for (let i = 0; i < responseBlock.payload.length; i++) {
+            storeChat(company.whatsApp.businessNumber, number, contact, responseBlock.payload[i], 'convos')
+          }
+        }
+      } catch (err) {
+        const message = err || 'Failed to respond using chatbot'
+        logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {}, 'error')
+      }
+    }
+  }
+}
+
+function sendWhatsAppMessage (nextMessageBlock, data, number, req) {
+  for (let messagePayload of nextMessageBlock.payload) {
+    let chatbotResponse = {
+      whatsApp: {
+        accessToken: data.accessToken,
+        accountSID: data.accountSID,
+        businessNumber: data.businessNumber
+      },
+      recipientNumber: number,
+      payload: messagePayload
+    }
+
+    whatsAppMapper.whatsAppMapper(req.body.provider, ActionTypes.SEND_CHAT_MESSAGE, chatbotResponse)
+  }
 }
