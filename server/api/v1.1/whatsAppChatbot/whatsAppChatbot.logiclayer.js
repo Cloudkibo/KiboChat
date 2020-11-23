@@ -941,7 +941,7 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
   } catch (err) {
     if (!userError) {
       const message = err || 'Unable to remove item(s) from cart'
-      logger.serverLog(message, `${TAG}: exports.getRemoveFromCartBlock`, chatbot, {}, 'error')  
+      logger.serverLog(message, `${TAG}: exports.getRemoveFromCartBlock`, chatbot, {}, 'error')
     }
     if (err.message) {
       throw new Error(`${ERROR_INDICATOR}${err.message}`)

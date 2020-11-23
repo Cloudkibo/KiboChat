@@ -1,0 +1,18 @@
+/**
+ * Created by sojharo on 23/11/2020.
+ */
+
+'use strict'
+
+const express = require('express')
+
+const router = express.Router()
+const auth = require('../../../auth/auth.service')
+const controller = require('./messenger_components.controller')
+
+router.get('/',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
+  controller.index)
+
+module.exports = router
