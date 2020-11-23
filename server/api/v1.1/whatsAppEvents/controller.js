@@ -17,6 +17,7 @@ const moment = require('moment')
 const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('../../global/messageAlerts')
 const { record } = require('../../global/messageStatistics')
 const chatbotResponder = require('../../../chatbotResponder')
+const configureChatbotDatalayer = require('./../configureChatbot/datalayer')
 
 exports.messageReceived = function (req, res) {
   res.status(200).json({
@@ -45,7 +46,7 @@ exports.messageReceived = function (req, res) {
                         _sendEvent(company._id, contact)
                         pushSessionPendingAlertInStack(company, contact, 'whatsApp')
                       }
-                      if (company._id === '5d2eea98ef2c170cd31470d4') {
+                      if (company._id === '5a89ecdaf6b0460c552bf7fe') {
                         // NOTE: This if condition is temporary testing code for
                         // adil. We will remove this in future. It will only run for
                         // our own company. Please don't remove this. - Sojharo
@@ -466,16 +467,50 @@ function updateChatInDB (match, updated, dataToSend) {
 // This will only be called if chatbot is on our own company.
 // This code will be removed in future there it may contain some repetitive code from
 // above - Sojharo
-function temporarySuperBotTestHandling (data, contact, company, number, req, isNewContact) {
+async function temporarySuperBotTestHandling (data, contact, company, number, req, isNewContact) {
   if (data.messageData.text === 'select' || !contact.activeChatbotId) {
-    // todo logic to send bots menu goes here
-    console.log('logic to send bots menu goes here')
-    return
-  } else if (contact.lastMessageSentByBot && contact.lastMessageSentByBot.title === 'Select Bot') {
-    // todo logic to send subscriber to and attach the selected chatbot
-    return
+    try {
+      let chatbots = await whatsAppChatbotDataLayer.fetchAllWhatsAppChatbots({ companyId: company._id, published: true })
+      chatbots = chatbots.map(chatbot => {
+        return {botId: chatbot._id, title: chatbot.type, built: 'automated', ...chatbot}
+      })
+
+      let sqlChatbots = await configureChatbotDatalayer.fetchChatbotRecords({platform: 'whatsApp', companyId: company._id, published: true})
+      sqlChatbots = sqlChatbots.map(chatbot => {
+        return {botId: chatbot.chatbotId, built: 'custom', ...chatbot}
+      })
+
+      const allChatbots = [...sqlChatbots, ...chatbots]
+
+      let nextMessageBlock = whatsAppChatbotLogicLayer.getChatbotsListMessageBlock(allChatbots)
+      if (nextMessageBlock) {
+        sendWhatsAppMessage(nextMessageBlock, data, number, req)
+        updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
+      }
+    } catch (err) {
+      const message = err || 'Error in async await calls above'
+      logger.serverLog(message, `${TAG}: exports.temporarySuperBotTestHandling`, req.body, {data, contact, company, number, req, isNewContact}, 'error')
+    }
+  } else if (contact.lastMessageSentByBot && contact.lastMessageSentByBot.module.id === 'sojharo-s-chatbot-custom-id') {
+    const menuInput = parseInt(data.messageData.text)
+    const lastMessageSentByBot = contact.lastMessageSentByBot.payload[0]
+
+    if (!isNaN(menuInput)) {
+      const selectedBot = lastMessageSentByBot.menu[menuInput]
+      const nextMessageBlock = whatsAppChatbotLogicLayer.getChatbotSelectedMessageBlock(selectedBot.title)
+
+      if (nextMessageBlock) {
+        sendWhatsAppMessage(nextMessageBlock, data, number, req)
+        updateWhatsAppContact({ _id: contact._id },
+          { lastMessageSentByBot: nextMessageBlock,
+            activeChatbotId: selectedBot.botId,
+            activeChatbotBuilt: selectedBot.built
+          }, null, {})
+      }
+    }
+  } else {
+    temporarySuperBotResponseHandling(data, contact, company, number, req, isNewContact)
   }
-  temporarySuperBotResponseHandling(data, contact, company, number, req, isNewContact)
 }
 
 // NOTE: This is just a temporary function to give capability of super chatbot
@@ -484,8 +519,8 @@ function temporarySuperBotTestHandling (data, contact, company, number, req, isN
 // This code will be removed in future there it may contain some repetitive code from
 // above - Sojharo
 async function temporarySuperBotResponseHandling (data, contact, company, number, req, isNewContact) {
-  if (data.messageData.componentType === 'text') {
-    let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ _id: company.whatsApp.activeWhatsappBot })
+  if (data.messageData.componentType === 'text' && contact.activeChatbotBuilt === 'automated') {
+    let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ _id: contact.activeChatbotId })
     if (chatbot) {
       const shouldSend = chatbot.published || chatbot.testSubscribers.includes(contact.number)
       if (shouldSend) {
@@ -569,11 +604,11 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
       }
     }
   }
-  if (contact && contact.isSubscribed) {
+  if (contact && contact.isSubscribed && contact.activeChatbotBuilt === 'custom') {
     storeChat(number, company.whatsApp.businessNumber, contact, data.messageData, 'whatsApp')
     if (data.messageData.componentType === 'text') {
       try {
-        const responseBlock = await chatbotResponder.respondUsingChatbot('whatsApp', req.body.provider, company, data.messageData.text, contact)
+        const responseBlock = await chatbotResponder.respondUsingChatbot('whatsApp', req.body.provider, company, data.messageData.text, contact, true)
         if (company.saveAutomationMessages && responseBlock) {
           for (let i = 0; i < responseBlock.payload.length; i++) {
             storeChat(company.whatsApp.businessNumber, number, contact, responseBlock.payload[i], 'convos')
@@ -584,5 +619,21 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
         logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {}, 'error')
       }
     }
+  }
+}
+
+function sendWhatsAppMessage (nextMessageBlock, data, number, req) {
+  for (let messagePayload of nextMessageBlock.payload) {
+    let chatbotResponse = {
+      whatsApp: {
+        accessToken: data.accessToken,
+        accountSID: data.accountSID,
+        businessNumber: data.businessNumber
+      },
+      recipientNumber: number,
+      payload: messagePayload
+    }
+
+    whatsAppMapper.whatsAppMapper(req.body.provider, ActionTypes.SEND_CHAT_MESSAGE, chatbotResponse)
   }
 }

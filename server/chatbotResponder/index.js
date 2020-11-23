@@ -6,9 +6,13 @@ const { whatsAppMapper } = require('../whatsAppMapper/whatsAppMapper')
 const { ActionTypes } = require('../smsMapper/constants')
 const { callApi } = require('../api/v1.1/utility')
 
-exports.respondUsingChatbot = (platform, provider, company, message, contact) => {
+exports.respondUsingChatbot = (platform, provider, company, message, contact, isForTest) => {
   return new Promise((resolve, reject) => {
-    chatbotDatalayer.fetchChatbotRecords({companyId: company._id, published: true, platform})
+    let chatBotPayload = {companyId: company._id, published: true, platform}
+    if (isForTest) {
+      chatBotPayload = {chatbotId: contact.activeChatbotId, published: true, platform}
+    }
+    chatbotDatalayer.fetchChatbotRecords(chatBotPayload)
       .then(chatbots => {
         const chatbot = chatbots[0]
         const userText = message.toLowerCase().trim()
