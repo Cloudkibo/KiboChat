@@ -313,6 +313,22 @@ const _verifyCredentials = (data, next) => {
       next(error)
     })
 }
+
+const _checkTwilioVersion = (data, next) => {
+  whatsAppMapper(data.body.provider, ActionTypes.CHECK_TWILLO_VERSION, data.body)
+    .then(response => {
+      if (response.body.type === 'Trial' && !data.isSuperUser) {
+        next(new Error('This is a trial account. Please connect a paid version of Twilio account.'))
+      } else {
+        next(null, data)
+      }
+    })
+    .catch(error => {
+      const message = error || 'error in whatsapp mapper'
+      logger.serverLog(message, `${TAG}: exports._checkTwilioVersion`, {}, { data }, 'error')
+      next(error)
+    })
+}
 exports.updatePlatformWhatsApp = function (req, res) {
   // let query = {
   //   _id: req.user.companyId,
@@ -361,16 +377,19 @@ exports.updatePlatformWhatsApp = function (req, res) {
   utility.callApi(`companyprofile/aggregate`, 'post', query) // fetch company user
     .then(companyprofile => {
       if (!companyprofile[0] || req.body.businessNumber === '+14155238886') {
-        let data = {body: req.body, companyId: req.user.companyId, userId: req.user._id}
+        let data = {body: req.body, companyId: req.user.companyId, userId: req.user._id, isSuperUser: req.user.isSuperUser}
         async.series([
           _verifyCredentials.bind(null, data),
+          _checkTwilioVersion.bind(null, data),
           _updateCompanyProfile.bind(null, data),
           _updateUser.bind(null, data),
           _setWebhook.bind(null, data)
         ], function (err) {
           if (err) {
-            const message = err || 'error in async series call'
-            logger.serverLog(message, `${TAG}: exports.updatePlatformWhatsApp`, req.body, { user: req.user }, 'error')
+            if (!err.message || err.message.includes('trial account')) {
+              const message = err || 'error in async series call'
+              logger.serverLog(message, `${TAG}: exports.updatePlatformWhatsApp`, req.body, { user: req.user }, 'error')
+            }
             sendErrorResponse(res, 500, '', `${err}`)
           } else {
             sendSuccessResponse(res, 200, {description: 'updated successfully', showModal: req.body.changeWhatsAppTwilio})
