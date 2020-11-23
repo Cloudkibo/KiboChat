@@ -77,7 +77,7 @@ module.exports = function (app) {
       next(err)
     }
   })
- 
+
   if (env === 'development' || env === 'test') {
     /**
          * HTTP request logger
