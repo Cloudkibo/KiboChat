@@ -200,6 +200,9 @@ exports.create = function (req, res) {
                     let message = (res.body.error && res.body.error.message) || 'Error while sending message in live chat'
                     logger.serverLog(message, TAG, req.body, {messageData: messageData, subscriber: subscriber}, severity)
                   } else {
+                    if (req.body.payload && req.body.payload.quickReplies) {
+                      _setSubscriberPayloadInfo(subscriber, req.body.payload)
+                    }
                     callback(null, subscriber)
                   }
                 })
@@ -310,5 +313,36 @@ const _removeSubsWaitingForUserInput = (subscriberId) => {
     .catch(err => {
       const message = err || 'Failed to update subscriber'
       logger.serverLog(message, `${TAG}: exports._removeSubsWaitingForUserInput`, {}, {waitingForUserInput, subscriberId}, 'error')
+    })
+}
+
+const _setSubscriberPayloadInfo = (subscriber, payload) => {
+  let awaitingQuickReplyPayload = {}
+  let action = []
+  for (let qr of payload.quickReplies) {
+    let quickReply = {}
+    if (qr.query) {
+      if (qr.query === 'email') {
+        quickReply.query = 'phone'
+      }
+      if (qr.query === 'phone') {
+        quickReply.query = 'phone'
+      }
+      quickReply.keyboardInputAllowed = qr.keyboardInputAllowed
+      quickReply.skipAllowed = qr.skipAllowed
+    }
+    action.push(quickReply)
+  }
+  awaitingQuickReplyPayload.action = action
+  var updated = {$set: {awaitingQuickReplyPayload}}
+  console.log('updated', JSON.stringify(updated))
+  callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: updated, options: {multi: true}}, 'accounts')
+    .then(updatedSubscriber => {
+      console.log('updatedSubscriber', JSON.stringify(updatedSubscriber))
+      logger.serverLog('Subscriber payload info has been set', `${TAG}: exports._setSubscriberPayloadInfo`, {}, {payload, subscriber, updatedSubscriber}, 'debug')
+    })
+    .catch(err => {
+      const message = err || 'Failed to set subscriber payload info'
+      logger.serverLog(message, `${TAG}: exports._setSubscriberPayloadInfo`, {}, {payload, subscriber, err}, 'error')
     })
 }
