@@ -117,8 +117,9 @@ function saveLiveChat (page, subscriber, event, chatPayload) {
 }
 function saveChatInDb (page, chatPayload, subscriber, event) {
   if (
-    Object.keys(chatPayload.payload).length > 0 &&
+    chatPayload.payload &&
     chatPayload.payload.constructor === Object &&
+    Object.keys(chatPayload.payload).length > 0 &&
     !event.message.delivery &&
     !event.message.read
   ) {
