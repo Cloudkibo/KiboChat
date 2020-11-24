@@ -130,15 +130,12 @@ exports.verifyCredentials = (body) => {
     }
     flockSendApiCaller('templates-fetch', 'post', authData)
       .then(resp => {
-        console.log('response.body', resp.body)
         if (!Array.isArray(resp.body)) {
           resp.body = JSON.parse(resp.body)
         }
         if (resp && resp.body && resp.body.code === 198 && resp.body.message === 'Invalid token') {
-          console.log('if function')
-          throw new Error('You have entered invalid Flock send access token. Please enter correct Flock send access token')
+          reject(Error('You have entered invalid Flock send access token. Please enter correct Flock send access token'))
         } else {
-          console.log('else function')
           resolve(resp)
         }
       })
