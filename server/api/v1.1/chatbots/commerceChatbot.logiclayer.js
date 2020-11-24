@@ -1200,10 +1200,10 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
         commerceCustomer = await EcommerceProvider.searchCustomerUsingEmail(contact.commerceCustomer.email)
         if (commerceCustomer.length === 0) {
           commerceCustomer = await EcommerceProvider.createCustomer(contact.firstName, contact.lastName, contact.commerceCustomer.email)
-          commerceCustomer.provider = chatbot.storeType
         } else {
           commerceCustomer = commerceCustomer[0]
         }
+        commerceCustomer.provider = chatbot.storeType
         updateSubscriber({ _id: contact._id }, { commerceCustomer }, {})
       } else {
         commerceCustomer = contact.commerceCustomer
