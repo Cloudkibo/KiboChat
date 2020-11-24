@@ -54,14 +54,12 @@ exports.fetchAllWhatsAppChatbots = (match) => {
   })
 }
 
-exports.updateWhatsAppChatbot = (companyId, updated) => {
+exports.updateWhatsAppChatbot = (_id, updated) => {
   return new Promise(async (resolve, reject) => {
     try {
       let chatbot = await callApi('whatsAppChatbot', 'put', {
         purpose: 'updateOne',
-        match: {
-          companyId: companyId
-        },
+        match: { _id },
         updated
       }, kibochat)
       chatbot = { ...chatbot, ...updated }
