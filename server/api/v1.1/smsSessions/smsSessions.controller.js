@@ -314,7 +314,7 @@ exports.getTwilioNumbers = function (req, res) {
         })
     })
     .catch(error => {
-      const message = err || 'Failed to fetch company user'
+      const message = error || 'Failed to fetch company user'
       logger.serverLog(message, `${TAG}: exports.getTwilioNumbers`, {}, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
     })
