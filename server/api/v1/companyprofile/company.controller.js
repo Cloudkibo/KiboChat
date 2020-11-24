@@ -333,6 +333,7 @@ const _checkTwilioVersion = (data, next) => {
     next(null, data)
   }
 }
+
 exports.updatePlatformWhatsApp = function (req, res) {
   // let query = {
   //   _id: req.user.companyId,

@@ -472,14 +472,14 @@ function updateChatInDB (match, updated, dataToSend) {
 // This code will be removed in future there it may contain some repetitive code from
 // above - Sojharo
 async function temporarySuperBotTestHandling (data, contact, company, number, req, isNewContact) {
-  if (data.messageData.text === 'select' ||
+  if (data.messageData.text.toLowerCase() === 'select' ||
   (!contact.activeChatbotId &&
     !(contact.lastMessageSentByBot &&
       contact.lastMessageSentByBot.module.id === 'sojharo-s-chatbot-custom-id'))) {
     try {
       let chatbots = await whatsAppChatbotDataLayer.fetchAllWhatsAppChatbots({ companyId: company._id, published: true })
       chatbots = chatbots.map(chatbot => {
-        return {botId: chatbot._id, title: chatbot.type, built: 'automated', ...chatbot}
+        return {botId: chatbot._id, title: chatbot.storeType, built: 'automated', ...chatbot}
       })
 
       let sqlChatbots = await configureChatbotDatalayer.fetchChatbotRecords({platform: 'whatsApp', companyId: company._id, published: true})
