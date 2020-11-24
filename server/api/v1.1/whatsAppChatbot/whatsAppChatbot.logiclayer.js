@@ -1479,7 +1479,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
         commerceCustomer = commerceCustomer[0]
       }
       commerceCustomer.provider = chatbot.storeType
-      updateWhatsAppContact({ _id: contact._id }, { commerceCustomer }, {})
+      updateWhatsAppContact({ _id: contact._id }, { commerceCustomer }, null, {})
     } else {
       if (!contact.commerceCustomer.provider || contact.commerceCustomer.provider !== chatbot.storeType) {
         commerceCustomer = await EcommerceProvider.searchCustomerUsingEmail(contact.commerceCustomer.email)
@@ -1489,7 +1489,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
           commerceCustomer = commerceCustomer[0]
         }
         commerceCustomer.provider = chatbot.storeType
-        updateWhatsAppContact({ _id: contact._id }, { commerceCustomer }, {})
+        updateWhatsAppContact({ _id: contact._id }, { commerceCustomer }, null, {})
       } else {
         commerceCustomer = contact.commerceCustomer
       }
