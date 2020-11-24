@@ -224,7 +224,7 @@ exports.validateUserAccessToken = function (req, res) {
         }
         const message = err || 'Error while validating access token'
         logger.serverLog(message, `${TAG}: exports.validateUserAccessToken`, {}, {user: req.user, dataToSend},
-          message.includes('Facebook Info not found') ? 'info' : 'error')
+          message.message && message.message.includes('Facebook Info not found') ? 'info' : 'error')
         sendErrorResponse(res, 500, dataToSend)
       })
   } else {
@@ -252,7 +252,7 @@ exports.validateUserAccessToken = function (req, res) {
             }
             const message = err || 'Error while validating access token'
             logger.serverLog(message, `${TAG}: exports.validateUserAccessToken`, {}, {user: req.user, dataToSend},
-              message.includes('Facebook Info not found') ? 'info' : 'error')
+              message.message && message.message.includes('Facebook Info not found') ? 'info' : 'error')
             sendErrorResponse(res, 500, dataToSend)
           })
       })
