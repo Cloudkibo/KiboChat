@@ -1474,14 +1474,27 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
     if (newEmail) {
       commerceCustomer = await EcommerceProvider.searchCustomerUsingEmail(newEmail)
       if (commerceCustomer.length === 0) {
-        commerceCustomer = await EcommerceProvider.createCustomer('firstName', 'lastName', newEmail)
+        commerceCustomer = await EcommerceProvider.createCustomer(contact.firstName, contact.lastName, newEmail)
       } else {
         commerceCustomer = commerceCustomer[0]
       }
-      updateWhatsAppContact({ _id: contact._id }, { commerceCustomer }, null, {})
+      commerceCustomer.provider = chatbot.storeType
+      updateWhatsAppContact({ _id: contact._id }, { commerceCustomer }, {})
     } else {
-      commerceCustomer = contact.commerceCustomer
+      if (!contact.commerceCustomer.provider || contact.commerceCustomer.provider !== chatbot.storeType) {
+        commerceCustomer = await EcommerceProvider.searchCustomerUsingEmail(contact.commerceCustomer.email)
+        if (commerceCustomer.length === 0) {
+          commerceCustomer = await EcommerceProvider.createCustomer(contact.firstName, contact.lastName, contact.commerceCustomer.email)
+        } else {
+          commerceCustomer = commerceCustomer[0]
+        }
+        commerceCustomer.provider = chatbot.storeType
+        updateWhatsAppContact({ _id: contact._id }, { commerceCustomer }, {})
+      } else {
+        commerceCustomer = contact.commerceCustomer
+      }
     }
+
     let checkoutLink = ''
     if (chatbot.storeType === commerceConstants.shopify) {
       checkoutLink = await EcommerceProvider.createPermalinkForCart(commerceCustomer, contact.shoppingCart)
