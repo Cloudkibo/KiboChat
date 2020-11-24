@@ -73,13 +73,32 @@ exports.prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) =
       text = text.replace(
         '{{user_last_name}}', lname)
     }
+    let message = {
+      'text': text,   
+      'metadata': 'SENT_FROM_KIBOPUSH'
+    }
+    if (body.quickReplies) {
+      let messengerQuickReplies = []
+      for (let qr of body.quickReplies) {
+        if (qr.query) {
+          if (qr.query === 'email') {
+            messengerQuickReplies.push({
+              'content_type': 'user_email'
+            })
+          }
+          if (qr.query === 'phone') {
+            messengerQuickReplies.push({
+              'content_type': 'user_phone_number'
+            })
+          }
+        }
+      }
+      message['quick_replies'] = messengerQuickReplies
+    }
     payload = {
       'messaging_type': messageType,
       'recipient': subscriberId,
-      'message': JSON.stringify({
-        'text': text,
-        'metadata': 'SENT_FROM_KIBOPUSH'
-      })
+      'message': JSON.stringify(message)
     }
     return payload
   } else if (body.componentType === 'text' && body.buttons) {
