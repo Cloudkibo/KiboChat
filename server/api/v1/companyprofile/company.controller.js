@@ -285,8 +285,6 @@ const _verifyCredentials = (data, next) => {
       next(null, data)
     })
     .catch(error => {
-      const message = error || 'error in whatsapp mapper'
-      logger.serverLog(message, `${TAG}: exports._verifyCredentials`, {}, { data }, 'error')
       next(error)
     })
 }

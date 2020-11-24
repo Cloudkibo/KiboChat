@@ -134,7 +134,7 @@ exports.verifyCredentials = (body) => {
           resp.body = JSON.parse(resp.body)
         }
         if (resp && resp.body && resp.body.code === 198 && resp.body.message === 'Invalid token') {
-          throw new Error('You have entered invalid Flock send access token. Please enter correct Flock send access token')
+          reject(Error('You have entered invalid Flock send access token. Please enter correct Flock send access token'))
         } else {
           resolve(resp)
         }
