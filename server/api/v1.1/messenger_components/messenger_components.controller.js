@@ -18,3 +18,15 @@ exports.index = function (req, res) {
       sendErrorResponse(res, 501, err, 'error from getting list of messenger components')
     })
 }
+
+exports.create = function (req, res) {
+  DataLayer.createMessengerComponent(req.body)
+    .then(result => {
+      sendSuccessResponse(res, 201, result, null)
+    })
+    .catch(err => {
+      const message = err || 'error from in creating messenger components'
+      logger.serverLog(message, `${TAG}: exports.index`, {}, {user: req.user}, 'error')
+      sendErrorResponse(res, 501, err, 'error in creating of messenger components')
+    })
+}

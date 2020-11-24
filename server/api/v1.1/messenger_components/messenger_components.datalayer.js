@@ -8,3 +8,7 @@ exports.findAllMessengerComponents = (match) => {
   }
   return callApi(`messenger_components/query`, 'post', query, accounts)
 }
+
+exports.createMessengerComponent = (payload) => {
+  return callApi(`messenger_components/create`, 'post', payload, accounts)
+}

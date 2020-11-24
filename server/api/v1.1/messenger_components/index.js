@@ -15,4 +15,9 @@ router.get('/',
   auth.isSuperUserActingAsCustomer('write'),
   controller.index)
 
+router.post('/create',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
+  controller.create)
+
 module.exports = router
