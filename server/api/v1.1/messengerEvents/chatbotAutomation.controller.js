@@ -107,16 +107,20 @@ exports.handleCommerceChatbot = (event, page, subscriber) => {
             let ecommerceProvider = null
             if (chatbot.storeType === commerceConstants.shopify) {
               const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
-              ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
-                shopUrl: shopifyIntegration.shopUrl,
-                shopToken: shopifyIntegration.shopToken
-              })
+              if (shopifyIntegration) {
+                ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
+                  shopUrl: shopifyIntegration.shopUrl,
+                  shopToken: shopifyIntegration.shopToken
+                })
+              }
             } else if (chatbot.storeType === commerceConstants.bigcommerce) {
               const bigCommerceIntegration = await bigCommerceDataLayer.findOneBigCommerceIntegration({ companyId: chatbot.companyId })
-              ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
-                shopToken: bigCommerceIntegration.shopToken,
-                storeHash: bigCommerceIntegration.payload.context
-              })
+              if (bigCommerceIntegration) {
+                ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
+                  shopToken: bigCommerceIntegration.shopToken,
+                  storeHash: bigCommerceIntegration.payload.context
+                })
+              }
             }
             if (ecommerceProvider) {
               let nextMessageBlock = await shopifyChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, subscriber, event)
