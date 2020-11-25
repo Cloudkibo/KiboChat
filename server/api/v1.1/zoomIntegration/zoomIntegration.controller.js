@@ -193,6 +193,7 @@ function _sendWhatsappNotification (data, companyId) {
               subscriber.lastPayload = gotLastMessage[0].payload
               subscriber.lastRepliedBy = gotLastMessage[0].replied_by
               subscriber.lastDateTime = gotLastMessage[0].datetime
+              companyUsers = companyUsers.filter((m) => data.userId !== m.userId._id)
               if (subscriber.is_assigned && subscriber.assigned_to.type === 'team') {
                 callApi(`teams/agents/query`, 'post', { teamId: subscriber.assigned_to.id }, 'accounts')
                   .then(teamagents => {
