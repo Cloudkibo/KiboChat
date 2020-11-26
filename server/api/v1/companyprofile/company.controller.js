@@ -93,6 +93,15 @@ exports.updateAdvancedSettings = function (req, res) {
       sendErrorResponse(res, 500, `Failed to company user ${JSON.stringify(error)}`)
     })
 }
+
+const _isUserError = (err, req) => {
+  if (err === `${req.body.name} is already on KiboPush.` || err === `${req.body.name} is already a member.` || err === `${req.body.name} is already invited.`) {
+    return true
+  } else {
+    return false
+  }
+}
+
 exports.invite = function (req, res) {
   utility.callApi(`featureUsage/planQuery`, 'post', {planId: req.user.currentPlan})
     .then(planUsage => {
@@ -124,8 +133,10 @@ exports.invite = function (req, res) {
         })
     })
     .catch((err) => {
-      const message = err || 'result from invite endpoint accounts'
-      logger.serverLog(message, `${TAG}: exports.invite`, req.body, {user: req.user}, 'error')
+      if (!_isUserError(err, req)) {
+        const message = err || 'result from invite endpoint accounts'
+        logger.serverLog(message, `${TAG}: exports.invite`, req.body, {user: req.user}, 'error')
+      }
       sendErrorResponse(res, 500, err)
     })
 }
