@@ -43,8 +43,5 @@ exports.queryPayload = {
     'lastId': {
       'type': 'string'
     }
-  },
-  'required': [
-    'records'
-  ]
+  }
 }
