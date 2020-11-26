@@ -9,7 +9,7 @@ exports.index = function (req, res) {
   const data = {
     user: req.user,
     lastId: req.body.lastId,
-    records: req.body.records ? req.body.records : '50'
+    records: req.body.records ? req.body.records : 50
   }
   async.parallelLimit([
     _fetchTotalCount.bind(null, data),
