@@ -30,3 +30,15 @@ exports.create = function (req, res) {
       sendErrorResponse(res, 501, err, 'error in creating of messenger components')
     })
 }
+
+exports.edit = function (req, res) {
+  DataLayer.updateMessengerComponent(req.body)
+    .then(result => {
+      sendSuccessResponse(res, 200, result, null)
+    })
+    .catch(err => {
+      const message = err || 'error from in updating messenger components'
+      logger.serverLog(message, `${TAG}: exports.index`, {}, {user: req.user}, 'error')
+      sendErrorResponse(res, 501, err, 'error in updating of messenger components')
+    })
+}

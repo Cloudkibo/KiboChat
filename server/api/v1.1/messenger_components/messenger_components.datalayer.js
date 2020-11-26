@@ -12,3 +12,7 @@ exports.findAllMessengerComponents = (match) => {
 exports.createMessengerComponent = (payload) => {
   return callApi(`messenger_components/create`, 'post', payload, accounts)
 }
+
+exports.updateMessengerComponent = (payload) => {
+  return callApi(`messenger_components/update`, 'post', payload, accounts)
+}
