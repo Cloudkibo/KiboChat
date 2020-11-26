@@ -2,6 +2,10 @@
 const fs = require('fs')
 const path = require('path')
 const broadcastUtlity = require('../../v1/broadcasts/broadcasts.utility')
+const logger = require('../../../components/logger')
+const { callApi } = require('../utility')
+const TAG = '/api/v1/liveChat/liveChat.logicLayer.js'
+
 exports.getQueryData = (type, purpose, match, skip, sort, limit) => {
   if (type === 'count') {
     return {
@@ -265,4 +269,43 @@ exports.webhookPost = (needle, webhook, req, res) => {
         }
       })
   }
+}
+
+exports.setSubscriberPayloadInfo = (subscriber, payload, blockInfo) => {
+  let awaitingQuickReplyPayload = {}
+  let action = []
+  for (let qr of payload.quickReplies) {
+    let quickReply = {}
+    if (qr.query) {
+      if (qr.query === 'email') {
+        quickReply.query = 'email'
+      }
+      if (qr.query === 'phone') {
+        quickReply.query = 'phone'
+      }
+      quickReply.keyboardInputAllowed = qr.keyboardInputAllowed
+      quickReply.skipAllowed = qr.skipAllowed
+      if (qr.blockId) {
+        quickReply.blockId = qr.blockId
+      }
+    }
+    action.push(quickReply)
+  }
+  if (blockInfo) {
+    awaitingQuickReplyPayload.chatBotId = blockInfo.chatBotId
+    awaitingQuickReplyPayload.messageBlockId = blockInfo.messageBlockId
+    awaitingQuickReplyPayload.messageBlockTitle = blockInfo.messageBlockTitle
+  }
+  awaitingQuickReplyPayload.action = action
+  var updated = {$set: {awaitingQuickReplyPayload}}
+  console.log('updated', JSON.stringify(updated))
+  callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: updated, options: {multi: true}}, 'accounts')
+    .then(updatedSubscriber => {
+      console.log('updatedSubscriber', JSON.stringify(updatedSubscriber))
+      logger.serverLog('Subscriber payload info has been set', `${TAG}: exports._setSubscriberPayloadInfo`, {}, {payload, subscriber, updatedSubscriber}, 'debug')
+    })
+    .catch(err => {
+      const message = err || 'Failed to set subscriber payload info'
+      logger.serverLog(message, `${TAG}: exports._setSubscriberPayloadInfo`, {}, {payload, subscriber, err}, 'error')
+    })
 }
