@@ -941,7 +941,7 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
   } catch (err) {
     if (!userError) {
       const message = err || 'Unable to remove item(s) from cart'
-      logger.serverLog(message, `${TAG}: exports.getRemoveFromCartBlock`, chatbot, {}, 'error')  
+      logger.serverLog(message, `${TAG}: exports.getRemoveFromCartBlock`, chatbot, {}, 'error')
     }
     if (err.message) {
       throw new Error(`${ERROR_INDICATOR}${err.message}`)
@@ -1565,8 +1565,12 @@ const getWelcomeMessageBlock = async (chatbot, contact, ecommerceProvider) => {
     welcomeMessage += ` Welcome to  ${storeInfo.name}!`
   }
   let messageBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
-  messageBlock.payload[0].text = `${welcomeMessage}\n\n` + messageBlock.payload[0].text
-  return messageBlock
+  if (messageBlock) {
+    messageBlock.payload[0].text = `${welcomeMessage}\n\n` + messageBlock.payload[0].text
+    return messageBlock
+  } else {
+    return null
+  }
 }
 
 const invalidInput = async (chatbot, messageBlock, errMessage) => {
