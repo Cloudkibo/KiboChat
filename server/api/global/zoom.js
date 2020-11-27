@@ -51,8 +51,7 @@ exports.refreshAccessToken = (zoomUser) => {
               reject(err)
             })
         } else {
-          reject(new Error('Failed to refresh access token'))
-          logger.serverLog('Failed to refresh access token', TAG, {}, { zoomUser, response }, 'error')
+          reject(new Error(`Failed to refresh access token ${JSON.stringify(response)}`))
         }
       })
       .catch(err => {

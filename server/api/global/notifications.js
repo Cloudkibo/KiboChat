@@ -10,10 +10,12 @@ exports.saveNotification = (agentIds, companyId, message, category) => {
     category
   }
   async.each(agentIds, function (agentId, cb) {
-    notification.agentId = agentId
-    callApi(`notifications`, 'post', notification, 'kibochat')
-      .then(savedNotification => cb())
-      .catch(err => cb(err))
+    if (agentId) {
+      notification.agentId = agentId
+      callApi(`notifications`, 'post', notification, 'kibochat')
+        .then(savedNotification => cb())
+        .catch(err => cb(err))
+    }
   }, function (err) {
     if (err) {
       const message = err || 'error in saveNotification'
