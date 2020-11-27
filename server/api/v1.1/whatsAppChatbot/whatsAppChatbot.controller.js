@@ -1,4 +1,5 @@
 const logicLayer = require('./whatsAppChatbot.logiclayer')
+const commerceChatbotLogicLayer = require('./commerceChatbot.logiclayer')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 const dataLayer = require('./whatsAppChatbot.datalayer')
@@ -21,12 +22,17 @@ exports.create = async (req, res) => {
     } else {
       let chatbot = await dataLayer.createWhatsAppChatbot(req)
       updateCompanyProfileForChatbot(req.user.companyId, chatbot._id)
-      let messageBlocks = logicLayer.getMessageBlocks(chatbot)
-      chatbot = await dataLayer.updateWhatsAppChatbot(chatbot._id, {
-        startingBlockId: messageBlocks[0].uniqueId
-      })
+      let messageBlocks = null
+      if (req.body.vertical === 'commerce') {
+        messageBlocks = commerceChatbotLogicLayer.getMessageBlocks(chatbot)
+      }
+      if (messageBlocks) {
+        chatbot = await dataLayer.updateWhatsAppChatbot(chatbot._id, {
+          startingBlockId: messageBlocks[0].uniqueId
+        })
+        messageBlockDataLayer.createBulkMessageBlocks(messageBlocks)
+      }
       sendSuccessResponse(res, 200, chatbot, 'WhatsApp chatbot created successfully')
-      messageBlockDataLayer.createBulkMessageBlocks(messageBlocks)
     }
   } catch (err) {
     const message = err || 'Failed to create WhatsApp chatbot'
@@ -55,7 +61,9 @@ exports.update = async (req, res) => {
     let updatedChatbot = await dataLayer.updateWhatsAppChatbot(req.user.companyId, req.body)
     sendSuccessResponse(res, 200, updatedChatbot, 'WhatsApp chatbot updated successfully')
     if (req.body.botLinks && req.body.botLinks.faqs) {
-      logicLayer.updateFaqsForStartingBlock(updatedChatbot)
+      if (updatedChatbot.vertical === 'commerce') {
+        commerceChatbotLogicLayer.updateFaqsForStartingBlock(updatedChatbot)
+      }
     }
   } catch (err) {
     const message = err || 'Failed to update WhatsApp chatbot'
