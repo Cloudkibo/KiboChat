@@ -126,7 +126,7 @@ const _sendNotification = (data, companyId) => {
               if (subscriber.is_assigned && subscriber.assigned_to.type === 'team') {
                 callApi(`teams/agents/query`, 'post', {companyId: data.companyId, teamId: subscriber.assigned_to.id}, 'accounts', data.authorization)
                   .then(agents => {
-                    const userIds = agents.map((a) => data.userId !== a.agentId._id && a.agentId._id)
+                    const userIds = agents.filter((a) => data.userId !== a.agentId._id).map((ag) => ag.agentId._id)
                     companyUsers = companyUsers.filter(companyUser => {
                       if (userIds.includes(companyUser.userId._id)) {
                         return companyUser
@@ -148,7 +148,7 @@ const _sendNotification = (data, companyId) => {
                 sendNotifications('Zoom Meeting', notificationMessage, newPayload, companyUsers)
                 callApi(`companyprofile/members`, 'get', {}, 'accounts', data.authorization)
                   .then(members => {
-                    const userIds = members.map((m) => data.userId !== m.userId._id && m.userId._id)
+                    const userIds = members.filter((m) => data.userId !== m.userId._id).map((a) => a.userId._id)
                     saveNotification(
                       userIds,
                       data.companyId,
