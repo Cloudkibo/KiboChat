@@ -48,7 +48,11 @@ exports.createMeeting = function (req, res) {
               zoomApiCaller('post', 'v2/users/me/meetings', meetingBody, {type: 'bearer', token: accessToken}, false)
                 .then(meetingResponse => {
                   data.joinUrl = meetingResponse.join_url
-                  _sendNotification(data, req.user.companyId)
+                  if (data.platform === 'messenger') {
+                    _sendNotification(data, req.user.companyId)
+                  } else if (data.platform === 'whatsApp') {
+                    _sendWhatsappNotification(data, req.user.companyId)
+                  }
                   const zoomMeetingPayload = logicLayer.prepareZoomMeetingPayload(data, meetingResponse)
                   callApi('zoomMeetings', 'post', zoomMeetingPayload)
                     .then(meetingCreated => {
@@ -103,6 +107,9 @@ exports.createMeeting = function (req, res) {
 }
 
 const _sendNotification = (data, companyId) => {
+  let newPayload = {
+    action: 'chat_messenger'
+  }
   callApi(`subscribers/${data.subscriberId}`, 'get', {}, 'accounts', data.authorization)
     .then(subscriber => {
       callApi(`companyUser/queryAll`, 'post', {companyId: companyId}, 'accounts')
@@ -115,6 +122,7 @@ const _sendNotification = (data, companyId) => {
               subscriber.lastDateTime = gotLastMessage[0].datetime
               const notificationMessage = `A zoom meeting has been created to handle subscriber - ${subscriber.firstName} ${subscriber.lastName} query.`
               companyUsers = companyUsers.filter((m) => data.userId !== m.userId._id)
+              newPayload.subscriber = subscriber
               if (subscriber.is_assigned && subscriber.assigned_to.type === 'team') {
                 callApi(`teams/agents/query`, 'post', {companyId: data.companyId, teamId: subscriber.assigned_to.id}, 'accounts', data.authorization)
                   .then(agents => {
@@ -124,7 +132,7 @@ const _sendNotification = (data, companyId) => {
                         return companyUser
                       }
                     })
-                    sendNotifications('Zoom Meeting', notificationMessage, subscriber, companyUsers)
+                    sendNotifications('Zoom Meeting', notificationMessage, newPayload, companyUsers)
                     saveNotification(
                       userIds,
                       data.companyId,
@@ -137,7 +145,7 @@ const _sendNotification = (data, companyId) => {
                     logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, {data, companyId}, 'error')
                   })
               } else if (!subscriber.is_assigned) {
-                sendNotifications('Zoom Meeting', notificationMessage, subscriber, companyUsers)
+                sendNotifications('Zoom Meeting', notificationMessage, newPayload, companyUsers)
                 callApi(`companyprofile/members`, 'get', {}, 'accounts', data.authorization)
                   .then(members => {
                     const userIds = members.map((m) => data.userId !== m.userId._id && m.userId._id)
@@ -163,6 +171,56 @@ const _sendNotification = (data, companyId) => {
         })
     }).catch(err => {
       const message = err || 'Failed to fetch subscriber'
+      logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, {data, companyId}, 'error')
+    })
+}
+
+function _sendWhatsappNotification (data, companyId) {
+  let newPayload = {
+    action: 'chat_whatsapp'
+  }
+  callApi('whatsAppContacts/query', 'post', {_id: data.subscriberId})
+    .then(gotSubscriber => {
+      let subscriber = gotSubscriber[0]
+      newPayload.subscriber = subscriber
+      let title = 'Zoom meeting'
+      let body = `A zoom meeting has been created to handle subscriber - ${subscriber.name} query.`
+      callApi(`companyUser/queryAll`, 'post', { companyId: companyId }, 'accounts')
+        .then(companyUsers => {
+          let lastMessageData = sessionLogicLayer.getQueryData('', 'aggregate', { companyId: companyId }, undefined, undefined, undefined, { _id: subscriber._id, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' } })
+          callApi(`whatsAppChat/query`, 'post', lastMessageData, 'kibochat')
+            .then(gotLastMessage => {
+              subscriber.lastPayload = gotLastMessage[0].payload
+              subscriber.lastRepliedBy = gotLastMessage[0].replied_by
+              subscriber.lastDateTime = gotLastMessage[0].datetime
+              companyUsers = companyUsers.filter((m) => data.userId !== m.userId._id)
+              if (subscriber.is_assigned && subscriber.assigned_to.type === 'team') {
+                callApi(`teams/agents/query`, 'post', { teamId: subscriber.assigned_to.id }, 'accounts')
+                  .then(teamagents => {
+                    const userIds = teamagents.map((a) => data.userId !== a.agentId._id && a.agentId._id)
+                    companyUsers = companyUsers.filter(companyUser => {
+                      if (userIds.includes(companyUser.userId._id)) {
+                        return companyUser
+                      }
+                    })
+                    sendNotifications(title, body, newPayload, companyUsers)
+                  }).catch(error => {
+                    const message = error || 'Error while fetching agents'
+                    logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, {data, companyId}, 'error')
+                  })
+              } else if (!subscriber.is_assigned) {
+                sendNotifications(title, body, newPayload, companyUsers)
+              }
+            }).catch(error => {
+              const message = error || 'Error while fetching Last Message'
+              logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, {data, companyId}, 'error')
+            })
+        }).catch(error => {
+          const message = error || 'Error while fetching companyUser'
+          logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, {data, companyId}, 'error')
+        })
+    }).catch(error => {
+      const message = error || 'Error while fetching contact'
       logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, {data, companyId}, 'error')
     })
 }
