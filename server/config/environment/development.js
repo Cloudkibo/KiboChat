@@ -14,7 +14,7 @@ module.exports = {
 
   // MongoDB connection options
   mongo: {
-    uri: 'mongodb://localhost/kibochat-dev'
+    uri: 'mongodb://localhost/kibochat-prod'
   },
   seedDB: false,
   facebook: {
