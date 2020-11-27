@@ -148,7 +148,7 @@ const _sendNotification = (data, companyId) => {
                 sendNotifications('Zoom Meeting', notificationMessage, newPayload, companyUsers)
                 callApi(`companyprofile/members`, 'get', {}, 'accounts', data.authorization)
                   .then(members => {
-                    const userIds = members.map((m) => data.userId !== m.userId._id && m.userId._id)
+                    const userIds = members.filter((m) => data.userId !== m.userId._id).map((a) => a.userId._id)
                     saveNotification(
                       userIds,
                       data.companyId,
