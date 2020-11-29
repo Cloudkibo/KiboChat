@@ -13,7 +13,7 @@ exports.change = function (req, res) {
     .catch((err) => {
       const message = err || 'error in message statistics'
       logger.serverLog(message, `${TAG}: exports.change`, {}, {}, 'error')
-      res.status(200).json({status: 'failed', description: err.error.description})
+      res.status(200).json({status: 'failed', description: err})
     })
   /* let userId = req.user._id
   let oldPass = String(req.body.old_password)
