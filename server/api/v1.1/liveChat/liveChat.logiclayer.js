@@ -78,10 +78,11 @@ exports.prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) =
         '{{user_last_name}}', lname)
     }
     let message = {
-      'text': text,   
+      'text': text,  
       'metadata': 'SENT_FROM_KIBOPUSH'
     }
     if (body.quickReplies) {
+      let skipAllowed = false
       let messengerQuickReplies = []
       for (let qr of body.quickReplies) {
         if (qr.query) {
@@ -95,7 +96,21 @@ exports.prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) =
               'content_type': 'user_phone_number'
             })
           }
+          if (qr.skipAllowed && qr.skipAllowed !== '') {
+            skipAllowed = true
+          }
         }
+      }
+      if (skipAllowed) {
+        messengerQuickReplies.push({
+          'content_type': 'text',
+          'title': 'Skip',
+          'payload': JSON.stringify(
+            {
+              option: 'captureEmailPhoneSkip'
+            }
+          )
+        })
       }
       message['quick_replies'] = messengerQuickReplies
     }
@@ -283,7 +298,6 @@ exports.setSubscriberPayloadInfo = (subscriber, payload, blockInfo) => {
       if (qr.query === 'phone') {
         quickReply.query = 'phone'
       }
-      quickReply.keyboardInputAllowed = qr.keyboardInputAllowed
       quickReply.skipAllowed = qr.skipAllowed
       if (qr.blockId) {
         quickReply.blockId = qr.blockId
