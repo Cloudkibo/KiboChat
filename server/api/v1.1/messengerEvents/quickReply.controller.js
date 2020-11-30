@@ -4,7 +4,8 @@ const logger = require('../../../components/logger')
 const TAG = 'api/v1/messengerEvents/quickReply.controller'
 const { saveLiveChat } = require('./sessions.controller')
 const logicLayer = require('./logiclayer')
-const { handleCommerceChatbot } = require('./chatbotAutomation.controller')
+const { handleCommerceChatbot, handleChatBotNextMessage } = require('./chatbotAutomation.controller')
+const { unSetAwaitingUserInfoPayload } = require('./capturePhoneEmail.logiclayer')
 const { sendWebhook } = require('../../global/sendWebhook')
 
 exports.index = function (req, res) {
@@ -16,6 +17,13 @@ exports.index = function (req, res) {
   let pageId = messengerPayload.recipient.id
   let subscriberId = messengerPayload.sender.id
   let subscriber = {}
+  let resp = ''
+  if (logicLayer.isJsonString(messengerPayload.message.quick_reply.payload)) {
+    resp = JSON.parse(messengerPayload.message.quick_reply.payload)
+  } else {
+    resp = messengerPayload.message.quick_reply.payload
+  }
+
   utility.callApi('pages/query', 'post', { pageId, connected: true })
     .then(page => {
       page = page[0]
@@ -31,15 +39,21 @@ exports.index = function (req, res) {
                 timestamp: Date.now(),
                 message: messengerPayload.message
               }, page)
-              handleCommerceChatbot(messengerPayload, page, subscriber)
-              if (logicLayer.isJsonString(messengerPayload.message.quick_reply.payload)) {
-                let quickRepyPayload = JSON.parse(messengerPayload.message.quick_reply.payload)
-                for (let i = 0; i < quickRepyPayload.length; i++) {
-                  if (quickRepyPayload[i].action === '_chatbot') {
-                    chatbotAutomation.handleChatBotNextMessage(messengerPayload, page, subscriber, quickRepyPayload[i].blockUniqueId, quickRepyPayload[i].parentBlockTitle)
+              if (resp.option === 'captureEmailPhoneSkip' && subscriber.awaitingQuickReplyPayload) {
+                let chatBotInfo = _getChatbotInfo(subscriber)
+                handleChatBotNextMessage(messengerPayload, page, subscriber, chatBotInfo.nextBlockId, chatBotInfo.parentBlockTitle)
+              } else {
+                handleCommerceChatbot(messengerPayload, page, subscriber)
+                if (logicLayer.isJsonString(messengerPayload.message.quick_reply.payload)) {
+                  let quickRepyPayload = JSON.parse(messengerPayload.message.quick_reply.payload)
+                  for (let i = 0; i < quickRepyPayload.length; i++) {
+                    if (quickRepyPayload[i].action === '_chatbot') {
+                      chatbotAutomation.handleChatBotNextMessage(messengerPayload, page, subscriber, quickRepyPayload[i].blockUniqueId, quickRepyPayload[i].parentBlockTitle)
+                    }
                   }
                 }
               }
+              unSetAwaitingUserInfoPayload(subscriber)
               saveLiveChat(page, subscriber, messengerPayload)
             }
           })
@@ -49,4 +63,18 @@ exports.index = function (req, res) {
       const message = error || 'error on getting subcribers'
       return logger.serverLog(message, `${TAG}: exports.index`, req.body, {messengerPayload}, 'error')
     })
+}
+
+const _getChatbotInfo = (subscriber) => {
+  let chatBotInfo = {}
+  for (let action of subscriber.awaitingQuickReplyPayload.action) {
+    if (action.blockId) {
+      chatBotInfo = {
+        nextBlockId: action.blockId,
+        parentBlockTitle: subscriber.awaitingQuickReplyPayload.messageBlockTitle
+      }
+    }
+    break
+  }
+  return chatBotInfo
 }
