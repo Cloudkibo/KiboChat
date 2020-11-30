@@ -354,7 +354,6 @@ exports.handleChatBotTestMessage = (req, page, subscriber, type) => {
 }
 
 function sendResponse (recipientId, payload, subscriber, accessToken, blockInfo) {
-  console.log('Block Info', blockInfo)
   let isCaptureUserPhoneEmail = logicLayer.checkCaptureUserEmailPhone(payload)
   let finalPayload = logicLayer.prepareSendAPIPayload(recipientId, payload, subscriber.firstName, subscriber.lastName, true)
   record('messengerChatOutGoing')
@@ -671,3 +670,4 @@ function saveLiveChatMessage (page, subscriber, item) {
 
 exports.updateBotPeriodicStatsForBlock = updateBotPeriodicStatsForBlock
 exports.updateBotLifeStatsForBlock = updateBotLifeStatsForBlock
+exports.sendResponse = sendResponse
