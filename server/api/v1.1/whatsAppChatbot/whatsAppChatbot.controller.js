@@ -43,7 +43,7 @@ exports.create = async (req, res) => {
 
 exports.fetch = async (req, res) => {
   try {
-    let chatbot = await dataLayer.fetchWhatsAppChatbot({ companyId: req.user.companyId })
+    let chatbot = await dataLayer.fetchWhatsAppChatbot(req.body)
     if (chatbot) {
       sendSuccessResponse(res, 200, chatbot, 'WhatsApp chatbot fetched successfully')
     } else {
