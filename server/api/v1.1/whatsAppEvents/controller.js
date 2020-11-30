@@ -7,6 +7,7 @@ const whatsAppMapper = require('../../../whatsAppMapper/whatsAppMapper')
 const sessionLogicLayer = require('../whatsAppSessions/whatsAppSessions.logiclayer')
 const whatsAppChatbotDataLayer = require('../whatsAppChatbot/whatsAppChatbot.datalayer')
 const whatsAppChatbotLogicLayer = require('../whatsAppChatbot/whatsAppChatbot.logiclayer')
+const commerceChatbotLogicLayer = require('../whatsAppChatbot/commerceChatbot.logiclayer')
 const shopifyDataLayer = require('../shopify/shopify.datalayer')
 const bigcommerceDataLayer = require('../bigcommerce/bigcommerce.datalayer')
 const { ActionTypes } = require('../../../whatsAppMapper/constants')
@@ -73,7 +74,7 @@ exports.messageReceived = function (req, res) {
                               })
                             }
                             if (ecommerceProvider) {
-                              let nextMessageBlock = await whatsAppChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text)
+                              let nextMessageBlock = await commerceChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text)
                               if (nextMessageBlock) {
                                 for (let messagePayload of nextMessageBlock.payload) {
                                   let chatbotResponse = {
