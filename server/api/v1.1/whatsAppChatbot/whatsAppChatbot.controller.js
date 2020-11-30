@@ -1,5 +1,6 @@
 const logicLayer = require('./whatsAppChatbot.logiclayer')
 const commerceChatbotLogicLayer = require('./commerceChatbot.logiclayer')
+const airlinesChatbotLogicLayer = require('./airlinesChatbot.logiclayer')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 const dataLayer = require('./whatsAppChatbot.datalayer')
@@ -10,7 +11,7 @@ const TAG = 'api/v1.1/whatsAppChatbot/whatsAppChatbot.controller'
 
 exports.create = async (req, res) => {
   try {
-    let existingChatbot = await dataLayer.fetchWhatsAppChatbot({ companyId: req.user.companyId })
+    let existingChatbot = await dataLayer.fetchWhatsAppChatbot({ companyId: req.user.companyId, vertical: req.body.vertical })
     if (existingChatbot && req.user.companyId !== '5a89ecdaf6b0460c552bf7fe') {
       // About the above company condition
       // This is a demo requirement by Sir and not unnecessary hard coding
@@ -18,16 +19,19 @@ exports.create = async (req, res) => {
       // CloudKibo company to have multiple whatsapp chatbots per company for
       // demo purposes. Other companies can only have one whatsapp chatbot.
       // - Sojharo
-      sendErrorResponse(res, 500, existingChatbot, `Chatbot already exists`)
+      sendErrorResponse(res, 400, existingChatbot, `Chatbot already exists`)
     } else {
       let chatbot = await dataLayer.createWhatsAppChatbot(req)
       updateCompanyProfileForChatbot(req.user.companyId, chatbot._id)
       let messageBlocks = null
       if (req.body.vertical === 'commerce') {
         messageBlocks = commerceChatbotLogicLayer.getMessageBlocks(chatbot)
+      } else if (req.body.vertical === 'airlines') {
+        messageBlocks = airlinesChatbotLogicLayer.getMessageBlocks(chatbot)
       }
+      console.log('messageBlocks created', messageBlocks)
       if (messageBlocks) {
-        chatbot = await dataLayer.updateWhatsAppChatbot(chatbot._id, {
+        chatbot = await dataLayer.updateWhatsAppChatbot({_id: chatbot._id}, {
           startingBlockId: messageBlocks[0].uniqueId
         })
         messageBlockDataLayer.createBulkMessageBlocks(messageBlocks)
@@ -47,7 +51,7 @@ exports.fetch = async (req, res) => {
     if (chatbot) {
       sendSuccessResponse(res, 200, chatbot, 'WhatsApp chatbot fetched successfully')
     } else {
-      sendErrorResponse(res, 500, chatbot, `No WhatsApp chatbot found`)
+      sendErrorResponse(res, 400, chatbot, `No WhatsApp chatbot found`)
     }
   } catch (err) {
     const message = err || 'Failed to fetch WhatsApp chatbot'
@@ -58,11 +62,13 @@ exports.fetch = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
-    let updatedChatbot = await dataLayer.updateWhatsAppChatbot(req.user.companyId, req.body)
+    let updatedChatbot = await dataLayer.updateWhatsAppChatbot(req.body.query, req.body.updated)
     sendSuccessResponse(res, 200, updatedChatbot, 'WhatsApp chatbot updated successfully')
     if (req.body.botLinks && req.body.botLinks.faqs) {
       if (updatedChatbot.vertical === 'commerce') {
         commerceChatbotLogicLayer.updateFaqsForStartingBlock(updatedChatbot)
+      } else if (this.updatedChatbot.vertical === 'airlines') {
+        airlinesChatbotLogicLayer.updateFaqsForStartingBlock(updatedChatbot)
       }
     }
   } catch (err) {

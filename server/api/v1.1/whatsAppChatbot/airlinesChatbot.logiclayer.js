@@ -33,6 +33,32 @@ function specialKeyText (key) {
   }
 }
 
+exports.updateFaqsForStartingBlock = async (chatbot) => {
+  let messageBlocks = []
+  const faqsId = '' + new Date().getTime()
+  let startingBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
+  if (!startingBlock.payload[0].specialKeys[FAQS_KEY]) {
+    if (chatbot.botLinks && chatbot.botLinks.faqs) {
+      startingBlock.payload[0].text += `\n${specialKeyText(FAQS_KEY)}`
+      startingBlock.payload[0].specialKeys[FAQS_KEY] = { type: STATIC, blockId: faqsId }
+      getFaqsBlock(chatbot, faqsId, messageBlocks, chatbot.startingBlockId)
+      messageBlockDataLayer.genericUpdateMessageBlock({ uniqueId: chatbot.startingBlockId }, startingBlock)
+      messageBlockDataLayer.createForMessageBlock(messageBlocks[0])
+    }
+  } else {
+    if (chatbot.botLinks && chatbot.botLinks.faqs) {
+      startingBlock.payload[0].specialKeys[FAQS_KEY] = { type: STATIC, blockId: faqsId }
+      getFaqsBlock(chatbot, faqsId, messageBlocks, chatbot.startingBlockId)
+      messageBlockDataLayer.genericUpdateMessageBlock({ uniqueId: chatbot.startingBlockId }, startingBlock)
+      messageBlockDataLayer.createForMessageBlock(messageBlocks[0])
+    } else {
+      startingBlock.payload[0].text = startingBlock.payload[0].text.replace(`\n${specialKeyText(FAQS_KEY)}`, '')
+      delete startingBlock.payload[0].specialKeys[FAQS_KEY]
+      messageBlockDataLayer.genericUpdateMessageBlock({ uniqueId: chatbot.startingBlockId }, startingBlock)
+    }
+  }
+}
+
 exports.getMessageBlocks = (chatbot) => {
   const messageBlocks = []
   const mainMenuId = '' + new Date().getTime()
@@ -41,7 +67,7 @@ exports.getMessageBlocks = (chatbot) => {
   messageBlocks.push({
     module: {
       id: chatbot._id,
-      type: 'whatsapp_chatbot'
+      type: 'whatsapp_airlines_chatbot'
     },
     title: 'Main Menu',
     uniqueId: mainMenuId,
@@ -58,7 +84,8 @@ exports.getMessageBlocks = (chatbot) => {
           { type: DYNAMIC, action: CHECK_FLIGHT_STATUS },
           { type: DYNAMIC, action: AIRPORT_INFORMATION },
           { type: DYNAMIC, action: GET_FLIGHTS }
-        ]
+        ],
+        specialKeys: {}
       }
     ],
     userId: chatbot.userId,
@@ -76,7 +103,7 @@ const getFaqsBlock = (chatbot, blockId, messageBlocks, backId) => {
   messageBlocks.push({
     module: {
       id: chatbot._id,
-      type: 'whatsapp_chatbot'
+      type: 'whatsapp_airlines_chatbot'
     },
     title: 'FAQs',
     uniqueId: blockId,
