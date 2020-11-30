@@ -48,7 +48,8 @@ const all = {
     client_id: process.env.BIGCOMMERCE_CLIENT_ID || '5bsotbk9bdq3wwiejhc6y014h1p2tje',
     app_host: 'https://kibochat.cloudkibo.com',
     app_secret: process.env.BIGCOMMERCE_SECRET || 'ee31988bcd4facf96a23f5d79aa3848fc5fab62c4ae31fb35125bc98ecb23949'
-  }
+  },
+  aviationKey: '73777d3f32d28cde6c37c177572283b6'
 }
 
 module.exports = _.merge(
