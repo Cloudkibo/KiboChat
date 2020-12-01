@@ -75,7 +75,7 @@ exports.messageReceived = function (req, res) {
                                 })
                               }
                               if (ecommerceProvider) {
-                                let nextMessageBlock = await whatsAppChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text)
+                                let nextMessageBlock = await commerceChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text)
                                 if (nextMessageBlock) {
                                   for (let messagePayload of nextMessageBlock.payload) {
                                     let chatbotResponse = {
@@ -562,7 +562,7 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
             })
           }
           if (ecommerceProvider) {
-            let nextMessageBlock = await whatsAppChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text)
+            let nextMessageBlock = await commerceChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text)
             if (nextMessageBlock) {
               for (let messagePayload of nextMessageBlock.payload) {
                 let chatbotResponse = {
@@ -634,7 +634,7 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
     }
   } catch (err) {
     const message = err || 'Error in async await calls above'
-    logger.serverLog(message, `${TAG}: exports.temporarySuperBotResponseHandling`, req.body, {data, contact, company, number, req, isNewContact}, 'error')
+    logger.serverLog(message, `${TAG}: exports.temporarySuperBotResponseHandling`, req.body, {data, contact, company, number, isNewContact}, 'error')
   }
   if (contact && contact.isSubscribed && contact.activeChatbotBuilt === 'custom') {
     storeChat(number, company.whatsApp.businessNumber, contact, data.messageData, 'whatsApp')
@@ -667,10 +667,10 @@ function sendWhatsAppMessage (nextMessageBlock, data, number, req) {
     }
 
     whatsAppMapper.whatsAppMapper(req.body.provider, ActionTypes.SEND_CHAT_MESSAGE, chatbotResponse)
-    .then(sent => {})
-    .catch(err => {
-      const message = err || 'Failed to send chat message'
-      logger.serverLog(message, `${TAG}: exports.sendWhatsAppMessage`, req.body, {chatbotResponse}, 'error')
-    })
+      .then(sent => {})
+      .catch(err => {
+        const message = err || 'Failed to send chat message'
+        logger.serverLog(message, `${TAG}: exports.sendWhatsAppMessage`, req.body, {chatbotResponse}, 'error')
+      })
   }
 }
