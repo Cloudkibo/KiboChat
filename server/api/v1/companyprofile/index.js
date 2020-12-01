@@ -20,7 +20,7 @@ router.get('/getAutomatedOptions',
 
 router.get('/switchToBasicPlan',
   auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer(),
+  auth.isSuperUserActingAsCustomer('write'),
   controller.switchToBasicPlan)
 
 router.post('/invite',
