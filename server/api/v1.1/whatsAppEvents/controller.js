@@ -104,7 +104,7 @@ exports.messageReceived = function (req, res) {
                                   const triggerWordsMatched = chatbot.triggers.includes(data.messageData.text.toLowerCase()) ? 1 : 0
 
                                   if (isNewContact) {
-                                    await whatsAppChatbotDataLayer.updateWhatsAppChatbot(chatbot._id, { $inc: { 'stats.triggerWordsMatched': triggerWordsMatched, 'stats.newSubscribers': 1 } })
+                                    await whatsAppChatbotDataLayer.updateWhatsAppChatbot({_id: chatbot._id}, { $inc: { 'stats.triggerWordsMatched': triggerWordsMatched, 'stats.newSubscribers': 1 } })
                                     whatsAppChatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
                                       { chatbotId: chatbot._id, companyId: chatbot.companyId, dateToday: moment(new Date()).format('YYYY-MM-DD') },
                                       { $inc: { sentCount: 1, newSubscribersCount: 1, triggerWordsMatched } },
@@ -115,7 +115,7 @@ exports.messageReceived = function (req, res) {
                                         logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {chatbotId: chatbot._id, companyId: chatbot.companyId}, 'error')
                                       })
                                   } else {
-                                    whatsAppChatbotDataLayer.updateWhatsAppChatbot(chatbot._id, { $inc: { 'stats.triggerWordsMatched': triggerWordsMatched } })
+                                    whatsAppChatbotDataLayer.updateWhatsAppChatbot({_id: chatbot._id}, { $inc: { 'stats.triggerWordsMatched': triggerWordsMatched } })
                                     let subscriberLastMessageAt = moment(contact.lastMessagedAt)
                                     let dateNow = moment()
                                     if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
@@ -591,7 +591,7 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
               const triggerWordsMatched = chatbot.triggers.includes(data.messageData.text.toLowerCase()) ? 1 : 0
 
               if (isNewContact) {
-                await whatsAppChatbotDataLayer.updateWhatsAppChatbot(chatbot._id, { $inc: { 'stats.triggerWordsMatched': triggerWordsMatched, 'stats.newSubscribers': 1 } })
+                await whatsAppChatbotDataLayer.updateWhatsAppChatbot({_id: chatbot._id}, { $inc: { 'stats.triggerWordsMatched': triggerWordsMatched, 'stats.newSubscribers': 1 } })
                 whatsAppChatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
                   { chatbotId: chatbot._id, companyId: chatbot.companyId, dateToday: moment(new Date()).format('YYYY-MM-DD') },
                   { $inc: { sentCount: 1, newSubscribersCount: 1, triggerWordsMatched } },
@@ -602,7 +602,7 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
                     logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {chatbotId: chatbot._id, companyId: chatbot.companyId}, 'error')
                   })
               } else {
-                whatsAppChatbotDataLayer.updateWhatsAppChatbot(chatbot._id, { $inc: { 'stats.triggerWordsMatched': triggerWordsMatched } })
+                whatsAppChatbotDataLayer.updateWhatsAppChatbot({_id: chatbot._id}, { $inc: { 'stats.triggerWordsMatched': triggerWordsMatched } })
                 let subscriberLastMessageAt = moment(contact.lastMessagedAt)
                 let dateNow = moment()
                 if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
