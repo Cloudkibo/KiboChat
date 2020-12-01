@@ -90,7 +90,7 @@ exports.getMessageBlocks = (chatbot) => {
   messageBlocks.push({
     module: {
       id: chatbot._id,
-      type: 'whatsapp_chatbot'
+      type: 'whatsapp_commerce_chatbot'
     },
     title: 'Main Menu',
     uniqueId: mainMenuId,
@@ -132,7 +132,7 @@ const getSearchProductsBlock = async (chatbot, blockId, messageBlocks) => {
   messageBlocks.push({
     module: {
       id: chatbot._id,
-      type: 'whatsapp_chatbot'
+      type: 'whatsapp_commerce_chatbot'
     },
     title: 'Search Products',
     uniqueId: blockId,
@@ -153,7 +153,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'whatsapp_chatbot'
+        type: 'whatsapp_commerce_chatbot'
       },
       title: 'Discover Products',
       uniqueId: '' + new Date().getTime(),
@@ -217,7 +217,7 @@ const getReturnOrderIdBlock = (chatbot, blockId, messageBlocks) => {
   messageBlocks.push({
     module: {
       id: chatbot._id,
-      type: 'whatsapp_chatbot'
+      type: 'whatsapp_commerce_chatbot'
     },
     title: 'Get Return Product ID',
     uniqueId: blockId,
@@ -238,7 +238,7 @@ const getReturnOrderBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'whatsapp_chatbot'
+        type: 'whatsapp_commerce_chatbot'
       },
       title: 'Return Request',
       uniqueId: '' + new Date().getTime(),
@@ -273,7 +273,7 @@ const getFaqsBlock = (chatbot, blockId, messageBlocks, backId) => {
   messageBlocks.push({
     module: {
       id: chatbot._id,
-      type: 'whatsapp_chatbot'
+      type: 'whatsapp_commerce_chatbot'
     },
     title: 'FAQs',
     uniqueId: blockId,
@@ -302,7 +302,7 @@ const getCheckOrdersBlock = (chatbot, mainMenuId, blockId, orderStatusId, messag
   messageBlocks.push({
     module: {
       id: chatbot._id,
-      type: 'whatsapp_chatbot'
+      type: 'whatsapp_commerce_chatbot'
     },
     title: 'Check Orders',
     uniqueId: blockId,
@@ -334,7 +334,7 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'whatsapp_chatbot'
+        type: 'whatsapp_commerce_chatbot'
       },
       title: 'Recent Orders',
       uniqueId: '' + new Date().getTime(),
@@ -385,7 +385,7 @@ const getOrderIdBlock = (chatbot, blockId, messageBlocks) => {
   messageBlocks.push({
     module: {
       id: chatbot._id,
-      type: 'whatsapp_chatbot'
+      type: 'whatsapp_commerce_chatbot'
     },
     title: 'Get Order ID',
     uniqueId: blockId,
@@ -406,7 +406,7 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'whatsapp_chatbot'
+        type: 'whatsapp_commerce_chatbot'
       },
       title: 'Order Status',
       uniqueId: '' + new Date().getTime(),
@@ -495,7 +495,7 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider, arg
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'whatsapp_chatbot'
+        type: 'whatsapp_commerce_chatbot'
       },
       title: 'Product Categories',
       uniqueId: '' + new Date().getTime(),
@@ -544,7 +544,7 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ar
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'whatsapp_chatbot'
+        type: 'whatsapp_commerce_chatbot'
       },
       title: 'Products in Category',
       uniqueId: '' + new Date().getTime(),
@@ -594,7 +594,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, argum
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'whatsapp_chatbot'
+        type: 'whatsapp_commerce_chatbot'
       },
       title: 'Product Variants',
       uniqueId: '' + new Date().getTime(),
@@ -657,7 +657,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'whatsapp_chatbot'
+        type: 'whatsapp_commerce_chatbot'
       },
       title: 'Select Product',
       uniqueId: '' + new Date().getTime(),
@@ -702,7 +702,7 @@ const getQuantityToAddBlock = async (chatbot, backId, contact, product) => {
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'whatsapp_chatbot'
+        type: 'whatsapp_commerce_chatbot'
       },
       title: 'Quantity to Add',
       uniqueId: '' + new Date().getTime(),
@@ -788,7 +788,7 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'whatsapp_chatbot'
+        type: 'whatsapp_commerce_chatbot'
       },
       title: 'Show My Cart',
       uniqueId: '' + new Date().getTime(),
@@ -888,7 +888,7 @@ const getQuantityToRemoveBlock = async (chatbot, product) => {
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'whatsapp_chatbot'
+        type: 'whatsapp_commerce_chatbot'
       },
       title: 'Quantity to Remove',
       uniqueId: '' + new Date().getTime(),
@@ -915,7 +915,7 @@ const getShowItemsToRemoveBlock = (chatbot, backId, contact) => {
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'whatsapp_chatbot'
+        type: 'whatsapp_commerce_chatbot'
       },
       title: 'Select Item to Remove',
       uniqueId: '' + new Date().getTime(),
@@ -957,7 +957,7 @@ const getQuantityToUpdateBlock = async (chatbot, product) => {
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'whatsapp_chatbot'
+        type: 'whatsapp_commerce_chatbot'
       },
       title: 'Quantity to Update',
       uniqueId: '' + new Date().getTime(),
@@ -984,7 +984,7 @@ const getShowItemsToUpdateBlock = (chatbot, backId, contact) => {
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'whatsapp_chatbot'
+        type: 'whatsapp_commerce_chatbot'
       },
       title: 'Select Item to Remove',
       uniqueId: '' + new Date().getTime(),
@@ -1072,7 +1072,7 @@ const clearCart = async (chatbot, contact) => {
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'whatsapp_chatbot'
+        type: 'whatsapp_commerce_chatbot'
       },
       title: 'Your cart has been successfully cleared',
       uniqueId: '' + new Date().getTime(),
@@ -1116,7 +1116,7 @@ const getCheckoutEmailBlock = async (chatbot, contact, newEmail) => {
       messageBlock = {
         module: {
           id: chatbot._id,
-          type: 'whatsapp_chatbot'
+          type: 'whatsapp_commerce_chatbot'
         },
         title: 'Checkout Email',
         uniqueId: '' + new Date().getTime(),
@@ -1139,7 +1139,7 @@ const getCheckoutEmailBlock = async (chatbot, contact, newEmail) => {
       messageBlock = {
         module: {
           id: chatbot._id,
-          type: 'whatsapp_chatbot'
+          type: 'whatsapp_commerce_chatbot'
         },
         title: 'Checkout Email',
         uniqueId: '' + new Date().getTime(),
@@ -1169,7 +1169,7 @@ const getCheckoutEmailBlock = async (chatbot, contact, newEmail) => {
 //       messageBlock = {
 //         module: {
 //           id: chatbot._id,
-//           type: 'whatsapp_chatbot'
+//           type: 'whatsapp_commerce_chatbot'
 //         },
 //         title: 'Address1',
 //         uniqueId: '' + new Date().getTime(),
@@ -1192,7 +1192,7 @@ const getCheckoutEmailBlock = async (chatbot, contact, newEmail) => {
 //       messageBlock = {
 //         module: {
 //           id: chatbot._id,
-//           type: 'whatsapp_chatbot'
+//           type: 'whatsapp_commerce_chatbot'
 //         },
 //         title: 'Checkout Email',
 //         uniqueId: '' + new Date().getTime(),
@@ -1224,7 +1224,7 @@ const getCheckoutEmailBlock = async (chatbot, contact, newEmail) => {
 //       messageBlock = {
 //         module: {
 //           id: chatbot._id,
-//           type: 'whatsapp_chatbot'
+//           type: 'whatsapp_commerce_chatbot'
 //         },
 //         title: 'City',
 //         uniqueId: '' + new Date().getTime(),
@@ -1247,7 +1247,7 @@ const getCheckoutEmailBlock = async (chatbot, contact, newEmail) => {
 //       messageBlock = {
 //         module: {
 //           id: chatbot._id,
-//           type: 'whatsapp_chatbot'
+//           type: 'whatsapp_commerce_chatbot'
 //         },
 //         title: 'Checkout Email',
 //         uniqueId: '' + new Date().getTime(),
@@ -1279,7 +1279,7 @@ const getCheckoutEmailBlock = async (chatbot, contact, newEmail) => {
 //       messageBlock = {
 //         module: {
 //           id: chatbot._id,
-//           type: 'whatsapp_chatbot'
+//           type: 'whatsapp_commerce_chatbot'
 //         },
 //         title: 'Address1',
 //         uniqueId: '' + new Date().getTime(),
@@ -1302,7 +1302,7 @@ const getCheckoutEmailBlock = async (chatbot, contact, newEmail) => {
 //       messageBlock = {
 //         module: {
 //           id: chatbot._id,
-//           type: 'whatsapp_chatbot'
+//           type: 'whatsapp_commerce_chatbot'
 //         },
 //         title: 'Checkout Email',
 //         uniqueId: '' + new Date().getTime(),
@@ -1334,7 +1334,7 @@ const getCheckoutEmailBlock = async (chatbot, contact, newEmail) => {
 //       messageBlock = {
 //         module: {
 //           id: chatbot._id,
-//           type: 'whatsapp_chatbot'
+//           type: 'whatsapp_commerce_chatbot'
 //         },
 //         title: 'Address1',
 //         uniqueId: '' + new Date().getTime(),
@@ -1357,7 +1357,7 @@ const getCheckoutEmailBlock = async (chatbot, contact, newEmail) => {
 //       messageBlock = {
 //         module: {
 //           id: chatbot._id,
-//           type: 'whatsapp_chatbot'
+//           type: 'whatsapp_commerce_chatbot'
 //         },
 //         title: 'Checkout Email',
 //         uniqueId: '' + new Date().getTime(),
@@ -1384,7 +1384,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'whatsapp_chatbot'
+        type: 'whatsapp_commerce_chatbot'
       },
       title: 'Checkout Link',
       uniqueId: '' + new Date().getTime(),
@@ -1457,7 +1457,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
 //   return {
 //     module: {
 //       id: chatbot._id,
-//       type: 'whatsapp_chatbot'
+//       type: 'whatsapp_commerce_chatbot'
 //     },
 //     title: 'Error',
 //     uniqueId: '' + new Date().getTime(),
