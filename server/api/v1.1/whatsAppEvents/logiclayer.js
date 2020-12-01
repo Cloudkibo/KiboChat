@@ -16,7 +16,7 @@ exports.prepareChat = (from, to, contact, body, format) => {
         resolve(result)
       })
       .catch(err => {
-        if (!(err && err.message === 'Page Not Found')) {
+        if (!(err && err === 'Page Not Found')) {
           reject(err)
         } else {
           resolve(MessageObject)
