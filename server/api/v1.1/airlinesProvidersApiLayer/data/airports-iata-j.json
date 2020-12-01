@@ -1,0 +1,1322 @@
+[
+  {
+    "IATA": "JAA",
+    "ICAO": "OAJL",
+    "Airport name": "Jalalabad Airport",
+    "Location served": "Jalalabad, Afghanistan",
+    "Time": "UTC+04:30",
+    "DST": ""
+  },
+  {
+    "IATA": "JAB",
+    "ICAO": "YJAB",
+    "Airport name": "Jabiru Airport",
+    "Location served": "Jabiru, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "JAC",
+    "ICAO": "KJAC",
+    "Airport name": "Jackson Hole Airport",
+    "Location served": "Jackson, Wyoming, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "JAD",
+    "ICAO": "YPJT",
+    "Airport name": "Jandakot Airport",
+    "Location served": "Perth, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JAE",
+    "ICAO": "SPJE",
+    "Airport name": "Jaén Airport",
+    "Location served": "Jaén, Peru",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JAF",
+    "ICAO": "VCCJ",
+    "Airport name": "Jaffna Airport",
+    "Location served": "Jaffna, Sri Lanka",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "JAG",
+    "ICAO": "OPJA",
+    "Airport name": "PAF Base Shahbaz",
+    "Location served": "Jacobabad, Pakistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JAI",
+    "ICAO": "VIJP",
+    "Airport name": "Jaipur International Airport",
+    "Location served": "Jaipur, Rajasthan, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "JAK",
+    "ICAO": "MTJA",
+    "Airport name": "Jacmel Airport",
+    "Location served": "Jacmel, Haiti",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "JAL",
+    "ICAO": "MMJA",
+    "Airport name": "El Lencero Airport",
+    "Location served": "Xalapa (Jalapa), Veracruz, Mexico",
+    "Time": "UTC−06:00",
+    "DST": "Apr-Oct"
+  },
+  {
+    "IATA": "JAM",
+    "ICAO": "",
+    "Airport name": "Bezmer Air Base",
+    "Location served": "Yambol, Bulgaria",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "JAN",
+    "ICAO": "KJAN",
+    "Airport name": "Jackson–Evers International Airport",
+    "Location served": "Jackson, Mississippi, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "JAP",
+    "ICAO": "MRCH",
+    "Airport name": "Chacarita Airport[1]",
+    "Location served": "Puntarenas, Costa Rica",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JAQ",
+    "ICAO": "",
+    "Airport name": "Jacquinot Bay Airport",
+    "Location served": "Jacquinot Bay, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JAR",
+    "ICAO": "OISJ",
+    "Airport name": "Jahrom Airport[1]",
+    "Location served": "Jahrom, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "JAS",
+    "ICAO": "KJAS",
+    "Airport name": "Jasper County Airport (Bell Field)",
+    "Location served": "Jasper, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "JAT",
+    "ICAO": "",
+    "Airport name": "Jabot Airport",
+    "Location served": "Jabat Island, Marshall Islands",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JAU",
+    "ICAO": "SPJJ",
+    "Airport name": "Francisco Carle Airport",
+    "Location served": "Jauja, Peru",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JAV",
+    "ICAO": "BGJN",
+    "Airport name": "Ilulissat Airport",
+    "Location served": "Ilulissat, Greenland",
+    "Time": "UTC−03:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "JAX",
+    "ICAO": "KJAX",
+    "Airport name": "Jacksonville International Airport",
+    "Location served": "Jacksonville, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "JBB",
+    "ICAO": "WARE",
+    "Airport name": "Notohadinegoro Airport",
+    "Location served": "Jember, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JBQ",
+    "ICAO": "MDJB",
+    "Airport name": "La Isabela International Airport (Dr. Joaquin Balaguer Int'l)",
+    "Location served": "La Isabela, Dominican Republic",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JBR",
+    "ICAO": "KJBR",
+    "Airport name": "Jonesboro Municipal Airport",
+    "Location served": "Jonesboro, Arkansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "JBS",
+    "ICAO": "SSSB",
+    "Airport name": "São Borja Airport",
+    "Location served": "São Borja, Rio Grande do Sul, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "JBT",
+    "ICAO": "",
+    "Airport name": "Bethel Seaplane Base (FAA: Z59)",
+    "Location served": "Bethel, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "JCB",
+    "ICAO": "SSJA",
+    "Airport name": "Santa Terezinha Municipal Airport",
+    "Location served": "Joaçaba, Santa Catarina, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "JCI",
+    "ICAO": "KIXD",
+    "Airport name": "New Century AirCenter (FAA: IXD)",
+    "Location served": "Olathe, Kansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "JCK",
+    "ICAO": "YJLC",
+    "Airport name": "Julia Creek Airport",
+    "Location served": "Julia Creek, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JCM",
+    "ICAO": "SNJB",
+    "Airport name": "Jacobina Airport",
+    "Location served": "Jacobina, Bahia, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JCR",
+    "ICAO": "SBEK",
+    "Airport name": "Jacareacanga Airport",
+    "Location served": "Jacareacanga, Pará, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JCT",
+    "ICAO": "KJCT",
+    "Airport name": "Kimble County Airport",
+    "Location served": "Junction, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "JCY",
+    "ICAO": "",
+    "Airport name": "LBJ Ranch Airport (FAA: 0TE7)",
+    "Location served": "Johnson City, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "JDA",
+    "ICAO": "KGCD",
+    "Airport name": "Grant County Regional Airport (Ogilvie Field) (FAA: GCD)",
+    "Location served": "John Day, Oregon, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "JDF",
+    "ICAO": "SBJF",
+    "Airport name": "Francisco Álvares de Assis Airport",
+    "Location served": "Juiz de Fora, Minas Gerais, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "JDG",
+    "ICAO": "RKPD",
+    "Airport name": "Jeongseok Airport",
+    "Location served": "Seogwipo, South Korea",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JDH",
+    "ICAO": "VIJO",
+    "Airport name": "Jodhpur Airport",
+    "Location served": "Jodhpur, Rajasthan, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "JDN",
+    "ICAO": "KJDN",
+    "Airport name": "Jordan Airport",
+    "Location served": "Jordan, Montana, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "JDO",
+    "ICAO": "SBJU",
+    "Airport name": "Juazeiro do Norte Airport",
+    "Location served": "Juazeiro do Norte, Ceará, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JDR",
+    "ICAO": "SNJR",
+    "Airport name": "Prefeito Octávio de Almeida Neves Airport[1]",
+    "Location served": "São João del Rei, Minas Gerais, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "JDZ",
+    "ICAO": "ZSJD",
+    "Airport name": "Jingdezhen Luojia Airport",
+    "Location served": "Jingdezhen, Jiangxi, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JED",
+    "ICAO": "OEJN",
+    "Airport name": "King Abdulaziz International Airport",
+    "Location served": "Jeddah, Saudi Arabia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JEE",
+    "ICAO": "MTJE",
+    "Airport name": "Jérémie Airport",
+    "Location served": "Jérémie, Haiti",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "JEF",
+    "ICAO": "KJEF",
+    "Airport name": "Jefferson City Memorial Airport",
+    "Location served": "Jefferson City, Missouri, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "JEG",
+    "ICAO": "BGAA",
+    "Airport name": "Aasiaat Airport",
+    "Location served": "Aasiaat, Greenland",
+    "Time": "UTC−03:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "JEJ",
+    "ICAO": "",
+    "Airport name": "Jeh Airport",
+    "Location served": "Jeh Island, Ailinglaplap Atoll, Marshall Islands",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JEK",
+    "ICAO": "",
+    "Airport name": "Jeki Airstrip[1]",
+    "Location served": "Jeki, Zambia",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JEQ",
+    "ICAO": "SNJK",
+    "Airport name": "Jequié Airport",
+    "Location served": "Jequié, Bahia, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JER",
+    "ICAO": "EGJJ",
+    "Airport name": "Jersey Airport",
+    "Location served": "Jersey, Channel Islands, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "JFK",
+    "ICAO": "KJFK",
+    "Airport name": "John F. Kennedy International Airport",
+    "Location served": "New York City, New York, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "JFN",
+    "ICAO": "KHZY",
+    "Airport name": "Northeast Ohio Regional Airport (FAA: HZY)",
+    "Location served": "Ashtabula, Ohio, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "JFR",
+    "ICAO": "BGPT",
+    "Airport name": "Paamiut Airport",
+    "Location served": "Paamiut, Greenland",
+    "Time": "UTC−03:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "JGA",
+    "ICAO": "VAJM",
+    "Airport name": "Jamnagar Airport (Govardhanpur Airport)",
+    "Location served": "Jamnagar, Gujarat, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "JGB",
+    "ICAO": "",
+    "Airport name": "Jagdalpur Airport",
+    "Location served": "Jagdalpur, Chhattisgarh, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "JGD",
+    "ICAO": "ZYJD",
+    "Airport name": "Jiagedaqi Airport",
+    "Location served": "Jiagedaqi, Heilongjiang, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JGN",
+    "ICAO": "ZLJQ",
+    "Airport name": "Jiayuguan Airport",
+    "Location served": "Jiayuguan, Gansu, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JGS",
+    "ICAO": "ZSJA",
+    "Airport name": "Jinggangshan Airport",
+    "Location served": "Ji'an, Jiangxi, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JHB",
+    "ICAO": "WMKJ",
+    "Airport name": "Senai International Airport",
+    "Location served": "Johor Bahru, Johor, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JHG",
+    "ICAO": "ZPJH",
+    "Airport name": "Xishuangbanna Gasa Airport",
+    "Location served": "Jinghong, Yunnan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JHL",
+    "ICAO": "",
+    "Airport name": "Fort MacKay/Albian Aerodrome[1] (TC: CAL4)",
+    "Location served": "Fort McKay, Alberta, Canada",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "JHM",
+    "ICAO": "PHJH",
+    "Airport name": "Kapalua Airport",
+    "Location served": "Kapalua, Hawaii, United States",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JHS",
+    "ICAO": "BGSS",
+    "Airport name": "Sisimiut Airport",
+    "Location served": "Sisimiut, Greenland",
+    "Time": "UTC−03:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "JHW",
+    "ICAO": "KJHW",
+    "Airport name": "Chautauqua County-Jamestown Airport",
+    "Location served": "Jamestown, New York, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "JIA",
+    "ICAO": "SWJN",
+    "Airport name": "Juína Airport",
+    "Location served": "Juína, Mato Grosso, Brazil",
+    "Time": "UTC−04:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "JIB",
+    "ICAO": "HDAM",
+    "Airport name": "Djibouti–Ambouli International Airport",
+    "Location served": "Djibouti, Djibouti",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JIC",
+    "ICAO": "ZLJC",
+    "Airport name": "Jinchang Jinchuan Airport",
+    "Location served": "Jinchang, Gansu, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JIJ",
+    "ICAO": "HAJJ",
+    "Airport name": "Wilwal International Airport",
+    "Location served": "Jijiga, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JIK",
+    "ICAO": "LGIK",
+    "Airport name": "Ikaria Island National Airport",
+    "Location served": "Ikaria Island, Greece",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "JIL",
+    "ICAO": "ZYJL",
+    "Airport name": "Jilin Ertaizi Airport",
+    "Location served": "Jilin City, Jilin, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JIM",
+    "ICAO": "HAJM",
+    "Airport name": "Aba Segud Airport",
+    "Location served": "Jimma, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JIN",
+    "ICAO": "HUJI",
+    "Airport name": "Jinja Airport",
+    "Location served": "Jinja, Uganda",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JIO",
+    "ICAO": "",
+    "Airport name": "Jos Orno Imsula Airport",
+    "Location served": "Tiakur, Southwest Maluku, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JIP",
+    "ICAO": "SEJI",
+    "Airport name": "Jipijapa Airport",
+    "Location served": "Jipijapa, Ecuador",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JIQ",
+    "ICAO": "ZUQJ",
+    "Airport name": "Qianjiang Wulingshan Airport",
+    "Location served": "Qianjiang, Chongqing, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JIR",
+    "ICAO": "VNJI",
+    "Airport name": "Jiri Airport",
+    "Location served": "Jiri, Nepal",
+    "Time": "UTC+05:45",
+    "DST": ""
+  },
+  {
+    "IATA": "JIU",
+    "ICAO": "ZSJJ",
+    "Airport name": "Jiujiang Lushan Airport",
+    "Location served": "Jiujiang, Jiangxi, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JIW",
+    "ICAO": "OPJI",
+    "Airport name": "Jiwani Airport",
+    "Location served": "Jiwani, Pakistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JJA",
+    "ICAO": "AGJO[2]",
+    "Airport name": "Jajao Airport[1]",
+    "Location served": "Jajao, Isabel Province, Solomon Islands",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JJD",
+    "ICAO": "SBJE",
+    "Airport name": "Comte. Ariston Pessoa Regional Airport[1]",
+    "Location served": "Jijoca de Jericoacoara, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "JJG",
+    "ICAO": "SBJA",
+    "Airport name": "Humberto Ghizzo Bortoluzzi Regional Airport[1]",
+    "Location served": "Jaguaruna, Santa Catarina, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "JJI",
+    "ICAO": "SPJI",
+    "Airport name": "Juanjuí Airport",
+    "Location served": "Juanjuí, Peru",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JJM",
+    "ICAO": "HKMK",
+    "Airport name": "Mulika Lodge Airport[1]",
+    "Location served": "Meru National Park, Kenya",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JJN",
+    "ICAO": "ZSQZ",
+    "Airport name": "Quanzhou Jinjiang International Airport",
+    "Location served": "Quanzhou, Fujian, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JKG",
+    "ICAO": "ESGJ",
+    "Airport name": "Jönköping Airport",
+    "Location served": "Jönköping, Sweden",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "JKH",
+    "ICAO": "LGHI",
+    "Airport name": "Chios Island National Airport",
+    "Location served": "Chios, Greece",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "JKL",
+    "ICAO": "LGKY",
+    "Airport name": "Kalymnos Island National Airport",
+    "Location served": "Kalymnos, Greece",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "JKR",
+    "ICAO": "VNJP",
+    "Airport name": "Janakpur Airport",
+    "Location served": "Janakpur, Nepal",
+    "Time": "UTC+05:45",
+    "DST": ""
+  },
+  {
+    "IATA": "JKT[1]",
+    "ICAO": "",
+    "Airport name": "metropolitan area2",
+    "Location served": "Jakarta, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JKV",
+    "ICAO": "KJSO",
+    "Airport name": "Cherokee County Airport (FAA: JSO)",
+    "Location served": "Jacksonville, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "JLA",
+    "ICAO": "",
+    "Airport name": "Quartz Creek Airport",
+    "Location served": "Cooper Landing, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "JLN",
+    "ICAO": "KJLN",
+    "Airport name": "Joplin Regional Airport",
+    "Location served": "Joplin, Missouri, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "JLR",
+    "ICAO": "VAJB",
+    "Airport name": "Jabalpur Airport (Dumna Airport)",
+    "Location served": "Jabalpur, Madhya Pradesh, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "JLS",
+    "ICAO": "SDJL[3]",
+    "Airport name": "Jales Airport",
+    "Location served": "Jales, São Paulo, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "JMB",
+    "ICAO": "",
+    "Airport name": "Jamba Airport",
+    "Location served": "Jamba, Angola",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JMJ",
+    "ICAO": "ZPJM",
+    "Airport name": "Lancang Jingmai Airport",
+    "Location served": "Donghui Township, Yunnan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JMK",
+    "ICAO": "LGMK",
+    "Airport name": "Mykonos Island National Airport",
+    "Location served": "Mykonos, Greece",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "JMO",
+    "ICAO": "VNJS",
+    "Airport name": "Jomsom Airport",
+    "Location served": "Jomsom, Nepal",
+    "Time": "UTC+05:45",
+    "DST": ""
+  },
+  {
+    "IATA": "JMS",
+    "ICAO": "KJMS",
+    "Airport name": "Jamestown Regional Airport",
+    "Location served": "Jamestown, North Dakota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "JMU",
+    "ICAO": "ZYJM",
+    "Airport name": "Jiamusi Dongjiao Airport",
+    "Location served": "Jiamusi, Heilongjiang, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JNA",
+    "ICAO": "SNJN",
+    "Airport name": "Januária Airport",
+    "Location served": "Januária, Minas Gerais, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "JNB",
+    "ICAO": "FAOR",
+    "Airport name": "O. R. Tambo International Airport",
+    "Location served": "Johannesburg, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JNG",
+    "ICAO": "ZLJN",
+    "Airport name": "Jining Qufu Airport",
+    "Location served": "Jining, Shandong, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JNI",
+    "ICAO": "SAAJ",
+    "Airport name": "Junín Airport",
+    "Location served": "Junín, Buenos Aires, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JNJ",
+    "ICAO": "OOJA",
+    "Airport name": "Ja'Aluni Airport",
+    "Location served": "Duqm, Oman",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JNU",
+    "ICAO": "PAJN",
+    "Airport name": "Juneau International Airport",
+    "Location served": "Juneau, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "JNX",
+    "ICAO": "LGNX",
+    "Airport name": "Naxos Island National Airport",
+    "Location served": "Naxos, Greece",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "JNZ",
+    "ICAO": "ZYJZ",
+    "Airport name": "Jinzhou Bay Airport",
+    "Location served": "Jinzhou, Liaoning, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JOE",
+    "ICAO": "EFJO",
+    "Airport name": "Joensuu Airport",
+    "Location served": "Joensuu, Finland",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "JOG",
+    "ICAO": "WIIJ",
+    "Airport name": "Adisucipto International Airport",
+    "Location served": "Yogyakarta, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JOH",
+    "ICAO": "FAPJ",
+    "Airport name": "Port St. Johns Airport",
+    "Location served": "Port St. Johns, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JOI",
+    "ICAO": "SBJV",
+    "Airport name": "Joinville-Lauro Carneiro de Loyola Airport",
+    "Location served": "Joinville, Santa Catarina, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "JOJ",
+    "ICAO": "",
+    "Airport name": "Doris Lake Aerodrome[1] (TC: CDL7)",
+    "Location served": "Doris Lake, Nunavut, Canada",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "JOK",
+    "ICAO": "UWKJ",
+    "Airport name": "Yoshkar-Ola Airport",
+    "Location served": "Yoshkar-Ola, Mari El, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JOL",
+    "ICAO": "RPMJ",
+    "Airport name": "Jolo Airport",
+    "Location served": "Jolo, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JOM",
+    "ICAO": "HTNJ",
+    "Airport name": "Njombe Airport",
+    "Location served": "Njombe, Tanzania",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JOP",
+    "ICAO": "",
+    "Airport name": "Josephstaal Airport",
+    "Location served": "Josephstaal, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JOS",
+    "ICAO": "DNJO",
+    "Airport name": "Yakubu Gowon Airport",
+    "Location served": "Jos, Nigeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JOT",
+    "ICAO": "KJOT",
+    "Airport name": "Joliet Regional Airport",
+    "Location served": "Joliet, Illinois, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "JPA",
+    "ICAO": "SBJP",
+    "Airport name": "Presidente Castro Pinto International Airport",
+    "Location served": "João Pessoa, Paraíba, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JPR",
+    "ICAO": "SWJI",
+    "Airport name": "José Coleto Airport",
+    "Location served": "Ji-Paraná, Rondônia, Brazil",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JQA",
+    "ICAO": "BGUQ",
+    "Airport name": "Qaarsut Airport (Uummannaq/Qaarsut Airport)",
+    "Location served": "Qaarsut, Greenland",
+    "Time": "UTC−03:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "JQE",
+    "ICAO": "MPJE",
+    "Airport name": "Jaqué Airport",
+    "Location served": "Jaqué, Panama",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JRF",
+    "ICAO": "PHJR",
+    "Airport name": "Kalaeloa Airport[1] (John Rodgers Field)",
+    "Location served": "Kapalua, Hawaii, United States",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JRG",
+    "ICAO": "VEJH",
+    "Airport name": "Veer Surendra Sai Airport[1]",
+    "Location served": "Jharsuguda, Odisha, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "JRH",
+    "ICAO": "VEJT",
+    "Airport name": "Jorhat Airport (Rowriah Airport)",
+    "Location served": "Jorhat, Assam, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "JRN",
+    "ICAO": "SWJU",
+    "Airport name": "Juruena Airport",
+    "Location served": "Juruena, Mato Grosso, Brazil",
+    "Time": "UTC−04:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "JRO",
+    "ICAO": "HTKJ",
+    "Airport name": "Kilimanjaro International Airport",
+    "Location served": "Kilimanjaro, Tanzania",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JRS",
+    "ICAO": "OJJR",
+    "Airport name": "Atarot Airport (Jerusalem International Airport)",
+    "Location served": "Jerusalem, Israel1",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "JSA",
+    "ICAO": "VIJR",
+    "Airport name": "Jaisalmer Airport",
+    "Location served": "Jaisalmer, Rajasthan, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "JSH",
+    "ICAO": "LGST",
+    "Airport name": "Sitia Public Airport",
+    "Location served": "Sitia, Greece",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "JSI",
+    "ICAO": "LGSK",
+    "Airport name": "Skiathos Island National Airport",
+    "Location served": "Skiathos, Greece",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "JSJ",
+    "ICAO": "XYJS",
+    "Airport name": "Jiansanjiang Airport",
+    "Location served": "Jiansanjiang, Heilongjiang, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JSK",
+    "ICAO": "OIZJ",
+    "Airport name": "Jask Airport",
+    "Location served": "Jask, Hormozgan, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "JSM",
+    "ICAO": "SAWS",
+    "Airport name": "José de San Martín Airport",
+    "Location served": "José de San Martín, Chubut, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JSR",
+    "ICAO": "VGJR",
+    "Airport name": "Jessore Airport",
+    "Location served": "Jessore, Bangladesh",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JST",
+    "ICAO": "KJST",
+    "Airport name": "John Murtha Johnstown–Cambria County Airport",
+    "Location served": "Johnstown, Pennsylvania, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "JSU",
+    "ICAO": "BGMQ",
+    "Airport name": "Maniitsoq Airport",
+    "Location served": "Maniitsoq, Greenland",
+    "Time": "UTC−03:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "JSY",
+    "ICAO": "LGSO",
+    "Airport name": "Syros Island National Airport",
+    "Location served": "Syros, Greece",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "JTC",
+    "ICAO": "SBAE",
+    "Airport name": "Moussa Nakhl Tobias–Bauru/Arealva State Airport[1]",
+    "Location served": "Bauru, São Paulo, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "JTI",
+    "ICAO": "SWJW[4]",
+    "Airport name": "Jataí Airport",
+    "Location served": "Jataí, Goiás, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "JTR",
+    "ICAO": "LGSR",
+    "Airport name": "Santorini (Thira) National Airport",
+    "Location served": "Santorini (Thira), Greece",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "JTY",
+    "ICAO": "LGPL",
+    "Airport name": "Astypalaia Island National Airport",
+    "Location served": "Astypalaia, Greece",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "JUA",
+    "ICAO": "SIZX",
+    "Airport name": "Inácio Luís do Nascimento Airport",
+    "Location served": "Juara, Mato Grosso, Brazil",
+    "Time": "UTC−04:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "JUB",
+    "ICAO": "HSSJ",
+    "Airport name": "Juba International Airport",
+    "Location served": "Juba, South Sudan",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JUH",
+    "ICAO": "",
+    "Airport name": "Chizhou Jiuhuashan Airport",
+    "Location served": "Chizhou / Tongling, Anhui, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JUI",
+    "ICAO": "EDWJ",
+    "Airport name": "Juist Airport",
+    "Location served": "Juist, Lower Saxony, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "JUJ",
+    "ICAO": "SASJ",
+    "Airport name": "Gobernador Horacio Guzmán International Airport",
+    "Location served": "San Salvador de Jujuy, Jujuy, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JUL",
+    "ICAO": "SPJL",
+    "Airport name": "Inca Manco Cápac International Airport",
+    "Location served": "Juliaca, Peru",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JUM",
+    "ICAO": "VNJL",
+    "Airport name": "Jumla Airport",
+    "Location served": "Jumla, Nepal",
+    "Time": "UTC+05:45",
+    "DST": ""
+  },
+  {
+    "IATA": "JUN",
+    "ICAO": "YJDA",
+    "Airport name": "Jundah Airport",
+    "Location served": "Jundah, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JUO",
+    "ICAO": "SKJU[5]",
+    "Airport name": "Juradó Airport",
+    "Location served": "Juradó, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JUR",
+    "ICAO": "YJNB",
+    "Airport name": "Jurien Bay Airport",
+    "Location served": "Jurien Bay, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JUT",
+    "ICAO": "MHJU",
+    "Airport name": "Juticalpa Airport",
+    "Location served": "Juticalpa, Honduras",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JUV",
+    "ICAO": "BGUK",
+    "Airport name": "Upernavik Airport",
+    "Location served": "Upernavik, Greenland",
+    "Time": "UTC−03:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "JUZ",
+    "ICAO": "ZSJU",
+    "Airport name": "Quzhou Airport",
+    "Location served": "Quzhou, Zhejiang, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JVA",
+    "ICAO": "FMMK",
+    "Airport name": "Ankavandra Airport",
+    "Location served": "Ankavandra, Madagascar",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JVI",
+    "ICAO": "",
+    "Airport name": "Central Jersey Regional Airport (FAA: 47N)",
+    "Location served": "Manville, New Jersey, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "JVL",
+    "ICAO": "KJVL",
+    "Airport name": "Southern Wisconsin Regional Airport",
+    "Location served": "Janesville, Wisconsin, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "JWA",
+    "ICAO": "FBJW",
+    "Airport name": "Jwaneng Airport",
+    "Location served": "Jwaneng, Botswana",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JWN",
+    "ICAO": "OITZ",
+    "Airport name": "Zanjan Airport[1]",
+    "Location served": "Zanjan, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "JWO",
+    "ICAO": "RKTI",
+    "Airport name": "Jungwon Air Base[1]",
+    "Location served": "Chungju, South Korea",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JXA",
+    "ICAO": "ZYJX",
+    "Airport name": "Jixi Xingkaihu Airport",
+    "Location served": "Jixi, Heilongjiang, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "JXN",
+    "ICAO": "KJXN",
+    "Airport name": "Jackson County Airport (Reynolds Field)",
+    "Location served": "Jackson, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "JYR",
+    "ICAO": "OIKJ",
+    "Airport name": "Jiroft Airport[1]",
+    "Location served": "Jiroft, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "JYV",
+    "ICAO": "EFJY",
+    "Airport name": "Jyväskylä Airport",
+    "Location served": "Jyväskylä, Finland",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "JZH",
+    "ICAO": "ZUJZ",
+    "Airport name": "Jiuzhai Huanglong Airport",
+    "Location served": "Jiuzhaigou, Sichuan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  }
+]

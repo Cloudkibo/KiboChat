@@ -1,0 +1,2594 @@
+[
+  {
+    "IATA": "NAA",
+    "ICAO": "YNBR",
+    "Airport name": "Narrabri Airport[1]",
+    "Location served": "Narrabri, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NAC",
+    "ICAO": "YNRC",
+    "Airport name": "Naracoorte Airport[1]",
+    "Location served": "Naracoorte, South Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NAD",
+    "ICAO": "",
+    "Airport name": "Macanal Airport[1]",
+    "Location served": "Macanal, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NAE",
+    "ICAO": "DBBN",
+    "Airport name": "Boundétingou Airport",
+    "Location served": "Natitingou, Benin",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NAF",
+    "ICAO": "",
+    "Airport name": "Banaina Airport[1]",
+    "Location served": "Banaina, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NAG",
+    "ICAO": "VANP",
+    "Airport name": "Dr. Babasaheb Ambedkar International Airport",
+    "Location served": "Nagpur, Maharashtra, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NAH",
+    "ICAO": "WAMH",
+    "Airport name": "Naha Airport",
+    "Location served": "Tahuna, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NAI",
+    "ICAO": "SYAN",
+    "Airport name": "Annai Airport",
+    "Location served": "Annai, Guyana",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NAJ",
+    "ICAO": "UBBN",
+    "Airport name": "Nakhchivan International Airport",
+    "Location served": "Nakhchivan, Azerbaijan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NAK",
+    "ICAO": "VTUQ",
+    "Airport name": "Nakhon Ratchasima Airport",
+    "Location served": "Nakhon Ratchasima, Thailand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NAL",
+    "ICAO": "URMN",
+    "Airport name": "Nalchik Airport",
+    "Location served": "Nalchik, Kabardino-Balkaria, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NAM",
+    "ICAO": "WAPR",
+    "Airport name": "Namlea Airport[1]",
+    "Location served": "Namlea, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NAN",
+    "ICAO": "NFFN",
+    "Airport name": "Nadi International Airport",
+    "Location served": "Nadi, Fiji",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NAO",
+    "ICAO": "ZUNC",
+    "Airport name": "Nanchong Gaoping Airport",
+    "Location served": "Nanchong, Sichuan, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NAP",
+    "ICAO": "LIRN",
+    "Airport name": "Naples International Airport",
+    "Location served": "Naples, Campania, Italy",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NAQ",
+    "ICAO": "BGQQ",
+    "Airport name": "Qaanaaq Airport[1]",
+    "Location served": "Qaanaaq, Greenland",
+    "Time": "UTC-04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "NAR",
+    "ICAO": "SKPN",
+    "Airport name": "Puerto Nare Airport[1]",
+    "Location served": "Puerto Nare, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NAS",
+    "ICAO": "MYNN",
+    "Airport name": "Lynden Pindling International Airport",
+    "Location served": "Nassau, New Providence, Bahamas",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NAT",
+    "ICAO": "SBNT",
+    "Airport name": "São Gonçalo do Amarante–Governador Aluízio Alves International Airport",
+    "Location served": "Natal, Rio Grande do Norte, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NAU",
+    "ICAO": "NTGN",
+    "Airport name": "Napuka Airport[1]",
+    "Location served": "Napuka, Tuamotus, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NAV",
+    "ICAO": "LTAZ",
+    "Airport name": "Nevşehir Kapadokya Airport",
+    "Location served": "Nevşehir, Turkey",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NAW",
+    "ICAO": "VTSC",
+    "Airport name": "Narathiwat Airport[1]",
+    "Location served": "Narathiwat, Thailand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NAY",
+    "ICAO": "ZBNY",
+    "Airport name": "Beijing Nanyuan Airport",
+    "Location served": "Beijing, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NAZ",
+    "ICAO": "AGNA",
+    "Airport name": "Nana Airport[1]",
+    "Location served": "Star Harbour, Solomon Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NBA",
+    "ICAO": "",
+    "Airport name": "Nambaiyufa Airport[1]",
+    "Location served": "Nambaiyufa, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NBB",
+    "ICAO": "SKBM",
+    "Airport name": "Barranco Minas Airport[1]",
+    "Location served": "Barranco Minas, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NBC",
+    "ICAO": "UWKE",
+    "Airport name": "Begishevo Airport",
+    "Location served": "Nizhnekamsk / Naberezhnye Chelny, Tatarstan, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NBE",
+    "ICAO": "DTNH",
+    "Airport name": "Enfidha-Hammamet International Airport",
+    "Location served": "Enfidha, Tunisia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NBG",
+    "ICAO": "KNBG",
+    "Airport name": "NAS JRB New Orleans (Alvin Callender Field)",
+    "Location served": "New Orleans, Louisiana, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NBH",
+    "ICAO": "YNHS",
+    "Airport name": "Nambucca Heads Airport[1]",
+    "Location served": "Nambucca Heads, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NBL",
+    "ICAO": "MPWN",
+    "Airport name": "Wannukandi Airport[1]",
+    "Location served": "San Blas, Panama",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NBN",
+    "ICAO": "FGAB",
+    "Airport name": "Annobón Airport",
+    "Location served": "Annobón, Equatorial Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NBO",
+    "ICAO": "HKJK",
+    "Airport name": "Jomo Kenyatta International Airport",
+    "Location served": "Nairobi, Kenya",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NBS",
+    "ICAO": "ZYBS",
+    "Airport name": "Changbaishan Airport",
+    "Location served": "Baishan, Jilin, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NBW",
+    "ICAO": "KNBW",
+    "Airport name": "Leeward Point Field",
+    "Location served": "Guantánamo Bay, Cuba",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NBX",
+    "ICAO": "WABI",
+    "Airport name": "Nabire Airport",
+    "Location served": "Nabire, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NCA",
+    "ICAO": "MBNC",
+    "Airport name": "North Caicos Airport",
+    "Location served": "North Caicos, British Overseas Territory\nof Turks and Caicos Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NCE",
+    "ICAO": "LFMN",
+    "Airport name": "Nice Côte d'Azur Airport",
+    "Location served": "Nice, Provence-Alpes-Côte d'Azur, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NCG",
+    "ICAO": "MMCG",
+    "Airport name": "Nuevo Casas Grandes Municipal Airport",
+    "Location served": "Nuevo Casas Grandes, Chihuahua, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NCH",
+    "ICAO": "HTNA",
+    "Airport name": "Nachingwea Airport[1]",
+    "Location served": "Nachingwea, Tanzania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NCI",
+    "ICAO": "SKNC",
+    "Airport name": "Antioquia Airport[1]",
+    "Location served": "Necoclí, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NCJ",
+    "ICAO": "SAFS",
+    "Airport name": "Sunchales Aeroclub Airport[1]",
+    "Location served": "Sunchales, Santa Fe, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NCL",
+    "ICAO": "EGNT",
+    "Airport name": "Newcastle Airport",
+    "Location served": "Newcastle upon Tyne, England, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NCN",
+    "ICAO": "PFCB",
+    "Airport name": "Chenega Bay Airport (FAA: C05)",
+    "Location served": "Chenega, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NCO",
+    "ICAO": "KOQU",
+    "Airport name": "Quonset State Airport[1] (FAA: OQU)",
+    "Location served": "North Kingstown, Rhode Island, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NCR",
+    "ICAO": "MNSC",
+    "Airport name": "San Carlos Airport[1]",
+    "Location served": "San Carlos, Nicaragua",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NCS",
+    "ICAO": "FANC",
+    "Airport name": "Newcastle Airport[1]",
+    "Location served": "Newcastle, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NCT",
+    "ICAO": "MRNC",
+    "Airport name": "Nicoya Guanacaste Airport[1]",
+    "Location served": "Nicoya, Costa Rica",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NCU",
+    "ICAO": "UTNN",
+    "Airport name": "Nukus Airport",
+    "Location served": "Nukus, Uzbekistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NCY",
+    "ICAO": "LFLP",
+    "Airport name": "Annecy – Haute-Savoie – Mont Blanc Airport",
+    "Location served": "Annecy, Rhône-Alpes, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NDA",
+    "ICAO": "WAPC",
+    "Airport name": "Bandanaira Airport[1]",
+    "Location served": "Banda Islands, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NDB",
+    "ICAO": "GQPP",
+    "Airport name": "Nouadhibou International Airport",
+    "Location served": "Nouadhibou, Mauritania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NDC",
+    "ICAO": "VAND",
+    "Airport name": "Shri Guru Gobind Singh Ji Airport",
+    "Location served": "Nanded, Maharashtra, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NDD",
+    "ICAO": "FNSU",
+    "Airport name": "Sumbe Airport[1]",
+    "Location served": "Sumbe, Angola",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NDE",
+    "ICAO": "HKMA",
+    "Airport name": "Mandera Airport[1]",
+    "Location served": "Mandera, Kenya",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NDF",
+    "ICAO": "",
+    "Airport name": "N'dalatando Airport[1]",
+    "Location served": "N'dalatando, Angola",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NDG",
+    "ICAO": "ZYQQ",
+    "Airport name": "Qiqihar Sanjiazi Airport[1]",
+    "Location served": "Qiqihar, Heilongjiang, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NDI",
+    "ICAO": "",
+    "Airport name": "Namudi Airport[1]",
+    "Location served": "Namudi, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NDJ",
+    "ICAO": "FTTJ",
+    "Airport name": "N'Djamena International Airport",
+    "Location served": "N'Djamena, Chad",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NDK",
+    "ICAO": "",
+    "Airport name": "Namorik Airport (Namdrik Airport) (FAA: 3N0)",
+    "Location served": "Namdrik Atoll, Marshall Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NDL",
+    "ICAO": "FEFN",
+    "Airport name": "N'Délé Airport[1]",
+    "Location served": "N'Délé (Ndele), Central African Republic",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NDM",
+    "ICAO": "HAMN",
+    "Airport name": "Mendi Airport",
+    "Location served": "Mendi, Ethiopia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NDN",
+    "ICAO": "",
+    "Airport name": "Nadunumu Airport[1]",
+    "Location served": "Nadunumu, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NDR",
+    "ICAO": "GMMW",
+    "Airport name": "Nador International Airport",
+    "Location served": "Nador, Morocco",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NDS",
+    "ICAO": "YSAN",
+    "Airport name": "Sandstone Airport[1]",
+    "Location served": "Sandstone, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NDU",
+    "ICAO": "FYRU",
+    "Airport name": "Rundu Airport",
+    "Location served": "Rundu, Namibia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NDY",
+    "ICAO": "EGES",
+    "Airport name": "Sanday Airport",
+    "Location served": "Sanday, Scotland, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NEC",
+    "ICAO": "SAZO",
+    "Airport name": "Necochea Airport",
+    "Location served": "Necochea, Buenos Aires, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NEF",
+    "ICAO": "UWUF",
+    "Airport name": "Neftekamsk Airport",
+    "Location served": "Neftekamsk, Bashkortostan, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NEG",
+    "ICAO": "MKNG",
+    "Airport name": "Negril Aerodrome",
+    "Location served": "Negril, Jamaica",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NEJ",
+    "ICAO": "HANJ",
+    "Airport name": "Nejjo Airport[1]",
+    "Location served": "Nejo, Ethiopia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NEK",
+    "ICAO": "HANK",
+    "Airport name": "Nekemte Airport[1]",
+    "Location served": "Nekemte, Ethiopia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NEL",
+    "ICAO": "KNEL",
+    "Airport name": "NAES Lakehurst (Maxfield Field)",
+    "Location served": "Lakehurst, New Jersey, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NEN",
+    "ICAO": "KNEN",
+    "Airport name": "NOLF Whitehouse",
+    "Location served": "Jacksonville, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NER",
+    "ICAO": "UELL",
+    "Airport name": "Chulman Neryungri Airport",
+    "Location served": "Neryungri, Yakutia, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NEU",
+    "ICAO": "VLSN",
+    "Airport name": "Nathong Airport[1]",
+    "Location served": "Xam Neua, Laos",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NEV",
+    "ICAO": "TKPN",
+    "Airport name": "Vance W. Amory International Airport",
+    "Location served": "Nevis, Saint Kitts and Nevis",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NEW",
+    "ICAO": "KNEW",
+    "Airport name": "Lakefront Airport",
+    "Location served": "New Orleans, Louisiana, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NFG",
+    "ICAO": "USRN",
+    "Airport name": "Nefteyugansk Airport",
+    "Location served": "Nefteyugansk, Khanty-Mansi Autonomous Okrug, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NFL",
+    "ICAO": "KNFL",
+    "Airport name": "NAS Fallon (Van Voorhis Field)",
+    "Location served": "Fallon, Nevada, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NFO",
+    "ICAO": "NFTO",
+    "Airport name": "Niuafo'ou Airport",
+    "Location served": "Niuafo'ou, Tonga",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NFR",
+    "ICAO": "HLNR",
+    "Airport name": "Nafoora Airport",
+    "Location served": "Nafoora, Libya",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NGA",
+    "ICAO": "YYNG",
+    "Airport name": "Young Airport[1]",
+    "Location served": "Young, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NGB",
+    "ICAO": "ZSNB",
+    "Airport name": "Ningbo Lishe International Airport",
+    "Location served": "Ningbo, Zhejiang, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NGD",
+    "ICAO": "TUPA",
+    "Airport name": "Auguste George Airport",
+    "Location served": "Anegada, British Overseas Territory of Virgin Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NGE",
+    "ICAO": "FKKN",
+    "Airport name": "Ngaoundéré Airport[1]",
+    "Location served": "Ngaoundéré, Cameroon",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NGF",
+    "ICAO": "PHNG",
+    "Airport name": "MCAS Kaneohe Bay[1]",
+    "Location served": "Kaneohe, Hawaii, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NGI",
+    "ICAO": "NFNG",
+    "Airport name": "Gau Airport[1]",
+    "Location served": "Gau Island, Fiji",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NGK",
+    "ICAO": "UHSN",
+    "Airport name": "Nogliki Airport[1]",
+    "Location served": "Nogliki, Sakhalin Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NGL",
+    "ICAO": "FANG",
+    "Airport name": "Ngala Airfield[1]",
+    "Location served": "Ngala, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NGN",
+    "ICAO": "",
+    "Airport name": "Narganá Airport[1]",
+    "Location served": "Narganá, Panama",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NGO",
+    "ICAO": "RJGG",
+    "Airport name": "Chūbu Centrair International Airport",
+    "Location served": "Nagoya, Honshu, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NGP",
+    "ICAO": "KNGP",
+    "Airport name": "NAS Corpus Christi (Truax Field)",
+    "Location served": "Corpus Christi, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NGQ",
+    "ICAO": "ZUAL",
+    "Airport name": "Ngari Gunsa Airport",
+    "Location served": "Shiquanhe, Tibet Autonomous Region, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NGR",
+    "ICAO": "",
+    "Airport name": "Ningerum Airport[1]",
+    "Location served": "Ningerum, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NGS",
+    "ICAO": "RJFU",
+    "Airport name": "Nagasaki Airport",
+    "Location served": "Nagasaki, Kyushu, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NGU",
+    "ICAO": "KNGU",
+    "Airport name": "NS Norfolk (Chambers Field)",
+    "Location served": "Norfolk, Virginia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NGW",
+    "ICAO": "KNGW",
+    "Airport name": "NOLF Cabaniss Field",
+    "Location served": "Corpus Christi, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NGX",
+    "ICAO": "VNMA",
+    "Airport name": "Manang Airport[1]",
+    "Location served": "Manang, Nepal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NHA",
+    "ICAO": "VVNT",
+    "Airport name": "Nha Trang Air Base[1]",
+    "Location served": "Nha Trang, Vietnam",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NHD",
+    "ICAO": "OMDM",
+    "Airport name": "Al Minhad Air Base[1]",
+    "Location served": "Dubai, United Arab Emirates",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NHF",
+    "ICAO": "HSNW",
+    "Airport name": "New Halfa Airport[1]",
+    "Location served": "New Halfa, Sudan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NHK",
+    "ICAO": "KNHK",
+    "Airport name": "NAS Patuxent River (Trapnell Field)",
+    "Location served": "Patuxent River, Maryland, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NHS",
+    "ICAO": "",
+    "Airport name": "Nushki Airport[1]",
+    "Location served": "Nushki, Pakistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NHT",
+    "ICAO": "EGWU",
+    "Airport name": "RAF Northolt",
+    "Location served": "Northolt, England, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NHV",
+    "ICAO": "NTMD",
+    "Airport name": "Nuku Hiva Airport[1]",
+    "Location served": "Nuku Hiva, Marquesas Islands, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NHX",
+    "ICAO": "KNBJ",
+    "Airport name": "NOLF Barin (FAA: NBJ)",
+    "Location served": "Foley, Alabama, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NHZ",
+    "ICAO": "KBXM",
+    "Airport name": "Brunswick Executive Airport",
+    "Location served": "Brunswick, Maine, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NIA",
+    "ICAO": "GLNA",
+    "Airport name": "Nimba Airport",
+    "Location served": "Nimba, Liberia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NIB",
+    "ICAO": "PAFS",
+    "Airport name": "Nikolai Airport (FAA: FSP)",
+    "Location served": "Nikolai, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NIC",
+    "ICAO": "LCNC",
+    "Airport name": "Nicosia International Airport1",
+    "Location served": "Nicosia, Cyprus",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NIF",
+    "ICAO": "YCNF",
+    "Airport name": "Nifty Airport[1]",
+    "Location served": "Nifty Copper Mine, Telfer, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NIG",
+    "ICAO": "NGNU",
+    "Airport name": "Nikunau Airport[1]",
+    "Location served": "Nikunau, Kiribati",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NIK",
+    "ICAO": "",
+    "Airport name": "Niokolo-Koba Airport[1]",
+    "Location served": "Niokolo-Koba, Senegal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NIM",
+    "ICAO": "DRRN",
+    "Airport name": "Diori Hamani International Airport",
+    "Location served": "Niamey, Niger",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NIN",
+    "ICAO": "",
+    "Airport name": "Ninilchik Airport",
+    "Location served": "Ninilchik, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NIO",
+    "ICAO": "FZBI",
+    "Airport name": "Nioki Airport",
+    "Location served": "Nioki, Democratic Republic of the Congo",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NIP",
+    "ICAO": "KNIP",
+    "Airport name": "NAS Jacksonville (Towers Field)",
+    "Location served": "Jacksonville, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NIR",
+    "ICAO": "",
+    "Airport name": "Chase Field Industrial Complex[1] (FAA: 1XA2)",
+    "Location served": "Beeville, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NIS",
+    "ICAO": "",
+    "Airport name": "Simberi Airport",
+    "Location served": "Simberi Island, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NIT",
+    "ICAO": "LFBN",
+    "Airport name": "Niort - Souché Airport[1]",
+    "Location served": "Niort, Poitou-Charentes, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NIU",
+    "ICAO": "NTKN",
+    "Airport name": "Niau Airport[1]",
+    "Location served": "Niau, Tuamotus, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NIX",
+    "ICAO": "GANR",
+    "Airport name": "Nioro Airport",
+    "Location served": "Nioro du Sahel, Mali",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NJA",
+    "ICAO": "RJTA",
+    "Airport name": "Naval Air Facility Atsugi[1]",
+    "Location served": "Atsugi, Honshu, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NJC",
+    "ICAO": "USNN",
+    "Airport name": "Nizhnevartovsk Airport",
+    "Location served": "Nizhnevartovsk, Khanty-Mansi Autonomous Okrug, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NJF",
+    "ICAO": "ORNI",
+    "Airport name": "Al Najaf International Airport",
+    "Location served": "Al Najaf, Iraq",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NJK",
+    "ICAO": "KNJK",
+    "Airport name": "NAF El Centro",
+    "Location served": "El Centro, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NKA",
+    "ICAO": "",
+    "Airport name": "Nkan Airport[1]",
+    "Location served": "Ntoum (Nkan), Gabon",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NKB",
+    "ICAO": "",
+    "Airport name": "Noonkanbah Airport[1]",
+    "Location served": "Noonkanbah Station, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NKC",
+    "ICAO": "GQNO",
+    "Airport name": "Nouakchott–Oumtounsy International Airport",
+    "Location served": "Nouakchott, Mauritania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NKD",
+    "ICAO": "",
+    "Airport name": "Sinak Airport[1]",
+    "Location served": "Sinak, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NKG",
+    "ICAO": "ZSNJ",
+    "Airport name": "Nanjing Lukou International Airport",
+    "Location served": "Nanjing, Jiangsu, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NKI",
+    "ICAO": "",
+    "Airport name": "Naukati Bay Seaplane Base[1] (FAA: AK62)",
+    "Location served": "Naukati Bay, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NKL",
+    "ICAO": "FZAR",
+    "Airport name": "Nkolo-Fuma Airport",
+    "Location served": "Kolo Fuma, Democratic Republic of the Congo",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NKM",
+    "ICAO": "RJNA",
+    "Airport name": "Nagoya Airfield (Komaki Airport)",
+    "Location served": "Nagoya, Honshu, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NKN",
+    "ICAO": "",
+    "Airport name": "Nankina Airport[1]",
+    "Location served": "Nankina, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NKO",
+    "ICAO": "",
+    "Airport name": "Ankokoambo Airport[1]",
+    "Location served": "Ankokoambo, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NKP",
+    "ICAO": "",
+    "Airport name": "Nukutepipi Airport[1]",
+    "Location served": "Nukutepipi, Tuamotus, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NKS",
+    "ICAO": "FKAN",
+    "Airport name": "Nkongsamba Airport",
+    "Location served": "Nkongsamba, Cameroon",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NKT",
+    "ICAO": "LTCV",
+    "Airport name": "Şırnak Airport",
+    "Location served": "Şırnak / Cizre, Turkey",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NKU",
+    "ICAO": "FXNK",
+    "Airport name": "Nkaus Airport[1]",
+    "Location served": "Nkau, Lesotho",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NKX",
+    "ICAO": "KNKX",
+    "Airport name": "MCAS Miramar",
+    "Location served": "San Diego, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NKY",
+    "ICAO": "FCBY",
+    "Airport name": "Yokangassi Airport",
+    "Location served": "Nkayi (N'kayi), Republic of the Congo",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NLA",
+    "ICAO": "FLND",
+    "Airport name": "Simon Mwansa Kapwepwe International Airport",
+    "Location served": "Ndola, Zambia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NLC",
+    "ICAO": "KNLC",
+    "Airport name": "NAS Lemoore (Reeves Field)",
+    "Location served": "Lemoore, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NLD",
+    "ICAO": "MMNL",
+    "Airport name": "Quetzalcóatl International Airport",
+    "Location served": "Nuevo Laredo, Tamaulipas, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NLE",
+    "ICAO": "",
+    "Airport name": "Jerry Tyler Memorial Airport (FAA: 3TR)",
+    "Location served": "Niles, Michigan, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NLF",
+    "ICAO": "YDNI",
+    "Airport name": "Darnley Island Airport[1]",
+    "Location served": "Darnley Island, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NLG",
+    "ICAO": "PAOU",
+    "Airport name": "Nelson Lagoon Airport (FAA: OUL)",
+    "Location served": "Nelson Lagoon, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NLH",
+    "ICAO": "",
+    "Airport name": "Ninglang Luguhu Airport[1]",
+    "Location served": "Ninglang, Yunnan, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NLI",
+    "ICAO": "UHNN",
+    "Airport name": "Nikolayevsk-on-Amur Airport",
+    "Location served": "Nikolayevsk-on-Amur, Khabarovsk Krai, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NLK",
+    "ICAO": "YSNF",
+    "Airport name": "Norfolk Island Airport",
+    "Location served": "Norfolk Island, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NLL",
+    "ICAO": "YNUL",
+    "Airport name": "Nullagine Airport[1]",
+    "Location served": "Nullagine, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NLN",
+    "ICAO": "",
+    "Airport name": "Kneeland Airport[1] (FAA: O19)",
+    "Location served": "Arcata / Eureka, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NLO",
+    "ICAO": "FZAB",
+    "Airport name": "N'Dolo Airport[1]",
+    "Location served": "Kinshasa, Democratic Republic of the Congo",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NLP",
+    "ICAO": "FANS",
+    "Airport name": "Nelspruit Airport[1]",
+    "Location served": "Mbombela, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NLS",
+    "ICAO": "",
+    "Airport name": "Nicholson Airport[1]",
+    "Location served": "Nicholson, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NLT",
+    "ICAO": "ZWNL",
+    "Airport name": "Xinyuan Nalati Airport",
+    "Location served": "Xinyuan, Xinjiang, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NLU",
+    "ICAO": "MMSM",
+    "Airport name": "Santa Lucía Air Force Base Num 1",
+    "Location served": "Zumpango, State of Mexico, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NLV",
+    "ICAO": "UKON",
+    "Airport name": "Mykolaiv International Airport",
+    "Location served": "Mykolaiv, Ukraine",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NMA",
+    "ICAO": "UTFN",
+    "Airport name": "Namangan Airport[1]",
+    "Location served": "Namangan, Uzbekistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NMB",
+    "ICAO": "VADN",
+    "Airport name": "Daman Airport",
+    "Location served": "Daman, Daman and Diu, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NMC",
+    "ICAO": "MYEN",
+    "Airport name": "Norman's Cay Airport[1]",
+    "Location served": "Norman's Cay, Exuma Islands, Bahamas",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NME",
+    "ICAO": "PAGT",
+    "Airport name": "Nightmute Airport (FAA: IGT)",
+    "Location served": "Nightmute, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NMF",
+    "ICAO": "VRDA",
+    "Airport name": "Maafaru International Airport[1]",
+    "Location served": "Maafaru, Noonu, Maldives",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NMG",
+    "ICAO": "",
+    "Airport name": "San Miguel Airport[1]",
+    "Location served": "San Miguel, Panama",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NML",
+    "ICAO": "",
+    "Airport name": "Fort McMurray/Mildred Lake Airport[1] (TC: CAJ3)",
+    "Location served": "Fort McMurray, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NMN",
+    "ICAO": "",
+    "Airport name": "Nomane Airport[1]",
+    "Location served": "Nomane, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NMP",
+    "ICAO": "",
+    "Airport name": "New Moon Airport[1]",
+    "Location served": "New Moon, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NMR",
+    "ICAO": "YNAP",
+    "Airport name": "Nappa Merrie Airport[1]",
+    "Location served": "Nappa Merrie, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NMS",
+    "ICAO": "VYNS",
+    "Airport name": "Nansang Airport[1]",
+    "Location served": "Nansang (Namsang), Myanmar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NMT",
+    "ICAO": "VYNT",
+    "Airport name": "Namtu Airport[1]",
+    "Location served": "Namtu, Myanmar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NNA",
+    "ICAO": "GMMY",
+    "Airport name": "Kenitra Air Base",
+    "Location served": "Kenitra, Morocco",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NNB",
+    "ICAO": "AGGT",
+    "Airport name": "Santa Ana Airport[1]",
+    "Location served": "Santa Ana Island (Owaraha), Solomon Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NND",
+    "ICAO": "",
+    "Airport name": "Nangade Airport[1]",
+    "Location served": "Nangade, Mozambique",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NNG",
+    "ICAO": "ZGNN",
+    "Airport name": "Nanning Wuxu International Airport",
+    "Location served": "Nanning, Guangxi, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NNI",
+    "ICAO": "FYNA",
+    "Airport name": "Namutoni Airport[1]",
+    "Location served": "Namutoni, Namibia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NNK",
+    "ICAO": "",
+    "Airport name": "Naknek Airport (FAA: 5NK)",
+    "Location served": "Naknek, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NNL",
+    "ICAO": "PANO",
+    "Airport name": "Nondalton Airport (FAA: 5NN)",
+    "Location served": "Nondalton, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NNM",
+    "ICAO": "ULAM",
+    "Airport name": "Naryan-Mar Airport",
+    "Location served": "Naryan-Mar, Nenets Autonomous Okrug, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NNR",
+    "ICAO": "EICA",
+    "Airport name": "Connemara Airport",
+    "Location served": "Spiddal, Ireland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NNT",
+    "ICAO": "VTCN",
+    "Airport name": "Nan Nakhon Airport[1]",
+    "Location served": "Nan, Thailand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NNU",
+    "ICAO": "SNNU",
+    "Airport name": "Nanuque Airport[1]",
+    "Location served": "Nanuque, Minas Gerais, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NNX",
+    "ICAO": "WRLF",
+    "Airport name": "Nunukan Airport",
+    "Location served": "Nunukan, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NNY",
+    "ICAO": "ZHNY",
+    "Airport name": "Nanyang Jiangying Airport",
+    "Location served": "Nanyang, Henan, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NOA",
+    "ICAO": "YSNW",
+    "Airport name": "NAS Nowra[1]",
+    "Location served": "Nowra, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NOB",
+    "ICAO": "MRNS",
+    "Airport name": "Nosara Airport",
+    "Location served": "Nosara, Costa Rica",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NOC",
+    "ICAO": "EIKN",
+    "Airport name": "Ireland West Airport Knock",
+    "Location served": "Knock, Ireland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NOD",
+    "ICAO": "EDWS",
+    "Airport name": "Norddeich Airport",
+    "Location served": "Norden, Lower Saxony, Germany",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NOG",
+    "ICAO": "MMNG",
+    "Airport name": "Nogales International Airport",
+    "Location served": "Nogales, Sonora, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NOI",
+    "ICAO": "",
+    "Airport name": "Novorossiysk Airport[1]",
+    "Location served": "Novorossiysk, Krasnodar Krai, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NOJ",
+    "ICAO": "USRO",
+    "Airport name": "Noyabrsk Airport",
+    "Location served": "Noyabrsk, Yamalo-Nenets Autonomous Okrug, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NOK",
+    "ICAO": "SWXV",
+    "Airport name": "Nova Xavantina Airport[1]",
+    "Location served": "Nova Xavantina, Mato Grosso, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NOM",
+    "ICAO": "ATNR",
+    "Airport name": "Nomad River Airport[1]",
+    "Location served": "Nomad River, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NON",
+    "ICAO": "NGTO",
+    "Airport name": "Nonouti Airport[1]",
+    "Location served": "Nonouti, Kiribati",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NOO",
+    "ICAO": "",
+    "Airport name": "Naoro Airport[1]",
+    "Location served": "Naoro, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NOP",
+    "ICAO": "LTCM",
+    "Airport name": "Sinop Airport",
+    "Location served": "Sinop, Turkey",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NOR",
+    "ICAO": "BINF",
+    "Airport name": "Norðfjörður Airport[1]",
+    "Location served": "Nordfjordur, Iceland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NOS",
+    "ICAO": "FMNN",
+    "Airport name": "Fascene Airport[1]",
+    "Location served": "Nosy Be, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NOT",
+    "ICAO": "KDVO",
+    "Airport name": "Marin County Airport (Gnoss Field) (FAA: DVO)",
+    "Location served": "Novato, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NOU",
+    "ICAO": "NWWW",
+    "Airport name": "La Tontouta International Airport",
+    "Location served": "Nouméa, New Caledonia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NOV",
+    "ICAO": "FNHU",
+    "Airport name": "Albano Machado Airport",
+    "Location served": "Huambo, Angola",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NOZ",
+    "ICAO": "UNWW",
+    "Airport name": "Spichenkovo Airport",
+    "Location served": "Novokuznetsk, Kemerovo Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NPA",
+    "ICAO": "KNPA",
+    "Airport name": "NAS Pensacola (Forrest Sherman Field)",
+    "Location served": "Pensacola, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NPE",
+    "ICAO": "NZNR",
+    "Airport name": "Hawke's Bay Airport",
+    "Location served": "Napier / Hastings, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NPG",
+    "ICAO": "",
+    "Airport name": "Nipa Airport[1]",
+    "Location served": "Nipa, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NPH",
+    "ICAO": "",
+    "Airport name": "Nephi Municipal Airport (FAA: U14)",
+    "Location served": "Nephi, Utah, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NPL",
+    "ICAO": "NZNP",
+    "Airport name": "New Plymouth Airport",
+    "Location served": "New Plymouth, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NPO",
+    "ICAO": "WIOG",
+    "Airport name": "Nanga Pinoh Airport[1]",
+    "Location served": "Nanga Pinoh, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NPP",
+    "ICAO": "",
+    "Airport name": "Napperby Airport[1]",
+    "Location served": "Napperby, Northern Territory, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NPR",
+    "ICAO": "SJNP",
+    "Airport name": "Novo Progresso Airport[1]",
+    "Location served": "Novo Progresso, Pará, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NPT",
+    "ICAO": "KUUU",
+    "Airport name": "Newport State Airport (FAA: UUU)",
+    "Location served": "Newport, Rhode Island, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NPU",
+    "ICAO": "",
+    "Airport name": "San Pedro de Urabá Airport[1]",
+    "Location served": "San Pedro de Urabá, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NPY",
+    "ICAO": "HTMP",
+    "Airport name": "Mpanda Airport",
+    "Location served": "Mpanda, Katavi Region, Tanzania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NQA",
+    "ICAO": "KNQA",
+    "Airport name": "Millington Regional Jetport",
+    "Location served": "Millington, Tennessee, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NQI",
+    "ICAO": "KNQI",
+    "Airport name": "NAS Kingsville",
+    "Location served": "Kingsville, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NQL",
+    "ICAO": "SWNQ",
+    "Airport name": "Niquelândia Airport[1]",
+    "Location served": "Niquelândia, Goiás, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NQN",
+    "ICAO": "SAZN",
+    "Airport name": "Presidente Perón International Airport",
+    "Location served": "Neuquén, Neuquén, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NQT",
+    "ICAO": "EGBN",
+    "Airport name": "Nottingham Airport[1]",
+    "Location served": "Nottingham, England, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NQU",
+    "ICAO": "SKNQ",
+    "Airport name": "Reyes Murillo Airport",
+    "Location served": "Nuquí, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NQX",
+    "ICAO": "KNQX",
+    "Airport name": "NAS Key West (Boca Chica Field)",
+    "Location served": "Key West, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NQY",
+    "ICAO": "EGDG",
+    "Airport name": "Newquay Airport",
+    "Location served": "Newquay, England, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NQZ",
+    "ICAO": "UACC",
+    "Airport name": "Nursultan Nazarbayev International Airport (since June 8, 2020)",
+    "Location served": "Nur-Sultan, Kazakhstan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NRA",
+    "ICAO": "YNAR",
+    "Airport name": "Narrandera Airport[1]",
+    "Location served": "Narrandera, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NRB",
+    "ICAO": "KNRB",
+    "Airport name": "NS Mayport (Admiral David L. McDonald Field)",
+    "Location served": "Mayport, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NRC",
+    "ICAO": "KNRC",
+    "Airport name": "NASA Crows Landing Airport",
+    "Location served": "Crows Landing, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NRD",
+    "ICAO": "EDWY",
+    "Airport name": "Norderney Airport",
+    "Location served": "Norderney, Lower Saxony, Germany",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NRE",
+    "ICAO": "WAPG",
+    "Airport name": "Namrole Airport",
+    "Location served": "Namrole, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NRG",
+    "ICAO": "YNRG",
+    "Airport name": "Narrogin Airport",
+    "Location served": "Narrogin, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NRI",
+    "ICAO": "",
+    "Airport name": "Grand Lake Regional Airport[1] (FAA: 3O9)",
+    "Location served": "Afton, Oklahoma, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NRK",
+    "ICAO": "ESSP",
+    "Airport name": "Norrköping Airport",
+    "Location served": "Norrköping, Sweden",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NRL",
+    "ICAO": "EGEN",
+    "Airport name": "North Ronaldsay Airport[1]",
+    "Location served": "North Ronaldsay, Scotland, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NRM",
+    "ICAO": "GANK",
+    "Airport name": "Keibane Airport",
+    "Location served": "Nara, Mali",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NRN",
+    "ICAO": "EDLV",
+    "Airport name": "Weeze Airport (Niederrhein Airport)",
+    "Location served": "Weeze, North Rhine-Westphalia, Germany",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NRR",
+    "ICAO": "TJRV",
+    "Airport name": "José Aponte de la Torre Airport[1] (FAA: RVR)",
+    "Location served": "Ceiba, Puerto Rico, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NRS",
+    "ICAO": "KNRS",
+    "Airport name": "NOLF Imperial Beach (Ream Field)",
+    "Location served": "Imperial Beach, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NRT",
+    "ICAO": "RJAA",
+    "Airport name": "Narita International Airport",
+    "Location served": "Tokyo, Honshu, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NRY",
+    "ICAO": "",
+    "Airport name": "Newry Airport[1]",
+    "Location served": "Newry Station, Northern Territory, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NSB",
+    "ICAO": "",
+    "Airport name": "North Seaplane Base[1]",
+    "Location served": "Bimini, Bahamas",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NSE",
+    "ICAO": "KNSE",
+    "Airport name": "NAS Whiting Field – North",
+    "Location served": "Milton, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NSH",
+    "ICAO": "OINN",
+    "Airport name": "Noshahr Airport[1]",
+    "Location served": "Nowshahr, Iran",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NSI",
+    "ICAO": "FKYS",
+    "Airport name": "Yaoundé Nsimalen International Airport",
+    "Location served": "Yaoundé, Cameroon",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NSK",
+    "ICAO": "UOOO",
+    "Airport name": "Alykel Airport",
+    "Location served": "Norilsk, Krasnoyarsk Krai, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NSL",
+    "ICAO": "KDVP",
+    "Airport name": "Slayton Municipal Airport[1] (FAA: DVP)",
+    "Location served": "Slayton, Minnesota, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NSM",
+    "ICAO": "YNSM",
+    "Airport name": "Norseman Airport[1]",
+    "Location served": "Norseman, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NSN",
+    "ICAO": "NZNS",
+    "Airport name": "Nelson Airport",
+    "Location served": "Nelson, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NSO",
+    "ICAO": "YSCO",
+    "Airport name": "Scone Airport[1]",
+    "Location served": "Scone, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NST",
+    "ICAO": "VTSF",
+    "Airport name": "Nakhon Si Thammarat Airport",
+    "Location served": "Nakhon Si Thammarat, Thailand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NSV",
+    "ICAO": "YNSH",
+    "Airport name": "Noosa Airport[1]",
+    "Location served": "Noosaville, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NSY",
+    "ICAO": "LICZ",
+    "Airport name": "Naval Air Station Sigonella",
+    "Location served": "Catania, Sicily, Italy",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NTA",
+    "ICAO": "",
+    "Airport name": "Natadola Seaplane Base[1]",
+    "Location served": "Natadola Bay, Fiji",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NTB",
+    "ICAO": "ENNO",
+    "Airport name": "Notodden Airport, Tuven",
+    "Location served": "Notodden, Norway",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NTC",
+    "ICAO": "",
+    "Airport name": "Santa Carolina Airport[1]",
+    "Location served": "Santa Carolina, Mozambique",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NTD",
+    "ICAO": "KNTD",
+    "Airport name": "NAS Point Mugu (Naval Base Ventura County)",
+    "Location served": "Point Mugu, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NTE",
+    "ICAO": "LFRS",
+    "Airport name": "Nantes Atlantique Airport",
+    "Location served": "Nantes, Pays de la Loire, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NTG",
+    "ICAO": "ZSNT",
+    "Airport name": "Nantong Xingdong Airport",
+    "Location served": "Nantong, Jiangsu, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NTI",
+    "ICAO": "",
+    "Airport name": "Stenkol Airport[1]",
+    "Location served": "Bintuni, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NTJ",
+    "ICAO": "",
+    "Airport name": "Manti-Ephraim Airport (FAA: 41U)",
+    "Location served": "Manti, Utah, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NTL",
+    "ICAO": "YWLM",
+    "Airport name": "Newcastle Airport / RAAF Base Williamtown",
+    "Location served": "Newcastle, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NTM",
+    "ICAO": "SNRW",
+    "Airport name": "Miracema do Tocantins Airport[1]",
+    "Location served": "Miracema do Tocantins, Tocantins, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NTN",
+    "ICAO": "YNTN",
+    "Airport name": "Normanton Airport[1]",
+    "Location served": "Normanton, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NTO",
+    "ICAO": "GVAN",
+    "Airport name": "Agostinho Neto Airport",
+    "Location served": "Santo Antão, Cape Verde",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NTQ",
+    "ICAO": "RJNW",
+    "Airport name": "Noto Airport[1]",
+    "Location served": "Wajima, Honshu, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NTR",
+    "ICAO": "MMAN",
+    "Airport name": "Del Norte International Airport[1]",
+    "Location served": "Monterrey, Nuevo León, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NTT",
+    "ICAO": "NFTP",
+    "Airport name": "Niuatoputapu Airport",
+    "Location served": "Niuatoputapu, Tonga",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NTU",
+    "ICAO": "KNTU",
+    "Airport name": "NAS Oceana (Apollo Soucek Field)",
+    "Location served": "Virginia Beach, Virginia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NTX",
+    "ICAO": "WION",
+    "Airport name": "Ranai Airport",
+    "Location served": "Natuna Islands, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NTY",
+    "ICAO": "FAPN",
+    "Airport name": "Pilanesberg International Airport",
+    "Location served": "Sun City, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NUA",
+    "ICAO": "",
+    "Airport name": "Gregory Lake Seaplane Base[1]",
+    "Location served": "Nuwara Eliya, Sri Lanka",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NUB",
+    "ICAO": "YNUM",
+    "Airport name": "Numbulwar Airport[1]",
+    "Location served": "Numbulwar, Northern Territory, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NUD",
+    "ICAO": "HSNH",
+    "Airport name": "En Nahud Airport[1]",
+    "Location served": "En Nahud, Sudan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NUE",
+    "ICAO": "EDDN",
+    "Airport name": "Nuremberg Airport",
+    "Location served": "Nuremberg, Bavaria, Germany",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NUF",
+    "ICAO": "",
+    "Airport name": "Castlereigh Reservoir Seaplane Base[1]",
+    "Location served": "Hatton, Sri Lanka",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NUG",
+    "ICAO": "",
+    "Airport name": "Nuguria Airstrip[1]",
+    "Location served": "Nuguria, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NUH",
+    "ICAO": "",
+    "Airport name": "Nunchía Airport[1]",
+    "Location served": "Nunchía, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NUI",
+    "ICAO": "PAQT",
+    "Airport name": "Nuiqsut Airport (FAA: AQT)",
+    "Location served": "Nuiqsut, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NUJ",
+    "ICAO": "OIHS",
+    "Airport name": "Hamedan Air Base[1] (Nogeh Airport)",
+    "Location served": "Hamadan, Iran",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NUK",
+    "ICAO": "NTGW",
+    "Airport name": "Nukutavake Airport",
+    "Location served": "Nukutavake, Tuamotus, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NUL",
+    "ICAO": "PANU",
+    "Airport name": "Nulato Airport",
+    "Location served": "Nulato, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NUM",
+    "ICAO": "OENN",
+    "Airport name": "Neom Bay Airport",
+    "Location served": "Neom, Saudi Arabia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NUN",
+    "ICAO": "KNUN",
+    "Airport name": "NOLF Saufley Field",
+    "Location served": "Pensacola, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NUP",
+    "ICAO": "",
+    "Airport name": "Nunapitchuk Airport (FAA: 16A)",
+    "Location served": "Nunapitchuk, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NUQ",
+    "ICAO": "KNUQ",
+    "Airport name": "Moffett Federal Airfield",
+    "Location served": "Mountain View, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NUR",
+    "ICAO": "YNUB",
+    "Airport name": "Nullabor Motel Airport[1]",
+    "Location served": "Nullarbor, South Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NUS",
+    "ICAO": "NVSP",
+    "Airport name": "Norsup Airport",
+    "Location served": "Norsup, Malakula, Vanuatu",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NUT",
+    "ICAO": "",
+    "Airport name": "Nutuve Airport[1]",
+    "Location served": "Nutuve, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NUU",
+    "ICAO": "HKNK",
+    "Airport name": "Nakuru Airport[1]",
+    "Location served": "Nakuru, Kenya",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NUW",
+    "ICAO": "KNUW",
+    "Airport name": "NAS Whidbey Island (Ault Field)",
+    "Location served": "Oak Harbor, Washington, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NUX",
+    "ICAO": "USMU",
+    "Airport name": "Novy Urengoy Airport",
+    "Location served": "Novy Urengoy, Yamalo-Nenets Autonomous Okrug, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NVA",
+    "ICAO": "SKNV",
+    "Airport name": "Benito Salas Airport",
+    "Location served": "Neiva, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NVD",
+    "ICAO": "KNVD",
+    "Airport name": "Nevada Municipal Airport",
+    "Location served": "Nevada, Missouri, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NVG",
+    "ICAO": "MNNG",
+    "Airport name": "Nueva Guinea Airport[1]",
+    "Location served": "Nueva Guinea, Nicaragua",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NVI",
+    "ICAO": "UTSA",
+    "Airport name": "Navoi International Airport[1]",
+    "Location served": "Navoiy, Uzbekistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NVK",
+    "ICAO": "ENNK",
+    "Airport name": "Narvik Airport, Framnes",
+    "Location served": "Narvik, Norway",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NVN",
+    "ICAO": "",
+    "Airport name": "Nervino Airport (FAA: O02)",
+    "Location served": "Beckwourth, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NVP",
+    "ICAO": "",
+    "Airport name": "Novo Aripuanã Airport[1]",
+    "Location served": "Novo Aripuanã, Amazonas, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NVR",
+    "ICAO": "ULNN",
+    "Airport name": "Novgorod Airport",
+    "Location served": "Veliky Novgorod, Novgorod Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NVS",
+    "ICAO": "LFQG",
+    "Airport name": "Nevers - Fourchambault Airport[1]",
+    "Location served": "Nevers, Burgundy, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NVT",
+    "ICAO": "SBNF",
+    "Airport name": "Navegantes–Ministro Victor Konder International Airport",
+    "Location served": "Navegantes, Santa Catarina, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NVY",
+    "ICAO": "VONV",
+    "Airport name": "Neyveli Airport",
+    "Location served": "Neyveli, Tamil Nadu, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NWA",
+    "ICAO": "FMCI",
+    "Airport name": "Mohéli Bandar Es Eslam Airport[1]",
+    "Location served": "Mohéli, Comoros",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NWH",
+    "ICAO": "",
+    "Airport name": "Parlin Field (FAA: 2B3)",
+    "Location served": "Newport, New Hampshire, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NWI",
+    "ICAO": "EGSH",
+    "Airport name": "Norwich International Airport",
+    "Location served": "Norwich, England, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NWT",
+    "ICAO": "",
+    "Airport name": "Nowata Airport[1]",
+    "Location served": "Nowata, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NYA",
+    "ICAO": "USHN",
+    "Airport name": "Nyagan Airport",
+    "Location served": "Nyagan, Khanty-Mansi Autonomous Okrug, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NYC[1]",
+    "ICAO": "",
+    "Airport name": "metropolitan area2",
+    "Location served": "New York City, New York, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NYE",
+    "ICAO": "HKNI",
+    "Airport name": "Nyeri Airport[1]",
+    "Location served": "Nyeri, Kenya",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NYG",
+    "ICAO": "KNYG",
+    "Airport name": "MCAF Quantico (Turner Field)",
+    "Location served": "Quantico, Virginia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NYI",
+    "ICAO": "DGSN",
+    "Airport name": "Sunyani Airport",
+    "Location served": "Sunyani, Ghana",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NYK",
+    "ICAO": "HKNY",
+    "Airport name": "Nanyuki Airport",
+    "Location served": "Nanyuki, Kenya",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NYM",
+    "ICAO": "USMM",
+    "Airport name": "Nadym Airport",
+    "Location served": "Nadym, Yamalo-Nenets Autonomous Okrug, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NYN",
+    "ICAO": "YNYN",
+    "Airport name": "Nyngan Airport[1]",
+    "Location served": "Nyngan, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NYS",
+    "ICAO": "",
+    "Airport name": "New York Skyports Seaplane Base",
+    "Location served": "New York City, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NYO",
+    "ICAO": "ESKN",
+    "Airport name": "Stockholm Skavsta Airport",
+    "Location served": "Stockholm / Nyköping, Sweden",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NYR",
+    "ICAO": "UENN",
+    "Airport name": "Nyurba Airport",
+    "Location served": "Nyurba, Yakutia, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NYT",
+    "ICAO": "VYNT",
+    "Airport name": "Naypyidaw Airport",
+    "Location served": "Naypyidaw (Nay Pyi Taw), Myanmar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NYU",
+    "ICAO": "VYBG",
+    "Airport name": "Nyaung U Airport",
+    "Location served": "Bagan / Nyaung-U, Myanmar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NYW",
+    "ICAO": "VYMY",
+    "Airport name": "Monywa Airport[1]",
+    "Location served": "Monywa, Myanmar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NZA",
+    "ICAO": "FNZG",
+    "Airport name": "Nzagi Airport",
+    "Location served": "Nzagi, Angola",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NZC",
+    "ICAO": "SPZA",
+    "Airport name": "Maria Reiche Neuman Airport",
+    "Location served": "Nazca, Peru",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NZE",
+    "ICAO": "GUNZ",
+    "Airport name": "Nzérékoré Airport",
+    "Location served": "Nzérékoré, Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NZH",
+    "ICAO": "ZBMZ",
+    "Airport name": "Manzhouli Xijiao Airport[1]",
+    "Location served": "Manzhouli, Inner Mongolia, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NZL",
+    "ICAO": "",
+    "Airport name": "Zhalantun Chengjisihan Airport[1]",
+    "Location served": "Zhalantun, Inner Mongolia, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "NZY",
+    "ICAO": "KNZY",
+    "Airport name": "NAS North Island (Halsey Field)",
+    "Location served": "San Diego, California, United States",
+    "Time": "",
+    "DST": ""
+  }
+]

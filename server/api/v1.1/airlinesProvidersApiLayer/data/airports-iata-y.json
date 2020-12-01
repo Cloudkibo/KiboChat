@@ -1,0 +1,3642 @@
+[
+  {
+    "IATA": "YAA",
+    "ICAO": "",
+    "Airport name": "Anahim Lake Airport (TC: CAJ4)",
+    "Location served": "Anahim Lake, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YAB",
+    "ICAO": "CYAB",
+    "Airport name": "Arctic Bay Airport (TC: CJX7)",
+    "Location served": "Arctic Bay, Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YAC",
+    "ICAO": "CYAC",
+    "Airport name": "Cat Lake Airport",
+    "Location served": "Cat Lake, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YAD",
+    "ICAO": "",
+    "Airport name": "Moose Lake Airport (TC: CJB4)",
+    "Location served": "Moose Lake, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YAG",
+    "ICAO": "CYAG",
+    "Airport name": "Fort Frances Municipal Airport",
+    "Location served": "Fort Frances, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YAH",
+    "ICAO": "CYAH",
+    "Airport name": "La Grande-4 Airport",
+    "Location served": "La Grande-4, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YAI",
+    "ICAO": "SCCH",
+    "Airport name": "General Bernardo O'Higgins Airport",
+    "Location served": "Chillán, Chile",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YAJ",
+    "ICAO": "",
+    "Airport name": "Lyall Harbour Seaplane Base",
+    "Location served": "Saturna Island, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YAK",
+    "ICAO": "PAYA",
+    "Airport name": "Yakutat Airport",
+    "Location served": "Yakutat, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YAL",
+    "ICAO": "CYAL",
+    "Airport name": "Alert Bay Airport",
+    "Location served": "Alert Bay, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YAM",
+    "ICAO": "CYAM",
+    "Airport name": "Sault Ste. Marie Airport",
+    "Location served": "Sault Ste. Marie, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YAN",
+    "ICAO": "FZIR",
+    "Airport name": "Yangambi Airport",
+    "Location served": "Yangambi, Democratic Republic of the Congo",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YAO",
+    "ICAO": "FKKY",
+    "Airport name": "Yaoundé Airport",
+    "Location served": "Yaoundé, Cameroon",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YAP",
+    "ICAO": "PTYA",
+    "Airport name": "Yap International Airport (FAA: T11)",
+    "Location served": "Yap, Federated States of Micronesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YAQ",
+    "ICAO": "",
+    "Airport name": "Maple Bay Seaplane Base",
+    "Location served": "Maple Bay, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YAR",
+    "ICAO": "CYAD",
+    "Airport name": "La Grande-3 Airport",
+    "Location served": "La Grande-3, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YAS",
+    "ICAO": "NFSW",
+    "Airport name": "Yasawa Island Airport",
+    "Location served": "Yasawa, Fiji",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YAT",
+    "ICAO": "CYAT",
+    "Airport name": "Attawapiskat Airport",
+    "Location served": "Attawapiskat, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YAU",
+    "ICAO": "",
+    "Airport name": "Kattiniq/Donaldson Airport (TC: CTP9)",
+    "Location served": "Raglan Mine, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YAV",
+    "ICAO": "",
+    "Airport name": "Mayne Island Water Aerodrome (Miner's Bay Seaplane Base) (TC: CAW7)",
+    "Location served": "Mayne Island, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YAX",
+    "ICAO": "",
+    "Airport name": "Angling Lake/Wapekeka Airport[1] (TC: CKB6)",
+    "Location served": "Wapekeka, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YAY",
+    "ICAO": "CYAY",
+    "Airport name": "St. Anthony Airport",
+    "Location served": "St. Anthony, Newfoundland and Labrador, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YAZ",
+    "ICAO": "CYAZ",
+    "Airport name": "Tofino/Long Beach Airport",
+    "Location served": "Tofino, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YBA",
+    "ICAO": "CYBA",
+    "Airport name": "Banff Airport",
+    "Location served": "Banff, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YBB",
+    "ICAO": "CYBB",
+    "Airport name": "Kugaaruk Airport",
+    "Location served": "Kugaaruk, Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YBC",
+    "ICAO": "CYBC",
+    "Airport name": "Baie-Comeau Airport",
+    "Location served": "Baie-Comeau, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YBE",
+    "ICAO": "CYBE",
+    "Airport name": "Uranium City Airport",
+    "Location served": "Uranium City, Saskatchewan, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YBF",
+    "ICAO": "",
+    "Airport name": "Bamfield Water Aerodrome (TC: CAE9)",
+    "Location served": "Bamfield, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YBG",
+    "ICAO": "CYBG",
+    "Airport name": "Canadian Forces Base Bagotville",
+    "Location served": "La Baie (Bagotville), Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YBH",
+    "ICAO": "CYBH",
+    "Airport name": "Bull Harbour Waterdrome",
+    "Location served": "Bull Harbour, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YBI",
+    "ICAO": "",
+    "Airport name": "Black Tickle Airport (TC: CCE4)",
+    "Location served": "Black Tickle, Newfoundland and Labrador, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YBJ",
+    "ICAO": "",
+    "Airport name": "Baie-Johan-Beetz Seaplane Base",
+    "Location served": "Baie-Johan-Beetz, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YBK",
+    "ICAO": "CYBK",
+    "Airport name": "Baker Lake Airport",
+    "Location served": "Baker Lake, Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YBL",
+    "ICAO": "CYBL",
+    "Airport name": "Campbell River Airport",
+    "Location served": "Campbell River, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YBO",
+    "ICAO": "",
+    "Airport name": "Bob Quinn Lake Airport (TC: CBW4)",
+    "Location served": "Bob Quinn Lake, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YBP",
+    "ICAO": "ZUYB",
+    "Airport name": "Yibin Wuliangye Airport",
+    "Location served": "Yibin, Sichuan, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YBQ",
+    "ICAO": "",
+    "Airport name": "Telegraph Harbour Seaplane Base",
+    "Location served": "Thetis Island, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YBR",
+    "ICAO": "CYBR",
+    "Airport name": "Brandon Municipal Airport (McGill Field)",
+    "Location served": "Brandon, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YBS",
+    "ICAO": "",
+    "Airport name": "Opapimiskan Lake Airport[1] (TC: CKM8)",
+    "Location served": "Opapimiskan Lake, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YBT",
+    "ICAO": "CYBT",
+    "Airport name": "Brochet Airport",
+    "Location served": "Brochet, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YBV",
+    "ICAO": "CYBV",
+    "Airport name": "Berens River Airport",
+    "Location served": "Berens River, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YBW",
+    "ICAO": "",
+    "Airport name": "Bedwell Harbour Water Aerodrome (TC: CAB3)",
+    "Location served": "Bedwell Harbour, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YBX",
+    "ICAO": "CYBX",
+    "Airport name": "Lourdes-de-Blanc-Sablon Airport",
+    "Location served": "Blanc-Sablon, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YBY",
+    "ICAO": "CYBF",
+    "Airport name": "Bonnyville Airport",
+    "Location served": "Bonnyville, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YCA",
+    "ICAO": "",
+    "Airport name": "Courtenay Airpark (TC: CAH3)",
+    "Location served": "Courtenay, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YCB",
+    "ICAO": "CYCB",
+    "Airport name": "Cambridge Bay Airport",
+    "Location served": "Cambridge Bay, Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YCC",
+    "ICAO": "CYCC",
+    "Airport name": "Cornwall Regional Airport",
+    "Location served": "Cornwall, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YCD",
+    "ICAO": "CYCD",
+    "Airport name": "Nanaimo Airport",
+    "Location served": "Nanaimo, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YCE",
+    "ICAO": "CYCE",
+    "Airport name": "Centralia/James T. Field Memorial Aerodrome",
+    "Location served": "Centralia, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YCF",
+    "ICAO": "",
+    "Airport name": "Cortes Island Aerodrome (TC: CCI9)",
+    "Location served": "Cortes Island, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YCG",
+    "ICAO": "CYCG",
+    "Airport name": "West Kootenay Regional Airport (Castlegar Airport)",
+    "Location served": "Castlegar, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YCH",
+    "ICAO": "CYCH",
+    "Airport name": "Miramichi Airport",
+    "Location served": "Miramichi, New Brunswick, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YCK",
+    "ICAO": "CYVL",
+    "Airport name": "Colville Lake/Tommy Kochon Aerodrome",
+    "Location served": "Colville Lake, Northwest Territories, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YCL",
+    "ICAO": "CYCL",
+    "Airport name": "Charlo Airport",
+    "Location served": "Charlo, New Brunswick, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YCM",
+    "ICAO": "CYSN",
+    "Airport name": "St. Catharines/Niagara District Airport",
+    "Location served": "St. Catharines, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YCN",
+    "ICAO": "CYCN",
+    "Airport name": "Cochrane Aerodrome",
+    "Location served": "Cochrane, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YCO",
+    "ICAO": "CYCO",
+    "Airport name": "Kugluktuk Airport",
+    "Location served": "Kugluktuk, Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YCQ",
+    "ICAO": "CYCQ",
+    "Airport name": "Chetwynd Airport",
+    "Location served": "Chetwynd, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YCR",
+    "ICAO": "CYCR",
+    "Airport name": "Cross Lake (Charlie Sinclair Memorial) Airport",
+    "Location served": "Cross Lake, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YCS",
+    "ICAO": "CYCS",
+    "Airport name": "Chesterfield Inlet Airport",
+    "Location served": "Chesterfield Inlet, Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YCT",
+    "ICAO": "CYCT",
+    "Airport name": "Coronation Airport",
+    "Location served": "Coronation, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YCU",
+    "ICAO": "ZBYC",
+    "Airport name": "Yuncheng Guangong Airport",
+    "Location served": "Yuncheng, Shanxi, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YCW",
+    "ICAO": "CYCW",
+    "Airport name": "Chilliwack Airport",
+    "Location served": "Chilliwack, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YCY",
+    "ICAO": "CYCY",
+    "Airport name": "Clyde River Airport",
+    "Location served": "Clyde River, Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YCZ",
+    "ICAO": "CYCZ",
+    "Airport name": "Fairmont Hot Springs Airport",
+    "Location served": "Fairmont Hot Springs, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YDA",
+    "ICAO": "CYDA",
+    "Airport name": "Dawson City Airport",
+    "Location served": "Dawson City, Yukon, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YDB",
+    "ICAO": "CYDB",
+    "Airport name": "Burwash Airport",
+    "Location served": "Burwash Landing, Yukon, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YDC",
+    "ICAO": "",
+    "Airport name": "Drayton Valley Industrial Airport (TC: CER3)",
+    "Location served": "Drayton Valley, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YDE",
+    "ICAO": "",
+    "Airport name": "Paradise River Airport (TC: CDF4)",
+    "Location served": "Paradise River, Newfoundland and Labrador, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YDF",
+    "ICAO": "CYDF",
+    "Airport name": "Deer Lake Regional Airport",
+    "Location served": "Deer Lake, Newfoundland and Labrador, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YDG",
+    "ICAO": "CYID",
+    "Airport name": "Digby/Annapolis Regional Airport",
+    "Location served": "Digby, Nova Scotia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YDJ",
+    "ICAO": "",
+    "Airport name": "Hatchet Lake Airport[1] (TC: CJL2)",
+    "Location served": "Hatchet Lake, Saskatchewan, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YDL",
+    "ICAO": "CYDL",
+    "Airport name": "Dease Lake Airport",
+    "Location served": "Dease Lake, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YDN",
+    "ICAO": "CYDN",
+    "Airport name": "Lt. Col W.G. (Billy) Barker VC Airport",
+    "Location served": "Dauphin, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YDO",
+    "ICAO": "CYDO",
+    "Airport name": "Dolbeau-Saint-Félicien Airport",
+    "Location served": "Dolbeau-Mistassini, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YDP",
+    "ICAO": "CYDP",
+    "Airport name": "Nain Airport",
+    "Location served": "Nain, Newfoundland and Labrador, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YDQ",
+    "ICAO": "CYDQ",
+    "Airport name": "Dawson Creek Airport",
+    "Location served": "Dawson Creek, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YDT",
+    "ICAO": "CZBB",
+    "Airport name": "Boundary Bay Airport",
+    "Location served": "Vancouver, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YDU",
+    "ICAO": "",
+    "Airport name": "Kasba Lake Airport[1] (TC: CJL8)",
+    "Location served": "Kasba Lake, Northwest Territories, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YDV",
+    "ICAO": "CZTA",
+    "Airport name": "Bloodvein River Airport",
+    "Location served": "Bloodvein, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YDW",
+    "ICAO": "",
+    "Airport name": "Obre Lake/North of Sixty Airport (TC: CKV4)",
+    "Location served": "Obre Lake, Northwest Territories, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YEA",
+    "ICAO": "",
+    "Airport name": "metropolitan area1",
+    "Location served": "Edmonton, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YEB",
+    "ICAO": "",
+    "Airport name": "Bar River Airport[1] (TC: CPF2)",
+    "Location served": "Bar River, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YEC",
+    "ICAO": "RKTY",
+    "Airport name": "Yecheon Air Base",
+    "Location served": "Yecheon, South Korea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YEG",
+    "ICAO": "CYEG",
+    "Airport name": "Edmonton International Airport",
+    "Location served": "Edmonton, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YEI",
+    "ICAO": "LTBR",
+    "Airport name": "Yenişehir Airport",
+    "Location served": "Bursa, Turkey",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YEK",
+    "ICAO": "CYEK",
+    "Airport name": "Arviat Airport",
+    "Location served": "Arviat, Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YEL",
+    "ICAO": "CYEL",
+    "Airport name": "Elliot Lake Municipal Airport",
+    "Location served": "Elliot Lake, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YEM",
+    "ICAO": "CYEM",
+    "Airport name": "Manitowaning/Manitoulin East Municipal Airport",
+    "Location served": "Manitowaning, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YEN",
+    "ICAO": "CYEN",
+    "Airport name": "Estevan Regional Aerodrome",
+    "Location served": "Estevan, Saskatchewan, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YEO",
+    "ICAO": "EGDY",
+    "Airport name": "Royal Naval Air Station Yeovilton",
+    "Location served": "Yeovilton, England, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YEQ",
+    "ICAO": "",
+    "Airport name": "Yankisa Airport",
+    "Location served": "Yankisa, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YER",
+    "ICAO": "CYER",
+    "Airport name": "Fort Severn Airport",
+    "Location served": "Fort Severn, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YES",
+    "ICAO": "OISY",
+    "Airport name": "Yasuj Airport[1]",
+    "Location served": "Yasuj (Yasouj), Iran",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YET",
+    "ICAO": "CYET",
+    "Airport name": "Edson Airport",
+    "Location served": "Edson, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YEU",
+    "ICAO": "CYEU",
+    "Airport name": "Eureka Aerodrome",
+    "Location served": "Eureka, Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YEV",
+    "ICAO": "CYEV",
+    "Airport name": "Inuvik (Mike Zubko) Airport",
+    "Location served": "Inuvik, Northwest Territories, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YEY",
+    "ICAO": "CYEY",
+    "Airport name": "Amos/Magny Airport",
+    "Location served": "Amos, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YFA",
+    "ICAO": "CYFA",
+    "Airport name": "Fort Albany Airport",
+    "Location served": "Fort Albany, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YFB",
+    "ICAO": "CYFB",
+    "Airport name": "Iqaluit Airport",
+    "Location served": "Iqaluit, Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YFC",
+    "ICAO": "CYFC",
+    "Airport name": "Fredericton International Airport",
+    "Location served": "Fredericton, New Brunswick, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YFE",
+    "ICAO": "CYFE",
+    "Airport name": "Forestville Airport",
+    "Location served": "Forestville, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YFG",
+    "ICAO": "",
+    "Airport name": "Fontanges Airport (TC: CTU2)",
+    "Location served": "Fontanges, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YFH",
+    "ICAO": "CYFH",
+    "Airport name": "Fort Hope Airport",
+    "Location served": "Eabametoong (Fort Hope), Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YFI",
+    "ICAO": "",
+    "Airport name": "Fort MacKay/Firebag Aerodrome[1] (TC: CFG6)",
+    "Location served": "Fort McKay, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YFJ",
+    "ICAO": "CYWE",
+    "Airport name": "Wekweètì Airport[1] (Snare Lake Airport) (TC: CFJ7)",
+    "Location served": "Wekweeti, Northwest Territories, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YFL",
+    "ICAO": "",
+    "Airport name": "Fort Reliance Water Aerodrome (CJN8)",
+    "Location served": "Fort Reliance, Northwest Territories, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YFO",
+    "ICAO": "CYFO",
+    "Airport name": "Flin Flon Airport",
+    "Location served": "Flin Flon, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YFR",
+    "ICAO": "CYFR",
+    "Airport name": "Fort Resolution Airport",
+    "Location served": "Fort Resolution, Northwest Territories, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YFS",
+    "ICAO": "CYFS",
+    "Airport name": "Fort Simpson Airport",
+    "Location served": "Fort Simpson, Northwest Territories, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YFT",
+    "ICAO": "",
+    "Airport name": "Taipa Ferry Terminal",
+    "Location served": "Taipa, Macau",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YFX",
+    "ICAO": "",
+    "Airport name": "St. Lewis (Fox Harbour) Airport (TC: CCK4)",
+    "Location served": "St. Lewis, Newfoundland and Labrador, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YGB",
+    "ICAO": "CYGB",
+    "Airport name": "Texada/Gillies Bay Airport",
+    "Location served": "Gillies Bay, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YGC",
+    "ICAO": "",
+    "Airport name": "Grande Cache Airport (TC: CEQ5)",
+    "Location served": "Grande Cache, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YGE",
+    "ICAO": "",
+    "Airport name": "Gorge Harbour Water Aerodrome",
+    "Location served": "Gorge Harbour, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YGG",
+    "ICAO": "",
+    "Airport name": "Ganges Water Aerodrome (TC: CAX6)",
+    "Location served": "Ganges, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YGH",
+    "ICAO": "CYGH",
+    "Airport name": "Fort Good Hope Airport",
+    "Location served": "Fort Good Hope, Northwest Territories, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YGJ",
+    "ICAO": "RJOH",
+    "Airport name": "Miho–Yonago Airport",
+    "Location served": "Yonago, Honshu, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YGK",
+    "ICAO": "CYGK",
+    "Airport name": "Kingston/Norman Rogers Airport",
+    "Location served": "Kingston, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YGL",
+    "ICAO": "CYGL",
+    "Airport name": "La Grande Rivière Airport",
+    "Location served": "Radisson, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YGM",
+    "ICAO": "CYGM",
+    "Airport name": "Gimli Industrial Park Airport",
+    "Location served": "Gimli, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YGN",
+    "ICAO": "",
+    "Airport name": "Greenway Sound Water Aerodrome",
+    "Location served": "Greenway Sound, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YGO",
+    "ICAO": "CYGO",
+    "Airport name": "Gods Lake Narrows Airport",
+    "Location served": "Gods Lake Narrows, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YGP",
+    "ICAO": "CYGP",
+    "Airport name": "Michel-Pouliot Gaspé Airport",
+    "Location served": "Gaspé, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YGQ",
+    "ICAO": "CYGQ",
+    "Airport name": "Geraldton (Greenstone Regional) Airport",
+    "Location served": "Greenstone (Geraldton), Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YGR",
+    "ICAO": "CYGR",
+    "Airport name": "Îles-de-la-Madeleine Airport",
+    "Location served": "Les Îles-de-la-Madeleine, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YGT",
+    "ICAO": "CYGT",
+    "Airport name": "Igloolik Airport",
+    "Location served": "Igloolik, Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YGV",
+    "ICAO": "CYGV",
+    "Airport name": "Havre Saint-Pierre Airport",
+    "Location served": "Havre-Saint-Pierre, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YGW",
+    "ICAO": "CYGW",
+    "Airport name": "Kuujjuarapik Airport",
+    "Location served": "Kuujjuarapik, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YGX",
+    "ICAO": "CYGX",
+    "Airport name": "Gillam Airport",
+    "Location served": "Gillam, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YGZ",
+    "ICAO": "CYGZ",
+    "Airport name": "Grise Fiord Airport",
+    "Location served": "Grise Fiord, Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YHA",
+    "ICAO": "",
+    "Airport name": "Port Hope Simpson Airport (TC: CCP4)",
+    "Location served": "Port Hope Simpson, Newfoundland and Labrador, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YHB",
+    "ICAO": "CYHB",
+    "Airport name": "Hudson Bay Airport",
+    "Location served": "Hudson Bay, Saskatchewan, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YHC",
+    "ICAO": "",
+    "Airport name": "Hakai Passage Water Aerodrome",
+    "Location served": "Hakai Passage, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YHD",
+    "ICAO": "CYHD",
+    "Airport name": "Dryden Regional Airport",
+    "Location served": "Dryden, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YHE",
+    "ICAO": "CYHE",
+    "Airport name": "Hope Aerodrome",
+    "Location served": "Hope, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YHF",
+    "ICAO": "CYHF",
+    "Airport name": "Hearst (René Fontaine) Municipal Airport",
+    "Location served": "Hearst, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YHG",
+    "ICAO": "",
+    "Airport name": "Charlottetown Airport (TC: CCH4)",
+    "Location served": "Charlottetown, Newfoundland and Labrador, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YHH",
+    "ICAO": "",
+    "Airport name": "Campbell River Water Aerodrome (TC: CAE3)",
+    "Location served": "Campbell River, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YHI",
+    "ICAO": "CYHI",
+    "Airport name": "Ulukhaktok/Holman Airport",
+    "Location served": "Ulukhaktok, Northwest Territories, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YHK",
+    "ICAO": "CYHK",
+    "Airport name": "Gjoa Haven Airport",
+    "Location served": "Gjoa Haven, Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YHM",
+    "ICAO": "CYHM",
+    "Airport name": "John C. Munro Hamilton International Airport",
+    "Location served": "Hamilton, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YHN",
+    "ICAO": "CYHN",
+    "Airport name": "Hornepayne Municipal Airport",
+    "Location served": "Hornepayne, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YHO",
+    "ICAO": "CYHO",
+    "Airport name": "Hopedale Airport",
+    "Location served": "Hopedale, Newfoundland and Labrador, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YHP",
+    "ICAO": "CYHP",
+    "Airport name": "Poplar Hill Airport",
+    "Location served": "Poplar Hill, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YHR",
+    "ICAO": "CYHR",
+    "Airport name": "Chevery Airport",
+    "Location served": "Chevery, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YHS",
+    "ICAO": "",
+    "Airport name": "Sechelt Aerodrome (TC: CAP3)",
+    "Location served": "Sechelt, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YHT",
+    "ICAO": "CYHT",
+    "Airport name": "Haines Junction Airport",
+    "Location served": "Haines Junction, Yukon, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YHU",
+    "ICAO": "CYHU",
+    "Airport name": "Montréal/Saint-Hubert Airport",
+    "Location served": "Montreal, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YHY",
+    "ICAO": "CYHY",
+    "Airport name": "Hay River/Merlyn Carter Airport",
+    "Location served": "Hay River, Northwest Territories, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YHZ",
+    "ICAO": "CYHZ",
+    "Airport name": "Halifax Stanfield International Airport",
+    "Location served": "Halifax, Nova Scotia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YIA",
+    "ICAO": "WAHI",
+    "Airport name": "Yogyakarta International Airport",
+    "Location served": "Kulon Progo Regency, Special Region of Yogyakarta, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YIB",
+    "ICAO": "CYIB",
+    "Airport name": "Atikokan Municipal Airport",
+    "Location served": "Atikokan, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YIC",
+    "ICAO": "ZSYC",
+    "Airport name": "Yichun Mingyueshan Airport",
+    "Location served": "Yichun, Jiangxi, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YIE",
+    "ICAO": "ZBES",
+    "Airport name": "Arxan Yi'ershi Airport",
+    "Location served": "Arxan (Aershan), Inner Mongolia, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YIF",
+    "ICAO": "CYIF",
+    "Airport name": "Saint-Augustin Airport",
+    "Location served": "Saint-Augustin / Pakuashipi, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YIG",
+    "ICAO": "",
+    "Airport name": "Big Bay Water Aerodrome (TC: CAF6)",
+    "Location served": "Stuart Island, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YIH",
+    "ICAO": "ZHYC",
+    "Airport name": "Yichang Sanxia Airport",
+    "Location served": "Yichang, Hubei, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YIK",
+    "ICAO": "CYIK",
+    "Airport name": "Ivujivik Airport",
+    "Location served": "Ivujivik, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YIN",
+    "ICAO": "ZWYN",
+    "Airport name": "Yining Airport",
+    "Location served": "Yining (Ghulja), Xinjiang, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YIO",
+    "ICAO": "CYIO",
+    "Airport name": "Pond Inlet Airport",
+    "Location served": "Pond Inlet, Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YIP",
+    "ICAO": "KYIP",
+    "Airport name": "Willow Run Airport",
+    "Location served": "Detroit, Michigan, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YIV",
+    "ICAO": "CYIV",
+    "Airport name": "Island Lake Airport (Garden Hill Airport)",
+    "Location served": "Island Lake / Garden Hill, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YIW",
+    "ICAO": "ZSYW",
+    "Airport name": "Yiwu Airport",
+    "Location served": "Yiwu, Zhejiang, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YJA",
+    "ICAO": "CYJA",
+    "Airport name": "Jasper Airport",
+    "Location served": "Jasper, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YJF",
+    "ICAO": "CYJF",
+    "Airport name": "Fort Liard Airport",
+    "Location served": "Fort Liard, Northwest Territories, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YJN",
+    "ICAO": "CYJN",
+    "Airport name": "Saint-Jean Airport",
+    "Location served": "Saint-Jean-sur-Richelieu, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YJP",
+    "ICAO": "",
+    "Airport name": "Hinton/Jasper-Hinton Airport (TC: CEC4)",
+    "Location served": "Hinton, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YJS",
+    "ICAO": "ZKSE",
+    "Airport name": "Samjiyon Airport[1]",
+    "Location served": "Samjiyon, North Korea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YJT",
+    "ICAO": "CYJT",
+    "Airport name": "Stephenville International Airport",
+    "Location served": "Stephenville, Newfoundland and Labrador, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YKA",
+    "ICAO": "CYKA",
+    "Airport name": "Kamloops Airport",
+    "Location served": "Kamloops, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YKC",
+    "ICAO": "CYKC",
+    "Airport name": "Collins Bay Airport",
+    "Location served": "Collins Bay, Saskatchewan, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YKD",
+    "ICAO": "CYKM",
+    "Airport name": "Kincardine Municipal Airport",
+    "Location served": "Kincardine, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YKE",
+    "ICAO": "",
+    "Airport name": "Knee Lake Airport (TC: CJT3)",
+    "Location served": "Knee Lake, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YKF",
+    "ICAO": "CYKF",
+    "Airport name": "Region of Waterloo International Airport",
+    "Location served": "Kitchener / Cambridge / Waterloo, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YKG",
+    "ICAO": "CYAS",
+    "Airport name": "Kangirsuk Airport",
+    "Location served": "Kangirsuk, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YKH",
+    "ICAO": "ZYYK",
+    "Airport name": "Yingkou Lanqi Airport",
+    "Location served": "Yingkou, Liaoning, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YKJ",
+    "ICAO": "CYKJ",
+    "Airport name": "Key Lake Airport[1]",
+    "Location served": "Key Lake, Saskatchewan, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YKK",
+    "ICAO": "",
+    "Airport name": "Kitkatla Water Aerodrome (TC: CAP7)",
+    "Location served": "Kitkatla, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YKL",
+    "ICAO": "CYKL",
+    "Airport name": "Schefferville Airport",
+    "Location served": "Schefferville, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YKM",
+    "ICAO": "KYKM",
+    "Airport name": "Yakima Air Terminal (McAllister Field)",
+    "Location served": "Yakima, Washington, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YKN",
+    "ICAO": "KYKN",
+    "Airport name": "Chan Gurney Municipal Airport",
+    "Location served": "Yankton, South Dakota, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YKO",
+    "ICAO": "LTCW",
+    "Airport name": "Hakkari Yüksekova Airport[1]",
+    "Location served": "Hakkâri / Yüksekova, Turkey",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YKQ",
+    "ICAO": "CYKQ",
+    "Airport name": "Waskaganish Airport",
+    "Location served": "Waskaganish, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YKS",
+    "ICAO": "UEEE",
+    "Airport name": "Yakutsk Airport",
+    "Location served": "Yakutsk, Yakutia, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YKT",
+    "ICAO": "",
+    "Airport name": "Klemtu Water Aerodrome",
+    "Location served": "Klemtu, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YKU",
+    "ICAO": "",
+    "Airport name": "Chisasibi Airport (TC: CSU2)",
+    "Location served": "Chisasibi, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YKX",
+    "ICAO": "CYKX",
+    "Airport name": "Kirkland Lake Airport",
+    "Location served": "Kirkland Lake, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YKY",
+    "ICAO": "CYKY",
+    "Airport name": "Kindersley Regional Airport",
+    "Location served": "Kindersley, Saskatchewan, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YKZ",
+    "ICAO": "CYKZ",
+    "Airport name": "Buttonville Municipal Airport",
+    "Location served": "Toronto, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YLB",
+    "ICAO": "CYLB",
+    "Airport name": "Lac La Biche Airport",
+    "Location served": "Lac La Biche, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YLC",
+    "ICAO": "CYLC",
+    "Airport name": "Kimmirut Airport",
+    "Location served": "Kimmirut, Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YLD",
+    "ICAO": "CYLD",
+    "Airport name": "Chapleau Airport",
+    "Location served": "Chapleau, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YLE",
+    "ICAO": "",
+    "Airport name": "Whatì Airport (TC: CEM3)",
+    "Location served": "Whatì, Northwest Territories, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YLG",
+    "ICAO": "YYAL",
+    "Airport name": "Yalgoo Airport",
+    "Location served": "Yalgoo, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YLH",
+    "ICAO": "CYLH",
+    "Airport name": "Lansdowne House Airport",
+    "Location served": "Neskantaga (Lansdowne House Indian Band), Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YLI",
+    "ICAO": "EFYL",
+    "Airport name": "Ylivieska Airfield",
+    "Location served": "Ylivieska, Finland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YLJ",
+    "ICAO": "CYLJ",
+    "Airport name": "Meadow Lake Airport",
+    "Location served": "Meadow Lake, Saskatchewan, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YLK",
+    "ICAO": "CYLS",
+    "Airport name": "Lake Simcoe Regional Airport[1]",
+    "Location served": "Barrie / Orillia, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YLL",
+    "ICAO": "CYLL",
+    "Airport name": "Lloydminster Airport",
+    "Location served": "Lloydminster, Alberta/Saskatchewan,2 Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YLM",
+    "ICAO": "",
+    "Airport name": "Clinton Creek Airport[1]",
+    "Location served": "Clinton Creek, Yukon, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YLN",
+    "ICAO": "ZYYL",
+    "Airport name": "Yilan Airport",
+    "Location served": "Yilan, Heilongjiang, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YLP",
+    "ICAO": "CYLP",
+    "Airport name": "Mingan Airport",
+    "Location served": "Mingan, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YLQ",
+    "ICAO": "CYLQ",
+    "Airport name": "La Tuque Airport",
+    "Location served": "La Tuque, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YLR",
+    "ICAO": "CYLR",
+    "Airport name": "Leaf Rapids Airport",
+    "Location served": "Leaf Rapids, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YLS",
+    "ICAO": "",
+    "Airport name": "Lebel-sur-Quévillon Airport (TC: CSH4)",
+    "Location served": "Lebel-sur-Quévillon, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YLT",
+    "ICAO": "CYLT",
+    "Airport name": "Alert Airport",
+    "Location served": "Alert, Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YLV",
+    "ICAO": "UBEE",
+    "Airport name": "Yevlakh Airport[1]",
+    "Location served": "Yevlakh, Azerbaijan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YLW",
+    "ICAO": "CYLW",
+    "Airport name": "Kelowna International Airport",
+    "Location served": "Kelowna, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YLX",
+    "ICAO": "",
+    "Airport name": "Yulin Fumian Airport",
+    "Location served": "Yulin, Guangxi, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YLY",
+    "ICAO": "CYNJ",
+    "Airport name": "Langley Regional Airport[1]",
+    "Location served": "Langley, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YMA",
+    "ICAO": "CYMA",
+    "Airport name": "Mayo Airport",
+    "Location served": "Mayo, Yukon, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YMB",
+    "ICAO": "",
+    "Airport name": "Merritt Airport (TC: CAD5)",
+    "Location served": "Merritt, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YMD",
+    "ICAO": "CYMD",
+    "Airport name": "Mould Bay Airport",
+    "Location served": "Prince Patrick Island, Northwest Territories, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YME",
+    "ICAO": "CYME",
+    "Airport name": "Matane Airport",
+    "Location served": "Matane, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YMF",
+    "ICAO": "",
+    "Airport name": "Montague Harbour Water Aerodrome",
+    "Location served": "Galiano Island, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YMG",
+    "ICAO": "CYMG",
+    "Airport name": "Manitouwadge Airport",
+    "Location served": "Manitouwadge, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YMH",
+    "ICAO": "CYMH",
+    "Airport name": "Mary's Harbour Airport",
+    "Location served": "Mary's Harbour, Newfoundland and Labrador, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YMJ",
+    "ICAO": "CYMJ",
+    "Airport name": "CFB Moose Jaw (C.M. McEwen Airport)",
+    "Location served": "Moose Jaw, Saskatchewan, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YMK",
+    "ICAO": "USDK",
+    "Airport name": "Mys-Kamenny Airport[1]",
+    "Location served": "Mys-Kamenny, Yamalo-Nenets Autonomous Okrug, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YML",
+    "ICAO": "CYML",
+    "Airport name": "Charlevoix Airport",
+    "Location served": "La Malbaie, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YMM",
+    "ICAO": "CYMM",
+    "Airport name": "Fort McMurray International Airport",
+    "Location served": "Fort McMurray, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YMN",
+    "ICAO": "CYFT",
+    "Airport name": "Makkovik Airport",
+    "Location served": "Makkovik, Newfoundland and Labrador, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YMO",
+    "ICAO": "CYMO",
+    "Airport name": "Moosonee Airport",
+    "Location served": "Moosonee, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YMP",
+    "ICAO": "",
+    "Airport name": "Port McNeill Airport (TC: CAT5)",
+    "Location served": "Port McNeill, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YMQ",
+    "ICAO": "",
+    "Airport name": "metropolitan area3",
+    "Location served": "Montreal, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YMS",
+    "ICAO": "SPMS",
+    "Airport name": "Moisés Benzaquén Rengifo Airport",
+    "Location served": "Yurimaguas, Peru",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YMT",
+    "ICAO": "CYMT",
+    "Airport name": "Chibougamau/Chapais Airport",
+    "Location served": "Chibougamau, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YMU",
+    "ICAO": "",
+    "Airport name": "Mansons Landing Water Aerodrome[1] (TC: CAV7)",
+    "Location served": "Mansons Landing, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YMV",
+    "ICAO": "",
+    "Airport name": "Mary River Aerodrome[1] (TC: CMR2)",
+    "Location served": "Mary River, Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YMW",
+    "ICAO": "CYMW",
+    "Airport name": "Maniwaki Airport",
+    "Location served": "Maniwaki, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YMX",
+    "ICAO": "CYMX",
+    "Airport name": "Montréal–Mirabel International Airport",
+    "Location served": "Montreal, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YNA",
+    "ICAO": "CYNA",
+    "Airport name": "Natashquan Airport",
+    "Location served": "Natashquan, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YNB",
+    "ICAO": "OEYN",
+    "Airport name": "Yanbu Airport (Yenbo Airport)",
+    "Location served": "Yanbu al Bahr (Yenbo), Saudi Arabia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YNC",
+    "ICAO": "CYNC",
+    "Airport name": "Wemindji Airport",
+    "Location served": "Wemindji, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YND",
+    "ICAO": "CYND",
+    "Airport name": "Gatineau-Ottawa Executive Airport",
+    "Location served": "Gatineau / Ottawa (ON), Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YNE",
+    "ICAO": "CYNE",
+    "Airport name": "Norway House Airport",
+    "Location served": "Norway House, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YNG",
+    "ICAO": "KYNG",
+    "Airport name": "Youngstown–Warren Regional Airport",
+    "Location served": "Youngstown / Warren, Ohio, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YNH",
+    "ICAO": "CYNH",
+    "Airport name": "Hudson's Hope Airport",
+    "Location served": "Hudson's Hope, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YNJ",
+    "ICAO": "ZYYJ",
+    "Airport name": "Yanji Chaoyangchuan Airport",
+    "Location served": "Yanji, Jilin, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YNL",
+    "ICAO": "CYNL",
+    "Airport name": "Points North Landing Airport",
+    "Location served": "Points North Landing, Saskatchewan, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YNM",
+    "ICAO": "CYNM",
+    "Airport name": "Matagami Airport",
+    "Location served": "Matagami, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YNN",
+    "ICAO": "",
+    "Airport name": "Yandicoogina Airport[1]",
+    "Location served": "Yandicoogina, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YNO",
+    "ICAO": "",
+    "Airport name": "North Spirit Lake Airport (TC: CKQ3)",
+    "Location served": "North Spirit Lake, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YNP",
+    "ICAO": "",
+    "Airport name": "Natuashish Airport[1] (TC: CNH2)",
+    "Location served": "Natuashish, Newfoundland and Labrador, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YNS",
+    "ICAO": "CYHH",
+    "Airport name": "Nemiscau Airport",
+    "Location served": "Nemiscau, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YNT",
+    "ICAO": "ZSYT",
+    "Airport name": "Yantai Penglai International Airport",
+    "Location served": "Yantai, Shandong, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YNX",
+    "ICAO": "",
+    "Airport name": "Snap Lake Airport[1] (TC: CSK6)",
+    "Location served": "Snap Lake, Northwest Territories, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YNY",
+    "ICAO": "RKNY",
+    "Airport name": "Yangyang International Airport[1]",
+    "Location served": "Yangyang, South Korea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YNZ",
+    "ICAO": "ZSYN",
+    "Airport name": "Yancheng Nanyang International Airport",
+    "Location served": "Yancheng, Jiangsu, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YOA",
+    "ICAO": "CYOA",
+    "Airport name": "Ekati Airport[1]",
+    "Location served": "Ekati, Northwest Territories, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YOC",
+    "ICAO": "CYOC",
+    "Airport name": "Old Crow Airport",
+    "Location served": "Old Crow, Yukon, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YOD",
+    "ICAO": "CYOD",
+    "Airport name": "CFB Cold Lake (R.W. McNair Airport)",
+    "Location served": "Cold Lake, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YOE",
+    "ICAO": "",
+    "Airport name": "Donnelly Airport (TC: CFM4)",
+    "Location served": "Donnelly, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YOG",
+    "ICAO": "CYKP",
+    "Airport name": "Ogoki Post Airport",
+    "Location served": "Marten Falls (Ogoki), Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YOH",
+    "ICAO": "CYOH",
+    "Airport name": "Oxford House Airport",
+    "Location served": "Oxford House, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YOI",
+    "ICAO": "",
+    "Airport name": "Opinaca Aerodrome[1] (TC: CPN8)",
+    "Location served": "Opinaca, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YOJ",
+    "ICAO": "CYOJ",
+    "Airport name": "High Level Airport",
+    "Location served": "High Level, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YOL",
+    "ICAO": "DNYO",
+    "Airport name": "Yola Airport",
+    "Location served": "Yola, Nigeria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YON",
+    "ICAO": "VQTY",
+    "Airport name": "Yongphulla Airport[1] (Yonphula Airport)",
+    "Location served": "Trashigang, Bhutan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YOO",
+    "ICAO": "CYOO",
+    "Airport name": "Oshawa Airport",
+    "Location served": "Oshawa, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YOP",
+    "ICAO": "CYOP",
+    "Airport name": "Rainbow Lake Airport",
+    "Location served": "Rainbow Lake, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YOS",
+    "ICAO": "CYOS",
+    "Airport name": "Billy Bishop Regional Airport",
+    "Location served": "Owen Sound, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YOT",
+    "ICAO": "LLYT",
+    "Airport name": "Yotvata Airfield",
+    "Location served": "Yotvata, Israel",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YOW",
+    "ICAO": "CYOW",
+    "Airport name": "Ottawa Macdonald–Cartier International Airport",
+    "Location served": "Ottawa, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YPA",
+    "ICAO": "CYPA",
+    "Airport name": "Prince Albert (Glass Field) Airport",
+    "Location served": "Prince Albert, Saskatchewan, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YPB",
+    "ICAO": "",
+    "Airport name": "Alberni Valley Regional Airport (TC: CBS8)",
+    "Location served": "Port Alberni, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YPC",
+    "ICAO": "CYPC",
+    "Airport name": "Nora Aliqatchialuk Ruben Airport",
+    "Location served": "Paulatuk, Northwest Territories, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YPD",
+    "ICAO": "",
+    "Airport name": "Parry Sound Area Municipal Airport (TC: CNK4)",
+    "Location served": "Parry Sound, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YPE",
+    "ICAO": "CYPE",
+    "Airport name": "Peace River Airport",
+    "Location served": "Peace River, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YPG",
+    "ICAO": "CYPG",
+    "Airport name": "Portage la Prairie/Southport Airport",
+    "Location served": "Portage la Prairie, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YPH",
+    "ICAO": "CYPH",
+    "Airport name": "Inukjuak Airport",
+    "Location served": "Inukjuak, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YPI",
+    "ICAO": "",
+    "Airport name": "Port Simpson Water Aerodrome (TC: CAN8)",
+    "Location served": "Lax Kw'alaams (Port Simpson), British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YPJ",
+    "ICAO": "CYLA",
+    "Airport name": "Aupaluk Airport",
+    "Location served": "Aupaluk, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YPL",
+    "ICAO": "CYPL",
+    "Airport name": "Pickle Lake Airport",
+    "Location served": "Pickle Lake, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YPM",
+    "ICAO": "CYPM",
+    "Airport name": "Pikangikum Airport",
+    "Location served": "Pikangikum, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YPN",
+    "ICAO": "CYPN",
+    "Airport name": "Port-Menier Airport",
+    "Location served": "Port-Menier, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YPO",
+    "ICAO": "CYPO",
+    "Airport name": "Peawanuck Airport",
+    "Location served": "Peawanuck, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YPQ",
+    "ICAO": "CYPQ",
+    "Airport name": "Peterborough Airport",
+    "Location served": "Peterborough, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YPR",
+    "ICAO": "CYPR",
+    "Airport name": "Prince Rupert Airport",
+    "Location served": "Prince Rupert, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YPS",
+    "ICAO": "CYPD",
+    "Airport name": "Port Hawkesbury Airport",
+    "Location served": "Port Hawkesbury, Nova Scotia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YPT",
+    "ICAO": "",
+    "Airport name": "Pender Harbour Water Aerodrome (TC: CAG8)",
+    "Location served": "Pender Harbour, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YPW",
+    "ICAO": "CYPW",
+    "Airport name": "Powell River Airport",
+    "Location served": "Powell River, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YPX",
+    "ICAO": "CYPX",
+    "Airport name": "Puvirnituq Airport",
+    "Location served": "Puvirnituq, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YPY",
+    "ICAO": "CYPY",
+    "Airport name": "Fort Chipewyan Airport",
+    "Location served": "Fort Chipewyan, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YPZ",
+    "ICAO": "CYPZ",
+    "Airport name": "Burns Lake Airport",
+    "Location served": "Burns Lake, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YQA",
+    "ICAO": "CYQA",
+    "Airport name": "Muskoka Airport",
+    "Location served": "Muskoka, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YQB",
+    "ICAO": "CYQB",
+    "Airport name": "Québec City Jean Lesage International Airport",
+    "Location served": "Quebec City, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YQC",
+    "ICAO": "CYHA",
+    "Airport name": "Quaqtaq Airport",
+    "Location served": "Quaqtaq, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YQD",
+    "ICAO": "CYQD",
+    "Airport name": "The Pas Airport",
+    "Location served": "The Pas, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YQF",
+    "ICAO": "CYQF",
+    "Airport name": "Red Deer Regional Airport",
+    "Location served": "Red Deer, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YQG",
+    "ICAO": "CYQG",
+    "Airport name": "Windsor International Airport",
+    "Location served": "Windsor, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YQH",
+    "ICAO": "CYQH",
+    "Airport name": "Watson Lake Airport",
+    "Location served": "Watson Lake, Yukon, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YQI",
+    "ICAO": "CYQI",
+    "Airport name": "Yarmouth Airport",
+    "Location served": "Yarmouth, Nova Scotia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YQJ",
+    "ICAO": "",
+    "Airport name": "April Point Water Aerodrome[1]",
+    "Location served": "Quadra Island, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YQK",
+    "ICAO": "CYQK",
+    "Airport name": "Kenora Airport",
+    "Location served": "Kenora, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YQL",
+    "ICAO": "CYQL",
+    "Airport name": "Lethbridge Airport",
+    "Location served": "Lethbridge, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YQM",
+    "ICAO": "CYQM",
+    "Airport name": "Greater Moncton International Airport",
+    "Location served": "Moncton, New Brunswick, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YQN",
+    "ICAO": "CYQN",
+    "Airport name": "Nakina Airport",
+    "Location served": "Greenstone (Nakina), Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YQQ",
+    "ICAO": "CYQQ",
+    "Airport name": "CFB Comox",
+    "Location served": "Comox, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YQR",
+    "ICAO": "CYQR",
+    "Airport name": "Regina International Airport",
+    "Location served": "Regina, Saskatchewan, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YQS",
+    "ICAO": "CYQS",
+    "Airport name": "St. Thomas Municipal Airport",
+    "Location served": "St. Thomas, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YQT",
+    "ICAO": "CYQT",
+    "Airport name": "Thunder Bay International Airport",
+    "Location served": "Thunder Bay, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YQU",
+    "ICAO": "CYQU",
+    "Airport name": "Grande Prairie Airport",
+    "Location served": "Grande Prairie, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YQV",
+    "ICAO": "CYQV",
+    "Airport name": "Yorkton Municipal Airport",
+    "Location served": "Yorkton, Saskatchewan, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YQW",
+    "ICAO": "CYQW",
+    "Airport name": "North Battleford Airport (Cameron McIntosh Airport)",
+    "Location served": "North Battleford, Saskatchewan, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YQX",
+    "ICAO": "CYQX",
+    "Airport name": "Gander International Airport / CFB Gander",
+    "Location served": "Gander, Newfoundland and Labrador, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YQY",
+    "ICAO": "CYQY",
+    "Airport name": "Sydney/J.A. Douglas McCurdy Airport",
+    "Location served": "Sydney, Nova Scotia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YQZ",
+    "ICAO": "CYQZ",
+    "Airport name": "Quesnel Airport",
+    "Location served": "Quesnel, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YRA",
+    "ICAO": "CYRA",
+    "Airport name": "Gamètì/Rae Lakes Airport",
+    "Location served": "Gamèti, Northwest Territories, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YRB",
+    "ICAO": "CYRB",
+    "Airport name": "Resolute Bay Airport",
+    "Location served": "Resolute, Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YRC",
+    "ICAO": "",
+    "Airport name": "Refuge Cove Water Aerodrome[1]",
+    "Location served": "Refuge Cove, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YRD",
+    "ICAO": "",
+    "Airport name": "Dean River Airport",
+    "Location served": "Dean River, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YRF",
+    "ICAO": "CYCA",
+    "Airport name": "Cartwright Airport",
+    "Location served": "Cartwright, Newfoundland and Labrador, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YRG",
+    "ICAO": "",
+    "Airport name": "Rigolet Airport (TC: CCZ2)",
+    "Location served": "Rigolet, Newfoundland and Labrador, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YRI",
+    "ICAO": "CYRI",
+    "Airport name": "Rivière-du-Loup Airport",
+    "Location served": "Rivière-du-Loup, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YRJ",
+    "ICAO": "CYRJ",
+    "Airport name": "Roberval Airport",
+    "Location served": "Roberval, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YRL",
+    "ICAO": "CYRL",
+    "Airport name": "Red Lake Airport",
+    "Location served": "Red Lake, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YRM",
+    "ICAO": "CYRM",
+    "Airport name": "Rocky Mountain House Airport",
+    "Location served": "Rocky Mountain House, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YRN",
+    "ICAO": "",
+    "Airport name": "Rivers Inlet Water Aerodrome (TC: CAU8)",
+    "Location served": "Rivers Inlet, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YRO",
+    "ICAO": "CYRO",
+    "Airport name": "Ottawa/Rockcliffe Airport",
+    "Location served": "Ottawa, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YRQ",
+    "ICAO": "CYRQ",
+    "Airport name": "Trois-Rivières Airport",
+    "Location served": "Trois-Rivières, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YRR",
+    "ICAO": "",
+    "Airport name": "Stuart Island Airport",
+    "Location served": "Stuart Island, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YRS",
+    "ICAO": "CYRS",
+    "Airport name": "Red Sucker Lake Airport",
+    "Location served": "Red Sucker Lake, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YRT",
+    "ICAO": "CYRT",
+    "Airport name": "Rankin Inlet Airport",
+    "Location served": "Rankin Inlet, Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YRV",
+    "ICAO": "CYRV",
+    "Airport name": "Revelstoke Airport",
+    "Location served": "Revelstoke, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YSA",
+    "ICAO": "",
+    "Airport name": "Sable Island Aerodrome",
+    "Location served": "Sable Island, Nova Scotia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YSB",
+    "ICAO": "CYSB",
+    "Airport name": "Sudbury Airport",
+    "Location served": "Greater Sudbury, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YSC",
+    "ICAO": "CYSC",
+    "Airport name": "Sherbrooke Airport",
+    "Location served": "Sherbrooke, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YSE",
+    "ICAO": "CYSE",
+    "Airport name": "Squamish Airport",
+    "Location served": "Squamish, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YSF",
+    "ICAO": "CYSF",
+    "Airport name": "Stony Rapids Airport",
+    "Location served": "Stony Rapids, Saskatchewan, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YSG",
+    "ICAO": "CYLK",
+    "Airport name": "Lutselk'e Airport",
+    "Location served": "Lutselk'e, Northwest Territories, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YSH",
+    "ICAO": "CYSH",
+    "Airport name": "Smiths Falls-Montague Airport",
+    "Location served": "Smiths Falls, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YSI",
+    "ICAO": "",
+    "Airport name": "Parry Sound/Frying Pan Island-Sans Souci Water Aerodrome (TC: CPS9)",
+    "Location served": "Fryingpan Island, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YSJ",
+    "ICAO": "CYSJ",
+    "Airport name": "Saint John Airport",
+    "Location served": "Saint John, New Brunswick, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YSK",
+    "ICAO": "CYSK",
+    "Airport name": "Sanikiluaq Airport",
+    "Location served": "Sanikiluaq, Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YSL",
+    "ICAO": "CYSL",
+    "Airport name": "Saint-Léonard Aerodrome",
+    "Location served": "Saint-Léonard, New Brunswick, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YSM",
+    "ICAO": "CYSM",
+    "Airport name": "Fort Smith Airport",
+    "Location served": "Fort Smith, Northwest Territories, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YSN",
+    "ICAO": "CZAM",
+    "Airport name": "Salmon Arm Airport",
+    "Location served": "Salmon Arm, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YSO",
+    "ICAO": "",
+    "Airport name": "Postville Airport (TC: CCD4)",
+    "Location served": "Postville, Newfoundland and Labrador, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YSP",
+    "ICAO": "CYSP",
+    "Airport name": "Marathon Aerodrome",
+    "Location served": "Marathon, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YSQ",
+    "ICAO": "ZYSQ",
+    "Airport name": "Songyuan Chaganhu Airport",
+    "Location served": "Songyuan, Jilin, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YST",
+    "ICAO": "CYST",
+    "Airport name": "St. Theresa Point Airport",
+    "Location served": "St. Theresa Point, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YSU",
+    "ICAO": "CYSU",
+    "Airport name": "Summerside Airport",
+    "Location served": "Summerside, Prince Edward Island, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YSX",
+    "ICAO": "",
+    "Airport name": "Bella Bella/Shearwater Water Aerodrome (TC: CAW8)",
+    "Location served": "Bella Bella, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YSY",
+    "ICAO": "CYSY",
+    "Airport name": "Sachs Harbour (David Nasogaluak Jr. Saaryuaq) Airport",
+    "Location served": "Sachs Harbour, Northwest Territories, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YTA",
+    "ICAO": "CYTA",
+    "Airport name": "Pembroke Airport",
+    "Location served": "Pembroke, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YTB",
+    "ICAO": "",
+    "Airport name": "Hartley Bay Water Aerodrome (TC: CAY4)",
+    "Location served": "Hartley Bay, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YTD",
+    "ICAO": "CZLQ",
+    "Airport name": "Thicket Portage Airport",
+    "Location served": "Thicket Portage, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YTE",
+    "ICAO": "CYTE",
+    "Airport name": "Cape Dorset Airport",
+    "Location served": "Cape Dorset, Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YTF",
+    "ICAO": "CYTF",
+    "Airport name": "Alma Airport",
+    "Location served": "Alma, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YTG",
+    "ICAO": "",
+    "Airport name": "Sullivan Bay Water Aerodrome (TC: CAV5)",
+    "Location served": "Sullivan Bay, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YTH",
+    "ICAO": "CYTH",
+    "Airport name": "Thompson Airport",
+    "Location served": "Thompson, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YTL",
+    "ICAO": "CYTL",
+    "Airport name": "Big Trout Lake Airport",
+    "Location served": "Kitchenuhmaykoosib Inninuwug (Big Trout Lake), Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YTM",
+    "ICAO": "CYFJ",
+    "Airport name": "Mont Tremblant International Airport",
+    "Location served": "Mont-Tremblant, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YTO",
+    "ICAO": "",
+    "Airport name": "metropolitan area4",
+    "Location served": "Toronto, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YTP",
+    "ICAO": "",
+    "Airport name": "Tofino Harbour Water Aerodrome (TC: CAB4)",
+    "Location served": "Tofino, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YTQ",
+    "ICAO": "CYTQ",
+    "Airport name": "Tasiujaq Airport",
+    "Location served": "Tasiujaq, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YTR",
+    "ICAO": "CYTR",
+    "Airport name": "CFB Trenton",
+    "Location served": "Trenton, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YTS",
+    "ICAO": "CYTS",
+    "Airport name": "Timmins/Victor M. Power Airport",
+    "Location served": "Timmins, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YTT",
+    "ICAO": "",
+    "Airport name": "Tisdale Airport (TC: CJY3)",
+    "Location served": "Tisdale, Saskatchewan, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YTU",
+    "ICAO": "",
+    "Airport name": "Tasu Water Aerodrome",
+    "Location served": "Tasu, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YTX",
+    "ICAO": "",
+    "Airport name": "Telegraph Creek Airport (TC: CBM5)",
+    "Location served": "Telegraph Creek, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YTY",
+    "ICAO": "ZSYA",
+    "Airport name": "Yangzhou Taizhou Airport",
+    "Location served": "Yangzhou / Taizhou, Jiangsu, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YTZ",
+    "ICAO": "CYTZ",
+    "Airport name": "Billy Bishop Toronto City Airport (Toronto Island Airport)",
+    "Location served": "Toronto, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YUA",
+    "ICAO": "ZPYM",
+    "Airport name": "Yuanmou Air Base",
+    "Location served": "Yuanmou, Yunnan, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YUB",
+    "ICAO": "CYUB",
+    "Airport name": "Tuktoyaktuk/James Gruben Airport",
+    "Location served": "Tuktoyaktuk, Northwest Territories, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YUD",
+    "ICAO": "CYMU",
+    "Airport name": "Umiujaq Airport",
+    "Location served": "Umiujaq, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YUE",
+    "ICAO": "YYND",
+    "Airport name": "Yuendumu Airport",
+    "Location served": "Yuendumu, Northern Territory, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YUL",
+    "ICAO": "CYUL",
+    "Airport name": "Montréal–Trudeau International Airport",
+    "Location served": "Montreal, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YUM",
+    "ICAO": "KNYL",
+    "Airport name": "Yuma International Airport / MCAS Yuma (FAA: NYL)",
+    "Location served": "Yuma, Arizona, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YUS",
+    "ICAO": "ZLYS",
+    "Airport name": "Yushu Batang Airport",
+    "Location served": "Yushu City, Qinghai, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YUT",
+    "ICAO": "CYUT",
+    "Airport name": "Repulse Bay Airport",
+    "Location served": "Naujaat (Repulse Bay), Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YUX",
+    "ICAO": "CYUX",
+    "Airport name": "Hall Beach Airport",
+    "Location served": "Hall Beach, Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YUY",
+    "ICAO": "CYUY",
+    "Airport name": "Rouyn-Noranda Airport",
+    "Location served": "Rouyn-Noranda, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YVA",
+    "ICAO": "FMCN",
+    "Airport name": "Iconi Airport",
+    "Location served": "Moroni, Comoros",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YVB",
+    "ICAO": "CYVB",
+    "Airport name": "Bonaventure Airport",
+    "Location served": "Bonaventure, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YVC",
+    "ICAO": "CYVC",
+    "Airport name": "La Ronge (Barber Field) Airport",
+    "Location served": "La Ronge, Saskatchewan, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YVD",
+    "ICAO": "",
+    "Airport name": "Yeva Airport",
+    "Location served": "Yeva, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YVE",
+    "ICAO": "CYVK",
+    "Airport name": "Vernon Regional Airport",
+    "Location served": "Vernon, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YVG",
+    "ICAO": "CYVG",
+    "Airport name": "Vermilion Airport",
+    "Location served": "Vermilion, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YVM",
+    "ICAO": "CYVM",
+    "Airport name": "Qikiqtarjuaq Airport",
+    "Location served": "Qikiqtarjuaq, Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YVN",
+    "ICAO": "CYVN",
+    "Airport name": "Cape Dyer Airport[1]",
+    "Location served": "Cape Dyer, Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YVO",
+    "ICAO": "CYVO",
+    "Airport name": "Val-d'Or Airport",
+    "Location served": "Val-d'Or, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YVP",
+    "ICAO": "CYVP",
+    "Airport name": "Kuujjuaq Airport",
+    "Location served": "Kuujjuaq, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YVQ",
+    "ICAO": "CYVQ",
+    "Airport name": "Norman Wells Airport",
+    "Location served": "Norman Wells, Northwest Territories, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YVR",
+    "ICAO": "CYVR",
+    "Airport name": "Vancouver International Airport",
+    "Location served": "Vancouver, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YVT",
+    "ICAO": "CYVT",
+    "Airport name": "Buffalo Narrows Airport",
+    "Location served": "Buffalo Narrows, Saskatchewan, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YVV",
+    "ICAO": "CYVV",
+    "Airport name": "Wiarton Airport",
+    "Location served": "Wiarton, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YVZ",
+    "ICAO": "CYVZ",
+    "Airport name": "Deer Lake Airport",
+    "Location served": "Deer Lake, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YWA",
+    "ICAO": "CYWA",
+    "Airport name": "Petawawa Airport",
+    "Location served": "Petawawa, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YWB",
+    "ICAO": "CYKG",
+    "Airport name": "Kangiqsujuaq (Wakeham Bay) Airport",
+    "Location served": "Kangiqsujuaq, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YWG",
+    "ICAO": "CYWG",
+    "Airport name": "Winnipeg James Armstrong Richardson International Airport",
+    "Location served": "Winnipeg, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YWH",
+    "ICAO": "CYWH",
+    "Airport name": "Victoria Harbour Water Airport",
+    "Location served": "Victoria, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YWJ",
+    "ICAO": "CYWJ",
+    "Airport name": "Déline Airport",
+    "Location served": "Deline, Northwest Territories, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YWK",
+    "ICAO": "CYWK",
+    "Airport name": "Wabush Airport",
+    "Location served": "Wabush, Newfoundland and Labrador, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YWL",
+    "ICAO": "CYWL",
+    "Airport name": "Williams Lake Airport",
+    "Location served": "Williams Lake, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YWM",
+    "ICAO": "",
+    "Airport name": "Williams Harbour Airport (TC: CCA6)",
+    "Location served": "William's Harbour, Newfoundland and Labrador, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YWP",
+    "ICAO": "CYWP",
+    "Airport name": "Webequie Airport",
+    "Location served": "Webequie, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YWQ",
+    "ICAO": "",
+    "Airport name": "Chutes-des-Passes/Lac Margane Water Aerodrome[1] (TC: CTM3)",
+    "Location served": "Passes-Dangereuses (Chute-des-Passes), Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YWR",
+    "ICAO": "",
+    "Airport name": "White River Water Aerodrome (TC: CNJ8)",
+    "Location served": "White River, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YWS",
+    "ICAO": "",
+    "Airport name": "Whistler/Green Lake Water Aerodrome (TC: CAE5)",
+    "Location served": "Whistler, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YWY",
+    "ICAO": "CYWY",
+    "Airport name": "Wrigley Airport",
+    "Location served": "Wrigley, Northwest Territories, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YXC",
+    "ICAO": "CYXC",
+    "Airport name": "Cranbrook/Canadian Rockies International Airport",
+    "Location served": "Cranbrook, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YXD",
+    "ICAO": "CYXD",
+    "Airport name": "Edmonton City Centre (Blatchford Field) Airport[1]",
+    "Location served": "Edmonton, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YXE",
+    "ICAO": "CYXE",
+    "Airport name": "Saskatoon John G. Diefenbaker International Airport",
+    "Location served": "Saskatoon, Saskatchewan, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YXH",
+    "ICAO": "CYXH",
+    "Airport name": "Medicine Hat Airport",
+    "Location served": "Medicine Hat, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YXJ",
+    "ICAO": "CYXJ",
+    "Airport name": "Fort St. John Airport (North Peace Airport)",
+    "Location served": "Fort St. John, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YXK",
+    "ICAO": "CYXK",
+    "Airport name": "Rimouski Airport",
+    "Location served": "Rimouski, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YXL",
+    "ICAO": "CYXL",
+    "Airport name": "Sioux Lookout Airport",
+    "Location served": "Sioux Lookout, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YXN",
+    "ICAO": "CYXN",
+    "Airport name": "Whale Cove Airport",
+    "Location served": "Whale Cove, Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YXP",
+    "ICAO": "CYXP",
+    "Airport name": "Pangnirtung Airport",
+    "Location served": "Pangnirtung, Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YXQ",
+    "ICAO": "CYXQ",
+    "Airport name": "Beaver Creek Airport",
+    "Location served": "Beaver Creek, Yukon, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YXR",
+    "ICAO": "CYXR",
+    "Airport name": "Earlton (Timiskaming Regional) Airport",
+    "Location served": "Armstrong (Earlton), Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YXS",
+    "ICAO": "CYXS",
+    "Airport name": "Prince George Airport",
+    "Location served": "Prince George, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YXT",
+    "ICAO": "CYXT",
+    "Airport name": "Northwest Regional Airport",
+    "Location served": "Terrace, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YXU",
+    "ICAO": "CYXU",
+    "Airport name": "London International Airport",
+    "Location served": "London, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YXX",
+    "ICAO": "CYXX",
+    "Airport name": "Abbotsford International Airport",
+    "Location served": "Abbotsford, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YXY",
+    "ICAO": "CYXY",
+    "Airport name": "Erik Nielsen Whitehorse International Airport",
+    "Location served": "Whitehorse, Yukon, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YXZ",
+    "ICAO": "CYXZ",
+    "Airport name": "Wawa Airport",
+    "Location served": "Wawa, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YYA",
+    "ICAO": "ZGYY",
+    "Airport name": "Yueyang Sanhe Airport",
+    "Location served": "Yueyang, Hunan, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YYB",
+    "ICAO": "CYYB",
+    "Airport name": "North Bay/Jack Garland Airport",
+    "Location served": "North Bay, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YYC",
+    "ICAO": "CYYC",
+    "Airport name": "Calgary International Airport",
+    "Location served": "Calgary, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YYD",
+    "ICAO": "CYYD",
+    "Airport name": "Smithers Airport",
+    "Location served": "Smithers, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YYE",
+    "ICAO": "CYYE",
+    "Airport name": "Northern Rockies Regional Airport",
+    "Location served": "Fort Nelson, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YYF",
+    "ICAO": "CYYF",
+    "Airport name": "Penticton Regional Airport",
+    "Location served": "Penticton, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YYG",
+    "ICAO": "CYYG",
+    "Airport name": "Charlottetown Airport",
+    "Location served": "Charlottetown, Prince Edward Island, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YYH",
+    "ICAO": "CYYH",
+    "Airport name": "Taloyoak Airport",
+    "Location served": "Taloyoak, Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YYI",
+    "ICAO": "CYYI",
+    "Airport name": "Rivers Airport",
+    "Location served": "Rivers, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YYJ",
+    "ICAO": "CYYJ",
+    "Airport name": "Victoria International Airport",
+    "Location served": "Victoria, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YYL",
+    "ICAO": "CYYL",
+    "Airport name": "Lynn Lake Airport",
+    "Location served": "Lynn Lake, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YYM",
+    "ICAO": "CYYM",
+    "Airport name": "Cowley Airport",
+    "Location served": "Cowley, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YYN",
+    "ICAO": "CYYN",
+    "Airport name": "Swift Current Airport",
+    "Location served": "Swift Current, Saskatchewan, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YYQ",
+    "ICAO": "CYYQ",
+    "Airport name": "Churchill Airport",
+    "Location served": "Churchill, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YYR",
+    "ICAO": "CYYR",
+    "Airport name": "CFB Goose Bay",
+    "Location served": "Happy Valley-Goose Bay, Newfoundland and Labrador, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YYT",
+    "ICAO": "CYYT",
+    "Airport name": "St. John's International Airport",
+    "Location served": "St. John's, Newfoundland and Labrador, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YYU",
+    "ICAO": "CYYU",
+    "Airport name": "Kapuskasing Airport",
+    "Location served": "Kapuskasing, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YYW",
+    "ICAO": "CYYW",
+    "Airport name": "Armstrong Airport",
+    "Location served": "Armstrong, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YYY",
+    "ICAO": "CYYY",
+    "Airport name": "Mont-Joli Airport",
+    "Location served": "Mont-Joli, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YYZ",
+    "ICAO": "CYYZ",
+    "Airport name": "Toronto Pearson International Airport",
+    "Location served": "Toronto, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YZA",
+    "ICAO": "CYZA",
+    "Airport name": "Cache Creek Airport (Ashcroft Regional Airport)",
+    "Location served": "Cache Creek / Ashcroft, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YZE",
+    "ICAO": "CYZE",
+    "Airport name": "Gore Bay-Manitoulin Airport",
+    "Location served": "Gore Bay, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YZF",
+    "ICAO": "CYZF",
+    "Airport name": "Yellowknife Airport",
+    "Location served": "Yellowknife, Northwest Territories, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YZG",
+    "ICAO": "CYZG",
+    "Airport name": "Salluit Airport",
+    "Location served": "Salluit, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YZH",
+    "ICAO": "CYZH",
+    "Airport name": "Slave Lake Airport",
+    "Location served": "Slave Lake, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YZP",
+    "ICAO": "CYZP",
+    "Airport name": "Sandspit Airport",
+    "Location served": "Sandspit, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YZR",
+    "ICAO": "CYZR",
+    "Airport name": "Sarnia Chris Hadfield Airport",
+    "Location served": "Sarnia, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YZS",
+    "ICAO": "CYZS",
+    "Airport name": "Coral Harbour Airport",
+    "Location served": "Coral Harbour, Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YZT",
+    "ICAO": "CYZT",
+    "Airport name": "Port Hardy Airport",
+    "Location served": "Port Hardy, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YZU",
+    "ICAO": "CYZU",
+    "Airport name": "Whitecourt Airport",
+    "Location served": "Whitecourt, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YZV",
+    "ICAO": "CYZV",
+    "Airport name": "Sept-Îles Airport",
+    "Location served": "Sept-Îles, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YZW",
+    "ICAO": "CYZW",
+    "Airport name": "Teslin Airport",
+    "Location served": "Teslin, Yukon, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YZX",
+    "ICAO": "CYZX",
+    "Airport name": "CFB Greenwood",
+    "Location served": "Greenwood, Nova Scotia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YZY",
+    "ICAO": "ZLZY",
+    "Airport name": "Zhangye Ganzhou Airport",
+    "Location served": "Zhangye, Gansu, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "YZZ",
+    "ICAO": "",
+    "Airport name": "Trail Airport[1] (TC: CAD4)",
+    "Location served": "Trail, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  }
+]

@@ -1,0 +1,2682 @@
+[
+  {
+    "IATA": "RAA",
+    "ICAO": "",
+    "Airport name": "Rakanda Airport[1]",
+    "Location served": "Rakanda, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RAB",
+    "ICAO": "AYTK",
+    "Airport name": "Rabaul Airport (Tokua Airport)",
+    "Location served": "Rabaul, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RAC",
+    "ICAO": "KRAC",
+    "Airport name": "John H. Batten Airport",
+    "Location served": "Racine, Wisconsin, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RAD",
+    "ICAO": "",
+    "Airport name": "Road Town Seaplane Base[1]",
+    "Location served": "Tortola, British Overseas Territory of Virgin Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RAE",
+    "ICAO": "OERR",
+    "Airport name": "Arar Domestic Airport",
+    "Location served": "Arar, Saudi Arabia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RAF",
+    "ICAO": "SAFR",
+    "Airport name": "Rafaela Airport[1]",
+    "Location served": "Rafaela, Santa Fe, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RAG",
+    "ICAO": "NZRA",
+    "Airport name": "Raglan Aerodrome[1]",
+    "Location served": "Raglan, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RAH",
+    "ICAO": "OERF",
+    "Airport name": "Rafha Domestic Airport[1]",
+    "Location served": "Rafha, Saudi Arabia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RAI",
+    "ICAO": "GVNP",
+    "Airport name": "Nelson Mandela International Airport",
+    "Location served": "Praia, Cape Verde",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RAJ",
+    "ICAO": "VARK",
+    "Airport name": "Rajkot Airport",
+    "Location served": "Rajkot, Gujarat, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RAK",
+    "ICAO": "GMMX",
+    "Airport name": "Marrakesh Menara Airport",
+    "Location served": "Marrakesh, Morocco",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RAL",
+    "ICAO": "KRAL",
+    "Airport name": "Riverside Municipal Airport",
+    "Location served": "Riverside, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RAM",
+    "ICAO": "YRNG",
+    "Airport name": "Ramingining Airport[1]",
+    "Location served": "Ramingining, Northern Territory, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RAN",
+    "ICAO": "LIDR",
+    "Airport name": "Ravenna Airport[1]",
+    "Location served": "Ravenna, Emilia-Romagna, Italy",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RAO",
+    "ICAO": "SBRP",
+    "Airport name": "Leite Lopes Airport",
+    "Location served": "Ribeirão Preto, São Paulo, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RAP",
+    "ICAO": "KRAP",
+    "Airport name": "Rapid City Regional Airport",
+    "Location served": "Rapid City, South Dakota, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RAQ",
+    "ICAO": "WAWR",
+    "Airport name": "Sugimanuru Airport[1]",
+    "Location served": "Muna Island, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RAR",
+    "ICAO": "NCRG",
+    "Airport name": "Rarotonga International Airport",
+    "Location served": "Avarua, Rarotonga, Cook Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RAS",
+    "ICAO": "OIGG",
+    "Airport name": "Rasht Airport[1]",
+    "Location served": "Rasht, Iran",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RAT",
+    "ICAO": "USNR",
+    "Airport name": "Raduzhny Airport",
+    "Location served": "Raduzhny, Khanty-Mansi Autonomous Okrug, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RAV",
+    "ICAO": "SKCN",
+    "Airport name": "Cravo Norte Airport[1]",
+    "Location served": "Cravo Norte, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RAW",
+    "ICAO": "",
+    "Airport name": "Arawa Airport[1]",
+    "Location served": "Arawa, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RAX",
+    "ICAO": "",
+    "Airport name": "Oram Airport[1]",
+    "Location served": "Oram, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RAZ",
+    "ICAO": "OPRT",
+    "Airport name": "Rawalakot Airport[1]",
+    "Location served": "Rawalakot, Pakistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RBA",
+    "ICAO": "GMME",
+    "Airport name": "Rabat–Salé Airport",
+    "Location served": "Rabat, Morocco",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RBB",
+    "ICAO": "SWBR",
+    "Airport name": "Borba Airport",
+    "Location served": "Borba, Amazonas, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RBC",
+    "ICAO": "YROI",
+    "Airport name": "Robinvale Airport",
+    "Location served": "Robinvale, Victoria, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RBD",
+    "ICAO": "KRBD",
+    "Airport name": "Dallas Executive Airport",
+    "Location served": "Dallas, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RBE",
+    "ICAO": "VDRK",
+    "Airport name": "Ratanakiri Airport",
+    "Location served": "Ratanakiri, Cambodia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RBF",
+    "ICAO": "",
+    "Airport name": "Big Bear City Airport[1] (FAA: L35)",
+    "Location served": "Big Bear City, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RBG",
+    "ICAO": "KRBG",
+    "Airport name": "Roseburg Regional Airport",
+    "Location served": "Roseburg, Oregon, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RBI",
+    "ICAO": "NFFR",
+    "Airport name": "Rabi Airport[1]",
+    "Location served": "Rabi Island, Fiji",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RBJ",
+    "ICAO": "RJCR",
+    "Airport name": "Rebun Airport[1]",
+    "Location served": "Rebun, Rebun Island, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RBK",
+    "ICAO": "",
+    "Airport name": "French Valley Airport[1] (FAA: F70)",
+    "Location served": "Murrieta / Temecula, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RBL",
+    "ICAO": "KRBL",
+    "Airport name": "Red Bluff Municipal Airport",
+    "Location served": "Red Bluff, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RBM",
+    "ICAO": "EDMS",
+    "Airport name": "Straubing Wallmühle Airport",
+    "Location served": "Straubing, Bavaria, Germany",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RBO",
+    "ICAO": "SLRB",
+    "Airport name": "Roboré Airport[1]",
+    "Location served": "Roboré, Bolivia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RBP",
+    "ICAO": "",
+    "Airport name": "Rabaraba Airport[1]",
+    "Location served": "Rabaraba, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RBQ",
+    "ICAO": "SLRQ",
+    "Airport name": "Rurrenabaque Airport",
+    "Location served": "Rurrenabaque, Bolivia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RBR",
+    "ICAO": "SBRB",
+    "Airport name": "Plácido de Castro International Airport",
+    "Location served": "Rio Branco, Acre, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RBS",
+    "ICAO": "YORB",
+    "Airport name": "Orbost Airport[1]",
+    "Location served": "Orbost, Victoria, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RBT",
+    "ICAO": "HKMB",
+    "Airport name": "Marsabit Airport[1]",
+    "Location served": "Marsabit, Kenya",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RBU",
+    "ICAO": "YROE",
+    "Airport name": "Roebourne Airport[1]",
+    "Location served": "Roebourne, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RBV",
+    "ICAO": "AGRM",
+    "Airport name": "Ramata Airport[1]",
+    "Location served": "Ramata Island, Solomon Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RBW",
+    "ICAO": "KRBW",
+    "Airport name": "Lowcountry Regional Airport",
+    "Location served": "Walterboro, South Carolina, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RBX",
+    "ICAO": "HSMK",
+    "Airport name": "Rumbek Airport[1]",
+    "Location served": "Rumbek, South Sudan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RBY",
+    "ICAO": "PARY",
+    "Airport name": "Ruby Airport",
+    "Location served": "Ruby, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RCA",
+    "ICAO": "KRCA",
+    "Airport name": "Ellsworth Air Force Base",
+    "Location served": "Rapid City, South Dakota, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RCB",
+    "ICAO": "FARB",
+    "Airport name": "Richards Bay Airport",
+    "Location served": "Richards Bay, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RCE",
+    "ICAO": "",
+    "Airport name": "Roche Harbor Seaplane Base",
+    "Location served": "Roche Harbor, Washington, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RCH",
+    "ICAO": "SKRH",
+    "Airport name": "Almirante Padilla Airport",
+    "Location served": "Riohacha, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RCK",
+    "ICAO": "KRCK",
+    "Airport name": "H. H. Coffield Regional Airport",
+    "Location served": "Rockdale, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RCL",
+    "ICAO": "NVSR",
+    "Airport name": "Redcliffe Airport[1]",
+    "Location served": "Redcliffe, Aoba Island, Vanuatu",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RCM",
+    "ICAO": "YRMD",
+    "Airport name": "Richmond Airport",
+    "Location served": "Richmond, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RCN",
+    "ICAO": "",
+    "Airport name": "American River Airport[1]",
+    "Location served": "American River, South Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RCO",
+    "ICAO": "LFDN",
+    "Airport name": "Rochefort – Saint-Agnant Airport[1]",
+    "Location served": "Rochefort, Poitou-Charentes, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RCQ",
+    "ICAO": "SATR",
+    "Airport name": "Reconquista Airport",
+    "Location served": "Reconquista, Santa Fe, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RCR",
+    "ICAO": "KRCR",
+    "Airport name": "Fulton County Airport",
+    "Location served": "Rochester, Indiana, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RCS",
+    "ICAO": "EGTO",
+    "Airport name": "Rochester Airport",
+    "Location served": "Rochester, England, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RCT",
+    "ICAO": "KRCT",
+    "Airport name": "Nartron Field",
+    "Location served": "Reed City, Michigan, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RCU",
+    "ICAO": "SAOC",
+    "Airport name": "Las Higueras Airport",
+    "Location served": "Río Cuarto, Córdoba, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RCY",
+    "ICAO": "MYRP",
+    "Airport name": "Port Nelson Airport[1]",
+    "Location served": "Port Nelson, Rum Cay Island, Bahamas",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RDA",
+    "ICAO": "YRKD",
+    "Airport name": "Rockhampton Downs Airport",
+    "Location served": "Rockhampton Downs, Northern Territory, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RDB",
+    "ICAO": "PADG",
+    "Airport name": "Red Dog Airport",
+    "Location served": "Red Dog, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RDC",
+    "ICAO": "SNDC",
+    "Airport name": "Redenção Airport[1]",
+    "Location served": "Redenção, Pará, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RDD",
+    "ICAO": "KRDD",
+    "Airport name": "Redding Municipal Airport",
+    "Location served": "Redding, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RDE",
+    "ICAO": "",
+    "Airport name": "Merdey Airport[1] (Jahabra Airport)",
+    "Location served": "Merdey, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RDG",
+    "ICAO": "KRDG",
+    "Airport name": "Reading Regional Airport (Carl A. Spaatz Field)",
+    "Location served": "Reading, Pennsylvania, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RDM",
+    "ICAO": "KRDM",
+    "Airport name": "Roberts Field",
+    "Location served": "Redmond / Bend, Oregon, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RDN",
+    "ICAO": "WMPR",
+    "Airport name": "Redang Airport[1]",
+    "Location served": "Redang Island, Terengganu, Malaysia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RDO",
+    "ICAO": "EPRA",
+    "Airport name": "Radom Airport[1]",
+    "Location served": "Radom, Poland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RDP",
+    "ICAO": "VEDG",
+    "Airport name": "Kazi Nazrul Islam Airport",
+    "Location served": "Durgapur, West Bengal, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RDR",
+    "ICAO": "KRDR",
+    "Airport name": "Grand Forks Air Force Base",
+    "Location served": "Grand Forks, North Dakota, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RDS",
+    "ICAO": "SAHS",
+    "Airport name": "Rincón de los Sauces Airport[1]",
+    "Location served": "Rincón de los Sauces, Neuquén, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RDT",
+    "ICAO": "GOSR",
+    "Airport name": "Richard Toll Airport",
+    "Location served": "Richard Toll, Senegal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RDU",
+    "ICAO": "KRDU",
+    "Airport name": "Raleigh–Durham International Airport",
+    "Location served": "Raleigh / Durham, North Carolina, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RDV",
+    "ICAO": "",
+    "Airport name": "Red Devil Airport",
+    "Location served": "Red Devil, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RDZ",
+    "ICAO": "LFCR",
+    "Airport name": "Rodez–Marcillac Airport",
+    "Location served": "Rodez, Midi-Pyrénées, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "REA",
+    "ICAO": "NTGE",
+    "Airport name": "Reao Airport[1]",
+    "Location served": "Reao, Tuamotus, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "REB",
+    "ICAO": "EDAX",
+    "Airport name": "Rechlin–Lärz Airfield[1]",
+    "Location served": "Rechlin, Mecklenburg-Vorpommern, Germany",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "REC",
+    "ICAO": "SBRF",
+    "Airport name": "Recife/Guararapes–Gilberto Freyre International Airport",
+    "Location served": "Recife, Pernambuco, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RED",
+    "ICAO": "KRVL",
+    "Airport name": "Mifflin County Airport (FAA: RVL)",
+    "Location served": "Reedsville / Lewistown, Pennsylvania, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "REE",
+    "ICAO": "",
+    "Airport name": "Reese Airpark[1] (FAA: 8XS8)",
+    "Location served": "Lubbock, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "REG",
+    "ICAO": "LICR",
+    "Airport name": "Reggio di Calabria Airport",
+    "Location served": "Reggio di Calabria, Calabria, Italy",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "REI",
+    "ICAO": "SOOR",
+    "Airport name": "Régina Airport[1]",
+    "Location served": "Régina, French Guiana",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "REK",
+    "ICAO": "",
+    "Airport name": "metropolitan area1",
+    "Location served": "Reykjavík, Iceland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "REL",
+    "ICAO": "SAVT",
+    "Airport name": "Almirante Marcos A. Zar Airport",
+    "Location served": "Trelew, Chubut, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "REN",
+    "ICAO": "UWOO",
+    "Airport name": "Orenburg Tsentralny Airport",
+    "Location served": "Orenburg, Orenburg Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "REO",
+    "ICAO": "KREO",
+    "Airport name": "Rome State Airport",
+    "Location served": "Rome, Oregon, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "REP",
+    "ICAO": "VDSR",
+    "Airport name": "Siem Reap International Airport (Angkor Int'l)",
+    "Location served": "Siem Reap, Cambodia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "REQ",
+    "ICAO": "",
+    "Airport name": "Reko Diq Airport[1]",
+    "Location served": "Reko Diq, Pakistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RER",
+    "ICAO": "MGRT",
+    "Airport name": "Retalhuleu Airport",
+    "Location served": "Retalhuleu, Guatemala",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RES",
+    "ICAO": "SARE",
+    "Airport name": "Resistencia International Airport",
+    "Location served": "Resistencia, Chaco, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RET",
+    "ICAO": "ENRS",
+    "Airport name": "Røst Airport",
+    "Location served": "Røst, Norway",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "REU",
+    "ICAO": "LERS",
+    "Airport name": "Reus Airport",
+    "Location served": "Reus, Catalonia, Spain",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "REW",
+    "ICAO": "",
+    "Airport name": "Churhata Airport[1]",
+    "Location served": "Rewa, Madhya Pradesh, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "REX",
+    "ICAO": "MMRX",
+    "Airport name": "General Lucio Blanco International Airport",
+    "Location served": "Reynosa, Tamaulipas, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "REY",
+    "ICAO": "SLRY",
+    "Airport name": "Reyes Airport[1]",
+    "Location served": "Reyes, Bolivia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "REZ",
+    "ICAO": "SDRS",
+    "Airport name": "Resende Airport[1]",
+    "Location served": "Resende, Rio de Janeiro, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RFA",
+    "ICAO": "FEGR",
+    "Airport name": "Rafaï Airport[1]",
+    "Location served": "Rafaï, Central African Republic",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RFD",
+    "ICAO": "KRFD",
+    "Airport name": "Chicago Rockford International Airport (Greater Rockford Airport)",
+    "Location served": "Rockford, Illinois, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RFG",
+    "ICAO": "KRFG",
+    "Airport name": "Rooke Field",
+    "Location served": "Refugio, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RFK",
+    "ICAO": "",
+    "Airport name": "Rollang Field[1] (FAA: 5MS1)",
+    "Location served": "Rolling Fork, Mississippi, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RFN",
+    "ICAO": "BIRG",
+    "Airport name": "Raufarhöfn Airport[1]",
+    "Location served": "Raufarhöfn, Iceland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RFP",
+    "ICAO": "NTTR",
+    "Airport name": "Raiatea Airport[1] (Uturoa Airport)",
+    "Location served": "Raiatea, Society Islands, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RFR",
+    "ICAO": "MRRF",
+    "Airport name": "Río Frío Airport[1]",
+    "Location served": "Río Frío, Costa Rica",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RFS",
+    "ICAO": "MNRT",
+    "Airport name": "Rosita Airport[1]",
+    "Location served": "Rosita, Nicaragua",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RGA",
+    "ICAO": "SAWE",
+    "Airport name": "Hermes Quijada International Airport",
+    "Location served": "Río Grande, Tierra del Fuego, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RGE",
+    "ICAO": "",
+    "Airport name": "Porgera Airport[1]",
+    "Location served": "Porgera, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RGH",
+    "ICAO": "VEBG",
+    "Airport name": "Balurghat Airport[1]",
+    "Location served": "Balurghat, West Bengal, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RGI",
+    "ICAO": "NTTG",
+    "Airport name": "Rangiroa Airport[1]",
+    "Location served": "Rangiroa, Tuamotus, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RGK",
+    "ICAO": "UNBG",
+    "Airport name": "Gorno-Altaysk Airport[1]",
+    "Location served": "Gorno-Altaysk, Altai Republic, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RGL",
+    "ICAO": "SAWG",
+    "Airport name": "Piloto Civil Norberto Fernández International Airport",
+    "Location served": "Río Gallegos, Santa Cruz, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RGN",
+    "ICAO": "VYYY",
+    "Airport name": "Yangon International Airport",
+    "Location served": "Yangon, Myanmar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RGO",
+    "ICAO": "ZKHM",
+    "Airport name": "Chongjin Airport",
+    "Location served": "Chongjin, North Korea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RGR",
+    "ICAO": "",
+    "Airport name": "Ranger Municipal Airport[1] (FAA: F23)",
+    "Location served": "Ranger, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RGS",
+    "ICAO": "LEBG",
+    "Airport name": "Burgos Airport",
+    "Location served": "Burgos, Castile and León, Spain",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RGT",
+    "ICAO": "WIPR",
+    "Airport name": "Japura Airport[1]",
+    "Location served": "Rengat, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RHA",
+    "ICAO": "BIRE",
+    "Airport name": "Reykhólar Airport[1]",
+    "Location served": "Reykhólar, Iceland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RHD",
+    "ICAO": "SANR[2]",
+    "Airport name": "Termas de Río Hondo Airport[1]",
+    "Location served": "Termas de Río Hondo, Santiago del Estero, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RHE",
+    "ICAO": "LFSR",
+    "Airport name": "Reims – Champagne Air Base",
+    "Location served": "Reims, Champagne-Ardenne, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RHG",
+    "ICAO": "HRYU",
+    "Airport name": "Ruhengeri Airport[1]",
+    "Location served": "Ruhengeri, Rwanda",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RHI",
+    "ICAO": "KRHI",
+    "Airport name": "Rhinelander–Oneida County Airport",
+    "Location served": "Rhinelander, Wisconsin, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RHL",
+    "ICAO": "YRYH",
+    "Airport name": "Roy Hill Station Airport[1]",
+    "Location served": "Roy Hill Station, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RHN",
+    "ICAO": "FYSA",
+    "Airport name": "Skorpion Mine Airport[1]",
+    "Location served": "Rosh Pinah, Namibia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RHO",
+    "ICAO": "LGRP",
+    "Airport name": "Rhodes International Airport",
+    "Location served": "Rhodes, Greece",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RHP",
+    "ICAO": "VNRC",
+    "Airport name": "Ramechhap Airport",
+    "Location served": "Ramechhap, Nepal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RHR",
+    "ICAO": "",
+    "Airport name": "Al Hamra Seaplane Base[1]",
+    "Location served": "Ras al-Khaimah, United Arab Emirates",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RHT",
+    "ICAO": "",
+    "Airport name": "Alxa Right Banner Badanjilin Airport",
+    "Location served": "Alxa Right Banner, Inner Mongolia, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RHV",
+    "ICAO": "KRHV",
+    "Airport name": "Reid–Hillview Airport of Santa Clara County",
+    "Location served": "San Jose, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RIA",
+    "ICAO": "SBSM",
+    "Airport name": "Santa Maria Airport",
+    "Location served": "Santa Maria, Rio Grande do Sul, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RIB",
+    "ICAO": "SLRI",
+    "Airport name": "Riberalta Airport",
+    "Location served": "Riberalta, Bolivia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RIC",
+    "ICAO": "KRIC",
+    "Airport name": "Richmond International Airport",
+    "Location served": "Richmond, Virginia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RID",
+    "ICAO": "KRID",
+    "Airport name": "Richmond Municipal Airport",
+    "Location served": "Richmond, Indiana, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RIE",
+    "ICAO": "KRPD",
+    "Airport name": "Rice Lake Regional Airport (Carl's Field) (FAA: RPD)",
+    "Location served": "Rice Lake, Wisconsin, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RIF",
+    "ICAO": "KRIF",
+    "Airport name": "Richfield Municipal Airport",
+    "Location served": "Richfield, Utah, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RIG",
+    "ICAO": "SBRG",
+    "Airport name": "Rio Grande Regional Airport",
+    "Location served": "Rio Grande, Rio Grande do Sul, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RIH",
+    "ICAO": "MPSM",
+    "Airport name": "Scarlett Martinez International Airport",
+    "Location served": "Río Hato, Panama",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RIJ",
+    "ICAO": "SPJA",
+    "Airport name": "Juan Simons Vela Airport[1]",
+    "Location served": "Rioja, Peru",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RIL",
+    "ICAO": "KRIL",
+    "Airport name": "Garfield County Regional Airport",
+    "Location served": "Rifle, Colorado, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RIM",
+    "ICAO": "SPLN",
+    "Airport name": "San Nicolas Airport[1]",
+    "Location served": "Rodríguez de Mendoza, Peru",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RIN",
+    "ICAO": "AGRC",
+    "Airport name": "Ringgi Cove Airport[1]",
+    "Location served": "Ringgi Cove, Solomon Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RIO",
+    "ICAO": "",
+    "Airport name": "metropolitan area2",
+    "Location served": "Rio de Janeiro, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RIR",
+    "ICAO": "KRIR",
+    "Airport name": "Flabob Airport",
+    "Location served": "Riverside, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RIS",
+    "ICAO": "RJER",
+    "Airport name": "Rishiri Airport[1]",
+    "Location served": "Rishiri, Rishiri Island, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RIV",
+    "ICAO": "KRIV",
+    "Airport name": "March Air Reserve Base",
+    "Location served": "Riverside, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RIW",
+    "ICAO": "KRIW",
+    "Airport name": "Riverton Regional Airport",
+    "Location served": "Riverton, Wyoming, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RIX",
+    "ICAO": "EVRA",
+    "Airport name": "Riga International Airport",
+    "Location served": "Riga, Latvia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RIY",
+    "ICAO": "OYRN",
+    "Airport name": "Riyan Airport[1]",
+    "Location served": "Mukalla, Yemen",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RIZ",
+    "ICAO": "",
+    "Airport name": "Rizhao Shanzihe Airport",
+    "Location served": "Rizhao, Shandong, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RJA",
+    "ICAO": "VORY",
+    "Airport name": "Rajahmundry Airport",
+    "Location served": "Rajahmundry, Andhra Pradesh, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RJB",
+    "ICAO": "VNRB",
+    "Airport name": "Rajbiraj Airport[1]",
+    "Location served": "Rajbiraj, Nepal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RJH",
+    "ICAO": "VGRJ",
+    "Airport name": "Shah Makhdum Airport",
+    "Location served": "Rajshahi, Bangladesh",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RJI",
+    "ICAO": "",
+    "Airport name": "Rajouri Airport[1]",
+    "Location served": "Rajouri, Jammu and Kashmir, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RJK",
+    "ICAO": "LDRI",
+    "Airport name": "Rijeka Airport",
+    "Location served": "Rijeka, Croatia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RJL",
+    "ICAO": "LELO",
+    "Airport name": "Logroño–Agoncillo Airport",
+    "Location served": "Logroño, La Rioja, Spain",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RJM",
+    "ICAO": "",
+    "Airport name": "Marinda Airport[1]",
+    "Location served": "Waisai, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RJN",
+    "ICAO": "OIKR",
+    "Airport name": "Rafsanjan Airport[1]",
+    "Location served": "Rafsanjan, Iran",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RKA",
+    "ICAO": "NTKK",
+    "Airport name": "Aratika-Nord Airport[1]",
+    "Location served": "Aratika, Tuamotus, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RKD",
+    "ICAO": "KRKD",
+    "Airport name": "Knox County Regional Airport",
+    "Location served": "Rockland, Maine, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RKE",
+    "ICAO": "EKRK",
+    "Airport name": "Roskilde Airport",
+    "Location served": "Copenhagen, Denmark",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RKH",
+    "ICAO": "KUZA",
+    "Airport name": "Rock Hill/York County Airport[1] (FAA: UZA)",
+    "Location served": "Rock Hill, South Carolina, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RKI",
+    "ICAO": "WIBR",
+    "Airport name": "Rokot Airport",
+    "Location served": "Sipura, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RKP",
+    "ICAO": "KRKP",
+    "Airport name": "Aransas County Airport",
+    "Location served": "Rockport, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RKR",
+    "ICAO": "KRKR",
+    "Airport name": "Robert S. Kerr Airport",
+    "Location served": "Poteau, Oklahoma, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RKS",
+    "ICAO": "KRKS",
+    "Airport name": "Rock Springs–Sweetwater County Airport",
+    "Location served": "Rock Springs, Wyoming, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RKT",
+    "ICAO": "OMRK",
+    "Airport name": "Ras Al Khaimah International Airport",
+    "Location served": "Ras al-Khaimah, United Arab Emirates",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RKU",
+    "ICAO": "",
+    "Airport name": "Kairuku Airport[1]",
+    "Location served": "Yule Island, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RKV",
+    "ICAO": "BIRK",
+    "Airport name": "Reykjavík Airport",
+    "Location served": "Reykjavík, Iceland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RKW",
+    "ICAO": "KRKW",
+    "Airport name": "Rockwood Municipal Airport",
+    "Location served": "Rockwood, Tennessee, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RKY",
+    "ICAO": "",
+    "Airport name": "Rokeby Airport[1]",
+    "Location served": "Rokeby, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RKZ",
+    "ICAO": "ZURK",
+    "Airport name": "Shigatse Peace Airport",
+    "Location served": "Shigatse, Tibet Autonomous Region, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RLD",
+    "ICAO": "KRLD",
+    "Airport name": "Richland Airport",
+    "Location served": "Richland, Washington, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RLG",
+    "ICAO": "ETNL",
+    "Airport name": "Rostock–Laage Airport",
+    "Location served": "Rostock, Mecklenburg-Vorpommern, Germany",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RLK",
+    "ICAO": "ZBYZ",
+    "Airport name": "Bayannur Tianjitai Airport[1]",
+    "Location served": "Bayannur, Inner Mongolia, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RLO",
+    "ICAO": "SAOS",
+    "Airport name": "Valle del Conlara Airport[1]",
+    "Location served": "Villa de Merlo, San Luis, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RLP",
+    "ICAO": "",
+    "Airport name": "Rosella Plains Airport[1]",
+    "Location served": "Rosella Plains, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RLR",
+    "ICAO": "",
+    "Airport name": "Relais de la Reine Airport[1]",
+    "Location served": "Isalo, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RLT",
+    "ICAO": "DRZL",
+    "Airport name": "Arlit Airport",
+    "Location served": "Arlit, Niger",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RMA",
+    "ICAO": "YROM",
+    "Airport name": "Roma Airport",
+    "Location served": "Roma, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RMB",
+    "ICAO": "OOBR",
+    "Airport name": "Buraimi Airport[1]",
+    "Location served": "Buraimi, Oman",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RMD",
+    "ICAO": "VORG",
+    "Airport name": "Ramagundam Airport (Basanth Nagar Airport)",
+    "Location served": "Ramagundam, Telangana, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RME",
+    "ICAO": "KRME",
+    "Airport name": "Griffiss International Airport",
+    "Location served": "Rome, New York, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RMF",
+    "ICAO": "HEMA",
+    "Airport name": "Marsa Alam International Airport",
+    "Location served": "Marsa Alam, Egypt",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RMG",
+    "ICAO": "KRMG",
+    "Airport name": "Richard B. Russell Airport",
+    "Location served": "Rome, Georgia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RMI",
+    "ICAO": "LIPR",
+    "Airport name": "Federico Fellini International Airport",
+    "Location served": "Rimini, Emilia-Romagna, Italy",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RMK",
+    "ICAO": "YREN",
+    "Airport name": "Renmark Airport",
+    "Location served": "Renmark, South Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RML",
+    "ICAO": "VCCC",
+    "Airport name": "Ratmalana Airport",
+    "Location served": "Colombo, Sri Lanka",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RMN",
+    "ICAO": "",
+    "Airport name": "Rumginae Airport",
+    "Location served": "Rumginae, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RMP",
+    "ICAO": "",
+    "Airport name": "Rampart Airport",
+    "Location served": "Rampart, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RMQ",
+    "ICAO": "RCMQ",
+    "Airport name": "Taichung Airport (Taichung Ching Chuan Kang Airport)",
+    "Location served": "Taichung, Taiwan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RMS",
+    "ICAO": "ETAR",
+    "Airport name": "Ramstein Air Base",
+    "Location served": "Ramstein, Rhineland-Palatinate, Germany",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RMT",
+    "ICAO": "NTAM",
+    "Airport name": "Rimatara Airport[1]",
+    "Location served": "Rimatara, Austral Islands, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RMU",
+    "ICAO": "LEMI",
+    "Airport name": "Región de Murcia International Airport[1]",
+    "Location served": "Murcia / Cartagena, Murcia, Spain",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RMY",
+    "ICAO": "KMPI",
+    "Airport name": "Mariposa-Yosemite Airport[1] (FAA: MPI)",
+    "Location served": "Mariposa, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RNA",
+    "ICAO": "AGAR",
+    "Airport name": "Ulawa Airport",
+    "Location served": "Arona, Ulawa Island, Solomon Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RNB",
+    "ICAO": "ESDF",
+    "Airport name": "Ronneby Airport",
+    "Location served": "Ronneby / Karlskrona, Sweden",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RNC",
+    "ICAO": "KRNC",
+    "Airport name": "Warren County Memorial Airport",
+    "Location served": "McMinnville, Tennessee, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RND",
+    "ICAO": "KRND",
+    "Airport name": "Randolph Air Force Base",
+    "Location served": "San Antonio, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RNE",
+    "ICAO": "LFLO",
+    "Airport name": "Roanne Renaison Airport",
+    "Location served": "Roanne, Rhône-Alpes, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RNG",
+    "ICAO": "",
+    "Airport name": "Rangely Airport[1] (FAA: 4V0)",
+    "Location served": "Rangely, Colorado, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RNH",
+    "ICAO": "KRNH",
+    "Airport name": "New Richmond Regional Airport",
+    "Location served": "New Richmond, Wisconsin, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RNI",
+    "ICAO": "MNCI",
+    "Airport name": "Corn Island Airport",
+    "Location served": "Corn Islands, Nicaragua",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RNJ",
+    "ICAO": "RORY",
+    "Airport name": "Yoron Airport[1]",
+    "Location served": "Yoronjima, Amami Islands, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RNL",
+    "ICAO": "AGGR",
+    "Airport name": "Rennell/Tingoa Airport[1]",
+    "Location served": "Rennell Island, Solomon Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RNM",
+    "ICAO": "OOGB",
+    "Airport name": "Qarn Alam Airport[1]",
+    "Location served": "Qarn Alam, Oman",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RNN",
+    "ICAO": "EKRN",
+    "Airport name": "Bornholm Airport",
+    "Location served": "Rønne, Denmark",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RNO",
+    "ICAO": "KRNO",
+    "Airport name": "Reno–Tahoe International Airport",
+    "Location served": "Reno, Nevada, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RNP",
+    "ICAO": "",
+    "Airport name": "Rongelap Airport",
+    "Location served": "Rongelap Atoll, Marshall Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RNR",
+    "ICAO": "",
+    "Airport name": "Robinson River Airport[1]",
+    "Location served": "Robinson River, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RNS",
+    "ICAO": "LFRN",
+    "Airport name": "Rennes–Saint-Jacques Airport",
+    "Location served": "Rennes, Brittany, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RNT",
+    "ICAO": "KRNT",
+    "Airport name": "Renton Municipal Airport",
+    "Location served": "Renton, Washington, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RNU",
+    "ICAO": "WBKR",
+    "Airport name": "Ranau Airport[1]",
+    "Location served": "Ranau, Sabah, Malaysia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RNZ",
+    "ICAO": "KRZL",
+    "Airport name": "Jasper County Airport (FAA: RZL)",
+    "Location served": "Rensselaer, Indiana, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ROA",
+    "ICAO": "KROA",
+    "Airport name": "Roanoke–Blacksburg Regional Airport (Woodrum Field)",
+    "Location served": "Roanoke, Virginia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ROB",
+    "ICAO": "GLRB",
+    "Airport name": "Roberts International Airport",
+    "Location served": "Monrovia, Liberia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ROC",
+    "ICAO": "KROC",
+    "Airport name": "Greater Rochester International Airport",
+    "Location served": "Rochester, New York, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ROD",
+    "ICAO": "FARS",
+    "Airport name": "Robertson Airfield[1]",
+    "Location served": "Robertson, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ROF",
+    "ICAO": "",
+    "Airport name": "Montague Airport[1] (Yreka Rohrer Field) (FAA: 1O5)",
+    "Location served": "Montague / Yreka, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ROG",
+    "ICAO": "KROG",
+    "Airport name": "Rogers Municipal Airport (Carter Field)",
+    "Location served": "Rogers, Arkansas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ROH",
+    "ICAO": "YROB",
+    "Airport name": "Robinhood Airport[1]",
+    "Location served": "Robinhood, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ROI",
+    "ICAO": "VTUV",
+    "Airport name": "Roi Et Airport",
+    "Location served": "Roi Et, Thailand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ROK",
+    "ICAO": "YBRK",
+    "Airport name": "Rockhampton Airport",
+    "Location served": "Rockhampton, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ROL",
+    "ICAO": "",
+    "Airport name": "Roosevelt Municipal Airport",
+    "Location served": "Roosevelt, Utah, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ROM",
+    "ICAO": "",
+    "Airport name": "metropolitan area3",
+    "Location served": "Rome, Lazio, Italy",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RON",
+    "ICAO": "SKPA",
+    "Airport name": "Juan José Rondón Airport[1]",
+    "Location served": "Paipa, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ROO",
+    "ICAO": "SWRD",
+    "Airport name": "Maestro Marinho Franco Airport",
+    "Location served": "Rondonópolis, Mato Grosso, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ROP",
+    "ICAO": "PGRO",
+    "Airport name": "Rota International Airport (FAA: GRO)",
+    "Location served": "Rota, Northern Mariana Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ROR",
+    "ICAO": "PTRO",
+    "Airport name": "Roman Tmetuchl International Airport",
+    "Location served": "Koror, Palau",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ROS",
+    "ICAO": "SAAR",
+    "Airport name": "Rosario – Islas Malvinas International Airport",
+    "Location served": "Rosario, Santa Fe, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ROT",
+    "ICAO": "NZRO",
+    "Airport name": "Rotorua Regional Airport",
+    "Location served": "Rotorua, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ROU",
+    "ICAO": "LBRS",
+    "Airport name": "Ruse Airport",
+    "Location served": "Ruse, Bulgaria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ROV",
+    "ICAO": "URRP",
+    "Airport name": "Platov International Airport",
+    "Location served": "Novocherkassk, Rostov Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ROW",
+    "ICAO": "KROW",
+    "Airport name": "Roswell International Air Center",
+    "Location served": "Roswell, New Mexico, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ROX",
+    "ICAO": "KROX",
+    "Airport name": "Roseau Municipal Airport (Rudy Billberg Field)",
+    "Location served": "Roseau, Minnesota, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ROY",
+    "ICAO": "SAWM",
+    "Airport name": "Río Mayo Airport[1]",
+    "Location served": "Río Mayo, Chubut, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ROZ",
+    "ICAO": "LERT",
+    "Airport name": "US Naval Station Rota[1]",
+    "Location served": "Rota, Andalusia, Spain",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RPA",
+    "ICAO": "VNRP",
+    "Airport name": "Rolpa Airport[1]",
+    "Location served": "Rolpa, Nepal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RPB",
+    "ICAO": "YRRB",
+    "Airport name": "Roper Bar Airport",
+    "Location served": "Roper Bar, Northern Territory, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RPM",
+    "ICAO": "YNGU",
+    "Airport name": "Ngukurr Airport[1]",
+    "Location served": "Ngukurr, Northern Territory, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RPN",
+    "ICAO": "LLIB",
+    "Airport name": "Rosh Pina Airport",
+    "Location served": "Rosh Pinna, Israel",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RPR",
+    "ICAO": "VARP",
+    "Airport name": "Swami Vivekananda Airport",
+    "Location served": "Raipur, Chhattisgarh, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RPV",
+    "ICAO": "",
+    "Airport name": "Roper Valley Airport[1]",
+    "Location served": "Roper Valley, Northern Territory, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RPX",
+    "ICAO": "KRPX",
+    "Airport name": "Roundup Airport",
+    "Location served": "Roundup, Montana, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RQA",
+    "ICAO": "ZWRQ",
+    "Airport name": "Ruoqiang Loulan Airport",
+    "Location served": "Ruoqiang, Xinjiang, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RQW",
+    "ICAO": "",
+    "Airport name": "Qayyarah Airfield West[1]",
+    "Location served": "Qayyarah, Iraq",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RRE",
+    "ICAO": "",
+    "Airport name": "Marree Airport[1]",
+    "Location served": "Marree, South Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RRG",
+    "ICAO": "FIMR",
+    "Airport name": "Sir Gaëtan Duval Airport",
+    "Location served": "Rodrigues Island, Mauritius",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RRI",
+    "ICAO": "",
+    "Airport name": "Barora Airport[1]",
+    "Location served": "Barora, Solomon Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RRJ",
+    "ICAO": "SBJR",
+    "Airport name": "Jacarepaguá Airport[1]",
+    "Location served": "Barra da Tijuca, Rio de Janeiro, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RRK",
+    "ICAO": "VERK",
+    "Airport name": "Rourkela Airport",
+    "Location served": "Rourkela, Odisha, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RRL",
+    "ICAO": "KRRL",
+    "Airport name": "Merrill Municipal Airport",
+    "Location served": "Merrill, Wisconsin, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RRM",
+    "ICAO": "",
+    "Airport name": "Marromeu Airport[1]",
+    "Location served": "Marromeu, Mozambique",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RRR",
+    "ICAO": "NTKO",
+    "Airport name": "Raroia Airport",
+    "Location served": "Raroia, Tuamotus, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RRS",
+    "ICAO": "ENRO",
+    "Airport name": "Røros Airport",
+    "Location served": "Røros, Norway",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RRT",
+    "ICAO": "KRRT",
+    "Airport name": "Warroad International Memorial Airport (Swede Carlson Field)",
+    "Location served": "Warroad, Minnesota, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RRV",
+    "ICAO": "",
+    "Airport name": "Robinson River Airport[1]",
+    "Location served": "Robinson River, Northern Territory, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RSA",
+    "ICAO": "SAZR",
+    "Airport name": "Santa Rosa Airport",
+    "Location served": "Santa Rosa, La Pampa, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RSB",
+    "ICAO": "",
+    "Airport name": "Roseberth Airport[1]",
+    "Location served": "Roseberth, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RSD",
+    "ICAO": "MYER",
+    "Airport name": "Rock Sound International Airport[1]",
+    "Location served": "Rock Sound, Eleuthera Island, Bahamas",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RSE",
+    "ICAO": "",
+    "Airport name": "Rose Bay Water Airport[1]",
+    "Location served": "Sydney, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RSH",
+    "ICAO": "PARS",
+    "Airport name": "Russian Mission Airport",
+    "Location served": "Russian Mission, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RSJ",
+    "ICAO": "",
+    "Airport name": "Rosario Seaplane Base (FAA: W49)",
+    "Location served": "Orcas Island, Washington, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RSK",
+    "ICAO": "WASC",
+    "Airport name": "Abresso Airport[1]",
+    "Location served": "Ransiki, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RSL",
+    "ICAO": "KRSL",
+    "Airport name": "Russell Municipal Airport",
+    "Location served": "Russell, Kansas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RSN",
+    "ICAO": "KRSN",
+    "Airport name": "Ruston Regional Airport",
+    "Location served": "Ruston, Louisiana, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RSS",
+    "ICAO": "HSDZ",
+    "Airport name": "Damazin Airport[1]",
+    "Location served": "Ad-Damazin, Sudan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RST",
+    "ICAO": "KRST",
+    "Airport name": "Rochester International Airport",
+    "Location served": "Rochester, Minnesota, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RSU",
+    "ICAO": "RKJY",
+    "Airport name": "Yeosu/Suncheon Airport[1]",
+    "Location served": "Yeosu / Suncheon, South Korea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RSW",
+    "ICAO": "KRSW",
+    "Airport name": "Southwest Florida International Airport",
+    "Location served": "Fort Myers, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RSX",
+    "ICAO": "",
+    "Airport name": "Rouses Point Seaplane Base[1] (FAA: K21)",
+    "Location served": "Rouses Point, New York, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RTA",
+    "ICAO": "NFNR",
+    "Airport name": "Rotuma Airport[1]",
+    "Location served": "Rotuma Island, Fiji",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RTB",
+    "ICAO": "MHRO",
+    "Airport name": "Juan Manuel Gálvez International Airport",
+    "Location served": "Roatán, Honduras",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RTC",
+    "ICAO": "VARG",
+    "Airport name": "Ratnagiri Airport",
+    "Location served": "Ratnagiri, Maharashtra, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RTG",
+    "ICAO": "WATG",
+    "Airport name": "Frans Sales Lega Airport[1]",
+    "Location served": "Ruteng, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RTI",
+    "ICAO": "",
+    "Airport name": "David Constantijn Saudale Airport[1]",
+    "Location served": "Rote Island (Roti), Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RTL",
+    "ICAO": "",
+    "Airport name": "Spirit Lake Municipal Airport[1] (FAA: 0F3)",
+    "Location served": "Spirit Lake, Iowa, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RTM",
+    "ICAO": "EHRD",
+    "Airport name": "Rotterdam The Hague Airport",
+    "Location served": "Rotterdam, Netherlands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RTN",
+    "ICAO": "KRTN",
+    "Airport name": "Raton Municipal Airport (Crews Field)",
+    "Location served": "Raton, New Mexico, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RTP",
+    "ICAO": "YRTP",
+    "Airport name": "Rutland Plains Airport[1]",
+    "Location served": "Rutland Plains, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RTS",
+    "ICAO": "YRTI",
+    "Airport name": "Rottnest Island Airport",
+    "Location served": "Rottnest Island, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RTW",
+    "ICAO": "UWSS",
+    "Airport name": "Saratov Tsentralny Airport",
+    "Location served": "Saratov, Saratov Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RTY",
+    "ICAO": "YMYT",
+    "Airport name": "Merty Merty Airport[1]",
+    "Location served": "Merty Merty, South Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RUA",
+    "ICAO": "HUAR",
+    "Airport name": "Arua Airport",
+    "Location served": "Arua, Uganda",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RUD",
+    "ICAO": "OIMJ",
+    "Airport name": "Shahroud Airport[1]",
+    "Location served": "Shahrud, Iran",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RUE",
+    "ICAO": "",
+    "Airport name": "Butembo Airport[1]",
+    "Location served": "Butembo, Democratic Republic of the Congo",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RUF",
+    "ICAO": "WAJE",
+    "Airport name": "Yuruf Airport[1]",
+    "Location served": "Yuruf, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RUG",
+    "ICAO": "ZSRG",
+    "Airport name": "Rugao Air Base",
+    "Location served": "Rugao, Jiangsu, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RUH",
+    "ICAO": "OERK",
+    "Airport name": "King Khalid International Airport",
+    "Location served": "Riyadh, Saudi Arabia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RUI",
+    "ICAO": "KSRR",
+    "Airport name": "Sierra Blanca Regional Airport[1] (FAA: SRR)",
+    "Location served": "Ruidoso, New Mexico, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RUK",
+    "ICAO": "VNRK",
+    "Airport name": "Chaurjahari Airport",
+    "Location served": "Rukumkot, Nepal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RUL",
+    "ICAO": "",
+    "Airport name": "Maavaarulaa Airport[1]",
+    "Location served": "Gaddhoo, Gaafu Dhaalu Atoll, Maldives",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RUM",
+    "ICAO": "VNRT",
+    "Airport name": "Rumjatar Airport",
+    "Location served": "Rumjatar, Nepal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RUN",
+    "ICAO": "FMEE",
+    "Airport name": "Roland Garros Airport",
+    "Location served": "St-Denis, Réunion, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RUP",
+    "ICAO": "VERU",
+    "Airport name": "Rupsi Airport",
+    "Location served": "Rupsi, Assam, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RUR",
+    "ICAO": "NTAR",
+    "Airport name": "Rurutu Airport",
+    "Location served": "Rurutu, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RUS",
+    "ICAO": "AGGU",
+    "Airport name": "Marau Airport",
+    "Location served": "Marau, Solomon Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RUT",
+    "ICAO": "KRUT",
+    "Airport name": "Rutland – Southern Vermont Regional Airport",
+    "Location served": "Rutland, Vermont, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RUU",
+    "ICAO": "",
+    "Airport name": "Ruti Airport[1]",
+    "Location served": "Kawbenaberi, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RUV",
+    "ICAO": "MGRB",
+    "Airport name": "Rubelsanto Airport[1]",
+    "Location served": "Rubelsanto, Guatemala",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RUY",
+    "ICAO": "MHRU",
+    "Airport name": "Copán Ruinas Airport[1]",
+    "Location served": "Copán Ruinas, Honduras",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RVA",
+    "ICAO": "FMSG",
+    "Airport name": "Farafangana Airport[1]",
+    "Location served": "Farafangana, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RVC",
+    "ICAO": "",
+    "Airport name": "River Cess Airport[1]",
+    "Location served": "River Cess, Liberia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RVD",
+    "ICAO": "SWLC",
+    "Airport name": "General Leite de Castro Airport[1]",
+    "Location served": "Rio Verde, Goiás, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RVE",
+    "ICAO": "SKSA",
+    "Airport name": "Los Colonizadores Airport",
+    "Location served": "Saravena, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RVH",
+    "ICAO": "ULSS",
+    "Airport name": "Rzhevka Airport",
+    "Location served": "Saint Petersburg, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RVI",
+    "ICAO": "URRR",
+    "Airport name": "Rostov-on-Don Airport",
+    "Location served": "Rostov-on-Don, Rostov Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RVK",
+    "ICAO": "ENRM",
+    "Airport name": "Rørvik Airport, Ryum",
+    "Location served": "Rørvik, Norway",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RVN",
+    "ICAO": "EFRO",
+    "Airport name": "Rovaniemi Airport",
+    "Location served": "Rovaniemi, Finland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RVO",
+    "ICAO": "FARI",
+    "Airport name": "Reivilo Airport[1]",
+    "Location served": "Reivilo, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RVR",
+    "ICAO": "",
+    "Airport name": "Green River Municipal Airport[1] (FAA: U34)",
+    "Location served": "Green River, Utah, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RVS",
+    "ICAO": "KRVS",
+    "Airport name": "Richard Lloyd Jones Jr. Airport",
+    "Location served": "Tulsa, Oklahoma, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RVT",
+    "ICAO": "YNRV",
+    "Airport name": "Ravensthorpe Airport[1]",
+    "Location served": "Ravensthorpe, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RVV",
+    "ICAO": "NTAV",
+    "Airport name": "Raivavae Airport",
+    "Location served": "Raivavae, Austral Islands, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RVY",
+    "ICAO": "SURV",
+    "Airport name": "Pres. Gral. Óscar D. Gestido International Airport",
+    "Location served": "Rivera, Uruguay",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RWF",
+    "ICAO": "KRWF",
+    "Airport name": "Redwood Falls Municipal Airport",
+    "Location served": "Redwood Falls, Minnesota, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RWI",
+    "ICAO": "KRWI",
+    "Airport name": "Rocky Mount–Wilson Regional Airport",
+    "Location served": "Rocky Mount, North Carolina, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RWL",
+    "ICAO": "KRWL",
+    "Airport name": "Rawlins Municipal Airport (Harvey Field)",
+    "Location served": "Rawlins, Wyoming, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RWN",
+    "ICAO": "UKLR",
+    "Airport name": "Rivne International Airport",
+    "Location served": "Rivne, Ukraine",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RXA",
+    "ICAO": "",
+    "Airport name": "Ar Rawdah Airport[1]",
+    "Location served": "Ar Rawdah (Raudha), Yemen",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RXE",
+    "ICAO": "KRXE",
+    "Airport name": "Rexburg–Madison County Airport",
+    "Location served": "Rexburg, Idaho, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RXS",
+    "ICAO": "RPVR",
+    "Airport name": "Roxas Airport",
+    "Location served": "Roxas, Philippines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RYB",
+    "ICAO": "UUBK",
+    "Airport name": "Staroselye Airport",
+    "Location served": "Rybinsk, Yaroslavl Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RYG",
+    "ICAO": "ENRY",
+    "Airport name": "Moss Airport, Rygge / Rygge Air Station",
+    "Location served": "Oslo / Moss, Norway",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RYK",
+    "ICAO": "OPRK",
+    "Airport name": "Shaikh Zayed International Airport[1]",
+    "Location served": "Rahim Yar Khan, Pakistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RYL",
+    "ICAO": "",
+    "Airport name": "Royal Airstrip[1]",
+    "Location served": "Lower Zambezi National Park, Zambia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RYN",
+    "ICAO": "LFCY",
+    "Airport name": "Royan – Médis Aerodrome",
+    "Location served": "Royan, Poitou-Charentes, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RYO",
+    "ICAO": "SAWT",
+    "Airport name": "Rio Turbio Airport[1]",
+    "Location served": "Río Turbio, Santa Cruz, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RZA",
+    "ICAO": "SAWU",
+    "Airport name": "Santa Cruz Airport[1]",
+    "Location served": "Puerto Santa Cruz, Santa Cruz, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RZE",
+    "ICAO": "EPRZ",
+    "Airport name": "Rzeszów–Jasionka Airport",
+    "Location served": "Rzeszów, Poland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RZN",
+    "ICAO": "UUWR",
+    "Airport name": "Turlatovo Airport",
+    "Location served": "Ryazan, Ryazan Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RZP",
+    "ICAO": "RPSD",
+    "Airport name": "Cesar Lim Rodriguez Airport",
+    "Location served": "Taytay, Philippines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RZR",
+    "ICAO": "OINR",
+    "Airport name": "Ramsar International Airport[1]",
+    "Location served": "Ramsar, Iran",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RZS",
+    "ICAO": "OPSW",
+    "Airport name": "Sawan Airport[1]",
+    "Location served": "Sawan, Pakistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "RZZ",
+    "ICAO": "KRZZ",
+    "Airport name": "Halifax County Airport",
+    "Location served": "Roanoke Rapids, North Carolina, United States",
+    "Time": "",
+    "DST": ""
+  }
+]

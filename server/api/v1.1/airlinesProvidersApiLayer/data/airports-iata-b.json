@@ -1,0 +1,4930 @@
+[
+  {
+    "IATA": "BAA",
+    "ICAO": "AYBL",
+    "Airport name": "Bialla Airport",
+    "Location served": "Bialla, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BAB",
+    "ICAO": "KBAB",
+    "Airport name": "Beale Air Force Base",
+    "Location served": "Marysville, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BAC",
+    "ICAO": "",
+    "Airport name": "Barranca de Upia Airport",
+    "Location served": "Barranca de Upía, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BAD",
+    "ICAO": "KBAD",
+    "Airport name": "Barksdale Air Force Base",
+    "Location served": "Bossier City, Louisiana, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BAE",
+    "ICAO": "LFMR",
+    "Airport name": "Barcelonnette – Saint-Pons Airport",
+    "Location served": "Barcelonnette, Alpes-de-Haute-Provence, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BAF",
+    "ICAO": "KBAF",
+    "Airport name": "Westfield-Barnes Regional Airport",
+    "Location served": "Westfield / Springfield, Massachusetts, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BAG",
+    "ICAO": "RPUB",
+    "Airport name": "Loakan Airport",
+    "Location served": "Baguio, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BAH",
+    "ICAO": "OBBI",
+    "Airport name": "Bahrain International Airport",
+    "Location served": "Manama, Bahrain",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BAI",
+    "ICAO": "MRBA",
+    "Airport name": "Buenos Aires Airport",
+    "Location served": "Buenos Aires, Costa Rica",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BAJ",
+    "ICAO": "",
+    "Airport name": "Bali Airport",
+    "Location served": "Bali, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BAK[1]",
+    "ICAO": "",
+    "Airport name": "metropolitan area2",
+    "Location served": "Baku, Azerbaijan",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BAL",
+    "ICAO": "LTCJ",
+    "Airport name": "Batman Airport",
+    "Location served": "Batman, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BAM",
+    "ICAO": "KBAM",
+    "Airport name": "Battle Mountain Airport (Lander County Airport)",
+    "Location served": "Battle Mountain, Nevada, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BAN",
+    "ICAO": "FZVR",
+    "Airport name": "Basongo Airport",
+    "Location served": "Basongo, Democratic Republic of the Congo",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BAP",
+    "ICAO": "",
+    "Airport name": "Baibara Airport",
+    "Location served": "Baibara, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BAQ",
+    "ICAO": "SKBQ",
+    "Airport name": "Ernesto Cortissoz International Airport",
+    "Location served": "Barranquilla, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BAR",
+    "ICAO": "",
+    "Airport name": "Qionghai Bo'ao Airport",
+    "Location served": "Qionghai, Hainan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BAS",
+    "ICAO": "AGGE",
+    "Airport name": "Balalae Airport",
+    "Location served": "Balalae Island, Western, Solomon Islands",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BAT",
+    "ICAO": "SBBT",
+    "Airport name": "Chafei Amsei Airport",
+    "Location served": "Barretos, São Paulo, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "BAV",
+    "ICAO": "ZBOW",
+    "Airport name": "Baotou Airport",
+    "Location served": "Baotou, Inner Mongolia, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BAW",
+    "ICAO": "",
+    "Airport name": "Biawonque Airport",
+    "Location served": "Biawonque, Gabon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BAX",
+    "ICAO": "UNBB",
+    "Airport name": "Barnaul Airport",
+    "Location served": "Barnaul, Altai Krai, Russia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BAY",
+    "ICAO": "LRBM",
+    "Airport name": "Baia Mare Airport",
+    "Location served": "Baia Mare, Romania",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BAZ",
+    "ICAO": "SWBC",
+    "Airport name": "Barcelos Airport",
+    "Location served": "Barcelos, Amazonas, Brazil",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BBA",
+    "ICAO": "SCBA",
+    "Airport name": "Balmaceda Airport",
+    "Location served": "Balmaceda, Chile",
+    "Time": "UTC−04:00",
+    "DST": "Aug-May"
+  },
+  {
+    "IATA": "BBB",
+    "ICAO": "KBBB",
+    "Airport name": "Benson Municipal Airport",
+    "Location served": "Benson, Minnesota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BBC",
+    "ICAO": "KBYY",
+    "Airport name": "Bay City Municipal Airport (FAA: BYY)",
+    "Location served": "Bay City, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BBD",
+    "ICAO": "KBBD",
+    "Airport name": "Curtis Field",
+    "Location served": "Brady, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BBG",
+    "ICAO": "NGTU",
+    "Airport name": "Butaritari Atoll Airport",
+    "Location served": "Butaritari Atoll, Kiribati",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BBH",
+    "ICAO": "EDBH",
+    "Airport name": "Stralsund–Barth Airport",
+    "Location served": "Stralsund / Barth, Mecklenburg-Vorpommern, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BBI",
+    "ICAO": "VEBS",
+    "Airport name": "Biju Patnaik International Airport",
+    "Location served": "Bhubaneswar, Odisha, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "BBJ",
+    "ICAO": "EDRB",
+    "Airport name": "Bitburg Airport (former Bitburg Air Base)",
+    "Location served": "Bitburg, Rhineland-Palatinate, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BBK",
+    "ICAO": "FBKE",
+    "Airport name": "Kasane Airport",
+    "Location served": "Kasane, Botswana",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BBL",
+    "ICAO": "YLLE",
+    "Airport name": "Ballera Airport",
+    "Location served": "Ballera gas plant, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BBM",
+    "ICAO": "VDBG",
+    "Airport name": "Battambang Airport",
+    "Location served": "Battambang, Cambodia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BBN",
+    "ICAO": "WBGZ",
+    "Airport name": "Bario Airport",
+    "Location served": "Bario, Sarawak, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BBO",
+    "ICAO": "HCMI",
+    "Airport name": "Berbera Airport",
+    "Location served": "Berbera, Somalia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BBP",
+    "ICAO": "EGHJ",
+    "Airport name": "Bembridge Airport",
+    "Location served": "Bembridge, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BBQ",
+    "ICAO": "TAPH",
+    "Airport name": "Barbuda Codrington Airport",
+    "Location served": "Barbuda, Antigua and Barbuda",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BBR",
+    "ICAO": "TFFB",
+    "Airport name": "Baillif Airport",
+    "Location served": "Basse-Terre, Guadeloupe",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BBS",
+    "ICAO": "EGLK",
+    "Airport name": "Blackbushe Airport",
+    "Location served": "Yateley, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BBT",
+    "ICAO": "FEFT",
+    "Airport name": "Berbérati Airport",
+    "Location served": "Berbérati, Central African Republic",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BBU",
+    "ICAO": "LRBS",
+    "Airport name": "Aurel Vlaicu International Airport (Băneasa Airport)",
+    "Location served": "Bucharest, Romania",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BBV",
+    "ICAO": "DIGN",
+    "Airport name": "Nero-Mer Airport",
+    "Location served": "Grand-Béréby, Ivory Coast",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BBW",
+    "ICAO": "KBBW",
+    "Airport name": "Broken Bow Municipal Airport",
+    "Location served": "Broken Bow, Nebraska, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BBX",
+    "ICAO": "KLOM",
+    "Airport name": "Wings Field (FAA: LOM)",
+    "Location served": "Philadelphia, Pennsylvania, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BBY",
+    "ICAO": "FEFM",
+    "Airport name": "Bambari Airport",
+    "Location served": "Bambari, Central African Republic",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BBZ",
+    "ICAO": "FLZB",
+    "Airport name": "Zambezi Airport",
+    "Location served": "Zambezi, Zambia",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BCA",
+    "ICAO": "MUBA",
+    "Airport name": "Gustavo Rizo Airport",
+    "Location served": "Baracoa, Cuba",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BCB",
+    "ICAO": "KBCB",
+    "Airport name": "Virginia Tech Montgomery Executive Airport",
+    "Location served": "Blacksburg, Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BCC",
+    "ICAO": "",
+    "Airport name": "Bear Creek 3 Airport (FAA: Z48)",
+    "Location served": "Bear Creek, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BCD",
+    "ICAO": "RPVB",
+    "Airport name": "Bacolod–Silay International Airport",
+    "Location served": "Bacolod, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BCE",
+    "ICAO": "KBCE",
+    "Airport name": "Bryce Canyon Airport",
+    "Location served": "Bryce Canyon, Utah, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BCF",
+    "ICAO": "FEGU",
+    "Airport name": "Bouca Airport",
+    "Location served": "Bouca, Central African Republic",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BCG",
+    "ICAO": "",
+    "Airport name": "Bemichi Airport",
+    "Location served": "Kumaka, Guyana",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BCH",
+    "ICAO": "WPEC",
+    "Airport name": "Baucau Airport",
+    "Location served": "Baucau, East Timor",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BCI",
+    "ICAO": "YBAR",
+    "Airport name": "Barcaldine Airport",
+    "Location served": "Barcaldine, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BCK",
+    "ICAO": "YBWR",
+    "Airport name": "Bolwarra Airport",
+    "Location served": "Bolwarra, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BCL",
+    "ICAO": "MRBC",
+    "Airport name": "Barra del Colorado Airport",
+    "Location served": "Barra del Colorado, Costa Rica",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BCM",
+    "ICAO": "LRBC",
+    "Airport name": "Bacău International Airport",
+    "Location served": "Bacău, Romania",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BCN",
+    "ICAO": "LEBL",
+    "Airport name": "Barcelona–El Prat Airport",
+    "Location served": "Barcelona, Catalonia, Spain",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BCO",
+    "ICAO": "HABC",
+    "Airport name": "Baco Airport (Jinka Airport)",
+    "Location served": "Jinka, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BCP",
+    "ICAO": "AYBC",
+    "Airport name": "Bambu Airport",
+    "Location served": "Bambu, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BCQ",
+    "ICAO": "",
+    "Airport name": "Brak Airport",
+    "Location served": "Brak, Libya",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BCR",
+    "ICAO": "SWNK",
+    "Airport name": "Novo Campo Airport",
+    "Location served": "Boca do Acre, Amazonas, Brazil",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BCS",
+    "ICAO": "",
+    "Airport name": "Southern Seaplane Airport (FAA: 65LA)",
+    "Location served": "Belle Chasse, Louisiana, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BCT",
+    "ICAO": "KBCT",
+    "Airport name": "Boca Raton Airport",
+    "Location served": "Boca Raton, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BCU",
+    "ICAO": "",
+    "Airport name": "Bauchi State Airport",
+    "Location served": "Bauchi, Nigeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BCV",
+    "ICAO": "",
+    "Airport name": "Hector Silva Airstrip",
+    "Location served": "Belmopan, Belize",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BCW",
+    "ICAO": "",
+    "Airport name": "Benguerra Island Airport",
+    "Location served": "Benguerra Island, Mozambique",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BCX",
+    "ICAO": "UWUB",
+    "Airport name": "Beloretsk Airport",
+    "Location served": "Beloretsk, Republic of Bashkortostan, Russia",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BCY",
+    "ICAO": "HABU",
+    "Airport name": "Bulchi Airport",
+    "Location served": "Bulchi, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BCZ",
+    "ICAO": "",
+    "Airport name": "Bickerton Island Airport",
+    "Location served": "Bickerton Island, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "BDA",
+    "ICAO": "TXKF",
+    "Airport name": "L.F. Wade International Airport",
+    "Location served": "Hamilton, British Overseas Territory of Bermuda",
+    "Time": "UTC−04:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BDB",
+    "ICAO": "YBUD",
+    "Airport name": "Bundaberg Airport",
+    "Location served": "Bundaberg, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BDC",
+    "ICAO": "SNBC",
+    "Airport name": "Barra do Corda Airport",
+    "Location served": "Barra do Corda, Maranhão, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BDD",
+    "ICAO": "YBAU",
+    "Airport name": "Badu Island Airport",
+    "Location served": "Badu Island, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BDE",
+    "ICAO": "KBDE",
+    "Airport name": "Baudette International Airport",
+    "Location served": "Baudette, Minnesota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BDF",
+    "ICAO": "",
+    "Airport name": "Rinkenberger RLA Airport (FAA: 3IS8)",
+    "Location served": "Bradford, Illinois, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BDG",
+    "ICAO": "KBDG",
+    "Airport name": "Blanding Municipal Airport",
+    "Location served": "Blanding, Utah, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BDH",
+    "ICAO": "OIBL",
+    "Airport name": "Bandar Lengeh Airport",
+    "Location served": "Bandar Lengeh, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "BDI",
+    "ICAO": "FSSB",
+    "Airport name": "Bird Island Airport",
+    "Location served": "Bird Island, Seychelles",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BDJ",
+    "ICAO": "WAOO",
+    "Airport name": "Syamsudin Noor Airport",
+    "Location served": "Banjarmasin, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BDK",
+    "ICAO": "DIBU",
+    "Airport name": "Soko Airport",
+    "Location served": "Bondoukou, Ivory Coast",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BDL",
+    "ICAO": "KBDL",
+    "Airport name": "Bradley International Airport",
+    "Location served": "Windsor Locks / Hartford, Connecticut, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BDM",
+    "ICAO": "LTBG",
+    "Airport name": "Bandırma Airport",
+    "Location served": "Bandırma, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BDN",
+    "ICAO": "OPTH",
+    "Airport name": "Talhar Airport",
+    "Location served": "Badin, Pakistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BDO",
+    "ICAO": "WICC",
+    "Airport name": "Husein Sastranegara International Airport",
+    "Location served": "Bandung, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BDP",
+    "ICAO": "VNCG",
+    "Airport name": "Bhadrapur Airport (Chandragadhi Airport)",
+    "Location served": "Bhadrapur / Chandragadhi, Nepal",
+    "Time": "UTC+05:45",
+    "DST": ""
+  },
+  {
+    "IATA": "BDQ",
+    "ICAO": "VABO",
+    "Airport name": "Vadodara Airport (Civil Airport Harni)",
+    "Location served": "Vadodara, Gujarat, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "BDR",
+    "ICAO": "KBDR",
+    "Airport name": "Igor I. Sikorsky Memorial Airport",
+    "Location served": "Bridgeport, Connecticut, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BDS",
+    "ICAO": "LIBR",
+    "Airport name": "Brindisi – Salento Airport",
+    "Location served": "Brindisi, Apulia, Italy",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BDT",
+    "ICAO": "FZFD",
+    "Airport name": "Gbadolite Airport",
+    "Location served": "Gbadolite, Democratic Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BDU",
+    "ICAO": "ENDU",
+    "Airport name": "Bardufoss Airport",
+    "Location served": "Bardufoss, Norway",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BDV",
+    "ICAO": "FZRB",
+    "Airport name": "Moba Airport",
+    "Location served": "Moba, Democratic Republic of the Congo",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BDW",
+    "ICAO": "YBDF",
+    "Airport name": "Bedford Downs Airport",
+    "Location served": "Bedford Downs, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BDX",
+    "ICAO": "",
+    "Airport name": "Broadus Airport[1]",
+    "Location served": "Broadus, Montana, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BDY",
+    "ICAO": "",
+    "Airport name": "Bandon State Airport (FAA: S05)",
+    "Location served": "Bandon, Oregon, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BDZ",
+    "ICAO": "AYBG",
+    "Airport name": "Baindoung Airport",
+    "Location served": "Baindoung, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BEA",
+    "ICAO": "",
+    "Airport name": "Bereina Airport",
+    "Location served": "Bereina, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BEB",
+    "ICAO": "EGPL",
+    "Airport name": "Benbecula Airport",
+    "Location served": "Benbecula, Scotland, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BEC",
+    "ICAO": "KBEC",
+    "Airport name": "Beech Factory Airport",
+    "Location served": "Wichita, Kansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BED",
+    "ICAO": "KBED",
+    "Airport name": "Laurence G. Hanscom Field",
+    "Location served": "Bedford, Massachusetts, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BEE",
+    "ICAO": "YBGB",
+    "Airport name": "Beagle Bay Airport",
+    "Location served": "Beagle Bay, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BEF",
+    "ICAO": "MNBL",
+    "Airport name": "Bluefields Airport",
+    "Location served": "Bluefields, Nicaragua",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BEG",
+    "ICAO": "LYBE",
+    "Airport name": "Belgrade Nikola Tesla Airport",
+    "Location served": "Belgrade, Serbia",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BEH",
+    "ICAO": "KBEH",
+    "Airport name": "Southwest Michigan Regional Airport",
+    "Location served": "Benton Harbor, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BEI",
+    "ICAO": "HABE",
+    "Airport name": "Beica Airport",
+    "Location served": "Beica, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BEJ",
+    "ICAO": "WALK",
+    "Airport name": "Kalimarau Airport",
+    "Location served": "Tanjung Redeb, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BEK",
+    "ICAO": "VIBY",
+    "Airport name": "Bareilly Airport",
+    "Location served": "Bareilly, Uttar Pradesh, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "BEL",
+    "ICAO": "SBBE",
+    "Airport name": "Val de Cans International Airport",
+    "Location served": "Belém, Pará, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BEM",
+    "ICAO": "GMMD",
+    "Airport name": "Beni Mellal Airport[1]",
+    "Location served": "Beni Mellal, Morocco",
+    "Time": "UTC+00:00",
+    "DST": "Mar-Oct1"
+  },
+  {
+    "IATA": "BEN",
+    "ICAO": "HLLB",
+    "Airport name": "Benina International Airport",
+    "Location served": "Benghazi, Libya",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BEO",
+    "ICAO": "YLMQ[2][3]",
+    "Airport name": "Lake Macquarie Airport (Belmont Airport)",
+    "Location served": "Newcastle, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "BEP",
+    "ICAO": "VOBI",
+    "Airport name": "Bellary Airport",
+    "Location served": "Bellary, Karnataka, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "BEQ",
+    "ICAO": "EGXH",
+    "Airport name": "RAF Honington",
+    "Location served": "Bury St Edmunds, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BER",
+    "ICAO": "EDDB",
+    "Airport name": "Berlin Brandenburg Airport",
+    "Location served": "Berlin, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BES",
+    "ICAO": "LFRB",
+    "Airport name": "Brest Bretagne Airport",
+    "Location served": "Brest, Brittany, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BET",
+    "ICAO": "PABE",
+    "Airport name": "Bethel Airport",
+    "Location served": "Bethel, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BEU",
+    "ICAO": "YBIE",
+    "Airport name": "Bedourie Airport",
+    "Location served": "Bedourie, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BEV",
+    "ICAO": "LLBS",
+    "Airport name": "Beersheba Airport",
+    "Location served": "Beersheba, Israel",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BEW",
+    "ICAO": "FQBR",
+    "Airport name": "Beira Airport",
+    "Location served": "Beira, Mozambique",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BEX",
+    "ICAO": "EGUB",
+    "Airport name": "RAF Benson",
+    "Location served": "Benson, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BEY",
+    "ICAO": "OLBA",
+    "Airport name": "Beirut–Rafic Hariri International Airport / Beirut Air Base",
+    "Location served": "Beirut, Lebanon",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BEZ",
+    "ICAO": "NGBR",
+    "Airport name": "Beru Island Airport",
+    "Location served": "Beru Island, Kiribati",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BFA[1]",
+    "ICAO": "SGBN[4]",
+    "Airport name": "Bahía Negra Airport[1]",
+    "Location served": "Bahía Negra, Paraguay",
+    "Time": "UTC−04:00",
+    "DST": "Oct-Mar"
+  },
+  {
+    "IATA": "BFC",
+    "ICAO": "",
+    "Airport name": "Bloomfield Airport",
+    "Location served": "Bloomfield, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BFD",
+    "ICAO": "KBFD",
+    "Airport name": "Bradford Regional Airport",
+    "Location served": "Bradford, Pennsylvania, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BFE",
+    "ICAO": "EDLI",
+    "Airport name": "Bielefeld Airport",
+    "Location served": "Bielefeld, North Rhine-Westphalia, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BFF",
+    "ICAO": "KBFF",
+    "Airport name": "Western Nebraska Regional Airport (William B. Heilig Field)",
+    "Location served": "Scottsbluff, Nebraska, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BFG",
+    "ICAO": "",
+    "Airport name": "Bullfrog Basin Airport (FAA: U07)",
+    "Location served": "Glen Canyon, Utah, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BFH",
+    "ICAO": "SBBI",
+    "Airport name": "Bacacheri Airport",
+    "Location served": "Curitiba, Paraná, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "BFI",
+    "ICAO": "KBFI",
+    "Airport name": "Boeing Field/King County International Airport",
+    "Location served": "Seattle, Washington, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BFJ",
+    "ICAO": "ZUBJ",
+    "Airport name": "Bijie Feixiong Airport",
+    "Location served": "Bijie, Guizhou, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BFK",
+    "ICAO": "KBKF",
+    "Airport name": "Buckley Air Force Base",
+    "Location served": "Aurora, Colorado, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BFL",
+    "ICAO": "KBFL",
+    "Airport name": "Meadows Field Airport",
+    "Location served": "Bakersfield, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BFM",
+    "ICAO": "KBFM",
+    "Airport name": "Mobile Downtown Airport",
+    "Location served": "Mobile, Alabama, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BFN",
+    "ICAO": "FABL",
+    "Airport name": "Bloemfontein Airport",
+    "Location served": "Bloemfontein, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BFO",
+    "ICAO": "FVCZ",
+    "Airport name": "Buffalo Range Airport",
+    "Location served": "Chiredzi, Zimbabwe",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BFP",
+    "ICAO": "KBVI",
+    "Airport name": "Beaver County Airport (FAA: BVI)",
+    "Location served": "Beaver Falls, Pennsylvania, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BFQ",
+    "ICAO": "",
+    "Airport name": "Bahía Piña Airport",
+    "Location served": "Puerto Piña, Panama",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BFR",
+    "ICAO": "KBFR",
+    "Airport name": "Virgil I. Grissom Municipal Airport",
+    "Location served": "Bedford, Indiana, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BFS",
+    "ICAO": "EGAA",
+    "Airport name": "Belfast International Airport",
+    "Location served": "Belfast, Northern Ireland, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BFT",
+    "ICAO": "KARW",
+    "Airport name": "Beaufort County Airport (FAA: ARW)",
+    "Location served": "Beaufort County, South Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BFU",
+    "ICAO": "ZSBB",
+    "Airport name": "Bengbu Airport",
+    "Location served": "Bengbu, Anhui, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BFV",
+    "ICAO": "VTUO",
+    "Airport name": "Buriram Airport",
+    "Location served": "Buriram, Thailand",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BFW",
+    "ICAO": "DAOS",
+    "Airport name": "Sidi Bel Abbès Airport",
+    "Location served": "Sidi Bel Abbès, Algeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BFX",
+    "ICAO": "FKKU",
+    "Airport name": "Bafoussam Airport",
+    "Location served": "Bafoussam, Cameroon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BGA",
+    "ICAO": "SKBG",
+    "Airport name": "Palonegro International Airport",
+    "Location served": "Bucaramanga, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BGB",
+    "ICAO": "FOGB",
+    "Airport name": "Booué Airport",
+    "Location served": "Booué, Gabon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BGC",
+    "ICAO": "LPBG",
+    "Airport name": "Bragança Airport",
+    "Location served": "Bragança, Portugal",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BGD",
+    "ICAO": "KBGD",
+    "Airport name": "Hutchinson County Airport",
+    "Location served": "Borger, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BGE",
+    "ICAO": "KBGE",
+    "Airport name": "Decatur County Industrial Air Park",
+    "Location served": "Bainbridge, Georgia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BGF",
+    "ICAO": "FEFF",
+    "Airport name": "Bangui M'Poko International Airport",
+    "Location served": "Bangui, Central African Republic",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BGG",
+    "ICAO": "LTCU",
+    "Airport name": "Bingöl Airport[1]",
+    "Location served": "Bingöl, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BGH",
+    "ICAO": "GQNE",
+    "Airport name": "Abbaye Airport",
+    "Location served": "Bogué, Mauritania",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BGI",
+    "ICAO": "TBPB",
+    "Airport name": "Grantley Adams International Airport",
+    "Location served": "Bridgetown, Barbados",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BGJ",
+    "ICAO": "BIBF",
+    "Airport name": "Borgarfjörður Eystri Airport",
+    "Location served": "Borgarfjörður Eystri, Iceland",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BGK",
+    "ICAO": "",
+    "Airport name": "Big Creek Airport",
+    "Location served": "Big Creek, Belize",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BGL",
+    "ICAO": "VNBL",
+    "Airport name": "Baglung Airport",
+    "Location served": "Baglung, Nepal",
+    "Time": "UTC+05:45",
+    "DST": ""
+  },
+  {
+    "IATA": "BGM",
+    "ICAO": "KBGM",
+    "Airport name": "Greater Binghamton Airport (Edwin A. Link Field)",
+    "Location served": "Binghamton, New York, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BGN",
+    "ICAO": "UESG",
+    "Airport name": "Belaya Gora Airport",
+    "Location served": "Belaya Gora, Yakutia, Russia",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BGO",
+    "ICAO": "ENBR",
+    "Airport name": "Bergen Airport, Flesland",
+    "Location served": "Bergen, Norway",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BGP",
+    "ICAO": "",
+    "Airport name": "Bongo Airport",
+    "Location served": "Bongo, Gabon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BGQ",
+    "ICAO": "PAGQ",
+    "Airport name": "Big Lake Airport",
+    "Location served": "Big Lake, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BGR",
+    "ICAO": "KBGR",
+    "Airport name": "Bangor International Airport",
+    "Location served": "Bangor, Maine, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BGT",
+    "ICAO": "",
+    "Airport name": "Bagdad Airport (FAA: E51)",
+    "Location served": "Bagdad, Arizona, United States",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BGU",
+    "ICAO": "FEFG",
+    "Airport name": "Bangassou Airport",
+    "Location served": "Bangassou, Central African Republic",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BGV",
+    "ICAO": "",
+    "Airport name": "Bento Gonçalves Airport",
+    "Location served": "Bento Gonçalves, Rio Grande do Sul, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "BGW",
+    "ICAO": "ORBI",
+    "Airport name": "Baghdad International Airport",
+    "Location served": "Baghdad, Iraq",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BGX",
+    "ICAO": "SBBG",
+    "Airport name": "Comandante Gustavo Kraemer Airport",
+    "Location served": "Bagé, Rio Grande do Sul, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "BGY",
+    "ICAO": "LIME",
+    "Airport name": "Il Caravaggio International Airport (Orio al Serio Airport)",
+    "Location served": "Milan / Bergamo, Lombardy, Italy",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BGZ",
+    "ICAO": "LPBR",
+    "Airport name": "Braga Airport",
+    "Location served": "Braga, Portugal",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BHA",
+    "ICAO": "SESV",
+    "Airport name": "Los Perales Airport",
+    "Location served": "Bahía de Caráquez, Ecuador",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BHB",
+    "ICAO": "KBHB",
+    "Airport name": "Hancock County-Bar Harbor Airport",
+    "Location served": "Bar Harbor, Maine, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BHD",
+    "ICAO": "EGAC",
+    "Airport name": "George Best Belfast City Airport",
+    "Location served": "Belfast, Northern Ireland, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BHE",
+    "ICAO": "NZWB",
+    "Airport name": "Woodbourne Airport",
+    "Location served": "Blenheim, New Zealand",
+    "Time": "UTC+12:00",
+    "DST": "Sep-Apr"
+  },
+  {
+    "IATA": "BHF",
+    "ICAO": "SKCP",
+    "Airport name": "Bahía Cupica Airport",
+    "Location served": "Bahía Cupica, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BHG",
+    "ICAO": "",
+    "Airport name": "Brus Laguna Airport",
+    "Location served": "Brus Laguna, Honduras",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BHH",
+    "ICAO": "OEBH",
+    "Airport name": "Bisha Domestic Airport",
+    "Location served": "Bisha, Saudi Arabia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BHI",
+    "ICAO": "SAZB",
+    "Airport name": "Comandante Espora Airport",
+    "Location served": "Bahía Blanca, Buenos Aires, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BHJ",
+    "ICAO": "VABJ",
+    "Airport name": "Bhuj Airport / Bhuj Rudra Mata Air Force Base",
+    "Location served": "Bhuj, Gujarat, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "BHK",
+    "ICAO": "UTSB",
+    "Airport name": "Bukhara International Airport",
+    "Location served": "Bukhara, Uzbekistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BHL",
+    "ICAO": "",
+    "Airport name": "Bahía de los Ángeles Airport",
+    "Location served": "Bahía de los Ángeles, Baja California, Mexico",
+    "Time": "UTC−08:00",
+    "DST": "Apr-Oct"
+  },
+  {
+    "IATA": "BHM",
+    "ICAO": "KBHM",
+    "Airport name": "Birmingham–Shuttlesworth International Airport",
+    "Location served": "Birmingham, Alabama, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BHN",
+    "ICAO": "OYBN",
+    "Airport name": "Beihan Airport",
+    "Location served": "Beihan, Yemen",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BHO",
+    "ICAO": "VABP",
+    "Airport name": "Raja Bhoj Airport",
+    "Location served": "Bhopal, Madhya Pradesh, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "BHP",
+    "ICAO": "VNBJ",
+    "Airport name": "Bhojpur Airport",
+    "Location served": "Bhojpur, Nepal",
+    "Time": "UTC+05:45",
+    "DST": ""
+  },
+  {
+    "IATA": "BHQ",
+    "ICAO": "YBHI",
+    "Airport name": "Broken Hill Airport",
+    "Location served": "Broken Hill, New South Wales, Australia",
+    "Time": "UTC+09:30",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "BHR",
+    "ICAO": "VNBP",
+    "Airport name": "Bharatpur Airport",
+    "Location served": "Bharatpur, Nepal",
+    "Time": "UTC+05:45",
+    "DST": ""
+  },
+  {
+    "IATA": "BHS",
+    "ICAO": "YBTH",
+    "Airport name": "Bathurst Airport",
+    "Location served": "Bathurst, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "BHT",
+    "ICAO": "",
+    "Airport name": "Brighton Downs Airport",
+    "Location served": "Brighton Downs, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BHU",
+    "ICAO": "VABV",
+    "Airport name": "Bhavnagar Airport",
+    "Location served": "Bhavnagar, Gujarat, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "BHV",
+    "ICAO": "OPBW",
+    "Airport name": "Bahawalpur Airport",
+    "Location served": "Bahawalpur, Pakistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BHW",
+    "ICAO": "",
+    "Airport name": "Bhagatanwala Airport",
+    "Location served": "Sargodha, Pakistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BHX",
+    "ICAO": "EGBB",
+    "Airport name": "Birmingham Airport",
+    "Location served": "Birmingham, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BHY",
+    "ICAO": "ZGBH",
+    "Airport name": "Beihai Fucheng Airport",
+    "Location served": "Beihai, Guangxi, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BHZ[1]",
+    "ICAO": "",
+    "Airport name": "metropolitan area3",
+    "Location served": "Belo Horizonte, Minas Gerais, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "BIA",
+    "ICAO": "LFKB",
+    "Airport name": "Bastia – Poretta Airport",
+    "Location served": "Bastia, Corsica, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BIB",
+    "ICAO": "HCMB",
+    "Airport name": "Baidoa Airport",
+    "Location served": "Baidoa, Somalia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BID",
+    "ICAO": "KBID",
+    "Airport name": "Block Island State Airport",
+    "Location served": "Block Island, Rhode Island, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BIE",
+    "ICAO": "KBIE",
+    "Airport name": "Beatrice Municipal Airport",
+    "Location served": "Beatrice, Nebraska, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BIF",
+    "ICAO": "KBIF",
+    "Airport name": "Biggs Army Airfield",
+    "Location served": "El Paso, Texas, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BIG",
+    "ICAO": "PABI",
+    "Airport name": "Allen Army Airfield",
+    "Location served": "Delta Junction, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BIH",
+    "ICAO": "KBIH",
+    "Airport name": "Eastern Sierra Regional Airport",
+    "Location served": "Bishop, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BII",
+    "ICAO": "",
+    "Airport name": "Bikini Atoll Airport",
+    "Location served": "Bikini Atoll, Marshall Islands",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BIJ",
+    "ICAO": "",
+    "Airport name": "Biliau Airport",
+    "Location served": "Biliau, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BIK",
+    "ICAO": "WABB",
+    "Airport name": "Frans Kaisiepo Airport",
+    "Location served": "Biak, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BIL",
+    "ICAO": "KBIL",
+    "Airport name": "Billings Logan International Airport",
+    "Location served": "Billings, Montana, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BIM",
+    "ICAO": "MYBS",
+    "Airport name": "South Bimini Airport",
+    "Location served": "Bimini, Bahamas",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BIN",
+    "ICAO": "OABN",
+    "Airport name": "Bamyan Airport",
+    "Location served": "Bamyan, Afghanistan",
+    "Time": "UTC+04:30",
+    "DST": ""
+  },
+  {
+    "IATA": "BIO",
+    "ICAO": "LEBB",
+    "Airport name": "Bilbao Airport",
+    "Location served": "Bilbao, Basque Country, Spain",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BIP",
+    "ICAO": "",
+    "Airport name": "Bulimba Airport",
+    "Location served": "Bulimba, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BIQ",
+    "ICAO": "LFBZ",
+    "Airport name": "Biarritz Pays Basque Airport",
+    "Location served": "Biarritz, Aquitaine, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BIR",
+    "ICAO": "VNVT",
+    "Airport name": "Biratnagar Airport",
+    "Location served": "Biratnagar, Nepal",
+    "Time": "UTC+05:45",
+    "DST": ""
+  },
+  {
+    "IATA": "BIS",
+    "ICAO": "KBIS",
+    "Airport name": "Bismarck Municipal Airport",
+    "Location served": "Bismarck, North Dakota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BIT",
+    "ICAO": "VNBT",
+    "Airport name": "Baitadi Airport",
+    "Location served": "Baitadi, Nepal",
+    "Time": "UTC+05:45",
+    "DST": ""
+  },
+  {
+    "IATA": "BIU",
+    "ICAO": "BIBD",
+    "Airport name": "Bíldudalur Airport",
+    "Location served": "Bíldudalur, Iceland",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BIV",
+    "ICAO": "FEFR",
+    "Airport name": "Bria Airport",
+    "Location served": "Bria, Central African Republic",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BIW",
+    "ICAO": "",
+    "Airport name": "Billiluna Airport",
+    "Location served": "Billiluna, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BIX",
+    "ICAO": "KBIX",
+    "Airport name": "Keesler Air Force Base",
+    "Location served": "Biloxi, Mississippi, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BIY",
+    "ICAO": "FABE",
+    "Airport name": "Bhisho Airport",
+    "Location served": "Bhisho, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BIZ",
+    "ICAO": "",
+    "Airport name": "Bimin Airport",
+    "Location served": "Bimin, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BJA",
+    "ICAO": "DAAE",
+    "Airport name": "Soummam – Abane Ramdane Airport",
+    "Location served": "Béjaïa, Algeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BJB",
+    "ICAO": "OIMN",
+    "Airport name": "Bojnord Airport",
+    "Location served": "Bojnord, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "BJC",
+    "ICAO": "KBJC",
+    "Airport name": "Rocky Mountain Metropolitan Airport",
+    "Location served": "Denver, Colorado, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BJD",
+    "ICAO": "BIBK",
+    "Airport name": "Bakkafjörður Airport",
+    "Location served": "Bakkafjörður, Iceland",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BJE",
+    "ICAO": "",
+    "Airport name": "Baleela Airport[1]",
+    "Location served": "Baleela, Sudan",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BJF",
+    "ICAO": "ENBS",
+    "Airport name": "Båtsfjord Airport",
+    "Location served": "Båtsfjord, Norway",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BJG",
+    "ICAO": "",
+    "Airport name": "Kotamobagu Mopait Airport[1]",
+    "Location served": "Kotamobagu, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BJH",
+    "ICAO": "VNBG",
+    "Airport name": "Bajhang Airport",
+    "Location served": "Bajhang, Nepal",
+    "Time": "UTC+05:45",
+    "DST": ""
+  },
+  {
+    "IATA": "BJI",
+    "ICAO": "KBJI",
+    "Airport name": "Bemidji Regional Airport",
+    "Location served": "Bemidji, Minnesota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BJJ",
+    "ICAO": "KBJJ",
+    "Airport name": "Wayne County Airport",
+    "Location served": "Wooster, Ohio, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BJK",
+    "ICAO": "WAPK",
+    "Airport name": "Benjina Airport (Nangasuri Airport)",
+    "Location served": "Benjina, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BJL",
+    "ICAO": "GBYD",
+    "Airport name": "Banjul International Airport",
+    "Location served": "Banjul, Gambia",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BJM",
+    "ICAO": "HBBA",
+    "Airport name": "Bujumbura International Airport",
+    "Location served": "Bujumbura, Burundi",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BJN",
+    "ICAO": "",
+    "Airport name": "Bajone Airport",
+    "Location served": "Bajone, Mozambique",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BJO",
+    "ICAO": "SLBJ",
+    "Airport name": "Bermejo Airport",
+    "Location served": "Bermejo, Bolivia",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BJP",
+    "ICAO": "SBBP",
+    "Airport name": "Arthur Siqueira–Bragança Paulista State Airport[1]",
+    "Location served": "Bragança Paulista, São Paulo, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "BJQ",
+    "ICAO": "",
+    "Airport name": "Bahja Airport[1]",
+    "Location served": "Bahja, Oman",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BJR",
+    "ICAO": "HABD",
+    "Airport name": "Bahir Dar Airport",
+    "Location served": "Bahir Dar, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BJS[1]",
+    "ICAO": "",
+    "Airport name": "metropolitan area4",
+    "Location served": "Beijing, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BJT",
+    "ICAO": "",
+    "Airport name": "Bentota River Airport[1]",
+    "Location served": "Bentota, Sri Lanka",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "BJU",
+    "ICAO": "VNBR",
+    "Airport name": "Bajura Airport",
+    "Location served": "Bajura, Nepal",
+    "Time": "UTC+05:45",
+    "DST": ""
+  },
+  {
+    "IATA": "BJV",
+    "ICAO": "LTFE",
+    "Airport name": "Milas–Bodrum Airport",
+    "Location served": "Milas / Bodrum, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BJW",
+    "ICAO": "WRKB",
+    "Airport name": "Bajawa Soa Airport",
+    "Location served": "Bajawa, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BJX",
+    "ICAO": "MMLO",
+    "Airport name": "Del Bajío International Airport (Guanajuato Int'l Airport)",
+    "Location served": "León, Guanajuato, Mexico",
+    "Time": "UTC−06:00",
+    "DST": "Apr-Oct"
+  },
+  {
+    "IATA": "BJY",
+    "ICAO": "LYBT",
+    "Airport name": "Batajnica Air Base",
+    "Location served": "Batajnica, Serbia",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BJZ",
+    "ICAO": "LEBZ",
+    "Airport name": "Badajoz Airport (Talavera la Real Air Base)",
+    "Location served": "Badajoz, Extremadura, Spain",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BKB",
+    "ICAO": "VIBK",
+    "Airport name": "Nal Airport",
+    "Location served": "Bikaner, Rajasthan, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "BKC",
+    "ICAO": "PABL",
+    "Airport name": "Buckland Airport (FAA: BVK)",
+    "Location served": "Buckland, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BKD",
+    "ICAO": "KBKD",
+    "Airport name": "Stephens County Airport",
+    "Location served": "Breckenridge, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BKE",
+    "ICAO": "KBKE",
+    "Airport name": "Baker City Municipal Airport",
+    "Location served": "Baker City, Oregon, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BKF",
+    "ICAO": "",
+    "Airport name": "Lake Brooks Seaplane Base",
+    "Location served": "Brooks Camp, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BKG",
+    "ICAO": "KBBG",
+    "Airport name": "Branson Airport (FAA: BBG)",
+    "Location served": "Branson, Missouri, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BKH",
+    "ICAO": "PHBK",
+    "Airport name": "Barking Sands PMRF",
+    "Location served": "Kekaha, Hawaii, United States",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BKI",
+    "ICAO": "WBKK",
+    "Airport name": "Kota Kinabalu International Airport",
+    "Location served": "Kota Kinabalu, Sabah, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BKJ",
+    "ICAO": "GUOK",
+    "Airport name": "Boké Baralande Airport",
+    "Location served": "Boké, Guinea",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BKK",
+    "ICAO": "VTBS",
+    "Airport name": "Suvarnabhumi Airport",
+    "Location served": "Bangkok, Thailand",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BKL",
+    "ICAO": "KBKL",
+    "Airport name": "Cleveland Burke Lakefront Airport",
+    "Location served": "Cleveland, Ohio, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BKM",
+    "ICAO": "WBGQ",
+    "Airport name": "Bakelalan Airport",
+    "Location served": "Bakelalan, Sarawak, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BKN",
+    "ICAO": "",
+    "Airport name": "Balkanabat Airport[1]",
+    "Location served": "Balkanabat, Turkmenistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BKO",
+    "ICAO": "GABS",
+    "Airport name": "Bamako–Sénou International Airport",
+    "Location served": "Bamako, Mali",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BKP",
+    "ICAO": "YBAW",
+    "Airport name": "Barkly Downs Airport",
+    "Location served": "Barkly Downs, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BKQ",
+    "ICAO": "YBCK",
+    "Airport name": "Blackall Airport",
+    "Location served": "Blackall, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BKR",
+    "ICAO": "FTTK",
+    "Airport name": "Bokoro Airport",
+    "Location served": "Bokoro, Chad",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BKS",
+    "ICAO": "WIPL",
+    "Airport name": "Fatmawati Soekarno Airport",
+    "Location served": "Bengkulu, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BKT",
+    "ICAO": "KBKT",
+    "Airport name": "Blackstone Army Airfield (Allen C. Perkinson Airport)",
+    "Location served": "Blackstone, Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BKU",
+    "ICAO": "FMSV",
+    "Airport name": "Betioky Airport",
+    "Location served": "Betioky, Madagascar",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BKW",
+    "ICAO": "KBKW",
+    "Airport name": "Raleigh County Memorial Airport",
+    "Location served": "Beckley, West Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BKX",
+    "ICAO": "KBKX",
+    "Airport name": "Brookings Regional Airport",
+    "Location served": "Brookings, South Dakota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BKY",
+    "ICAO": "FZMA",
+    "Airport name": "Kavumu Airport",
+    "Location served": "Bukavu, Democratic Republic of the Congo",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BKZ",
+    "ICAO": "HTBU",
+    "Airport name": "Bukoba Airport",
+    "Location served": "Bukoba, Tanzania",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BLA",
+    "ICAO": "SVBC",
+    "Airport name": "General José Antonio Anzoátegui International Airport",
+    "Location served": "Barcelona, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BLB",
+    "ICAO": "MPHO",
+    "Airport name": "Panamá Pacífico International Airport (former Howard AFB)",
+    "Location served": "Panama Pacifico, Panama",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BLC",
+    "ICAO": "FKKG",
+    "Airport name": "Bali Airport",
+    "Location served": "Bali, Cameroon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BLD",
+    "ICAO": "",
+    "Airport name": "Boulder City Municipal Airport (FAA: 61B)",
+    "Location served": "Boulder City, Nevada, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BLE",
+    "ICAO": "ESSD",
+    "Airport name": "Dala Airport (Borlänge Airport)",
+    "Location served": "Borlänge, Sweden",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BLF",
+    "ICAO": "KBLF",
+    "Airport name": "Mercer County Airport",
+    "Location served": "Bluefield, West Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BLG",
+    "ICAO": "WBGC",
+    "Airport name": "Belaga Airport",
+    "Location served": "Belaga, Sarawak, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BLH",
+    "ICAO": "KBLH",
+    "Airport name": "Blythe Airport",
+    "Location served": "Blythe, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BLI",
+    "ICAO": "KBLI",
+    "Airport name": "Bellingham International Airport",
+    "Location served": "Bellingham, Washington, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BLJ",
+    "ICAO": "DABT",
+    "Airport name": "Mostépha Ben Boulaid Airport",
+    "Location served": "Batna, Algeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BLK",
+    "ICAO": "EGNH",
+    "Airport name": "Blackpool Airport",
+    "Location served": "Blackpool, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BLL",
+    "ICAO": "EKBI",
+    "Airport name": "Billund Airport",
+    "Location served": "Billund, Denmark",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BLM",
+    "ICAO": "KBLM",
+    "Airport name": "Monmouth Executive Airport",
+    "Location served": "Belmar / Farmingdale, New Jersey, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BLN",
+    "ICAO": "YBLA",
+    "Airport name": "Benalla Airport",
+    "Location served": "Benalla, Victoria, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "BLO",
+    "ICAO": "BIBL",
+    "Airport name": "Blönduós Airport",
+    "Location served": "Blönduós, Iceland",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BLP",
+    "ICAO": "SPBL",
+    "Airport name": "Huallaga Airport",
+    "Location served": "Bellavista, Peru",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BLQ",
+    "ICAO": "LIPE",
+    "Airport name": "Bologna Guglielmo Marconi Airport",
+    "Location served": "Bologna, Emilia-Romagna, Italy",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BLR",
+    "ICAO": "VOBL",
+    "Airport name": "Kempegowda International Airport",
+    "Location served": "Bangalore, Karnataka, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "BLS",
+    "ICAO": "YBLL",
+    "Airport name": "Bollon Airport",
+    "Location served": "Bollon, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BLT",
+    "ICAO": "YBTR",
+    "Airport name": "Blackwater Airport",
+    "Location served": "Blackwater, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BLU",
+    "ICAO": "KBLU",
+    "Airport name": "Blue Canyon–Nyack Airport",
+    "Location served": "Emigrant Gap, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BLV",
+    "ICAO": "KBLV",
+    "Airport name": "MidAmerica St. Louis Airport / Scott Air Force Base",
+    "Location served": "Belleville, Illinois, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BLX",
+    "ICAO": "LIDB",
+    "Airport name": "Belluno Airport",
+    "Location served": "Belluno, Veneto, Italy",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BLY",
+    "ICAO": "EIBT",
+    "Airport name": "Belmullet Aerodrome",
+    "Location served": "Belmullet, Ireland",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BLZ",
+    "ICAO": "FWCL",
+    "Airport name": "Chileka International Airport",
+    "Location served": "Blantyre, Malawi",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BMA",
+    "ICAO": "ESSB",
+    "Airport name": "Stockholm Bromma Airport",
+    "Location served": "Stockholm, Sweden",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BMB",
+    "ICAO": "FZFU",
+    "Airport name": "Bumba Airport",
+    "Location served": "Bumba, Democratic Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BMC",
+    "ICAO": "KBMC",
+    "Airport name": "Brigham City Airport",
+    "Location served": "Brigham City, Utah, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BMD",
+    "ICAO": "FMML",
+    "Airport name": "Belo sur Tsiribihina Airport",
+    "Location served": "Belo sur Tsiribihina, Madagascar",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BME",
+    "ICAO": "YBRM",
+    "Airport name": "Broome International Airport",
+    "Location served": "Broome, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BMF",
+    "ICAO": "FEGM",
+    "Airport name": "Bakouma Airport",
+    "Location served": "Bakouma, Central African Republic",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BMG",
+    "ICAO": "KBMG",
+    "Airport name": "Monroe County Airport",
+    "Location served": "Bloomington, Indiana, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BMH",
+    "ICAO": "AYBO",
+    "Airport name": "Bomai Airport",
+    "Location served": "Bomai, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BMI",
+    "ICAO": "KBMI",
+    "Airport name": "Central Illinois Regional Airport",
+    "Location served": "Bloomington, Illinois, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BMJ",
+    "ICAO": "SYBR",
+    "Airport name": "Baramita Airport",
+    "Location served": "Baramita, Guyana",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BMK",
+    "ICAO": "EDWR",
+    "Airport name": "Borkum Airfield",
+    "Location served": "Borkum, Lower Saxony, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BML",
+    "ICAO": "KBML",
+    "Airport name": "Berlin Regional Airport",
+    "Location served": "Berlin, New Hampshire, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BMM",
+    "ICAO": "FOOB",
+    "Airport name": "Bitam Airport",
+    "Location served": "Bitam, Gabon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BMN",
+    "ICAO": "ORBB",
+    "Airport name": "Bamarni Airport",
+    "Location served": "Bamarni, Iraq",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BMO",
+    "ICAO": "VYBM",
+    "Airport name": "Bhamo Airport",
+    "Location served": "Bhamo, Myanmar",
+    "Time": "UTC+06:30",
+    "DST": ""
+  },
+  {
+    "IATA": "BMP",
+    "ICAO": "YBPI",
+    "Airport name": "Brampton Island Airport",
+    "Location served": "Brampton Island, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BMQ",
+    "ICAO": "",
+    "Airport name": "Bamburi Airport",
+    "Location served": "Bamburi, Kenya",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BMR",
+    "ICAO": "EDWZ",
+    "Airport name": "Baltrum Airport",
+    "Location served": "Baltrum, Lower Saxony, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BMS",
+    "ICAO": "SNBU",
+    "Airport name": "Socrates Mariani Bittencourt Airport",
+    "Location served": "Brumado, Bahia, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BMT",
+    "ICAO": "KBMT",
+    "Airport name": "Beaumont Municipal Airport",
+    "Location served": "Beaumont, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BMU",
+    "ICAO": "WADB",
+    "Airport name": "Sultan Muhammad Salahudin Airport (Bima Airport)",
+    "Location served": "Bima, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BMV",
+    "ICAO": "VVBM",
+    "Airport name": "Buon Ma Thuot Airport",
+    "Location served": "Buon Ma Thuot, Vietnam",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BMW",
+    "ICAO": "DATM",
+    "Airport name": "Bordj Mokhtar Airport",
+    "Location served": "Bordj Badji Mokhtar, Algeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BMX",
+    "ICAO": "PABM",
+    "Airport name": "Big Mountain Air Force Station (FAA: 37AK)",
+    "Location served": "Big Mountain, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BMY",
+    "ICAO": "NWWC",
+    "Airport name": "Île Art – Waala Airport",
+    "Location served": "Waala, Belep Islands, New Caledonia",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BMZ",
+    "ICAO": "AYBF",
+    "Airport name": "Bamu Airport",
+    "Location served": "Bamu, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BNA",
+    "ICAO": "KBNA",
+    "Airport name": "Nashville International Airport",
+    "Location served": "Nashville, Tennessee, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BNB",
+    "ICAO": "FZGN",
+    "Airport name": "Boende Airport",
+    "Location served": "Boende, Democratic Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BNC",
+    "ICAO": "FZNP",
+    "Airport name": "Beni Airport",
+    "Location served": "Beni, Democratic Republic of the Congo",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BND",
+    "ICAO": "OIKB",
+    "Airport name": "Bandar Abbas International Airport",
+    "Location served": "Bandar Abbas, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "BNE",
+    "ICAO": "YBBN",
+    "Airport name": "Brisbane Airport",
+    "Location served": "Brisbane, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BNF",
+    "ICAO": "",
+    "Airport name": "Warm Springs Bay Seaplane Base",
+    "Location served": "Baranof Warm Springs, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BNG",
+    "ICAO": "KBNG",
+    "Airport name": "Banning Municipal Airport",
+    "Location served": "Banning, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BNI",
+    "ICAO": "DNBE",
+    "Airport name": "Benin Airport",
+    "Location served": "Benin City, Nigeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BNK",
+    "ICAO": "YBNA",
+    "Airport name": "Ballina Byron Gateway Airport",
+    "Location served": "Ballina, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "BNL",
+    "ICAO": "KBNL",
+    "Airport name": "Barnwell Regional Airport",
+    "Location served": "Barnwell, South Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BNM",
+    "ICAO": "AYBD",
+    "Airport name": "Bodinumu Airport",
+    "Location served": "Bodinumu, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BNN",
+    "ICAO": "ENBN",
+    "Airport name": "Brønnøysund Airport, Brønnøy",
+    "Location served": "Brønnøysund, Norway",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BNO",
+    "ICAO": "KBNO",
+    "Airport name": "Burns Municipal Airport",
+    "Location served": "Burns, Oregon, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BNP",
+    "ICAO": "OPBN",
+    "Airport name": "Bannu Airport",
+    "Location served": "Bannu, Pakistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BNQ",
+    "ICAO": "",
+    "Airport name": "Baganga Airport",
+    "Location served": "Baganga, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BNR",
+    "ICAO": "DFOB",
+    "Airport name": "Banfora Airport",
+    "Location served": "Banfora, Burkina Faso",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BNS",
+    "ICAO": "SVBI",
+    "Airport name": "Barinas Airport",
+    "Location served": "Barinas, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BNT",
+    "ICAO": "AYDI",
+    "Airport name": "Bundi Airport",
+    "Location served": "Bundi, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BNU",
+    "ICAO": "SSBL",
+    "Airport name": "Blumenau Airport",
+    "Location served": "Blumenau, Santa Catarina, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "BNV",
+    "ICAO": "",
+    "Airport name": "Boana Airport",
+    "Location served": "Boana, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BNW",
+    "ICAO": "KBNW",
+    "Airport name": "Boone Municipal Airport",
+    "Location served": "Boone, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BNX",
+    "ICAO": "LQBK",
+    "Airport name": "Banja Luka International Airport",
+    "Location served": "Banja Luka, Bosnia and Herzegovina",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BNY",
+    "ICAO": "AGGB",
+    "Airport name": "Bellona/Anua Airport",
+    "Location served": "Bellona Island, Rennell and Bellona, Solomon Islands",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BNZ",
+    "ICAO": "",
+    "Airport name": "Banz Airport",
+    "Location served": "Banz, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BOA",
+    "ICAO": "FZAJ",
+    "Airport name": "Boma Airport",
+    "Location served": "Boma, Democratic Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BOB",
+    "ICAO": "NTTB",
+    "Airport name": "Bora Bora Airport (Motu Mute Airport)",
+    "Location served": "Bora Bora, French Polynesia",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BOC",
+    "ICAO": "MPBO",
+    "Airport name": "Bocas del Toro \"Isla Colón\" International Airport",
+    "Location served": "Bocas Town, Panama",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BOD",
+    "ICAO": "LFBD",
+    "Airport name": "Bordeaux–Mérignac Airport",
+    "Location served": "Bordeaux, Aquitaine, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BOE",
+    "ICAO": "FCOB",
+    "Airport name": "Boundji Airport",
+    "Location served": "Boundji, Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BOG",
+    "ICAO": "SKBO",
+    "Airport name": "El Dorado International Airport",
+    "Location served": "Bogotá, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BOH",
+    "ICAO": "EGHH",
+    "Airport name": "Bournemouth Airport",
+    "Location served": "Bournemouth, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BOI",
+    "ICAO": "KBOI",
+    "Airport name": "Boise Air Terminal (Gowen Field)",
+    "Location served": "Boise, Idaho, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BOJ",
+    "ICAO": "LBBG",
+    "Airport name": "Burgas Airport",
+    "Location served": "Burgas, Bulgaria",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BOK",
+    "ICAO": "KBOK",
+    "Airport name": "Brookings Airport",
+    "Location served": "Brookings, Oregon, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BOL",
+    "ICAO": "EGQB",
+    "Airport name": "Ballykelly Airfield (RAF Ballykelly)",
+    "Location served": "Ballykelly, Northern Ireland, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BOM",
+    "ICAO": "VABB",
+    "Airport name": "Chhatrapati Shivaji International Airport",
+    "Location served": "Mumbai, Maharashtra, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "BON",
+    "ICAO": "TNCB",
+    "Airport name": "Flamingo International Airport",
+    "Location served": "Kralendijk, Bonaire, Caribbean Netherlands",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BOO",
+    "ICAO": "ENBO",
+    "Airport name": "Bodø Airport",
+    "Location served": "Bodø, Norway",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BOP",
+    "ICAO": "FEFO",
+    "Airport name": "Bouar Airport",
+    "Location served": "Bouar, Central African Republic",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BOQ",
+    "ICAO": "",
+    "Airport name": "Boku Airport",
+    "Location served": "Boku, Papua New Guinea",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BOS",
+    "ICAO": "KBOS",
+    "Airport name": "Logan International Airport",
+    "Location served": "Boston, Massachusetts, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BOT",
+    "ICAO": "AYET",
+    "Airport name": "Bosset Airport",
+    "Location served": "Bosset, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BOU",
+    "ICAO": "LFLD",
+    "Airport name": "Bourges Airport",
+    "Location served": "Bourges, Centre-Val de Loire, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BOV",
+    "ICAO": "",
+    "Airport name": "Boang Island Airport",
+    "Location served": "Boang Island, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BOW",
+    "ICAO": "KBOW",
+    "Airport name": "Bartow Municipal Airport",
+    "Location served": "Bartow, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BOX",
+    "ICAO": "YBRL",
+    "Airport name": "Borroloola Airport",
+    "Location served": "Borroloola, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "BOY",
+    "ICAO": "DFOO",
+    "Airport name": "Bobo Dioulasso Airport",
+    "Location served": "Bobo-Dioulasso, Burkina Faso",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BOZ",
+    "ICAO": "FEGZ",
+    "Airport name": "Bozoum Airport",
+    "Location served": "Bozoum, Central African Republic",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BPB",
+    "ICAO": "",
+    "Airport name": "Boridi Airport",
+    "Location served": "Boridi, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BPC",
+    "ICAO": "FKKV",
+    "Airport name": "Bamenda Airport",
+    "Location served": "Bamenda, Cameroon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BPD",
+    "ICAO": "AYBP",
+    "Airport name": "Bapi Airport",
+    "Location served": "Bapi, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BPE",
+    "ICAO": "ZBDH",
+    "Airport name": "Qinhuangdao Beidaihe Airport",
+    "Location served": "Qinhuangdao, Hebei, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BPF",
+    "ICAO": "AGBT",
+    "Airport name": "Batuna Airport",
+    "Location served": "Batuna, Solomon Islands",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BPG",
+    "ICAO": "SBBW",
+    "Airport name": "Barra do Garças Airport",
+    "Location served": "Barra do Garças, Mato Grosso, Brazil",
+    "Time": "UTC−04:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "BPH",
+    "ICAO": "RPMF",
+    "Airport name": "Bislig Airport",
+    "Location served": "Bislig, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BPI",
+    "ICAO": "KBPI",
+    "Airport name": "Miley Memorial Field",
+    "Location served": "Big Piney, Wyoming, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BPK",
+    "ICAO": "AYBQ",
+    "Airport name": "Biangabip Airport",
+    "Location served": "Biangabip, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BPL",
+    "ICAO": "ZWBL",
+    "Airport name": "Bole Alashankou Airport",
+    "Location served": "Bole, Xinjiang, China",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BPM",
+    "ICAO": "VOHY",
+    "Airport name": "Begumpet Airport",
+    "Location served": "Hyderabad, Telangana, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "BPN",
+    "ICAO": "WALL",
+    "Airport name": "Sultan Aji Muhammad Sulaiman Airport",
+    "Location served": "Balikpapan, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BPS",
+    "ICAO": "SBPS",
+    "Airport name": "Porto Seguro Airport",
+    "Location served": "Porto Seguro, Bahia, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BPT",
+    "ICAO": "KBPT",
+    "Airport name": "Jack Brooks Regional Airport",
+    "Location served": "Beaumont / Port Arthur, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BPX",
+    "ICAO": "ZUBD",
+    "Airport name": "Qamdo Bamda Airport",
+    "Location served": "Qamdo, Tibet Autonomous Region, China",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BPY",
+    "ICAO": "FMNQ",
+    "Airport name": "Besalampy Airport",
+    "Location served": "Besalampy, Madagascar",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BQA",
+    "ICAO": "RPUR",
+    "Airport name": "Dr. Juan C. Angara Airport",
+    "Location served": "Baler, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BQB",
+    "ICAO": "YBLN",
+    "Airport name": "Busselton Margaret River Airport",
+    "Location served": "Busselton, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BQE",
+    "ICAO": "GGBU",
+    "Airport name": "Bubaque Airport",
+    "Location served": "Bubaque, Guinea-Bissau",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BQG",
+    "ICAO": "UHNB",
+    "Airport name": "Bogorodskoye Airport[1]",
+    "Location served": "Bogorodskoye, Khabarovsk Krai, Russia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BQH",
+    "ICAO": "EGKB",
+    "Airport name": "London Biggin Hill Airport",
+    "Location served": "London / Biggin Hill, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BQI",
+    "ICAO": "",
+    "Airport name": "Bagani Airport[1]",
+    "Location served": "Bagani, Namibia",
+    "Time": "UTC+01:00",
+    "DST": "Sep-Apr"
+  },
+  {
+    "IATA": "BQJ",
+    "ICAO": "",
+    "Airport name": "Batagay Airport",
+    "Location served": "Batagay, Yakutia, Russia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BQK",
+    "ICAO": "KBQK",
+    "Airport name": "Brunswick Golden Isles Airport",
+    "Location served": "Brunswick, Georgia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BQL",
+    "ICAO": "YBOU",
+    "Airport name": "Boulia Airport",
+    "Location served": "Boulia, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BQN",
+    "ICAO": "TJBQ",
+    "Airport name": "Rafael Hernández Airport",
+    "Location served": "Aguadilla, Puerto Rico, United States",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BQO",
+    "ICAO": "DIBN",
+    "Airport name": "Tehini Airport",
+    "Location served": "Bouna, Ivory Coast",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BQQ",
+    "ICAO": "SNBX",
+    "Airport name": "Barra Airport",
+    "Location served": "Barra, Bahia, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BQS",
+    "ICAO": "UHBB",
+    "Airport name": "Ignatyevo Airport",
+    "Location served": "Blagoveshchensk, Amur Oblast, Russia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BQT",
+    "ICAO": "UMBB",
+    "Airport name": "Brest Airport",
+    "Location served": "Brest, Belarus",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BQU",
+    "ICAO": "TVSB",
+    "Airport name": "J. F. Mitchell Airport",
+    "Location served": "Bequia, Saint Vincent and the Grenadines",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BQV",
+    "ICAO": "",
+    "Airport name": "Bartlett Cove Seaplane Base",
+    "Location served": "Bartlett Cove, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BQW",
+    "ICAO": "YBGO",
+    "Airport name": "Balgo Hill Airport",
+    "Location served": "Balgo Hill, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BRA",
+    "ICAO": "SNBR",
+    "Airport name": "Barreiras Airport",
+    "Location served": "Barreiras, Bahia, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BRB",
+    "ICAO": "SBRR",
+    "Airport name": "Barreirinhas Airport",
+    "Location served": "Barreirinhas, Maranhão, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BRC",
+    "ICAO": "SAZS",
+    "Airport name": "San Carlos de Bariloche Airport",
+    "Location served": "San Carlos de Bariloche, Río Negro, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BRD",
+    "ICAO": "KBRD",
+    "Airport name": "Brainerd Lakes Regional Airport",
+    "Location served": "Brainerd, Minnesota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BRE",
+    "ICAO": "EDDW",
+    "Airport name": "Bremen Airport",
+    "Location served": "Bremen, Bremen, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BRH",
+    "ICAO": "",
+    "Airport name": "Brahman Airport",
+    "Location served": "Brahman, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BRI",
+    "ICAO": "LIBD",
+    "Airport name": "Bari Karol Wojtyła Airport",
+    "Location served": "Bari, Apulia, Italy",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BRJ",
+    "ICAO": "",
+    "Airport name": "Bright Airport",
+    "Location served": "Bright, Victoria, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "BRK",
+    "ICAO": "YBKE",
+    "Airport name": "Bourke Airport",
+    "Location served": "Bourke, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "BRL",
+    "ICAO": "KBRL",
+    "Airport name": "Southeast Iowa Regional Airport",
+    "Location served": "Burlington, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BRM",
+    "ICAO": "SVBM",
+    "Airport name": "Jacinto Lara International Airport",
+    "Location served": "Barquisimeto, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BRN",
+    "ICAO": "LSZB",
+    "Airport name": "Bern Airport",
+    "Location served": "Bern, Switzerland",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BRO",
+    "ICAO": "KBRO",
+    "Airport name": "Brownsville/South Padre Island International Airport",
+    "Location served": "Brownsville, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BRP",
+    "ICAO": "AYBR",
+    "Airport name": "Biaru Airport",
+    "Location served": "Biaru, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BRQ",
+    "ICAO": "LKTB",
+    "Airport name": "Brno–Tuřany Airport",
+    "Location served": "Brno, Czech Republic",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BRR",
+    "ICAO": "EGPR",
+    "Airport name": "Barra Airport",
+    "Location served": "Barra, Scotland, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BRS",
+    "ICAO": "EGGD",
+    "Airport name": "Bristol Airport",
+    "Location served": "Bristol, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BRT",
+    "ICAO": "YBTI",
+    "Airport name": "Bathurst Island Airport",
+    "Location served": "Bathurst Island, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "BRU",
+    "ICAO": "EBBR",
+    "Airport name": "Brussels Airport (Zaventem Airport)",
+    "Location served": "Brussels, Belgium",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BRV",
+    "ICAO": "EDWB",
+    "Airport name": "Bremerhaven Airport",
+    "Location served": "Bremerhaven, Bremen, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BRW",
+    "ICAO": "PABR",
+    "Airport name": "Wiley Post–Will Rogers Memorial Airport",
+    "Location served": "Barrow, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BRX",
+    "ICAO": "MDBH",
+    "Airport name": "María Montez International Airport",
+    "Location served": "Barahona, Dominican Republic",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BRY",
+    "ICAO": "KBRY",
+    "Airport name": "Samuels Field",
+    "Location served": "Bardstown, Kentucky, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BSA",
+    "ICAO": "HCMF",
+    "Airport name": "Bender Qassim International Airport",
+    "Location served": "Bosaso, Somalia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BSB",
+    "ICAO": "SBBR",
+    "Airport name": "Brasília International Airport (Presidente J. Kubitschek Int'l Airport)",
+    "Location served": "Brasília, Distrito Federal, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "BSC",
+    "ICAO": "SKBS",
+    "Airport name": "José Celestino Mutis Airport",
+    "Location served": "Bahía Solano, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BSD",
+    "ICAO": "ZPBS",
+    "Airport name": "Baoshan Yunduan Airport",
+    "Location served": "Baoshan, Yunnan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BSE",
+    "ICAO": "WBGN",
+    "Airport name": "Sematan Airport",
+    "Location served": "Sematan, Sarawak, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BSF",
+    "ICAO": "PHSF",
+    "Airport name": "Bradshaw Army Airfield",
+    "Location served": "Camp Pohakuloa, Hawaii, United States",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BSG",
+    "ICAO": "FGBT",
+    "Airport name": "Bata Airport",
+    "Location served": "Bata, Equatorial Guinea",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BSI",
+    "ICAO": "RPLE",
+    "Airport name": "Balesin Airport",
+    "Location served": "Balesin Island, Quezon, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BSJ",
+    "ICAO": "YBNS",
+    "Airport name": "Bairnsdale Airport",
+    "Location served": "Bairnsdale, Victoria, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "BSK",
+    "ICAO": "DAUB",
+    "Airport name": "Biskra Airport",
+    "Location served": "Biskra, Algeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BSL",
+    "ICAO": "LFSB",
+    "Airport name": "EuroAirport Basel-Mulhouse-Freiburg",
+    "Location served": "Basel, Switzerland",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BSM",
+    "ICAO": "OINJ",
+    "Airport name": "Bishe Kola Air Base",
+    "Location served": "Amol, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "BSN",
+    "ICAO": "FEFS",
+    "Airport name": "Bossangoa Airport",
+    "Location served": "Bossangoa, Central African Republic",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BSO",
+    "ICAO": "RPUO",
+    "Airport name": "Basco Airport",
+    "Location served": "Basco, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BSP",
+    "ICAO": "AYBH",
+    "Airport name": "Bensbach Airport",
+    "Location served": "Bensbach, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BSQ",
+    "ICAO": "",
+    "Airport name": "Bisbee Municipal Airport (FAA: P04)",
+    "Location served": "Bisbee, Arizona, United States",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BSR",
+    "ICAO": "ORMM",
+    "Airport name": "Basra International Airport",
+    "Location served": "Basra, Iraq",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BSS",
+    "ICAO": "SNBS",
+    "Airport name": "Balsas Airport",
+    "Location served": "Balsas, Maranhão, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BST",
+    "ICAO": "OABT",
+    "Airport name": "Bost Airport",
+    "Location served": "Lashkar Gah (Bost), Afghanistan",
+    "Time": "UTC+04:30",
+    "DST": ""
+  },
+  {
+    "IATA": "BSU",
+    "ICAO": "FZEN",
+    "Airport name": "Basankusu Airport",
+    "Location served": "Basankusu, Democratic Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BSV",
+    "ICAO": "",
+    "Airport name": "Besakoa Airport[1]",
+    "Location served": "Besakoa, Madagascar",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BSW",
+    "ICAO": "",
+    "Airport name": "Boswell Bay Airport (FAA: AK97)",
+    "Location served": "Boswell Bay, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BSX",
+    "ICAO": "VYPN",
+    "Airport name": "Pathein Airport",
+    "Location served": "Pathein, Myanmar",
+    "Time": "UTC+06:30",
+    "DST": ""
+  },
+  {
+    "IATA": "BSY",
+    "ICAO": "HCMD",
+    "Airport name": "Bardera Airport",
+    "Location served": "Bardera, Somalia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BTA",
+    "ICAO": "FKKO",
+    "Airport name": "Bertoua Airport",
+    "Location served": "Bertoua, Cameroon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BTB",
+    "ICAO": "FCOT",
+    "Airport name": "Bétou Airport",
+    "Location served": "Bétou, Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BTC",
+    "ICAO": "VCCB",
+    "Airport name": "Batticaloa Airport",
+    "Location served": "Batticaloa, Sri Lanka",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "BTD",
+    "ICAO": "",
+    "Airport name": "Brunette Downs Airport",
+    "Location served": "Brunette Downs, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "BTE",
+    "ICAO": "GFBN",
+    "Airport name": "Sherbro International Airport",
+    "Location served": "Bonthe, Sierra Leone",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BTF",
+    "ICAO": "KBTF",
+    "Airport name": "Skypark Airport",
+    "Location served": "Bountiful, Utah, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BTG",
+    "ICAO": "FEGF",
+    "Airport name": "Batangafo Airport",
+    "Location served": "Batangafo, Central African Republic",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BTH",
+    "ICAO": "WIDD",
+    "Airport name": "Hang Nadim Airport",
+    "Location served": "Batam, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BTI",
+    "ICAO": "PABA",
+    "Airport name": "Barter Island LRRS Airport",
+    "Location served": "Barter Island, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BTJ",
+    "ICAO": "WITT",
+    "Airport name": "Sultan Iskandar Muda International Airport",
+    "Location served": "Banda Aceh, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BTK",
+    "ICAO": "UIBB",
+    "Airport name": "Bratsk Airport",
+    "Location served": "Bratsk, Irkutsk Oblast, Russia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BTL",
+    "ICAO": "KBTL",
+    "Airport name": "W. K. Kellogg Airport",
+    "Location served": "Battle Creek, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BTM",
+    "ICAO": "KBTM",
+    "Airport name": "Bert Mooney Airport",
+    "Location served": "Butte, Montana, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BTN",
+    "ICAO": "KBBP",
+    "Airport name": "Marlboro County Jetport (FAA: BBP)",
+    "Location served": "Bennettsville, South Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BTO",
+    "ICAO": "",
+    "Airport name": "Botopasi Airstrip",
+    "Location served": "Botopasi, Suriname",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BTP",
+    "ICAO": "KBTP",
+    "Airport name": "Butler County Airport (K.W. Scholter Field)",
+    "Location served": "Butler, Pennsylvania, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BTQ",
+    "ICAO": "HRYI",
+    "Airport name": "Butare Airport",
+    "Location served": "Butare, Rwanda",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BTR",
+    "ICAO": "KBTR",
+    "Airport name": "Baton Rouge Metropolitan Airport (Ryan Field)",
+    "Location served": "Baton Rouge, Louisiana, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BTS",
+    "ICAO": "LZIB",
+    "Airport name": "M. R. Štefánik Airport",
+    "Location served": "Bratislava, Slovakia",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BTT",
+    "ICAO": "PABT",
+    "Airport name": "Bettles Airport",
+    "Location served": "Bettles, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BTU",
+    "ICAO": "WBGB",
+    "Airport name": "Bintulu Airport",
+    "Location served": "Bintulu, Sarawak, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BTV",
+    "ICAO": "KBTV",
+    "Airport name": "Burlington International Airport",
+    "Location served": "Burlington, Vermont, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BTW",
+    "ICAO": "WAOC",
+    "Airport name": "Batu Licin Airport",
+    "Location served": "Batu Licin, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BTX",
+    "ICAO": "YBEO",
+    "Airport name": "Betoota Airport",
+    "Location served": "Betoota, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BTY",
+    "ICAO": "KBTY",
+    "Airport name": "Beatty Airport",
+    "Location served": "Beatty, Nevada, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BUA",
+    "ICAO": "AYBK",
+    "Airport name": "Buka Island Airport",
+    "Location served": "Buka Island, Papua New Guinea",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BUB",
+    "ICAO": "KBUB",
+    "Airport name": "Cram Field",
+    "Location served": "Burwell, Nebraska, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BUC",
+    "ICAO": "YBKT",
+    "Airport name": "Burketown Airport",
+    "Location served": "Burketown, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BUD",
+    "ICAO": "LHBP",
+    "Airport name": "Budapest Ferenc Liszt International Airport",
+    "Location served": "Budapest, Hungary",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BUE[1]",
+    "ICAO": "",
+    "Airport name": "metropolitan area5",
+    "Location served": "Buenos Aires, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BUF",
+    "ICAO": "KBUF",
+    "Airport name": "Buffalo Niagara International Airport",
+    "Location served": "Buffalo, New York, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BUG",
+    "ICAO": "FNBG",
+    "Airport name": "Benguela Airport (Gen. V. Deslandes Airport)",
+    "Location served": "Benguela, Angola",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BUH[1]",
+    "ICAO": "",
+    "Airport name": "metropolitan area6",
+    "Location served": "Bucharest, Romania",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BUI",
+    "ICAO": "WAJB",
+    "Airport name": "Bokondini Airport",
+    "Location served": "Bokondini, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BUJ",
+    "ICAO": "DAAD",
+    "Airport name": "Bou Saada Airport",
+    "Location served": "Bou Saâda, Algeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BUK",
+    "ICAO": "",
+    "Airport name": "Albuq Airport",
+    "Location served": "Albuq, Yemen",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BUL",
+    "ICAO": "AYBU",
+    "Airport name": "Bulolo Airport",
+    "Location served": "Bulolo, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BUM",
+    "ICAO": "KBUM",
+    "Airport name": "Butler Memorial Airport",
+    "Location served": "Butler, Missouri, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BUN",
+    "ICAO": "SKBU",
+    "Airport name": "Gerardo Tobar López Airport",
+    "Location served": "Buenaventura, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BUO",
+    "ICAO": "HCMV",
+    "Airport name": "Burao Airport",
+    "Location served": "Burao, Somalia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BUP",
+    "ICAO": "VIBT",
+    "Airport name": "Bathinda Airport (Bhisiana Air Force Station)",
+    "Location served": "Bathinda, Punjab, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "BUQ",
+    "ICAO": "FVBU",
+    "Airport name": "Joshua Mqabuko Nkomo International Airport",
+    "Location served": "Bulawayo, Zimbabwe",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BUR",
+    "ICAO": "KBUR",
+    "Airport name": "Bob Hope Airport",
+    "Location served": "Burbank, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BUS",
+    "ICAO": "UGSB",
+    "Airport name": "Batumi International Airport (Alexander Kartveli Batumi Int'l Airport)",
+    "Location served": "Batumi, Georgia",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BUT",
+    "ICAO": "VQBT",
+    "Airport name": "Bathpalathang Airport",
+    "Location served": "Jakar, Bhutan",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BUU",
+    "ICAO": "WIPI",
+    "Airport name": "Muara Bungo Airport",
+    "Location served": "Bungo Regency, Jambi, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BUV",
+    "ICAO": "SUBU",
+    "Airport name": "Placeres Airport",
+    "Location served": "Bella Unión, Uruguay",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BUW",
+    "ICAO": "WAWB",
+    "Airport name": "Betoambari Airport",
+    "Location served": "Baubau, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BUX",
+    "ICAO": "FZKA",
+    "Airport name": "Bunia Airport",
+    "Location served": "Bunia, Democratic Republic of the Congo",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BUY",
+    "ICAO": "YBUN",
+    "Airport name": "Bunbury Airport",
+    "Location served": "Bunbury, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BUZ",
+    "ICAO": "OIBB",
+    "Airport name": "Bushehr Airport",
+    "Location served": "Bushehr, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "BVA",
+    "ICAO": "LFOB",
+    "Airport name": "Beauvais–Tillé Airport",
+    "Location served": "Beauvais, Picardy, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BVB",
+    "ICAO": "SBBV",
+    "Airport name": "Boa Vista International Airport",
+    "Location served": "Boa Vista, Roraima, Brazil",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BVC",
+    "ICAO": "GVBA",
+    "Airport name": "Aristides Pereira International Airport (Rabil Airport)",
+    "Location served": "Boa Vista, Cape Verde",
+    "Time": "UTC−01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BVE",
+    "ICAO": "LFSL",
+    "Airport name": "Brive–Souillac Airport",
+    "Location served": "Brive-la-Gaillarde, Limousin, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BVF",
+    "ICAO": "NFNU",
+    "Airport name": "Dama Airport",
+    "Location served": "Bua, Fiji",
+    "Time": "UTC+12:00",
+    "DST": "Nov-Jan"
+  },
+  {
+    "IATA": "BVG",
+    "ICAO": "ENBV",
+    "Airport name": "Berlevåg Airport",
+    "Location served": "Berlevåg, Norway",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BVH",
+    "ICAO": "SBVH",
+    "Airport name": "Vilhena Airport (Brigadeiro Camarão Airport)",
+    "Location served": "Vilhena, Rondônia, Brazil",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BVI",
+    "ICAO": "YBDV",
+    "Airport name": "Birdsville Airport",
+    "Location served": "Birdsville, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BVJ",
+    "ICAO": "USDB",
+    "Airport name": "Bovanenkovo Airport",
+    "Location served": "Bovanenkovo gas field, Yamalo-Nenets Autonomous Okrug, Russia",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BVK",
+    "ICAO": "SLHJ",
+    "Airport name": "Huacaraje Airport",
+    "Location served": "Huacaraje, Bolivia",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BVL",
+    "ICAO": "SLBU",
+    "Airport name": "Baures Airport",
+    "Location served": "Baures, Bolivia",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BVM",
+    "ICAO": "SNBL",
+    "Airport name": "Belmonte Airport",
+    "Location served": "Belmonte, Bahia, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BVO",
+    "ICAO": "KBVO",
+    "Airport name": "Bartlesville Municipal Airport",
+    "Location served": "Bartlesville, Oklahoma, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BVP",
+    "ICAO": "",
+    "Airport name": "Bolovip Airport",
+    "Location served": "Bolovip, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BVR",
+    "ICAO": "GVBR",
+    "Airport name": "Esperadinha Airport",
+    "Location served": "Brava, Cape Verde",
+    "Time": "UTC−01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BVS",
+    "ICAO": "SNVS",
+    "Airport name": "Breves Airport",
+    "Location served": "Breves, Pará, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BVU",
+    "ICAO": "PABG",
+    "Airport name": "Beluga Airport (FAA: BLG)",
+    "Location served": "Beluga, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BVV",
+    "ICAO": "UHSB",
+    "Airport name": "Burevestnik Airport[1]",
+    "Location served": "Burevestnik, Sakhalin Oblast, Russia",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BVW",
+    "ICAO": "",
+    "Airport name": "Batavia Downs Airport",
+    "Location served": "Batavia Downs, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BVX",
+    "ICAO": "KBVX",
+    "Airport name": "Batesville Regional Airport",
+    "Location served": "Batesville, Arkansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BVY",
+    "ICAO": "KBVY",
+    "Airport name": "Beverly Municipal Airport",
+    "Location served": "Beverly, Massachusetts, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BVZ",
+    "ICAO": "YBYS",
+    "Airport name": "Beverley Springs Airport",
+    "Location served": "Beverley Springs, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BWA",
+    "ICAO": "VNBW",
+    "Airport name": "Gautam Buddha Airport",
+    "Location served": "Siddharthanagar (Bhairawa), Nepal",
+    "Time": "UTC+05:45",
+    "DST": ""
+  },
+  {
+    "IATA": "BWB",
+    "ICAO": "YBWX",
+    "Airport name": "Barrow Island Airport",
+    "Location served": "Barrow Island, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BWC",
+    "ICAO": "KBWC",
+    "Airport name": "Brawley Municipal Airport",
+    "Location served": "Brawley, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BWD",
+    "ICAO": "KBWD",
+    "Airport name": "Brownwood Regional Airport",
+    "Location served": "Brownwood, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BWE",
+    "ICAO": "EDVE",
+    "Airport name": "Braunschweig–Wolfsburg Airport",
+    "Location served": "Braunschweig, Lower Saxony, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BWF",
+    "ICAO": "EGNL",
+    "Airport name": "Barrow/Walney Island Airport",
+    "Location served": "Barrow-in-Furness, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BWG",
+    "ICAO": "KBWG",
+    "Airport name": "Bowling Green-Warren County Regional Airport",
+    "Location served": "Bowling Green, Kentucky, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BWH",
+    "ICAO": "WMKB",
+    "Airport name": "RMAF Butterworth",
+    "Location served": "Butterworth, Penang, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BWI",
+    "ICAO": "KBWI",
+    "Airport name": "Baltimore/Washington International Thurgood Marshall Airport",
+    "Location served": "Baltimore–Washington metropolitan area, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BWJ",
+    "ICAO": "",
+    "Airport name": "Bawan Airport",
+    "Location served": "Bawan, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BWK",
+    "ICAO": "LDSB",
+    "Airport name": "Bol Airport (Brač Airport)",
+    "Location served": "Bol, Croatia",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BWL",
+    "ICAO": "KBKN",
+    "Airport name": "Blackwell–Tonkawa Municipal Airport[1] (FAA: BKN)",
+    "Location served": "Blackwell, Oklahoma, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BWM",
+    "ICAO": "KBPP",
+    "Airport name": "Bowman Municipal Airport (FAA: BPP)",
+    "Location served": "Bowman, North Dakota, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BWN",
+    "ICAO": "WBSB",
+    "Airport name": "Brunei International Airport",
+    "Location served": "Bandar Seri Begawan, Brunei",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BWO",
+    "ICAO": "UWSB",
+    "Airport name": "Balakovo Airport",
+    "Location served": "Balakovo, Saratov Oblast, Russia",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BWP",
+    "ICAO": "AYBI",
+    "Airport name": "Bewani Airport",
+    "Location served": "Bewani, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BWQ",
+    "ICAO": "YBRW",
+    "Airport name": "Brewarrina Airport",
+    "Location served": "Brewarrina, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "BWT",
+    "ICAO": "YWYY",
+    "Airport name": "Burnie Airport",
+    "Location served": "Burnie, Tasmania, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "BWU",
+    "ICAO": "YSBK",
+    "Airport name": "Bankstown Airport",
+    "Location served": "Bankstown, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "BWW",
+    "ICAO": "MUBR",
+    "Airport name": "Las Brujas Airport[1]",
+    "Location served": "Cayo Santa María, Cuba",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BWX",
+    "ICAO": "WADY",
+    "Airport name": "Banyuwangi Airport",
+    "Location served": "Banyuwangi, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BWY",
+    "ICAO": "EGVJ",
+    "Airport name": "RAF Bentwaters",
+    "Location served": "Woodbridge, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BXA",
+    "ICAO": "KBXA",
+    "Airport name": "George R. Carr Memorial Air Field",
+    "Location served": "Bogalusa, Louisiana, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BXB",
+    "ICAO": "WASO",
+    "Airport name": "Babo Airport",
+    "Location served": "Babo, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BXD",
+    "ICAO": "WAKE",
+    "Airport name": "Bade Airport",
+    "Location served": "Bade, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BXE",
+    "ICAO": "GOTB",
+    "Airport name": "Bakel Airport",
+    "Location served": "Bakel, Senegal",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BXF",
+    "ICAO": "YBEB",
+    "Airport name": "Bellburn Airstrip[1]",
+    "Location served": "Bellburn Camps, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BXG",
+    "ICAO": "YBDG",
+    "Airport name": "Bendigo Airport",
+    "Location served": "Bendigo, Victoria, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "BXH",
+    "ICAO": "UAAH",
+    "Airport name": "Balkhash Airport",
+    "Location served": "Balkhash, Kazakhstan",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BXI",
+    "ICAO": "DIBI",
+    "Airport name": "Boundiali Airport",
+    "Location served": "Boundiali, Ivory Coast",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BXJ",
+    "ICAO": "UAAR",
+    "Airport name": "Boraldai Airport",
+    "Location served": "Almaty, Kazakhstan",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BXK",
+    "ICAO": "KBXK",
+    "Airport name": "Buckeye Municipal Airport",
+    "Location served": "Buckeye, Arizona, United States",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BXL",
+    "ICAO": "",
+    "Airport name": "Blue Lagoon Seaplane Base",
+    "Location served": "Nanuya Lailai, Fiji",
+    "Time": "UTC+12:00",
+    "DST": "Nov-Jan"
+  },
+  {
+    "IATA": "BXM",
+    "ICAO": "",
+    "Airport name": "Batom Airport",
+    "Location served": "Batom, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BXN",
+    "ICAO": "LTBV",
+    "Airport name": "Bodrum-Imsik Airport",
+    "Location served": "Bodrum, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BXO",
+    "ICAO": "LSZC",
+    "Airport name": "Buochs Airport",
+    "Location served": "Buochs, Switzerland",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BXP",
+    "ICAO": "EPBP",
+    "Airport name": "Biała Podlaska Airport",
+    "Location served": "Biała Podlaska, Poland",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BXR",
+    "ICAO": "OIKM",
+    "Airport name": "Bam Airport",
+    "Location served": "Bam, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "BXS",
+    "ICAO": "",
+    "Airport name": "Borrego Valley Airport (FAA: L08)",
+    "Location served": "Borrego Springs, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BXT",
+    "ICAO": "WRLC",
+    "Airport name": "PT Badak Bontang Airport",
+    "Location served": "Bontang, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BXU",
+    "ICAO": "RPME",
+    "Airport name": "Bancasi Airport",
+    "Location served": "Butuan, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BXV",
+    "ICAO": "BIBV",
+    "Airport name": "Breiðdalsvík Airport",
+    "Location served": "Breiðdalsvík, Iceland",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BXW",
+    "ICAO": "WARW",
+    "Airport name": "Bawean Airport",
+    "Location served": "Bawean, East Java, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BXX",
+    "ICAO": "",
+    "Airport name": "Borama Airport",
+    "Location served": "Borama, Somalia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BXY",
+    "ICAO": "UAOL",
+    "Airport name": "Krayniy Airport",
+    "Location served": "Baikonur, Kazakhstan",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BXZ",
+    "ICAO": "AYNS",
+    "Airport name": "Bunsil Airport",
+    "Location served": "Bunsil, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BYA",
+    "ICAO": "",
+    "Airport name": "Boundary Airport",
+    "Location served": "Boundary, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BYB",
+    "ICAO": "",
+    "Airport name": "Dibba Airport",
+    "Location served": "Dibba Al-Baya, Oman",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BYC",
+    "ICAO": "SLYA",
+    "Airport name": "Yacuiba Airport",
+    "Location served": "Yacuíba, Bolivia",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BYD",
+    "ICAO": "OYBI",
+    "Airport name": "Al Bayda Airport",
+    "Location served": "Al Bayda, Yemen",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BYF",
+    "ICAO": "LFAQ",
+    "Airport name": "Albert – Picardie Airport[1]",
+    "Location served": "Albert, Picardy, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BYG",
+    "ICAO": "KBYG",
+    "Airport name": "Johnson County Airport",
+    "Location served": "Buffalo, Wyoming, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BYH",
+    "ICAO": "KBYH",
+    "Airport name": "Arkansas International Airport",
+    "Location served": "Blytheville, Arkansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BYI",
+    "ICAO": "KBYI",
+    "Airport name": "Burley Municipal Airport",
+    "Location served": "Burley, Idaho, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BYJ",
+    "ICAO": "LPBJ",
+    "Airport name": "Beja Airport",
+    "Location served": "Beja, Portugal",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BYK",
+    "ICAO": "DIBK",
+    "Airport name": "Bouaké Airport",
+    "Location served": "Bouaké, Ivory Coast",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BYL",
+    "ICAO": "",
+    "Airport name": "Bella Yella Airport",
+    "Location served": "Bella Yella, Liberia",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BYM",
+    "ICAO": "MUBY",
+    "Airport name": "Carlos Manuel de Céspedes Airport",
+    "Location served": "Bayamo, Cuba",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BYN",
+    "ICAO": "ZMBH",
+    "Airport name": "Bayankhongor Airport",
+    "Location served": "Bayankhongor, Mongolia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BYO",
+    "ICAO": "SBDB",
+    "Airport name": "Bonito Airport[1]",
+    "Location served": "Bonito, Mato Grosso do Sul, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "BYP",
+    "ICAO": "YBRY",
+    "Airport name": "Barimunya Airport",
+    "Location served": "Barimunya, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BYQ",
+    "ICAO": "WALV",
+    "Airport name": "Bunyu Airport",
+    "Location served": "Bunyu, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BYR",
+    "ICAO": "EKLS",
+    "Airport name": "Læsø Airport",
+    "Location served": "Læsø, Denmark",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BYS",
+    "ICAO": "KBYS",
+    "Airport name": "Bicycle Lake Army Airfield (Fort Irwin)",
+    "Location served": "Barstow, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BYT",
+    "ICAO": "EIBN",
+    "Airport name": "Bantry Aerodrome",
+    "Location served": "Bantry, Ireland",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BYU",
+    "ICAO": "EDQD",
+    "Airport name": "Bindlacher Berg Airport",
+    "Location served": "Bayreuth, Bavaria, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BYV",
+    "ICAO": "",
+    "Airport name": "Beira Lake Seaplane Base[1]",
+    "Location served": "Colombo, Sri Lanka",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "BYW",
+    "ICAO": "",
+    "Airport name": "Blakely Island Airport (FAA: 38WA)",
+    "Location served": "Blakely Island, Washington, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BYX",
+    "ICAO": "",
+    "Airport name": "Baniyala Airport",
+    "Location served": "Baniyala, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "BZA",
+    "ICAO": "MNBZ",
+    "Airport name": "San Pedro Airport",
+    "Location served": "Bonanza, Nicaragua",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BZB",
+    "ICAO": "",
+    "Airport name": "Bazaruto Island Airport",
+    "Location served": "Bazaruto Island, Mozambique",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BZC",
+    "ICAO": "SBBZ",
+    "Airport name": "Umberto Modiano Airport",
+    "Location served": "Armação dos Búzios, Rio de Janeiro, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "BZD",
+    "ICAO": "YBRN",
+    "Airport name": "Balranald Airport",
+    "Location served": "Balranald, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "BZE",
+    "ICAO": "MZBZ",
+    "Airport name": "Philip S. W. Goldson International Airport",
+    "Location served": "Belize City, Belize",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BZF",
+    "ICAO": "",
+    "Airport name": "Benton Field[1]",
+    "Location served": "Redding, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BZG",
+    "ICAO": "EPBY",
+    "Airport name": "Bydgoszcz Ignacy Jan Paderewski Airport",
+    "Location served": "Bydgoszcz, Poland",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BZH",
+    "ICAO": "",
+    "Airport name": "Bumi Hills Airstrip[1]",
+    "Location served": "Bumi Hills, Zimbabwe",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BZI",
+    "ICAO": "LTBF",
+    "Airport name": "Balıkesir Airport (Merkez Airport)",
+    "Location served": "Balıkesir, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BZK",
+    "ICAO": "UUBP",
+    "Airport name": "Bryansk International Airport",
+    "Location served": "Bryansk, Bryansk Oblast, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BZL",
+    "ICAO": "VGBR",
+    "Airport name": "Barisal Airport",
+    "Location served": "Barisal, Bangladesh",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BZM",
+    "ICAO": "",
+    "Airport name": "Bemolanga Airport[1]",
+    "Location served": "Bemolanga, Madagascar",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BZN",
+    "ICAO": "KBZN",
+    "Airport name": "Bozeman Yellowstone International Airport (Gallatin Field)",
+    "Location served": "Bozeman, Montana, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BZO",
+    "ICAO": "LIPB",
+    "Airport name": "Bolzano Airport",
+    "Location served": "Bolzano, Trentino-Alto Adige/Südtirol, Italy",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BZP",
+    "ICAO": "",
+    "Airport name": "Bizant Airport",
+    "Location served": "Bizant, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BZR",
+    "ICAO": "LFMU",
+    "Airport name": "Béziers Cap d'Agde Airport",
+    "Location served": "Béziers, Languedoc-Roussillon, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BZT",
+    "ICAO": "",
+    "Airport name": "Eagle Air Park[1]",
+    "Location served": "Brazoria, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "BZU",
+    "ICAO": "FZKJ",
+    "Airport name": "Buta Zega Airport",
+    "Location served": "Buta, Democratic Republic of the Congo",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BZV",
+    "ICAO": "FCBB",
+    "Airport name": "Maya-Maya Airport",
+    "Location served": "Brazzaville, Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BZX",
+    "ICAO": "",
+    "Airport name": "Bazhong Enyang Airport",
+    "Location served": "Bazhong, Sichuan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "BZY",
+    "ICAO": "LUBL",
+    "Airport name": "Bălți International Airport",
+    "Location served": "Bălți, Moldova",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "BZZ",
+    "ICAO": "EGVN",
+    "Airport name": "RAF Brize Norton",
+    "Location served": "Carterton, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  }
+]

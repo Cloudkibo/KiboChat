@@ -1,0 +1,746 @@
+[
+  {
+    "IATA": "XAI",
+    "ICAO": "",
+    "Airport name": "Xinyang Minggang Airport",
+    "Location served": "Xinyang, Henan, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XAL",
+    "ICAO": "",
+    "Airport name": "Álamos Airport",
+    "Location served": "Álamos, Sonora, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XAP",
+    "ICAO": "SBCH",
+    "Airport name": "Serafin Enoss Bertaso Airport",
+    "Location served": "Chapecó, Santa Catarina, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XAR",
+    "ICAO": "DFOY",
+    "Airport name": "Aribinda Airport",
+    "Location served": "Aribinda, Burkina Faso",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XAU",
+    "ICAO": "SOOS",
+    "Airport name": "Saül Airport",
+    "Location served": "Saül, French Guiana",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XBB",
+    "ICAO": "",
+    "Airport name": "Blubber Bay Seaplane Base",
+    "Location served": "Blubber Bay, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XBE",
+    "ICAO": "",
+    "Airport name": "Bearskin Lake Airport (TC: CNE3)",
+    "Location served": "Bearskin Lake, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XBG",
+    "ICAO": "DFEB",
+    "Airport name": "Bogande Airport",
+    "Location served": "Bogandé, Burkina Faso",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XBJ",
+    "ICAO": "OIMB",
+    "Airport name": "Birjand International Airport",
+    "Location served": "Birjand, Iran",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XBL",
+    "ICAO": "HABB",
+    "Airport name": "Bedele Airport (Buno Bedele Airport)",
+    "Location served": "Bedele, Ethiopia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XBN",
+    "ICAO": "",
+    "Airport name": "Biniguni Airport",
+    "Location served": "Biniguni, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XBO",
+    "ICAO": "DFEA",
+    "Airport name": "Boulsa Airport",
+    "Location served": "Boulsa, Burkina Faso",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XBR",
+    "ICAO": "",
+    "Airport name": "Brockville Regional Tackaberry Airport (TC: CNL3)",
+    "Location served": "Brockville, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XCH",
+    "ICAO": "YPXM",
+    "Airport name": "Christmas Island Airport",
+    "Location served": "Christmas Island, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XCL",
+    "ICAO": "",
+    "Airport name": "Cluff Lake Airport (TC: CJS3)",
+    "Location served": "Cluff Lake, Saskatchewan, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XCM",
+    "ICAO": "CYCK",
+    "Airport name": "Chatham-Kent Airport",
+    "Location served": "Chatham-Kent, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XCN",
+    "ICAO": "",
+    "Airport name": "Coron Airport",
+    "Location served": "Coron, Philippines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XCO",
+    "ICAO": "YOLA",
+    "Airport name": "Colac Airport",
+    "Location served": "Colac, Victoria, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XCR",
+    "ICAO": "LFOK",
+    "Airport name": "Châlons Vatry Airport",
+    "Location served": "Châlons-en-Champagne, Champagne-Ardenne, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XDE",
+    "ICAO": "DFOU",
+    "Airport name": "Diébougou Airport",
+    "Location served": "Diébougou, Burkina Faso",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XDJ",
+    "ICAO": "DFCJ",
+    "Airport name": "Djibo Airport",
+    "Location served": "Djibo, Burkina Faso",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XEN",
+    "ICAO": "ZYXC",
+    "Airport name": "Xingcheng Airport",
+    "Location served": "Xingcheng, Liaoning, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XES",
+    "ICAO": "",
+    "Airport name": "Grand Geneva Resort Airport (FAA: C02)",
+    "Location served": "Lake Geneva, Wisconsin, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XFN",
+    "ICAO": "ZHXF",
+    "Airport name": "Xiangyang Liuji Airport",
+    "Location served": "Xiangyang, Hubei, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XFW",
+    "ICAO": "EDHI",
+    "Airport name": "Hamburg Finkenwerder Airport",
+    "Location served": "Hamburg, Germany",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XGA",
+    "ICAO": "DFOG",
+    "Airport name": "Gaoua Airport (Amilcar Cabral Airport)",
+    "Location served": "Gaoua, Burkina Faso",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XGG",
+    "ICAO": "DFEG",
+    "Airport name": "Gorom Gorom Airport",
+    "Location served": "Gorom-Gorom, Burkina Faso",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XGN",
+    "ICAO": "FNXA",
+    "Airport name": "Xangongo Airport",
+    "Location served": "Xangongo, Angola",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XGR",
+    "ICAO": "CYLU",
+    "Airport name": "Kangiqsualujjuaq (Georges River) Airport",
+    "Location served": "Kangiqsualujjuaq, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XIC",
+    "ICAO": "ZUXC",
+    "Airport name": "Xichang Qingshan Airport",
+    "Location served": "Xichang, Sichuan, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XIE",
+    "ICAO": "",
+    "Airport name": "Xienglom Airport[1]",
+    "Location served": "Xienglom, Laos",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XIG",
+    "ICAO": "",
+    "Airport name": "Xinguara Municipal Airport",
+    "Location served": "Xinguara, Pará, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XIJ",
+    "ICAO": "OKAJ",
+    "Airport name": "Ahmad al-Jaber Air Base[1]",
+    "Location served": "Al Ahmadi, Kuwait",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XIL",
+    "ICAO": "ZBXH",
+    "Airport name": "Xilinhot Airport",
+    "Location served": "Xilinhot, Inner Mongolia, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XIN",
+    "ICAO": "ZGXN",
+    "Airport name": "Xingning Air Base",
+    "Location served": "Xingning, Guangdong, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XIY",
+    "ICAO": "ZLXY",
+    "Airport name": "Xi'an Xianyang International Airport",
+    "Location served": "Xi'an, Shaanxi, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XJD",
+    "ICAO": "OTBH",
+    "Airport name": "Al Udeid Air Base[1]",
+    "Location served": "Al Rayyan, Qatar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XJM",
+    "ICAO": "OPMA",
+    "Airport name": "Mangla Airport[1]",
+    "Location served": "Mangla, Pakistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XKA",
+    "ICAO": "DFEL",
+    "Airport name": "Kantchari Airport",
+    "Location served": "Kantchari, Burkina Faso",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XKH",
+    "ICAO": "VLXK",
+    "Airport name": "Xieng Khouang Airport",
+    "Location served": "Phonsavan, Laos",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XKS",
+    "ICAO": "CYAQ",
+    "Airport name": "Kasabonika Airport",
+    "Location served": "Kasabonika, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XKY",
+    "ICAO": "DFCA",
+    "Airport name": "Kaya Airport",
+    "Location served": "Kaya, Burkina Faso",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XLB",
+    "ICAO": "CZWH",
+    "Airport name": "Lac Brochet Airport",
+    "Location served": "Lac Brochet, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XLO",
+    "ICAO": "",
+    "Airport name": "Long Xuyen Airport",
+    "Location served": "Long Xuyên, Vietnam",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XLS",
+    "ICAO": "GOSS",
+    "Airport name": "Saint-Louis Airport",
+    "Location served": "Saint-Louis, Senegal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XLU",
+    "ICAO": "DFCL",
+    "Airport name": "Leo Airport",
+    "Location served": "Léo, Burkina Faso",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XLW",
+    "ICAO": "EDWD",
+    "Airport name": "Lemwerder Airport",
+    "Location served": "Lemwerder, Lower Saxony, Germany",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XMA",
+    "ICAO": "",
+    "Airport name": "Maramag Airport",
+    "Location served": "Maramag, Philippines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XMC",
+    "ICAO": "YMCO",
+    "Airport name": "Mallacoota Airport[1]",
+    "Location served": "Mallacoota, Victoria, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XMD",
+    "ICAO": "KMDS",
+    "Airport name": "Madison Municipal Airport (FAA: MDS)",
+    "Location served": "Madison, South Dakota, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XMG",
+    "ICAO": "VNMN",
+    "Airport name": "Mahendranagar Airport",
+    "Location served": "Bhimdatta (Mahendranagar), Nepal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XMH",
+    "ICAO": "NTGI",
+    "Airport name": "Manihi Airport",
+    "Location served": "Manihi, Tuamotus, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XMI",
+    "ICAO": "HTMI",
+    "Airport name": "Masasi Airport",
+    "Location served": "Masasi, Tanzania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XML",
+    "ICAO": "YMIN",
+    "Airport name": "Minlaton Airport",
+    "Location served": "Minlaton, South Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XMN",
+    "ICAO": "ZSAM",
+    "Airport name": "Xiamen Gaoqi International Airport",
+    "Location served": "Xiamen, Fujian, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XMP",
+    "ICAO": "",
+    "Airport name": "Macmillan Pass Airport[1] (TC: CFC4)",
+    "Location served": "Macmillan Pass, Yukon, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XMS",
+    "ICAO": "SEMC",
+    "Airport name": "Edmundo Carvajal Airport",
+    "Location served": "Macas, Ecuador",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XMY",
+    "ICAO": "YYMI",
+    "Airport name": "Yam Island Airport",
+    "Location served": "Yam Island, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XNA",
+    "ICAO": "KXNA",
+    "Airport name": "Northwest Arkansas Regional Airport",
+    "Location served": "Fayetteville / Springdale, Arkansas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XNG",
+    "ICAO": "",
+    "Airport name": "Quang Ngai Airport[1]",
+    "Location served": "Quang Ngai (Quảng Ngãi), Vietnam",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XNH",
+    "ICAO": "ORTL",
+    "Airport name": "Ali Air Base[1]",
+    "Location served": "Nasiriyah, Iraq",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XNN",
+    "ICAO": "ZLXN",
+    "Airport name": "Xining Caojiabao Airport",
+    "Location served": "Xining, Qinghai, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XNT",
+    "ICAO": "ZBXT",
+    "Airport name": "Xingtai Dalian Airport",
+    "Location served": "Xingtai, Hebei, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XNU",
+    "ICAO": "DFON",
+    "Airport name": "Nouna Airport",
+    "Location served": "Nouna, Burkina Faso",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XPA",
+    "ICAO": "DFEP",
+    "Airport name": "Pama Airport",
+    "Location served": "Pama, Burkina Faso",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XPK",
+    "ICAO": "CZFG",
+    "Airport name": "Pukatawagan Airport",
+    "Location served": "Pukatawagan, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XPL",
+    "ICAO": "MHSC",
+    "Airport name": "Soto Cano Air Base",
+    "Location served": "Comayagua, Honduras",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XPP",
+    "ICAO": "CZNG",
+    "Airport name": "Poplar River Airport",
+    "Location served": "Poplar River, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XPR",
+    "ICAO": "KIEN",
+    "Airport name": "Pine Ridge Airport (FAA: IEN)",
+    "Location served": "Pine Ridge, South Dakota, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XQP",
+    "ICAO": "MRQP",
+    "Airport name": "Quepos La Managua Airport",
+    "Location served": "Quepos, Costa Rica",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XQU",
+    "ICAO": "",
+    "Airport name": "Qualicum Beach Airport (TC: CAT4)",
+    "Location served": "Qualicum Beach, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XRH",
+    "ICAO": "YSRI",
+    "Airport name": "RAAF Base Richmond[1]",
+    "Location served": "Richmond, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XRQ",
+    "ICAO": "",
+    "Airport name": "Xinbarag Youqi Baogede Airport",
+    "Location served": "Xinbarag Youqi, Inner Mongolia, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XRR",
+    "ICAO": "CYDM",
+    "Airport name": "Ross River Airport",
+    "Location served": "Ross River, Yukon, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XRY",
+    "ICAO": "LEJR",
+    "Airport name": "Jerez Airport (La Parra Airport)",
+    "Location served": "Jerez de la Frontera, Andalusia, Spain",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XSB",
+    "ICAO": "OMBY",
+    "Airport name": "Sir Bani Yas Airport[1]",
+    "Location served": "Sir Bani Yas, United Arab Emirates",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XSC",
+    "ICAO": "MBSC",
+    "Airport name": "South Caicos Airport",
+    "Location served": "South Caicos, British Overseas Territory of Turks and Caicos Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XSD",
+    "ICAO": "KTNX",
+    "Airport name": "Tonopah Test Range Airport (FAA: TNX)",
+    "Location served": "Tonopah, Nevada, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XSE",
+    "ICAO": "DFES",
+    "Airport name": "Sebba Airport",
+    "Location served": "Sebba, Burkina Faso",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XSI",
+    "ICAO": "CZSN",
+    "Airport name": "South Indian Lake Airport",
+    "Location served": "South Indian Lake, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XSO",
+    "ICAO": "RPNO",
+    "Airport name": "Siocon Airport",
+    "Location served": "Siocon, Philippines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XSP",
+    "ICAO": "WSSL",
+    "Airport name": "Seletar Airport",
+    "Location served": "Singapore",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XTG",
+    "ICAO": "YTGM",
+    "Airport name": "Thargomindah Airport",
+    "Location served": "Thargomindah, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XTL",
+    "ICAO": "CYBQ",
+    "Airport name": "Tadoule Lake Airport",
+    "Location served": "Tadoule Lake, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XTO",
+    "ICAO": "YTAM",
+    "Airport name": "Taroom Airport",
+    "Location served": "Taroom, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XTR",
+    "ICAO": "YTAA",
+    "Airport name": "Tara Airport",
+    "Location served": "Tara, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XUZ",
+    "ICAO": "ZSXZ",
+    "Airport name": "Xuzhou Guanyin Airport",
+    "Location served": "Xuzhou, Jiangsu, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XVL",
+    "ICAO": "",
+    "Airport name": "Vinh Long Airport",
+    "Location served": "Vinh Long (Vĩnh Long), Vietnam",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XWA",
+    "ICAO": "KXWA",
+    "Airport name": "Williston Basin International Airport",
+    "Location served": "Williston, North Dakota, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XYA",
+    "ICAO": "AGGY",
+    "Airport name": "Yandina Airport",
+    "Location served": "Yandina, Solomon Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XYE",
+    "ICAO": "VYYE",
+    "Airport name": "Ye Airport",
+    "Location served": "Ye, Myanmar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XYR",
+    "ICAO": "AYED",
+    "Airport name": "Edwaki Airport[1]",
+    "Location served": "Yellow River, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "XZA",
+    "ICAO": "DFEZ",
+    "Airport name": "Zabré Airport",
+    "Location served": "Zabré, Burkina Faso",
+    "Time": "",
+    "DST": ""
+  }
+]

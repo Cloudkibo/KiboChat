@@ -1,0 +1,2418 @@
+[
+  {
+    "IATA": "DAA",
+    "ICAO": "KDAA",
+    "Airport name": "Davison Army Airfield",
+    "Location served": "Fort Belvoir, Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DAB",
+    "ICAO": "KDAB",
+    "Airport name": "Daytona Beach International Airport",
+    "Location served": "Daytona Beach, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DAC",
+    "ICAO": "VGHS",
+    "Airport name": "Shahjalal International Airport",
+    "Location served": "Dhaka, Bangladesh",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DAD",
+    "ICAO": "VVDN",
+    "Airport name": "Da Nang International Airport",
+    "Location served": "Da Nang, Vietnam",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DAF",
+    "ICAO": "",
+    "Airport name": "Daup Airport",
+    "Location served": "Daup, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DAG",
+    "ICAO": "KDAG",
+    "Airport name": "Barstow-Daggett Airport",
+    "Location served": "Daggett, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DAH",
+    "ICAO": "",
+    "Airport name": "Dathina Airport",
+    "Location served": "Dathina, Yemen",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DAK",
+    "ICAO": "HEDK",
+    "Airport name": "Dakhla Oasis Airport",
+    "Location served": "Dakhla Oasis, Egypt",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DAL",
+    "ICAO": "KDAL",
+    "Airport name": "Dallas Love Field",
+    "Location served": "Dallas, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DAM",
+    "ICAO": "OSDI",
+    "Airport name": "Damascus International Airport",
+    "Location served": "Damascus, Syria",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "DAN",
+    "ICAO": "KDAN",
+    "Airport name": "Danville Regional Airport",
+    "Location served": "Danville, Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DAO",
+    "ICAO": "",
+    "Airport name": "Dabo Airport[1]",
+    "Location served": "Dabo, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DAP",
+    "ICAO": "VNDL",
+    "Airport name": "Darchula Airport",
+    "Location served": "Darchula, Nepal",
+    "Time": "UTC+05:45",
+    "DST": ""
+  },
+  {
+    "IATA": "DAR",
+    "ICAO": "HTDA",
+    "Airport name": "Julius Nyerere International Airport",
+    "Location served": "Dar es Salaam, Tanzania",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DAS",
+    "ICAO": "",
+    "Airport name": "Great Bear Lake Airport[1] (TC: CFF4)",
+    "Location served": "Great Bear Lake, Northwest Territories, Canada",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DAT",
+    "ICAO": "ZBDT",
+    "Airport name": "Datong Yungang Airport",
+    "Location served": "Datong, Shanxi, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DAU",
+    "ICAO": "AYDU",
+    "Airport name": "Daru Airport",
+    "Location served": "Daru, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DAV",
+    "ICAO": "MPDA",
+    "Airport name": "Enrique Malek International Airport",
+    "Location served": "David, Panama",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DAX",
+    "ICAO": "ZUDX",
+    "Airport name": "Dazhou Heshi Airport",
+    "Location served": "Dazhou, Sichuan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DAY",
+    "ICAO": "KDAY",
+    "Airport name": "Dayton International Airport",
+    "Location served": "Dayton, Ohio, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DAZ",
+    "ICAO": "OADZ",
+    "Airport name": "Darwaz Airport",
+    "Location served": "Darwaz, Afghanistan",
+    "Time": "UTC+04:30",
+    "DST": ""
+  },
+  {
+    "IATA": "DBA",
+    "ICAO": "OPDB",
+    "Airport name": "Dalbandin Airport",
+    "Location served": "Dalbandin, Pakistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DBB",
+    "ICAO": "HEAL[2]",
+    "Airport name": "Al Alamain International Airport[1]",
+    "Location served": "El Alamein, Egypt",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DBC",
+    "ICAO": "ZYBA",
+    "Airport name": "Baicheng Chang'an Airport[1]",
+    "Location served": "Baicheng, Jilin, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DBD",
+    "ICAO": "VEDB",
+    "Airport name": "Dhanbad Airport",
+    "Location served": "Dhanbad, Jharkhand, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "DBK",
+    "ICAO": "",
+    "Airport name": "Dutch Bay Seaplane Base[1]",
+    "Location served": "Kalpitiya, Sri Lanka",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "DBM",
+    "ICAO": "HADM",
+    "Airport name": "Debre Marqos Airport",
+    "Location served": "Debre Marqos, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DBN",
+    "ICAO": "KDBN",
+    "Airport name": "W. H. 'Bud' Barron Airport",
+    "Location served": "Dublin, Georgia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DBO",
+    "ICAO": "YSDU",
+    "Airport name": "Dubbo City Regional Airport",
+    "Location served": "Dubbo, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "DBP",
+    "ICAO": "AYDB",
+    "Airport name": "Debepare Airport",
+    "Location served": "Debepare, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DBQ",
+    "ICAO": "KDBQ",
+    "Airport name": "Dubuque Regional Airport",
+    "Location served": "Dubuque, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DBS",
+    "ICAO": "",
+    "Airport name": "Dubois Municipal Airport (FAA: U41)",
+    "Location served": "Dubois, Idaho, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DBT",
+    "ICAO": "HADT",
+    "Airport name": "Debre Tabor Airport",
+    "Location served": "Debre Tabor, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DBU",
+    "ICAO": "",
+    "Airport name": "Dambulu Oya Tank Seaplane Base[1]",
+    "Location served": "Dambulla, Sri Lanka",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "DBV",
+    "ICAO": "LDDU",
+    "Airport name": "Dubrovnik Airport",
+    "Location served": "Dubrovnik, Croatia",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "DBY",
+    "ICAO": "YDAY",
+    "Airport name": "Dalby Airport",
+    "Location served": "Dalby, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DCA",
+    "ICAO": "KDCA",
+    "Airport name": "Ronald Reagan Washington National Airport",
+    "Location served": "Arlington County (near Washington, D.C.), Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DCF",
+    "ICAO": "TDCF",
+    "Airport name": "Canefield Airport",
+    "Location served": "Canefield, Dominica",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DCG",
+    "ICAO": "",
+    "Airport name": "Dubai Creek Seaplane Base[1]",
+    "Location served": "Dubai, United Arab Emirates",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DCI",
+    "ICAO": "LIED",
+    "Airport name": "Decimomannu Air Base",
+    "Location served": "Decimomannu, Sardinia, Italy",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "DCK",
+    "ICAO": "",
+    "Airport name": "Dahl Creek Airport",
+    "Location served": "Dahl Creek, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DCM",
+    "ICAO": "LFCK",
+    "Airport name": "Castres–Mazamet Airport",
+    "Location served": "Castres, Midi-Pyrénées, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "DCN",
+    "ICAO": "YCIN",
+    "Airport name": "RAAF Base Curtin[1]",
+    "Location served": "Derby, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DCT",
+    "ICAO": "MYRD",
+    "Airport name": "Duncan Town Airport",
+    "Location served": "Duncan Town, Ragged Island, Bahamas",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DCU",
+    "ICAO": "KDCU",
+    "Airport name": "Pryor Field Regional Airport",
+    "Location served": "Decatur, Alabama, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DCY",
+    "ICAO": "ZUDC",
+    "Airport name": "Daocheng Yading Airport",
+    "Location served": "Daocheng, Sichuan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DDC",
+    "ICAO": "KDDC",
+    "Airport name": "Dodge City Regional Airport",
+    "Location served": "Dodge City, Kansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DDD",
+    "ICAO": "VRMU",
+    "Airport name": "Dhaalu Airport",
+    "Location served": "Dhaalu Atoll, Maldives",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DDG",
+    "ICAO": "ZYDD",
+    "Airport name": "Dandong Langtou Airport",
+    "Location served": "Dandong, Liaoning, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DDM",
+    "ICAO": "",
+    "Airport name": "Dodoima Airport",
+    "Location served": "Dodoima, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DDN",
+    "ICAO": "YDLT",
+    "Airport name": "Delta Downs Airport",
+    "Location served": "Delta Downs, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DDU",
+    "ICAO": "OPDD",
+    "Airport name": "Dadu Airport",
+    "Location served": "Dadu, Pakistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DEA",
+    "ICAO": "OPDG",
+    "Airport name": "Dera Ghazi Khan International Airport",
+    "Location served": "Dera Ghazi Khan, Pakistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DEB",
+    "ICAO": "LHDC",
+    "Airport name": "Debrecen International Airport",
+    "Location served": "Debrecen, Hungary",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "DEC",
+    "ICAO": "KDEC",
+    "Airport name": "Decatur Airport",
+    "Location served": "Decatur, Illinois, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DED",
+    "ICAO": "VIDN",
+    "Airport name": "Jolly Grant Airport",
+    "Location served": "Dehradun, Uttarakhand, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "DEE",
+    "ICAO": "UHSM",
+    "Airport name": "Yuzhno-Kurilsk Mendeleyevo Airport[1]",
+    "Location served": "Yuzhno-Kurilsk, Sakhalin Oblast, Russia",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DEF",
+    "ICAO": "OIAD",
+    "Airport name": "Dezful Airport",
+    "Location served": "Dezful, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "DEH",
+    "ICAO": "KDEH",
+    "Airport name": "Decorah Municipal Airport",
+    "Location served": "Decorah, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DEI",
+    "ICAO": "FSSD",
+    "Airport name": "Denis Island Airport",
+    "Location served": "Denis Island, Seychelles",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DEL",
+    "ICAO": "VIDP",
+    "Airport name": "Indira Gandhi International Airport",
+    "Location served": "Delhi, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "DEM",
+    "ICAO": "HADD",
+    "Airport name": "Dembidolo Airport",
+    "Location served": "Dembidolo, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DEN",
+    "ICAO": "KDEN",
+    "Airport name": "Denver International Airport",
+    "Location served": "Denver, Colorado, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DEP",
+    "ICAO": "VEDZ",
+    "Airport name": "Daporijo Airport",
+    "Location served": "Daporijo, Arunachal Pradesh, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "DEQ",
+    "ICAO": "",
+    "Airport name": "Deqing Moganshan Airport",
+    "Location served": "Deqing, Zhejiang, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "DER",
+    "ICAO": "AYDE",
+    "Airport name": "Derim Airport",
+    "Location served": "Derim, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DES",
+    "ICAO": "FSDR",
+    "Airport name": "Desroches Airport",
+    "Location served": "Desroches Island, Seychelles",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DET",
+    "ICAO": "KDET",
+    "Airport name": "Coleman A. Young International Airport",
+    "Location served": "Detroit, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DEX",
+    "ICAO": "",
+    "Airport name": "Nop Goliat Dekai Airport[1]",
+    "Location served": "Yahukimo, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DEZ",
+    "ICAO": "OSDZ",
+    "Airport name": "Deir ez-Zor Airport",
+    "Location served": "Deir ez-Zor, Syria",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "DFI",
+    "ICAO": "KDFI",
+    "Airport name": "Defiance Memorial Airport",
+    "Location served": "Defiance, Ohio, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DFP",
+    "ICAO": "",
+    "Airport name": "Drumduff Airport",
+    "Location served": "Drumduff, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DFW",
+    "ICAO": "KDFW",
+    "Airport name": "Dallas/Fort Worth International Airport",
+    "Location served": "Dallas / Fort Worth, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DGA",
+    "ICAO": "",
+    "Airport name": "Dangriga Airport",
+    "Location served": "Dangriga, Belize",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DGC",
+    "ICAO": "",
+    "Airport name": "Degeh Bur Airport",
+    "Location served": "Degeh Bur, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DGD",
+    "ICAO": "YDGA",
+    "Airport name": "Dalgaranga Airport[1]",
+    "Location served": "Dalgaranga Gold Mine, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DGE",
+    "ICAO": "YMDG",
+    "Airport name": "Mudgee Airport",
+    "Location served": "Mudgee, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "DGF",
+    "ICAO": "",
+    "Airport name": "Douglas Lake Airport[1]",
+    "Location served": "Douglas Lake, British Columbia, Canada",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DGK",
+    "ICAO": "",
+    "Airport name": "Dugong Beach Lodge Airstrip[1]",
+    "Location served": "Dugong Beach Lodge, Mozambique",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DGL",
+    "ICAO": "KDGL",
+    "Airport name": "Douglas Municipal Airport",
+    "Location served": "Douglas, Arizona, United States",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DGM",
+    "ICAO": "",
+    "Airport name": "Dandugama Seaplane Base[1]",
+    "Location served": "Colombo, Sri Lanka",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "DGN",
+    "ICAO": "KNDY",
+    "Airport name": "Naval Surface Warfare Center Dahlgren Division (FAA: NDY)",
+    "Location served": "Dahlgren, Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DGO",
+    "ICAO": "MMDO",
+    "Airport name": "General Guadalupe Victoria International Airport",
+    "Location served": "Durango, Durango, Mexico",
+    "Time": "UTC−06:00",
+    "DST": "Apr-Oct"
+  },
+  {
+    "IATA": "DGP",
+    "ICAO": "EVDA",
+    "Airport name": "Daugavpils International Airport",
+    "Location served": "Daugavpils, Latvia",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "DGR",
+    "ICAO": "NZDA",
+    "Airport name": "Dargaville Aerodrome",
+    "Location served": "Dargaville, New Zealand",
+    "Time": "UTC+12:00",
+    "DST": "Sep-Apr"
+  },
+  {
+    "IATA": "DGT",
+    "ICAO": "RPVD",
+    "Airport name": "Sibulan Airport (Dumaguete Airport)",
+    "Location served": "Dumaguete, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DGU",
+    "ICAO": "DFOD",
+    "Airport name": "Dédougou Airport",
+    "Location served": "Dédougou, Burkina Faso",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DGW",
+    "ICAO": "KDGW",
+    "Airport name": "Converse County Airport",
+    "Location served": "Douglas, Wyoming, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DHA",
+    "ICAO": "OEDR",
+    "Airport name": "King Abdulaziz Air Base",
+    "Location served": "Dhahran, Saudi Arabia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DHB",
+    "ICAO": "",
+    "Airport name": "Deer Harbor Sea Plane Base[1]",
+    "Location served": "Deer Harbor, Washington, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DHD",
+    "ICAO": "YDRH",
+    "Airport name": "Durham Downs Airport",
+    "Location served": "Durham Downs, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DHF",
+    "ICAO": "OMAM",
+    "Airport name": "Al Dhafra Air Base",
+    "Location served": "Abu Dhabi, United Arab Emirates",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DHI",
+    "ICAO": "VNDH",
+    "Airport name": "Dhangadhi Airport",
+    "Location served": "Dhangadhi, Nepal",
+    "Time": "UTC+05:45",
+    "DST": ""
+  },
+  {
+    "IATA": "DHL",
+    "ICAO": "ODAL",
+    "Airport name": "Dhala Airport",
+    "Location served": "Dhala, Yemen",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DHM",
+    "ICAO": "VIGG",
+    "Airport name": "Gaggal Airport",
+    "Location served": "Kangra, Himachal Pradesh, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "DHN",
+    "ICAO": "KDHN",
+    "Airport name": "Dothan Regional Airport",
+    "Location served": "Dothan, Alabama, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DHR",
+    "ICAO": "EHKD",
+    "Airport name": "De Kooy Airfield",
+    "Location served": "Den Helder, Netherlands",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "DHT",
+    "ICAO": "KDHT",
+    "Airport name": "Dalhart Municipal Airport",
+    "Location served": "Dalhart, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DIA",
+    "ICAO": "OTBD",
+    "Airport name": "Doha International Airport",
+    "Location served": "Doha, Qatar",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DIB",
+    "ICAO": "VEMN",
+    "Airport name": "Dibrugarh Airport (Mohanbari Airport)",
+    "Location served": "Dibrugarh, Assam, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "DIE",
+    "ICAO": "FMNA",
+    "Airport name": "Arrachart Airport",
+    "Location served": "Antsiranana, Madagascar",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DIG",
+    "ICAO": "ZPDQ",
+    "Airport name": "Diqing Shangri-La Airport",
+    "Location served": "Shangri-La, Yunnan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DIJ",
+    "ICAO": "LFSD",
+    "Airport name": "Dijon Air Base",
+    "Location served": "Dijon, Burgundy, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "DIK",
+    "ICAO": "KDIK",
+    "Airport name": "Dickinson Theodore Roosevelt Regional Airport",
+    "Location served": "Dickinson, North Dakota, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DIL",
+    "ICAO": "WPDL",
+    "Airport name": "Presidente Nicolau Lobato International Airport",
+    "Location served": "Dili, East Timor",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DIM",
+    "ICAO": "DIDK",
+    "Airport name": "Dimbokro Airport",
+    "Location served": "Dimbokro, Ivory Coast",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DIN",
+    "ICAO": "VVDB",
+    "Airport name": "Dien Bien Phu Airport",
+    "Location served": "Dien Bien Phu, Vietnam",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DIP",
+    "ICAO": "DFED",
+    "Airport name": "Diapaga Airport",
+    "Location served": "Diapaga, Burkina Faso",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DIQ",
+    "ICAO": "SNDV",
+    "Airport name": "Divinópolis Airport (Brigadeiro Cabral Airport)",
+    "Location served": "Divinópolis, Minas Gerais, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "DIR",
+    "ICAO": "HADR",
+    "Airport name": "Aba Tenna Dejazmach Yilma International Airport",
+    "Location served": "Dire Dawa, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DIS",
+    "ICAO": "FCPL",
+    "Airport name": "Dolisie Airport",
+    "Location served": "Dolisie, Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DIU",
+    "ICAO": "",
+    "Airport name": "Diu Airport",
+    "Location served": "Diu, Daman and Diu, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "DIV",
+    "ICAO": "DIDV",
+    "Airport name": "Divo Airport",
+    "Location served": "Divo, Ivory Coast",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DIW",
+    "ICAO": "",
+    "Airport name": "Mawella Lagoon Seaplane Base[1]",
+    "Location served": "Dickwella, Sri Lanka",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "DIY",
+    "ICAO": "LTCC",
+    "Airport name": "Diyarbakır Airport",
+    "Location served": "Diyarbakır, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DJA",
+    "ICAO": "DBBD",
+    "Airport name": "Djougou Airport",
+    "Location served": "Djougou, Benin",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DJB",
+    "ICAO": "WIPA",
+    "Airport name": "Sultan Thaha Airport",
+    "Location served": "Jambi, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DJE",
+    "ICAO": "DTTJ",
+    "Airport name": "Djerba–Zarzis International Airport",
+    "Location served": "Djerba, Tunisia",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DJG",
+    "ICAO": "DAAJ",
+    "Airport name": "Tiska Djanet Airport",
+    "Location served": "Djanet, Algeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DJH",
+    "ICAO": "",
+    "Airport name": "Jebel Ali Seaplane Base",
+    "Location served": "Dubai, United Arab Emirates",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DJJ",
+    "ICAO": "WAJJ",
+    "Airport name": "Sentani Airport",
+    "Location served": "Jayapura, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DJM",
+    "ICAO": "FCBD",
+    "Airport name": "Djambala Airport",
+    "Location served": "Djambala, Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DJN",
+    "ICAO": "",
+    "Airport name": "Delta Junction Airport (FAA: D66)",
+    "Location served": "Delta Junction, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DJO",
+    "ICAO": "DIDL",
+    "Airport name": "Daloa Airport",
+    "Location served": "Daloa, Ivory Coast",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DJU",
+    "ICAO": "BIDV",
+    "Airport name": "Djúpivogur Airport",
+    "Location served": "Djúpivogur, Iceland",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DKA",
+    "ICAO": "",
+    "Airport name": "Katsina Airport[1]",
+    "Location served": "Katsina, Nigeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DKI",
+    "ICAO": "YDKI",
+    "Airport name": "Dunk Island Airport",
+    "Location served": "Dunk Island, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DKK",
+    "ICAO": "KDKK",
+    "Airport name": "Chautauqua County/Dunkirk Airport",
+    "Location served": "Dunkirk, New York, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DKR",
+    "ICAO": "GOOY",
+    "Airport name": "Léopold Sédar Senghor International Airport",
+    "Location served": "Dakar, Senegal",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DKS",
+    "ICAO": "UODD",
+    "Airport name": "Dikson Airport",
+    "Location served": "Dikson, Krasnoyarsk Krai, Russia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DKV",
+    "ICAO": "YDVR",
+    "Airport name": "Docker River Airport",
+    "Location served": "Docker River, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "DLA",
+    "ICAO": "FKKD",
+    "Airport name": "Douala International Airport",
+    "Location served": "Douala, Cameroon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DLB",
+    "ICAO": "",
+    "Airport name": "Dalbertis Airport",
+    "Location served": "Dalbertis, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DLC",
+    "ICAO": "ZYTL",
+    "Airport name": "Dalian Zhoushuizi International Airport",
+    "Location served": "Dalian, Liaoning, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DLE",
+    "ICAO": "LFGJ",
+    "Airport name": "Dole–Jura Airport",
+    "Location served": "Dole, Franche-Comté, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "DLF",
+    "ICAO": "KDLF",
+    "Airport name": "Laughlin Air Force Base",
+    "Location served": "Del Rio, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DLG",
+    "ICAO": "PADL",
+    "Airport name": "Dillingham Airport",
+    "Location served": "Dillingham, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DLH",
+    "ICAO": "KDLH",
+    "Airport name": "Duluth International Airport",
+    "Location served": "Duluth, Minnesota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DLI",
+    "ICAO": "VVDL",
+    "Airport name": "Lien Khuong Airport",
+    "Location served": "Da Lat, Vietnam",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DLK",
+    "ICAO": "YDLK",
+    "Airport name": "Dulkaninna Airport",
+    "Location served": "Dulkaninna, South Australia, Australia",
+    "Time": "UTC+09:30",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "DLL",
+    "ICAO": "KDLC",
+    "Airport name": "Dillon County Airport (FAA: DLC)",
+    "Location served": "Dillon, South Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DLM",
+    "ICAO": "LTBS",
+    "Airport name": "Dalaman Airport",
+    "Location served": "Dalaman, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DLN",
+    "ICAO": "KDLN",
+    "Airport name": "Dillon Airport",
+    "Location served": "Dillon, Montana, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DLS",
+    "ICAO": "KDLS",
+    "Airport name": "Columbia Gorge Regional Airport (The Dalles Municipal Airport)",
+    "Location served": "The Dalles, Oregon, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DLU",
+    "ICAO": "ZPDL",
+    "Airport name": "Dali Airport",
+    "Location served": "Dali, Yunnan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DLV",
+    "ICAO": "YDLV",
+    "Airport name": "Delissaville Airport",
+    "Location served": "Delissaville, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "DLY",
+    "ICAO": "NVVD",
+    "Airport name": "Dillon's Bay Airport",
+    "Location served": "Dillon's Bay, Erromango, Tafea, Vanuatu",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DLZ",
+    "ICAO": "ZMDZ",
+    "Airport name": "Dalanzadgad Airport",
+    "Location served": "Dalanzadgad, Mongolia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DMA",
+    "ICAO": "KDMA",
+    "Airport name": "Davis–Monthan Air Force Base",
+    "Location served": "Tucson, Arizona, United States",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DMB",
+    "ICAO": "UADD",
+    "Airport name": "Taraz Airport (Jambyl Airport)",
+    "Location served": "Taraz, Kazakhstan",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DMD",
+    "ICAO": "YDMG",
+    "Airport name": "Doomadgee Airport",
+    "Location served": "Doomadgee, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DME",
+    "ICAO": "UUDD",
+    "Airport name": "Domodedovo International Airport",
+    "Location served": "Moscow, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DMK",
+    "ICAO": "VTBD",
+    "Airport name": "Don Mueang International Airport",
+    "Location served": "Bangkok, Thailand",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DMM",
+    "ICAO": "OEDF",
+    "Airport name": "King Fahd International Airport",
+    "Location served": "Dammam, Saudi Arabia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DMN",
+    "ICAO": "KDMN",
+    "Airport name": "Deming Municipal Airport",
+    "Location served": "Deming, New Mexico, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DMO",
+    "ICAO": "KDMO",
+    "Airport name": "Sedalia Regional Airport",
+    "Location served": "Sedalia, Missouri, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DMR",
+    "ICAO": "",
+    "Airport name": "Dhamar Airport",
+    "Location served": "Dhamar, Yemen",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DMT",
+    "ICAO": "SWDM",
+    "Airport name": "Diamantino Airport",
+    "Location served": "Diamantino, Mato Grosso, Brazil",
+    "Time": "UTC−04:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "DMU",
+    "ICAO": "VEMR",
+    "Airport name": "Dimapur Airport",
+    "Location served": "Dimapur, Nagaland, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "DNA",
+    "ICAO": "RODN",
+    "Airport name": "Kadena Air Base",
+    "Location served": "Kadena, Okinawa, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DNB",
+    "ICAO": "YDBR",
+    "Airport name": "Dunbar Airport",
+    "Location served": "Dunbar, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DND",
+    "ICAO": "EGPN",
+    "Airport name": "Dundee Airport",
+    "Location served": "Dundee, Scotland, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "DNF",
+    "ICAO": "",
+    "Airport name": "Martuba Air Base",
+    "Location served": "Derna, Libya",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DNG",
+    "ICAO": "",
+    "Airport name": "Doongan Airport[1]",
+    "Location served": "Doongan, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DNH",
+    "ICAO": "ZLDH",
+    "Airport name": "Dunhuang Airport",
+    "Location served": "Dunhuang, Gansu, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DNI",
+    "ICAO": "HSWD",
+    "Airport name": "Wad Medani Airport",
+    "Location served": "Wad Madani, Sudan",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DNK",
+    "ICAO": "UKDD",
+    "Airport name": "Dnipropetrovsk International Airport",
+    "Location served": "Dnipro, Ukraine",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "DNL",
+    "ICAO": "KDNL",
+    "Airport name": "Daniel Field",
+    "Location served": "Augusta, Georgia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DNM",
+    "ICAO": "",
+    "Airport name": "Denham Airport",
+    "Location served": "Denham, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DNN",
+    "ICAO": "KDNN",
+    "Airport name": "Dalton Municipal Airport",
+    "Location served": "Dalton, Georgia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DNO",
+    "ICAO": "SWDN",
+    "Airport name": "Dianópolis Airport",
+    "Location served": "Dianópolis, Tocantins, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DNP",
+    "ICAO": "VNDG",
+    "Airport name": "Tribhuvannagar Airport (Dang Airport)",
+    "Location served": "Tribhuwannagar, Nepal",
+    "Time": "UTC+05:45",
+    "DST": ""
+  },
+  {
+    "IATA": "DNQ",
+    "ICAO": "YDLQ",
+    "Airport name": "Deniliquin Airport",
+    "Location served": "Deniliquin, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "DNR",
+    "ICAO": "LFRD",
+    "Airport name": "Dinard–Pleurtuit–Saint-Malo Airport",
+    "Location served": "Dinard / Saint-Malo, Brittany, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "DNS",
+    "ICAO": "KDNS",
+    "Airport name": "Denison Municipal Airport",
+    "Location served": "Denison, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DNU",
+    "ICAO": "AYDN",
+    "Airport name": "Dinangat Airport",
+    "Location served": "Dinangat, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DNV",
+    "ICAO": "KDNV",
+    "Airport name": "Vermilion Regional Airport",
+    "Location served": "Danville, Illinois, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DNX",
+    "ICAO": "HSGG",
+    "Airport name": "Galegu Airport",
+    "Location served": "Dinder, Sudan",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DNZ",
+    "ICAO": "LTAY",
+    "Airport name": "Denizli Çardak Airport",
+    "Location served": "Denizli, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DOA",
+    "ICAO": "",
+    "Airport name": "Doany Airport",
+    "Location served": "Doany, Madagascar",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DOB",
+    "ICAO": "WAPD",
+    "Airport name": "Dobo Airport",
+    "Location served": "Dobo, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DOC",
+    "ICAO": "",
+    "Airport name": "Dornoch Airport",
+    "Location served": "Dornoch, Scotland, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "DOD",
+    "ICAO": "HTDO",
+    "Airport name": "Dodoma Airport",
+    "Location served": "Dodoma, Tanzania",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DOE",
+    "ICAO": "",
+    "Airport name": "Djoemoe Airstrip",
+    "Location served": "Djoemoe, Suriname",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DOG",
+    "ICAO": "HSDN",
+    "Airport name": "Dongola Airport",
+    "Location served": "Dongola, Sudan",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DOH",
+    "ICAO": "OTHH",
+    "Airport name": "Hamad International Airport",
+    "Location served": "Doha, Qatar",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DOI",
+    "ICAO": "AYDO",
+    "Airport name": "Doini Island Airport",
+    "Location served": "Doini Island, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DOK",
+    "ICAO": "UKCC",
+    "Airport name": "Donetsk International Airport",
+    "Location served": "Donetsk, Ukraine",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DOL",
+    "ICAO": "LFRG",
+    "Airport name": "Deauville – Saint-Gatien Airport",
+    "Location served": "Deauville, Lower Normandy, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "DOM",
+    "ICAO": "TDPD",
+    "Airport name": "Douglas–Charles Airport",
+    "Location served": "St Andrew Parish, Dominica",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DON",
+    "ICAO": "",
+    "Airport name": "Dos Lagunas Airport",
+    "Location served": "Dos Lagunas, Guatemala",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DOO",
+    "ICAO": "AYDR",
+    "Airport name": "Dorobisoro Airstrip",
+    "Location served": "Dorobisoro, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DOP",
+    "ICAO": "VNDP",
+    "Airport name": "Dolpa Airport",
+    "Location served": "Dolpa, Nepal",
+    "Time": "UTC+05:45",
+    "DST": ""
+  },
+  {
+    "IATA": "DOR",
+    "ICAO": "DFEE",
+    "Airport name": "Dori Airport",
+    "Location served": "Dori, Burkina Faso",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DOS",
+    "ICAO": "",
+    "Airport name": "Dios Airport",
+    "Location served": "Dios, Papua New Guinea",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DOU",
+    "ICAO": "SSDO",
+    "Airport name": "Dourados Airport (Francisco de Matos Pereira Airport)",
+    "Location served": "Dourados, Mato Grosso do Sul, Brazil",
+    "Time": "UTC−04:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "DOV",
+    "ICAO": "KDOV",
+    "Airport name": "Dover Air Force Base",
+    "Location served": "Dover, Delaware, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DOX",
+    "ICAO": "YDRA",
+    "Airport name": "Dongara Airport",
+    "Location served": "Dongara, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DOY",
+    "ICAO": "ZSDY",
+    "Airport name": "Dongying Shengli Airport[1]",
+    "Location served": "Dongying, Shandong, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DPA",
+    "ICAO": "KDPA",
+    "Airport name": "DuPage Airport",
+    "Location served": "West Chicago, Illinois, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DPB",
+    "ICAO": "SCBI",
+    "Airport name": "Pampa Guanaco Airport",
+    "Location served": "Camerón, Timaukel, Tierra del Fuego Province, Magallanes Region, Chile",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "DPE",
+    "ICAO": "LFAB",
+    "Airport name": "Dieppe - Saint-Aubin Airport",
+    "Location served": "Dieppe, Upper Normandy, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "DPG",
+    "ICAO": "KDPG",
+    "Airport name": "Michael Army Airfield",
+    "Location served": "Dugway, Utah, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DPL",
+    "ICAO": "RPMG",
+    "Airport name": "Dipolog Airport",
+    "Location served": "Dipolog, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DPO",
+    "ICAO": "YDPO",
+    "Airport name": "Devonport Airport",
+    "Location served": "Devonport, Tasmania, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "DPS",
+    "ICAO": "WADD",
+    "Airport name": "Ngurah Rai International Airport",
+    "Location served": "Denpasar (Bali), Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DPT",
+    "ICAO": "",
+    "Airport name": "Deputatsky Airport",
+    "Location served": "Deputatsky, Yakutia, Russia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DPU",
+    "ICAO": "",
+    "Airport name": "Dumpu Airport",
+    "Location served": "Dumpu, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DQA",
+    "ICAO": "ZYDQ",
+    "Airport name": "Daqing Sartu Airport",
+    "Location served": "Daqing, Heilongjiang, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DQM",
+    "ICAO": "",
+    "Airport name": "Duqm International Airport[1]",
+    "Location served": "Duqm, Oman",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DRA",
+    "ICAO": "KDRA",
+    "Airport name": "Desert Rock Airport",
+    "Location served": "Mercury, Nevada, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DRB",
+    "ICAO": "YDBY",
+    "Airport name": "Derby Airport",
+    "Location served": "Derby, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DRC",
+    "ICAO": "",
+    "Airport name": "Dirico Airport",
+    "Location served": "Dirico, Angola",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DRD",
+    "ICAO": "YDOR",
+    "Airport name": "Dorunda Airport",
+    "Location served": "Dorunda, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DRE",
+    "ICAO": "KDRM",
+    "Airport name": "Drummond Island Airport (FAA: DRM)",
+    "Location served": "Drummond Island, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DRF",
+    "ICAO": "",
+    "Airport name": "Drift River Airport[1]",
+    "Location served": "Drift River, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DRG",
+    "ICAO": "PADE",
+    "Airport name": "Deering Airport (FAA: DEE)",
+    "Location served": "Deering, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DRH",
+    "ICAO": "",
+    "Airport name": "Dabra Airport",
+    "Location served": "Dabra, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DRI",
+    "ICAO": "KDRI",
+    "Airport name": "Beauregard Regional Airport",
+    "Location served": "DeRidder, Louisiana, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DRJ",
+    "ICAO": "SMDA",
+    "Airport name": "Drietabbetje Airstrip",
+    "Location served": "Drietabbetje, Suriname",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DRK",
+    "ICAO": "MRDK",
+    "Airport name": "Drake Bay Airport",
+    "Location served": "Drake Bay, Costa Rica",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DRN",
+    "ICAO": "YDBI",
+    "Airport name": "Dirranbandi Airport",
+    "Location served": "Dirranbandi, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DRO",
+    "ICAO": "KDRO",
+    "Airport name": "Durango–La Plata County Airport",
+    "Location served": "Durango, Colorado, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DRR",
+    "ICAO": "YDRI",
+    "Airport name": "Durrie Airport",
+    "Location served": "Durrie, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DRS",
+    "ICAO": "EDDC",
+    "Airport name": "Dresden Airport",
+    "Location served": "Dresden, Saxony, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "DRT",
+    "ICAO": "KDRT",
+    "Airport name": "Del Rio International Airport",
+    "Location served": "Del Rio, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DRU",
+    "ICAO": "",
+    "Airport name": "Drummond Airport (FAA: M26)",
+    "Location served": "Drummond, Montana, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DRV",
+    "ICAO": "VRMD",
+    "Airport name": "Dharavandhoo Airport[1]",
+    "Location served": "Dharavandhoo Island, Baa Atoll, Maldives",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DRW",
+    "ICAO": "YPDN",
+    "Airport name": "Darwin International Airport",
+    "Location served": "Darwin, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "DRY",
+    "ICAO": "YDRD[3]",
+    "Airport name": "Drysdale River Airport[1]",
+    "Location served": "Drysdale River, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DSA",
+    "ICAO": "EGCN",
+    "Airport name": "Robin Hood Airport Doncaster Sheffield",
+    "Location served": "Doncaster, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "DSC",
+    "ICAO": "FKKS",
+    "Airport name": "Dschang Airport",
+    "Location served": "Dschang, Cameroon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DSD",
+    "ICAO": "TFFA",
+    "Airport name": "La Désirade Airport (Grande-Anse Airport)",
+    "Location served": "La Désirade, Guadeloupe",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DSE",
+    "ICAO": "HADC",
+    "Airport name": "Combolcha Airport",
+    "Location served": "Dessie / Kombolcha, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DSG",
+    "ICAO": "",
+    "Airport name": "Dilasag Airport",
+    "Location served": "Dilasag, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DSI",
+    "ICAO": "KDTS",
+    "Airport name": "Destin Executive Airport (FAA: DTS)",
+    "Location served": "Destin, Florida, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DSK",
+    "ICAO": "OPDI",
+    "Airport name": "Dera Ismail Khan Airport",
+    "Location served": "Dera Ismail Khan, Pakistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DSM",
+    "ICAO": "KDSM",
+    "Airport name": "Des Moines International Airport",
+    "Location served": "Des Moines, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DSN",
+    "ICAO": "ZBDS",
+    "Airport name": "Ordos Ejin Horo Airport",
+    "Location served": "Ordos, Inner Mongolia, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DSO",
+    "ICAO": "ZKSD",
+    "Airport name": "Sondok Airport[1]",
+    "Location served": "Sondok, North Korea",
+    "Time": "UTC+08:30",
+    "DST": ""
+  },
+  {
+    "IATA": "DSS",
+    "ICAO": "GOBD",
+    "Airport name": "Blaise Diagne International Airport",
+    "Location served": "Dakar, Senegal",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DSV",
+    "ICAO": "KDSV",
+    "Airport name": "Dansville Municipal Airport",
+    "Location served": "Dansville, New York, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DSX",
+    "ICAO": "RCLM",
+    "Airport name": "Dongsha Island Airport[1]",
+    "Location served": "Pratas (Tungsha/Dongsha) Island, Taiwan",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DTA",
+    "ICAO": "KDTA",
+    "Airport name": "Delta Municipal Airport",
+    "Location served": "Delta, Utah, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DTB",
+    "ICAO": "WIMN",
+    "Airport name": "Silangit Airport[1]",
+    "Location served": "Siborong-Borong, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DTD",
+    "ICAO": "WALJ",
+    "Airport name": "Datadawai Airport",
+    "Location served": "Datadawai, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DTE",
+    "ICAO": "RPUD",
+    "Airport name": "Bagasbas Airport",
+    "Location served": "Daet, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DTH",
+    "ICAO": "",
+    "Airport name": "Furnace Creek Airport (FAA: L06)",
+    "Location served": "Death Valley, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DTI",
+    "ICAO": "SNDT",
+    "Airport name": "Diamantina Airport[1]",
+    "Location served": "Diamantina, Minas Gerais, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "DTL",
+    "ICAO": "KDTL",
+    "Airport name": "Detroit Lakes Airport (Wething Field)",
+    "Location served": "Detroit Lakes, Minnesota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DTM",
+    "ICAO": "EDLW",
+    "Airport name": "Dortmund Airport",
+    "Location served": "Dortmund, North Rhine-Westphalia, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "DTN",
+    "ICAO": "KDTN",
+    "Airport name": "Shreveport Downtown Airport",
+    "Location served": "Shreveport, Louisiana, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DTR",
+    "ICAO": "",
+    "Airport name": "Decatur Shores Airport[1]",
+    "Location served": "Decatur Island, Washington, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DTT[1]",
+    "ICAO": "",
+    "Airport name": "metropolitan area1",
+    "Location served": "Detroit, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DTU",
+    "ICAO": "",
+    "Airport name": "Wudalianchi Airport[1]",
+    "Location served": "Wudalianchi, Heilongjiang, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DTW",
+    "ICAO": "KDTW",
+    "Airport name": "Detroit Metropolitan Wayne County Airport",
+    "Location served": "Detroit, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DUA",
+    "ICAO": "KDUA",
+    "Airport name": "Durant Regional Airport–Eaker Field",
+    "Location served": "Durant, Oklahoma, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DUB",
+    "ICAO": "EIDW",
+    "Airport name": "Dublin Airport",
+    "Location served": "Dublin, Ireland",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "DUC",
+    "ICAO": "KDUC",
+    "Airport name": "Halliburton Field",
+    "Location served": "Duncan, Oklahoma, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DUD",
+    "ICAO": "NZDN",
+    "Airport name": "Dunedin International Airport",
+    "Location served": "Dunedin, New Zealand",
+    "Time": "UTC+12:00",
+    "DST": "Sep-Apr"
+  },
+  {
+    "IATA": "DUE",
+    "ICAO": "FNDU",
+    "Airport name": "Dundo Airport",
+    "Location served": "Dundo, Angola",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DUF",
+    "ICAO": "",
+    "Airport name": "Pine Island Airport (FAA: 7NC2)",
+    "Location served": "Corolla, North Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DUG",
+    "ICAO": "KDUG",
+    "Airport name": "Bisbee Douglas International Airport",
+    "Location served": "Bisbee / Douglas, Arizona, United States",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DUJ",
+    "ICAO": "KDUJ",
+    "Airport name": "DuBois Regional Airport",
+    "Location served": "DuBois, Pennsylvania, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DUK",
+    "ICAO": "FADK",
+    "Airport name": "Dukuduku Airport",
+    "Location served": "Mtubatuba, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DUM",
+    "ICAO": "WIBD",
+    "Airport name": "Pinang Kampai Airport",
+    "Location served": "Dumai, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DUQ",
+    "ICAO": "",
+    "Airport name": "Duncan Airport",
+    "Location served": "Duncan, British Columbia, Canada",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DUR",
+    "ICAO": "FALE",
+    "Airport name": "King Shaka International Airport",
+    "Location served": "Durban, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DUS",
+    "ICAO": "EDDL",
+    "Airport name": "Düsseldorf Airport",
+    "Location served": "Düsseldorf, North Rhine-Westphalia, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "DUT",
+    "ICAO": "PADU",
+    "Airport name": "Unalaska Airport",
+    "Location served": "Unalaska, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DVD",
+    "ICAO": "",
+    "Airport name": "Andavadoaka Airport",
+    "Location served": "Andavadoaka, Madagascar",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DVK",
+    "ICAO": "",
+    "Airport name": "Diavik Airport[1]",
+    "Location served": "Diavik Diamond Mine, Northwest Territories, Canada",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DVL",
+    "ICAO": "KDVL",
+    "Airport name": "Devils Lake Regional Airport (Devils Lake Municipal Airport)",
+    "Location served": "Devils Lake, North Dakota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DVN",
+    "ICAO": "KDVN",
+    "Airport name": "Davenport Municipal Airport",
+    "Location served": "Davenport, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DVO",
+    "ICAO": "RPMD",
+    "Airport name": "Francisco Bangoy International Airport",
+    "Location served": "Davao City, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DVP",
+    "ICAO": "YDPD",
+    "Airport name": "Davenport Downs Airport",
+    "Location served": "Davenport Downs, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DVR",
+    "ICAO": "",
+    "Airport name": "Daly River Airport",
+    "Location served": "Daly River, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "DVT",
+    "ICAO": "KDVT",
+    "Airport name": "Phoenix Deer Valley Airport",
+    "Location served": "Phoenix, Arizona, United States",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DWA",
+    "ICAO": "FWDW",
+    "Airport name": "Dwanga Airport (Dwangwa Airport)",
+    "Location served": "Dwangwa, Malawi",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DWB",
+    "ICAO": "FMNO",
+    "Airport name": "Soalala Airport",
+    "Location served": "Soalala, Madagascar",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DWC",
+    "ICAO": "OMDW",
+    "Airport name": "Al Maktoum International Airport",
+    "Location served": "Dubai, United Arab Emirates",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DWD",
+    "ICAO": "OEDW",
+    "Airport name": "Dawadmi Domestic Airport (King Salman bin Abdul Aziz Domestic Airport)",
+    "Location served": "Dawadmi, Saudi Arabia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DWH",
+    "ICAO": "KDWH",
+    "Airport name": "David Wayne Hooks Memorial Airport",
+    "Location served": "Houston, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DWO",
+    "ICAO": "",
+    "Airport name": "Diyawanna Oya Seaplane Base[1]",
+    "Location served": "Sri Jayawardenepura Kotte, Sri Lanka",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "DWR",
+    "ICAO": "OADY",
+    "Airport name": "Dwyer Airport[1]",
+    "Location served": "Camp Dwyer, Afghanistan",
+    "Time": "UTC+04:30",
+    "DST": ""
+  },
+  {
+    "IATA": "DXB",
+    "ICAO": "OMDB",
+    "Airport name": "Dubai International Airport",
+    "Location served": "Dubai, United Arab Emirates",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DXD",
+    "ICAO": "YDIX",
+    "Airport name": "Dixie Airport",
+    "Location served": "Dixie, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DXE",
+    "ICAO": "KMBO",
+    "Airport name": "Bruce Campbell Field[1] (FAA: MBO)",
+    "Location served": "Madison, Mississippi, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DXR",
+    "ICAO": "KDXR",
+    "Airport name": "Danbury Municipal Airport",
+    "Location served": "Danbury, Connecticut, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DYA",
+    "ICAO": "YDYS",
+    "Airport name": "Dysart Airport",
+    "Location served": "Dysart, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DYG",
+    "ICAO": "ZGDY",
+    "Airport name": "Zhangjiajie Hehua Airport",
+    "Location served": "Zhangjiajie, Hunan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DYL",
+    "ICAO": "KDYL",
+    "Airport name": "Doylestown Airport",
+    "Location served": "Doylestown, Pennsylvania, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DYM",
+    "ICAO": "",
+    "Airport name": "Diamantina Lakes Airport",
+    "Location served": "Diamantina Lakes, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DYR",
+    "ICAO": "UHMA",
+    "Airport name": "Ugolny Airport",
+    "Location served": "Anadyr, Chukotka, Russia",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DYS",
+    "ICAO": "KDYS",
+    "Airport name": "Dyess Air Force Base",
+    "Location served": "Abilene, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "DYU",
+    "ICAO": "UTDD",
+    "Airport name": "Dushanbe International Airport",
+    "Location served": "Dushanbe, Tajikistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DYW",
+    "ICAO": "",
+    "Airport name": "Daly Waters Airport",
+    "Location served": "Daly Waters, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "DZA",
+    "ICAO": "FMCZ",
+    "Airport name": "Dzaoudzi–Pamandzi International Airport",
+    "Location served": "Dzaoudzi, Mayotte",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DZI",
+    "ICAO": "",
+    "Airport name": "Codazzi Airport",
+    "Location served": "Codazzi, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DZN",
+    "ICAO": "UAKD",
+    "Airport name": "Zhezkazgan Airport",
+    "Location served": "Zhezkazgan, Kazakhstan",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DZO",
+    "ICAO": "SUDU",
+    "Airport name": "Santa Bernardina International Airport",
+    "Location served": "Durazno, Uruguay",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "DZU",
+    "ICAO": "ZUDZ",
+    "Airport name": "Dazu Air Base",
+    "Location served": "Dazu, Chongqing, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  }
+]
