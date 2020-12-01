@@ -17,4 +17,6 @@ router.get('/fetchChatbot',
 router.get('/testRoute',
   controller.testRoute) // this id will be userid
 
+require('./../airlinesProvidersApiLayer/util').findCityInfo('Seattle')
+
 module.exports = router

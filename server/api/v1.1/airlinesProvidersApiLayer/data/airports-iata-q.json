@@ -1,0 +1,162 @@
+[
+  {
+    "IATA": "QAQ",
+    "ICAO": "LIAP",
+    "Airport name": "L'Aquila–Preturo Airport[1]",
+    "Location served": "L'Aquila, Abruzzo, Italy",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "QBC",
+    "ICAO": "CYBD",
+    "Airport name": "Bella Coola Airport",
+    "Location served": "Bella Coola, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "QCY",
+    "ICAO": "EGXC",
+    "Airport name": "RAF Coningsby",
+    "Location served": "Coningsby, England, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "QHU",
+    "ICAO": "EDXJ",
+    "Airport name": "Husum Schwesing Airport[1]",
+    "Location served": "Husum, Schleswig-Holstein, Germany",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "QLR",
+    "ICAO": "LPMR",
+    "Airport name": "Monte Real Air Base",
+    "Location served": "Monte Real, Portugal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "QOW",
+    "ICAO": "DNIM",
+    "Airport name": "Sam Mbakwe Airport",
+    "Location served": "Owerri, Nigeria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "QPG",
+    "ICAO": "WSAP",
+    "Airport name": "Paya Lebar Air Base",
+    "Location served": "Singapore",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "QRA",
+    "ICAO": "FAGM",
+    "Airport name": "Rand Airport",
+    "Location served": "Johannesburg, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "QRC",
+    "ICAO": "SCRG",
+    "Airport name": "Rancagua de la Independencia Airport",
+    "Location served": "Rancagua, Chile",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "QRO",
+    "ICAO": "MMQT",
+    "Airport name": "Querétaro Intercontinental Airport",
+    "Location served": "Querétaro City, Querétaro, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "QRW",
+    "ICAO": "DNSU",
+    "Airport name": "Warri Airport (Osubi Airport)",
+    "Location served": "Warri, Nigeria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "QSC",
+    "ICAO": "SDSC",
+    "Airport name": "Mário Pereira Lopes Airport",
+    "Location served": "São Carlos, São Paulo, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "QSF",
+    "ICAO": "DAAS",
+    "Airport name": "Ain Arnat Airport",
+    "Location served": "Sétif, Algeria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "QSR",
+    "ICAO": "LIRI",
+    "Airport name": "Salerno Costa d'Amalfi Airport (Pontecagnano Airport)",
+    "Location served": "Salerno, Campania, Italy",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "QSZ",
+    "ICAO": "",
+    "Airport name": "Shache Airport",
+    "Location served": "Shache, Xinjiang, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "QUB",
+    "ICAO": "HLUB",
+    "Airport name": "Ubari Airport[1]",
+    "Location served": "Ubari, Libya",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "QUG",
+    "ICAO": "EGHR",
+    "Airport name": "Chichester/Goodwood Airport",
+    "Location served": "Chichester, England, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "QUO",
+    "ICAO": "DNAI",
+    "Airport name": "Akwa Ibom International Airport",
+    "Location served": "Uyo, Nigeria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "QUY",
+    "ICAO": "EGUY",
+    "Airport name": "RAF Wyton[1]",
+    "Location served": "Wyton, England, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "QWG",
+    "ICAO": "",
+    "Airport name": "Wilgrove Air Park (FAA: 8A6)",
+    "Location served": "Charlotte, North Carolina, United States",
+    "Time": "",
+    "DST": ""
+  }
+]

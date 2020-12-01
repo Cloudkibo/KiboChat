@@ -1,0 +1,4954 @@
+[
+  {
+    "IATA": "SAA",
+    "ICAO": "KSAA",
+    "Airport name": "Shively Field",
+    "Location served": "Saratoga, Wyoming, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SAB",
+    "ICAO": "TNCS",
+    "Airport name": "Juancho E. Yrausquin Airport",
+    "Location served": "Saba, Caribbean Netherlands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SAC",
+    "ICAO": "KSAC",
+    "Airport name": "Sacramento Executive Airport",
+    "Location served": "Sacramento, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SAD",
+    "ICAO": "KSAD",
+    "Airport name": "Safford Regional Airport",
+    "Location served": "Safford, Arizona, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SAF",
+    "ICAO": "KSAF",
+    "Airport name": "Santa Fe Municipal Airport",
+    "Location served": "Santa Fe, New Mexico, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SAG",
+    "ICAO": "",
+    "Airport name": "Shirdi Airport",
+    "Location served": "Shirdi, Maharashtra, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SAH",
+    "ICAO": "OYSN",
+    "Airport name": "Sana'a International Airport (El Rahaba Airport)",
+    "Location served": "Sana'a, Yemen",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SAK",
+    "ICAO": "BIKR",
+    "Airport name": "Sauðárkrókur Airport",
+    "Location served": "Sauðárkrókur, Iceland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SAL",
+    "ICAO": "MSLP",
+    "Airport name": "Monseñor Óscar Arnulfo Romero International Airport",
+    "Location served": "San Salvador, El Salvador",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SAM",
+    "ICAO": "",
+    "Airport name": "Salamo Airport[1]",
+    "Location served": "Salamo, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SAN",
+    "ICAO": "KSAN",
+    "Airport name": "San Diego International Airport",
+    "Location served": "San Diego, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SAO[1]",
+    "ICAO": "",
+    "Airport name": "metropolitan area1",
+    "Location served": "São Paulo, São Paulo, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SAP",
+    "ICAO": "MHLM",
+    "Airport name": "Ramón Villeda Morales International Airport",
+    "Location served": "San Pedro Sula, Honduras",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SAQ",
+    "ICAO": "MYAN",
+    "Airport name": "San Andros Airport[1]",
+    "Location served": "Nicholls Town, Andros Island, Bahamas",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SAR",
+    "ICAO": "KSAR",
+    "Airport name": "Sparta Community Airport (Hunter Field)",
+    "Location served": "Sparta, Illinois, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SAS",
+    "ICAO": "KSAS",
+    "Airport name": "Salton Sea Airport",
+    "Location served": "Salton City, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SAT",
+    "ICAO": "KSAT",
+    "Airport name": "San Antonio International Airport",
+    "Location served": "San Antonio, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SAU",
+    "ICAO": "WATS",
+    "Airport name": "Tardamu Airport",
+    "Location served": "Savu (Sawu), Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SAV",
+    "ICAO": "KSAV",
+    "Airport name": "Savannah/Hilton Head International Airport",
+    "Location served": "Savannah, Georgia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SAW",
+    "ICAO": "LTFJ",
+    "Airport name": "Sabiha Gökçen International Airport",
+    "Location served": "Istanbul, Turkey",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SAX",
+    "ICAO": "",
+    "Airport name": "Sambú Airport[1]",
+    "Location served": "Sambú, Panama",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SAY",
+    "ICAO": "LIQS",
+    "Airport name": "Siena–Ampugnano Airport",
+    "Location served": "Siena, Tuscany, Italy",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SAZ",
+    "ICAO": "GLST",
+    "Airport name": "Sasstown Airport",
+    "Location served": "Sasstown, Liberia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SBA",
+    "ICAO": "KSBA",
+    "Airport name": "Santa Barbara Municipal Airport",
+    "Location served": "Santa Barbara, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SBB",
+    "ICAO": "SVSB",
+    "Airport name": "Santa Bárbara de Barinas Airport[1]",
+    "Location served": "Santa Bárbara, Venezuela",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SBC",
+    "ICAO": "AYSO",
+    "Airport name": "Selbang Airport[1]",
+    "Location served": "Selbang, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SBD",
+    "ICAO": "KSBD",
+    "Airport name": "San Bernardino International Airport",
+    "Location served": "San Bernardino, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SBE",
+    "ICAO": "AYSA",
+    "Airport name": "Suabi Airport[1]",
+    "Location served": "Suabi, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SBF",
+    "ICAO": "OADS",
+    "Airport name": "Sardeh Band Airport",
+    "Location served": "Band-e Sardeh Dam, Afghanistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SBG",
+    "ICAO": "WITN",
+    "Airport name": "Maimun Saleh Airport[1]",
+    "Location served": "Sabang, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SBH",
+    "ICAO": "TFFJ",
+    "Airport name": "Gustaf III Airport",
+    "Location served": "Gustavia, Saint Barthélemy",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SBI",
+    "ICAO": "GUSB",
+    "Airport name": "Sambailo Airport",
+    "Location served": "Koundara, Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SBJ",
+    "ICAO": "SNMX",
+    "Airport name": "São Mateus Airport[1]",
+    "Location served": "São Mateus, Espírito Santo, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SBK",
+    "ICAO": "LFRT",
+    "Airport name": "Saint-Brieuc – Armor Airport",
+    "Location served": "Saint-Brieuc, Brittany, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SBL",
+    "ICAO": "SLSA",
+    "Airport name": "Santa Ana del Yacuma Airport",
+    "Location served": "Santa Ana del Yacuma, Bolivia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SBM",
+    "ICAO": "KSBM",
+    "Airport name": "Sheboygan County Memorial Airport",
+    "Location served": "Sheboygan, Wisconsin, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SBN",
+    "ICAO": "KSBN",
+    "Airport name": "South Bend International Airport",
+    "Location served": "South Bend, Indiana, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SBO",
+    "ICAO": "",
+    "Airport name": "Salina-Gunnison Airport[1] (FAA: 44U)",
+    "Location served": "Salina / Gunnison, Utah, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SBP",
+    "ICAO": "KSBP",
+    "Airport name": "San Luis Obispo County Regional Airport (McChesney Field)",
+    "Location served": "San Luis Obispo, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SBQ",
+    "ICAO": "OPSB",
+    "Airport name": "Sibi Airport[1]",
+    "Location served": "Sibi, Pakistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SBR",
+    "ICAO": "YSII",
+    "Airport name": "Saibai Island Airport[1]",
+    "Location served": "Saibai Island, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SBS",
+    "ICAO": "KSBS",
+    "Airport name": "Steamboat Springs Airport (Bob Adams Field)",
+    "Location served": "Steamboat Springs, Colorado, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SBT",
+    "ICAO": "USDA",
+    "Airport name": "Sabetta International Airport[1]",
+    "Location served": "Sabetta, Yamalo-Nenets Autonomous Okrug, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SBU",
+    "ICAO": "FASB",
+    "Airport name": "Springbok Airport",
+    "Location served": "Springbok, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SBV",
+    "ICAO": "AYSH",
+    "Airport name": "Sabah Airport[1]",
+    "Location served": "Sabah, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SBW",
+    "ICAO": "WBGS",
+    "Airport name": "Sibu Airport",
+    "Location served": "Sibu, Sarawak, Malaysia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SBX",
+    "ICAO": "KSBX",
+    "Airport name": "Shelby Airport",
+    "Location served": "Shelby, Montana, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SBY",
+    "ICAO": "KSBY",
+    "Airport name": "Salisbury–Ocean City–Wicomico Regional Airport",
+    "Location served": "Salisbury / Ocean City, Maryland, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SBZ",
+    "ICAO": "LRSB",
+    "Airport name": "Sibiu International Airport",
+    "Location served": "Sibiu, Romania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SCA",
+    "ICAO": "",
+    "Airport name": "Santa Catalina Airport[1]",
+    "Location served": "Santa Catalina, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SCB",
+    "ICAO": "KSCB",
+    "Airport name": "Scribner State Airport",
+    "Location served": "Scribner, Nebraska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SCC",
+    "ICAO": "PASC",
+    "Airport name": "Deadhorse Airport",
+    "Location served": "Prudhoe Bay / Deadhorse, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SCD",
+    "ICAO": "MHUL",
+    "Airport name": "Sulaco Airport",
+    "Location served": "Sulaco, Honduras",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SCE",
+    "ICAO": "KUNV",
+    "Airport name": "University Park Airport (FAA: UNV)",
+    "Location served": "State College, Pennsylvania, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SCF",
+    "ICAO": "KSDL",
+    "Airport name": "Scottsdale Airport (FAA: SDL)",
+    "Location served": "Phoenix / Scottsdale, Arizona, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SCG",
+    "ICAO": "YSPK",
+    "Airport name": "Spring Creek Airport[1]",
+    "Location served": "Conjuboy, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SCH",
+    "ICAO": "KSCH",
+    "Airport name": "Schenectady County Airport",
+    "Location served": "Schenectady, New York, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SCI",
+    "ICAO": "SVPM",
+    "Airport name": "Paramillo Airport[1]",
+    "Location served": "San Cristóbal, Venezuela",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SCK",
+    "ICAO": "KSCK",
+    "Airport name": "Stockton Metropolitan Airport",
+    "Location served": "Stockton, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SCL",
+    "ICAO": "SCEL",
+    "Airport name": "Comodoro Arturo Merino Benítez International Airport",
+    "Location served": "Santiago, Chile",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SCM",
+    "ICAO": "PACM",
+    "Airport name": "Scammon Bay Airport",
+    "Location served": "Scammon Bay, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SCN",
+    "ICAO": "EDDR",
+    "Airport name": "Saarbrücken Airport",
+    "Location served": "Saarbrücken, Saarland, Germany",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SCO",
+    "ICAO": "UATE",
+    "Airport name": "Aktau Airport",
+    "Location served": "Aktau, Kazakhstan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SCP",
+    "ICAO": "LFNC",
+    "Airport name": "Mont-Dauphin - Saint-Crépin Airport[1]",
+    "Location served": "Mont-Dauphin, Provence-Alpes-Côte d'Azur, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SCQ",
+    "ICAO": "LEST",
+    "Airport name": "Santiago de Compostela Airport",
+    "Location served": "Santiago de Compostela, Galicia, Spain",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SCR",
+    "ICAO": "",
+    "Airport name": "Scandinavian Mountains Airport",
+    "Location served": "Malung-Sälen, Sweden",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SCS",
+    "ICAO": "EGPM",
+    "Airport name": "Scatsta Airport",
+    "Location served": "Shetland Islands, Scotland, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SCT",
+    "ICAO": "OYSQ",
+    "Airport name": "Socotra Airport[1]",
+    "Location served": "Socotra, Yemen",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SCU",
+    "ICAO": "MUCU",
+    "Airport name": "Antonio Maceo International Airport",
+    "Location served": "Santiago de Cuba, Cuba",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SCV",
+    "ICAO": "LRSV",
+    "Airport name": "Suceava International Airport (Ștefan cel Mare Int'l)",
+    "Location served": "Suceava, Romania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SCW",
+    "ICAO": "UUYY",
+    "Airport name": "Syktyvkar Airport",
+    "Location served": "Syktyvkar, Komi Republic, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SCX",
+    "ICAO": "MMSZ",
+    "Airport name": "Salina Cruz Airport",
+    "Location served": "Salina Cruz, Oaxaca, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SCY",
+    "ICAO": "SEST",
+    "Airport name": "San Cristóbal Airport",
+    "Location served": "San Cristóbal Island, Galápagos Islands, Ecuador",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SCZ",
+    "ICAO": "AGGL",
+    "Airport name": "Santa Cruz/Graciosa Bay/Luova Airport[1]",
+    "Location served": "Santa Cruz Islands, Solomon Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SDB",
+    "ICAO": "FALW",
+    "Airport name": "Air Force Base Langebaanweg[1]",
+    "Location served": "Saldanha Bay, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SDC",
+    "ICAO": "",
+    "Airport name": "Sand Creek Airport",
+    "Location served": "Sand Creek Village, Guyana",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SDD",
+    "ICAO": "FNUB",
+    "Airport name": "Lubango Mukanka Airport",
+    "Location served": "Lubango, Angola",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SDE",
+    "ICAO": "SANE",
+    "Airport name": "Vicecomodoro Ángel de la Paz Aragonés Airport",
+    "Location served": "Santiago del Estero, Santiago del Estero, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SDF",
+    "ICAO": "KSDF",
+    "Airport name": "Louisville International Airport (Standiford Field)",
+    "Location served": "Louisville, Kentucky, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SDG",
+    "ICAO": "OICS",
+    "Airport name": "Sanandaj Airport[1]",
+    "Location served": "Sanandaj, Iran",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SDH",
+    "ICAO": "MHSR",
+    "Airport name": "Santa Rosa de Copán Airport[1]",
+    "Location served": "Santa Rosa de Copán, Honduras",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SDI",
+    "ICAO": "AYSD",
+    "Airport name": "Saidor Airport[1]",
+    "Location served": "Saidor, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SDJ",
+    "ICAO": "RJSS",
+    "Airport name": "Sendai Airport",
+    "Location served": "Sendai, Honshu, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SDK",
+    "ICAO": "WBKS",
+    "Airport name": "Sandakan Airport",
+    "Location served": "Sandakan, Sabah, Malaysia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SDL",
+    "ICAO": "ESNN",
+    "Airport name": "Sundsvall-Timrå Airport (Midlanda Airport)",
+    "Location served": "Sundsvall / Härnösand, Sweden",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SDM",
+    "ICAO": "KSDM",
+    "Airport name": "Brown Field Municipal Airport",
+    "Location served": "San Diego, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SDN",
+    "ICAO": "ENSD",
+    "Airport name": "Sandane Airport, Anda",
+    "Location served": "Sandane, Norway",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SDP",
+    "ICAO": "PASD",
+    "Airport name": "Sand Point Airport",
+    "Location served": "Sand Point, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SDQ",
+    "ICAO": "MDSD",
+    "Airport name": "Las Américas International Airport",
+    "Location served": "Santo Domingo, Dominican Republic",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SDR",
+    "ICAO": "LEXJ",
+    "Airport name": "Santander Airport",
+    "Location served": "Santander, Cantabria, Spain",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SDS",
+    "ICAO": "RJSD",
+    "Airport name": "Sado Airport[1]",
+    "Location served": "Sado, Niigata, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SDT",
+    "ICAO": "OPSS",
+    "Airport name": "Saidu Sharif Airport[1]",
+    "Location served": "Saidu Sharif, Pakistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SDU",
+    "ICAO": "SBRJ",
+    "Airport name": "Santos Dumont Airport",
+    "Location served": "Rio de Janeiro, Rio de Janeiro, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SDV",
+    "ICAO": "LLSD",
+    "Airport name": "Sde Dov Airport",
+    "Location served": "Tel Aviv, Israel",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SDX",
+    "ICAO": "KSEZ",
+    "Airport name": "Sedona Airport (FAA: SEZ)",
+    "Location served": "Sedona, Arizona, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SDY",
+    "ICAO": "KSDY",
+    "Airport name": "Sidney–Richland Municipal Airport",
+    "Location served": "Sidney, Montana, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SDZ",
+    "ICAO": "",
+    "Airport name": "metropolitan area2",
+    "Location served": "Shetland Islands, Scotland, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SEA",
+    "ICAO": "KSEA",
+    "Airport name": "Seattle–Tacoma International Airport",
+    "Location served": "Seattle, Washington, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SEB",
+    "ICAO": "HLLS",
+    "Airport name": "Sabha Airport[1]",
+    "Location served": "Sabha (Sebha), Libya",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SED",
+    "ICAO": "",
+    "Airport name": "Sdom Airfield[1] (Hashnayim Airfield)",
+    "Location served": "Neve Zohar (Sedom), Israel",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SEE",
+    "ICAO": "KSEE",
+    "Airport name": "Gillespie Field",
+    "Location served": "San Diego, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SEF",
+    "ICAO": "KSEF",
+    "Airport name": "Sebring Regional Airport",
+    "Location served": "Sebring, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SEG",
+    "ICAO": "KSEG",
+    "Airport name": "Penn Valley Airport",
+    "Location served": "Selinsgrove, Pennsylvania, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SEH",
+    "ICAO": "WAJS",
+    "Airport name": "Senggeh Airport",
+    "Location served": "Senggeh, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SEK",
+    "ICAO": "UESK",
+    "Airport name": "Srednekolymsk Airport",
+    "Location served": "Srednekolymsk, Yakutia, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SEL",
+    "ICAO": "",
+    "Airport name": "metropolitan area3",
+    "Location served": "Seoul, South Korea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SEM",
+    "ICAO": "KSEM",
+    "Airport name": "Craig Field",
+    "Location served": "Selma, Alabama, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SEN",
+    "ICAO": "EGMC",
+    "Airport name": "London Southend Airport",
+    "Location served": "London / Southend, England, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SEO",
+    "ICAO": "DISG",
+    "Airport name": "Séguéla Airport[1]",
+    "Location served": "Séguéla, Ivory Coast",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SEP",
+    "ICAO": "KSEP",
+    "Airport name": "Stephenville Clark Regional Airport",
+    "Location served": "Stephenville, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SEQ",
+    "ICAO": "WIBS",
+    "Airport name": "Sei Pakning Airport",
+    "Location served": "Bengkalis, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SER",
+    "ICAO": "KSER",
+    "Airport name": "Freeman Municipal Airport",
+    "Location served": "Seymour, Indiana, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SEU",
+    "ICAO": "HTSN",
+    "Airport name": "Seronera Airstrip[1]",
+    "Location served": "Seronera, Tanzania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SEV",
+    "ICAO": "",
+    "Airport name": "Severodonetsk Airport[1]",
+    "Location served": "Severodonetsk, Ukraine",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SEW",
+    "ICAO": "",
+    "Airport name": "Siwa Oasis North Airport[1]",
+    "Location served": "Siwa Oasis, Egypt",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SEY",
+    "ICAO": "GQNS",
+    "Airport name": "Sélibaby Airport",
+    "Location served": "Sélibaby, Mauritania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SEZ",
+    "ICAO": "FSIA",
+    "Airport name": "Seychelles International Airport",
+    "Location served": "Mahé, Seychelles",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SFA",
+    "ICAO": "DTTX",
+    "Airport name": "Sfax–Thyna International Airport",
+    "Location served": "Sfax, Tunisia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SFB",
+    "ICAO": "KSFB",
+    "Airport name": "Orlando Sanford International Airport",
+    "Location served": "Orlando, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SFC",
+    "ICAO": "TFFC",
+    "Airport name": "Saint-François Airport[1]",
+    "Location served": "Saint-François, Guadeloupe",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SFD",
+    "ICAO": "SVSR",
+    "Airport name": "Las Flecheras Airport",
+    "Location served": "San Fernando de Apure, Venezuela",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SFE",
+    "ICAO": "RPUS",
+    "Airport name": "San Fernando Airport",
+    "Location served": "San Fernando, Philippines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SFF",
+    "ICAO": "KSFF",
+    "Airport name": "Felts Field",
+    "Location served": "Spokane, Washington, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SFG",
+    "ICAO": "TFFG",
+    "Airport name": "L'Espérance Airport[1] (Grand Case Airport)",
+    "Location served": "Grand Case, Saint Martin",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SFH",
+    "ICAO": "MMSF",
+    "Airport name": "San Felipe International Airport",
+    "Location served": "San Felipe, Baja California, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SFJ",
+    "ICAO": "BGSF",
+    "Airport name": "Kangerlussuaq Airport",
+    "Location served": "Kangerlussuaq, Greenland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SFK",
+    "ICAO": "SNSW",
+    "Airport name": "Soure Airport[1]",
+    "Location served": "Soure, Pará, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SFL",
+    "ICAO": "GVSF",
+    "Airport name": "São Filipe Airport",
+    "Location served": "São Filipe, Fogo, Cape Verde",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SFM",
+    "ICAO": "KSFM",
+    "Airport name": "Sanford Seacoast Regional Airport",
+    "Location served": "Sanford, Maine, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SFN",
+    "ICAO": "SAAV",
+    "Airport name": "Sauce Viejo Airport[1]",
+    "Location served": "Santa Fe de la Vera Cruz, Santa Fe, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SFO",
+    "ICAO": "KSFO",
+    "Airport name": "San Francisco International Airport",
+    "Location served": "San Francisco, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SFQ",
+    "ICAO": "LTCH",
+    "Airport name": "Şanlıurfa Airport",
+    "Location served": "Şanlıurfa, Turkey",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SFS",
+    "ICAO": "RPLB",
+    "Airport name": "Subic Bay International Airport",
+    "Location served": "Subic Bay, Philippines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SFT",
+    "ICAO": "ESNS",
+    "Airport name": "Skellefteå Airport",
+    "Location served": "Skellefteå, Sweden",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SFU",
+    "ICAO": "",
+    "Airport name": "Safia Airport[1]",
+    "Location served": "Safia, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SFV",
+    "ICAO": "",
+    "Airport name": "Santa Fé do Sul Airport[1]",
+    "Location served": "Santa Fé do Sul, São Paulo, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SFX",
+    "ICAO": "",
+    "Airport name": "Macagua Airport[1]",
+    "Location served": "San Félix, Venezuela",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SFY",
+    "ICAO": "",
+    "Airport name": "metropolitan area4",
+    "Location served": "Springfield, Massachusetts, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SFZ",
+    "ICAO": "KSFZ",
+    "Airport name": "North Central State Airport",
+    "Location served": "Pawtucket, Rhode Island, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SGA",
+    "ICAO": "OASN",
+    "Airport name": "Sheghnan Airport",
+    "Location served": "Shighnan, Afghanistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SGB",
+    "ICAO": "",
+    "Airport name": "Singaua Airport[1]",
+    "Location served": "Singaua, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SGC",
+    "ICAO": "USRR",
+    "Airport name": "Surgut International Airport",
+    "Location served": "Surgut, Khanty-Mansi Autonomous Okrug, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SGD",
+    "ICAO": "EKSB",
+    "Airport name": "Sønderborg Airport",
+    "Location served": "Sønderborg, Denmark",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SGE",
+    "ICAO": "EDGS",
+    "Airport name": "Siegerland Airport",
+    "Location served": "Siegen, North Rhine-Westphalia, Germany",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SGF",
+    "ICAO": "KSGF",
+    "Airport name": "Springfield–Branson National Airport",
+    "Location served": "Springfield, Missouri, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SGH",
+    "ICAO": "KSGH",
+    "Airport name": "Springfield–Beckley Municipal Airport",
+    "Location served": "Springfield, Ohio, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SGI",
+    "ICAO": "OPSR",
+    "Airport name": "PAF Base Mushaf[1]",
+    "Location served": "Sargodha, Pakistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SGJ",
+    "ICAO": "",
+    "Airport name": "Sagarai Airport[1]",
+    "Location served": "Sagarai, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SGK",
+    "ICAO": "AYSK",
+    "Airport name": "Sangapi Airport",
+    "Location served": "Sangapi, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SGL",
+    "ICAO": "RPLS",
+    "Airport name": "Sangley Point Airport",
+    "Location served": "Manila, Philippines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SGM",
+    "ICAO": "",
+    "Airport name": "San Ignacio Airfield[1]",
+    "Location served": "San Ignacio, Baja California Sur, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SGN",
+    "ICAO": "VVTS",
+    "Airport name": "Tan Son Nhat International Airport",
+    "Location served": "Ho Chi Minh City, Vietnam",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SGO",
+    "ICAO": "YSGE",
+    "Airport name": "St George Airport[1]",
+    "Location served": "St George, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SGP",
+    "ICAO": "YSHG",
+    "Airport name": "Shay Gap Airport[1]",
+    "Location served": "Shay Gap, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SGQ",
+    "ICAO": "WRLA",
+    "Airport name": "Sangkimah Airport[1]",
+    "Location served": "Sangatta, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SGR",
+    "ICAO": "KSGR",
+    "Airport name": "Sugar Land Regional Airport",
+    "Location served": "Houston / Sugar Land, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SGT",
+    "ICAO": "KSGT",
+    "Airport name": "Stuttgart Municipal Airport",
+    "Location served": "Stuttgart, Arkansas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SGU",
+    "ICAO": "KSGU",
+    "Airport name": "St. George Regional Airport",
+    "Location served": "St. George, Utah, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SGV",
+    "ICAO": "SAVS",
+    "Airport name": "Sierra Grande Airport[1]",
+    "Location served": "Sierra Grande, Río Negro, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SGW",
+    "ICAO": "",
+    "Airport name": "Saginaw Seaplane Base[1] (FAA: A23)",
+    "Location served": "Saginaw Bay, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SGX",
+    "ICAO": "HTSO",
+    "Airport name": "Songea Airport[1]",
+    "Location served": "Songea, Tanzania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SGY",
+    "ICAO": "PAGY",
+    "Airport name": "Skagway Airport",
+    "Location served": "Skagway, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SGZ",
+    "ICAO": "VTSH",
+    "Airport name": "Songkhla Airport[1]",
+    "Location served": "Songkhla, Thailand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SHA",
+    "ICAO": "ZSSS",
+    "Airport name": "Shanghai Hongqiao International Airport",
+    "Location served": "Shanghai, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SHB",
+    "ICAO": "RJCN",
+    "Airport name": "Nakashibetsu Airport",
+    "Location served": "Nakashibetsu, Hokkaido, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SHC",
+    "ICAO": "",
+    "Airport name": "Shire Airport[1]",
+    "Location served": "Shire (Inda Selassie), Ethiopia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SHD",
+    "ICAO": "KSHD",
+    "Airport name": "Shenandoah Valley Regional Airport",
+    "Location served": "Staunton / Waynesboro / Harrisonburg, Virginia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SHE",
+    "ICAO": "ZYTX",
+    "Airport name": "Shenyang Taoxian International Airport",
+    "Location served": "Shenyang, Liaoning, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SHF",
+    "ICAO": "ZWHZ",
+    "Airport name": "Shihezi Huayuan Airport",
+    "Location served": "Shihezi, Xinjiang, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SHG",
+    "ICAO": "PAHG",
+    "Airport name": "Shungnak Airport",
+    "Location served": "Shungnak, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SHH",
+    "ICAO": "PASH",
+    "Airport name": "Shishmaref Airport",
+    "Location served": "Shishmaref, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SHI",
+    "ICAO": "RORS",
+    "Airport name": "Shimojishima Airport",
+    "Location served": "Shimoji-shima, Miyako Islands, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SHJ",
+    "ICAO": "OMSJ",
+    "Airport name": "Sharjah International Airport",
+    "Location served": "Sharjah, United Arab Emirates",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SHK",
+    "ICAO": "FXSH",
+    "Airport name": "Sehonghong Airport[1]",
+    "Location served": "Sehonghong, Lesotho",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SHL",
+    "ICAO": "VEBI",
+    "Airport name": "Shillong Airport (Barapani Airport)",
+    "Location served": "Shillong, Meghalaya, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SHM",
+    "ICAO": "RJBD",
+    "Airport name": "Nanki–Shirahama Airport",
+    "Location served": "Shirahama, Honshu, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SHN",
+    "ICAO": "KSHN",
+    "Airport name": "Sanderson Field",
+    "Location served": "Shelton, Washington, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SHO",
+    "ICAO": "FDSK",
+    "Airport name": "King Mswati III International Airport[1] (Sikhuphe Int'l)",
+    "Location served": "Manzini, Swaziland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SHQ",
+    "ICAO": "YSPT",
+    "Airport name": "Southport Airport[1]",
+    "Location served": "Southport, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SHR",
+    "ICAO": "KSHR",
+    "Airport name": "Sheridan County Airport",
+    "Location served": "Sheridan, Wyoming, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SHS",
+    "ICAO": "ZHSS",
+    "Airport name": "Shashi Airport",
+    "Location served": "Jingzhou, Hubei, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SHT",
+    "ICAO": "YSHT",
+    "Airport name": "Shepparton Airport",
+    "Location served": "Shepparton, Victoria, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SHU",
+    "ICAO": "YSMP",
+    "Airport name": "Smith Point Airport[1]",
+    "Location served": "Smith Point, Northern Territory, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SHV",
+    "ICAO": "KSHV",
+    "Airport name": "Shreveport Regional Airport",
+    "Location served": "Shreveport, Louisiana, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SHW",
+    "ICAO": "OESH",
+    "Airport name": "Sharurah Domestic Airport",
+    "Location served": "Sharurah, Saudi Arabia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SHX",
+    "ICAO": "PAHX",
+    "Airport name": "Shageluk Airport",
+    "Location served": "Shageluk, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SHY",
+    "ICAO": "HTSY",
+    "Airport name": "Shinyanga Airport[1]",
+    "Location served": "Shinyanga, Tanzania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SHZ",
+    "ICAO": "FXSS",
+    "Airport name": "Seshutes Airport[1]",
+    "Location served": "Seshote, Lesotho",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SIA",
+    "ICAO": "ZLSN",
+    "Airport name": "Xi'an Xiguan Airport",
+    "Location served": "Xi'an, Shaanxi, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SIB",
+    "ICAO": "FCBS",
+    "Airport name": "Sibiti Airport[1]",
+    "Location served": "Sibiti, Republic of the Congo",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SIC",
+    "ICAO": "",
+    "Airport name": "San José Airport[1]",
+    "Location served": "San José Island, Panama",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SID",
+    "ICAO": "GVAC",
+    "Airport name": "Amílcar Cabral International Airport",
+    "Location served": "Sal, Cape Verde",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SIE",
+    "ICAO": "LPSI",
+    "Airport name": "Sines Airport[1]",
+    "Location served": "Sines, Portugal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SIF",
+    "ICAO": "VNSI",
+    "Airport name": "Simara Airport[1]",
+    "Location served": "Simara, Nepal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SIG",
+    "ICAO": "TJIG",
+    "Airport name": "Fernando Luis Ribas Dominicci Airport",
+    "Location served": "San Juan, Puerto Rico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SIH",
+    "ICAO": "VNDT",
+    "Airport name": "Silgadhi Airport[1]",
+    "Location served": "Dipayal Silgadhi, Nepal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SII",
+    "ICAO": "GMMF",
+    "Airport name": "Sidi Ifni Airport (Sania Ramel Airport)",
+    "Location served": "Sidi Ifni, Morocco",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SIJ",
+    "ICAO": "BISI",
+    "Airport name": "Siglufjörður Airport",
+    "Location served": "Siglufjörður, Iceland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SIK",
+    "ICAO": "KSIK",
+    "Airport name": "Sikeston Memorial Municipal Airport",
+    "Location served": "Sikeston, Missouri, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SIL",
+    "ICAO": "AYSG",
+    "Airport name": "Sila Airport[1]",
+    "Location served": "Sila, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SIM",
+    "ICAO": "AYSJ",
+    "Airport name": "Simbai Airport[1]",
+    "Location served": "Simbai, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SIN",
+    "ICAO": "WSSS",
+    "Airport name": "Singapore Changi Airport",
+    "Location served": "Singapore",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SIO",
+    "ICAO": "YSMI",
+    "Airport name": "Smithton Airport",
+    "Location served": "Smithton, Tasmania, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SIP",
+    "ICAO": "UKFF",
+    "Airport name": "Simferopol International Airport",
+    "Location served": "Simferopol",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SIQ",
+    "ICAO": "WIDS",
+    "Airport name": "Dabo Singkep Airport[1]",
+    "Location served": "Singkep, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SIR",
+    "ICAO": "LSGS",
+    "Airport name": "Sion Airport",
+    "Location served": "Sion, Switzerland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SIS",
+    "ICAO": "FASS",
+    "Airport name": "Sishen Airport",
+    "Location served": "Dingleton, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SIT",
+    "ICAO": "PASI",
+    "Airport name": "Sitka Rocky Gutierrez Airport",
+    "Location served": "Sitka, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SIU",
+    "ICAO": "MNSI",
+    "Airport name": "Siuna Airport",
+    "Location served": "Siuna, Nicaragua",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SIV",
+    "ICAO": "KSIV",
+    "Airport name": "Sullivan County Airport",
+    "Location served": "Sullivan, Indiana, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SIW",
+    "ICAO": "WIMP",
+    "Airport name": "Sibisa Airport[1]",
+    "Location served": "Parapat, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SIX",
+    "ICAO": "YSGT",
+    "Airport name": "Singleton Airport[1]",
+    "Location served": "Singleton, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SIY",
+    "ICAO": "KSIY",
+    "Airport name": "Siskiyou County Airport",
+    "Location served": "Montague / Yreka, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SIZ",
+    "ICAO": "AYZN",
+    "Airport name": "Sissano Airport[1]",
+    "Location served": "Sissano, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SJA",
+    "ICAO": "SPJN",
+    "Airport name": "San Juan de Marcona Airport[1]",
+    "Location served": "San Juan de Marcona, Peru",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SJB",
+    "ICAO": "SLJO",
+    "Airport name": "San Joaquín Airport[1]",
+    "Location served": "San Joaquín, Bolivia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SJC",
+    "ICAO": "KSJC",
+    "Airport name": "San Jose International Airport",
+    "Location served": "San Jose, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SJD",
+    "ICAO": "MMSD",
+    "Airport name": "Los Cabos International Airport",
+    "Location served": "San José del Cabo, Baja California Sur, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SJE",
+    "ICAO": "SKSJ",
+    "Airport name": "Jorge Enrique González Torres Airport",
+    "Location served": "San José del Guaviare, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SJF",
+    "ICAO": "",
+    "Airport name": "Cruz Bay Seaplane Base[1]",
+    "Location served": "Saint John, United States Virgin Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SJG",
+    "ICAO": "",
+    "Airport name": "San Pedro de Jagua Airport[1]",
+    "Location served": "San Pedro de Jagua, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SJH",
+    "ICAO": "",
+    "Airport name": "San Juan del Cesar Airport[1]",
+    "Location served": "San Juan del Cesar, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SJI",
+    "ICAO": "RPUH",
+    "Airport name": "San Jose Airport",
+    "Location served": "San Jose, Philippines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SJJ",
+    "ICAO": "LQSA",
+    "Airport name": "Sarajevo International Airport",
+    "Location served": "Sarajevo, Bosnia and Herzegovina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SJK",
+    "ICAO": "SBSJ",
+    "Airport name": "Professor Urbano Ernesto Stumpf Airport",
+    "Location served": "São José dos Campos, São Paulo, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SJL",
+    "ICAO": "SBUA",
+    "Airport name": "São Gabriel da Cachoeira Airport[1]",
+    "Location served": "São Gabriel da Cachoeira, Amazonas, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SJN",
+    "ICAO": "KSJN",
+    "Airport name": "St. Johns Industrial Air Park",
+    "Location served": "St. Johns, Arizona, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SJO",
+    "ICAO": "MROC",
+    "Airport name": "Juan Santamaría International Airport",
+    "Location served": "San José, Costa Rica",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SJP",
+    "ICAO": "SBSR",
+    "Airport name": "Prof. Eribelto Manoel Reino State Airport",
+    "Location served": "São José do Rio Preto, São Paulo, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SJQ",
+    "ICAO": "FLSS",
+    "Airport name": "Sesheke Airport[1]",
+    "Location served": "Sesheke, Zambia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SJR",
+    "ICAO": "",
+    "Airport name": "San Juan de Urabá Airport[1]",
+    "Location served": "San Juan de Urabá, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SJS",
+    "ICAO": "SLJE",
+    "Airport name": "San José de Chiquitos Airport[1]",
+    "Location served": "San José de Chiquitos, Bolivia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SJT",
+    "ICAO": "KSJT",
+    "Airport name": "San Angelo Regional Airport (Mathis Field)",
+    "Location served": "San Angelo, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SJU",
+    "ICAO": "TJSJ",
+    "Airport name": "Luis Muñoz Marín International Airport",
+    "Location served": "San Juan, Puerto Rico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SJV",
+    "ICAO": "SLJV",
+    "Airport name": "San Javier Airport[1]",
+    "Location served": "San Javier, Bolivia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SJW",
+    "ICAO": "ZBSJ",
+    "Airport name": "Shijiazhuang Zhengding International Airport",
+    "Location served": "Shijiazhuang, Hebei, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SJX",
+    "ICAO": "",
+    "Airport name": "Sarteneja Airport",
+    "Location served": "Sarteneja, Belize",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SJY",
+    "ICAO": "EFSI",
+    "Airport name": "Seinäjoki Airport",
+    "Location served": "Seinäjoki, Finland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SJZ",
+    "ICAO": "LPSJ",
+    "Airport name": "São Jorge Airport",
+    "Location served": "São Jorge Island, Azores, Portugal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SKA",
+    "ICAO": "KSKA",
+    "Airport name": "Fairchild Air Force Base",
+    "Location served": "Spokane, Washington, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SKB",
+    "ICAO": "TKPK",
+    "Airport name": "Robert L. Bradshaw International Airport",
+    "Location served": "Saint Kitts, Saint Kitts and Nevis",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SKC",
+    "ICAO": "AYSU",
+    "Airport name": "Suki Airport[1]",
+    "Location served": "Suki, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SKD",
+    "ICAO": "UTSS",
+    "Airport name": "Samarkand International Airport[1]",
+    "Location served": "Samarkand, Uzbekistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SKE",
+    "ICAO": "ENSN",
+    "Airport name": "Skien Airport, Geiteryggen",
+    "Location served": "Skien, Norway",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SKF",
+    "ICAO": "KSKF",
+    "Airport name": "Kelly Field Annex / Lackland Air Force Base",
+    "Location served": "San Antonio, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SKG",
+    "ICAO": "LGTS",
+    "Airport name": "Thessaloniki Airport \"Macedonia",
+    "Location served": "Thessaloniki, Greece",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SKH",
+    "ICAO": "VNSK",
+    "Airport name": "Surkhet Airport[1]",
+    "Location served": "Surkhet, Nepal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SKI",
+    "ICAO": "DABP",
+    "Airport name": "Skikda Airport",
+    "Location served": "Skikda, Algeria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SKK",
+    "ICAO": "PFSH",
+    "Airport name": "Shaktoolik Airport (FAA: 2C7)",
+    "Location served": "Shaktoolik, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SKL",
+    "ICAO": "EGEI",
+    "Airport name": "Broadford Airfield[1]",
+    "Location served": "Isle of Skye, Scotland, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SKM",
+    "ICAO": "",
+    "Airport name": "Skeldon Airport[1]",
+    "Location served": "Skeldon, Guyana",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SKN",
+    "ICAO": "ENSK",
+    "Airport name": "Stokmarknes Airport, Skagen",
+    "Location served": "Stokmarknes, Norway",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SKO",
+    "ICAO": "DNSO",
+    "Airport name": "Sadiq Abubakar III International Airport[1]",
+    "Location served": "Sokoto, Nigeria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SKP",
+    "ICAO": "LWSK",
+    "Airport name": "Skopje \"Alexander the Great\" Airport",
+    "Location served": "Skopje, North Macedonia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SKQ",
+    "ICAO": "FXSK",
+    "Airport name": "Sekake Airport[1]",
+    "Location served": "Sekake, Lesotho",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SKR",
+    "ICAO": "HASK",
+    "Airport name": "Shakiso Airport[1]",
+    "Location served": "Shakiso, Ethiopia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SKS",
+    "ICAO": "EKSP",
+    "Airport name": "Vojens Airport (Skrydstrup Airport)",
+    "Location served": "Vojens, Denmark",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SKT",
+    "ICAO": "OPST",
+    "Airport name": "Sialkot International Airport",
+    "Location served": "Sialkot, Pakistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SKU",
+    "ICAO": "LGSY",
+    "Airport name": "Skyros Island National Airport",
+    "Location served": "Skyros, Greece",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SKV",
+    "ICAO": "HESC",
+    "Airport name": "St. Catherine International Airport",
+    "Location served": "Saint Catherine, Egypt",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SKW",
+    "ICAO": "PASW",
+    "Airport name": "Skwentna Airport",
+    "Location served": "Skwentna, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SKX",
+    "ICAO": "UWPS",
+    "Airport name": "Saransk Airport",
+    "Location served": "Saransk, Mordovia, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SKY",
+    "ICAO": "KSKY",
+    "Airport name": "Griffing Sandusky Airport",
+    "Location served": "Sandusky, Ohio, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SKZ",
+    "ICAO": "OPSK",
+    "Airport name": "Sukkur Airport",
+    "Location served": "Sukkur, Pakistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SLA",
+    "ICAO": "SASA",
+    "Airport name": "Martín Miguel de Güemes International Airport",
+    "Location served": "Salta, Salta, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SLB",
+    "ICAO": "KSLB",
+    "Airport name": "Storm Lake Municipal Airport",
+    "Location served": "Storm Lake, Iowa, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SLC",
+    "ICAO": "KSLC",
+    "Airport name": "Salt Lake City International Airport",
+    "Location served": "Salt Lake City, Utah, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SLD",
+    "ICAO": "LZSL",
+    "Airport name": "Sliač Airport",
+    "Location served": "Sliač, Slovakia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SLE",
+    "ICAO": "KSLE",
+    "Airport name": "McNary Field",
+    "Location served": "Salem, Oregon, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SLF",
+    "ICAO": "OESL",
+    "Airport name": "Sulayel Airport[1]",
+    "Location served": "As Sulayyil (Sulayel), Saudi Arabia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SLG",
+    "ICAO": "KSLG",
+    "Airport name": "Smith Field",
+    "Location served": "Siloam Springs, Arkansas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SLH",
+    "ICAO": "NVSC",
+    "Airport name": "Vanua Lava Airport",
+    "Location served": "Sola, Vanua Lava, Vanuatu",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SLI",
+    "ICAO": "FLSW",
+    "Airport name": "Solwezi Airport",
+    "Location served": "Solwezi, Zambia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SLJ",
+    "ICAO": "YSOL",
+    "Airport name": "Solomon Airport",
+    "Location served": "Karijini National Park, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SLK",
+    "ICAO": "KSLK",
+    "Airport name": "Adirondack Regional Airport",
+    "Location served": "Saranac Lake, New York, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SLL",
+    "ICAO": "OOSA",
+    "Airport name": "Salalah International Airport",
+    "Location served": "Salalah, Oman",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SLM",
+    "ICAO": "LESA",
+    "Airport name": "Salamanca Airport",
+    "Location served": "Salamanca, Castile and León, Spain",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SLN",
+    "ICAO": "KSLN",
+    "Airport name": "Salina Regional Airport",
+    "Location served": "Salina, Kansas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SLO",
+    "ICAO": "KSLO",
+    "Airport name": "Salem–Leckrone Airport",
+    "Location served": "Salem, Illinois, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SLP",
+    "ICAO": "MMSP",
+    "Airport name": "Ponciano Arriaga International Airport",
+    "Location served": "San Luis Potosí City, San Luis Potosí, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SLQ",
+    "ICAO": "PASL",
+    "Airport name": "Sleetmute Airport",
+    "Location served": "Sleetmute, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SLR",
+    "ICAO": "KSLR",
+    "Airport name": "Sulphur Springs Municipal Airport",
+    "Location served": "Sulphur Springs, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SLS",
+    "ICAO": "LBSS",
+    "Airport name": "Silistra Airfield",
+    "Location served": "Silistra, Bulgaria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SLT",
+    "ICAO": "KANK",
+    "Airport name": "Harriet Alexander Field (FAA: ANK)",
+    "Location served": "Salida, Colorado, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SLU",
+    "ICAO": "TLPC",
+    "Airport name": "George F. L. Charles Airport",
+    "Location served": "Castries, Saint Lucia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SLV",
+    "ICAO": "VISM",
+    "Airport name": "Shimla Airport",
+    "Location served": "Simla, Himachal Pradesh, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SLW",
+    "ICAO": "MMIO",
+    "Airport name": "Plan de Guadalupe International Airport",
+    "Location served": "Saltillo, Coahuila, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SLX",
+    "ICAO": "MBSY",
+    "Airport name": "Salt Cay Airport[1]",
+    "Location served": "Salt Cay, British Overseas Territory of Turks and Caicos Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SLY",
+    "ICAO": "USDD",
+    "Airport name": "Salekhard Airport",
+    "Location served": "Salekhard, Yamalo-Nenets Autonomous Okrug, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SLZ",
+    "ICAO": "SBSL",
+    "Airport name": "Marechal Cunha Machado International Airport",
+    "Location served": "São Luís, Maranhão, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SMA",
+    "ICAO": "LPAZ",
+    "Airport name": "Santa Maria Airport",
+    "Location served": "Santa Maria Island, Azores, Portugal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SMB",
+    "ICAO": "SCSB",
+    "Airport name": "Franco Bianco Airport[1]",
+    "Location served": "Cerro Sombrero, Chile",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SMC",
+    "ICAO": "",
+    "Airport name": "Santa María Airport[1]",
+    "Location served": "Santa María, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SMD",
+    "ICAO": "KSMD",
+    "Airport name": "Smith Field",
+    "Location served": "Fort Wayne, Indiana, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SME",
+    "ICAO": "KSME",
+    "Airport name": "Lake Cumberland Regional Airport",
+    "Location served": "Somerset, Kentucky, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SMF",
+    "ICAO": "KSMF",
+    "Airport name": "Sacramento International Airport",
+    "Location served": "Sacramento, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SMG",
+    "ICAO": "SPMR",
+    "Airport name": "Santa María Airport[1]",
+    "Location served": "Santa María del Mar, Peru",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SMH",
+    "ICAO": "AYSP",
+    "Airport name": "Sapmanga Airport",
+    "Location served": "Sapmanga, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SMI",
+    "ICAO": "LGSM",
+    "Airport name": "Samos International Airport \"Aristarchos of Samos",
+    "Location served": "Samos, Greece",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SMJ",
+    "ICAO": "",
+    "Airport name": "Sim Airport[1]",
+    "Location served": "Sim, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SMK",
+    "ICAO": "PAMK",
+    "Airport name": "St. Michael Airport",
+    "Location served": "St. Michael, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SML",
+    "ICAO": "MYLS",
+    "Airport name": "Stella Maris Airport[1]",
+    "Location served": "Stella Maris, Long Island, Bahamas",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SMM",
+    "ICAO": "WBKA",
+    "Airport name": "Semporna Airport",
+    "Location served": "Semporna, Sabah, Malaysia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SMN",
+    "ICAO": "KSMN",
+    "Airport name": "Lemhi County Airport",
+    "Location served": "Salmon, Idaho, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SMO",
+    "ICAO": "KSMO",
+    "Airport name": "Santa Monica Municipal Airport",
+    "Location served": "Santa Monica, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SMP",
+    "ICAO": "",
+    "Airport name": "Stockholm Airport[1]",
+    "Location served": "Stockholm, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SMQ",
+    "ICAO": "WAOS",
+    "Airport name": "H. Asan Airport",
+    "Location served": "Sampit, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SMR",
+    "ICAO": "SKSM",
+    "Airport name": "Simón Bolívar International Airport",
+    "Location served": "Santa Marta, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SMS",
+    "ICAO": "FMMS",
+    "Airport name": "Sainte Marie Airport",
+    "Location served": "Île Sainte-Marie, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SMU",
+    "ICAO": "PASP",
+    "Airport name": "Sheep Mountain Airport",
+    "Location served": "Sheep Mountain, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SMV",
+    "ICAO": "LSZS",
+    "Airport name": "Samedan Airport (Engadin Airport)",
+    "Location served": "St. Moritz, Switzerland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SMW",
+    "ICAO": "GMMA",
+    "Airport name": "Smara Airport[1]",
+    "Location served": "Smara, Morocco",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SMX",
+    "ICAO": "KSMX",
+    "Airport name": "Santa Maria Public Airport (Capt. G. Allan Hancock Field)",
+    "Location served": "Santa Maria, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SMY",
+    "ICAO": "GOTS",
+    "Airport name": "Simenti Airport",
+    "Location served": "Simenti, Senegal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SMZ",
+    "ICAO": "SMST",
+    "Airport name": "Stoelmans Eiland Airstrip",
+    "Location served": "Stoelmans Eiland (Stoelmanseiland), Suriname",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SNA",
+    "ICAO": "KSNA",
+    "Airport name": "John Wayne Airport (Orange County Airport)",
+    "Location served": "Santa Ana, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SNB",
+    "ICAO": "YSNB",
+    "Airport name": "Snake Bay Airport",
+    "Location served": "Milikapiti, Northern Territory, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SNC",
+    "ICAO": "SESA",
+    "Airport name": "General Ulpiano Paez Airport",
+    "Location served": "Salinas, Ecuador",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SNE",
+    "ICAO": "GVSN",
+    "Airport name": "Preguiça Airport",
+    "Location served": "São Nicolau, Cape Verde",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SNF",
+    "ICAO": "SVSP",
+    "Airport name": "Sub Teniente Nestor Arias Airport[1]",
+    "Location served": "San Felipe, Venezuela",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SNG",
+    "ICAO": "SLSI",
+    "Airport name": "Capitán Av. Juan Cochamanidis Airport[1]",
+    "Location served": "San Ignacio de Velasco, Bolivia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SNH",
+    "ICAO": "YSPE",
+    "Airport name": "Stanthorpe Airport",
+    "Location served": "Stanthorpe, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SNI",
+    "ICAO": "GLGE",
+    "Airport name": "Greenville/Sinoe Airport (R.E. Murray Airport)",
+    "Location served": "Greenville, Liberia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SNJ",
+    "ICAO": "MUSJ",
+    "Airport name": "San Julián Air Base[1]",
+    "Location served": "Guane, Cuba",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SNK",
+    "ICAO": "KSNK",
+    "Airport name": "Winston Field Airport",
+    "Location served": "Snyder, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SNL",
+    "ICAO": "KSNL",
+    "Airport name": "Shawnee Regional Airport",
+    "Location served": "Shawnee, Oklahoma, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SNM",
+    "ICAO": "SLSM",
+    "Airport name": "San Ignacio de Moxos Airport[1]",
+    "Location served": "San Ignacio de Moxos, Bolivia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SNN",
+    "ICAO": "EINN",
+    "Airport name": "Shannon Airport",
+    "Location served": "Shannon, Ireland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SNO",
+    "ICAO": "VTUI",
+    "Airport name": "Sakon Nakhon Airport[1]",
+    "Location served": "Sakon Nakhon, Thailand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SNP",
+    "ICAO": "PASN",
+    "Airport name": "St. Paul Island Airport",
+    "Location served": "St. Paul Island, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SNQ",
+    "ICAO": "",
+    "Airport name": "San Quintín Military Airstrip[1]",
+    "Location served": "San Quintín, Baja California, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SNR",
+    "ICAO": "LFRZ",
+    "Airport name": "Saint-Nazaire Montoir Airport",
+    "Location served": "Saint-Nazaire, Pays de la Loire, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SNS",
+    "ICAO": "KSNS",
+    "Airport name": "Salinas Municipal Airport",
+    "Location served": "Salinas, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SNT",
+    "ICAO": "SKRU",
+    "Airport name": "Las Cruces Airport[1]",
+    "Location served": "Sabana de Torres, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SNU",
+    "ICAO": "MUSC",
+    "Airport name": "Abel Santamaría Airport",
+    "Location served": "Santa Clara, Cuba",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SNV",
+    "ICAO": "SVSE",
+    "Airport name": "Santa Elena de Uairén Airport[1]",
+    "Location served": "Santa Elena de Uairén, Venezuela",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SNW",
+    "ICAO": "VYTD",
+    "Airport name": "Thandwe Airport[1]",
+    "Location served": "Thandwe, Myanmar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SNX",
+    "ICAO": "OIIS",
+    "Airport name": "Semnan Municipal Airport[1]",
+    "Location served": "Semnan, Iran",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SNY",
+    "ICAO": "KSNY",
+    "Airport name": "Sidney Municipal Airport (Lloyd W. Carr Field)",
+    "Location served": "Sidney, Nebraska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SNZ",
+    "ICAO": "SBSC",
+    "Airport name": "Santa Cruz Air Force Base",
+    "Location served": "Rio de Janeiro, Rio de Janeiro, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SOA",
+    "ICAO": "",
+    "Airport name": "Sóc Trăng Airfield[1]",
+    "Location served": "Sóc Trăng, Vietnam",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SOB",
+    "ICAO": "LHSM",
+    "Airport name": "Hévíz–Balaton Airport",
+    "Location served": "Hévíz, Hungary",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SOC",
+    "ICAO": "WARQ",
+    "Airport name": "Adisumarmo International Airport",
+    "Location served": "Surakarta (Solo), Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SOD",
+    "ICAO": "SDCO",
+    "Airport name": "Bertram Luiz Leupolz–Sorocaba Airport",
+    "Location served": "Sorocaba, São Paulo, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SOE",
+    "ICAO": "FCOS",
+    "Airport name": "Souanké Airport[1]",
+    "Location served": "Souanké, Republic of the Congo",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SOF",
+    "ICAO": "LBSF",
+    "Airport name": "Sofia Airport",
+    "Location served": "Sofia, Bulgaria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SOG",
+    "ICAO": "ENSG",
+    "Airport name": "Sogndal Airport, Haukåsen",
+    "Location served": "Sogndal, Norway",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SOJ",
+    "ICAO": "ENSR",
+    "Airport name": "Sørkjosen Airport",
+    "Location served": "Sørkjosen, Norway",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SOK",
+    "ICAO": "FXSM",
+    "Airport name": "Semonkong Airport",
+    "Location served": "Semonkong, Lesotho",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SOL",
+    "ICAO": "",
+    "Airport name": "Solomon State Field Airport[1] (FAA: AK26)",
+    "Location served": "Solomon, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SOM",
+    "ICAO": "SVST",
+    "Airport name": "San Tomé Airport",
+    "Location served": "San Tomé, Venezuela",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SON",
+    "ICAO": "NVSS",
+    "Airport name": "Santo-Pekoa International Airport",
+    "Location served": "Luganville, Vanuatu",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SOO",
+    "ICAO": "ESNY",
+    "Airport name": "Söderhamn Airport[1] (Helsinge Airport)",
+    "Location served": "Söderhamn, Sweden",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SOP",
+    "ICAO": "KSOP",
+    "Airport name": "Moore County Airport",
+    "Location served": "Pinehurst / Southern Pines, North Carolina, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SOQ",
+    "ICAO": "WASS",
+    "Airport name": "Dominique Edward Osok Airport[1]",
+    "Location served": "Sorong, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SOT",
+    "ICAO": "EFSO",
+    "Airport name": "Sodankylä Airfield[1]",
+    "Location served": "Sodankylä, Finland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SOU",
+    "ICAO": "EGHI",
+    "Airport name": "Southampton Airport",
+    "Location served": "Southampton, England, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SOV",
+    "ICAO": "PASO",
+    "Airport name": "Seldovia Airport",
+    "Location served": "Seldovia, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SOW",
+    "ICAO": "KSOW",
+    "Airport name": "Show Low Regional Airport",
+    "Location served": "Show Low, Arizona, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SOX",
+    "ICAO": "SKSO",
+    "Airport name": "Alberto Lleras Camargo Airport[1]",
+    "Location served": "Sogamoso, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SOY",
+    "ICAO": "EGER",
+    "Airport name": "Stronsay Airport",
+    "Location served": "Stronsay, Scotland, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SOZ",
+    "ICAO": "LFKS",
+    "Airport name": "Solenzara Air Base[1]",
+    "Location served": "Sari-Solenzara, Corsica, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SPA",
+    "ICAO": "KSPA",
+    "Airport name": "Spartanburg Downtown Memorial Airport",
+    "Location served": "Spartanburg, South Carolina, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SPB",
+    "ICAO": "",
+    "Airport name": "Charlotte Amalie Harbor Seaplane Base (St. Thomas Seaplane Base) (FAA: VI22)",
+    "Location served": "St. Thomas Island, United States Virgin Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SPC",
+    "ICAO": "GCLA",
+    "Airport name": "La Palma Airport",
+    "Location served": "La Palma, Canary Islands, Spain",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SPD",
+    "ICAO": "VGSD",
+    "Airport name": "Saidpur Airport",
+    "Location served": "Saidpur, Bangladesh",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SPE",
+    "ICAO": "WBKO",
+    "Airport name": "Sepulot Airport[1]",
+    "Location served": "Sapulut, Sabah, Malaysia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SPF",
+    "ICAO": "KSPF",
+    "Airport name": "Black Hills Airport (Clyde Ice Field)",
+    "Location served": "Spearfish, South Dakota, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SPG",
+    "ICAO": "KSPG",
+    "Airport name": "Albert Whitted Airport",
+    "Location served": "St. Petersburg, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SPH",
+    "ICAO": "AYQO",
+    "Airport name": "Sopu Airport",
+    "Location served": "Sopu, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SPI",
+    "ICAO": "KSPI",
+    "Airport name": "Abraham Lincoln Capital Airport",
+    "Location served": "Springfield, Illinois, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SPJ",
+    "ICAO": "LGSP",
+    "Airport name": "Sparti Airport",
+    "Location served": "Sparti (Sparta), Greece",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SPK",
+    "ICAO": "",
+    "Airport name": "metropolitan area5",
+    "Location served": "Sapporo, Hokkaido, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SPM",
+    "ICAO": "ETAD",
+    "Airport name": "Spangdahlem Air Base",
+    "Location served": "Spangdahlem, Rhineland-Palatinate, Germany",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SPN",
+    "ICAO": "PGSN",
+    "Airport name": "Saipan International Airport (Francisco C. Ada Int'l) (FAA: GSN)",
+    "Location served": "Saipan, Northern Mariana Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SPP",
+    "ICAO": "FNME",
+    "Airport name": "Menongue Airport[1]",
+    "Location served": "Menongue, Angola",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SPR",
+    "ICAO": "",
+    "Airport name": "John Greif II Airport",
+    "Location served": "San Pedro Town, Belize",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SPS",
+    "ICAO": "KSPS",
+    "Airport name": "Wichita Falls Municipal Airport",
+    "Location served": "Wichita Falls, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SPT",
+    "ICAO": "",
+    "Airport name": "Sipitang Airstrip[1]",
+    "Location served": "Sipitang, Sabah, Malaysia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SPU",
+    "ICAO": "LDSP",
+    "Airport name": "Split Airport",
+    "Location served": "Split, Croatia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SPV",
+    "ICAO": "",
+    "Airport name": "Sepik Plains Airport[1]",
+    "Location served": "Sepik Plains, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SPW",
+    "ICAO": "KSPW",
+    "Airport name": "Spencer Municipal Airport",
+    "Location served": "Spencer, Iowa, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SPY",
+    "ICAO": "DISP",
+    "Airport name": "San Pédro Airport[1]",
+    "Location served": "San-Pédro, Ivory Coast",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SPX",
+    "ICAO": "",
+    "Airport name": "Sphinx International Airport[1]",
+    "Location served": "Egypt, Egypt",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SPZ",
+    "ICAO": "KASG",
+    "Airport name": "Springdale Municipal Airport (FAA: ASG)",
+    "Location served": "Springdale, Arkansas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SQA",
+    "ICAO": "KIZA",
+    "Airport name": "Santa Ynez Airport (FAA: IZA)",
+    "Location served": "Santa Ynez, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SQB",
+    "ICAO": "",
+    "Airport name": "Santa Ana Airport[1]",
+    "Location served": "Piedras, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SQC",
+    "ICAO": "YSCR",
+    "Airport name": "Southern Cross Airport[1]",
+    "Location served": "Southern Cross, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SQD",
+    "ICAO": "ZSSR",
+    "Airport name": "Shangrao Sanqingshan Airport[1]",
+    "Location served": "Shangrao, Jiangxi, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SQE",
+    "ICAO": "",
+    "Airport name": "San Luis de Palenque Airport[1]",
+    "Location served": "San Luis de Palenque, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SQG",
+    "ICAO": "WIOS",
+    "Airport name": "Tebelian Airport[1] (Susilo Airport)",
+    "Location served": "Sintang, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SQH",
+    "ICAO": "VVNS",
+    "Airport name": "Nà Sản Airport[1]",
+    "Location served": "Sơn La, Vietnam",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SQI",
+    "ICAO": "KSQI",
+    "Airport name": "Whiteside County Airport (Jos. H. Bittorf Field)",
+    "Location served": "Sterling / Rock Falls, Illinois, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SQJ",
+    "ICAO": "",
+    "Airport name": "Sanming Shaxian Airport[1]",
+    "Location served": "Sanming, Fujian, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SQK",
+    "ICAO": "",
+    "Airport name": "Sidi Barrani Airport[1]",
+    "Location served": "Sidi Barrani, Egypt",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SQL",
+    "ICAO": "KSQL",
+    "Airport name": "San Carlos Airport",
+    "Location served": "San Carlos, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SQM",
+    "ICAO": "SWUA",
+    "Airport name": "São Miguel do Araguaia Airport[1]",
+    "Location served": "São Miguel do Araguaia, Goiás, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SQN",
+    "ICAO": "WAPN",
+    "Airport name": "Sanana Airport[1]",
+    "Location served": "Sanana Island, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SQO",
+    "ICAO": "ESUD",
+    "Airport name": "Storuman Airport[1]",
+    "Location served": "Storuman, Sweden",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SQQ",
+    "ICAO": "EYSA",
+    "Airport name": "Šiauliai International Airport",
+    "Location served": "Šiauliai, Lithuania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SQR",
+    "ICAO": "WAWS",
+    "Airport name": "Soroako Airport",
+    "Location served": "Soroako, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SQS",
+    "ICAO": "",
+    "Airport name": "Matthew Spain Airport[1]",
+    "Location served": "San Ignacio, Belize",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SQT",
+    "ICAO": "",
+    "Airport name": "China Strait Airstrip[1]",
+    "Location served": "Samarai, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SQU",
+    "ICAO": "SPOA",
+    "Airport name": "Saposoa Airport[1]",
+    "Location served": "Saposoa, Peru",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SQV",
+    "ICAO": "",
+    "Airport name": "Sequim Valley Airport (FAA: W28)",
+    "Location served": "Sequim, Washington, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SQW",
+    "ICAO": "EKSV",
+    "Airport name": "Skive Airport",
+    "Location served": "Skive, Denmark",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SQX",
+    "ICAO": "SSOE",
+    "Airport name": "Hélio Wasum Airport",
+    "Location served": "São Miguel do Oeste, Santa Catarina, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SQY",
+    "ICAO": "SSRU",
+    "Airport name": "São Lourenço do Sul Airport[1]",
+    "Location served": "São Lourenço do Sul, Rio Grande do Sul, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SQZ",
+    "ICAO": "EGXP",
+    "Airport name": "RAF Scampton[1]",
+    "Location served": "Scampton, England, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SRA",
+    "ICAO": "SSZR",
+    "Airport name": "Santa Rosa Airport[1]",
+    "Location served": "Santa Rosa, Rio Grande do Sul, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SRB",
+    "ICAO": "SLSR",
+    "Airport name": "Santa Rosa Airport[1]",
+    "Location served": "Santa Rosa de Yacuma, Bolivia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SRC",
+    "ICAO": "KSRC",
+    "Airport name": "Searcy Municipal Airport",
+    "Location served": "Searcy, Arkansas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SRD",
+    "ICAO": "SLRA",
+    "Airport name": "San Ramón Airport[1]",
+    "Location served": "San Ramón, Bolivia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SRE",
+    "ICAO": "SLAL",
+    "Airport name": "Alcantarí Airport",
+    "Location served": "Sucre, Bolivia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SRF",
+    "ICAO": "",
+    "Airport name": "San Rafael Airport (Hamilton Field)",
+    "Location served": "San Rafael, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SRG",
+    "ICAO": "WARS",
+    "Airport name": "Achmad Yani International Airport",
+    "Location served": "Semarang, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SRH",
+    "ICAO": "FTTA",
+    "Airport name": "Sarh Airport",
+    "Location served": "Sarh, Chad",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SRI",
+    "ICAO": "WALS",
+    "Airport name": "Temindung Airport",
+    "Location served": "Samarinda, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SRJ",
+    "ICAO": "SLSB",
+    "Airport name": "Capitán Germán Quiroga Guardia Airport",
+    "Location served": "San Borja, Bolivia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SRL",
+    "ICAO": "",
+    "Airport name": "Palo Verde Airport[1]",
+    "Location served": "Santa Rosalía, Baja California Sur, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SRM",
+    "ICAO": "",
+    "Airport name": "Sandringham Station Airport[1]",
+    "Location served": "Sandringham Station, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SRN",
+    "ICAO": "YSRN",
+    "Airport name": "Strahan Airport[1]",
+    "Location served": "Strahan, Tasmania, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SRO",
+    "ICAO": "",
+    "Airport name": "Santana Ramos Airport[1]",
+    "Location served": "Santana Ramos, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SRP",
+    "ICAO": "ENSA",
+    "Airport name": "Stord Airport, Sørstokken",
+    "Location served": "Stord, Norway",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SRQ",
+    "ICAO": "KSRQ",
+    "Airport name": "Sarasota–Bradenton International Airport",
+    "Location served": "Sarasota / Bradenton, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SRR",
+    "ICAO": "",
+    "Airport name": "Dunwich Airport[1]",
+    "Location served": "North Stradbroke Island, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SRS",
+    "ICAO": "",
+    "Airport name": "San Marcos Airport[1]",
+    "Location served": "San Marcos, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SRT",
+    "ICAO": "HUSO",
+    "Airport name": "Soroti Airport",
+    "Location served": "Soroti, Uganda",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SRV",
+    "ICAO": "",
+    "Airport name": "Stony River Airport",
+    "Location served": "Stony River, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SRW",
+    "ICAO": "KRUQ",
+    "Airport name": "Rowan County Airport (FAA: RUQ)",
+    "Location served": "Salisbury, North Carolina, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SRX",
+    "ICAO": "HLGD",
+    "Airport name": "Gardabya Airport",
+    "Location served": "Sirte, Libya",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SRY",
+    "ICAO": "OINZ",
+    "Airport name": "Dasht-e Naz Airport",
+    "Location served": "Sari, Iran",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SRZ",
+    "ICAO": "SLET",
+    "Airport name": "El Trompillo Airport",
+    "Location served": "Santa Cruz de la Sierra, Bolivia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SSA",
+    "ICAO": "SBSV",
+    "Airport name": "Deputado Luís Eduardo Magalhães International Airport",
+    "Location served": "Salvador, Bahia, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SSB",
+    "ICAO": "",
+    "Airport name": "Christiansted Harbor Seaplane Base (St. Croix Seaplane Base) (FAA: VI32)",
+    "Location served": "Saint Croix, United States Virgin Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SSC",
+    "ICAO": "KSSC",
+    "Airport name": "Shaw Air Force Base",
+    "Location served": "Sumter, South Carolina, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SSD",
+    "ICAO": "",
+    "Airport name": "San Felipe Airport[1]",
+    "Location served": "San Felipe, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SSE",
+    "ICAO": "VASL",
+    "Airport name": "Solapur Airport",
+    "Location served": "Solapur, Maharashtra, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SSF",
+    "ICAO": "KSSF",
+    "Airport name": "Stinson Municipal Airport",
+    "Location served": "San Antonio, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SSG",
+    "ICAO": "FGSL",
+    "Airport name": "Malabo International Airport (Saint Isabel Airport)",
+    "Location served": "Malabo, Equatorial Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SSH",
+    "ICAO": "HESH",
+    "Airport name": "Sharm el-Sheikh International Airport",
+    "Location served": "Sharm el-Sheikh, Egypt",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SSI",
+    "ICAO": "KSSI",
+    "Airport name": "Malcolm McKinnon Airport",
+    "Location served": "Brunswick, Georgia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SSJ",
+    "ICAO": "ENST",
+    "Airport name": "Sandnessjøen Airport, Stokka",
+    "Location served": "Sandnessjøen, Norway",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SSK",
+    "ICAO": "",
+    "Airport name": "Sturt Creek Airport[1]",
+    "Location served": "Sturt Creek, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SSL",
+    "ICAO": "SKSL",
+    "Airport name": "Santa Rosalía Airport[1]",
+    "Location served": "Santa Rosalía, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SSN",
+    "ICAO": "RKSM",
+    "Airport name": "Seoul Air Base",
+    "Location served": "Seoul, South Korea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SSO",
+    "ICAO": "SNLO",
+    "Airport name": "São Lourenço Airport[1]",
+    "Location served": "São Lourenço, Minas Gerais, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SSP",
+    "ICAO": "",
+    "Airport name": "Silver Plains Airport[1]",
+    "Location served": "Silver Plains, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SSQ",
+    "ICAO": "",
+    "Airport name": "La Sarre Airport (TC: CSR8)",
+    "Location served": "La Sarre, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SSR",
+    "ICAO": "NVSH",
+    "Airport name": "Sara Airport",
+    "Location served": "Sara, Vanuatu",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SSS",
+    "ICAO": "",
+    "Airport name": "Siassi Airport[1]",
+    "Location served": "Umboi Island (Siassi), Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SST",
+    "ICAO": "SAZL",
+    "Airport name": "Santa Teresita Airport[1]",
+    "Location served": "Santa Teresita, Buenos Aires, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SSV",
+    "ICAO": "",
+    "Airport name": "Siasi Airport",
+    "Location served": "Siasi, Philippines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SSW",
+    "ICAO": "",
+    "Airport name": "Stuart Island Airpark[1] (FAA: 7WA5)",
+    "Location served": "Stuart Island, Washington, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SSY",
+    "ICAO": "FNBC",
+    "Airport name": "Mbanza Congo Airport[1]",
+    "Location served": "M'banza-Kongo, Angola",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SSZ",
+    "ICAO": "SBST",
+    "Airport name": "Santos Air Force Base",
+    "Location served": "Santos, São Paulo, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "STA",
+    "ICAO": "EKVJ",
+    "Airport name": "Stauning Vestjylland Airport",
+    "Location served": "Skjern, Denmark",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "STB",
+    "ICAO": "SVSZ",
+    "Airport name": "Miguel Urdaneta Fernández Airport",
+    "Location served": "Santa Bárbara del Zulia, Venezuela",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "STC",
+    "ICAO": "KSTC",
+    "Airport name": "St. Cloud Regional Airport",
+    "Location served": "St. Cloud, Minnesota, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "STD",
+    "ICAO": "SVSO",
+    "Airport name": "Mayor Buenaventura Vivas Airport",
+    "Location served": "Santo Domingo, Táchira, Venezuela",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "STE",
+    "ICAO": "KSTE",
+    "Airport name": "Stevens Point Municipal Airport",
+    "Location served": "Stevens Point, Wisconsin, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "STF",
+    "ICAO": "YSTI",
+    "Airport name": "Stephens Island Airport",
+    "Location served": "Stephens Island, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "STG",
+    "ICAO": "PAPB",
+    "Airport name": "St. George Airport (FAA: PBV)",
+    "Location served": "St. George, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "STH",
+    "ICAO": "YSMR",
+    "Airport name": "Strathmore Airport[1]",
+    "Location served": "Strathmore Station, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "STI",
+    "ICAO": "MDST",
+    "Airport name": "Cibao International Airport",
+    "Location served": "Santiago de los Caballeros, Dominican Republic",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "STJ",
+    "ICAO": "KSTJ",
+    "Airport name": "Rosecrans Memorial Airport",
+    "Location served": "St. Joseph, Missouri, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "STK",
+    "ICAO": "KSTK",
+    "Airport name": "Sterling Municipal Airport",
+    "Location served": "Sterling, Colorado, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "STL",
+    "ICAO": "KSTL",
+    "Airport name": "Lambert–St. Louis International Airport",
+    "Location served": "St. Louis, Missouri, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "STM",
+    "ICAO": "SBSN",
+    "Airport name": "Santarém-Maestro Wilson Fonseca Airport",
+    "Location served": "Santarém, Pará, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "STN",
+    "ICAO": "EGSS",
+    "Airport name": "London Stansted Airport",
+    "Location served": "London, England, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "STO",
+    "ICAO": "",
+    "Airport name": "metropolitan area6",
+    "Location served": "Stockholm, Sweden",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "STP",
+    "ICAO": "KSTP",
+    "Airport name": "St. Paul Downtown Airport (Holman Field)",
+    "Location served": "St. Paul / Minneapolis, Minnesota, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "STQ",
+    "ICAO": "KOYM",
+    "Airport name": "St. Marys Municipal Airport (FAA: OYM)",
+    "Location served": "St. Marys, Pennsylvania, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "STR",
+    "ICAO": "EDDS",
+    "Airport name": "Stuttgart Airport",
+    "Location served": "Stuttgart, Baden-Württemberg, Germany",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "STS",
+    "ICAO": "KSTS",
+    "Airport name": "Charles M. Schulz–Sonoma County Airport",
+    "Location served": "Santa Rosa, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "STT",
+    "ICAO": "TIST",
+    "Airport name": "Cyril E. King Airport",
+    "Location served": "St. Thomas Island, United States Virgin Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "STV",
+    "ICAO": "VASU",
+    "Airport name": "Surat Airport",
+    "Location served": "Surat, Gujarat, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "STW",
+    "ICAO": "URMT",
+    "Airport name": "Stavropol Shpakovskoye Airport",
+    "Location served": "Stavropol, Stavropol Krai, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "STX",
+    "ICAO": "TISX",
+    "Airport name": "Henry E. Rohlsen Airport",
+    "Location served": "Saint Croix, United States Virgin Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "STY",
+    "ICAO": "SUSO",
+    "Airport name": "Nueva Hespérides International Airport",
+    "Location served": "Salto, Uruguay",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "STZ",
+    "ICAO": "SWST",
+    "Airport name": "Santa Terezinha Airport[1]",
+    "Location served": "Santa Terezinha, Mato Grosso, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SUA",
+    "ICAO": "KSUA",
+    "Airport name": "Witham Field",
+    "Location served": "Stuart, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SUB",
+    "ICAO": "WARR",
+    "Airport name": "Juanda International Airport",
+    "Location served": "Surabaya, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SUD",
+    "ICAO": "KSUD",
+    "Airport name": "Stroud Municipal Airport",
+    "Location served": "Stroud, Oklahoma, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SUE",
+    "ICAO": "KSUE",
+    "Airport name": "Door County Cherryland Airport",
+    "Location served": "Sturgeon Bay, Wisconsin, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SUF",
+    "ICAO": "LICA",
+    "Airport name": "Lamezia Terme International Airport",
+    "Location served": "Lamezia Terme, Calabria, Italy",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SUG",
+    "ICAO": "RPMS",
+    "Airport name": "Surigao Airport",
+    "Location served": "Surigao City, Philippines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SUH",
+    "ICAO": "OOSR",
+    "Airport name": "Sur Airport[1]",
+    "Location served": "Sur, Oman",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SUI",
+    "ICAO": "UGSS",
+    "Airport name": "Sukhumi Babushara Airport (Dranda Airport)",
+    "Location served": "Sukhumi, Georgia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SUJ",
+    "ICAO": "LRSM",
+    "Airport name": "Satu Mare International Airport",
+    "Location served": "Satu Mare, Romania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SUK",
+    "ICAO": "UEBS",
+    "Airport name": "Sakkyryr Airport",
+    "Location served": "Batagay-Alyta (Sakkyryr), Yakutia, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SUL",
+    "ICAO": "OPSU",
+    "Airport name": "Sui Airport[1]",
+    "Location served": "Sui, Pakistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SUM",
+    "ICAO": "KSMS",
+    "Airport name": "Sumter Airport (FAA: SMS)",
+    "Location served": "Sumter, South Carolina, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SUN",
+    "ICAO": "KSUN",
+    "Airport name": "Friedman Memorial Airport",
+    "Location served": "Hailey / Sun Valley, Idaho, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SUO",
+    "ICAO": "",
+    "Airport name": "Sunriver Airport (FAA: S21)",
+    "Location served": "Sunriver, Oregon, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SUP",
+    "ICAO": "WART",
+    "Airport name": "Trunojoyo Airport[1]",
+    "Location served": "Sumenep, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SUQ",
+    "ICAO": "SESC",
+    "Airport name": "Sucúa Airport[1]",
+    "Location served": "Sucúa, Ecuador",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SUR",
+    "ICAO": "",
+    "Airport name": "Summer Beaver Airport[1] (TC: CJV7)",
+    "Location served": "Summer Beaver, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SUS",
+    "ICAO": "KSUS",
+    "Airport name": "Spirit of St. Louis Airport",
+    "Location served": "St. Louis, Missouri, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SUT",
+    "ICAO": "HTSU",
+    "Airport name": "Sumbawanga Airport",
+    "Location served": "Sumbawanga, Tanzania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SUU",
+    "ICAO": "KSUU",
+    "Airport name": "Travis Air Force Base",
+    "Location served": "Fairfield, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SUV",
+    "ICAO": "NFNA",
+    "Airport name": "Nausori International Airport",
+    "Location served": "Suva, Fiji",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SUW",
+    "ICAO": "KSUW",
+    "Airport name": "Richard I. Bong Airport",
+    "Location served": "Superior, Wisconsin, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SUX",
+    "ICAO": "KSUX",
+    "Airport name": "Sioux Gateway Airport (Colonel Bud Day Field)",
+    "Location served": "Sioux City, Iowa, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SUY",
+    "ICAO": "UENS",
+    "Airport name": "Suntar Airport[1]",
+    "Location served": "Suntar, Yakutia, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SUZ",
+    "ICAO": "",
+    "Airport name": "Suria Airport[1]",
+    "Location served": "Suria, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SVA",
+    "ICAO": "PASA",
+    "Airport name": "Savoonga Airport",
+    "Location served": "Savoonga, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SVB",
+    "ICAO": "FMNS",
+    "Airport name": "Sambava Airport[1]",
+    "Location served": "Sambava, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SVC",
+    "ICAO": "KSVC",
+    "Airport name": "Grant County Airport",
+    "Location served": "Silver City, New Mexico, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SVD",
+    "ICAO": "TVSA",
+    "Airport name": "Argyle International Airport",
+    "Location served": "Saint Vincent, Saint Vincent and the Grenadines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SVE",
+    "ICAO": "KSVE",
+    "Airport name": "Susanville Municipal Airport",
+    "Location served": "Susanville, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SVF",
+    "ICAO": "DBBS",
+    "Airport name": "Savé Airport",
+    "Location served": "Savé, Benin",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SVG",
+    "ICAO": "ENZV",
+    "Airport name": "Stavanger Airport, Sola",
+    "Location served": "Stavanger, Norway",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SVH",
+    "ICAO": "KSVH",
+    "Airport name": "Statesville Regional Airport",
+    "Location served": "Statesville, North Carolina, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SVI",
+    "ICAO": "SKSV",
+    "Airport name": "Eduardo Falla Solano Airport[1]",
+    "Location served": "San Vicente del Caguán, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SVJ",
+    "ICAO": "ENSH",
+    "Airport name": "Svolvær Airport, Helle",
+    "Location served": "Svolvær, Norway",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SVK",
+    "ICAO": "",
+    "Airport name": "Silver Creek Airport[1]",
+    "Location served": "Silver Creek, Belize",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SVL",
+    "ICAO": "EFSA",
+    "Airport name": "Savonlinna Airport[1]",
+    "Location served": "Savonlinna, Finland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SVM",
+    "ICAO": "",
+    "Airport name": "St Pauls Airport[1]",
+    "Location served": "St Pauls, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SVN",
+    "ICAO": "KSVN",
+    "Airport name": "Hunter Army Airfield",
+    "Location served": "Savannah, Georgia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SVO",
+    "ICAO": "UUEE",
+    "Airport name": "Sheremetyevo International Airport",
+    "Location served": "Moscow, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SVP",
+    "ICAO": "FNKU",
+    "Airport name": "Kuito Airport[1]",
+    "Location served": "Kuito, Angola",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SVQ",
+    "ICAO": "LEZL",
+    "Airport name": "Seville Airport",
+    "Location served": "Seville, Andalusia, Spain",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SVS",
+    "ICAO": "",
+    "Airport name": "Stevens Village Airport",
+    "Location served": "Stevens Village, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SVT",
+    "ICAO": "FBSV",
+    "Airport name": "Savuti Airport[1]",
+    "Location served": "Savuti, Botswana",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SVU",
+    "ICAO": "NFNS",
+    "Airport name": "Savusavu Airport",
+    "Location served": "Savusavu, Fiji",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SVW",
+    "ICAO": "PASV",
+    "Airport name": "Sparrevohn LRRS Airport",
+    "Location served": "Sparrevohn, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SVX",
+    "ICAO": "USSS",
+    "Airport name": "Koltsovo International Airport",
+    "Location served": "Yekaterinburg, Sverdlovsk Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SVY",
+    "ICAO": "",
+    "Airport name": "Savo Airport[1]",
+    "Location served": "Savo Island, Solomon Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SVZ",
+    "ICAO": "SVSA",
+    "Airport name": "Juan Vicente Gómez International Airport",
+    "Location served": "San Antonio del Táchira, Venezuela",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SWA",
+    "ICAO": "ZGOW",
+    "Airport name": "Jieyang Chaoshan International Airport",
+    "Location served": "Shantou / Jieyang / Chaozhou, Guangdong, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SWB",
+    "ICAO": "",
+    "Airport name": "Shaw River Airport[1]",
+    "Location served": "Shaw River, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SWC",
+    "ICAO": "YSWL",
+    "Airport name": "Stawell Airport[1]",
+    "Location served": "Stawell, Victoria, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SWD",
+    "ICAO": "PAWD",
+    "Airport name": "Seward Airport",
+    "Location served": "Seward, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SWE",
+    "ICAO": "",
+    "Airport name": "Siwea Airport[1]",
+    "Location served": "Siwea, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SWF",
+    "ICAO": "KSWF",
+    "Airport name": "Stewart International Airport",
+    "Location served": "Newburgh, New York, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SWG",
+    "ICAO": "",
+    "Airport name": "Satwag Airport[1]",
+    "Location served": "Satwag, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SWH",
+    "ICAO": "YSWH",
+    "Airport name": "Swan Hill Airport[1]",
+    "Location served": "Swan Hill, Victoria, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SWJ",
+    "ICAO": "NVSX",
+    "Airport name": "South West Bay Airport[1]",
+    "Location served": "South West Bay, Vanuatu",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SWL",
+    "ICAO": "RPSV",
+    "Airport name": "San Vicente Airport",
+    "Location served": "San Vicente, Palawan, Philippines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SWM",
+    "ICAO": "",
+    "Airport name": "Suia-Missu Airport[1]",
+    "Location served": "Alto Boa Vista, Mato Grosso, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SWN",
+    "ICAO": "OPSW",
+    "Airport name": "Sahiwal Airport",
+    "Location served": "Sahiwal, Pakistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SWO",
+    "ICAO": "KSWO",
+    "Airport name": "Stillwater Regional Airport",
+    "Location served": "Stillwater, Oklahoma, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SWP",
+    "ICAO": "FYSM",
+    "Airport name": "Swakopmund Airport[1]",
+    "Location served": "Swakopmund, Namibia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SWQ",
+    "ICAO": "WADS",
+    "Airport name": "Sultan Muhammad Kaharuddin III Airport[1] (Brangbiji Airport)",
+    "Location served": "Sumbawa Besar, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SWR",
+    "ICAO": "",
+    "Airport name": "Silur Airport[1]",
+    "Location served": "Silur, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SWS",
+    "ICAO": "EGFH",
+    "Airport name": "Swansea Airport",
+    "Location served": "Swansea, Wales, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SWT",
+    "ICAO": "UNSS",
+    "Airport name": "Strezhevoy Airport",
+    "Location served": "Strezhevoy, Tomsk Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SWU",
+    "ICAO": "RKSW",
+    "Airport name": "Suwon Air Base[1]",
+    "Location served": "Suwon, South Korea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SWV",
+    "ICAO": "UHMW",
+    "Airport name": "Severo-Evensk Airport[1]",
+    "Location served": "Evensk, Magadan Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SWW",
+    "ICAO": "KSWW",
+    "Airport name": "Avenger Field",
+    "Location served": "Sweetwater, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SWX",
+    "ICAO": "FBSW",
+    "Airport name": "Shakawe Airport[1]",
+    "Location served": "Shakawe, Botswana",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SWY",
+    "ICAO": "WMBA",
+    "Airport name": "Sitiawan Airport",
+    "Location served": "Sitiawan, Perak, Malaysia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SXA",
+    "ICAO": "",
+    "Airport name": "Sialum Airport[1]",
+    "Location served": "Sialum, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SXB",
+    "ICAO": "LFST",
+    "Airport name": "Strasbourg Airport",
+    "Location served": "Strasbourg, Alsace, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SXE",
+    "ICAO": "YWSL",
+    "Airport name": "West Sale Airport[1]",
+    "Location served": "Sale, Victoria, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SXG",
+    "ICAO": "FLSN",
+    "Airport name": "Senanga Airport[1]",
+    "Location served": "Senanga, Zambia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SXH",
+    "ICAO": "",
+    "Airport name": "Sehulea Airport[1]",
+    "Location served": "Sehulea, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SXI",
+    "ICAO": "OIBS",
+    "Airport name": "Sirri Island Airport[1]",
+    "Location served": "Sirri Island, Iran",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SXJ",
+    "ICAO": "ZWSS",
+    "Airport name": "Shanshan Airport[1]",
+    "Location served": "Shanshan, Xinjiang, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SXK",
+    "ICAO": "WAPI",
+    "Airport name": "Saumlaki Airport[1] (Olilit Airport)",
+    "Location served": "Saumlaki, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SXL",
+    "ICAO": "EISG",
+    "Airport name": "Sligo Airport",
+    "Location served": "Sligo, Ireland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SXM",
+    "ICAO": "TNCM",
+    "Airport name": "Princess Juliana International Airport",
+    "Location served": "Sint Maarten, Kingdom of the Netherlands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SXN",
+    "ICAO": "FBSN",
+    "Airport name": "Sua Pan Airport[1]",
+    "Location served": "Sua Pan, Botswana",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SXO",
+    "ICAO": "SWFX",
+    "Airport name": "São Félix do Araguaia Airport[1]",
+    "Location served": "São Félix do Araguaia, Mato Grosso, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SXP",
+    "ICAO": "",
+    "Airport name": "Sheldon Point Airport",
+    "Location served": "Nunam Iqua, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SXQ",
+    "ICAO": "PASX",
+    "Airport name": "Soldotna Airport",
+    "Location served": "Soldotna, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SXR",
+    "ICAO": "VISR",
+    "Airport name": "Sheikh ul-Alam International Airport[1]",
+    "Location served": "Srinagar, Jammu and Kashmir, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SXS",
+    "ICAO": "WBKH",
+    "Airport name": "Sahabat Airport[1]",
+    "Location served": "Sahabat, Sabah, Malaysia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SXT",
+    "ICAO": "WMAN",
+    "Airport name": "Sungai Tiang Airport[1]",
+    "Location served": "Taman Negara, Pahang, Malaysia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SXU",
+    "ICAO": "HASD",
+    "Airport name": "Soddu Airport[1]",
+    "Location served": "Sodo, Ethiopia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SXV",
+    "ICAO": "VOSM",
+    "Airport name": "Salem Airport",
+    "Location served": "Salem, Tamil Nadu, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SXW",
+    "ICAO": "",
+    "Airport name": "Sauren Airport[1]",
+    "Location served": "Sauren, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SXX",
+    "ICAO": "SNFX",
+    "Airport name": "São Félix do Xingu Airport[1]",
+    "Location served": "São Félix do Xingu, Pará, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SXY",
+    "ICAO": "",
+    "Airport name": "Sidney Municipal Airport (FAA: N23)",
+    "Location served": "Sidney, New York, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SXZ",
+    "ICAO": "LTCL",
+    "Airport name": "Siirt Airport",
+    "Location served": "Siirt, Turkey",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SYA",
+    "ICAO": "PASY",
+    "Airport name": "Eareckson Air Station",
+    "Location served": "Shemya, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SYB",
+    "ICAO": "",
+    "Airport name": "Seal Bay Seaplane Base[1]",
+    "Location served": "Seal Bay, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SYC",
+    "ICAO": "SPSY",
+    "Airport name": "Shiringayoc Airport[1]",
+    "Location served": "Shiringayoc, Peru",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SYD",
+    "ICAO": "YSSY",
+    "Airport name": "Sydney Airport (Kingsford Smith Airport)",
+    "Location served": "Sydney, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SYE",
+    "ICAO": "OYSH",
+    "Airport name": "Saadah Airport[1]",
+    "Location served": "Sa'dah, Yemen",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SYF",
+    "ICAO": "",
+    "Airport name": "Silva Bay Seaplane Base",
+    "Location served": "Gabriola Island, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SYI",
+    "ICAO": "KSYI",
+    "Airport name": "Shelbyville Municipal Airport (Bomar Field)",
+    "Location served": "Shelbyville, Tennessee, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SYJ",
+    "ICAO": "OIKY",
+    "Airport name": "Sirjan Airport",
+    "Location served": "Sirjan, Iran",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SYK",
+    "ICAO": "BIST",
+    "Airport name": "Stykkishólmur Airport",
+    "Location served": "Stykkishólmur, Iceland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SYM",
+    "ICAO": "ZPSM",
+    "Airport name": "Pu'er Simao Airport[1]",
+    "Location served": "Simao, Yunnan, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SYN",
+    "ICAO": "KSYN",
+    "Airport name": "Stanton Airfield",
+    "Location served": "Stanton, Minnesota, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SYO",
+    "ICAO": "RJSY",
+    "Airport name": "Shonai Airport",
+    "Location served": "Shōnai, Honshu, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SYP",
+    "ICAO": "MPSA",
+    "Airport name": "Ruben Cantu Airport",
+    "Location served": "Santiago de Veraguas, Panama",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SYQ",
+    "ICAO": "MRPV",
+    "Airport name": "Tobías Bolaños International Airport",
+    "Location served": "San José, Costa Rica",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SYR",
+    "ICAO": "KSYR",
+    "Airport name": "Syracuse Hancock International Airport",
+    "Location served": "Syracuse, New York, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SYS",
+    "ICAO": "UERS",
+    "Airport name": "Saskylakh Airport[1]",
+    "Location served": "Saskylakh, Yakutia, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SYT",
+    "ICAO": "LFLN",
+    "Airport name": "Saint-Yan Airport[1] (Charolais Bourgogne Sud Airport)",
+    "Location served": "Saint-Yan, Burgundy, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SYU",
+    "ICAO": "YWBS",
+    "Airport name": "Warraber Island Airport[1]",
+    "Location served": "Sue Islet, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SYV",
+    "ICAO": "KSYV",
+    "Airport name": "Sylvester Airport",
+    "Location served": "Sylvester, Georgia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SYW",
+    "ICAO": "OPSN",
+    "Airport name": "Sehwan Sharif Airport[1]",
+    "Location served": "Sehwan Sharif, Pakistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SYX",
+    "ICAO": "ZJSY",
+    "Airport name": "Sanya Phoenix International Airport",
+    "Location served": "Sanya, Hainan, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SYY",
+    "ICAO": "EGPO",
+    "Airport name": "Stornoway Airport",
+    "Location served": "Stornoway, Scotland, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SYZ",
+    "ICAO": "OISS",
+    "Airport name": "Shiraz International Airport (Shahid Dastghaib Int'l)",
+    "Location served": "Shiraz, Iran",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SZA",
+    "ICAO": "FNSO",
+    "Airport name": "Soyo Airport[1]",
+    "Location served": "Soyo, Angola",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SZB",
+    "ICAO": "WMSA",
+    "Airport name": "Sultan Abdul Aziz Shah Airport",
+    "Location served": "Kuala Lumpur,7 Malaysia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SZE",
+    "ICAO": "HASM",
+    "Airport name": "Semera Airport[1]",
+    "Location served": "Semera, Ethiopia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SZF",
+    "ICAO": "LTFH",
+    "Airport name": "Samsun-Çarşamba Airport",
+    "Location served": "Samsun, Turkey",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SZG",
+    "ICAO": "LOWS",
+    "Airport name": "Salzburg Airport",
+    "Location served": "Salzburg, Austria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SZI",
+    "ICAO": "",
+    "Airport name": "Zaysan Airport",
+    "Location served": "Zaysan, Kazakhstan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SZJ",
+    "ICAO": "MUSN",
+    "Airport name": "Siguanea Airport[1]",
+    "Location served": "Isla de la Juventud, Cuba",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SZK",
+    "ICAO": "FASZ",
+    "Airport name": "Skukuza Airport[1]",
+    "Location served": "Skukuza, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SZL",
+    "ICAO": "KSZL",
+    "Airport name": "Whiteman Air Force Base",
+    "Location served": "Knob Noster, Missouri, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SZM",
+    "ICAO": "",
+    "Airport name": "Sesriem Airport[1]",
+    "Location served": "Sesriem, Namibia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SZN",
+    "ICAO": "KSZN",
+    "Airport name": "Santa Cruz Island Airport",
+    "Location served": "Santa Cruz Island, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SZP",
+    "ICAO": "KSZP",
+    "Airport name": "Santa Paula Airport",
+    "Location served": "Santa Paula, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SZR",
+    "ICAO": "LBSZ",
+    "Airport name": "Stara Zagora Airport",
+    "Location served": "Stara Zagora, Bulgaria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SZS",
+    "ICAO": "NZRC",
+    "Airport name": "Ryan's Creek Aerodrome",
+    "Location served": "Stewart Island, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SZU",
+    "ICAO": "",
+    "Airport name": "Ségou Airport[1]",
+    "Location served": "Ségou, Mali",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SZV",
+    "ICAO": "ZSSZ",
+    "Airport name": "Suzhou Guangfu Airport",
+    "Location served": "Suzhou, Jiangsu, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SZW",
+    "ICAO": "EDOP",
+    "Airport name": "Schwerin-Parchim International Airport",
+    "Location served": "Schwerin, Mecklenburg-Vorpommern, Germany",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SZX",
+    "ICAO": "ZGSZ",
+    "Airport name": "Shenzhen Bao'an International Airport",
+    "Location served": "Shenzhen, Guangdong, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SZY",
+    "ICAO": "EPSY",
+    "Airport name": "Olsztyn-Mazury Regional Airport",
+    "Location served": "Szczytno / Olsztyn, Poland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "SZZ",
+    "ICAO": "EPSC",
+    "Airport name": "Solidarity\" Szczecin–Goleniów Airport",
+    "Location served": "Szczecin, Poland",
+    "Time": "",
+    "DST": ""
+  }
+]

@@ -1,0 +1,930 @@
+[
+  {
+    "IATA": "ZAA",
+    "ICAO": "",
+    "Airport name": "Alice Arm/Silver City Water Aerodrome (TC: CAC3)",
+    "Location served": "Alice Arm, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZAC",
+    "ICAO": "CZAC",
+    "Airport name": "York Landing Airport",
+    "Location served": "York Landing, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZAD",
+    "ICAO": "LDZD",
+    "Airport name": "Zadar Airport",
+    "Location served": "Zadar, Croatia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZAG",
+    "ICAO": "LDZA",
+    "Airport name": "Franjo Tuđman Airport",
+    "Location served": "Zagreb, Croatia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZAH",
+    "ICAO": "OIZH",
+    "Airport name": "Zahedan Airport",
+    "Location served": "Zahedan, Iran",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZAJ",
+    "ICAO": "OAZJ",
+    "Airport name": "Zaranj Airport",
+    "Location served": "Zaranj, Afghanistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZAL",
+    "ICAO": "SCVD",
+    "Airport name": "Pichoy Airport",
+    "Location served": "Valdivia, Chile",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZAM",
+    "ICAO": "RPMZ",
+    "Airport name": "Zamboanga International Airport",
+    "Location served": "Zamboanga City, Philippines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZAO",
+    "ICAO": "LFCC",
+    "Airport name": "Cahors - Lalbenque Airport",
+    "Location served": "Cahors, Midi-Pyrénées, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZAR",
+    "ICAO": "DNZA",
+    "Airport name": "Zaria Airport",
+    "Location served": "Zaria, Nigeria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZAT",
+    "ICAO": "ZPZT",
+    "Airport name": "Zhaotong Airport",
+    "Location served": "Zhaotong, Yunnan, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZAZ",
+    "ICAO": "LEZG",
+    "Airport name": "Zaragoza Airport",
+    "Location served": "Zaragoza, Aragon, Spain",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZBE",
+    "ICAO": "LKZA",
+    "Airport name": "Zábřeh Airport",
+    "Location served": "Dolní Benešov, Czech Republic",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZBF",
+    "ICAO": "CZBF",
+    "Airport name": "Bathurst Airport",
+    "Location served": "Bathurst, New Brunswick, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZBK",
+    "ICAO": "",
+    "Airport name": "Žabljak Airport",
+    "Location served": "Žabljak, Montenegro",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZBL",
+    "ICAO": "",
+    "Airport name": "Biloela Airport",
+    "Location served": "Biloela, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZBM",
+    "ICAO": "CZBM",
+    "Airport name": "Roland-Désourdy Airport",
+    "Location served": "Bromont, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZBO",
+    "ICAO": "YBWN",
+    "Airport name": "Bowen Airport",
+    "Location served": "Bowen, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZBR",
+    "ICAO": "OIZC",
+    "Airport name": "Konarak Airport",
+    "Location served": "Chabahar (Chah Bahar), Iran",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZBY",
+    "ICAO": "VLSB",
+    "Airport name": "Sayaboury Airport",
+    "Location served": "Sainyabuli (Sayaboury), Laos",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZCL",
+    "ICAO": "MMZC",
+    "Airport name": "General Leobardo C. Ruiz International Airport",
+    "Location served": "Zacatecas City, Zacatecas, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZCO",
+    "ICAO": "SCQP",
+    "Airport name": "La Araucanía Airport",
+    "Location served": "Temuco, Chile",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZDY",
+    "ICAO": "OMDL",
+    "Airport name": "Dalma Airport",
+    "Location served": "Dalma Island (Delma Island), United Arab Emirates",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZEC",
+    "ICAO": "FASC",
+    "Airport name": "Secunda Airport",
+    "Location served": "Secunda, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZEG",
+    "ICAO": "",
+    "Airport name": "Senggo Airport",
+    "Location served": "Senggo, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZEL",
+    "ICAO": "CBBC",
+    "Airport name": "Bella Bella (Campbell Island) Airport",
+    "Location served": "Bella Bella, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZEM",
+    "ICAO": "CZEM",
+    "Airport name": "Eastmain River Airport",
+    "Location served": "Eastmain, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZEN",
+    "ICAO": "",
+    "Airport name": "Zenag Airport[1]",
+    "Location served": "Zenag, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZER",
+    "ICAO": "VEZO",
+    "Airport name": "Zero Airport (Ziro Airport)",
+    "Location served": "Ziro, Arunachal Pradesh, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZFA",
+    "ICAO": "CZFA",
+    "Airport name": "Faro Airport",
+    "Location served": "Faro, Yukon, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZFD",
+    "ICAO": "CZFD",
+    "Airport name": "Fond-du-Lac Airport",
+    "Location served": "Fond-du-Lac, Saskatchewan, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZFM",
+    "ICAO": "CZFM",
+    "Airport name": "Fort McPherson Airport",
+    "Location served": "Fort McPherson, Northwest Territories, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZFN",
+    "ICAO": "CZFN",
+    "Airport name": "Tulita Airport",
+    "Location served": "Tulita, Northwest Territories, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZFW",
+    "ICAO": "",
+    "Airport name": "Fairview Airport (TC: CEB5)",
+    "Location served": "Fairview, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZGF",
+    "ICAO": "CZGF",
+    "Airport name": "Grand Forks Airport",
+    "Location served": "Grand Forks, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZGI",
+    "ICAO": "CZGI",
+    "Airport name": "Gods River Airport",
+    "Location served": "Gods River, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZGL",
+    "ICAO": "YSGW",
+    "Airport name": "South Galway Airport",
+    "Location served": "South Galway Station, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZGM",
+    "ICAO": "FLNA",
+    "Airport name": "Ngoma Airport",
+    "Location served": "Ngoma, Zambia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZGR",
+    "ICAO": "CZGR",
+    "Airport name": "Little Grand Rapids Airport",
+    "Location served": "Little Grand Rapids, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZGS",
+    "ICAO": "",
+    "Airport name": "La Romaine Airport (TC: CTT5)",
+    "Location served": "La Romaine, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZGU",
+    "ICAO": "NVSQ",
+    "Airport name": "Gaua Airport",
+    "Location served": "Gaua, Vanuatu",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZHA",
+    "ICAO": "ZGZJ",
+    "Airport name": "Zhanjiang Airport",
+    "Location served": "Zhanjiang, Guangdong, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZHM",
+    "ICAO": "VGSH",
+    "Airport name": "Shamshernagar Airport",
+    "Location served": "Shamshernagar, Bangladesh",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZHP",
+    "ICAO": "CZHP",
+    "Airport name": "High Prairie Airport",
+    "Location served": "High Prairie, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZHY",
+    "ICAO": "ZLZW",
+    "Airport name": "Zhongwei Shapotou Airport (Zhongwei Xiangshan Airport)",
+    "Location served": "Zhongwei, Ningxia, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZIA",
+    "ICAO": "UUBW",
+    "Airport name": "Ramenskoye Airport[1] (Zhukovsky Airport)",
+    "Location served": "Zhukovsky, Moscow Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZIC",
+    "ICAO": "SCTO",
+    "Airport name": "Victoria Airport",
+    "Location served": "Victoria, Chile",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZIG",
+    "ICAO": "GOGG",
+    "Airport name": "Ziguinchor Airport",
+    "Location served": "Ziguinchor, Senegal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZIH",
+    "ICAO": "MMZH",
+    "Airport name": "Ixtapa-Zihuatanejo International Airport",
+    "Location served": "Ixtapa / Zihuatanejo, Guerrero, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZIS",
+    "ICAO": "HLZN",
+    "Airport name": "Alzintan Airport[1]",
+    "Location served": "Zintan, Libya",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZIX",
+    "ICAO": "UEVV",
+    "Airport name": "Zhigansk Airport[1]",
+    "Location served": "Zhigansk, Yakutia, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZIZ",
+    "ICAO": "",
+    "Airport name": "Zamzama Airport[1]",
+    "Location served": "Zamzama, Pakistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZJG",
+    "ICAO": "CZJG",
+    "Airport name": "Jenpeg Airport",
+    "Location served": "Jenpeg, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZJN",
+    "ICAO": "CZJN",
+    "Airport name": "Swan River Airport",
+    "Location served": "Swan River, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZJT",
+    "ICAO": "",
+    "Airport name": "Tanjung Pelepas Port Airport[1]",
+    "Location served": "Tanjung Pelepas, Johor, Malaysia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZKB",
+    "ICAO": "FLKY",
+    "Airport name": "Kasaba Bay Airport",
+    "Location served": "Kasaba Bay, Zambia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZKE",
+    "ICAO": "CZKE",
+    "Airport name": "Kashechewan Airport",
+    "Location served": "Kashechewan, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZKG",
+    "ICAO": "",
+    "Airport name": "Kegaska Airport (TC: CTK6)",
+    "Location served": "Kegaska (Kegashka), Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZKP",
+    "ICAO": "UESU",
+    "Airport name": "Zyryanka Airport",
+    "Location served": "Zyryanka, Yakutia, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZLO",
+    "ICAO": "MMZO",
+    "Airport name": "Playa de Oro International Airport",
+    "Location served": "Manzanillo, Colima, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZLT",
+    "ICAO": "",
+    "Airport name": "La Tabatière Airport (TC: CTU5)",
+    "Location served": "Gros-Mécatina (La Tabatière), Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZLW",
+    "ICAO": "",
+    "Airport name": "Pasir Gudang Port Airport[1]",
+    "Location served": "Pasir Gudang, Johor, Malaysia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZLX",
+    "ICAO": "HSZA",
+    "Airport name": "Zalingei Airport[1]",
+    "Location served": "Zalingei (Zalengei), Sudan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZMD",
+    "ICAO": "SWSN",
+    "Airport name": "Sena Madureira Airport",
+    "Location served": "Sena Madureira, Acre, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZMH",
+    "ICAO": "CZML",
+    "Airport name": "South Cariboo Regional Airport",
+    "Location served": "108 Mile Ranch, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZMM",
+    "ICAO": "MMZM",
+    "Airport name": "Zamora National Airport",
+    "Location served": "Zamora, Michoacán, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZMT",
+    "ICAO": "CZMT",
+    "Airport name": "Masset Airport",
+    "Location served": "Masset, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZNA",
+    "ICAO": "",
+    "Airport name": "Nanaimo Harbour Water Airport (TC: CAC8)",
+    "Location served": "Nanaimo, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZNC",
+    "ICAO": "",
+    "Airport name": "Nyac Airport",
+    "Location served": "Nyac, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZND",
+    "ICAO": "DRZR",
+    "Airport name": "Zinder Airport",
+    "Location served": "Zinder, Niger",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZNE",
+    "ICAO": "YNWN",
+    "Airport name": "Newman Airport",
+    "Location served": "Newman, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZNU",
+    "ICAO": "",
+    "Airport name": "Namu Water Aerodrome",
+    "Location served": "Namu, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZNZ",
+    "ICAO": "HTZA",
+    "Airport name": "Abeid Amani Karume International Airport",
+    "Location served": "Zanzibar, Tanzania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZOF",
+    "ICAO": "",
+    "Airport name": "Ocean Falls Water Aerodrome (TC: CAH2)",
+    "Location served": "Ocean Falls, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZOS",
+    "ICAO": "SCJO",
+    "Airport name": "Cañal Bajo Carlos Hott Siebert Airport",
+    "Location served": "Osorno, Chile",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZPB",
+    "ICAO": "CZPB",
+    "Airport name": "Sachigo Lake Airport",
+    "Location served": "Sachigo Lake, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZPC",
+    "ICAO": "SCPC",
+    "Airport name": "Pucón Airport",
+    "Location served": "Pucón, Chile",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZPH",
+    "ICAO": "KZPH",
+    "Airport name": "Zephyrhills Municipal Airport",
+    "Location served": "Zephyrhills, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZPO",
+    "ICAO": "CZPO",
+    "Airport name": "Pinehouse Lake Airport",
+    "Location served": "Pinehouse, Saskatchewan, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZQN",
+    "ICAO": "NZQN",
+    "Airport name": "Queenstown Airport",
+    "Location served": "Queenstown, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZQS",
+    "ICAO": "",
+    "Airport name": "Queen Charlotte City Water Aerodrome (TC: CAQ6)",
+    "Location served": "Queen Charlotte, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZQW",
+    "ICAO": "EDRZ",
+    "Airport name": "Zweibrücken Airport",
+    "Location served": "Zweibrücken, Rhineland-Palatinate, Germany",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZQZ",
+    "ICAO": "ZBZJ",
+    "Airport name": "Zhangjiakou Ningyuan Airport",
+    "Location served": "Zhangjiakou, Hebei, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZRH",
+    "ICAO": "LSZH",
+    "Airport name": "Zurich Airport",
+    "Location served": "Zürich, Switzerland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZRI",
+    "ICAO": "WABO",
+    "Airport name": "Serui Airport",
+    "Location served": "Serui, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZRJ",
+    "ICAO": "CZRJ",
+    "Airport name": "Round Lake (Weagamow Lake) Airport",
+    "Location served": "North Caribou Lake (Round Lake), Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZRM",
+    "ICAO": "WAJI",
+    "Airport name": "Sarmi Orai Airport",
+    "Location served": "Sarmi, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZSA",
+    "ICAO": "MYSM",
+    "Airport name": "San Salvador Airport (Cockburn Town Airport)",
+    "Location served": "San Salvador Island, Bahamas",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZSE",
+    "ICAO": "FMEP",
+    "Airport name": "Pierrefonds Airport",
+    "Location served": "Saint-Pierre, Réunion, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZSJ",
+    "ICAO": "CZSJ",
+    "Airport name": "Sandy Lake Airport",
+    "Location served": "Sandy Lake, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZSS",
+    "ICAO": "DISS",
+    "Airport name": "Sassandra Airport",
+    "Location served": "Sassandra, Ivory Coast",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZST",
+    "ICAO": "CZST",
+    "Airport name": "Stewart Aerodrome",
+    "Location served": "Stewart, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZSW",
+    "ICAO": "CZSW",
+    "Airport name": "Prince Rupert/Seal Cove Water Airport",
+    "Location served": "Prince Rupert, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZTA",
+    "ICAO": "NTGY",
+    "Airport name": "Tureia Airport",
+    "Location served": "Tureia, Tuamotus, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZTB",
+    "ICAO": "",
+    "Airport name": "Tête-à-la-Baleine Airport (TC: CTB6)",
+    "Location served": "Tête-à-la-Baleine, Quebec, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZTH",
+    "ICAO": "LGZA",
+    "Airport name": "Zakynthos International Airport (Dionysios SolomosAirport)",
+    "Location served": "Zakynthos, Greece",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZTM",
+    "ICAO": "CZTM",
+    "Airport name": "Shamattawa Airport",
+    "Location served": "Shamattawa, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZTR",
+    "ICAO": "UKKV",
+    "Airport name": "Zhytomyr Airport",
+    "Location served": "Zhytomyr, Ukraine",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZTS",
+    "ICAO": "",
+    "Airport name": "Tahsis Water Aerodrome (TC: CAL9)",
+    "Location served": "Tahsis, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZTU",
+    "ICAO": "UBBY",
+    "Airport name": "Zaqatala International Airport",
+    "Location served": "Zaqatala, Azerbaijan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZUC",
+    "ICAO": "CZUC",
+    "Airport name": "Ignace Municipal Airport",
+    "Location served": "Ignace, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZUD",
+    "ICAO": "SCAC",
+    "Airport name": "Pupelde Airfield",
+    "Location served": "Ancud, Chile",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZUH",
+    "ICAO": "ZGSD",
+    "Airport name": "Zhuhai Jinwan Airport (Zhuhai Sanzao Airport)",
+    "Location served": "Zhuhai, Guangdong, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZUL",
+    "ICAO": "OEZL",
+    "Airport name": "Zilfi Airport",
+    "Location served": "Al Zulfi (Zilfi), Saudi Arabia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZUM",
+    "ICAO": "CZUM",
+    "Airport name": "Churchill Falls Airport",
+    "Location served": "Churchill Falls, Newfoundland and Labrador, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZVA",
+    "ICAO": "FMMN",
+    "Airport name": "Miandrivazo Airport",
+    "Location served": "Miandrivazo, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZVG",
+    "ICAO": "",
+    "Airport name": "Springvale Airport",
+    "Location served": "Springvale, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZVK",
+    "ICAO": "VLSK",
+    "Airport name": "Savannakhet Airport",
+    "Location served": "Savannakhet, Laos",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZWA",
+    "ICAO": "FMND",
+    "Airport name": "Andapa Airport",
+    "Location served": "Andapa, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZWL",
+    "ICAO": "CZWL",
+    "Airport name": "Wollaston Lake Airport",
+    "Location served": "Wollaston Lake, Saskatchewan, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZXT",
+    "ICAO": "UBTT",
+    "Airport name": "Zabrat Airport[1]",
+    "Location served": "Baku, Azerbaijan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZYI",
+    "ICAO": "ZUZY",
+    "Airport name": "Zunyi Xinzhou Airport",
+    "Location served": "Zunyi, Guizhou, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZYL",
+    "ICAO": "VGSY",
+    "Airport name": "Osmani International Airport",
+    "Location served": "Sylhet, Bangladesh",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZZO",
+    "ICAO": "UHSO",
+    "Airport name": "Zonalnoye Airport[1]",
+    "Location served": "Tymovskoye, Sakhalin Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZZU",
+    "ICAO": "FWUU",
+    "Airport name": "Mzuzu Airport",
+    "Location served": "Mzuzu, Malawi",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ZZV",
+    "ICAO": "KZZV",
+    "Airport name": "Zanesville Municipal Airport",
+    "Location served": "Zanesville, Ohio, United States",
+    "Time": "",
+    "DST": ""
+  }
+]
