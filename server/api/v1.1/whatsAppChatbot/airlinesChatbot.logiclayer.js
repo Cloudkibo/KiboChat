@@ -8,11 +8,12 @@ const {
   ERROR_INDICATOR,
   SELECT_AIRLINE,
   CHECK_FLIGHT_STATUS,
-  AIRPORT_INFORMATION,
+  ASK_AIRPORT_NAME,
   ASK_DEPARTURE_DATE,
   ASK_DEPARTURE_CITY,
   ASK_ARRIVAL_CITY,
-  GET_FLIGHT_SCHEDULES
+  GET_FLIGHT_SCHEDULES,
+  GET_AIRPORT_INFO
 } = require('./constants')
 const { convertToEmoji } = require('./whatsAppChatbot.logiclayer')
 const logger = require('../../../components/logger')
@@ -82,7 +83,7 @@ exports.getMessageBlocks = (chatbot) => {
         menu: [
           { type: DYNAMIC, action: SELECT_AIRLINE },
           { type: DYNAMIC, action: CHECK_FLIGHT_STATUS },
-          { type: DYNAMIC, action: AIRPORT_INFORMATION },
+          { type: DYNAMIC, action: ASK_AIRPORT_NAME },
           { type: DYNAMIC, action: ASK_DEPARTURE_DATE }
         ],
         specialKeys: {}
@@ -97,6 +98,73 @@ exports.getMessageBlocks = (chatbot) => {
     getFaqsBlock(chatbot, faqsId, messageBlocks, mainMenuId)
   }
   return messageBlocks
+}
+
+const getAskAirportNameBlock = (chatbot) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_airlines_chatbot'
+      },
+      title: 'Ask Airport Name',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Please enter the name of the airport for which you wish to retreive information`,
+          componentType: 'text',
+          action: { type: DYNAMIC, action: GET_AIRPORT_INFO, input: true }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to get Ask Airport Name block'
+    logger.serverLog(message, `${TAG}: exports.getAskAirportNameBlock`, {}, {chatbot}, 'error')
+    throw new Error(`${DEFAULT_ERROR_MESSAGE}`)
+  }
+}
+
+const getAirportInfoBlock = (chatbot, backId, AirlineProvider, userInput) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_airlines_chatbot'
+      },
+      title: 'Airport Information',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: '',
+          componentType: 'text',
+          action: { type: DYNAMIC, action: GET_AIRPORT_INFO, input: true },
+          specialKeys: {
+            [BACK_KEY]: { type: STATIC, blockId: backId },
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    const airportInfo = AirlineProvider.fetchAirportInfo(userInput)
+    if (airportInfo) {
+      messageBlock.payload[0].text += `\n*Location*: https://www.google.com/maps/search/?api=1&query=${airportInfo.latitude},${airportInfo.longitude}`
+      messageBlock.payload[0].text += `\n*Phone Number*: ${airportInfo.phone_number}`
+    } else {
+      throw new Error()
+    }
+    messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
+    return messageBlock
+  } catch (err) {
+    const message = err || `Unable to get Airport Information for ${userInput}`
+    logger.serverLog(message, `${TAG}: exports.getAskAirportNameBlock`, {}, {chatbot}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to get Airport Information for ${userInput}`)
+  }
 }
 
 const getFaqsBlock = (chatbot, blockId, messageBlocks, backId) => {
@@ -406,6 +474,14 @@ exports.getNextMessageBlock = async (chatbot, AirlineProvider, contact, input) =
           }
           case GET_FLIGHT_SCHEDULES: {
             messageBlock = await getFlightSchedulesBlock(chatbot, contact.lastMessageSentByBot.uniqueId, AirlineProvider, action.input ? input : '', action.argument)
+            break
+          }
+          case ASK_AIRPORT_NAME: {
+            messageBlock = await getAskAirportNameBlock(chatbot)
+            break
+          }
+          case GET_AIRPORT_INFO: {
+            messageBlock = await getAirportInfoBlock(chatbot, contact.lastMessageSentByBot.uniqueId, AirlineProvider, action.input ? input : '')
             break
           }
         }
