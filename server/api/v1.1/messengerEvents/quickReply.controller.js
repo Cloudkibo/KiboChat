@@ -7,6 +7,7 @@ const logicLayer = require('./logiclayer')
 const { handleCommerceChatbot, handleChatBotNextMessage } = require('./chatbotAutomation.controller')
 const { unSetAwaitingUserInfoPayload } = require('./capturePhoneEmail.logiclayer')
 const { sendWebhook } = require('../../global/sendWebhook')
+const { captureUserEmailAndPhone } = require('./capturePhoneEmail.logiclayer')
 
 exports.index = function (req, res) {
   res.status(200).json({
@@ -42,7 +43,7 @@ exports.index = function (req, res) {
               if (resp.option === 'captureEmailPhoneSkip' && subscriber.awaitingQuickReplyPayload) {
                 let chatBotInfo = _getChatbotInfo(subscriber)
                 handleChatBotNextMessage(messengerPayload, page, subscriber, chatBotInfo.nextBlockId, chatBotInfo.parentBlockTitle)
-              } else {
+              } else if (resp[0] && resp[0].action === '_chatbot') {
                 handleCommerceChatbot(messengerPayload, page, subscriber)
                 if (logicLayer.isJsonString(messengerPayload.message.quick_reply.payload)) {
                   let quickRepyPayload = JSON.parse(messengerPayload.message.quick_reply.payload)
@@ -51,6 +52,10 @@ exports.index = function (req, res) {
                       chatbotAutomation.handleChatBotNextMessage(messengerPayload, page, subscriber, quickRepyPayload[i].blockUniqueId, quickRepyPayload[i].parentBlockTitle)
                     }
                   }
+                }
+              } else {
+                if (subscriber.awaitingQuickReplyPayload) {
+                  captureUserEmailAndPhone(messengerPayload, subscriber, page)
                 }
               }
               unSetAwaitingUserInfoPayload(subscriber)
