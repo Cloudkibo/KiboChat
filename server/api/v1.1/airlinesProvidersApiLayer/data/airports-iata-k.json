@@ -1,0 +1,4066 @@
+[
+  {
+    "IATA": "KAA",
+    "ICAO": "FLKS",
+    "Airport name": "Kasama Airport",
+    "Location served": "Kasama, Zambia",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KAB",
+    "ICAO": "FVKB",
+    "Airport name": "Kariba Airport",
+    "Location served": "Kariba, Zimbabwe",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KAC",
+    "ICAO": "OSKL",
+    "Airport name": "Kamishly Airport",
+    "Location served": "Qamishli (Kamishly), Syria",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KAD",
+    "ICAO": "DNKA",
+    "Airport name": "Kaduna Airport",
+    "Location served": "Kaduna, Nigeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KAE",
+    "ICAO": "",
+    "Airport name": "Kake Seaplane Base",
+    "Location served": "Kake, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KAF",
+    "ICAO": "",
+    "Airport name": "Karato Airport",
+    "Location served": "Karato, Papua New Guinea",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KAG",
+    "ICAO": "RKNN",
+    "Airport name": "Gangneung Air Base",
+    "Location served": "Gangneung, South Korea",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KAI",
+    "ICAO": "SYKA",
+    "Airport name": "Kaieteur International Airport",
+    "Location served": "Kaieteur, Guyana",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KAJ",
+    "ICAO": "EFKI",
+    "Airport name": "Kajaani Airport",
+    "Location served": "Kajaani, Finland",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KAK",
+    "ICAO": "",
+    "Airport name": "Kar Airport",
+    "Location served": "Kar, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KAL",
+    "ICAO": "PAKV",
+    "Airport name": "Kaltag Airport",
+    "Location served": "Kaltag, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KAM",
+    "ICAO": "ODKM",
+    "Airport name": "Kamaran Airport",
+    "Location served": "Kamaran, Yemen",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KAN",
+    "ICAO": "DNKN",
+    "Airport name": "Mallam Aminu Kano International Airport",
+    "Location served": "Kano, Nigeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KAO",
+    "ICAO": "EFKS",
+    "Airport name": "Kuusamo Airport",
+    "Location served": "Kuusamo, Finland",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KAP",
+    "ICAO": "FZSK",
+    "Airport name": "Kapanga Airport",
+    "Location served": "Kapanga, Democratic Republic of the Congo",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KAQ",
+    "ICAO": "AYKH",
+    "Airport name": "Kamulai Airport[1]",
+    "Location served": "Kamulai, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KAR",
+    "ICAO": "SYKM",
+    "Airport name": "Kamarang Airport",
+    "Location served": "Kamarang, Guyana",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KAS",
+    "ICAO": "FYKB",
+    "Airport name": "Karasburg Airport",
+    "Location served": "Karasburg, Namibia",
+    "Time": "UTC+01:00",
+    "DST": "Sep–Apr"
+  },
+  {
+    "IATA": "KAT",
+    "ICAO": "NZKT",
+    "Airport name": "Kaitaia Airport",
+    "Location served": "Kaitaia, New Zealand",
+    "Time": "UTC+12:00",
+    "DST": "Sep–Apr"
+  },
+  {
+    "IATA": "KAU",
+    "ICAO": "EFKA",
+    "Airport name": "Kauhava Airfield",
+    "Location served": "Kauhava, Finland",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KAV",
+    "ICAO": "SVKA",
+    "Airport name": "Kavanayén Airport",
+    "Location served": "Kavanayén, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KAW",
+    "ICAO": "VYKT",
+    "Airport name": "Kawthaung Airport",
+    "Location served": "Kawthaung, Myanmar",
+    "Time": "UTC+06:30",
+    "DST": ""
+  },
+  {
+    "IATA": "KAX",
+    "ICAO": "YKBR",
+    "Airport name": "Kalbarri Airport",
+    "Location served": "Kalbarri, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KAY",
+    "ICAO": "NFNW",
+    "Airport name": "Wakaya Airport",
+    "Location served": "Wakaya Island, Fiji",
+    "Time": "UTC+12:00",
+    "DST": "Nov–Jan"
+  },
+  {
+    "IATA": "KAZ",
+    "ICAO": "WAMK",
+    "Airport name": "Kuabang Airport",
+    "Location served": "Kao, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KBA",
+    "ICAO": "GFKB",
+    "Airport name": "Kabala Airport",
+    "Location served": "Kabala, Sierra Leone",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KBB",
+    "ICAO": "",
+    "Airport name": "Kirkimbie Airport[1]",
+    "Location served": "Kirkimbie Station, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "KBC",
+    "ICAO": "",
+    "Airport name": "Birch Creek Airport (FAA: Z91)",
+    "Location served": "Birch Creek, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KBD",
+    "ICAO": "",
+    "Airport name": "Kimberley Downs Airport",
+    "Location served": "Kimberley Downs, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KBE",
+    "ICAO": "",
+    "Airport name": "Bell Island Hot Springs Seaplane Base",
+    "Location served": "Bell Island, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KBF",
+    "ICAO": "WABK",
+    "Airport name": "Karubaga Airport",
+    "Location served": "Karubaga, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KBG",
+    "ICAO": "HUKF",
+    "Airport name": "Kabalega Falls Airport",
+    "Location served": "Kabalega Falls, Uganda",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KBI",
+    "ICAO": "FKKB",
+    "Airport name": "Kribi Airport",
+    "Location served": "Kribi, Cameroon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KBJ",
+    "ICAO": "YKCA",
+    "Airport name": "Kings Canyon Airport",
+    "Location served": "Kings Canyon, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "KBL",
+    "ICAO": "OAKB",
+    "Airport name": "Hamid Karzai International Airport",
+    "Location served": "Kabul, Afghanistan",
+    "Time": "UTC+04:30",
+    "DST": ""
+  },
+  {
+    "IATA": "KBM",
+    "ICAO": "AYKB",
+    "Airport name": "Kabwum Airport",
+    "Location served": "Kabwum, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KBN",
+    "ICAO": "FZWT",
+    "Airport name": "Tunta Airport",
+    "Location served": "Kabinda, Democratic Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KBO",
+    "ICAO": "FZRM",
+    "Airport name": "Kabalo Airport",
+    "Location served": "Kabalo, Democratic Republic of the Congo",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KBP",
+    "ICAO": "UKBB",
+    "Airport name": "Boryspil International Airport",
+    "Location served": "Kyiv, Ukraine",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KBQ",
+    "ICAO": "FWKG",
+    "Airport name": "Kasungu Airport",
+    "Location served": "Kasungu, Malawi",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KBR",
+    "ICAO": "WMKC",
+    "Airport name": "Sultan Ismail Petra Airport",
+    "Location served": "Kota Bharu, Kelantan, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KBS",
+    "ICAO": "GFBO",
+    "Airport name": "Bo Airport",
+    "Location served": "Bo, Sierra Leone",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KBT",
+    "ICAO": "",
+    "Airport name": "Kaben Airport",
+    "Location served": "Kaben, Maloelap Atoll, Marshall Islands",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KBU",
+    "ICAO": "WRBK",
+    "Airport name": "Gusti Syamsir Alam Airport (Stagen Airport)",
+    "Location served": "Kotabaru, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KBV",
+    "ICAO": "VTSG",
+    "Airport name": "Krabi Airport",
+    "Location served": "Krabi, Thailand",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KBW",
+    "ICAO": "",
+    "Airport name": "Chignik Bay Seaplane Base (FAA: Z78)",
+    "Location served": "Chignik, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KBX",
+    "ICAO": "WASU",
+    "Airport name": "Kambuaya Airport",
+    "Location served": "Ayamaru, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KBY",
+    "ICAO": "YKBY",
+    "Airport name": "Streaky Bay Airport",
+    "Location served": "Streaky Bay, South Australia, Australia",
+    "Time": "UTC+09:30",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "KBZ",
+    "ICAO": "NZKI",
+    "Airport name": "Kaikoura Aerodrome",
+    "Location served": "Kaikoura, New Zealand",
+    "Time": "UTC+12:00",
+    "DST": "Sep–Apr"
+  },
+  {
+    "IATA": "KCA",
+    "ICAO": "ZWKC",
+    "Airport name": "Kuqa Qiuci Airport",
+    "Location served": "Kuqa, Xinjiang, China",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KCB",
+    "ICAO": "SMTP",
+    "Airport name": "Tepoe Airstrip",
+    "Location served": "Kasikasima, Suriname",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KCC",
+    "ICAO": "",
+    "Airport name": "Coffman Cove Seaplane Base",
+    "Location served": "Coffman Cove, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KCD",
+    "ICAO": "",
+    "Airport name": "Kamur Airport",
+    "Location served": "Kamur, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KCE",
+    "ICAO": "YCSV",
+    "Airport name": "Collinsville Airport",
+    "Location served": "Collinsville, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KCF",
+    "ICAO": "",
+    "Airport name": "Kadanwari Airport",
+    "Location served": "Kadanwari, Pakistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KCG",
+    "ICAO": "",
+    "Airport name": "Chignik Fisheries Airport (closed)",
+    "Location served": "Chignik, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "KCH",
+    "ICAO": "WBGG",
+    "Airport name": "Kuching International Airport",
+    "Location served": "Kuching, Sarawak, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KCJ",
+    "ICAO": "",
+    "Airport name": "Komaio Airport",
+    "Location served": "Komaio, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KCK",
+    "ICAO": "UIKK",
+    "Airport name": "Kirensk Airport",
+    "Location served": "Kirensk, Irkutsk Oblast, Russia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KCL",
+    "ICAO": "",
+    "Airport name": "Chignik Lagoon Airport (Chignik Flats Airport)",
+    "Location served": "Chignik Lagoon, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KCM",
+    "ICAO": "LTCN",
+    "Airport name": "Kahramanmaraş Airport",
+    "Location served": "Kahramanmaraş, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KCN",
+    "ICAO": "",
+    "Airport name": "Chernofski Harbor Seaplane Base",
+    "Location served": "Chernofski Harbor, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KCO",
+    "ICAO": "LTBQ",
+    "Airport name": "Cengiz Topel Naval Air Station",
+    "Location served": "İzmit, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KCP",
+    "ICAO": "",
+    "Airport name": "Kamianets-Podilskyi Airport",
+    "Location served": "Kamianets-Podilskyi, Ukraine",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KCQ",
+    "ICAO": "",
+    "Airport name": "Chignik Lake Airport (FAA: A79)",
+    "Location served": "Chignik Lake, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KCR",
+    "ICAO": "",
+    "Airport name": "Colorado Creek Airport",
+    "Location served": "Colorado Creek, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KCS",
+    "ICAO": "YKCS",
+    "Airport name": "Kings Creek Station Airport",
+    "Location served": "Kings Creek Station, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "KCT",
+    "ICAO": "VCCK",
+    "Airport name": "Koggala Airport",
+    "Location served": "Koggala, Sri Lanka",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "KCU",
+    "ICAO": "HUMI",
+    "Airport name": "Masindi Airport",
+    "Location served": "Masindi, Uganda",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KCZ",
+    "ICAO": "RJOK",
+    "Airport name": "Kōchi Ryōma Airport",
+    "Location served": "Kōchi, Shikoku, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KDA",
+    "ICAO": "GOGK",
+    "Airport name": "Kolda North Airport",
+    "Location served": "Kolda, Senegal",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KDB",
+    "ICAO": "YKBL",
+    "Airport name": "Kambalda Airport",
+    "Location served": "Kambalda, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KDC",
+    "ICAO": "DBBK",
+    "Airport name": "Kandi Airport",
+    "Location served": "Kandi, Benin",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KDD",
+    "ICAO": "OPKH",
+    "Airport name": "Khuzdar Airport",
+    "Location served": "Khuzdar, Pakistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KDE",
+    "ICAO": "AYOW",
+    "Airport name": "Koroba Airport",
+    "Location served": "Koroba, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KDH",
+    "ICAO": "OAKN",
+    "Airport name": "Kandahar International Airport",
+    "Location served": "Kandahar, Afghanistan",
+    "Time": "UTC+04:30",
+    "DST": ""
+  },
+  {
+    "IATA": "KDI",
+    "ICAO": "WAWW",
+    "Airport name": "Haluoleo Airport",
+    "Location served": "Kendari, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KDJ",
+    "ICAO": "FOGJ",
+    "Airport name": "Ndjolé Ville Airport",
+    "Location served": "Ndjolé, Gabon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KDK",
+    "ICAO": "PAKD",
+    "Airport name": "Kodiak Municipal Airport",
+    "Location served": "Kodiak, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KDL",
+    "ICAO": "EEKA",
+    "Airport name": "Kärdla Airport",
+    "Location served": "Kärdla, Estonia",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KDM",
+    "ICAO": "VRMT",
+    "Airport name": "Kaadedhdhoo Airport",
+    "Location served": "Kaadedhdhoo Island, Gaafu Dhaalu Atoll, Maldives",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KDN",
+    "ICAO": "FOGE",
+    "Airport name": "Ndendé Airport",
+    "Location served": "Ndendé, Gabon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KDO",
+    "ICAO": "VRMK",
+    "Airport name": "Kadhdhoo Airport",
+    "Location served": "Kadhdhoo Island, Laamu Atoll, Maldives",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KDP",
+    "ICAO": "AYNN",
+    "Airport name": "Kandep Airport",
+    "Location served": "Kandep, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KDQ",
+    "ICAO": "AYTO",
+    "Airport name": "Kamberatoro Airport",
+    "Location served": "Kamberatoro, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KDR",
+    "ICAO": "AYKC",
+    "Airport name": "Kandrian Airport",
+    "Location served": "Kandrian, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KDS",
+    "ICAO": "",
+    "Airport name": "Kamaran Downs Airport",
+    "Location served": "Kamaran Downs, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KDT",
+    "ICAO": "VTBK",
+    "Airport name": "Kamphaeng Saen Airport",
+    "Location served": "Kamphaeng Saen, Thailand",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KDU",
+    "ICAO": "OPSD",
+    "Airport name": "Skardu Airport",
+    "Location served": "Skardu, Pakistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KDV",
+    "ICAO": "NFKD",
+    "Airport name": "Vunisea Airport",
+    "Location served": "Vunisea, Kadavu Island, Fiji",
+    "Time": "UTC+12:00",
+    "DST": "Nov–Jan"
+  },
+  {
+    "IATA": "KDW",
+    "ICAO": "",
+    "Airport name": "Victoria Reservoir Seaplane Base[1]",
+    "Location served": "Kandy, Sri Lanka",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "KDX",
+    "ICAO": "HSLI",
+    "Airport name": "Kadugli Airport[1]",
+    "Location served": "Kaduqli (Kadugli), Sudan",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KDY",
+    "ICAO": "UEMH",
+    "Airport name": "Teply Klyuch Airport",
+    "Location served": "Khandyga, Yakutia, Russia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KDZ",
+    "ICAO": "",
+    "Airport name": "Polgolla Reservoir Seaplane Base[1]",
+    "Location served": "Kandy, Sri Lanka",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "KEB",
+    "ICAO": "",
+    "Airport name": "Nanwalek Airport",
+    "Location served": "Nanwalek, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KEC",
+    "ICAO": "FZQG",
+    "Airport name": "Kasenga Airport",
+    "Location served": "Kasenga, Democratic Republic of the Congo",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KED",
+    "ICAO": "GQNK",
+    "Airport name": "Kaédi Airport",
+    "Location served": "Kaédi, Mauritania",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KEE",
+    "ICAO": "FCOK",
+    "Airport name": "Kelle Airport",
+    "Location served": "Kellé, Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KEF",
+    "ICAO": "BIKF",
+    "Airport name": "Keflavík International Airport",
+    "Location served": "Reykjavík, Iceland",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KEG",
+    "ICAO": "AYLG",
+    "Airport name": "Keglsugl Airport",
+    "Location served": "Keglsugl, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KEH",
+    "ICAO": "",
+    "Airport name": "Kenmore Air Harbor (FAA: S60)",
+    "Location served": "Kenmore, Washington, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KEI",
+    "ICAO": "WAKP",
+    "Airport name": "Kepi Airport",
+    "Location served": "Kepi, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KEJ",
+    "ICAO": "UNEE",
+    "Airport name": "Kemerovo International Airport",
+    "Location served": "Kemerovo, Kemerovo Oblast, Russia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KEK",
+    "ICAO": "",
+    "Airport name": "Ekwok Airport",
+    "Location served": "Ekwok, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KEL",
+    "ICAO": "EDHK",
+    "Airport name": "Kiel Airport",
+    "Location served": "Kiel, Schleswig-Holstein, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KEM",
+    "ICAO": "EFKE",
+    "Airport name": "Kemi-Tornio Airport",
+    "Location served": "Kemi / Tornio, Finland",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KEN",
+    "ICAO": "GFKE",
+    "Airport name": "Kenema Airport",
+    "Location served": "Kenema, Sierra Leone",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KEO",
+    "ICAO": "DIOD",
+    "Airport name": "Odienné Airport",
+    "Location served": "Odienné, Ivory Coast",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KEP",
+    "ICAO": "VNNG",
+    "Airport name": "Nepalgunj Airport",
+    "Location served": "Nepalgunj, Nepal",
+    "Time": "UTC+05:45",
+    "DST": ""
+  },
+  {
+    "IATA": "KEQ",
+    "ICAO": "WASE",
+    "Airport name": "Kebar Airport",
+    "Location served": "Kebar, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KER",
+    "ICAO": "OIKK",
+    "Airport name": "Kerman Airport",
+    "Location served": "Kerman, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar–Sep"
+  },
+  {
+    "IATA": "KES",
+    "ICAO": "CZEE",
+    "Airport name": "Kelsey Airport",
+    "Location served": "Kelsey, Manitoba, Canada",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KET",
+    "ICAO": "VYKG",
+    "Airport name": "Kengtung Airport",
+    "Location served": "Kengtung, Myanmar",
+    "Time": "UTC+06:30",
+    "DST": ""
+  },
+  {
+    "IATA": "KEU",
+    "ICAO": "HKKE",
+    "Airport name": "Keekorok Airport[1]",
+    "Location served": "Keekorok, Kenya",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KEV",
+    "ICAO": "EFHA",
+    "Airport name": "Halli Airport",
+    "Location served": "Kuorevesi, Finland",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KEW",
+    "ICAO": "",
+    "Airport name": "Keewaywin Airport (TC LID: CPV8)",
+    "Location served": "Keewaywin, Ontario, Canada",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KEX",
+    "ICAO": "AYNB",
+    "Airport name": "Kanabea Airport",
+    "Location served": "Kanabea, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KEY",
+    "ICAO": "HKKR",
+    "Airport name": "Kericho Airport",
+    "Location served": "Kericho, Kenya",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KEZ",
+    "ICAO": "",
+    "Airport name": "Kelani River-Peliyagoda Waterdrome[1]",
+    "Location served": "Colombo, Sri Lanka",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "KFA",
+    "ICAO": "GQNF",
+    "Airport name": "Kiffa Airport",
+    "Location served": "Kiffa, Mauritania",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KFE",
+    "ICAO": "YFDF",
+    "Airport name": "Fortescue Dave Forrest Airport",
+    "Location served": "Cloudbreak, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KFG",
+    "ICAO": "YKKG",
+    "Airport name": "Kalkgurung Airport",
+    "Location served": "Kalkarindji, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "KFM",
+    "ICAO": "",
+    "Airport name": "Kirby Lake Airport",
+    "Location served": "Wood Buffalo, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "KFP",
+    "ICAO": "PAKF",
+    "Airport name": "False Pass Airport",
+    "Location served": "False Pass, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KFS",
+    "ICAO": "LTAL",
+    "Airport name": "Kastamonu Airport",
+    "Location served": "Kastamonu, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KGA",
+    "ICAO": "FZUA",
+    "Airport name": "Kananga Airport",
+    "Location served": "Kananga, Democratic Republic of the Congo",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KGB",
+    "ICAO": "AYOE",
+    "Airport name": "Konge Airport",
+    "Location served": "Konge, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KGC",
+    "ICAO": "YKSC",
+    "Airport name": "Kingscote Airport",
+    "Location served": "Cygnet River, South Australia, Australia",
+    "Time": "UTC+09:30",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "KGD",
+    "ICAO": "UMKK",
+    "Airport name": "Khrabrovo Airport",
+    "Location served": "Kaliningrad, Kaliningrad Oblast, Russia",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KGE",
+    "ICAO": "AGKG",
+    "Airport name": "Kaghau Airport",
+    "Location served": "Kaghau Island, Solomon Islands",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KGF",
+    "ICAO": "UAKK",
+    "Airport name": "Sary-Arka Airport",
+    "Location served": "Karaganda, Kazakhstan",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KGG",
+    "ICAO": "GOTK",
+    "Airport name": "Kédougou Airport",
+    "Location served": "Kédougou, Senegal",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KGH",
+    "ICAO": "AYJO",
+    "Airport name": "Yongai Airport",
+    "Location served": "Yongai, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KGI",
+    "ICAO": "YPKG",
+    "Airport name": "Kalgoorlie-Boulder Airport",
+    "Location served": "Kalgoorlie, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KGJ",
+    "ICAO": "FWKA",
+    "Airport name": "Karonga Airport",
+    "Location served": "Karonga, Malawi",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KGK",
+    "ICAO": "PAJZ",
+    "Airport name": "Koliganek Airport (FAA: JZZ)",
+    "Location served": "Koliganek, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KGL",
+    "ICAO": "HRYR",
+    "Airport name": "Kigali International Airport (Kanombe Airport)",
+    "Location served": "Kigali, Rwanda",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KGM",
+    "ICAO": "",
+    "Airport name": "Kungim Airport[1]",
+    "Location served": "Kungim, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KGN",
+    "ICAO": "FZOK",
+    "Airport name": "Kasongo Lunda Airport",
+    "Location served": "Kasongo Lunda, Democratic Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KGO",
+    "ICAO": "UKKG",
+    "Airport name": "Kirovohrad Airport",
+    "Location served": "Kropyvnytskyi, Ukraine",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KGP",
+    "ICAO": "USRK",
+    "Airport name": "Kogalym International Airport",
+    "Location served": "Kogalym, Khanty-Mansi Autonomous Okrug, Russia",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KGR",
+    "ICAO": "",
+    "Airport name": "Kulgera Airport",
+    "Location served": "Kulgera, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "KGS",
+    "ICAO": "LGKO",
+    "Airport name": "Kos Island International Airport",
+    "Location served": "Kos, Greece",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KGT",
+    "ICAO": "ZUKD",
+    "Airport name": "Kangding Airport[1]",
+    "Location served": "Kangding, Sichuan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KGU",
+    "ICAO": "WBKG",
+    "Airport name": "Keningau Airport",
+    "Location served": "Keningau, Sabah, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KGW",
+    "ICAO": "AYKQ",
+    "Airport name": "Kagi Airport",
+    "Location served": "Kagi, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KGX",
+    "ICAO": "",
+    "Airport name": "Grayling Airport",
+    "Location served": "Grayling, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KGY",
+    "ICAO": "YKRY",
+    "Airport name": "Kingaroy Airport",
+    "Location served": "Kingaroy, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KGZ",
+    "ICAO": "",
+    "Airport name": "Glacier Creek Airport",
+    "Location served": "Glacier Creek, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KHA",
+    "ICAO": "OITH",
+    "Airport name": "Khaneh Airport (Piranshahr Airport)",
+    "Location served": "Piranshahr (Khaneh), Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar–Sep"
+  },
+  {
+    "IATA": "KHC",
+    "ICAO": "UKFK",
+    "Airport name": "Kerch Airport (Voykovo Airport)",
+    "Location served": "Kerch, Ukraine",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KHD",
+    "ICAO": "OICK",
+    "Airport name": "Khorramabad Airport",
+    "Location served": "Khorramabad, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar–Sep"
+  },
+  {
+    "IATA": "KHE",
+    "ICAO": "UKOH",
+    "Airport name": "Kherson International Airport",
+    "Location served": "Kherson, Ukraine",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KHG",
+    "ICAO": "ZWSH",
+    "Airport name": "Kashgar Airport (Kashi Airport)",
+    "Location served": "Kashgar, Xinjiang, China",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KHH",
+    "ICAO": "RCKH",
+    "Airport name": "Kaohsiung International Airport",
+    "Location served": "Kaohsiung, Taiwan",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KHI",
+    "ICAO": "OPKC",
+    "Airport name": "Jinnah International Airport",
+    "Location served": "Karachi, Pakistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KHJ",
+    "ICAO": "EFKJ",
+    "Airport name": "Kauhajoki Airfield",
+    "Location served": "Kauhajoki, Finland",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KHK",
+    "ICAO": "OIBQ",
+    "Airport name": "Kharg Airport",
+    "Location served": "Kharg Island, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar–Sep"
+  },
+  {
+    "IATA": "KHM",
+    "ICAO": "VYKI",
+    "Airport name": "Khamti Airport",
+    "Location served": "Khamti, Myanmar",
+    "Time": "UTC+06:30",
+    "DST": ""
+  },
+  {
+    "IATA": "KHN",
+    "ICAO": "ZSCN",
+    "Airport name": "Nanchang Changbei International Airport",
+    "Location served": "Nanchang, Jiangxi, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KHO",
+    "ICAO": "",
+    "Airport name": "Khoka Moya Airport",
+    "Location served": "Manyeleti, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KHR",
+    "ICAO": "ZMHH",
+    "Airport name": "Kharkhorin Airport",
+    "Location served": "Kharkhorin, Mongolia",
+    "Time": "UTC+08:00",
+    "DST": "Mar–Sep"
+  },
+  {
+    "IATA": "KHS",
+    "ICAO": "OOKB",
+    "Airport name": "Khasab Airport",
+    "Location served": "Khasab, Oman",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KHT",
+    "ICAO": "OAKS",
+    "Airport name": "Khost Airfield",
+    "Location served": "Khost, Afghanistan",
+    "Time": "UTC+04:30",
+    "DST": ""
+  },
+  {
+    "IATA": "KHU",
+    "ICAO": "",
+    "Airport name": "Kremenchuk Airport",
+    "Location served": "Kremenchuk, Ukraine",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KHV",
+    "ICAO": "UHHH",
+    "Airport name": "Khabarovsk Novy Airport",
+    "Location served": "Khabarovsk, Khabarovsk Krai, Russia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KHW",
+    "ICAO": "FBKR",
+    "Airport name": "Khwai River Airport",
+    "Location served": "Khwai River Lodge, Botswana",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KHX",
+    "ICAO": "",
+    "Airport name": "Kihihi Airstrip[1]",
+    "Location served": "Kihihi, Uganda",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KHY",
+    "ICAO": "OITK",
+    "Airport name": "Khoy Airport[1]",
+    "Location served": "Khoy, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar–Sep"
+  },
+  {
+    "IATA": "KHZ",
+    "ICAO": "NTKA",
+    "Airport name": "Kauehi Aerodrome",
+    "Location served": "Kauehi, Tuamotus, French Polynesia",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KIA",
+    "ICAO": "",
+    "Airport name": "Kaiapit Airport",
+    "Location served": "Kaiapit, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KIB",
+    "ICAO": "",
+    "Airport name": "Ivanof Bay Seaplane Base",
+    "Location served": "Ivanof Bay, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KIC",
+    "ICAO": "KKIC",
+    "Airport name": "Mesa Del Rey Airport",
+    "Location served": "King City, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KID",
+    "ICAO": "ESMK",
+    "Airport name": "Kristianstad Airport",
+    "Location served": "Kristianstad, Sweden",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KIE",
+    "ICAO": "AYIQ",
+    "Airport name": "Aropa Airport",
+    "Location served": "Kieta, Papua New Guinea",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KIF",
+    "ICAO": "",
+    "Airport name": "Kingfisher Lake Airport",
+    "Location served": "Kingfisher Lake, Ontario, Canada",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KIG",
+    "ICAO": "",
+    "Airport name": "Koingnaas Airport",
+    "Location served": "Koingnaas, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KIH",
+    "ICAO": "OIBK",
+    "Airport name": "Kish International Airport",
+    "Location served": "Kish Island, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar–Sep"
+  },
+  {
+    "IATA": "KII",
+    "ICAO": "AYLI",
+    "Airport name": "Kibuli Airport",
+    "Location served": "Kibuli, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KIJ",
+    "ICAO": "RJSN",
+    "Airport name": "Niigata Airport",
+    "Location served": "Niigata, Honshu, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KIK",
+    "ICAO": "ORKK",
+    "Airport name": "Kirkuk Airport",
+    "Location served": "Kirkuk, Iraq",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KIL",
+    "ICAO": "",
+    "Airport name": "Kilwa Airport",
+    "Location served": "Kilwa, Democratic Republic of the Congo",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KIM",
+    "ICAO": "FAKM",
+    "Airport name": "Kimberley Airport",
+    "Location served": "Kimberley, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KIN",
+    "ICAO": "MKJP",
+    "Airport name": "Norman Manley International Airport",
+    "Location served": "Kingston, Jamaica",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KIO",
+    "ICAO": "",
+    "Airport name": "Kili Airport (FAA: Q51)",
+    "Location served": "Kili Island, Marshall Islands",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KIP",
+    "ICAO": "KCWC",
+    "Airport name": "Kickapoo Downtown Airport (FAA: CWC)",
+    "Location served": "Wichita Falls, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KIQ",
+    "ICAO": "AYRA",
+    "Airport name": "Kira Airport",
+    "Location served": "Kira, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KIR",
+    "ICAO": "EIKY",
+    "Airport name": "Kerry Airport (Farranfore Airport)",
+    "Location served": "Kerry, Ireland",
+    "Time": "UTC±00:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KIS",
+    "ICAO": "HKKI",
+    "Airport name": "Kisumu International Airport",
+    "Location served": "Kisumu, Kenya",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KIT",
+    "ICAO": "LGKC",
+    "Airport name": "Kithira Island National Airport",
+    "Location served": "Kythira, Greece",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KIU",
+    "ICAO": "",
+    "Airport name": "Kiunga Airport",
+    "Location served": "Kiunga, Kenya",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KIV",
+    "ICAO": "LUKK",
+    "Airport name": "Chișinău International Airport",
+    "Location served": "Chișinău, Moldova",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KIW",
+    "ICAO": "FLSO",
+    "Airport name": "Southdowns Airport",
+    "Location served": "Kitwe, Zambia",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KIX",
+    "ICAO": "RJBB",
+    "Airport name": "Kansai International Airport",
+    "Location served": "Osaka, Honshu, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KIY",
+    "ICAO": "HTKI",
+    "Airport name": "Kilwa Masoko Airport",
+    "Location served": "Kilwa Masoko, Tanzania",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KIZ",
+    "ICAO": "",
+    "Airport name": "Kikinonda Airport",
+    "Location served": "Kikinonda, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KJA",
+    "ICAO": "UNKL",
+    "Airport name": "Yemelyanovo International Airport",
+    "Location served": "Krasnoyarsk, Krasnoyarsk Krai, Russia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KJH",
+    "ICAO": "",
+    "Airport name": "Kaili Huangping Airport",
+    "Location served": "Kaili, Guizhou, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KJI",
+    "ICAO": "ZWKN",
+    "Airport name": "Kanas Airport",
+    "Location served": "Burqin, Xinjiang, China",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KJK",
+    "ICAO": "EBKT",
+    "Airport name": "Kortrijk–Wevelgem International Airport",
+    "Location served": "Kortrijk, Belgium",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KJP",
+    "ICAO": "ROKR",
+    "Airport name": "Kerama Airport",
+    "Location served": "Fukaji Island, Kerama Islands, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KJT",
+    "ICAO": "WICA",
+    "Airport name": "Kertajati International Airport",
+    "Location served": "Majalengka, West Java, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KJU",
+    "ICAO": "",
+    "Airport name": "Kamiraba Airport",
+    "Location served": "Kamiraba, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KJX",
+    "ICAO": "",
+    "Airport name": "Blangpidie Airport",
+    "Location served": "Blangpidie, Southwest Aceh Regency, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KKA",
+    "ICAO": "PAKK",
+    "Airport name": "Koyuk Alfred Adams Airport",
+    "Location served": "Koyuk, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KKB",
+    "ICAO": "",
+    "Airport name": "Kitoi Bay Seaplane Base",
+    "Location served": "Kitoi Bay, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KKC",
+    "ICAO": "VTUK",
+    "Airport name": "Khon Kaen Airport",
+    "Location served": "Khon Kaen, Thailand",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KKD",
+    "ICAO": "AYKO",
+    "Airport name": "Kokoda Airport",
+    "Location served": "Kokoda, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KKE",
+    "ICAO": "NZKK",
+    "Airport name": "Kerikeri Airport (Bay of Islands Airport)",
+    "Location served": "Kerikeri, New Zealand",
+    "Time": "UTC+12:00",
+    "DST": "Sep–Apr"
+  },
+  {
+    "IATA": "KKG",
+    "ICAO": "",
+    "Airport name": "Konawaruk Airport",
+    "Location served": "Konawaruk, Guyana",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KKH",
+    "ICAO": "PADY",
+    "Airport name": "Kongiganak Airport (FAA: DUY)",
+    "Location served": "Kongiganak, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KKI",
+    "ICAO": "",
+    "Airport name": "Akiachak Airport (FAA: Z13)",
+    "Location served": "Akiachak, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KKJ",
+    "ICAO": "RJFR",
+    "Airport name": "Kitakyushu Airport",
+    "Location served": "Kitakyushu, Kyushu, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KKK",
+    "ICAO": "",
+    "Airport name": "Kalakaket Creek Air Station (FAA: 1KC)",
+    "Location served": "Kalakaket Creek, Alaska, United States: Google Earth view",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KKL",
+    "ICAO": "",
+    "Airport name": "Karluk Lake Seaplane Base",
+    "Location served": "Karluk Lake, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KKM",
+    "ICAO": "VTBL",
+    "Airport name": "Khok Kathiam Air Force Base",
+    "Location served": "Lopburi, Thailand",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KKN",
+    "ICAO": "ENKR",
+    "Airport name": "Kirkenes Airport, Høybuktmoen",
+    "Location served": "Kirkenes, Norway",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KKO",
+    "ICAO": "NZKO",
+    "Airport name": "Kaikohe Aerodrome",
+    "Location served": "Kaikohe, New Zealand",
+    "Time": "UTC+12:00",
+    "DST": "Sep–Apr"
+  },
+  {
+    "IATA": "KKP",
+    "ICAO": "YKLB",
+    "Airport name": "Koolburra Airport",
+    "Location served": "Koolburra, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KKQ",
+    "ICAO": "USDP",
+    "Airport name": "Krasnoselkup Airport[1]",
+    "Location served": "Krasnoselkup, Yamalo-Nenets Autonomous Okrug, Russia",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KKR",
+    "ICAO": "NTGK",
+    "Airport name": "Kaukura Airport",
+    "Location served": "Kaukura Atoll, Tuamotus, French Polynesia",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KKS",
+    "ICAO": "OIFK",
+    "Airport name": "Kashan Airport",
+    "Location served": "Kashan, Isfahan, Iran",
+    "Time": "UTC+03:30",
+    "DST": ""
+  },
+  {
+    "IATA": "KKT",
+    "ICAO": "",
+    "Airport name": "Kentland Municipal Airport (FAA: 50I)",
+    "Location served": "Kentland, Indiana, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KKU",
+    "ICAO": "",
+    "Airport name": "Ekuk Airport",
+    "Location served": "Ekuk, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KKW",
+    "ICAO": "FZCA",
+    "Airport name": "Kikwit Airport",
+    "Location served": "Kikwit, Democratic Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KKX",
+    "ICAO": "RJKI",
+    "Airport name": "Kikai Airport (Kikaiga Shima Airport)",
+    "Location served": "Kikai, Satsunan Islands, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KKY",
+    "ICAO": "EIKK",
+    "Airport name": "Kilkenny Airport",
+    "Location served": "Kilkenny, Ireland",
+    "Time": "UTC±00:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KKZ",
+    "ICAO": "VDKK",
+    "Airport name": "Koh Kong Airport",
+    "Location served": "Koh Kong, Cambodia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KLB",
+    "ICAO": "FLKL",
+    "Airport name": "Kalabo Airport",
+    "Location served": "Kalabo, Zambia",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KLC",
+    "ICAO": "GOOK",
+    "Airport name": "Kaolack Airport",
+    "Location served": "Kaolack, Senegal",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KLD",
+    "ICAO": "UUEM",
+    "Airport name": "Migalovo Air Base",
+    "Location served": "Tver, Tver Oblast, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KLE",
+    "ICAO": "FKKH",
+    "Airport name": "Kaélé Airport",
+    "Location served": "Kaélé, Cameroon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KLF",
+    "ICAO": "UUBC",
+    "Airport name": "Grabtsevo Airport",
+    "Location served": "Kaluga, Kaluga Oblast, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KLG",
+    "ICAO": "PALG",
+    "Airport name": "Kalskag Airport",
+    "Location served": "Kalskag, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KLH",
+    "ICAO": "VAKP",
+    "Airport name": "Kolhapur Airport",
+    "Location served": "Kolhapur, Maharashtra, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "KLI",
+    "ICAO": "FZFP",
+    "Airport name": "Kotakoli Air Base",
+    "Location served": "Kotakoli, Democratic Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KLK",
+    "ICAO": "HKFG",
+    "Airport name": "Kalokol Airport (Fergusons Gulf Airport)",
+    "Location served": "Kalokol, Kenya",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KLL",
+    "ICAO": "",
+    "Airport name": "Levelock Airport (FAA: 9Z8)",
+    "Location served": "Levelock, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KLM",
+    "ICAO": "OINE",
+    "Airport name": "Kalaleh Airport[1]",
+    "Location served": "Kalaleh, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar–Sep"
+  },
+  {
+    "IATA": "KLN",
+    "ICAO": "PALB",
+    "Airport name": "Larsen Bay Airport (FAA: 2A3)",
+    "Location served": "Larsen Bay, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KLO",
+    "ICAO": "RPVK",
+    "Airport name": "Kalibo International Airport",
+    "Location served": "Kalibo, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KLQ",
+    "ICAO": "WIPV",
+    "Airport name": "Keluang Airport",
+    "Location served": "Keluang, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KLR",
+    "ICAO": "ESMQ",
+    "Airport name": "Kalmar Airport",
+    "Location served": "Kalmar, Sweden",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KLS",
+    "ICAO": "KKLS",
+    "Airport name": "Southwest Washington Regional Airport",
+    "Location served": "Kelso, Washington, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KLU",
+    "ICAO": "LOWK",
+    "Airport name": "Klagenfurt Airport",
+    "Location served": "Klagenfurt, Austria",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KLV",
+    "ICAO": "LKKV",
+    "Airport name": "Karlovy Vary Airport",
+    "Location served": "Karlovy Vary, Czech Republic",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KLW",
+    "ICAO": "PAKW",
+    "Airport name": "Klawock Airport (FAA: AKW)",
+    "Location served": "Klawock, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KLX",
+    "ICAO": "LGKL",
+    "Airport name": "Kalamata International Airport",
+    "Location served": "Kalamata, Greece",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KLY",
+    "ICAO": "FZOD",
+    "Airport name": "Kamisuku Airport[2]",
+    "Location served": "Kalima, Democratic Republic of the Congo",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KLZ",
+    "ICAO": "FAKZ",
+    "Airport name": "Kleinzee Airport",
+    "Location served": "Kleinzee, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KMA",
+    "ICAO": "AYKM",
+    "Airport name": "Kerema Airport",
+    "Location served": "Kerema, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KMB",
+    "ICAO": "",
+    "Airport name": "Koinambe Airport",
+    "Location served": "Koinambe, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KMC",
+    "ICAO": "OEKK",
+    "Airport name": "King Khaled Military City Airport",
+    "Location served": "King Khalid Military City, Saudi Arabia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KME",
+    "ICAO": "HRZA",
+    "Airport name": "Kamembe Airport",
+    "Location served": "Cyangugu, Rwanda",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KMF",
+    "ICAO": "AYKD",
+    "Airport name": "Kamina Airport",
+    "Location served": "Kamina, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KMG",
+    "ICAO": "ZPPP",
+    "Airport name": "Kunming Changshui International Airport",
+    "Location served": "Kunming, Yunnan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KMH",
+    "ICAO": "FAKU",
+    "Airport name": "Johan Pienaar Airport",
+    "Location served": "Kuruman, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KMI",
+    "ICAO": "RJFM",
+    "Airport name": "Miyazaki Airport",
+    "Location served": "Miyazaki, Kyushu, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KMJ",
+    "ICAO": "RJFT",
+    "Airport name": "Kumamoto Airport",
+    "Location served": "Mashiki, Kyushu, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KMK",
+    "ICAO": "FCPA",
+    "Airport name": "Makabana Airport",
+    "Location served": "Makabana, Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KML",
+    "ICAO": "YKML",
+    "Airport name": "Kamileroi Airport",
+    "Location served": "Kamileroi, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KMM",
+    "ICAO": "",
+    "Airport name": "Kimam Airport",
+    "Location served": "Kimam, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KMN",
+    "ICAO": "FZSB",
+    "Airport name": "Kamina Airport[1] (Kamina Ville Airport)",
+    "Location served": "Kamina, Democratic Republic of the Congo",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KMO",
+    "ICAO": "PAMB",
+    "Airport name": "Manokotak Airport (FAA: MBA)",
+    "Location served": "Manokotak, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KMP",
+    "ICAO": "FYKT",
+    "Airport name": "Keetmanshoop Airport",
+    "Location served": "Keetmanshoop, Namibia",
+    "Time": "UTC+01:00",
+    "DST": "Sep–Apr"
+  },
+  {
+    "IATA": "KMQ",
+    "ICAO": "RJNK",
+    "Airport name": "Komatsu Airport (Kanazawa Airport)",
+    "Location served": "Komatsu, Honshu, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KMR",
+    "ICAO": "AYRI",
+    "Airport name": "Karimui Airport",
+    "Location served": "Karimui, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KMS",
+    "ICAO": "DGSI",
+    "Airport name": "Kumasi Airport",
+    "Location served": "Kumasi, Ghana",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KMT",
+    "ICAO": "",
+    "Airport name": "Kampot Airport",
+    "Location served": "Kampot, Cambodia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KMU",
+    "ICAO": "HCMK",
+    "Airport name": "Kismayo Airport (Kisimayu Airport)",
+    "Location served": "Kismayo, Somalia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KMV",
+    "ICAO": "VYKL",
+    "Airport name": "Kalaymyo Airport (Kalemyo Airport)",
+    "Location served": "Kalaymyo, Myanmar",
+    "Time": "UTC+06:30",
+    "DST": ""
+  },
+  {
+    "IATA": "KMW",
+    "ICAO": "UUBA",
+    "Airport name": "Kostroma Airport",
+    "Location served": "Kostroma, Kostroma Oblast, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KMX",
+    "ICAO": "OEKM",
+    "Airport name": "King Khalid Air Base",
+    "Location served": "Khamis Mushait, Saudi Arabia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KMY",
+    "ICAO": "",
+    "Airport name": "Moser Bay Seaplane Base",
+    "Location served": "Moser Bay, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KMZ",
+    "ICAO": "FLKO",
+    "Airport name": "Kaoma Airport",
+    "Location served": "Kaoma, Zambia",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KNA",
+    "ICAO": "SCVM",
+    "Airport name": "Viña del Mar Airport",
+    "Location served": "Viña del Mar, Chile",
+    "Time": "UTC−04:00",
+    "DST": "Aug–May"
+  },
+  {
+    "IATA": "KNB",
+    "ICAO": "KKNB",
+    "Airport name": "Kanab Municipal Airport",
+    "Location served": "Kanab, Utah, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KND",
+    "ICAO": "FZOA",
+    "Airport name": "Kindu Airport",
+    "Location served": "Kindu, Democratic Republic of the Congo",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KNE",
+    "ICAO": "AYKJ",
+    "Airport name": "Kanainj Airport",
+    "Location served": "Kanainj, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KNF",
+    "ICAO": "EGYM",
+    "Airport name": "RAF Marham",
+    "Location served": "King's Lynn, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KNG",
+    "ICAO": "WASK",
+    "Airport name": "Kaimana Airport",
+    "Location served": "Kaimana, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KNH",
+    "ICAO": "RCBS",
+    "Airport name": "Kinmen Airport (Shang Yi Airport)",
+    "Location served": "Kinmen, Taiwan",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KNI",
+    "ICAO": "YKNG",
+    "Airport name": "Katanning Airport",
+    "Location served": "Katanning, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KNJ",
+    "ICAO": "FCBK",
+    "Airport name": "Kindamba Airport",
+    "Location served": "Kindamba, Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KNK",
+    "ICAO": "PFKK",
+    "Airport name": "Kokhanok Airport (FAA: 9K2)",
+    "Location served": "Kokhanok, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KNL",
+    "ICAO": "",
+    "Airport name": "Kelanoa Airport",
+    "Location served": "Kelanoa, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KNM",
+    "ICAO": "FZTK",
+    "Airport name": "Kaniama Airport",
+    "Location served": "Kaniama, Democratic Republic of the Congo",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KNN",
+    "ICAO": "GUXN",
+    "Airport name": "Kankan Airport (Diankana Airport)",
+    "Location served": "Kankan, Guinea",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KNO",
+    "ICAO": "WIMM",
+    "Airport name": "Kualanamu International Airport",
+    "Location served": "Medan, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KNP",
+    "ICAO": "FNCP",
+    "Airport name": "Kapanda Airport",
+    "Location served": "Capanda, Angola",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KNQ",
+    "ICAO": "NWWD",
+    "Airport name": "Koné Airport",
+    "Location served": "Koné, New Caledonia",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KNR",
+    "ICAO": "OIBJ",
+    "Airport name": "Jam Airport",
+    "Location served": "Kangan, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar–Sep"
+  },
+  {
+    "IATA": "KNS",
+    "ICAO": "YKII",
+    "Airport name": "King Island Airport",
+    "Location served": "King Island, Tasmania, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "KNT",
+    "ICAO": "KTKX",
+    "Airport name": "Kennett Memorial Airport (FAA: TKX)",
+    "Location served": "Kennett, Missouri, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KNU",
+    "ICAO": "VIKA",
+    "Airport name": "Kanpur Airport (Chakeri Air Force Station)",
+    "Location served": "Kanpur, Uttar Pradesh, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "KNW",
+    "ICAO": "PANW",
+    "Airport name": "New Stuyahok Airport",
+    "Location served": "New Stuyahok, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KNX",
+    "ICAO": "YPKU",
+    "Airport name": "East Kimberley Regional Airport",
+    "Location served": "Kununurra, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KNZ",
+    "ICAO": "GAKA",
+    "Airport name": "Kéniéba Airport",
+    "Location served": "Kéniéba, Mali",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KOA",
+    "ICAO": "PHKO",
+    "Airport name": "Kona International Airport at Keāhole",
+    "Location served": "Kailua / Kona, Hawaii, United States",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KOC",
+    "ICAO": "NWWK",
+    "Airport name": "Koumac Airport",
+    "Location served": "Koumac, New Caledonia",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KOD",
+    "ICAO": "",
+    "Airport name": "Kotabangun Airport",
+    "Location served": "Kotabangun, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KOE",
+    "ICAO": "WATT",
+    "Airport name": "El Tari Airport",
+    "Location served": "Kupang, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KOF",
+    "ICAO": "FAKP",
+    "Airport name": "Komatipoort Airport",
+    "Location served": "Komatipoort, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KOG",
+    "ICAO": "VLKG",
+    "Airport name": "Khong Island Airport",
+    "Location served": "Khong, Laos",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KOH",
+    "ICAO": "YKLA",
+    "Airport name": "Koolatah Airport",
+    "Location served": "Koolatah, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KOI",
+    "ICAO": "EGPA",
+    "Airport name": "Kirkwall Airport",
+    "Location served": "Kirkwall, Scotland, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KOJ",
+    "ICAO": "RJFK",
+    "Airport name": "Kagoshima Airport",
+    "Location served": "Kagoshima, Kyushu, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KOK",
+    "ICAO": "EFKK",
+    "Airport name": "Kokkola-Pietarsaari Airport",
+    "Location served": "Kokkola / Jakobstad, Finland",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KOL",
+    "ICAO": "",
+    "Airport name": "Koumala Airport",
+    "Location served": "Koumala, Central African Republic",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KOM",
+    "ICAO": "",
+    "Airport name": "Komo-Manda Airport",
+    "Location served": "Komo-Manda, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KON",
+    "ICAO": "",
+    "Airport name": "Kontum Airport",
+    "Location served": "Kon Tum, Vietnam",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KOO",
+    "ICAO": "FZRQ",
+    "Airport name": "Kongolo Airport",
+    "Location served": "Kongolo, Democratic Republic of the Congo",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KOP",
+    "ICAO": "VTUW",
+    "Airport name": "Nakhon Phanom Airport",
+    "Location served": "Nakhon Phanom, Thailand",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KOQ",
+    "ICAO": "EDCK",
+    "Airport name": "Köthen Airport",
+    "Location served": "Köthen, Saxony-Anhalt, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KOR",
+    "ICAO": "AYRO",
+    "Airport name": "Kakoro Airport",
+    "Location served": "Kakoro, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KOS",
+    "ICAO": "VDSV",
+    "Airport name": "Sihanoukville International Airport (Kaong Kang Airport)",
+    "Location served": "Sihanoukville, Cambodia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KOT",
+    "ICAO": "PFKO",
+    "Airport name": "Kotlik Airport (FAA: 2A9)",
+    "Location served": "Kotlik, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KOU",
+    "ICAO": "FOGK",
+    "Airport name": "Koulamoutou Airport",
+    "Location served": "Koulamoutou, Gabon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KOV",
+    "ICAO": "UACK",
+    "Airport name": "Kokshetau Airport",
+    "Location served": "Kokshetau, Kazakhstan",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KOW",
+    "ICAO": "ZSGZ",
+    "Airport name": "Ganzhou Huangjin Airport",
+    "Location served": "Ganzhou, Jiangxi, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KOX",
+    "ICAO": "WABN",
+    "Airport name": "Kokonao Airport",
+    "Location served": "Kokonao, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KOY",
+    "ICAO": "",
+    "Airport name": "Olga Bay Seaplane Base",
+    "Location served": "Olga Bay, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KOZ",
+    "ICAO": "",
+    "Airport name": "Ouzinkie Airport (FAA: 4K5)",
+    "Location served": "Ouzinkie, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KPA",
+    "ICAO": "AYKG",
+    "Airport name": "Kopiago Airport",
+    "Location served": "Kopiago, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KPB",
+    "ICAO": "",
+    "Airport name": "Point Baker Seaplane Base",
+    "Location served": "Point Baker, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KPC",
+    "ICAO": "PAPC",
+    "Airport name": "Port Clarence Coast Guard Station",
+    "Location served": "Port Clarence, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KPE",
+    "ICAO": "AYYP",
+    "Airport name": "Yapsiei Airport",
+    "Location served": "Yapsiei, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KPF",
+    "ICAO": "AYDL",
+    "Airport name": "Kondubol Airport",
+    "Location served": "Kondubol, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KPG",
+    "ICAO": "",
+    "Airport name": "Kurupung Airport",
+    "Location served": "Kurupung, Guyana",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KPI",
+    "ICAO": "WBGP",
+    "Airport name": "Kapit Airport",
+    "Location served": "Kapit, Sarawak, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KPL",
+    "ICAO": "",
+    "Airport name": "Kapal Airport",
+    "Location served": "Kapal, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KPM",
+    "ICAO": "AYAQ",
+    "Airport name": "Kompiam Airport",
+    "Location served": "Kompiam, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KPN",
+    "ICAO": "PAKI",
+    "Airport name": "Kipnuk Airport (FAA: IIK)",
+    "Location served": "Kipnuk, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KPO",
+    "ICAO": "RKTH",
+    "Airport name": "Pohang Airport",
+    "Location served": "Pohang, South Korea",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KPP",
+    "ICAO": "YKPR",
+    "Airport name": "Kalpowar Airport",
+    "Location served": "Kalpowar, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KPR",
+    "ICAO": "",
+    "Airport name": "Port Williams Seaplane Base",
+    "Location served": "Port Williams, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KPS",
+    "ICAO": "YKMP",
+    "Airport name": "Kempsey Airport",
+    "Location served": "Kempsey, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "KPT",
+    "ICAO": "",
+    "Airport name": "Jackpot Airport (Hayden Field) (FAA: 06U)",
+    "Location served": "Jackpot, Nevada, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KPV",
+    "ICAO": "PAPE",
+    "Airport name": "Perryville Airport (FAA: PEV)",
+    "Location served": "Perryville, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KPW",
+    "ICAO": "UHMK",
+    "Airport name": "Keperveyem Airport[1]",
+    "Location served": "Keperveyem, Chukotka, Russia",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KPY",
+    "ICAO": "",
+    "Airport name": "Port Bailey Seaplane Base",
+    "Location served": "Port Bailey, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KQA",
+    "ICAO": "",
+    "Airport name": "Akutan Airport",
+    "Location served": "Akutan, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KQH",
+    "ICAO": "VIKG",
+    "Airport name": "Ajmer Kishangarh Airport",
+    "Location served": "Kishangarh, Rajasthan, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "KQL",
+    "ICAO": "AYOL",
+    "Airport name": "Kol Airport",
+    "Location served": "Kol, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KQR",
+    "ICAO": "YKAR",
+    "Airport name": "Karara Airport[1]",
+    "Location served": "Karara, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KQT",
+    "ICAO": "UTDT",
+    "Airport name": "Qurghonteppa International Airport[1]",
+    "Location served": "Qurghonteppa, Tajikistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KRA",
+    "ICAO": "YKER",
+    "Airport name": "Kerang Airport",
+    "Location served": "Kerang, Victoria, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "KRB",
+    "ICAO": "YKMB",
+    "Airport name": "Karumba Airport",
+    "Location served": "Karumba, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KRC",
+    "ICAO": "WIPH",
+    "Airport name": "Depati Parbo Airport",
+    "Location served": "Kerinci, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KRD",
+    "ICAO": "",
+    "Airport name": "Kurundi Airport",
+    "Location served": "Kurundi Station, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "KRE",
+    "ICAO": "HBBO",
+    "Airport name": "Kirundo Airport",
+    "Location served": "Kirundo, Burundi",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KRF",
+    "ICAO": "ESNK",
+    "Airport name": "Höga Kusten Airport (Kramfors-Sollefteå Airport)",
+    "Location served": "Kramfors / Sollefteå, Sweden",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KRG",
+    "ICAO": "SYKS",
+    "Airport name": "Karasabai Airport",
+    "Location served": "Karasabai, Guyana",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KRI",
+    "ICAO": "AYKK",
+    "Airport name": "Kikori Airport",
+    "Location served": "Kikori, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KRJ",
+    "ICAO": "AYQA",
+    "Airport name": "Karawari Airport",
+    "Location served": "Karawari, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KRK",
+    "ICAO": "EPKK",
+    "Airport name": "John Paul II International Airport Kraków–Balice",
+    "Location served": "Kraków, Poland",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KRL",
+    "ICAO": "ZWKL",
+    "Airport name": "Korla Airport",
+    "Location served": "Korla, Xinjiang, China",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KRM",
+    "ICAO": "SYKR",
+    "Airport name": "Karanambo Airport",
+    "Location served": "Karanambo, Guyana",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KRN",
+    "ICAO": "ESNQ",
+    "Airport name": "Kiruna Airport",
+    "Location served": "Kiruna, Sweden",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KRO",
+    "ICAO": "USUU",
+    "Airport name": "Kurgan Airport",
+    "Location served": "Kurgan, Kurgan Oblast, Russia",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KRP",
+    "ICAO": "EKKA",
+    "Airport name": "Karup Airport",
+    "Location served": "Karup, Denmark",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KRQ",
+    "ICAO": "UKCK",
+    "Airport name": "Kramatorsk Airport",
+    "Location served": "Kramatorsk, Ukraine",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KRR",
+    "ICAO": "URKK",
+    "Airport name": "Krasnodar International Airport (Pashkovsky Airport)",
+    "Location served": "Krasnodar, Krasnodar Krai, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KRS",
+    "ICAO": "ENCN",
+    "Airport name": "Kristiansand Airport, Kjevik",
+    "Location served": "Kristiansand, Norway",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KRT",
+    "ICAO": "HSSS",
+    "Airport name": "Khartoum International Airport",
+    "Location served": "Khartoum, Sudan",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KRU",
+    "ICAO": "AYEA",
+    "Airport name": "Kerau Airport",
+    "Location served": "Kerau, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KRV",
+    "ICAO": "",
+    "Airport name": "Kimwarer Airport (Kerio Valley Airport)",
+    "Location served": "Kimwarer, Kenya",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KRW",
+    "ICAO": "UTAK",
+    "Airport name": "Turkmenbashi International Airport",
+    "Location served": "Türkmenbaşy, Turkmenistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KRX",
+    "ICAO": "AYKR",
+    "Airport name": "Karkar Airport",
+    "Location served": "Karkar Island, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KRY",
+    "ICAO": "ZWKM",
+    "Airport name": "Karamay Airport",
+    "Location served": "Karamay, Xinjiang, China",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KRZ",
+    "ICAO": "FZBT",
+    "Airport name": "Basango Mboliasa Airport",
+    "Location served": "Kiri, Democratic Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KSA",
+    "ICAO": "PTSA",
+    "Airport name": "Kosrae International Airport (FAA: TTK)",
+    "Location served": "Kosrae, Federated States of Micronesia",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KSB",
+    "ICAO": "AYNM",
+    "Airport name": "Kasanombe Airport",
+    "Location served": "Kasanombe, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KSC",
+    "ICAO": "LZKZ",
+    "Airport name": "Košice International Airport",
+    "Location served": "Košice, Slovakia",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KSD",
+    "ICAO": "ESOK",
+    "Airport name": "Karlstad Airport",
+    "Location served": "Karlstad, Sweden",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KSE",
+    "ICAO": "HUKS",
+    "Airport name": "Kasese Airport",
+    "Location served": "Kasese, Uganda",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KSF",
+    "ICAO": "EDVK",
+    "Airport name": "Kassel Airport",
+    "Location served": "Kassel, Hesse, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KSG",
+    "ICAO": "",
+    "Airport name": "Kisengam Airport",
+    "Location served": "Kisengam, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KSH",
+    "ICAO": "OICC",
+    "Airport name": "Shahid Ashrafi Esfahani Airport (Kermanshah Airport)",
+    "Location served": "Kermanshah, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar–Sep"
+  },
+  {
+    "IATA": "KSI",
+    "ICAO": "GUKU",
+    "Airport name": "Kissidougou Airport",
+    "Location served": "Kissidougou, Guinea",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KSJ",
+    "ICAO": "LGKS",
+    "Airport name": "Kasos Island Public Airport",
+    "Location served": "Kasos Island, Greece",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KSK",
+    "ICAO": "ESKK",
+    "Airport name": "Karlskoga Airport",
+    "Location served": "Karlskoga, Sweden",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KSL",
+    "ICAO": "HSKA",
+    "Airport name": "Kassala Airport",
+    "Location served": "Kassala, Sudan",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KSM",
+    "ICAO": "PASM",
+    "Airport name": "St. Mary's Airport",
+    "Location served": "St. Mary's, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KSN",
+    "ICAO": "UAUU",
+    "Airport name": "Kostanay Airport",
+    "Location served": "Kostanay, Kazakhstan",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KSO",
+    "ICAO": "LGKA",
+    "Airport name": "Kastoria National Airport (Aristotelis Airport)",
+    "Location served": "Kastoria, Greece",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KSP",
+    "ICAO": "AYOP",
+    "Airport name": "Kosipe Airport",
+    "Location served": "Kosipe, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KSQ",
+    "ICAO": "UTSL",
+    "Airport name": "Karshi Airport",
+    "Location served": "Karshi, Uzbekistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KSR",
+    "ICAO": "WAWH",
+    "Airport name": "H. Aroeppala Airport",
+    "Location served": "Selayar Islands, Sulawesi, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KSS",
+    "ICAO": "GASK",
+    "Airport name": "Sikasso Airport",
+    "Location served": "Sikasso, Mali",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KST",
+    "ICAO": "HSKI",
+    "Airport name": "Rabak Airport",
+    "Location served": "Kosti, Sudan",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KSU",
+    "ICAO": "ENKB",
+    "Airport name": "Kristiansund Airport, Kvernberget",
+    "Location served": "Kristiansund, Norway",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KSV",
+    "ICAO": "YSPV",
+    "Airport name": "Springvale Airport",
+    "Location served": "Springvale, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KSW",
+    "ICAO": "LLKS",
+    "Airport name": "Kiryat Shmona Airport",
+    "Location served": "Kiryat Shmona, Israel",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KSX",
+    "ICAO": "AYYR",
+    "Airport name": "Yasuru Airport",
+    "Location served": "Yasuru, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KSY",
+    "ICAO": "LTCF",
+    "Airport name": "Kars Harakani Airport",
+    "Location served": "Kars, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KSZ",
+    "ICAO": "ULKK",
+    "Airport name": "Kotlas Airport",
+    "Location served": "Kotlas, Arkhangelsk Oblast, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KTA",
+    "ICAO": "YPKA",
+    "Airport name": "Karratha Airport",
+    "Location served": "Karratha, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KTB",
+    "ICAO": "",
+    "Airport name": "Thorne Bay Seaplane Base",
+    "Location served": "Thorne Bay, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KTC",
+    "ICAO": "",
+    "Airport name": "Katiola Airport",
+    "Location served": "Katiola, Ivory Coast",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KTD",
+    "ICAO": "RORK",
+    "Airport name": "Kitadaito Airport",
+    "Location served": "Kitadaito, Daitō Islands, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KTE",
+    "ICAO": "WMKE",
+    "Airport name": "Kerteh Airport",
+    "Location served": "Kerteh, Terengganu, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KTF",
+    "ICAO": "NZTK",
+    "Airport name": "Takaka Aerodrome",
+    "Location served": "Takaka, New Zealand",
+    "Time": "UTC+12:00",
+    "DST": "Sep–Apr"
+  },
+  {
+    "IATA": "KTG",
+    "ICAO": "WIOK",
+    "Airport name": "Rahadi Osman Airport (Ketapang Airport)",
+    "Location served": "Ketapang, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KTH",
+    "ICAO": "",
+    "Airport name": "Tikchik Lodge Seaplane Base (FAA: AK56)",
+    "Location served": "Tikchik, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KTI",
+    "ICAO": "VDKT",
+    "Airport name": "Kratié Airport",
+    "Location served": "Kratié, Cambodia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KTJ",
+    "ICAO": "",
+    "Airport name": "Kichwa Tembo Airport[1]",
+    "Location served": "Kichwa Tembo, Kenya",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KTK",
+    "ICAO": "",
+    "Airport name": "Kunua Airport",
+    "Location served": "Kunua, Papua New Guinea",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KTL",
+    "ICAO": "HKKT",
+    "Airport name": "Kitale Airport",
+    "Location served": "Kitale, Kenya",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KTM",
+    "ICAO": "VNKT",
+    "Airport name": "Tribhuvan International Airport",
+    "Location served": "Kathmandu, Nepal",
+    "Time": "UTC+05:45",
+    "DST": ""
+  },
+  {
+    "IATA": "KTN",
+    "ICAO": "PAKT",
+    "Airport name": "Ketchikan International Airport",
+    "Location served": "Ketchikan, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KTO",
+    "ICAO": "SYKT",
+    "Airport name": "Kato Airport",
+    "Location served": "Kato, Guyana",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KTP",
+    "ICAO": "MKTP",
+    "Airport name": "Tinson Pen Aerodrome",
+    "Location served": "Kingston, Jamaica",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KTQ",
+    "ICAO": "EFIT",
+    "Airport name": "Kitee Airfield",
+    "Location served": "Kitee, Finland",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KTR",
+    "ICAO": "YPTN",
+    "Airport name": "RAAF Base Tindal",
+    "Location served": "Katherine, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "KTS",
+    "ICAO": "PFKT",
+    "Airport name": "Brevig Mission Airport",
+    "Location served": "Brevig Mission, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KTT",
+    "ICAO": "EFKT",
+    "Airport name": "Kittilä Airport",
+    "Location served": "Kittilä, Finland",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KTU",
+    "ICAO": "VIKO",
+    "Airport name": "Kota Airport",
+    "Location served": "Kota, Rajasthan, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "KTV",
+    "ICAO": "SVKM",
+    "Airport name": "Kamarata Airport",
+    "Location served": "Kamarata, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KTW",
+    "ICAO": "EPKT",
+    "Airport name": "Katowice International Airport",
+    "Location served": "Katowice, Poland",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KTX",
+    "ICAO": "GAKO",
+    "Airport name": "Koutiala Airport",
+    "Location served": "Koutiala, Mali",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KTY",
+    "ICAO": "VCCN",
+    "Airport name": "Katukurunda Airport[1]",
+    "Location served": "Kalutara, Sri Lanka",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "KUA",
+    "ICAO": "WMKD",
+    "Airport name": "Sultan Haji Ahmad Shah Airport (RMAF Kuantan)",
+    "Location served": "Kuantan, Pahang, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KUC",
+    "ICAO": "NGKT",
+    "Airport name": "Kuria Airport",
+    "Location served": "Kuria, Kiribati",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KUD",
+    "ICAO": "WBKT",
+    "Airport name": "Kudat Airport",
+    "Location served": "Kudat, Sabah, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KUE",
+    "ICAO": "AGKU",
+    "Airport name": "Kukundu Airport",
+    "Location served": "Kolombangara, Western Province, Solomon Islands",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KUF",
+    "ICAO": "UWWW",
+    "Airport name": "Kurumoch International Airport",
+    "Location served": "Samara, Samara Oblast, Russia",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KUG",
+    "ICAO": "YKUB",
+    "Airport name": "Kubin Airport",
+    "Location served": "Moa Island, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KUH",
+    "ICAO": "RJCK",
+    "Airport name": "Kushiro Airport",
+    "Location served": "Kushiro, Hokkaido, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KUK",
+    "ICAO": "PFKA",
+    "Airport name": "Kasigluk Airport (FAA: Z09)",
+    "Location served": "Kasigluk, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KUL",
+    "ICAO": "WMKK",
+    "Airport name": "Kuala Lumpur International Airport",
+    "Location served": "Kuala Lumpur,1 Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KUM",
+    "ICAO": "RJFC",
+    "Airport name": "Yakushima Airport",
+    "Location served": "Yakushima, Ōsumi Islands, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KUN",
+    "ICAO": "EYKA",
+    "Airport name": "Kaunas International Airport",
+    "Location served": "Kaunas, Lithuania",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KUO",
+    "ICAO": "EFKU",
+    "Airport name": "Kuopio Airport",
+    "Location served": "Kuopio, Finland",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KUP",
+    "ICAO": "",
+    "Airport name": "Kupiano Airport",
+    "Location served": "Kupiano, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KUQ",
+    "ICAO": "AYKU",
+    "Airport name": "Kuri Airport",
+    "Location served": "Kuri, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KUR",
+    "ICAO": "OARZ",
+    "Airport name": "Razer Airport",
+    "Location served": "Koran va Monjan (Kiran wa Munjan), Afghanistan",
+    "Time": "UTC+04:30",
+    "DST": ""
+  },
+  {
+    "IATA": "KUS",
+    "ICAO": "BGKK",
+    "Airport name": "Kulusuk Airport",
+    "Location served": "Kulusuk, Greenland",
+    "Time": "UTC−03:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KUT",
+    "ICAO": "UGKO",
+    "Airport name": "David the Builder Kutaisi International Airport",
+    "Location served": "Kutaisi, Georgia",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KUU",
+    "ICAO": "VIBR",
+    "Airport name": "Bhuntar Airport (Kullu Manali Airport)",
+    "Location served": "Kullu, Himachal Pradesh, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "KUV",
+    "ICAO": "RKJK",
+    "Airport name": "Gunsan Airport",
+    "Location served": "Gunsan, South Korea",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KUX",
+    "ICAO": "",
+    "Airport name": "Kuyol Airport[1]",
+    "Location served": "Kuyol, Papua New Guinea",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KUY",
+    "ICAO": "",
+    "Airport name": "Kamusi Airport[1]",
+    "Location served": "Kamusi, Papua New Guinea",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KVA",
+    "ICAO": "LGKV",
+    "Airport name": "Kavala International Airport (Alexander the Great Airport)",
+    "Location served": "Kavala, Greece",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KVB",
+    "ICAO": "ESGR",
+    "Airport name": "Skövde Airport",
+    "Location served": "Skövde, Sweden",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KVC",
+    "ICAO": "PAVC",
+    "Airport name": "King Cove Airport",
+    "Location served": "King Cove, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KVD",
+    "ICAO": "UBBG",
+    "Airport name": "Ganja International Airport",
+    "Location served": "Ganja, Azerbaijan",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KVE",
+    "ICAO": "",
+    "Airport name": "Kitava Island Airport",
+    "Location served": "Kitava Island, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KVG",
+    "ICAO": "AYKV",
+    "Airport name": "Kavieng Airport",
+    "Location served": "Kavieng, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KVK",
+    "ICAO": "ULMK",
+    "Airport name": "Kirovsk-Apatity Airport (Khibiny Airport)",
+    "Location served": "Kirovsk / Apatity, Murmansk Oblast, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KVL",
+    "ICAO": "PAVL",
+    "Airport name": "Kivalina Airport",
+    "Location served": "Kivalina, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KVM",
+    "ICAO": "UHMO",
+    "Airport name": "Markovo Airport",
+    "Location served": "Markovo, Chukotka, Russia",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KVO",
+    "ICAO": "LYKV",
+    "Airport name": "Morava Airport",
+    "Location served": "Lađevci, Serbia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "KVR",
+    "ICAO": "",
+    "Airport name": "Kavalerovo Airport[1]",
+    "Location served": "Kavalerovo, Primorsky Krai, Russia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KVU",
+    "ICAO": "",
+    "Airport name": "Korolevu Seaplane Base",
+    "Location served": "Korolevu, Fiji",
+    "Time": "UTC+12:00",
+    "DST": "Nov–Jan"
+  },
+  {
+    "IATA": "KVX",
+    "ICAO": "USKK",
+    "Airport name": "Pobedilovo Airport",
+    "Location served": "Kirov, Kirov Oblast, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KWA",
+    "ICAO": "PKWA",
+    "Airport name": "Bucholz Army Airfield",
+    "Location served": "Kwajalein, Marshall Islands",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KWB",
+    "ICAO": "",
+    "Airport name": "Dewadaru Airport",
+    "Location served": "Karimun Java, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KWD",
+    "ICAO": "",
+    "Airport name": "Kavadja Airport[1]",
+    "Location served": "Kavadja, Central African Republic",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KWE",
+    "ICAO": "ZUGY",
+    "Airport name": "Guiyang Longdongbao International Airport",
+    "Location served": "Guiyang, Guizhou, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KWF",
+    "ICAO": "",
+    "Airport name": "Waterfall Seaplane Base",
+    "Location served": "Waterfall, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KWG",
+    "ICAO": "UKDR",
+    "Airport name": "Kryvyi Rih International Airport",
+    "Location served": "Kryvyi Rih (Krivoi Rog), Ukraine",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KWH",
+    "ICAO": "OAHN",
+    "Airport name": "Khwahan Airport",
+    "Location served": "Khwahan, Afghanistan",
+    "Time": "UTC+04:30",
+    "DST": ""
+  },
+  {
+    "IATA": "KWI",
+    "ICAO": "OKBK",
+    "Airport name": "Kuwait International Airport",
+    "Location served": "Kuwait City, Kuwait",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KWJ",
+    "ICAO": "RKJJ",
+    "Airport name": "Gwangju Airport",
+    "Location served": "Gwangju (Kwangju), South Korea",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KWK",
+    "ICAO": "PAGG",
+    "Airport name": "Kwigillingok Airport (FAA: GGV)",
+    "Location served": "Kwigillingok, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KWL",
+    "ICAO": "ZGKL",
+    "Airport name": "Guilin Liangjiang International Airport",
+    "Location served": "Guilin, Guangxi, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KWM",
+    "ICAO": "YKOW",
+    "Airport name": "Kowanyama Airport",
+    "Location served": "Kowanyama, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KWN",
+    "ICAO": "PAQH",
+    "Airport name": "Quinhagak Airport (FAA: AQH)",
+    "Location served": "Quinhagak, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KWO",
+    "ICAO": "AYKW",
+    "Airport name": "Kawito Airport",
+    "Location served": "Kawito, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KWP",
+    "ICAO": "",
+    "Airport name": "West Point Village Seaplane Base",
+    "Location served": "West Point, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KWR",
+    "ICAO": "",
+    "Airport name": "Kwai Harbour Airport",
+    "Location served": "Kwai Harbour, Solomon Islands",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KWS",
+    "ICAO": "AGKW[3]",
+    "Airport name": "Kwailabesi Airport",
+    "Location served": "Kwailabesi, Solomon Islands",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KWT",
+    "ICAO": "PFKW",
+    "Airport name": "Kwethluk Airport",
+    "Location served": "Kwethluk, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KWV",
+    "ICAO": "",
+    "Airport name": "Kurwina Airport",
+    "Location served": "Kurwina, Papua New Guinea",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KWX",
+    "ICAO": "",
+    "Airport name": "Kiwai Island Airport",
+    "Location served": "Kiwai Island, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KWY",
+    "ICAO": "",
+    "Airport name": "Kiwayu Airport",
+    "Location served": "Kiwayu, Kenya",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KWZ",
+    "ICAO": "FZQM",
+    "Airport name": "Kolwezi Airport",
+    "Location served": "Kolwezi, Democratic Republic of the Congo",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KXA",
+    "ICAO": "",
+    "Airport name": "Kasaan Seaplane Base",
+    "Location served": "Kasaan, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KXD",
+    "ICAO": "USHK",
+    "Airport name": "Kondinskoye Airport[1]",
+    "Location served": "Kondinskoye, Khanty-Mansi Autonomous Okrug, Russia",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KXE",
+    "ICAO": "FAKD",
+    "Airport name": "Klerksdorp Airport (P.C. Pelser Airport)",
+    "Location served": "Klerksdorp, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KXF",
+    "ICAO": "NFNO",
+    "Airport name": "Koro Airport",
+    "Location served": "Koro Island, Fiji",
+    "Time": "UTC+12:00",
+    "DST": "Nov–Jan"
+  },
+  {
+    "IATA": "KXK",
+    "ICAO": "UHKK",
+    "Airport name": "Komsomolsk-on-Amur Airport",
+    "Location served": "Komsomolsk-on-Amur, Khabarovsk Krai, Russia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KXR",
+    "ICAO": "",
+    "Airport name": "Karoola Airport",
+    "Location served": "Karoola, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KXU",
+    "ICAO": "NTKT",
+    "Airport name": "Katiu Airport[1]",
+    "Location served": "Katiu, Tuamotus, French Polynesia",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KYA",
+    "ICAO": "LTAN",
+    "Airport name": "Konya Airport",
+    "Location served": "Konya, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KYD",
+    "ICAO": "RCLY",
+    "Airport name": "Lanyu Airport",
+    "Location served": "Orchid Island, Taiwan",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KYE",
+    "ICAO": "OLKA",
+    "Airport name": "Rene Mouawad Air Base (Kleyate Airport)",
+    "Location served": "Tripoli, Lebanon",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KYF",
+    "ICAO": "YYLR",
+    "Airport name": "Yeelirrie Airport",
+    "Location served": "Yeelirrie, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KYI",
+    "ICAO": "YYTA",
+    "Airport name": "Yalata Airport",
+    "Location served": "Yalata Mission, South Australia, Australia",
+    "Time": "UTC+09:30",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "KYK",
+    "ICAO": "PAKY",
+    "Airport name": "Karluk Airport",
+    "Location served": "Karluk, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KYO",
+    "ICAO": "",
+    "Airport name": "Tampa North Aero Park[1] (FAA: X39)",
+    "Location served": "Tampa, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KYP",
+    "ICAO": "VYKP",
+    "Airport name": "Kyaukpyu Airport",
+    "Location served": "Kyaukpyu, Myanmar",
+    "Time": "UTC+06:30",
+    "DST": ""
+  },
+  {
+    "IATA": "KYS",
+    "ICAO": "GAKY",
+    "Airport name": "Kayes Airport (Dag-Dag Airport)",
+    "Location served": "Kayes, Mali",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KYT",
+    "ICAO": "VYKU",
+    "Airport name": "Kyauktu Airport",
+    "Location served": "Kyaukhtu, Myanmar",
+    "Time": "UTC+06:30",
+    "DST": ""
+  },
+  {
+    "IATA": "KYU",
+    "ICAO": "PFKU",
+    "Airport name": "Koyukuk Airport",
+    "Location served": "Koyukuk, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KYX",
+    "ICAO": "AYYE",
+    "Airport name": "Yalumet Airport",
+    "Location served": "Yalumet, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KYZ",
+    "ICAO": "UNKY",
+    "Airport name": "Kyzyl Airport",
+    "Location served": "Kyzyl, Tuva, Russia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KZB",
+    "ICAO": "",
+    "Airport name": "Zachar Bay Seaplane Base",
+    "Location served": "Zachar Bay, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "KZC",
+    "ICAO": "VDKH",
+    "Airport name": "Kampong Chhnang Airport",
+    "Location served": "Kampong Chhnang, Cambodia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KZD",
+    "ICAO": "",
+    "Airport name": "Krakor Airport",
+    "Location served": "Krakor, Cambodia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KZF",
+    "ICAO": "AYKT",
+    "Airport name": "Kaintiba Airport",
+    "Location served": "Kaintiba, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KZG",
+    "ICAO": "ETIN",
+    "Airport name": "Kitzingen Airport",
+    "Location served": "Kitzingen, Bavaria, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KZI",
+    "ICAO": "LGKZ",
+    "Airport name": "Kozani National Airport (Filippos Airport)",
+    "Location served": "Kozani, Greece",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "KZN",
+    "ICAO": "UWKD",
+    "Airport name": "Kazan International Airport",
+    "Location served": "Kazan, Tatarstan, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KZO",
+    "ICAO": "UAOO",
+    "Airport name": "Kyzylorda Airport",
+    "Location served": "Kyzylorda, Kazakhstan",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KZR",
+    "ICAO": "LTBZ",
+    "Airport name": "Zafer Airport",
+    "Location served": "Kütahya, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "KZS",
+    "ICAO": "LGKJ",
+    "Airport name": "Kastellorizo Island Public Airport",
+    "Location served": "Kastellorizo, Greece",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  }
+]

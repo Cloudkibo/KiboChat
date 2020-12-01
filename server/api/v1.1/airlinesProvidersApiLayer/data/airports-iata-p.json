@@ -1,0 +1,3842 @@
+[
+  {
+    "IATA": "PAA",
+    "ICAO": "VYPA",
+    "Airport name": "Hpa-An Airport[1]",
+    "Location served": "Hpa-An, Myanmar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PAB",
+    "ICAO": "VEBU",
+    "Airport name": "Bilaspur Airport",
+    "Location served": "Bilaspur, Chhattisgarh, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PAC",
+    "ICAO": "MPMG",
+    "Airport name": "Albrook \"Marcos A. Gelabert\" International Airport",
+    "Location served": "Panama City, Panama",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PAD",
+    "ICAO": "EDLP",
+    "Airport name": "Paderborn Lippstadt Airport",
+    "Location served": "Paderborn / Lippstadt, North Rhine-Westphalia, Germany",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PAE",
+    "ICAO": "KPAE",
+    "Airport name": "Paine Field (Snohomish County Airport)",
+    "Location served": "Everett, Washington, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PAF",
+    "ICAO": "HUPA",
+    "Airport name": "Pakuba Airfield",
+    "Location served": "Pakuba, Uganda",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PAG",
+    "ICAO": "RPMP",
+    "Airport name": "Pagadian Airport",
+    "Location served": "Pagadian, Philippines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PAH",
+    "ICAO": "KPAH",
+    "Airport name": "Barkley Regional Airport",
+    "Location served": "Paducah, Kentucky, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PAJ",
+    "ICAO": "OPPC",
+    "Airport name": "Parachinar Airport[1]",
+    "Location served": "Parachinar, Pakistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PAK",
+    "ICAO": "PHPA",
+    "Airport name": "Port Allen Airport",
+    "Location served": "Hanapepe, Hawaii, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PAL",
+    "ICAO": "SKPQ",
+    "Airport name": "Captain Germán Olano Moreno Air Base[1]",
+    "Location served": "Palanquero, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PAM",
+    "ICAO": "KPAM",
+    "Airport name": "Tyndall Air Force Base",
+    "Location served": "Panama City, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PAN",
+    "ICAO": "VTSK",
+    "Airport name": "Pattani Airport",
+    "Location served": "Pattani, Thailand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PAO",
+    "ICAO": "KPAO",
+    "Airport name": "Palo Alto Airport (Santa Clara County Airport)",
+    "Location served": "Palo Alto, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PAP",
+    "ICAO": "MTPP",
+    "Airport name": "Toussaint L'Ouverture International Airport",
+    "Location served": "Port-au-Prince, Haiti",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PAQ",
+    "ICAO": "PAAQ",
+    "Airport name": "Palmer Municipal Airport",
+    "Location served": "Palmer, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PAR",
+    "ICAO": "",
+    "Airport name": "metropolitan area1",
+    "Location served": "Paris, Île-de-France, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PAS",
+    "ICAO": "LGPA",
+    "Airport name": "Paros National Airport",
+    "Location served": "Paros, Greece",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PAT",
+    "ICAO": "VEPT",
+    "Airport name": "Lok Nayak Jayaprakash Airport",
+    "Location served": "Patna, Bihar, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PAU",
+    "ICAO": "VYPK",
+    "Airport name": "Pauk Airport[1]",
+    "Location served": "Pauk, Myanmar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PAV",
+    "ICAO": "SBUF",
+    "Airport name": "Paulo Afonso Airport[1]",
+    "Location served": "Paulo Afonso, Bahia, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PAW",
+    "ICAO": "",
+    "Airport name": "Pambwa Airport[1]",
+    "Location served": "Pambwa, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PAX",
+    "ICAO": "MTPX",
+    "Airport name": "Port-de-Paix Airport[1]",
+    "Location served": "Port-de-Paix, Haiti",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PAY",
+    "ICAO": "WBKP",
+    "Airport name": "Pamol Airport[1]",
+    "Location served": "Pamol, Sabah, Malaysia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PAZ",
+    "ICAO": "MMPA",
+    "Airport name": "El Tajín National Airport",
+    "Location served": "Poza Rica, Veracruz, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PBB",
+    "ICAO": "SSPN",
+    "Airport name": "Paranaíba Airport[1]",
+    "Location served": "Paranaíba, Mato Grosso do Sul, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PBC",
+    "ICAO": "MMPB",
+    "Airport name": "Hermanos Serdán International Airport",
+    "Location served": "Puebla City, Puebla, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PBD",
+    "ICAO": "VAPR",
+    "Airport name": "Porbandar Airport[1]",
+    "Location served": "Porbandar, Gujarat, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PBE",
+    "ICAO": "SKPR",
+    "Airport name": "Morela Airport[1] (Puerto Berrío Airport)",
+    "Location served": "Puerto Berrío, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PBF",
+    "ICAO": "KPBF",
+    "Airport name": "Grider Field",
+    "Location served": "Pine Bluff, Arkansas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PBG",
+    "ICAO": "KPBG",
+    "Airport name": "Plattsburgh International Airport",
+    "Location served": "Plattsburgh, New York, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PBH",
+    "ICAO": "VQPR",
+    "Airport name": "Paro International Airport",
+    "Location served": "Paro, Bhutan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PBI",
+    "ICAO": "KPBI",
+    "Airport name": "Palm Beach International Airport",
+    "Location served": "West Palm Beach, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PBJ",
+    "ICAO": "NVSI",
+    "Airport name": "Paama Airport[1]",
+    "Location served": "Paama, Vanuatu",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PBL",
+    "ICAO": "SVPC",
+    "Airport name": "Bartolomé Salom Airport[1]",
+    "Location served": "Puerto Cabello, Venezuela",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PBM",
+    "ICAO": "SMJP",
+    "Airport name": "Johan Adolf Pengel International Airport",
+    "Location served": "Paramaribo, Suriname",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PBN",
+    "ICAO": "FNPA",
+    "Airport name": "Porto Amboim Airport[1]",
+    "Location served": "Porto Amboim, Angola",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PBO",
+    "ICAO": "YPBO",
+    "Airport name": "Paraburdoo Airport",
+    "Location served": "Paraburdoo, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PBP",
+    "ICAO": "MRIA",
+    "Airport name": "Punta Islita Airport",
+    "Location served": "Punta Islita, Costa Rica",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PBQ",
+    "ICAO": "SWPM",
+    "Airport name": "Pimenta Bueno Airport[1]",
+    "Location served": "Pimenta Bueno, Rondônia, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PBR",
+    "ICAO": "MGPB",
+    "Airport name": "Puerto Barrios Airport[1]",
+    "Location served": "Puerto Barrios, Guatemala",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PBT",
+    "ICAO": "",
+    "Airport name": "Puerto Leda Airport[1]",
+    "Location served": "Puerto Leda, Paraguay",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PBU",
+    "ICAO": "VYPT",
+    "Airport name": "Putao Airport[1]",
+    "Location served": "Putao, Myanmar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PBV",
+    "ICAO": "SWPG",
+    "Airport name": "Porto dos Gaúchos Airport",
+    "Location served": "Porto dos Gaúchos, Mato Grosso, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PBX",
+    "ICAO": "SWPQ",
+    "Airport name": "Fazenda Piraguassu Airport",
+    "Location served": "Porto Alegre do Norte, Mato Grosso, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PBZ",
+    "ICAO": "FAPG",
+    "Airport name": "Plettenberg Bay Airport[1]",
+    "Location served": "Plettenberg Bay, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PCA",
+    "ICAO": "PAOC",
+    "Airport name": "Portage Creek Airport (FAA: A14)",
+    "Location served": "Portage Creek, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PCB",
+    "ICAO": "WIHP",
+    "Airport name": "Pondok Cabe Airport[1]",
+    "Location served": "South Tangerang, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PCC",
+    "ICAO": "",
+    "Airport name": "Puerto Rico Airport[1]",
+    "Location served": "Puerto Rico, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PCD",
+    "ICAO": "KPDC",
+    "Airport name": "Prairie du Chien Municipal Airport (FAA: PDC)",
+    "Location served": "Prairie du Chien, Wisconsin, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PCF",
+    "ICAO": "FAPS",
+    "Airport name": "Potchefstroom Airport[1]",
+    "Location served": "Potchefstroom, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PCH",
+    "ICAO": "MHPC",
+    "Airport name": "Palacios Airport[1]",
+    "Location served": "Palacios, Honduras",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PCJ",
+    "ICAO": "",
+    "Airport name": "Puerto La Victoria Airport[1]",
+    "Location served": "Puerto Casado (La Victoria), Paraguay",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PCL",
+    "ICAO": "SPCL",
+    "Airport name": "FAP Captain David Abensur Rengifo International Airport",
+    "Location served": "Pucallpa, Peru",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PCM",
+    "ICAO": "",
+    "Airport name": "Playa del Carmen Airport",
+    "Location served": "Playa del Carmen, Quintana Roo, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PCN",
+    "ICAO": "NZOK",
+    "Airport name": "Picton Aerodrome",
+    "Location served": "Picton, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PCO",
+    "ICAO": "MMPL",
+    "Airport name": "Punta Colorada Airstrip[1]",
+    "Location served": "La Ribera, Baja California Sur, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PCP",
+    "ICAO": "FPPR",
+    "Airport name": "Príncipe Airport[1]",
+    "Location served": "Príncipe Island, São Tomé and Príncipe",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PCQ",
+    "ICAO": "",
+    "Airport name": "Boun Neua Airport[1]",
+    "Location served": "Phongsaly, Laos",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PCR",
+    "ICAO": "SKPC",
+    "Airport name": "Germán Olano Airport",
+    "Location served": "Puerto Carreño, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PCS",
+    "ICAO": "SNPC",
+    "Airport name": "Picos Airport[1]",
+    "Location served": "Picos, Piauí, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PCT",
+    "ICAO": "",
+    "Airport name": "Princeton Airport (FAA: 39N)",
+    "Location served": "Princeton / Rocky Hill, New Jersey, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PCU",
+    "ICAO": "",
+    "Airport name": "Poplarville-Pearl River County Airport[1] (FAA: M13)",
+    "Location served": "Poplarville, Mississippi, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PCV",
+    "ICAO": "",
+    "Airport name": "Punta Chivato Airstrip[1]",
+    "Location served": "Punta Chivato, Baja California Sur, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PDA",
+    "ICAO": "SKPD",
+    "Airport name": "Obando Airport",
+    "Location served": "Puerto Inírida, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PDB",
+    "ICAO": "",
+    "Airport name": "Pedro Bay Airport (FAA: 4K0)",
+    "Location served": "Pedro Bay, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PDC",
+    "ICAO": "NWWQ",
+    "Airport name": "Mueo/Nickel Airport",
+    "Location served": "Mueo, New Caledonia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PDD",
+    "ICAO": "FQPO",
+    "Airport name": "Ponta do Ouro Airport[1]",
+    "Location served": "Ponta do Ouro, Mozambique",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PDE",
+    "ICAO": "YPDI",
+    "Airport name": "Pandie Pandie Airport[1]",
+    "Location served": "Pandie Pandie Station, South Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PDF",
+    "ICAO": "SIAJ",
+    "Airport name": "Faz Taua Airport[1]",
+    "Location served": "Prado, Bahia, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PDG",
+    "ICAO": "WIPT",
+    "Airport name": "Minangkabau International Airport",
+    "Location served": "Padang, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PDI",
+    "ICAO": "",
+    "Airport name": "Pindiu Airport[1]",
+    "Location served": "Pindiu, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PDK",
+    "ICAO": "KPDK",
+    "Airport name": "DeKalb–Peachtree Airport",
+    "Location served": "Atlanta, Georgia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PDL",
+    "ICAO": "LPPD",
+    "Airport name": "João Paulo II Airport",
+    "Location served": "Ponta Delgada, Azores, Portugal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PDM",
+    "ICAO": "",
+    "Airport name": "Pedasí Airport[1] (Capt. J. Montenegro Airport)",
+    "Location served": "Pedasí, Panama",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PDN",
+    "ICAO": "",
+    "Airport name": "Parndana Airport[1]",
+    "Location served": "Parndana, South Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PDO",
+    "ICAO": "WIPQ",
+    "Airport name": "Pendopo Airport[1]",
+    "Location served": "Pendopo, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PDP",
+    "ICAO": "SULS",
+    "Airport name": "Capitán de Corbeta Carlos A. Curbelo International Airport",
+    "Location served": "Punta del Este, Uruguay",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PDR",
+    "ICAO": "",
+    "Airport name": "Presidente Dutra Airport[1]",
+    "Location served": "Presidente Dutra, Maranhão, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PDS",
+    "ICAO": "MMPG",
+    "Airport name": "Piedras Negras International Airport",
+    "Location served": "Piedras Negras, Coahuila, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PDT",
+    "ICAO": "KPDT",
+    "Airport name": "Eastern Oregon Regional Airport",
+    "Location served": "Pendleton, Oregon, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PDU",
+    "ICAO": "SUPU",
+    "Airport name": "Tydeo Larre Borges International Airport",
+    "Location served": "Paysandú, Uruguay",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PDV",
+    "ICAO": "LBPD",
+    "Airport name": "Plovdiv Airport",
+    "Location served": "Plovdiv, Bulgaria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PDX",
+    "ICAO": "KPDX",
+    "Airport name": "Portland International Airport",
+    "Location served": "Portland, Oregon, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PDZ",
+    "ICAO": "SVPE",
+    "Airport name": "Pedernales Airport[1]",
+    "Location served": "Pedernales, Venezuela",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PEA",
+    "ICAO": "YPSH",
+    "Airport name": "Penneshaw Airport[1]",
+    "Location served": "Penneshaw, South Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PEB",
+    "ICAO": "",
+    "Airport name": "Pebane Airport[1]",
+    "Location served": "Pebane, Mozambique",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PEC",
+    "ICAO": "",
+    "Airport name": "Pelican Seaplane Base[1]",
+    "Location served": "Pelican, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PED",
+    "ICAO": "LKPD",
+    "Airport name": "Pardubice Airport",
+    "Location served": "Pardubice, Czech Republic",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PEE",
+    "ICAO": "USPP",
+    "Airport name": "Perm International Airport (Bolshoye Savino Airport)",
+    "Location served": "Perm, Perm Krai, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PEF",
+    "ICAO": "EDCP",
+    "Airport name": "Peenemünde Airfield[1]",
+    "Location served": "Peenemünde, Mecklenburg-Vorpommern, Germany",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PEG",
+    "ICAO": "LIRZ",
+    "Airport name": "Perugia San Francesco d'Assisi – Umbria International Airport",
+    "Location served": "Perugia, Umbria, Italy",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PEH",
+    "ICAO": "SAZP",
+    "Airport name": "Comodoro Pedro Zanni Airport",
+    "Location served": "Pehuajó, Buenos Aires, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PEI",
+    "ICAO": "SKPE",
+    "Airport name": "Matecaña International Airport",
+    "Location served": "Pereira, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PEK",
+    "ICAO": "ZBAA",
+    "Airport name": "Beijing Capital International Airport",
+    "Location served": "Beijing, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PEL",
+    "ICAO": "FXPG",
+    "Airport name": "Pelaneng Airport[1]",
+    "Location served": "Pelaneng, Lesotho",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PEM",
+    "ICAO": "SPTU",
+    "Airport name": "Padre Aldamiz International Airport",
+    "Location served": "Puerto Maldonado, Peru",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PEN",
+    "ICAO": "WMKP",
+    "Airport name": "Penang International Airport",
+    "Location served": "Penang, Malaysia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PEP",
+    "ICAO": "",
+    "Airport name": "Peppimenarti Airport[1]",
+    "Location served": "Peppimenarti, Northern Territory, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PEQ",
+    "ICAO": "KPEQ",
+    "Airport name": "Pecos Municipal Airport",
+    "Location served": "Pecos, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PER",
+    "ICAO": "YPPH",
+    "Airport name": "Perth Airport",
+    "Location served": "Perth, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PES",
+    "ICAO": "ULPB",
+    "Airport name": "Petrozavodsk Airport (Besovets Airport)",
+    "Location served": "Petrozavodsk, Karelia, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PET",
+    "ICAO": "SBPK",
+    "Airport name": "João Simões Lopes Neto International Airport",
+    "Location served": "Pelotas, Rio Grande do Sul, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PEU",
+    "ICAO": "MHPL",
+    "Airport name": "Puerto Lempira Airport[1]",
+    "Location served": "Puerto Lempira, Honduras",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PEV",
+    "ICAO": "LHPP",
+    "Airport name": "Pécs-Pogány International Airport[1]",
+    "Location served": "Pécs, Hungary",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PEW",
+    "ICAO": "OPPS",
+    "Airport name": "Bacha Khan International Airport",
+    "Location served": "Peshawar, Pakistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PEX",
+    "ICAO": "UUYP",
+    "Airport name": "Pechora Airport",
+    "Location served": "Pechora, Komi Republic, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PEY",
+    "ICAO": "",
+    "Airport name": "Penong Airport[1]",
+    "Location served": "Penong, South Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PEZ",
+    "ICAO": "UWPP",
+    "Airport name": "Penza Airport (Ternovka Airport)",
+    "Location served": "Penza, Penza Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PFB",
+    "ICAO": "SBPF",
+    "Airport name": "Lauro Kurtz Airport",
+    "Location served": "Passo Fundo, Rio Grande do Sul, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PFC",
+    "ICAO": "KPFC",
+    "Airport name": "Pacific City State Airport",
+    "Location served": "Pacific City, Oregon, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PFJ",
+    "ICAO": "BIPA",
+    "Airport name": "Patreksfjörður Airport",
+    "Location served": "Patreksfjörður, Iceland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PFM",
+    "ICAO": "",
+    "Airport name": "Primrose Aerodrome",
+    "Location served": "Wood Buffalo, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PFO",
+    "ICAO": "LCPH",
+    "Airport name": "Paphos International Airport",
+    "Location served": "Paphos, Cyprus",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PFQ",
+    "ICAO": "OITP",
+    "Airport name": "Parsabad-Moghan Airport[1]",
+    "Location served": "Parsabad, Iran",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PFR",
+    "ICAO": "FZVS",
+    "Airport name": "Ilebo Airport[1]",
+    "Location served": "Ilebo, Democratic Republic of the Congo",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PGA",
+    "ICAO": "KPGA",
+    "Airport name": "Page Municipal Airport",
+    "Location served": "Page, Arizona, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PGB",
+    "ICAO": "",
+    "Airport name": "Pangoa Airport[1]",
+    "Location served": "Pangoa, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PGC",
+    "ICAO": "",
+    "Airport name": "Grant County Airport (FAA: W99)",
+    "Location served": "Petersburg, West Virginia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PGD",
+    "ICAO": "KPGD",
+    "Airport name": "Punta Gorda Airport",
+    "Location served": "Punta Gorda, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PGE",
+    "ICAO": "",
+    "Airport name": "Yegepa Airport",
+    "Location served": "Yegepa, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PGF",
+    "ICAO": "LFMP",
+    "Airport name": "Perpignan–Rivesaltes Airport",
+    "Location served": "Perpignan, Languedoc-Roussillon, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PGH",
+    "ICAO": "VIPT",
+    "Airport name": "Pantnagar Airport[1]",
+    "Location served": "Pantnagar, Uttarakhand, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PGI",
+    "ICAO": "FNCH",
+    "Airport name": "Chitato Airport[1]",
+    "Location served": "Chitato, Angola",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PGK",
+    "ICAO": "WIPK",
+    "Airport name": "Depati Amir Airport[1]",
+    "Location served": "Pangkal Pinang (Pangkalpinang), Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PGL",
+    "ICAO": "KPQL",
+    "Airport name": "Trent Lott International Airport (FAA: PQL)",
+    "Location served": "Pascagoula, Mississippi, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PGM",
+    "ICAO": "",
+    "Airport name": "Port Graham Airport",
+    "Location served": "Port Graham, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PGN",
+    "ICAO": "",
+    "Airport name": "Pangia Airport[1]",
+    "Location served": "Pangia, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PGO",
+    "ICAO": "KPSO",
+    "Airport name": "Stevens Field (FAA: PSO)",
+    "Location served": "Pagosa Springs, Colorado, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PGQ",
+    "ICAO": "WAEM",
+    "Airport name": "Buli Airport",
+    "Location served": "Buli, North Maluku, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PGR",
+    "ICAO": "KPGR",
+    "Airport name": "Kirk Field",
+    "Location served": "Paragould, Arkansas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PGS",
+    "ICAO": "",
+    "Airport name": "Grand Canyon Caverns Airport (FAA: L37)",
+    "Location served": "Peach Springs, Arizona, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PGU",
+    "ICAO": "OIBP",
+    "Airport name": "Persian Gulf Airport[1]",
+    "Location served": "Asaluyeh (Asaloyeh), Iran",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PGV",
+    "ICAO": "KPGV",
+    "Airport name": "Pitt–Greenville Airport",
+    "Location served": "Greenville, North Carolina, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PGX",
+    "ICAO": "LFBX",
+    "Airport name": "Périgueux Bassillac Airport",
+    "Location served": "Périgueux, Aquitaine, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PGZ",
+    "ICAO": "SSZW",
+    "Airport name": "Comte. Antonio Amilton Beraldo Airport[1]",
+    "Location served": "Ponta Grossa, Paraná, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PHA",
+    "ICAO": "VVPR",
+    "Airport name": "Phan Rang Air Base[1]",
+    "Location served": "Phan Rang–Tháp Chàm, Vietnam",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PHB",
+    "ICAO": "SBPB",
+    "Airport name": "Parnaíba-Prefeito Dr. João Silva Filho International Airport",
+    "Location served": "Parnaíba, Piauí, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PHC",
+    "ICAO": "DNPO",
+    "Airport name": "Port Harcourt International Airport",
+    "Location served": "Port Harcourt, Nigeria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PHD",
+    "ICAO": "KPHD",
+    "Airport name": "Harry Clever Field",
+    "Location served": "New Philadelphia, Ohio, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PHE",
+    "ICAO": "YPPD",
+    "Airport name": "Port Hedland International Airport",
+    "Location served": "Port Hedland, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PHF",
+    "ICAO": "KPHF",
+    "Airport name": "Newport News/Williamsburg International Airport",
+    "Location served": "Newport News / Williamsburg, Virginia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PHG",
+    "ICAO": "",
+    "Airport name": "Port Harcourt City Airport[1]",
+    "Location served": "Port Harcourt, Nigeria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PHI",
+    "ICAO": "SNYE",
+    "Airport name": "Pinheiro Airport[1]",
+    "Location served": "Pinheiro, Maranhão, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PHK",
+    "ICAO": "KPHK",
+    "Airport name": "Palm Beach County Glades Airport",
+    "Location served": "Pahokee, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PHL",
+    "ICAO": "KPHL",
+    "Airport name": "Philadelphia International Airport",
+    "Location served": "Philadelphia, Pennsylvania, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PHN",
+    "ICAO": "KPHN",
+    "Airport name": "St. Clair County International Airport",
+    "Location served": "Port Huron, Michigan, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PHO",
+    "ICAO": "PAPO",
+    "Airport name": "Point Hope Airport",
+    "Location served": "Point Hope, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PHP",
+    "ICAO": "KPHP",
+    "Airport name": "Philip Airport",
+    "Location served": "Philip, South Dakota, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PHQ",
+    "ICAO": "YTMO",
+    "Airport name": "The Monument Airport[1]",
+    "Location served": "Phosphate Hill, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PHR",
+    "ICAO": "NFND",
+    "Airport name": "Pacific Harbour Airport[1]",
+    "Location served": "Pacific Harbour, Fiji",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PHS",
+    "ICAO": "VTPP",
+    "Airport name": "Phitsanulok Airport",
+    "Location served": "Phitsanulok, Thailand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PHT",
+    "ICAO": "KPHT",
+    "Airport name": "Henry County Airport",
+    "Location served": "Paris, Tennessee, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PHW",
+    "ICAO": "FAPH",
+    "Airport name": "Hendrik Van Eck Airport",
+    "Location served": "Phalaborwa, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PHX",
+    "ICAO": "KPHX",
+    "Airport name": "Phoenix Sky Harbor International Airport",
+    "Location served": "Phoenix, Arizona, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PHY",
+    "ICAO": "VTPB",
+    "Airport name": "Phetchabun Airport",
+    "Location served": "Phetchabun, Thailand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PIA",
+    "ICAO": "KPIA",
+    "Airport name": "General Wayne A. Downing Peoria International Airport",
+    "Location served": "Peoria, Illinois, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PIB",
+    "ICAO": "KPIB",
+    "Airport name": "Hattiesburg–Laurel Regional Airport",
+    "Location served": "Hattiesburg / Laurel, Mississippi, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PIC",
+    "ICAO": "MBPI",
+    "Airport name": "Pine Cay Airport[1]",
+    "Location served": "Pine Cay, British Overseas Territory of Turks and Caicos Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PIE",
+    "ICAO": "KPIE",
+    "Airport name": "St. Pete–Clearwater International Airport",
+    "Location served": "St. Petersburg / Clearwater, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PIF",
+    "ICAO": "RCDC[2]",
+    "Airport name": "Pingtung South Airport[1]",
+    "Location served": "Pingtung City, Taiwan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PIH",
+    "ICAO": "KPIH",
+    "Airport name": "Pocatello Regional Airport",
+    "Location served": "Pocatello, Idaho, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PIK",
+    "ICAO": "EGPK",
+    "Airport name": "Glasgow Prestwick Airport",
+    "Location served": "Glasgow, Scotland, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PIL",
+    "ICAO": "SGPI",
+    "Airport name": "Carlos Miguel Jiménez Airport",
+    "Location served": "Pilar, Paraguay",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PIM",
+    "ICAO": "KPIM",
+    "Airport name": "Harris County Airport",
+    "Location served": "Pine Mountain, Georgia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PIN",
+    "ICAO": "SWPI",
+    "Airport name": "Júlio Belém Airport",
+    "Location served": "Parintins, Amazonas, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PIO",
+    "ICAO": "SPSO",
+    "Airport name": "Capitán FAP Renán Elías Olivera Airport",
+    "Location served": "Pisco, Peru",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PIP",
+    "ICAO": "PAPN",
+    "Airport name": "Pilot Point Airport (FAA: PNP)",
+    "Location served": "Pilot Point, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PIQ",
+    "ICAO": "",
+    "Airport name": "Pipillipai Airport[1]",
+    "Location served": "Pipillipai, Guyana",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PIR",
+    "ICAO": "KPIR",
+    "Airport name": "Pierre Regional Airport",
+    "Location served": "Pierre, South Dakota, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PIS",
+    "ICAO": "LFBI",
+    "Airport name": "Poitiers–Biard Airport",
+    "Location served": "Poitiers, Poitou-Charentes, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PIT",
+    "ICAO": "KPIT",
+    "Airport name": "Pittsburgh International Airport",
+    "Location served": "Pittsburgh, Pennsylvania, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PIU",
+    "ICAO": "SPUR",
+    "Airport name": "FAP Captain Guillermo Concha Iberico International Airport",
+    "Location served": "Piura, Peru",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PIV",
+    "ICAO": "SNPX",
+    "Airport name": "Pirapora Airport[1]",
+    "Location served": "Pirapora, Minas Gerais, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PIW",
+    "ICAO": "CZMN",
+    "Airport name": "Pikwitonei Airport[1]",
+    "Location served": "Pikwitonei, Manitoba, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PIX",
+    "ICAO": "LPPI",
+    "Airport name": "Pico Airport",
+    "Location served": "Pico Island, Azores, Portugal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PIZ",
+    "ICAO": "PPIZ",
+    "Airport name": "Point Lay LRRS Airport",
+    "Location served": "Point Lay, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PJA",
+    "ICAO": "ESUP",
+    "Airport name": "Pajala Airport",
+    "Location served": "Pajala, Sweden",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PJB",
+    "ICAO": "KPAN",
+    "Airport name": "Payson Airport (FAA: PAN)",
+    "Location served": "Payson, Arizona, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PJC",
+    "ICAO": "SGPJ",
+    "Airport name": "Dr. Augusto Roberto Fuster International Airport",
+    "Location served": "Pedro Juan Caballero, Paraguay",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PJG",
+    "ICAO": "OPPG",
+    "Airport name": "Panjgur Airport",
+    "Location served": "Panjgur, Pakistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PJM",
+    "ICAO": "MRPJ",
+    "Airport name": "Puerto Jiménez Airport",
+    "Location served": "Puerto Jiménez, Costa Rica",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PKA",
+    "ICAO": "PAPK",
+    "Airport name": "Napaskiak Airport",
+    "Location served": "Napaskiak, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PKB",
+    "ICAO": "KPKB",
+    "Airport name": "Mid-Ohio Valley Regional Airport",
+    "Location served": "Parkersburg, West Virginia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PKC",
+    "ICAO": "UHPP",
+    "Airport name": "Petropavlovsk-Kamchatsky Airport (Yelizovo Airport)",
+    "Location served": "Petropavlovsk-Kamchatsky, Kamchatka Krai, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PKD",
+    "ICAO": "KPKD",
+    "Airport name": "Park Rapids Municipal Airport (Konshok Field)",
+    "Location served": "Park Rapids, Minnesota, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PKE",
+    "ICAO": "YPKS",
+    "Airport name": "Parkes Airport[1]",
+    "Location served": "Parkes, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PKF",
+    "ICAO": "KPKF",
+    "Airport name": "Park Falls Municipal Airport",
+    "Location served": "Park Falls, Wisconsin, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PKG",
+    "ICAO": "WMPA",
+    "Airport name": "Pangkor Airport[1]",
+    "Location served": "Pangkor Island, Perak, Malaysia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PKH",
+    "ICAO": "LGHL",
+    "Airport name": "Porto Cheli Airport",
+    "Location served": "Porto Cheli (Portochelion), Greece",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PKJ",
+    "ICAO": "MGPG",
+    "Airport name": "Playa Grande Airport[1]",
+    "Location served": "Playa Grande, Guatemala",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PKK",
+    "ICAO": "VYPU",
+    "Airport name": "Pakokku Airport[1]",
+    "Location served": "Pakokku, Myanmar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PKM",
+    "ICAO": "",
+    "Airport name": "Port Kaituma Airstrip[1]",
+    "Location served": "Port Kaituma, Guyana",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PKN",
+    "ICAO": "WAOI",
+    "Airport name": "Iskandar Airport[1]",
+    "Location served": "Pangkalan Bun (Pangkalanbuun), Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PKO",
+    "ICAO": "DBBP",
+    "Airport name": "Parakou Airport",
+    "Location served": "Parakou, Benin",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PKP",
+    "ICAO": "NTGP",
+    "Airport name": "Puka-Puka Airport[1]",
+    "Location served": "Puka-Puka, Tuamotus, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PKR",
+    "ICAO": "VNPK",
+    "Airport name": "Pokhara Airport",
+    "Location served": "Pokhara, Nepal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PKT",
+    "ICAO": "YKPT",
+    "Airport name": "Port Keats Airfield",
+    "Location served": "Wadeye (Port Keats), Northern Territory, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PKU",
+    "ICAO": "WIBB",
+    "Airport name": "Sultan Syarif Kasim II International Airport",
+    "Location served": "Pekanbaru, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PKV",
+    "ICAO": "ULOO",
+    "Airport name": "Pskov Airport",
+    "Location served": "Pskov, Pskov Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PKW",
+    "ICAO": "FBSP",
+    "Airport name": "Selebi-Phikwe Airport",
+    "Location served": "Selebi-Phikwe, Botswana",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PKX",
+    "ICAO": "ZBAD",
+    "Airport name": "Beijing Daxing International Airport",
+    "Location served": "Beijing, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PKY",
+    "ICAO": "WAGG",
+    "Airport name": "Tjilik Riwut Airport[1]",
+    "Location served": "Palangkaraya, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PKZ",
+    "ICAO": "VLPS",
+    "Airport name": "Pakse International Airport",
+    "Location served": "Pakse, Laos",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PLA",
+    "ICAO": "",
+    "Airport name": "Planadas Airport[1]",
+    "Location served": "Planadas, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PLC",
+    "ICAO": "",
+    "Airport name": "Planeta Rica Airport[1]",
+    "Location served": "Planeta Rica, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PLD",
+    "ICAO": "MRCR",
+    "Airport name": "Carrillo Airport[1] (Playa Samara/Carrillo Airport)",
+    "Location served": "Sámara / Puerto Carrillo, Costa Rica",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PLE",
+    "ICAO": "",
+    "Airport name": "Paiela Airport",
+    "Location served": "Paiela, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PLF",
+    "ICAO": "FTTP",
+    "Airport name": "Pala Airport[1]",
+    "Location served": "Pala, Chad",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PLH",
+    "ICAO": "EGHD",
+    "Airport name": "Plymouth City Airport",
+    "Location served": "Plymouth, England, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PLI",
+    "ICAO": "",
+    "Airport name": "Palm Island Airport[1]",
+    "Location served": "Palm Island, Saint Vincent and the Grenadines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PLJ",
+    "ICAO": "",
+    "Airport name": "Placencia Airport",
+    "Location served": "Placencia, Belize",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PLK",
+    "ICAO": "KPLK",
+    "Airport name": "M. Graham Clark Downtown Airport",
+    "Location served": "Point Lookout, Missouri, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PLL",
+    "ICAO": "SBMN",
+    "Airport name": "Manaus Air Force Base",
+    "Location served": "Manaus, Amazonas, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PLM",
+    "ICAO": "WIPP",
+    "Airport name": "Sultan Mahmud Badaruddin II International Airport",
+    "Location served": "Palembang, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PLN",
+    "ICAO": "KPLN",
+    "Airport name": "Pellston Regional Airport (Emmet County)",
+    "Location served": "Pellston, Michigan, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PLO",
+    "ICAO": "YPLC",
+    "Airport name": "Port Lincoln Airport",
+    "Location served": "Port Lincoln, South Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PLP",
+    "ICAO": "MPLP",
+    "Airport name": "Captain Ramon Xatruch Airport[1]",
+    "Location served": "La Palma, Panama",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PLQ",
+    "ICAO": "EYPA",
+    "Airport name": "Palanga International Airport",
+    "Location served": "Palanga, Lithuania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PLR",
+    "ICAO": "KPLR",
+    "Airport name": "St. Clair County Airport",
+    "Location served": "Pell City, Alabama, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PLS",
+    "ICAO": "MBPV",
+    "Airport name": "Providenciales International Airport",
+    "Location served": "Providenciales, British Overseas Territory\nof Turks and Caicos Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PLT",
+    "ICAO": "SKPL",
+    "Airport name": "Plato Airport[1]",
+    "Location served": "Plato, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PLU",
+    "ICAO": "SBBH",
+    "Airport name": "Belo Horizonte/Pampulha – Carlos Drummond de Andrade Airport",
+    "Location served": "Belo Horizonte, Minas Gerais, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PLV",
+    "ICAO": "UKHP",
+    "Airport name": "Poltava Airport[1]",
+    "Location served": "Poltava, Ukraine",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PLW",
+    "ICAO": "WAFF",
+    "Airport name": "Mutiara Airport[1]",
+    "Location served": "Palu, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PLX",
+    "ICAO": "UASS",
+    "Airport name": "Semey Airport",
+    "Location served": "Semey, Kazakhstan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PLY",
+    "ICAO": "",
+    "Airport name": "Plymouth Municipal Airport (FAA: C65)",
+    "Location served": "Plymouth, Indiana, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PLZ",
+    "ICAO": "FAPE",
+    "Airport name": "Port Elizabeth Airport",
+    "Location served": "Port Elizabeth, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PMA",
+    "ICAO": "HTPE",
+    "Airport name": "Pemba Airport[1]",
+    "Location served": "Pemba Island, Tanzania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PMB",
+    "ICAO": "KPMB",
+    "Airport name": "Pembina Municipal Airport",
+    "Location served": "Pembina, North Dakota, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PMC",
+    "ICAO": "SCTE",
+    "Airport name": "El Tepual Airport",
+    "Location served": "Puerto Montt, Chile",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PMD",
+    "ICAO": "KPMD",
+    "Airport name": "Palmdale Regional Airport",
+    "Location served": "Palmdale, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PMF",
+    "ICAO": "LIMP",
+    "Airport name": "Parma Airport (Giuseppe Verdi Airport)",
+    "Location served": "Parma, Emilia-Romagna, Italy",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PMG",
+    "ICAO": "SBPP",
+    "Airport name": "Ponta Porã International Airport",
+    "Location served": "Ponta Porã, Mato Grosso do Sul, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PMH",
+    "ICAO": "KPMH",
+    "Airport name": "Greater Portsmouth Regional Airport",
+    "Location served": "Portsmouth, Ohio, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PMI",
+    "ICAO": "LEPA",
+    "Airport name": "Palma de Mallorca Airport",
+    "Location served": "Palma de Mallorca, Balearic Islands, Spain",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PMK",
+    "ICAO": "YPAM",
+    "Airport name": "Palm Island Airport[1]",
+    "Location served": "Palm Island, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PML",
+    "ICAO": "PAAL",
+    "Airport name": "Port Moller Airport (FAA: 1AK3)",
+    "Location served": "Cold Bay, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PMN",
+    "ICAO": "",
+    "Airport name": "Pumani Airport[1]",
+    "Location served": "Pumani, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PMO",
+    "ICAO": "LICJ",
+    "Airport name": "Falcone–Borsellino Airport (Punta Raisi Airport)",
+    "Location served": "Palermo, Sicily, Italy",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PMP",
+    "ICAO": "",
+    "Airport name": "Pimaga Airport",
+    "Location served": "Pimaga, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PMQ",
+    "ICAO": "SAWP",
+    "Airport name": "Perito Moreno Airport",
+    "Location served": "Perito Moreno, Santa Cruz, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PMR",
+    "ICAO": "NZPM",
+    "Airport name": "Palmerston North Airport",
+    "Location served": "Palmerston North, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PMS",
+    "ICAO": "OSPR",
+    "Airport name": "Palmyra Airport",
+    "Location served": "Palmyra (Tadmur), Syria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PMT",
+    "ICAO": "",
+    "Airport name": "Paramakatoi Airstrip[1]",
+    "Location served": "Paramakatoi, Guyana",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PMV",
+    "ICAO": "SVMG",
+    "Airport name": "Santiago Mariño Caribbean International Airport",
+    "Location served": "Porlamar, Venezuela",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PMW",
+    "ICAO": "SBPJ",
+    "Airport name": "Palmas–Brigadeiro Lysias Rodrigues Airport",
+    "Location served": "Palmas, Tocantins, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PMX",
+    "ICAO": "",
+    "Airport name": "Metropolitan Airport[1] (FAA: 13MA)",
+    "Location served": "Palmer, Massachusetts, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PMY",
+    "ICAO": "SAVY",
+    "Airport name": "El Tehuelche Airport",
+    "Location served": "Puerto Madryn, Chubut, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PMZ",
+    "ICAO": "MRPM",
+    "Airport name": "Palmar Sur Airport",
+    "Location served": "Palmar Sur, Costa Rica",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PNA",
+    "ICAO": "LEPP",
+    "Airport name": "Pamplona Airport",
+    "Location served": "Pamplona, Navarre, Spain",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PNB",
+    "ICAO": "SBPN",
+    "Airport name": "Porto Nacional Airport[1]",
+    "Location served": "Porto Nacional, Tocantins, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PNC",
+    "ICAO": "KPNC",
+    "Airport name": "Ponca City Regional Airport",
+    "Location served": "Ponca City, Oklahoma, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PND",
+    "ICAO": "",
+    "Airport name": "Punta Gorda Airport[1]",
+    "Location served": "Punta Gorda, Belize",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PNE",
+    "ICAO": "KPNE",
+    "Airport name": "Northeast Philadelphia Airport",
+    "Location served": "Philadelphia, Pennsylvania, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PNG",
+    "ICAO": "SSPG",
+    "Airport name": "Santos Dumont Airport[1]",
+    "Location served": "Paranaguá, Paraná, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PNH",
+    "ICAO": "VDPP",
+    "Airport name": "Phnom Penh International Airport",
+    "Location served": "Phnom Penh, Cambodia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PNI",
+    "ICAO": "PTPN",
+    "Airport name": "Pohnpei International Airport",
+    "Location served": "Pohnpei, Federated States of Micronesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PNJ",
+    "ICAO": "",
+    "Airport name": "Penglai Shahekou Airport[1]",
+    "Location served": "Penglai, Shandong, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PNK",
+    "ICAO": "WIOO",
+    "Airport name": "Supadio Airport",
+    "Location served": "Pontianak, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PNL",
+    "ICAO": "LICG",
+    "Airport name": "Pantelleria Airport[1]",
+    "Location served": "Pantelleria, Sicily, Italy",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PNN",
+    "ICAO": "KPNN",
+    "Airport name": "Princeton Municipal Airport",
+    "Location served": "Princeton, Maine, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PNP",
+    "ICAO": "AYGR",
+    "Airport name": "Girua Airport[1]",
+    "Location served": "Popondetta, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PNQ",
+    "ICAO": "VAPO",
+    "Airport name": "Pune Airport",
+    "Location served": "Pune, Maharashtra, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PNR",
+    "ICAO": "FCPP",
+    "Airport name": "Pointe Noire Airport",
+    "Location served": "Pointe-Noire, Republic of the Congo",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PNS",
+    "ICAO": "KPNS",
+    "Airport name": "Pensacola International Airport",
+    "Location served": "Pensacola, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PNT",
+    "ICAO": "SCNT",
+    "Airport name": "Teniente Julio Gallardo Airport",
+    "Location served": "Puerto Natales, Chile",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PNU",
+    "ICAO": "",
+    "Airport name": "Panguitch Municipal Airport (FAA: U55)",
+    "Location served": "Panguitch, Utah, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PNV",
+    "ICAO": "EYPP",
+    "Airport name": "Panevėžys Air Base[1] (Pajuostis Airport)",
+    "Location served": "Panevėžys, Lithuania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PNX",
+    "ICAO": "KGYI",
+    "Airport name": "North Texas Regional Airport (FAA: GYI)",
+    "Location served": "Sherman / Denison, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PNY",
+    "ICAO": "VOTY",
+    "Airport name": "Puducherry Airport",
+    "Location served": "Pondicherry, Puducherry, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PNZ",
+    "ICAO": "SBPL",
+    "Airport name": "Senador Nilo Coelho Airport",
+    "Location served": "Petrolina, Pernambuco, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "POA",
+    "ICAO": "SBPA",
+    "Airport name": "Salgado Filho International Airport",
+    "Location served": "Porto Alegre, Rio Grande do Sul, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "POB",
+    "ICAO": "KPOB",
+    "Airport name": "Pope Field (Pope AFB)",
+    "Location served": "Fort Bragg, North Carolina, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "POC",
+    "ICAO": "KPOC",
+    "Airport name": "Brackett Field",
+    "Location served": "La Verne, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "POD",
+    "ICAO": "GOSP",
+    "Airport name": "Podor Airport",
+    "Location served": "Podor, Senegal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "POE",
+    "ICAO": "KPOE",
+    "Airport name": "Polk Army Airfield",
+    "Location served": "Fort Polk, Louisiana, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "POF",
+    "ICAO": "KPOF",
+    "Airport name": "Poplar Bluff Municipal Airport",
+    "Location served": "Poplar Bluff, Missouri, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "POG",
+    "ICAO": "FOOG",
+    "Airport name": "Port-Gentil International Airport",
+    "Location served": "Port-Gentil, Gabon",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "POH",
+    "ICAO": "KPOH",
+    "Airport name": "Pocahontas Municipal Airport",
+    "Location served": "Pocahontas, Iowa, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "POI",
+    "ICAO": "SLPO",
+    "Airport name": "Captain Nicolas Rojas Airport[1]",
+    "Location served": "Potosí, Bolivia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "POJ",
+    "ICAO": "SNPD",
+    "Airport name": "Pedro Pereira dos Santos Airport",
+    "Location served": "Patos de Minas, Minas Gerais, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "POL",
+    "ICAO": "FQPB",
+    "Airport name": "Pemba Airport",
+    "Location served": "Pemba, Mozambique",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "POM",
+    "ICAO": "AYPY",
+    "Airport name": "Jacksons International Airport",
+    "Location served": "Port Moresby, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PON",
+    "ICAO": "MGPP",
+    "Airport name": "Poptún Airport[1]",
+    "Location served": "Poptún, Guatemala",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "POO",
+    "ICAO": "SBPC",
+    "Airport name": "Poços de Caldas Airport[1]",
+    "Location served": "Poços de Caldas, Minas Gerais, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "POP",
+    "ICAO": "MDPP",
+    "Airport name": "Gregorio Luperón International Airport",
+    "Location served": "San Felipe de Puerto Plata, Dominican Republic",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "POR",
+    "ICAO": "EFPO",
+    "Airport name": "Pori Airport",
+    "Location served": "Pori, Finland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "POS",
+    "ICAO": "TTPP",
+    "Airport name": "Piarco International Airport",
+    "Location served": "Port of Spain, Trinidad and Tobago",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "POT",
+    "ICAO": "MKKJ",
+    "Airport name": "Ken Jones Aerodrome",
+    "Location served": "Port Antonio, Jamaica",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "POU",
+    "ICAO": "KPOU",
+    "Airport name": "Dutchess County Airport",
+    "Location served": "Poughkeepsie, New York, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "POV",
+    "ICAO": "LZPW",
+    "Airport name": "Prešov Air Base[1]",
+    "Location served": "Prešov, Slovakia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "POW",
+    "ICAO": "LJPZ",
+    "Airport name": "Portorož Airport",
+    "Location served": "Portorož, Slovenia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "POX",
+    "ICAO": "LFPT",
+    "Airport name": "Pontoise – Cormeilles Aerodrome",
+    "Location served": "Paris, Île-de-France, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "POY",
+    "ICAO": "KPOY",
+    "Airport name": "Powell Municipal Airport",
+    "Location served": "Powell / Lovell, Wyoming, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "POZ",
+    "ICAO": "EPPO",
+    "Airport name": "Poznań–Ławica Airport",
+    "Location served": "Poznań, Poland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PPA",
+    "ICAO": "KPPA",
+    "Airport name": "Perry Lefors Field",
+    "Location served": "Pampa, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PPB",
+    "ICAO": "SBDN",
+    "Airport name": "Presidente Prudente Airport",
+    "Location served": "Presidente Prudente, São Paulo, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PPC",
+    "ICAO": "PAPR",
+    "Airport name": "Prospect Creek Airport",
+    "Location served": "Prospect Creek, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PPE",
+    "ICAO": "MMPE",
+    "Airport name": "Puerto Peñasco International Airport",
+    "Location served": "Puerto Peñasco, Sonora, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PPF",
+    "ICAO": "KPPF",
+    "Airport name": "Tri-City Airport",
+    "Location served": "Parsons, Kansas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PPG",
+    "ICAO": "NSTU",
+    "Airport name": "Pago Pago International Airport",
+    "Location served": "Pago Pago, American Samoa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PPH",
+    "ICAO": "",
+    "Airport name": "Parai-tepuí Airport[1]",
+    "Location served": "Parai-tepuí (Peraitepuy), Venezuela",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PPI",
+    "ICAO": "YPIR",
+    "Airport name": "Port Pirie Airport",
+    "Location served": "Port Pirie, South Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PPJ",
+    "ICAO": "WIIG",
+    "Airport name": "Panjang Island Airport[1]",
+    "Location served": "Panjang Island, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PPK",
+    "ICAO": "UACP",
+    "Airport name": "Petropavl Airport",
+    "Location served": "Petropavl (Petropavlovsk), Kazakhstan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PPL",
+    "ICAO": "VNPL",
+    "Airport name": "Phaplu Airport",
+    "Location served": "Phaphlu, Nepal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PPM",
+    "ICAO": "KPMP",
+    "Airport name": "Pompano Beach Airpark (FAA: PMP)",
+    "Location served": "Pompano Beach, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PPN",
+    "ICAO": "SKPP",
+    "Airport name": "Guillermo León Valencia Airport",
+    "Location served": "Popayán, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PPP",
+    "ICAO": "YBPN",
+    "Airport name": "Whitsunday Coast Airport",
+    "Location served": "Proserpine, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PPQ",
+    "ICAO": "NZPP",
+    "Airport name": "Kapiti Coast Airport",
+    "Location served": "Paraparaumu Beach, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PPR",
+    "ICAO": "WIDE",
+    "Airport name": "Tuanku Tambusai Airport[1]",
+    "Location served": "Pasir Pangaraian (Pasir Pangarayan), Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PPS",
+    "ICAO": "RPVP",
+    "Airport name": "Puerto Princesa International Airport",
+    "Location served": "Puerto Princesa, Philippines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PPT",
+    "ICAO": "NTAA",
+    "Airport name": "Fa'a'ā International Airport",
+    "Location served": "Papeete, Tahiti, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PPU",
+    "ICAO": "VYPP",
+    "Airport name": "Papun Airport[1]",
+    "Location served": "Papun, Myanmar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PPV",
+    "ICAO": "",
+    "Airport name": "Port Protection Seaplane Base (FAA: 19P)",
+    "Location served": "Port Protection, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PPW",
+    "ICAO": "EGEP",
+    "Airport name": "Papa Westray Airport",
+    "Location served": "Papa Westray, Scotland, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PPX",
+    "ICAO": "",
+    "Airport name": "Param Airport[1]",
+    "Location served": "Param, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PPY",
+    "ICAO": "SNZA",
+    "Airport name": "Pouso Alegre Airport[1]",
+    "Location served": "Pouso Alegre, Minas Gerais, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PPZ",
+    "ICAO": "",
+    "Airport name": "Puerto Páez Airport[1]",
+    "Location served": "Puerto Páez, Venezuela",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PQC",
+    "ICAO": "VVPQ",
+    "Airport name": "Phu Quoc International Airport",
+    "Location served": "Phu Quoc Island, Vietnam",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PQD",
+    "ICAO": "",
+    "Airport name": "Batticaloa Seaplane Base[1]",
+    "Location served": "Batticaloa, Sri Lanka",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PQI",
+    "ICAO": "KPQI",
+    "Airport name": "Northern Maine Regional Airport at Presque Isle",
+    "Location served": "Presque Isle, Maine, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PQM",
+    "ICAO": "MMPQ",
+    "Airport name": "Palenque International Airport[1]",
+    "Location served": "Palenque, Chiapas, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PQQ",
+    "ICAO": "YPMQ",
+    "Airport name": "Port Macquarie Airport",
+    "Location served": "Port Macquarie, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PQS",
+    "ICAO": "",
+    "Airport name": "Pilot Station Airport (FAA: 0AK)",
+    "Location served": "Pilot Station, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PRA",
+    "ICAO": "SAAP",
+    "Airport name": "General Justo José de Urquiza Airport",
+    "Location served": "Paraná, Entre Ríos, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PRB",
+    "ICAO": "KPRB",
+    "Airport name": "Paso Robles Municipal Airport",
+    "Location served": "Paso Robles, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PRC",
+    "ICAO": "KPRC",
+    "Airport name": "Ernest A. Love Field",
+    "Location served": "Prescott, Arizona, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PRD",
+    "ICAO": "YPDO",
+    "Airport name": "Pardoo Airport[1]",
+    "Location served": "Pardoo Station, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PRE",
+    "ICAO": "",
+    "Airport name": "Pore Airport[1]",
+    "Location served": "Pore, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PRG",
+    "ICAO": "LKPR",
+    "Airport name": "Václav Havel Airport Prague",
+    "Location served": "Prague, Czech Republic",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PRH",
+    "ICAO": "VTCP",
+    "Airport name": "Phrae Airport",
+    "Location served": "Phrae, Thailand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PRI",
+    "ICAO": "FSPP",
+    "Airport name": "Praslin Island Airport",
+    "Location served": "Praslin Island, Seychelles",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PRK",
+    "ICAO": "FAPK",
+    "Airport name": "Prieska Airport[1]",
+    "Location served": "Prieska, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PRM",
+    "ICAO": "LPPM",
+    "Airport name": "Portimão Airport",
+    "Location served": "Portimão, Portugal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PRN",
+    "ICAO": "BKPR",
+    "Airport name": "Pristina International Airport",
+    "Location served": "Pristina, Kosovo",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PRO",
+    "ICAO": "KPRO",
+    "Airport name": "Perry Municipal Airport",
+    "Location served": "Perry, Iowa, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PRP",
+    "ICAO": "LFKO",
+    "Airport name": "Propriano Airport",
+    "Location served": "Propriano, Corsica, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PRQ",
+    "ICAO": "SARS",
+    "Airport name": "Presidencia Roque Sáenz Peña Airport",
+    "Location served": "Presidencia Roque Sáenz Peña, Chaco, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PRR",
+    "ICAO": "SYPR",
+    "Airport name": "Paruima Airport",
+    "Location served": "Paruima, Guyana",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PRS",
+    "ICAO": "AGGP",
+    "Airport name": "Parasi Airport[1]",
+    "Location served": "Parasi, Solomon Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PRU",
+    "ICAO": "VYPY",
+    "Airport name": "Pyay Airport[1]",
+    "Location served": "Pyay (Prome), Myanmar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PRV",
+    "ICAO": "LKPO",
+    "Airport name": "Přerov Airport[1]",
+    "Location served": "Přerov, Czech Republic",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PRW",
+    "ICAO": "",
+    "Airport name": "Prentice Airport (FAA: 5N2)",
+    "Location served": "Prentice, Wisconsin, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PRX",
+    "ICAO": "KPRX",
+    "Airport name": "Cox Field",
+    "Location served": "Paris, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PRY",
+    "ICAO": "FAWB",
+    "Airport name": "Wonderboom Airport",
+    "Location served": "Pretoria, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PRZ",
+    "ICAO": "",
+    "Airport name": "Prineville Airport (FAA: S39)",
+    "Location served": "Prineville, Oregon, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PSA",
+    "ICAO": "LIRP",
+    "Airport name": "Pisa International Airport (Galileo Galilei Airport)",
+    "Location served": "Pisa, Tuscany, Italy",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PSB",
+    "ICAO": "",
+    "Airport name": "Bellefonte Airport[1] (FAA: N96)",
+    "Location served": "Philipsburg, Pennsylvania, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PSC",
+    "ICAO": "KPSC",
+    "Airport name": "Tri-Cities Airport",
+    "Location served": "Pasco, Washington, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PSD",
+    "ICAO": "HEPS",
+    "Airport name": "Port Said Airport[1]",
+    "Location served": "Port Said, Egypt",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PSE",
+    "ICAO": "TJPS",
+    "Airport name": "Mercedita Airport",
+    "Location served": "Ponce, Puerto Rico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PSF",
+    "ICAO": "KPSF",
+    "Airport name": "Pittsfield Municipal Airport",
+    "Location served": "Pittsfield, Massachusetts, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PSG",
+    "ICAO": "PAPG",
+    "Airport name": "Petersburg James A. Johnson Airport",
+    "Location served": "Petersburg, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PSH",
+    "ICAO": "EDXO",
+    "Airport name": "Sankt Peter-Ording Airport[1]",
+    "Location served": "Sankt Peter-Ording, Schleswig-Holstein, Germany",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PSI",
+    "ICAO": "OPPI",
+    "Airport name": "Pasni Airport[1]",
+    "Location served": "Pasni, Pakistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PSJ",
+    "ICAO": "WAMP",
+    "Airport name": "Kasiguncu Airport[1]",
+    "Location served": "Poso, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PSK",
+    "ICAO": "KPSK",
+    "Airport name": "New River Valley Airport",
+    "Location served": "Dublin, Virginia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PSL",
+    "ICAO": "EGPT",
+    "Airport name": "Perth Airport (Scone Airport)",
+    "Location served": "Perth, Scotland, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PSM",
+    "ICAO": "KPSM",
+    "Airport name": "Portsmouth International Airport at Pease",
+    "Location served": "Portsmouth, New Hampshire, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PSN",
+    "ICAO": "KPSN",
+    "Airport name": "Palestine Municipal Airport",
+    "Location served": "Palestine, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PSO",
+    "ICAO": "SKPS",
+    "Airport name": "Antonio Nariño Airport",
+    "Location served": "Pasto, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PSP",
+    "ICAO": "KPSP",
+    "Airport name": "Palm Springs International Airport",
+    "Location served": "Palm Springs, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PSQ",
+    "ICAO": "",
+    "Airport name": "Philadelphia Seaplane Base (FAA: 9N2)",
+    "Location served": "Philadelphia, Pennsylvania, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PSR",
+    "ICAO": "LIBP",
+    "Airport name": "Abruzzo Airport",
+    "Location served": "Pescara, Abruzzo, Italy",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PSS",
+    "ICAO": "SARP",
+    "Airport name": "Libertador General José de San Martín Airport",
+    "Location served": "Posadas, Misiones, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PSU",
+    "ICAO": "WIOP",
+    "Airport name": "Pangsuma Airport[1]",
+    "Location served": "Putussibau, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PSV",
+    "ICAO": "",
+    "Airport name": "Papa Stour Airstrip[1]",
+    "Location served": "Papa Stour, Scotland, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PSW",
+    "ICAO": "SNOS",
+    "Airport name": "Passos Airport[1]",
+    "Location served": "Passos, Minas Gerais, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PSX",
+    "ICAO": "KPSX",
+    "Airport name": "Palacios Municipal Airport",
+    "Location served": "Palacios, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PSY",
+    "ICAO": "SFAL",
+    "Airport name": "Port Stanley Airport",
+    "Location served": "Stanley, British Overseas Territory of Falkland Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PSZ",
+    "ICAO": "SLPS",
+    "Airport name": "Puerto Suárez International Airport",
+    "Location served": "Puerto Suárez, Bolivia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PTA",
+    "ICAO": "PALJ",
+    "Airport name": "Port Alsworth Airport (FAA: TPO)",
+    "Location served": "Port Alsworth, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PTB",
+    "ICAO": "KPTB",
+    "Airport name": "Dinwiddie County Airport",
+    "Location served": "Petersburg, Virginia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PTC",
+    "ICAO": "",
+    "Airport name": "Port Alice Seaplane Base (FAA: 16K)",
+    "Location served": "Port Alice, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PTD",
+    "ICAO": "PAAP",
+    "Airport name": "Port Alexander Seaplane Base (FAA: AHP)",
+    "Location served": "Port Alexander, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PTF",
+    "ICAO": "NFFO",
+    "Airport name": "Malolo Lailai Airport[1]",
+    "Location served": "Malolo Lailai, Fiji",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PTG",
+    "ICAO": "FAPP",
+    "Airport name": "Polokwane International Airport",
+    "Location served": "Polokwane, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PTH",
+    "ICAO": "PAPH",
+    "Airport name": "Port Heiden Airport",
+    "Location served": "Port Heiden, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PTJ",
+    "ICAO": "YPOD",
+    "Airport name": "Portland Airport",
+    "Location served": "Portland, Victoria, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PTK",
+    "ICAO": "KPTK",
+    "Airport name": "Oakland County International Airport",
+    "Location served": "Pontiac, Michigan, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PTM",
+    "ICAO": "SVPT",
+    "Airport name": "Palmarito Airport[1]",
+    "Location served": "Palmarito, Venezuela",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PTN",
+    "ICAO": "KPTN",
+    "Airport name": "Harry P. Williams Memorial Airport",
+    "Location served": "Patterson, Louisiana, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PTO",
+    "ICAO": "SSPB",
+    "Airport name": "Juvenal Loureiro Cardoso Airport[1]",
+    "Location served": "Pato Branco, Paraná, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PTP",
+    "ICAO": "TFFR",
+    "Airport name": "Pointe-à-Pitre International Airport (Le Raizet Airport)",
+    "Location served": "Pointe-à-Pitre, Guadeloupe",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PTQ",
+    "ICAO": "SNMZ",
+    "Airport name": "Porto de Moz Airport[1]",
+    "Location served": "Porto de Moz, Pará, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PTS",
+    "ICAO": "KPTS",
+    "Airport name": "Atkinson Municipal Airport",
+    "Location served": "Pittsburg, Kansas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PTT",
+    "ICAO": "KPTT",
+    "Airport name": "Pratt Regional Airport",
+    "Location served": "Pratt, Kansas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PTU",
+    "ICAO": "PAPM",
+    "Airport name": "Platinum Airport",
+    "Location served": "Platinum, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PTV",
+    "ICAO": "KPTV",
+    "Airport name": "Porterville Municipal Airport",
+    "Location served": "Porterville, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PTW",
+    "ICAO": "KPTW",
+    "Airport name": "Heritage Field",
+    "Location served": "Pottstown, Pennsylvania, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PTX",
+    "ICAO": "SKPI",
+    "Airport name": "Contador Airport[1]",
+    "Location served": "Pitalito, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PTY",
+    "ICAO": "MPTO",
+    "Airport name": "Tocumen International Airport",
+    "Location served": "Panama City, Panama",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PTZ",
+    "ICAO": "SEPA",
+    "Airport name": "Río Amazonas Airport",
+    "Location served": "Shell Mera, Ecuador",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PUA",
+    "ICAO": "",
+    "Airport name": "Puas Airport[1]",
+    "Location served": "Puas, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PUB",
+    "ICAO": "KPUB",
+    "Airport name": "Pueblo Memorial Airport",
+    "Location served": "Pueblo, Colorado, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PUC",
+    "ICAO": "KPUC",
+    "Airport name": "Carbon County Regional Airport",
+    "Location served": "Price, Utah, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PUD",
+    "ICAO": "SAWD",
+    "Airport name": "Puerto Deseado Airport",
+    "Location served": "Puerto Deseado, Santa Cruz, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PUE",
+    "ICAO": "MPOA",
+    "Airport name": "Puerto Obaldia Airport[1]",
+    "Location served": "Puerto Obaldía, Panama",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PUF",
+    "ICAO": "LFBP",
+    "Airport name": "Pau Pyrénées Airport",
+    "Location served": "Pau, Aquitaine, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PUG",
+    "ICAO": "YPAG",
+    "Airport name": "Port Augusta Airport[1]",
+    "Location served": "Port Augusta, South Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PUI",
+    "ICAO": "",
+    "Airport name": "Pureni Airport",
+    "Location served": "Pureni, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PUJ",
+    "ICAO": "MDPC",
+    "Airport name": "Punta Cana International Airport",
+    "Location served": "Punta Cana, Dominican Republic",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PUK",
+    "ICAO": "NTGQ",
+    "Airport name": "Pukarua Airport",
+    "Location served": "Pukarua, Tuamotus, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PUL",
+    "ICAO": "",
+    "Airport name": "Port of Poulsbo Marina Moorage Seaplane Base (FAA: 83Q)",
+    "Location served": "Poulsbo, Washington, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PUM",
+    "ICAO": "WAWP",
+    "Airport name": "Sangia Nibandera Airport[1]",
+    "Location served": "Kolaka, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PUN",
+    "ICAO": "FZOP",
+    "Airport name": "Punia Airport[1]",
+    "Location served": "Punia, Democratic Republic of the Congo",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PUP",
+    "ICAO": "DFCP",
+    "Airport name": "Pô Airport",
+    "Location served": "Pô, Burkina Faso",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PUQ",
+    "ICAO": "SCCI",
+    "Airport name": "Presidente Carlos Ibáñez del Campo International Airport",
+    "Location served": "Punta Arenas, Chile",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PUR",
+    "ICAO": "SLPR",
+    "Airport name": "Puerto Rico Airport[1]",
+    "Location served": "Puerto Rico, Bolivia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PUS",
+    "ICAO": "RKPK",
+    "Airport name": "Gimhae International Airport",
+    "Location served": "Busan, South Korea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PUT",
+    "ICAO": "VOPN",
+    "Airport name": "Sri Sathya Sai Airport[1]",
+    "Location served": "Puttaparthi, Andhra Pradesh, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PUU",
+    "ICAO": "SKAS",
+    "Airport name": "Tres de Mayo Airport",
+    "Location served": "Puerto Asís, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PUV",
+    "ICAO": "NWWP",
+    "Airport name": "Malabou Airport[1]",
+    "Location served": "Poum, New Caledonia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PUW",
+    "ICAO": "KPUW",
+    "Airport name": "Pullman–Moscow Regional Airport",
+    "Location served": "Pullman / Moscow (ID), Washington, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PUX",
+    "ICAO": "SCPV",
+    "Airport name": "El Mirador Airport[1]",
+    "Location served": "Puerto Varas, Chile",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PUY",
+    "ICAO": "LDPL",
+    "Airport name": "Pula Airport",
+    "Location served": "Pula, Croatia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PUZ",
+    "ICAO": "MNPC",
+    "Airport name": "Puerto Cabezas Airport",
+    "Location served": "Puerto Cabezas, Nicaragua",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PVA",
+    "ICAO": "SKPV",
+    "Airport name": "El Embrujo Airport",
+    "Location served": "Providencia Island, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PVC",
+    "ICAO": "KPVC",
+    "Airport name": "Provincetown Municipal Airport",
+    "Location served": "Provincetown, Massachusetts, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PVD",
+    "ICAO": "KPVD",
+    "Airport name": "Theodore Francis Green State Airport",
+    "Location served": "Providence, Rhode Island, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PVE",
+    "ICAO": "MPVR",
+    "Airport name": "El Porvenir Airport[1]",
+    "Location served": "El Porvenir, Panama",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PVF",
+    "ICAO": "KPVF",
+    "Airport name": "Placerville Airport",
+    "Location served": "Placerville, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PVG",
+    "ICAO": "ZSPD",
+    "Airport name": "Shanghai Pudong International Airport",
+    "Location served": "Shanghai, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PVH",
+    "ICAO": "SBPV",
+    "Airport name": "Governador Jorge Teixeira de Oliveira International Airport",
+    "Location served": "Porto Velho, Rondônia, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PVI",
+    "ICAO": "SSPI",
+    "Airport name": "Edu Chaves Airport[1]",
+    "Location served": "Paranavaí, Paraná, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PVK",
+    "ICAO": "LGPZ",
+    "Airport name": "Aktion National Airport",
+    "Location served": "Preveza / Lefkada, Greece",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PVL",
+    "ICAO": "KPBX",
+    "Airport name": "Pike County Airport[1] (FAA: PBX)",
+    "Location served": "Pikeville, Kentucky, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PVO",
+    "ICAO": "SEPV",
+    "Airport name": "Reales Tamarindos Airport",
+    "Location served": "Portoviejo, Ecuador",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PVR",
+    "ICAO": "MMPR",
+    "Airport name": "Licenciado Gustavo Díaz Ordaz International Airport",
+    "Location served": "Puerto Vallarta, Jalisco, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PVS",
+    "ICAO": "UHMD",
+    "Airport name": "Provideniya Bay Airport",
+    "Location served": "Provideniya, Chukotka, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PVU",
+    "ICAO": "KPVU",
+    "Airport name": "Provo Municipal Airport",
+    "Location served": "Provo, Utah, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PVW",
+    "ICAO": "KPVW",
+    "Airport name": "Hale County Airport",
+    "Location served": "Plainview, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PWA",
+    "ICAO": "KPWA",
+    "Airport name": "Wiley Post Airport",
+    "Location served": "Oklahoma City, Oklahoma, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PWD",
+    "ICAO": "KPWD",
+    "Airport name": "Sher-Wood Airport",
+    "Location served": "Plentywood, Montana, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PWE",
+    "ICAO": "UHMP",
+    "Airport name": "Pevek Airport",
+    "Location served": "Pevek, Chukotka, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PWI",
+    "ICAO": "",
+    "Airport name": "Beles Airport[1]",
+    "Location served": "Pawi, Ethiopia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PWK",
+    "ICAO": "KPWK",
+    "Airport name": "Chicago Executive Airport",
+    "Location served": "Chicago, Illinois, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PWL",
+    "ICAO": "WICP",
+    "Airport name": "Wirasaba Airport",
+    "Location served": "Purwokerto, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PWM",
+    "ICAO": "KPWM",
+    "Airport name": "Portland International Jetport",
+    "Location served": "Portland, Maine, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PWN",
+    "ICAO": "MYCP",
+    "Airport name": "Pitts Town Airport[1]",
+    "Location served": "Pitts Town, Crooked Island, Bahamas",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PWO",
+    "ICAO": "FZQC",
+    "Airport name": "Pweto Airport[1]",
+    "Location served": "Pweto, Democratic Republic of the Congo",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PWQ",
+    "ICAO": "UASP",
+    "Airport name": "Pavlodar Airport",
+    "Location served": "Pavlodar, Kazakhstan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PWR",
+    "ICAO": "",
+    "Airport name": "Port Walter Seaplane Base[1]",
+    "Location served": "Port Walter, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PWT",
+    "ICAO": "KPWT",
+    "Airport name": "Bremerton National Airport",
+    "Location served": "Bremerton, Washington, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PWY",
+    "ICAO": "KPNA",
+    "Airport name": "Ralph Wenz Field (FAA: PNA)",
+    "Location served": "Pinedale, Wyoming, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PXA",
+    "ICAO": "WIPY",
+    "Airport name": "Atung Bungsu Airport[1]",
+    "Location served": "Pagar Alam, South Sumatra, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PXH",
+    "ICAO": "YPMH",
+    "Airport name": "Prominent Hill Airport[1]",
+    "Location served": "Prominent Hill, South Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PXL",
+    "ICAO": "",
+    "Airport name": "Polacca Airport (FAA: P10)",
+    "Location served": "Polacca, Arizona, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PXM",
+    "ICAO": "MMPS",
+    "Airport name": "Puerto Escondido International Airport",
+    "Location served": "Puerto Escondido, Oaxaca, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PXO",
+    "ICAO": "LPPS",
+    "Airport name": "Porto Santo Airport",
+    "Location served": "Porto Santo Island, Madeira, Portugal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PXR",
+    "ICAO": "VTUJ",
+    "Airport name": "Surin Airport[1]",
+    "Location served": "Surin, Thailand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PXU",
+    "ICAO": "VVPK",
+    "Airport name": "Pleiku Airport",
+    "Location served": "Pleiku, Vietnam",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PYA",
+    "ICAO": "SKVL",
+    "Airport name": "Velasquez Airport[1]",
+    "Location served": "Puerto Boyacá, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PYB",
+    "ICAO": "VEJP",
+    "Airport name": "Jeypore Airport[1]",
+    "Location served": "Jeypore, Odisha, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PYC",
+    "ICAO": "",
+    "Airport name": "Playón Chico Airport",
+    "Location served": "Ukupseni (Playón Chico), Panama",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PYE",
+    "ICAO": "NCPY",
+    "Airport name": "Tongareva Airport[1]",
+    "Location served": "Penrhyn Atoll, Cook Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PYG",
+    "ICAO": "",
+    "Airport name": "Pakyong Airport",
+    "Location served": "Pakyong, Sikkim, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PYH",
+    "ICAO": "SVPA",
+    "Airport name": "Cacique Aramare Airport",
+    "Location served": "Puerto Ayacucho, Venezuela",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PYJ",
+    "ICAO": "UERP",
+    "Airport name": "Polyarny Airport",
+    "Location served": "Polyarny, Yakutia, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PYK",
+    "ICAO": "OIIP",
+    "Airport name": "Payam International Airport[1]",
+    "Location served": "Karaj, Iran",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PYL",
+    "ICAO": "",
+    "Airport name": "Perry Island Seaplane Base[1]",
+    "Location served": "Perry Island, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PYM",
+    "ICAO": "KPYM",
+    "Airport name": "Plymouth Municipal Airport",
+    "Location served": "Plymouth, Massachusetts, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PYN",
+    "ICAO": "",
+    "Airport name": "Payán Airport[1]",
+    "Location served": "Payán, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PYO",
+    "ICAO": "SEPT",
+    "Airport name": "Putumayo Airport[1]",
+    "Location served": "Puerto El Carmen de Putumayo, Ecuador",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PYR",
+    "ICAO": "LGAD",
+    "Airport name": "Andravida Air Base[1]",
+    "Location served": "Pyrgos, Greece",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PYS",
+    "ICAO": "",
+    "Airport name": "Paradise Skypark[1] (FAA: CA92)",
+    "Location served": "Paradise, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PYV",
+    "ICAO": "",
+    "Airport name": "Yaviza Airport[1]",
+    "Location served": "Yaviza, Panama",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PYY",
+    "ICAO": "",
+    "Airport name": "Pai Airport",
+    "Location served": "Pai, Thailand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PZA",
+    "ICAO": "SKPZ",
+    "Airport name": "Paz de Ariporo Airport[1]",
+    "Location served": "Paz de Ariporo, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PZB",
+    "ICAO": "FAPM",
+    "Airport name": "Pietermaritzburg Airport",
+    "Location served": "Pietermaritzburg, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PZH",
+    "ICAO": "OPZB",
+    "Airport name": "Zhob Airport",
+    "Location served": "Zhob, Pakistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PZI",
+    "ICAO": "ZUZH",
+    "Airport name": "Panzhihua Bao'anying Airport[1]",
+    "Location served": "Panzhihua, Sichuan, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PZK",
+    "ICAO": "NCPK",
+    "Airport name": "Pukapuka Island Airfield[1]",
+    "Location served": "Pukapuka Island, Cook Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PZL",
+    "ICAO": "FADQ",
+    "Airport name": "Zulu Inyala Airport[1]",
+    "Location served": "Phinda, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PZO",
+    "ICAO": "SVPR",
+    "Airport name": "Manuel Carlos Piar Guayana Airport",
+    "Location served": "Ciudad Guayana / Puerto Ordaz, Venezuela",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PZS",
+    "ICAO": "SCTC",
+    "Airport name": "Maquehue Airport[1]",
+    "Location served": "Temuco, Chile",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PZU",
+    "ICAO": "HSPN",
+    "Airport name": "Port Sudan New International Airport",
+    "Location served": "Port Sudan, Sudan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "PZY",
+    "ICAO": "LZPP",
+    "Airport name": "Piešťany Airport",
+    "Location served": "Piešťany, Slovakia",
+    "Time": "",
+    "DST": ""
+  }
+]

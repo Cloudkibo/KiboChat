@@ -1,0 +1,3722 @@
+[
+  {
+    "IATA": "LAA",
+    "ICAO": "KLAA",
+    "Airport name": "Lamar Municipal Airport",
+    "Location served": "Lamar, Colorado, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LAB",
+    "ICAO": "",
+    "Airport name": "Lab Lab Airport",
+    "Location served": "Lab Lab, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LAC",
+    "ICAO": "",
+    "Airport name": "Layang-Layang Airport (Swallow Reef Airport)",
+    "Location served": "Layang-Layang Island, Sabah, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LAD",
+    "ICAO": "FNLU",
+    "Airport name": "Quatro de Fevereiro Airport",
+    "Location served": "Luanda, Angola",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LAE",
+    "ICAO": "AYNZ",
+    "Airport name": "Lae Nadzab Airport",
+    "Location served": "Lae, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LAF",
+    "ICAO": "KLAF",
+    "Airport name": "Purdue University Airport",
+    "Location served": "Lafayette, Indiana, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LAH",
+    "ICAO": "WAPH[1]",
+    "Airport name": "Oesman Sadik Airport",
+    "Location served": "Labuha, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LAI",
+    "ICAO": "LFRO",
+    "Airport name": "Lannion – Côte de Granit Airport",
+    "Location served": "Lannion, Brittany, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LAJ",
+    "ICAO": "SBLJ",
+    "Airport name": "Antônio Correia Pinto de Macedo Airport",
+    "Location served": "Lages, Santa Catarina, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "LAK",
+    "ICAO": "CYKD",
+    "Airport name": "Aklavik/Freddie Carmichael Airport",
+    "Location served": "Aklavik, Northwest Territories, Canada",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LAL",
+    "ICAO": "KLAL",
+    "Airport name": "Lakeland Linder International Airport",
+    "Location served": "Lakeland, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LAM",
+    "ICAO": "KLAM",
+    "Airport name": "Los Alamos County Airport",
+    "Location served": "Los Alamos, New Mexico, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LAN",
+    "ICAO": "KLAN",
+    "Airport name": "Capital Region International Airport",
+    "Location served": "Lansing, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LAO",
+    "ICAO": "RPLI",
+    "Airport name": "Laoag International Airport",
+    "Location served": "Laoag, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LAP",
+    "ICAO": "MMLP",
+    "Airport name": "Manuel Márquez de León International Airport",
+    "Location served": "La Paz, Baja California Sur, Mexico",
+    "Time": "UTC−07:00",
+    "DST": "Apr-Oct"
+  },
+  {
+    "IATA": "LAQ",
+    "ICAO": "HLLQ",
+    "Airport name": "Al Abraq International Airport",
+    "Location served": "Bayda, Libya",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LAR",
+    "ICAO": "KLAR",
+    "Airport name": "Laramie Regional Airport",
+    "Location served": "Laramie, Wyoming, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LAS",
+    "ICAO": "KLAS",
+    "Airport name": "McCarran International Airport",
+    "Location served": "Las Vegas, Nevada, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LAU",
+    "ICAO": "HKLU",
+    "Airport name": "Manda Airport",
+    "Location served": "Lamu, Kenya",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LAW",
+    "ICAO": "KLAW",
+    "Airport name": "Lawton–Fort Sill Regional Airport",
+    "Location served": "Lawton, Oklahoma, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LAX",
+    "ICAO": "KLAX",
+    "Airport name": "Los Angeles International Airport",
+    "Location served": "Los Angeles, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LAY",
+    "ICAO": "FALY",
+    "Airport name": "Ladysmith Airport",
+    "Location served": "Ladysmith, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LAZ",
+    "ICAO": "SBLP",
+    "Airport name": "Bom Jesus da Lapa Airport",
+    "Location served": "Bom Jesus da Lapa, Bahia, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LBA",
+    "ICAO": "EGNM",
+    "Airport name": "Leeds Bradford Airport",
+    "Location served": "Leeds / Bradford, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LBB",
+    "ICAO": "KLBB",
+    "Airport name": "Lubbock Preston Smith International Airport",
+    "Location served": "Lubbock, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LBC",
+    "ICAO": "EDHL",
+    "Airport name": "Lübeck Airport",
+    "Location served": "Lübeck, Schleswig-Holstein, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LBD",
+    "ICAO": "UTDL",
+    "Airport name": "Khujand Airport",
+    "Location served": "Khujand, Tajikistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LBE",
+    "ICAO": "KLBE",
+    "Airport name": "Arnold Palmer Regional Airport",
+    "Location served": "Latrobe, Pennsylvania, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LBF",
+    "ICAO": "KLBF",
+    "Airport name": "North Platte Regional Airport (Lee Bird Field)",
+    "Location served": "North Platte, Nebraska, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LBG",
+    "ICAO": "LFPB",
+    "Airport name": "Paris–Le Bourget Airport",
+    "Location served": "Paris, Île-de-France, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LBH",
+    "ICAO": "",
+    "Airport name": "Palm Beach Water Airport",
+    "Location served": "Palm Beach, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "LBI",
+    "ICAO": "LFCI",
+    "Airport name": "Le Sequestre Airport",
+    "Location served": "Albi, Midi-Pyrénées, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LBJ",
+    "ICAO": "WATO",
+    "Airport name": "Komodo Airport",
+    "Location served": "Labuan Bajo, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LBK",
+    "ICAO": "",
+    "Airport name": "Liboi Airport",
+    "Location served": "Liboi, Kenya",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LBL",
+    "ICAO": "KLBL",
+    "Airport name": "Liberal Mid-America Regional Airport",
+    "Location served": "Liberal, Kansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LBM",
+    "ICAO": "",
+    "Airport name": "Luabo Airport",
+    "Location served": "Luabo, Mozambique",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LBN",
+    "ICAO": "",
+    "Airport name": "Lake Baringo Airport",
+    "Location served": "Lake Baringo, Kenya",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LBO",
+    "ICAO": "FZVI",
+    "Airport name": "Lusambo Airport",
+    "Location served": "Lusambo, Democratic Republic of the Congo",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LBP",
+    "ICAO": "",
+    "Airport name": "Long Banga Airport",
+    "Location served": "Long Banga, Sarawak, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LBQ",
+    "ICAO": "FOGR",
+    "Airport name": "Lambaréné Airport",
+    "Location served": "Lambaréné, Gabon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LBR",
+    "ICAO": "SWLB",
+    "Airport name": "Lábrea Airport",
+    "Location served": "Lábrea, Amazonas, Brazil",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LBS",
+    "ICAO": "NFNL",
+    "Airport name": "Labasa Airport",
+    "Location served": "Labasa, Fiji",
+    "Time": "UTC+12:00",
+    "DST": "Nov-Jan"
+  },
+  {
+    "IATA": "LBT",
+    "ICAO": "KLBT",
+    "Airport name": "Lumberton Municipal Airport",
+    "Location served": "Lumberton, North Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LBU",
+    "ICAO": "WBKL",
+    "Airport name": "Labuan Airport",
+    "Location served": "Labuan, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LBV",
+    "ICAO": "FOOL",
+    "Airport name": "Libreville International Airport",
+    "Location served": "Libreville, Gabon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LBW",
+    "ICAO": "WRLB",
+    "Airport name": "Juvai Semaring Airport (Long Bawan Airport)",
+    "Location served": "Long Bawan, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LBX",
+    "ICAO": "RPLU",
+    "Airport name": "Lubang Airport",
+    "Location served": "Lubang, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LBY",
+    "ICAO": "LFRE",
+    "Airport name": "La Baule-Escoublac Airport",
+    "Location served": "La Baule-Escoublac, Pays de la Loire, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LBZ",
+    "ICAO": "FNLK",
+    "Airport name": "Lucapa Airport",
+    "Location served": "Lucapa, Angola",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LCA",
+    "ICAO": "LCLK",
+    "Airport name": "Larnaca International Airport",
+    "Location served": "Larnaca, Cyprus",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LCB",
+    "ICAO": "",
+    "Airport name": "Pontes e Lacerda Airport",
+    "Location served": "Pontes e Lacerda, Mato Grosso, Brazil",
+    "Time": "UTC−04:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "LCC",
+    "ICAO": "LIBN",
+    "Airport name": "Galatina Air Base",
+    "Location served": "Lecce, Apulia, Italy",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LCD",
+    "ICAO": "FALO",
+    "Airport name": "Louis Trichardt Airport",
+    "Location served": "Louis Trichardt, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LCE",
+    "ICAO": "MHLC",
+    "Airport name": "Golosón International Airport",
+    "Location served": "La Ceiba, Honduras",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LCF",
+    "ICAO": "MGRD",
+    "Airport name": "Río Dulce Airport (Las Vegas Airport)",
+    "Location served": "Río Dulce, Guatemala",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LCG",
+    "ICAO": "LECO",
+    "Airport name": "A Coruña Airport",
+    "Location served": "A Coruña, Galicia, Spain",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LCH",
+    "ICAO": "KLCH",
+    "Airport name": "Lake Charles Regional Airport",
+    "Location served": "Lake Charles, Louisiana, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LCI",
+    "ICAO": "KLCI",
+    "Airport name": "Laconia Municipal Airport",
+    "Location served": "Laconia, New Hampshire, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LCJ",
+    "ICAO": "EPLL",
+    "Airport name": "Łódź Władysław Reymont Airport",
+    "Location served": "Łódź, Poland",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LCK",
+    "ICAO": "KLCK",
+    "Airport name": "Rickenbacker International Airport",
+    "Location served": "Columbus, Ohio, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LCL",
+    "ICAO": "MULM",
+    "Airport name": "La Coloma Airport",
+    "Location served": "Pinar del Río, Cuba",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LCM",
+    "ICAO": "SACC",
+    "Airport name": "La Cumbre Airport",
+    "Location served": "La Cumbre, Córdoba, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LCN",
+    "ICAO": "YBLC",
+    "Airport name": "Balcanoona Airport",
+    "Location served": "Balcanoona, South Australia, Australia",
+    "Time": "UTC+09:30",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "LCO",
+    "ICAO": "FCBL",
+    "Airport name": "Lague Airport",
+    "Location served": "Lague, Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LCP",
+    "ICAO": "",
+    "Airport name": "Loncopué Airport",
+    "Location served": "Loncopué, Neuquén, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LCQ",
+    "ICAO": "KLCQ",
+    "Airport name": "Lake City Gateway Airport",
+    "Location served": "Lake City, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LCR",
+    "ICAO": "",
+    "Airport name": "La Chorrera Airport",
+    "Location served": "La Chorrera, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LCT",
+    "ICAO": "",
+    "Airport name": "Shijiazhuang Luancheng Airport",
+    "Location served": "Shijiazhuang, Hebei, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LCV",
+    "ICAO": "LIQL",
+    "Airport name": "Lucca-Tassignano Airport",
+    "Location served": "Lucca, Tuscany, Italy",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LCX",
+    "ICAO": "ZSLO",
+    "Airport name": "Longyan Guanzhishan Airport",
+    "Location served": "Longyan, Fujian, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LCY",
+    "ICAO": "EGLC",
+    "Airport name": "London City Airport",
+    "Location served": "London, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LDA",
+    "ICAO": "VEMH",
+    "Airport name": "Malda Airport",
+    "Location served": "Malda, West Bengal, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "LDB",
+    "ICAO": "SBLO",
+    "Airport name": "Londrina–Governador José Richa Airport",
+    "Location served": "Londrina, Paraná, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "LDC",
+    "ICAO": "YLIN",
+    "Airport name": "Lindeman Island Airport",
+    "Location served": "Lindeman Island, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LDE",
+    "ICAO": "LFBT",
+    "Airport name": "Tarbes–Lourdes–Pyrénées Airport",
+    "Location served": "Tarbes / Lourdes, Midi-Pyrénées, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LDG",
+    "ICAO": "ULAL",
+    "Airport name": "Leshukonskoye Airport",
+    "Location served": "Leshukonskoye, Arkhangelsk Oblast, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LDH",
+    "ICAO": "YLHI",
+    "Airport name": "Lord Howe Island Airport",
+    "Location served": "Lord Howe Island, New South Wales, Australia",
+    "Time": "UTC+10:30",
+    "DST": "Oct-Apr1"
+  },
+  {
+    "IATA": "LDI",
+    "ICAO": "HTLI",
+    "Airport name": "Lindi Airport (Kikwetu Airport)",
+    "Location served": "Lindi, Tanzania",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LDJ",
+    "ICAO": "KLDJ",
+    "Airport name": "Linden Airport",
+    "Location served": "Linden, New Jersey, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LDK",
+    "ICAO": "ESGL",
+    "Airport name": "Lidköping-Hovby Airport",
+    "Location served": "Lidköping, Sweden",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LDM",
+    "ICAO": "KLDM",
+    "Airport name": "Mason County Airport",
+    "Location served": "Ludington, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LDN",
+    "ICAO": "VNLD",
+    "Airport name": "Lamidanda Airport",
+    "Location served": "Lamidanda, Nepal",
+    "Time": "UTC+05:45",
+    "DST": ""
+  },
+  {
+    "IATA": "LDO",
+    "ICAO": "SMDO",
+    "Airport name": "Laduani Airstrip",
+    "Location served": "Aurora, Suriname",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LDR",
+    "ICAO": "",
+    "Airport name": "Lawdar Airport",
+    "Location served": "Lawdar, Yemen",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LDS",
+    "ICAO": "ZYLD",
+    "Airport name": "Yichun Lindu Airport[2]",
+    "Location served": "Yichun, Heilongjiang, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LDU",
+    "ICAO": "WBKD",
+    "Airport name": "Lahad Datu Airport",
+    "Location served": "Lahad Datu, Sabah, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LDV",
+    "ICAO": "LFRJ",
+    "Airport name": "Landivisiau Air Base",
+    "Location served": "Landivisiau, Brittany, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LDW",
+    "ICAO": "",
+    "Airport name": "Lansdowne Airport",
+    "Location served": "Lansdowne, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LDX",
+    "ICAO": "SOOM",
+    "Airport name": "Saint-Laurent-du-Maroni Airport",
+    "Location served": "Saint-Laurent-du-Maroni, French Guiana",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LDY",
+    "ICAO": "EGAE",
+    "Airport name": "City of Derry Airport",
+    "Location served": "Derry (Londonderry), Northern Ireland, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LDZ",
+    "ICAO": "FALD",
+    "Airport name": "Londolozi Airport",
+    "Location served": "Londolozi, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LEA",
+    "ICAO": "YPLM",
+    "Airport name": "Learmonth Airport",
+    "Location served": "Exmouth, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LEB",
+    "ICAO": "KLEB",
+    "Airport name": "Lebanon Municipal Airport",
+    "Location served": "Lebanon / Hanover, New Hampshire, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LEC",
+    "ICAO": "SBLE",
+    "Airport name": "Coronel Horácio de Mattos Airport",
+    "Location served": "Lençóis, Bahia, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LED",
+    "ICAO": "ULLI",
+    "Airport name": "Pulkovo Airport",
+    "Location served": "Saint Petersburg, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LEE",
+    "ICAO": "KLEE",
+    "Airport name": "Leesburg International Airport",
+    "Location served": "Leesburg, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LEF",
+    "ICAO": "FXLK",
+    "Airport name": "Lebakeng Airport",
+    "Location served": "Lebakeng, Lesotho",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LEG",
+    "ICAO": "",
+    "Airport name": "Aleg Airport",
+    "Location served": "Aleg, Mauritania",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LEH",
+    "ICAO": "LFOH",
+    "Airport name": "Le Havre – Octeville Airport",
+    "Location served": "Le Havre, Upper Normandy, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LEI",
+    "ICAO": "LEAM",
+    "Airport name": "Almería Airport",
+    "Location served": "Almería, Andalusia, Spain",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LEJ",
+    "ICAO": "EDDP",
+    "Airport name": "Leipzig/Halle Airport",
+    "Location served": "Leipzig, Saxony / Halle, Saxony-Anhalt,2 Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LEK",
+    "ICAO": "GULB",
+    "Airport name": "Tata Airport",
+    "Location served": "Labé, Guinea",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LEL",
+    "ICAO": "YLEV",
+    "Airport name": "Lake Evella Airport",
+    "Location served": "Gapuwiyak, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "LEM",
+    "ICAO": "KLEM",
+    "Airport name": "Lemmon Municipal Airport",
+    "Location served": "Lemmon, South Dakota, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LEN",
+    "ICAO": "LELN",
+    "Airport name": "León Airport",
+    "Location served": "León, Castile and León, Spain",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LEO",
+    "ICAO": "",
+    "Airport name": "Lékoni Airport",
+    "Location served": "Lékoni, Gabon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LEP",
+    "ICAO": "SNDN",
+    "Airport name": "Leopoldina Airport",
+    "Location served": "Leopoldina, Minas Gerais, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "LEQ",
+    "ICAO": "EGHC",
+    "Airport name": "Land's End Airport",
+    "Location served": "St Just, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LER",
+    "ICAO": "YLST",
+    "Airport name": "Leinster Airport",
+    "Location served": "Leinster, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LES",
+    "ICAO": "FXLS",
+    "Airport name": "Lesobeng Airport",
+    "Location served": "Lesobeng, Lesotho",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LET",
+    "ICAO": "SKLT",
+    "Airport name": "Alfredo Vásquez Cobo International Airport",
+    "Location served": "Leticia, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LEU",
+    "ICAO": "LESU",
+    "Airport name": "La Seu d'Urgell Airport",
+    "Location served": "La Seu d'Urgell, Catalonia, Spain",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LEV",
+    "ICAO": "NFNB",
+    "Airport name": "Levuka Airfield (Bureta Airport)",
+    "Location served": "Levuka, Ovalau Island, Fiji",
+    "Time": "UTC+12:00",
+    "DST": "Nov-Jan"
+  },
+  {
+    "IATA": "LEW",
+    "ICAO": "KLEW",
+    "Airport name": "Auburn/Lewiston Municipal Airport",
+    "Location served": "Auburn / Lewiston, Maine, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LEX",
+    "ICAO": "KLEX",
+    "Airport name": "Blue Grass Airport",
+    "Location served": "Lexington, Kentucky, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LEY",
+    "ICAO": "EHLE",
+    "Airport name": "Lelystad Airport",
+    "Location served": "Lelystad, Netherlands",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LEZ",
+    "ICAO": "MHLE",
+    "Airport name": "La Esperanza Airport",
+    "Location served": "La Esperanza, Honduras",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LFB",
+    "ICAO": "FQLU",
+    "Airport name": "Lumbo Airport[2]",
+    "Location served": "Lumbo, Mozambique",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LFI",
+    "ICAO": "KLFI",
+    "Airport name": "Langley Air Force Base[2]",
+    "Location served": "Hampton, Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LFK",
+    "ICAO": "KLFK",
+    "Airport name": "Angelina County Airport",
+    "Location served": "Lufkin, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LFM",
+    "ICAO": "OISR",
+    "Airport name": "Lamerd Airport[2]",
+    "Location served": "Lamerd, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "LFN",
+    "ICAO": "KLHZ",
+    "Airport name": "Triangle North Executive Airport (Franklin County Airport) (FAA: LHZ)",
+    "Location served": "Louisburg, North Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LFO",
+    "ICAO": "HAKL",
+    "Airport name": "Kelafo Airport",
+    "Location served": "Kelafo, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LFP",
+    "ICAO": "YLFD",
+    "Airport name": "Lakefield Airport",
+    "Location served": "Lakefield, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LFQ",
+    "ICAO": "",
+    "Airport name": "Linfen Qiaoli Airport[2]",
+    "Location served": "Linfen, Shanxi, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LFR",
+    "ICAO": "SVLF",
+    "Airport name": "La Fría Airport",
+    "Location served": "La Fría, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LFT",
+    "ICAO": "KLFT",
+    "Airport name": "Lafayette Regional Airport",
+    "Location served": "Lafayette, Louisiana, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LFW",
+    "ICAO": "DXXX",
+    "Airport name": "Lomé–Tokoin Airport (Gnassingbé Eyadéma Int'l)",
+    "Location served": "Lomé, Togo",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LGA",
+    "ICAO": "KLGA",
+    "Airport name": "LaGuardia Airport",
+    "Location served": "New York City, New York, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LGB",
+    "ICAO": "KLGB",
+    "Airport name": "Long Beach Airport",
+    "Location served": "Long Beach, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LGC",
+    "ICAO": "KLGC",
+    "Airport name": "LaGrange Callaway Airport",
+    "Location served": "LaGrange, Georgia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LGD",
+    "ICAO": "KLGD",
+    "Airport name": "La Grande/Union County Airport",
+    "Location served": "La Grande, Oregon, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LGE",
+    "ICAO": "",
+    "Airport name": "Lake Gregory Airport",
+    "Location served": "Lake Gregory, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LGF",
+    "ICAO": "KLGF",
+    "Airport name": "Laguna Army Airfield",
+    "Location served": "Yuma Proving Ground, Arizona, United States",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LGG",
+    "ICAO": "EBLG",
+    "Airport name": "Liège Airport",
+    "Location served": "Liège, Belgium",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LGH",
+    "ICAO": "YLEC",
+    "Airport name": "Leigh Creek Airport",
+    "Location served": "Leigh Creek, South Australia, Australia",
+    "Time": "UTC+09:30",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "LGI",
+    "ICAO": "MYLD",
+    "Airport name": "Deadman's Cay Airport",
+    "Location served": "Deadman's Cay, Long Island, Bahamas",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LGK",
+    "ICAO": "WMKL",
+    "Airport name": "Langkawi International Airport",
+    "Location served": "Langkawi, Kedah, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LGL",
+    "ICAO": "WBGF",
+    "Airport name": "Long Lellang Airport",
+    "Location served": "Long Lellang, Sarawak, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LGM",
+    "ICAO": "",
+    "Airport name": "Laiagam Airport",
+    "Location served": "Laiagam, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LGN",
+    "ICAO": "",
+    "Airport name": "Linga Linga Airport",
+    "Location served": "Linga Linga, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LGO",
+    "ICAO": "EDWL",
+    "Airport name": "Langeoog Airport",
+    "Location served": "Langeoog, Lower Saxony, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LGP",
+    "ICAO": "RPLP",
+    "Airport name": "Legazpi International Airport",
+    "Location served": "Legazpi, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LGQ",
+    "ICAO": "SENL",
+    "Airport name": "Lago Agrio Airport",
+    "Location served": "Nueva Loja (Lago Agrio), Ecuador",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LGR",
+    "ICAO": "SCHR",
+    "Airport name": "Cochrane Airfield",
+    "Location served": "Cochrane, Chile",
+    "Time": "UTC−04:00",
+    "DST": "Aug-May"
+  },
+  {
+    "IATA": "LGS",
+    "ICAO": "SAMM",
+    "Airport name": "Comodoro D. Ricardo Salomón Airport",
+    "Location served": "Malargüe, Mendoza, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LGT",
+    "ICAO": "SKGA",
+    "Airport name": "Las Gaviotas Airport",
+    "Location served": "Gaviotas, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LGU",
+    "ICAO": "KLGU",
+    "Airport name": "Logan-Cache Airport",
+    "Location served": "Logan, Utah, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LGW",
+    "ICAO": "EGKK",
+    "Airport name": "Gatwick Airport",
+    "Location served": "London, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LGX",
+    "ICAO": "HCMJ",
+    "Airport name": "Lugh Ganane Airport",
+    "Location served": "Lugh Ganane (Luuq), Somalia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LGY",
+    "ICAO": "",
+    "Airport name": "Lagunillas Airport",
+    "Location served": "Lagunillas, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LHA",
+    "ICAO": "EDTL",
+    "Airport name": "Flughafen Lahr (Lahr Airport)",
+    "Location served": "Lahr, Baden-Württemberg, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LHE",
+    "ICAO": "OPLA",
+    "Airport name": "Allama Iqbal International Airport",
+    "Location served": "Lahore, Pakistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LHG",
+    "ICAO": "YLRD",
+    "Airport name": "Lightning Ridge Airport",
+    "Location served": "Lightning Ridge, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "LHI",
+    "ICAO": "WAJL",
+    "Airport name": "Lereh Airport",
+    "Location served": "Lereh, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LHK",
+    "ICAO": "ZHGH",
+    "Airport name": "Laohekou Airport",
+    "Location served": "Laohekou, Hubei, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LHP",
+    "ICAO": "",
+    "Airport name": "Lehu Airport",
+    "Location served": "Lehu, Papua New Guinea",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LHR",
+    "ICAO": "EGLL",
+    "Airport name": "Heathrow Airport",
+    "Location served": "London, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LHS",
+    "ICAO": "SAVH",
+    "Airport name": "Las Heras Airport",
+    "Location served": "Las Heras, Santa Cruz, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LHU",
+    "ICAO": "FYLS[3]",
+    "Airport name": "Lianshulu Airport",
+    "Location served": "Lianshulu, Namibia",
+    "Time": "UTC+01:00",
+    "DST": "Sep-Apr"
+  },
+  {
+    "IATA": "LHV",
+    "ICAO": "KLHV",
+    "Airport name": "William T. Piper Memorial Airport",
+    "Location served": "Lock Haven, Pennsylvania, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LHW",
+    "ICAO": "ZLLL",
+    "Airport name": "Lanzhou Zhongchuan International Airport",
+    "Location served": "Lanzhou, Gansu, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LIA",
+    "ICAO": "ZULP",
+    "Airport name": "Liangping Airport",
+    "Location served": "Liangping, Chongqing, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LIB",
+    "ICAO": "",
+    "Airport name": "Limbunya Airport",
+    "Location served": "Limbunya Station, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "LIC",
+    "ICAO": "KLIC",
+    "Airport name": "Limon Municipal Airport",
+    "Location served": "Limon, Colorado, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LIE",
+    "ICAO": "FZFA",
+    "Airport name": "Libenge Airport",
+    "Location served": "Libenge, Democratic Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LIF",
+    "ICAO": "NWWL",
+    "Airport name": "Ouanaham Airport",
+    "Location served": "Lifou, Loyalty Islands, New Caledonia",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LIG",
+    "ICAO": "LFBL",
+    "Airport name": "Limoges – Bellegarde Airport",
+    "Location served": "Limoges, Limousin, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LIH",
+    "ICAO": "PHLI",
+    "Airport name": "Lihue Airport",
+    "Location served": "Lihue, Hawaii, United States",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LII",
+    "ICAO": "WAJM",
+    "Airport name": "Mulia Airport",
+    "Location served": "Mulia, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LIK",
+    "ICAO": "",
+    "Airport name": "Likiep Airport",
+    "Location served": "Likiep Atoll, Marshall Islands",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LIL",
+    "ICAO": "LFQQ",
+    "Airport name": "Lille Airport (Lille–Lesquin Airport)",
+    "Location served": "Lille, Nord-Pas-de-Calais, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LIM",
+    "ICAO": "SPJC",
+    "Airport name": "Jorge Chávez International Airport",
+    "Location served": "Lima, Peru",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LIN",
+    "ICAO": "LIML",
+    "Airport name": "Linate Airport",
+    "Location served": "Milan, Lombardy, Italy",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LIO",
+    "ICAO": "MRLM",
+    "Airport name": "Limón International Airport",
+    "Location served": "Limón, Costa Rica",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LIP",
+    "ICAO": "SBLN",
+    "Airport name": "Lins Airport",
+    "Location served": "Lins, São Paulo, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "LIQ",
+    "ICAO": "FZGA",
+    "Airport name": "Lisala Airport",
+    "Location served": "Lisala, Democratic Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LIR",
+    "ICAO": "MRLB",
+    "Airport name": "Daniel Oduber Quirós International Airport",
+    "Location served": "Liberia, Costa Rica",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LIS",
+    "ICAO": "LPPT",
+    "Airport name": "Lisbon Portela Airport",
+    "Location served": "Lisbon, Portugal",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LIT",
+    "ICAO": "KLIT",
+    "Airport name": "Clinton National Airport (Adams Field)",
+    "Location served": "Little Rock, Arkansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LIV",
+    "ICAO": "",
+    "Airport name": "Livengood Camp Airport (FAA: 4AK)",
+    "Location served": "Livengood, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LIW",
+    "ICAO": "VYLK",
+    "Airport name": "Loikaw Airport",
+    "Location served": "Loikaw, Myanmar",
+    "Time": "UTC+06:30",
+    "DST": ""
+  },
+  {
+    "IATA": "LIX",
+    "ICAO": "FWLK",
+    "Airport name": "Likoma Airport",
+    "Location served": "Likoma Island, Malawi",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LIY",
+    "ICAO": "KLHW",
+    "Airport name": "MidCoast Regional Airport at Wright Army Airfield (FAA: LHW)",
+    "Location served": "Fort Stewart / Hinesville, Georgia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LIZ",
+    "ICAO": "",
+    "Airport name": "Loring International Airport (FAA: ME16)",
+    "Location served": "Limestone, Maine, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LJA",
+    "ICAO": "FZVA",
+    "Airport name": "Lodja Airport",
+    "Location served": "Lodja, Democratic Republic of the Congo",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LJG",
+    "ICAO": "ZPLJ",
+    "Airport name": "Lijiang Sanyi Airport",
+    "Location served": "Lijiang, Yunnan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LJN",
+    "ICAO": "KLBX",
+    "Airport name": "Texas Gulf Coast Regional Airport (FAA: LBX)",
+    "Location served": "Angleton / Lake Jackson, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LJU",
+    "ICAO": "LJLJ",
+    "Airport name": "Ljubljana Jože Pučnik Airport (Brnik Airport)",
+    "Location served": "Ljubljana, Slovenia",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LKA",
+    "ICAO": "WATL[4]",
+    "Airport name": "Gewayantana Airport",
+    "Location served": "Larantuka, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LKB",
+    "ICAO": "NFNK",
+    "Airport name": "Lakeba Airport",
+    "Location served": "Lakeba Island, Fiji",
+    "Time": "UTC+12:00",
+    "DST": "Nov-Jan"
+  },
+  {
+    "IATA": "LKC",
+    "ICAO": "",
+    "Airport name": "Lekana Airport",
+    "Location served": "Lekana, Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LKD",
+    "ICAO": "YLND",
+    "Airport name": "Lakeland Downs Airport",
+    "Location served": "Lakeland Downs, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LKE",
+    "ICAO": "",
+    "Airport name": "Kenmore Air Harbor Seaplane Base (Seattle Lake Union SPB) (FAA: W55)",
+    "Location served": "Seattle, Washington, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LKG",
+    "ICAO": "HKLK",
+    "Airport name": "Lokichogio Airport",
+    "Location served": "Lokichogio, Kenya",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LKH",
+    "ICAO": "WBGL",
+    "Airport name": "Long Akah Airport[2]",
+    "Location served": "Long Akah, Sarawak, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LKK",
+    "ICAO": "PAKL",
+    "Airport name": "Kulik Lake Airport",
+    "Location served": "Kulik Lake, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LKL",
+    "ICAO": "ENNA",
+    "Airport name": "Lakselv Airport, Banak",
+    "Location served": "Lakselv, Norway",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LKN",
+    "ICAO": "ENLK",
+    "Airport name": "Leknes Airport",
+    "Location served": "Leknes, Norway",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LKO",
+    "ICAO": "VILK",
+    "Airport name": "Chaudhary Charan Singh International Airport",
+    "Location served": "Lucknow, Uttar Pradesh, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "LKP",
+    "ICAO": "KLKP",
+    "Airport name": "Lake Placid Airport",
+    "Location served": "Lake Placid, New York, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LKR",
+    "ICAO": "",
+    "Airport name": "Las Khorey Airport",
+    "Location served": "Las Khorey (Laasqoray), Somalia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LKU",
+    "ICAO": "",
+    "Airport name": "Lake Turkana Airport",
+    "Location served": "Lake Turkana, Kenya",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LKV",
+    "ICAO": "KLKV",
+    "Airport name": "Lake County Airport",
+    "Location served": "Lakeview, Oregon, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LKW",
+    "ICAO": "OOLK",
+    "Airport name": "Lekhwair Airport[2]",
+    "Location served": "Lekhwair, Oman",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LKY",
+    "ICAO": "HTLM",
+    "Airport name": "Lake Manyara Airport",
+    "Location served": "Lake Manyara, Tanzania",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LKZ",
+    "ICAO": "EGUL",
+    "Airport name": "RAF Lakenheath",
+    "Location served": "Brandon, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LLA",
+    "ICAO": "ESPA",
+    "Airport name": "Luleå Airport (Kallax Airport)",
+    "Location served": "Luleå, Sweden",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LLB",
+    "ICAO": "ZULB",
+    "Airport name": "Libo Airport (Qiannan Airport)",
+    "Location served": "Libo, Guizhou, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LLC",
+    "ICAO": "RPLH",
+    "Airport name": "Cagayan North International Airport (Lal-lo Airport)",
+    "Location served": "Lal-lo, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LLE",
+    "ICAO": "FAMN",
+    "Airport name": "Malelane Airport",
+    "Location served": "Malalane, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LLF",
+    "ICAO": "ZGLG",
+    "Airport name": "Yongzhou Lingling Airport",
+    "Location served": "Yongzhou, Hunan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LLG",
+    "ICAO": "YCGO",
+    "Airport name": "Chillagoe Airport",
+    "Location served": "Chillagoe, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LLH",
+    "ICAO": "",
+    "Airport name": "Las Limas Airport",
+    "Location served": "Las Limas, Honduras",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LLI",
+    "ICAO": "HALL",
+    "Airport name": "Lalibela Airport",
+    "Location served": "Lalibela, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LLJ",
+    "ICAO": "WIPB",
+    "Airport name": "Silampari Airport",
+    "Location served": "Lubuklinggau, South Sumatra, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LLK",
+    "ICAO": "UBBL",
+    "Airport name": "Lankaran International Airport",
+    "Location served": "Lankaran, Azerbaijan",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LLL",
+    "ICAO": "",
+    "Airport name": "Lissadell Airport",
+    "Location served": "Lissadell, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LLM",
+    "ICAO": "",
+    "Airport name": "Lomlom Airport",
+    "Location served": "Lomlom, Reef Islands, Solomon Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "LLN",
+    "ICAO": "WAJV",
+    "Airport name": "Kelila Airport",
+    "Location served": "Kelila, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LLO",
+    "ICAO": "",
+    "Airport name": "Palopo Lagaligo Airport",
+    "Location served": "Palopo, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LLP",
+    "ICAO": "",
+    "Airport name": "Linda Downs Airport",
+    "Location served": "Linda Downs, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LLS",
+    "ICAO": "SATK",
+    "Airport name": "Alférez Armando Rodríguez Airport",
+    "Location served": "Las Lomitas, Formosa, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LLT",
+    "ICAO": "FNLB",
+    "Airport name": "Lobito Airport[2]",
+    "Location served": "Lobito, Angola",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LLV",
+    "ICAO": "ZBLL",
+    "Airport name": "Lüliang Airport",
+    "Location served": "Lüliang, Shanxi, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LLW",
+    "ICAO": "FWKI",
+    "Airport name": "Lilongwe International Airport (Kamuzu Int'l)",
+    "Location served": "Lilongwe, Malawi",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LLX",
+    "ICAO": "KCDA",
+    "Airport name": "Caledonia County Airport (FAA: CDA)",
+    "Location served": "Lyndonville, Vermont, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LLY",
+    "ICAO": "KVAY",
+    "Airport name": "South Jersey Regional Airport (FAA: VAY)",
+    "Location served": "Mount Holly, New Jersey, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LMA",
+    "ICAO": "PAMH",
+    "Airport name": "Lake Minchumina Airport (FAA: MHM)",
+    "Location served": "Lake Minchumina, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LMB",
+    "ICAO": "FWSM",
+    "Airport name": "Salima Airport",
+    "Location served": "Salima, Malawi",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LMC",
+    "ICAO": "SKNA",
+    "Airport name": "La Macarena Airport",
+    "Location served": "La Macarena, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LMD",
+    "ICAO": "",
+    "Airport name": "Los Menucos Airport",
+    "Location served": "Los Menucos, Río Negro, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LME",
+    "ICAO": "LFRM",
+    "Airport name": "Le Mans Arnage Airport",
+    "Location served": "Le Mans, Pays de la Loire, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LMG",
+    "ICAO": "",
+    "Airport name": "Lamassa Airport",
+    "Location served": "Lamassa, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LMH",
+    "ICAO": "",
+    "Airport name": "Limón Airport",
+    "Location served": "Limón, Honduras",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LMI",
+    "ICAO": "",
+    "Airport name": "Lumi Airport",
+    "Location served": "Lumi, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LML",
+    "ICAO": "",
+    "Airport name": "Lae Airport",
+    "Location served": "Lae Atoll, Marshall Islands",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LMM",
+    "ICAO": "MMLM",
+    "Airport name": "Fort Valley Federal International Airport",
+    "Location served": "Los Mochis, Sinaloa, Mexico",
+    "Time": "UTC−07:00",
+    "DST": "Apr-Oct"
+  },
+  {
+    "IATA": "LMN",
+    "ICAO": "WBGJ",
+    "Airport name": "Limbang Airport",
+    "Location served": "Limbang, Sarawak, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LMO",
+    "ICAO": "EGQS",
+    "Airport name": "RAF Lossiemouth",
+    "Location served": "Lossiemouth, Scotland, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LMP",
+    "ICAO": "LICD",
+    "Airport name": "Lampedusa Airport",
+    "Location served": "Lampedusa, Sicily, Italy",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LMQ",
+    "ICAO": "HLMB",
+    "Airport name": "Marsa Brega Airport",
+    "Location served": "Brega, Libya",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LMR",
+    "ICAO": "FALC",
+    "Airport name": "Finsch Mine Airport",
+    "Location served": "Lime Acres, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LMS",
+    "ICAO": "KLMS",
+    "Airport name": "Louisville Winston County Airport",
+    "Location served": "Louisville, Mississippi, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LMT",
+    "ICAO": "KLMT",
+    "Airport name": "Klamath Falls Airport",
+    "Location served": "Klamath Falls, Oregon, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LMU",
+    "ICAO": "WIDL",
+    "Airport name": "Letung Airport",
+    "Location served": "Anambas Islands, Riau Islands, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LMX",
+    "ICAO": "",
+    "Airport name": "Lopéz de Micay Airport",
+    "Location served": "El Trapiche, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LMY",
+    "ICAO": "",
+    "Airport name": "Lake Murray Airport",
+    "Location served": "Lake Murray, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LMZ",
+    "ICAO": "",
+    "Airport name": "Palma Airport",
+    "Location served": "Palma, Mozambique",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LNA",
+    "ICAO": "KLNA",
+    "Airport name": "Palm Beach County Park Airport",
+    "Location served": "West Palm Beach, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LNB",
+    "ICAO": "NVSM",
+    "Airport name": "Lamen Bay Airport",
+    "Location served": "Lamen Bay, Epi Island, Shefa Province, Vanuatu",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LNC",
+    "ICAO": "",
+    "Airport name": "Lengbati Airport",
+    "Location served": "Lengbati, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LND",
+    "ICAO": "KLND",
+    "Airport name": "Hunt Field",
+    "Location served": "Lander, Wyoming, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LNE",
+    "ICAO": "NVSO",
+    "Airport name": "Lonorore Airport",
+    "Location served": "Lonorore, Pentecost Island, Penama Province, Vanuatu",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LNF",
+    "ICAO": "",
+    "Airport name": "Munbil Airport",
+    "Location served": "Munbil, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LNG",
+    "ICAO": "",
+    "Airport name": "Lese Airport",
+    "Location served": "Lese, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LNH",
+    "ICAO": "YLKN",
+    "Airport name": "Lake Nash Airport",
+    "Location served": "Alpurrurulam (Lake Nash), Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "LNI",
+    "ICAO": "PALN",
+    "Airport name": "Point Lonely Short Range Radar Site (FAA: AK71)",
+    "Location served": "Lonely, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LNJ",
+    "ICAO": "ZPLC",
+    "Airport name": "Lincang Airport",
+    "Location served": "Lincang, Yunnan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LNK",
+    "ICAO": "KLNK",
+    "Airport name": "Lincoln Airport",
+    "Location served": "Lincoln, Nebraska, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LNL",
+    "ICAO": "ZLLN",
+    "Airport name": "Longnan Chengzhou Airport",
+    "Location served": "Longnan, Gansu, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LNM",
+    "ICAO": "",
+    "Airport name": "Langimar Airport",
+    "Location served": "Langimar, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LNN",
+    "ICAO": "KLNN",
+    "Airport name": "Lost Nation Airport",
+    "Location served": "Willoughby, Ohio, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LNO",
+    "ICAO": "YLEO",
+    "Airport name": "Leonora Airport",
+    "Location served": "Leonora, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LNP",
+    "ICAO": "KLNP",
+    "Airport name": "Lonesome Pine Airport",
+    "Location served": "Wise, Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LNQ",
+    "ICAO": "",
+    "Airport name": "Loani Airport",
+    "Location served": "Loani, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LNR",
+    "ICAO": "KLNR",
+    "Airport name": "Tri-County Regional Airport",
+    "Location served": "Lone Rock, Wisconsin, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LNS",
+    "ICAO": "KLNS",
+    "Airport name": "Lancaster Airport",
+    "Location served": "Lancaster, Pennsylvania, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LNU",
+    "ICAO": "WALM",
+    "Airport name": "Robert Atty Bessing Airport",
+    "Location served": "Malinau, North Kalimantan, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LNV",
+    "ICAO": "AYKY",
+    "Airport name": "Lihir Island Airport",
+    "Location served": "Lihir Island, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LNX",
+    "ICAO": "UUBS",
+    "Airport name": "Smolensk South Airport",
+    "Location served": "Smolensk, Smolensk Oblast, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LNY",
+    "ICAO": "PHNY",
+    "Airport name": "Lanai Airport",
+    "Location served": "Lanai City, Hawaii, United States",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LNZ",
+    "ICAO": "LOWL",
+    "Airport name": "Linz Airport (Blue Danube Airport)",
+    "Location served": "Linz, Austria",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LOA",
+    "ICAO": "YLOR",
+    "Airport name": "Lorraine Airport",
+    "Location served": "Lorraine, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LOB",
+    "ICAO": "SCAN",
+    "Airport name": "San Rafael Airport",
+    "Location served": "Los Andes, Chile",
+    "Time": "UTC−04:00",
+    "DST": "Aug-May"
+  },
+  {
+    "IATA": "LOC",
+    "ICAO": "YLOK",
+    "Airport name": "Lock Airport",
+    "Location served": "Lock, South Australia, Australia",
+    "Time": "UTC+09:30",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "LOD",
+    "ICAO": "NVSG",
+    "Airport name": "Longana Airport",
+    "Location served": "Longana, Aoba Island, Penama Province, Vanuatu",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LOE",
+    "ICAO": "VTUL",
+    "Airport name": "Loei Airport",
+    "Location served": "Loei, Thailand",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LOF",
+    "ICAO": "",
+    "Airport name": "Loen Airport",
+    "Location served": "Loen Island, Namu Atoll, Marshall Islands",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LOH",
+    "ICAO": "SETM",
+    "Airport name": "Ciudad de Catamayo Airport",
+    "Location served": "Loja, Ecuador",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LOI",
+    "ICAO": "SSLN[5]",
+    "Airport name": "Helmuth Baungartem Airport",
+    "Location served": "Lontras, Santa Catarina, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "LOK",
+    "ICAO": "HKLO",
+    "Airport name": "Lodwar Airport",
+    "Location served": "Lodwar, Kenya",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LOL",
+    "ICAO": "KLOL",
+    "Airport name": "Derby Field",
+    "Location served": "Lovelock, Nevada, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LOM",
+    "ICAO": "",
+    "Airport name": "Francisco Primo de Verdad National Airport",
+    "Location served": "Lagos de Moreno, Jalisco, Mexico",
+    "Time": "UTC−06:00",
+    "DST": "Apr-Oct"
+  },
+  {
+    "IATA": "LON[2]",
+    "ICAO": "",
+    "Airport name": "metropolitan area3",
+    "Location served": "London, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LOO",
+    "ICAO": "DAUL",
+    "Airport name": "L'Mekrareg Airport (Laghouat Airport)",
+    "Location served": "Laghouat, Algeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LOP",
+    "ICAO": "WADL",
+    "Airport name": "Lombok International Airport",
+    "Location served": "Praya, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LOQ",
+    "ICAO": "FBLO",
+    "Airport name": "Lobatse Airport",
+    "Location served": "Lobatse, Botswana",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LOS",
+    "ICAO": "DNMM",
+    "Airport name": "Murtala Muhammed International Airport",
+    "Location served": "Lagos, Nigeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LOT",
+    "ICAO": "KLOT",
+    "Airport name": "Lewis University Airport",
+    "Location served": "Romeoville, Illinois, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LOU",
+    "ICAO": "KLOU",
+    "Airport name": "Bowman Field",
+    "Location served": "Louisville, Kentucky, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LOV",
+    "ICAO": "MMMV",
+    "Airport name": "Venustiano Carranza International Airport",
+    "Location served": "Monclova, Coahuila, Mexico",
+    "Time": "UTC−06:00",
+    "DST": "Apr-Oct"
+  },
+  {
+    "IATA": "LOW",
+    "ICAO": "KLKU",
+    "Airport name": "Louisa County Airport (Freeman Field) (FAA: LKU)",
+    "Location served": "Louisa, Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LOX",
+    "ICAO": "",
+    "Airport name": "Los Tablones Airport",
+    "Location served": "Los Tablones, Guatemala",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LOY",
+    "ICAO": "HKLY",
+    "Airport name": "Loiyangalani Airport",
+    "Location served": "Loiyangalani, Kenya",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LOZ",
+    "ICAO": "KLOZ",
+    "Airport name": "London-Corbin Airport (Magee Field)",
+    "Location served": "London, Kentucky, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LPA",
+    "ICAO": "GCLP",
+    "Airport name": "Gran Canaria Airport",
+    "Location served": "Gran Canaria, Canary Islands, Spain",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LPB",
+    "ICAO": "SLLP",
+    "Airport name": "El Alto International Airport",
+    "Location served": "La Paz, Bolivia",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LPC",
+    "ICAO": "KLPC",
+    "Airport name": "Lompoc Airport",
+    "Location served": "Lompoc, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LPD",
+    "ICAO": "SKLP",
+    "Airport name": "La Pedrera Airport",
+    "Location served": "La Pedrera, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LPE",
+    "ICAO": "SKIM",
+    "Airport name": "La Primavera Airport",
+    "Location served": "La Primavera, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LPF",
+    "ICAO": "ZUPS",
+    "Airport name": "Liupanshui Yuezhao Airport[2]",
+    "Location served": "Liupanshui, Guizhou, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LPG",
+    "ICAO": "SADL",
+    "Airport name": "La Plata Airport",
+    "Location served": "La Plata, Buenos Aires, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LPI",
+    "ICAO": "ESSL",
+    "Airport name": "Linköping/Saab Airport",
+    "Location served": "Linköping, Sweden",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LPJ",
+    "ICAO": "SVAS",
+    "Airport name": "Armando Schwarck Airport",
+    "Location served": "Los Pijiguaos, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LPK",
+    "ICAO": "UUOL",
+    "Airport name": "Lipetsk Airport",
+    "Location served": "Lipetsk, Lipetsk Oblast, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LPL",
+    "ICAO": "EGGP",
+    "Airport name": "Liverpool John Lennon Airport",
+    "Location served": "Liverpool, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LPM",
+    "ICAO": "NVSL",
+    "Airport name": "Malekoula Airport (Lamap Airport)",
+    "Location served": "Lamap, Malampa, Vanuatu",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LPN",
+    "ICAO": "",
+    "Airport name": "Leron Plains Airport[2]",
+    "Location served": "Leron Plains, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LPO",
+    "ICAO": "KPPO",
+    "Airport name": "La Porte Municipal Airport (FAA: PPO)",
+    "Location served": "La Porte, Indiana, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LPP",
+    "ICAO": "EFLP",
+    "Airport name": "Lappeenranta Airport",
+    "Location served": "Lappeenranta, Finland",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LPQ",
+    "ICAO": "VLLB",
+    "Airport name": "Luang Prabang International Airport",
+    "Location served": "Luang Prabang, Laos",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LPS",
+    "ICAO": "",
+    "Airport name": "Fishermans Bay/LPS Seaplane Base",
+    "Location served": "Lopez Island, Washington, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LPT",
+    "ICAO": "VTCL",
+    "Airport name": "Lampang Airport",
+    "Location served": "Lampang, Thailand",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LPU",
+    "ICAO": "WRLP",
+    "Airport name": "Long Apung Airport",
+    "Location served": "Long Apung, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LPX",
+    "ICAO": "EVLA",
+    "Airport name": "Liepāja International Airport",
+    "Location served": "Liepāja, Latvia",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LPY",
+    "ICAO": "LFHP",
+    "Airport name": "Le Puy – Loudes Airport",
+    "Location served": "Le Puy-en-Velay, Auvergne, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LQK",
+    "ICAO": "KLQK",
+    "Airport name": "Pickens County Airport",
+    "Location served": "Pickens, South Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LQM",
+    "ICAO": "SKLG",
+    "Airport name": "Caucayá Airport",
+    "Location served": "Puerto Leguízamo, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LQN",
+    "ICAO": "OAQN",
+    "Airport name": "Qala i Naw Airport",
+    "Location served": "Qala i Naw, Afghanistan",
+    "Time": "UTC+04:30",
+    "DST": ""
+  },
+  {
+    "IATA": "LRA",
+    "ICAO": "LGLR",
+    "Airport name": "Larissa National Airport",
+    "Location served": "Larissa, Greece",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LRB",
+    "ICAO": "FXLR",
+    "Airport name": "Leribe Airport",
+    "Location served": "Leribe (Hlotse), Lesotho",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LRD",
+    "ICAO": "KLRD",
+    "Airport name": "Laredo International Airport",
+    "Location served": "Laredo, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LRE",
+    "ICAO": "YLRE",
+    "Airport name": "Longreach Airport",
+    "Location served": "Longreach, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LRF",
+    "ICAO": "KLRF",
+    "Airport name": "Little Rock Air Force Base",
+    "Location served": "Jacksonville, Arkansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LRG",
+    "ICAO": "OPLL",
+    "Airport name": "Loralai Airport",
+    "Location served": "Loralai, Pakistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LRH",
+    "ICAO": "LFBH",
+    "Airport name": "La Rochelle – Île de Ré Airport",
+    "Location served": "La Rochelle, Poitou-Charentes, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LRI",
+    "ICAO": "",
+    "Airport name": "Lorica Airport",
+    "Location served": "Lorica, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LRJ",
+    "ICAO": "KLRJ",
+    "Airport name": "Le Mars Municipal Airport",
+    "Location served": "Le Mars, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LRL",
+    "ICAO": "DXNG",
+    "Airport name": "Niamtougou International Airport",
+    "Location served": "Niamtougou, Togo",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LRM",
+    "ICAO": "MDLR",
+    "Airport name": "La Romana International Airport (Casa de Campo International Airport)",
+    "Location served": "La Romana, Dominican Republic",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LRQ",
+    "ICAO": "",
+    "Airport name": "Laurie River Airport",
+    "Location served": "Laurie River, Manitoba, Canada",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LRR",
+    "ICAO": "OISL",
+    "Airport name": "Larestan International Airport",
+    "Location served": "Lar, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "LRS",
+    "ICAO": "LGLE",
+    "Airport name": "Leros Municipal Airport",
+    "Location served": "Leros, Greece",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LRT",
+    "ICAO": "LFRH",
+    "Airport name": "Lorient South Brittany Airport (Lann-Bihoué Airport)",
+    "Location served": "Lorient, Brittany, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LRU",
+    "ICAO": "KLRU",
+    "Airport name": "Las Cruces International Airport",
+    "Location served": "Las Cruces, New Mexico, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LRV",
+    "ICAO": "SVRS",
+    "Airport name": "Los Roques Airport",
+    "Location served": "Los Roques, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LSA",
+    "ICAO": "AYKA",
+    "Airport name": "Losuia Airport",
+    "Location served": "Kiriwina Island, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LSB",
+    "ICAO": "KLSB",
+    "Airport name": "Lordsburg Municipal Airport",
+    "Location served": "Lordsburg, New Mexico, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LSC",
+    "ICAO": "SCSE",
+    "Airport name": "La Florida Airport",
+    "Location served": "La Serena, Chile",
+    "Time": "UTC−04:00",
+    "DST": "Aug-May"
+  },
+  {
+    "IATA": "LSE",
+    "ICAO": "KLSE",
+    "Airport name": "La Crosse Regional Airport",
+    "Location served": "La Crosse, Wisconsin, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LSF",
+    "ICAO": "KLSF",
+    "Airport name": "Lawson Army Airfield",
+    "Location served": "Fort Benning / Columbus, Georgia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LSH",
+    "ICAO": "VYLS",
+    "Airport name": "Lashio Airport",
+    "Location served": "Lashio, Myanmar",
+    "Time": "UTC+06:30",
+    "DST": ""
+  },
+  {
+    "IATA": "LSI",
+    "ICAO": "EGPB",
+    "Airport name": "Sumburgh Airport",
+    "Location served": "Shetland Islands, Scotland, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LSJ",
+    "ICAO": "",
+    "Airport name": "Long Island Airport",
+    "Location served": "Long Island, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LSK",
+    "ICAO": "KLSK",
+    "Airport name": "Lusk Municipal Airport",
+    "Location served": "Lusk, Wyoming, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LSL",
+    "ICAO": "MRLC",
+    "Airport name": "Los Chiles Airport",
+    "Location served": "Los Chiles, Costa Rica",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LSM",
+    "ICAO": "WBGD",
+    "Airport name": "Long Semado Airport",
+    "Location served": "Long Semado, Sarawak, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LSN",
+    "ICAO": "KLSN",
+    "Airport name": "Los Banos Municipal Airport",
+    "Location served": "Los Banos, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LSO",
+    "ICAO": "LFOO",
+    "Airport name": "Les Sables-d'Olonne – Talmont Airport",
+    "Location served": "Les Sables-d'Olonne, Pays de la Loire, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LSP",
+    "ICAO": "SVJC",
+    "Airport name": "Josefa Camejo International Airport",
+    "Location served": "Punto Fijo, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LSQ",
+    "ICAO": "SCGE",
+    "Airport name": "Maria Dolores Airport",
+    "Location served": "Los Ángeles, Chile",
+    "Time": "UTC−04:00",
+    "DST": "Aug-May"
+  },
+  {
+    "IATA": "LSS",
+    "ICAO": "TFFS",
+    "Airport name": "Les Saintes Airport",
+    "Location served": "Terre-de-Haut Island, Îles des Saintes, Guadeloupe",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LST",
+    "ICAO": "YMLT",
+    "Airport name": "Launceston Airport",
+    "Location served": "Launceston, Tasmania, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "LSU",
+    "ICAO": "WBGU",
+    "Airport name": "Long Sukang Airport",
+    "Location served": "Long Sukang, Sarawak, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LSV",
+    "ICAO": "KLSV",
+    "Airport name": "Nellis Air Force Base",
+    "Location served": "Las Vegas, Nevada, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LSW",
+    "ICAO": "WITM",
+    "Airport name": "Malikus Saleh Airport",
+    "Location served": "Lhokseumawe, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LSX",
+    "ICAO": "WITL",
+    "Airport name": "Lhok Sukon Airport",
+    "Location served": "Lhoksukon, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LSY",
+    "ICAO": "YLIS",
+    "Airport name": "Lismore Airport",
+    "Location served": "Lismore, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "LSZ",
+    "ICAO": "LDLO",
+    "Airport name": "Lošinj Airport",
+    "Location served": "Lošinj, Croatia",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LTA",
+    "ICAO": "FATZ",
+    "Airport name": "Tzaneen Airport (Letaba Airport)",
+    "Location served": "Tzaneen, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LTB",
+    "ICAO": "",
+    "Airport name": "Latrobe Airport",
+    "Location served": "Latrobe, Tasmania, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "LTC",
+    "ICAO": "FTTH",
+    "Airport name": "Laï Airport",
+    "Location served": "Laï, Chad",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LTD",
+    "ICAO": "HLTD",
+    "Airport name": "Ghadames Airport",
+    "Location served": "Ghadames, Libya",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LTF",
+    "ICAO": "",
+    "Airport name": "Leitre Airport",
+    "Location served": "Leitre, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LTG",
+    "ICAO": "VNLT",
+    "Airport name": "Langtang Airport",
+    "Location served": "Langtang, Nepal",
+    "Time": "UTC+05:45",
+    "DST": ""
+  },
+  {
+    "IATA": "LTI",
+    "ICAO": "ZMAT",
+    "Airport name": "Altai Airport",
+    "Location served": "Altai, Mongolia",
+    "Time": "UTC+08:00",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "LTK",
+    "ICAO": "OSLK",
+    "Airport name": "Bassel Al-Assad International Airport",
+    "Location served": "Latakia, Syria",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LTL",
+    "ICAO": "FOOR",
+    "Airport name": "Lastourville Airport",
+    "Location served": "Lastoursville, Gabon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LTM",
+    "ICAO": "SYLT",
+    "Airport name": "Lethem Airport",
+    "Location served": "Lethem, Guyana",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LTN",
+    "ICAO": "EGGW",
+    "Airport name": "Luton Airport",
+    "Location served": "London, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LTO",
+    "ICAO": "MMLT",
+    "Airport name": "Loreto International Airport",
+    "Location served": "Loreto, Baja California Sur, Mexico",
+    "Time": "UTC−07:00",
+    "DST": "Apr-Oct"
+  },
+  {
+    "IATA": "LTP",
+    "ICAO": "YLHS",
+    "Airport name": "Lyndhurst Airport",
+    "Location served": "Lyndhurst, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LTQ",
+    "ICAO": "LFAT",
+    "Airport name": "Le Touquet – Côte d'Opale Airport",
+    "Location served": "Le Touquet-Paris-Plage, Nord-Pas-de-Calais, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LTR",
+    "ICAO": "EILT",
+    "Airport name": "Letterkenny Airfield",
+    "Location served": "Letterkenny, Ireland",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LTS",
+    "ICAO": "KLTS",
+    "Airport name": "Altus Air Force Base",
+    "Location served": "Altus, Oklahoma, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LTT",
+    "ICAO": "LFTZ",
+    "Airport name": "La Môle – Saint-Tropez Airport",
+    "Location served": "Saint-Tropez, Provence-Alpes-Côte d'Azur, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LTU",
+    "ICAO": "VALT",
+    "Airport name": "Latur Airport",
+    "Location served": "Latur, Maharashtra, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "LTV",
+    "ICAO": "YLOV",
+    "Airport name": "Lotus Vale Station Airport",
+    "Location served": "Lotus Vale Station, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LTW",
+    "ICAO": "",
+    "Airport name": "St. Mary's County Regional Airport (FAA: 2W6)\n(Captain Walter Francis Duke Regional Airport)",
+    "Location served": "Leonardtown, Maryland, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LTX",
+    "ICAO": "",
+    "Airport name": "Cotopaxi International Airport",
+    "Location served": "Latacunga, Ecuador",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LUA",
+    "ICAO": "VNLK",
+    "Airport name": "Tenzing-Hillary Airport",
+    "Location served": "Lukla, Nepal",
+    "Time": "UTC+05:45",
+    "DST": ""
+  },
+  {
+    "IATA": "LUB",
+    "ICAO": "SYLP",
+    "Airport name": "Lumid Pau Airport",
+    "Location served": "Lumid Pau, Guyana",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LUC",
+    "ICAO": "NFNH",
+    "Airport name": "Laucala Airport",
+    "Location served": "Laucala Island, Fiji",
+    "Time": "UTC+12:00",
+    "DST": "Nov-Jan"
+  },
+  {
+    "IATA": "LUD",
+    "ICAO": "FYLZ",
+    "Airport name": "Lüderitz Airport",
+    "Location served": "Lüderitz, Namibia",
+    "Time": "UTC+01:00",
+    "DST": "Sep-Apr"
+  },
+  {
+    "IATA": "LUE",
+    "ICAO": "LZLU",
+    "Airport name": "Boľkovce Airport",
+    "Location served": "Lučenec, Slovakia",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LUF",
+    "ICAO": "KLUF",
+    "Airport name": "Luke Air Force Base",
+    "Location served": "Glendale, Arizona, United States",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LUG",
+    "ICAO": "LSZA",
+    "Airport name": "Lugano Airport",
+    "Location served": "Lugano, Switzerland",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LUH",
+    "ICAO": "VILD",
+    "Airport name": "Sahnewal Airport (Ludhiana Airport)",
+    "Location served": "Ludhiana, Punjab, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "LUI",
+    "ICAO": "",
+    "Airport name": "La Unión Airport",
+    "Location served": "La Unión, Honduras",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LUK",
+    "ICAO": "KLUK",
+    "Airport name": "Cincinnati Municipal Airport (Lunken Field)",
+    "Location served": "Cincinnati, Ohio, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LUL",
+    "ICAO": "KLUL",
+    "Airport name": "Hesler-Noble Field",
+    "Location served": "Laurel, Mississippi, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LUM",
+    "ICAO": "ZPMS",
+    "Airport name": "Dehong Mangshi Airport",
+    "Location served": "Mangshi, Yunnan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LUN",
+    "ICAO": "FLLS",
+    "Airport name": "Kenneth Kaunda International Airport",
+    "Location served": "Lusaka, Zambia",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LUO",
+    "ICAO": "FNUE",
+    "Airport name": "Luena Airport",
+    "Location served": "Luena, Angola",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LUP",
+    "ICAO": "PHLU",
+    "Airport name": "Kalaupapa Airport",
+    "Location served": "Kalaupapa, Hawaii, United States",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LUQ",
+    "ICAO": "SAOU",
+    "Airport name": "Brigadier Mayor César Raúl Ojeda Airport",
+    "Location served": "San Luis, San Luis, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LUR",
+    "ICAO": "PALU",
+    "Airport name": "Cape Lisburne LRRS Airport",
+    "Location served": "Cape Lisburne, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LUS",
+    "ICAO": "FZCE",
+    "Airport name": "Lusanga Airport",
+    "Location served": "Lusanga, Democratic Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LUT",
+    "ICAO": "YLRS",
+    "Airport name": "New Laura Airport",
+    "Location served": "New Laura, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LUU",
+    "ICAO": "YLRA",
+    "Airport name": "Laura Airport",
+    "Location served": "Laura, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LUV",
+    "ICAO": "WAPL",
+    "Airport name": "Karel Sadsuitubun Airport",
+    "Location served": "Langgur, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LUW",
+    "ICAO": "WAMW",
+    "Airport name": "Syukuran Aminuddin Amir Airport",
+    "Location served": "Luwuk, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LUX",
+    "ICAO": "ELLX",
+    "Airport name": "Luxembourg Findel Airport",
+    "Location served": "Luxembourg, Luxembourg",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LUZ",
+    "ICAO": "EPLB",
+    "Airport name": "Lublin Airport",
+    "Location served": "Lublin, Poland",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LVA",
+    "ICAO": "LFOV",
+    "Airport name": "Laval Entrammes Airport",
+    "Location served": "Laval, Pays de la Loire, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LVB",
+    "ICAO": "SSLI",
+    "Airport name": "Galpões Airport",
+    "Location served": "Santana do Livramento, Rio Grande do Sul, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "LVD",
+    "ICAO": "",
+    "Airport name": "Lime Village Airport (FAA: 2AK)",
+    "Location served": "Lime Village, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LVI",
+    "ICAO": "FLLI",
+    "Airport name": "Harry Mwanga Nkumbula International Airport",
+    "Location served": "Livingstone, Zambia",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LVK",
+    "ICAO": "KLVK",
+    "Airport name": "Livermore Municipal Airport",
+    "Location served": "Livermore, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LVL",
+    "ICAO": "KLVL",
+    "Airport name": "Lawrenceville/Brunswick Municipal Airport",
+    "Location served": "Lawrenceville, Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LVM",
+    "ICAO": "KLVM",
+    "Airport name": "Mission Field",
+    "Location served": "Livingston, Montana, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LVO",
+    "ICAO": "YLTN",
+    "Airport name": "Laverton Airport",
+    "Location served": "Laverton, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LVP",
+    "ICAO": "OIBV",
+    "Airport name": "Lavan Airport",
+    "Location served": "Lavan Island, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "LVR",
+    "ICAO": "SILC",
+    "Airport name": "Bom Futuro Municipal Airport[2]",
+    "Location served": "Lucas do Rio Verde, Mato Grosso, Brazil",
+    "Time": "UTC−04:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "LVS",
+    "ICAO": "KLVS",
+    "Airport name": "Las Vegas Municipal Airport",
+    "Location served": "Las Vegas, New Mexico, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LWA",
+    "ICAO": "",
+    "Airport name": "Lebak Airport",
+    "Location served": "Lebak, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LWB",
+    "ICAO": "KLWB",
+    "Airport name": "Greenbrier Valley Airport",
+    "Location served": "Lewisburg, West Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LWC",
+    "ICAO": "KLWC",
+    "Airport name": "Lawrence Municipal Airport",
+    "Location served": "Lawrence, Kansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LWE",
+    "ICAO": "WATW",
+    "Airport name": "Wonopito Airport",
+    "Location served": "Lewoleba, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LWH",
+    "ICAO": "YLAH",
+    "Airport name": "Lawn Hill Airport",
+    "Location served": "Lawn Hill, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LWI",
+    "ICAO": "",
+    "Airport name": "Lowai Airport",
+    "Location served": "Lowai, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LWK",
+    "ICAO": "EGET",
+    "Airport name": "Tingwall Airport (Lerwick/Tingwall Airport)",
+    "Location served": "Lerwick, Scotland, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LWL",
+    "ICAO": "KLWL",
+    "Airport name": "Wells Municipal Airport (Harriet Field)",
+    "Location served": "Wells, Nevada, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LWM",
+    "ICAO": "KLWM",
+    "Airport name": "Lawrence Municipal Airport",
+    "Location served": "Lawrence, Massachusetts, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LWN",
+    "ICAO": "UDSG",
+    "Airport name": "Shirak Airport",
+    "Location served": "Gyumri, Armenia",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LWO",
+    "ICAO": "UKLL",
+    "Airport name": "Lviv Danylo Halytskyi International Airport",
+    "Location served": "Lviv, Ukraine",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LWR",
+    "ICAO": "EHLW",
+    "Airport name": "Leeuwarden Air Base",
+    "Location served": "Leeuwarden, Netherlands",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LWS",
+    "ICAO": "KLWS",
+    "Airport name": "Lewiston–Nez Perce County Airport",
+    "Location served": "Lewiston, Idaho, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LWT",
+    "ICAO": "KLWT",
+    "Airport name": "Lewistown Municipal Airport",
+    "Location served": "Lewistown, Montana, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LWV",
+    "ICAO": "KLWV",
+    "Airport name": "Lawrenceville–Vincennes International Airport",
+    "Location served": "Lawrenceville, Illinois, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LWY",
+    "ICAO": "WBGW",
+    "Airport name": "Lawas Airport",
+    "Location served": "Lawas, Sarawak, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LXA",
+    "ICAO": "ZULS",
+    "Airport name": "Lhasa Gonggar Airport",
+    "Location served": "Lhasa, Tibet, China",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LXG",
+    "ICAO": "VLLN",
+    "Airport name": "Louang Namtha Airport",
+    "Location served": "Luang Namtha, Laos",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LXN",
+    "ICAO": "KLXN",
+    "Airport name": "Jim Kelly Field",
+    "Location served": "Lexington, Nebraska, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LXR",
+    "ICAO": "HELX",
+    "Airport name": "Luxor International Airport",
+    "Location served": "Luxor, Egypt",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LXS",
+    "ICAO": "LGLM",
+    "Airport name": "Lemnos International Airport",
+    "Location served": "Lemnos (Limnos), Greece",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LXU",
+    "ICAO": "FLLK",
+    "Airport name": "Lukulu Airport",
+    "Location served": "Lukulu, Zambia",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LXV",
+    "ICAO": "KLXV",
+    "Airport name": "Lake County Airport",
+    "Location served": "Leadville, Colorado, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LYA",
+    "ICAO": "ZHLY",
+    "Airport name": "Luoyang Beijiao Airport",
+    "Location served": "Luoyang, Henan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LYB",
+    "ICAO": "MWCL",
+    "Airport name": "Edward Bodden Airfield",
+    "Location served": "Little Cayman, British Overseas Territory of Cayman Islands",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LYC",
+    "ICAO": "ESNL",
+    "Airport name": "Lycksele Airport",
+    "Location served": "Lycksele, Sweden",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LYE",
+    "ICAO": "EGDL",
+    "Airport name": "RAF Lyneham",
+    "Location served": "Lyneham, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LYG",
+    "ICAO": "ZSLG",
+    "Airport name": "Lianyungang Baitabu Airport",
+    "Location served": "Lianyungang, Jiangsu, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LYH",
+    "ICAO": "KLYH",
+    "Airport name": "Lynchburg Regional Airport (Preston Glenn Field)",
+    "Location served": "Lynchburg, Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LYI",
+    "ICAO": "ZSLY",
+    "Airport name": "Linyi Shubuling Airport",
+    "Location served": "Linyi, Shandong, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LYK",
+    "ICAO": "",
+    "Airport name": "Lunyuk Airport",
+    "Location served": "Lunyuk, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LYN",
+    "ICAO": "LFLY",
+    "Airport name": "Lyon–Bron Airport",
+    "Location served": "Lyon, Rhône-Alpes, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LYO",
+    "ICAO": "KLYO",
+    "Airport name": "Lyons–Rice County Municipal Airport",
+    "Location served": "Lyons, Kansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LYP",
+    "ICAO": "OPFA",
+    "Airport name": "Faisalabad International Airport",
+    "Location served": "Faisalabad, Pakistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LYR",
+    "ICAO": "ENSB",
+    "Airport name": "Svalbard Airport, Longyear",
+    "Location served": "Longyearbyen, Svalbard, Norway",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LYS",
+    "ICAO": "LFLL",
+    "Airport name": "Lyon–Saint-Exupéry Airport",
+    "Location served": "Lyon, Rhône-Alpes, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LYT",
+    "ICAO": "",
+    "Airport name": "Lady Elliot Island Airport",
+    "Location served": "Lady Elliot Island, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LYU",
+    "ICAO": "KELO",
+    "Airport name": "Ely Municipal Airport (FAA: ELO)",
+    "Location served": "Ely, Minnesota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LYX",
+    "ICAO": "EGMD",
+    "Airport name": "Lydd Airport (London Ashford Airport)",
+    "Location served": "Lydd, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "LZA",
+    "ICAO": "FZUG",
+    "Airport name": "Luiza Airport",
+    "Location served": "Luiza, Democratic Republic of the Congo",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LZC",
+    "ICAO": "MMLC",
+    "Airport name": "Lázaro Cárdenas Airport",
+    "Location served": "Lázaro Cárdenas, Michoacán, Mexico",
+    "Time": "UTC−06:00",
+    "DST": "Apr-Oct"
+  },
+  {
+    "IATA": "LZH",
+    "ICAO": "ZGZH",
+    "Airport name": "Liuzhou Bailian Airport",
+    "Location served": "Liuzhou, Guangxi, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LZI",
+    "ICAO": "FZAL",
+    "Airport name": "Luozi Airport",
+    "Location served": "Luozi, Democratic Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LZM",
+    "ICAO": "FNLZ",
+    "Airport name": "Cuango-Luzamba Airport",
+    "Location served": "Cuango (Luzamba), Angola",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LZN",
+    "ICAO": "RCFG",
+    "Airport name": "Matsu Nangan Airport",
+    "Location served": "Nangan, Taiwan",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LZO",
+    "ICAO": "ZULZ",
+    "Airport name": "Luzhou Yunlong Airport",
+    "Location served": "Luzhou, Sichuan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LZR",
+    "ICAO": "YLZI",
+    "Airport name": "Lizard Island Airport",
+    "Location served": "Lizard Island, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "LZU",
+    "ICAO": "KLZU",
+    "Airport name": "Gwinnett County Airport[2] (Briscoe Field)",
+    "Location served": "LaGrange, Georgia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "LZY",
+    "ICAO": "ZUNZ",
+    "Airport name": "Nyingchi Mainling Airport",
+    "Location served": "Nyingchi (Linzhi), Tibet, China",
+    "Time": "UTC+06:00",
+    "DST": ""
+  }
+]

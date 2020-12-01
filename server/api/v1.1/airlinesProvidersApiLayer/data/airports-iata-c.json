@@ -1,0 +1,4362 @@
+[
+  {
+    "IATA": "CAA",
+    "ICAO": "MHCA",
+    "Airport name": "Catacamas Airport",
+    "Location served": "Catacamas, Honduras",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CAB",
+    "ICAO": "FNCA",
+    "Airport name": "Cabinda Airport",
+    "Location served": "Cabinda, Angola",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CAC",
+    "ICAO": "SBCA",
+    "Airport name": "Cascavel Airport (Adalberto Mendes da Silva Airport)",
+    "Location served": "Cascavel, Paraná, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct–Feb"
+  },
+  {
+    "IATA": "CAD",
+    "ICAO": "KCAD",
+    "Airport name": "Wexford County Airport",
+    "Location served": "Cadillac, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CAE",
+    "ICAO": "KCAE",
+    "Airport name": "Columbia Metropolitan Airport",
+    "Location served": "Columbia, South Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CAF",
+    "ICAO": "SWCA",
+    "Airport name": "Carauari Airport",
+    "Location served": "Carauari, Amazonas, Brazil",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CAG",
+    "ICAO": "LIEE",
+    "Airport name": "Cagliari Elmas Airport",
+    "Location served": "Cagliari, Sardinia, Italy",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CAH",
+    "ICAO": "VVCM",
+    "Airport name": "Cà Mau Airport",
+    "Location served": "Cà Mau, Vietnam",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CAI",
+    "ICAO": "HECA",
+    "Airport name": "Cairo International Airport",
+    "Location served": "Cairo, Egypt",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CAJ",
+    "ICAO": "SVCN",
+    "Airport name": "Canaima Airport",
+    "Location served": "Canaima, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CAK",
+    "ICAO": "KCAK",
+    "Airport name": "Akron-Canton Airport",
+    "Location served": "Akron / Canton, Ohio, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CAL",
+    "ICAO": "EGEC",
+    "Airport name": "Campbeltown Airport / RAF Machrihanish",
+    "Location served": "Campbeltown, Scotland, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CAM",
+    "ICAO": "SLCA",
+    "Airport name": "Camiri Airport",
+    "Location served": "Camiri, Bolivia",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CAN",
+    "ICAO": "ZGGG",
+    "Airport name": "Guangzhou Baiyun International Airport",
+    "Location served": "Guangzhou, Guangdong, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CAO",
+    "ICAO": "KCAO",
+    "Airport name": "Clayton Municipal Airpark",
+    "Location served": "Clayton, New Mexico, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CAP",
+    "ICAO": "MTCH",
+    "Airport name": "Hugo Chávez International Airport",
+    "Location served": "Cap-Haïtien, Haiti",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CAQ",
+    "ICAO": "SKCU",
+    "Airport name": "Juan H. White Airport",
+    "Location served": "Caucasia, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CAR",
+    "ICAO": "KCAR",
+    "Airport name": "Caribou Municipal Airport",
+    "Location served": "Caribou, Maine, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CAS",
+    "ICAO": "GMMC",
+    "Airport name": "Anfa Airport",
+    "Location served": "Casablanca, Morocco",
+    "Time": "UTC±00:00",
+    "DST": "Mar–Oct1"
+  },
+  {
+    "IATA": "CAT",
+    "ICAO": "LPCS",
+    "Airport name": "Cascais Municipal Aerodrome[1]",
+    "Location served": "Cascais, Portugal",
+    "Time": "UTC±00:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CAU",
+    "ICAO": "SNRU",
+    "Airport name": "Caruaru Airport (Oscar Laranjeiras Airport)",
+    "Location served": "Caruaru, Pernambuco, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CAV",
+    "ICAO": "FNCZ",
+    "Airport name": "Cazombo Airport",
+    "Location served": "Cazombo, Angola",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CAW",
+    "ICAO": "SBCP",
+    "Airport name": "Bartolomeu Lysandro Airport",
+    "Location served": "Campos dos Goytacazes, Rio de Janeiro, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct–Feb"
+  },
+  {
+    "IATA": "CAX",
+    "ICAO": "EGNC",
+    "Airport name": "Carlisle Lake District Airport",
+    "Location served": "Carlisle, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CAY",
+    "ICAO": "SOCA",
+    "Airport name": "Cayenne – Félix Eboué Airport",
+    "Location served": "Cayenne, French Guiana",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CAZ",
+    "ICAO": "YCBA",
+    "Airport name": "Cobar Airport",
+    "Location served": "Cobar, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "CBB",
+    "ICAO": "SLCB",
+    "Airport name": "Jorge Wilstermann International Airport",
+    "Location served": "Cochabamba, Bolivia",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CBC",
+    "ICAO": "",
+    "Airport name": "Cherrabun Airport",
+    "Location served": "Cherrabun, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CBD",
+    "ICAO": "VOCX",
+    "Airport name": "Car Nicobar Air Force Base",
+    "Location served": "Car Nicobar, Andaman and Nicobar Islands, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "CBE",
+    "ICAO": "KCBE",
+    "Airport name": "Greater Cumberland Regional Airport",
+    "Location served": "Cumberland, Maryland, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CBF",
+    "ICAO": "KCBF",
+    "Airport name": "Council Bluffs Municipal Airport",
+    "Location served": "Council Bluffs, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CBG",
+    "ICAO": "EGSC",
+    "Airport name": "Cambridge Airport",
+    "Location served": "Cambridge, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CBH",
+    "ICAO": "DAOR",
+    "Airport name": "Boudghene Ben Ali Lotfi Airport",
+    "Location served": "Béchar, Algeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CBI",
+    "ICAO": "",
+    "Airport name": "Cape Barren Island Airport",
+    "Location served": "Cape Barren Island, Tasmania, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "CBJ",
+    "ICAO": "MDCR",
+    "Airport name": "Cabo Rojo Airport",
+    "Location served": "Pedernales, Dominican Republic",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CBK",
+    "ICAO": "KCBK",
+    "Airport name": "Colby Municipal Airport (Shalz Field)",
+    "Location served": "Colby, Kansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CBL",
+    "ICAO": "SVCB",
+    "Airport name": "Tomás de Heres Airport",
+    "Location served": "Ciudad Bolívar, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CBM",
+    "ICAO": "KCBM",
+    "Airport name": "Columbus Air Force Base",
+    "Location served": "Columbus, Mississippi, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CBN",
+    "ICAO": "WICD",
+    "Airport name": "Penggung Airport (Cakrabuwana Airport)",
+    "Location served": "Cirebon, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CBO",
+    "ICAO": "RPMC",
+    "Airport name": "Awang Airport",
+    "Location served": "Cotabato City, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CBP",
+    "ICAO": "LPCO",
+    "Airport name": "Coimbra Airport",
+    "Location served": "Coimbra, Portugal",
+    "Time": "UTC±00:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CBQ",
+    "ICAO": "DNCA",
+    "Airport name": "Margaret Ekpo International Airport",
+    "Location served": "Calabar, Nigeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CBR",
+    "ICAO": "YSCB",
+    "Airport name": "Canberra Airport",
+    "Location served": "Canberra, Australian Capital Territory, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "CBS",
+    "ICAO": "SVON",
+    "Airport name": "Oro Negro Airport",
+    "Location served": "Cabimas, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CBT",
+    "ICAO": "FNCT",
+    "Airport name": "Catumbela Airport",
+    "Location served": "Catumbela, Angola",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CBU",
+    "ICAO": "EDCD",
+    "Airport name": "Cottbus-Drewitz Airport",
+    "Location served": "Cottbus, Brandenburg, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CBV",
+    "ICAO": "MGCB",
+    "Airport name": "Cobán Airport",
+    "Location served": "Cobán, Guatemala",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CBW",
+    "ICAO": "SSKM",
+    "Airport name": "Campo Mourão Airport",
+    "Location served": "Campo Mourão, Paraná, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct–Feb"
+  },
+  {
+    "IATA": "CBX",
+    "ICAO": "YCDO",
+    "Airport name": "Condobolin Airport",
+    "Location served": "Condobolin, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "CBY",
+    "ICAO": "",
+    "Airport name": "Canobie Airport",
+    "Location served": "Canobie Station, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CCA",
+    "ICAO": "SLCH",
+    "Airport name": "Chimore Airport",
+    "Location served": "Chimoré, Cochabamba, Bolivia",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CCB",
+    "ICAO": "KCCB",
+    "Airport name": "Cable Airport",
+    "Location served": "Upland, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CCC",
+    "ICAO": "MUCC",
+    "Airport name": "Jardines del Rey Airport",
+    "Location served": "Cayo Coco, Cuba",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CCF",
+    "ICAO": "LFMK",
+    "Airport name": "Carcassonne Airport",
+    "Location served": "Carcassonne, Languedoc-Roussillon, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CCG",
+    "ICAO": "",
+    "Airport name": "Crane County Airport (FAA: E13)",
+    "Location served": "Crane, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CCH",
+    "ICAO": "SCCC",
+    "Airport name": "Chile Chico Airfield",
+    "Location served": "Chile Chico, Chile",
+    "Time": "UTC−04:00",
+    "DST": "Aug–May"
+  },
+  {
+    "IATA": "CCI",
+    "ICAO": "SSCK",
+    "Airport name": "Concórdia Airport",
+    "Location served": "Concórdia, Santa Catarina, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct–Feb"
+  },
+  {
+    "IATA": "CCJ",
+    "ICAO": "VOCL",
+    "Airport name": "Calicut International Airport",
+    "Location served": "Kozhikode (Calicut), Kerala, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "CCK",
+    "ICAO": "YPCC",
+    "Airport name": "Cocos (Keeling) Islands Airport",
+    "Location served": "Cocos (Keeling) Islands, Australia",
+    "Time": "UTC+06:30",
+    "DST": ""
+  },
+  {
+    "IATA": "CCL",
+    "ICAO": "YCCA",
+    "Airport name": "Chinchilla Airport",
+    "Location served": "Chinchilla, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CCM",
+    "ICAO": "SBCM",
+    "Airport name": "Diomício Freitas Airport",
+    "Location served": "Criciúma, Santa Catarina, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct–Feb"
+  },
+  {
+    "IATA": "CCN",
+    "ICAO": "OACC",
+    "Airport name": "Chaghcharan Airport",
+    "Location served": "Chaghcharan, Afghanistan",
+    "Time": "UTC+04:30",
+    "DST": ""
+  },
+  {
+    "IATA": "CCO",
+    "ICAO": "SKCI",
+    "Airport name": "Carimagua Airport",
+    "Location served": "Carimagua, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CCP",
+    "ICAO": "SCIE",
+    "Airport name": "Carriel Sur International Airport",
+    "Location served": "Concepción, Chile",
+    "Time": "UTC−04:00",
+    "DST": "Aug–May"
+  },
+  {
+    "IATA": "CCR",
+    "ICAO": "KCCR",
+    "Airport name": "Buchanan Field Airport",
+    "Location served": "Concord, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CCS",
+    "ICAO": "SVMI",
+    "Airport name": "Simón Bolívar International Airport",
+    "Location served": "Caracas, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CCT",
+    "ICAO": "",
+    "Airport name": "Colonia Catriel Airport",
+    "Location served": "Catriel, Río Negro, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CCU",
+    "ICAO": "VECC",
+    "Airport name": "Netaji Subhas Chandra Bose International Airport",
+    "Location served": "Kolkata, West Bengal, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "CCV",
+    "ICAO": "NVSF",
+    "Airport name": "Craig Cove Airport",
+    "Location served": "Craig Cove, Ambrym Island, Malampa, Vanuatu",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CCW",
+    "ICAO": "YCWL",
+    "Airport name": "Cowell Airport",
+    "Location served": "Cowell, South Australia, Australia",
+    "Time": "UTC+09:30",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "CCX",
+    "ICAO": "SWKC",
+    "Airport name": "Cáceres Airport",
+    "Location served": "Cáceres, Mato Grosso, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct–Feb"
+  },
+  {
+    "IATA": "CCY",
+    "ICAO": "KCCY",
+    "Airport name": "Northeast Iowa Regional Airport",
+    "Location served": "Charles City, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CCZ",
+    "ICAO": "MYBC",
+    "Airport name": "Chub Cay International Airport",
+    "Location served": "Chub Cay, Berry Islands, Bahamas",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CDA",
+    "ICAO": "YCOO",
+    "Airport name": "Cooinda Airport",
+    "Location served": "Cooinda, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "CDB",
+    "ICAO": "PACD",
+    "Airport name": "Cold Bay Airport",
+    "Location served": "Cold Bay, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CDC",
+    "ICAO": "KCDC",
+    "Airport name": "Cedar City Regional Airport",
+    "Location served": "Cedar City, Utah, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CDD",
+    "ICAO": "",
+    "Airport name": "Cauquira Airport",
+    "Location served": "Cauquira, Honduras",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CDE",
+    "ICAO": "ZBCD",
+    "Airport name": "Chengde Puning Airport",
+    "Location served": "Chengde, Hebei, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CDG",
+    "ICAO": "LFPG",
+    "Airport name": "Charles de Gaulle Airport (Roissy Airport)",
+    "Location served": "Paris, Île-de-France, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CDH",
+    "ICAO": "KCDH",
+    "Airport name": "Harrell Field",
+    "Location served": "Camden, Arkansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CDI",
+    "ICAO": "SNKI",
+    "Airport name": "Cachoeiro de Itapemirim Airport (Raimundo de Andrade Airport)",
+    "Location served": "Cachoeiro de Itapemirim, Espírito Santo, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct–Feb"
+  },
+  {
+    "IATA": "CDJ",
+    "ICAO": "SBAA",
+    "Airport name": "Conceição do Araguaia Airport",
+    "Location served": "Conceição do Araguaia, Pará, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CDK",
+    "ICAO": "KCDK",
+    "Airport name": "George T. Lewis Airport",
+    "Location served": "Cedar Key, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CDL",
+    "ICAO": "",
+    "Airport name": "Candle 2 Airport (FAA: AK75)",
+    "Location served": "Candle, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CDN",
+    "ICAO": "KCDN",
+    "Airport name": "Woodward Field",
+    "Location served": "Camden, South Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CDO",
+    "ICAO": "FACD",
+    "Airport name": "Cradock Airport",
+    "Location served": "Cradock, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CDP",
+    "ICAO": "VOCP",
+    "Airport name": "Kadapa Airport",
+    "Location served": "Kadapa, Andhra Pradesh, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "CDQ",
+    "ICAO": "YCRY",
+    "Airport name": "Croydon Airport",
+    "Location served": "Croydon, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CDR",
+    "ICAO": "KCDR",
+    "Airport name": "Chadron Municipal Airport",
+    "Location served": "Chadron, Nebraska, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CDS",
+    "ICAO": "KCDS",
+    "Airport name": "Childress Municipal Airport",
+    "Location served": "Childress, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CDT",
+    "ICAO": "LECS",
+    "Airport name": "Castellón–Costa Azahar Airport",
+    "Location served": "Castellón de la Plana, Valencia, Spain",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CDU",
+    "ICAO": "YSCN",
+    "Airport name": "Camden Airport",
+    "Location served": "Camden, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "CDV",
+    "ICAO": "PACV",
+    "Airport name": "Merle K. (Mudhole) Smith Airport",
+    "Location served": "Cordova, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CDW",
+    "ICAO": "KCDW",
+    "Airport name": "Essex County Airport",
+    "Location served": "Caldwell, New Jersey, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CDY",
+    "ICAO": "RPMU",
+    "Airport name": "Cagayan de Sulu Airport",
+    "Location served": "Mapun, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CEA",
+    "ICAO": "KCEA",
+    "Airport name": "Cessna Aircraft Field",
+    "Location served": "Wichita, Kansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CEB",
+    "ICAO": "RPVM",
+    "Airport name": "Mactan–Cebu International Airport",
+    "Location served": "Lapu-Lapu, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CEC",
+    "ICAO": "KCEC",
+    "Airport name": "Del Norte County Airport (Jack McNamara Field)",
+    "Location served": "Crescent City, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CED",
+    "ICAO": "YCDU",
+    "Airport name": "Ceduna Airport",
+    "Location served": "Ceduna, South Australia, Australia",
+    "Time": "UTC+09:30",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "CEE",
+    "ICAO": "ULWC",
+    "Airport name": "Cherepovets Airport",
+    "Location served": "Cherepovets, Vologda Oblast, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CEF",
+    "ICAO": "KCEF",
+    "Airport name": "Westover Metropolitan Airport / Westover Air Reserve Base",
+    "Location served": "Springfield, Massachusetts, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CEG",
+    "ICAO": "EGNR",
+    "Airport name": "Hawarden Airport (Chester Airport)",
+    "Location served": "Chester, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CEH",
+    "ICAO": "FWCD",
+    "Airport name": "Chelinda Airport",
+    "Location served": "Chelinda, Malawi",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CEI",
+    "ICAO": "VTCT",
+    "Airport name": "Chiang Rai International Airport (Mae Fah Luang Int'l)",
+    "Location served": "Chiang Rai, Thailand",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CEK",
+    "ICAO": "USCC",
+    "Airport name": "Chelyabinsk Airport",
+    "Location served": "Chelyabinsk, Chelyabinsk Oblast, Russia",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CEM",
+    "ICAO": "PARL",
+    "Airport name": "Central Airport",
+    "Location served": "Central, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CEN",
+    "ICAO": "MMCN",
+    "Airport name": "Ciudad Obregón International Airport",
+    "Location served": "Ciudad Obregón, Sonora, Mexico",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CEO",
+    "ICAO": "FNWK",
+    "Airport name": "Waco Kungo Airport",
+    "Location served": "Waku-Kungo, Angola",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CEP",
+    "ICAO": "SLCP",
+    "Airport name": "Concepción Airport",
+    "Location served": "Concepción, Bolivia",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CEQ",
+    "ICAO": "LFMD",
+    "Airport name": "Cannes – Mandelieu Airport",
+    "Location served": "Cannes, Provence-Alpes-Côte d'Azur, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CER",
+    "ICAO": "LFRC",
+    "Airport name": "Cherbourg – Maupertus Airport",
+    "Location served": "Cherbourg-Octeville, Lower Normandy, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CES",
+    "ICAO": "YCNK",
+    "Airport name": "Cessnock Airport",
+    "Location served": "Cessnock, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "CET",
+    "ICAO": "LFOU",
+    "Airport name": "Cholet Le Pontreau Airport",
+    "Location served": "Cholet, Pays de la Loire, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CEU",
+    "ICAO": "KCEU",
+    "Airport name": "Oconee County Regional Airport",
+    "Location served": "Clemson, South Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CEV",
+    "ICAO": "KCEV",
+    "Airport name": "Mettel Field",
+    "Location served": "Connersville, Indiana, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CEW",
+    "ICAO": "KCEW",
+    "Airport name": "Bob Sikes Airport",
+    "Location served": "Crestview, Florida, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CEX",
+    "ICAO": "",
+    "Airport name": "Chena Hot Springs Airport (FAA: AK13)",
+    "Location served": "Chena Hot Springs, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CEY",
+    "ICAO": "KCEY",
+    "Airport name": "Murray-Calloway County Airport",
+    "Location served": "Murray, Kentucky, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CEZ",
+    "ICAO": "KCEZ",
+    "Airport name": "Cortez Municipal Airport",
+    "Location served": "Cortez, Colorado, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CFB",
+    "ICAO": "SBCB",
+    "Airport name": "Cabo Frio International Airport",
+    "Location served": "Cabo Frio, Rio de Janeiro, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct–Feb"
+  },
+  {
+    "IATA": "CFC",
+    "ICAO": "SBCD",
+    "Airport name": "Caçador Airport",
+    "Location served": "Caçador, Santa Catarina, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct–Feb"
+  },
+  {
+    "IATA": "CFD",
+    "ICAO": "KCFD",
+    "Airport name": "Coulter Field",
+    "Location served": "Bryan, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CFE",
+    "ICAO": "LFLC",
+    "Airport name": "Clermont-Ferrand Auvergne Airport",
+    "Location served": "Clermont-Ferrand, Auvergne, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CFF",
+    "ICAO": "FNCF",
+    "Airport name": "Cafunfo Airport",
+    "Location served": "Cafunfo, Angola",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CFG",
+    "ICAO": "MUCF",
+    "Airport name": "Jaime González Airport",
+    "Location served": "Cienfuegos, Cuba",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CFH",
+    "ICAO": "",
+    "Airport name": "Clifton Hills Airport",
+    "Location served": "Clifton Hills, South Australia, Australia",
+    "Time": "UTC+09:30",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "CFI",
+    "ICAO": "YCFD",
+    "Airport name": "Camfield Airport",
+    "Location served": "Camfield Station, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "CFK",
+    "ICAO": "DAOI",
+    "Airport name": "Chlef International Airport",
+    "Location served": "Chlef, Algeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CFM",
+    "ICAO": "",
+    "Airport name": "Conklin (Leismer) Airport",
+    "Location served": "Wood Buffalo, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "CFN",
+    "ICAO": "EIDL",
+    "Airport name": "Donegal Airport",
+    "Location served": "Donegal, Ireland",
+    "Time": "UTC±00:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CFO",
+    "ICAO": "",
+    "Airport name": "Confresa Airport",
+    "Location served": "Confresa, Mato Grosso, Brazil",
+    "Time": "UTC−04:00",
+    "DST": "Oct–Feb"
+  },
+  {
+    "IATA": "CFP",
+    "ICAO": "",
+    "Airport name": "Carpentaria Downs Airport",
+    "Location served": "Carpentaria Downs, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CFQ",
+    "ICAO": "",
+    "Airport name": "Creston Aerodrome[1] (TC: CAJ3)",
+    "Location served": "Creston, British Columbia, Canada",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CFR",
+    "ICAO": "LFRK",
+    "Airport name": "Caen – Carpiquet Airport",
+    "Location served": "Caen, Lower Normandy, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CFS",
+    "ICAO": "YCFS",
+    "Airport name": "Coffs Harbour Airport",
+    "Location served": "Coffs Harbour, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "CFT",
+    "ICAO": "KCFT",
+    "Airport name": "Greenlee County Airport",
+    "Location served": "Clifton / Morenci, Arizona, United States",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CFU",
+    "ICAO": "LGKR",
+    "Airport name": "Corfu International Airport (Ioannis Kapodistrias Int'l Airport)",
+    "Location served": "Corfu, Greece",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CFV",
+    "ICAO": "KCFV",
+    "Airport name": "Coffeyville Municipal Airport",
+    "Location served": "Coffeyville, Kansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CGA",
+    "ICAO": "",
+    "Airport name": "Craig Seaplane Base",
+    "Location served": "Craig, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CGB",
+    "ICAO": "SBCY",
+    "Airport name": "Marechal Rondon International Airport",
+    "Location served": "Cuiabá, Mato Grosso, Brazil",
+    "Time": "UTC−04:00",
+    "DST": "Oct–Feb"
+  },
+  {
+    "IATA": "CGC",
+    "ICAO": "AYCG",
+    "Airport name": "Cape Gloucester Airport",
+    "Location served": "Cape Gloucester, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CGD",
+    "ICAO": "ZGCD",
+    "Airport name": "Changde Taohuayuan Airport",
+    "Location served": "Changde, Hunan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CGE",
+    "ICAO": "KCGE",
+    "Airport name": "Cambridge–Dorchester Airport",
+    "Location served": "Cambridge, Maryland, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CGF",
+    "ICAO": "KCGF",
+    "Airport name": "Cuyahoga County Airport",
+    "Location served": "Cleveland, Ohio, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CGG",
+    "ICAO": "",
+    "Airport name": "Casiguran Airport",
+    "Location served": "Casiguran, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CGH",
+    "ICAO": "SBSP",
+    "Airport name": "São Paulo/Congonhas–Deputado Freitas Nobre Airport",
+    "Location served": "São Paulo, São Paulo, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct–Feb"
+  },
+  {
+    "IATA": "CGI",
+    "ICAO": "KCGI",
+    "Airport name": "Cape Girardeau Regional Airport",
+    "Location served": "Cape Girardeau, Missouri, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CGJ",
+    "ICAO": "",
+    "Airport name": "Kasompe Airport",
+    "Location served": "Chingola, Zambia",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CGK",
+    "ICAO": "WIII",
+    "Airport name": "Soekarno–Hatta International Airport",
+    "Location served": "Jakarta, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CGM",
+    "ICAO": "RPMH",
+    "Airport name": "Camiguin Airport",
+    "Location served": "Mambajao, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CGN",
+    "ICAO": "EDDK",
+    "Airport name": "Cologne Bonn Airport",
+    "Location served": "Cologne / Bonn, North Rhine-Westphalia, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CGO",
+    "ICAO": "ZHCC",
+    "Airport name": "Zhengzhou Xinzheng International Airport",
+    "Location served": "Zhengzhou, Henan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CGP",
+    "ICAO": "VGEG",
+    "Airport name": "Shah Amanat International Airport",
+    "Location served": "Chittagong, Bangladesh",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CGQ",
+    "ICAO": "ZYCC",
+    "Airport name": "Changchun Longjia International Airport",
+    "Location served": "Changchun, Jilin, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CGR",
+    "ICAO": "SBCG",
+    "Airport name": "Campo Grande International Airport",
+    "Location served": "Campo Grande, Mato Grosso do Sul, Brazil",
+    "Time": "UTC−04:00",
+    "DST": "Oct–Feb"
+  },
+  {
+    "IATA": "CGS",
+    "ICAO": "KCGS",
+    "Airport name": "College Park Airport",
+    "Location served": "College Park, Maryland, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CGT",
+    "ICAO": "",
+    "Airport name": "Chinguetti Airport",
+    "Location served": "Chinguetti, Mauritania",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CGV",
+    "ICAO": "YCAG",
+    "Airport name": "Caiguna Airport",
+    "Location served": "Caiguna, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CGY",
+    "ICAO": "RPMY",
+    "Airport name": "Laguindingan Airport",
+    "Location served": "Cagayan de Oro, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CGZ",
+    "ICAO": "KCGZ",
+    "Airport name": "Casa Grande Municipal Airport",
+    "Location served": "Casa Grande, Arizona, United States",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CHA",
+    "ICAO": "KCHA",
+    "Airport name": "Chattanooga Metropolitan Airport (Lovell Field)",
+    "Location served": "Chattanooga, Tennessee, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CHB",
+    "ICAO": "OPCL",
+    "Airport name": "Chilas Airport",
+    "Location served": "Chilas, Pakistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CHC",
+    "ICAO": "NZCH",
+    "Airport name": "Christchurch International Airport",
+    "Location served": "Christchurch, New Zealand",
+    "Time": "UTC+12:00",
+    "DST": "Sep–Apr"
+  },
+  {
+    "IATA": "CHF",
+    "ICAO": "RKPE",
+    "Airport name": "Jinhae Airport",
+    "Location served": "Jinhae, South Korea",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CHG",
+    "ICAO": "ZYCY",
+    "Airport name": "Chaoyang Airport",
+    "Location served": "Chaoyang, Liaoning, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CHH",
+    "ICAO": "SPPY",
+    "Airport name": "Chachapoyas Airport",
+    "Location served": "Chachapoyas, Peru",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CHI[1]",
+    "ICAO": "",
+    "Airport name": "metropolitan area2",
+    "Location served": "Chicago, Illinois, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CHJ",
+    "ICAO": "FVCH",
+    "Airport name": "Chipinge Airport",
+    "Location served": "Chipinge, Zimbabwe",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CHK",
+    "ICAO": "KCHK",
+    "Airport name": "Chickasha Municipal Airport",
+    "Location served": "Chickasha, Oklahoma, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CHL",
+    "ICAO": "KLLJ",
+    "Airport name": "Challis Airport (FAA: LLJ)",
+    "Location served": "Challis, Idaho, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CHM",
+    "ICAO": "SPEO",
+    "Airport name": "Tnte. FAP Jaime Montreuil Morales Airport",
+    "Location served": "Chimbote, Peru",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CHN",
+    "ICAO": "RKJU",
+    "Airport name": "Jeonju Airport",
+    "Location served": "Jeonju, South Korea",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CHO",
+    "ICAO": "KCHO",
+    "Airport name": "Charlottesville–Albemarle Airport",
+    "Location served": "Charlottesville, Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CHP",
+    "ICAO": "",
+    "Airport name": "Circle Hot Springs Airport",
+    "Location served": "Circle Hot Springs, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CHQ",
+    "ICAO": "LGSA",
+    "Airport name": "Chania International Airport (\"Ioannis Daskalogiannis\")",
+    "Location served": "Chania, Greece",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CHR",
+    "ICAO": "LFLX",
+    "Airport name": "Châteauroux-Centre \"Marcel Dassault\" Airport",
+    "Location served": "Châteauroux, Centre-Val de Loire, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CHS",
+    "ICAO": "KCHS",
+    "Airport name": "Charleston International Airport / Charleston Air Force Base",
+    "Location served": "Charleston, South Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CHT",
+    "ICAO": "NZCI",
+    "Airport name": "Chatham Islands / Tuuta Airport",
+    "Location served": "Chatham Islands, New Zealand",
+    "Time": "UTC+12:45",
+    "DST": "Sep–Apr"
+  },
+  {
+    "IATA": "CHU",
+    "ICAO": "PACH",
+    "Airport name": "Chuathbaluk Airport (FAA: 9A3)",
+    "Location served": "Chuathbaluk, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CHV",
+    "ICAO": "LPCH",
+    "Airport name": "Chaves Airport",
+    "Location served": "Chaves, Portugal",
+    "Time": "UTC±00:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CHX",
+    "ICAO": "MPCH",
+    "Airport name": "Changuinola \"Capitán Manuel Niño\" International Airport",
+    "Location served": "Changuinola, Panama",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CHY",
+    "ICAO": "AGGC",
+    "Airport name": "Choiseul Bay Airport",
+    "Location served": "Choiseul Bay, Taro Island, Solomon Islands",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CHZ",
+    "ICAO": "",
+    "Airport name": "Chiloquin State Airport (FAA: 2S7)",
+    "Location served": "Chiloquin, Oregon, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CIA",
+    "ICAO": "LIRA",
+    "Airport name": "Ciampino–G. B. Pastine International Airport",
+    "Location served": "Rome, Lazio, Italy",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CIC",
+    "ICAO": "KCIC",
+    "Airport name": "Chico Municipal Airport",
+    "Location served": "Chico, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CID",
+    "ICAO": "KCID",
+    "Airport name": "The Eastern Iowa Airport",
+    "Location served": "Cedar Rapids, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CIE",
+    "ICAO": "YCOI",
+    "Airport name": "Collie Airport",
+    "Location served": "Collie, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CIF",
+    "ICAO": "ZBCF",
+    "Airport name": "Chifeng Yulong Airport",
+    "Location served": "Chifeng, Inner Mongolia, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CIG",
+    "ICAO": "KCAG",
+    "Airport name": "Craig–Moffat Airport (FAA: CAG)",
+    "Location served": "Craig, Colorado, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CIH",
+    "ICAO": "ZBCZ",
+    "Airport name": "Changzhi Wangcun Airport",
+    "Location served": "Changzhi, Shanxi, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CII",
+    "ICAO": "LTBD",
+    "Airport name": "Aydın Airport[1] (Çıldır Airport)",
+    "Location served": "Aydın, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CIJ",
+    "ICAO": "SLCO",
+    "Airport name": "Captain Aníbal Arab Airport",
+    "Location served": "Cobija, Bolivia",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CIK",
+    "ICAO": "PACI",
+    "Airport name": "Chalkyitsik Airport",
+    "Location served": "Chalkyitsik, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CIL",
+    "ICAO": "",
+    "Airport name": "Council Airport (FAA: K29)",
+    "Location served": "Council, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CIM",
+    "ICAO": "SKCM",
+    "Airport name": "Cimitarra Airport",
+    "Location served": "Cimitarra, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CIN",
+    "ICAO": "KCIN",
+    "Airport name": "Arthur N. Neu Airport",
+    "Location served": "Carroll, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CIO",
+    "ICAO": "SGCO",
+    "Airport name": "Teniente Coronel Carmelo Peralta Airport",
+    "Location served": "Concepción, Paraguay",
+    "Time": "UTC−04:00",
+    "DST": "Oct–Mar"
+  },
+  {
+    "IATA": "CIP",
+    "ICAO": "FLCP",
+    "Airport name": "Chipata Airport",
+    "Location served": "Chipata, Zambia",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CIQ",
+    "ICAO": "",
+    "Airport name": "Chiquimula Airport",
+    "Location served": "Chiquimula, Guatemala",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CIR",
+    "ICAO": "KCIR",
+    "Airport name": "Cairo Regional Airport",
+    "Location served": "Cairo, Illinois, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CIS",
+    "ICAO": "PCIS",
+    "Airport name": "Canton Island Airport",
+    "Location served": "Canton Island, Kiribati",
+    "Time": "UTC+13:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CIT",
+    "ICAO": "UAII",
+    "Airport name": "Shymkent International Airport",
+    "Location served": "Shymkent, Kazakhstan",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CIU",
+    "ICAO": "KCIU",
+    "Airport name": "Chippewa County International Airport",
+    "Location served": "Sault Ste Marie, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CIW",
+    "ICAO": "TVSC",
+    "Airport name": "Canouan Airport",
+    "Location served": "Canouan, Saint Vincent and the Grenadines",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CIX",
+    "ICAO": "SPHI",
+    "Airport name": "FAP Captain José Abelardo Quiñones González International Airport",
+    "Location served": "Chiclayo, Peru",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CIY",
+    "ICAO": "LICB",
+    "Airport name": "Comiso Airport",
+    "Location served": "Comiso, Sicily, Italy",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CIZ",
+    "ICAO": "SWKO",
+    "Airport name": "Coari Airport",
+    "Location served": "Coari, Amazonas, Brazil",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CJA",
+    "ICAO": "SPJR",
+    "Airport name": "Mayor General FAP Armando Revoredo Iglesias Airport",
+    "Location served": "Cajamarca, Peru",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CJB",
+    "ICAO": "VOCB",
+    "Airport name": "Coimbatore International Airport",
+    "Location served": "Coimbatore, Tamil Nadu, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "CJC",
+    "ICAO": "SCCF",
+    "Airport name": "El Loa Airport",
+    "Location served": "Calama, Chile",
+    "Time": "UTC−04:00",
+    "DST": "Aug–May"
+  },
+  {
+    "IATA": "CJD",
+    "ICAO": "",
+    "Airport name": "Candilejas Airport",
+    "Location served": "Candilejas, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CJF",
+    "ICAO": "YCWA",
+    "Airport name": "Coondewanna Airport",
+    "Location served": "Coondewanna, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CJH",
+    "ICAO": "",
+    "Airport name": "Chilko Lake (Tsylos Park Lodge) Aerodrome (TC: CAG3)",
+    "Location served": "Chilko Lake, British Columbia, Canada",
+    "Time": "UTC−08:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CJJ",
+    "ICAO": "RKTU",
+    "Airport name": "Cheongju International Airport",
+    "Location served": "Cheongju, South Korea",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CJL",
+    "ICAO": "OPCH",
+    "Airport name": "Chitral Airport",
+    "Location served": "Chitral, Pakistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CJM",
+    "ICAO": "VTSE",
+    "Airport name": "Chumphon Airport",
+    "Location served": "Chumphon, Thailand",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CJN",
+    "ICAO": "WI1A",
+    "Airport name": "Cijulang Nusawiru Airport",
+    "Location served": "Cijulang, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "CJS",
+    "ICAO": "MMCS",
+    "Airport name": "Abraham González International Airport",
+    "Location served": "Ciudad Juárez, Chihuahua, Mexico",
+    "Time": "UTC−07:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CJT",
+    "ICAO": "MMCO",
+    "Airport name": "Copalar Airport",
+    "Location served": "Comitán, Chiapas, Mexico",
+    "Time": "UTC−06:00",
+    "DST": "Apr–Oct"
+  },
+  {
+    "IATA": "CJU",
+    "ICAO": "RKPC",
+    "Airport name": "Jeju International Airport",
+    "Location served": "Jeju, South Korea",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CKA",
+    "ICAO": "KCKA",
+    "Airport name": "Kegelman Air Force Auxiliary Field",
+    "Location served": "Cherokee, Oklahoma, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CKB",
+    "ICAO": "KCKB",
+    "Airport name": "North Central West Virginia Airport",
+    "Location served": "Clarksburg, West Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CKC",
+    "ICAO": "UKKE",
+    "Airport name": "Cherkasy International Airport",
+    "Location served": "Cherkasy, Ukraine",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CKD",
+    "ICAO": "",
+    "Airport name": "Crooked Creek Airport (FAA: CJX)",
+    "Location served": "Crooked Creek, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CKE",
+    "ICAO": "",
+    "Airport name": "Lampson Field[1] (FAA: 1O2)",
+    "Location served": "Lakeport, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CKG",
+    "ICAO": "ZUCK",
+    "Airport name": "Chongqing Jiangbei International Airport",
+    "Location served": "Chongqing, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CKH",
+    "ICAO": "UESO",
+    "Airport name": "Chokurdakh Airport",
+    "Location served": "Chokurdakh, Yakutia, Russia",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CKI",
+    "ICAO": "YCKI",
+    "Airport name": "Croker Island Airport",
+    "Location served": "Croker Island, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "CKK",
+    "ICAO": "KCVK",
+    "Airport name": "Sharp County Regional Airport[1] (FAA: CVK)",
+    "Location served": "Ash Flat, Arkansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CKL",
+    "ICAO": "UUMU",
+    "Airport name": "Chkalovsky Airport",
+    "Location served": "Shchyolkovo (Moscow Oblast), Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CKM",
+    "ICAO": "KCKM",
+    "Airport name": "Fletcher Field",
+    "Location served": "Clarksdale, Mississippi, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CKN",
+    "ICAO": "KCKN",
+    "Airport name": "Crookston Municipal Airport (Kirkwood Field)",
+    "Location served": "Crookston, Minnesota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CKO",
+    "ICAO": "SSCP",
+    "Airport name": "Cornélio Procópio Airport",
+    "Location served": "Cornélio Procópio, Paraná, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct–Feb"
+  },
+  {
+    "IATA": "CKR",
+    "ICAO": "",
+    "Airport name": "Crane Island Airstrip[1]",
+    "Location served": "Crane Island, Washington, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CKS",
+    "ICAO": "SBCJ",
+    "Airport name": "Carajás Airport",
+    "Location served": "Parauapebas, Pará, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CKT",
+    "ICAO": "OIMC",
+    "Airport name": "Sarakhs Airport",
+    "Location served": "Sarakhs, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar–Sep"
+  },
+  {
+    "IATA": "CKU",
+    "ICAO": "",
+    "Airport name": "Cordova Municipal Airport",
+    "Location served": "Cordova, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CKV",
+    "ICAO": "KCKV",
+    "Airport name": "Clarksville–Montgomery County Regional Airport (Outlaw Field)",
+    "Location served": "Clarksville, Tennessee, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CKW",
+    "ICAO": "YCHK",
+    "Airport name": "Graeme Rowley Aerodrome",
+    "Location served": "Christmas Creek mine, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CKX",
+    "ICAO": "",
+    "Airport name": "Chicken Airport",
+    "Location served": "Chicken, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CKY",
+    "ICAO": "GUCY",
+    "Airport name": "Conakry International Airport (Gbessia Int'l Airport)",
+    "Location served": "Conakry, Guinea",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CKZ",
+    "ICAO": "LTBH",
+    "Airport name": "Çanakkale Airport",
+    "Location served": "Çanakkale, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CLA",
+    "ICAO": "VGCM",
+    "Airport name": "Comilla Airport",
+    "Location served": "Comilla, Bangladesh",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CLD",
+    "ICAO": "KCRQ",
+    "Airport name": "McClellan–Palomar Airport (FAA: CRQ)",
+    "Location served": "Carlsbad, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CLE",
+    "ICAO": "KCLE",
+    "Airport name": "Cleveland Hopkins International Airport",
+    "Location served": "Cleveland, Ohio, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CLG",
+    "ICAO": "",
+    "Airport name": "New Coalinga Municipal Airport (FAA: C80)",
+    "Location served": "Coalinga, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CLH",
+    "ICAO": "YCAH",
+    "Airport name": "Coolah Airport",
+    "Location served": "Coolah, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "CLI",
+    "ICAO": "KCLI",
+    "Airport name": "Clintonville Municipal Airport",
+    "Location served": "Clintonville, Wisconsin, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CLJ",
+    "ICAO": "LRCL",
+    "Airport name": "Cluj-Napoca International Airport",
+    "Location served": "Cluj-Napoca, Romania",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CLK",
+    "ICAO": "KCLK",
+    "Airport name": "Clinton Regional Airport",
+    "Location served": "Clinton, Oklahoma, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CLL",
+    "ICAO": "KCLL",
+    "Airport name": "Easterwood Airport (Easterwood Field)",
+    "Location served": "College Station, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CLM",
+    "ICAO": "KCLM",
+    "Airport name": "William R. Fairchild International Airport",
+    "Location served": "Port Angeles, Washington, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CLN",
+    "ICAO": "SBCI",
+    "Airport name": "Carolina Airport",
+    "Location served": "Carolina, Maranhão, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CLO",
+    "ICAO": "SKCL",
+    "Airport name": "Alfonso Bonilla Aragón International Airport",
+    "Location served": "Cali, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CLP",
+    "ICAO": "PFCL",
+    "Airport name": "Clarks Point Airport",
+    "Location served": "Clark's Point, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CLQ",
+    "ICAO": "MMIA",
+    "Airport name": "Licenciado Miguel de la Madrid Airport",
+    "Location served": "Colima City, Colima, Mexico",
+    "Time": "UTC−06:00",
+    "DST": "Apr–Oct"
+  },
+  {
+    "IATA": "CLR",
+    "ICAO": "KCLR",
+    "Airport name": "Cliff Hatfield Memorial Airport[1]",
+    "Location served": "Calipatria, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CLS",
+    "ICAO": "KCLS",
+    "Airport name": "Chehalis-Centralia Airport",
+    "Location served": "Chehalis, Washington, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CLT",
+    "ICAO": "KCLT",
+    "Airport name": "Charlotte Douglas International Airport",
+    "Location served": "Charlotte, North Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CLU",
+    "ICAO": "KBAK",
+    "Airport name": "Columbus Municipal Airport (FAA: BAK)",
+    "Location served": "Columbus, Indiana, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CLV",
+    "ICAO": "SWKN",
+    "Airport name": "Caldas Novas Airport",
+    "Location served": "Caldas Novas, Goiás, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct–Feb"
+  },
+  {
+    "IATA": "CLW",
+    "ICAO": "KCLW",
+    "Airport name": "Clearwater Air Park",
+    "Location served": "Clearwater, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CLX",
+    "ICAO": "SATC",
+    "Airport name": "Clorinda Airport",
+    "Location served": "Clorinda, Formosa, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CLY",
+    "ICAO": "LFKC",
+    "Airport name": "Calvi – Sainte-Catherine Airport",
+    "Location served": "Calvi, Corsica, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CLZ",
+    "ICAO": "SVCL",
+    "Airport name": "Calabozo Airport",
+    "Location served": "Calabozo, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CMA",
+    "ICAO": "YCMU",
+    "Airport name": "Cunnamulla Airport",
+    "Location served": "Cunnamulla, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CMB",
+    "ICAO": "VCBI",
+    "Airport name": "Bandaranaike International Airport",
+    "Location served": "Colombo, Sri Lanka",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "CMC",
+    "ICAO": "SNWC",
+    "Airport name": "Camocim Airport",
+    "Location served": "Camocim, Ceará, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CMD",
+    "ICAO": "YCTM",
+    "Airport name": "Cootamundra Airport",
+    "Location served": "Cootamundra, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "CME",
+    "ICAO": "MMCE",
+    "Airport name": "Ciudad del Carmen International Airport",
+    "Location served": "Ciudad del Carmen, Campeche, Mexico",
+    "Time": "UTC−06:00",
+    "DST": "Apr–Oct"
+  },
+  {
+    "IATA": "CMF",
+    "ICAO": "LFLB",
+    "Airport name": "Chambéry-Savoie Airport",
+    "Location served": "Chambéry, Rhône-Alpes, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CMG",
+    "ICAO": "SBCR",
+    "Airport name": "Corumbá International Airport",
+    "Location served": "Corumbá, Mato Grosso do Sul, Brazil",
+    "Time": "UTC−04:00",
+    "DST": "Oct–Feb"
+  },
+  {
+    "IATA": "CMH",
+    "ICAO": "KCMH",
+    "Airport name": "John Glenn Columbus International Airport",
+    "Location served": "Columbus, Ohio, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CMI",
+    "ICAO": "KCMI",
+    "Airport name": "University of Illinois Willard Airport",
+    "Location served": "Champaign, Illinois, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CMJ",
+    "ICAO": "RCCM",
+    "Airport name": "Qimei Airport",
+    "Location served": "Qimei, Taiwan",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CMK",
+    "ICAO": "FWCM",
+    "Airport name": "Club Makokola Airport",
+    "Location served": "Club Makokola, Malawi",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CML",
+    "ICAO": "YCMW",
+    "Airport name": "Camooweal Airport",
+    "Location served": "Camooweal, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CMM",
+    "ICAO": "MGCR",
+    "Airport name": "Carmelita Airport",
+    "Location served": "Carmelita, Guatemala",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CMN",
+    "ICAO": "GMMN",
+    "Airport name": "Mohammed V International Airport",
+    "Location served": "Casablanca, Morocco",
+    "Time": "UTC±00:00",
+    "DST": "Mar–Oct1"
+  },
+  {
+    "IATA": "CMO",
+    "ICAO": "HCMO",
+    "Airport name": "Obbia Airport",
+    "Location served": "Obbia, Somalia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CMP",
+    "ICAO": "SNKE",
+    "Airport name": "Santana do Araguaia Airport",
+    "Location served": "Santana do Araguaia, Pará, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CMQ",
+    "ICAO": "YCMT",
+    "Airport name": "Clermont Airport",
+    "Location served": "Clermont, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CMR",
+    "ICAO": "LFGA",
+    "Airport name": "Colmar – Houssen Airport",
+    "Location served": "Colmar, Alsace, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CMS",
+    "ICAO": "HCMS",
+    "Airport name": "Iskushuban Airport",
+    "Location served": "Iskushuban (Scusciuban), Somalia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CMT",
+    "ICAO": "",
+    "Airport name": "Cameta Airport",
+    "Location served": "Cametá, Pará, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CMU",
+    "ICAO": "AYCH",
+    "Airport name": "Chimbu Airport",
+    "Location served": "Kundiawa, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CMV",
+    "ICAO": "NZCX",
+    "Airport name": "Coromandel Aerodrome",
+    "Location served": "Coromandel, New Zealand",
+    "Time": "UTC+12:00",
+    "DST": "Sep–Apr"
+  },
+  {
+    "IATA": "CMW",
+    "ICAO": "MUCM",
+    "Airport name": "Ignacio Agramonte International Airport",
+    "Location served": "Camagüey, Cuba",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CMX",
+    "ICAO": "KCMX",
+    "Airport name": "Houghton County Memorial Airport",
+    "Location served": "Hancock, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CMY",
+    "ICAO": "KCMY",
+    "Airport name": "Sparta/Fort McCoy Airport",
+    "Location served": "Sparta, Wisconsin, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CMZ",
+    "ICAO": "",
+    "Airport name": "Caia Airport[1]",
+    "Location served": "Caia, Mozambique",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CNA",
+    "ICAO": "MMCA",
+    "Airport name": "Cananea National Airport",
+    "Location served": "Cananea, Sonora, Mexico",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CNB",
+    "ICAO": "YCNM",
+    "Airport name": "Coonamble Airport",
+    "Location served": "Coonamble, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "CNC",
+    "ICAO": "YCCT",
+    "Airport name": "Coconut Island Airport",
+    "Location served": "Coconut (Poruma) Island, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CND",
+    "ICAO": "LRCK",
+    "Airport name": "Mihail Kogălniceanu International Airport",
+    "Location served": "Constanța, Romania",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CNE",
+    "ICAO": "",
+    "Airport name": "Fremont County Airport (FAA: 1V6)",
+    "Location served": "Cañon City, Colorado, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CNF",
+    "ICAO": "SBCF",
+    "Airport name": "Tancredo Neves International Airport (Confins Int'l Airport)",
+    "Location served": "Belo Horizonte, Minas Gerais, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct–Feb"
+  },
+  {
+    "IATA": "CNG",
+    "ICAO": "LFBG",
+    "Airport name": "Cognac – Châteaubernard Air Base",
+    "Location served": "Cognac, Poitou-Charentes, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CNH",
+    "ICAO": "KCNH",
+    "Airport name": "Claremont Municipal Airport",
+    "Location served": "Claremont, New Hampshire, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CNI",
+    "ICAO": "ZYCH",
+    "Airport name": "Changhai Airport",
+    "Location served": "Changhai, Liaoning, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CNJ",
+    "ICAO": "YCCY",
+    "Airport name": "Cloncurry Airport",
+    "Location served": "Cloncurry, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CNK",
+    "ICAO": "KCNK",
+    "Airport name": "Blosser Municipal Airport",
+    "Location served": "Concordia, Kansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CNL",
+    "ICAO": "EKSN",
+    "Airport name": "Sindal Airport",
+    "Location served": "Sindal, Denmark",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CNM",
+    "ICAO": "KCNM",
+    "Airport name": "Cavern City Air Terminal",
+    "Location served": "Carlsbad, New Mexico, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CNN",
+    "ICAO": "VOKN",
+    "Airport name": "Kannur International Airport",
+    "Location served": "kannur, (Cannanore) Kerala, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "CNO",
+    "ICAO": "KCNO",
+    "Airport name": "Chino Airport",
+    "Location served": "Chino, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CNP",
+    "ICAO": "BGCO",
+    "Airport name": "Nerlerit Inaat Airport (Constable Pynt Airport)",
+    "Location served": "Ittoqqortoormiit, Greenland",
+    "Time": "UTC−01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CNQ",
+    "ICAO": "SARC",
+    "Airport name": "Doctor Fernando Piragine Niveyro International Airport",
+    "Location served": "Corrientes, Corrientes, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CNR",
+    "ICAO": "SCRA",
+    "Airport name": "Chañaral Airport",
+    "Location served": "Chañaral, Chile",
+    "Time": "UTC−04:00",
+    "DST": "Aug–May"
+  },
+  {
+    "IATA": "CNS",
+    "ICAO": "YBCS",
+    "Airport name": "Cairns Airport",
+    "Location served": "Cairns, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CNT",
+    "ICAO": "",
+    "Airport name": "Charata Airport",
+    "Location served": "Charata, Chaco, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CNU",
+    "ICAO": "KCNU",
+    "Airport name": "Chanute Martin Johnson Airport",
+    "Location served": "Chanute, Kansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CNV",
+    "ICAO": "SNED",
+    "Airport name": "Canavieiras Airport",
+    "Location served": "Canavieiras, Bahia, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CNW",
+    "ICAO": "KCNW",
+    "Airport name": "TSTC Waco Airport",
+    "Location served": "Waco, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CNX",
+    "ICAO": "VTCC",
+    "Airport name": "Chiang Mai International Airport",
+    "Location served": "Chiang Mai, Thailand",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CNY",
+    "ICAO": "KCNY",
+    "Airport name": "Canyonlands Field",
+    "Location served": "Moab, Utah, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CNZ",
+    "ICAO": "",
+    "Airport name": "Cangamba Airport",
+    "Location served": "Cangamba, Angola",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "COA",
+    "ICAO": "",
+    "Airport name": "Columbia Airport (FAA: O22)",
+    "Location served": "Columbia, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "COB",
+    "ICAO": "",
+    "Airport name": "Coolibah Airport",
+    "Location served": "Coolibah Station, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "COC",
+    "ICAO": "SAAC",
+    "Airport name": "Comodoro Pierrestegui Airport",
+    "Location served": "Concordia, Entre Ríos, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "COD",
+    "ICAO": "KCOD",
+    "Airport name": "Yellowstone Regional Airport",
+    "Location served": "Cody, Wyoming, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "COE",
+    "ICAO": "KCOE",
+    "Airport name": "Coeur d'Alene Airport",
+    "Location served": "Coeur d'Alene, Idaho, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "COF",
+    "ICAO": "KCOF",
+    "Airport name": "Patrick Air Force Base",
+    "Location served": "Cocoa Beach, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "COG",
+    "ICAO": "SKCD",
+    "Airport name": "Mandinga Airport",
+    "Location served": "Condoto, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "COH",
+    "ICAO": "VECO",
+    "Airport name": "Cooch Behar Airport",
+    "Location served": "Cooch Behar, West Bengal, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "COI",
+    "ICAO": "KCOI",
+    "Airport name": "Merritt Island Airport",
+    "Location served": "Merritt Island, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "COJ",
+    "ICAO": "YCBB",
+    "Airport name": "Coonabarabran Airport",
+    "Location served": "Coonabarabran, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "COK",
+    "ICAO": "VOCI",
+    "Airport name": "Cochin International Airport (Nedumbassery Airport)",
+    "Location served": "Kochi (Cochin), Kerala, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "COL",
+    "ICAO": "",
+    "Airport name": "Coll Airport",
+    "Location served": "Coll, Scotland, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "COM",
+    "ICAO": "KCOM",
+    "Airport name": "Coleman Municipal Airport",
+    "Location served": "Coleman, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CON",
+    "ICAO": "KCON",
+    "Airport name": "Concord Municipal Airport",
+    "Location served": "Concord, New Hampshire, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "COO",
+    "ICAO": "DBBB",
+    "Airport name": "Cadjehoun Airport",
+    "Location served": "Cotonou, Benin",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "COP",
+    "ICAO": "",
+    "Airport name": "Cooperstown-Westville Airport (FAA: K23)",
+    "Location served": "Cooperstown, New York, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "COQ",
+    "ICAO": "ZMCD",
+    "Airport name": "Choibalsan Airport",
+    "Location served": "Choibalsan, Mongolia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "COR",
+    "ICAO": "SACO",
+    "Airport name": "Ingeniero Aeronáutico Ambrosio L.V. Taravella International Airport (Pajas Blancas)",
+    "Location served": "Córdoba, Córdoba, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "COS",
+    "ICAO": "KCOS",
+    "Airport name": "Colorado Springs Airport",
+    "Location served": "Colorado Springs, Colorado, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "COT",
+    "ICAO": "KCOT",
+    "Airport name": "Cotulla–La Salle County Airport",
+    "Location served": "Cotulla, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "COU",
+    "ICAO": "KCOU",
+    "Airport name": "Columbia Regional Airport",
+    "Location served": "Columbia, Missouri, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "COW",
+    "ICAO": "SCQB",
+    "Airport name": "Coquimbo Airport",
+    "Location served": "Coquimbo, Chile",
+    "Time": "UTC−04:00",
+    "DST": "Aug–May"
+  },
+  {
+    "IATA": "COY",
+    "ICAO": "YCWY",
+    "Airport name": "Coolawanyah Station Airport",
+    "Location served": "Coolawanyah Station, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "COZ",
+    "ICAO": "MDCZ",
+    "Airport name": "Constanza Airport",
+    "Location served": "Constanza, Dominican Republic",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CPA",
+    "ICAO": "GLCP",
+    "Airport name": "Cape Palmas Airport",
+    "Location served": "Harper, Liberia",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CPB",
+    "ICAO": "SKCA",
+    "Airport name": "Capurganá Airport",
+    "Location served": "Capurganá, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CPC",
+    "ICAO": "SAZY",
+    "Airport name": "Aviador Carlos Campos Airport",
+    "Location served": "San Martín de los Andes, Neuquén, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CPD",
+    "ICAO": "YCBP",
+    "Airport name": "Coober Pedy Airport",
+    "Location served": "Coober Pedy, South Australia, Australia",
+    "Time": "UTC+09:30",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "CPE",
+    "ICAO": "MMCP",
+    "Airport name": "Ing. Alberto Acuña Ongay International Airport",
+    "Location served": "Campeche, Campeche, Mexico",
+    "Time": "UTC−06:00",
+    "DST": "Apr–Oct"
+  },
+  {
+    "IATA": "CPF",
+    "ICAO": "WARC",
+    "Airport name": "Ngloram Airport",
+    "Location served": "Cepu, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CPG",
+    "ICAO": "",
+    "Airport name": "Carmen de Patagones Airport",
+    "Location served": "Carmen de Patagones, Buenos Aires, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CPH",
+    "ICAO": "EKCH",
+    "Airport name": "Copenhagen Airport, Kastrup",
+    "Location served": "Copenhagen, Denmark",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CPI",
+    "ICAO": "",
+    "Airport name": "Cape Orford Airport[1]",
+    "Location served": "Cape Orford, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CPL",
+    "ICAO": "SKHA",
+    "Airport name": "General Navas Pardo Airport",
+    "Location served": "Chaparral, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CPM",
+    "ICAO": "KCPM",
+    "Airport name": "Compton/Woodley Airport",
+    "Location served": "Compton, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CPN",
+    "ICAO": "",
+    "Airport name": "Cape Rodney Airport",
+    "Location served": "Cape Rodney, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CPO",
+    "ICAO": "SCAT",
+    "Airport name": "Desierto de Atacama Airport",
+    "Location served": "Copiapó, Chile",
+    "Time": "UTC−04:00",
+    "DST": "Aug–May"
+  },
+  {
+    "IATA": "CPP",
+    "ICAO": "SCKP",
+    "Airport name": "Coposa Airport",
+    "Location served": "Pica, Chile",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "CPR",
+    "ICAO": "KCPR",
+    "Airport name": "Casper–Natrona County International Airport",
+    "Location served": "Casper, Wyoming, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CPS",
+    "ICAO": "KCPS",
+    "Airport name": "St. Louis Downtown Airport",
+    "Location served": "Cahokia (near St. Louis/MO), Illinois, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CPT",
+    "ICAO": "FACT",
+    "Airport name": "Cape Town International Airport",
+    "Location served": "Cape Town, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CPU",
+    "ICAO": "",
+    "Airport name": "Cururupu Airport",
+    "Location served": "Cururupu, Maranhão, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CPV",
+    "ICAO": "SBKG",
+    "Airport name": "Campina Grande Airport (Presidente João Suassuna Airport)",
+    "Location served": "Campina Grande, Paraíba, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CPX",
+    "ICAO": "TJCP",
+    "Airport name": "Benjamín Rivera Noriega Airport",
+    "Location served": "Culebra, Puerto Rico, United States",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CQA",
+    "ICAO": "",
+    "Airport name": "Canarana Airport",
+    "Location served": "Canarana, Mato Grosso, Brazil",
+    "Time": "UTC−04:00",
+    "DST": "Oct–Feb"
+  },
+  {
+    "IATA": "CQD",
+    "ICAO": "OIFS",
+    "Airport name": "Shahrekord Airport",
+    "Location served": "Shahrekord, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar–Sep"
+  },
+  {
+    "IATA": "CQF",
+    "ICAO": "LFAC",
+    "Airport name": "Calais–Dunkerque Airport",
+    "Location served": "Calais / Dunkirk, Nord-Pas-de-Calais, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CQM",
+    "ICAO": "LERL",
+    "Airport name": "Ciudad Real Central Airport",
+    "Location served": "Ciudad Real, Castilla-La Mancha, Spain",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CQP",
+    "ICAO": "",
+    "Airport name": "Cape Flattery Airport",
+    "Location served": "Cape Flattery, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CQS",
+    "ICAO": "SWCQ",
+    "Airport name": "Costa Marques Airport",
+    "Location served": "Costa Marques, Rondônia, Brazil",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CQT",
+    "ICAO": "",
+    "Airport name": "Caquetania Airport",
+    "Location served": "Caquetania, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CQW",
+    "ICAO": "",
+    "Airport name": "Wulong Xiannüshan Airport",
+    "Location served": "Wulong, Chongqing, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "CRA",
+    "ICAO": "LRCV",
+    "Airport name": "Craiova International Airport",
+    "Location served": "Craiova, Romania",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CRB",
+    "ICAO": "YCBR",
+    "Airport name": "Collarenebri Airport",
+    "Location served": "Collarenebri, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "CRC",
+    "ICAO": "SKGO",
+    "Airport name": "Santa Ana Airport",
+    "Location served": "Cartago, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CRD",
+    "ICAO": "SAVC",
+    "Airport name": "General Enrique Mosconi International Airport",
+    "Location served": "Comodoro Rivadavia, Chubut, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CRE",
+    "ICAO": "KCRE",
+    "Airport name": "Grand Strand Airport",
+    "Location served": "North Myrtle Beach, South Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CRF",
+    "ICAO": "FEFC",
+    "Airport name": "Carnot Airport",
+    "Location served": "Carnot, Central African Republic",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CRG",
+    "ICAO": "KCRG",
+    "Airport name": "Jacksonville Executive at Craig Airport",
+    "Location served": "Jacksonville, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CRH",
+    "ICAO": "",
+    "Airport name": "Cherrabah Airport",
+    "Location served": "Cherrabah, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CRI",
+    "ICAO": "MYCI",
+    "Airport name": "Colonel Hill Airport (Crooked Island Airport)",
+    "Location served": "Colonel Hill, Crooked Island, Bahamas",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CRJ",
+    "ICAO": "",
+    "Airport name": "Coorabie Airport",
+    "Location served": "Coorabie, South Australia, Australia",
+    "Time": "UTC+09:30",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "CRK",
+    "ICAO": "RPLC",
+    "Airport name": "Clark International Airport",
+    "Location served": "Clark Special Economic Zone, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CRL",
+    "ICAO": "EBCI",
+    "Airport name": "Brussels South Charleroi Airport",
+    "Location served": "Charleroi, Belgium",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CRM",
+    "ICAO": "RPVF",
+    "Airport name": "Catarman National Airport",
+    "Location served": "Catarman, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CRO",
+    "ICAO": "KCRO",
+    "Airport name": "Corcoran Airport",
+    "Location served": "Corcoran, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CRP",
+    "ICAO": "KCRP",
+    "Airport name": "Corpus Christi International Airport",
+    "Location served": "Corpus Christi, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CRQ",
+    "ICAO": "SBCV",
+    "Airport name": "Caravelas Airport",
+    "Location served": "Caravelas, Bahia, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CRR",
+    "ICAO": "SANW",
+    "Airport name": "Ceres Airport",
+    "Location served": "Ceres, Santa Fe, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CRS",
+    "ICAO": "KCRS",
+    "Airport name": "C. David Campbell Field (Corsicana Municipal Airport)",
+    "Location served": "Corsicana, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CRT",
+    "ICAO": "KCRT",
+    "Airport name": "Z. M. Jack Stell Field",
+    "Location served": "Crossett, Arkansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CRU",
+    "ICAO": "TGPZ",
+    "Airport name": "Lauriston Airport (Carriacou Island Airport)",
+    "Location served": "Carriacou, Grenada",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CRV",
+    "ICAO": "LIBC",
+    "Airport name": "Crotone Airport (Sant'Anna Airport)",
+    "Location served": "Crotone, Calabria, Italy",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CRW",
+    "ICAO": "KCRW",
+    "Airport name": "Yeager Airport",
+    "Location served": "Charleston, West Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CRX",
+    "ICAO": "KCRX",
+    "Airport name": "Roscoe Turner Airport",
+    "Location served": "Corinth, Mississippi, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CRY",
+    "ICAO": "",
+    "Airport name": "Carlton Hill Airport",
+    "Location served": "Carlton Hill Station, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CRZ",
+    "ICAO": "UTAV",
+    "Airport name": "Turkmenabat Airport",
+    "Location served": "Türkmenabat, Turkmenistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CSA",
+    "ICAO": "",
+    "Airport name": "Colonsay Airport",
+    "Location served": "Colonsay, Scotland, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CSB",
+    "ICAO": "LRCS",
+    "Airport name": "Caransebeș Airport",
+    "Location served": "Caransebeș, Romania",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CSC",
+    "ICAO": "MRMJ[2]",
+    "Airport name": "Cañas Mojica Airport",
+    "Location served": "Cañas, Costa Rica",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CSD",
+    "ICAO": "",
+    "Airport name": "Cresswell Downs Airport",
+    "Location served": "Cresswell Downs, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "CSE",
+    "ICAO": "",
+    "Airport name": "Buckhorn Ranch Airport (FAA: 0CO2)",
+    "Location served": "Crested Butte, Colorado, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CSF",
+    "ICAO": "LFPC",
+    "Airport name": "Creil Air Base",
+    "Location served": "Creil, Picardy, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CSG",
+    "ICAO": "KCSG",
+    "Airport name": "Columbus Airport",
+    "Location served": "Columbus, Georgia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CSH",
+    "ICAO": "ULAS",
+    "Airport name": "Solovki Airport",
+    "Location served": "Solovetsky Islands, Arkhangelsk Oblast, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CSI",
+    "ICAO": "YCAS",
+    "Airport name": "Casino Airport",
+    "Location served": "Casino, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "CSK",
+    "ICAO": "GOGS",
+    "Airport name": "Cap Skirring Airport",
+    "Location served": "Cap Skirring, Senegal",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CSM",
+    "ICAO": "KCSM",
+    "Airport name": "Clinton-Sherman Airport",
+    "Location served": "Clinton, Oklahoma, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CSN",
+    "ICAO": "KCXP",
+    "Airport name": "Carson Airport (FAA: CXP)",
+    "Location served": "Carson City, Nevada, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CSO",
+    "ICAO": "EDBC",
+    "Airport name": "Magdeburg–Cochstedt Airport",
+    "Location served": "Magdeburg, Saxony-Anhalt, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CSQ",
+    "ICAO": "KCSQ",
+    "Airport name": "Creston Municipal Airport",
+    "Location served": "Creston, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CSR",
+    "ICAO": "",
+    "Airport name": "Casuarito Airport",
+    "Location served": "Casuarito, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CSS",
+    "ICAO": "SSCL",
+    "Airport name": "Cassilândia Airport",
+    "Location served": "Cassilândia, Mato Grosso do Sul, Brazil",
+    "Time": "UTC−04:00",
+    "DST": "Oct–Feb"
+  },
+  {
+    "IATA": "CST",
+    "ICAO": "NFCS",
+    "Airport name": "Castaway Island Seaplane Base",
+    "Location served": "Castaway Island, Mamanuca Islands, Fiji",
+    "Time": "UTC+12:00",
+    "DST": "Nov–Jan"
+  },
+  {
+    "IATA": "CSU",
+    "ICAO": "",
+    "Airport name": "Santa Cruz do Sul Airport[1]",
+    "Location served": "Santa Cruz do Sul, Rio Grande do Sul, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct–Feb"
+  },
+  {
+    "IATA": "CSV",
+    "ICAO": "KCSV",
+    "Airport name": "Crossville Memorial-Whitson Field",
+    "Location served": "Crossville, Tennessee, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CSX",
+    "ICAO": "ZGHA",
+    "Airport name": "Changsha Huanghua International Airport",
+    "Location served": "Changsha, Hunan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CSY",
+    "ICAO": "UWKS",
+    "Airport name": "Cheboksary Airport",
+    "Location served": "Cheboksary, Chuvashia, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CSZ",
+    "ICAO": "SAZC",
+    "Airport name": "Brigadier Hector Eduardo Ruiz Airport",
+    "Location served": "Coronel Suárez, Buenos Aires, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CTA",
+    "ICAO": "LICC",
+    "Airport name": "Catania–Fontanarossa Airport",
+    "Location served": "Catania, Sicily, Italy",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CTB",
+    "ICAO": "KCTB",
+    "Airport name": "Cut Bank Municipal Airport",
+    "Location served": "Cut Bank, Montana, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CTC",
+    "ICAO": "SANC",
+    "Airport name": "Coronel Felipe Varela International Airport",
+    "Location served": "Catamarca, Catamarca, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CTD",
+    "ICAO": "MPCE",
+    "Airport name": "Chitré Alonso Valderrama Airport",
+    "Location served": "Chitré, Panama",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CTE",
+    "ICAO": "",
+    "Airport name": "Cartí Airport",
+    "Location served": "Cartí, Panama",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CTF",
+    "ICAO": "MGCT",
+    "Airport name": "Coatepeque Airport",
+    "Location served": "Coatepeque, Guatemala",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CTG",
+    "ICAO": "SKCG",
+    "Airport name": "Rafael Núñez International Airport",
+    "Location served": "Cartagena, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CTH",
+    "ICAO": "KMQS",
+    "Airport name": "Chester County G. O. Carlson Airport (FAA: MQS)",
+    "Location served": "Coatesville, Pennsylvania, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CTI",
+    "ICAO": "FNCV",
+    "Airport name": "Cuito Cuanavale Airport",
+    "Location served": "Cuito Cuanavale, Angola",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CTK",
+    "ICAO": "",
+    "Airport name": "Canton Municipal Airport (FAA: 7G9)",
+    "Location served": "Canton, South Dakota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CTL",
+    "ICAO": "YBCV",
+    "Airport name": "Charleville Airport",
+    "Location served": "Charleville, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CTM",
+    "ICAO": "MMCM",
+    "Airport name": "Chetumal International Airport",
+    "Location served": "Chetumal, Quintana Roo, Mexico",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CTN",
+    "ICAO": "YCKN",
+    "Airport name": "Cooktown Airport",
+    "Location served": "Cooktown, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CTO",
+    "ICAO": "",
+    "Airport name": "Calverton Executive Airpark (FAA: 3C8)",
+    "Location served": "Calverton, New York, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CTP",
+    "ICAO": "SNCP",
+    "Airport name": "Carutapera Airport",
+    "Location served": "Carutapera, Maranhão, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CTQ",
+    "ICAO": "SSVP",
+    "Airport name": "Do Palmar Airport",
+    "Location served": "Santa Vitória, Rio Grande do Sul, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct–Feb"
+  },
+  {
+    "IATA": "CTR",
+    "ICAO": "",
+    "Airport name": "Cattle Creek Airport",
+    "Location served": "Cattle Creek, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "CTS",
+    "ICAO": "RJCC",
+    "Airport name": "New Chitose Airport",
+    "Location served": "Sapporo, Hokkaido, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CTT",
+    "ICAO": "LFMQ",
+    "Airport name": "Le Castellet Airport",
+    "Location served": "Le Castellet, Provence-Alpes-Côte d'Azur, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CTU",
+    "ICAO": "ZUUU",
+    "Airport name": "Chengdu Shuangliu International Airport",
+    "Location served": "Chengdu, Sichuan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CTW",
+    "ICAO": "",
+    "Airport name": "Cottonwood Airport (FAA: P52)",
+    "Location served": "Cottonwood, Arizona, United States",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CTX",
+    "ICAO": "",
+    "Airport name": "Cortland County Airport (Chase Field, FAA: N03)",
+    "Location served": "Cortland, New York, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CTY",
+    "ICAO": "KCTY",
+    "Airport name": "Cross City Airport",
+    "Location served": "Cross City, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CTZ",
+    "ICAO": "KCTZ",
+    "Airport name": "Clinton–Sampson County Airport",
+    "Location served": "Clinton, North Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CUA",
+    "ICAO": "MMDA",
+    "Airport name": "Ciudad Constitución Airport",
+    "Location served": "Ciudad Constitución, Baja California Sur, Mexico",
+    "Time": "UTC−07:00",
+    "DST": "Apr–Oct"
+  },
+  {
+    "IATA": "CUB",
+    "ICAO": "KCUB",
+    "Airport name": "Jim Hamilton–L.B. Owens Airport",
+    "Location served": "Columbia, South Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CUC",
+    "ICAO": "SKCC",
+    "Airport name": "Camilo Daza International Airport",
+    "Location served": "Cúcuta, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CUD",
+    "ICAO": "YCDR",
+    "Airport name": "Caloundra Airport",
+    "Location served": "Caloundra, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CUE",
+    "ICAO": "SECU",
+    "Airport name": "Mariscal Lamar International Airport",
+    "Location served": "Cuenca, Ecuador",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CUF",
+    "ICAO": "LIMZ",
+    "Airport name": "Cuneo International Airport",
+    "Location served": "Cuneo, Piedmont, Italy",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CUG",
+    "ICAO": "YCUA",
+    "Airport name": "Cudal Airport",
+    "Location served": "Cudal, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "CUH",
+    "ICAO": "KCUH",
+    "Airport name": "Cushing Municipal Airport",
+    "Location served": "Cushing, Oklahoma, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CUI",
+    "ICAO": "",
+    "Airport name": "Curillo Airport",
+    "Location served": "Curillo, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CUJ",
+    "ICAO": "",
+    "Airport name": "Culion Airport",
+    "Location served": "Culion, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CUK",
+    "ICAO": "",
+    "Airport name": "Caye Caulker Airport",
+    "Location served": "Caye Caulker, Belize",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CUL",
+    "ICAO": "MMCL",
+    "Airport name": "Bachigualato Federal International Airport",
+    "Location served": "Culiacán, Sinaloa, Mexico",
+    "Time": "UTC−07:00",
+    "DST": "Apr–Oct"
+  },
+  {
+    "IATA": "CUM",
+    "ICAO": "SVCU",
+    "Airport name": "Antonio José de Sucre Airport",
+    "Location served": "Cumaná, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CUN",
+    "ICAO": "MMUN",
+    "Airport name": "Cancún International Airport",
+    "Location served": "Cancún, Quintana Roo, Mexico",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CUO",
+    "ICAO": "SKCR",
+    "Airport name": "Caruru Airport",
+    "Location served": "Caruru, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CUP",
+    "ICAO": "SVCP",
+    "Airport name": "General José Francisco Bermúdez Airport",
+    "Location served": "Carúpano, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CUQ",
+    "ICAO": "YCOE",
+    "Airport name": "Coen Airport",
+    "Location served": "Coen, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CUR",
+    "ICAO": "TNCC",
+    "Airport name": "Curaçao International Airport (Hato Int'l Airport)",
+    "Location served": "Willemstad, Curaçao",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CUS",
+    "ICAO": "",
+    "Airport name": "Columbus Municipal Airport (FAA: 0NM0)",
+    "Location served": "Columbus, New Mexico, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CUT",
+    "ICAO": "SAZW",
+    "Airport name": "Cutral Có Airport",
+    "Location served": "Cutral Có, Neuquén, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CUU",
+    "ICAO": "MMCU",
+    "Airport name": "General Roberto Fierro Villalobos International Airport",
+    "Location served": "Chihuahua, Chihuahua, Mexico",
+    "Time": "UTC−07:00",
+    "DST": "Apr–Oct"
+  },
+  {
+    "IATA": "CUV",
+    "ICAO": "SVCG",
+    "Airport name": "Casigua El Cubo Airport",
+    "Location served": "Casigua El Cubo, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CUX",
+    "ICAO": "",
+    "Airport name": "Cuddihy Field (FAA: 07TE)",
+    "Location served": "Corpus Christi, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CUY",
+    "ICAO": "YCUE",
+    "Airport name": "Cue Airport",
+    "Location served": "Cue, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CUZ",
+    "ICAO": "SPZO",
+    "Airport name": "Alejandro Velasco Astete International Airport",
+    "Location served": "Cusco, Peru",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CVB",
+    "ICAO": "AYCB",
+    "Airport name": "Chungrebu Airport",
+    "Location served": "Chungrebu, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CVC",
+    "ICAO": "YCEE",
+    "Airport name": "Cleve Airport",
+    "Location served": "Cleve, South Australia, Australia",
+    "Time": "UTC+09:30",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "CVE",
+    "ICAO": "SKCV",
+    "Airport name": "Coveñas Airport",
+    "Location served": "Coveñas, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CVF",
+    "ICAO": "LFLJ",
+    "Airport name": "Courchevel Altiport",
+    "Location served": "Courchevel, Rhône-Alpes, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CVG",
+    "ICAO": "KCVG",
+    "Airport name": "Cincinnati/Northern Kentucky International Airport",
+    "Location served": "Hebron (near Cincinnati/OH), Kentucky, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CVH",
+    "ICAO": "",
+    "Airport name": "Caviahue Airport",
+    "Location served": "Caviahue, Neuquén, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CVI",
+    "ICAO": "",
+    "Airport name": "Caleta Olivia Airport",
+    "Location served": "Caleta Olivia, Santa Cruz, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CVJ",
+    "ICAO": "MMCB",
+    "Airport name": "General Mariano Matamoros Airport",
+    "Location served": "Cuernavaca, Morelos, Mexico",
+    "Time": "UTC−06:00",
+    "DST": "Apr–Oct"
+  },
+  {
+    "IATA": "CVL",
+    "ICAO": "",
+    "Airport name": "Cape Vogel Airport",
+    "Location served": "Cape Vogel, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CVM",
+    "ICAO": "MMCV",
+    "Airport name": "General Pedro J. Méndez International Airport",
+    "Location served": "Ciudad Victoria, Tamaulipas, Mexico",
+    "Time": "UTC−06:00",
+    "DST": "Apr–Oct"
+  },
+  {
+    "IATA": "CVN",
+    "ICAO": "KCVN",
+    "Airport name": "Clovis Municipal Airport",
+    "Location served": "Clovis, New Mexico, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CVO",
+    "ICAO": "KCVO",
+    "Airport name": "Corvallis Municipal Airport",
+    "Location served": "Corvallis, Oregon, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CVQ",
+    "ICAO": "YCAR",
+    "Airport name": "Carnarvon Airport",
+    "Location served": "Carnarvon, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CVS",
+    "ICAO": "KCVS",
+    "Airport name": "Cannon Air Force Base",
+    "Location served": "Clovis, New Mexico, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CVT",
+    "ICAO": "EGBE",
+    "Airport name": "Coventry Airport",
+    "Location served": "Coventry, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CVU",
+    "ICAO": "LPCR",
+    "Airport name": "Corvo Airport",
+    "Location served": "Corvo Island, Azores, Portugal",
+    "Time": "UTC−01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CWA",
+    "ICAO": "KCWA",
+    "Airport name": "Central Wisconsin Airport",
+    "Location served": "Wausau, Wisconsin, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CWB",
+    "ICAO": "SBCT",
+    "Airport name": "Afonso Pena International Airport",
+    "Location served": "Curitiba, Paraná, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct–Feb"
+  },
+  {
+    "IATA": "CWC",
+    "ICAO": "UKLN",
+    "Airport name": "Chernivtsi International Airport",
+    "Location served": "Chernivtsi, Ukraine",
+    "Time": "UTC+02:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CWF",
+    "ICAO": "KCWF",
+    "Airport name": "Chennault International Airport",
+    "Location served": "Lake Charles, Louisiana, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CWI",
+    "ICAO": "KCWI",
+    "Airport name": "Clinton Municipal Airport",
+    "Location served": "Clinton, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CWJ",
+    "ICAO": "ZPCW",
+    "Airport name": "Cangyuan Washan Airport",
+    "Location served": "Nuoliang Township, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CWL",
+    "ICAO": "EGFF",
+    "Airport name": "Cardiff Airport",
+    "Location served": "Cardiff, Wales, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CWR",
+    "ICAO": "YCWI",
+    "Airport name": "Cowarie Airport",
+    "Location served": "Cowarie, South Australia, Australia",
+    "Time": "UTC+09:30",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "CWS",
+    "ICAO": "",
+    "Airport name": "Center Island Airport (FAA: 78WA)",
+    "Location served": "Center Island, Washington, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CWT",
+    "ICAO": "YCWR",
+    "Airport name": "Cowra Airport",
+    "Location served": "Cowra, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "CWW",
+    "ICAO": "YCOR",
+    "Airport name": "Corowa Airport",
+    "Location served": "Corowa, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "CWX",
+    "ICAO": "",
+    "Airport name": "Cochise County Airport[1] (FAA: P33)",
+    "Location served": "Willcox, Arizona, United States",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CXA",
+    "ICAO": "SVCD",
+    "Airport name": "Caicara del Orinoco Airport",
+    "Location served": "Caicara del Orinoco, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CXB",
+    "ICAO": "VGCB",
+    "Airport name": "Cox's Bazar Airport",
+    "Location served": "Cox's Bazar, Bangladesh",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CXC",
+    "ICAO": "",
+    "Airport name": "Chitina Airport",
+    "Location served": "Chitina, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CXF",
+    "ICAO": "PACX",
+    "Airport name": "Coldfoot Airport",
+    "Location served": "Coldfoot, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CXH",
+    "ICAO": "CYHC",
+    "Airport name": "Vancouver Harbour Flight Centre (Coal Harbour Seaplane Base)",
+    "Location served": "Vancouver, British Columbia, Canada",
+    "Time": "UTC−08:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CXI",
+    "ICAO": "PLCH",
+    "Airport name": "Cassidy International Airport",
+    "Location served": "Christmas Island, Kiribati",
+    "Time": "UTC+14:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CXJ",
+    "ICAO": "SBCX",
+    "Airport name": "Caxias do Sul Airport (Hugo Cantergiani Regional Airport)",
+    "Location served": "Caxias do Sul, Rio Grande do Sul, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct–Feb"
+  },
+  {
+    "IATA": "CXL",
+    "ICAO": "KCXL",
+    "Airport name": "Calexico International Airport",
+    "Location served": "Calexico, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CXN",
+    "ICAO": "HCMC",
+    "Airport name": "Candala Airport",
+    "Location served": "Candala, Somalia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CXO",
+    "ICAO": "KCXO",
+    "Airport name": "Lone Star Executive Airport",
+    "Location served": "Houston, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CXP",
+    "ICAO": "WIHL",
+    "Airport name": "Tunggul Wulung Airport",
+    "Location served": "Cilacap, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CXQ",
+    "ICAO": "YCRK",
+    "Airport name": "Christmas Creek Airport",
+    "Location served": "Christmas Creek Station, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CXR",
+    "ICAO": "VVCR",
+    "Airport name": "Cam Ranh International Airport",
+    "Location served": "Cam Ranh, Vietnam",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CXT",
+    "ICAO": "YCHT",
+    "Airport name": "Charters Towers Airport",
+    "Location served": "Charters Towers, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CXY",
+    "ICAO": "MYCC",
+    "Airport name": "Cat Cay Airport",
+    "Location served": "Cat Cays, Bimini, Bahamas",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CYA",
+    "ICAO": "MTCA",
+    "Airport name": "Antoine-Simon Airport",
+    "Location served": "Les Cayes, Haiti",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CYB",
+    "ICAO": "MWCB",
+    "Airport name": "Charles Kirkconnell International Airport",
+    "Location served": "Cayman Brac, British Overseas Territory of Cayman Islands",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CYC",
+    "ICAO": "",
+    "Airport name": "Caye Chapel Airport",
+    "Location served": "Caye Chapel, Belize",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CYD",
+    "ICAO": "",
+    "Airport name": "San Ignacio Town Airstrip[1]",
+    "Location served": "San Ignacio, Belize",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CYF",
+    "ICAO": "PACK",
+    "Airport name": "Chefornak Airport (FAA: CFK)",
+    "Location served": "Chefornak, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CYG",
+    "ICAO": "YCRG",
+    "Airport name": "Corryong Airport",
+    "Location served": "Corryong, Victoria, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct–Apr"
+  },
+  {
+    "IATA": "CYI",
+    "ICAO": "RCKU",
+    "Airport name": "Chiayi Airport",
+    "Location served": "Chiayi, Taiwan",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CYL",
+    "ICAO": "MHCS[3]",
+    "Airport name": "Coyoles Airport",
+    "Location served": "Coyoles, Honduras",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CYM",
+    "ICAO": "",
+    "Airport name": "Chatham Seaplane Base",
+    "Location served": "Chatham, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CYO",
+    "ICAO": "MUCL",
+    "Airport name": "Vilo Acuña Airport",
+    "Location served": "Cayo Largo del Sur, Cuba",
+    "Time": "UTC−05:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CYP",
+    "ICAO": "RPVC",
+    "Airport name": "Calbayog Airport",
+    "Location served": "Calbayog, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CYR",
+    "ICAO": "SUCA",
+    "Airport name": "Colonia Airport (Laguna de los Patos Intn'l Airport)",
+    "Location served": "Colonia del Sacramento, Uruguay",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CYS",
+    "ICAO": "KCYS",
+    "Airport name": "Cheyenne Regional Airport (Jerry Olson Field)",
+    "Location served": "Cheyenne, Wyoming, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CYT",
+    "ICAO": "PACY",
+    "Airport name": "Yakataga Airport",
+    "Location served": "Yakataga, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CYU",
+    "ICAO": "RPLO",
+    "Airport name": "Cuyo Airport",
+    "Location served": "Cuyo, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CYW",
+    "ICAO": "MMCY",
+    "Airport name": "Captain Rogelio Castillo National Airport",
+    "Location served": "Celaya, Guanajuato, Mexico",
+    "Time": "UTC−06:00",
+    "DST": "Apr–Oct"
+  },
+  {
+    "IATA": "CYX",
+    "ICAO": "UESS",
+    "Airport name": "Chersky Airport",
+    "Location served": "Chersky, Yakutia, Russia",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CYZ",
+    "ICAO": "RPUY",
+    "Airport name": "Cauayan Airport",
+    "Location served": "Cauayan, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CZA",
+    "ICAO": "MMCT",
+    "Airport name": "Chichen Itza International Airport",
+    "Location served": "Chichen Itza, Yucatán, Mexico",
+    "Time": "UTC−06:00",
+    "DST": "Apr–Oct"
+  },
+  {
+    "IATA": "CZB",
+    "ICAO": "",
+    "Airport name": "Carlos Ruhl Airport",
+    "Location served": "Cruz Alta, Rio Grande do Sul, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct–Feb"
+  },
+  {
+    "IATA": "CZC",
+    "ICAO": "",
+    "Airport name": "Copper Center 2 Airport (FAA: Z93)",
+    "Location served": "Copper Center, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CZE",
+    "ICAO": "SVCR",
+    "Airport name": "José Leonardo Chirino Airport",
+    "Location served": "Coro, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CZF",
+    "ICAO": "PACZ",
+    "Airport name": "Cape Romanzof LRRS Airport",
+    "Location served": "Cape Romanzof, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CZH",
+    "ICAO": "",
+    "Airport name": "Corozal Airport",
+    "Location served": "Corozal, Belize",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CZJ",
+    "ICAO": "",
+    "Airport name": "Corazón de Jesús Airport",
+    "Location served": "Corazón de Jesús, Panama",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CZK",
+    "ICAO": "KCZK",
+    "Airport name": "Cascade Locks State Airport",
+    "Location served": "Cascade Locks, Oregon, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CZL",
+    "ICAO": "DABC",
+    "Airport name": "Mohamed Boudiaf International Airport",
+    "Location served": "Constantine, Algeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CZM",
+    "ICAO": "MMCZ",
+    "Airport name": "Cozumel International Airport",
+    "Location served": "Cozumel, Quintana Roo, Mexico",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CZN",
+    "ICAO": "",
+    "Airport name": "Chisana Airport",
+    "Location served": "Chisana, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CZO",
+    "ICAO": "",
+    "Airport name": "Chistochina Airport",
+    "Location served": "Chistochina, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CZP",
+    "ICAO": "",
+    "Airport name": "Cape Pole Seaplane Base (FAA: Z71)",
+    "Location served": "Cape Pole, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CZS",
+    "ICAO": "SBCZ",
+    "Airport name": "Cruzeiro do Sul International Airport",
+    "Location served": "Cruzeiro do Sul, Acre, Brazil",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CZT",
+    "ICAO": "KCZT",
+    "Airport name": "Dimmit County Airport",
+    "Location served": "Carrizo Springs, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar–Nov"
+  },
+  {
+    "IATA": "CZU",
+    "ICAO": "SKCZ",
+    "Airport name": "Las Brujas Airport",
+    "Location served": "Corozal, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CZW",
+    "ICAO": "EPCH",
+    "Airport name": "Częstochowa-Rudniki Airport",
+    "Location served": "Częstochowa, Poland",
+    "Time": "UTC+01:00",
+    "DST": "Mar–Oct"
+  },
+  {
+    "IATA": "CZX",
+    "ICAO": "ZSCG",
+    "Airport name": "Changzhou Benniu Airport",
+    "Location served": "Changzhou, Jiangsu, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "CZY",
+    "ICAO": "YUNY",
+    "Airport name": "Cluny Airport",
+    "Location served": "Cluny, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  }
+]

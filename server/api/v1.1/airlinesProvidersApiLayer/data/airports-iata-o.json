@@ -1,0 +1,2466 @@
+[
+  {
+    "IATA": "OAA",
+    "ICAO": "OASH",
+    "Airport name": "Forward Operating Base Shank",
+    "Location served": "Gardez, Afghanistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OAG",
+    "ICAO": "YORG",
+    "Airport name": "Orange Airport[1]",
+    "Location served": "Orange, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OAH",
+    "ICAO": "OASD",
+    "Airport name": "Shindand Air Base",
+    "Location served": "Shindand, Afghanistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OAI",
+    "ICAO": "OAIX",
+    "Airport name": "Bagram Airfield",
+    "Location served": "Bagram, Afghanistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OAJ",
+    "ICAO": "KOAJ",
+    "Airport name": "Albert J. Ellis Airport",
+    "Location served": "Jacksonville, North Carolina, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OAK",
+    "ICAO": "KOAK",
+    "Airport name": "Oakland International Airport",
+    "Location served": "Oakland, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OAL",
+    "ICAO": "SSKW",
+    "Airport name": "Capital do Café Airport[1]",
+    "Location served": "Cacoal, Rondônia, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OAM",
+    "ICAO": "NZOU",
+    "Airport name": "Oamaru Airport",
+    "Location served": "Oamaru, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OAN",
+    "ICAO": "MHEA",
+    "Airport name": "El Arrayán Airport[1]",
+    "Location served": "Olanchito, Honduras",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OAR",
+    "ICAO": "KOAR",
+    "Airport name": "Marina Municipal Airport",
+    "Location served": "Monterey / Marina, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OAS",
+    "ICAO": "OASA",
+    "Airport name": "Sharana Airstrip / Forward Operating Base Sharana",
+    "Location served": "Sharana, Afghanistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OAX",
+    "ICAO": "MMOX",
+    "Airport name": "Xoxocotlán International Airport",
+    "Location served": "Oaxaca de Juárez, Oaxaca, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OAZ",
+    "ICAO": "OAZI",
+    "Airport name": "Camp Bastion Air Base",
+    "Location served": "Girishk (Gereshk), Afghanistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OBA",
+    "ICAO": "",
+    "Airport name": "Oban Airport[1]",
+    "Location served": "Oban, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OBC",
+    "ICAO": "HDOB",
+    "Airport name": "Obock Airport",
+    "Location served": "Obock, Djibouti",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OBD",
+    "ICAO": "",
+    "Airport name": "Obano Airport",
+    "Location served": "Obano, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OBE",
+    "ICAO": "KOBE",
+    "Airport name": "Okeechobee County Airport",
+    "Location served": "Okeechobee, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OBF",
+    "ICAO": "EDMO",
+    "Airport name": "Oberpfaffenhofen Airport",
+    "Location served": "Oberpfaffenhofen, Bavaria, Germany",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OBI",
+    "ICAO": "SBTI",
+    "Airport name": "Óbidos Airport[1]",
+    "Location served": "Óbidos, Pará, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OBL",
+    "ICAO": "EBZR",
+    "Airport name": "Oostmalle Airfield",
+    "Location served": "Zoersel, Belgium",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OBM",
+    "ICAO": "",
+    "Airport name": "Morobe Airport[1]",
+    "Location served": "Morobe, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OBN",
+    "ICAO": "EGEO",
+    "Airport name": "Oban Airport[1] (North Connel Airport)",
+    "Location served": "Oban, Scotland, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OBO",
+    "ICAO": "RJCB",
+    "Airport name": "Tokachi–Obihiro Airport",
+    "Location served": "Obihiro, Hokkaido, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OBS",
+    "ICAO": "LFHO",
+    "Airport name": "Aubenas Aerodrome[1] (Ardèche Méridionale Aerodrome)",
+    "Location served": "Aubenas, Rhône-Alpes, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OBU",
+    "ICAO": "PAOB",
+    "Airport name": "Kobuk Airport",
+    "Location served": "Kobuk, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OBX",
+    "ICAO": "AYOB",
+    "Airport name": "Obo Airport",
+    "Location served": "Obo, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OCA",
+    "ICAO": "",
+    "Airport name": "Ocean Reef Club Airport (FAA: 07FA)",
+    "Location served": "Key Largo, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OCC",
+    "ICAO": "SECO",
+    "Airport name": "Francisco de Orellana Airport",
+    "Location served": "Puerto Francisco de Orellana (Coca), Ecuador",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OCE",
+    "ICAO": "KOXB",
+    "Airport name": "Ocean City Municipal Airport",
+    "Location served": "Ocean City, Maryland, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OCF",
+    "ICAO": "KOCF",
+    "Airport name": "Ocala International Airport (Jim Taylor Field)",
+    "Location served": "Ocala, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OCH",
+    "ICAO": "KOCH",
+    "Airport name": "A.L. Mangham Jr. Regional Airport",
+    "Location served": "Nacogdoches, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OCJ",
+    "ICAO": "MKBS",
+    "Airport name": "Ian Fleming International Airport",
+    "Location served": "Ocho Rios, Jamaica",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OCM",
+    "ICAO": "YBGD",
+    "Airport name": "Boolgeeda Airport[1]",
+    "Location served": "Boolgeeda, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OCN",
+    "ICAO": "KOKB",
+    "Airport name": "Oceanside Municipal Airport (FAA: OKB)",
+    "Location served": "Oceanside, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OCS",
+    "ICAO": "",
+    "Airport name": "Corisco International Airport[1]",
+    "Location served": "Corisco Island, Equatorial Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OCV",
+    "ICAO": "SKOC",
+    "Airport name": "Aguas Claras Airport[1]",
+    "Location served": "Ocaña, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OCW",
+    "ICAO": "KOCW",
+    "Airport name": "Washington–Warren Airport (Warren Field)",
+    "Location served": "Washington, North Carolina, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ODA",
+    "ICAO": "FEFW",
+    "Airport name": "Ouadda Airport[1]",
+    "Location served": "Ouadda, Central African Republic",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ODB",
+    "ICAO": "LEBA",
+    "Airport name": "Córdoba Airport",
+    "Location served": "Córdoba, Andalusia, Spain",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ODC",
+    "ICAO": "",
+    "Airport name": "Oakdale Airport[1] (FAA: O27)",
+    "Location served": "Oakdale, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ODD",
+    "ICAO": "YOOD",
+    "Airport name": "Oodnadatta Airport[1]",
+    "Location served": "Oodnadatta, South Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ODE",
+    "ICAO": "EKOD",
+    "Airport name": "Hans Christian Andersen Airport",
+    "Location served": "Odense, Denmark",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ODH",
+    "ICAO": "EGVO",
+    "Airport name": "RAF Odiham",
+    "Location served": "Odiham, England, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ODJ",
+    "ICAO": "FEGO",
+    "Airport name": "Ouanda Djallé Airport[1]",
+    "Location served": "Ouanda Djallé, Central African Republic",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ODL",
+    "ICAO": "",
+    "Airport name": "Cordillo Downs Airport[1]",
+    "Location served": "Cordillo Downs, South Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ODM",
+    "ICAO": "",
+    "Airport name": "Garrett County Airport[1] (FAA: 2G4)",
+    "Location served": "Oakland, Maryland, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ODN",
+    "ICAO": "WBGI",
+    "Airport name": "Long Seridan Airport[1]",
+    "Location served": "Long Seridan, Sarawak, Malaysia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ODO",
+    "ICAO": "UIKB",
+    "Airport name": "Bodaybo Airport[1]",
+    "Location served": "Bodaybo, Irkutsk Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ODR",
+    "ICAO": "YORV",
+    "Airport name": "Ord River Airport[1]",
+    "Location served": "Ord River, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ODS",
+    "ICAO": "UKOO",
+    "Airport name": "Odesa International Airport",
+    "Location served": "Odesa, Ukraine",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ODW",
+    "ICAO": "KOKH",
+    "Airport name": "A.J. Eisenberg Airport (FAA: OKH)",
+    "Location served": "Oak Harbor, Washington, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ODY",
+    "ICAO": "VLOS",
+    "Airport name": "Oudomsay Airport",
+    "Location served": "Muang Xay (Oudomxai), Laos",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OEC",
+    "ICAO": "WPOC",
+    "Airport name": "Oecusse Airport",
+    "Location served": "Oecussi, East Timor",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OEL",
+    "ICAO": "UUOR",
+    "Airport name": "Oryol Yuzhny Airport",
+    "Location served": "Oryol (Orel), Oryol Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OEM",
+    "ICAO": "SMPA",
+    "Airport name": "Vincent Fayks Airport",
+    "Location served": "Paloemeu, Suriname",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OEO",
+    "ICAO": "KOEO",
+    "Airport name": "L.O. Simenstad Municipal Airport",
+    "Location served": "Osceola, Wisconsin, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OER",
+    "ICAO": "ESNO",
+    "Airport name": "Örnsköldsvik Airport",
+    "Location served": "Örnsköldsvik, Sweden",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OES",
+    "ICAO": "SAVN",
+    "Airport name": "Antoine de Saint Exupéry Airport",
+    "Location served": "San Antonio Oeste, Río Negro, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OFF",
+    "ICAO": "KOFF",
+    "Airport name": "Offutt Air Force Base",
+    "Location served": "Omaha, Nebraska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OFI",
+    "ICAO": "DIOF",
+    "Airport name": "Ouango Fitini Airport[1]",
+    "Location served": "Ouango Fitini, Ivory Coast",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OFJ",
+    "ICAO": "BIOF",
+    "Airport name": "Ólafsfjörður Airport[1]",
+    "Location served": "Ólafsfjörður, Iceland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OFK",
+    "ICAO": "KOFK",
+    "Airport name": "Norfolk Regional Airport (Karl Stefan Memorial Field)",
+    "Location served": "Norfolk, Nebraska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OFU",
+    "ICAO": "NSAS",
+    "Airport name": "Ofu Airport (FAA: Z08)",
+    "Location served": "Ofu Island, American Samoa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OGA",
+    "ICAO": "KOGA",
+    "Airport name": "Searle Field",
+    "Location served": "Ogallala, Nebraska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OGB",
+    "ICAO": "KOGB",
+    "Airport name": "Orangeburg Municipal Airport",
+    "Location served": "Orangeburg, South Carolina, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OGD",
+    "ICAO": "KOGD",
+    "Airport name": "Ogden-Hinckley Airport",
+    "Location served": "Ogden, Utah, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OGE",
+    "ICAO": "",
+    "Airport name": "Ogeramnang Airport[1]",
+    "Location served": "Ogeramnang, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OGG",
+    "ICAO": "PHOG",
+    "Airport name": "Kahului Airport",
+    "Location served": "Kahului, Hawaii, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OGL",
+    "ICAO": "SYGO",
+    "Airport name": "Ogle Airport",
+    "Location served": "Georgetown, Guyana",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OGM",
+    "ICAO": "",
+    "Airport name": "Ustupu-Ogobsucum Airport[1]",
+    "Location served": "Ustupo, Panama",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OGN",
+    "ICAO": "ROYN",
+    "Airport name": "Yonaguni Airport",
+    "Location served": "Yonaguni, Yaeyama Islands, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OGO",
+    "ICAO": "DIAU",
+    "Airport name": "Abengourou Airport[1]",
+    "Location served": "Abengourou, Ivory Coast",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OGR",
+    "ICAO": "FTTB",
+    "Airport name": "Bongor Airport",
+    "Location served": "Bongor, Chad",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OGS",
+    "ICAO": "KOGS",
+    "Airport name": "Ogdensburg International Airport",
+    "Location served": "Ogdensburg, New York, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OGU",
+    "ICAO": "LTCB",
+    "Airport name": "Ordu–Giresun Airport",
+    "Location served": "Ordu / Giresun, Turkey",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OGV",
+    "ICAO": "FYNG",
+    "Airport name": "Ongava Airstrip[1]",
+    "Location served": "Ongava, Namibia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OGX",
+    "ICAO": "DAUU",
+    "Airport name": "Ain Beida Airport",
+    "Location served": "Ouargla, Algeria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OGZ",
+    "ICAO": "URMO",
+    "Airport name": "Beslan Airport",
+    "Location served": "Vladikavkaz, North Ossetia-Alania, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OHA",
+    "ICAO": "NZOH",
+    "Airport name": "RNZAF Base Ohakea[1]",
+    "Location served": "Bulls, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OHB",
+    "ICAO": "",
+    "Airport name": "Ambohibary Airport[1]",
+    "Location served": "Moramanga, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OHD",
+    "ICAO": "LWOH",
+    "Airport name": "Ohrid \"St. Paul the Apostle\" Airport",
+    "Location served": "Ohrid, North Macedonia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OHE",
+    "ICAO": "ZYMH",
+    "Airport name": "Mohe Gulian Airport",
+    "Location served": "Mohe, Heilongjiang, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OHH",
+    "ICAO": "UHSH",
+    "Airport name": "Okha Airport (Novostroyka Airport)",
+    "Location served": "Okha, Sakhalin Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OHI",
+    "ICAO": "FYOS",
+    "Airport name": "Oshakati Airport[1]",
+    "Location served": "Oshakati, Namibia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OHO",
+    "ICAO": "UHOO",
+    "Airport name": "Okhotsk Airport",
+    "Location served": "Okhotsk, Khabarovsk Krai, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OHR",
+    "ICAO": "EDXY",
+    "Airport name": "Wyk auf Föhr Airport[1]",
+    "Location served": "Wyk auf Föhr, Schleswig-Holstein, Germany",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OHS",
+    "ICAO": "OOSH",
+    "Airport name": "Sohar Airport[1]",
+    "Location served": "Sohar, Oman",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OHT",
+    "ICAO": "OPKT",
+    "Airport name": "PAF Base Kohat",
+    "Location served": "Kohat, Pakistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OIA",
+    "ICAO": "SDOW",
+    "Airport name": "Ourilândia do Norte Airport[1]",
+    "Location served": "Ourilândia do Norte, Pará, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OIC",
+    "ICAO": "KOIC",
+    "Airport name": "Lt. Warren Eaton Airport",
+    "Location served": "Norwich, New York, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OIM",
+    "ICAO": "RJTO",
+    "Airport name": "Oshima Airport[1]",
+    "Location served": "Ōshima, Izu Islands, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OIR",
+    "ICAO": "RJEO",
+    "Airport name": "Okushiri Airport",
+    "Location served": "Okushiri, Okushiri Island, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OIT",
+    "ICAO": "RJFO",
+    "Airport name": "Oita Airport",
+    "Location served": "Oita, Kyushu, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OJC",
+    "ICAO": "KOJC",
+    "Airport name": "Johnson County Executive Airport",
+    "Location served": "Olathe, Kansas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OJU",
+    "ICAO": "",
+    "Airport name": "Tanjung Api Airport",
+    "Location served": "Ampana, Tojo Una-Una Regency, Central Sulawesi, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OKA",
+    "ICAO": "ROAH",
+    "Airport name": "Naha Airport",
+    "Location served": "Okinawa, Ryukyu Islands, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OKB",
+    "ICAO": "YORC",
+    "Airport name": "Orchid Beach Airport",
+    "Location served": "Fraser Island, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OKC",
+    "ICAO": "KOKC",
+    "Airport name": "Will Rogers World Airport",
+    "Location served": "Oklahoma City, Oklahoma, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OKD",
+    "ICAO": "RJCO",
+    "Airport name": "Okadama Airport[1]",
+    "Location served": "Sapporo, Hokkaido, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OKE",
+    "ICAO": "RJKB",
+    "Airport name": "Okinoerabu Airport[1]",
+    "Location served": "Okinoerabujima, Amami Islands, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OKF",
+    "ICAO": "FYOO",
+    "Airport name": "Okaukuejo Airport[1]",
+    "Location served": "Okaukuejo, Namibia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OKG",
+    "ICAO": "",
+    "Airport name": "Okoyo Airport[1]",
+    "Location served": "Okoyo, Republic of the Congo",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OKH",
+    "ICAO": "EGXJ",
+    "Airport name": "RAF Cottesmore",
+    "Location served": "Oakham, England, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OKI",
+    "ICAO": "RJNO",
+    "Airport name": "Oki Airport[1]",
+    "Location served": "Dogo, Oki Islands, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OKJ",
+    "ICAO": "RJOB",
+    "Airport name": "Okayama Airport",
+    "Location served": "Okayama, Honshu, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OKK",
+    "ICAO": "KOKK",
+    "Airport name": "Kokomo Municipal Airport",
+    "Location served": "Kokomo, Indiana, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OKL",
+    "ICAO": "WAJO",
+    "Airport name": "Gunung Bintang Airport",
+    "Location served": "Oksibil, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OKM",
+    "ICAO": "KOKM",
+    "Airport name": "Okmulgee Regional Airport",
+    "Location served": "Okmulgee, Oklahoma, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OKN",
+    "ICAO": "FOGQ",
+    "Airport name": "Okondja Airport[1]",
+    "Location served": "Okondja, Gabon",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OKO",
+    "ICAO": "RJTY",
+    "Airport name": "Yokota Air Base[1]",
+    "Location served": "Fussa, Honshu, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OKP",
+    "ICAO": "AYOJ",
+    "Airport name": "Oksapmin Airport[1]",
+    "Location served": "Oksapmin, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OKQ",
+    "ICAO": "WAKO",
+    "Airport name": "Okaba Airport[1]",
+    "Location served": "Okaba, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OKR",
+    "ICAO": "YYKI",
+    "Airport name": "Yorke Island Airport[1]",
+    "Location served": "Yorke Island, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OKS",
+    "ICAO": "KOKS",
+    "Airport name": "Garden County Airport",
+    "Location served": "Oshkosh, Nebraska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OKT",
+    "ICAO": "UWUK",
+    "Airport name": "Oktyabrsky Airport",
+    "Location served": "Oktyabrsky, Bashkortostan, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OKU",
+    "ICAO": "FYMO",
+    "Airport name": "Mokuti Lodge Airport[1]",
+    "Location served": "Mokuti Lodge, Namibia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OKV",
+    "ICAO": "",
+    "Airport name": "Okao Airport[1]",
+    "Location served": "Okao, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OKY",
+    "ICAO": "YBOK",
+    "Airport name": "Oakey Army Aviation Centre[1]",
+    "Location served": "Oakey, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OLA",
+    "ICAO": "ENOL",
+    "Airport name": "Ørland Airport[1]",
+    "Location served": "Ørland, Norway",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OLB",
+    "ICAO": "LIEO",
+    "Airport name": "Olbia Costa Smeralda Airport",
+    "Location served": "Olbia, Sardinia, Italy",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OLC",
+    "ICAO": "SDCG",
+    "Airport name": "Senadora Eunice Michiles Airport[1]",
+    "Location served": "São Paulo de Olivença, Amazonas, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OLD",
+    "ICAO": "KOLD",
+    "Airport name": "Old Town Municipal Airport and Seaplane Base (Dewitt Field)",
+    "Location served": "Old Town, Maine, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OLE",
+    "ICAO": "KOLE",
+    "Airport name": "Cattaraugus County-Olean Airport",
+    "Location served": "Olean, New York, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OLF",
+    "ICAO": "KOLF",
+    "Airport name": "L. M. Clayton Airport",
+    "Location served": "Wolf Point, Montana, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OLH",
+    "ICAO": "",
+    "Airport name": "Old Harbor Airport (FAA: 6R7)",
+    "Location served": "Old Harbor, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OLI",
+    "ICAO": "BIRF",
+    "Airport name": "Rif Airport[1]",
+    "Location served": "Ólafsvík, Iceland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OLJ",
+    "ICAO": "NVSZ",
+    "Airport name": "Olpoi Airport[1] (North West Santo Airport)",
+    "Location served": "Olpoi, Vanuatu",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OLK",
+    "ICAO": "SGOL",
+    "Airport name": "Fuerte Olimpo Airport",
+    "Location served": "Fuerte Olimpo, Paraguay",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OLL",
+    "ICAO": "",
+    "Airport name": "Oyo Ollombo Airport",
+    "Location served": "Oyo, Republic of the Congo",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OLM",
+    "ICAO": "KOLM",
+    "Airport name": "Olympia Regional Airport",
+    "Location served": "Olympia, Washington, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OLN",
+    "ICAO": "SAVM",
+    "Airport name": "Lago Musters Airport[1]",
+    "Location served": "Sarmiento, Chubut, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OLO",
+    "ICAO": "LKOL",
+    "Airport name": "Olomouc Airport (Neředín Airport)",
+    "Location served": "Olomouc, Czech Republic",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OLP",
+    "ICAO": "YOLD",
+    "Airport name": "Olympic Dam Airport[1]",
+    "Location served": "Olympic Dam, South Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OLQ",
+    "ICAO": "",
+    "Airport name": "Olsobip Airport[1]",
+    "Location served": "Olsobip, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OLR",
+    "ICAO": "OASL",
+    "Airport name": "Forward Operating Base Salerno",
+    "Location served": "Khost, Afghanistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OLS",
+    "ICAO": "KOLS",
+    "Airport name": "Nogales International Airport",
+    "Location served": "Nogales, Arizona, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OLU",
+    "ICAO": "KOLU",
+    "Airport name": "Columbus Municipal Airport",
+    "Location served": "Columbus, Nebraska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OLV",
+    "ICAO": "KOLV",
+    "Airport name": "Olive Branch Airport",
+    "Location served": "Olive Branch, Mississippi, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OLX",
+    "ICAO": "",
+    "Airport name": "Olkiombo Airstrip[1]",
+    "Location served": "Olkiombo, Kenya",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OLY",
+    "ICAO": "KOLY",
+    "Airport name": "Olney-Noble Airport",
+    "Location served": "Olney / Noble, Illinois, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OLZ",
+    "ICAO": "UEMO",
+    "Airport name": "Olyokminsk Airport",
+    "Location served": "Olyokminsk, Yakutia, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OMA",
+    "ICAO": "KOMA",
+    "Airport name": "Eppley Airfield",
+    "Location served": "Omaha, Nebraska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OMB",
+    "ICAO": "FOOH",
+    "Airport name": "Omboué Hospital Airport[1]",
+    "Location served": "Omboué, Gabon",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OMC",
+    "ICAO": "RPVO",
+    "Airport name": "Ormoc Airport",
+    "Location served": "Ormoc, Philippines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OMD",
+    "ICAO": "FYOG",
+    "Airport name": "Oranjemund Airport[1]",
+    "Location served": "Oranjemund, Namibia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OME",
+    "ICAO": "PAOM",
+    "Airport name": "Nome Airport",
+    "Location served": "Nome, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OMF",
+    "ICAO": "OJMF",
+    "Airport name": "King Hussein Air Base",
+    "Location served": "Mafraq, Jordan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OMG",
+    "ICAO": "FYOE",
+    "Airport name": "Omega Airport[1]",
+    "Location served": "Omega, Namibia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OMH",
+    "ICAO": "OITR",
+    "Airport name": "Urmia Airport[1]",
+    "Location served": "Urmia (Urūmiyeh), Iran",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OMI",
+    "ICAO": "OIAJ",
+    "Airport name": "Omidiyeh Air Base",
+    "Location served": "Omidiyeh, Iran",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OMJ",
+    "ICAO": "RJDU",
+    "Airport name": "Ōmura Airport[1]",
+    "Location served": "Nagasaki / Ōmura, Kyushu, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OMK",
+    "ICAO": "KOMK",
+    "Airport name": "Omak Airport",
+    "Location served": "Omak, Washington, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OML",
+    "ICAO": "",
+    "Airport name": "Omkalai Airport[1]",
+    "Location served": "Omkalai, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OMM",
+    "ICAO": "OOMX",
+    "Airport name": "Marmul Airport[1]",
+    "Location served": "Marmul, Oman",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OMO",
+    "ICAO": "LQMO",
+    "Airport name": "Mostar Airport",
+    "Location served": "Mostar, Bosnia and Herzegovina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OMR",
+    "ICAO": "LROD",
+    "Airport name": "Oradea International Airport",
+    "Location served": "Oradea, Romania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OMS",
+    "ICAO": "UNOO",
+    "Airport name": "Omsk Tsentralny Airport",
+    "Location served": "Omsk, Omsk Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OMY",
+    "ICAO": "",
+    "Airport name": "Thbeng Meanchey Airport[1] (Preah Vinhear Airport)",
+    "Location served": "Phnom Tbeng Meanchey, Cambodia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ONA",
+    "ICAO": "KONA",
+    "Airport name": "Winona Municipal Airport (Max Conrad Field)",
+    "Location served": "Winona, Minnesota, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ONB",
+    "ICAO": "AYQQ",
+    "Airport name": "Ononge Airport[1]",
+    "Location served": "Ononge, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OND",
+    "ICAO": "FYOA",
+    "Airport name": "Ondangwa Airport[1]",
+    "Location served": "Ondangwa, Namibia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ONE",
+    "ICAO": "",
+    "Airport name": "Onepusu Airport[1]",
+    "Location served": "Onepusu, Solomon Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ONG",
+    "ICAO": "YMTI",
+    "Airport name": "Mornington Island Airport[1]",
+    "Location served": "Mornington Island, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ONH",
+    "ICAO": "",
+    "Airport name": "Oneonta Municipal Airport (FAA: N66)",
+    "Location served": "Oneonta, New York, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ONI",
+    "ICAO": "WABD",
+    "Airport name": "Moanamani Airport[1]",
+    "Location served": "Moanemani (Moanamani), Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ONJ",
+    "ICAO": "RJSR",
+    "Airport name": "Odate–Noshiro Airport",
+    "Location served": "Ōdate / Noshiro, Honshu, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ONK",
+    "ICAO": "UERO",
+    "Airport name": "Olenyok Airport",
+    "Location served": "Olenyok, Yakutia, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ONL",
+    "ICAO": "KONL",
+    "Airport name": "O'Neill Municipal Airport (John L. Baker Field)",
+    "Location served": "O'Neill, Nebraska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ONM",
+    "ICAO": "KONM",
+    "Airport name": "Socorro Municipal Airport",
+    "Location served": "Socorro, New Mexico, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ONO",
+    "ICAO": "KONO",
+    "Airport name": "Ontario Municipal Airport",
+    "Location served": "Ontario, Oregon, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ONP",
+    "ICAO": "KONP",
+    "Airport name": "Newport Municipal Airport",
+    "Location served": "Newport, Oregon, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ONQ",
+    "ICAO": "LTAS",
+    "Airport name": "Zonguldak Airport",
+    "Location served": "Zonguldak, Turkey",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ONR",
+    "ICAO": "YMNK",
+    "Airport name": "Monkira Airport[1]",
+    "Location served": "Monkira, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ONS",
+    "ICAO": "YOLW",
+    "Airport name": "Onslow Airport[1]",
+    "Location served": "Onslow, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ONT",
+    "ICAO": "KONT",
+    "Airport name": "Ontario International Airport",
+    "Location served": "Ontario, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ONU",
+    "ICAO": "NFOL",
+    "Airport name": "Ono-i-Lau Airport[1]",
+    "Location served": "Ono-i-Lau, Fiji",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ONX",
+    "ICAO": "MPEJ",
+    "Airport name": "Enrique Adolfo Jiménez Airport",
+    "Location served": "Colón, Panama",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ONY",
+    "ICAO": "KONY",
+    "Airport name": "Olney Municipal Airport",
+    "Location served": "Olney, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OOA",
+    "ICAO": "KOOA",
+    "Airport name": "Oskaloosa Municipal Airport",
+    "Location served": "Oskaloosa, Iowa, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OOK",
+    "ICAO": "PAOO",
+    "Airport name": "Toksook Bay Airport",
+    "Location served": "Toksook Bay, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OOL",
+    "ICAO": "YBCG",
+    "Airport name": "Gold Coast Airport (Coolangatta Airport)",
+    "Location served": "Gold Coast, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OOM",
+    "ICAO": "YCOM",
+    "Airport name": "Cooma–Snowy Mountains Airport[1]",
+    "Location served": "Cooma, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OOR",
+    "ICAO": "YMOO",
+    "Airport name": "Mooraberree Airport[1]",
+    "Location served": "Mooraberree, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OOT",
+    "ICAO": "NGON",
+    "Airport name": "Onotoa Airport[1]",
+    "Location served": "Onotoa, Kiribati",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OPA",
+    "ICAO": "BIKP",
+    "Airport name": "Kópasker Airport[1]",
+    "Location served": "Kópasker, Iceland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OPB",
+    "ICAO": "",
+    "Airport name": "Open Bay Airport[1]",
+    "Location served": "Open Bay, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OPF",
+    "ICAO": "KOPF",
+    "Airport name": "Miami-Opa Locka Executive Airport",
+    "Location served": "Miami, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OPI",
+    "ICAO": "YOEN",
+    "Airport name": "Oenpelli Airport[1]",
+    "Location served": "Gunbalanya (Oenpelli), Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OPL",
+    "ICAO": "KOPL",
+    "Airport name": "St. Landry Parish Airport (Ahart Field)",
+    "Location served": "Opelousas, Louisiana, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OPO",
+    "ICAO": "LPPR",
+    "Airport name": "Francisco de Sá Carneiro Airport",
+    "Location served": "Porto, Portugal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OPS",
+    "ICAO": "SWSI",
+    "Airport name": "Presidente João Figueiredo Airport",
+    "Location served": "Sinop, Mato Grosso, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OPU",
+    "ICAO": "AYBM",
+    "Airport name": "Balimo Airport[1]",
+    "Location served": "Balimo, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OPW",
+    "ICAO": "FYOP",
+    "Airport name": "Opuwa Airport[1]",
+    "Location served": "Opuwo, Namibia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ORA",
+    "ICAO": "SASO",
+    "Airport name": "Orán Airport",
+    "Location served": "Orán, Salta, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ORB",
+    "ICAO": "ESOE",
+    "Airport name": "Örebro Airport",
+    "Location served": "Örebro, Sweden",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ORC",
+    "ICAO": "SKOE",
+    "Airport name": "Orocue Airport[1]",
+    "Location served": "Orocué, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ORD",
+    "ICAO": "KORD",
+    "Airport name": "O'Hare International Airport",
+    "Location served": "Chicago, Illinois, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ORE",
+    "ICAO": "LFOZ",
+    "Airport name": "Orléans – Saint-Denis-de-l'Hôtel Airport[1]",
+    "Location served": "Orléans, Centre-Val de Loire, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ORF",
+    "ICAO": "KORF",
+    "Airport name": "Norfolk International Airport",
+    "Location served": "Norfolk, Virginia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ORG",
+    "ICAO": "SMZO",
+    "Airport name": "Zorg en Hoop Airport",
+    "Location served": "Paramaribo, Suriname",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ORH",
+    "ICAO": "KORH",
+    "Airport name": "Worcester Regional Airport",
+    "Location served": "Worcester, Massachusetts, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ORI",
+    "ICAO": "KORI",
+    "Airport name": "Port Lions Airport",
+    "Location served": "Port Lions, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ORJ",
+    "ICAO": "SYOR",
+    "Airport name": "Orinduik Airport",
+    "Location served": "Orinduik, Guyana",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ORK",
+    "ICAO": "EICK",
+    "Airport name": "Cork Airport",
+    "Location served": "Cork, Ireland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ORL",
+    "ICAO": "KORL",
+    "Airport name": "Orlando Executive Airport",
+    "Location served": "Orlando, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ORM",
+    "ICAO": "EGBK",
+    "Airport name": "Sywell Aerodrome",
+    "Location served": "Northampton, England, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ORN",
+    "ICAO": "DAOO",
+    "Airport name": "Oran Es Sénia Airport",
+    "Location served": "Oran, Algeria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ORO",
+    "ICAO": "MHYR",
+    "Airport name": "Yoro Airport[1]",
+    "Location served": "Yoro, Honduras",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ORP",
+    "ICAO": "FBOR",
+    "Airport name": "Orapa Airport[1]",
+    "Location served": "Orapa, Botswana",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ORR",
+    "ICAO": "YYOR",
+    "Airport name": "Yorketown Airport",
+    "Location served": "Yorketown, South Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ORS",
+    "ICAO": "",
+    "Airport name": "Orpheus Island Resort Waterport",
+    "Location served": "Orpheus Island, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ORT",
+    "ICAO": "PAOR",
+    "Airport name": "Northway Airport",
+    "Location served": "Northway, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ORU",
+    "ICAO": "SLOR",
+    "Airport name": "Juan Mendoza Airport",
+    "Location served": "Oruro, Bolivia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ORV",
+    "ICAO": "PFNO",
+    "Airport name": "Robert (Bob) Curtis Memorial Airport (FAA: D76)",
+    "Location served": "Noorvik, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ORW",
+    "ICAO": "OPOR",
+    "Airport name": "Ormara Airport[1]",
+    "Location served": "Ormara, Pakistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ORX",
+    "ICAO": "SNOX",
+    "Airport name": "Oriximiná Airport[1]",
+    "Location served": "Oriximiná, Pará, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ORY",
+    "ICAO": "LFPO",
+    "Airport name": "Orly Airport",
+    "Location served": "Paris, Île-de-France, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ORZ",
+    "ICAO": "",
+    "Airport name": "Orange Walk Airport[1]",
+    "Location served": "Orange Walk Town, Belize",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OSA",
+    "ICAO": "",
+    "Airport name": "metropolitan area1",
+    "Location served": "Osaka, Honshu, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OSB",
+    "ICAO": "",
+    "Airport name": "Grand Glaize-Osage Beach Airport (FAA: K15)",
+    "Location served": "Osage Beach, Missouri, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OSC",
+    "ICAO": "KOSC",
+    "Airport name": "Oscoda–Wurtsmith Airport",
+    "Location served": "Oscoda, Michigan, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OSD",
+    "ICAO": "ESNZ",
+    "Airport name": "Åre Östersund Airport",
+    "Location served": "Östersund, Sweden",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OSE",
+    "ICAO": "",
+    "Airport name": "Omora Airport[1]",
+    "Location served": "Omora, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OSF",
+    "ICAO": "UUMO",
+    "Airport name": "Ostafyevo International Airport",
+    "Location served": "Moscow / Podolsk, Moscow Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OSG",
+    "ICAO": "",
+    "Airport name": "Ossima Airport[1]",
+    "Location served": "Ossima, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OSH",
+    "ICAO": "KOSH",
+    "Airport name": "Wittman Regional Airport",
+    "Location served": "Oshkosh, Wisconsin, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OSI",
+    "ICAO": "LDOS",
+    "Airport name": "Osijek Airport",
+    "Location served": "Osijek, Croatia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OSK",
+    "ICAO": "ESMO",
+    "Airport name": "Oskarshamn Airport",
+    "Location served": "Oskarshamn, Sweden",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OSL",
+    "ICAO": "ENGM",
+    "Airport name": "Oslo Airport, Gardermoen",
+    "Location served": "Oslo, Norway",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OSM",
+    "ICAO": "ORBM",
+    "Airport name": "Mosul International Airport[1]",
+    "Location served": "Mosul, Iraq",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OSN",
+    "ICAO": "RKSO",
+    "Airport name": "Osan Air Base[1]",
+    "Location served": "Osan, South Korea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OSO",
+    "ICAO": "YOSB",
+    "Airport name": "Osborne Mine Airport[1]",
+    "Location served": "Osborne Mine, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OSR",
+    "ICAO": "LKMT",
+    "Airport name": "Leoš Janáček Airport Ostrava",
+    "Location served": "Ostrava, Czech Republic",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OSS",
+    "ICAO": "UAFO",
+    "Airport name": "Osh Airport",
+    "Location served": "Osh, Kyrgyzstan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OST",
+    "ICAO": "EBOS",
+    "Airport name": "Ostend–Bruges International Airport",
+    "Location served": "Ostend / Bruges, Belgium",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OSU",
+    "ICAO": "KOSU",
+    "Airport name": "Ohio State University Airport",
+    "Location served": "Columbus, Ohio, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OSW",
+    "ICAO": "UWOR",
+    "Airport name": "Orsk Airport",
+    "Location served": "Orsk, Orenburg Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OSX",
+    "ICAO": "KOSX",
+    "Airport name": "Kosciusko-Attala County Airport",
+    "Location served": "Kosciusko, Mississippi, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OSY",
+    "ICAO": "ENNM",
+    "Airport name": "Namsos Airport, Høknesøra",
+    "Location served": "Namsos, Norway",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OSZ",
+    "ICAO": "EPKZ",
+    "Airport name": "Koszalin-Zegrze Pomorskie Airport[1]",
+    "Location served": "Koszalin, Poland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OTA",
+    "ICAO": "",
+    "Airport name": "Mota Airport[1]",
+    "Location served": "Mota, Ethiopia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OTC",
+    "ICAO": "FTTL",
+    "Airport name": "Bol-Bérim Airport",
+    "Location served": "Bol, Chad",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OTD",
+    "ICAO": "",
+    "Airport name": "Contadora Airport",
+    "Location served": "Contadora Island, Panama",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OTG",
+    "ICAO": "KOTG",
+    "Airport name": "Worthington Municipal Airport",
+    "Location served": "Worthington, Minnesota, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OTH",
+    "ICAO": "KOTH",
+    "Airport name": "Southwest Oregon Regional Airport",
+    "Location served": "North Bend, Oregon, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OTI",
+    "ICAO": "WAMR",
+    "Airport name": "Pitu Airport[1]",
+    "Location served": "Morotai Island, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OTJ",
+    "ICAO": "FYOW",
+    "Airport name": "Otjiwarongo Airport[1]",
+    "Location served": "Otjiwarongo, Namibia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OTK",
+    "ICAO": "KTMK",
+    "Airport name": "Tillamook Airport[1] (FAA: TMK)",
+    "Location served": "Tillamook, Oregon, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OTL",
+    "ICAO": "GQNB",
+    "Airport name": "Boutilimit Airport",
+    "Location served": "Boutilimit, Mauritania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OTM",
+    "ICAO": "KOTM",
+    "Airport name": "Ottumwa Regional Airport",
+    "Location served": "Ottumwa, Iowa, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OTN",
+    "ICAO": "",
+    "Airport name": "Ed-Air Airport (FAA: 2IG4)",
+    "Location served": "Oaktown, Indiana, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OTP",
+    "ICAO": "LROP",
+    "Airport name": "Henri Coandă International Airport",
+    "Location served": "Bucharest, Romania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OTR",
+    "ICAO": "MRCC",
+    "Airport name": "Coto 47 Airport",
+    "Location served": "Coto 47, Costa Rica",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OTS",
+    "ICAO": "",
+    "Airport name": "Anacortes Airport (FAA: 74S)",
+    "Location served": "Anacortes, Washington, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OTT",
+    "ICAO": "",
+    "Airport name": "Andre Maggi Airport[1]",
+    "Location served": "Cotriguaçu, Mato Grosso, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OTU",
+    "ICAO": "SKOT",
+    "Airport name": "Otú Airport[1]",
+    "Location served": "Remedios, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OTV",
+    "ICAO": "AGGQ",
+    "Airport name": "Ontong Java Airport[1]",
+    "Location served": "Ontong Java Atoll, Solomon Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OTY",
+    "ICAO": "",
+    "Airport name": "Oria Airport[1]",
+    "Location served": "Oria, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OTZ",
+    "ICAO": "PAOT",
+    "Airport name": "Ralph Wien Memorial Airport",
+    "Location served": "Kotzebue, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OUA",
+    "ICAO": "DFFD",
+    "Airport name": "Ouagadougou Airport",
+    "Location served": "Ouagadougou, Burkina Faso",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OUD",
+    "ICAO": "GMFO",
+    "Airport name": "Angads Airport",
+    "Location served": "Oujda, Morocco",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OUE",
+    "ICAO": "FCOU",
+    "Airport name": "Ouésso Airport[1]",
+    "Location served": "Ouésso, Republic of the Congo",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OUG",
+    "ICAO": "DFCC",
+    "Airport name": "Ouahigouya Airport",
+    "Location served": "Ouahigouya, Burkina Faso",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OUH",
+    "ICAO": "FAOH",
+    "Airport name": "Oudtshoorn Airport[1]",
+    "Location served": "Oudtshoorn, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OUK",
+    "ICAO": "",
+    "Airport name": "Out Skerries Airport[1]",
+    "Location served": "Out Skerries, Scotland, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OUL",
+    "ICAO": "EFOU",
+    "Airport name": "Oulu Airport",
+    "Location served": "Oulu, Finland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OUM",
+    "ICAO": "",
+    "Airport name": "Oum Hadjer Airport",
+    "Location served": "Oum Hadjer, Chad",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OUN",
+    "ICAO": "KOUN",
+    "Airport name": "University of Oklahoma Westheimer Airport (Max Westheimer Airport)",
+    "Location served": "Norman, Oklahoma, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OUR",
+    "ICAO": "FKKI",
+    "Airport name": "Batouri Airport",
+    "Location served": "Batouri, Cameroon",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OUS",
+    "ICAO": "SDOU",
+    "Airport name": "Jornalista Benedito Pimentel–Ourinhos State Airport[1]",
+    "Location served": "Ourinhos, São Paulo, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OUT",
+    "ICAO": "FTTS",
+    "Airport name": "Bousso Airport",
+    "Location served": "Bousso, Chad",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OUU",
+    "ICAO": "",
+    "Airport name": "Ouanga Airport[1]",
+    "Location served": "Ouanga, Gabon",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OUZ",
+    "ICAO": "GQPZ",
+    "Airport name": "Tazadit Airport",
+    "Location served": "Zouerate, Mauritania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OVA",
+    "ICAO": "FMSL",
+    "Airport name": "Bekily Airport[1]",
+    "Location served": "Bekily, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OVB",
+    "ICAO": "UNNT",
+    "Airport name": "Tolmachevo Airport",
+    "Location served": "Novosibirsk, Novosibirsk Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OVD",
+    "ICAO": "LEAS",
+    "Airport name": "Asturias Airport (Oviedo Airport)",
+    "Location served": "Oviedo, Asturias, Spain",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OVE",
+    "ICAO": "KOVE",
+    "Airport name": "Oroville Municipal Airport",
+    "Location served": "Oroville, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OVG",
+    "ICAO": "FAOB",
+    "Airport name": "Air Force Base Overberg[1]",
+    "Location served": "Bredasdorp, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OVL",
+    "ICAO": "SCOV",
+    "Airport name": "El Tuqui Airport[1]",
+    "Location served": "Ovalle, Chile",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OVR",
+    "ICAO": "SAZF",
+    "Airport name": "Olavarría Airport",
+    "Location served": "Olavarría, Buenos Aires, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OVS",
+    "ICAO": "USHS",
+    "Airport name": "Sovetsky Airport",
+    "Location served": "Sovetsky, Khanty-Mansi Autonomous Okrug, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OWA",
+    "ICAO": "KOWA",
+    "Airport name": "Owatonna Degner Regional Airport",
+    "Location served": "Owatonna, Minnesota, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OWB",
+    "ICAO": "KOWB",
+    "Airport name": "Owensboro–Daviess County Airport",
+    "Location served": "Owensboro, Kentucky, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OWD",
+    "ICAO": "KOWD",
+    "Airport name": "Norwood Memorial Airport",
+    "Location served": "Norwood, Massachusetts, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OWE",
+    "ICAO": "",
+    "Airport name": "Owendo Airport[1]",
+    "Location served": "Owendo, Gabon",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OWK",
+    "ICAO": "KOWK",
+    "Airport name": "Central Maine Airport of Norridgewock",
+    "Location served": "Norridgewock, Maine, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OXB",
+    "ICAO": "GGOV",
+    "Airport name": "Osvaldo Vieira International Airport",
+    "Location served": "Bissau, Guinea-Bissau",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OXC",
+    "ICAO": "KOXC",
+    "Airport name": "Waterbury–Oxford Airport",
+    "Location served": "Oxford, Connecticut, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OXD",
+    "ICAO": "KOXD",
+    "Airport name": "Miami University Airport",
+    "Location served": "Oxford, Ohio, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OXF",
+    "ICAO": "EGTK",
+    "Airport name": "Oxford Airport (London Oxford Airport)",
+    "Location served": "Oxford, England, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OXO",
+    "ICAO": "",
+    "Airport name": "Orientos Airport[1]",
+    "Location served": "Orientos, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OXR",
+    "ICAO": "KOXR",
+    "Airport name": "Oxnard Airport",
+    "Location served": "Oxnard, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OXY",
+    "ICAO": "YMNY",
+    "Airport name": "Morney Airport[1]",
+    "Location served": "Morney, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OYA",
+    "ICAO": "SATG",
+    "Airport name": "Goya Airport[1]",
+    "Location served": "Goya, Corrientes, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OYE",
+    "ICAO": "FOGO",
+    "Airport name": "Oyem Airport[1]",
+    "Location served": "Oyem, Gabon",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OYG",
+    "ICAO": "",
+    "Airport name": "Moyo Airport[1]",
+    "Location served": "Moyo Town, Uganda",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OYK",
+    "ICAO": "SBOI",
+    "Airport name": "Oiapoque Airport",
+    "Location served": "Oiapoque, Amapá, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OYL",
+    "ICAO": "HKMY",
+    "Airport name": "Moyale Airport[1]",
+    "Location served": "Moyale, Kenya",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OYN",
+    "ICAO": "YOUY",
+    "Airport name": "Ouyen Airport[1]",
+    "Location served": "Ouyen, Victoria, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OYO",
+    "ICAO": "SAZH",
+    "Airport name": "Tres Arroyos Airport",
+    "Location served": "Tres Arroyos, Buenos Aires, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OYP",
+    "ICAO": "SOOG",
+    "Airport name": "Saint-Georges-de-l'Oyapock Airport[1]",
+    "Location served": "Saint-Georges-de-l'Oyapock, French Guiana",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OZA",
+    "ICAO": "KOZA",
+    "Airport name": "Ozona Municipal Airport",
+    "Location served": "Ozona, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OZC",
+    "ICAO": "RPMO",
+    "Airport name": "Labo Airport",
+    "Location served": "Ozamiz, Philippines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OZG",
+    "ICAO": "GMAZ",
+    "Airport name": "Zagora Airport[1]",
+    "Location served": "Zagora, Morocco",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OZH",
+    "ICAO": "UKDE",
+    "Airport name": "Zaporizhzhia International Airport",
+    "Location served": "Zaporizhzhia, Ukraine",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OZP",
+    "ICAO": "LEMO",
+    "Airport name": "Morón Air Base[1]",
+    "Location served": "Morón de la Frontera, Andalusia, Spain",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OZR",
+    "ICAO": "KOZR",
+    "Airport name": "Cairns Army Airfield",
+    "Location served": "Fort Rucker / Ozark, Alabama, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "OZZ",
+    "ICAO": "GMMZ",
+    "Airport name": "Ouarzazate Airport",
+    "Location served": "Ouarzazate, Morocco",
+    "Time": "",
+    "DST": ""
+  }
+]

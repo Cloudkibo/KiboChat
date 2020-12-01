@@ -1,0 +1,4026 @@
+[
+  {
+    "IATA": "TAA",
+    "ICAO": "",
+    "Airport name": "Tarapaina Airport[1]",
+    "Location served": "Tarapaina, Solomon Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TAB",
+    "ICAO": "TTCP",
+    "Airport name": "Arthur Napoleon Raymond Robinson International Airport",
+    "Location served": "Tobago, Trinidad and Tobago",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TAC",
+    "ICAO": "RPVA",
+    "Airport name": "Daniel Z. Romualdez Airport",
+    "Location served": "Tacloban, Philippines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TAD",
+    "ICAO": "KTAD",
+    "Airport name": "Perry Stokes Airport",
+    "Location served": "Trinidad, Colorado, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TAE",
+    "ICAO": "RKTN",
+    "Airport name": "Daegu International Airport",
+    "Location served": "Daegu, South Korea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TAF",
+    "ICAO": "DAOL",
+    "Airport name": "Oran Tafaraoui Airport",
+    "Location served": "Oran, Algeria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TAG",
+    "ICAO": "RPSP",
+    "Airport name": "Bohol–Panglao International Airport",
+    "Location served": "Tagbilaran, Philippines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TAH",
+    "ICAO": "NVVW",
+    "Airport name": "Whitegrass Airport",
+    "Location served": "Tanna Island, Vanuatu",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TAI",
+    "ICAO": "OYTZ",
+    "Airport name": "Taiz International Airport",
+    "Location served": "Taiz (Ta'izz), Yemen",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TAJ",
+    "ICAO": "",
+    "Airport name": "Tadji Airport",
+    "Location served": "Aitape, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TAK",
+    "ICAO": "RJOT",
+    "Airport name": "Takamatsu Airport",
+    "Location served": "Takamatsu, Shikoku, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TAL",
+    "ICAO": "PATA",
+    "Airport name": "Ralph M. Calhoun Memorial Airport",
+    "Location served": "Tanana, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TAM",
+    "ICAO": "MMTM",
+    "Airport name": "General Francisco Javier Mina International Airport",
+    "Location served": "Tampico, Tamaulipas, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TAN",
+    "ICAO": "YTGA",
+    "Airport name": "Tangalooma Airport",
+    "Location served": "Tangalooma, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TAO",
+    "ICAO": "ZSQD",
+    "Airport name": "Qingdao Liuting International Airport",
+    "Location served": "Qingdao, Shandong, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TAP",
+    "ICAO": "MMTP",
+    "Airport name": "Tapachula International Airport",
+    "Location served": "Tapachula, Chiapas, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TAQ",
+    "ICAO": "",
+    "Airport name": "Tarcoola Airport[1]",
+    "Location served": "Tarcoola, South Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TAR",
+    "ICAO": "LIBG",
+    "Airport name": "Taranto-Grottaglie Airport",
+    "Location served": "Taranto, Apulia, Italy",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TAS",
+    "ICAO": "UTTT",
+    "Airport name": "Tashkent International Airport",
+    "Location served": "Tashkent, Uzbekistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TAT",
+    "ICAO": "LZTT",
+    "Airport name": "Poprad–Tatry Airport",
+    "Location served": "Poprad, Slovakia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TAU",
+    "ICAO": "",
+    "Airport name": "Tauramena Airport[1]",
+    "Location served": "Tauramena, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TAV",
+    "ICAO": "",
+    "Airport name": "Tau Airport (FAA: HI36)",
+    "Location served": "Tau, American Samoa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TAW",
+    "ICAO": "SUTB",
+    "Airport name": "Tacuarembó Airport",
+    "Location served": "Tacuarembó, Uruguay",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TAX",
+    "ICAO": "WAPT",
+    "Airport name": "Taliabu Airport",
+    "Location served": "Taliabu, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TAY",
+    "ICAO": "EETU",
+    "Airport name": "Tartu Airport",
+    "Location served": "Tartu, Estonia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TAZ",
+    "ICAO": "UTAT",
+    "Airport name": "Daşoguz Airport",
+    "Location served": "Daşoguz (Dashoguz), Turkmenistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TBA",
+    "ICAO": "",
+    "Airport name": "Tabibuga Airport[1]",
+    "Location served": "Tabibuga, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TBB",
+    "ICAO": "VVTH",
+    "Airport name": "Dong Tac Airport[1]",
+    "Location served": "Tuy Hòa, Vietnam",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TBC",
+    "ICAO": "",
+    "Airport name": "Tuba City Airport[1] (FAA: T03)",
+    "Location served": "Tuba City, Arizona, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TBD",
+    "ICAO": "SKMB",
+    "Airport name": "Timbiquí Airport[1]",
+    "Location served": "Timbiquí, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TBE",
+    "ICAO": "",
+    "Airport name": "Timbunke Airport[1]",
+    "Location served": "Timbunke, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TBF",
+    "ICAO": "NGTE",
+    "Airport name": "Tabiteuea North Airport[1]",
+    "Location served": "Tabiteuea North, Kiribati",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TBG",
+    "ICAO": "AYTB",
+    "Airport name": "Tabubil Airport[1]",
+    "Location served": "Tabubil, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TBH",
+    "ICAO": "RPVU",
+    "Airport name": "Tugdan Airport",
+    "Location served": "Tablas Island, Philippines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TBI",
+    "ICAO": "MYCB",
+    "Airport name": "New Bight Airport",
+    "Location served": "New Bight, Cat Island, Bahamas",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TBJ",
+    "ICAO": "DTKA",
+    "Airport name": "Tabarka–Aïn Draham International Airport",
+    "Location served": "Tabarka, Tunisia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TBK",
+    "ICAO": "YTBR",
+    "Airport name": "Timber Creek Airport[1]",
+    "Location served": "Timber Creek, Northern Territory, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TBL",
+    "ICAO": "YTAB",
+    "Airport name": "Tableland Homestead Airport[1]",
+    "Location served": "Tableland, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TBM",
+    "ICAO": "WAOW",
+    "Airport name": "Tumbang Samba Airport[1]",
+    "Location served": "Tumbang Samba, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TBN",
+    "ICAO": "KTBN",
+    "Airport name": "Waynesville-St. Robert Regional Airport (Forney Field)",
+    "Location served": "Fort Leonard Wood, Missouri, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TBO",
+    "ICAO": "HTTB",
+    "Airport name": "Tabora Airport[1]",
+    "Location served": "Tabora, Tanzania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TBP",
+    "ICAO": "SPME",
+    "Airport name": "Cap. FAP Pedro Canga Rodríguez Airport",
+    "Location served": "Tumbes, Peru",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TBQ",
+    "ICAO": "",
+    "Airport name": "Tarabo Airport[1]",
+    "Location served": "Tarabo, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TBR",
+    "ICAO": "KTBR",
+    "Airport name": "Statesboro–Bulloch County Airport",
+    "Location served": "Statesboro, Georgia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TBS",
+    "ICAO": "UGTB",
+    "Airport name": "Tbilisi International Airport",
+    "Location served": "Tbilisi, Georgia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TBT",
+    "ICAO": "SBTT",
+    "Airport name": "Tabatinga International Airport",
+    "Location served": "Tabatinga, Amazonas, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TBU",
+    "ICAO": "NFTF",
+    "Airport name": "Fuaʻamotu International Airport",
+    "Location served": "Nukuʻalofa, Tonga",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TBV",
+    "ICAO": "",
+    "Airport name": "Tabal Airport[1]",
+    "Location served": "Tabal Island, Aur Atoll, Marshall Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TBW",
+    "ICAO": "UUOT",
+    "Airport name": "Tambov Donskoye Airport",
+    "Location served": "Tambov, Tambov Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TBY",
+    "ICAO": "FBTS",
+    "Airport name": "Tshabong Airport[1]",
+    "Location served": "Tsabong, Botswana",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TBZ",
+    "ICAO": "OITT",
+    "Airport name": "Tabriz International Airport",
+    "Location served": "Tabriz, Iran",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TCA",
+    "ICAO": "YTNK",
+    "Airport name": "Tennant Creek Airport",
+    "Location served": "Tennant Creek, Northern Territory, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TCB",
+    "ICAO": "MYAT",
+    "Airport name": "Treasure Cay Airport",
+    "Location served": "Treasure Cay, Abaco Islands, Bahamas",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TCC",
+    "ICAO": "KTCC",
+    "Airport name": "Tucumcari Municipal Airport",
+    "Location served": "Tucumcari, New Mexico, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TCD",
+    "ICAO": "SKRA",
+    "Airport name": "Tarapacá Airport[1]",
+    "Location served": "Tarapacá, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TCE",
+    "ICAO": "LRTC",
+    "Airport name": "Tulcea Danube Delta Airport[1]",
+    "Location served": "Tulcea, Romania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TCF",
+    "ICAO": "",
+    "Airport name": "Tocoa Airport[1]",
+    "Location served": "Tocoa, Honduras",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TCG",
+    "ICAO": "ZWTC",
+    "Airport name": "Tacheng Airport[1]",
+    "Location served": "Tacheng, Xinjiang, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TCH",
+    "ICAO": "FOOT",
+    "Airport name": "Tchibanga Airport[1]",
+    "Location served": "Tchibanga, Gabon",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TCI[1]",
+    "ICAO": "",
+    "Airport name": "metropolitan area1",
+    "Location served": "Tenerife, Canary Islands, Spain",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TCJ",
+    "ICAO": "",
+    "Airport name": "Torembi Airport[1]",
+    "Location served": "Torembi, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TCK",
+    "ICAO": "",
+    "Airport name": "Tinboli Airport[1]",
+    "Location served": "Tinboli, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TCL",
+    "ICAO": "KTCL",
+    "Airport name": "Tuscaloosa Regional Airport",
+    "Location served": "Tuscaloosa, Alabama, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TCM",
+    "ICAO": "KTCM",
+    "Airport name": "McChord Field",
+    "Location served": "Tacoma, Washington, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TCN",
+    "ICAO": "MMHC",
+    "Airport name": "Tehuacán Airport",
+    "Location served": "Tehuacán, Puebla, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TCO",
+    "ICAO": "SKCO",
+    "Airport name": "La Florida Airport[1]",
+    "Location served": "Tumaco, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TCP",
+    "ICAO": "HETB",
+    "Airport name": "Taba International Airport",
+    "Location served": "Taba, Egypt",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TCQ",
+    "ICAO": "SPTN",
+    "Airport name": "Coronel FAP Carlos Ciriani Santa Rosa International Airport[1]",
+    "Location served": "Tacna, Peru",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TCR",
+    "ICAO": "VOTK",
+    "Airport name": "Tuticorin Airport[1]",
+    "Location served": "Thoothukudi (Tuticorin), Tamil Nadu, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TCS",
+    "ICAO": "KTCS",
+    "Airport name": "Truth or Consequences Municipal Airport",
+    "Location served": "Truth or Consequences, New Mexico, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TCT",
+    "ICAO": "",
+    "Airport name": "Takotna Airport",
+    "Location served": "Takotna, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TCU",
+    "ICAO": "FATN",
+    "Airport name": "Thaba Nchu Airport[1]",
+    "Location served": "Thaba 'Nchu, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TCW",
+    "ICAO": "YTOC",
+    "Airport name": "Tocumwal Airport[1]",
+    "Location served": "Tocumwal, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TCX",
+    "ICAO": "OIMT",
+    "Airport name": "Tabas Airport",
+    "Location served": "Tabas, Iran",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TCY",
+    "ICAO": "FYTE",
+    "Airport name": "Terrace Bay Airport[1]",
+    "Location served": "Terrace Bay, Namibia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TCZ",
+    "ICAO": "ZUTC",
+    "Airport name": "Tengchong Tuofeng Airport",
+    "Location served": "Tengchong, Yunnan, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TDA",
+    "ICAO": "SKTD",
+    "Airport name": "Trinidad Airport[1]",
+    "Location served": "Trinidad, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TDB",
+    "ICAO": "",
+    "Airport name": "Tetebedi Airport[1]",
+    "Location served": "Tetebedi, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TDD",
+    "ICAO": "SLTR",
+    "Airport name": "Teniente Jorge Henrich Arauz Airport",
+    "Location served": "Trinidad, Bolivia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TDG",
+    "ICAO": "RPMW",
+    "Airport name": "Tandag Airport",
+    "Location served": "Tandag, Philippines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TDJ",
+    "ICAO": "HDTJ",
+    "Airport name": "Tadjoura Airport[1]",
+    "Location served": "Tadjoura, Djibouti",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TDK",
+    "ICAO": "",
+    "Airport name": "Taldykorgan Airport",
+    "Location served": "Taldykorgan, Kazakhstan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TDL",
+    "ICAO": "SAZT",
+    "Airport name": "Tandil Airport",
+    "Location served": "Tandil, Buenos Aires, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TDN",
+    "ICAO": "YTHD",
+    "Airport name": "Theda Station Airport[1]",
+    "Location served": "Theda Station, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TDO",
+    "ICAO": "KTDO",
+    "Airport name": "South Lewis County Airport (Ed Carlson Memorial Field)",
+    "Location served": "Toledo, Washington, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TDP",
+    "ICAO": "SPDR",
+    "Airport name": "Trompeteros Airport[1]",
+    "Location served": "Trompeteros, Peru",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TDR",
+    "ICAO": "YTDR",
+    "Airport name": "Theodore Airport",
+    "Location served": "Theodore, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TDS",
+    "ICAO": "AYSS",
+    "Airport name": "Sasereme Airport",
+    "Location served": "Sasereme, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TDT",
+    "ICAO": "",
+    "Airport name": "Tanda Tula Airport[1]",
+    "Location served": "Timbavati, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TDV",
+    "ICAO": "FMSN",
+    "Airport name": "Samangoky Airport",
+    "Location served": "Tanandava, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TDW",
+    "ICAO": "KTDW",
+    "Airport name": "Tradewind Airport",
+    "Location served": "Amarillo, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TDX",
+    "ICAO": "VTBO",
+    "Airport name": "Trat Airport",
+    "Location served": "Trat, Thailand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TDZ",
+    "ICAO": "KTDZ",
+    "Airport name": "Toledo Executive Airport",
+    "Location served": "Toledo, Ohio, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TEA",
+    "ICAO": "MHTE",
+    "Airport name": "Tela Airport[1]",
+    "Location served": "Tela, Honduras",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TEB",
+    "ICAO": "KTEB",
+    "Airport name": "Teterboro Airport",
+    "Location served": "Teterboro, New Jersey, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TEC",
+    "ICAO": "SBTL",
+    "Airport name": "Telêmaco Borba Airport[1]",
+    "Location served": "Telêmaco Borba, Paraná, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TED",
+    "ICAO": "EKTS",
+    "Airport name": "Thisted Airport",
+    "Location served": "Thisted, Denmark",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TEE",
+    "ICAO": "DABS",
+    "Airport name": "Cheikh Larbi Tébessi Airport[1]",
+    "Location served": "Tébessa, Algeria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TEF",
+    "ICAO": "YTEF",
+    "Airport name": "Telfer Airport[1]",
+    "Location served": "Telfer, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TEG",
+    "ICAO": "DFET",
+    "Airport name": "Tenkodogo Airport",
+    "Location served": "Tenkodogo, Burkina Faso",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TEH",
+    "ICAO": "",
+    "Airport name": "Tetlin Airport[1] (FAA: 3T4)",
+    "Location served": "Tetlin, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TEI",
+    "ICAO": "VETJ",
+    "Airport name": "Tezu Airport",
+    "Location served": "Tezu, Arunachal Pradesh, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TEK",
+    "ICAO": "",
+    "Airport name": "Tatitlek Airport (FAA: 7KA)",
+    "Location served": "Tatitlek, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TEL",
+    "ICAO": "WBKE",
+    "Airport name": "Telupid Airport[1]",
+    "Location served": "Telupid, Sabah, Malaysia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TEM",
+    "ICAO": "YTEM",
+    "Airport name": "Temora Airport[1]",
+    "Location served": "Temora, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TEN",
+    "ICAO": "ZUTR",
+    "Airport name": "Tongren Fenghuang Airport",
+    "Location served": "Tongren, Guizhou, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TEO",
+    "ICAO": "",
+    "Airport name": "Terapo Airport[1]",
+    "Location served": "Terapo, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TEP",
+    "ICAO": "",
+    "Airport name": "Teptep Airport[1]",
+    "Location served": "Teptep, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TEQ",
+    "ICAO": "LTBU",
+    "Airport name": "Tekirdağ Çorlu Airport",
+    "Location served": "Tekirdağ, Turkey",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TER",
+    "ICAO": "LPLA",
+    "Airport name": "Lajes Airport",
+    "Location served": "Terceira Island, Azores, Portugal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TES",
+    "ICAO": "HHTS",
+    "Airport name": "Teseney Airport[1]",
+    "Location served": "Teseney, Eritrea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TET",
+    "ICAO": "FQTT",
+    "Airport name": "Chingozi Airport",
+    "Location served": "Tete, Mozambique",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TEU",
+    "ICAO": "NZMO",
+    "Airport name": "Te Anau Airport[1] (Manapouri Airport)",
+    "Location served": "Te Anau, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TEV",
+    "ICAO": "LETL",
+    "Airport name": "Teruel Airport[1]",
+    "Location served": "Teruel, Aragon, Spain",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TEX",
+    "ICAO": "KTEX",
+    "Airport name": "Telluride Regional Airport",
+    "Location served": "Telluride, Colorado, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TEY",
+    "ICAO": "BITE",
+    "Airport name": "Thingeyri Airport[1]",
+    "Location served": "Thingeyri (Þingeyri), Iceland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TEZ",
+    "ICAO": "VETZ",
+    "Airport name": "Tezpur Airport",
+    "Location served": "Tezpur, Assam, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TFB",
+    "ICAO": "",
+    "Airport name": "Tifalmin Airport[1]",
+    "Location served": "Tifalmin, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TFF",
+    "ICAO": "SBTF",
+    "Airport name": "Tefé Airport",
+    "Location served": "Tefé, Amazonas, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TFI",
+    "ICAO": "AYTU",
+    "Airport name": "Tufi Airport[1]",
+    "Location served": "Tufi, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TFL",
+    "ICAO": "SNTO",
+    "Airport name": "Teófilo Otoni Airport[1] (Juscelino Kubitscheck Airport)",
+    "Location served": "Teófilo Otoni, Minas Gerais, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TFM",
+    "ICAO": "AYTE",
+    "Airport name": "Telefomin Airport[1]",
+    "Location served": "Telefomin, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TFN",
+    "ICAO": "GCXO",
+    "Airport name": "Tenerife–North Airport (Los Rodeos Airport)",
+    "Location served": "Tenerife, Canary Islands, Spain",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TFR",
+    "ICAO": "HE13",
+    "Airport name": "Wadi al Jandali Airport[1]",
+    "Location served": "10th of Ramadan City, Egypt",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TFS",
+    "ICAO": "GCTS",
+    "Airport name": "Tenerife–South Airport (Reina Sofia Airport)",
+    "Location served": "Tenerife, Canary Islands, Spain",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TFT",
+    "ICAO": "",
+    "Airport name": "Taftan Airport[1]",
+    "Location served": "Taftan, Pakistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TFU",
+    "ICAO": "",
+    "Airport name": "Chengdu Tianfu International Airport",
+    "Location served": "Jianyang, Chengdu, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TGA",
+    "ICAO": "WSAT",
+    "Airport name": "Tengah Air Base",
+    "Location served": "Singapore",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TGB",
+    "ICAO": "",
+    "Airport name": "Tagbita Airport",
+    "Location served": "Rizal, Philippines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TGC",
+    "ICAO": "WBTM",
+    "Airport name": "Tanjung Manis Airport[1]",
+    "Location served": "Tanjung Manis, Sarawak, Malaysia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TGD",
+    "ICAO": "LYPG",
+    "Airport name": "Podgorica Airport",
+    "Location served": "Podgorica, Montenegro",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TGE",
+    "ICAO": "",
+    "Airport name": "Sharpe Field (FAA: AL73)",
+    "Location served": "Tuskegee, Alabama, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TGG",
+    "ICAO": "WMKN",
+    "Airport name": "Sultan Mahmud Airport",
+    "Location served": "Kuala Terengganu, Terengganu, Malaysia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TGH",
+    "ICAO": "NVST",
+    "Airport name": "Tongoa Airport",
+    "Location served": "Tongoa, Shefa, Vanuatu",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TGI",
+    "ICAO": "SPGM",
+    "Airport name": "Tingo María Airport",
+    "Location served": "Tingo María, Peru",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TGJ",
+    "ICAO": "NWWA",
+    "Airport name": "Tiga Airport[1]",
+    "Location served": "Tiga Island, Loyalty Islands, New Caledonia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TGK",
+    "ICAO": "URRT",
+    "Airport name": "Taganrog Airport[1]",
+    "Location served": "Taganrog, Rostov Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TGL",
+    "ICAO": "",
+    "Airport name": "Tagula Airport[1]",
+    "Location served": "Vanatinai (Tagula Island), Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TGM",
+    "ICAO": "LRTM",
+    "Airport name": "Târgu Mureș International Airport",
+    "Location served": "Târgu Mureș, Romania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TGN",
+    "ICAO": "YLTV",
+    "Airport name": "Latrobe Regional Airport[1]",
+    "Location served": "Traralgon, Victoria, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TGO",
+    "ICAO": "ZBTL",
+    "Airport name": "Tongliao Airport[1]",
+    "Location served": "Tongliao, Inner Mongolia, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TGP",
+    "ICAO": "UNIP",
+    "Airport name": "Podkamennaya Tunguska Airport",
+    "Location served": "Bor, Krasnoyarsk Krai, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TGQ",
+    "ICAO": "SWTS",
+    "Airport name": "Tangará da Serra Airport[1]",
+    "Location served": "Tangará da Serra, Mato Grosso, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TGR",
+    "ICAO": "DAUK",
+    "Airport name": "Sidi Mahdi Airport[1]",
+    "Location served": "Touggourt, Algeria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TGS",
+    "ICAO": "",
+    "Airport name": "Chokwe Airport[1]",
+    "Location served": "Chokwe, Mozambique",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TGT",
+    "ICAO": "HTTG",
+    "Airport name": "Tanga Airport[1]",
+    "Location served": "Tanga, Tanzania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TGU",
+    "ICAO": "MHTG",
+    "Airport name": "Toncontín International Airport",
+    "Location served": "Tegucigalpa, Honduras",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TGV",
+    "ICAO": "LBTG",
+    "Airport name": "Targovishte Airport[1] (Buhovtsi Airfield)",
+    "Location served": "Targovishte, Bulgaria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TGZ",
+    "ICAO": "MMTG",
+    "Airport name": "Ángel Albino Corzo International Airport",
+    "Location served": "Tuxtla Gutiérrez, Chiapas, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "THA",
+    "ICAO": "KTHA",
+    "Airport name": "Tullahoma Regional Airport (William Northern Field)",
+    "Location served": "Tullahoma, Tennessee, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "THB",
+    "ICAO": "FXTA",
+    "Airport name": "Thaba Tseka Airport[1]",
+    "Location served": "Thaba-Tseka, Lesotho",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "THC",
+    "ICAO": "GLTN",
+    "Airport name": "Tchien Airport",
+    "Location served": "Tchien, Liberia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "THD",
+    "ICAO": "VVTX",
+    "Airport name": "Tho Xuan Airport",
+    "Location served": "Thanh Hóa, Vietnam",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "THE",
+    "ICAO": "SBTE",
+    "Airport name": "Teresina–Senador Petrônio Portella Airport",
+    "Location served": "Teresina, Piauí, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "THG",
+    "ICAO": "YTNG",
+    "Airport name": "Thangool Airport[1]",
+    "Location served": "Thangool, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "THH",
+    "ICAO": "",
+    "Airport name": "Taharoa Aerodrome[1]",
+    "Location served": "Taharoa, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "THI",
+    "ICAO": "GQNC",
+    "Airport name": "Tichitt Airport",
+    "Location served": "Tichit, Mauritania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "THK",
+    "ICAO": "VLTK",
+    "Airport name": "Thakhek Airport[1]",
+    "Location served": "Thakhek, Laos",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "THL",
+    "ICAO": "VYTL",
+    "Airport name": "Tachilek Airport",
+    "Location served": "Tachileik (Tachilek), Myanmar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "THM",
+    "ICAO": "KTHM",
+    "Airport name": "Thompson Falls Airport[1]",
+    "Location served": "Thompson Falls, Montana, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "THN",
+    "ICAO": "ESGT",
+    "Airport name": "Trollhättan–Vänersborg Airport",
+    "Location served": "Trollhättan / Vänersborg, Sweden",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "THO",
+    "ICAO": "BITN",
+    "Airport name": "Thorshofn Airport",
+    "Location served": "Thorshofn (Þórshöfn), Iceland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "THP",
+    "ICAO": "KTHP",
+    "Airport name": "Hot Springs County–Thermopolis Municipal Airport",
+    "Location served": "Thermopolis, Wyoming, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "THQ",
+    "ICAO": "ZLTS",
+    "Airport name": "Tianshui Maijishan Airport[1]",
+    "Location served": "Tianshui, Gansu, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "THR",
+    "ICAO": "OIII",
+    "Airport name": "Mehrabad International Airport",
+    "Location served": "Tehran, Iran",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "THS",
+    "ICAO": "VTPO",
+    "Airport name": "Sukhothai Airport",
+    "Location served": "Sukhothai, Thailand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "THT",
+    "ICAO": "GQNT",
+    "Airport name": "Tamchakett Airport",
+    "Location served": "Tamchakett, Mauritania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "THU",
+    "ICAO": "BGTL",
+    "Airport name": "Thule Air Base",
+    "Location served": "Pituffik, Greenland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "THV",
+    "ICAO": "KTHV",
+    "Airport name": "York Airport",
+    "Location served": "York, Pennsylvania, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "THW",
+    "ICAO": "",
+    "Airport name": "Trincomalee Harbour Seaplane Base[1]",
+    "Location served": "Trincomalee, Sri Lanka",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "THX",
+    "ICAO": "UOTT",
+    "Airport name": "Turukhansk Airport",
+    "Location served": "Turukhansk, Krasnoyarsk Krai, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "THY",
+    "ICAO": "FATH",
+    "Airport name": "P.R. Mphephu Airport[1]",
+    "Location served": "Thohoyandou, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "THZ",
+    "ICAO": "DRRT",
+    "Airport name": "Tahoua Airport",
+    "Location served": "Tahoua, Niger",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TIA",
+    "ICAO": "LATI",
+    "Airport name": "Tirana International Airport Nënë Tereza",
+    "Location served": "Tirana, Albania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TIB",
+    "ICAO": "SKTB",
+    "Airport name": "Tibú Airport[1]",
+    "Location served": "Tibú, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TIC",
+    "ICAO": "",
+    "Airport name": "Tinak Airport (FAA: N18)",
+    "Location served": "Tinak Island, Arno Atoll, Marshall Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TID",
+    "ICAO": "DAOB",
+    "Airport name": "Abdelhafid Boussouf Bou Chekif Airport[1]",
+    "Location served": "Tiaret, Algeria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TIE",
+    "ICAO": "HATP",
+    "Airport name": "Tippi Airport[1]",
+    "Location served": "Tepi (Tippi), Ethiopia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TIF",
+    "ICAO": "OETF",
+    "Airport name": "Ta'if Regional Airport",
+    "Location served": "Ta'if, Saudi Arabia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TIG",
+    "ICAO": "",
+    "Airport name": "Tingwon Airport[1]",
+    "Location served": "Tingwon, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TIH",
+    "ICAO": "NTGC",
+    "Airport name": "Tikehau Airport[1]",
+    "Location served": "Tikehau, Tuamotus, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TII",
+    "ICAO": "OATN",
+    "Airport name": "Tarinkot Airport",
+    "Location served": "Tarinkot (Tarin Kowt), Afghanistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TIJ",
+    "ICAO": "MMTJ",
+    "Airport name": "Tijuana International Airport",
+    "Location served": "Tijuana, Baja California, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TIK",
+    "ICAO": "KTIK",
+    "Airport name": "Tinker Air Force Base",
+    "Location served": "Oklahoma City, Oklahoma, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TIL",
+    "ICAO": "",
+    "Airport name": "Cheadle Airport[1] (TC: CFQ4)",
+    "Location served": "Cheadle, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TIM",
+    "ICAO": "WABP",
+    "Airport name": "Mozes Kilangin Airport",
+    "Location served": "Tembagapura / Timika, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TIN",
+    "ICAO": "DAOF",
+    "Airport name": "Tindouf Airport[1]",
+    "Location served": "Tindouf, Algeria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TIO",
+    "ICAO": "VYHN",
+    "Airport name": "Tilin Airport[1]",
+    "Location served": "Htilin (Tilin), Myanmar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TIP",
+    "ICAO": "HLLT",
+    "Airport name": "Tripoli International Airport",
+    "Location served": "Tripoli, Libya",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TIQ",
+    "ICAO": "PGWT",
+    "Airport name": "Tinian International Airport (West Tinian Airport) (FAA: TNI)",
+    "Location served": "Tinian, Northern Mariana Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TIR",
+    "ICAO": "VOTP",
+    "Airport name": "Tirupati Airport",
+    "Location served": "Tirupati, Andhra Pradesh, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TIU",
+    "ICAO": "NZTU",
+    "Airport name": "Richard Pearse Airport",
+    "Location served": "Timaru, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TIV",
+    "ICAO": "LYTV",
+    "Airport name": "Tivat Airport",
+    "Location served": "Tivat, Montenegro",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TIW",
+    "ICAO": "KTIW",
+    "Airport name": "Tacoma Narrows Airport",
+    "Location served": "Tacoma, Washington, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TIX",
+    "ICAO": "KTIX",
+    "Airport name": "Space Coast Regional Airport",
+    "Location served": "Titusville, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TIY",
+    "ICAO": "GQND",
+    "Airport name": "Tidjikja Airport",
+    "Location served": "Tidjikja, Mauritania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TIZ",
+    "ICAO": "AYTA",
+    "Airport name": "Tari Airport[1]",
+    "Location served": "Tari, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TJA",
+    "ICAO": "SLTJ",
+    "Airport name": "Capitán Oriel Lea Plaza Airport",
+    "Location served": "Tarija, Bolivia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TJB",
+    "ICAO": "WIBT",
+    "Airport name": "Sei Bati Airport[1]",
+    "Location served": "Tanjung Balai, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TJC",
+    "ICAO": "",
+    "Airport name": "Ticantiquí Airport[1]",
+    "Location served": "Ticantiquí, Panama",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TJG",
+    "ICAO": "WAON",
+    "Airport name": "Warukin Airport[1]",
+    "Location served": "Tanjung, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TJH",
+    "ICAO": "RJBT",
+    "Airport name": "Tajima Airport[1]",
+    "Location served": "Toyooka, Honshu, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TJI",
+    "ICAO": "MHTJ",
+    "Airport name": "Trujillo Airport[1] (Capiro Airport)",
+    "Location served": "Trujillo, Honduras",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TJK",
+    "ICAO": "LTAW",
+    "Airport name": "Tokat Airport",
+    "Location served": "Tokat, Turkey",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TJL",
+    "ICAO": "SBTG",
+    "Airport name": "Plínio Alarcom Airport",
+    "Location served": "Três Lagoas, Mato Grosso do Sul, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TJM",
+    "ICAO": "USTR",
+    "Airport name": "Roshchino International Airport",
+    "Location served": "Tyumen, Tyumen Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TJN",
+    "ICAO": "NTKM",
+    "Airport name": "Takume Airport[1]",
+    "Location served": "Takume, Tuamotus, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TJQ",
+    "ICAO": "WIKD",
+    "Airport name": "H.A.S. Hanandjoeddin Airport (Buluh Tumbang Airport)",
+    "Location served": "Tanjung Pandan, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TJS",
+    "ICAO": "WAGD",
+    "Airport name": "Tanjung Harapan Airport[1]",
+    "Location served": "Tanjung Selor, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TJU",
+    "ICAO": "UTDK",
+    "Airport name": "Kulob Airport[1]",
+    "Location served": "Kulob, Tajikistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TJV",
+    "ICAO": "VOTJ",
+    "Airport name": "Thanjavur Air Force Station[1]",
+    "Location served": "Thanjavur, Tamil Nadu, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TKA",
+    "ICAO": "PATK",
+    "Airport name": "Talkeetna Airport",
+    "Location served": "Talkeetna, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TKB",
+    "ICAO": "",
+    "Airport name": "Tekadu Airport[1]",
+    "Location served": "Tekadu, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TKC",
+    "ICAO": "FKKC",
+    "Airport name": "Tiko Airport[1]",
+    "Location served": "Tiko, Cameroon",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TKD",
+    "ICAO": "DGTK",
+    "Airport name": "Takoradi Airport",
+    "Location served": "Sekondi-Takoradi, Ghana",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TKE",
+    "ICAO": "",
+    "Airport name": "Tenakee Seaplane Base[1]",
+    "Location served": "Tenakee Springs, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TKF",
+    "ICAO": "KTRK",
+    "Airport name": "Truckee Tahoe Airport (FAA: TRK)",
+    "Location served": "Truckee, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TKG",
+    "ICAO": "WILL",
+    "Airport name": "Radin Inten II Airport",
+    "Location served": "Bandar Lampung, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TKH",
+    "ICAO": "VTPI",
+    "Airport name": "Takhli Royal Thai Air Force Base[1]",
+    "Location served": "Takhli, Thailand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TKI",
+    "ICAO": "",
+    "Airport name": "Tokeen Seaplane Base (FAA: 57A)",
+    "Location served": "Tokeen, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TKJ",
+    "ICAO": "PFTO",
+    "Airport name": "Tok Junction Airport[1] (FAA: 6K8)",
+    "Location served": "Tok, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TKK",
+    "ICAO": "PTKK",
+    "Airport name": "Chuuk International Airport",
+    "Location served": "Chuuk, Federated States of Micronesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TKL",
+    "ICAO": "",
+    "Airport name": "Taku Lodge Seaplane Base[1]",
+    "Location served": "Taku Lodge, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TKN",
+    "ICAO": "RJKN",
+    "Airport name": "Tokunoshima Airport[1]",
+    "Location served": "Tokunoshima, Amami Islands, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TKO",
+    "ICAO": "FXTK",
+    "Airport name": "Tlokoeng Airport[1]",
+    "Location served": "Tlokoeng, Lesotho",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TKP",
+    "ICAO": "NTGT",
+    "Airport name": "Takapoto Airport[1]",
+    "Location served": "Takapoto, Tuamotus, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TKQ",
+    "ICAO": "HTKA",
+    "Airport name": "Kigoma Airport",
+    "Location served": "Kigoma, Tanzania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TKR",
+    "ICAO": "VGSG",
+    "Airport name": "Thakurgaon Airport[1]",
+    "Location served": "Thakurgaon, Bangladesh",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TKS",
+    "ICAO": "RJOS",
+    "Airport name": "Tokushima Airport[1]",
+    "Location served": "Tokushima, Shikoku, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TKT",
+    "ICAO": "VTPT",
+    "Airport name": "Tak Airport",
+    "Location served": "Tak, Thailand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TKU",
+    "ICAO": "EFTU",
+    "Airport name": "Turku Airport",
+    "Location served": "Turku, Finland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TKV",
+    "ICAO": "NTGO",
+    "Airport name": "Tatakoto Airport[1]",
+    "Location served": "Tatakoto, Tuamotus, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TKW",
+    "ICAO": "AYTN",
+    "Airport name": "Tekin Airport[1]",
+    "Location served": "Tekin, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TKX",
+    "ICAO": "NTKR",
+    "Airport name": "Takaroa Airport[1]",
+    "Location served": "Takaroa, Tuamotus, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TKY",
+    "ICAO": "YTKY",
+    "Airport name": "Turkey Creek Airport[1]",
+    "Location served": "Warmun (Turkey Creek), Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TKZ",
+    "ICAO": "NZTO",
+    "Airport name": "Tokoroa Aerodrome[1]",
+    "Location served": "Tokoroa, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TLA",
+    "ICAO": "PATE",
+    "Airport name": "Teller Airport (FAA: TER)",
+    "Location served": "Teller, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TLB",
+    "ICAO": "OPTA",
+    "Airport name": "Tarbela Dam Airport[1]",
+    "Location served": "Tarbela Dam, Pakistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TLC",
+    "ICAO": "MMTO",
+    "Airport name": "Licenciado Adolfo López Mateos International Airport",
+    "Location served": "Toluca, State of Mexico, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TLD",
+    "ICAO": "FBTL",
+    "Airport name": "Tuli Lodge Airport[1]",
+    "Location served": "Tuli Lodge, Botswana",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TLE",
+    "ICAO": "FMST",
+    "Airport name": "Toliara Airport[1]",
+    "Location served": "Toliara, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TLF",
+    "ICAO": "",
+    "Airport name": "Telida Airport (FAA: 2K5)",
+    "Location served": "Telida, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TLG",
+    "ICAO": "AGTI",
+    "Airport name": "Tulaghi Heliport[1]",
+    "Location served": "Tulagi, Solomon Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TLH",
+    "ICAO": "KTLH",
+    "Airport name": "Tallahassee International Airport",
+    "Location served": "Tallahassee, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TLI",
+    "ICAO": "WAMI",
+    "Airport name": "Sultan Bantilan Airport[1] (Lalos Airport)",
+    "Location served": "Tolitoli, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TLJ",
+    "ICAO": "PATL",
+    "Airport name": "Tatalina LRRS Airport",
+    "Location served": "Tatalina, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TLK",
+    "ICAO": "UECT",
+    "Airport name": "Talakan Airport",
+    "Location served": "Talakan, Yakutia, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TLL",
+    "ICAO": "EETN",
+    "Airport name": "Tallinn Airport (Lennart Meri Tallinn Airport)",
+    "Location served": "Tallinn, Estonia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TLM",
+    "ICAO": "DAON",
+    "Airport name": "Zenata – Messali El Hadj Airport[1]",
+    "Location served": "Tlemcen, Algeria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TLN",
+    "ICAO": "LFTH",
+    "Airport name": "Toulon–Hyères Airport (Hyères Le Palyvestre Airport)",
+    "Location served": "Toulon / Hyères, Provence-Alpes-Côte d'Azur, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TLO",
+    "ICAO": "",
+    "Airport name": "Tol Airport[1]",
+    "Location served": "Tol, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TLP",
+    "ICAO": "",
+    "Airport name": "Tumolbil Airport[1]",
+    "Location served": "Tumolbil, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TLQ",
+    "ICAO": "ZWTP",
+    "Airport name": "Turpan Jiaohe Airport",
+    "Location served": "Turpan, Xinjiang, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TLR",
+    "ICAO": "KTLR",
+    "Airport name": "Mefford Field Airport",
+    "Location served": "Tulare, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TLS",
+    "ICAO": "LFBO",
+    "Airport name": "Toulouse–Blagnac Airport",
+    "Location served": "Toulouse, Midi-Pyrénées, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TLT",
+    "ICAO": "",
+    "Airport name": "Tuluksak Airport",
+    "Location served": "Tuluksak, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TLU",
+    "ICAO": "SKTL",
+    "Airport name": "Golfo de Morrosquillo Airport[1]",
+    "Location served": "Tolú, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TLV",
+    "ICAO": "LLBG",
+    "Airport name": "Ben Gurion Airport",
+    "Location served": "Tel Aviv, Israel",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TLW",
+    "ICAO": "AYVL",
+    "Airport name": "Talasea Airport[1]",
+    "Location served": "Talasea, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TLX",
+    "ICAO": "SCTL",
+    "Airport name": "Panguilemo Airport[1]",
+    "Location served": "Talca, Chile",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TLY",
+    "ICAO": "UHWP",
+    "Airport name": "Plastun Airport[1]",
+    "Location served": "Plastun, Primorsky Krai, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TLZ",
+    "ICAO": "SWKT",
+    "Airport name": "Catalão Airport[1]",
+    "Location served": "Catalão, Goiás, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TMA",
+    "ICAO": "KTMA",
+    "Airport name": "Henry Tift Myers Airport",
+    "Location served": "Tifton, Georgia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TMB",
+    "ICAO": "KTMB",
+    "Airport name": "Miami Executive Airport",
+    "Location served": "Miami, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TMC",
+    "ICAO": "WADT",
+    "Airport name": "Tambolaka Airport[1] (Waikabubak Airport)",
+    "Location served": "Tambolaka, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TMD",
+    "ICAO": "GQNH",
+    "Airport name": "Timbedra Airport",
+    "Location served": "Timbédra, Mauritania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TME",
+    "ICAO": "SKTM",
+    "Airport name": "Gabriel Vargas Santos Airport",
+    "Location served": "Tame, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TMF",
+    "ICAO": "VRNT",
+    "Airport name": "Thimarafushi Airport",
+    "Location served": "Thimarafushi, Thaa Atoll, Maldives",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TMG",
+    "ICAO": "WBKM",
+    "Airport name": "Tommanggong Airport[1]",
+    "Location served": "Tommanggong, Sabah, Malaysia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TMH",
+    "ICAO": "WAKT",
+    "Airport name": "Tanah Merah Airport[1]",
+    "Location served": "Tanahmerah, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TMI",
+    "ICAO": "VNTR",
+    "Airport name": "Tumlingtar Airport[1]",
+    "Location served": "Tumlingtar, Nepal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TMJ",
+    "ICAO": "UTST",
+    "Airport name": "Termez Airport",
+    "Location served": "Termez, Uzbekistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TMK",
+    "ICAO": "",
+    "Airport name": "Tam Kỳ Airport[1]",
+    "Location served": "Tam Kỳ, Vietnam",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TML",
+    "ICAO": "DGLE",
+    "Airport name": "Tamale Airport",
+    "Location served": "Tamale, Ghana",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TMM",
+    "ICAO": "FMMT",
+    "Airport name": "Toamasina Airport",
+    "Location served": "Toamasina, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TMN",
+    "ICAO": "NGTM",
+    "Airport name": "Tamana Airport[1]",
+    "Location served": "Tamana, Kiribati",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TMO",
+    "ICAO": "SVTM",
+    "Airport name": "Tumeremo Airport[1]",
+    "Location served": "Tumeremo, Venezuela",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TMP",
+    "ICAO": "EFTP",
+    "Airport name": "Tampere–Pirkkala Airport",
+    "Location served": "Tampere, Finland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TMQ",
+    "ICAO": "DFEM",
+    "Airport name": "Tambao Airport",
+    "Location served": "Tambao, Burkina Faso",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TMR",
+    "ICAO": "DAAT",
+    "Airport name": "Aguenar – Hadj Bey Akhamok Airport",
+    "Location served": "Tamanrasset, Algeria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TMS",
+    "ICAO": "FPST",
+    "Airport name": "São Tomé International Airport",
+    "Location served": "São Tomé, São Tomé and Príncipe",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TMT",
+    "ICAO": "SBTB",
+    "Airport name": "Porto Trombetas Airport",
+    "Location served": "Porto Trombetas / Oriximiná, Pará, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TMU",
+    "ICAO": "MRTR",
+    "Airport name": "Tambor Airport",
+    "Location served": "Tambor, Costa Rica",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TMW",
+    "ICAO": "YSTW",
+    "Airport name": "Tamworth Airport",
+    "Location served": "Tamworth, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TMX",
+    "ICAO": "DAUT",
+    "Airport name": "Timimoun Airport[1]",
+    "Location served": "Timimoun, Algeria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TMY",
+    "ICAO": "",
+    "Airport name": "Tiom Airport[1]",
+    "Location served": "Tiom, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TMZ",
+    "ICAO": "NZTH",
+    "Airport name": "Thames Aerodrome",
+    "Location served": "Thames, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TNA",
+    "ICAO": "ZSJN",
+    "Airport name": "Jinan Yaoqiang International Airport",
+    "Location served": "Jinan, Shandong, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TNB",
+    "ICAO": "WRLH",
+    "Airport name": "Tanah Grogot Airport[1]",
+    "Location served": "Tanah Grogot, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TNC",
+    "ICAO": "PATC",
+    "Airport name": "Tin City LRRS Airport",
+    "Location served": "Tin City, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TND",
+    "ICAO": "MUTD",
+    "Airport name": "Alberto Delgado Airport[1]",
+    "Location served": "Trinidad, Cuba",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TNE",
+    "ICAO": "RJFG",
+    "Airport name": "New Tanegashima Airport[1]",
+    "Location served": "Tanegashima, Ōsumi Islands, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TNF",
+    "ICAO": "LFPN",
+    "Airport name": "Toussus-le-Noble Airport",
+    "Location served": "Toussus-le-Noble, Île-de-France, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TNG",
+    "ICAO": "GMTT",
+    "Airport name": "Tangier Ibn Battouta Airport",
+    "Location served": "Tangier, Morocco",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TNH",
+    "ICAO": "ZYTN",
+    "Airport name": "Tonghua Sanyuanpu Airport",
+    "Location served": "Tonghua, Jilin, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TNI",
+    "ICAO": "VIST",
+    "Airport name": "Satna Airport",
+    "Location served": "Satna, Madhya Pradesh, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TNJ",
+    "ICAO": "WIDN",
+    "Airport name": "Raja Haji Fisabilillah Airport",
+    "Location served": "Tanjung Pinang, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TNK",
+    "ICAO": "",
+    "Airport name": "Tununak Airport (FAA: 4KA)",
+    "Location served": "Tununak, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TNL",
+    "ICAO": "UKLT",
+    "Airport name": "Ternopil International Airport",
+    "Location served": "Ternopil, Ukraine",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TNM",
+    "ICAO": "SCRM",
+    "Airport name": "Teniente R. Marsh Airport",
+    "Location served": "King George Island, Antarctica",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TNN",
+    "ICAO": "RCNN",
+    "Airport name": "Tainan Airport",
+    "Location served": "Tainan, Taiwan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TNO",
+    "ICAO": "MRTM",
+    "Airport name": "Tamarindo Airport",
+    "Location served": "Tamarindo, Costa Rica",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TNP",
+    "ICAO": "KTNP",
+    "Airport name": "Twentynine Palms Airport",
+    "Location served": "Twentynine Palms, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TNQ",
+    "ICAO": "",
+    "Airport name": "Teraina Airport",
+    "Location served": "Teraina, Kiribati",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TNR",
+    "ICAO": "FMMI",
+    "Airport name": "Ivato International Airport",
+    "Location served": "Antananarivo, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TNS",
+    "ICAO": "",
+    "Airport name": "Tungsten (Cantung) Airport[1] (TC: CBX5)",
+    "Location served": "Tungsten, Northwest Territories, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TNT",
+    "ICAO": "KTNT",
+    "Airport name": "Dade-Collier Training and Transition Airport",
+    "Location served": "Miami, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TNU",
+    "ICAO": "KTNU",
+    "Airport name": "Newton Municipal Airport",
+    "Location served": "Newton, Iowa, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TNV",
+    "ICAO": "",
+    "Airport name": "Tabuaeran Island Airport[1]",
+    "Location served": "Tabuaeran, Kiribati",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TNW",
+    "ICAO": "SEJD",
+    "Airport name": "Jumandy Airport[1]",
+    "Location served": "Tena, Ecuador",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TNX",
+    "ICAO": "VDST",
+    "Airport name": "Steung Treng Airport[1]",
+    "Location served": "Stung Treng, Cambodia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TNZ",
+    "ICAO": "ZMTL",
+    "Airport name": "Tosontsengel Airport[1]",
+    "Location served": "Tosontsengel, Mongolia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TOA",
+    "ICAO": "KTOA",
+    "Airport name": "Zamperini Field",
+    "Location served": "Torrance, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TOB",
+    "ICAO": "HLGN",
+    "Airport name": "Tobruk Airport",
+    "Location served": "Tobruk, Libya",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TOC",
+    "ICAO": "KTOC",
+    "Airport name": "Toccoa Airport (R.G. LeTourneau Field)",
+    "Location served": "Toccoa, Georgia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TOD",
+    "ICAO": "WMBT",
+    "Airport name": "Tioman Airport",
+    "Location served": "Tioman Island, Pahang, Malaysia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TOE",
+    "ICAO": "DTTZ",
+    "Airport name": "Tozeur–Nefta International Airport",
+    "Location served": "Tozeur, Tunisia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TOF",
+    "ICAO": "UNTT",
+    "Airport name": "Bogashevo Airport",
+    "Location served": "Tomsk, Tomsk Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TOG",
+    "ICAO": "PATG",
+    "Airport name": "Togiak Airport",
+    "Location served": "Togiak, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TOH",
+    "ICAO": "NVSD",
+    "Airport name": "Torres Airport[1]",
+    "Location served": "Torres Islands, Vanuatu",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TOI",
+    "ICAO": "KTOI",
+    "Airport name": "Troy Municipal Airport",
+    "Location served": "Troy, Alabama, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TOJ",
+    "ICAO": "LETO",
+    "Airport name": "Madrid–Torrejón Airport",
+    "Location served": "Madrid, Community of Madrid, Spain",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TOK",
+    "ICAO": "",
+    "Airport name": "Torokina Airport[1]",
+    "Location served": "Torokina, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TOL",
+    "ICAO": "KTOL",
+    "Airport name": "Toledo Express Airport",
+    "Location served": "Toledo, Ohio, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TOM",
+    "ICAO": "GATB",
+    "Airport name": "Timbuktu Airport",
+    "Location served": "Timbuktu (Tombouctou), Mali",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TON",
+    "ICAO": "",
+    "Airport name": "Tonu Airport[1]",
+    "Location served": "Tonu, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TOO",
+    "ICAO": "MRSV",
+    "Airport name": "San Vito de Java Airport[1]",
+    "Location served": "San Vito, Costa Rica",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TOP",
+    "ICAO": "KTOP",
+    "Airport name": "Philip Billard Municipal Airport",
+    "Location served": "Topeka, Kansas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TOQ",
+    "ICAO": "SCBE",
+    "Airport name": "Barriles Airport[1]",
+    "Location served": "Tocopilla, Chile",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TOR",
+    "ICAO": "KTOR",
+    "Airport name": "Torrington Municipal Airport",
+    "Location served": "Torrington, Wyoming, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TOS",
+    "ICAO": "ENTC",
+    "Airport name": "Tromsø Airport, Langnes",
+    "Location served": "Tromsø, Norway",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TOT",
+    "ICAO": "SMCO",
+    "Airport name": "Totness Airstrip",
+    "Location served": "Totness, Suriname",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TOU",
+    "ICAO": "NWWU",
+    "Airport name": "Touho Airport[1]",
+    "Location served": "Touho, New Caledonia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TOV",
+    "ICAO": "",
+    "Airport name": "West End Seaplane Base[1]",
+    "Location served": "Tortola, British Overseas Territory of Virgin Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TOW",
+    "ICAO": "SBTD",
+    "Airport name": "Luiz dal Canalle Filho Airport[1]",
+    "Location served": "Toledo, Paraná, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TOX",
+    "ICAO": "USTO",
+    "Airport name": "Tobolsk Airport[1]",
+    "Location served": "Tobolsk, Tyumen Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TOY",
+    "ICAO": "RJNT",
+    "Airport name": "Toyama Airport",
+    "Location served": "Toyama, Honshu, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TOZ",
+    "ICAO": "DITM",
+    "Airport name": "Mahana Airport[1]",
+    "Location served": "Touba, Ivory Coast",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TPA",
+    "ICAO": "KTPA",
+    "Airport name": "Tampa International Airport",
+    "Location served": "Tampa, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TPC",
+    "ICAO": "SETR",
+    "Airport name": "Tarapoa Airport[1]",
+    "Location served": "Tarapoa, Ecuador",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TPE",
+    "ICAO": "RCTP",
+    "Airport name": "Taiwan Taoyuan International Airport",
+    "Location served": "Taoyuan, Taiwan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TPF",
+    "ICAO": "KTPF",
+    "Airport name": "Peter O. Knight Airport",
+    "Location served": "Tampa, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TPG",
+    "ICAO": "WMBI",
+    "Airport name": "Taiping Airport[1]",
+    "Location served": "Taiping, Perak, Malaysia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TPH",
+    "ICAO": "KTPH",
+    "Airport name": "Tonopah Airport",
+    "Location served": "Tonopah, Nevada, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TPI",
+    "ICAO": "AYTI",
+    "Airport name": "Tapini Airport[1]",
+    "Location served": "Tapini, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TPJ",
+    "ICAO": "VNTJ",
+    "Airport name": "Taplejung Airport[1]",
+    "Location served": "Taplejung, Nepal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TPK",
+    "ICAO": "WITA",
+    "Airport name": "Teuku Cut Ali Airport[1]",
+    "Location served": "Tapaktuan, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TPL",
+    "ICAO": "KTPL",
+    "Airport name": "Draughon–Miller Central Texas Regional Airport",
+    "Location served": "Temple, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TPN",
+    "ICAO": "SETI",
+    "Airport name": "Tiputini Airport[1]",
+    "Location served": "Tiputini, Ecuador",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TPP",
+    "ICAO": "SPST",
+    "Airport name": "Cad. FAP Guillermo del Castillo Paredes Airport[1]",
+    "Location served": "Tarapoto, Peru",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TPQ",
+    "ICAO": "MMEP",
+    "Airport name": "Amado Nervo International Airport",
+    "Location served": "Tepic, Nayarit, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TPR",
+    "ICAO": "YTMP",
+    "Airport name": "Tom Price Airport",
+    "Location served": "Tom Price, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TPS",
+    "ICAO": "LICT",
+    "Airport name": "Vincenzo Florio Airport Trapani–Birgi",
+    "Location served": "Trapani, Sicily, Italy",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TPT",
+    "ICAO": "",
+    "Airport name": "Tapeta Airport[1]",
+    "Location served": "Tapeta, Liberia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TPU",
+    "ICAO": "VNTP",
+    "Airport name": "Tikapur Airport[1]",
+    "Location served": "Tikapur, Nepal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TPX",
+    "ICAO": "NTTU",
+    "Airport name": "Tupai Airport[1]",
+    "Location served": "Tūpai, Society Islands, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TQD",
+    "ICAO": "ORAT",
+    "Airport name": "Al-Taqaddum Air Base[1]",
+    "Location served": "Fallujah, Iraq",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TQL",
+    "ICAO": "USDS",
+    "Airport name": "Tarko-Sale Airport[1]",
+    "Location served": "Tarko-Sale, Yamalo-Nenets Autonomous Okrug, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TQN",
+    "ICAO": "OATQ",
+    "Airport name": "Taloqan Airport",
+    "Location served": "Taloqan, Afghanistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TQP",
+    "ICAO": "YTEE",
+    "Airport name": "Trepell Airport",
+    "Location served": "Trepell, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TQQ",
+    "ICAO": "",
+    "Airport name": "Maranggo Airport[1]",
+    "Location served": "Tomia Island, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TQS",
+    "ICAO": "SKTQ",
+    "Airport name": "Captain Ernesto Esguerra Cubides Air Base[1]",
+    "Location served": "Tres Esquinas, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TRA",
+    "ICAO": "RORT",
+    "Airport name": "Tarama Airport[1]",
+    "Location served": "Tarama, Miyako Islands, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TRB",
+    "ICAO": "SKTU",
+    "Airport name": "Gonzalo Mejía Airport[1]",
+    "Location served": "Turbo, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TRC",
+    "ICAO": "MMTC",
+    "Airport name": "Francisco Sarabia International Airport (Torreón Int'l)",
+    "Location served": "Torreón, Coahuila, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TRD",
+    "ICAO": "ENVA",
+    "Airport name": "Trondheim Airport, Værnes",
+    "Location served": "Trondheim, Norway",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TRE",
+    "ICAO": "EGPU",
+    "Airport name": "Tiree Airport",
+    "Location served": "Tiree, Scotland, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TRF",
+    "ICAO": "ENTO",
+    "Airport name": "Sandefjord Airport, Torp",
+    "Location served": "Sandefjord / Oslo, Norway",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TRG",
+    "ICAO": "NZTG",
+    "Airport name": "Tauranga Airport",
+    "Location served": "Tauranga, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TRH",
+    "ICAO": "",
+    "Airport name": "Trona Airport (FAA: L72)",
+    "Location served": "Trona, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TRI",
+    "ICAO": "KTRI",
+    "Airport name": "Tri-Cities Regional Airport",
+    "Location served": "Bristol / Johnson City / Kingsport, Tennessee, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TRJ",
+    "ICAO": "AYTT",
+    "Airport name": "Tarakbits Airport[1]",
+    "Location served": "Tarakbits, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TRK",
+    "ICAO": "WALR",
+    "Airport name": "Juwata International Airport",
+    "Location served": "Tarakan, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TRL",
+    "ICAO": "KTRL",
+    "Airport name": "Terrell Municipal Airport",
+    "Location served": "Terrell, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TRM",
+    "ICAO": "KTRM",
+    "Airport name": "Jacqueline Cochran Regional Airport",
+    "Location served": "Thermal, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TRN",
+    "ICAO": "LIMF",
+    "Airport name": "Turin Airport (Caselle Airport)",
+    "Location served": "Turin, Piedmont, Italy",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TRO",
+    "ICAO": "YTRE",
+    "Airport name": "Taree Airport[1]",
+    "Location served": "Taree, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TRQ",
+    "ICAO": "SBTK",
+    "Airport name": "José Galera dos Santos Airport[1]",
+    "Location served": "Tarauacá, Acre, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TRR",
+    "ICAO": "VCCT",
+    "Airport name": "China Bay Airport",
+    "Location served": "Trincomalee, Sri Lanka",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TRS",
+    "ICAO": "LIPQ",
+    "Airport name": "Trieste – Friuli Venezia Giulia Airport (Ronchi dei Legionari Airport)",
+    "Location served": "Trieste, Friuli-Venezia Giulia, Italy",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TRU",
+    "ICAO": "SPRU",
+    "Airport name": "FAP Captain Carlos Martínez de Pinillos International Airport",
+    "Location served": "Trujillo, Peru",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TRV",
+    "ICAO": "VOTV",
+    "Airport name": "Trivandrum International Airport",
+    "Location served": "Thiruvananthapuram, Kerala, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TRW",
+    "ICAO": "NGTA",
+    "Airport name": "Bonriki International Airport",
+    "Location served": "Tarawa, Kiribati",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TRX",
+    "ICAO": "KTRX",
+    "Airport name": "Trenton Municipal Airport",
+    "Location served": "Trenton, Missouri, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TRY",
+    "ICAO": "HUTO",
+    "Airport name": "Tororo Airport[1]",
+    "Location served": "Tororo, Uganda",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TRZ",
+    "ICAO": "VOTR",
+    "Airport name": "Tiruchirappalli International Airport",
+    "Location served": "Tiruchirappalli (Tiruchchirappalli), Tamil Nadu, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TSA",
+    "ICAO": "RCSS",
+    "Airport name": "Taipei Songshan Airport",
+    "Location served": "Taipei, Taiwan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TSB",
+    "ICAO": "FYTM",
+    "Airport name": "Tsumeb Airport[1]",
+    "Location served": "Tsumeb, Namibia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TSC",
+    "ICAO": "SETH",
+    "Airport name": "Taisha Airport[1]",
+    "Location served": "Taisha, Ecuador",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TSD",
+    "ICAO": "",
+    "Airport name": "Tshipise Airport[1]",
+    "Location served": "Tshipise, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TSE",
+    "ICAO": "UACC",
+    "Airport name": "Astana International Airport",
+    "Location served": "Astana, Kazakhstan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TSF",
+    "ICAO": "LIPH",
+    "Airport name": "Treviso-Sant'Angelo Airport",
+    "Location served": "Treviso / Venice, Veneto, Italy",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TSG",
+    "ICAO": "",
+    "Airport name": "Tanacross Airport",
+    "Location served": "Tanacross, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TSH",
+    "ICAO": "FZUK",
+    "Airport name": "Tshikapa Airport[1]",
+    "Location served": "Tshikapa, Democratic Republic of the Congo",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TSI",
+    "ICAO": "",
+    "Airport name": "Tsile Tsile Airport[1]",
+    "Location served": "Tsili Tsili (Tsile Tsile), Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TSJ",
+    "ICAO": "RJDT",
+    "Airport name": "Tsushima Airport",
+    "Location served": "Tsushima, Tsushima Island, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TSK",
+    "ICAO": "",
+    "Airport name": "Taskul Airport[1]",
+    "Location served": "Taskul, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TSL",
+    "ICAO": "MMTN",
+    "Airport name": "Tamuín National Airport",
+    "Location served": "Tamuín, San Luis Potosí, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TSM",
+    "ICAO": "KSKX",
+    "Airport name": "Taos Regional Airport (FAA: SKX)",
+    "Location served": "Taos, New Mexico, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TSN",
+    "ICAO": "ZBTJ",
+    "Airport name": "Tianjin Binhai International Airport",
+    "Location served": "Tianjin, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TSP",
+    "ICAO": "KTSP",
+    "Airport name": "Tehachapi Municipal Airport",
+    "Location served": "Tehachapi, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TSQ",
+    "ICAO": "SBTR",
+    "Airport name": "Torres Airport[1]",
+    "Location served": "Torres, Rio Grande do Sul, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TSR",
+    "ICAO": "LRTR",
+    "Airport name": "Timișoara Traian Vuia International Airport",
+    "Location served": "Timișoara, Romania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TST",
+    "ICAO": "VTST",
+    "Airport name": "Trang Airport",
+    "Location served": "Trang, Thailand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TSU",
+    "ICAO": "NGTS",
+    "Airport name": "Tabiteuea South Airport[1]",
+    "Location served": "Tabiteuea South, Kiribati",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TSV",
+    "ICAO": "YBTL",
+    "Airport name": "Townsville Airport",
+    "Location served": "Townsville, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TSW",
+    "ICAO": "",
+    "Airport name": "Tsewi Airport[1]",
+    "Location served": "Tsewi, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TSY",
+    "ICAO": "WICM",
+    "Airport name": "Tasikmalaya Airport[1] (Wiriadinata Airport)",
+    "Location served": "Tasikmalaya, West Java, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TSX",
+    "ICAO": "WRLT",
+    "Airport name": "Tanjung Santan Airport[1]",
+    "Location served": "Tanjung Santan, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TSZ",
+    "ICAO": "ZMTG",
+    "Airport name": "Tsetserleg Airport",
+    "Location served": "Tsetserleg, Mongolia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TTA",
+    "ICAO": "GMAT",
+    "Airport name": "Tan Tan Airport (Plage Blanche Airport)",
+    "Location served": "Tan-Tan, Morocco",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TTB",
+    "ICAO": "LIET",
+    "Airport name": "Tortolì Airport (Arbatax Airport)",
+    "Location served": "Tortolì, Sardinia, Italy",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TTC",
+    "ICAO": "SCTT",
+    "Airport name": "Las Breas Airport[1]",
+    "Location served": "Taltal, Chile",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TTD",
+    "ICAO": "KTTD",
+    "Airport name": "Portland–Troutdale Airport",
+    "Location served": "Portland, Oregon, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TTE",
+    "ICAO": "WAEE",
+    "Airport name": "Sultan Babullah Airport[1]",
+    "Location served": "Ternate, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TTG",
+    "ICAO": "SAST",
+    "Airport name": "Tartagal \"General Enrique Mosconi\" Airport",
+    "Location served": "Tartagal, Salta, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TTH",
+    "ICAO": "OOTH",
+    "Airport name": "RAFO Thumrait[1]",
+    "Location served": "Thumrait, Oman",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TTI",
+    "ICAO": "NTTE",
+    "Airport name": "Tetiaroa Airport[1]",
+    "Location served": "Tetiaroa, Society Islands, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TTJ",
+    "ICAO": "RJOR",
+    "Airport name": "Tottori Airport[1]",
+    "Location served": "Tottori, Honshu, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TTL",
+    "ICAO": "",
+    "Airport name": "Turtle Island Seaplane Base[1]",
+    "Location served": "Nanuya Levu, Fiji",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TTM",
+    "ICAO": "",
+    "Airport name": "Tablón de Tamará Airport",
+    "Location served": "Tablón de Tamará, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TTN",
+    "ICAO": "KTTN",
+    "Airport name": "Trenton–Mercer Airport",
+    "Location served": "Trenton, New Jersey, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TTO",
+    "ICAO": "KBTN",
+    "Airport name": "Britton Municipal Airport (FAA: BTN)",
+    "Location served": "Britton, South Dakota, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TTQ",
+    "ICAO": "MRBT",
+    "Airport name": "Tortuguero Airport (Barra de Tortuguero Airport)",
+    "Location served": "Tortuguero, Costa Rica",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TTR",
+    "ICAO": "WAWT",
+    "Airport name": "Pongtiku Airport[1]",
+    "Location served": "Tana Toraja, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TTS",
+    "ICAO": "FMNT",
+    "Airport name": "Tsaratanana Airport",
+    "Location served": "Tsaratanana, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TTT",
+    "ICAO": "RCFN",
+    "Airport name": "Taitung Airport (Taitung Fongnian Airport)",
+    "Location served": "Taitung, Taiwan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TTU",
+    "ICAO": "",
+    "Airport name": "Sania Ramel Airport",
+    "Location served": "Tétouan, Morocco",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TTW",
+    "ICAO": "",
+    "Airport name": "Tissa Tank Waterdrome[1]",
+    "Location served": "Tissamaharama, Sri Lanka",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TTX",
+    "ICAO": "YTST",
+    "Airport name": "Truscott-Mungalalu Airport[1]",
+    "Location served": "Mungalalu, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TUA",
+    "ICAO": "SETU",
+    "Airport name": "Teniente Coronel Luis a Mantilla International Airport",
+    "Location served": "Tulcán, Ecuador",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TUB",
+    "ICAO": "NTAT",
+    "Airport name": "Tubuai – Mataura Airport[1]",
+    "Location served": "Tubuai, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TUC",
+    "ICAO": "SANT",
+    "Airport name": "Teniente General Benjamín Matienzo International Airport",
+    "Location served": "San Miguel de Tucumán, Tucumán, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TUD",
+    "ICAO": "GOTT",
+    "Airport name": "Tambacounda Airport",
+    "Location served": "Tambacounda, Senegal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TUF",
+    "ICAO": "LFOT",
+    "Airport name": "Tours Val de Loire Airport",
+    "Location served": "Tours, Centre-Val de Loire, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TUG",
+    "ICAO": "RPUT",
+    "Airport name": "Tuguegarao Airport",
+    "Location served": "Tuguegarao, Philippines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TUI",
+    "ICAO": "OETR",
+    "Airport name": "Turaif Domestic Airport[1]",
+    "Location served": "Turaif, Saudi Arabia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TUJ",
+    "ICAO": "HAMJ",
+    "Airport name": "Tum Airport[1]",
+    "Location served": "Tum, Ethiopia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TUK",
+    "ICAO": "OPTU",
+    "Airport name": "Turbat International Airport",
+    "Location served": "Turbat, Pakistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TUL",
+    "ICAO": "KTUL",
+    "Airport name": "Tulsa International Airport",
+    "Location served": "Tulsa, Oklahoma, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TUM",
+    "ICAO": "YTMU",
+    "Airport name": "Tumut Airport[1]",
+    "Location served": "Tumut, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TUN",
+    "ICAO": "DTTA",
+    "Airport name": "Tunis–Carthage International Airport",
+    "Location served": "Tunis, Tunisia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TUO",
+    "ICAO": "NZAP",
+    "Airport name": "Taupo Airport",
+    "Location served": "Taupo, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TUP",
+    "ICAO": "KTUP",
+    "Airport name": "Tupelo Regional Airport",
+    "Location served": "Tupelo, Mississippi, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TUQ",
+    "ICAO": "DFOT",
+    "Airport name": "Tougan Airport",
+    "Location served": "Tougan, Burkina Faso",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TUR",
+    "ICAO": "SBTU",
+    "Airport name": "Tucuruí Airport[1]",
+    "Location served": "Tucuruí, Pará, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TUS",
+    "ICAO": "KTUS",
+    "Airport name": "Tucson International Airport",
+    "Location served": "Tucson, Arizona, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TUT",
+    "ICAO": "",
+    "Airport name": "Tauta Airport[1]",
+    "Location served": "Tauta, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TUU",
+    "ICAO": "OETB",
+    "Airport name": "Tabuk Regional Airport",
+    "Location served": "Tabuk, Saudi Arabia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TUV",
+    "ICAO": "SVTC",
+    "Airport name": "San Rafael Airport[1]",
+    "Location served": "Tucupita, Venezuela",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TUW",
+    "ICAO": "",
+    "Airport name": "Tubala Airport[1]",
+    "Location served": "Tubala (Tubualá), Panama",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TUX",
+    "ICAO": "",
+    "Airport name": "Tumbler Ridge Airport[1] (TC: CBX7)",
+    "Location served": "Tumbler Ridge, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TUY",
+    "ICAO": "",
+    "Airport name": "Tulum Airport",
+    "Location served": "Tulum, Quintana Roo, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TUZ",
+    "ICAO": "",
+    "Airport name": "Tucumã Airport[1]",
+    "Location served": "Tucumã, Pará, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TVA",
+    "ICAO": "FMMR",
+    "Airport name": "Morafenobe Airport[1]",
+    "Location served": "Morafenobe, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TVC",
+    "ICAO": "KTVC",
+    "Airport name": "Cherry Capital Airport",
+    "Location served": "Traverse City, Michigan, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TVF",
+    "ICAO": "KTVF",
+    "Airport name": "Thief River Falls Regional Airport",
+    "Location served": "Thief River Falls, Minnesota, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TVI",
+    "ICAO": "KTVI",
+    "Airport name": "Thomasville Regional Airport",
+    "Location served": "Thomasville, Georgia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TVL",
+    "ICAO": "KTVL",
+    "Airport name": "Lake Tahoe Airport",
+    "Location served": "South Lake Tahoe, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TVS",
+    "ICAO": "ZBTS",
+    "Airport name": "Tangshan Sannühe Airport",
+    "Location served": "Tangshan, Hebei, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TVU",
+    "ICAO": "NFNM",
+    "Airport name": "Matei Airport",
+    "Location served": "Taveuni, Fiji",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TVY",
+    "ICAO": "VYDW",
+    "Airport name": "Dawei Airport",
+    "Location served": "Dawei, Myanmar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TWA",
+    "ICAO": "",
+    "Airport name": "Twin Hills Airport (FAA: A63)",
+    "Location served": "Twin Hills, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TWB",
+    "ICAO": "YTWB",
+    "Airport name": "Toowoomba City Aerodrome[1]",
+    "Location served": "Toowoomba, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TWC",
+    "ICAO": "",
+    "Airport name": "Tumxuk Tangwangcheng Airport[1]",
+    "Location served": "Tumxuk, Xinjiang, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TWD",
+    "ICAO": "",
+    "Airport name": "Jefferson County International Airport (FAA: 0S9)",
+    "Location served": "Port Townsend, Washington, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TWE",
+    "ICAO": "",
+    "Airport name": "Taylor Airport (FAA: AK49)",
+    "Location served": "Taylor, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TWF",
+    "ICAO": "KTWF",
+    "Airport name": "Magic Valley Regional Airport (Joslin Field)",
+    "Location served": "Twin Falls, Idaho, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TWN",
+    "ICAO": "",
+    "Airport name": "Tewantin Airport[1]",
+    "Location served": "Tewantin, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TWP",
+    "ICAO": "",
+    "Airport name": "Torwood Airport[1]",
+    "Location served": "Torwood, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TWT",
+    "ICAO": "RPMN",
+    "Airport name": "Sanga-Sanga Airport",
+    "Location served": "Tawitawi Island (Tawi-Tawi), Philippines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TWU",
+    "ICAO": "WBKW",
+    "Airport name": "Tawau Airport",
+    "Location served": "Tawau, Sabah, Malaysia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TWY",
+    "ICAO": "",
+    "Airport name": "Tawa Airport[1]",
+    "Location served": "Tawa, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TWZ",
+    "ICAO": "NZUK",
+    "Airport name": "Pukaki Airport[1] (Twizel Airport)",
+    "Location served": "Twizel, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TXE",
+    "ICAO": "WITK",
+    "Airport name": "Rembele Airport[1]",
+    "Location served": "Takengon, Sumatra, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TXF",
+    "ICAO": "SNTF",
+    "Airport name": "Teixeira de Freitas Airport[1] (9 de maio Airport)",
+    "Location served": "Teixeira de Freitas, Bahia, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TXK",
+    "ICAO": "KTXK",
+    "Airport name": "Texarkana Regional Airport (Webb Field)",
+    "Location served": "Texarkana, Arkansas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TXM",
+    "ICAO": "WAST",
+    "Airport name": "Teminabuan Airport[1]",
+    "Location served": "Teminabuan, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TXN",
+    "ICAO": "ZSTX",
+    "Airport name": "Huangshan Tunxi International Airport[1]",
+    "Location served": "Huangshan, Anhui, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TXR",
+    "ICAO": "",
+    "Airport name": "Tanbar Airport[1]",
+    "Location served": "Tanbar, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TXU",
+    "ICAO": "DITB",
+    "Airport name": "Tabou Airport[1]",
+    "Location served": "Tabou, Ivory Coast",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TYA",
+    "ICAO": "UUBT",
+    "Airport name": "Klokovo Airport[1]",
+    "Location served": "Tula, Tula Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TYB",
+    "ICAO": "YTIB",
+    "Airport name": "Tibooburra Airport[1]",
+    "Location served": "Tibooburra, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TYD",
+    "ICAO": "UHBW",
+    "Airport name": "Tynda Airport",
+    "Location served": "Tynda, Amur Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TYE",
+    "ICAO": "",
+    "Airport name": "Tyonek Airport",
+    "Location served": "Tyonek, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TYF",
+    "ICAO": "ESST",
+    "Airport name": "Torsby Airport[1]",
+    "Location served": "Torsby, Sweden",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TYG",
+    "ICAO": "",
+    "Airport name": "Thylungra Airport[1]",
+    "Location served": "Thylungra, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TYL",
+    "ICAO": "SPYL",
+    "Airport name": "Capitán FAP Víctor Montes Arias International Airport",
+    "Location served": "Talara, Peru",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TYM",
+    "ICAO": "MYES",
+    "Airport name": "Staniel Cay Airport[1]",
+    "Location served": "Staniel Cay, Exuma Islands, Bahamas",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TYN",
+    "ICAO": "ZBYN",
+    "Airport name": "Taiyuan Wusu International Airport",
+    "Location served": "Taiyuan, Shanxi, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TYO",
+    "ICAO": "",
+    "Airport name": "metropolitan area2",
+    "Location served": "Tokyo, Honshu, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TYP",
+    "ICAO": "YTMY",
+    "Airport name": "Tobermorey Airport[1]",
+    "Location served": "Tobermorey, Northern Territory, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TYR",
+    "ICAO": "KTYR",
+    "Airport name": "Tyler Pounds Regional Airport",
+    "Location served": "Tyler, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TYS",
+    "ICAO": "KTYS",
+    "Airport name": "McGhee Tyson Airport",
+    "Location served": "Knoxville, Tennessee, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TYT",
+    "ICAO": "SUTR",
+    "Airport name": "Treinta y Tres Airport",
+    "Location served": "Treinta y Tres, Uruguay",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TYZ",
+    "ICAO": "KTYL",
+    "Airport name": "Taylor Airport (FAA: TYL)",
+    "Location served": "Taylor, Arizona, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TZA",
+    "ICAO": "",
+    "Airport name": "Belize City Municipal Airport",
+    "Location served": "Belize City, Belize",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TZC",
+    "ICAO": "KCFS",
+    "Airport name": "Tuscola Area Airport[1] (FAA: CFS)",
+    "Location served": "Caro, Michigan, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TZL",
+    "ICAO": "LQTZ",
+    "Airport name": "Tuzla International Airport",
+    "Location served": "Tuzla, Bosnia and Herzegovina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TZM",
+    "ICAO": "",
+    "Airport name": "Cupul National Airport",
+    "Location served": "Tizimín, Yucatán, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TZN",
+    "ICAO": "MYAK",
+    "Airport name": "South Andros Airport (Congo Town Airport)",
+    "Location served": "South Andros, Andros Island, Bahamas",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TZO",
+    "ICAO": "",
+    "Airport name": "Tsimiroro Airport[1]",
+    "Location served": "Ankisatra, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "TZX",
+    "ICAO": "LTCG",
+    "Airport name": "Trabzon Airport",
+    "Location served": "Trabzon, Turkey",
+    "Time": "",
+    "DST": ""
+  }
+]
