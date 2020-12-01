@@ -9,7 +9,6 @@ const {
   SELECT_AIRLINE,
   CHECK_FLIGHT_STATUS,
   AIRPORT_INFORMATION,
-  GET_FLIGHTS,
   ASK_DEPARTURE_DATE,
   ASK_DEPARTURE_CITY,
   ASK_ARRIVAL_CITY,
@@ -84,7 +83,7 @@ exports.getMessageBlocks = (chatbot) => {
           { type: DYNAMIC, action: SELECT_AIRLINE },
           { type: DYNAMIC, action: CHECK_FLIGHT_STATUS },
           { type: DYNAMIC, action: AIRPORT_INFORMATION },
-          { type: DYNAMIC, action: GET_FLIGHTS }
+          { type: DYNAMIC, action: ASK_DEPARTURE_DATE }
         ],
         specialKeys: {}
       }
@@ -259,7 +258,7 @@ const getAskArrivalCityBlock = async (chatbot, backId, userInput, argument) => {
   }
 }
 
-const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, argument, userInput) => {
+const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, userInput, argument) => {
   try {
     let messageBlock = {
       module: {
@@ -281,7 +280,7 @@ const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, argumen
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    const flights = await AirlineProvider.fetchFlights(argument.departure_city, userInput, argument.departure_date, argument.airline.airline_name)
+    const flights = await AirlineProvider.fetchFlights(argument.departure_city, userInput, argument.departure_date, argument.airline ? argument.airline.airline_name : null)
 
     for (let i = 0; i < flights.length; i++) {
       const flight = flights[i]
@@ -406,7 +405,7 @@ exports.getNextMessageBlock = async (chatbot, AirlineProvider, contact, input) =
             break
           }
           case GET_FLIGHT_SCHEDULES: {
-            messageBlock = await getAskArrivalCityBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.input ? input : '', action.argument)
+            messageBlock = await getFlightSchedulesBlock(chatbot, contact.lastMessageSentByBot.uniqueId, AirlineProvider, action.input ? input : '', action.argument)
             break
           }
         }
