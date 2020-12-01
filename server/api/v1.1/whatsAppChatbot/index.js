@@ -12,7 +12,7 @@ router.post('/',
   auth.isSuperUserActingAsCustomer('write'),
   controller.create)
 
-router.get('/',
+router.post('/fetch',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer(),
   controller.fetch)
