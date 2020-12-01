@@ -289,6 +289,7 @@ exports.webhookPost = (needle, webhook, req, res) => {
 exports.setSubscriberPayloadInfo = (subscriber, payload, blockInfo) => {
   let awaitingQuickReplyPayload = {}
   let action = []
+  console.log('Payload', payload)
   for (let qr of payload.quickReplies) {
     let quickReply = {}
     if (qr.query) {
@@ -302,8 +303,8 @@ exports.setSubscriberPayloadInfo = (subscriber, payload, blockInfo) => {
       if (qr.blockId) {
         quickReply.blockId = qr.blockId
       }
+      action.push(quickReply)
     }
-    action.push(quickReply)
   }
   if (blockInfo) {
     awaitingQuickReplyPayload.chatBotId = blockInfo.chatBotId
