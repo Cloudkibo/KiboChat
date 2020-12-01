@@ -11,7 +11,9 @@ exports.createWhatsAppChatbot = (req) => {
         companyId: req.user.companyId,
         botLinks: req.body.botLinks ? req.body.botLinks : undefined,
         testSubscribers: req.body.testSubscribers ? req.body.testSubscribers : [],
-        storeType: req.body.storeType
+        storeType: req.body.storeType,
+        type: req.body.type,
+        vertical: req.body.vertical
       }, kibochat)
       resolve(createdChatbot)
     } catch (err) {
@@ -54,12 +56,12 @@ exports.fetchAllWhatsAppChatbots = (match) => {
   })
 }
 
-exports.updateWhatsAppChatbot = (_id, updated) => {
+exports.updateWhatsAppChatbot = (query, updated) => {
   return new Promise(async (resolve, reject) => {
     try {
       let chatbot = await callApi('whatsAppChatbot', 'put', {
         purpose: 'updateOne',
-        match: { _id },
+        match: query,
         updated
       }, kibochat)
       chatbot = { ...chatbot, ...updated }

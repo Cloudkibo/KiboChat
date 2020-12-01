@@ -13,10 +13,14 @@ exports.prepareChat = (from, to, contact, body, format) => {
     }
     getMetaData(MessageObject)
       .then(result => {
-        resolve(MessageObject)
+        resolve(result)
       })
       .catch(err => {
-        reject(err)
+        if (!(err && err.message === 'Page Not Found')) {
+          reject(err)
+        } else {
+          resolve(MessageObject)
+        }
       })
   })
 }
