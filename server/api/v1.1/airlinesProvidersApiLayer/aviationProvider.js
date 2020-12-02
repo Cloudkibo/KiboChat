@@ -142,22 +142,22 @@ exports.fetchFlights = (depIata, arrIata, depTime, airlineName, credentials) => 
               'icao': item.flight.icao,
               'codeshared': item.flight.codeshared
             },
-            'aircraft': {
-              'registration': item.aircraft.registration,
-              'iata': item.aircraft.iata,
-              'icao': item.aircraft.icao,
-              'icao24': item.aircraft.icao24
-            },
-            'live': {
-              'updated': item.live.updated,
-              'latitude': item.live.latitude,
-              'longitude': item.live.longitude,
-              'altitude': item.live.altitude,
-              'direction': item.live.direction,
-              'speed_horizontal': item.live.speed_horizontal,
-              'speed_vertical': item.live.speed_vertical,
-              'is_ground': item.live.is_ground
-            }
+            // 'aircraft': {
+            //   'registration': item.aircraft.registration,
+            //   'iata': item.aircraft.iata,
+            //   'icao': item.aircraft.icao,
+            //   'icao24': item.aircraft.icao24
+            // },
+            // 'live': {
+            //   'updated': item.live.updated,
+            //   'latitude': item.live.latitude,
+            //   'longitude': item.live.longitude,
+            //   'altitude': item.live.altitude,
+            //   'direction': item.live.direction,
+            //   'speed_horizontal': item.live.speed_horizontal,
+            //   'speed_vertical': item.live.speed_vertical,
+            //   'is_ground': item.live.is_ground
+            // }
           }
         })
         resolve(payload)
