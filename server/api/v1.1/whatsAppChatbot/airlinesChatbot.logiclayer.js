@@ -268,7 +268,7 @@ const getAskDepartureCityBlock = async (chatbot, backId, userInput, argument) =>
   try {
     if (new Date(userInput).toString() === 'Invalid Date') {
       userError = true
-      throw new Error('Please enter a valid date in the format of YYYY/MM/DD')
+      throw new Error('Please enter a valid date in the format of YYYY-MM-DD')
     }
     let messageBlock = {
       module: {
