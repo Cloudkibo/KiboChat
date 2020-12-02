@@ -259,9 +259,7 @@ const getFaqsBlock = (chatbot, blockId, messageBlocks, backId) => {
     payload: [
       {
         text: dedent(`View our FAQs here: ${chatbot.botLinks.faqs}\n
-                          ${specialKeyText(BACK_KEY)}
-                          ${specialKeyText(HOME_KEY)}
-                        `),
+                      ${specialKeyText(BACK_KEY)}`),
         componentType: 'text',
         specialKeys: {
           [BACK_KEY]: { type: STATIC, blockId: backId }
