@@ -474,11 +474,11 @@ const getFlightScheduleDetailsBlock = (chatbot, backId, argument) => {
       payload: [
         {
           text: dedent(`Details for ${flightInfo.airline.name} ${flightInfo.flight.iata}:\n 
-          *Flight Number*: ${flightInfo.flight.iata}
-          *Departure Time*: ${new Date(flightInfo.departure.scheduled).toLocaleString('en-US', {timeZone: flightInfo.departure.timezone, dateStyle: 'full', timeStyle: 'full'})}
-          *Arrival Time*: ${new Date(flightInfo.arrival.scheduled).toLocaleString('en-US', {timeZone: flightInfo.arrival.timezone, dateStyle: 'full', timeStyle: 'full'})}
-          *Departure Airport Location*: https://www.google.com/maps/search/?api=1&query=${flightInfo.departure.airport}
-          *Arrival Airport Location*: https://www.google.com/maps/search/?api=1&query=${flightInfo.arrival.airport}`),
+                        *Flight Number*: ${flightInfo.flight.iata}
+                        *Departure Time*: ${new Date(flightInfo.departure.scheduled).toLocaleString('en-US', {timeZone: flightInfo.departure.timezone, dateStyle: 'full', timeStyle: 'full'})}
+                        *Arrival Time*: ${new Date(flightInfo.arrival.scheduled).toLocaleString('en-US', {timeZone: flightInfo.arrival.timezone, dateStyle: 'full', timeStyle: 'full'})}
+                        *Departure Airport Location*: https://www.google.com/maps/search/?api=1&query=${escape(flightInfo.departure.airport)}
+                        *Arrival Airport Location*: https://www.google.com/maps/search/?api=1&query=${escape(flightInfo.arrival.airport)}`),
           componentType: 'text',
           specialKeys: {
             [BACK_KEY]: { type: STATIC, blockId: backId },
