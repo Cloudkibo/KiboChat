@@ -85,10 +85,14 @@ exports.fetchAirportInfo = (name, credentials) => {
   })
 }
 
-exports.fetchFlights = (depCity, arrCity, depTime, airlineName, credentials) => {
+exports.fetchFlights = (depIata, arrIata, depTime, airlineName, credentials) => {
   const params = initAviation(credentials)
+  let query = `dep_iata=${depIata}&arr_iata=${arrIata}&flight_date=${depTime}`
+  if (airlineName) {
+    query += `&airline_name=${airlineName}`
+  }
   return new Promise(function (resolve, reject) {
-    needle('get', `${API_URL}/flights?access_key=${params}&airline_name=${airlineName}`)
+    needle('get', `${API_URL}/flights?access_key=${params}&${query}`)
       .then(result => {
         result = result.body
         let payload = result.data
