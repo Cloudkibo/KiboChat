@@ -13,6 +13,7 @@ module.exports = class EcommerceProvidersApiLayer {
     if (!provider || (typeof provider !== 'string')) throw new Error('First parameter "provider" is must')
     if (provider === providers.shopify) {
       if (
+        credentials &&
         credentials.hasOwnProperty('shopUrl') &&
         credentials.hasOwnProperty('shopToken')
       ) {
@@ -22,6 +23,7 @@ module.exports = class EcommerceProvidersApiLayer {
       }
     } else if (provider === providers.bigcommerce) {
       if (
+        credentials &&
         credentials.hasOwnProperty('storeHash') &&
         credentials.hasOwnProperty('shopToken')
       ) {

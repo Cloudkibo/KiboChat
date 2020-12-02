@@ -1,0 +1,1602 @@
+[
+  {
+    "IATA": "UAB",
+    "ICAO": "LTAG",
+    "Airport name": "Incirlik Air Base[1]",
+    "Location served": "Adana, Turkey",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UAC",
+    "ICAO": "",
+    "Airport name": "San Luis Río Colorado Airport[1]",
+    "Location served": "San Luis Río Colorado, Sonora, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UAE",
+    "ICAO": "",
+    "Airport name": "Mount Aue Airport[1]",
+    "Location served": "Mount Aue, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UAH",
+    "ICAO": "NTMU",
+    "Airport name": "Ua Huka Airport[1]",
+    "Location served": "Ua Huka, Marquesas Islands, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UAI",
+    "ICAO": "WPDB",
+    "Airport name": "Suai Airport[1]",
+    "Location served": "Suai, East Timor",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UAK",
+    "ICAO": "BGBW",
+    "Airport name": "Narsarsuaq Airport",
+    "Location served": "Narsarsuaq, Greenland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UAL",
+    "ICAO": "FNUA",
+    "Airport name": "Luau Airport",
+    "Location served": "Luau, Angola",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UAM",
+    "ICAO": "PGUA",
+    "Airport name": "Andersen Air Force Base",
+    "Location served": "Hagåtña (Agana), Guam",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UAP",
+    "ICAO": "NTMP",
+    "Airport name": "Ua Pou Airport[1]",
+    "Location served": "Ua Pou, Marquesas Islands, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UAQ",
+    "ICAO": "SANU",
+    "Airport name": "Domingo Faustino Sarmiento Airport",
+    "Location served": "San Juan, San Juan, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UAR",
+    "ICAO": "GMFB",
+    "Airport name": "Bouarfa Airport[1]",
+    "Location served": "Bouarfa, Morocco",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UAS",
+    "ICAO": "HKSB",
+    "Airport name": "Samburu Airport[1] (Buffalo Spring Airport)",
+    "Location served": "Samburu, Kenya",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UAX",
+    "ICAO": "",
+    "Airport name": "Uaxactun Airport[1]",
+    "Location served": "Uaxactun, Guatemala",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UBA",
+    "ICAO": "SBUR",
+    "Airport name": "Mário de Almeida Franco Airport",
+    "Location served": "Uberaba, Minas Gerais, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UBB",
+    "ICAO": "YMAA",
+    "Airport name": "Mabuiag Island Airport[1]",
+    "Location served": "Mabuiag Island, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UBI",
+    "ICAO": "",
+    "Airport name": "Buin Airport[1]",
+    "Location served": "Buin, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UBJ",
+    "ICAO": "RJDC",
+    "Airport name": "Yamaguchi Ube Airport",
+    "Location served": "Ube, Honshu, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UBP",
+    "ICAO": "VTUU",
+    "Airport name": "Ubon Ratchathani Airport",
+    "Location served": "Ubon Ratchathani, Thailand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UBR",
+    "ICAO": "WAJU",
+    "Airport name": "Ubrub Airport[1]",
+    "Location served": "Ubrub, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UBS",
+    "ICAO": "KUBS",
+    "Airport name": "Columbus-Lowndes County Airport",
+    "Location served": "Columbus, Mississippi, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UBT",
+    "ICAO": "SDUB",
+    "Airport name": "Ubatuba Airport[1] (Gastão Madeira Airport)",
+    "Location served": "Ubatuba, São Paulo, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UBU",
+    "ICAO": "YKAL",
+    "Airport name": "Kalumburu Airport[1]",
+    "Location served": "Kalumburu, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UCB",
+    "ICAO": "",
+    "Airport name": "Ulanqab Airport[1]",
+    "Location served": "Ulanqab, Inner Mongolia, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UCC",
+    "ICAO": "KUCC",
+    "Airport name": "Yucca Airstrip (FAA: NV11)",
+    "Location served": "Mercury, Nevada, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UCE",
+    "ICAO": "",
+    "Airport name": "Eunice Airport (FAA: 4R7)",
+    "Location served": "Eunice, Louisiana, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UCK",
+    "ICAO": "UKLC",
+    "Airport name": "Lutsk Airport[1]",
+    "Location served": "Lutsk, Ukraine",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UCN",
+    "ICAO": "GLBU",
+    "Airport name": "Buchanan Airport",
+    "Location served": "Buchanan, Liberia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UCT",
+    "ICAO": "UUYH",
+    "Airport name": "Ukhta Airport",
+    "Location served": "Ukhta, Komi Republic, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UCY",
+    "ICAO": "KUCY",
+    "Airport name": "Everett–Stewart Regional Airport",
+    "Location served": "Union City, Tennessee, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UDA",
+    "ICAO": "YUDA",
+    "Airport name": "Undara Airport[1]",
+    "Location served": "Undara, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UDD",
+    "ICAO": "KUDD",
+    "Airport name": "Bermuda Dunes Airport",
+    "Location served": "Palm Springs, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UDE",
+    "ICAO": "EHVK",
+    "Airport name": "Volkel Air Base",
+    "Location served": "Uden, Netherlands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UDI",
+    "ICAO": "SBUL",
+    "Airport name": "Ten. Cel. Av. César Bombonato Airport",
+    "Location served": "Uberlândia, Minas Gerais, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UDJ",
+    "ICAO": "UKLU",
+    "Airport name": "Uzhhorod International Airport[1]",
+    "Location served": "Uzhhorod, Ukraine",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UDN",
+    "ICAO": "LIPD",
+    "Airport name": "Campoformido Airport[1]",
+    "Location served": "Udine, Friuli-Venezia Giulia, Italy",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UDR",
+    "ICAO": "VAUD",
+    "Airport name": "Maharana Pratap Airport",
+    "Location served": "Udaipur, Rajasthan, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UEE",
+    "ICAO": "YQNS",
+    "Airport name": "Queenstown Airport[1]",
+    "Location served": "Queenstown, Tasmania, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UEL",
+    "ICAO": "FQQL",
+    "Airport name": "Quelimane Airport",
+    "Location served": "Quelimane, Mozambique",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UEN",
+    "ICAO": "USDU",
+    "Airport name": "Urengoy Airport[1]",
+    "Location served": "Urengoy, Yamalo-Nenets Autonomous Okrug, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UEO",
+    "ICAO": "ROKJ",
+    "Airport name": "Kumejima Airport[1]",
+    "Location served": "Kumejima, Okinawa Islands, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UES",
+    "ICAO": "KUES",
+    "Airport name": "Waukesha County Airport (Crites Field)",
+    "Location served": "Waukesha, Wisconsin, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UET",
+    "ICAO": "OPQT",
+    "Airport name": "Quetta International Airport",
+    "Location served": "Quetta, Pakistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UFA",
+    "ICAO": "UWUU",
+    "Airport name": "Ufa International Airport",
+    "Location served": "Ufa, Bashkortostan, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UGA",
+    "ICAO": "ZMBN",
+    "Airport name": "Bulgan Airport",
+    "Location served": "Bulgan, Mongolia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UGB",
+    "ICAO": "",
+    "Airport name": "Ugashik Bay Airport",
+    "Location served": "Pilot Point, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UGC",
+    "ICAO": "UTNU",
+    "Airport name": "Urgench International Airport",
+    "Location served": "Urgench, Uzbekistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UGI",
+    "ICAO": "",
+    "Airport name": "San Juan (Uganik) Seaplane Base (FAA: WSJ)",
+    "Location served": "Uganik, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UGL",
+    "ICAO": "SCGC",
+    "Airport name": "Union Glacier Blue-Ice Runway",
+    "Location served": "Heritage Range, Ellsworth Mountains, Antarctica",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UGN",
+    "ICAO": "KUGN",
+    "Airport name": "Waukegan National Airport",
+    "Location served": "Waukegan, Illinois, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UGO",
+    "ICAO": "FNUG",
+    "Airport name": "Uíge Airport[1]",
+    "Location served": "Uíge, Angola",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UGS",
+    "ICAO": "",
+    "Airport name": "Ugashik Airport (FAA: 9A8)",
+    "Location served": "Ugashik, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UGT",
+    "ICAO": "ZMBR",
+    "Airport name": "Bulagtai Airport[1]",
+    "Location served": "Bulagtai, Mongolia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UGU",
+    "ICAO": "",
+    "Airport name": "Bilogai Airport[1]",
+    "Location served": "Bilogai, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UHE",
+    "ICAO": "LKKU",
+    "Airport name": "Kunovice Airport",
+    "Location served": "Uherské Hradiště, Czech Republic",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UIB",
+    "ICAO": "SKUI",
+    "Airport name": "El Caraño Airport",
+    "Location served": "Quibdó, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UIH",
+    "ICAO": "VVPC",
+    "Airport name": "Phu Cat Airport",
+    "Location served": "Qui Nhơn, Vietnam",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UII",
+    "ICAO": "MHUT",
+    "Airport name": "Útila Airport",
+    "Location served": "Útila, Honduras",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UIK",
+    "ICAO": "UIBS",
+    "Airport name": "Ust-Ilimsk Airport",
+    "Location served": "Ust-Ilimsk, Irkutsk Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UIL",
+    "ICAO": "KUIL",
+    "Airport name": "Quillayute Airport",
+    "Location served": "Forks, Washington, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UIN",
+    "ICAO": "KUIN",
+    "Airport name": "Quincy Regional Airport (Baldwin Field)",
+    "Location served": "Quincy, Illinois, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UIO",
+    "ICAO": "SEQM",
+    "Airport name": "Mariscal Sucre International Airport",
+    "Location served": "Quito, Ecuador",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UIP",
+    "ICAO": "LFRQ",
+    "Airport name": "Quimper–Cornouaille Airport (Pluguffan)",
+    "Location served": "Quimper, Brittany, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UIQ",
+    "ICAO": "NVVQ",
+    "Airport name": "Quoin Hill Airfield",
+    "Location served": "Quoin Hill, Vanuatu",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UIR",
+    "ICAO": "YQDI",
+    "Airport name": "Quirindi Airport[1]",
+    "Location served": "Quirindi, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UIT",
+    "ICAO": "",
+    "Airport name": "Jaluit Airport (FAA: N55)",
+    "Location served": "Jaluit Atoll, Marshall Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UJE",
+    "ICAO": "",
+    "Airport name": "Ujae Airport",
+    "Location served": "Ujae Atoll, Marshall Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UJN",
+    "ICAO": "RKTL",
+    "Airport name": "Uljin Airport[1]",
+    "Location served": "Uljin, South Korea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UJU",
+    "ICAO": "ZKUJ",
+    "Airport name": "Uiju Airfield[1]",
+    "Location served": "Uiju, North Korea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UKA",
+    "ICAO": "HKUK",
+    "Airport name": "Ukunda Airport[1] (Diani Airport)",
+    "Location served": "Ukunda, Kenya",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UKB",
+    "ICAO": "RJBE",
+    "Airport name": "Kobe Airport",
+    "Location served": "Kobe / Osaka, Honshu, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UKG",
+    "ICAO": "UEBT",
+    "Airport name": "Ust-Kuyga Airport",
+    "Location served": "Ust-Kuyga, Yakutia, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UKH",
+    "ICAO": "OOMK",
+    "Airport name": "Mukhaizna Airport[1]",
+    "Location served": "Mukhaizna, Oman",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UKI",
+    "ICAO": "KUKI",
+    "Airport name": "Ukiah Municipal Airport",
+    "Location served": "Ukiah, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UKK",
+    "ICAO": "UASK",
+    "Airport name": "Oskemen Airport (Ust-Kamenogorsk Airport)",
+    "Location served": "Oskemen (Ust-Kamenogorsk), Kazakhstan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UKN",
+    "ICAO": "",
+    "Airport name": "Waukon Municipal Airport (FAA: Y01)",
+    "Location served": "Waukon, Iowa, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UKR",
+    "ICAO": "OYMK",
+    "Airport name": "Mukeiras Airport[1]",
+    "Location served": "Mukayras, Yemen",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UKS",
+    "ICAO": "UKFB",
+    "Airport name": "Sevastopol International Airport[1]",
+    "Location served": "Sevastopol",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UKT",
+    "ICAO": "KUKT",
+    "Airport name": "Quakertown Airport",
+    "Location served": "Quakertown, Pennsylvania, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UKU",
+    "ICAO": "",
+    "Airport name": "Nuku Airport[1]",
+    "Location served": "Nuku, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UKX",
+    "ICAO": "UITT",
+    "Airport name": "Ust-Kut Airport",
+    "Location served": "Ust-Kut, Irkutsk Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ULA",
+    "ICAO": "SAWJ",
+    "Airport name": "Capitán José Daniel Vazquez Airport[1]",
+    "Location served": "Puerto San Julián, Santa Cruz, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ULB",
+    "ICAO": "NVSU",
+    "Airport name": "Ulei Airport[1]",
+    "Location served": "Ulei, Vanuatu",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ULD",
+    "ICAO": "FAUL",
+    "Airport name": "Ulundi Airport[1]",
+    "Location served": "Ulundi, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ULE",
+    "ICAO": "",
+    "Airport name": "Sule Airport[1]",
+    "Location served": "Sule, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ULG",
+    "ICAO": "ZMUL",
+    "Airport name": "Ölgii Airport[1]",
+    "Location served": "Ölgii, Mongolia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ULH",
+    "ICAO": "OEAO",
+    "Airport name": "Prince Abdul Majeed bin Abdulaziz Domestic Airport[1]",
+    "Location served": "Al-Ula, Saudi Arabia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ULI",
+    "ICAO": "",
+    "Airport name": "Ulithi Airport (FAA: TT02)",
+    "Location served": "Ulithi, Federated States of Micronesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ULK",
+    "ICAO": "UERL",
+    "Airport name": "Lensk Airport[1]",
+    "Location served": "Lensk, Yakutia, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ULL",
+    "ICAO": "",
+    "Airport name": "Glenforsa Airfield[1]",
+    "Location served": "Mull, Scotland, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ULM",
+    "ICAO": "KULM",
+    "Airport name": "New Ulm Municipal Airport",
+    "Location served": "New Ulm, Minnesota, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ULN",
+    "ICAO": "ZMUB",
+    "Airport name": "Buyant-Ukhaa International Airport",
+    "Location served": "Ulaanbaatar, Mongolia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ULO",
+    "ICAO": "ZMUG",
+    "Airport name": "Ulaangom Airport",
+    "Location served": "Ulaangom, Mongolia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ULP",
+    "ICAO": "YQLP",
+    "Airport name": "Quilpie Airport[1]",
+    "Location served": "Quilpie, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ULQ",
+    "ICAO": "SKUL",
+    "Airport name": "Heriberto Gíl Martínez Airport[1]",
+    "Location served": "Tuluá, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ULS",
+    "ICAO": "",
+    "Airport name": "Mulatos Airport",
+    "Location served": "Mulatos, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ULU",
+    "ICAO": "HUGU",
+    "Airport name": "Gulu Airport[1]",
+    "Location served": "Gulu, Uganda",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ULV",
+    "ICAO": "UWLL",
+    "Airport name": "Ulyanovsk Baratayevka Airport",
+    "Location served": "Ulyanovsk, Ulyanovsk Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ULX",
+    "ICAO": "",
+    "Airport name": "Ulusaba Airstrip[1]",
+    "Location served": "Ulusaba, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ULY",
+    "ICAO": "UWLW",
+    "Airport name": "Ulyanovsk Vostochny Airport",
+    "Location served": "Ulyanovsk, Ulyanovsk Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ULZ",
+    "ICAO": "ZMDN",
+    "Airport name": "Donoi Airport[1]",
+    "Location served": "Uliastai, Mongolia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UMA",
+    "ICAO": "",
+    "Airport name": "Punta de Maisí Airport",
+    "Location served": "Maisí, Cuba",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UMC",
+    "ICAO": "",
+    "Airport name": "Umba Airport[1]",
+    "Location served": "Umba, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UME",
+    "ICAO": "ESNU",
+    "Airport name": "Umeå Airport",
+    "Location served": "Umeå, Sweden",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UMI",
+    "ICAO": "SPIL",
+    "Airport name": "Quince Mil Airport[1]",
+    "Location served": "Quince Mil, Peru",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UMM",
+    "ICAO": "PAST",
+    "Airport name": "Summit Airport",
+    "Location served": "Summit, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UMR",
+    "ICAO": "YPWR",
+    "Airport name": "RAAF Woomera Airfield[1]",
+    "Location served": "Woomera, South Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UMS",
+    "ICAO": "UEMU",
+    "Airport name": "Ust-Maya Airport",
+    "Location served": "Ust-Maya, Yakutia, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UMT",
+    "ICAO": "PAUM",
+    "Airport name": "Umiat Airport",
+    "Location served": "Umiat, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UMU",
+    "ICAO": "SSUM",
+    "Airport name": "Orlando de Carvalho Airport[1]",
+    "Location served": "Umuarama, Paraná, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UMY",
+    "ICAO": "UKHS",
+    "Airport name": "Sumy Airport[1]",
+    "Location served": "Sumy, Ukraine",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UMZ",
+    "ICAO": "KMEZ",
+    "Airport name": "Mena Intermountain Municipal Airport",
+    "Location served": "Mena, Arkansas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UNA",
+    "ICAO": "SBTC",
+    "Airport name": "Una-Comandatuba Airport[1]",
+    "Location served": "Una / Comandatuba Island, Bahia, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UNC",
+    "ICAO": "",
+    "Airport name": "Unguía Airport",
+    "Location served": "Unguía, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UND",
+    "ICAO": "OAUZ",
+    "Airport name": "Kunduz Airport",
+    "Location served": "Kunduz, Afghanistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UNE",
+    "ICAO": "FXQN",
+    "Airport name": "Qacha's Nek Airport[1]",
+    "Location served": "Qacha's Nek, Lesotho",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UNG",
+    "ICAO": "AYKI",
+    "Airport name": "Kiunga Airport[1]",
+    "Location served": "Kiunga, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UNI",
+    "ICAO": "TVSU",
+    "Airport name": "Union Island Airport",
+    "Location served": "Union Island, Saint Vincent and the Grenadines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UNK",
+    "ICAO": "PAUN",
+    "Airport name": "Unalakleet Airport",
+    "Location served": "Unalakleet, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UNN",
+    "ICAO": "VTSR",
+    "Airport name": "Ranong Airport",
+    "Location served": "Ranong, Thailand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UNR",
+    "ICAO": "ZMUH",
+    "Airport name": "Öndörkhaan Airport",
+    "Location served": "Öndörkhaan, Mongolia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UNT",
+    "ICAO": "",
+    "Airport name": "Unst Airport[1]",
+    "Location served": "Unst, Scotland, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UNU",
+    "ICAO": "KUNU",
+    "Airport name": "Dodge County Airport",
+    "Location served": "Juneau, Wisconsin, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UOA",
+    "ICAO": "NTTX",
+    "Airport name": "Mururoa Airport[1]",
+    "Location served": "Moruroa (Mururoa), Tuamotus, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UOL",
+    "ICAO": "WAMY",
+    "Airport name": "Pogogul Airport",
+    "Location served": "Buol, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UOS",
+    "ICAO": "KUOS",
+    "Airport name": "Franklin County Airport",
+    "Location served": "Sewanee, Tennessee, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UOX",
+    "ICAO": "KUOX",
+    "Airport name": "University-Oxford Airport",
+    "Location served": "Oxford, Mississippi, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UPB",
+    "ICAO": "MUPB",
+    "Airport name": "Playa Baracoa Airport[1]",
+    "Location served": "Havana, Cuba",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UPG",
+    "ICAO": "WAAA",
+    "Airport name": "Sultan Hasanuddin International Airport",
+    "Location served": "Makassar, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UPL",
+    "ICAO": "MRUP",
+    "Airport name": "Upala Airport",
+    "Location served": "Upala, Costa Rica",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UPN",
+    "ICAO": "MMPN",
+    "Airport name": "Ignacio López Rayón International Airport",
+    "Location served": "Uruapan, Michoacán, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UPP",
+    "ICAO": "PHUP",
+    "Airport name": "Upolu Airport",
+    "Location served": "Hawi, Hawaii, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UPR",
+    "ICAO": "",
+    "Airport name": "Upiara Airport[1]",
+    "Location served": "Upiara, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UPV",
+    "ICAO": "EGDJ",
+    "Airport name": "RAF Upavon[1]",
+    "Location served": "Upavon, England, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "URA",
+    "ICAO": "UARR",
+    "Airport name": "Oral Ak Zhol Airport",
+    "Location served": "Oral (Uralsk), Kazakhstan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "URB",
+    "ICAO": "",
+    "Airport name": "Castilho Airport[1] (Urubupunga Airport)",
+    "Location served": "Castilho, São Paulo, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "URC",
+    "ICAO": "ZWWW",
+    "Airport name": "Ürümqi Diwopu International Airport",
+    "Location served": "Ürümqi, Xinjiang, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "URD",
+    "ICAO": "EDQE",
+    "Airport name": "Burg Feuerstein Airport[1]",
+    "Location served": "Burg Feuerstein, Bavaria, Germany",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "URE",
+    "ICAO": "EEKE",
+    "Airport name": "Kuressaare Airport",
+    "Location served": "Kuressaare, Estonia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "URG",
+    "ICAO": "SBUG",
+    "Airport name": "Rubem Berta International Airport",
+    "Location served": "Uruguaiana, Rio Grande do Sul, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "URI",
+    "ICAO": "SKUB",
+    "Airport name": "Uribe Airport",
+    "Location served": "La Uribe, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "URJ",
+    "ICAO": "USHU",
+    "Airport name": "Uray Airport",
+    "Location served": "Uray, Khanty-Mansi Autonomous Okrug, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "URM",
+    "ICAO": "SVUM",
+    "Airport name": "Uriman Airport[1]",
+    "Location served": "Uriman, Venezuela",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "URN",
+    "ICAO": "OAOG",
+    "Airport name": "Urgun Airport",
+    "Location served": "Urgun, Afghanistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "URO",
+    "ICAO": "LFOP",
+    "Airport name": "Rouen Airport (Vallée de Seine Airport)",
+    "Location served": "Rouen, Upper Normandy, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "URR",
+    "ICAO": "SKUR",
+    "Airport name": "Urrao Airport[1]",
+    "Location served": "Urrao, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "URS",
+    "ICAO": "UUOK",
+    "Airport name": "Kursk Vostochny Airport",
+    "Location served": "Kursk, Kursk Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "URT",
+    "ICAO": "VTSB",
+    "Airport name": "Surat Thani Airport",
+    "Location served": "Surat Thani, Thailand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "URU",
+    "ICAO": "",
+    "Airport name": "Uroubi Airport[1]",
+    "Location served": "Uroubi, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "URY",
+    "ICAO": "OEGT",
+    "Airport name": "Gurayat Domestic Airport[1]",
+    "Location served": "Qurayyat (Gurayat), Saudi Arabia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "URZ",
+    "ICAO": "OARG",
+    "Airport name": "Uruzgan Airport",
+    "Location served": "Khas Uruzgan, Afghanistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "USA",
+    "ICAO": "KJQF",
+    "Airport name": "Concord Regional Airport (FAA: JQF)",
+    "Location served": "Concord, North Carolina, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "USC",
+    "ICAO": "",
+    "Airport name": "Union County Airport/Troy Shelton Field (FAA: 35A)",
+    "Location served": "Union, South Carolina, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "USH",
+    "ICAO": "SAWH",
+    "Airport name": "Ushuaia – Malvinas Argentinas International Airport",
+    "Location served": "Ushuaia, Tierra del Fuego, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "USI",
+    "ICAO": "SYMB",
+    "Airport name": "Mabaruma Airport",
+    "Location served": "Mabaruma, Guyana",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "USJ",
+    "ICAO": "UAAL",
+    "Airport name": "Usharal Airport",
+    "Location served": "Usharal, Kazakhstan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "USK",
+    "ICAO": "UUYS",
+    "Airport name": "Usinsk Airport[1]",
+    "Location served": "Usinsk, Komi Republic, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "USL",
+    "ICAO": "YUSL",
+    "Airport name": "Useless Loop Airport[1]",
+    "Location served": "Useless Loop, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "USM",
+    "ICAO": "VTSM",
+    "Airport name": "Samui Airport",
+    "Location served": "Ko Samui, Thailand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "USN",
+    "ICAO": "RKPU",
+    "Airport name": "Ulsan Airport[1]",
+    "Location served": "Ulsan, South Korea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "USO",
+    "ICAO": "",
+    "Airport name": "Usino Airport[1]",
+    "Location served": "Usino, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "USQ",
+    "ICAO": "LTBO",
+    "Airport name": "Uşak Airport",
+    "Location served": "Uşak, Turkey",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "USR",
+    "ICAO": "UEMT",
+    "Airport name": "Ust-Nera Airport",
+    "Location served": "Ust-Nera, Yakutia, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "USS",
+    "ICAO": "MUSS",
+    "Airport name": "Sancti Spíritus Airport[1]",
+    "Location served": "Sancti Spíritus, Cuba",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UST",
+    "ICAO": "KSGJ",
+    "Airport name": "Northeast Florida Regional Airport (FAA: SGJ)",
+    "Location served": "St. Augustine, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "USU",
+    "ICAO": "RPVV",
+    "Airport name": "Francisco B. Reyes Airport",
+    "Location served": "Busuanga, Philippines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UTA",
+    "ICAO": "FVMU",
+    "Airport name": "Mutare Airport",
+    "Location served": "Mutare, Zimbabwe",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UTB",
+    "ICAO": "YMTB",
+    "Airport name": "Muttaburra Airport[1]",
+    "Location served": "Muttaburra, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UTC",
+    "ICAO": "EHSB",
+    "Airport name": "Soesterberg Air Base",
+    "Location served": "Utrecht, Netherlands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UTD",
+    "ICAO": "",
+    "Airport name": "Nutwood Downs Airport[1]",
+    "Location served": "Nutwood Downs, Northern Territory, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UTG",
+    "ICAO": "FXQG",
+    "Airport name": "Quthing Airport[1]",
+    "Location served": "Quthing, Lesotho",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UTH",
+    "ICAO": "VTUD",
+    "Airport name": "Udon Thani International Airport",
+    "Location served": "Udon Thani, Thailand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UTI",
+    "ICAO": "EFUT",
+    "Airport name": "Utti Airport",
+    "Location served": "Utti, Finland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UTK",
+    "ICAO": "",
+    "Airport name": "Utirik Airport (FAA: 03N)",
+    "Location served": "Utirik Atoll, Marshall Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UTM",
+    "ICAO": "KUTA",
+    "Airport name": "Tunica Municipal Airport (FAA: UTA)",
+    "Location served": "Tunica, Mississippi, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UTN",
+    "ICAO": "FAUP",
+    "Airport name": "Upington Airport",
+    "Location served": "Upington, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UTO",
+    "ICAO": "PAIM",
+    "Airport name": "Indian Mountain LRRS Airport",
+    "Location served": "Utopia Creek, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UTP",
+    "ICAO": "VTBU",
+    "Airport name": "U-Tapao International Airport",
+    "Location served": "Rayong, Thailand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UTS",
+    "ICAO": "UUYX",
+    "Airport name": "Ust-Tsilma Airport[1]",
+    "Location served": "Ust-Tsilma, Komi Republic, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UTT",
+    "ICAO": "FAUT",
+    "Airport name": "Mthatha Airport",
+    "Location served": "Mthatha (Umtata), South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UTU",
+    "ICAO": "",
+    "Airport name": "Ustupo Airport[1]",
+    "Location served": "Ustupo, Panama",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UTW",
+    "ICAO": "FAQT",
+    "Airport name": "Queenstown Airport[1]",
+    "Location served": "Queenstown, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UUA",
+    "ICAO": "UWKB",
+    "Airport name": "Bugulma Airport",
+    "Location served": "Bugulma, Tatarstan, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UUD",
+    "ICAO": "UIUU",
+    "Airport name": "Baikal International Airport",
+    "Location served": "Ulan-Ude, Buryatia, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UUK",
+    "ICAO": "PAKU",
+    "Airport name": "Ugnu-Kuparuk Airport (FAA: UBW)",
+    "Location served": "Kuparuk, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UUN",
+    "ICAO": "ZMBU",
+    "Airport name": "Baruun-Urt Airport[1]",
+    "Location served": "Baruun-Urt, Mongolia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UUS",
+    "ICAO": "UHSS",
+    "Airport name": "Yuzhno-Sakhalinsk Airport (Khomutovo Airport)",
+    "Location served": "Yuzhno-Sakhalinsk, Sakhalin Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UUU",
+    "ICAO": "",
+    "Airport name": "Manumu Airport",
+    "Location served": "Manumu, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UVA",
+    "ICAO": "KUVA",
+    "Airport name": "Garner Field",
+    "Location served": "Uvalde, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UVE",
+    "ICAO": "NWWV",
+    "Airport name": "Ouvéa Airport[1] (Ouloup Airport)",
+    "Location served": "Ouvéa, New Caledonia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UVF",
+    "ICAO": "TLPL",
+    "Airport name": "Hewanorra International Airport",
+    "Location served": "Vieux Fort, Saint Lucia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UVI",
+    "ICAO": "SSUV",
+    "Airport name": "União da Vitória Airport[1]",
+    "Location served": "União da Vitória, Paraná, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UVL",
+    "ICAO": "HEKG",
+    "Airport name": "El Kharga Airport[1]",
+    "Location served": "Kharga Oasis, Egypt",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UVO",
+    "ICAO": "",
+    "Airport name": "Uvol Airport[1]",
+    "Location served": "Uvol, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UYL",
+    "ICAO": "HSNN",
+    "Airport name": "Nyala Airport",
+    "Location served": "Nyala, Sudan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UYN",
+    "ICAO": "ZLYL",
+    "Airport name": "Yulin Yuyang Airport",
+    "Location served": "Yulin, Shaanxi, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UYU",
+    "ICAO": "SLUY",
+    "Airport name": "Uyuni Airport (Joya Andina Airport)",
+    "Location served": "Uyuni, Bolivia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UZC",
+    "ICAO": "LYUZ",
+    "Airport name": "Užice-Ponikve Airport",
+    "Location served": "Užice, Serbia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UZM",
+    "ICAO": "",
+    "Airport name": "Hope Bay Aerodrome[1] (TC: CHB3)",
+    "Location served": "Hope Bay, Nunavut, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UZR",
+    "ICAO": "",
+    "Airport name": "Urzhar Airport",
+    "Location served": "Urzhar (Urdzhar), Kazakhstan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "UZU",
+    "ICAO": "SATU",
+    "Airport name": "Curuzú Cuatiá Airport",
+    "Location served": "Curuzú Cuatiá, Corrientes, Argentina",
+    "Time": "",
+    "DST": ""
+  }
+]

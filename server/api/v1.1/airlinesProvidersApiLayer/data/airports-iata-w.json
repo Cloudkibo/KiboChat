@@ -1,0 +1,1874 @@
+[
+  {
+    "IATA": "WAA",
+    "ICAO": "PAIW",
+    "Airport name": "Wales Airport[1]",
+    "Location served": "Wales, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WAC",
+    "ICAO": "HAWC",
+    "Airport name": "Wacca Airport[1]",
+    "Location served": "Wacca, Ethiopia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WAD",
+    "ICAO": "",
+    "Airport name": "Andriamena Airport",
+    "Location served": "Andriamena, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WAE",
+    "ICAO": "OEWD",
+    "Airport name": "Wadi al-Dawasir Domestic Airport[1]",
+    "Location served": "Wadi ad-Dawasir (Wadi al-Dawaser), Saudi Arabia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WAF",
+    "ICAO": "OPWN",
+    "Airport name": "Wana Airport[1]",
+    "Location served": "Wana, Pakistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WAG",
+    "ICAO": "NZWU",
+    "Airport name": "Whanganui Airport",
+    "Location served": "Whanganui, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WAH",
+    "ICAO": "KBWP",
+    "Airport name": "Harry Stern Airport (FAA: BWP)",
+    "Location served": "Wahpeton, North Dakota, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WAI",
+    "ICAO": "FMNW",
+    "Airport name": "Ambalabe Airport[1]",
+    "Location served": "Antsohihy, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WAJ",
+    "ICAO": "",
+    "Airport name": "Wawoi Falls Airport[1]",
+    "Location served": "Wawoi Falls, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WAK",
+    "ICAO": "FMSZ",
+    "Airport name": "Ankazoabo Airport[1]",
+    "Location served": "Ankazoabo, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WAL",
+    "ICAO": "KWAL",
+    "Airport name": "Wallops Flight Facility",
+    "Location served": "Wallops Island, Virginia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WAM",
+    "ICAO": "FMMZ",
+    "Airport name": "Ambatondrazaka Airport[1]",
+    "Location served": "Ambatondrazaka, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WAO",
+    "ICAO": "AYWB",
+    "Airport name": "Wabo Airport[1]",
+    "Location served": "Wabo, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WAP",
+    "ICAO": "SCAP",
+    "Airport name": "Alto Palena Airfield[1]",
+    "Location served": "Palena, Chile",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WAQ",
+    "ICAO": "FMMG",
+    "Airport name": "Antsalova Airport[1]",
+    "Location served": "Antsalova, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WAR",
+    "ICAO": "WAJR",
+    "Airport name": "Waris Airport[1]",
+    "Location served": "Waris, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WAS[1]",
+    "ICAO": "",
+    "Airport name": "metropolitan area1",
+    "Location served": "Washington, D.C., United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WAT",
+    "ICAO": "EIWF",
+    "Airport name": "Waterford Airport",
+    "Location served": "Waterford, Ireland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WAU",
+    "ICAO": "",
+    "Airport name": "Wauchope Airport[1]",
+    "Location served": "Wauchope, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WAV",
+    "ICAO": "YWAV",
+    "Airport name": "Wave Hill Airport[1]",
+    "Location served": "Kalkarindji (Wave Hill), Northern Territory, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WAW",
+    "ICAO": "EPWA",
+    "Airport name": "Warsaw Chopin Airport",
+    "Location served": "Warsaw, Poland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WAX",
+    "ICAO": "HLZW",
+    "Airport name": "Zuwarah Airport[1]",
+    "Location served": "Zuwarah (Zuara), Libya",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WAY",
+    "ICAO": "KWAY",
+    "Airport name": "Greene County Airport",
+    "Location served": "Waynesburg, Pennsylvania, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WAZ",
+    "ICAO": "YWCK",
+    "Airport name": "Warwick Airport[1]",
+    "Location served": "Warwick, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WBA",
+    "ICAO": "WAPV",
+    "Airport name": "Wahai Airport[1]",
+    "Location served": "Seram Island, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WBB",
+    "ICAO": "",
+    "Airport name": "Stebbins Airport",
+    "Location served": "Stebbins, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WBC",
+    "ICAO": "",
+    "Airport name": "Wapolu Airport[1]",
+    "Location served": "Wapolu, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WBD",
+    "ICAO": "FMNF",
+    "Airport name": "Befandriana Airport[1]",
+    "Location served": "Befandriana-Avaratra, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WBE",
+    "ICAO": "",
+    "Airport name": "Ankaizina Airport[1]",
+    "Location served": "Bealanana, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WBG",
+    "ICAO": "ETNS",
+    "Airport name": "Schleswig Air Base",
+    "Location served": "Schleswig, Schleswig-Holstein, Germany",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WBK",
+    "ICAO": "",
+    "Airport name": "West Branch Community Airport[1] (FAA: Y31)",
+    "Location served": "West Branch, Michigan, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WBM",
+    "ICAO": "AYWD",
+    "Airport name": "Wapenamanda Airport[1]",
+    "Location served": "Wapenamanda, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WBO",
+    "ICAO": "FMSB",
+    "Airport name": "Antsoa Airport[1]",
+    "Location served": "Beroroha, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WBQ",
+    "ICAO": "PAWB",
+    "Airport name": "Beaver Airport",
+    "Location served": "Beaver, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WBR",
+    "ICAO": "KRQB",
+    "Airport name": "Roben–Hood Airport (FAA: RQB)",
+    "Location served": "Big Rapids, Michigan, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WBU",
+    "ICAO": "KBDU",
+    "Airport name": "Boulder Municipal Airport (FAA: BDU)",
+    "Location served": "Boulder, Colorado, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WBW",
+    "ICAO": "KWBW",
+    "Airport name": "Wilkes-Barre Wyoming Valley Airport",
+    "Location served": "Wilkes-Barre, Pennsylvania, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WCA",
+    "ICAO": "SCST",
+    "Airport name": "Gamboa Airport",
+    "Location served": "Castro, Chile",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WCH",
+    "ICAO": "SCTN",
+    "Airport name": "Chaitén Airfield",
+    "Location served": "Chaitén, Chile",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WCR",
+    "ICAO": "PALR",
+    "Airport name": "Chandalar Lake Airport",
+    "Location served": "Chandalar Lake, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WDA",
+    "ICAO": "",
+    "Airport name": "Wadi Ain Airport",
+    "Location served": "Wadi Ain, Yemen",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WDG",
+    "ICAO": "KWDG",
+    "Airport name": "Enid Woodring Regional Airport",
+    "Location served": "Enid, Oklahoma, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WDH",
+    "ICAO": "FYWH",
+    "Airport name": "Hosea Kutako International Airport",
+    "Location served": "Windhoek, Namibia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WDI",
+    "ICAO": "YWND",
+    "Airport name": "Wondai Airport[1]",
+    "Location served": "Wondai, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WDN",
+    "ICAO": "",
+    "Airport name": "Waldronaire Airport[1] (FAA: 90WA)",
+    "Location served": "Waldron Island, Washington, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WDR",
+    "ICAO": "KWDR",
+    "Airport name": "Barrow County Airport",
+    "Location served": "Winder, Georgia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WDS",
+    "ICAO": "ZHSY",
+    "Airport name": "Shiyan Wudangshan Airport",
+    "Location served": "Shiyan, Hubei, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WEA",
+    "ICAO": "KWEA",
+    "Airport name": "Parker County Airport",
+    "Location served": "Weatherford, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WED",
+    "ICAO": "",
+    "Airport name": "Wedau Airport[1]",
+    "Location served": "Wedau, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WEF",
+    "ICAO": "ZSWF",
+    "Airport name": "Weifang Airport",
+    "Location served": "Weifang, Shandong, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WEH",
+    "ICAO": "ZSWH",
+    "Airport name": "Weihai Dashuibo Airport",
+    "Location served": "Weihai, Shandong, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WEI",
+    "ICAO": "YBWP",
+    "Airport name": "Weipa Airport",
+    "Location served": "Weipa, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WEL",
+    "ICAO": "FAWM",
+    "Airport name": "Welkom Airport[1]",
+    "Location served": "Welkom, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WEP",
+    "ICAO": "",
+    "Airport name": "Weam Airport[1]",
+    "Location served": "Weam, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WET",
+    "ICAO": "WABG",
+    "Airport name": "Waghete Airport[1]",
+    "Location served": "Waghete, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WEW",
+    "ICAO": "YWWA",
+    "Airport name": "Wee Waa Airport[1]",
+    "Location served": "Wee Waa, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WFB",
+    "ICAO": "",
+    "Airport name": "Ketchikan Harbor Seaplane Base (FAA: 5KE)",
+    "Location served": "Ketchikan, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WFD",
+    "ICAO": "EGCD",
+    "Airport name": "Woodford Aerodrome[1]",
+    "Location served": "Woodford, England, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WFI",
+    "ICAO": "FMSF",
+    "Airport name": "Fianarantsoa Airport",
+    "Location served": "Fianarantsoa, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WFK",
+    "ICAO": "KFVE",
+    "Airport name": "Northern Aroostook Regional Airport (FAA: FVE)",
+    "Location served": "Frenchville, Maine, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WGA",
+    "ICAO": "YSWG",
+    "Airport name": "Wagga Wagga Airport",
+    "Location served": "Wagga Wagga, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WGC",
+    "ICAO": "VOWA",
+    "Airport name": "Warangal Airport[1]",
+    "Location served": "Warangal, Telangana, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WGE",
+    "ICAO": "YWLG",
+    "Airport name": "Walgett Airport[1]",
+    "Location served": "Walgett, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WGN",
+    "ICAO": "ZGSY",
+    "Airport name": "Shaoyang Wugang Airport",
+    "Location served": "Shaoyang, Hunan, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WGO",
+    "ICAO": "KOKV",
+    "Airport name": "Winchester Regional Airport (FAA: OKV)",
+    "Location served": "Winchester, Virginia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WGP",
+    "ICAO": "WADW",
+    "Airport name": "Mau Hau Airport (Umbu Mehang Kunda Airport)",
+    "Location served": "Waingapu, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WGT",
+    "ICAO": "YWGT",
+    "Airport name": "Wangaratta Airport",
+    "Location served": "Wangaratta, Victoria, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WGU",
+    "ICAO": "",
+    "Airport name": "Wagau Airport[1]",
+    "Location served": "Wagau, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WGY",
+    "ICAO": "",
+    "Airport name": "Wagny Airport[1]",
+    "Location served": "Wagny, Gabon",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WHD",
+    "ICAO": "",
+    "Airport name": "Hyder Seaplane Base (FAA: 4Z7)",
+    "Location served": "Hyder, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WHF",
+    "ICAO": "HSSW",
+    "Airport name": "Wadi Halfa Airport",
+    "Location served": "Wadi Halfa, Sudan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WHK",
+    "ICAO": "NZWK",
+    "Airport name": "Whakatane Airport",
+    "Location served": "Whakatane, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WHL",
+    "ICAO": "",
+    "Airport name": "Welshpool Airport[1]",
+    "Location served": "Welshpool, Victoria, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WHO",
+    "ICAO": "",
+    "Airport name": "Franz Josef Glacier Aerodrome[1]",
+    "Location served": "Franz Josef Glacier, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WHP",
+    "ICAO": "KWHP",
+    "Airport name": "Whiteman Airport",
+    "Location served": "Los Angeles, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WHS",
+    "ICAO": "EGEH",
+    "Airport name": "Whalsay Airstrip[1]",
+    "Location served": "Whalsay, Scotland, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WHT",
+    "ICAO": "KARM",
+    "Airport name": "Wharton Regional Airport (FAA: ARM)",
+    "Location served": "Wharton, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WHU",
+    "ICAO": "ZSWU",
+    "Airport name": "Wuhu Airport[1]",
+    "Location served": "Wuhu, Anhui, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WIB",
+    "ICAO": "",
+    "Airport name": "Wilbarger County Airport[1] (FAA: F05)",
+    "Location served": "Vernon, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WIC",
+    "ICAO": "EGPC",
+    "Airport name": "Wick Airport",
+    "Location served": "Wick, Scotland, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WIE",
+    "ICAO": "ETOU",
+    "Airport name": "Wiesbaden Army Airfield",
+    "Location served": "Wiesbaden, Hesse, Germany",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WIK",
+    "ICAO": "NZKE",
+    "Airport name": "Waiheke Island Aerodrome[1]",
+    "Location served": "Waiheke Island, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WIL",
+    "ICAO": "HKNW",
+    "Airport name": "Wilson Airport",
+    "Location served": "Nairobi, Kenya",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WIN",
+    "ICAO": "YWTN",
+    "Airport name": "Winton Airport[1]",
+    "Location served": "Winton, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WIO",
+    "ICAO": "YWCA",
+    "Airport name": "Wilcannia Airport[1]",
+    "Location served": "Wilcannia, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WIR",
+    "ICAO": "NZWO",
+    "Airport name": "Wairoa Aerodrome[1]",
+    "Location served": "Wairoa, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WIT",
+    "ICAO": "YWIT",
+    "Airport name": "Wittenoom Airport[1]",
+    "Location served": "Wittenoom, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WIU",
+    "ICAO": "",
+    "Airport name": "Witu Airport[1]",
+    "Location served": "Witu, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WJA",
+    "ICAO": "",
+    "Airport name": "Woja Airport",
+    "Location served": "Woja, Ailinglaplap Atoll, Marshall Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WJF",
+    "ICAO": "KWJF",
+    "Airport name": "General William J. Fox Airfield",
+    "Location served": "Lancaster, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WJR",
+    "ICAO": "HKWJ",
+    "Airport name": "Wajir Airport[1]",
+    "Location served": "Wajir, Kenya",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WJU",
+    "ICAO": "RKNW",
+    "Airport name": "Wonju Airport",
+    "Location served": "Wonju, South Korea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WKA",
+    "ICAO": "NZWF",
+    "Airport name": "Wanaka Airport",
+    "Location served": "Wanaka, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WKB",
+    "ICAO": "YWKB",
+    "Airport name": "Warracknabeal Airport[1]",
+    "Location served": "Warracknabeal, Victoria, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WKF",
+    "ICAO": "FAWK",
+    "Airport name": "Air Force Base Waterkloof[1]",
+    "Location served": "Pretoria, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WKI",
+    "ICAO": "FVWT",
+    "Airport name": "Hwange Town Airport[1]",
+    "Location served": "Hwange, Zimbabwe",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WKJ",
+    "ICAO": "RJCW",
+    "Airport name": "Wakkanai Airport",
+    "Location served": "Wakkanai, Hokkaido, Japan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WKK",
+    "ICAO": "",
+    "Airport name": "Aleknagik Airport (FAA: 5A8)",
+    "Location served": "Aleknagik, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WKN",
+    "ICAO": "",
+    "Airport name": "Wakunai Airport",
+    "Location served": "Wakunai, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WKR",
+    "ICAO": "MYAW",
+    "Airport name": "Walker's Cay Airport[1]",
+    "Location served": "Walker's Cay, Abaco Islands, Bahamas",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WLA",
+    "ICAO": "YWAL",
+    "Airport name": "Wallal Airport[1]",
+    "Location served": "Wallal (Wallal Downs), Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WLC",
+    "ICAO": "YWCH",
+    "Airport name": "Walcha Airport[1]",
+    "Location served": "Walcha, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WLD",
+    "ICAO": "KWLD",
+    "Airport name": "Strother Field",
+    "Location served": "Winfield / Arkansas City, Kansas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WLE",
+    "ICAO": "YMLS",
+    "Airport name": "Miles Airport",
+    "Location served": "Miles, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WLG",
+    "ICAO": "NZWN",
+    "Airport name": "Wellington International Airport",
+    "Location served": "Wellington, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WLH",
+    "ICAO": "NVSW",
+    "Airport name": "Walaha Airport[1]",
+    "Location served": "Walaha, Vanuatu",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WLK",
+    "ICAO": "PASK",
+    "Airport name": "Selawik Airport",
+    "Location served": "Selawik, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WLL",
+    "ICAO": "YWOR",
+    "Airport name": "Wollogorang Airport",
+    "Location served": "Wollogorang Station, Northern Territory, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WLO",
+    "ICAO": "YWTL",
+    "Airport name": "Waterloo Airport",
+    "Location served": "Waterloo, Northern Territory, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WLP",
+    "ICAO": "YANG",
+    "Airport name": "West Angelas Airport[1]",
+    "Location served": "West Angelas, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WLR",
+    "ICAO": "",
+    "Airport name": "Loring Seaplane Base (FAA: 13Z)",
+    "Location served": "Loring, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WLS",
+    "ICAO": "NLWW",
+    "Airport name": "Hihifo Airport",
+    "Location served": "Wallis Island, Wallis and Futuna",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WLW",
+    "ICAO": "KWLW",
+    "Airport name": "Willows-Glenn County Airport",
+    "Location served": "Willows, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WMA",
+    "ICAO": "FMNX",
+    "Airport name": "Mandritsara Airport",
+    "Location served": "Mandritsara, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WMB",
+    "ICAO": "YWBL",
+    "Airport name": "Warrnambool Airport",
+    "Location served": "Warrnambool, Victoria, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WMC",
+    "ICAO": "KWMC",
+    "Airport name": "Winnemucca Municipal Airport",
+    "Location served": "Winnemucca, Nevada, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WMD",
+    "ICAO": "FMSC",
+    "Airport name": "Mandabe Airport[1]",
+    "Location served": "Mandabe, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WME",
+    "ICAO": "YMNE",
+    "Airport name": "Mount Keith Airport",
+    "Location served": "Mount Keith, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WMH",
+    "ICAO": "KBPK",
+    "Airport name": "Ozark Regional Airport (FAA: BPK)",
+    "Location served": "Mountain Home, Arkansas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WMI",
+    "ICAO": "EPMO",
+    "Airport name": "Warsaw Modlin Airport",
+    "Location served": "Warsaw, Poland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WMK",
+    "ICAO": "",
+    "Airport name": "Meyers Chuck Seaplane Base (FAA: 84K)",
+    "Location served": "Meyers Chuck, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WML",
+    "ICAO": "FMMC",
+    "Airport name": "Malaimbandy Airport",
+    "Location served": "Malaimbandy, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WMN",
+    "ICAO": "FMNR",
+    "Airport name": "Maroantsetra Airport[1]",
+    "Location served": "Maroantsetra, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WMO",
+    "ICAO": "PAWM",
+    "Airport name": "White Mountain Airport",
+    "Location served": "White Mountain, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WMP",
+    "ICAO": "FMNP",
+    "Airport name": "Mampikony Airport[1]",
+    "Location served": "Mampikony, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WMR",
+    "ICAO": "FMNC",
+    "Airport name": "Mananara Nord Airport[1]",
+    "Location served": "Mananara Nord (Mananara Avaratra), Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WMT",
+    "ICAO": "ZUMT",
+    "Airport name": "Zunyi Maotai Airport[1]",
+    "Location served": "Renhuai, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WMV",
+    "ICAO": "",
+    "Airport name": "Madirovalo Airport[1]",
+    "Location served": "Madirovalo, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WMX",
+    "ICAO": "WAVV",
+    "Airport name": "Wamena Airport[1]",
+    "Location served": "Wamena, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WNA",
+    "ICAO": "PANA",
+    "Airport name": "Napakiak Airport",
+    "Location served": "Napakiak, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WND",
+    "ICAO": "",
+    "Airport name": "Windarra Airport[1]",
+    "Location served": "Windarra, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WNE",
+    "ICAO": "",
+    "Airport name": "Wora na Yeno Airport[1]",
+    "Location served": "Wora na Yeno, Gabon",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WNH",
+    "ICAO": "ZPWS",
+    "Airport name": "Wenshan Puzhehei Airport",
+    "Location served": "Wenshan, Yunnan, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WNI",
+    "ICAO": "WAWD",
+    "Airport name": "Matahora Airport",
+    "Location served": "Wangi-wangi Island, Southeast Sulawesi, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WNN",
+    "ICAO": "",
+    "Airport name": "Wunnummin Lake Airport[1] (TC: CKL3)",
+    "Location served": "Wunnumin Lake, Ontario, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WNP",
+    "ICAO": "RPUN",
+    "Airport name": "Naga Airport",
+    "Location served": "Naga, Philippines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WNR",
+    "ICAO": "YWDH",
+    "Airport name": "Windorah Airport[1]",
+    "Location served": "Windorah, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WNS",
+    "ICAO": "OPNH",
+    "Airport name": "Nawabshah Airport[1]",
+    "Location served": "Nawabshah (Shaheed Benazirabad), Pakistan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WNU",
+    "ICAO": "",
+    "Airport name": "Wanuma Airport[1]",
+    "Location served": "Wanuma, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WNZ",
+    "ICAO": "ZSWZ",
+    "Airport name": "Wenzhou Longwan International Airport",
+    "Location served": "Wenzhou, Zhejiang, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WOA",
+    "ICAO": "",
+    "Airport name": "Wonenara Airport[1]",
+    "Location served": "Wonenara, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WOE",
+    "ICAO": "EHWO",
+    "Airport name": "Woensdrecht Air Base",
+    "Location served": "Bergen op Zoom, Netherlands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WOK",
+    "ICAO": "SVUQ",
+    "Airport name": "Uonquén Airport[1]",
+    "Location served": "Uonquén, Venezuela",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WOL",
+    "ICAO": "YWOL",
+    "Airport name": "Shellharbour Airport",
+    "Location served": "Shellharbour, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WON",
+    "ICAO": "YWDL",
+    "Airport name": "Wondoola Airport[1]",
+    "Location served": "Wondoola, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WOR",
+    "ICAO": "",
+    "Airport name": "Moramba Airport[1]",
+    "Location served": "Ankorefo, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WOS",
+    "ICAO": "ZKWS",
+    "Airport name": "Wonsan Kalma International Airport[1]",
+    "Location served": "Wonsan, North Korea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WOT",
+    "ICAO": "RCWA",
+    "Airport name": "Wang-an Airport",
+    "Location served": "Wang'an, Taiwan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WOW",
+    "ICAO": "PAUO",
+    "Airport name": "Willow Airport (FAA: UUO)",
+    "Location served": "Willow, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WPA",
+    "ICAO": "SCAS",
+    "Airport name": "Cabo Juan Román Airfield",
+    "Location served": "Puerto Aisén, Chile",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WPB",
+    "ICAO": "FMNG",
+    "Airport name": "Port Bergé Airport",
+    "Location served": "Boriziny (Port Bergé), Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WPC",
+    "ICAO": "CZPC",
+    "Airport name": "Pincher Creek Airport",
+    "Location served": "Pincher Creek, Alberta, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WPK",
+    "ICAO": "YWMP",
+    "Airport name": "Wrotham Park Airport[1]",
+    "Location served": "Wrotham Park, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WPL",
+    "ICAO": "",
+    "Airport name": "Powell Lake Water Aerodrome[1] (TC: CAQ8)",
+    "Location served": "Powell River, British Columbia, Canada",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WPM",
+    "ICAO": "AYXP",
+    "Airport name": "Wipim Airport[1]",
+    "Location served": "Wipim, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WPO",
+    "ICAO": "",
+    "Airport name": "North Fork Valley Airport (FAA: 7V2)",
+    "Location served": "Paonia, Colorado, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WPR",
+    "ICAO": "SCFM",
+    "Airport name": "Capitán Fuentes Martínez Airport[1]",
+    "Location served": "Porvenir, Chile",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WPU",
+    "ICAO": "SCGZ",
+    "Airport name": "Guardiamarina Zañartu Airport[1]",
+    "Location served": "Puerto Williams, Chile",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WRA",
+    "ICAO": "HAWR",
+    "Airport name": "Warder Airport[1]",
+    "Location served": "Werder (Warder), Ethiopia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WRB",
+    "ICAO": "KWRB",
+    "Airport name": "Robins Air Force Base",
+    "Location served": "Warner Robins, Georgia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WRE",
+    "ICAO": "NZWR",
+    "Airport name": "Whangarei Airport",
+    "Location served": "Whangarei, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WRG",
+    "ICAO": "PAWG",
+    "Airport name": "Wrangell Airport",
+    "Location served": "Wrangell, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WRI",
+    "ICAO": "KWRI",
+    "Airport name": "McGuire Air Force Base",
+    "Location served": "Wrightstown, New Jersey, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WRL",
+    "ICAO": "KWRL",
+    "Airport name": "Worland Municipal Airport",
+    "Location served": "Worland, Wyoming, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WRN",
+    "ICAO": "YWDG",
+    "Airport name": "Windarling Airport",
+    "Location served": "Windarling, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WRO",
+    "ICAO": "EPWR",
+    "Airport name": "Copernicus Airport Wrocław",
+    "Location served": "Wrocław, Poland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WRT",
+    "ICAO": "EGNO",
+    "Airport name": "Warton Aerodrome",
+    "Location served": "Warton, England, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WRW",
+    "ICAO": "YWWG",
+    "Airport name": "Warrawagine Airport[1]",
+    "Location served": "Warrawagine Station, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WRY",
+    "ICAO": "EGEW",
+    "Airport name": "Westray Airport[1]",
+    "Location served": "Westray, Scotland, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WRZ",
+    "ICAO": "VCCW",
+    "Airport name": "Weerawila Airport",
+    "Location served": "Weerawila, Sri Lanka",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WSA",
+    "ICAO": "",
+    "Airport name": "Wasua Airport[1]",
+    "Location served": "Wasua, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WSB",
+    "ICAO": "",
+    "Airport name": "Steamboat Bay Seaplane Base[1]",
+    "Location served": "Steamboat Bay, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WSD",
+    "ICAO": "KWSD",
+    "Airport name": "Condron Army Airfield",
+    "Location served": "White Sands, New Mexico, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WSF",
+    "ICAO": "PACS",
+    "Airport name": "Cape Sarichef Airport[1] (FAA: 26AK)",
+    "Location served": "Cape Sarichef, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WSG",
+    "ICAO": "KAFJ",
+    "Airport name": "Washington County Airport (FAA: AFJ)",
+    "Location served": "Washington, Pennsylvania, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WSH",
+    "ICAO": "KHWV",
+    "Airport name": "Brookhaven Airport (FAA: HWV)",
+    "Location served": "Shirley, New York, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WSK",
+    "ICAO": "ZUWS",
+    "Airport name": "Chongqing Wushan Airport",
+    "Location served": "Wushan, Chongqing, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WSM",
+    "ICAO": "",
+    "Airport name": "Wiseman Airport",
+    "Location served": "Wiseman, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WSN",
+    "ICAO": "PFWS",
+    "Airport name": "South Naknek Airport",
+    "Location served": "South Naknek, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WSO",
+    "ICAO": "SMWS",
+    "Airport name": "Washabo Airport",
+    "Location served": "Washabo (Wasjabo), Suriname",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WSP",
+    "ICAO": "MNWP",
+    "Airport name": "Waspam Airport",
+    "Location served": "Waspam, Nicaragua",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WSR",
+    "ICAO": "WASW",
+    "Airport name": "Wasior Airport[1]",
+    "Location served": "Wasior, Indonesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WST",
+    "ICAO": "KWST",
+    "Airport name": "Westerly State Airport",
+    "Location served": "Westerly, Rhode Island, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WSU",
+    "ICAO": "",
+    "Airport name": "Wasu Airport[1]",
+    "Location served": "Wasu, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WSX",
+    "ICAO": "",
+    "Airport name": "Westsound Seaplane Base[1] (FAA: WA83)",
+    "Location served": "West Sound, Washington, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WSY",
+    "ICAO": "YSHR[2][3]",
+    "Airport name": "Whitsunday Airport",
+    "Location served": "Airlie Beach / Shute Harbour, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WSZ",
+    "ICAO": "NZWS",
+    "Airport name": "Westport Airport",
+    "Location served": "Westport, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WTA",
+    "ICAO": "FMMU",
+    "Airport name": "Tambohorano Airport",
+    "Location served": "Tambohorano, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WTB",
+    "ICAO": "YBWW",
+    "Airport name": "Toowoomba Wellcamp Airport",
+    "Location served": "Toowoomba, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WTD",
+    "ICAO": "MYGW",
+    "Airport name": "West End Airport",
+    "Location served": "West End, Grand Bahama, Bahamas",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WTE",
+    "ICAO": "",
+    "Airport name": "Wotje Airport (FAA: N36)",
+    "Location served": "Wotje Atoll, Marshall Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WTK",
+    "ICAO": "PAWN",
+    "Airport name": "Noatak Airport",
+    "Location served": "Noatak, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WTL",
+    "ICAO": "",
+    "Airport name": "Tuntutuliak Airport (FAA: A61)",
+    "Location served": "Tuntutuliak, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WTN",
+    "ICAO": "EGXW",
+    "Airport name": "RAF Waddington[1]",
+    "Location served": "Waddington, England, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WTO",
+    "ICAO": "",
+    "Airport name": "Wotho Airport",
+    "Location served": "Wotho Atoll, Marshall Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WTP",
+    "ICAO": "AYWT",
+    "Airport name": "Woitape Airport[1]",
+    "Location served": "Woitape, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WTR",
+    "ICAO": "",
+    "Airport name": "Whiteriver Airport (FAA: E24)",
+    "Location served": "Whiteriver, Arizona, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WTS",
+    "ICAO": "FMMX",
+    "Airport name": "Tsiroanomandidy Airport",
+    "Location served": "Tsiroanomandidy, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WTT",
+    "ICAO": "",
+    "Airport name": "Wantoat Airport[1]",
+    "Location served": "Wantoat, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WTZ",
+    "ICAO": "NZWT",
+    "Airport name": "Whitianga Aerodrome[1]",
+    "Location served": "Whitianga, New Zealand",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WUA",
+    "ICAO": "ZBUH",
+    "Airport name": "Wuhai Airport",
+    "Location served": "Wuhai, Inner Mongolia, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WUD",
+    "ICAO": "YWUD",
+    "Airport name": "Wudinna Airport[1]",
+    "Location served": "Wudinna, South Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WUG",
+    "ICAO": "AYWU",
+    "Airport name": "Wau Airport[1]",
+    "Location served": "Wau, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WUH",
+    "ICAO": "ZHHH",
+    "Airport name": "Wuhan Tianhe International Airport",
+    "Location served": "Wuhan, Hubei, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WUI",
+    "ICAO": "YMMI",
+    "Airport name": "Murrin Murrin Airport",
+    "Location served": "Murrin Murrin, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WUM",
+    "ICAO": "",
+    "Airport name": "Wasum Airport[1]",
+    "Location served": "Wasum, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WUN",
+    "ICAO": "YWLU",
+    "Airport name": "Wiluna Airport[1]",
+    "Location served": "Wiluna, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WUS",
+    "ICAO": "ZSWY",
+    "Airport name": "Wuyishan Airport",
+    "Location served": "Wuyishan, Fujian, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WUT",
+    "ICAO": "ZBXZ",
+    "Airport name": "Xinzhou Wutaishan Airport[1]",
+    "Location served": "Xinzhou, Shanxi, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WUU",
+    "ICAO": "HSWW",
+    "Airport name": "Wau Airport",
+    "Location served": "Wau, South Sudan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WUV",
+    "ICAO": "",
+    "Airport name": "Wuvulu Island Airport[1]",
+    "Location served": "Wuvulu Island, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WUX",
+    "ICAO": "ZSWX",
+    "Airport name": "Sunan Shuofang International Airport",
+    "Location served": "Wuxi / Suzhou, Jiangsu, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WUZ",
+    "ICAO": "",
+    "Airport name": "Wuzhou Xijiang Airport",
+    "Location served": "Wuzhou, Guangxi, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WVB",
+    "ICAO": "FYWB",
+    "Airport name": "Walvis Bay Airport",
+    "Location served": "Walvis Bay, Namibia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WVI",
+    "ICAO": "KWVI",
+    "Airport name": "Watsonville Municipal Airport",
+    "Location served": "Watsonville, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WVK",
+    "ICAO": "FMSK",
+    "Airport name": "Manakara Airport[1]",
+    "Location served": "Manakara, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WVL",
+    "ICAO": "KWVL",
+    "Airport name": "Waterville Robert LaFleur Airport",
+    "Location served": "Waterville, Maine, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WVN",
+    "ICAO": "EDWI",
+    "Airport name": "JadeWeserAirport",
+    "Location served": "Wilhelmshaven, Lower Saxony, Germany",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WWA",
+    "ICAO": "PAWS",
+    "Airport name": "Wasilla Airport (FAA: IYS)",
+    "Location served": "Wasilla, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WWD",
+    "ICAO": "KWWD",
+    "Airport name": "Cape May Airport",
+    "Location served": "Wildwood, New Jersey, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WWI",
+    "ICAO": "YWWI",
+    "Airport name": "Woodie Woodie Airport[1]",
+    "Location served": "Woodie Woodie, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WWK",
+    "ICAO": "AYWK",
+    "Airport name": "Wewak Airport[1]",
+    "Location served": "Wewak, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WWP",
+    "ICAO": "",
+    "Airport name": "North Whale Seaplane Base (FAA: 96Z)",
+    "Location served": "Whale Pass, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WWR",
+    "ICAO": "KWWR",
+    "Airport name": "West Woodward Airport",
+    "Location served": "Woodward, Oklahoma, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WWT",
+    "ICAO": "PAEW",
+    "Airport name": "Newtok Airport (FAA: EWU)",
+    "Location served": "Newtok, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WWY",
+    "ICAO": "YWWL",
+    "Airport name": "West Wyalong Airport",
+    "Location served": "West Wyalong, New South Wales, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WXN",
+    "ICAO": "ZUWX",
+    "Airport name": "Wanzhou Wuqiao Airport",
+    "Location served": "Wanzhou, Chongqing, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WYA",
+    "ICAO": "YWHA",
+    "Airport name": "Whyalla Airport",
+    "Location served": "Whyalla, South Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WYB",
+    "ICAO": "",
+    "Airport name": "Yes Bay Lodge Seaplane Base (FAA: 78K)",
+    "Location served": "Yes Bay, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WYE",
+    "ICAO": "GFYE",
+    "Airport name": "Yengema Airport",
+    "Location served": "Yengema, Sierra Leone",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WYN",
+    "ICAO": "YWYM",
+    "Airport name": "Wyndham Airport[1]",
+    "Location served": "Wyndham, Western Australia, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WYS",
+    "ICAO": "KWYS",
+    "Airport name": "Yellowstone Airport",
+    "Location served": "West Yellowstone, Montana, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WZA",
+    "ICAO": "DGLW",
+    "Airport name": "Wa Airport",
+    "Location served": "Wa, Upper West Region, Ghana",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "WZQ",
+    "ICAO": "",
+    "Airport name": "Urad Middle Banner Airport[1]",
+    "Location served": "Urad Middle Banner, Inner Mongolia, China",
+    "Time": "",
+    "DST": ""
+  }
+]

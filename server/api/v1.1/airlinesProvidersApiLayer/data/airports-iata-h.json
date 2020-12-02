@@ -1,0 +1,2410 @@
+[
+  {
+    "IATA": "HAA",
+    "ICAO": "ENHK",
+    "Airport name": "Hasvik Airport",
+    "Location served": "Hasvik, Norway",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HAB",
+    "ICAO": "KHAB",
+    "Airport name": "Marion County – Rankin Fite Airport",
+    "Location served": "Hamilton, Alabama, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HAC",
+    "ICAO": "RJTH",
+    "Airport name": "Hachijojima Airport",
+    "Location served": "Hachijō-jima (Hachijojima), Izu Islands, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HAD",
+    "ICAO": "ESMT",
+    "Airport name": "Halmstad Airport (Halmstad City Airport)",
+    "Location served": "Halmstad, Sweden",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HAF",
+    "ICAO": "KHAF",
+    "Airport name": "Half Moon Bay Airport",
+    "Location served": "Half Moon Bay, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HAH",
+    "ICAO": "FMCH",
+    "Airport name": "Prince Said Ibrahim International Airport",
+    "Location served": "Moroni, Comoros",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HAI",
+    "ICAO": "KHAI",
+    "Airport name": "Three Rivers Municipal Airport (Dr. Haines Flying Field)",
+    "Location served": "Three Rivers, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HAJ",
+    "ICAO": "EDDV",
+    "Airport name": "Hannover Airport",
+    "Location served": "Hanover, Lower Saxony, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HAK",
+    "ICAO": "ZJHK",
+    "Airport name": "Haikou Meilan International Airport",
+    "Location served": "Haikou, Hainan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HAL",
+    "ICAO": "FYHI",
+    "Airport name": "Halali Airport",
+    "Location served": "Halali, Namibia",
+    "Time": "UTC+01:00",
+    "DST": "Sep-Apr"
+  },
+  {
+    "IATA": "HAM",
+    "ICAO": "EDDH",
+    "Airport name": "Hamburg Airport",
+    "Location served": "Hamburg, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HAN",
+    "ICAO": "VVNB",
+    "Airport name": "Noi Bai International Airport",
+    "Location served": "Hanoi, Vietnam",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HAO",
+    "ICAO": "KHAO",
+    "Airport name": "Butler County Regional Airport",
+    "Location served": "Hamilton, Ohio, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HAQ",
+    "ICAO": "VRMH",
+    "Airport name": "Hanimaadhoo International Airport",
+    "Location served": "Hanimaadhoo, Haa Dhaalu Atoll, Maldives",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HAR",
+    "ICAO": "KCXY",
+    "Airport name": "Capital City Airport (FAA: CXY)",
+    "Location served": "Harrisburg, Pennsylvania, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HAS",
+    "ICAO": "OEHL",
+    "Airport name": "Ha'il Regional Airport",
+    "Location served": "Ha'il (Hail), Saudi Arabia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HAT",
+    "ICAO": "YHTL",
+    "Airport name": "Heathlands Airport",
+    "Location served": "Heathlands, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HAU",
+    "ICAO": "ENHD",
+    "Airport name": "Haugesund Airport, Karmøy",
+    "Location served": "Haugesund, Norway",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HAV",
+    "ICAO": "MUHA",
+    "Airport name": "José Martí International Airport",
+    "Location served": "Havana, Cuba",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HAW",
+    "ICAO": "EGFE",
+    "Airport name": "Haverfordwest Aerodrome",
+    "Location served": "Haverfordwest, Wales, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HAY",
+    "ICAO": "",
+    "Airport name": "Hacaritama Airport",
+    "Location served": "Aguachica, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HAZ",
+    "ICAO": "",
+    "Airport name": "Hatzfeldthaven Airport",
+    "Location served": "Hatzfeldthaven, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HBA",
+    "ICAO": "YMHB",
+    "Airport name": "Hobart International Airport",
+    "Location served": "Hobart, Tasmania, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "HBB",
+    "ICAO": "",
+    "Airport name": "Hobbs Industrial Airpark",
+    "Location served": "Hobbs, New Mexico, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HBD",
+    "ICAO": "",
+    "Airport name": "Habi Airport",
+    "Location served": "Habi, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HBE",
+    "ICAO": "HEBA",
+    "Airport name": "Borg El Arab Airport",
+    "Location served": "Alexandria / Borg El Arab, Egypt",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HBG",
+    "ICAO": "KHBG",
+    "Airport name": "Hattiesburg Bobby L. Chain Municipal Airport",
+    "Location served": "Hattiesburg, Mississippi, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HBH",
+    "ICAO": "",
+    "Airport name": "Entrance Island Seaplane Base (Hobart Bay) (FAA: 2Z1)",
+    "Location served": "Entrance Island, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HBK",
+    "ICAO": "",
+    "Airport name": "Holbrook Municipal Airport[1] (FAA: P14)",
+    "Location served": "Holbrook, Arizona, United States",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HBQ",
+    "ICAO": "",
+    "Airport name": "Qilian Airport",
+    "Location served": "Qilian, Qinghai, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "HBR",
+    "ICAO": "KHBR",
+    "Airport name": "Hobart Regional Airport",
+    "Location served": "Hobart, Oklahoma, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HBT",
+    "ICAO": "",
+    "Airport name": "Hambantota Sea Plane Base",
+    "Location served": "Hambantota, Sri Lanka",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "HBU",
+    "ICAO": "ZMBS",
+    "Airport name": "Bulgan Airport, Khovd[1]",
+    "Location served": "Bulgan (Khovd Province), Mongolia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HBX",
+    "ICAO": "VAHB",
+    "Airport name": "Hubli Airport",
+    "Location served": "Hubli / Dharwad, Karnataka, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "HCA",
+    "ICAO": "KBPG",
+    "Airport name": "Big Spring McMahon–Wrinkle Airport[1] (FAA: BPG)",
+    "Location served": "Big Spring, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HCC",
+    "ICAO": "",
+    "Airport name": "Columbia County Airport (FAA: 1B1)",
+    "Location served": "Hudson, New York, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HCJ",
+    "ICAO": "ZGHC",
+    "Airport name": "Hechi Jinchengjiang Airport",
+    "Location served": "Hechi, Guangxi, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HCM",
+    "ICAO": "HCME",
+    "Airport name": "Eyl Airport",
+    "Location served": "Eyl, Somalia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HCN",
+    "ICAO": "RCKW",
+    "Airport name": "Hengchun Airport",
+    "Location served": "Hengchun, Taiwan",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HCQ",
+    "ICAO": "YHLC",
+    "Airport name": "Halls Creek Airport",
+    "Location served": "Halls Creek, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HCR",
+    "ICAO": "PAHC",
+    "Airport name": "Holy Cross Airport (FAA: HCA)",
+    "Location served": "Holy Cross, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HCW",
+    "ICAO": "KCQW",
+    "Airport name": "Cheraw Municipal Airport (Lynch Bellinger Field, FAA: CQW)",
+    "Location served": "Cheraw, South Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HDB",
+    "ICAO": "EDIU",
+    "Airport name": "Heidelberg Airport",
+    "Location served": "Heidelberg, Baden-Württemberg, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HDD",
+    "ICAO": "OPKD",
+    "Airport name": "Hyderabad Airport",
+    "Location served": "Hyderabad, Pakistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HDE",
+    "ICAO": "KHDE",
+    "Airport name": "Brewster Field",
+    "Location served": "Holdrege, Nebraska, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HDF",
+    "ICAO": "EDAH",
+    "Airport name": "Heringsdorf Airport",
+    "Location served": "Heringsdorf, Mecklenburg-Vorpommern, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HDG",
+    "ICAO": "ZBHD",
+    "Airport name": "Handan Airport",
+    "Location served": "Handan, Hebei, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HDH",
+    "ICAO": "PHDH",
+    "Airport name": "Dillingham Airfield",
+    "Location served": "Mokulēia, Hawaii, United States",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HDK",
+    "ICAO": "VRBK",
+    "Airport name": "Kulhudhuffushi Airport",
+    "Location served": "Haa Dhaalu Atoll, Maldives",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HDM",
+    "ICAO": "OIHH",
+    "Airport name": "Hamadan Airport",
+    "Location served": "Hamadan, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "HDN",
+    "ICAO": "KHDN",
+    "Airport name": "Yampa Valley Airport",
+    "Location served": "Hayden, Colorado, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HDR",
+    "ICAO": "OIKP",
+    "Airport name": "Havadarya Airport[1]",
+    "Location served": "Bandar Abbas, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "HDS",
+    "ICAO": "FAHS",
+    "Airport name": "Air Force Base Hoedspruit",
+    "Location served": "Hoedspruit, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HDY",
+    "ICAO": "VTSS",
+    "Airport name": "Hat Yai International Airport",
+    "Location served": "Hat Yai, Thailand",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HEA",
+    "ICAO": "OAHR",
+    "Airport name": "Herat International Airport",
+    "Location served": "Herat, Afghanistan",
+    "Time": "UTC+04:30",
+    "DST": ""
+  },
+  {
+    "IATA": "HEB",
+    "ICAO": "VBHD",
+    "Airport name": "Hinthada Airport",
+    "Location served": "Hinthada, Myanmar",
+    "Time": "UTC+06:30",
+    "DST": ""
+  },
+  {
+    "IATA": "HED",
+    "ICAO": "",
+    "Airport name": "Herendeen Bay Airport (FAA: AK33)",
+    "Location served": "Herendeen Bay, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HEE",
+    "ICAO": "KHEE",
+    "Airport name": "Thompson–Robbins Airport",
+    "Location served": "Helena-West Helena, Arkansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HEH",
+    "ICAO": "VYHH",
+    "Airport name": "Heho Airport",
+    "Location served": "Heho, Myanmar",
+    "Time": "UTC+06:30",
+    "DST": ""
+  },
+  {
+    "IATA": "HEI",
+    "ICAO": "EDXB",
+    "Airport name": "Heide–Büsum Airport",
+    "Location served": "Heide / Büsum, Schleswig-Holstein, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HEK",
+    "ICAO": "ZYHE",
+    "Airport name": "Heihe Airport",
+    "Location served": "Heihe, Heilongjiang, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HEL",
+    "ICAO": "EFHK",
+    "Airport name": "Helsinki Airport (Helsinki-Vantaa Airport)",
+    "Location served": "Helsinki, Finland",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HEM",
+    "ICAO": "EFHF",
+    "Airport name": "Helsinki-Malmi Airport",
+    "Location served": "Helsinki, Finland",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HEO",
+    "ICAO": "",
+    "Airport name": "Haelogo Airport",
+    "Location served": "Haelogo, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HER",
+    "ICAO": "LGIR",
+    "Airport name": "Heraklion International Airport (Nikos Kazantzakis Airport)",
+    "Location served": "Heraklion, Greece",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HES",
+    "ICAO": "KHRI",
+    "Airport name": "Hermiston Municipal Airport (FAA: HRI)",
+    "Location served": "Hermiston, Oregon, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HET",
+    "ICAO": "ZBHH",
+    "Airport name": "Hohhot Baita International Airport",
+    "Location served": "Hohhot, Inner Mongolia, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HEZ",
+    "ICAO": "KHEZ",
+    "Airport name": "Natchez–Adams County Airport (Hardy–Anders Field)",
+    "Location served": "Natchez, Mississippi, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HFA",
+    "ICAO": "LLHA",
+    "Airport name": "Haifa Airport (Uri Michaeli Airport)",
+    "Location served": "Haifa, Israel",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HFD",
+    "ICAO": "KHFD",
+    "Airport name": "Hartford–Brainard Airport",
+    "Location served": "Hartford, Connecticut, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HFE",
+    "ICAO": "ZSOF",
+    "Airport name": "Hefei Xinqiao International Airport (formerly Hefei Luogang International Airport)",
+    "Location served": "Hefei, Anhui, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HFF",
+    "ICAO": "KHFF",
+    "Airport name": "Mackall Army Airfield",
+    "Location served": "Hoffman, North Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HFN",
+    "ICAO": "BIHN",
+    "Airport name": "Hornafjörður Airport",
+    "Location served": "Höfn, Iceland",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HFS",
+    "ICAO": "ESOH",
+    "Airport name": "Hagfors Airport",
+    "Location served": "Hagfors, Sweden",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HFT",
+    "ICAO": "ENHF",
+    "Airport name": "Hammerfest Airport",
+    "Location served": "Hammerfest, Norway",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HGA",
+    "ICAO": "HCMH",
+    "Airport name": "Hargeisa International Airport (Egal Int'l)",
+    "Location served": "Hargeisa, Somalia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HGD",
+    "ICAO": "YHUG",
+    "Airport name": "Hughenden Airport",
+    "Location served": "Hughenden, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HGE",
+    "ICAO": "SVHG[2]",
+    "Airport name": "Higuerote Airport[1]",
+    "Location served": "Higuerote, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HGH",
+    "ICAO": "ZSHC",
+    "Airport name": "Hangzhou Xiaoshan International Airport",
+    "Location served": "Hangzhou, Zhejiang, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HGI",
+    "ICAO": "HSFA",
+    "Airport name": "Paloich Airport[1]",
+    "Location served": "Higlieg, Sudan",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HGL",
+    "ICAO": "EDXH",
+    "Airport name": "Heligoland Airport (Düne Airport)",
+    "Location served": "Heligoland, Schleswig-Holstein, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HGN",
+    "ICAO": "VTCH",
+    "Airport name": "Mae Hong Son Airport",
+    "Location served": "Mae Hong Son, Thailand",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HGO",
+    "ICAO": "DIKO",
+    "Airport name": "Korhogo Airport",
+    "Location served": "Korhogo, Ivory Coast",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HGR",
+    "ICAO": "KHGR",
+    "Airport name": "Hagerstown Regional Airport (Richard A. Henson Field)",
+    "Location served": "Hagerstown, Maryland, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HGS",
+    "ICAO": "GFHA",
+    "Airport name": "Hastings Airport",
+    "Location served": "Freetown, Sierra Leone",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HGU",
+    "ICAO": "AYMH",
+    "Airport name": "Mount Hagen Airport",
+    "Location served": "Mount Hagen, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HGZ",
+    "ICAO": "",
+    "Airport name": "Hog River Airport (FAA: 2AK6)",
+    "Location served": "Hogatza, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HHE",
+    "ICAO": "RJSH",
+    "Airport name": "JMSDF Hachinohe Air Base",
+    "Location served": "Hachinohe, Honshu, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HHH",
+    "ICAO": "KHXD",
+    "Airport name": "Hilton Head Airport (FAA: HXD)",
+    "Location served": "Hilton Head Island, South Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HHI",
+    "ICAO": "PHHI",
+    "Airport name": "Wheeler Army Airfield",
+    "Location served": "Wahiawa, Hawaii, United States",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HHN",
+    "ICAO": "EDFH",
+    "Airport name": "Frankfurt–Hahn Airport",
+    "Location served": "Hahn, Rhineland-Palatinate, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HHQ",
+    "ICAO": "VTPH",
+    "Airport name": "Hua Hin Airport",
+    "Location served": "Hua Hin, Thailand",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HHR",
+    "ICAO": "KHHR",
+    "Airport name": "Hawthorne Municipal Airport (Jack Northrop Field)",
+    "Location served": "Hawthorne, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HHZ",
+    "ICAO": "NTGH",
+    "Airport name": "Hikueru Airport",
+    "Location served": "Hikueru Atoll, French Polynesia",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HIA",
+    "ICAO": "ZSSH",
+    "Airport name": "Huai'an Lianshui Airport",
+    "Location served": "Huai'an, Jiangsu, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HIB",
+    "ICAO": "KHIB",
+    "Airport name": "Range Regional Airport",
+    "Location served": "Hibbing, Minnesota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HID",
+    "ICAO": "YHID",
+    "Airport name": "Horn Island Airport",
+    "Location served": "Horn Island, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HIE",
+    "ICAO": "KHIE",
+    "Airport name": "Mount Washington Regional Airport",
+    "Location served": "Whitefield, New Hampshire, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HIF",
+    "ICAO": "KHIF",
+    "Airport name": "Hill Air Force Base",
+    "Location served": "Ogden, Utah, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HIG",
+    "ICAO": "YHHY",
+    "Airport name": "Highbury Airport",
+    "Location served": "Highbury, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HII",
+    "ICAO": "KHII",
+    "Airport name": "Lake Havasu City Airport",
+    "Location served": "Lake Havasu City, Arizona, United States",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HIJ",
+    "ICAO": "RJOA",
+    "Airport name": "Hiroshima Airport",
+    "Location served": "Hiroshima, Honshu, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HIL",
+    "ICAO": "HASL",
+    "Airport name": "Shilavo Airport",
+    "Location served": "Shilavo, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HIM",
+    "ICAO": "VCCH",
+    "Airport name": "Hingurakgoda Airport (Minneriya Airport)",
+    "Location served": "Hingurakgoda, Sri Lanka",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "HIN",
+    "ICAO": "RKPS",
+    "Airport name": "Sacheon Airport",
+    "Location served": "Jinju, South Korea",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HIO",
+    "ICAO": "KHIO",
+    "Airport name": "Hillsboro Airport (Portland–Hillsboro Airport)",
+    "Location served": "Hillsboro / Portland, Oregon, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HIP",
+    "ICAO": "YHDY",
+    "Airport name": "Headingly Airport",
+    "Location served": "Headingly, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HIR",
+    "ICAO": "AGGH",
+    "Airport name": "Honiara International Airport",
+    "Location served": "Honiara, Guadalcanal, Solomon Islands",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HIT",
+    "ICAO": "AYHO",
+    "Airport name": "Haivaro Airport",
+    "Location served": "Haivaro, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HIW",
+    "ICAO": "RJBH",
+    "Airport name": "Hiroshima–Nishi Airport",
+    "Location served": "Hiroshima, Honshu, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HJJ",
+    "ICAO": "ZGCJ",
+    "Airport name": "Huaihua Zhijiang Airport",
+    "Location served": "Huaihua, Hunan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HJR",
+    "ICAO": "VAKJ",
+    "Airport name": "Civil Aerodrome Khajuraho",
+    "Location served": "Khajuraho, Madhya Pradesh, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "HJT",
+    "ICAO": "ZMHU",
+    "Airport name": "Khujirt Airport",
+    "Location served": "Khujirt, Mongolia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HKA",
+    "ICAO": "KHKA",
+    "Airport name": "Blytheville Municipal Airport",
+    "Location served": "Blytheville, Arkansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HKB",
+    "ICAO": "",
+    "Airport name": "Healy Lake Airport",
+    "Location served": "Healy Lake, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HKD",
+    "ICAO": "RJCH",
+    "Airport name": "Hakodate Airport",
+    "Location served": "Hakodate, Hokkaido, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HKG",
+    "ICAO": "VHHH",
+    "Airport name": "Hong Kong International Airport (Chek Lap Kok Airport)",
+    "Location served": "Hong Kong",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HKK",
+    "ICAO": "NZHK",
+    "Airport name": "Hokitika Airport",
+    "Location served": "Hokitika, New Zealand",
+    "Time": "UTC+12:00",
+    "DST": "Sep-Apr"
+  },
+  {
+    "IATA": "HKN",
+    "ICAO": "AYHK",
+    "Airport name": "Hoskins Airport",
+    "Location served": "Kimbe, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HKS",
+    "ICAO": "KHKS",
+    "Airport name": "Hawkins Field",
+    "Location served": "Jackson, Mississippi, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HKT",
+    "ICAO": "VTSP",
+    "Airport name": "Phuket International Airport",
+    "Location served": "Phuket, Thailand",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HKV",
+    "ICAO": "LBHS",
+    "Airport name": "Haskovo Malevo Airport",
+    "Location served": "Haskovo, Bulgaria",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HKY",
+    "ICAO": "KHKY",
+    "Airport name": "Hickory Regional Airport",
+    "Location served": "Hickory, North Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HLA",
+    "ICAO": "FALA",
+    "Airport name": "Lanseria International Airport",
+    "Location served": "Johannesburg, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HLB",
+    "ICAO": "KHLB",
+    "Airport name": "Hillenbrand Industries Airport",
+    "Location served": "Batesville, Indiana, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HLC",
+    "ICAO": "KHLC",
+    "Airport name": "Hill City Municipal Airport",
+    "Location served": "Hill City, Kansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HLD",
+    "ICAO": "ZBLA",
+    "Airport name": "Hulunbuir Hailar Airport",
+    "Location served": "Hailar, Inner Mongolia, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HLE",
+    "ICAO": "FHSH",
+    "Airport name": "Saint Helena Airport",
+    "Location served": "Jamestown, British Overseas Territory\nof Saint Helena, Ascension and Tristan da Cunha",
+    "Time": "UTC+00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HLF",
+    "ICAO": "ESSF",
+    "Airport name": "Hultsfred-Vimmerby Airport",
+    "Location served": "Hultsfred / Vimmerby, Sweden",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HLG",
+    "ICAO": "KHLG",
+    "Airport name": "Wheeling Ohio County Airport",
+    "Location served": "Wheeling, West Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HLH",
+    "ICAO": "ZBUL",
+    "Airport name": "Ulanhot Airport",
+    "Location served": "Ulanhot, Inner Mongolia, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HLI",
+    "ICAO": "KCVH",
+    "Airport name": "Hollister Municipal Airport (FAA: CVH)",
+    "Location served": "Hollister, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HLL",
+    "ICAO": "YHIL",
+    "Airport name": "Hillside Airport",
+    "Location served": "Hillside, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HLM",
+    "ICAO": "KHLM",
+    "Airport name": "Park Township Airport",
+    "Location served": "Holland, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HLN",
+    "ICAO": "KHLN",
+    "Airport name": "Helena Regional Airport",
+    "Location served": "Helena, Montana, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HLP",
+    "ICAO": "WIHH",
+    "Airport name": "Halim Perdanakusuma International Airport",
+    "Location served": "Jakarta, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HLR",
+    "ICAO": "KHLR",
+    "Airport name": "Hood Army Airfield",
+    "Location served": "Fort Hood / Killeen, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HLS",
+    "ICAO": "YSTH",
+    "Airport name": "St Helens Airport",
+    "Location served": "St Helens, Tasmania, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "HLT",
+    "ICAO": "YHML",
+    "Airport name": "Hamilton Airport",
+    "Location served": "Hamilton, Victoria, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "HLV",
+    "ICAO": "",
+    "Airport name": "Helenvale Airport",
+    "Location served": "Helenvale, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HLW",
+    "ICAO": "FAHL",
+    "Airport name": "Hluhluwe Airport",
+    "Location served": "Hluhluwe, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HLZ",
+    "ICAO": "NZHN",
+    "Airport name": "Hamilton Airport",
+    "Location served": "Hamilton, New Zealand",
+    "Time": "UTC+12:00",
+    "DST": "Sep-Apr"
+  },
+  {
+    "IATA": "HMA",
+    "ICAO": "USHH",
+    "Airport name": "Khanty-Mansiysk Airport",
+    "Location served": "Khanty-Mansiysk, Khanty-Mansi Autonomous Okrug, Russia",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HMB",
+    "ICAO": "HEMK",
+    "Airport name": "Sohag International Airport[1]",
+    "Location served": "Sohag, Egypt",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HME",
+    "ICAO": "DAUH",
+    "Airport name": "Oued Irara–Krim Belkacem Airport",
+    "Location served": "Hassi Messaoud, Algeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HMG",
+    "ICAO": "YHMB",
+    "Airport name": "Hermannsburg Airport",
+    "Location served": "Hermannsburg, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "HMI",
+    "ICAO": "ZWHM",
+    "Airport name": "Hami Airport (Kumul Airport)",
+    "Location served": "Hami, Xinjiang, China",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HMJ",
+    "ICAO": "UKLH",
+    "Airport name": "Khmelnytskyi Airport",
+    "Location served": "Khmelnytsky, Ukraine",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HMN",
+    "ICAO": "KHMN",
+    "Airport name": "Holloman Air Force Base",
+    "Location served": "Alamogordo, New Mexico, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HMO",
+    "ICAO": "MMHO",
+    "Airport name": "General Ignacio Pesqueira García International Airport",
+    "Location served": "Hermosillo, Sonora, Mexico",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HMR",
+    "ICAO": "ENHA",
+    "Airport name": "Hamar Airport, Stafsberg",
+    "Location served": "Hamar, Norway",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HMT",
+    "ICAO": "KHMT",
+    "Airport name": "Hemet-Ryan Airport",
+    "Location served": "Hemet, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HMV",
+    "ICAO": "ESUT",
+    "Airport name": "Hemavan Tärnaby Airport",
+    "Location served": "Hemavan / Tärnaby, Sweden",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HMY",
+    "ICAO": "RKTP",
+    "Airport name": "Seosan Air Base[1]",
+    "Location served": "Seosan, South Korea",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HNA",
+    "ICAO": "RJSI",
+    "Airport name": "Hanamaki Airport",
+    "Location served": "Hanamaki, Honshu, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HNB",
+    "ICAO": "KHNB",
+    "Airport name": "Huntingburg Airport",
+    "Location served": "Huntingburg, Indiana, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HNC",
+    "ICAO": "KHSE",
+    "Airport name": "Billy Mitchell Airport (FAA: HSE)",
+    "Location served": "Hatteras, North Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HND",
+    "ICAO": "RJTT",
+    "Airport name": "Haneda Airport",
+    "Location served": "Tokyo, Honshu, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HNH",
+    "ICAO": "PAOH",
+    "Airport name": "Hoonah Airport",
+    "Location served": "Hoonah, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HNI",
+    "ICAO": "",
+    "Airport name": "Heiweni Airport",
+    "Location served": "Heiweni, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HNL",
+    "ICAO": "PHNL",
+    "Airport name": "Honolulu International Airport",
+    "Location served": "Honolulu, Hawaii, United States",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HNM",
+    "ICAO": "PHHN",
+    "Airport name": "Hana Airport",
+    "Location served": "Hana, Hawaii, United States",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HNN",
+    "ICAO": "",
+    "Airport name": "Honinabi Airport",
+    "Location served": "Honinabi, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HNS",
+    "ICAO": "PAHN",
+    "Airport name": "Haines Airport",
+    "Location served": "Haines, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HNY",
+    "ICAO": "ZGHY",
+    "Airport name": "Hengyang Nanyue Airport",
+    "Location served": "Hengyang, Hunan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HOA",
+    "ICAO": "HKHO",
+    "Airport name": "Hola Airport",
+    "Location served": "Hola, Kenya",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HOB",
+    "ICAO": "KHOB",
+    "Airport name": "Lea County Regional Airport",
+    "Location served": "Hobbs, New Mexico, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HOC",
+    "ICAO": "",
+    "Airport name": "Komako Airport",
+    "Location served": "Komako, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HOD",
+    "ICAO": "OYHD",
+    "Airport name": "Hodeida International Airport",
+    "Location served": "Al Hudaydah (Hodeida), Yemen",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HOE",
+    "ICAO": "VLHS",
+    "Airport name": "Ban Huoeisay Airport",
+    "Location served": "Ban Houayxay (Ban Huoeisay), Laos",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HOF",
+    "ICAO": "OEAH",
+    "Airport name": "Al-Ahsa International Airport",
+    "Location served": "Hofuf, Saudi Arabia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HOG",
+    "ICAO": "MUHG",
+    "Airport name": "Frank País Airport",
+    "Location served": "Holguín, Cuba",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HOH",
+    "ICAO": "LOIH",
+    "Airport name": "Hohenems-Dornbirn Airport",
+    "Location served": "Dornbirn, Austria",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HOI",
+    "ICAO": "NTTO",
+    "Airport name": "Hao Airport",
+    "Location served": "Hao, Tuamotus, French Polynesia",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HOK",
+    "ICAO": "YHOO",
+    "Airport name": "Hooker Creek Airport",
+    "Location served": "Lajamanu, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "HOM",
+    "ICAO": "PAHO",
+    "Airport name": "Homer Airport",
+    "Location served": "Homer, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HON",
+    "ICAO": "KHON",
+    "Airport name": "Huron Regional Airport",
+    "Location served": "Huron, South Dakota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HOO",
+    "ICAO": "",
+    "Airport name": "Nhon Co Airport",
+    "Location served": "Quang Duc, Vietnam",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HOP",
+    "ICAO": "KHOP",
+    "Airport name": "Campbell Army Airfield",
+    "Location served": "Fort Campbell / Hopkinsville, Kentucky, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HOQ",
+    "ICAO": "EDQM",
+    "Airport name": "Hof–Plauen Airport",
+    "Location served": "Hof, Bavaria, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HOR",
+    "ICAO": "LPHR",
+    "Airport name": "Horta Airport",
+    "Location served": "Horta, Azores, Portugal",
+    "Time": "UTC−01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HOS",
+    "ICAO": "SAHC",
+    "Airport name": "Chos Malal Airport",
+    "Location served": "Chos Malal, Neuquén, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HOT",
+    "ICAO": "KHOT",
+    "Airport name": "Memorial Field Airport",
+    "Location served": "Hot Springs, Arkansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HOU",
+    "ICAO": "KHOU",
+    "Airport name": "William P. Hobby Airport",
+    "Location served": "Houston, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HOV",
+    "ICAO": "ENOV",
+    "Airport name": "Ørsta–Volda Airport, Hovden",
+    "Location served": "Ørsta / Volda, Norway",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HOX",
+    "ICAO": "VYHL",
+    "Airport name": "Homalin Airport",
+    "Location served": "Homalin, Myanmar",
+    "Time": "UTC+06:30",
+    "DST": ""
+  },
+  {
+    "IATA": "HOY",
+    "ICAO": "",
+    "Airport name": "Hoy Island Airport",
+    "Location served": "Longhope, Scotland, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HPA",
+    "ICAO": "NFTL",
+    "Airport name": "Lifuka Island Airport (Salote Pilolevu Airport)",
+    "Location served": "Lifuka, Haʻapai, Tonga",
+    "Time": "UTC+13:00",
+    "DST": "Nov-Jan"
+  },
+  {
+    "IATA": "HPB",
+    "ICAO": "PAHP",
+    "Airport name": "Hooper Bay Airport",
+    "Location served": "Hooper Bay, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HPE",
+    "ICAO": "",
+    "Airport name": "Hopevale Airport",
+    "Location served": "Hopevale, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HPG",
+    "ICAO": "ZHSN",
+    "Airport name": "Shennongjia Hongping Airport",
+    "Location served": "Shennongjia, Hubei, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HPH",
+    "ICAO": "VVCI",
+    "Airport name": "Cat Bi International Airport",
+    "Location served": "Haiphong, Vietnam",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HPN",
+    "ICAO": "KHPN",
+    "Airport name": "Westchester County Airport",
+    "Location served": "White Plains, New York, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HPT",
+    "ICAO": "KHPT",
+    "Airport name": "Hampton Municipal Airport",
+    "Location served": "Hampton, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HPV",
+    "ICAO": "",
+    "Airport name": "Princeville Airport (FAA: HI01)",
+    "Location served": "Hanalei, Hawaii, United States",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HPY",
+    "ICAO": "KHPY",
+    "Airport name": "Baytown Airport",
+    "Location served": "Baytown, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HQM",
+    "ICAO": "KHQM",
+    "Airport name": "Bowerman Airport",
+    "Location served": "Hoquiam, Washington, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HRB",
+    "ICAO": "ZYHB",
+    "Airport name": "Harbin Taiping International Airport",
+    "Location served": "Harbin, Heilongjiang, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HRC",
+    "ICAO": "",
+    "Airport name": "Zhayrem Airport",
+    "Location served": "Zhayrem, Kazakhstan",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HRE",
+    "ICAO": "FVHA",
+    "Airport name": "Harare International Airport",
+    "Location served": "Harare, Zimbabwe",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HRG",
+    "ICAO": "HEGN",
+    "Airport name": "Hurghada International Airport",
+    "Location served": "Hurghada, Egypt",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HRI",
+    "ICAO": "VCRI",
+    "Airport name": "Mattala Rajapaksa International Airport",
+    "Location served": "Hambantota, Sri Lanka",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "HRK",
+    "ICAO": "UKHH",
+    "Airport name": "Kharkiv International Airport (Osnova Airport)",
+    "Location served": "Kharkiv, Ukraine",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HRL",
+    "ICAO": "KHRL",
+    "Airport name": "Valley International Airport",
+    "Location served": "Harlingen, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HRM",
+    "ICAO": "DAFH",
+    "Airport name": "Hassi R'Mel Airport (Tilrempt Airport)",
+    "Location served": "Hassi R'Mel, Algeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HRO",
+    "ICAO": "KHRO",
+    "Airport name": "Boone County Airport",
+    "Location served": "Harrison, Arkansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HRR",
+    "ICAO": "",
+    "Airport name": "La Herrera Airport",
+    "Location served": "La Herrera, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HRS",
+    "ICAO": "FAHR",
+    "Airport name": "Harrismith Airport",
+    "Location served": "Harrismith, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HRT",
+    "ICAO": "EGXU",
+    "Airport name": "RAF Linton-on-Ouse",
+    "Location served": "Linton-on-Ouse, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HRY",
+    "ICAO": "YHBY",
+    "Airport name": "Henbury Airport",
+    "Location served": "Henbury, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "HRZ",
+    "ICAO": "SSHZ[3]",
+    "Airport name": "Horizontina Airport",
+    "Location served": "Horizontina, Rio Grande do Sul, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "HSA",
+    "ICAO": "UAIT",
+    "Airport name": "Hazret Sultan International Airport",
+    "Location served": "Turkistan, Turkistan Region, Kazakhstan",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HSB",
+    "ICAO": "KHSB",
+    "Airport name": "Harrisburg-Raleigh Airport",
+    "Location served": "Harrisburg, Illinois, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HSC",
+    "ICAO": "",
+    "Airport name": "Shaoguan Guitou Airport",
+    "Location served": "Shaoguan, Guangdong, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HSG",
+    "ICAO": "RJFS",
+    "Airport name": "Saga Airport",
+    "Location served": "Saga, Kyushu, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HSH",
+    "ICAO": "KHND",
+    "Airport name": "Henderson Executive Airport (FAA: HND)",
+    "Location served": "Las Vegas, Nevada, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HSI",
+    "ICAO": "KHSI",
+    "Airport name": "Hastings Municipal Airport",
+    "Location served": "Hastings, Nebraska, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HSJ",
+    "ICAO": "",
+    "Airport name": "Zhengzhou Shangjie Airport[1]",
+    "Location served": "Zhengzhou, Henan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HSK",
+    "ICAO": "LEHC",
+    "Airport name": "Huesca–Pirineos Airport",
+    "Location served": "Huesca, Aragon, Spain",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HSL",
+    "ICAO": "PAHL",
+    "Airport name": "Huslia Airport (FAA: HLA)",
+    "Location served": "Huslia, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HSM",
+    "ICAO": "YHSM",
+    "Airport name": "Horsham Airport",
+    "Location served": "Horsham, Victoria, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "HSN",
+    "ICAO": "ZSZS",
+    "Airport name": "Zhoushan Putuoshan Airport",
+    "Location served": "Zhoushan, Zhejiang, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HSP",
+    "ICAO": "KHSP",
+    "Airport name": "Ingalls Field",
+    "Location served": "Hot Springs, Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HSS",
+    "ICAO": "VIHR",
+    "Airport name": "Hisar Airport",
+    "Location served": "Hisar, Haryana, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "HST",
+    "ICAO": "KHST",
+    "Airport name": "Homestead Air Reserve Base",
+    "Location served": "Homestead, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HSV",
+    "ICAO": "KHSV",
+    "Airport name": "Huntsville International Airport (Carl T. Jones Field)",
+    "Location served": "Huntsville, Alabama, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HSZ",
+    "ICAO": "RCPO",
+    "Airport name": "Hsinchu Air Base",
+    "Location served": "Hsinchu, Taiwan",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HTA",
+    "ICAO": "UIAA",
+    "Airport name": "Chita International Airport (Kadala Airport)",
+    "Location served": "Chita, Zabaykalsky Krai, Russia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HTG",
+    "ICAO": "UOHH",
+    "Airport name": "Khatanga Airport",
+    "Location served": "Khatanga, Krasnoyarsk Krai, Russia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HTH",
+    "ICAO": "KHTH",
+    "Airport name": "Hawthorne Industrial Airport",
+    "Location served": "Hawthorne, Nevada, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HTI",
+    "ICAO": "YBHM",
+    "Airport name": "Great Barrier Reef Airport",
+    "Location served": "Hamilton Island, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HTL",
+    "ICAO": "KHTL",
+    "Airport name": "Roscommon County–Blodgett Memorial Airport",
+    "Location served": "Houghton Lake, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HTM",
+    "ICAO": "ZMHG",
+    "Airport name": "Khatgal Airport[1]",
+    "Location served": "Khatgal, Mongolia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HTN",
+    "ICAO": "ZWTN",
+    "Airport name": "Hotan Airport",
+    "Location served": "Hotan, Xinjiang, China",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HTO",
+    "ICAO": "KHTO",
+    "Airport name": "East Hampton Airport",
+    "Location served": "East Hampton, New York, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HTR",
+    "ICAO": "RORH",
+    "Airport name": "Hateruma Airport",
+    "Location served": "Hateruma, Yaeyama Islands, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HTS",
+    "ICAO": "KHTS",
+    "Airport name": "Tri-State Airport (Milton J. Ferguson Field)",
+    "Location served": "Huntington, West Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HTT",
+    "ICAO": "",
+    "Airport name": "Huatugou Airport",
+    "Location served": "Huatugou, Qinghai, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HTU",
+    "ICAO": "YHPN",
+    "Airport name": "Hopetoun Airport",
+    "Location served": "Hopetoun, Victoria, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "HTV",
+    "ICAO": "KUTS",
+    "Airport name": "Huntsville Municipal Airport (Bruce Brothers Regional)",
+    "Location served": "Huntsville, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HTW",
+    "ICAO": "KHTW",
+    "Airport name": "Lawrence County Airpark",
+    "Location served": "Chesapeake / Huntington (WV), Ohio, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HTY",
+    "ICAO": "LTDA",
+    "Airport name": "Hatay Airport",
+    "Location served": "Hatay, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HTZ",
+    "ICAO": "SKHC",
+    "Airport name": "Hato Corozal Airport",
+    "Location served": "Hato Corozal, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HUA",
+    "ICAO": "KHUA",
+    "Airport name": "Redstone Army Airfield",
+    "Location served": "Redstone Arsenal / Huntsville, Alabama, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HUB",
+    "ICAO": "YHBR",
+    "Airport name": "Humbert River Airport",
+    "Location served": "Humbert River, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "HUC",
+    "ICAO": "",
+    "Airport name": "Humacao Airport",
+    "Location served": "Humacao, Puerto Rico, United States",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HUD",
+    "ICAO": "",
+    "Airport name": "Humboldt Municipal Airport (FAA: 0K7)",
+    "Location served": "Humboldt, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HUE",
+    "ICAO": "HAHU",
+    "Airport name": "Humera Airport",
+    "Location served": "Humera, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HUF",
+    "ICAO": "KHUF",
+    "Airport name": "Terre Haute International Airport (Hulman Field)",
+    "Location served": "Terre Haute, Indiana, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HUG",
+    "ICAO": "MGHT",
+    "Airport name": "Huehuetenango Airport",
+    "Location served": "Huehuetenango, Guatemala",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HUH",
+    "ICAO": "NTTH",
+    "Airport name": "Huahine – Fare Airport",
+    "Location served": "Huahine, Society Islands, French Polynesia",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HUI",
+    "ICAO": "VVPB",
+    "Airport name": "Phu Bai International Airport",
+    "Location served": "Huế, Vietnam",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HUJ",
+    "ICAO": "KHHW",
+    "Airport name": "Stan Stamper Municipal Airport (FAA: HHW)",
+    "Location served": "Hugo, Oklahoma, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HUK",
+    "ICAO": "",
+    "Airport name": "Hukuntsi Airport",
+    "Location served": "Hukuntsi, Botswana",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HUL",
+    "ICAO": "KHUL",
+    "Airport name": "Houlton International Airport",
+    "Location served": "Houlton, Maine, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HUM",
+    "ICAO": "KHUM",
+    "Airport name": "Houma–Terrebonne Airport",
+    "Location served": "Houma, Louisiana, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HUN",
+    "ICAO": "RCYU",
+    "Airport name": "Hualien Airport",
+    "Location served": "Hualien, Taiwan",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HUO",
+    "ICAO": "ZBHZ",
+    "Airport name": "Holingol Huolinhe Airport[1]",
+    "Location served": "Holingol (Huolinguole), Inner Mongolia, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HUQ",
+    "ICAO": "HLON",
+    "Airport name": "Hun Airport",
+    "Location served": "Hun, Libya",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HUS",
+    "ICAO": "PAHU",
+    "Airport name": "Hughes Airport",
+    "Location served": "Hughes, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HUT",
+    "ICAO": "KHUT",
+    "Airport name": "Hutchinson Municipal Airport",
+    "Location served": "Hutchinson, Kansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HUU",
+    "ICAO": "SPNC",
+    "Airport name": "Alférez FAP David Figueroa Fernandini Airport",
+    "Location served": "Huánuco, Peru",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HUV",
+    "ICAO": "ESNH",
+    "Airport name": "Hudiksvall Airport",
+    "Location served": "Hudiksvall, Sweden",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HUW",
+    "ICAO": "SWHT",
+    "Airport name": "Francisco Correa da Cruz Airport[1]",
+    "Location served": "Humaitá, Amazonas, Brazil",
+    "Time": "UTC−04:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "HUX",
+    "ICAO": "MMBT",
+    "Airport name": "Bahías de Huatulco International Airport",
+    "Location served": "Huatulco, Oaxaca, Mexico",
+    "Time": "UTC−06:00",
+    "DST": "Apr-Oct"
+  },
+  {
+    "IATA": "HUY",
+    "ICAO": "EGNJ",
+    "Airport name": "Humberside Airport",
+    "Location served": "Kingston upon Hull, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HUZ",
+    "ICAO": "ZGHZ",
+    "Airport name": "Huizhou Pingtan Airport",
+    "Location served": "Huizhou, Guangdong, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HVA",
+    "ICAO": "FMNL",
+    "Airport name": "Analalava Airport",
+    "Location served": "Analalava, Madagascar",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HVB",
+    "ICAO": "YHBA",
+    "Airport name": "Hervey Bay Airport",
+    "Location served": "Hervey Bay, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HVD",
+    "ICAO": "ZMKD",
+    "Airport name": "Khovd Airport",
+    "Location served": "Khovd, Mongolia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HVE",
+    "ICAO": "KHVE",
+    "Airport name": "Hanksville Airport",
+    "Location served": "Hanksville, Utah, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HVG",
+    "ICAO": "ENHV",
+    "Airport name": "Honningsvåg Airport, Valan",
+    "Location served": "Honningsvåg, Norway",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HVK",
+    "ICAO": "BIHK",
+    "Airport name": "Hólmavík Airport",
+    "Location served": "Hólmavík, Iceland",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HVN",
+    "ICAO": "KHVN",
+    "Airport name": "Tweed New Haven Airport",
+    "Location served": "New Haven, Connecticut, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HVR",
+    "ICAO": "KHVR",
+    "Airport name": "Havre City–County Airport",
+    "Location served": "Havre, Montana, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HVS",
+    "ICAO": "KHVS",
+    "Airport name": "Hartsville Regional Airport",
+    "Location served": "Hartsville, South Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HWA",
+    "ICAO": "",
+    "Airport name": "Hawabango Airport",
+    "Location served": "Hawabango, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HWD",
+    "ICAO": "KHWD",
+    "Airport name": "Hayward Executive Airport",
+    "Location served": "Hayward, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HWI",
+    "ICAO": "",
+    "Airport name": "Hawk Inlet Seaplane Base",
+    "Location served": "Hawk Inlet, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HWK",
+    "ICAO": "YHAW",
+    "Airport name": "Wilpena Pound Airport",
+    "Location served": "Hawker, South Australia, Australia",
+    "Time": "UTC+09:30",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "HWN",
+    "ICAO": "FVWN",
+    "Airport name": "Hwange National Park Airport",
+    "Location served": "Hwange National Park, Zimbabwe",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HWO",
+    "ICAO": "KHWO",
+    "Airport name": "North Perry Airport",
+    "Location served": "Hollywood, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HXD",
+    "ICAO": "ZLDL",
+    "Airport name": "Delingha Airport",
+    "Location served": "Delingha, Qinghai, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HXX",
+    "ICAO": "YHAY",
+    "Airport name": "Hay Airport",
+    "Location served": "Hay, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "HYA",
+    "ICAO": "KHYA",
+    "Airport name": "Barnstable Municipal Airport (Boardman/Polando Field)",
+    "Location served": "Hyannis, Massachusetts, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HYC",
+    "ICAO": "EGTB[4]",
+    "Airport name": "Wycombe Air Park",
+    "Location served": "High Wycombe, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HYD",
+    "ICAO": "VOHS",
+    "Airport name": "Rajiv Gandhi International Airport",
+    "Location served": "Hyderabad, Telangana, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "HYF",
+    "ICAO": "",
+    "Airport name": "Hayfields Airport",
+    "Location served": "Hayfields, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HYG",
+    "ICAO": "PAHY",
+    "Airport name": "Hydaburg Seaplane Base",
+    "Location served": "Hydaburg, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HYL",
+    "ICAO": "",
+    "Airport name": "Hollis Clark Bay Seaplane Base",
+    "Location served": "Hollis, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HYN",
+    "ICAO": "ZSLQ",
+    "Airport name": "Taizhou Luqiao Airport",
+    "Location served": "Taizhou, Zhejiang, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HYR",
+    "ICAO": "KHYR",
+    "Airport name": "Sawyer County Airport",
+    "Location served": "Hayward, Wisconsin, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HYS",
+    "ICAO": "KHYS",
+    "Airport name": "Hays Regional Airport",
+    "Location served": "Hays, Kansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HYV",
+    "ICAO": "EFHV",
+    "Airport name": "Hyvinkää Airfield",
+    "Location served": "Hyvinkää, Finland",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HZB",
+    "ICAO": "LFQT",
+    "Airport name": "Merville–Calonne Airport",
+    "Location served": "Hazebrouck, Nord-Pas-de-Calais, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "HZG",
+    "ICAO": "ZLHZ",
+    "Airport name": "Hanzhong Chenggu Airport",
+    "Location served": "Hanzhong, Shaanxi, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HZH",
+    "ICAO": "ZUNP",
+    "Airport name": "Liping Airport",
+    "Location served": "Liping, Guizhou, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HZK",
+    "ICAO": "BIHU",
+    "Airport name": "Húsavík Airport",
+    "Location served": "Húsavík, Iceland",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "HZL",
+    "ICAO": "KHZL",
+    "Airport name": "Hazleton Municipal Airport",
+    "Location served": "Hazleton, Pennsylvania, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HZP",
+    "ICAO": "CYNR",
+    "Airport name": "Fort MacKay/Horizon Airport[1]",
+    "Location served": "Fort McKay, Alberta, Canada",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "HZV",
+    "ICAO": "FAHW",
+    "Airport name": "Hazyview Airport",
+    "Location served": "Hazyview, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  }
+]

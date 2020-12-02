@@ -1,0 +1,5162 @@
+[
+  {
+    "IATA": "MAA",
+    "ICAO": "VOMM",
+    "Airport name": "Chennai International Airport",
+    "Location served": "Chennai, Tamil Nadu, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "MAB",
+    "ICAO": "SBMA",
+    "Airport name": "João Correa da Rocha Airport",
+    "Location served": "Marabá, Pará, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MAC",
+    "ICAO": "KMAC",
+    "Airport name": "Macon Downtown Airport",
+    "Location served": "Macon, Georgia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MAD",
+    "ICAO": "LEMD",
+    "Airport name": "Adolfo Suárez Madrid–Barajas Airport",
+    "Location served": "Madrid, Spain",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MAE",
+    "ICAO": "KMAE",
+    "Airport name": "Madera Municipal Airport",
+    "Location served": "Madera, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MAF",
+    "ICAO": "KMAF",
+    "Airport name": "Midland International Air and Space Port",
+    "Location served": "Midland, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MAG",
+    "ICAO": "AYMD",
+    "Airport name": "Madang Airport",
+    "Location served": "Madang, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MAH",
+    "ICAO": "LEMH",
+    "Airport name": "Menorca Airport (Mahón Airport)",
+    "Location served": "Menorca, Balearic Islands, Spain",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MAI",
+    "ICAO": "FWMG",
+    "Airport name": "Mangochi Airport",
+    "Location served": "Mangochi, Malawi",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MAJ",
+    "ICAO": "PKMJ",
+    "Airport name": "Marshall Islands International Airport (Amata Kabua Int'l)",
+    "Location served": "Majuro, Marshall Islands",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MAK",
+    "ICAO": "HSSM",
+    "Airport name": "Malakal Airport",
+    "Location served": "Malakal, South Sudan",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MAL",
+    "ICAO": "WAPE",
+    "Airport name": "Mangole Airport",
+    "Location served": "Mangole Island, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MAM",
+    "ICAO": "MMMA",
+    "Airport name": "General Servando Canales International Airport",
+    "Location served": "Matamoros, Tamaulipas, Mexico",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MAN",
+    "ICAO": "EGCC",
+    "Airport name": "Manchester Airport",
+    "Location served": "Manchester, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MAO",
+    "ICAO": "SBEG",
+    "Airport name": "Eduardo Gomes International Airport",
+    "Location served": "Manaus, Amazonas, Brazil",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MAP",
+    "ICAO": "",
+    "Airport name": "Mamai Airport",
+    "Location served": "Mamai, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MAQ",
+    "ICAO": "VTPM",
+    "Airport name": "Mae Sot Airport",
+    "Location served": "Mae Sot, Thailand",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MAR",
+    "ICAO": "SVMC",
+    "Airport name": "La Chinita International Airport",
+    "Location served": "Maracaibo, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MAS",
+    "ICAO": "AYMO",
+    "Airport name": "Momote Airport",
+    "Location served": "Manus Island, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MAT",
+    "ICAO": "FZAM",
+    "Airport name": "Matadi Tshimpi Airport",
+    "Location served": "Matadi, Democratic Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MAU",
+    "ICAO": "NTTP",
+    "Airport name": "Maupiti Airport",
+    "Location served": "Maupiti, Leeward Islands, French Polynesia",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MAV",
+    "ICAO": "",
+    "Airport name": "Maloelap Airport (FAA: 3N1)",
+    "Location served": "Taroa Island, Maloelap Atoll, Marshall Islands",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MAW",
+    "ICAO": "KMAW",
+    "Airport name": "Malden Regional Airport",
+    "Location served": "Malden, Missouri, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MAX",
+    "ICAO": "GOSM",
+    "Airport name": "Ouro Sogui Airport",
+    "Location served": "Matam, Senegal",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MAY",
+    "ICAO": "MYAB",
+    "Airport name": "Clarence A. Bain Airport",
+    "Location served": "Mangrove Cay, Andros Island, Bahamas",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MAZ",
+    "ICAO": "TJMZ",
+    "Airport name": "Eugenio María de Hostos Airport",
+    "Location served": "Mayagüez, Puerto Rico, United States",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MBA",
+    "ICAO": "HKMO",
+    "Airport name": "Moi International Airport",
+    "Location served": "Mombasa, Kenya",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MBB",
+    "ICAO": "YMBL",
+    "Airport name": "Marble Bar Airport",
+    "Location served": "Marble Bar, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MBC",
+    "ICAO": "FOGG",
+    "Airport name": "Mbigou Airport",
+    "Location served": "Mbigou, Gabon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MBD",
+    "ICAO": "FAMM",
+    "Airport name": "Mahikeng Airport (Mmabatho Airport)",
+    "Location served": "Mmabatho, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MBE",
+    "ICAO": "RJEB",
+    "Airport name": "Monbetsu Airport",
+    "Location served": "Monbetsu, Hokkaido, Hokkaido, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MBF",
+    "ICAO": "YPOK",
+    "Airport name": "Porepunkah Airfield",
+    "Location served": "Mount Buffalo, Victoria, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "MBG",
+    "ICAO": "KMBG",
+    "Airport name": "Mobridge Municipal Airport",
+    "Location served": "Mobridge, South Dakota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MBH",
+    "ICAO": "YMYB",
+    "Airport name": "Maryborough Airport",
+    "Location served": "Maryborough, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MBI",
+    "ICAO": "HTMB",
+    "Airport name": "Mbeya Airport",
+    "Location served": "Mbeya, Tanzania",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MBJ",
+    "ICAO": "MKJS",
+    "Airport name": "Sangster International Airport",
+    "Location served": "Montego Bay, Jamaica",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MBK",
+    "ICAO": "SWXM",
+    "Airport name": "Orlando Villas-Bôas Regional Airport",
+    "Location served": "Matupá, Mato Grosso, Brazil",
+    "Time": "UTC−04:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "MBL",
+    "ICAO": "KMBL",
+    "Airport name": "Manistee County Blacker Airport",
+    "Location served": "Manistee, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MBM",
+    "ICAO": "",
+    "Airport name": "Mkambati Airport[1]",
+    "Location served": "Mkambati, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MBN",
+    "ICAO": "",
+    "Airport name": "Mount Barnett Airport",
+    "Location served": "Mount Barnett, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MBO",
+    "ICAO": "RPUM",
+    "Airport name": "Mamburao Airport",
+    "Location served": "Mamburao, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MBP",
+    "ICAO": "SPBB",
+    "Airport name": "Moyobamba Airport",
+    "Location served": "Moyobamba, Peru",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MBQ",
+    "ICAO": "HUMA",
+    "Airport name": "Mbarara Airport",
+    "Location served": "Mbarara, Uganda",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MBR",
+    "ICAO": "GQNU",
+    "Airport name": "M'Bout Airport",
+    "Location served": "M'Bout, Mauritania",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MBS",
+    "ICAO": "KMBS",
+    "Airport name": "MBS International Airport",
+    "Location served": "Saginaw / Midland / Bay City, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MBT",
+    "ICAO": "RPVJ",
+    "Airport name": "Moises R. Espinosa Airport (Masbate Airport)",
+    "Location served": "Masbate, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MBU",
+    "ICAO": "AGGI",
+    "Airport name": "Mbambanakira Airport",
+    "Location served": "Mbambanakira, Solomon Islands",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MBV",
+    "ICAO": "",
+    "Airport name": "Masa Airport",
+    "Location served": "Masa, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MBW",
+    "ICAO": "YMMB",
+    "Airport name": "Moorabbin Airport",
+    "Location served": "Melbourne, Victoria, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "MBX",
+    "ICAO": "LJMB",
+    "Airport name": "Maribor Edvard Rusjan Airport",
+    "Location served": "Maribor, Slovenia",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MBY",
+    "ICAO": "KMBY",
+    "Airport name": "Omar N. Bradley Airport",
+    "Location served": "Moberly, Missouri, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MBZ",
+    "ICAO": "SWMW",
+    "Airport name": "Maués Airport",
+    "Location served": "Maués, Amazonas, Brazil",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MCA",
+    "ICAO": "GUMA",
+    "Airport name": "Macenta Airport",
+    "Location served": "Macenta, Guinea",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MCB",
+    "ICAO": "KMCB",
+    "Airport name": "McComb–Pike County Airport (John E. Lewis Field)",
+    "Location served": "McComb, Mississippi, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MCC",
+    "ICAO": "KMCC",
+    "Airport name": "McClellan Airfield",
+    "Location served": "Sacramento, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MCD",
+    "ICAO": "KMCD",
+    "Airport name": "Mackinac Island Airport",
+    "Location served": "Mackinac Island, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MCE",
+    "ICAO": "KMCE",
+    "Airport name": "Merced Regional Airport (MacReady Field)",
+    "Location served": "Merced, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MCF",
+    "ICAO": "KMCF",
+    "Airport name": "MacDill Air Force Base",
+    "Location served": "Tampa, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MCG",
+    "ICAO": "PAMC",
+    "Airport name": "McGrath Airport",
+    "Location served": "McGrath, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MCH",
+    "ICAO": "SEMH",
+    "Airport name": "General Manuel Serrano Airport",
+    "Location served": "Machala, Ecuador",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MCI",
+    "ICAO": "KMCI",
+    "Airport name": "Kansas City International Airport",
+    "Location served": "Kansas City, Missouri, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MCJ",
+    "ICAO": "SKLM",
+    "Airport name": "Jorge Isaacs Airport (La Mina Airport)",
+    "Location served": "Maicao, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MCK",
+    "ICAO": "KMCK",
+    "Airport name": "McCook Ben Nelson Regional Airport",
+    "Location served": "McCook, Nebraska, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MCL",
+    "ICAO": "PAIN",
+    "Airport name": "McKinley National Park Airport (FAA: INR)",
+    "Location served": "McKinley Park, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MCN",
+    "ICAO": "KMCN",
+    "Airport name": "Middle Georgia Regional Airport",
+    "Location served": "Macon, Georgia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MCO",
+    "ICAO": "KMCO",
+    "Airport name": "Orlando International Airport",
+    "Location served": "Orlando, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MCP",
+    "ICAO": "SBMQ",
+    "Airport name": "Alberto Alcolumbre International Airport",
+    "Location served": "Macapá, Amapá, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MCQ",
+    "ICAO": "LHMC",
+    "Airport name": "Miskolc Airport",
+    "Location served": "Miskolc, Hungary",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MCS",
+    "ICAO": "SARM",
+    "Airport name": "Monte Caseros Airport",
+    "Location served": "Monte Caseros, Corrientes, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MCT",
+    "ICAO": "OOMS",
+    "Airport name": "Muscat International Airport",
+    "Location served": "Muscat, Oman",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MCU",
+    "ICAO": "LFBK",
+    "Airport name": "Montluçon – Guéret Airport",
+    "Location served": "Montluçon, Auvergne, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MCV",
+    "ICAO": "YMHU",
+    "Airport name": "McArthur River Mine Airport",
+    "Location served": "McArthur River, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "MCW",
+    "ICAO": "KMCW",
+    "Airport name": "Mason City Municipal Airport",
+    "Location served": "Mason City, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MCX",
+    "ICAO": "URML",
+    "Airport name": "Uytash Airport",
+    "Location served": "Makhachkala, Dagestan, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MCY",
+    "ICAO": "YBSU",
+    "Airport name": "Sunshine Coast Airport",
+    "Location served": "Sunshine Coast, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MCZ",
+    "ICAO": "SBMO",
+    "Airport name": "Zumbi dos Palmares International Airport",
+    "Location served": "Maceió, Alagoas, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MDB",
+    "ICAO": "",
+    "Airport name": "Melinda Airport",
+    "Location served": "Melinda, Belize",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MDC",
+    "ICAO": "WAMM",
+    "Airport name": "Sam Ratulangi International Airport",
+    "Location served": "Manado, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MDD",
+    "ICAO": "KMDD",
+    "Airport name": "Midland Airpark",
+    "Location served": "Midland, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MDE",
+    "ICAO": "SKRG",
+    "Airport name": "José María Córdova International Airport",
+    "Location served": "Medellín, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MDF",
+    "ICAO": "KMDZ",
+    "Airport name": "Taylor County Airport",
+    "Location served": "Medford, Wisconsin, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MDG",
+    "ICAO": "ZYMD",
+    "Airport name": "Mudanjiang Hailang Airport",
+    "Location served": "Mudanjiang, Heilongjiang, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MDH",
+    "ICAO": "KMDH",
+    "Airport name": "Southern Illinois Airport",
+    "Location served": "Carbondale / Murphysboro, Illinois, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MDI",
+    "ICAO": "DNMK",
+    "Airport name": "Makurdi Airport",
+    "Location served": "Makurdi, Nigeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MDJ",
+    "ICAO": "",
+    "Airport name": "Madras Municipal Airport (FAA: S33)",
+    "Location served": "Madras, Oregon, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MDK",
+    "ICAO": "FZEA",
+    "Airport name": "Mbandaka Airport",
+    "Location served": "Mbandaka, Democratic Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MDL",
+    "ICAO": "VYMD",
+    "Airport name": "Mandalay International Airport",
+    "Location served": "Mandalay, Myanmar",
+    "Time": "UTC+06:30",
+    "DST": ""
+  },
+  {
+    "IATA": "MDM",
+    "ICAO": "",
+    "Airport name": "Munduku Airport",
+    "Location served": "Munduku, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MDN",
+    "ICAO": "KIMS",
+    "Airport name": "Madison Municipal Airport",
+    "Location served": "Madison, Indiana, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MDO",
+    "ICAO": "PAMD",
+    "Airport name": "Middleton Island Airport",
+    "Location served": "Middleton Island, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MDP",
+    "ICAO": "WAKD",
+    "Airport name": "Mindiptana Airport",
+    "Location served": "Mindiptana, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MDQ",
+    "ICAO": "SAZM",
+    "Airport name": "Astor Piazzolla International Airport",
+    "Location served": "Mar del Plata, Buenos Aires, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MDS",
+    "ICAO": "MBMC",
+    "Airport name": "Middle Caicos Airport",
+    "Location served": "Middle Caicos, British Overseas Territory\nof Turks and Caicos Islands",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MDT",
+    "ICAO": "KMDT",
+    "Airport name": "Harrisburg International Airport",
+    "Location served": "Harrisburg, Pennsylvania, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MDU",
+    "ICAO": "AYMN",
+    "Airport name": "Mendi Airport",
+    "Location served": "Mendi, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MDV",
+    "ICAO": "",
+    "Airport name": "Médouneu Airport",
+    "Location served": "Médouneu, Gabon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MDW",
+    "ICAO": "KMDW",
+    "Airport name": "Midway International Airport",
+    "Location served": "Chicago, Illinois, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MDX",
+    "ICAO": "SATM",
+    "Airport name": "Mercedes Airport",
+    "Location served": "Mercedes, Corrientes, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MDY",
+    "ICAO": "PMDY",
+    "Airport name": "Henderson Field",
+    "Location served": "Sand Island, Midway Atoll, United States",
+    "Time": "UTC−11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MDZ",
+    "ICAO": "SAME",
+    "Airport name": "Gov. Francisco Gabrielli International Airport (El Plumerillo)",
+    "Location served": "Mendoza, Mendoza, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MEA",
+    "ICAO": "SBME",
+    "Airport name": "Benedito Lacerda Airport",
+    "Location served": "Macaé, Rio de Janeiro, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "MEB",
+    "ICAO": "YMEN",
+    "Airport name": "Essendon Airport",
+    "Location served": "Melbourne, Victoria, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "MEC",
+    "ICAO": "SEMT",
+    "Airport name": "Eloy Alfaro International Airport",
+    "Location served": "Manta, Ecuador",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MED",
+    "ICAO": "OEMA",
+    "Airport name": "Prince Mohammad bin Abdulaziz Airport",
+    "Location served": "Medina, Saudi Arabia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MEE",
+    "ICAO": "NWWR",
+    "Airport name": "Maré Airport",
+    "Location served": "Maré, Loyalty Islands, New Caledonia",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MEF",
+    "ICAO": "",
+    "Airport name": "Melfi Airport",
+    "Location served": "Melfi, Chad",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MEG",
+    "ICAO": "FNMA",
+    "Airport name": "Malanje Airport",
+    "Location served": "Malanje, Angola",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MEH",
+    "ICAO": "ENMH",
+    "Airport name": "Mehamn Airport",
+    "Location served": "Mehamn, Norway",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MEI",
+    "ICAO": "KMEI",
+    "Airport name": "Meridian Regional Airport (Key Field)",
+    "Location served": "Meridian, Mississippi, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MEJ",
+    "ICAO": "KGKJ",
+    "Airport name": "Port Meadville Airport (FAA: GKJ)",
+    "Location served": "Meadville, Pennsylvania, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MEK",
+    "ICAO": "GMFM",
+    "Airport name": "Bassatine Air Base[1]",
+    "Location served": "Meknes, Morocco",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct4"
+  },
+  {
+    "IATA": "MEL",
+    "ICAO": "YMML",
+    "Airport name": "Melbourne Airport",
+    "Location served": "Melbourne, Victoria, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "MEM",
+    "ICAO": "KMEM",
+    "Airport name": "Memphis International Airport",
+    "Location served": "Memphis, Tennessee, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MEN",
+    "ICAO": "LFNB",
+    "Airport name": "Brenoux Airport",
+    "Location served": "Mende, Languedoc-Roussillon, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MEO",
+    "ICAO": "KMQI",
+    "Airport name": "Dare County Regional Airport (FAA: MQI)",
+    "Location served": "Manteo, North Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MEP",
+    "ICAO": "WMAU",
+    "Airport name": "Mersing Airport",
+    "Location served": "Mersing, Johor, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MEQ",
+    "ICAO": "WITC",
+    "Airport name": "Cut Nyak Dhien Airport",
+    "Location served": "Meulaboh, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MER",
+    "ICAO": "KMER",
+    "Airport name": "Castle Airport",
+    "Location served": "Merced, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MES",
+    "ICAO": "WIMK",
+    "Airport name": "Soewondo Air Force Base",
+    "Location served": "Medan, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MET",
+    "ICAO": "YMOT",
+    "Airport name": "Moreton Airport",
+    "Location served": "Moreton, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MEU",
+    "ICAO": "SBMD",
+    "Airport name": "Serra do Areão Airport",
+    "Location served": "Monte Dourado, Pará, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MEV",
+    "ICAO": "KMEV",
+    "Airport name": "Minden–Tahoe Airport",
+    "Location served": "Minden, Nevada, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MEW",
+    "ICAO": "FZVM",
+    "Airport name": "Mweka Airport",
+    "Location served": "Mweka, Democratic Republic of the Congo",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MEX",
+    "ICAO": "MMMX",
+    "Airport name": "Mexico City International Airport",
+    "Location served": "Mexico City, Mexico",
+    "Time": "UTC−06:00",
+    "DST": "Apr-Oct"
+  },
+  {
+    "IATA": "MEY",
+    "ICAO": "VNMG",
+    "Airport name": "Meghauli Airport",
+    "Location served": "Meghauli, Nepal",
+    "Time": "UTC+05:45",
+    "DST": ""
+  },
+  {
+    "IATA": "MEZ",
+    "ICAO": "FAMS",
+    "Airport name": "Messina Airport",
+    "Location served": "Messina, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MFA",
+    "ICAO": "HTMA",
+    "Airport name": "Mafia Airport",
+    "Location served": "Mafia Island, Tanzania",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MFB",
+    "ICAO": "",
+    "Airport name": "Monfort Airport",
+    "Location served": "Monfort, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MFC",
+    "ICAO": "FXMF",
+    "Airport name": "Mafeteng Airport",
+    "Location served": "Mafeteng, Lesotho",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MFD",
+    "ICAO": "KMFD",
+    "Airport name": "Mansfield Lahm Regional Airport",
+    "Location served": "Mansfield, Ohio, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MFE",
+    "ICAO": "KMFE",
+    "Airport name": "McAllen Miller International Airport",
+    "Location served": "McAllen, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MFF",
+    "ICAO": "FOOD",
+    "Airport name": "Moanda Airport",
+    "Location served": "Moanda, Gabon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MFG",
+    "ICAO": "OPMF",
+    "Airport name": "Muzaffarabad Airport",
+    "Location served": "Muzaffarabad, Pakistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MFH",
+    "ICAO": "",
+    "Airport name": "Mesquite Airport (FAA: 67L)",
+    "Location served": "Mesquite, Nevada, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MFI",
+    "ICAO": "KMFI",
+    "Airport name": "Marshfield Municipal Airport",
+    "Location served": "Marshfield, Wisconsin, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MFJ",
+    "ICAO": "NFMO",
+    "Airport name": "Moala Airport",
+    "Location served": "Moala Island, Fiji",
+    "Time": "UTC+12:00",
+    "DST": "Nov-Jan"
+  },
+  {
+    "IATA": "MFK",
+    "ICAO": "RCMT",
+    "Airport name": "Matsu Beigan Airport[1]",
+    "Location served": "Beigan, Taiwan",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MFL",
+    "ICAO": "",
+    "Airport name": "Mount Full Stop Airport[1]",
+    "Location served": "Wandovale, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MFM",
+    "ICAO": "VMMC",
+    "Airport name": "Macau International Airport",
+    "Location served": "Macau",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MFN",
+    "ICAO": "NZMF",
+    "Airport name": "Milford Sound Airport",
+    "Location served": "Milford Sound, New Zealand",
+    "Time": "UTC+12:00",
+    "DST": "Sep-Apr"
+  },
+  {
+    "IATA": "MFO",
+    "ICAO": "",
+    "Airport name": "Manguna Airport",
+    "Location served": "Manguna, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MFP",
+    "ICAO": "YMCR",
+    "Airport name": "Manners Creek Airport[1]",
+    "Location served": "Manners Creek Station, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "MFQ",
+    "ICAO": "DRRM",
+    "Airport name": "Maradi Airport",
+    "Location served": "Maradi, Niger",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MFR",
+    "ICAO": "KMFR",
+    "Airport name": "Rogue Valley International–Medford Airport",
+    "Location served": "Medford, Oregon, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MFS",
+    "ICAO": "SKMF",
+    "Airport name": "Miraflores Airport",
+    "Location served": "Miraflores, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MFU",
+    "ICAO": "FLMF",
+    "Airport name": "Mfuwe Airport",
+    "Location served": "Mfuwe, Zambia",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MFV",
+    "ICAO": "KMFV",
+    "Airport name": "Accomack County Airport",
+    "Location served": "Melfa, Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MFW",
+    "ICAO": "",
+    "Airport name": "Magaruque Airport",
+    "Location served": "Magaruque Island, Mozambique",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MFX",
+    "ICAO": "LFKX",
+    "Airport name": "Méribel Altiport",
+    "Location served": "Méribel, Rhône-Alpes, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MFY",
+    "ICAO": "",
+    "Airport name": "Mayfa'ah Airport",
+    "Location served": "Mayfa'ah, Yemen",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MFZ",
+    "ICAO": "",
+    "Airport name": "Meselia Airport",
+    "Location served": "Meselia, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MGA",
+    "ICAO": "MNMG",
+    "Airport name": "Augusto C. Sandino International Airport",
+    "Location served": "Managua, Nicaragua",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MGB",
+    "ICAO": "YMTG",
+    "Airport name": "Mount Gambier Airport",
+    "Location served": "Mount Gambier, South Australia, Australia",
+    "Time": "UTC+09:30",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "MGC",
+    "ICAO": "KMGC",
+    "Airport name": "Michigan City Municipal Airport",
+    "Location served": "Michigan City, Indiana, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MGD",
+    "ICAO": "SLMG",
+    "Airport name": "Magdalena Airport",
+    "Location served": "Magdalena, Bolivia",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MGE",
+    "ICAO": "KMGE",
+    "Airport name": "Dobbins Air Reserve Base",
+    "Location served": "Marietta, Georgia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MGF",
+    "ICAO": "SBMG",
+    "Airport name": "Sílvio Name Júnior Regional Airport",
+    "Location served": "Maringá, Paraná, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "MGG",
+    "ICAO": "",
+    "Airport name": "Margarima Airport",
+    "Location served": "Margarima, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MGH",
+    "ICAO": "FAMG",
+    "Airport name": "Margate Airport",
+    "Location served": "Margate, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MGI",
+    "ICAO": "",
+    "Airport name": "Aransas National Wildlife Refuge Airport[1] (FAA: XS10)",
+    "Location served": "Matagorda Island, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MGJ",
+    "ICAO": "KMGJ",
+    "Airport name": "Orange County Airport",
+    "Location served": "Montgomery, New York, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MGK",
+    "ICAO": "VYMT",
+    "Airport name": "Mong Ton Airport",
+    "Location served": "Mong Ton, Myanmar",
+    "Time": "UTC+06:30",
+    "DST": ""
+  },
+  {
+    "IATA": "MGL",
+    "ICAO": "EDLN",
+    "Airport name": "Düsseldorf Mönchengladbach Airport",
+    "Location served": "Mönchengladbach, North Rhine-Westphalia, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MGM",
+    "ICAO": "KMGM",
+    "Airport name": "Montgomery Regional Airport (Dannelly Field)",
+    "Location served": "Montgomery, Alabama, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MGN",
+    "ICAO": "SKMG",
+    "Airport name": "Baracoa Regional Airport",
+    "Location served": "Magangué, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MGO",
+    "ICAO": "",
+    "Airport name": "Manega Airport[1]",
+    "Location served": "Manega, Gabon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MGP",
+    "ICAO": "",
+    "Airport name": "Manga Airport",
+    "Location served": "Manga, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MGQ",
+    "ICAO": "HCMM",
+    "Airport name": "Aden Adde International Airport",
+    "Location served": "Mogadishu, Somalia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MGR",
+    "ICAO": "KMGR",
+    "Airport name": "Moultrie Municipal Airport",
+    "Location served": "Moultrie, Georgia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MGS",
+    "ICAO": "NCMG",
+    "Airport name": "Mangaia Airport",
+    "Location served": "Mangaia Island, Cook Islands",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MGT",
+    "ICAO": "YMGB",
+    "Airport name": "Milingimbi Airport",
+    "Location served": "Milingimbi Island, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "MGU",
+    "ICAO": "VYMN",
+    "Airport name": "Manaung Airport[1]",
+    "Location served": "Manaung, Myanmar",
+    "Time": "UTC+06:30",
+    "DST": ""
+  },
+  {
+    "IATA": "MGV",
+    "ICAO": "YMGR",
+    "Airport name": "Margaret River Station Airport",
+    "Location served": "Margaret River Station, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MGW",
+    "ICAO": "KMGW",
+    "Airport name": "Morgantown Municipal Airport (Walter L. Bill Hart Field)",
+    "Location served": "Morgantown, West Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MGX",
+    "ICAO": "FOGI",
+    "Airport name": "Moabi Airport",
+    "Location served": "Moabi, Gabon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MGY",
+    "ICAO": "KMGY",
+    "Airport name": "Dayton–Wright Brothers Airport",
+    "Location served": "Dayton, Ohio, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MGZ",
+    "ICAO": "VYME",
+    "Airport name": "Myeik Airport",
+    "Location served": "Myeik, Myanmar",
+    "Time": "UTC+06:30",
+    "DST": ""
+  },
+  {
+    "IATA": "MHA",
+    "ICAO": "SYMD",
+    "Airport name": "Mahdia Airport",
+    "Location served": "Mahdia, Guyana",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MHC",
+    "ICAO": "SCPQ",
+    "Airport name": "Mocopulli Airport",
+    "Location served": "Castro, Chile",
+    "Time": "UTC−04:00",
+    "DST": "Aug-May"
+  },
+  {
+    "IATA": "MHD",
+    "ICAO": "OIMM",
+    "Airport name": "Mashhad International Airport (Shahid Hashemi Nejad Airport)",
+    "Location served": "Mashhad, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "MHE",
+    "ICAO": "KMHE",
+    "Airport name": "Mitchell Municipal Airport",
+    "Location served": "Mitchell, South Dakota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MHF",
+    "ICAO": "",
+    "Airport name": "Morichal Airport",
+    "Location served": "Morichal, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MHG",
+    "ICAO": "EDFM",
+    "Airport name": "Mannheim City Airport",
+    "Location served": "Mannheim, Baden-Württemberg, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MHH",
+    "ICAO": "MYAM",
+    "Airport name": "Marsh Harbour Airport",
+    "Location served": "Marsh Harbour, Abaco Islands, Bahamas",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MHI",
+    "ICAO": "HDMO",
+    "Airport name": "Moucha Airport",
+    "Location served": "Moucha Island, Djibouti",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MHK",
+    "ICAO": "KMHK",
+    "Airport name": "Manhattan Regional Airport",
+    "Location served": "Manhattan, Kansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MHL",
+    "ICAO": "KMHL",
+    "Airport name": "Marshall Memorial Municipal Airport",
+    "Location served": "Marshall, Missouri, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MHN",
+    "ICAO": "KMHN",
+    "Airport name": "Hooker County Airport",
+    "Location served": "Mullen, Nebraska, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MHO",
+    "ICAO": "YMHO",
+    "Airport name": "Mount House Airport",
+    "Location served": "Mount House Station, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MHP",
+    "ICAO": "UMMM",
+    "Airport name": "Minsk-1 Airport",
+    "Location served": "Minsk, Belarus",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MHQ",
+    "ICAO": "EFMA",
+    "Airport name": "Mariehamn Airport",
+    "Location served": "Mariehamn, Åland Islands, Finland",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MHR",
+    "ICAO": "KMHR",
+    "Airport name": "Sacramento Mather Airport",
+    "Location served": "Sacramento, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MHS",
+    "ICAO": "",
+    "Airport name": "Dunsmuir Municipal-Mott Airport[1] (FAA: 1O6)",
+    "Location served": "Mount Shasta, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MHT",
+    "ICAO": "KMHT",
+    "Airport name": "Manchester–Boston Regional Airport",
+    "Location served": "Manchester, New Hampshire, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MHU",
+    "ICAO": "YHOT",
+    "Airport name": "Mount Hotham Airport",
+    "Location served": "Mount Hotham, Victoria, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "MHV",
+    "ICAO": "KMHV",
+    "Airport name": "Mojave Air and Space Port",
+    "Location served": "Mojave, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MHW",
+    "ICAO": "SLAG",
+    "Airport name": "Monteagudo Airport[1]",
+    "Location served": "Monteagudo, Bolivia",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MHX",
+    "ICAO": "NCMH",
+    "Airport name": "Manihiki Island Airport",
+    "Location served": "Manihiki, Cook Islands",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MHY",
+    "ICAO": "",
+    "Airport name": "Morehead Airport",
+    "Location served": "Morehead, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MHZ",
+    "ICAO": "EGUN",
+    "Airport name": "RAF Mildenhall",
+    "Location served": "Mildenhall, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MIA",
+    "ICAO": "KMIA",
+    "Airport name": "Miami International Airport",
+    "Location served": "Miami, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MIB",
+    "ICAO": "KMIB",
+    "Airport name": "Minot Air Force Base",
+    "Location served": "Minot, North Dakota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MIC",
+    "ICAO": "KMIC",
+    "Airport name": "Crystal Airport",
+    "Location served": "Minneapolis / St Paul, Minnesota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MID",
+    "ICAO": "MMMD",
+    "Airport name": "Manuel Crescencio Rejón International Airport",
+    "Location served": "Mérida, Yucatán, Mexico",
+    "Time": "UTC−06:00",
+    "DST": "Apr-Oct"
+  },
+  {
+    "IATA": "MIE",
+    "ICAO": "KMIE",
+    "Airport name": "Delaware County Regional Airport",
+    "Location served": "Muncie, Indiana, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MIF",
+    "ICAO": "",
+    "Airport name": "Roy Hurd Memorial Airport (FAA: E01)",
+    "Location served": "Monahans, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MIG",
+    "ICAO": "ZUMY",
+    "Airport name": "Mianyang Nanjiao Airport",
+    "Location served": "Mianyang, Sichuan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MIH",
+    "ICAO": "YMIP",
+    "Airport name": "Mitchell Plateau Airport",
+    "Location served": "Mitchell Plateau, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MII",
+    "ICAO": "SBML",
+    "Airport name": "Frank Miloye Milenkowichi–Marília State Airport",
+    "Location served": "Marília, São Paulo, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "MIJ",
+    "ICAO": "MLIP",
+    "Airport name": "Mili Airport (FAA: 1Q9)",
+    "Location served": "Mili Atoll, Marshall Islands",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MIK",
+    "ICAO": "EFMI",
+    "Airport name": "Mikkeli Airport",
+    "Location served": "Mikkeli, Finland",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MIL[1]",
+    "ICAO": "",
+    "Airport name": "metropolitan area1",
+    "Location served": "Milan, Lombardy, Italy",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MIM",
+    "ICAO": "YMER",
+    "Airport name": "Merimbula Airport",
+    "Location served": "Merimbula, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "MIN",
+    "ICAO": "YMPA",
+    "Airport name": "Minnipa Airport",
+    "Location served": "Minnipa, South Australia, Australia",
+    "Time": "UTC+09:30",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "MIO",
+    "ICAO": "KMIO",
+    "Airport name": "Miami Municipal Airport",
+    "Location served": "Miami, Oklahoma, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MIP",
+    "ICAO": "LLMR",
+    "Airport name": "Mitzpe Ramon Airport",
+    "Location served": "Mitzpe Ramon, Israel",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MIQ",
+    "ICAO": "KMLE",
+    "Airport name": "Millard Airport (FAA: MLE)",
+    "Location served": "Omaha, Nebraska, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MIR",
+    "ICAO": "DTMB",
+    "Airport name": "Monastir Habib Bourguiba International Airport",
+    "Location served": "Monastir, Tunisia",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MIS",
+    "ICAO": "AYMS",
+    "Airport name": "Misima Island Airport",
+    "Location served": "Misima Island, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MIT",
+    "ICAO": "KMIT",
+    "Airport name": "Shafter Airport (Minter Field)",
+    "Location served": "Shafter, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MIU",
+    "ICAO": "DNMA",
+    "Airport name": "Maiduguri International Airport",
+    "Location served": "Maiduguri, Nigeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MIV",
+    "ICAO": "KMIV",
+    "Airport name": "Millville Municipal Airport",
+    "Location served": "Millville, New Jersey, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MIW",
+    "ICAO": "KMIW",
+    "Airport name": "Marshalltown Municipal Airport",
+    "Location served": "Marshalltown, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MIX",
+    "ICAO": "",
+    "Airport name": "Mirití-Paraná Airport",
+    "Location served": "Mirití-Paraná, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MIY",
+    "ICAO": "",
+    "Airport name": "Mittiebah Airport[1]",
+    "Location served": "Mittiebah Station, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "MIZ",
+    "ICAO": "",
+    "Airport name": "Mainoru Airport[1]",
+    "Location served": "Mainoru, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "MJA",
+    "ICAO": "FMSJ",
+    "Airport name": "Manja Airport",
+    "Location served": "Manja, Madagascar",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MJB",
+    "ICAO": "",
+    "Airport name": "Mejit Airport (FAA: Q30)",
+    "Location served": "Mejit Island, Marshall Islands",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MJC",
+    "ICAO": "DIMN",
+    "Airport name": "Man Airport",
+    "Location served": "Man, Ivory Coast",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MJD",
+    "ICAO": "OPMJ",
+    "Airport name": "Moenjodaro Airport",
+    "Location served": "Mohenjo-daro, Pakistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MJE",
+    "ICAO": "",
+    "Airport name": "Majkin Airport",
+    "Location served": "Majkin, Marshall Islands",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MJF",
+    "ICAO": "ENMS",
+    "Airport name": "Mosjøen Airport, Kjærstad",
+    "Location served": "Mosjøen, Norway",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MJI",
+    "ICAO": "HLLM",
+    "Airport name": "Mitiga International Airport",
+    "Location served": "Tripoli, Libya",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MJJ",
+    "ICAO": "",
+    "Airport name": "Moki Airport",
+    "Location served": "Moki, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MJK",
+    "ICAO": "YSHK",
+    "Airport name": "Shark Bay Airport",
+    "Location served": "Monkey Mia, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MJL",
+    "ICAO": "FOGM",
+    "Airport name": "Mouila Airport",
+    "Location served": "Mouila, Gabon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MJM",
+    "ICAO": "FZWA",
+    "Airport name": "Mbuji Mayi Airport",
+    "Location served": "Mbuji-Mayi, Democratic Republic of the Congo",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MJN",
+    "ICAO": "FMNM",
+    "Airport name": "Amborovy Airport (Philibert Tsiranana Airport)",
+    "Location served": "Mahajanga, Madagascar",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MJO",
+    "ICAO": "FYME",
+    "Airport name": "Mount Etjo Airport[1]",
+    "Location served": "Mount Etjo, Namibia",
+    "Time": "UTC+01:00",
+    "DST": "Sep-Apr"
+  },
+  {
+    "IATA": "MJP",
+    "ICAO": "YMJM",
+    "Airport name": "Manjimup Airport",
+    "Location served": "Manjimup, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MJQ",
+    "ICAO": "KMJQ",
+    "Airport name": "Jackson Municipal Airport",
+    "Location served": "Jackson, Minnesota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MJR",
+    "ICAO": "",
+    "Airport name": "Miramar Airport",
+    "Location served": "Miramar, Buenos Aires, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MJS",
+    "ICAO": "",
+    "Airport name": "Maganja da Costa Airport[1]",
+    "Location served": "Maganja da Costa, Mozambique",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MJT",
+    "ICAO": "LGMT",
+    "Airport name": "Mytilene International Airport",
+    "Location served": "Mytilene, Lesbos, Greece",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MJU",
+    "ICAO": "WAAJ",
+    "Airport name": "Tampa Padang Airport",
+    "Location served": "Mamuju, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MJV",
+    "ICAO": "LELC",
+    "Airport name": "Murcia–San Javier Airport",
+    "Location served": "Murcia, Region of Murcia, Spain",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MJW",
+    "ICAO": "FVMH[2]",
+    "Airport name": "Mahenye Airport[1]",
+    "Location served": "Mahenye, Zimbabwe",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MJX",
+    "ICAO": "KMJX",
+    "Airport name": "Robert J. Miller Air Park (Ocean County Airport)",
+    "Location served": "Toms River, New Jersey, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MJZ",
+    "ICAO": "UERR",
+    "Airport name": "Mirny Airport",
+    "Location served": "Mirny, Yakutia, Russia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MKA",
+    "ICAO": "LKMR",
+    "Airport name": "Mariánské Lázně Airport",
+    "Location served": "Mariánské Lázně, Czech Republic",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MKB",
+    "ICAO": "FOOE",
+    "Airport name": "Mékambo Airport",
+    "Location served": "Mékambo, Gabon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MKC",
+    "ICAO": "KMKC",
+    "Airport name": "Charles B. Wheeler Downtown Airport",
+    "Location served": "Kansas City, Missouri, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MKE",
+    "ICAO": "KMKE",
+    "Airport name": "Milwaukee Mitchell International Airport",
+    "Location served": "Milwaukee, Wisconsin, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MKG",
+    "ICAO": "KMKG",
+    "Airport name": "Muskegon County Airport",
+    "Location served": "Muskegon, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MKH",
+    "ICAO": "FXMK",
+    "Airport name": "Mokhotlong Airport",
+    "Location served": "Mokhotlong, Lesotho",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MKI",
+    "ICAO": "FEGE",
+    "Airport name": "M'Boki Airport",
+    "Location served": "Obo, Central African Republic",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MKJ",
+    "ICAO": "FCOM",
+    "Airport name": "Makoua Airport",
+    "Location served": "Makoua, Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MKK",
+    "ICAO": "PHMK",
+    "Airport name": "Molokai Airport",
+    "Location served": "Kaunakakai, Hawaii, United States",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MKL",
+    "ICAO": "KMKL",
+    "Airport name": "McKellar–Sipes Regional Airport",
+    "Location served": "Jackson, Tennessee, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MKM",
+    "ICAO": "WBGK",
+    "Airport name": "Mukah Airport",
+    "Location served": "Mukah, Sarawak, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MKN",
+    "ICAO": "",
+    "Airport name": "Malekolon Airport",
+    "Location served": "Malekolon, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MKO",
+    "ICAO": "KMKO",
+    "Airport name": "Davis Field",
+    "Location served": "Muskogee, Oklahoma, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MKP",
+    "ICAO": "NTGM",
+    "Airport name": "Makemo Airport",
+    "Location served": "Makemo, French Polynesia",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MKQ",
+    "ICAO": "WAKK",
+    "Airport name": "Mopah Airport",
+    "Location served": "Merauke, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MKR",
+    "ICAO": "YMEK",
+    "Airport name": "Meekatharra Airport",
+    "Location served": "Meekatharra, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MKS",
+    "ICAO": "HAMA",
+    "Airport name": "Mekane Selam Airport",
+    "Location served": "Mekane Selam, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MKT",
+    "ICAO": "KMKT",
+    "Airport name": "Mankato Regional Airport",
+    "Location served": "Mankato, Minnesota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MKU",
+    "ICAO": "FOOK",
+    "Airport name": "Makokou Airport",
+    "Location served": "Makokou, Gabon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MKV",
+    "ICAO": "YMVG",
+    "Airport name": "Mount Cavenagh Airport",
+    "Location served": "Mount Cavenagh, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "MKW",
+    "ICAO": "WASR",
+    "Airport name": "Rendani Airport",
+    "Location served": "Manokwari, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MKY",
+    "ICAO": "YBMK",
+    "Airport name": "Mackay Airport",
+    "Location served": "Mackay, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MKZ",
+    "ICAO": "WMKM",
+    "Airport name": "Malacca International Airport",
+    "Location served": "Malacca City, Malacca, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MLA",
+    "ICAO": "LMML",
+    "Airport name": "Malta International Airport (Luqa Airport)",
+    "Location served": "Luqa, Malta",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MLB",
+    "ICAO": "KMLB",
+    "Airport name": "Orlando Melbourne International Airport",
+    "Location served": "Melbourne, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MLC",
+    "ICAO": "KMLC",
+    "Airport name": "McAlester Regional Airport",
+    "Location served": "McAlester, Oklahoma, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MLD",
+    "ICAO": "KMLD",
+    "Airport name": "Malad City Airport",
+    "Location served": "Malad City, Idaho, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MLE",
+    "ICAO": "VRMM",
+    "Airport name": "Ibrahim Nasir International Airport",
+    "Location served": "Malé, Maldives",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MLF",
+    "ICAO": "KMLF",
+    "Airport name": "Milford Municipal Airport (Ben and Judy Briscoe Field)",
+    "Location served": "Milford, Utah, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MLG",
+    "ICAO": "WARA",
+    "Airport name": "Abdul Rachman Saleh Airport",
+    "Location served": "Malang, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MLH",
+    "ICAO": "LFSB",
+    "Airport name": "EuroAirport Basel Mulhouse Freiburg",
+    "Location served": "Mulhouse, Alsace, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MLI",
+    "ICAO": "KMLI",
+    "Airport name": "Quad City International Airport",
+    "Location served": "Moline, Illinois, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MLJ",
+    "ICAO": "KMLJ",
+    "Airport name": "Baldwin County Airport",
+    "Location served": "Milledgeville, Georgia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MLK",
+    "ICAO": "",
+    "Airport name": "Malta Airport[1] (FAA: M75)",
+    "Location served": "Malta, Montana, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MLL",
+    "ICAO": "PADM",
+    "Airport name": "Marshall Don Hunter Sr. Airport (FAA: MDM)",
+    "Location served": "Marshall, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MLM",
+    "ICAO": "MMMM",
+    "Airport name": "General Francisco J. Mujica International Airport",
+    "Location served": "Morelia, Michoacán, Mexico",
+    "Time": "UTC−06:00",
+    "DST": "Apr-Oct"
+  },
+  {
+    "IATA": "MLN",
+    "ICAO": "GEML",
+    "Airport name": "Melilla Airport",
+    "Location served": "Melilla, Spain",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MLO",
+    "ICAO": "LGML",
+    "Airport name": "Milos Island National Airport",
+    "Location served": "Milos, Greece",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MLP",
+    "ICAO": "RPMM",
+    "Airport name": "Malabang Airport",
+    "Location served": "Malabang, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MLQ",
+    "ICAO": "",
+    "Airport name": "Malalaua Airport[1]",
+    "Location served": "Malalaua, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MLR",
+    "ICAO": "YMCT",
+    "Airport name": "Millicent Airport",
+    "Location served": "Millicent, South Australia, Australia",
+    "Time": "UTC+09:30",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "MLS",
+    "ICAO": "KMLS",
+    "Airport name": "Miles City Airport (Frank Wiley Field)",
+    "Location served": "Miles City, Montana, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MLT",
+    "ICAO": "KMLT",
+    "Airport name": "Millinocket Municipal Airport",
+    "Location served": "Millinocket, Maine, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MLU",
+    "ICAO": "KMLU",
+    "Airport name": "Monroe Regional Airport",
+    "Location served": "Monroe, Louisiana, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MLV",
+    "ICAO": "YMEU",
+    "Airport name": "Merluna Airport",
+    "Location served": "Merluna, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MLW",
+    "ICAO": "GLMR",
+    "Airport name": "Spriggs Payne Airport",
+    "Location served": "Monrovia, Liberia",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MLX",
+    "ICAO": "LTAT",
+    "Airport name": "Malatya Erhaç Airport",
+    "Location served": "Malatya, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MLY",
+    "ICAO": "PAML",
+    "Airport name": "Manley Hot Springs Airport",
+    "Location served": "Manley Hot Springs, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MLZ",
+    "ICAO": "SUMO",
+    "Airport name": "Cerro Largo International Airport",
+    "Location served": "Melo, Uruguay",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MMA[1]",
+    "ICAO": "",
+    "Airport name": "metropolitan area2",
+    "Location served": "Malmö, Sweden",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MMB",
+    "ICAO": "RJCM",
+    "Airport name": "Memanbetsu Airport",
+    "Location served": "Ōzora, Hokkaido, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MMC",
+    "ICAO": "MMDM",
+    "Airport name": "Ciudad Mante National Airport",
+    "Location served": "Ciudad Mante, Tamaulipas, Mexico",
+    "Time": "UTC−06:00",
+    "DST": "Apr-Oct"
+  },
+  {
+    "IATA": "MMD",
+    "ICAO": "ROMD",
+    "Airport name": "Minami-Daito Airport",
+    "Location served": "Minamidaitō, Daitō Islands, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MME",
+    "ICAO": "EGNV",
+    "Airport name": "Teesside International Airport",
+    "Location served": "Teesside, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MMF",
+    "ICAO": "FKKF",
+    "Airport name": "Mamfe Airport",
+    "Location served": "Mamfe, Cameroon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MMG",
+    "ICAO": "YMOG",
+    "Airport name": "Mount Magnet Airport",
+    "Location served": "Mount Magnet, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MMH",
+    "ICAO": "KMMH",
+    "Airport name": "Mammoth Yosemite Airport",
+    "Location served": "Mammoth Lakes, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MMI",
+    "ICAO": "KMMI",
+    "Airport name": "McMinn County Airport",
+    "Location served": "Athens, Tennessee, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MMJ",
+    "ICAO": "RJAF",
+    "Airport name": "Matsumoto Airport",
+    "Location served": "Matsumoto, Honshu, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MMK",
+    "ICAO": "ULMM",
+    "Airport name": "Murmansk Airport",
+    "Location served": "Murmansk, Murmansk Oblast, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MML",
+    "ICAO": "KMML",
+    "Airport name": "Southwest Minnesota Regional Airport (Marshall/Ryan Field)",
+    "Location served": "Marshall, Minnesota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MMM",
+    "ICAO": "YMMU",
+    "Airport name": "Middlemount Airport",
+    "Location served": "Middlemount, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MMN",
+    "ICAO": "",
+    "Airport name": "Minute Man Air Field[1] (FAA: 6B6)",
+    "Location served": "Stow, Massachusetts, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MMO",
+    "ICAO": "GVMA",
+    "Airport name": "Maio Airport",
+    "Location served": "Maio Island, Cape Verde",
+    "Time": "UTC−01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MMP",
+    "ICAO": "SKMP",
+    "Airport name": "San Bernardo Airport",
+    "Location served": "Mompós (Mompóx), Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MMQ",
+    "ICAO": "FLBA",
+    "Airport name": "Mbala Airport",
+    "Location served": "Mbala, Zambia",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MMS",
+    "ICAO": "KMMS",
+    "Airport name": "Selfs Airport",
+    "Location served": "Marks, Mississippi, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MMT",
+    "ICAO": "KMMT",
+    "Airport name": "McEntire Joint National Guard Base",
+    "Location served": "Columbia, South Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MMU",
+    "ICAO": "KMMU",
+    "Airport name": "Morristown Municipal Airport",
+    "Location served": "Morristown, New Jersey, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MMV",
+    "ICAO": "",
+    "Airport name": "Mal Island Airport",
+    "Location served": "Mal Island, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MMW",
+    "ICAO": "",
+    "Airport name": "Moma Airport",
+    "Location served": "Moma, Mozambique",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MMX",
+    "ICAO": "ESMS",
+    "Airport name": "Malmö Airport",
+    "Location served": "Malmö, Sweden",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MMY",
+    "ICAO": "ROMY",
+    "Airport name": "Miyako Airport",
+    "Location served": "Miyakojima, Miyako Islands, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MMZ",
+    "ICAO": "OAMN",
+    "Airport name": "Maymana Airport",
+    "Location served": "Maymana, Afghanistan",
+    "Time": "UTC+04:30",
+    "DST": ""
+  },
+  {
+    "IATA": "MNA",
+    "ICAO": "WAMN",
+    "Airport name": "Melangguane Airport",
+    "Location served": "Melonguane, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MNB",
+    "ICAO": "FZAG",
+    "Airport name": "Muanda Airport (Moanda Airport)",
+    "Location served": "Moanda, Democratic Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MNC",
+    "ICAO": "FQNC",
+    "Airport name": "Nacala Airport",
+    "Location served": "Nacala, Mozambique",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MND",
+    "ICAO": "",
+    "Airport name": "Medina Airport[1]",
+    "Location served": "Medina, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MNE",
+    "ICAO": "YMUG",
+    "Airport name": "Mungeranie Airport",
+    "Location served": "Mungeranie, South Australia, Australia",
+    "Time": "UTC+09:30",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "MNF",
+    "ICAO": "NFMA",
+    "Airport name": "Mana Island Airport",
+    "Location served": "Mana Island, Fiji",
+    "Time": "UTC+12:00",
+    "DST": "Nov-Jan"
+  },
+  {
+    "IATA": "MNG",
+    "ICAO": "YMGD",
+    "Airport name": "Maningrida Airport",
+    "Location served": "Maningrida, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "MNH",
+    "ICAO": "",
+    "Airport name": "Al-Musannah Airport[1]",
+    "Location served": "Al-Musannah, Oman",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MNI",
+    "ICAO": "TRPG",
+    "Airport name": "John A. Osborne Airport",
+    "Location served": "British Overseas Territory of Montserrat",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MNJ",
+    "ICAO": "FMSM",
+    "Airport name": "Mananjary Airport",
+    "Location served": "Mananjary, Madagascar",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MNK",
+    "ICAO": "NGMA",
+    "Airport name": "Maiana Airport",
+    "Location served": "Maiana, Kiribati",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MNL",
+    "ICAO": "RPLL",
+    "Airport name": "Ninoy Aquino International Airport / Villamor Air Base",
+    "Location served": "Manila, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MNM",
+    "ICAO": "KMNM",
+    "Airport name": "Menominee-Marinette Twin County Airport",
+    "Location served": "Menominee, Michigan, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MNN",
+    "ICAO": "KMNN",
+    "Airport name": "Marion Municipal Airport",
+    "Location served": "Marion, Ohio, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MNO",
+    "ICAO": "FZRA",
+    "Airport name": "Manono Airport",
+    "Location served": "Manono, Democratic Republic of the Congo",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MNP",
+    "ICAO": "",
+    "Airport name": "Maron Island Airport[1]",
+    "Location served": "Maron Island, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MNQ",
+    "ICAO": "YMTO",
+    "Airport name": "Monto Airport",
+    "Location served": "Monto, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MNR",
+    "ICAO": "FLMG",
+    "Airport name": "Mongu Airport",
+    "Location served": "Mongu, Zambia",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MNS",
+    "ICAO": "FLMA",
+    "Airport name": "Mansa Airport",
+    "Location served": "Mansa, Zambia",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MNT",
+    "ICAO": "",
+    "Airport name": "Minto Al Wright Airport (FAA: 51Z)",
+    "Location served": "Minto, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MNU",
+    "ICAO": "VYMM",
+    "Airport name": "Mawlamyaing Airport",
+    "Location served": "Mawlamyine (Mawlamyaing), Myanmar",
+    "Time": "UTC+06:30",
+    "DST": ""
+  },
+  {
+    "IATA": "MNV",
+    "ICAO": "",
+    "Airport name": "Mount Valley Airport[1]",
+    "Location served": "Mount Valley, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "MNW",
+    "ICAO": "YMDS",
+    "Airport name": "MacDonald Downs Airport",
+    "Location served": "MacDonald Downs, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "MNX",
+    "ICAO": "SBMY",
+    "Airport name": "Manicoré Airport",
+    "Location served": "Manicoré, Amazonas, Brazil",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MNY",
+    "ICAO": "AGGO",
+    "Airport name": "Mono Airport",
+    "Location served": "Mono Island, Treasury Islands, Solomon Islands",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MNZ",
+    "ICAO": "KHEF",
+    "Airport name": "Manassas Regional Airport (FAA: HEF)",
+    "Location served": "Manassas, Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MOA",
+    "ICAO": "MUMO",
+    "Airport name": "Orestes Acosta Airport",
+    "Location served": "Moa, Cuba",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MOB",
+    "ICAO": "KMOB",
+    "Airport name": "Mobile Regional Airport",
+    "Location served": "Mobile, Alabama, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MOC",
+    "ICAO": "SBMK",
+    "Airport name": "Montes Claros/Mário Ribeiro Airport",
+    "Location served": "Montes Claros, Minas Gerais, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "MOD",
+    "ICAO": "KMOD",
+    "Airport name": "Modesto City–County Airport (Harry Sham Field)",
+    "Location served": "Modesto, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MOE",
+    "ICAO": "VYMO",
+    "Airport name": "Momeik Airport",
+    "Location served": "Momeik, Myanmar",
+    "Time": "UTC+06:30",
+    "DST": ""
+  },
+  {
+    "IATA": "MOF",
+    "ICAO": "WATC",
+    "Airport name": "Frans Seda Airport (Wai Oti Airport)",
+    "Location served": "Maumere, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MOG",
+    "ICAO": "VYMS",
+    "Airport name": "Monghsat Airport",
+    "Location served": "Mong Hsat (Monghsat), Myanmar",
+    "Time": "UTC+06:30",
+    "DST": ""
+  },
+  {
+    "IATA": "MOH",
+    "ICAO": "",
+    "Airport name": "Maleo Airport",
+    "Location served": "Morowali, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MOI",
+    "ICAO": "NCMR",
+    "Airport name": "Mitiaro Airport (Nukuroa Airport)",
+    "Location served": "Mitiaro Island, Cook Islands",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MOJ",
+    "ICAO": "MEMO",
+    "Airport name": "Moengo Airstrip",
+    "Location served": "Moengo, Suriname",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MOL",
+    "ICAO": "ENML",
+    "Airport name": "Molde Airport, Årø",
+    "Location served": "Molde, Norway",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MOM",
+    "ICAO": "GQNL",
+    "Airport name": "Letfotar Airport",
+    "Location served": "Moudjeria, Mauritania",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MON",
+    "ICAO": "NZMC",
+    "Airport name": "Mount Cook Aerodrome",
+    "Location served": "Mount Cook, New Zealand",
+    "Time": "UTC+12:00",
+    "DST": "Sep-Apr"
+  },
+  {
+    "IATA": "MOO",
+    "ICAO": "YOOM",
+    "Airport name": "Moomba Airport",
+    "Location served": "Moomba, South Australia, Australia",
+    "Time": "UTC+09:30",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "MOP",
+    "ICAO": "KMOP",
+    "Airport name": "Mount Pleasant Municipal Airport",
+    "Location served": "Mount Pleasant, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MOQ",
+    "ICAO": "FMMV",
+    "Airport name": "Morondava Airport[1]",
+    "Location served": "Morondava, Madagascar",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MOR",
+    "ICAO": "KMOR",
+    "Airport name": "Morristown Regional Airport (Moore–Murrell Airport)",
+    "Location served": "Morristown, Tennessee, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MOS",
+    "ICAO": "",
+    "Airport name": "Moses Point Airport[1]",
+    "Location served": "Elim, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MOT",
+    "ICAO": "KMOT",
+    "Airport name": "Minot International Airport",
+    "Location served": "Minot, North Dakota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MOU",
+    "ICAO": "PAMO",
+    "Airport name": "Mountain Village Airport",
+    "Location served": "Mountain Village, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MOV",
+    "ICAO": "YMRB",
+    "Airport name": "Moranbah Airport",
+    "Location served": "Moranbah, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MOW[1]",
+    "ICAO": "",
+    "Airport name": "metropolitan area3",
+    "Location served": "Moscow, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MOX",
+    "ICAO": "KMOX",
+    "Airport name": "Morris Municipal Airport",
+    "Location served": "Morris, Minnesota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MOY",
+    "ICAO": "",
+    "Airport name": "Monterrey Airport",
+    "Location served": "Monterrey, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MOZ",
+    "ICAO": "NTTM",
+    "Airport name": "Moorea Airport (Temae Airport)",
+    "Location served": "Mo'orea, Windward Islands, French Polynesia",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MPA",
+    "ICAO": "FYKM",
+    "Airport name": "Katima Mulilo Airport (Mpacha Airport)",
+    "Location served": "Katima Mulilo, Namibia",
+    "Time": "UTC+01:00",
+    "DST": "Sep-Apr"
+  },
+  {
+    "IATA": "MPB",
+    "ICAO": "",
+    "Airport name": "Miami Seaplane Base (FAA: X44)",
+    "Location served": "Miami, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MPC",
+    "ICAO": "WIPU",
+    "Airport name": "Mukomuko Airport",
+    "Location served": "Muko-Muko, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MPD",
+    "ICAO": "OPMP",
+    "Airport name": "Sindhri Airport",
+    "Location served": "Mirpur Khas, Pakistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MPF",
+    "ICAO": "",
+    "Airport name": "Mapoda Airport",
+    "Location served": "Mapoda, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MPG",
+    "ICAO": "",
+    "Airport name": "Makini Airport",
+    "Location served": "Makini, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MPH",
+    "ICAO": "RPVE",
+    "Airport name": "Godofredo P. Ramos Airport (Caticlan Airport)",
+    "Location served": "Malay, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MPI",
+    "ICAO": "",
+    "Airport name": "Mamitupu Airport",
+    "Location served": "Mamitupo, Panama",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MPJ",
+    "ICAO": "KMPJ",
+    "Airport name": "Petit Jean Park Airport",
+    "Location served": "Morrilton, Arkansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MPL",
+    "ICAO": "LFMT",
+    "Airport name": "Montpellier–Méditerranée Airport (Fréjorgues Airport)",
+    "Location served": "Montpellier, Languedoc-Roussillon, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MPM",
+    "ICAO": "FQMA",
+    "Airport name": "Maputo International Airport",
+    "Location served": "Maputo, Mozambique",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MPN",
+    "ICAO": "EGYP",
+    "Airport name": "RAF Mount Pleasant",
+    "Location served": "British Overseas Territory of Falkland Islands",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MPO",
+    "ICAO": "KMPO",
+    "Airport name": "Pocono Mountains Municipal Airport",
+    "Location served": "Mount Pocono, Pennsylvania, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MPP",
+    "ICAO": "",
+    "Airport name": "Mulatupo Airport",
+    "Location served": "Mulatupo, Panama",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MPQ",
+    "ICAO": "OJMN",
+    "Airport name": "Ma'an Airport",
+    "Location served": "Ma'an, Jordan",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MPR",
+    "ICAO": "KMPR",
+    "Airport name": "McPherson Airport",
+    "Location served": "McPherson, Kansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MPS",
+    "ICAO": "KOSA",
+    "Airport name": "Mount Pleasant Regional Airport[1] (FAA: OSA)",
+    "Location served": "Mount Pleasant, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MPT",
+    "ICAO": "WPMN",
+    "Airport name": "Maliana Airport",
+    "Location served": "Maliana, East Timor",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MPU",
+    "ICAO": "",
+    "Airport name": "Mabua Airstrip",
+    "Location served": "Mabua, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MPV",
+    "ICAO": "KMPV",
+    "Airport name": "Edward F. Knapp State Airport",
+    "Location served": "Barre / Montpelier, Vermont, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MPW",
+    "ICAO": "UKCM",
+    "Airport name": "Mariupol International Airport",
+    "Location served": "Mariupol, Ukraine",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MPX",
+    "ICAO": "",
+    "Airport name": "Miyanmin Airport",
+    "Location served": "Miyanmin, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MPY",
+    "ICAO": "SOOA",
+    "Airport name": "Maripasoula Airport",
+    "Location served": "Maripasoula, French Guiana",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MPZ",
+    "ICAO": "KMPZ",
+    "Airport name": "Mount Pleasant Municipal Airport",
+    "Location served": "Mount Pleasant, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MQA",
+    "ICAO": "YMDI",
+    "Airport name": "Mandora Station Airport",
+    "Location served": "Mandora Station, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MQB",
+    "ICAO": "KMQB",
+    "Airport name": "Macomb Municipal Airport",
+    "Location served": "Macomb, Illinois, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MQC",
+    "ICAO": "LFVM",
+    "Airport name": "Miquelon Airport",
+    "Location served": "Miquelon, Saint Pierre and Miquelon",
+    "Time": "UTC−03:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MQD",
+    "ICAO": "SAVQ",
+    "Airport name": "Maquinchao Airport",
+    "Location served": "Maquinchao, Río Negro, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MQE",
+    "ICAO": "YMQA",
+    "Airport name": "Marqua Airport[1]",
+    "Location served": "Marqua, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "MQF",
+    "ICAO": "USCM",
+    "Airport name": "Magnitogorsk International Airport",
+    "Location served": "Magnitogorsk, Chelyabinsk Oblast5, Russia",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MQG",
+    "ICAO": "FYMG",
+    "Airport name": "Midgard Airport[1]",
+    "Location served": "Midgard, Namibia",
+    "Time": "UTC+01:00",
+    "DST": "Sep-Apr"
+  },
+  {
+    "IATA": "MQH",
+    "ICAO": "SBMC",
+    "Airport name": "Minaçu Airport",
+    "Location served": "Minaçu, Goiás, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "MQJ",
+    "ICAO": "UEMA",
+    "Airport name": "Moma Airport[1]",
+    "Location served": "Khonuu, Yakutia, Russia",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MQK",
+    "ICAO": "SLTI",
+    "Airport name": "San Matías Airport[1]",
+    "Location served": "San Matías, Bolivia",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MQL",
+    "ICAO": "YMIA",
+    "Airport name": "Mildura Airport",
+    "Location served": "Mildura, Victoria, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "MQM",
+    "ICAO": "LTCR",
+    "Airport name": "Mardin Airport",
+    "Location served": "Mardin, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MQN",
+    "ICAO": "ENRA",
+    "Airport name": "Mo i Rana Airport, Røssvoll",
+    "Location served": "Mo i Rana, Norway",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MQO",
+    "ICAO": "",
+    "Airport name": "Malam Airport[1]",
+    "Location served": "Malam, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MQP",
+    "ICAO": "FAKN",
+    "Airport name": "Kruger Mpumalanga International Airport",
+    "Location served": "Mbombela, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MQQ",
+    "ICAO": "FTTD",
+    "Airport name": "Moundou Airport",
+    "Location served": "Moundou, Chad",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MQR",
+    "ICAO": "",
+    "Airport name": "Mosquera Airport[1]",
+    "Location served": "Mosquera, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MQS",
+    "ICAO": "TVSM",
+    "Airport name": "Mustique Airport",
+    "Location served": "Mustique Island, Saint Vincent and the Grenadines",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MQT",
+    "ICAO": "KSAW",
+    "Airport name": "Sawyer International Airport (FAA: SAW)",
+    "Location served": "Marquette, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MQU",
+    "ICAO": "SKQU",
+    "Airport name": "Mariquita Airport",
+    "Location served": "Mariquita, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MQV",
+    "ICAO": "",
+    "Airport name": "Mostaganem Airport[1]",
+    "Location served": "Mostaganem, Algeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MQW",
+    "ICAO": "KMQW",
+    "Airport name": "Telfair–Wheeler Airport",
+    "Location served": "McRae, Georgia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MQX",
+    "ICAO": "HAMK",
+    "Airport name": "Alula Aba Nega Airport",
+    "Location served": "Mek'ele (Mekelle), Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MQY",
+    "ICAO": "KMQY",
+    "Airport name": "Smyrna Airport",
+    "Location served": "Smyrna, Tennessee, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MQZ",
+    "ICAO": "YMGT",
+    "Airport name": "Margaret River Airport[1]",
+    "Location served": "Margaret River, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MRA",
+    "ICAO": "",
+    "Airport name": "Misrata Airport",
+    "Location served": "Misrata, Libya",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MRB",
+    "ICAO": "KMRB",
+    "Airport name": "Eastern WV Regional Airport (Shepherd Field)",
+    "Location served": "Martinsburg, West Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MRC",
+    "ICAO": "KMRC",
+    "Airport name": "Maury County Airport",
+    "Location served": "Columbia/Mount Pleasant, Tennessee, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MRD",
+    "ICAO": "SVMD",
+    "Airport name": "Alberto Carnevalli Airport",
+    "Location served": "Mérida, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MRE",
+    "ICAO": "",
+    "Airport name": "Mara Serena Airport",
+    "Location served": "Maasai Mara, Kenya",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MRF",
+    "ICAO": "KMRF",
+    "Airport name": "Marfa Municipal Airport",
+    "Location served": "Marfa, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MRG",
+    "ICAO": "YMBA",
+    "Airport name": "Mareeba Airfield",
+    "Location served": "Mareeba, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MRH",
+    "ICAO": "",
+    "Airport name": "May River Airport[1]",
+    "Location served": "May River, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MRI",
+    "ICAO": "PAMR",
+    "Airport name": "Merrill Field",
+    "Location served": "Anchorage, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MRJ",
+    "ICAO": "MHMA",
+    "Airport name": "Marcala Airport",
+    "Location served": "Marcala, Honduras",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MRK",
+    "ICAO": "KMKY",
+    "Airport name": "Marco Island Airport (FAA: MKY)",
+    "Location served": "Marco Island, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MRL",
+    "ICAO": "",
+    "Airport name": "Miners Lake Airport[1]",
+    "Location served": "Miners Lake, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MRM",
+    "ICAO": "AYMA",
+    "Airport name": "Manari Airport",
+    "Location served": "Manari, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MRN",
+    "ICAO": "KMRN",
+    "Airport name": "Foothills Regional Airport (was Morganton-Lenoir Airport)",
+    "Location served": "Morganton, North Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MRO",
+    "ICAO": "NZMS",
+    "Airport name": "Hood Aerodrome",
+    "Location served": "Masterton, New Zealand",
+    "Time": "UTC+12:00",
+    "DST": "Sep-Apr"
+  },
+  {
+    "IATA": "MRP",
+    "ICAO": "YALA",
+    "Airport name": "Marla Airport",
+    "Location served": "Marla, South Australia, Australia",
+    "Time": "UTC+09:30",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "MRQ",
+    "ICAO": "RPUW",
+    "Airport name": "Marinduque Airport",
+    "Location served": "Marinduque Island, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MRR",
+    "ICAO": "SEMA",
+    "Airport name": "José María Velasco Ibarra Airport",
+    "Location served": "Macará, Ecuador",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MRS",
+    "ICAO": "LFML",
+    "Airport name": "Marseille Provence Airport",
+    "Location served": "Marseille, Provence-Alpes-Côte d'Azur, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MRT",
+    "ICAO": "",
+    "Airport name": "Moroak Airport",
+    "Location served": "Moroak, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "MRU",
+    "ICAO": "FIMP",
+    "Airport name": "Sir Seewoosagur Ramgoolam International Airport",
+    "Location served": "Plaine Magnien, Mauritius",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MRV",
+    "ICAO": "URMM",
+    "Airport name": "Mineralnye Vody Airport",
+    "Location served": "Mineralnye Vody, Stavropol Krai, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MRW",
+    "ICAO": "EKMB",
+    "Airport name": "Lolland Falster Airport",
+    "Location served": "Maribo, Denmark",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MRX",
+    "ICAO": "OIAM",
+    "Airport name": "Mahshahr Airport",
+    "Location served": "Bandar-e Mahshahr, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "MRY",
+    "ICAO": "KMRY",
+    "Airport name": "Monterey Regional Airport",
+    "Location served": "Monterey, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MRZ",
+    "ICAO": "YMOR",
+    "Airport name": "Moree Airport",
+    "Location served": "Moree, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "MSA",
+    "ICAO": "CZMD",
+    "Airport name": "Muskrat Dam Airport",
+    "Location served": "Muskrat Dam, Ontario, Canada",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MSC",
+    "ICAO": "KFFZ",
+    "Airport name": "Falcon Field Airport (FAA: FFZ)",
+    "Location served": "Phoenix, Arizona, United States",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MSD",
+    "ICAO": "",
+    "Airport name": "Mount Pleasant Airport (FAA: 43U)",
+    "Location served": "Mount Pleasant, Utah, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MSE",
+    "ICAO": "EGMH",
+    "Airport name": "Manston Airport (Kent International Airport)",
+    "Location served": "Manston, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MSF",
+    "ICAO": "YMNS",
+    "Airport name": "Mount Swan Airport",
+    "Location served": "Mount Swan, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "MSG",
+    "ICAO": "FXMA",
+    "Airport name": "Matsaile Airport[1]",
+    "Location served": "Matsaile, Lesotho",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MSH",
+    "ICAO": "OOMA",
+    "Airport name": "Masirah Air Base",
+    "Location served": "Masirah Island, Oman",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MSI",
+    "ICAO": "",
+    "Airport name": "Masalembo Airport[1]",
+    "Location served": "Masalembo, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MSJ",
+    "ICAO": "RJSM",
+    "Airport name": "Misawa Airport",
+    "Location served": "Misawa, Honshu, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MSL",
+    "ICAO": "KMSL",
+    "Airport name": "Northwest Alabama Regional Airport",
+    "Location served": "Muscle Shoals / Florence, Alabama, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MSM",
+    "ICAO": "FZCV",
+    "Airport name": "Masi-Manimba Airport",
+    "Location served": "Masi-Manimba, Democratic Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MSN",
+    "ICAO": "KMSN",
+    "Airport name": "Dane County Regional Airport (Truax Field)",
+    "Location served": "Madison, Wisconsin, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MSO",
+    "ICAO": "KMSO",
+    "Airport name": "Missoula International Airport",
+    "Location served": "Missoula, Montana, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MSP",
+    "ICAO": "KMSP",
+    "Airport name": "Minneapolis–Saint Paul International Airport (Wold–Chamberlain Field)",
+    "Location served": "Minneapolis / St Paul, Minnesota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MSQ",
+    "ICAO": "UMMS",
+    "Airport name": "Minsk National Airport",
+    "Location served": "Minsk, Belarus",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MSR",
+    "ICAO": "LTCK",
+    "Airport name": "Muş Airport",
+    "Location served": "Muş, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MSS",
+    "ICAO": "KMSS",
+    "Airport name": "Massena International Airport (Richards Field)",
+    "Location served": "Massena, New York, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MST",
+    "ICAO": "EHBK",
+    "Airport name": "Maastricht Aachen Airport",
+    "Location served": "Maastricht, Netherlands",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MSU",
+    "ICAO": "FXMM",
+    "Airport name": "Moshoeshoe I International Airport",
+    "Location served": "Maseru, Lesotho",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MSV",
+    "ICAO": "KMSV",
+    "Airport name": "Sullivan County International Airport",
+    "Location served": "Monticello, New York, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MSW",
+    "ICAO": "HHMS",
+    "Airport name": "Massawa International Airport",
+    "Location served": "Massawa, Eritrea",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MSX",
+    "ICAO": "FCMM",
+    "Airport name": "Mossendjo Airport",
+    "Location served": "Mossendjo, Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MSY",
+    "ICAO": "KMSY",
+    "Airport name": "Louis Armstrong New Orleans International Airport",
+    "Location served": "New Orleans, Louisiana, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MSZ",
+    "ICAO": "FNMO",
+    "Airport name": "Moçâmedes Airport (Yuri Gagarin Airport)",
+    "Location served": "Moçâmedes, Angola",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MTA",
+    "ICAO": "NZMA",
+    "Airport name": "Matamata Airport",
+    "Location served": "Matamata, New Zealand",
+    "Time": "UTC+12:00",
+    "DST": "Sep-Apr"
+  },
+  {
+    "IATA": "MTB",
+    "ICAO": "SKML",
+    "Airport name": "Montelíbano Airport",
+    "Location served": "Montelíbano, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MTC",
+    "ICAO": "KMTC",
+    "Airport name": "Selfridge Air National Guard Base",
+    "Location served": "Mount Clemens, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MTD",
+    "ICAO": "YMSF",
+    "Airport name": "Mount Sandford Station Airport[1]",
+    "Location served": "Mount Sandford Station, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "MTE",
+    "ICAO": "SNMA",
+    "Airport name": "Monte Alegre Airport",
+    "Location served": "Monte Alegre, Pará, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MTF",
+    "ICAO": "HAMT",
+    "Airport name": "Mizan Teferi Airport",
+    "Location served": "Mizan Teferi, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MTG",
+    "ICAO": "",
+    "Airport name": "Mato Grosso Airport",
+    "Location served": "Mato Grosso, Brazil",
+    "Time": "UTC−04:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "MTH",
+    "ICAO": "KMTH",
+    "Airport name": "Florida Keys Marathon Airport",
+    "Location served": "Marathon, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MTI",
+    "ICAO": "GVMT",
+    "Airport name": "Mosteiros Airport",
+    "Location served": "Mosteiros, Cape Verde",
+    "Time": "UTC−01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MTJ",
+    "ICAO": "KMTJ",
+    "Airport name": "Montrose Regional Airport",
+    "Location served": "Montrose, Colorado, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MTK",
+    "ICAO": "NGMN",
+    "Airport name": "Makin Airport",
+    "Location served": "Makin Island (Butaritari), Kiribati",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MTL",
+    "ICAO": "YMND",
+    "Airport name": "Maitland Airport",
+    "Location served": "Maitland, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "MTM",
+    "ICAO": "PAMM",
+    "Airport name": "Metlakatla Seaplane Base",
+    "Location served": "Metlakatla, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MTN",
+    "ICAO": "KMTN",
+    "Airport name": "Martin State Airport",
+    "Location served": "Baltimore, Maryland, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MTO",
+    "ICAO": "KMTO",
+    "Airport name": "Coles County Memorial Airport",
+    "Location served": "Mattoon / Charleston, Illinois, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MTP",
+    "ICAO": "KMTP",
+    "Airport name": "Montauk Airport",
+    "Location served": "Montauk, New York, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MTQ",
+    "ICAO": "YMIT",
+    "Airport name": "Mitchell Airport",
+    "Location served": "Mitchell, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MTR",
+    "ICAO": "SKMR",
+    "Airport name": "Los Garzones Airport",
+    "Location served": "Montería, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MTS",
+    "ICAO": "FDMS",
+    "Airport name": "Matsapha Airport",
+    "Location served": "Manzini, Swaziland",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MTT",
+    "ICAO": "MMMT",
+    "Airport name": "Minatitlán/Coatzacoalcos International Airport",
+    "Location served": "Minatitlán, Veracruz, Mexico",
+    "Time": "UTC−06:00",
+    "DST": "Apr-Oct"
+  },
+  {
+    "IATA": "MTU",
+    "ICAO": "",
+    "Airport name": "Montepuez Airport",
+    "Location served": "Montepuez, Mozambique",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MTV",
+    "ICAO": "NVSA",
+    "Airport name": "Mota Lava Airport",
+    "Location served": "Mota Lava, Vanuatu",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MTW",
+    "ICAO": "KMTW",
+    "Airport name": "Manitowoc County Airport",
+    "Location served": "Manitowoc, Wisconsin, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MTX",
+    "ICAO": "PABK",
+    "Airport name": "Metro Field (FAA: MTF)",
+    "Location served": "Fairbanks, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MTY",
+    "ICAO": "MMMY",
+    "Airport name": "General Mariano Escobedo International Airport",
+    "Location served": "Monterrey, Nuevo León, Mexico",
+    "Time": "UTC−06:00",
+    "DST": "Apr-Oct"
+  },
+  {
+    "IATA": "MTZ",
+    "ICAO": "LLMZ",
+    "Airport name": "Bar Yehuda Airfield (Masada Airfield)",
+    "Location served": "Masada, Israel",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MUA",
+    "ICAO": "AGGM",
+    "Airport name": "Munda Airport",
+    "Location served": "Munda, New Georgia, Solomon Islands",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MUB",
+    "ICAO": "FBMN",
+    "Airport name": "Maun Airport",
+    "Location served": "Maun, Botswana",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MUC",
+    "ICAO": "EDDM",
+    "Airport name": "Munich Airport",
+    "Location served": "Munich, Bavaria, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MUD",
+    "ICAO": "FQMD",
+    "Airport name": "Mueda Airport",
+    "Location served": "Mueda, Mozambique",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MUE",
+    "ICAO": "PHMU",
+    "Airport name": "Waimea-Kohala Airport",
+    "Location served": "Kamuela, Hawaii, United States",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MUF",
+    "ICAO": "",
+    "Airport name": "Muting Airport",
+    "Location served": "Muting, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MUG",
+    "ICAO": "MMMG",
+    "Airport name": "Mulegé Airstrip",
+    "Location served": "Mulegé, Baja California Sur, Mexico",
+    "Time": "UTC−07:00",
+    "DST": "Apr-Oct"
+  },
+  {
+    "IATA": "MUH",
+    "ICAO": "HEMM",
+    "Airport name": "Marsa Matruh International Airport",
+    "Location served": "Mersa Matruh, Egypt",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MUI",
+    "ICAO": "KMUI",
+    "Airport name": "Muir Army Airfield",
+    "Location served": "Fort Indiantown Gap, Pennsylvania, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MUJ",
+    "ICAO": "HAMR",
+    "Airport name": "Mui Airport",
+    "Location served": "Mui, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MUK",
+    "ICAO": "NCMK",
+    "Airport name": "Mauke Airport",
+    "Location served": "Mauke Island, Cook Islands",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MUL",
+    "ICAO": "KMUL",
+    "Airport name": "Spence Airport",
+    "Location served": "Moultrie, Georgia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MUN",
+    "ICAO": "SVMT",
+    "Airport name": "José Tadeo Monagas International Airport",
+    "Location served": "Maturín, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MUO",
+    "ICAO": "KMUO",
+    "Airport name": "Mountain Home Air Force Base",
+    "Location served": "Mountain Home, Idaho, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MUP",
+    "ICAO": "YMUP",
+    "Airport name": "Mulga Park Airport",
+    "Location served": "Mulga Park, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "MUQ",
+    "ICAO": "YMUC",
+    "Airport name": "Muccan Station Airport",
+    "Location served": "Muccan Station, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MUR",
+    "ICAO": "WBGM",
+    "Airport name": "Marudi Airport",
+    "Location served": "Marudi, Sarawak, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MUS",
+    "ICAO": "RJAM",
+    "Airport name": "Minami Torishima Airport",
+    "Location served": "Minami-Tori-shima, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MUT",
+    "ICAO": "KMUT",
+    "Airport name": "Muscatine Municipal Airport",
+    "Location served": "Muscatine, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MUW",
+    "ICAO": "DAOV",
+    "Airport name": "Ghriss Airport",
+    "Location served": "Ghriss, Algeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MUX",
+    "ICAO": "OPMT",
+    "Airport name": "Multan International Airport",
+    "Location served": "Multan, Pakistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MUY",
+    "ICAO": "FCBM",
+    "Airport name": "Mouyondzi Airport",
+    "Location served": "Mouyondzi, Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MUZ",
+    "ICAO": "HTMU",
+    "Airport name": "Musoma Airport",
+    "Location served": "Musoma, Tanzania",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MVA",
+    "ICAO": "BIRL",
+    "Airport name": "Mývatn Airport",
+    "Location served": "Mývatn, Iceland",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MVB",
+    "ICAO": "FOON",
+    "Airport name": "M'Vengue El Hadj Omar Bongo Ondimba International Airport",
+    "Location served": "Franceville, Gabon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MVC",
+    "ICAO": "KMVC",
+    "Airport name": "Monroe County Airport",
+    "Location served": "Monroeville, Alabama, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MVD",
+    "ICAO": "SUMU",
+    "Airport name": "Carrasco Gral. Cesáreo L. Berisso International Airport",
+    "Location served": "Montevideo, Uruguay",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MVE",
+    "ICAO": "KMVE",
+    "Airport name": "Montevideo–Chippewa County Airport",
+    "Location served": "Montevideo, Minnesota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MVF",
+    "ICAO": "SBMS",
+    "Airport name": "Gov. Dix-Sept Rosado Airport",
+    "Location served": "Mossoró, Rio Grande do Norte, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MVG",
+    "ICAO": "",
+    "Airport name": "Mevang Airport",
+    "Location served": "Mevang, Gabon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MVH",
+    "ICAO": "",
+    "Airport name": "Macksville Airport[1]",
+    "Location served": "Macksville, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "MVI",
+    "ICAO": "",
+    "Airport name": "Manetai Airport[1]",
+    "Location served": "Manetai, Papua New Guinea",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MVK",
+    "ICAO": "YMUK",
+    "Airport name": "Mulka Airport",
+    "Location served": "Mulka, South Australia, Australia",
+    "Time": "UTC+09:30",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "MVL",
+    "ICAO": "KMVL",
+    "Airport name": "Morrisville–Stowe State Airport",
+    "Location served": "Morrisville / Stowe, Vermont, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MVM",
+    "ICAO": "",
+    "Airport name": "Kayenta Airport (FAA: 0V7)",
+    "Location served": "Kayenta, Arizona, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MVN",
+    "ICAO": "KMVN",
+    "Airport name": "Mount Vernon Airport",
+    "Location served": "Mount Vernon, Illinois, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MVO",
+    "ICAO": "FTTM",
+    "Airport name": "Mongo Airport",
+    "Location served": "Mongo, Chad",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MVP",
+    "ICAO": "SKMU",
+    "Airport name": "Fabio Alberto León Bentley Airport",
+    "Location served": "Mitú, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MVQ",
+    "ICAO": "UMOO",
+    "Airport name": "Mogilev Airport",
+    "Location served": "Mogilev, Belarus",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MVR",
+    "ICAO": "FKKL",
+    "Airport name": "Salak Airport",
+    "Location served": "Maroua, Cameroon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MVS",
+    "ICAO": "SNMU",
+    "Airport name": "Mucuri Airport",
+    "Location served": "Mucuri, Bahia, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MVT",
+    "ICAO": "NTGV",
+    "Airport name": "Mataiva Airport",
+    "Location served": "Mataiva, Tuamotus, French Polynesia",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MVU",
+    "ICAO": "YMGV",
+    "Airport name": "Musgrave Airport",
+    "Location served": "Musgrave, Queensland, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MVV",
+    "ICAO": "LFHM",
+    "Airport name": "Megève Altiport",
+    "Location served": "Megève, Rhône-Alpes, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MVW",
+    "ICAO": "KBVS",
+    "Airport name": "Skagit Regional Airport (FAA: BVS)",
+    "Location served": "Burlington / Mount Vernon, Washington, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MVX",
+    "ICAO": "FOGV",
+    "Airport name": "Minvoul Airport",
+    "Location served": "Minvoul, Gabon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MVY",
+    "ICAO": "KMVY",
+    "Airport name": "Martha's Vineyard Airport",
+    "Location served": "Vineyard Haven, Massachusetts, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MVZ",
+    "ICAO": "FVMV",
+    "Airport name": "Masvingo Airport",
+    "Location served": "Masvingo, Zimbabwe",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MWA",
+    "ICAO": "KMWA",
+    "Airport name": "Williamson County Regional Airport",
+    "Location served": "Marion, Illinois, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MWB",
+    "ICAO": "YMRW",
+    "Airport name": "Morawa Airport",
+    "Location served": "Morawa, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MWC",
+    "ICAO": "KMWC",
+    "Airport name": "Lawrence J. Timmerman Airport",
+    "Location served": "Milwaukee, Wisconsin, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MWD",
+    "ICAO": "OPMI",
+    "Airport name": "PAF Base M.M. Alam",
+    "Location served": "Mianwali, Pakistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MWE",
+    "ICAO": "HSMR",
+    "Airport name": "Merowe Airport",
+    "Location served": "Merowe, Sudan",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MWF",
+    "ICAO": "NVSN",
+    "Airport name": "Maewo-Naone Airport",
+    "Location served": "Maewo, Vanuatu",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MWG",
+    "ICAO": "",
+    "Airport name": "Marawaka Airport",
+    "Location served": "Marawaka, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MWH",
+    "ICAO": "KMWH",
+    "Airport name": "Grant County International Airport",
+    "Location served": "Moses Lake, Washington, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MWI",
+    "ICAO": "",
+    "Airport name": "Maramuni Airport[1]",
+    "Location served": "Maramuni, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MWJ",
+    "ICAO": "SYMR",
+    "Airport name": "Matthews Ridge Airport",
+    "Location served": "Matthew's Ridge, Guyana",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MWK",
+    "ICAO": "WIOM",
+    "Airport name": "Matak Airport (Tarempa Airport)",
+    "Location served": "Matak, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MWL",
+    "ICAO": "KMWL",
+    "Airport name": "Mineral Wells Airport",
+    "Location served": "Mineral Wells, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MWM",
+    "ICAO": "KMWM",
+    "Airport name": "Windom Municipal Airport",
+    "Location served": "Windom, Minnesota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MWN",
+    "ICAO": "HTMD",
+    "Airport name": "Mwadui Airport[1]",
+    "Location served": "Mwadui, Tanzania",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MWO",
+    "ICAO": "KMWO",
+    "Airport name": "Middletown Regional Airport (Hook Field)",
+    "Location served": "Middletown, Ohio, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MWQ",
+    "ICAO": "VYMW",
+    "Airport name": "Magway Airport",
+    "Location served": "Magway, Myanmar",
+    "Time": "UTC+06:30",
+    "DST": ""
+  },
+  {
+    "IATA": "MWR",
+    "ICAO": "",
+    "Airport name": "Motswari Airstrip[1]",
+    "Location served": "Motswari, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MWT",
+    "ICAO": "YMWT",
+    "Airport name": "Moolawatana Airport",
+    "Location served": "Moolawatana Station, South Australia, Australia",
+    "Time": "UTC+09:30",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "MWU",
+    "ICAO": "",
+    "Airport name": "Mussau Island Airport",
+    "Location served": "Mussau Island, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MWV",
+    "ICAO": "VDMK",
+    "Airport name": "Mondulkiri Airport[1]",
+    "Location served": "Senmonorom, Cambodia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MWX",
+    "ICAO": "RKJB",
+    "Airport name": "Muan International Airport[1]",
+    "Location served": "Muan, South Korea",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MWY",
+    "ICAO": "YMIR",
+    "Airport name": "Miranda Downs Airport",
+    "Location served": "Miranda Downs, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MWZ",
+    "ICAO": "HTMW",
+    "Airport name": "Mwanza Airport",
+    "Location served": "Mwanza, Tanzania",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MXA",
+    "ICAO": "KMXA",
+    "Airport name": "Manila Municipal Airport",
+    "Location served": "Manila, Arkansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MXB",
+    "ICAO": "WAWM",
+    "Airport name": "Andi Jemma Airport",
+    "Location served": "Masamba, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MXC",
+    "ICAO": "",
+    "Airport name": "Monticello Airport (FAA: U43)",
+    "Location served": "Monticello, Utah, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MXD",
+    "ICAO": "YMWX",
+    "Airport name": "Marion Downs Airport",
+    "Location served": "Marion Downs Station, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MXE",
+    "ICAO": "KMEB",
+    "Airport name": "Laurinburg–Maxton Airport (FAA: MEB)",
+    "Location served": "Laurinburg / Maxton, North Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MXF",
+    "ICAO": "KMXF",
+    "Airport name": "Maxwell Air Force Base",
+    "Location served": "Montgomery, Alabama, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MXG",
+    "ICAO": "",
+    "Airport name": "Marlboro Airport[1] (FAA: 9B1)",
+    "Location served": "Marlborough, Massachusetts, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MXH",
+    "ICAO": "AYMR",
+    "Airport name": "Moro Airport",
+    "Location served": "Moro, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MXI",
+    "ICAO": "RPMQ",
+    "Airport name": "Mati Airport (Imelda R. Marcos Airport)",
+    "Location served": "Mati, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MXJ",
+    "ICAO": "DNMN",
+    "Airport name": "Minna Airport",
+    "Location served": "Minna, Nigeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MXK",
+    "ICAO": "",
+    "Airport name": "Mindik Airport",
+    "Location served": "Mindik, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MXL",
+    "ICAO": "MMML",
+    "Airport name": "General Rodolfo Sánchez Taboada International Airport",
+    "Location served": "Mexicali, Baja California, Mexico",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MXM",
+    "ICAO": "FMSR",
+    "Airport name": "Morombe Airport",
+    "Location served": "Morombe, Madagascar",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MXN",
+    "ICAO": "LFRU",
+    "Airport name": "Morlaix – Ploujean Airport",
+    "Location served": "Morlaix, Brittany, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MXO",
+    "ICAO": "KMXO",
+    "Airport name": "Monticello Regional Airport",
+    "Location served": "Monticello, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MXP",
+    "ICAO": "LIMC",
+    "Airport name": "Milan–Malpensa Airport",
+    "Location served": "Milan, Lombardy, Italy",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MXR",
+    "ICAO": "",
+    "Airport name": "Myrhorod Air Base",
+    "Location served": "Myrhorod, Ukraine",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MXS",
+    "ICAO": "NSMA",
+    "Airport name": "Maota Airport",
+    "Location served": "Maota, Samoa",
+    "Time": "UTC+13:00",
+    "DST": "Sep-Apr"
+  },
+  {
+    "IATA": "MXT",
+    "ICAO": "FMMO",
+    "Airport name": "Maintirano Airport",
+    "Location served": "Maintirano, Madagascar",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MXU",
+    "ICAO": "YMWA",
+    "Airport name": "Mullewa Airport",
+    "Location served": "Mullewa, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MXV",
+    "ICAO": "ZMMN",
+    "Airport name": "Mörön Airport",
+    "Location served": "Mörön, Mongolia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MXW",
+    "ICAO": "ZMMG",
+    "Airport name": "Mandalgovi Airport",
+    "Location served": "Mandalgovi, Mongolia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MXX",
+    "ICAO": "ESKM",
+    "Airport name": "Mora–Siljan Airport",
+    "Location served": "Mora, Sweden",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MXY",
+    "ICAO": "PAMX",
+    "Airport name": "McCarthy Airport (FAA: 15Z)",
+    "Location served": "McCarthy, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MXZ",
+    "ICAO": "ZGMX",
+    "Airport name": "Meixian Airport",
+    "Location served": "Meizhou, Guangdong, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MYA",
+    "ICAO": "YMRY",
+    "Airport name": "Moruya Airport",
+    "Location served": "Moruya, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "MYB",
+    "ICAO": "FOOY",
+    "Airport name": "Mayumba Airport",
+    "Location served": "Mayumba, Gabon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MYC",
+    "ICAO": "SVBS",
+    "Airport name": "Mariscal Sucre Airport[1]",
+    "Location served": "Maracay, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MYD",
+    "ICAO": "HKML",
+    "Airport name": "Malindi Airport",
+    "Location served": "Malindi, Kenya",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MYE",
+    "ICAO": "RJTQ",
+    "Airport name": "Miyakejima Airport",
+    "Location served": "Miyake-jima, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MYF",
+    "ICAO": "KMYF",
+    "Airport name": "Montgomery Field Airport",
+    "Location served": "San Diego, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MYG",
+    "ICAO": "MYMM",
+    "Airport name": "Mayaguana Airport (Abraham's Bay Airport)",
+    "Location served": "Mayaguana, Bahamas",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MYH",
+    "ICAO": "",
+    "Airport name": "Marble Canyon Airport[1] (FAA: L41)",
+    "Location served": "Marble Canyon, Arizona, United States",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MYI",
+    "ICAO": "YMUI",
+    "Airport name": "Murray Island Airport",
+    "Location served": "Murray Island, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MYJ",
+    "ICAO": "RJOM",
+    "Airport name": "Matsuyama Airport",
+    "Location served": "Matsuyama, Shikoku, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MYK",
+    "ICAO": "",
+    "Airport name": "May Creek Airport",
+    "Location served": "May Creek, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MYL",
+    "ICAO": "KMYL",
+    "Airport name": "McCall Municipal Airport",
+    "Location served": "McCall, Idaho, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MYM",
+    "ICAO": "SYMM",
+    "Airport name": "Monkey Mountain Airport",
+    "Location served": "Monkey Mountain, Guyana",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MYN",
+    "ICAO": "OYMB",
+    "Airport name": "Marib Airport",
+    "Location served": "Ma'rib, Yemen",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MYO",
+    "ICAO": "YMYR",
+    "Airport name": "Myroodah Airport",
+    "Location served": "Myroodah Station, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MYP",
+    "ICAO": "UTAM",
+    "Airport name": "Mary International Airport",
+    "Location served": "Mary, Turkmenistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MYQ",
+    "ICAO": "VOMY",
+    "Airport name": "Mysore Airport (Mandakalli Airport)",
+    "Location served": "Mysore, Karnataka, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "MYR",
+    "ICAO": "KMYR",
+    "Airport name": "Myrtle Beach International Airport",
+    "Location served": "Myrtle Beach, South Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MYT",
+    "ICAO": "VYMK",
+    "Airport name": "Myitkyina Airport",
+    "Location served": "Myitkyina, Myanmar",
+    "Time": "UTC+06:30",
+    "DST": ""
+  },
+  {
+    "IATA": "MYU",
+    "ICAO": "PAMY",
+    "Airport name": "Mekoryuk Airport",
+    "Location served": "Mekoryuk, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MYV",
+    "ICAO": "KMYV",
+    "Airport name": "Yuba County Airport",
+    "Location served": "Marysville, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MYW",
+    "ICAO": "HTMT",
+    "Airport name": "Mtwara Airport",
+    "Location served": "Mtwara, Tanzania",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MYX",
+    "ICAO": "",
+    "Airport name": "Menyamya Airport",
+    "Location served": "Menyamya, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MYY",
+    "ICAO": "WBGR",
+    "Airport name": "Miri Airport",
+    "Location served": "Miri, Sarawak, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MYZ",
+    "ICAO": "FWMY",
+    "Airport name": "Monkey Bay Airport",
+    "Location served": "Monkey Bay, Malawi",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MZA",
+    "ICAO": "SPMF",
+    "Airport name": "Manuel Prado Ugarteche Airport[1]",
+    "Location served": "Mazamari, Peru",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MZB",
+    "ICAO": "FQMP",
+    "Airport name": "Mocímboa da Praia Airport",
+    "Location served": "Mocímboa da Praia, Mozambique",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MZC",
+    "ICAO": "FOOM",
+    "Airport name": "Mitzic Airport",
+    "Location served": "Mitzic, Gabon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MZD",
+    "ICAO": "",
+    "Airport name": "Méndez Airport",
+    "Location served": "Santiago de Méndez, Ecuador",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MZE",
+    "ICAO": "",
+    "Airport name": "Manatee Airport[1]",
+    "Location served": "Manatee, Belize",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MZF",
+    "ICAO": "FAMW",
+    "Airport name": "Wild Coast Sun Airport",
+    "Location served": "Mzamba, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MZG",
+    "ICAO": "RCQC",
+    "Airport name": "Magong Airport",
+    "Location served": "Magong, Taiwan",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MZH",
+    "ICAO": "LTAP",
+    "Airport name": "Amasya Merzifon Airport",
+    "Location served": "Amasya, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MZI",
+    "ICAO": "GAMB",
+    "Airport name": "Mopti Airport (Ambodedjo Airport)",
+    "Location served": "Mopti, Mali",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MZJ",
+    "ICAO": "KMZJ",
+    "Airport name": "Pinal Airpark",
+    "Location served": "Marana, Arizona, United States",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MZK",
+    "ICAO": "NGMK",
+    "Airport name": "Marakei Airport",
+    "Location served": "Marakei, Kiribati",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MZL",
+    "ICAO": "SKMZ",
+    "Airport name": "La Nubia Airport (Santaguida Airport)",
+    "Location served": "Manizales, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MZM",
+    "ICAO": "LFSF",
+    "Airport name": "Metz-Frescaty Air Base",
+    "Location served": "Metz, Lorraine, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "MZN",
+    "ICAO": "",
+    "Airport name": "Minj Airport",
+    "Location served": "Minj, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MZO",
+    "ICAO": "MUMZ",
+    "Airport name": "Sierra Maestra Airport",
+    "Location served": "Manzanillo, Cuba",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "MZP",
+    "ICAO": "NZMK",
+    "Airport name": "Motueka Aerodrome",
+    "Location served": "Motueka, New Zealand",
+    "Time": "UTC+12:00",
+    "DST": "Sep-Apr"
+  },
+  {
+    "IATA": "MZQ",
+    "ICAO": "FAMU",
+    "Airport name": "Mkuze Airport[1]",
+    "Location served": "Mkuze, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MZR",
+    "ICAO": "OAMS",
+    "Airport name": "Mazar-e Sharif International Airport",
+    "Location served": "Mazar-i-Sharif, Afghanistan",
+    "Time": "UTC+04:30",
+    "DST": ""
+  },
+  {
+    "IATA": "MZT",
+    "ICAO": "MMMZ",
+    "Airport name": "General Rafael Buelna International Airport",
+    "Location served": "Mazatlán, Sinaloa, Mexico",
+    "Time": "UTC−07:00",
+    "DST": "Apr-Oct"
+  },
+  {
+    "IATA": "MZU",
+    "ICAO": "VEMZ",
+    "Airport name": "Muzaffarpur Airport",
+    "Location served": "Muzaffarpur, Bihar, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "MZV",
+    "ICAO": "WBMU",
+    "Airport name": "Mulu Airport",
+    "Location served": "Mulu, Sarawak, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MZW",
+    "ICAO": "DAAY",
+    "Airport name": "Mécheria Airport",
+    "Location served": "Mécheria, Algeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MZX",
+    "ICAO": "HAML",
+    "Airport name": "Mena Airport",
+    "Location served": "Mena, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MZY",
+    "ICAO": "FAMO",
+    "Airport name": "Mossel Bay Airport",
+    "Location served": "Mossel Bay, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "MZZ",
+    "ICAO": "KMZZ",
+    "Airport name": "Marion Municipal Airport",
+    "Location served": "Marion, Indiana, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  }
+]

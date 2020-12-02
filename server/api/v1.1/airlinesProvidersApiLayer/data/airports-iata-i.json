@@ -1,0 +1,2146 @@
+[
+  {
+    "IATA": "IAA",
+    "ICAO": "UOII",
+    "Airport name": "Igarka Airport",
+    "Location served": "Igarka, Krasnoyarsk Krai, Russia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IAB",
+    "ICAO": "KIAB",
+    "Airport name": "McConnell Air Force Base",
+    "Location served": "Wichita, Kansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IAD",
+    "ICAO": "KIAD",
+    "Airport name": "Washington Dulles International Airport",
+    "Location served": "Washington, D.C.,1 United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IAG",
+    "ICAO": "KIAG",
+    "Airport name": "Niagara Falls International Airport",
+    "Location served": "Niagara Falls, New York, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IAH",
+    "ICAO": "KIAH",
+    "Airport name": "George Bush Intercontinental Airport",
+    "Location served": "Houston, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IAM",
+    "ICAO": "DAUZ",
+    "Airport name": "In Amenas Airport (Zarzaitine Airport)",
+    "Location served": "In Amenas, Algeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IAN",
+    "ICAO": "PAIK",
+    "Airport name": "Bob Baker Memorial Airport",
+    "Location served": "Kiana, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IAO",
+    "ICAO": "RPNS",
+    "Airport name": "Sayak Airport[1] (Siargao Airport)",
+    "Location served": "Del Carmen, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IAQ",
+    "ICAO": "OIBH[2]",
+    "Airport name": "Bahregan Airport",
+    "Location served": "Bahregan, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "IAR",
+    "ICAO": "UUDL",
+    "Airport name": "Tunoshna Airport",
+    "Location served": "Yaroslavl, Yaroslavl Oblast, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IAS",
+    "ICAO": "LRIA",
+    "Airport name": "Iași International Airport",
+    "Location served": "Iași, Romania",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "IAU",
+    "ICAO": "",
+    "Airport name": "Iaura Airport",
+    "Location served": "Iaura, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IBA",
+    "ICAO": "DNIB",
+    "Airport name": "Ibadan Airport",
+    "Location served": "Ibadan, Nigeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IBB",
+    "ICAO": "SEII[3]",
+    "Airport name": "General Villamil Airport[1]",
+    "Location served": "Isabela Island, Galápagos Islands, Ecuador",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IBE",
+    "ICAO": "SKIB",
+    "Airport name": "Perales Airport",
+    "Location served": "Ibagué, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IBI",
+    "ICAO": "",
+    "Airport name": "Iboki Airport",
+    "Location served": "Iboki, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IBL",
+    "ICAO": "",
+    "Airport name": "Indigo Bay Lodge Airport",
+    "Location served": "Bazaruto Island, Mozambique",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IBO",
+    "ICAO": "",
+    "Airport name": "Ibo Island Airport[1]",
+    "Location served": "Ibo Island, Mozambique",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IBP",
+    "ICAO": "SPBR",
+    "Airport name": "Iberia Airport",
+    "Location served": "Iberia, Peru",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IBR",
+    "ICAO": "RJAH",
+    "Airport name": "Ibaraki Airport",
+    "Location served": "Omitama, Honshu, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IBZ",
+    "ICAO": "LEIB",
+    "Airport name": "Ibiza Airport",
+    "Location served": "Ibiza, Balearic Islands, Spain",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "ICA",
+    "ICAO": "SVIC",
+    "Airport name": "Icabarú Airport",
+    "Location served": "Icabarú, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ICC",
+    "ICAO": "SVIE",
+    "Airport name": "Andrés Miguel Salazar Marcano Airport[1]",
+    "Location served": "Coche Island, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ICI",
+    "ICAO": "NFCI",
+    "Airport name": "Cicia Airport",
+    "Location served": "Cicia Island, Fiji",
+    "Time": "UTC+12:00",
+    "DST": "Nov-Jan"
+  },
+  {
+    "IATA": "ICK",
+    "ICAO": "SMNI",
+    "Airport name": "Majoor Henk Fernandes Airport (Nieuw Nickerie Airport)",
+    "Location served": "Nieuw Nickerie, Suriname",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ICL",
+    "ICAO": "KICL",
+    "Airport name": "Schenck Field",
+    "Location served": "Clarinda, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ICN",
+    "ICAO": "RKSI",
+    "Airport name": "Incheon International Airport",
+    "Location served": "Seoul, South Korea",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ICO",
+    "ICAO": "RPSG",
+    "Airport name": "Sicogon Airport",
+    "Location served": "Sicogon, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ICS",
+    "ICAO": "",
+    "Airport name": "Cascade Airport[1] (FAA: KU70)",
+    "Location served": "Cascade, Idaho, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ICT",
+    "ICAO": "KICT",
+    "Airport name": "Wichita Dwight D. Eisenhower National Airport",
+    "Location served": "Wichita, Kansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ICY",
+    "ICAO": "",
+    "Airport name": "Icy Bay Airport (FAA: 19AK)",
+    "Location served": "Icy Bay, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IDA",
+    "ICAO": "KIDA",
+    "Airport name": "Idaho Falls Regional Airport",
+    "Location served": "Idaho Falls, Idaho, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IDB",
+    "ICAO": "ESUE",
+    "Airport name": "Idre Airport",
+    "Location served": "Idre, Sweden",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "IDC",
+    "ICAO": "",
+    "Airport name": "Chilonzuine Island Airstrip[1]",
+    "Location served": "Chilonzuine Island, Mozambique",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IDF",
+    "ICAO": "FZCB",
+    "Airport name": "Idiofa Airport",
+    "Location served": "Idiofa, Democratic Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IDG",
+    "ICAO": "KIDG",
+    "Airport name": "Ida Grove Municipal Airport",
+    "Location served": "Ida Grove, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IDH",
+    "ICAO": "KGIC",
+    "Airport name": "Idaho County Airport[1] (FAA: GIC)",
+    "Location served": "Grangeville, Idaho, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IDI",
+    "ICAO": "KIDI",
+    "Airport name": "Indiana County–Jimmy Stewart Airport",
+    "Location served": "Indiana, Pennsylvania, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IDK",
+    "ICAO": "YIDK",
+    "Airport name": "Indulkana Airport",
+    "Location served": "Indulkana, South Australia, Australia",
+    "Time": "UTC+09:30",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "IDN",
+    "ICAO": "",
+    "Airport name": "Indagen Airport",
+    "Location served": "Indagen, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IDO",
+    "ICAO": "SWIY",
+    "Airport name": "Santa Isabel do Morro Airport",
+    "Location served": "Santa Isabel do Morro, Tocantins, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IDP",
+    "ICAO": "KIDP",
+    "Airport name": "Independence Municipal Airport",
+    "Location served": "Independence, Kansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IDR",
+    "ICAO": "VAID",
+    "Airport name": "Devi Ahilyabai Holkar International Airport",
+    "Location served": "Indore, Madhya Pradesh, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "IDY",
+    "ICAO": "LFEY",
+    "Airport name": "Île d'Yeu Aerodrome",
+    "Location served": "Île d'Yeu, Pays de la Loire, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "IEG",
+    "ICAO": "EPZG",
+    "Airport name": "Zielona Góra Airport",
+    "Location served": "Zielona Góra, Poland",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "IEJ",
+    "ICAO": "RORE",
+    "Airport name": "Iejima Airport",
+    "Location served": "Iejima, Okinawa, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IES",
+    "ICAO": "EDAU",
+    "Airport name": "Riesa–Göhlis Airfield",
+    "Location served": "Riesa, Saxony, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "IEV",
+    "ICAO": "UKKK",
+    "Airport name": "Kyiv International Airport (Zhuliany)",
+    "Location served": "Kyiv, Ukraine",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "IFA",
+    "ICAO": "KIFA",
+    "Airport name": "Iowa Falls Municipal Airport",
+    "Location served": "Iowa Falls, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IFF",
+    "ICAO": "YIFY",
+    "Airport name": "Iffley Airport",
+    "Location served": "Iffley, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IFH",
+    "ICAO": "OIFE",
+    "Airport name": "Hesa Air Base[1]",
+    "Location served": "Shahin Shahr, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "IFJ",
+    "ICAO": "BIIS",
+    "Airport name": "Ísafjörður Airport",
+    "Location served": "Ísafjörður, Iceland",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IFL",
+    "ICAO": "YIFL",
+    "Airport name": "Innisfail Airport",
+    "Location served": "Innisfail, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IFN",
+    "ICAO": "OIFM",
+    "Airport name": "Isfahan International Airport (Shahid Beheshti Int'l)",
+    "Location served": "Isfahan, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "IFO",
+    "ICAO": "UKLI",
+    "Airport name": "Ivano-Frankivsk International Airport",
+    "Location served": "Ivano-Frankivsk, Ukraine",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "IFP",
+    "ICAO": "KIFP",
+    "Airport name": "Laughlin/Bullhead International Airport",
+    "Location served": "Bullhead City, Arizona, United States",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IFU",
+    "ICAO": "VREI",
+    "Airport name": "Ifuru Airport[1]",
+    "Location served": "Ifuru, Raa Atoll, Maldives",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IGA",
+    "ICAO": "MYIG",
+    "Airport name": "Inagua Airport (Matthew Town Airport)",
+    "Location served": "Inagua Islands, Bahamas",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IGB",
+    "ICAO": "SAVJ",
+    "Airport name": "Ingeniero Jacobacci Airport (Capitán FAA H. R. Borden Airport)",
+    "Location served": "Ingeniero Jacobacci, Río Negro, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IGD",
+    "ICAO": "LTCT",
+    "Airport name": "Iğdır Airport[1]",
+    "Location served": "Iğdır, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IGE",
+    "ICAO": "FOOI",
+    "Airport name": "Tchongorove Airport",
+    "Location served": "Iguela, Gabon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IGG",
+    "ICAO": "PAIG",
+    "Airport name": "Igiugig Airport",
+    "Location served": "Igiugig, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IGH",
+    "ICAO": "YIGM",
+    "Airport name": "Ingham Airport",
+    "Location served": "Ingham, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IGL",
+    "ICAO": "LTBL",
+    "Airport name": "Çiğli Air Base",
+    "Location served": "İzmir, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IGM",
+    "ICAO": "KIGM",
+    "Airport name": "Kingman Airport",
+    "Location served": "Kingman, Arizona, United States",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IGN",
+    "ICAO": "RPMI",
+    "Airport name": "Maria Cristina Airport (Iligan Airport)",
+    "Location served": "Iligan, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IGO",
+    "ICAO": "SKIG",
+    "Airport name": "Jaime Ortíz Betancur Airport",
+    "Location served": "Chigorodó, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IGR",
+    "ICAO": "SARI",
+    "Airport name": "Cataratas del Iguazú International Airport",
+    "Location served": "Puerto Iguazú, Misiones, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IGS",
+    "ICAO": "ETSI",
+    "Airport name": "Ingolstadt Manching Airport",
+    "Location served": "Ingolstadt, Bavaria, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "IGT",
+    "ICAO": "URMS",
+    "Airport name": "Magas Airport (Sleptsovskaya Airport)",
+    "Location served": "Nazran, Ingushetia, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IGU",
+    "ICAO": "SBFI",
+    "Airport name": "Foz do Iguaçu International Airport",
+    "Location served": "Foz do Iguaçu, Paraná, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "IHC",
+    "ICAO": "FQIA",
+    "Airport name": "Inhaca Airport[1]",
+    "Location served": "Inhaca Island, Mozambique",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IHN",
+    "ICAO": "OYQN",
+    "Airport name": "Qishn Airport",
+    "Location served": "Qishn, Yemen",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IHO",
+    "ICAO": "FMSI",
+    "Airport name": "Ihosy Airport",
+    "Location served": "Ihosy, Madagascar",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IHR",
+    "ICAO": "OIZI",
+    "Airport name": "Iranshahr Airport[1]",
+    "Location served": "Iranshahr, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "IHU",
+    "ICAO": "",
+    "Airport name": "Ihu Airport",
+    "Location served": "Ihu, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IIA",
+    "ICAO": "EIMN",
+    "Airport name": "Inishmaan Aerodrome",
+    "Location served": "Inishmaan, Ireland",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "IIL",
+    "ICAO": "OICI",
+    "Airport name": "Ilam Airport[1]",
+    "Location served": "Ilam, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "IIS",
+    "ICAO": "AYIA",
+    "Airport name": "Nissan Island Airport",
+    "Location served": "Nissan Island, Papua New Guinea",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IJK",
+    "ICAO": "USII",
+    "Airport name": "Izhevsk Airport",
+    "Location served": "Izhevsk, Udmurtia, Russia",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IJU",
+    "ICAO": "SSIJ",
+    "Airport name": "João Batista Bos Filho Airport",
+    "Location served": "Ijuí, Rio Grande do Sul, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "IJX",
+    "ICAO": "KIJX",
+    "Airport name": "Jacksonville Municipal Airport",
+    "Location served": "Jacksonville, Illinois, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IKA",
+    "ICAO": "OIIE",
+    "Airport name": "Tehran Imam Khomeini International Airport",
+    "Location served": "Tehran, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "IKB",
+    "ICAO": "KUKF",
+    "Airport name": "Wilkes County Airport (FAA: UKF)",
+    "Location served": "North Wilkesboro, North Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IKI",
+    "ICAO": "RJDB",
+    "Airport name": "Iki Airport",
+    "Location served": "Iki, Iki Island, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IKK",
+    "ICAO": "KIKK",
+    "Airport name": "Greater Kankakee Airport",
+    "Location served": "Kankakee, Illinois, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IKL",
+    "ICAO": "FZGV",
+    "Airport name": "Ikela Airport",
+    "Location served": "Ikela, Democratic Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IKO",
+    "ICAO": "PAKO",
+    "Airport name": "Nikolski Air Station",
+    "Location served": "Nikolski, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IKP",
+    "ICAO": "YIKM",
+    "Airport name": "Inkerman Airport",
+    "Location served": "Inkerman, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IKS",
+    "ICAO": "UEST",
+    "Airport name": "Tiksi Airport",
+    "Location served": "Tiksi, Yakutia, Russia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IKT",
+    "ICAO": "UIII",
+    "Airport name": "International Airport Irkutsk",
+    "Location served": "Irkutsk, Irkutsk Oblast, Russia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IKU",
+    "ICAO": "UCFL",
+    "Airport name": "Issyk-Kul International Airport",
+    "Location served": "Tamchy, Issyk-Kul Region, Kyrgyzstan",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ILA",
+    "ICAO": "WABL",
+    "Airport name": "Illaga Airport",
+    "Location served": "Illaga, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ILD",
+    "ICAO": "LEDA",
+    "Airport name": "Lleida–Alguaire Airport",
+    "Location served": "Lleida, Catalonia, Spain",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "ILE",
+    "ICAO": "KILE",
+    "Airport name": "Skylark Field",
+    "Location served": "Killeen, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ILF",
+    "ICAO": "CZBD",
+    "Airport name": "Ilford Airport",
+    "Location served": "Ilford, Manitoba, Canada",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ILG",
+    "ICAO": "KILG",
+    "Airport name": "Wilmington Airport (New Castle Airport)",
+    "Location served": "Wilmington, Delaware, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ILH",
+    "ICAO": "ETIK",
+    "Airport name": "Illesheim Army Airfield",
+    "Location served": "Illesheim, Bavaria, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "ILI",
+    "ICAO": "PAIL",
+    "Airport name": "Iliamna Airport",
+    "Location served": "Iliamna, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ILK",
+    "ICAO": "FMMQ",
+    "Airport name": "Ilaka-Est Airport (Atsinanana Airport)",
+    "Location served": "Ilaka, Madagascar",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ILL",
+    "ICAO": "KBDH",
+    "Airport name": "Willmar Municipal Airport (John L. Rice Field)",
+    "Location served": "Willmar, Minnesota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ILM",
+    "ICAO": "KILM",
+    "Airport name": "Wilmington International Airport",
+    "Location served": "Wilmington, North Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ILN",
+    "ICAO": "KILN",
+    "Airport name": "Wilmington Air Park",
+    "Location served": "Wilmington, Ohio, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ILO",
+    "ICAO": "RPVI",
+    "Airport name": "Iloilo International Airport",
+    "Location served": "Iloilo, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ILP",
+    "ICAO": "NWWE",
+    "Airport name": "Île des Pins Airport",
+    "Location served": "Île des Pins, New Caledonia",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ILQ",
+    "ICAO": "SPLO",
+    "Airport name": "Ilo Airport",
+    "Location served": "Ilo, Peru",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ILR",
+    "ICAO": "DNIL",
+    "Airport name": "Ilorin International Airport",
+    "Location served": "Ilorin, Nigeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ILS",
+    "ICAO": "MSSS",
+    "Airport name": "Ilopango International Airport",
+    "Location served": "San Salvador, El Salvador",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "ILU",
+    "ICAO": "HKKL",
+    "Airport name": "Kilaguni Airport",
+    "Location served": "Kilaguni, Kenya",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ILX",
+    "ICAO": "",
+    "Airport name": "Ileg Airport",
+    "Location served": "Ileg, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ILY",
+    "ICAO": "EGPI",
+    "Airport name": "Islay Airport (Glenegedale Airport)",
+    "Location served": "Islay, Scotland, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "ILZ",
+    "ICAO": "LZZI",
+    "Airport name": "Žilina Airport",
+    "Location served": "Žilina, Slovakia",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "IMA",
+    "ICAO": "",
+    "Airport name": "Iamalele Airport",
+    "Location served": "Iamalele, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IMB",
+    "ICAO": "SYIB",
+    "Airport name": "Imbaimadai Airport",
+    "Location served": "Imbaimadai, Guyana",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IMD",
+    "ICAO": "",
+    "Airport name": "Imonda Airport",
+    "Location served": "Imonda, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IMF",
+    "ICAO": "VEIM",
+    "Airport name": "Imphal International Airport (Tulihal Airport)",
+    "Location served": "Imphal, Manipur, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "IMG",
+    "ICAO": "",
+    "Airport name": "Inhaminga Airport",
+    "Location served": "Inhaminga, Mozambique",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IMI",
+    "ICAO": "",
+    "Airport name": "Ine Airport (FAA: N20)",
+    "Location served": "Ine, Arno Atoll, Marshall Islands",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IMK",
+    "ICAO": "VNST",
+    "Airport name": "Simikot Airport",
+    "Location served": "Simikot, Nepal",
+    "Time": "UTC+05:45",
+    "DST": ""
+  },
+  {
+    "IATA": "IML",
+    "ICAO": "KIML",
+    "Airport name": "Imperial Municipal Airport",
+    "Location served": "Imperial, Nebraska, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IMM",
+    "ICAO": "KIMM",
+    "Airport name": "Immokalee Regional Airport",
+    "Location served": "Immokalee, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IMN",
+    "ICAO": "AYII",
+    "Airport name": "Imane Airport",
+    "Location served": "Imane, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IMO",
+    "ICAO": "FEFZ",
+    "Airport name": "Zemio Airport",
+    "Location served": "Zemio, Central African Republic",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IMP",
+    "ICAO": "SBIZ",
+    "Airport name": "Imperatriz Airport (Prefeito Renato Moreira Airport)",
+    "Location served": "Imperatriz, Maranhão, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IMQ",
+    "ICAO": "OITU",
+    "Airport name": "Maku International Airport",
+    "Location served": "Maku, West Azerbaijan Province, Iran",
+    "Time": "UTC−03:30",
+    "DST": ""
+  },
+  {
+    "IATA": "IMT",
+    "ICAO": "KIMT",
+    "Airport name": "Ford Airport",
+    "Location served": "Iron Mountain / Kingsford, Michigan, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "INA",
+    "ICAO": "UUYI",
+    "Airport name": "Inta Airport",
+    "Location served": "Inta, Komi Republic, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "INB",
+    "ICAO": "",
+    "Airport name": "Independence Airport",
+    "Location served": "Independence, Belize",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "INC",
+    "ICAO": "ZLIC",
+    "Airport name": "Yinchuan Hedong International Airport",
+    "Location served": "Yinchuan, Ningxia, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IND",
+    "ICAO": "KIND",
+    "Airport name": "Indianapolis International Airport",
+    "Location served": "Indianapolis, Indiana, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "INE",
+    "ICAO": "",
+    "Airport name": "Chinde Airport",
+    "Location served": "Chinde, Mozambique",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "INF",
+    "ICAO": "DATG",
+    "Airport name": "In Guezzam Airport",
+    "Location served": "In Guezzam, Algeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "INH",
+    "ICAO": "FQIN",
+    "Airport name": "Inhambane Airport",
+    "Location served": "Inhambane, Mozambique",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "INI",
+    "ICAO": "LYNI",
+    "Airport name": "Niš Constantine the Great Airport",
+    "Location served": "Niš, Serbia",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "INJ",
+    "ICAO": "YINJ",
+    "Airport name": "Injune Airport",
+    "Location served": "Injune, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "INK",
+    "ICAO": "KINK",
+    "Airport name": "Winkler County Airport",
+    "Location served": "Wink, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "INL",
+    "ICAO": "KINL",
+    "Airport name": "Falls International Airport",
+    "Location served": "International Falls, Minnesota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "INM",
+    "ICAO": "YINN",
+    "Airport name": "Innamincka Airport",
+    "Location served": "Innamincka, South Australia, Australia",
+    "Time": "UTC+09:30",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "INN",
+    "ICAO": "LOWI",
+    "Airport name": "Innsbruck Airport (Kranebitten Airport)",
+    "Location served": "Innsbruck, Austria",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "INO",
+    "ICAO": "FZBA",
+    "Airport name": "Inongo Airport",
+    "Location served": "Inongo, Democratic Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "INQ",
+    "ICAO": "EIIR",
+    "Airport name": "Inisheer Aerodrome",
+    "Location served": "Inisheer, Ireland",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "INS",
+    "ICAO": "KINS",
+    "Airport name": "Creech Air Force Base",
+    "Location served": "Indian Springs, Nevada, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "INT",
+    "ICAO": "KINT",
+    "Airport name": "Smith Reynolds Airport",
+    "Location served": "Winston-Salem, North Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "INU",
+    "ICAO": "ANYN",
+    "Airport name": "Nauru International Airport",
+    "Location served": "Yaren, Nauru",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "INV",
+    "ICAO": "EGPE",
+    "Airport name": "Inverness Airport",
+    "Location served": "Inverness, Scotland, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "INW",
+    "ICAO": "KINW",
+    "Airport name": "Winslow–Lindbergh Regional Airport",
+    "Location served": "Winslow, Arizona, United States",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "INX",
+    "ICAO": "WASI",
+    "Airport name": "Inanwatan Airport",
+    "Location served": "Inanwatan, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "INY",
+    "ICAO": "",
+    "Airport name": "Inyati Airport",
+    "Location served": "Inyati, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "INZ",
+    "ICAO": "DAUI",
+    "Airport name": "In Salah Airport",
+    "Location served": "In Salah, Algeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IOA",
+    "ICAO": "LGIO",
+    "Airport name": "Ioannina National Airport",
+    "Location served": "Ioannina, Greece",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "IOK",
+    "ICAO": "",
+    "Airport name": "Iokea Airport",
+    "Location served": "Iokea, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IOM",
+    "ICAO": "EGNS",
+    "Airport name": "Isle of Man Airport (Ronaldsway Airport)",
+    "Location served": "Isle of Man, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "ION",
+    "ICAO": "FCOI",
+    "Airport name": "Impfondo Airport",
+    "Location served": "Impfondo, Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IOP",
+    "ICAO": "",
+    "Airport name": "Ioma Airport",
+    "Location served": "Ioma, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IOR",
+    "ICAO": "EIIM",
+    "Airport name": "Inishmore Aerodrome (Kilronan Airport)",
+    "Location served": "Inishmore, Ireland",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "IOS",
+    "ICAO": "SBIL",
+    "Airport name": "Ilhéus Jorge Amado Airport",
+    "Location served": "Ilhéus, Bahia, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IOT",
+    "ICAO": "BGLL",
+    "Airport name": "Illorsuit Heliport",
+    "Location served": "Avannaata, Greenland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "IOW",
+    "ICAO": "KIOW",
+    "Airport name": "Iowa City Municipal Airport",
+    "Location served": "Iowa City, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IPA",
+    "ICAO": "NVVI",
+    "Airport name": "Ipota Airport",
+    "Location served": "Erromango, Tafea, Vanuatu",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IPC",
+    "ICAO": "SCIP",
+    "Airport name": "Mataveri International Airport (Isla de Pascua Airport)",
+    "Location served": "Easter Island, Chile",
+    "Time": "UTC−06:00",
+    "DST": "Aug-May"
+  },
+  {
+    "IATA": "IPE",
+    "ICAO": "RPMV",
+    "Airport name": "Ipil Airport",
+    "Location served": "Ipil, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IPG",
+    "ICAO": "SWII",
+    "Airport name": "Ipiranga Airport",
+    "Location served": "Santo Antônio do Içá, Amazonas, Brazil",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IPH",
+    "ICAO": "WMKI",
+    "Airport name": "Sultan Azlan Shah Airport",
+    "Location served": "Ipoh, Perak, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IPI",
+    "ICAO": "SKIP",
+    "Airport name": "San Luis Airport",
+    "Location served": "Ipiales, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IPL",
+    "ICAO": "KIPL",
+    "Airport name": "Imperial County Airport (Boley Field)",
+    "Location served": "Imperial / El Centro, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IPN",
+    "ICAO": "SBIP",
+    "Airport name": "Usiminas Airport",
+    "Location served": "Ipatinga, Minas Gerais, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "IPT",
+    "ICAO": "KIPT",
+    "Airport name": "Williamsport Regional Airport",
+    "Location served": "Williamsport, Pennsylvania, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IPU",
+    "ICAO": "SNIU",
+    "Airport name": "Ipiaú Airport",
+    "Location served": "Ipiaú, Bahia, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IPZ",
+    "ICAO": "MRSI",
+    "Airport name": "San Isidro de El General Airport",
+    "Location served": "San Isidro de El General, Pérez Zeledón, Costa Rica",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "IQA",
+    "ICAO": "ORAA",
+    "Airport name": "Al Asad Airbase[1]",
+    "Location served": "Anbar Province, Iraq",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IQM",
+    "ICAO": "ZWCM",
+    "Airport name": "Qiemo Airport",
+    "Location served": "Qiemo, Xinjiang, China",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IQN",
+    "ICAO": "ZLQY",
+    "Airport name": "Qingyang Airport",
+    "Location served": "Qingyang, Gansu, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IQQ",
+    "ICAO": "SCDA",
+    "Airport name": "Diego Aracena International Airport",
+    "Location served": "Iquique, Chile",
+    "Time": "UTC−04:00",
+    "DST": "Aug-May"
+  },
+  {
+    "IATA": "IQT",
+    "ICAO": "SPQT",
+    "Airport name": "Coronel FAP Francisco Secada Vignetta International Airport",
+    "Location served": "Iquitos, Peru",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IRA",
+    "ICAO": "AGGK",
+    "Airport name": "Kirakira Airport (Ngorangora Airstrip)",
+    "Location served": "Kirakira, Makira Island, Solomon Islands",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IRB",
+    "ICAO": "",
+    "Airport name": "Iraan Municipal Airport (FAA: 2F0)",
+    "Location served": "Iraan, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IRC",
+    "ICAO": "PACR",
+    "Airport name": "Circle City Airport (FAA: CRC)",
+    "Location served": "Circle, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IRD",
+    "ICAO": "VGIS",
+    "Airport name": "Ishwardi Airport",
+    "Location served": "Ishwardi, Bangladesh",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IRE",
+    "ICAO": "SNIC",
+    "Airport name": "Irecê Airport",
+    "Location served": "Irecê, Bahia, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IRG",
+    "ICAO": "YLHR",
+    "Airport name": "Lockhart River Airport",
+    "Location served": "Lockhart River, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IRI",
+    "ICAO": "HTIR",
+    "Airport name": "Iringa Airport (Nduli Airport)",
+    "Location served": "Iringa, Tanzania",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IRJ",
+    "ICAO": "SANL",
+    "Airport name": "Capitán Vicente Almandos Almonacid Airport",
+    "Location served": "La Rioja, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IRK",
+    "ICAO": "KIRK",
+    "Airport name": "Kirksville Regional Airport",
+    "Location served": "Kirksville, Missouri, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IRM",
+    "ICAO": "USHI",
+    "Airport name": "Igrim Airport[1]",
+    "Location served": "Igrim, Khanty-Mansi Autonomous Okrug, Russia",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IRN",
+    "ICAO": "MHIR",
+    "Airport name": "Iriona Airport",
+    "Location served": "Iriona, Honduras",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IRO",
+    "ICAO": "FEFI",
+    "Airport name": "Birao Airport",
+    "Location served": "Birao, Central African Republic",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IRP",
+    "ICAO": "FZJH",
+    "Airport name": "Matari Airport",
+    "Location served": "Isiro, Democratic Republic of the Congo",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IRS",
+    "ICAO": "KIRS",
+    "Airport name": "Kirsch Municipal Airport",
+    "Location served": "Sturgis, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IRU",
+    "ICAO": "",
+    "Airport name": "Iranamadu Waterdrome",
+    "Location served": "Kilinochchi, Sri Lanka",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "IRZ",
+    "ICAO": "SWTP",
+    "Airport name": "Tapuruquara Airport[1]",
+    "Location served": "Santa Isabel do Rio Negro, Amazonas, Brazil",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ISA",
+    "ICAO": "YBMA",
+    "Airport name": "Mount Isa Airport",
+    "Location served": "Mount Isa, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ISB",
+    "ICAO": "OPIS",
+    "Airport name": "Islamabad International Airport",
+    "Location served": "Islamabad / Rawalpindi, Pakistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ISC",
+    "ICAO": "EGHE",
+    "Airport name": "St Mary's Airport",
+    "Location served": "St Mary's, Isles of Scilly, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "ISD",
+    "ICAO": "",
+    "Airport name": "Iscuande Airport",
+    "Location served": "Iscuande, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ISE",
+    "ICAO": "LTFC",
+    "Airport name": "Isparta Süleyman Demirel Airport",
+    "Location served": "Isparta, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ISG",
+    "ICAO": "ROIG",
+    "Airport name": "New Ishigaki Airport",
+    "Location served": "Ishigaki, Yaeyama Islands, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ISI",
+    "ICAO": "YISF",
+    "Airport name": "Isisford Airport",
+    "Location served": "Isisford, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ISJ",
+    "ICAO": "MMIM",
+    "Airport name": "Isla Mujeres Airport",
+    "Location served": "Isla Mujeres, Quintana Roo, Mexico",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ISK",
+    "ICAO": "VAOZ",
+    "Airport name": "Ozar Airport",
+    "Location served": "Nashik, Maharashtra, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "ISL",
+    "ICAO": "LTBA",
+    "Airport name": "Istanbul Atatürk Airport",
+    "Location served": "Istanbul, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ISM",
+    "ICAO": "KISM",
+    "Airport name": "Kissimmee Gateway Airport",
+    "Location served": "Orlando, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ISN",
+    "ICAO": "KISN",
+    "Airport name": "Sloulin Field International Airport",
+    "Location served": "Williston, North Dakota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ISO",
+    "ICAO": "KISO",
+    "Airport name": "Kinston Regional Jetport (Stallings Field)",
+    "Location served": "Kinston, North Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ISP",
+    "ICAO": "KISP",
+    "Airport name": "Long Island MacArthur Airport",
+    "Location served": "Islip, New York, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ISQ",
+    "ICAO": "KISQ",
+    "Airport name": "Schoolcraft County Airport",
+    "Location served": "Manistique, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ISS",
+    "ICAO": "KIWI",
+    "Airport name": "Wiscasset Airport (FAA: IWI)",
+    "Location served": "Wiscasset, Maine, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IST",
+    "ICAO": "LTFM",
+    "Airport name": "Istanbul New Airport",
+    "Location served": "Istanbul, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ISU",
+    "ICAO": "ORSU",
+    "Airport name": "Sulaimaniyah International Airport",
+    "Location served": "Sulaymaniyah, Iraq",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ISW",
+    "ICAO": "KISW",
+    "Airport name": "South Wood County Airport (Alexander Field)",
+    "Location served": "Wisconsin Rapids, Wisconsin, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ITA",
+    "ICAO": "SBIC",
+    "Airport name": "Itacoatiara Airport",
+    "Location served": "Itacoatiara, Amazonas, Brazil",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ITB",
+    "ICAO": "SBIH",
+    "Airport name": "Itaituba Airport",
+    "Location served": "Itaituba, Pará, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ITE",
+    "ICAO": "SNZW",
+    "Airport name": "Ituberá Airport",
+    "Location served": "Ituberá, Bahia, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ITH",
+    "ICAO": "KITH",
+    "Airport name": "Ithaca Tompkins Regional Airport",
+    "Location served": "Ithaca, New York, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ITI",
+    "ICAO": "",
+    "Airport name": "Itambacuri Airport",
+    "Location served": "Itambacuri, Minas Gerais, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "ITK",
+    "ICAO": "",
+    "Airport name": "Itokama Airport",
+    "Location served": "Itokama, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ITM",
+    "ICAO": "RJOO",
+    "Airport name": "Osaka International Airport (Itami Int'l)",
+    "Location served": "Osaka, Honshu, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ITN",
+    "ICAO": "SNHA",
+    "Airport name": "Itabuna Airport",
+    "Location served": "Itabuna, Bahia, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ITO",
+    "ICAO": "PHTO",
+    "Airport name": "Hilo International Airport",
+    "Location served": "Hilo, Hawaii, United States",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ITP",
+    "ICAO": "SDUN",
+    "Airport name": "Itaperuna Airport",
+    "Location served": "Itaperuna, Rio de Janeiro, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "ITQ",
+    "ICAO": "SSIQ",
+    "Airport name": "Itaqui Airport",
+    "Location served": "Itaqui, Rio Grande do Sul, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "ITR",
+    "ICAO": "SBIT",
+    "Airport name": "Itumbiara Airport",
+    "Location served": "Itumbiara, Goiás, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "ITU",
+    "ICAO": "UHSI",
+    "Airport name": "Iturup Airport[1]",
+    "Location served": "Kurilsk, Sakhalin Oblast, Russia",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IUE",
+    "ICAO": "NIUE",
+    "Airport name": "Niue International Airport (Hanan Int'l)",
+    "Location served": "Alofi, Niue",
+    "Time": "UTC−11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IUL",
+    "ICAO": "",
+    "Airport name": "Ilu Airport",
+    "Location served": "Ilu, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IUS",
+    "ICAO": "",
+    "Airport name": "Inus Airport",
+    "Location served": "Inus, Papua New Guinea",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IVA",
+    "ICAO": "FMNJ",
+    "Airport name": "Ambanja Airport",
+    "Location served": "Ambanja, Madagascar",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IVC",
+    "ICAO": "NZNV",
+    "Airport name": "Invercargill Airport",
+    "Location served": "Invercargill, New Zealand",
+    "Time": "UTC+12:00",
+    "DST": "Sep-Apr"
+  },
+  {
+    "IATA": "IVG",
+    "ICAO": "LYBR",
+    "Airport name": "Dolac Airport",
+    "Location served": "Berane, Montenegro",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "IVI",
+    "ICAO": "",
+    "Airport name": "Viveros Island Airport[1]",
+    "Location served": "Viveros Island, Panama",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IVL",
+    "ICAO": "EFIV",
+    "Airport name": "Ivalo Airport",
+    "Location served": "Ivalo, Finland",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "IVO",
+    "ICAO": "",
+    "Airport name": "Chibolo Airport",
+    "Location served": "Chibolo, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IVR",
+    "ICAO": "YIVL",
+    "Airport name": "Inverell Airport",
+    "Location served": "Inverell, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "IVW",
+    "ICAO": "YINW",
+    "Airport name": "Inverway Airport",
+    "Location served": "Inverway, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "IWA",
+    "ICAO": "UUBI",
+    "Airport name": "Ivanovo Yuzhny Airport",
+    "Location served": "Ivanovo, Ivanovo Oblast, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IWD",
+    "ICAO": "KIWD",
+    "Airport name": "Gogebic–Iron County Airport",
+    "Location served": "Ironwood, Michigan, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IWJ",
+    "ICAO": "RJOW",
+    "Airport name": "Iwami Airport (Hagi-Iwami Airport)",
+    "Location served": "Masuda, Honshu, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IWK",
+    "ICAO": "RJOI",
+    "Airport name": "Marine Corps Air Station Iwakuni[1]",
+    "Location served": "Iwakuni, Honshu, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IWO",
+    "ICAO": "RJAW",
+    "Airport name": "Iwo Jima Air Base",
+    "Location served": "Iwo Jima, Bonin Islands, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IWS",
+    "ICAO": "KIWS",
+    "Airport name": "West Houston Airport",
+    "Location served": "Houston, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IXA",
+    "ICAO": "VEAT",
+    "Airport name": "Agartala Airport (Singerbhil Airport)",
+    "Location served": "Agartala, Tripura, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "IXB",
+    "ICAO": "VEBD",
+    "Airport name": "Bagdogra Airport",
+    "Location served": "Siliguri, West Bengal, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "IXC",
+    "ICAO": "VICG",
+    "Airport name": "Chandigarh Airport",
+    "Location served": "Chandigarh, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "IXD",
+    "ICAO": "VIAL",
+    "Airport name": "Allahabad Airport (Bamrauli Air Force Base)",
+    "Location served": "Prayagraj, Uttar Pradesh, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "IXE",
+    "ICAO": "VOML",
+    "Airport name": "Mangalore Airport",
+    "Location served": "Mangalore, Karnataka, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "IXG",
+    "ICAO": "VABM",
+    "Airport name": "Belgaum Airport",
+    "Location served": "Belgaum, Karnataka, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "IXH",
+    "ICAO": "VEKR",
+    "Airport name": "Kailashahar Airport",
+    "Location served": "Kailashahar, Tripura, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "IXI",
+    "ICAO": "VELR",
+    "Airport name": "Lilabari Airport",
+    "Location served": "North Lakhimpur, Assam, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "IXJ",
+    "ICAO": "VIJU",
+    "Airport name": "Jammu Airport (Satwari Airport)",
+    "Location served": "Jammu, Jammu and Kashmir, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "IXK",
+    "ICAO": "VAKS",
+    "Airport name": "Keshod Airport",
+    "Location served": "Keshod, Gujarat, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "IXL",
+    "ICAO": "VILH",
+    "Airport name": "Kushok Bakula Rimpochee Airport",
+    "Location served": "Leh, Ladakh, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "IXM",
+    "ICAO": "VOMD",
+    "Airport name": "Madurai Airport",
+    "Location served": "Madurai, Tamil Nadu, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "IXN",
+    "ICAO": "VEKW",
+    "Airport name": "Khowai Airport",
+    "Location served": "Khowai, Tripura, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "IXP",
+    "ICAO": "VIPK",
+    "Airport name": "Pathankot Airport",
+    "Location served": "Pathankot, Punjab, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "IXQ",
+    "ICAO": "VEKM",
+    "Airport name": "Kamalpur Airport",
+    "Location served": "Kamalpur, Tripura, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "IXR",
+    "ICAO": "VERC",
+    "Airport name": "Birsa Munda Airport",
+    "Location served": "Ranchi, Jharkhand, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "IXS",
+    "ICAO": "VEKU",
+    "Airport name": "Silchar Airport (Kumbhirgram Air Force Base)",
+    "Location served": "Silchar, Assam, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "IXT",
+    "ICAO": "VEPG",
+    "Airport name": "Pasighat Airport",
+    "Location served": "Pasighat, Arunachal Pradesh, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "IXU",
+    "ICAO": "VAAU",
+    "Airport name": "Aurangabad Airport (Chikkalthana Airport)",
+    "Location served": "Aurangabad, Maharashtra, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "IXV",
+    "ICAO": "VEAN",
+    "Airport name": "Along Airport",
+    "Location served": "Along (Aalo), Arunachal Pradesh, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "IXW",
+    "ICAO": "VEJS",
+    "Airport name": "Sonari Airport",
+    "Location served": "Jamshedpur, Jharkhand, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "IXX",
+    "ICAO": "VOBR",
+    "Airport name": "Bidar Airport",
+    "Location served": "Bidar, Karnataka, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "IXY",
+    "ICAO": "VAKE",
+    "Airport name": "Kandla Airport (Gandhidham Airport)",
+    "Location served": "Kandla / Gandhidham, Gujarat, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "IXZ",
+    "ICAO": "VOPB",
+    "Airport name": "Veer Savarkar International Airport (Port Blair Airport)",
+    "Location served": "Port Blair, Andaman and Nicobar Islands, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "IYK",
+    "ICAO": "KIYK",
+    "Airport name": "Inyokern Airport",
+    "Location served": "Inyokern, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "IZA",
+    "ICAO": "SBZM",
+    "Airport name": "Presidente Itamar Franco Airport (Zona da Mata Regional Airport)",
+    "Location served": "Juiz de Fora, Minas Gerais, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "IZM",
+    "ICAO": "",
+    "Airport name": "metropolitan area2",
+    "Location served": "İzmir, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IZO",
+    "ICAO": "RJOC",
+    "Airport name": "Izumo Airport",
+    "Location served": "Izumo, Honshu, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "IZT",
+    "ICAO": "MMIT",
+    "Airport name": "Ixtepec Airport",
+    "Location served": "Ixtepec, Oaxaca, Mexico",
+    "Time": "UTC−06:00",
+    "DST": "Apr-Oct"
+  }
+]

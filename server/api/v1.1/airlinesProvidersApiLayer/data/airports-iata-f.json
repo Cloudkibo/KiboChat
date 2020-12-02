@@ -1,0 +1,1690 @@
+[
+  {
+    "IATA": "FAA",
+    "ICAO": "GUFH",
+    "Airport name": "Faranah Airport",
+    "Location served": "Faranah, Guinea",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FAB",
+    "ICAO": "EGLF",
+    "Airport name": "Farnborough Airport",
+    "Location served": "Farnborough, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FAC",
+    "ICAO": "NTKF",
+    "Airport name": "Faaite Airport",
+    "Location served": "Faaite, Tuamotus, French Polynesia",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FAE",
+    "ICAO": "EKVG",
+    "Airport name": "Vágar Airport",
+    "Location served": "Vágar, Faroe Islands",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FAF",
+    "ICAO": "KFAF",
+    "Airport name": "Felker Army Airfield",
+    "Location served": "Fort Eustis, Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FAG",
+    "ICAO": "BIFM",
+    "Airport name": "Fagurhólsmýri Airport",
+    "Location served": "Fagurhólsmýri, Iceland",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FAH",
+    "ICAO": "OAFR",
+    "Airport name": "Farah Airport",
+    "Location served": "Farah, Afghanistan",
+    "Time": "UTC+04:30",
+    "DST": ""
+  },
+  {
+    "IATA": "FAI",
+    "ICAO": "PAFA",
+    "Airport name": "Fairbanks International Airport",
+    "Location served": "Fairbanks, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FAJ",
+    "ICAO": "TJFA",
+    "Airport name": "Diego Jiménez Torres Airport (FAA: X95)",
+    "Location served": "Fajardo, Puerto Rico, United States",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FAK",
+    "ICAO": "",
+    "Airport name": "False Island Seaplane Base (FAA: 2Z6)",
+    "Location served": "False Island, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FAM",
+    "ICAO": "KFAM",
+    "Airport name": "Farmington Regional Airport",
+    "Location served": "Farmington, Missouri, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FAO",
+    "ICAO": "LPFR",
+    "Airport name": "Faro Airport",
+    "Location served": "Faro, Portugal",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FAQ",
+    "ICAO": "AYFR",
+    "Airport name": "Frieda River Airport",
+    "Location served": "Frieda River, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FAR",
+    "ICAO": "KFAR",
+    "Airport name": "Hector International Airport",
+    "Location served": "Fargo, North Dakota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FAS",
+    "ICAO": "BIFF",
+    "Airport name": "Fáskrúðsfjörður Airport",
+    "Location served": "Fáskrúðsfjörður, Iceland",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FAT",
+    "ICAO": "KFAT",
+    "Airport name": "Fresno Yosemite International Airport",
+    "Location served": "Fresno, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FAU",
+    "ICAO": "OOFD",
+    "Airport name": "Fahud Airport[1]",
+    "Location served": "Fahud, Oman",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FAV",
+    "ICAO": "NTGF",
+    "Airport name": "Fakarava Airport",
+    "Location served": "Fakarava, Tuamotus, French Polynesia",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FAY",
+    "ICAO": "KFAY",
+    "Airport name": "Fayetteville Regional Airport (Grannis Field)",
+    "Location served": "Fayetteville, North Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FAZ",
+    "ICAO": "OISF",
+    "Airport name": "Fasa Airport[1]",
+    "Location served": "Fasa, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "FBA",
+    "ICAO": "SWOB",
+    "Airport name": "Fonte Boa Airport[1]",
+    "Location served": "Fonte Boa, Amazonas, Brazil",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FBD",
+    "ICAO": "OAFZ",
+    "Airport name": "Fayzabad Airport",
+    "Location served": "Fayzabad, Afghanistan",
+    "Time": "UTC+04:30",
+    "DST": ""
+  },
+  {
+    "IATA": "FBE",
+    "ICAO": "SSFB",
+    "Airport name": "Francisco Beltrão Airport (Paulo Abdala Airport)",
+    "Location served": "Francisco Beltrão, Paraná, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "FBG",
+    "ICAO": "KFBG",
+    "Airport name": "Simmons Army Airfield",
+    "Location served": "Fort Bragg, North Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FBK",
+    "ICAO": "PAFB",
+    "Airport name": "Ladd Army Airfield",
+    "Location served": "Fairbanks, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FBL",
+    "ICAO": "KFBL",
+    "Airport name": "Faribault Municipal Airport",
+    "Location served": "Faribault, Minnesota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FBM",
+    "ICAO": "FZQA",
+    "Airport name": "Lubumbashi International Airport",
+    "Location served": "Lubumbashi, Democratic Republic of the Congo",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FBR",
+    "ICAO": "KFBR",
+    "Airport name": "Fort Bridger Airport",
+    "Location served": "Fort Bridger, Wyoming, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FBS",
+    "ICAO": "",
+    "Airport name": "Friday Harbor Seaplane Base (FAA: W33)",
+    "Location served": "Friday Harbor, Washington, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FBY",
+    "ICAO": "KFBY",
+    "Airport name": "Fairbury Municipal Airport",
+    "Location served": "Fairbury, Nebraska, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FCA",
+    "ICAO": "KGPI",
+    "Airport name": "Glacier Park International Airport (FAA: GPI)",
+    "Location served": "Kalispell, Montana, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FCB",
+    "ICAO": "FAFB",
+    "Airport name": "Ficksburg Airport",
+    "Location served": "Ficksburg, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FCH",
+    "ICAO": "KFCH",
+    "Airport name": "Fresno Chandler Executive Airport",
+    "Location served": "Fresno, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FCM",
+    "ICAO": "KFCM",
+    "Airport name": "Flying Cloud Airport",
+    "Location served": "Eden Prairie, Minnesota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FCN",
+    "ICAO": "ETMN",
+    "Airport name": "Sea-Airport Cuxhaven/Nordholz",
+    "Location served": "Cuxhaven, Lower Saxony, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FCO",
+    "ICAO": "LIRF",
+    "Airport name": "Leonardo da Vinci–Fiumicino Airport",
+    "Location served": "Rome, Lazio, Italy",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FCS",
+    "ICAO": "KFCS",
+    "Airport name": "Butts Army Airfield (Fort Carson)",
+    "Location served": "Colorado Springs, Colorado, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FCY",
+    "ICAO": "KFCY",
+    "Airport name": "Forrest City Municipal Airport",
+    "Location served": "Forrest City, Arkansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FDE",
+    "ICAO": "ENBL",
+    "Airport name": "Førde Airport, Bringeland",
+    "Location served": "Førde, Norway",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FDF",
+    "ICAO": "TFFF",
+    "Airport name": "Martinique Aimé Césaire International Airport",
+    "Location served": "Fort-de-France, Martinique",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FDH",
+    "ICAO": "EDNY",
+    "Airport name": "Friedrichshafen Airport (Bodensee Airport)",
+    "Location served": "Friedrichshafen, Baden-Württemberg, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FDK",
+    "ICAO": "KFDK",
+    "Airport name": "Frederick Municipal Airport",
+    "Location served": "Frederick, Maryland, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FDR",
+    "ICAO": "KFDR",
+    "Airport name": "Frederick Regional Airport",
+    "Location served": "Frederick, Oklahoma, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FDU",
+    "ICAO": "FZBO",
+    "Airport name": "Bandundu Airport",
+    "Location served": "Bandundu, Democratic Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FDY",
+    "ICAO": "KFDY",
+    "Airport name": "Findlay Airport",
+    "Location served": "Findlay, Ohio, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FEA",
+    "ICAO": "",
+    "Airport name": "Fetlar Airport",
+    "Location served": "Fetlar, Scotland, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FEB",
+    "ICAO": "VNSR",
+    "Airport name": "Sanfebagar Airport",
+    "Location served": "Sanfebagar, Nepal",
+    "Time": "UTC+05:45",
+    "DST": ""
+  },
+  {
+    "IATA": "FEC",
+    "ICAO": "SNJD",
+    "Airport name": "Feira de Santana Airport (Gov. João Durval Carneiro Airport)",
+    "Location served": "Feira de Santana, Bahia, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FEG",
+    "ICAO": "UTKF",
+    "Airport name": "Fergana International Airport",
+    "Location served": "Fergana, Uzbekistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FEJ",
+    "ICAO": "SNOU",
+    "Airport name": "Feijó Airport",
+    "Location served": "Feijó, Acre, Brazil",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FEK",
+    "ICAO": "DIFK",
+    "Airport name": "Ferkessédougou Airport",
+    "Location served": "Ferkessédougou, Ivory Coast",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FEL",
+    "ICAO": "ETSF",
+    "Airport name": "Fürstenfeldbruck Air Base",
+    "Location served": "Fürstenfeldbruck, Bavaria, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FEN",
+    "ICAO": "SBFN",
+    "Airport name": "Fernando de Noronha Airport (Gov. Carlos Wilson Airport)",
+    "Location served": "Fernando de Noronha, Pernambuco, Brazil",
+    "Time": "UTC−02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FEP",
+    "ICAO": "KFEP",
+    "Airport name": "Albertus Airport",
+    "Location served": "Freeport, Illinois, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FET",
+    "ICAO": "KFET",
+    "Airport name": "Fremont Municipal Airport",
+    "Location served": "Fremont, Nebraska, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FEZ",
+    "ICAO": "GMFF",
+    "Airport name": "Fes–Saïss Airport",
+    "Location served": "Fez, Morocco",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct1"
+  },
+  {
+    "IATA": "FFA",
+    "ICAO": "KFFA",
+    "Airport name": "First Flight Airport",
+    "Location served": "Kill Devil Hills, North Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FFD",
+    "ICAO": "EGVA",
+    "Airport name": "RAF Fairford",
+    "Location served": "Fairford, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FFL",
+    "ICAO": "KFFL",
+    "Airport name": "Fairfield Municipal Airport",
+    "Location served": "Fairfield, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FFM",
+    "ICAO": "KFFM",
+    "Airport name": "Fergus Falls Municipal Airport (Einar Mickelson Field)",
+    "Location served": "Fergus Falls, Minnesota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FFO",
+    "ICAO": "KFFO",
+    "Airport name": "Wright-Patterson Air Force Base (First Flight-Office)",
+    "Location served": "Dayton, Ohio, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FFT",
+    "ICAO": "KFFT",
+    "Airport name": "Capital City Airport",
+    "Location served": "Frankfort, Kentucky, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FFU",
+    "ICAO": "SCFT",
+    "Airport name": "Futaleufú Airfield",
+    "Location served": "Futaleufú, Chile",
+    "Time": "UTC−04:00",
+    "DST": "Aug-May"
+  },
+  {
+    "IATA": "FGD",
+    "ICAO": "GQPF",
+    "Airport name": "Fderik Airport",
+    "Location served": "Fderîck, Mauritania",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FGI",
+    "ICAO": "NSFI",
+    "Airport name": "Fagali'i Airport",
+    "Location served": "Apia, Upolu Island, Samoa",
+    "Time": "UTC+13:00",
+    "DST": "Sep-Apr"
+  },
+  {
+    "IATA": "FGU",
+    "ICAO": "NTGB",
+    "Airport name": "Fangatau Airport",
+    "Location served": "Fangatau, Tuamotus, French Polynesia",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FHU",
+    "ICAO": "KFHU",
+    "Airport name": "Sierra Vista Municipal Airport (Libby Army Airfield)",
+    "Location served": "Sierra Vista, Arizona, United States",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FHZ",
+    "ICAO": "NTKH",
+    "Airport name": "Fakahina Airport",
+    "Location served": "Fakahina, Tuamotus, French Polynesia",
+    "Time": "UTC−10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FID",
+    "ICAO": "",
+    "Airport name": "Elizabeth Field (FAA: 0B8)",
+    "Location served": "Fishers Island, New York, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FIE",
+    "ICAO": "EGEF",
+    "Airport name": "Fair Isle Airport",
+    "Location served": "Fair Isle, Scotland, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FIG",
+    "ICAO": "GUFA",
+    "Airport name": "Fria Airport",
+    "Location served": "Fria, Guinea",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FIH",
+    "ICAO": "FZAA",
+    "Airport name": "N'djili Airport (Kinshasa Int'l Airport)",
+    "Location served": "Kinshasa, Democratic Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FIK",
+    "ICAO": "YFNE",
+    "Airport name": "Finke Airport",
+    "Location served": "Finke (Aputula), Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "FIL",
+    "ICAO": "KFOM",
+    "Airport name": "Fillmore Municipal Airport (FAA: FOM)",
+    "Location served": "Fillmore, Utah, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FIN",
+    "ICAO": "AYFI",
+    "Airport name": "Finschhafen Airport",
+    "Location served": "Finschhafen, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FIZ",
+    "ICAO": "YFTZ",
+    "Airport name": "Fitzroy Crossing Airport",
+    "Location served": "Fitzroy Crossing, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FJR",
+    "ICAO": "OMFJ",
+    "Airport name": "Fujairah International Airport",
+    "Location served": "Fujairah, United Arab Emirates",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FKB",
+    "ICAO": "EDSB",
+    "Airport name": "Karlsruhe/Baden-Baden Airport",
+    "Location served": "Karlsruhe / Baden-Baden, Baden-Württemberg, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FKI",
+    "ICAO": "FZIC",
+    "Airport name": "Bangoka International Airport",
+    "Location served": "Kisangani, Democratic Republic of the Congo",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FKJ",
+    "ICAO": "RJNF",
+    "Airport name": "Fukui Airport",
+    "Location served": "Fukui, Honshu, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FKL",
+    "ICAO": "KFKL",
+    "Airport name": "Venango Regional Airport (Chess Lamberton Field)",
+    "Location served": "Franklin, Pennsylvania, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FKN",
+    "ICAO": "KFKN",
+    "Airport name": "Franklin Municipal–John Beverly Rose Airport",
+    "Location served": "Franklin, Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FKQ",
+    "ICAO": "WASF",
+    "Airport name": "Fakfak Torea Airport",
+    "Location served": "Fakfak, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FKS",
+    "ICAO": "RJSF",
+    "Airport name": "Fukushima Airport",
+    "Location served": "Sukagawa, Honshu, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FLA",
+    "ICAO": "SKFL",
+    "Airport name": "Gustavo Artunduaga Paredes Airport",
+    "Location served": "Florencia (Caquetá), Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FLB",
+    "ICAO": "SNQG",
+    "Airport name": "Cangapara Airport",
+    "Location served": "Floriano, Piauí, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FLD",
+    "ICAO": "KFLD",
+    "Airport name": "Fond du Lac County Airport",
+    "Location served": "Fond du Lac, Wisconsin, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FLF",
+    "ICAO": "EDXF",
+    "Airport name": "Flensburg-Schäferhaus Airport",
+    "Location served": "Flensburg, Schleswig-Holstein, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FLG",
+    "ICAO": "KFLG",
+    "Airport name": "Flagstaff Pulliam Airport",
+    "Location served": "Flagstaff, Arizona, United States",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FLH",
+    "ICAO": "",
+    "Airport name": "Flotta Airport",
+    "Location served": "Flotta, Scotland, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FLI",
+    "ICAO": "",
+    "Airport name": "Holt Airport",
+    "Location served": "Flateyri, Iceland",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FLL",
+    "ICAO": "KFLL",
+    "Airport name": "Fort Lauderdale–Hollywood International Airport",
+    "Location served": "Fort Lauderdale / Hollywood, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FLM",
+    "ICAO": "SGFI",
+    "Airport name": "Filadelfia Airport",
+    "Location served": "Filadelfia, Paraguay",
+    "Time": "UTC−04:00",
+    "DST": "Oct-Mar"
+  },
+  {
+    "IATA": "FLN",
+    "ICAO": "SBFL",
+    "Airport name": "Hercílio Luz International Airport",
+    "Location served": "Florianópolis, Santa Catarina, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "FLO",
+    "ICAO": "KFLO",
+    "Airport name": "Florence Regional Airport",
+    "Location served": "Florence, South Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FLP",
+    "ICAO": "KFLP",
+    "Airport name": "Marion County Regional Airport",
+    "Location served": "Flippin, Arkansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FLR",
+    "ICAO": "LIRQ",
+    "Airport name": "Florence Airport, Peretola (Amerigo Vespucci Airport)",
+    "Location served": "Florence, Tuscany, Italy",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FLS",
+    "ICAO": "YFLI",
+    "Airport name": "Flinders Island Airport",
+    "Location served": "Flinders Island, Tasmania, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "FLT",
+    "ICAO": "",
+    "Airport name": "Flat Airport",
+    "Location served": "Flat, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FLV",
+    "ICAO": "KFLV",
+    "Airport name": "Sherman Army Airfield",
+    "Location served": "Fort Leavenworth, Kansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FLW",
+    "ICAO": "LPFL",
+    "Airport name": "Flores Airport",
+    "Location served": "Flores Island, Azores, Portugal",
+    "Time": "UTC−01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FLX",
+    "ICAO": "KFLX",
+    "Airport name": "Fallon Municipal Airport",
+    "Location served": "Fallon, Nevada, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FLY",
+    "ICAO": "YFIL",
+    "Airport name": "Finley Airport",
+    "Location served": "Finley, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "FLZ",
+    "ICAO": "WIMS",
+    "Airport name": "Ferdinand Lumban Tobing Airport[1]",
+    "Location served": "Sibolga, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FMA",
+    "ICAO": "SARF",
+    "Airport name": "Formosa International Airport (El Pucú Airport)",
+    "Location served": "Formosa, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FME",
+    "ICAO": "KFME",
+    "Airport name": "Tipton Airport",
+    "Location served": "Fort Meade / Odenton, Maryland, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FMH",
+    "ICAO": "KFMH",
+    "Airport name": "Otis Air National Guard Base",
+    "Location served": "Falmouth, Massachusetts, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FMI",
+    "ICAO": "FZRF",
+    "Airport name": "Kalemie Airport",
+    "Location served": "Kalemie, Democratic Republic of the Congo",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FMM",
+    "ICAO": "EDJA",
+    "Airport name": "Memmingen Airport",
+    "Location served": "Memmingen, Bavaria, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FMN",
+    "ICAO": "KFMN",
+    "Airport name": "Four Corners Regional Airport",
+    "Location served": "Farmington, New Mexico, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FMO",
+    "ICAO": "EDDG",
+    "Airport name": "Münster Osnabrück International Airport",
+    "Location served": "Münster / Osnabrück (LS), North Rhine-Westphalia, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FMS",
+    "ICAO": "KFSW",
+    "Airport name": "Fort Madison Municipal Airport (FAA: FSW)",
+    "Location served": "Fort Madison, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FMU",
+    "ICAO": "",
+    "Airport name": "Florence Municipal Airport[1] (FAA: 6S2)",
+    "Location served": "Florence, Oregon, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FMY",
+    "ICAO": "KFMY",
+    "Airport name": "Page Field",
+    "Location served": "Fort Myers, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FNA",
+    "ICAO": "GFLL",
+    "Airport name": "Lungi International Airport",
+    "Location served": "Freetown, Sierra Leone",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FNB",
+    "ICAO": "ETNU",
+    "Airport name": "Neubrandenburg Airport",
+    "Location served": "Neubrandenburg, Mecklenburg-Vorpommern, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FNC",
+    "ICAO": "LPMA",
+    "Airport name": "Madeira Airport",
+    "Location served": "Funchal, Madeira, Portugal",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FND",
+    "ICAO": "",
+    "Airport name": "Funadhoo Airport",
+    "Location served": "Funadhoo, Shaviyani Atoll, Maldives",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FNE",
+    "ICAO": "AYFA",
+    "Airport name": "Fane Airport",
+    "Location served": "Fane, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FNG",
+    "ICAO": "DFEF",
+    "Airport name": "Fada N'gourma Airport",
+    "Location served": "Fada N'gourma, Burkina Faso",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FNH",
+    "ICAO": "HAFN",
+    "Airport name": "Fincha Airport",
+    "Location served": "Fincha, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FNI",
+    "ICAO": "LFTW",
+    "Airport name": "Nîmes–Alès–Camargue–Cévennes Airport (Garons Airport)",
+    "Location served": "Nîmes, Languedoc-Roussillon, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FNJ",
+    "ICAO": "ZKPY",
+    "Airport name": "Pyongyang Sunan International Airport",
+    "Location served": "Pyongyang, North Korea",
+    "Time": "UTC+08:30",
+    "DST": ""
+  },
+  {
+    "IATA": "FNL",
+    "ICAO": "KFNL",
+    "Airport name": "Fort Collins–Loveland Municipal Airport",
+    "Location served": "Fort Collins/Loveland, Colorado, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FNR",
+    "ICAO": "PANR",
+    "Airport name": "Funter Bay Seaplane Base",
+    "Location served": "Funter Bay, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FNT",
+    "ICAO": "KFNT",
+    "Airport name": "Bishop International Airport",
+    "Location served": "Flint, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FNU",
+    "ICAO": "LIER",
+    "Airport name": "Oristano-Fenosu Airport[1]",
+    "Location served": "Oristano, Sardinia, Italy",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FOA",
+    "ICAO": "",
+    "Airport name": "Foula Airfield",
+    "Location served": "Foula, Scotland, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FOB",
+    "ICAO": "",
+    "Airport name": "Fort Bragg Airport (FAA: 82CL)",
+    "Location served": "Fort Bragg, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FOC",
+    "ICAO": "ZSFZ",
+    "Airport name": "Fuzhou Changle International Airport",
+    "Location served": "Fuzhou, Fujian, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FOD",
+    "ICAO": "KFOD",
+    "Airport name": "Fort Dodge Regional Airport",
+    "Location served": "Fort Dodge, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FOE",
+    "ICAO": "KFOE",
+    "Airport name": "Topeka Regional Airport",
+    "Location served": "Topeka, Kansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FOG",
+    "ICAO": "LIBF",
+    "Airport name": "Foggia \"Gino Lisa\" Airport",
+    "Location served": "Foggia, Apulia, Italy",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FOK",
+    "ICAO": "KFOK",
+    "Airport name": "Francis S. Gabreski Airport",
+    "Location served": "Westhampton Beach, New York, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FOM",
+    "ICAO": "FKKM",
+    "Airport name": "Foumban Nkounja Airport",
+    "Location served": "Foumban, Cameroon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FON",
+    "ICAO": "MRAN",
+    "Airport name": "La Fortuna Arenal Airport",
+    "Location served": "La Fortuna, Costa Rica",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FOO",
+    "ICAO": "",
+    "Airport name": "Kornasoren Airport (Numfoor Airport)",
+    "Location served": "Numfoor, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FOR",
+    "ICAO": "SBFZ",
+    "Airport name": "Pinto Martins – Fortaleza International Airport",
+    "Location served": "Fortaleza, Ceará, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FOS",
+    "ICAO": "YFRT",
+    "Airport name": "Forrest Airport",
+    "Location served": "Forrest, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FOT",
+    "ICAO": "YFST",
+    "Airport name": "Forster (Wallis Island) Airport[1][2]",
+    "Location served": "Forster, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "FOU",
+    "ICAO": "FOGF",
+    "Airport name": "Fougamou Airport",
+    "Location served": "Fougamou, Gabon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FOY",
+    "ICAO": "",
+    "Airport name": "Foya Airport",
+    "Location served": "Foya, Liberia",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FPO",
+    "ICAO": "MYGF",
+    "Airport name": "Grand Bahama International Airport",
+    "Location served": "Freeport, Grand Bahama, Bahamas",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FPR",
+    "ICAO": "KFPR",
+    "Airport name": "St. Lucie County International Airport",
+    "Location served": "Fort Pierce, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FPY",
+    "ICAO": "",
+    "Airport name": "Perry-Foley Airport (FAA: 40J)",
+    "Location served": "Perry, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FRA",
+    "ICAO": "EDDF",
+    "Airport name": "Frankfurt Airport",
+    "Location served": "Frankfurt, Hessen, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FRB",
+    "ICAO": "YFBS",
+    "Airport name": "Forbes Airport",
+    "Location served": "Forbes, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "FRC",
+    "ICAO": "SIMK",
+    "Airport name": "Franca Airport (Ten. Lund Presotto–Franca State Airport)",
+    "Location served": "Franca, São Paulo, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "FRD",
+    "ICAO": "KFHR",
+    "Airport name": "Friday Harbor Airport (FAA: FHR)",
+    "Location served": "Friday Harbor, Washington, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FRE",
+    "ICAO": "AGGF",
+    "Airport name": "Fera Airport (Fera/Maringe Airport)",
+    "Location served": "Fera Island, Isabel Province, Solomon Islands",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FRG",
+    "ICAO": "KFRG",
+    "Airport name": "Republic Airport",
+    "Location served": "Farmingdale, New York, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FRH",
+    "ICAO": "KFRH",
+    "Airport name": "French Lick Municipal Airport",
+    "Location served": "French Lick, Indiana, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FRI",
+    "ICAO": "KFRI",
+    "Airport name": "Marshall Army Airfield",
+    "Location served": "Fort Riley, Kansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FRK",
+    "ICAO": "FSSF",
+    "Airport name": "Frégate Island Airport",
+    "Location served": "Frégate Island, Seychelles",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FRL",
+    "ICAO": "LIPK",
+    "Airport name": "Forlì International Airport (Luigi Ridolfi Airport)",
+    "Location served": "Forlì, Emilia-Romagna, Italy",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FRM",
+    "ICAO": "KFRM",
+    "Airport name": "Fairmont Municipal Airport",
+    "Location served": "Fairmont, Minnesota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FRN",
+    "ICAO": "PAFR",
+    "Airport name": "Bryant Army Airport",
+    "Location served": "Anchorage, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FRO",
+    "ICAO": "ENFL",
+    "Airport name": "Florø Airport",
+    "Location served": "Florø, Norway",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FRQ",
+    "ICAO": "AYFE",
+    "Airport name": "Feramin Airport",
+    "Location served": "Feramin, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FRR",
+    "ICAO": "KFRR",
+    "Airport name": "Front Royal–Warren County Airport",
+    "Location served": "Front Royal, Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FRS",
+    "ICAO": "MGTK",
+    "Airport name": "Mundo Maya International Airport",
+    "Location served": "Flores, Guatemala",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FRT",
+    "ICAO": "SCFI",
+    "Airport name": "Frutillar Airport",
+    "Location served": "Frutillar, Chile",
+    "Time": "UTC−04:00",
+    "DST": "Aug-May"
+  },
+  {
+    "IATA": "FRU",
+    "ICAO": "UAFM",
+    "Airport name": "Manas International Airport",
+    "Location served": "Bishkek, Kyrgyzstan",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FRW",
+    "ICAO": "FBFT",
+    "Airport name": "Francistown Airport",
+    "Location served": "Francistown, Botswana",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FRY",
+    "ICAO": "KIZG",
+    "Airport name": "Eastern Slopes Regional Airport (FAA: IZG)",
+    "Location served": "Fryeburg, Maine, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FRZ",
+    "ICAO": "ETHF",
+    "Airport name": "Fritzlar Air Base",
+    "Location served": "Fritzlar, Hesse, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FSC",
+    "ICAO": "LFKF",
+    "Airport name": "Figari–Sud Corse Airport",
+    "Location served": "Figari, Corsica, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FSD",
+    "ICAO": "KFSD",
+    "Airport name": "Sioux Falls Regional Airport (Joe Foss Field)",
+    "Location served": "Sioux Falls, South Dakota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FSI",
+    "ICAO": "KFSI",
+    "Airport name": "Henry Post Army Airfield (Fort Sill)",
+    "Location served": "Lawton, Oklahoma, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FSK",
+    "ICAO": "KFSK",
+    "Airport name": "Fort Scott Municipal Airport",
+    "Location served": "Fort Scott, Kansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FSL",
+    "ICAO": "",
+    "Airport name": "Fossil Downs Airport",
+    "Location served": "Fossil Downs Station, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FSM",
+    "ICAO": "KFSM",
+    "Airport name": "Fort Smith Regional Airport",
+    "Location served": "Fort Smith, Arkansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FSP",
+    "ICAO": "LFVP",
+    "Airport name": "Saint-Pierre Airport",
+    "Location served": "Saint-Pierre, Saint Pierre and Miquelon",
+    "Time": "UTC−03:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FSS",
+    "ICAO": "EGQK",
+    "Airport name": "RAF Kinloss",
+    "Location served": "Forres, Scotland, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FST",
+    "ICAO": "KFST",
+    "Airport name": "Fort Stockton–Pecos County Airport",
+    "Location served": "Fort Stockton, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FSU",
+    "ICAO": "KFSU",
+    "Airport name": "Fort Sumner Municipal Airport",
+    "Location served": "Fort Sumner, New Mexico, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FSZ",
+    "ICAO": "RJNS",
+    "Airport name": "Shizuoka Airport (Mt. Fuji Shizuoka Airport)",
+    "Location served": "Shizuoka, Honshu, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FTA",
+    "ICAO": "NVVF",
+    "Airport name": "Futuna Airport",
+    "Location served": "Futuna Island, Tafea, Vanuatu",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FTE",
+    "ICAO": "SAWA",
+    "Airport name": "Comandante Armando Tola International Airport",
+    "Location served": "El Calafate, Santa Cruz, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FTI",
+    "ICAO": "NSFQ",
+    "Airport name": "Fitiuta Airport (FAA: FAQ)",
+    "Location served": "Fitiuta, American Samoa, United States",
+    "Time": "UTC−11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FTK",
+    "ICAO": "KFTK",
+    "Airport name": "Godman Army Airfield",
+    "Location served": "Fort Knox, Kentucky, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FTU",
+    "ICAO": "FMSD",
+    "Airport name": "Tôlanaro Airport (Marillac Airport)",
+    "Location served": "Tôlanaro, Madagascar",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FTW",
+    "ICAO": "KFTW",
+    "Airport name": "Fort Worth Meacham International Airport",
+    "Location served": "Fort Worth, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FTX",
+    "ICAO": "FCOO",
+    "Airport name": "Owando Airport",
+    "Location served": "Owando, Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FTY",
+    "ICAO": "KFTY",
+    "Airport name": "Fulton County Airport (Charlie Brown Field)",
+    "Location served": "Atlanta, Georgia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FUB",
+    "ICAO": "",
+    "Airport name": "Fulleborn Airport",
+    "Location served": "Fulleborn, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FUE",
+    "ICAO": "GCFV",
+    "Airport name": "Fuerteventura Airport",
+    "Location served": "Fuerteventura, Canary Islands, Spain",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "FUG",
+    "ICAO": "ZSFY",
+    "Airport name": "Fuyang Xiguan Airport",
+    "Location served": "Fuyang, Anhui, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FUJ",
+    "ICAO": "RJFE",
+    "Airport name": "Fukue Airport (Gotō-Fukue Airport)",
+    "Location served": "Gotō, Gotō Islands, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FUK",
+    "ICAO": "RJFF",
+    "Airport name": "Fukuoka Airport (Itazuke Air Base)",
+    "Location served": "Fukuoka, Kyushu, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FUL",
+    "ICAO": "KFUL",
+    "Airport name": "Fullerton Municipal Airport",
+    "Location served": "Fullerton, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FUM",
+    "ICAO": "",
+    "Airport name": "Fuma Airport[1]",
+    "Location served": "Fuma, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FUN",
+    "ICAO": "NGFU",
+    "Airport name": "Funafuti International Airport",
+    "Location served": "Funafuti, Tuvalu",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FUO",
+    "ICAO": "ZGFS",
+    "Airport name": "Foshan Shadi Airport",
+    "Location served": "Foshan, Guangdong, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FUT",
+    "ICAO": "NLWF",
+    "Airport name": "Pointe Vele Airport",
+    "Location served": "Futuna Island, Wallis and Futuna",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FVL",
+    "ICAO": "YFLO",
+    "Airport name": "Flora Valley Airport[1]",
+    "Location served": "Flora Valley, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FVM",
+    "ICAO": "VRMF",
+    "Airport name": "Fuvahmulah Airport",
+    "Location served": "Fuvahmulah, Gnaviyani Atoll, Maldives",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FVR",
+    "ICAO": "YFRV",
+    "Airport name": "Forrest River Airport[1]",
+    "Location served": "Forrest River Mission, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FWA",
+    "ICAO": "KFWA",
+    "Airport name": "Fort Wayne International Airport",
+    "Location served": "Fort Wayne, Indiana, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FWH",
+    "ICAO": "KNFW",
+    "Airport name": "NAS Fort Worth JRB / Carswell Field (FAA: NFW)",
+    "Location served": "Fort Worth, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FWL",
+    "ICAO": "PAFW",
+    "Airport name": "Farewell Airport",
+    "Location served": "Farewell, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FXE",
+    "ICAO": "KFXE",
+    "Airport name": "Fort Lauderdale Executive Airport",
+    "Location served": "Fort Lauderdale, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FXO",
+    "ICAO": "FQCB",
+    "Airport name": "Cuamba Airport",
+    "Location served": "Cuamba, Mozambique",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FXY",
+    "ICAO": "KFXY",
+    "Airport name": "Forest City Municipal Airport",
+    "Location served": "Forest City, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FYJ",
+    "ICAO": "ZYFY",
+    "Airport name": "Fuyuan Dongji Airport",
+    "Location served": "Fuyuan, Heilongjiang, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FYM",
+    "ICAO": "KFYM",
+    "Airport name": "Fayetteville Municipal Airport",
+    "Location served": "Fayetteville, Tennessee, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FYN",
+    "ICAO": "ZWFY",
+    "Airport name": "Fuyun Koktokay Airport[1]",
+    "Location served": "Fuyun, Xinjiang, China",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FYT",
+    "ICAO": "FTTY",
+    "Airport name": "Faya-Largeau Airport",
+    "Location served": "Faya-Largeau, Chad",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "FYU",
+    "ICAO": "PFYU",
+    "Airport name": "Fort Yukon Airport",
+    "Location served": "Fort Yukon, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FYV",
+    "ICAO": "KFYV",
+    "Airport name": "Drake Field (Fayetteville Executive Airport)",
+    "Location served": "Fayetteville, Arkansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "FZO",
+    "ICAO": "EGTG",
+    "Airport name": "Bristol Filton Airport",
+    "Location served": "Bristol, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  }
+]

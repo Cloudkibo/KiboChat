@@ -1,0 +1,2034 @@
+[
+  {
+    "IATA": "EAA",
+    "ICAO": "PAEG",
+    "Airport name": "Eagle Airport",
+    "Location served": "Eagle, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EAB",
+    "ICAO": "ODAS",
+    "Airport name": "Abbs Airport",
+    "Location served": "Abbs, Yemen",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EAE",
+    "ICAO": "NVSE",
+    "Airport name": "Siwo Airport",
+    "Location served": "Emae Island, Shefa, Vanuatu",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EAL",
+    "ICAO": "",
+    "Airport name": "Elenak Airport",
+    "Location served": "Mejato Island, Kwajalein Atoll, Marshall Islands",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EAM",
+    "ICAO": "OENG",
+    "Airport name": "Najran Domestic Airport",
+    "Location served": "Najran, Saudi Arabia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EAN",
+    "ICAO": "KEAN",
+    "Airport name": "Phifer Airfield",
+    "Location served": "Wheatland, Wyoming, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EAP[1]",
+    "ICAO": "",
+    "Airport name": "metropolitan area2",
+    "Location served": "Basel, Switzerland / Mulhouse, Alsace, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "EAR",
+    "ICAO": "KEAR",
+    "Airport name": "Kearney Regional Airport",
+    "Location served": "Kearney, Nebraska, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EAS",
+    "ICAO": "LESO",
+    "Airport name": "San Sebastián Airport",
+    "Location served": "San Sebastián, Basque Country, Spain",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "EAT",
+    "ICAO": "KEAT",
+    "Airport name": "Pangborn Memorial Airport",
+    "Location served": "Wenatchee, Washington, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EAU",
+    "ICAO": "KEAU",
+    "Airport name": "Chippewa Valley Regional Airport",
+    "Location served": "Eau Claire, Wisconsin, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EBA",
+    "ICAO": "LIRJ",
+    "Airport name": "Marina di Campo Airport",
+    "Location served": "Elba Island, Tuscany, Italy",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "EBB",
+    "ICAO": "HUEN",
+    "Airport name": "Entebbe International Airport",
+    "Location served": "Entebbe, Uganda",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EBD",
+    "ICAO": "HSOB",
+    "Airport name": "El Obeid Airport",
+    "Location served": "El Obeid, Sudan",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EBG",
+    "ICAO": "SKEB",
+    "Airport name": "El Bagre Airport (El Tomin Airport)",
+    "Location served": "El Bagre, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EBH",
+    "ICAO": "DAOY",
+    "Airport name": "El Bayadh Airport[1]",
+    "Location served": "El Bayadh, Algeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EBJ",
+    "ICAO": "EKEB",
+    "Airport name": "Esbjerg Airport",
+    "Location served": "Esbjerg, Denmark",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "EBL",
+    "ICAO": "ORER",
+    "Airport name": "Erbil International Airport",
+    "Location served": "Erbil, Iraq",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EBM",
+    "ICAO": "DTTR",
+    "Airport name": "El Borma Airport",
+    "Location served": "El Borma, Tunisia",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EBN",
+    "ICAO": "",
+    "Airport name": "Ebadon Airstrip",
+    "Location served": "Ebadon Island, Kwajalein Atoll, Marshall Islands",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EBO",
+    "ICAO": "",
+    "Airport name": "Ebon Airport",
+    "Location served": "Ebon Atoll, Marshall Islands",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EBS",
+    "ICAO": "KEBS",
+    "Airport name": "Webster City Municipal Airport",
+    "Location served": "Webster City, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EBU",
+    "ICAO": "LFMH",
+    "Airport name": "Saint-Étienne–Bouthéon Airport",
+    "Location served": "Saint-Étienne, Rhône-Alpes, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "EBW",
+    "ICAO": "FKKW",
+    "Airport name": "Ebolowa Airport",
+    "Location served": "Ebolowa, Cameroon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ECA",
+    "ICAO": "",
+    "Airport name": "Iosco County Airport (FAA: 6D9)",
+    "Location served": "East Tawas, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ECG",
+    "ICAO": "KECG",
+    "Airport name": "Elizabeth City Regional Airport",
+    "Location served": "Elizabeth City, North Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ECH",
+    "ICAO": "YECH",
+    "Airport name": "Echuca Airport",
+    "Location served": "Echuca, Victoria, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "ECI",
+    "ICAO": "MNLP",
+    "Airport name": "Costa Esmeralda Airport[1]",
+    "Location served": "Rivas, Nicaragua",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ECN",
+    "ICAO": "LCEN",
+    "Airport name": "Ercan International Airport[1]",
+    "Location served": "Nicosia (Lefkoşa), Northern Cyprus",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ECO",
+    "ICAO": "",
+    "Airport name": "El Encanto Airport",
+    "Location served": "El Encanto, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ECP",
+    "ICAO": "KECP",
+    "Airport name": "Northwest Florida Beaches International Airport",
+    "Location served": "Panama City, Florida, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ECR",
+    "ICAO": "SKEH[2]",
+    "Airport name": "El Charco Airport",
+    "Location served": "El Charco, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ECS",
+    "ICAO": "KECS",
+    "Airport name": "Mondell Field",
+    "Location served": "Newcastle, Wyoming, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EDA",
+    "ICAO": "",
+    "Airport name": "Edna Bay Seaplane Base[1]",
+    "Location served": "Edna Bay, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EDB",
+    "ICAO": "HSDB",
+    "Airport name": "El Debba Airport",
+    "Location served": "El Debba, Sudan",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EDD",
+    "ICAO": "",
+    "Airport name": "Erldunda Airport",
+    "Location served": "Erldunda, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "EDE",
+    "ICAO": "KEDE",
+    "Airport name": "Northeastern Regional Airport",
+    "Location served": "Edenton, North Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EDF",
+    "ICAO": "PAED",
+    "Airport name": "Elmendorf Air Force Base",
+    "Location served": "Anchorage, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EDI",
+    "ICAO": "EGPH",
+    "Airport name": "Edinburgh Airport",
+    "Location served": "Edinburgh, Scotland, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "EDK",
+    "ICAO": "KEQA",
+    "Airport name": "Captain Jack Thomas/El Dorado Airport (FAA: EQA)",
+    "Location served": "El Dorado, Kansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EDL",
+    "ICAO": "HKEL",
+    "Airport name": "Eldoret International Airport",
+    "Location served": "Eldoret, Kenya",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EDM",
+    "ICAO": "LFRI",
+    "Airport name": "La Roche-sur-Yon Aerodrome",
+    "Location served": "La Roche-sur-Yon, Pays de la Loire, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "EDO",
+    "ICAO": "LTFD",
+    "Airport name": "Balıkesir Koca Seyit Airport",
+    "Location served": "Edremit, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EDQ",
+    "ICAO": "",
+    "Airport name": "Erandique Airport",
+    "Location served": "Erandique, Honduras",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EDR",
+    "ICAO": "YPMP",
+    "Airport name": "Edward River Airport",
+    "Location served": "Pormpuraaw, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EDW",
+    "ICAO": "KEDW",
+    "Airport name": "Edwards Air Force Base",
+    "Location served": "Edwards, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EED",
+    "ICAO": "KEED",
+    "Airport name": "Needles Airport",
+    "Location served": "Needles, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EEK",
+    "ICAO": "PAEE",
+    "Airport name": "Eek Airport",
+    "Location served": "Eek, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EEN",
+    "ICAO": "KEEN",
+    "Airport name": "Dillant–Hopkins Airport",
+    "Location served": "Keene, New Hampshire, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EFD",
+    "ICAO": "KEFD",
+    "Airport name": "Ellington Field",
+    "Location served": "Houston, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EFG",
+    "ICAO": "AYEF",
+    "Airport name": "Efogi Airport",
+    "Location served": "Efogi, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EFK",
+    "ICAO": "KEFK",
+    "Airport name": "Newport State Airport",
+    "Location served": "Newport, Vermont, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EFL",
+    "ICAO": "LGKF",
+    "Airport name": "Cephalonia International Airport",
+    "Location served": "Cephalonia, Greece",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "EFW",
+    "ICAO": "KEFW",
+    "Airport name": "Jefferson Municipal Airport",
+    "Location served": "Jefferson, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EGA",
+    "ICAO": "AYEN",
+    "Airport name": "Engati Airport",
+    "Location served": "Engati, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EGC",
+    "ICAO": "LFBE",
+    "Airport name": "Bergerac Dordogne Périgord Airport",
+    "Location served": "Bergerac, Aquitaine, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "EGE",
+    "ICAO": "KEGE",
+    "Airport name": "Eagle County Regional Airport",
+    "Location served": "Eagle / Vail, Colorado, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EGI",
+    "ICAO": "KEGI",
+    "Airport name": "Duke Field (Eglin Auxiliary Field 3)",
+    "Location served": "Crestview, Florida, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EGL",
+    "ICAO": "HANG",
+    "Airport name": "Neghelle Airport",
+    "Location served": "Neghelle, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EGM",
+    "ICAO": "AGGS",
+    "Airport name": "Seghe Airport",
+    "Location served": "Seghe, Western Province, Solomon Islands",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EGN",
+    "ICAO": "HSGN",
+    "Airport name": "Geneina Airport",
+    "Location served": "Geneina, Sudan",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EGO",
+    "ICAO": "UUOB",
+    "Airport name": "Belgorod International Airport",
+    "Location served": "Belgorod, Belgorod Oblast, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EGP",
+    "ICAO": "",
+    "Airport name": "Maverick County Memorial International Airport",
+    "Location served": "Eagle Pass, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EGS",
+    "ICAO": "BIEG",
+    "Airport name": "Egilsstaðir Airport",
+    "Location served": "Egilsstaðir, Iceland",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EGV",
+    "ICAO": "KEGV",
+    "Airport name": "Eagle River Union Airport",
+    "Location served": "Eagle River, Wisconsin, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EGX",
+    "ICAO": "PAII",
+    "Airport name": "Egegik Airport (FAA: EII)",
+    "Location served": "Egegik, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EHL",
+    "ICAO": "SAVB",
+    "Airport name": "El Bolsón Airport",
+    "Location served": "El Bolsón, Río Negro, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EHM",
+    "ICAO": "PAEH",
+    "Airport name": "Cape Newenham LRRS Airport",
+    "Location served": "Cape Newenham, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EIA",
+    "ICAO": "",
+    "Airport name": "Popondetta Airport",
+    "Location served": "Eia, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EIB",
+    "ICAO": "EDGE",
+    "Airport name": "Eisenach-Kindel Airport[1]",
+    "Location served": "Eisenach, Thuringia, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "EIE",
+    "ICAO": "UNII",
+    "Airport name": "Yeniseysk Airport",
+    "Location served": "Yeniseysk, Krasnoyarsk Krai, Russia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EIH",
+    "ICAO": "",
+    "Airport name": "Einasleigh Airport",
+    "Location served": "Einasleigh, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EIK",
+    "ICAO": "URKE",
+    "Airport name": "Yeysk Airport[1]",
+    "Location served": "Yeysk, Krasnodar Krai, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EIL",
+    "ICAO": "PAEI",
+    "Airport name": "Eielson Air Force Base",
+    "Location served": "Fairbanks, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EIN",
+    "ICAO": "EHEH",
+    "Airport name": "Eindhoven Airport",
+    "Location served": "Eindhoven, Netherlands",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "EIS",
+    "ICAO": "TUPJ",
+    "Airport name": "Terrance B. Lettsome International Airport",
+    "Location served": "Tortola, British Overseas Territory of Virgin Islands",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EIY",
+    "ICAO": "LLEY",
+    "Airport name": "Ein Yahav Airfield",
+    "Location served": "Ein Yahav, Israel",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "EJA",
+    "ICAO": "SKEJ",
+    "Airport name": "Yariguíes Airport",
+    "Location served": "Barrancabermeja, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EJH",
+    "ICAO": "OEWJ",
+    "Airport name": "Al Wajh Domestic Airport",
+    "Location served": "Al Wajh, Saudi Arabia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EJN",
+    "ICAO": "",
+    "Airport name": "Ejin Banner Taolai Airport",
+    "Location served": "Ejin Banner, Inner Mongolia, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EJT",
+    "ICAO": "",
+    "Airport name": "Enejit Airport",
+    "Location served": "Enejit, Mili Atoll, Marshall Islands",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EKA",
+    "ICAO": "KEKA",
+    "Airport name": "Murray Field",
+    "Location served": "Eureka, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EKB",
+    "ICAO": "UASB",
+    "Airport name": "Ekibastuz Airport",
+    "Location served": "Ekibastuz, Kazakhstan",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EKD",
+    "ICAO": "",
+    "Airport name": "Elkedra Airport",
+    "Location served": "Elkedra, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "EKE",
+    "ICAO": "",
+    "Airport name": "Ekereku Airport",
+    "Location served": "Ekereku, Guyana",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EKI",
+    "ICAO": "KEKM",
+    "Airport name": "Elkhart Municipal Airport (FAA: EKM)",
+    "Location served": "Elkhart, Indiana, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EKN",
+    "ICAO": "KEKN",
+    "Airport name": "Elkins-Randolph County Airport",
+    "Location served": "Elkins, West Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EKO",
+    "ICAO": "KEKO",
+    "Airport name": "Elko Regional Airport",
+    "Location served": "Elko, Nevada, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EKS",
+    "ICAO": "UHSK",
+    "Airport name": "Shakhtyorsk Airport[1]",
+    "Location served": "Shakhtyorsk, Sakhalin Oblast, Russia",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EKT",
+    "ICAO": "ESSU",
+    "Airport name": "Eskilstuna Airport",
+    "Location served": "Eskilstuna, Sweden",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "EKX",
+    "ICAO": "KEKX",
+    "Airport name": "Elizabethtown Regional Airport (Addington Field)",
+    "Location served": "Elizabethtown, Kentucky, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ELA",
+    "ICAO": "KELA",
+    "Airport name": "Eagle Lake Airport",
+    "Location served": "Eagle Lake, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ELB",
+    "ICAO": "SKBC",
+    "Airport name": "Las Flores Airport",
+    "Location served": "El Banco, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ELC",
+    "ICAO": "YELD",
+    "Airport name": "Elcho Island Airport",
+    "Location served": "Elcho Island, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "ELD",
+    "ICAO": "KELD",
+    "Airport name": "South Arkansas Regional Airport at Goodwin Field",
+    "Location served": "El Dorado, Arkansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ELE",
+    "ICAO": "",
+    "Airport name": "El Real Airport",
+    "Location served": "El Real, Panama",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ELF",
+    "ICAO": "HSFS",
+    "Airport name": "El Fasher Airport",
+    "Location served": "El Fasher, Sudan",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ELG",
+    "ICAO": "DAUE",
+    "Airport name": "El Golea Airport",
+    "Location served": "El Goléa, Algeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ELH",
+    "ICAO": "MYEH",
+    "Airport name": "North Eleuthera Airport",
+    "Location served": "North Eleuthera, Eleuthera Island, Bahamas",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ELI",
+    "ICAO": "PFEL",
+    "Airport name": "Elim Airport",
+    "Location served": "Elim, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ELJ",
+    "ICAO": "SVWX[3]",
+    "Airport name": "El Recreo Airport",
+    "Location served": "El Recreo, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ELK",
+    "ICAO": "KELK",
+    "Airport name": "Elk City Regional Business Airport",
+    "Location served": "Elk City, Oklahoma, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ELL",
+    "ICAO": "FAER",
+    "Airport name": "Ellisras Airport",
+    "Location served": "Ellisras, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ELM",
+    "ICAO": "KELM",
+    "Airport name": "Elmira/Corning Regional Airport",
+    "Location served": "Elmira / Corning, New York, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ELN",
+    "ICAO": "KELN",
+    "Airport name": "Bowers Field",
+    "Location served": "Ellensburg, Washington, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ELO",
+    "ICAO": "SATD",
+    "Airport name": "Eldorado Airport",
+    "Location served": "Eldorado, Misiones, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ELP",
+    "ICAO": "KELP",
+    "Airport name": "El Paso International Airport",
+    "Location served": "El Paso, Texas, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ELQ",
+    "ICAO": "OEGS",
+    "Airport name": "Prince Nayef bin Abdulaziz Regional Airport",
+    "Location served": "Buraidah, Saudi Arabia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ELR",
+    "ICAO": "",
+    "Airport name": "Elelim Airport",
+    "Location served": "Elelim, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ELS",
+    "ICAO": "FAEL",
+    "Airport name": "East London Airport",
+    "Location served": "East London, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ELT",
+    "ICAO": "HETR",
+    "Airport name": "El Tor Airport",
+    "Location served": "El Tor, Egypt",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ELU",
+    "ICAO": "DAUO",
+    "Airport name": "Guemar Airport",
+    "Location served": "El Oued, Algeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ELV",
+    "ICAO": "PAEL",
+    "Airport name": "Elfin Cove Seaplane Base",
+    "Location served": "Elfin Cove, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ELW",
+    "ICAO": "",
+    "Airport name": "Ellamar Seaplane Base (FAA: 1Z9)",
+    "Location served": "Ellamar, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ELX",
+    "ICAO": "",
+    "Airport name": "El Tigre Airport",
+    "Location served": "El Tigre, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ELY",
+    "ICAO": "KELY",
+    "Airport name": "Ely Airport",
+    "Location served": "Ely, Nevada, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ELZ",
+    "ICAO": "KELZ",
+    "Airport name": "Wellsville Municipal Airport (Tarantine Field)",
+    "Location served": "Wellsville, New York, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EMA",
+    "ICAO": "EGNX",
+    "Airport name": "East Midlands Airport",
+    "Location served": "Nottingham / Leicester / Derby, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "EMD",
+    "ICAO": "YEML",
+    "Airport name": "Emerald Airport",
+    "Location served": "Emerald, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EME",
+    "ICAO": "EDWE",
+    "Airport name": "Emden Airport",
+    "Location served": "Emden, Lower Saxony, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "EMG",
+    "ICAO": "FAEM",
+    "Airport name": "Empangeni Airport",
+    "Location served": "Empangeni, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EMI",
+    "ICAO": "AYEE",
+    "Airport name": "Emirau Airport",
+    "Location served": "Emirau Island, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EMK",
+    "ICAO": "PAEM",
+    "Airport name": "Emmonak Airport (FAA: ENM)",
+    "Location served": "Emmonak, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EML",
+    "ICAO": "LSME",
+    "Airport name": "Emmen Air Base",
+    "Location served": "Emmen, Switzerland",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "EMM",
+    "ICAO": "KEMM",
+    "Airport name": "Kemmerer Municipal Airport",
+    "Location served": "Kemmerer, Wyoming, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EMN",
+    "ICAO": "GQNI",
+    "Airport name": "Néma Airport",
+    "Location served": "Néma, Mauritania",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EMO",
+    "ICAO": "AYEO",
+    "Airport name": "Emo Airport",
+    "Location served": "Emo, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EMP",
+    "ICAO": "KEMP",
+    "Airport name": "Emporia Municipal Airport",
+    "Location served": "Emporia, Kansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EMS",
+    "ICAO": "AYEB",
+    "Airport name": "Embessa Airport",
+    "Location served": "Embessa, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EMT",
+    "ICAO": "KEMT",
+    "Airport name": "San Gabriel Valley Airport",
+    "Location served": "El Monte, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EMX",
+    "ICAO": "SAVD",
+    "Airport name": "El Maitén Airport",
+    "Location served": "El Maitén, Chubut, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EMY",
+    "ICAO": "HEMN",
+    "Airport name": "El Minya Airport",
+    "Location served": "El Minya, Egypt",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ENA",
+    "ICAO": "PAEN",
+    "Airport name": "Kenai Municipal Airport",
+    "Location served": "Kenai, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ENB",
+    "ICAO": "YEEB",
+    "Airport name": "Eneabba Airport",
+    "Location served": "Eneabba, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ENC",
+    "ICAO": "LFSN",
+    "Airport name": "Nancy-Essey Airport",
+    "Location served": "Nancy, Lorraine, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "END",
+    "ICAO": "KEND",
+    "Airport name": "Vance Air Force Base",
+    "Location served": "Enid, Oklahoma, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ENE",
+    "ICAO": "WATE",
+    "Airport name": "H. Hasan Aroeboesman Airport",
+    "Location served": "Ende, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ENF",
+    "ICAO": "EFET",
+    "Airport name": "Enontekiö Airport",
+    "Location served": "Enontekiö, Finland",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "ENH",
+    "ICAO": "ZHES",
+    "Airport name": "Enshi Xujiaping Airport",
+    "Location served": "Enshi, Hubei, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ENI",
+    "ICAO": "RPEN",
+    "Airport name": "El Nido Airport",
+    "Location served": "El Nido, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ENJ",
+    "ICAO": "",
+    "Airport name": "El Naranjo Airport",
+    "Location served": "El Naranjo, Guatemala",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ENK",
+    "ICAO": "EGAB",
+    "Airport name": "Enniskillen/St Angelo Airport",
+    "Location served": "Enniskillen, Northern Ireland, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "ENL",
+    "ICAO": "KENL",
+    "Airport name": "Centralia Municipal Airport",
+    "Location served": "Centralia, Illinois, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ENN",
+    "ICAO": "PANN",
+    "Airport name": "Nenana Municipal Airport",
+    "Location served": "Nenana, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ENO",
+    "ICAO": "SGEN",
+    "Airport name": "Teniente Amin Ayub Gonzalez Airport",
+    "Location served": "Encarnacion, Paraguay",
+    "Time": "UTC−04:00",
+    "DST": "Oct-Mar"
+  },
+  {
+    "IATA": "ENS",
+    "ICAO": "EHTW",
+    "Airport name": "Enschede Airport Twente",
+    "Location served": "Enschede, Netherlands",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "ENT",
+    "ICAO": "PKMA",
+    "Airport name": "Enewetak Auxiliary Airfield",
+    "Location served": "Enewetak, Marshall Islands",
+    "Time": "UTC+12:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ENU",
+    "ICAO": "DNEN",
+    "Airport name": "Akanu Ibiam International Airport",
+    "Location served": "Enugu, Nigeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ENV",
+    "ICAO": "KENV",
+    "Airport name": "Wendover Airport",
+    "Location served": "Wendover, Utah, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ENW",
+    "ICAO": "KENW",
+    "Airport name": "Kenosha Regional Airport",
+    "Location served": "Kenosha, Wisconsin, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ENY",
+    "ICAO": "ZLYA",
+    "Airport name": "Yan'an Nanniwan Airport",
+    "Location served": "Yan'an, Shaanxi, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EOH",
+    "ICAO": "SKMD",
+    "Airport name": "Olaya Herrera Airport",
+    "Location served": "Medellín, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EOI",
+    "ICAO": "EGED",
+    "Airport name": "Eday Airport",
+    "Location served": "Eday, Scotland, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "EOK",
+    "ICAO": "KEOK",
+    "Airport name": "Keokuk Municipal Airport",
+    "Location served": "Keokuk, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EOR",
+    "ICAO": "SVED",
+    "Airport name": "El Dorado Airport",
+    "Location served": "El Dorado, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EOS",
+    "ICAO": "KEOS",
+    "Airport name": "Neosho Hugh Robinson Airport",
+    "Location served": "Neosho, Missouri, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EOZ",
+    "ICAO": "SVEZ",
+    "Airport name": "Elorza Airport",
+    "Location served": "Elorza, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EPA",
+    "ICAO": "SADP",
+    "Airport name": "El Palomar Airport[1]",
+    "Location served": "El Palomar, Buenos Aires, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EPG",
+    "ICAO": "",
+    "Airport name": "Browns Airport (FAA: NE69)",
+    "Location served": "Weeping Water, Nebraska, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EPH",
+    "ICAO": "KEPH",
+    "Airport name": "Ephrata Municipal Airport",
+    "Location served": "Ephrata, Washington, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EPL",
+    "ICAO": "LFSG",
+    "Airport name": "Épinal – Mirecourt Airport",
+    "Location served": "Épinal / Mirecourt, Lorraine, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "EPN",
+    "ICAO": "",
+    "Airport name": "Epéna Airport",
+    "Location served": "Epéna, Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EPR",
+    "ICAO": "YESP",
+    "Airport name": "Esperance Airport",
+    "Location served": "Esperance, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EPS",
+    "ICAO": "MDAB",
+    "Airport name": "Arroyo Barril Airport",
+    "Location served": "Samaná, Dominican Republic",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EPT",
+    "ICAO": "AYEL",
+    "Airport name": "Eliptamin Airport",
+    "Location served": "Eliptamin, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EPU",
+    "ICAO": "EEPU",
+    "Airport name": "Pärnu Airport",
+    "Location served": "Pärnu, Estonia",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "EQS",
+    "ICAO": "SAVE",
+    "Airport name": "Esquel Airport",
+    "Location served": "Esquel, Chubut, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ERA",
+    "ICAO": "HCMU",
+    "Airport name": "Erigavo Airport",
+    "Location served": "Erigavo, Somalia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ERB",
+    "ICAO": "YERN",
+    "Airport name": "Pukatja Airport (Ernabella Airport)",
+    "Location served": "Pukatja, South Australia, Australia",
+    "Time": "UTC+09:30",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "ERC",
+    "ICAO": "LTCD",
+    "Airport name": "Erzincan Airport",
+    "Location served": "Erzincan, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ERD",
+    "ICAO": "UKDB",
+    "Airport name": "Berdiansk Airport",
+    "Location served": "Berdiansk, Ukraine",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "ERE",
+    "ICAO": "AYEV",
+    "Airport name": "Erave Airport",
+    "Location served": "Erave, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ERF",
+    "ICAO": "EDDE",
+    "Airport name": "Erfurt–Weimar Airport",
+    "Location served": "Erfurt, Thuringia, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "ERG",
+    "ICAO": "UIKE",
+    "Airport name": "Erbogachen Airport",
+    "Location served": "Yerbogachen, Irkutsk Oblast, Russia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ERH",
+    "ICAO": "GMFK",
+    "Airport name": "Moulay Ali Cherif Airport",
+    "Location served": "Errachidia, Morocco",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct1"
+  },
+  {
+    "IATA": "ERI",
+    "ICAO": "KERI",
+    "Airport name": "Erie International Airport (Tom Ridge Field)",
+    "Location served": "Erie, Pennsylvania, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ERL",
+    "ICAO": "ZBER",
+    "Airport name": "Erenhot Saiwusu International Airport",
+    "Location served": "Erenhot, Inner Mongolia, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ERM",
+    "ICAO": "SSER",
+    "Airport name": "Erechim Airport",
+    "Location served": "Erechim, Rio Grande do Sul, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "ERN",
+    "ICAO": "SWEI",
+    "Airport name": "Eirunepé Airport (Amaury Feitosa Tomaz Airport)",
+    "Location served": "Eirunepé, Amazonas, Brazil",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ERQ",
+    "ICAO": "YESE",
+    "Airport name": "Elrose Airport",
+    "Location served": "Eloise Copper Mine, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ERR",
+    "ICAO": "KERR",
+    "Airport name": "Errol Airport",
+    "Location served": "Errol, New Hampshire, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ERS",
+    "ICAO": "FYWE",
+    "Airport name": "Eros Airport",
+    "Location served": "Windhoek, Namibia",
+    "Time": "UTC+01:00",
+    "DST": "Sep-Apr"
+  },
+  {
+    "IATA": "ERT",
+    "ICAO": "",
+    "Airport name": "Erdenet Airport",
+    "Location served": "Erdenet, Mongolia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ERU",
+    "ICAO": "AYER",
+    "Airport name": "Erume Airport",
+    "Location served": "Erume, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ERV",
+    "ICAO": "KERV",
+    "Airport name": "Kerrville Municipal Airport (Louis Schreiner Field)",
+    "Location served": "Kerrville, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ERZ",
+    "ICAO": "LTCE",
+    "Airport name": "Erzurum Airport",
+    "Location served": "Erzurum, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ESA",
+    "ICAO": "",
+    "Airport name": "Esa'ala Airport",
+    "Location served": "Esa'ala, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ESB",
+    "ICAO": "LTAC",
+    "Airport name": "Esenboğa International Airport",
+    "Location served": "Ankara, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ESC",
+    "ICAO": "KESC",
+    "Airport name": "Delta County Airport",
+    "Location served": "Escanaba, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ESD",
+    "ICAO": "KORS",
+    "Airport name": "Orcas Island Airport (FAA: ORS)",
+    "Location served": "Eastsound, Washington, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ESE",
+    "ICAO": "MMES",
+    "Airport name": "Ensenada Airport",
+    "Location served": "Ensenada, Baja California, Mexico",
+    "Time": "UTC−08:00",
+    "DST": "Apr-Oct"
+  },
+  {
+    "IATA": "ESF",
+    "ICAO": "KESF",
+    "Airport name": "Esler Airfield (Esler Regional Airport)",
+    "Location served": "Alexandria, Louisiana, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ESG",
+    "ICAO": "SGME",
+    "Airport name": "Dr. Luis María Argaña International Airport",
+    "Location served": "Mariscal Estigarribia, Paraguay",
+    "Time": "UTC−04:00",
+    "DST": "Oct-Mar"
+  },
+  {
+    "IATA": "ESH",
+    "ICAO": "EGKA",
+    "Airport name": "Shoreham Airport (Brighton City Airport)",
+    "Location served": "Shoreham-by-Sea, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "ESI",
+    "ICAO": "",
+    "Airport name": "Espinosa Airport",
+    "Location served": "Espinosa, Minas Gerais, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "ESK",
+    "ICAO": "LTBI",
+    "Airport name": "Eskişehir Airport",
+    "Location served": "Eskişehir, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ESL",
+    "ICAO": "URWI",
+    "Airport name": "Elista Airport",
+    "Location served": "Elista, Kalmykia, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ESM",
+    "ICAO": "SETN",
+    "Airport name": "Carlos Concha Torres International Airport",
+    "Location served": "Esmeraldas, Ecuador",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ESN",
+    "ICAO": "KESN",
+    "Airport name": "Easton Airport (Newnam Field)",
+    "Location served": "Easton, Maryland, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ESO",
+    "ICAO": "",
+    "Airport name": "Ohkay Owingeh Airport (FAA: E14)",
+    "Location served": "Española, New Mexico, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ESP",
+    "ICAO": "",
+    "Airport name": "Stroudsburg–Pocono Airport[1] (FAA: N53)",
+    "Location served": "East Stroudsburg, Pennsylvania, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ESR",
+    "ICAO": "SCES",
+    "Airport name": "Ricardo García Posada Airport",
+    "Location served": "El Salvador, Chile",
+    "Time": "UTC−04:00",
+    "DST": "Aug-May"
+  },
+  {
+    "IATA": "ESS",
+    "ICAO": "EDLE",
+    "Airport name": "Essen/Mülheim Airport",
+    "Location served": "Essen, North Rhine-Westphalia, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "EST",
+    "ICAO": "KEST",
+    "Airport name": "Estherville Municipal Airport",
+    "Location served": "Estherville, Iowa, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ESU",
+    "ICAO": "GMMI",
+    "Airport name": "Essaouira-Mogador Airport",
+    "Location served": "Essaouira, Morocco",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct1"
+  },
+  {
+    "IATA": "ESW",
+    "ICAO": "KESW",
+    "Airport name": "Easton State Airport",
+    "Location served": "Easton, Washington, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ETB",
+    "ICAO": "KETB",
+    "Airport name": "West Bend Municipal Airport",
+    "Location served": "West Bend, Wisconsin, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ETD",
+    "ICAO": "YEDA",
+    "Airport name": "Etadunna Airport",
+    "Location served": "Etadunna, South Australia, Australia",
+    "Time": "UTC+09:30",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "ETE",
+    "ICAO": "HAMM",
+    "Airport name": "Genda Wuha Airport",
+    "Location served": "Metemma, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ETH",
+    "ICAO": "LLET",
+    "Airport name": "J. Hozman Airport",
+    "Location served": "Eilat, Israel",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "ETM",
+    "ICAO": "LLER",
+    "Airport name": "Ramon Airport",
+    "Location served": "Eilat, Israel",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "ETN",
+    "ICAO": "KETN",
+    "Airport name": "Eastland Municipal Airport",
+    "Location served": "Eastland, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ETR",
+    "ICAO": "SERO",
+    "Airport name": "Santa Rosa International Airport",
+    "Location served": "Santa Rosa, Ecuador",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "ETS",
+    "ICAO": "KEDN",
+    "Airport name": "Enterprise Municipal Airport (FAA: EDN)",
+    "Location served": "Enterprise, Alabama, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "ETZ",
+    "ICAO": "LFJL",
+    "Airport name": "Metz–Nancy–Lorraine Airport",
+    "Location served": "Metz / Nancy, Lorraine, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "EUA",
+    "ICAO": "NFTE",
+    "Airport name": "Eua Airport (Kaufana Airport)",
+    "Location served": "Eua, Tonga",
+    "Time": "UTC+13:00",
+    "DST": "Nov-Jan"
+  },
+  {
+    "IATA": "EUC",
+    "ICAO": "YECL",
+    "Airport name": "Eucla Airport",
+    "Location served": "Eucla, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EUE",
+    "ICAO": "",
+    "Airport name": "Eureka Airport (FAA: 05U)",
+    "Location served": "Eureka, Nevada, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EUF",
+    "ICAO": "KEUF",
+    "Airport name": "Weedon Field",
+    "Location served": "Eufaula, Alabama, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EUG",
+    "ICAO": "KEUG",
+    "Airport name": "Eugene Airport (Mahlon Sweet Airport)",
+    "Location served": "Eugene, Oregon, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EUM",
+    "ICAO": "EDHN",
+    "Airport name": "Neumünster Airport",
+    "Location served": "Neumünster, Schleswig-Holstein, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "EUN",
+    "ICAO": "GMML",
+    "Airport name": "Hassan I Airport",
+    "Location served": "Laayoune, Morocco",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct1"
+  },
+  {
+    "IATA": "EUO",
+    "ICAO": "",
+    "Airport name": "Paratebueno Airport[1]",
+    "Location served": "Paratebueno, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EUQ",
+    "ICAO": "RPVS",
+    "Airport name": "Evelio Javier Airport (Antique Airport)",
+    "Location served": "San Jose de Buenavista, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EUX",
+    "ICAO": "TNCE",
+    "Airport name": "F. D. Roosevelt Airport",
+    "Location served": "Oranjestad, Sint Eustatius, Caribbean Netherlands",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EVA",
+    "ICAO": "",
+    "Airport name": "Ben Bruce Memorial Airpark (FAA: 4TE8)",
+    "Location served": "Evadale, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EVD",
+    "ICAO": "",
+    "Airport name": "Eva Downs Airport",
+    "Location served": "Eva Downs, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "EVE",
+    "ICAO": "ENEV",
+    "Airport name": "Harstad/Narvik Airport, Evenes",
+    "Location served": "Harstad / Narvik, Norway",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "EVG",
+    "ICAO": "ESND",
+    "Airport name": "Sveg Airport",
+    "Location served": "Sveg, Sweden",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "EVH",
+    "ICAO": "YEVD",
+    "Airport name": "Evans Head Memorial Aerodrome",
+    "Location served": "Evans Head, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "EVM",
+    "ICAO": "KEVM",
+    "Airport name": "Eveleth-Virginia Municipal Airport",
+    "Location served": "Eveleth, Minnesota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EVN",
+    "ICAO": "UDYZ",
+    "Airport name": "Zvartnots International Airport",
+    "Location served": "Yerevan, Armenia",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EVV",
+    "ICAO": "KEVV",
+    "Airport name": "Evansville Regional Airport",
+    "Location served": "Evansville, Indiana, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EVW",
+    "ICAO": "KEVW",
+    "Airport name": "Evanston-Uinta County Burns Field",
+    "Location served": "Evanston, Wyoming, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EVX",
+    "ICAO": "LFOE",
+    "Airport name": "Évreux-Fauville Air Base",
+    "Location served": "Évreux, Upper Normandy, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "EWB",
+    "ICAO": "KEWB",
+    "Airport name": "New Bedford Regional Airport",
+    "Location served": "New Bedford / Fall River, Massachusetts, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EWE",
+    "ICAO": "",
+    "Airport name": "Ewer Airport",
+    "Location served": "Ewer, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EWI",
+    "ICAO": "WABT",
+    "Airport name": "Enarotali Airport",
+    "Location served": "Enarotali, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EWK",
+    "ICAO": "KEWK",
+    "Airport name": "Newton City/County Airport",
+    "Location served": "Newton, Kansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EWN",
+    "ICAO": "KEWN",
+    "Airport name": "Coastal Carolina Regional Airport",
+    "Location served": "New Bern, North Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EWO",
+    "ICAO": "FCOE",
+    "Airport name": "Ewo Airport",
+    "Location served": "Ewo, Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EWR",
+    "ICAO": "KEWR",
+    "Airport name": "Newark Liberty International Airport",
+    "Location served": "Newark, New Jersey, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EXI",
+    "ICAO": "",
+    "Airport name": "Excursion Inlet Seaplane Base",
+    "Location served": "Excursion Inlet, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EXM",
+    "ICAO": "YEXM",
+    "Airport name": "Exmouth Airport",
+    "Location served": "Exmouth, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EXT",
+    "ICAO": "EGTE",
+    "Airport name": "Exeter International Airport",
+    "Location served": "Exeter, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "EYK",
+    "ICAO": "USHQ",
+    "Airport name": "Beloyarsk Airport",
+    "Location served": "Beloyarsky, Khanty-Mansi Autonomous Okrug, Russia",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EYL",
+    "ICAO": "GAYE",
+    "Airport name": "Yélimané Airport",
+    "Location served": "Yélimané, Mali",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EYP",
+    "ICAO": "SKYP",
+    "Airport name": "El Alcaraván Airport",
+    "Location served": "Yopal, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EYR",
+    "ICAO": "",
+    "Airport name": "Yerington Municipal Airport[1] (FAA: O43)",
+    "Location served": "Yerington, Nevada, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EYS",
+    "ICAO": "HKES",
+    "Airport name": "Eliye Springs Airport",
+    "Location served": "Eliye Springs, Kenya",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EYW",
+    "ICAO": "KEYW",
+    "Airport name": "Key West International Airport",
+    "Location served": "Key West, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "EZE",
+    "ICAO": "SAEZ",
+    "Airport name": "Ministro Pistarini International Airport",
+    "Location served": "Buenos Aires, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EZS",
+    "ICAO": "LTCA",
+    "Airport name": "Elazığ Airport",
+    "Location served": "Elazığ, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "EZV",
+    "ICAO": "",
+    "Airport name": "Beryozovo Airport[1]",
+    "Location served": "Beryozovo, Khanty-Mansi Autonomous Okrug, Russia",
+    "Time": "UTC+05:00",
+    "DST": ""
+  }
+]

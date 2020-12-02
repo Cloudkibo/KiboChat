@@ -1,0 +1,2978 @@
+[
+  {
+    "IATA": "GAA",
+    "ICAO": "",
+    "Airport name": "Guamal Airport",
+    "Location served": "Guamal, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GAB",
+    "ICAO": "KGAB",
+    "Airport name": "Gabbs Airport",
+    "Location served": "Gabbs, Nevada, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GAC",
+    "ICAO": "MHGS[1]",
+    "Airport name": "Gracias Airport",
+    "Location served": "Gracias, Honduras",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GAD",
+    "ICAO": "KGAD",
+    "Airport name": "Northeast Alabama Regional Airport",
+    "Location served": "Gadsden, Alabama, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GAE",
+    "ICAO": "DTTG",
+    "Airport name": "Gabès – Matmata International Airport",
+    "Location served": "Gabès, Tunisia",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GAF",
+    "ICAO": "DTTF",
+    "Airport name": "Gafsa – Ksar International Airport",
+    "Location served": "Gafsa, Tunisia",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GAG",
+    "ICAO": "KGAG",
+    "Airport name": "Gage Airport",
+    "Location served": "Gage, Oklahoma, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GAH",
+    "ICAO": "YGAY",
+    "Airport name": "Gayndah Airport",
+    "Location served": "Gayndah, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GAI",
+    "ICAO": "KGAI",
+    "Airport name": "Montgomery County Airpark",
+    "Location served": "Gaithersburg, Maryland, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GAJ",
+    "ICAO": "RJSC",
+    "Airport name": "Yamagata Airport (Junmachi Airport)",
+    "Location served": "Yamagata, Honshu, Japan",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GAL",
+    "ICAO": "PAGA",
+    "Airport name": "Edward G. Pitka Sr. Airport",
+    "Location served": "Galena, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GAM",
+    "ICAO": "PAGM",
+    "Airport name": "Gambell Airport",
+    "Location served": "Gambell, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GAN",
+    "ICAO": "VRMG",
+    "Airport name": "Gan International Airport",
+    "Location served": "Gan Island, Addu Atoll, Maldives",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GAO",
+    "ICAO": "MUGT",
+    "Airport name": "Mariana Grajales Airport",
+    "Location served": "Guantánamo, Cuba",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GAP",
+    "ICAO": "AYGP",
+    "Airport name": "Gusap Airport",
+    "Location served": "Gusap, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GAQ",
+    "ICAO": "GAGO",
+    "Airport name": "Gao International Airport (Korogoussou Airport)",
+    "Location served": "Gao, Mali",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GAR",
+    "ICAO": "AYGI",
+    "Airport name": "Garaina Airport",
+    "Location served": "Garaina, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GAS",
+    "ICAO": "HKGA",
+    "Airport name": "Garissa Airport",
+    "Location served": "Garissa, Kenya",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GAT",
+    "ICAO": "LFNA",
+    "Airport name": "Gap–Tallard Airport",
+    "Location served": "Gap, Provence-Alpes-Côte d'Azur, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GAU",
+    "ICAO": "VEGT",
+    "Airport name": "Lokpriya Gopinath Bordoloi International Airport",
+    "Location served": "Guwahati, Assam, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "GAV",
+    "ICAO": "",
+    "Airport name": "Gag Island Airport",
+    "Location served": "Gag Island, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GAW",
+    "ICAO": "VYGG",
+    "Airport name": "Gangaw Airport",
+    "Location served": "Gangaw, Myanmar",
+    "Time": "UTC+06:30",
+    "DST": ""
+  },
+  {
+    "IATA": "GAX",
+    "ICAO": "",
+    "Airport name": "Gamba Airport",
+    "Location served": "Gamba, Gabon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GAY",
+    "ICAO": "VEGY",
+    "Airport name": "Gaya Airport (Bodhgaya Airport)",
+    "Location served": "Gaya, Bihar, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "GAZ",
+    "ICAO": "",
+    "Airport name": "Guasopa Airport",
+    "Location served": "Guasopa, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GBA",
+    "ICAO": "EGBP",
+    "Airport name": "Cotswold Airport[2]",
+    "Location served": "Kemble, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GBB",
+    "ICAO": "UBBQ",
+    "Airport name": "Qabala International Airport",
+    "Location served": "Qabala, Azerbaijan",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GBC",
+    "ICAO": "AYGS",
+    "Airport name": "Gasuke Airport",
+    "Location served": "Gasuke, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GBD",
+    "ICAO": "KGBD",
+    "Airport name": "Great Bend Municipal Airport",
+    "Location served": "Great Bend, Kansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GBE",
+    "ICAO": "FBSK",
+    "Airport name": "Sir Seretse Khama International Airport",
+    "Location served": "Gaborone, Botswana",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GBF",
+    "ICAO": "AYNE",
+    "Airport name": "Negarbo Airport",
+    "Location served": "Negarbo, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GBG",
+    "ICAO": "KGBG",
+    "Airport name": "Galesburg Municipal Airport",
+    "Location served": "Galesburg, Illinois, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GBH",
+    "ICAO": "PAGB",
+    "Airport name": "Galbraith Lake Airport",
+    "Location served": "Galbraith Lake, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GBI",
+    "ICAO": "",
+    "Airport name": "Kalaburagi Airport",
+    "Location served": "Gulbarga, Karnataka, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "GBJ",
+    "ICAO": "TFFM",
+    "Airport name": "Marie-Galante Airport (Les Bases)",
+    "Location served": "Grand-Bourg, Marie-Galante Island, Guadeloupe",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GBK",
+    "ICAO": "GFGK",
+    "Airport name": "Gbangbatok Airport",
+    "Location served": "Gbangbatok, Sierra Leone",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GBL",
+    "ICAO": "YGBI",
+    "Airport name": "South Goulburn Island Airport",
+    "Location served": "Goulburn Islands, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "GBM",
+    "ICAO": "",
+    "Airport name": "Garbaharey Airport",
+    "Location served": "Garbaharey, Somalia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GBP",
+    "ICAO": "YGAM",
+    "Airport name": "Gamboola Airport",
+    "Location served": "Gamboola, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GBR",
+    "ICAO": "KGBR",
+    "Airport name": "Walter J. Koladza Airport",
+    "Location served": "Great Barrington, Massachusetts, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GBT",
+    "ICAO": "OING",
+    "Airport name": "Gorgan Airport[2]",
+    "Location served": "Gorgan, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "GBU",
+    "ICAO": "HSKG",
+    "Airport name": "Khashm el Girba Airport",
+    "Location served": "Khashm el Girba, Sudan",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GBV",
+    "ICAO": "YGIB",
+    "Airport name": "Gibb River Airport",
+    "Location served": "Gibb River, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GBW",
+    "ICAO": "YGIA",
+    "Airport name": "Ginbata Airport[2]",
+    "Location served": "Ginbata, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GBZ",
+    "ICAO": "NZGB",
+    "Airport name": "Great Barrier Aerodrome",
+    "Location served": "Great Barrier Island, New Zealand",
+    "Time": "UTC+12:00",
+    "DST": "Sep-Apr"
+  },
+  {
+    "IATA": "-GC-",
+    "ICAO": "",
+    "Airport name": "",
+    "Location served": "",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "GCA",
+    "ICAO": "",
+    "Airport name": "Guacamayas Airport",
+    "Location served": "Guacamayas, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GCC",
+    "ICAO": "KGCC",
+    "Airport name": "Gillette–Campbell County Airport",
+    "Location served": "Gillette, Wyoming, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GCD",
+    "ICAO": "",
+    "Airport name": "Grand Coulee Dam Airport[2] (FAA: 3W7)",
+    "Location served": "Electric City, Washington, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GCH",
+    "ICAO": "OIAH",
+    "Airport name": "Gachsaran Airport[2]",
+    "Location served": "Gachsaran, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "GCI",
+    "ICAO": "EGJB",
+    "Airport name": "Guernsey Airport",
+    "Location served": "Guernsey, Channel Islands, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GCJ",
+    "ICAO": "FAGC",
+    "Airport name": "Grand Central Airport",
+    "Location served": "Johannesburg, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GCK",
+    "ICAO": "KGCK",
+    "Airport name": "Garden City Regional Airport",
+    "Location served": "Garden City, Kansas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GCM",
+    "ICAO": "MWCR",
+    "Airport name": "Owen Roberts International Airport",
+    "Location served": "Grand Cayman, British Overseas Territory of Cayman Islands",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GCN",
+    "ICAO": "KGCN",
+    "Airport name": "Grand Canyon National Park Airport",
+    "Location served": "Tusayan, Arizona, United States",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GCT",
+    "ICAO": "",
+    "Airport name": "Grand Canyon Bar 10 Airport",
+    "Location served": "Whitmore, Arizona, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "GCW",
+    "ICAO": "",
+    "Airport name": "Grand Canyon West Airport[2] (FAA: 1G4)",
+    "Location served": "Peach Springs, Arizona, United States",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GCY",
+    "ICAO": "KGCY",
+    "Airport name": "Greeneville–Greene County Municipal Airport",
+    "Location served": "Greeneville, Tennessee, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GDA",
+    "ICAO": "",
+    "Airport name": "Gounda Airport",
+    "Location served": "Gounda, Central African Republic",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GDC",
+    "ICAO": "KGYH",
+    "Airport name": "Donaldson Center Airport (FAA: GYH)",
+    "Location served": "Greenville, South Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GDD",
+    "ICAO": "YGDN",
+    "Airport name": "Gordon Downs Airport",
+    "Location served": "Gordon Downs, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GDE",
+    "ICAO": "HAGO",
+    "Airport name": "Gode Airport",
+    "Location served": "Gode, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GDG",
+    "ICAO": "UHBI",
+    "Airport name": "Magdagachi Airport",
+    "Location served": "Magdagachi, Amur Oblast, Russia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GDH",
+    "ICAO": "",
+    "Airport name": "Golden Horn Lodge Seaplane Base (FAA: 3Z8)",
+    "Location served": "Golden Horn Lodge, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GDI",
+    "ICAO": "",
+    "Airport name": "Gordil Airport",
+    "Location served": "Gordil, Central African Republic",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GDJ",
+    "ICAO": "FZWC",
+    "Airport name": "Gandajika Airport",
+    "Location served": "Gandajika, Democratic Republic of the Congo",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GDL",
+    "ICAO": "MMGL",
+    "Airport name": "Guadalajara International Airport (Miguel Hidalgo y Costilla Int'l)",
+    "Location served": "Guadalajara, Jalisco, Mexico",
+    "Time": "UTC−06:00",
+    "DST": "Apr-Oct"
+  },
+  {
+    "IATA": "GDM",
+    "ICAO": "KGDM",
+    "Airport name": "Gardner Municipal Airport",
+    "Location served": "Gardner, Massachusetts, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GDN",
+    "ICAO": "EPGD",
+    "Airport name": "Gdańsk Lech Wałęsa Airport",
+    "Location served": "Gdańsk, Poland",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GDO",
+    "ICAO": "SVGD",
+    "Airport name": "Guasdualito Airport (Vare Maria Airport)",
+    "Location served": "Guasdualito, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GDP",
+    "ICAO": "SNGD",
+    "Airport name": "Guadalupe Airport",
+    "Location served": "Guadalupe, Piauí, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GDQ",
+    "ICAO": "HAGN",
+    "Airport name": "Gondar Airport (Atse Tewodros Airport)",
+    "Location served": "Gondar, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GDT",
+    "ICAO": "MBGT",
+    "Airport name": "JAGS McCartney International Airport (Grand Turk Int'l)",
+    "Location served": "Grand Turk Island, British Overseas Territory\nof Turks and Caicos Islands",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GDV",
+    "ICAO": "KGDV",
+    "Airport name": "Dawson Community Airport",
+    "Location served": "Glendive, Montana, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GDW",
+    "ICAO": "KGDW",
+    "Airport name": "Gladwin Zettel Memorial Airport",
+    "Location served": "Gladwin, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GDX",
+    "ICAO": "UHMM",
+    "Airport name": "Sokol Airport",
+    "Location served": "Magadan, Magadan Oblast, Russia",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GDZ",
+    "ICAO": "URKG",
+    "Airport name": "Gelendzhik Airport",
+    "Location served": "Gelendzhik, Krasnodar Krai, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GEA",
+    "ICAO": "NWWM",
+    "Airport name": "Nouméa Magenta Airport",
+    "Location served": "Nouméa, New Caledonia",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GEB",
+    "ICAO": "WAMJ",
+    "Airport name": "Gebe Airport",
+    "Location served": "Gebe, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GEC",
+    "ICAO": "",
+    "Airport name": "Geçitkale Air Base",
+    "Location served": "Geçitkale, Northern Cyprus",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GED",
+    "ICAO": "KGED",
+    "Airport name": "Delaware Coastal Airport",
+    "Location served": "Georgetown, Delaware, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GEE",
+    "ICAO": "YGTO",
+    "Airport name": "George Town Aerodrome",
+    "Location served": "George Town, Tasmania, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "GEF",
+    "ICAO": "AGEV",
+    "Airport name": "Geva Airport",
+    "Location served": "Liangai, Vella Lavella, Solomon Islands",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GEG",
+    "ICAO": "KGEG",
+    "Airport name": "Spokane International Airport",
+    "Location served": "Spokane, Washington, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GEL",
+    "ICAO": "SBNM",
+    "Airport name": "Sepé Tiaraju Airport",
+    "Location served": "Santo Ângelo, Rio Grande do Sul, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "GEM",
+    "ICAO": "FGMY",
+    "Airport name": "President Obiang Nguema International Airport[2]",
+    "Location served": "Mengomeyén, Equatorial Guinea",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GEO",
+    "ICAO": "SYCJ",
+    "Airport name": "Cheddi Jagan International Airport",
+    "Location served": "Georgetown, Guyana",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GER",
+    "ICAO": "MUNG",
+    "Airport name": "Rafael Cabrera Mustelier Airport",
+    "Location served": "Nueva Gerona, Cuba",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GES",
+    "ICAO": "RPMR",
+    "Airport name": "General Santos International Airport (Tambler Airport)",
+    "Location served": "General Santos, Philippines",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GET",
+    "ICAO": "YGEL",
+    "Airport name": "Geraldton Airport",
+    "Location served": "Geraldton, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GEV",
+    "ICAO": "ESNG",
+    "Airport name": "Gällivare Airport",
+    "Location served": "Gällivare, Sweden",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GEW",
+    "ICAO": "AYGC",
+    "Airport name": "Gewoia Airport",
+    "Location served": "Gewoia, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GEX",
+    "ICAO": "YGLG",
+    "Airport name": "Geelong Airport",
+    "Location served": "Geelong, Victoria, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "GEY",
+    "ICAO": "KGEY",
+    "Airport name": "South Big Horn County Airport",
+    "Location served": "Greybull, Wyoming, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GFD",
+    "ICAO": "KGFD",
+    "Airport name": "Pope Field",
+    "Location served": "Greenfield, Indiana, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GFE",
+    "ICAO": "",
+    "Airport name": "Grenfell Airport[2]",
+    "Location served": "Grenfell, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "GFF",
+    "ICAO": "YGTH",
+    "Airport name": "Griffith Airport",
+    "Location served": "Griffith, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "GFK",
+    "ICAO": "KGFK",
+    "Airport name": "Grand Forks International Airport",
+    "Location served": "Grand Forks, North Dakota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GFL",
+    "ICAO": "KGFL",
+    "Airport name": "Floyd Bennett Memorial Airport",
+    "Location served": "Glens Falls, New York, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GFN",
+    "ICAO": "YGFN",
+    "Airport name": "Clarence Valley Regional Airport",
+    "Location served": "Grafton, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "GFO",
+    "ICAO": "SYBT",
+    "Airport name": "Bartica Airport",
+    "Location served": "Bartica, Guyana",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GFR",
+    "ICAO": "LFRF",
+    "Airport name": "Granville–Mont-Saint-Michel Aerodrome [fr]",
+    "Location served": "Granville, Lower Normandy, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GFY",
+    "ICAO": "FYGF",
+    "Airport name": "Grootfontein Air Base",
+    "Location served": "Grootfontein, Namibia",
+    "Time": "UTC+01:00",
+    "DST": "Sep-Apr"
+  },
+  {
+    "IATA": "GGB",
+    "ICAO": "SWHP",
+    "Airport name": "Água Boa Airport",
+    "Location served": "Água Boa, Mato Grosso, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GGC",
+    "ICAO": "",
+    "Airport name": "Lumbala N'guimbo Airport",
+    "Location served": "Lumbala N'guimbo, Angola",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GGD",
+    "ICAO": "YGDS",
+    "Airport name": "Gregory Downs Airport",
+    "Location served": "Gregory Downs, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GGE",
+    "ICAO": "KGGE",
+    "Airport name": "Georgetown County Airport",
+    "Location served": "Georgetown, South Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GGF",
+    "ICAO": "SNYA",
+    "Airport name": "Almeirim Airport",
+    "Location served": "Almeirim, Pará, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GGG",
+    "ICAO": "KGGG",
+    "Airport name": "East Texas Regional Airport",
+    "Location served": "Longview, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GGH",
+    "ICAO": "SSCT",
+    "Airport name": "Gastão Mesquita Airport",
+    "Location served": "Cianorte, Paraná, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "GGJ",
+    "ICAO": "SSGY",
+    "Airport name": "Guaíra Airport",
+    "Location served": "Guaíra, Paraná, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "GGL",
+    "ICAO": "",
+    "Airport name": "Gilgal Airport[2]",
+    "Location served": "Gilgal, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GGM",
+    "ICAO": "HKKG",
+    "Airport name": "Kakamega Airport[2]",
+    "Location served": "Kakamega, Kenya",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GGN",
+    "ICAO": "DIGA",
+    "Airport name": "Gagnoa Airport",
+    "Location served": "Gagnoa, Ivory Coast",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GGO",
+    "ICAO": "DIGL",
+    "Airport name": "Guiglo Airport",
+    "Location served": "Guiglo, Ivory Coast",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GGR",
+    "ICAO": "",
+    "Airport name": "Garowe International Airport",
+    "Location served": "Garowe, Somalia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GGS",
+    "ICAO": "SAWR",
+    "Airport name": "Gobernador Gregores Airport",
+    "Location served": "Gobernador Gregores, Santa Cruz, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GGT",
+    "ICAO": "MYEF",
+    "Airport name": "Exuma International Airport",
+    "Location served": "Moss Town, Great Exuma Island, Bahamas",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GGW",
+    "ICAO": "KGGW",
+    "Airport name": "Glasgow Airport (Wokal Field)",
+    "Location served": "Glasgow, Montana, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GHA",
+    "ICAO": "DAUG",
+    "Airport name": "Noumérat – Moufdi Zakaria Airport",
+    "Location served": "Ghardaïa, Algeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GHB",
+    "ICAO": "MYEM",
+    "Airport name": "Governor's Harbour Airport",
+    "Location served": "Governor's Harbour, Eleuthera Island, Bahamas",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GHC",
+    "ICAO": "MYBG",
+    "Airport name": "Great Harbour Cay Airport",
+    "Location served": "Great Harbour Cay, Berry Islands, Bahamas",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GHE",
+    "ICAO": "",
+    "Airport name": "Garachiné Airport",
+    "Location served": "Garachiné, Panama",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GHF",
+    "ICAO": "ETEU",
+    "Airport name": "Giebelstadt Airport",
+    "Location served": "Giebelstadt, Bavaria, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GHK",
+    "ICAO": "",
+    "Airport name": "Gahcho Kue Aerodrome[2] (TC: CGK2)",
+    "Location served": "Kennedy Lake, Northwest Territories, Canada",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GHM",
+    "ICAO": "KGHM",
+    "Airport name": "Centerville Municipal Airport",
+    "Location served": "Centerville, Tennessee, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GHN",
+    "ICAO": "ZUGH",
+    "Airport name": "Guanghan Airport",
+    "Location served": "Guanghan, Sichuan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GHS",
+    "ICAO": "WALE",
+    "Airport name": "West Kutai Melalan Airport",
+    "Location served": "Melak, East Kalimantan, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GHT",
+    "ICAO": "HLGT",
+    "Airport name": "Ghat Airport",
+    "Location served": "Ghat, Libya",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GHU",
+    "ICAO": "SAAG",
+    "Airport name": "Gualeguaychú Airport",
+    "Location served": "Gualeguaychú, Entre Ríos, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GIB",
+    "ICAO": "LXGB",
+    "Airport name": "Gibraltar International Airport (North Front Airport)",
+    "Location served": "British Overseas Territory of Gibraltar",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GIC",
+    "ICAO": "YBOI",
+    "Airport name": "Boigu Island Airport",
+    "Location served": "Boigu Island, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GID",
+    "ICAO": "HBBE",
+    "Airport name": "Gitega Airport",
+    "Location served": "Gitega, Burundi",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GIF",
+    "ICAO": "KGIF",
+    "Airport name": "Winter Haven's Gilbert Airport",
+    "Location served": "Winter Haven, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GIG",
+    "ICAO": "SBGL",
+    "Airport name": "Rio de Janeiro–Galeão International Airport",
+    "Location served": "Rio de Janeiro, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "GII",
+    "ICAO": "GUSI",
+    "Airport name": "Siguiri Airport",
+    "Location served": "Siguiri, Guinea",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GIL",
+    "ICAO": "OPGT",
+    "Airport name": "Gilgit Airport",
+    "Location served": "Gilgit, Pakistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GIM",
+    "ICAO": "",
+    "Airport name": "Miele Mimbale Airport",
+    "Location served": "Miele Mimbale, Gabon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GIR",
+    "ICAO": "SKGI",
+    "Airport name": "Santiago Vila Airport",
+    "Location served": "Girardot, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GIS",
+    "ICAO": "NZGS",
+    "Airport name": "Gisborne Airport",
+    "Location served": "Gisborne, New Zealand",
+    "Time": "UTC+12:00",
+    "DST": "Sep-Apr"
+  },
+  {
+    "IATA": "GIT",
+    "ICAO": "",
+    "Airport name": "Geita Airport",
+    "Location served": "Geita, Tanzania",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GIU",
+    "ICAO": "VCCS",
+    "Airport name": "Sigiriya Airport[2]",
+    "Location served": "Dambulla, Sri Lanka",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "GIY",
+    "ICAO": "FAGI",
+    "Airport name": "Giyani Airport",
+    "Location served": "Giyani, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GIZ",
+    "ICAO": "OEGN",
+    "Airport name": "Jizan Regional Airport (King Abdullah bin Abdulaziz Airport)",
+    "Location served": "Jizan, Saudi Arabia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GJA",
+    "ICAO": "MHNJ",
+    "Airport name": "Guanaja Airport",
+    "Location served": "Guanaja, Honduras",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GJL",
+    "ICAO": "DAAV",
+    "Airport name": "Jijel Ferhat Abbas Airport",
+    "Location served": "Jijel, Algeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GJM",
+    "ICAO": "SBGM",
+    "Airport name": "Guajará-Mirim Airport",
+    "Location served": "Guajará-Mirim, Rondônia, Brazil",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GJR",
+    "ICAO": "BIGJ",
+    "Airport name": "Gjögur Airport",
+    "Location served": "Gjögur, Iceland",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GJT",
+    "ICAO": "KGJT",
+    "Airport name": "Grand Junction Regional Airport (Walker Field)",
+    "Location served": "Grand Junction, Colorado, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GKA",
+    "ICAO": "AYGA",
+    "Airport name": "Goroka Airport",
+    "Location served": "Goroka, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GKD",
+    "ICAO": "LTFK",
+    "Airport name": "Gökçeada Airport",
+    "Location served": "Gökçeada, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GKE",
+    "ICAO": "ETNG",
+    "Airport name": "NATO Air Base Geilenkirchen",
+    "Location served": "Geilenkirchen, North Rhine-Westphalia, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GKH",
+    "ICAO": "VNGK",
+    "Airport name": "Palungtar Airport",
+    "Location served": "Gorkha, Nepal",
+    "Time": "UTC+05:45",
+    "DST": ""
+  },
+  {
+    "IATA": "GKK",
+    "ICAO": "VRMO",
+    "Airport name": "Kooddoo Airport[2]",
+    "Location served": "Kooddoo, Gaafu Alif Atoll, Maldives",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GKL",
+    "ICAO": "YGKL",
+    "Airport name": "Great Keppel Island Airport",
+    "Location served": "Great Keppel Island, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GKN",
+    "ICAO": "PAGK",
+    "Airport name": "Gulkana Airport",
+    "Location served": "Gulkana, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GKO",
+    "ICAO": "",
+    "Airport name": "Kongo Boumba Airport",
+    "Location served": "Kongo Boumba, Gabon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GKT",
+    "ICAO": "KGKT",
+    "Airport name": "Gatlinburg–Pigeon Forge Airport",
+    "Location served": "Sevierville, Tennessee, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GLA",
+    "ICAO": "EGPF",
+    "Airport name": "Glasgow Airport",
+    "Location served": "Glasgow, Scotland, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GLB",
+    "ICAO": "",
+    "Airport name": "San Carlos Apache Airport[2] (FAA: P13)",
+    "Location served": "Globe, Arizona, United States",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GLC",
+    "ICAO": "",
+    "Airport name": "Geladi Airport",
+    "Location served": "Geladi, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GLD",
+    "ICAO": "KGLD",
+    "Airport name": "Goodland Municipal Airport (Renner Field)",
+    "Location served": "Goodland, Kansas, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GLE",
+    "ICAO": "KGLE",
+    "Airport name": "Gainesville Municipal Airport",
+    "Location served": "Gainesville, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GLF",
+    "ICAO": "MRGF",
+    "Airport name": "Golfito Airport",
+    "Location served": "Golfito, Costa Rica",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GLG",
+    "ICAO": "YGLE",
+    "Airport name": "Glengyle Airport",
+    "Location served": "Glengyle, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GLH",
+    "ICAO": "KGLH",
+    "Airport name": "Mid-Delta Regional Airport",
+    "Location served": "Greenville, Mississippi, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GLI",
+    "ICAO": "YGLI",
+    "Airport name": "Glen Innes Airport",
+    "Location served": "Glen Innes, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "GLK",
+    "ICAO": "HCMR",
+    "Airport name": "Abdullahi Yusuf International Airport",
+    "Location served": "Galkayo, Somalia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GLL",
+    "ICAO": "ENKL",
+    "Airport name": "Gol Airport, Klanten",
+    "Location served": "Gol, Norway",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GLM",
+    "ICAO": "YGLO",
+    "Airport name": "Glenormiston Airport",
+    "Location served": "Glenormiston, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GLN",
+    "ICAO": "",
+    "Airport name": "Guelmim Airport",
+    "Location served": "Guelmim, Morocco",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct1"
+  },
+  {
+    "IATA": "GLO",
+    "ICAO": "EGBJ",
+    "Airport name": "Gloucestershire Airport",
+    "Location served": "Gloucester / Cheltenham, England, United Kingdom",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GLP",
+    "ICAO": "AYUP",
+    "Airport name": "Gulgubip Airport",
+    "Location served": "Gulgubip, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GLR",
+    "ICAO": "KGLR",
+    "Airport name": "Gaylord Regional Airport",
+    "Location served": "Gaylord, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GLS",
+    "ICAO": "KGLS",
+    "Airport name": "Scholes International Airport at Galveston",
+    "Location served": "Galveston, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GLT",
+    "ICAO": "YGLA",
+    "Airport name": "Gladstone Airport",
+    "Location served": "Gladstone, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GLU",
+    "ICAO": "VQGP",
+    "Airport name": "Gelephu Airport[2]",
+    "Location served": "Gelephu, Bhutan",
+    "Time": "UTC+06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GLV",
+    "ICAO": "PAGL",
+    "Airport name": "Golovin Airport",
+    "Location served": "Golovin, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GLW",
+    "ICAO": "KGLW",
+    "Airport name": "Glasgow Municipal Airport",
+    "Location served": "Glasgow, Kentucky, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GLX",
+    "ICAO": "WAMA",
+    "Airport name": "Gamar Malamo Airport",
+    "Location served": "Galela, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GLY",
+    "ICAO": "",
+    "Airport name": "Goldsworthy Airport",
+    "Location served": "Goldsworthy, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GLZ",
+    "ICAO": "EHGR",
+    "Airport name": "Gilze-Rijen Air Base",
+    "Location served": "Breda, Netherlands",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GMA",
+    "ICAO": "FZFK",
+    "Airport name": "Gemena Airport",
+    "Location served": "Gemena, Democratic Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GMB",
+    "ICAO": "HAGM",
+    "Airport name": "Gambela Airport",
+    "Location served": "Gambela, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GMC",
+    "ICAO": "",
+    "Airport name": "Guerima Airport",
+    "Location served": "Guerima, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GMD",
+    "ICAO": "GMMB",
+    "Airport name": "Ben Slimane Airport[2]",
+    "Location served": "Ben Slimane, Morocco",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct1"
+  },
+  {
+    "IATA": "GME",
+    "ICAO": "UMGG",
+    "Airport name": "Gomel Airport",
+    "Location served": "Gomel, Belarus",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GMI",
+    "ICAO": "AYGT",
+    "Airport name": "Gasmata Airport",
+    "Location served": "Gasmata, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GMM",
+    "ICAO": "FCOG",
+    "Airport name": "Gamboma Airport",
+    "Location served": "Gamboma, Republic of the Congo",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GMN",
+    "ICAO": "NZGM",
+    "Airport name": "Greymouth Airport",
+    "Location served": "Greymouth, New Zealand",
+    "Time": "UTC+12:00",
+    "DST": "Sep-Apr"
+  },
+  {
+    "IATA": "GMO",
+    "ICAO": "DNGO",
+    "Airport name": "Gombe Lawanti International Airport[2]",
+    "Location served": "Gombe, Nigeria",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GMP",
+    "ICAO": "RKSS",
+    "Airport name": "Gimpo International Airport",
+    "Location served": "Seoul, South Korea",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GMQ",
+    "ICAO": "ZLGL",
+    "Airport name": "Golog Maqin Airport[2]",
+    "Location served": "Golog, Qinghai, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GMR",
+    "ICAO": "NTGJ",
+    "Airport name": "Totegegie Airport (Gambier Island Airport)",
+    "Location served": "Mangareva, Gambier Islands, French Polynesia",
+    "Time": "UTC−09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GMS",
+    "ICAO": "SNGM",
+    "Airport name": "Guimarães Airport",
+    "Location served": "Guimarães, Maranhão, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GMT",
+    "ICAO": "PAGZ",
+    "Airport name": "Granite Mountain Air Station (FAA: GSZ)",
+    "Location served": "Granite Mountain, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GMU",
+    "ICAO": "KGMU",
+    "Airport name": "Greenville Downtown Airport",
+    "Location served": "Greenville, South Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GMV",
+    "ICAO": "",
+    "Airport name": "Monument Valley Airport (FAA: UT25)",
+    "Location served": "Monument Valley, Utah, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GMZ",
+    "ICAO": "GCGM",
+    "Airport name": "La Gomera Airport",
+    "Location served": "La Gomera / Canary Islands, Spain",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GNA",
+    "ICAO": "UMMG",
+    "Airport name": "Grodno Airport",
+    "Location served": "Grodno, Belarus",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GNB",
+    "ICAO": "LFLS",
+    "Airport name": "Grenoble–Isère Airport",
+    "Location served": "Grenoble, Rhône-Alpes, France",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GND",
+    "ICAO": "TGPY",
+    "Airport name": "Maurice Bishop International Airport",
+    "Location served": "St. George's, Grenada",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GNF",
+    "ICAO": "",
+    "Airport name": "Gansner Field[2] (FAA: 2O1)",
+    "Location served": "Quincy, California, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GNG",
+    "ICAO": "KGNG",
+    "Airport name": "Gooding Municipal Airport",
+    "Location served": "Gooding, Idaho, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GNI",
+    "ICAO": "RCGI",
+    "Airport name": "Lyudao Airport (Green Island Airport)",
+    "Location served": "Lyudao (Green Island), Taiwan",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GNM",
+    "ICAO": "SNGI",
+    "Airport name": "Guanambi Airport",
+    "Location served": "Guanambi, Bahia, Brazil",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GNN",
+    "ICAO": "HAGH",
+    "Airport name": "Ginir Airport",
+    "Location served": "Ginir, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GNR",
+    "ICAO": "SAHR",
+    "Airport name": "Dr. Arturo Umberto Illia Airport",
+    "Location served": "General Roca, Río Negro, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GNS",
+    "ICAO": "WIMB",
+    "Airport name": "Binaka Airport",
+    "Location served": "Gunungsitoli, Indonesia",
+    "Time": "UTC+07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GNT",
+    "ICAO": "KGNT",
+    "Airport name": "Grants-Milan Municipal Airport",
+    "Location served": "Grants, New Mexico, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GNU",
+    "ICAO": "",
+    "Airport name": "Goodnews Airport",
+    "Location served": "Goodnews Bay, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GNV",
+    "ICAO": "KGNV",
+    "Airport name": "Gainesville Regional Airport",
+    "Location served": "Gainesville, Florida, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GNY",
+    "ICAO": "LTCS",
+    "Airport name": "Şanlıurfa GAP Airport",
+    "Location served": "Şanlıurfa, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GNZ",
+    "ICAO": "FBGZ",
+    "Airport name": "Ghanzi Airport",
+    "Location served": "Ghanzi, Botswana",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GOA",
+    "ICAO": "LIMJ",
+    "Airport name": "Genoa Cristoforo Colombo Airport",
+    "Location served": "Genoa, Liguria, Italy",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GOB",
+    "ICAO": "HAGB",
+    "Airport name": "Robe Airport",
+    "Location served": "Goba, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GOC",
+    "ICAO": "AYGX",
+    "Airport name": "Gora Airport",
+    "Location served": "Gora, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GOE",
+    "ICAO": "",
+    "Airport name": "Gonaili Airstrip",
+    "Location served": "Gonaili, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GOG",
+    "ICAO": "FYGB",
+    "Airport name": "Gobabis Airport",
+    "Location served": "Gobabis, Namibia",
+    "Time": "UTC+01:00",
+    "DST": "Sep-Apr"
+  },
+  {
+    "IATA": "GOH",
+    "ICAO": "BGGH",
+    "Airport name": "Nuuk Airport",
+    "Location served": "Nuuk, Greenland",
+    "Time": "UTC−03:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GOI",
+    "ICAO": "VOGO",
+    "Airport name": "Goa International Airport (Dabolim Airport)",
+    "Location served": "Dabolim, Goa, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "GOJ",
+    "ICAO": "UWGG",
+    "Airport name": "Nizhny Novgorod International Airport (Strigino Airport)",
+    "Location served": "Nizhny Novgorod, Nizhny Novgorod Oblast, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GOK",
+    "ICAO": "KGOK",
+    "Airport name": "Guthrie–Edmond Regional Airport",
+    "Location served": "Guthrie, Oklahoma, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GOL",
+    "ICAO": "",
+    "Airport name": "Gold Beach Municipal Airport (FAA: 4S1)",
+    "Location served": "Gold Beach, Oregon, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GOM",
+    "ICAO": "FZNA",
+    "Airport name": "Goma International Airport",
+    "Location served": "Goma, Democratic Republic of the Congo",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GON",
+    "ICAO": "KGON",
+    "Airport name": "Groton–New London Airport",
+    "Location served": "Groton / New London, Connecticut, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GOO",
+    "ICAO": "YGDI",
+    "Airport name": "Goondiwindi Airport",
+    "Location served": "Goondiwindi, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GOP",
+    "ICAO": "VEGK",
+    "Airport name": "Gorakhpur Airport",
+    "Location served": "Gorakhpur, Uttar Pradesh, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "GOQ",
+    "ICAO": "ZLGM",
+    "Airport name": "Golmud Airport",
+    "Location served": "Golmud, Qinghai, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GOR",
+    "ICAO": "HAGR",
+    "Airport name": "Gore Airport",
+    "Location served": "Gore, Ethiopia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GOS",
+    "ICAO": "",
+    "Airport name": "Gosford Airport",
+    "Location served": "Gosford, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "GOT",
+    "ICAO": "ESGG",
+    "Airport name": "Göteborg Landvetter Airport",
+    "Location served": "Gothenburg, Sweden",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GOU",
+    "ICAO": "FKKR",
+    "Airport name": "Garoua International Airport",
+    "Location served": "Garoua, Cameroon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GOV",
+    "ICAO": "YPGV",
+    "Airport name": "Gove Airport",
+    "Location served": "Nhulunbuy, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "GOZ",
+    "ICAO": "LBGO",
+    "Airport name": "Gorna Oryahovitsa Airport",
+    "Location served": "Gorna Oryahovitsa, Bulgaria",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GPA",
+    "ICAO": "LGRX",
+    "Airport name": "Araxos Airport",
+    "Location served": "Patras, Greece",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GPB",
+    "ICAO": "SBGU",
+    "Airport name": "Tancredo Thomas de Faria Airport",
+    "Location served": "Guarapuava, Paraná, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "GPD",
+    "ICAO": "YGON",
+    "Airport name": "Mount Gordon Airport[2]",
+    "Location served": "Mount Gordon Mine, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GPI",
+    "ICAO": "SKGP",
+    "Airport name": "Guapi Airport (Juan Casiano Airport)",
+    "Location served": "Guapi, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GPL",
+    "ICAO": "MRGP",
+    "Airport name": "Guápiles Airport",
+    "Location served": "Guápiles, Costa Rica",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GPN",
+    "ICAO": "YGPT",
+    "Airport name": "Garden Point Airport",
+    "Location served": "Pularumpi, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "GPO",
+    "ICAO": "SAZG",
+    "Airport name": "General Pico Airport",
+    "Location served": "General Pico, La Pampa, Argentina",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GPS",
+    "ICAO": "SEGS",
+    "Airport name": "Seymour Airport",
+    "Location served": "Baltra Island, Galápagos Islands, Ecuador",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GPT",
+    "ICAO": "KGPT",
+    "Airport name": "Gulfport–Biloxi International Airport",
+    "Location served": "Gulfport / Biloxi, Mississippi, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GPZ",
+    "ICAO": "KGPZ",
+    "Airport name": "Grand Rapids–Itasca County Airport (Gordon Newstrom Field)",
+    "Location served": "Grand Rapids, Minnesota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GQQ",
+    "ICAO": "KGQQ",
+    "Airport name": "Galion Municipal Airport",
+    "Location served": "Galion, Ohio, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GRA",
+    "ICAO": "",
+    "Airport name": "Gamarra Airport",
+    "Location served": "Gamarra, Colombia",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GRB",
+    "ICAO": "KGRB",
+    "Airport name": "Austin Straubel International Airport",
+    "Location served": "Green Bay, Wisconsin, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GRC",
+    "ICAO": "",
+    "Airport name": "Grand Cess Airport",
+    "Location served": "Grand Cess, Liberia",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GRD",
+    "ICAO": "KGRD",
+    "Airport name": "Greenwood County Airport",
+    "Location served": "Greenwood, South Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GRE",
+    "ICAO": "KGRE",
+    "Airport name": "Greenville Airport",
+    "Location served": "Greenville, Illinois, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GRF",
+    "ICAO": "KGRF",
+    "Airport name": "Gray Army Airfield",
+    "Location served": "Tacoma, Washington, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GRG",
+    "ICAO": "OAGZ",
+    "Airport name": "Gardez Airport",
+    "Location served": "Gardez, Afghanistan",
+    "Time": "UTC+04:30",
+    "DST": ""
+  },
+  {
+    "IATA": "GRH",
+    "ICAO": "",
+    "Airport name": "Garuahi Airport",
+    "Location served": "Garuahi, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GRI",
+    "ICAO": "KGRI",
+    "Airport name": "Central Nebraska Regional Airport",
+    "Location served": "Grand Island, Nebraska, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GRJ",
+    "ICAO": "FAGG",
+    "Airport name": "George Airport",
+    "Location served": "George, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GRK",
+    "ICAO": "KGRK",
+    "Airport name": "Killeen–Fort Hood Regional Airport / Robert Gray Army Airfield",
+    "Location served": "Fort Hood / Killeen, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GRL",
+    "ICAO": "AYGG",
+    "Airport name": "Garasa Airport",
+    "Location served": "Garasa, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GRM",
+    "ICAO": "KCKC",
+    "Airport name": "Grand Marais/Cook County Airport (FAA: CKC)",
+    "Location served": "Grand Marais, Minnesota, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GRN",
+    "ICAO": "KGRN",
+    "Airport name": "Gordon Municipal Airport",
+    "Location served": "Gordon, Nebraska, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GRO",
+    "ICAO": "LEGE",
+    "Airport name": "Girona–Costa Brava Airport",
+    "Location served": "Girona, Catalonia, Spain",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GRP",
+    "ICAO": "SWGI",
+    "Airport name": "Gurupi Airport",
+    "Location served": "Gurupi, Tocantins, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "GRQ",
+    "ICAO": "EHGG",
+    "Airport name": "Groningen Airport Eelde",
+    "Location served": "Groningen, Netherlands",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GRR",
+    "ICAO": "KGRR",
+    "Airport name": "Gerald R. Ford International Airport",
+    "Location served": "Grand Rapids, Michigan, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GRS",
+    "ICAO": "LIRS",
+    "Airport name": "Grosseto Airport",
+    "Location served": "Grosseto, Tuscany, Italy",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GRT",
+    "ICAO": "",
+    "Airport name": "Gujrat Airport",
+    "Location served": "Gujrat, Pakistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GRU",
+    "ICAO": "SBGR",
+    "Airport name": "São Paulo/Guarulhos–Governador André Franco Montoro International Airport",
+    "Location served": "São Paulo, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "GRV",
+    "ICAO": "URMG",
+    "Airport name": "Grozny Airport",
+    "Location served": "Grozny, Chechnya, Russia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GRW",
+    "ICAO": "LPGR",
+    "Airport name": "Graciosa Airport",
+    "Location served": "Graciosa, Azores, Portugal",
+    "Time": "UTC−01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GRX",
+    "ICAO": "LEGR",
+    "Airport name": "Federico García Lorca Airport (Granada Jaén Airport)",
+    "Location served": "Granada, Andalusia, Spain",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GRY",
+    "ICAO": "BIGR",
+    "Airport name": "Grímsey Airport",
+    "Location served": "Grímsey, Iceland",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GRZ",
+    "ICAO": "LOWG",
+    "Airport name": "Graz Airport",
+    "Location served": "Graz, Austria",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GSA",
+    "ICAO": "WBKN",
+    "Airport name": "Long Pasia Airport",
+    "Location served": "Long Pasia, Sabah, Malaysia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GSB",
+    "ICAO": "KGSB",
+    "Airport name": "Seymour Johnson Air Force Base",
+    "Location served": "Goldsboro, North Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GSC",
+    "ICAO": "YGSC",
+    "Airport name": "Gascoyne Junction Airport",
+    "Location served": "Gascoyne Junction, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GSE",
+    "ICAO": "ESGP",
+    "Airport name": "Göteborg City Airport",
+    "Location served": "Gothenburg, Sweden",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GSH",
+    "ICAO": "KGSH",
+    "Airport name": "Goshen Municipal Airport",
+    "Location served": "Goshen, Indiana, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GSI",
+    "ICAO": "SOGS",
+    "Airport name": "Grand-Santi Airport[2]",
+    "Location served": "Grand-Santi, French Guiana",
+    "Time": "UTC−03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GSJ",
+    "ICAO": "MGSJ",
+    "Airport name": "San José Airport[2]",
+    "Location served": "Puerto San José, Guatemala",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GSL",
+    "ICAO": "",
+    "Airport name": "Taltheilei Narrows Airport[2] (TC: CFA7)",
+    "Location served": "Taltheilei Narrows, Northwest Territories, Canada",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GSM",
+    "ICAO": "OIKQ",
+    "Airport name": "Dayrestan Airport (Qeshm International Airport)",
+    "Location served": "Qeshm, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "GSN",
+    "ICAO": "YMGN",
+    "Airport name": "Mount Gunson Airport",
+    "Location served": "Mount Gunson, South Australia, Australia",
+    "Time": "UTC+09:30",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "GSO",
+    "ICAO": "KGSO",
+    "Airport name": "Piedmont Triad International Airport",
+    "Location served": "Greensboro, North Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GSP",
+    "ICAO": "KGSP",
+    "Airport name": "Greenville–Spartanburg International Airport",
+    "Location served": "Greenville / Spartanburg, South Carolina, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GSQ",
+    "ICAO": "HEOW",
+    "Airport name": "Sharq Al-Owainat Airport",
+    "Location served": "Sharq Al-Owainat, Egypt",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GSR",
+    "ICAO": "HCMG",
+    "Airport name": "Qardho Airport",
+    "Location served": "Qardho, Somalia",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GSS",
+    "ICAO": "",
+    "Airport name": "Sabi Sabi Airport",
+    "Location served": "Sabie, South Africa",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GST",
+    "ICAO": "PAGS",
+    "Airport name": "Gustavus Airport",
+    "Location served": "Gustavus, Alaska, United States",
+    "Time": "UTC−09:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GSU",
+    "ICAO": "HSGF",
+    "Airport name": "Azaza Airport",
+    "Location served": "Gedaref, Sudan",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GSV",
+    "ICAO": "",
+    "Airport name": "Saratov Gagarin Airport",
+    "Location served": "Saratov, Saratov Oblast, Russia",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GTA",
+    "ICAO": "AGOK",
+    "Airport name": "Gatokae Aerodrome",
+    "Location served": "Gatokae, Solomon Islands",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GTE",
+    "ICAO": "YGTE",
+    "Airport name": "Groote Eylandt Airport",
+    "Location served": "Groote Eylandt, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "GTF",
+    "ICAO": "KGTF",
+    "Airport name": "Great Falls International Airport",
+    "Location served": "Great Falls, Montana, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GTG",
+    "ICAO": "KGTG",
+    "Airport name": "Grantsburg Municipal Airport",
+    "Location served": "Grantsburg, Wisconsin, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GTI",
+    "ICAO": "EDCG",
+    "Airport name": "Rügen Airport (Güttin Airfield)",
+    "Location served": "Güttin, Mecklenburg-Vorpommern, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GTN",
+    "ICAO": "NZGT",
+    "Airport name": "Glentanner Aerodrome",
+    "Location served": "Mount Cook, New Zealand",
+    "Time": "UTC+12:00",
+    "DST": "Sep-Apr"
+  },
+  {
+    "IATA": "GTO",
+    "ICAO": "WAMG",
+    "Airport name": "Jalaluddin Airport",
+    "Location served": "Gorontalo, Indonesia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GTP",
+    "ICAO": "",
+    "Airport name": "Grants Pass Airport[2] (FAA: 3S8)",
+    "Location served": "Grants Pass, Oregon, United States",
+    "Time": "UTC−08:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GTR",
+    "ICAO": "KGTR",
+    "Airport name": "Golden Triangle Regional Airport",
+    "Location served": "Columbus / West Point / Starkville, Mississippi, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GTS",
+    "ICAO": "YTGT",
+    "Airport name": "The Granites Airport",
+    "Location served": "The Granites, Northern Territory, Australia",
+    "Time": "UTC+09:30",
+    "DST": ""
+  },
+  {
+    "IATA": "GTT",
+    "ICAO": "YGTN",
+    "Airport name": "Georgetown Airport",
+    "Location served": "Georgetown, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GTW",
+    "ICAO": "LKHO",
+    "Airport name": "Holešov Airport",
+    "Location served": "Zlín, Czech Republic",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GTY",
+    "ICAO": "",
+    "Airport name": "Gettysburg Regional Airport (FAA: W05)",
+    "Location served": "Gettysburg, Pennsylvania, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GTZ",
+    "ICAO": "",
+    "Airport name": "Kirawira B Airstrip[2]",
+    "Location served": "Grumeti, Tanzania",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GUA",
+    "ICAO": "MGGT",
+    "Airport name": "La Aurora International Airport",
+    "Location served": "Guatemala City, Guatemala",
+    "Time": "UTC−06:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GUB",
+    "ICAO": "MMGR",
+    "Airport name": "Guerrero Negro Airport",
+    "Location served": "Guerrero Negro, Baja California Sur,2 Mexico",
+    "Time": "UTC−07:00",
+    "DST": "Apr-Oct"
+  },
+  {
+    "IATA": "GUC",
+    "ICAO": "KGUC",
+    "Airport name": "Gunnison–Crested Butte Regional Airport",
+    "Location served": "Gunnison, Colorado, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GUD",
+    "ICAO": "GAGM",
+    "Airport name": "Goundam Airport",
+    "Location served": "Goundam, Mali",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GUE",
+    "ICAO": "",
+    "Airport name": "Guriaso Airport",
+    "Location served": "Guriaso, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GUF",
+    "ICAO": "KJKA",
+    "Airport name": "Jack Edwards Airport (FAA: JKA)",
+    "Location served": "Gulf Shores, Alabama, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GUG",
+    "ICAO": "AYGF",
+    "Airport name": "Guari Airport",
+    "Location served": "Guari, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GUH",
+    "ICAO": "YGDH",
+    "Airport name": "Gunnedah Airport",
+    "Location served": "Gunnedah, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "GUI",
+    "ICAO": "SVGI",
+    "Airport name": "Güiria Airport",
+    "Location served": "Güiria, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GUJ",
+    "ICAO": "SBGW",
+    "Airport name": "Guaratinguetá Airport",
+    "Location served": "Guaratinguetá, São Paulo, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "GUL",
+    "ICAO": "YGLB",
+    "Airport name": "Goulburn Airport",
+    "Location served": "Goulburn, New South Wales, Australia",
+    "Time": "UTC+10:00",
+    "DST": "Oct-Apr"
+  },
+  {
+    "IATA": "GUM",
+    "ICAO": "PGUM",
+    "Airport name": "Antonio B. Won Pat International Airport (Guam Int'l)",
+    "Location served": "Hagåtña, Guam",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GUP",
+    "ICAO": "KGUP",
+    "Airport name": "Gallup Municipal Airport",
+    "Location served": "Gallup, New Mexico, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GUQ",
+    "ICAO": "SVGU",
+    "Airport name": "Guanare Airport",
+    "Location served": "Guanare, Venezuela",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GUR",
+    "ICAO": "AYGN",
+    "Airport name": "Gurney Airport",
+    "Location served": "Alotau, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GUS",
+    "ICAO": "KGUS",
+    "Airport name": "Grissom Air Reserve Base",
+    "Location served": "Peru, Indiana, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GUT",
+    "ICAO": "ETUO",
+    "Airport name": "RAF Gütersloh",
+    "Location served": "Gütersloh, North Rhine-Westphalia, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GUU",
+    "ICAO": "BIGF",
+    "Airport name": "Grundarfjörður Airport",
+    "Location served": "Grundarfjörður, Iceland",
+    "Time": "UTC±00:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GUV",
+    "ICAO": "AYML",
+    "Airport name": "Mougulu Airport",
+    "Location served": "Mougulu, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GUW",
+    "ICAO": "UATG",
+    "Airport name": "Atyrau Airport",
+    "Location served": "Atyrau, Kazakhstan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GUX",
+    "ICAO": "VAGN",
+    "Airport name": "Guna Airport",
+    "Location served": "Guna, Madhya Pradesh, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "GUY",
+    "ICAO": "KGUY",
+    "Airport name": "Guymon Municipal Airport",
+    "Location served": "Guymon, Oklahoma, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GUZ",
+    "ICAO": "SNGA",
+    "Airport name": "Guarapari Airport",
+    "Location served": "Guarapari, Espírito Santo, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "GVA",
+    "ICAO": "LSGG",
+    "Airport name": "Geneva Airport",
+    "Location served": "Geneva, Switzerland",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GVE",
+    "ICAO": "KGVE",
+    "Airport name": "Gordonsville Municipal Airport",
+    "Location served": "Gordonsville, Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GVI",
+    "ICAO": "AYGV",
+    "Airport name": "Green River Airport",
+    "Location served": "Green River, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GVL",
+    "ICAO": "KGVL",
+    "Airport name": "Lee Gilmer Memorial Airport",
+    "Location served": "Gainesville, Georgia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GVN",
+    "ICAO": "UHKM",
+    "Airport name": "Sovetskaya Gavan Airport[2]",
+    "Location served": "Sovetskaya Gavan, Khabarovsk Krai, Russia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GVP",
+    "ICAO": "YGNV",
+    "Airport name": "Greenvale Airport",
+    "Location served": "Greenvale, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GVR",
+    "ICAO": "SBGV",
+    "Airport name": "Coronel Altino Machado de Oliveira Airport",
+    "Location served": "Governador Valadares, Minas Gerais, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "GVT",
+    "ICAO": "KGVT",
+    "Airport name": "Majors Airport",
+    "Location served": "Greenville, Texas, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GVX",
+    "ICAO": "ESSK",
+    "Airport name": "Gävle-Sandviken Airport",
+    "Location served": "Gävle, Sweden",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GWA",
+    "ICAO": "VYGW",
+    "Airport name": "Gwa Airport",
+    "Location served": "Gwa, Myanmar",
+    "Time": "UTC+06:30",
+    "DST": ""
+  },
+  {
+    "IATA": "GWD",
+    "ICAO": "OPGD",
+    "Airport name": "Gwadar International Airport",
+    "Location served": "Gwadar, Pakistan",
+    "Time": "UTC+05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GWE",
+    "ICAO": "FVTL",
+    "Airport name": "Thornhill Air Base",
+    "Location served": "Gweru, Zimbabwe",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GWL",
+    "ICAO": "VIGR",
+    "Airport name": "Rajmata Vijaya Raje Scindia Airport (Gwalior Airport)",
+    "Location served": "Gwalior, Madhya Pradesh, India",
+    "Time": "UTC+05:30",
+    "DST": ""
+  },
+  {
+    "IATA": "GWN",
+    "ICAO": "",
+    "Airport name": "Gnarowein Airport",
+    "Location served": "Gnarowein, Papua New Guinea",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GWO",
+    "ICAO": "KGWO",
+    "Airport name": "Greenwood–Leflore Airport",
+    "Location served": "Greenwood, Mississippi, United States",
+    "Time": "UTC−06:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GWS",
+    "ICAO": "KGWS",
+    "Airport name": "Glenwood Springs Municipal Airport",
+    "Location served": "Glenwood Springs, Colorado, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GWT",
+    "ICAO": "EDXW",
+    "Airport name": "Sylt Airport (Westerland Airport)",
+    "Location served": "Sylt, Schleswig-Holstein, Germany",
+    "Time": "UTC+01:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GWV",
+    "ICAO": "",
+    "Airport name": "Glendale Fokker Field (FAA: WV66)",
+    "Location served": "Glen Dale, West Virginia, United States",
+    "Time": "UTC−05:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GWY",
+    "ICAO": "EICM",
+    "Airport name": "Galway Airport",
+    "Location served": "Galway, Ireland",
+    "Time": "UTC±00:00",
+    "DST": "Mar-Oct"
+  },
+  {
+    "IATA": "GXA",
+    "ICAO": "WAOM",
+    "Airport name": "Beringin Airport",
+    "Location served": "North Barito, Central Kalimantan, Indonesia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GXF",
+    "ICAO": "OYSY",
+    "Airport name": "Sayun Airport",
+    "Location served": "Sayun, Yemen",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GXG",
+    "ICAO": "FNNG",
+    "Airport name": "Negage Airport",
+    "Location served": "Negage, Angola",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GXH",
+    "ICAO": "ZLXH",
+    "Airport name": "Gannan Xiahe Airport",
+    "Location served": "Xiahe, Gansu, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GXQ",
+    "ICAO": "SCCY",
+    "Airport name": "Teniente Vidal Airfield",
+    "Location served": "Coyhaique, Chile",
+    "Time": "UTC−04:00",
+    "DST": "Aug-May"
+  },
+  {
+    "IATA": "GXX",
+    "ICAO": "FKKJ",
+    "Airport name": "Yagoua Airport",
+    "Location served": "Yagoua, Cameroon",
+    "Time": "UTC+01:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GXY",
+    "ICAO": "KGXY",
+    "Airport name": "Greeley–Weld County Airport",
+    "Location served": "Greeley, Colorado, United States",
+    "Time": "UTC−07:00",
+    "DST": "Mar-Nov"
+  },
+  {
+    "IATA": "GYA",
+    "ICAO": "SLGY",
+    "Airport name": "Guayaramerín Airport",
+    "Location served": "Guayaramerín, Bolivia",
+    "Time": "UTC−04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GYD",
+    "ICAO": "UBBB",
+    "Airport name": "Heydar Aliyev International Airport",
+    "Location served": "Baku, Azerbaijan",
+    "Time": "UTC+04:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GYE",
+    "ICAO": "SEGU",
+    "Airport name": "José Joaquín de Olmedo International Airport",
+    "Location served": "Guayaquil, Ecuador",
+    "Time": "UTC−05:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GYG",
+    "ICAO": "UEMM",
+    "Airport name": "Magan Airport",
+    "Location served": "Magan, Yakutia, Russia",
+    "Time": "UTC+09:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GYI",
+    "ICAO": "HRYG",
+    "Airport name": "Gisenyi Airport",
+    "Location served": "Gisenyi, Rwanda",
+    "Time": "UTC+02:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GYL",
+    "ICAO": "YARG",
+    "Airport name": "Argyle Airport",
+    "Location served": "Argyle, Western Australia, Australia",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GYM",
+    "ICAO": "MMGM",
+    "Airport name": "General José María Yáñez International Airport",
+    "Location served": "Guaymas, Sonora, Mexico",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GYN",
+    "ICAO": "SBGO",
+    "Airport name": "Santa Genoveva Airport",
+    "Location served": "Goiânia, Goiás, Brazil",
+    "Time": "UTC−03:00",
+    "DST": "Oct-Feb"
+  },
+  {
+    "IATA": "GYP",
+    "ICAO": "YGYM",
+    "Airport name": "Gympie Airport",
+    "Location served": "Gympie, Queensland, Australia",
+    "Time": "UTC+10:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GYR",
+    "ICAO": "KGYR",
+    "Airport name": "Phoenix Goodyear Airport",
+    "Location served": "Goodyear, Arizona, United States",
+    "Time": "UTC−07:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GYS",
+    "ICAO": "ZUGU",
+    "Airport name": "Guangyuan Panlong Airport",
+    "Location served": "Guangyuan, Sichuan, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GYU",
+    "ICAO": "ZLGY",
+    "Airport name": "Guyuan Liupanshan Airport[2]",
+    "Location served": "Guyuan, Ningxia, China",
+    "Time": "UTC+08:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GZA",
+    "ICAO": "LVGZ",
+    "Airport name": "Yasser Arafat International Airport",
+    "Location served": "Gaza, Palestine",
+    "Time": "UTC+02:00",
+    "DST": "Mar-Sep"
+  },
+  {
+    "IATA": "GZG",
+    "ICAO": "ZUGZ",
+    "Airport name": "Garze Gesar Airport",
+    "Location served": "Garzê County, Sichuan, China",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "GZI",
+    "ICAO": "OAGN",
+    "Airport name": "Ghazni Airport",
+    "Location served": "Ghazni, Afghanistan",
+    "Time": "UTC+04:30",
+    "DST": ""
+  },
+  {
+    "IATA": "GZO",
+    "ICAO": "AGGN",
+    "Airport name": "Nusatupe Airport",
+    "Location served": "Gizo, Western Province, Solomon Islands",
+    "Time": "UTC+11:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GZP",
+    "ICAO": "LTFG",
+    "Airport name": "Gazipaşa–Alanya Airport[2]",
+    "Location served": "Gazipaşa, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GZT",
+    "ICAO": "LTAJ",
+    "Airport name": "Gaziantep Oğuzeli International Airport",
+    "Location served": "Gaziantep, Turkey",
+    "Time": "UTC+03:00",
+    "DST": ""
+  },
+  {
+    "IATA": "GZW",
+    "ICAO": "OIIK",
+    "Airport name": "Qazvin Airport[2]",
+    "Location served": "Qazvin, Iran",
+    "Time": "UTC+03:30",
+    "DST": "Mar-Sep"
+  }
+]

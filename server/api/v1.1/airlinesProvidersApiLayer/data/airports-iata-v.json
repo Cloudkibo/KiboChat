@@ -1,0 +1,1458 @@
+[
+  {
+    "IATA": "VAA",
+    "ICAO": "EFVA",
+    "Airport name": "Vaasa Airport",
+    "Location served": "Vaasa, Finland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VAB",
+    "ICAO": "",
+    "Airport name": "Yavarate Airport[1]",
+    "Location served": "Yavarate, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VAC",
+    "ICAO": "EDWU",
+    "Airport name": "Varrelbusch Airport[1]",
+    "Location served": "Cloppenburg, Lower Saxony, Germany",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VAD",
+    "ICAO": "KVAD",
+    "Airport name": "Moody Air Force Base",
+    "Location served": "Valdosta, Georgia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VAF",
+    "ICAO": "LFLU",
+    "Airport name": "Valence-Chabeuil Airport",
+    "Location served": "Valence, Rhône-Alpes, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VAG",
+    "ICAO": "SBVG",
+    "Airport name": "Major Brigadeiro Trompowsky Airport",
+    "Location served": "Varginha, Minas Gerais, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VAH",
+    "ICAO": "SLVG",
+    "Airport name": "Cap. Av. Vidal Villagomez Toledo Airport[1]",
+    "Location served": "Vallegrande, Bolivia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VAI",
+    "ICAO": "AYVN",
+    "Airport name": "Vanimo Airport[1]",
+    "Location served": "Vanimo, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VAK",
+    "ICAO": "PAVA",
+    "Airport name": "Chevak Airport",
+    "Location served": "Chevak, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VAL",
+    "ICAO": "SNVB",
+    "Airport name": "Valença Airport[1]",
+    "Location served": "Valença, Bahia, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VAM",
+    "ICAO": "VRMV",
+    "Airport name": "Villa International Airport",
+    "Location served": "Maamigili, Maldives",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VAN",
+    "ICAO": "LTCI",
+    "Airport name": "Van Ferit Melen Airport",
+    "Location served": "Van, Turkey",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VAO",
+    "ICAO": "AGGV",
+    "Airport name": "Suavanao Airport[1]",
+    "Location served": "Suavanao, Solomon Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VAP",
+    "ICAO": "SCRD",
+    "Airport name": "Rodelillo Airfield[1]",
+    "Location served": "Valparaíso, Chile",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VAR",
+    "ICAO": "LBWN",
+    "Airport name": "Varna Airport",
+    "Location served": "Varna, Bulgaria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VAS",
+    "ICAO": "LTAR",
+    "Airport name": "Sivas Airport",
+    "Location served": "Sivas, Turkey",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VAT",
+    "ICAO": "FMMY",
+    "Airport name": "Vatomandry Airport[1]",
+    "Location served": "Vatomandry, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VAU",
+    "ICAO": "NFNV",
+    "Airport name": "Vatukoula Airport[1]",
+    "Location served": "Vatukoula, Fiji",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VAV",
+    "ICAO": "NFTV",
+    "Airport name": "Vavaʻu International Airport[1]",
+    "Location served": "Vavaʻu, Tonga",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VAW",
+    "ICAO": "ENSS",
+    "Airport name": "Vardø Airport, Svartnes",
+    "Location served": "Vardø, Norway",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VBA",
+    "ICAO": "VYAN",
+    "Airport name": "Ann Airport[1]",
+    "Location served": "Ann, Myanmar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VBC",
+    "ICAO": "VYCZ",
+    "Airport name": "Mandalay Chanmyathazi Airport[1]",
+    "Location served": "Mandalay, Myanmar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VBG",
+    "ICAO": "KVBG",
+    "Airport name": "Vandenberg Air Force Base",
+    "Location served": "Lompoc, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VBP",
+    "ICAO": "VYBP",
+    "Airport name": "Bokpyin Airport[1]",
+    "Location served": "Bokpyin, Myanmar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VBS",
+    "ICAO": "LIPO",
+    "Airport name": "Brescia Airport (Gabriele D'Annunzio Airport)",
+    "Location served": "Brescia, Lombardy, Italy",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VBV",
+    "ICAO": "NFVB",
+    "Airport name": "Vanuabalavu Airport[1]",
+    "Location served": "Vanua Balavu, Fiji",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VBY",
+    "ICAO": "ESSV",
+    "Airport name": "Visby Airport",
+    "Location served": "Visby, Sweden",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VCA",
+    "ICAO": "VVCT",
+    "Airport name": "Can Tho International Airport",
+    "Location served": "Can Tho (Cần Thơ), Vietnam",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VCD",
+    "ICAO": "YVRD",
+    "Airport name": "Victoria River Downs Airport[1]",
+    "Location served": "Victoria River Downs Station, Northern Territory, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VCE",
+    "ICAO": "LIPZ",
+    "Airport name": "Venice Marco Polo Airport",
+    "Location served": "Venice, Veneto, Italy",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VCF",
+    "ICAO": "",
+    "Airport name": "Valcheta Airport[1]",
+    "Location served": "Valcheta, Río Negro, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VCH",
+    "ICAO": "SUVO",
+    "Airport name": "Vichadero Airport",
+    "Location served": "Vichadero, Uruguay",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VCL",
+    "ICAO": "VVCA",
+    "Airport name": "Chu Lai International Airport",
+    "Location served": "Chu Lai, Vietnam",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VCP",
+    "ICAO": "SBKP",
+    "Airport name": "Viracopos/Campinas International Airport",
+    "Location served": "São Paulo / Campinas, São Paulo, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VCR",
+    "ICAO": "SVCO",
+    "Airport name": "Carora Airport[1]",
+    "Location served": "Carora, Venezuela",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VCS",
+    "ICAO": "VVCS",
+    "Airport name": "Con Dao Airport (Cỏ Ống Airport)",
+    "Location served": "Con Dao Island (Côn Đảo), Vietnam",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VCT",
+    "ICAO": "KVCT",
+    "Airport name": "Victoria Regional Airport",
+    "Location served": "Victoria, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VCV",
+    "ICAO": "KVCV",
+    "Airport name": "Southern California Logistics Airport",
+    "Location served": "Victorville, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VDA",
+    "ICAO": "LLOV",
+    "Airport name": "Ovda Airport",
+    "Location served": "Ovda (Uvda), Israel",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VDB",
+    "ICAO": "ENFG",
+    "Airport name": "Fagernes Airport, Leirin",
+    "Location served": "Fagernes, Norway",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VDC",
+    "ICAO": "SSVC",
+    "Airport name": "Glauber Rocha Airport",
+    "Location served": "Vitória da Conquista, Bahia, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VDE",
+    "ICAO": "GCHI",
+    "Airport name": "El Hierro Airport[1]",
+    "Location served": "Valverde, Canary Islands, Spain",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VDH",
+    "ICAO": "VVDH",
+    "Airport name": "Dong Hoi Airport[1]",
+    "Location served": "Dong Hoi (Đồng Hới), Vietnam",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VDI",
+    "ICAO": "KVDI",
+    "Airport name": "Vidalia Regional Airport",
+    "Location served": "Vidalia, Georgia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VDM",
+    "ICAO": "SAVV",
+    "Airport name": "Gobernador Edgardo Castello Airport",
+    "Location served": "Viedma, Río Negro, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VDO",
+    "ICAO": "VVVD",
+    "Airport name": "Van Don International Airport",
+    "Location served": "Ha Long, Quang Ninh (Quảng Ninh), Vietnam",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VDP",
+    "ICAO": "SVVP",
+    "Airport name": "Valle de la Pascua Airport",
+    "Location served": "Valle de la Pascua, Venezuela",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VDR",
+    "ICAO": "SAOD",
+    "Airport name": "Villa Dolores Airport",
+    "Location served": "Villa Dolores, Córdoba, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VDS",
+    "ICAO": "ENVD",
+    "Airport name": "Vadsø Airport",
+    "Location served": "Vadsø, Norway",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VDY",
+    "ICAO": "VOJV",
+    "Airport name": "Vidyanagar Airport[1] (Jindal Airport)",
+    "Location served": "Toranagallu, Karnataka, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VDZ",
+    "ICAO": "PAVD",
+    "Airport name": "Valdez Airport (Pioneer Field)",
+    "Location served": "Valdez, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VEE",
+    "ICAO": "PAVE",
+    "Airport name": "Venetie Airport",
+    "Location served": "Venetie, Alaska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VEG",
+    "ICAO": "SYMK",
+    "Airport name": "Maikwak Airport[1]",
+    "Location served": "Maikwak, Guyana",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VEL",
+    "ICAO": "KVEL",
+    "Airport name": "Vernal Regional Airport",
+    "Location served": "Vernal, Utah, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VER",
+    "ICAO": "MMVR",
+    "Airport name": "General Heriberto Jara International Airport",
+    "Location served": "Veracruz, Veracruz, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VEV",
+    "ICAO": "AGBA",
+    "Airport name": "Barakoma Airport[1]",
+    "Location served": "Barakoma, Solomon Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VEX",
+    "ICAO": "",
+    "Airport name": "Tioga Municipal Airport (FAA: D60)",
+    "Location served": "Tioga, North Dakota, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VEY",
+    "ICAO": "BIVM",
+    "Airport name": "Vestmannaeyjar Airport",
+    "Location served": "Vestmannaeyjar, Iceland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VFA",
+    "ICAO": "FVFA",
+    "Airport name": "Victoria Falls Airport",
+    "Location served": "Victoria Falls, Zimbabwe",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VGA",
+    "ICAO": "VOBZ",
+    "Airport name": "Vijayawada Airport",
+    "Location served": "Vijayawada, Andhra Pradesh, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VGD",
+    "ICAO": "ULWW",
+    "Airport name": "Vologda Airport",
+    "Location served": "Vologda, Vologda Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VGO",
+    "ICAO": "LEVX",
+    "Airport name": "Vigo–Peinador Airport",
+    "Location served": "Vigo, Galicia, Spain",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VGS",
+    "ICAO": "",
+    "Airport name": "General Villegas Airport[1]",
+    "Location served": "General Villegas, Buenos Aires, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VGT",
+    "ICAO": "KVGT",
+    "Airport name": "North Las Vegas Airport",
+    "Location served": "Las Vegas, Nevada, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VGZ",
+    "ICAO": "SKVG",
+    "Airport name": "Villa Garzón Airport",
+    "Location served": "Villagarzón, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VHC",
+    "ICAO": "FNSA",
+    "Airport name": "Henrique de Carvalho Airport[1]",
+    "Location served": "Saurimo, Angola",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VHM",
+    "ICAO": "ESNV",
+    "Airport name": "Vilhelmina Airport",
+    "Location served": "Vilhelmina, Sweden",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VHN",
+    "ICAO": "KVHN",
+    "Airport name": "Culberson County Airport",
+    "Location served": "Van Horn, Texas, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VHV",
+    "ICAO": "UENI",
+    "Airport name": "Verkhnevilyuysk Airport",
+    "Location served": "Verkhnevilyuysk, Yakutia, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VHY",
+    "ICAO": "LFLV",
+    "Airport name": "Vichy — Charmeil Airport[1]",
+    "Location served": "Vichy, Auvergne, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VHZ",
+    "ICAO": "NTUV",
+    "Airport name": "Vahitahi Airport[1]",
+    "Location served": "Vahitahi, Tuamotus, French Polynesia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VIA",
+    "ICAO": "SSVI",
+    "Airport name": "Ângelo Ponzoni Municipal Airport",
+    "Location served": "Videira, Santa Catarina, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VIB",
+    "ICAO": "",
+    "Airport name": "Villa Constitución Airport[1]",
+    "Location served": "Ciudad Constitución, Baja California Sur, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VIC",
+    "ICAO": "LIPT",
+    "Airport name": "Vicenza Airport",
+    "Location served": "Vicenza, Veneto, Italy",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VIE",
+    "ICAO": "LOWW",
+    "Airport name": "Vienna International Airport",
+    "Location served": "Vienna, Austria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VIG",
+    "ICAO": "SVVG",
+    "Airport name": "Juan Pablo Pérez Alfonzo Airport",
+    "Location served": "El Vigía, Venezuela",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VIH",
+    "ICAO": "KVIH",
+    "Airport name": "Rolla National Airport",
+    "Location served": "Rolla / Vichy, Missouri, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VII",
+    "ICAO": "VVVH",
+    "Airport name": "Vinh International Airport",
+    "Location served": "Vinh, Vietnam",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VIJ",
+    "ICAO": "TUPW",
+    "Airport name": "Virgin Gorda Airport",
+    "Location served": "Virgin Gorda, British Overseas Territory of Virgin Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VIL",
+    "ICAO": "GMMH",
+    "Airport name": "Dakhla Airport",
+    "Location served": "Dakhla, Morocco",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VIN",
+    "ICAO": "UKWW",
+    "Airport name": "Havryshivka Vinnytsia International Airport",
+    "Location served": "Vinnytsia, Ukraine",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VIQ",
+    "ICAO": "WPVQ",
+    "Airport name": "Viqueque Airport",
+    "Location served": "Viqueque, East Timor",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VIR",
+    "ICAO": "FAVG",
+    "Airport name": "Virginia Airport[1]",
+    "Location served": "Durban, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VIS",
+    "ICAO": "KVIS",
+    "Airport name": "Visalia Municipal Airport",
+    "Location served": "Visalia, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VIT",
+    "ICAO": "LEVT",
+    "Airport name": "Vitoria Airport",
+    "Location served": "Vitoria-Gasteiz, Basque Country, Spain",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VIU",
+    "ICAO": "",
+    "Airport name": "Viru Harbour Airport[1]",
+    "Location served": "Viru Harbour, Solomon Islands",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VIV",
+    "ICAO": "",
+    "Airport name": "Vivigani Airfield",
+    "Location served": "Vivigani, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VIX",
+    "ICAO": "SBVT",
+    "Airport name": "Eurico de Aguiar Salles Airport",
+    "Location served": "Vitória, Espírito Santo, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VIY",
+    "ICAO": "LFPV",
+    "Airport name": "Vélizy – Villacoublay Air Base[1]",
+    "Location served": "Paris, Île-de-France, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VJB",
+    "ICAO": "FQXA",
+    "Airport name": "Xai-Xai Airport",
+    "Location served": "Xai-Xai, Mozambique",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VJI",
+    "ICAO": "KVJI",
+    "Airport name": "Virginia Highlands Airport",
+    "Location served": "Abingdon, Virginia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VJQ",
+    "ICAO": "",
+    "Airport name": "Gurúé Airport[1]",
+    "Location served": "Gurúè, Mozambique",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VKG",
+    "ICAO": "VVRG",
+    "Airport name": "Rach Gia Airport",
+    "Location served": "Rach Gia (Rạch Giá), Vietnam",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VKO",
+    "ICAO": "UUWW",
+    "Airport name": "Vnukovo International Airport",
+    "Location served": "Moscow, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VKS",
+    "ICAO": "KVKS",
+    "Airport name": "Vicksburg Municipal Airport",
+    "Location served": "Vicksburg, Mississippi, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VKT",
+    "ICAO": "UUYW",
+    "Airport name": "Vorkuta Airport",
+    "Location served": "Vorkuta, Komi Republic, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VLA",
+    "ICAO": "KVLA",
+    "Airport name": "Vandalia Municipal Airport",
+    "Location served": "Vandalia, Illinois, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VLC",
+    "ICAO": "LEVC",
+    "Airport name": "Valencia Airport",
+    "Location served": "Valencia, Valencian Community, Spain",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VLD",
+    "ICAO": "KVLD",
+    "Airport name": "Valdosta Regional Airport",
+    "Location served": "Valdosta, Georgia, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VLE",
+    "ICAO": "",
+    "Airport name": "Valle Airport (FAA: 40G)",
+    "Location served": "Grand Canyon, Arizona, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VLG",
+    "ICAO": "SAZV",
+    "Airport name": "Villa Gesell Airport",
+    "Location served": "Villa Gesell, Buenos Aires, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VLI",
+    "ICAO": "NVVV",
+    "Airport name": "Bauerfield International Airport",
+    "Location served": "Port Vila, Vanuatu",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VLK",
+    "ICAO": "URRY",
+    "Airport name": "Volgodonsk Airport[1]",
+    "Location served": "Volgodonsk, Rostov Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VLL",
+    "ICAO": "LEVD",
+    "Airport name": "Valladolid Airport",
+    "Location served": "Valladolid, Castile and León, Spain",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VLM",
+    "ICAO": "SLVM",
+    "Airport name": "Lieutenant Colonel Rafael Pabón Airport[1]",
+    "Location served": "Villamontes, Bolivia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VLN",
+    "ICAO": "SVVA",
+    "Airport name": "Arturo Michelena International Airport",
+    "Location served": "Valencia, Venezuela",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VLP",
+    "ICAO": "",
+    "Airport name": "Vila Rica Municipal Airport[1]",
+    "Location served": "Vila Rica, Mato Grosso, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VLR",
+    "ICAO": "SCLL",
+    "Airport name": "Vallenar Airport[1]",
+    "Location served": "Vallenar, Chile",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VLS",
+    "ICAO": "NVSV",
+    "Airport name": "Valesdir Airport[1]",
+    "Location served": "Valesdir, Vanuatu",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VLU",
+    "ICAO": "ULOL",
+    "Airport name": "Velikiye Luki Airport",
+    "Location served": "Velikiye Luki, Pskov Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VLV",
+    "ICAO": "SVVL",
+    "Airport name": "Dr. Antonio Nicolás Briceño Airport",
+    "Location served": "Valera, Venezuela",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VLY",
+    "ICAO": "EGOV",
+    "Airport name": "Anglesey Airport / RAF Valley",
+    "Location served": "Anglesey, Wales, United Kingdom",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VME",
+    "ICAO": "SAOR",
+    "Airport name": "Villa Reynolds Airport",
+    "Location served": "Villa Mercedes, San Luis, Argentina",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VMI",
+    "ICAO": "",
+    "Airport name": "Dr. Juan Plate Airport[1]",
+    "Location served": "Puerto Valle-Mi, Paraguay",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VMU",
+    "ICAO": "AYBA",
+    "Airport name": "Baimuru Airport",
+    "Location served": "Baimuru, Papua New Guinea",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VNA",
+    "ICAO": "VLSV",
+    "Airport name": "Salavan Airport[1]",
+    "Location served": "Salavan (Saravane), Laos",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VNC",
+    "ICAO": "KVNC",
+    "Airport name": "Venice Municipal Airport",
+    "Location served": "Venice, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VND",
+    "ICAO": "FMSU",
+    "Airport name": "Vangaindrano Airport[1]",
+    "Location served": "Vangaindrano, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VNE",
+    "ICAO": "LFRV",
+    "Airport name": "Meucon Airport",
+    "Location served": "Vannes, Brittany, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VNO",
+    "ICAO": "EYVI",
+    "Airport name": "Vilnius Airport",
+    "Location served": "Vilnius, Lithuania",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VNR",
+    "ICAO": "YVRS",
+    "Airport name": "Vanrook Airport[1]",
+    "Location served": "Vanrook Station, Queensland, Australia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VNS",
+    "ICAO": "VEBN",
+    "Airport name": "Lal Bahadur Shastri Airport",
+    "Location served": "Varanasi, Uttar Pradesh, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VNT",
+    "ICAO": "EVVA",
+    "Airport name": "Ventspils International Airport",
+    "Location served": "Ventspils, Latvia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VNX",
+    "ICAO": "FQVL",
+    "Airport name": "Vilankulo Airport",
+    "Location served": "Vilankulo, Mozambique",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VNY",
+    "ICAO": "KVNY",
+    "Airport name": "Van Nuys Airport",
+    "Location served": "Los Angeles, California, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VOD",
+    "ICAO": "LKVO",
+    "Airport name": "Vodochody Airport",
+    "Location served": "Prague, Czech Republic",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VOG",
+    "ICAO": "URWW",
+    "Airport name": "Volgograd International Airport",
+    "Location served": "Volgograd, Volgograd Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VOH",
+    "ICAO": "FMNV",
+    "Airport name": "Vohemar Airport[1]",
+    "Location served": "Vohemar (Vohimarina), Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VOI",
+    "ICAO": "GLVA",
+    "Airport name": "Voinjama Airport (Tenebu Airport)",
+    "Location served": "Voinjama, Liberia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VOK",
+    "ICAO": "KVOK",
+    "Airport name": "Volk Field Air National Guard Base",
+    "Location served": "Camp Douglas, Wisconsin, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VOL",
+    "ICAO": "LGBL",
+    "Airport name": "Nea Anchialos National Airport",
+    "Location served": "Volos, Greece",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VOT",
+    "ICAO": "SDVG",
+    "Airport name": "Votuporanga Airport[1] (Domingos Pignatari Airport)",
+    "Location served": "Votuporanga, São Paulo, Brazil",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VOZ",
+    "ICAO": "UUOO",
+    "Airport name": "Voronezh International Airport (Chertovitskoye Airport)",
+    "Location served": "Voronezh, Voronezh Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VPE",
+    "ICAO": "FNGI",
+    "Airport name": "Ondjiva Pereira Airport[1]",
+    "Location served": "Ondjiva, Angola",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VPG",
+    "ICAO": "",
+    "Airport name": "Vipingo Airport[1]",
+    "Location served": "Vipingo, Kenya",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VPN",
+    "ICAO": "BIVO",
+    "Airport name": "Vopnafjörður Airport",
+    "Location served": "Vopnafjörður, Iceland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VPS",
+    "ICAO": "KVPS",
+    "Airport name": "Destin–Fort Walton Beach Airport / Eglin Air Force Base",
+    "Location served": "Destin / Fort Walton Beach, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VPY",
+    "ICAO": "FQCH",
+    "Airport name": "Chimoio Airport",
+    "Location served": "Chimoio, Mozambique",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VPZ",
+    "ICAO": "KVPZ",
+    "Airport name": "Porter County Regional Airport",
+    "Location served": "Valparaiso, Indiana, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VQQ",
+    "ICAO": "KVQQ",
+    "Airport name": "Cecil Airport[1]",
+    "Location served": "Jacksonville, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VQS",
+    "ICAO": "TJVQ",
+    "Airport name": "Antonio Rivera Rodríguez Airport",
+    "Location served": "Vieques, Puerto Rico, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VRA",
+    "ICAO": "MUVR",
+    "Airport name": "Juan Gualberto Gómez Airport",
+    "Location served": "Varadero, Cuba",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VRB",
+    "ICAO": "KVRB",
+    "Airport name": "Vero Beach Regional Airport",
+    "Location served": "Vero Beach, Florida, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VRC",
+    "ICAO": "RPUV",
+    "Airport name": "Virac Airport",
+    "Location served": "Virac, Philippines",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VRE",
+    "ICAO": "FAVR",
+    "Airport name": "Vredendal Airport[1]",
+    "Location served": "Vredendal, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VRI",
+    "ICAO": "ULDW",
+    "Airport name": "Varandey Airport",
+    "Location served": "Varandey, Nenets Autonomous Okrug, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VRK",
+    "ICAO": "EFVR",
+    "Airport name": "Varkaus Airport",
+    "Location served": "Varkaus, Finland",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VRL",
+    "ICAO": "LPVR",
+    "Airport name": "Vila Real Airport",
+    "Location served": "Vila Real, Portugal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VRN",
+    "ICAO": "LIPX",
+    "Airport name": "Verona Villafranca Airport",
+    "Location served": "Verona, Veneto, Italy",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VRO",
+    "ICAO": "MUKW",
+    "Airport name": "Kawama Airport",
+    "Location served": "Varadero, Cuba",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VRS",
+    "ICAO": "",
+    "Airport name": "Roy Otten Memorial Airfield (FAA: 3VS)",
+    "Location served": "Versailles, Missouri, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VRU",
+    "ICAO": "FAVB",
+    "Airport name": "Vryburg Airport[1]",
+    "Location served": "Vryburg, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VSA",
+    "ICAO": "MMVA",
+    "Airport name": "Carlos Rovirosa Pérez International Airport",
+    "Location served": "Villahermosa, Tabasco, Mexico",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VSE",
+    "ICAO": "LPVZ",
+    "Airport name": "Viseu Airport[1]",
+    "Location served": "Viseu, Portugal",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VSF",
+    "ICAO": "KVSF",
+    "Airport name": "Hartness State Airport",
+    "Location served": "Springfield, Vermont, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VSG",
+    "ICAO": "UKCW",
+    "Airport name": "Luhansk International Airport",
+    "Location served": "Luhansk, Ukraine",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VST",
+    "ICAO": "ESOW",
+    "Airport name": "Stockholm Västerås Airport",
+    "Location served": "Stockholm / Västerås, Sweden",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VTB",
+    "ICAO": "UMII",
+    "Airport name": "Vitebsk Vostochny Airport[1]",
+    "Location served": "Vitebsk, Belarus",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VTE",
+    "ICAO": "VLVT",
+    "Airport name": "Wattay International Airport",
+    "Location served": "Vientiane, Laos",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VTF",
+    "ICAO": "NFVL",
+    "Airport name": "Vatulele Airport[1]",
+    "Location served": "Vatulele, Fiji",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VTG",
+    "ICAO": "VVVT",
+    "Airport name": "Vung Tau Airport",
+    "Location served": "Vung Tau (Vũng Tàu), Vietnam",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VTL",
+    "ICAO": "LFSZ",
+    "Airport name": "Vittel - Champ-de-Courses Airport[1]",
+    "Location served": "Vittel, Lorraine, France",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VTM",
+    "ICAO": "LLNV",
+    "Airport name": "Nevatim Airbase[1]",
+    "Location served": "Nevatim, Israel",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VTN",
+    "ICAO": "KVTN",
+    "Airport name": "Miller Field",
+    "Location served": "Valentine, Nebraska, United States",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VTU",
+    "ICAO": "MUVT",
+    "Airport name": "Hermanos Ameijeiras Airport[1]",
+    "Location served": "Las Tunas, Cuba",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VTZ",
+    "ICAO": "VEVZ",
+    "Airport name": "Visakhapatnam Airport",
+    "Location served": "Visakhapatnam (Vishakhapatnam), Andhra Pradesh, India",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VUP",
+    "ICAO": "SKVP",
+    "Airport name": "Alfonso López Pumarejo Airport",
+    "Location served": "Valledupar, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VUS",
+    "ICAO": "ULWU",
+    "Airport name": "Veliky Ustyug Airport",
+    "Location served": "Veliky Ustyug, Vologda Oblast, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VUU",
+    "ICAO": "",
+    "Airport name": "Mvuu Camp Airport[1]",
+    "Location served": "Liwonde, Malawi",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VVB",
+    "ICAO": "FMMH",
+    "Airport name": "Mahanoro Airport[1]",
+    "Location served": "Mahanoro, Madagascar",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VVC",
+    "ICAO": "SKVV",
+    "Airport name": "La Vanguardia Airport[1]",
+    "Location served": "Villavicencio, Colombia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VVI",
+    "ICAO": "SLVR",
+    "Airport name": "Viru Viru International Airport",
+    "Location served": "Santa Cruz de la Sierra, Bolivia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VVK",
+    "ICAO": "ESSW",
+    "Airport name": "Västervik Airport[1]",
+    "Location served": "Västervik, Sweden",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VVN",
+    "ICAO": "",
+    "Airport name": "Las Malvinas Airport[1]",
+    "Location served": "Las Malvinas, Peru",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VVO",
+    "ICAO": "UHWW",
+    "Airport name": "Vladivostok International Airport",
+    "Location served": "Vladivostok, Primorsky Krai, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VVZ",
+    "ICAO": "DAAP",
+    "Airport name": "Takhamalt Airport",
+    "Location served": "Illizi, Algeria",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VXC",
+    "ICAO": "FQLC",
+    "Airport name": "Lichinga Airport",
+    "Location served": "Lichinga, Mozambique",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VXE",
+    "ICAO": "GVSV",
+    "Airport name": "Cesária Évora Airport (São Pedro Airport)",
+    "Location served": "São Vicente, Cape Verde",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VXO",
+    "ICAO": "ESMX",
+    "Airport name": "Växjö/Kronoberg Airport",
+    "Location served": "Växjö, Sweden",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VYD",
+    "ICAO": "FAVY",
+    "Airport name": "Vryheid Airport",
+    "Location served": "Vryheid, South Africa",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VYI",
+    "ICAO": "UENW",
+    "Airport name": "Vilyuysk Airport",
+    "Location served": "Vilyuysk, Yakutia, Russia",
+    "Time": "",
+    "DST": ""
+  },
+  {
+    "IATA": "VYS",
+    "ICAO": "KVYS",
+    "Airport name": "Illinois Valley Regional Airport (Walter A. Duncan Field)",
+    "Location served": "Peru, Illinois, United States",
+    "Time": "",
+    "DST": ""
+  }
+]
