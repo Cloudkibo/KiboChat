@@ -89,7 +89,7 @@ exports.fetchFlights = (depIata, arrIata, depTime, airlineName, credentials) => 
   const params = initAviation(credentials)
   depTime = new Date(depTime)
   depTime = `${depTime.getFullYear()}-${(depTime.getMonth()+1)}-${depTime.getDate()}`
-  let query = `dep_iata=${depIata}&arr_iata=${arrIata}`//&flight_date=${depTime}`
+  let query = `dep_iata=${depIata}&arr_iata=${arrIata}&flight_status=scheduled`//&flight_date=${depTime}`
   if (airlineName) {
     query += `&airline_name=${airlineName}`
   }
