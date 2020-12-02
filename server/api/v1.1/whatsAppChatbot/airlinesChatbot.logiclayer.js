@@ -20,6 +20,7 @@ const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/whatsAppChatbot/airlinesChatbot.logiclayer.js'
 const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 const moment = require('moment')
+const airlinesUtil = require('./../airlinesProvidersApiLayer/util')
 
 const DEFAULT_ERROR_MESSAGE = `${ERROR_INDICATOR}Something went wrong! Please try again or send "Hi" to go back home.`
 
@@ -152,7 +153,8 @@ const getAirportInfoBlock = (chatbot, backId, AirlineProvider, userInput) => {
     }
     const airportInfo = AirlineProvider.fetchAirportInfo(userInput)
     if (airportInfo) {
-      messageBlock.payload[0].text += `\n*Location*: https://www.google.com/maps/search/?api=1&query=${airportInfo.latitude},${airportInfo.longitude}`
+      // messageBlock.payload[0].text += `\n*Location*: https://www.google.com/maps/search/?api=1&query=${airportInfo.latitude},${airportInfo.longitude}`
+      messageBlock.payload[0].text += `\n*Location*: https://www.google.com/maps/search/?api=1&query=${escape(airportInfo['Airport name'])}`
       messageBlock.payload[0].text += `\n*Phone Number*: ${airportInfo.phone_number}`
     } else {
       throw new Error()
@@ -348,7 +350,10 @@ const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, userInp
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    const flights = await AirlineProvider.fetchFlights(argument.departure_city, userInput, argument.departure_date, argument.airline ? argument.airline.airline_name : null)
+    const departureCity = airlinesUtil.findCityInfo(argument.departureCity)[0]['IATA']
+    const arrivalCity = airlinesUtil.findCityInfo(userInput)[0]['IATA']
+    const airline = argument.airline ? argument.airline.airline_name : null
+    const flights = await AirlineProvider.fetchFlights(departureCity, arrivalCity, argument.departure_date, airline)
 
     for (let i = 0; i < flights.length; i++) {
       const flight = flights[i]
