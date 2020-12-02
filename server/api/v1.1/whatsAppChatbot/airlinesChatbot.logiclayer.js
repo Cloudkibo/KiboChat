@@ -416,9 +416,7 @@ const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, userInp
         {
           text: '',
           componentType: 'text',
-          menu: [
-            { type: DYNAMIC, action: GET_FLIGHT_SCHEDULE_DETAILS }
-          ],
+          menu: [],
           specialKeys: {
             [BACK_KEY]: { type: STATIC, blockId: backId },
             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
