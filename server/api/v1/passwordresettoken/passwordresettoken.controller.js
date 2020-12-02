@@ -6,7 +6,7 @@ const TAG = 'api/passwordresettoken/passwordresettoken.controller.js'
 const utility = require('../utility')
 
 function isPasswordWrong (err) {
-  if (err && err === `Wrong current password.`) {
+  if (err && err.message === `Wrong current password.`) {
     return true
   } else {
     return false
