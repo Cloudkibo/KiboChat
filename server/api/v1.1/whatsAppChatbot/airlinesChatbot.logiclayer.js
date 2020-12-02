@@ -449,7 +449,7 @@ const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, userInp
         messageBlock.payload[0].text += `\n`
       }
     }
-    messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
+    messageBlock.payload[0].text += `\n\n${specialKeyText(HOME_KEY)}`
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to get flight schedules'
@@ -489,7 +489,7 @@ const getFlightScheduleDetailsBlock = (chatbot, backId, argument) => {
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
+    messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
     return messageBlock
   } catch (err) {
