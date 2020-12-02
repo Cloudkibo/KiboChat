@@ -91,6 +91,7 @@ exports.fetchFlights = (depIata, arrIata, depTime, airlineName, credentials) => 
   if (airlineName) {
     query += `&airline_name=${airlineName}`
   }
+  depTime = `${deptTime.getFullYear()}-${(deptTime.getMonth()+1)}-${deptTime.getDate()}`
   return new Promise(function (resolve, reject) {
     needle('get', `${API_URL}/flights?access_key=${params}&${query}`)
       .then(result => {
