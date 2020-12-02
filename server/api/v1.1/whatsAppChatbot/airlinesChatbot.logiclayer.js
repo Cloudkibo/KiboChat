@@ -98,7 +98,7 @@ exports.getMessageBlocks = (chatbot) => {
   if (chatbot.botLinks && chatbot.botLinks.faqs) {
     messageBlocks[0].payload[0].text += `\n\n${specialKeyText(FAQS_KEY)}`
     messageBlocks[0].payload[0].specialKeys[FAQS_KEY] = { type: STATIC, blockId: faqsId }
-    getFaqsBlock(chatbot, mainMenuId, faqsId, messageBlocks, mainMenuId)
+    getFaqsBlock(chatbot, faqsId, messageBlocks, mainMenuId)
   }
   return messageBlocks
 }
@@ -248,7 +248,7 @@ const getAirportInfoBlock = (chatbot, backId, AirlineProvider, userInput) => {
   }
 }
 
-const getFaqsBlock = (chatbot, mainMenuId, blockId, messageBlocks, backId) => {
+const getFaqsBlock = (chatbot, blockId, messageBlocks, backId) => {
   messageBlocks.push({
     module: {
       id: chatbot._id,
@@ -264,8 +264,7 @@ const getFaqsBlock = (chatbot, mainMenuId, blockId, messageBlocks, backId) => {
                         `),
         componentType: 'text',
         specialKeys: {
-          [BACK_KEY]: { type: STATIC, blockId: backId },
-          [HOME_KEY]: { type: STATIC, blockId: mainMenuId }
+          [BACK_KEY]: { type: STATIC, blockId: backId }
         }
       }
     ],
