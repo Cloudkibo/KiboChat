@@ -141,7 +141,7 @@ exports.fetchFlights = (depIata, arrIata, depTime, airlineName, credentials) => 
               'iata': item.flight.iata,
               'icao': item.flight.icao,
               'codeshared': item.flight.codeshared
-            },
+            }
             // 'aircraft': {
             //   'registration': item.aircraft.registration,
             //   'iata': item.aircraft.iata,
@@ -217,7 +217,7 @@ exports.fetchFlightByNumber = (flightNumber, credentials) => {
               'iata': item.flight.iata,
               'icao': item.flight.icao,
               'codeshared': item.flight.codeshared
-            },
+            }
             // 'aircraft': {
             //   'registration': item.aircraft.registration,
             //   'iata': item.aircraft.iata,

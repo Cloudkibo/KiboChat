@@ -27,7 +27,7 @@ exports.testRoute = async (req, res) => {
     const aviation = new AirlinesProviders(airlinesConstants.aviation, {
       access_key: config.aviationKey
     })
-    const result = await aviation.fetchFlightByNumber('BC300')
+    const result = await aviation.fetchFlightByNumber('pa204')
     sendSuccessResponse(res, 200, result)
   } catch (err) {
     sendErrorResponse(res, 500, `Failed to test aviation api endpoint ${JSON.stringify(err)}`)

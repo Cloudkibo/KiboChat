@@ -49,7 +49,8 @@ const all = {
     app_host: 'https://kibochat.cloudkibo.com',
     app_secret: process.env.BIGCOMMERCE_SECRET || 'ee31988bcd4facf96a23f5d79aa3848fc5fab62c4ae31fb35125bc98ecb23949'
   },
-  aviationKey: '73777d3f32d28cde6c37c177572283b6'
+  aviationKey: process.env.AVIATION_KEY || '73777d3f32d28cde6c37c177572283b6',
+  openWeatherMapApi: process.env.WEATHER_KEY || '3334c233797078b7ca8a05154e545293'
 }
 
 module.exports = _.merge(
