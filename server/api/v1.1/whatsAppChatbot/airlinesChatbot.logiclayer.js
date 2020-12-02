@@ -247,7 +247,7 @@ const getAskDepartureDateBlock = async (chatbot, backId, argument) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Please enter your departure date in the format of YYYY/MM/DD`,
+          text: `Please enter your departure date in the format of YYYY-MM-DD`,
           componentType: 'text',
           action: { type: DYNAMIC, action: ASK_DEPARTURE_CITY, input: true, argument }
         }
