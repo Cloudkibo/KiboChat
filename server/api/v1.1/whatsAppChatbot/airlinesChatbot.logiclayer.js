@@ -474,8 +474,8 @@ const getFlightScheduleDetailsBlock = (chatbot, backId, argument) => {
           *Flight Number*: ${argument.flight.iata}
           *Departure Time*: ${new Date(argument.departure.scheduled).toLocaleString('en-US', {timeZone: argument.departure.timezone, dateStyle: 'full', timeStyle: 'full'})}
           *Arrival Time*: ${new Date(argument.arrival.scheduled).toLocaleString('en-US', {timeZone: argument.arrival.timezone, dateStyle: 'full', timeStyle: 'full'})}
-          *Departure Airport*: ${argument.departure.airport}
-          *Arrival Airport*: ${argument.arrival.airport}`),
+          *Departure Airport Location*: https://www.google.com/maps/search/?api=1&query=${argument.departure.airport}
+          *Arrival Airport Location*: https://www.google.com/maps/search/?api=1&query=${argument.arrival.airport}`),
           componentType: 'text',
           menu: [
             { type: DYNAMIC, action: GET_FLIGHT_SCHEDULE_DETAILS }
