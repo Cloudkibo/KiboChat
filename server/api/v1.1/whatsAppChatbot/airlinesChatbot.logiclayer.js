@@ -428,8 +428,9 @@ const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, userInp
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
+    argument.arrival_city = userInput
     const departureCity = airlinesUtil.findCityInfo(argument.departure_city)[0]['IATA']
-    const arrivalCity = airlinesUtil.findCityInfo(userInput)[0]['IATA']
+    const arrivalCity = airlinesUtil.findCityInfo(argument.arrival_city)[0]['IATA']
     const airline = argument.airline ? argument.airline.airline_name : null
     let flights = await AirlineProvider.fetchFlights(departureCity, arrivalCity, argument.departure_date, airline)
 
@@ -445,7 +446,7 @@ const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, userInp
       messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${flight.airline.name} ${flight.flight.iata}`
       messageBlock.payload[0].text += `\n*Departure Time*: ${new Date(flight.departure.scheduled).toLocaleString('en-US', {timeZone: flight.departure.timezone, dateStyle: 'full', timeStyle: 'full'})}`
       messageBlock.payload[0].text += `\n*Arrival Time*: ${new Date(flight.arrival.scheduled).toLocaleString('en-US', {timeZone: flight.arrival.timezone, dateStyle: 'full', timeStyle: 'full'})}`
-      messageBlock.payload[0].menu.push({type: DYNAMIC, action: GET_FLIGHT_SCHEDULE_DETAILS, argument: flight})
+      messageBlock.payload[0].menu.push({type: DYNAMIC, action: GET_FLIGHT_SCHEDULE_DETAILS, argument: {...argument, flight}})
       if (i + 1 < flights.length) {
         messageBlock.payload[0].text += `\n`
       }
@@ -461,6 +462,10 @@ const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, userInp
 
 const getFlightScheduleDetailsBlock = (chatbot, backId, argument) => {
   try {
+    // departure date in argument.departure_date
+    // departure city in arugment.departure_city
+    // arrival city in argument.arrival_city
+    const flightInfo = argument.flight
     let messageBlock = {
       module: {
         id: chatbot._id,
@@ -470,12 +475,12 @@ const getFlightScheduleDetailsBlock = (chatbot, backId, argument) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: dedent(`Details for ${argument.airline.name} ${argument.flight.iata}:\n 
-          *Flight Number*: ${argument.flight.iata}
-          *Departure Time*: ${new Date(argument.departure.scheduled).toLocaleString('en-US', {timeZone: argument.departure.timezone, dateStyle: 'full', timeStyle: 'full'})}
-          *Arrival Time*: ${new Date(argument.arrival.scheduled).toLocaleString('en-US', {timeZone: argument.arrival.timezone, dateStyle: 'full', timeStyle: 'full'})}
+          text: dedent(`Details for ${flightInfo.airline.name} ${flightInfo.flight.iata}:\n 
+          *Flight Number*: ${flightInfo.flight.iata}
+          *Departure Time*: ${new Date(flightInfo.departure.scheduled).toLocaleString('en-US', {timeZone: flightInfo.departure.timezone, dateStyle: 'full', timeStyle: 'full'})}
+          *Arrival Time*: ${new Date(flightInfo.arrival.scheduled).toLocaleString('en-US', {timeZone: flightInfo.arrival.timezone, dateStyle: 'full', timeStyle: 'full'})}
           *Departure Airport Location*: https://www.google.com/maps/search/?api=1&query=${argument.departure.airport}
-          *Arrival Airport Location*: https://www.google.com/maps/search/?api=1&query=${argument.arrival.airport}`),
+          *Arrival Airport Location*: https://www.google.com/maps/search/?api=1&query=${argument.arrival.airport}
           componentType: 'text',
           menu: [
             { type: DYNAMIC, action: GET_FLIGHT_SCHEDULE_DETAILS }
