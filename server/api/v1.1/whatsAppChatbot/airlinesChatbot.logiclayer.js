@@ -157,10 +157,13 @@ const getFlightStatusBlock = async (chatbot, backId, AirlineProvider, userInput)
     if (flightInfo) {
       messageBlock.payload[0].text += `*Airline*: ${flightInfo.airline.name}`
       messageBlock.payload[0].text += `\n*Flight Number*: ${flightInfo.flight.iata}`
+      messageBlock.payload[0].text += `\n*Flight Status*: ${flightInfo.flight_status}`
       messageBlock.payload[0].text += `\n*Departure Time*: ${new Date(flightInfo.departure.scheduled).toLocaleString('en-US', {timeZone: flightInfo.departure.timezone, dateStyle: 'full', timeStyle: 'full'})}`
       messageBlock.payload[0].text += `\n*Arrival Time*: ${new Date(flightInfo.arrival.scheduled).toLocaleString('en-US', {timeZone: flightInfo.arrival.timezone, dateStyle: 'full', timeStyle: 'full'})}`
       messageBlock.payload[0].text += `\n*Departure Airport*: ${flightInfo.departure.airport}`
+      messageBlock.payload[0].text += `\n*Departure Airport Location*: https://www.google.com/maps/search/?api=1&query=${escape(flightInfo.departure.airport)}`
       messageBlock.payload[0].text += `\n*Arrival Airport*: ${flightInfo.arrival.airport}`
+      messageBlock.payload[0].text += `\n*Arrival Airport Location*: https://www.google.com/maps/search/?api=1&query=${escape(flightInfo.arrival.airport)}`
     } else {
       messageBlock.payload[0].text += `No flight info found for flight number ${userInput}`
     }
@@ -476,9 +479,12 @@ const getFlightScheduleDetailsBlock = (chatbot, backId, argument) => {
         {
           text: dedent(`Details for ${flightInfo.airline.name} ${flightInfo.flight.iata}:\n 
                         *Flight Number*: ${flightInfo.flight.iata}
+                        *Flight Status*: ${flightInfo.flight_status}
                         *Departure Time*: ${new Date(flightInfo.departure.scheduled).toLocaleString('en-US', {timeZone: flightInfo.departure.timezone, dateStyle: 'full', timeStyle: 'full'})}
                         *Arrival Time*: ${new Date(flightInfo.arrival.scheduled).toLocaleString('en-US', {timeZone: flightInfo.arrival.timezone, dateStyle: 'full', timeStyle: 'full'})}
+                        *Departure Airport*: ${flightInfo.departure.airport}
                         *Departure Airport Location*: https://www.google.com/maps/search/?api=1&query=${escape(flightInfo.departure.airport)}
+                        *Arrival Airport*: ${flightInfo.arrival.airport}
                         *Arrival Airport Location*: https://www.google.com/maps/search/?api=1&query=${escape(flightInfo.arrival.airport)}`),
           componentType: 'text',
           specialKeys: {
