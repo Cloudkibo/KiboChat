@@ -350,7 +350,7 @@ const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, userInp
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    const departureCity = airlinesUtil.findCityInfo(argument.departureCity)[0]['IATA']
+    const departureCity = airlinesUtil.findCityInfo(argument.departure_city)[0]['IATA']
     const arrivalCity = airlinesUtil.findCityInfo(userInput)[0]['IATA']
     const airline = argument.airline ? argument.airline.airline_name : null
     const flights = await AirlineProvider.fetchFlights(departureCity, arrivalCity, argument.departure_date, airline)
