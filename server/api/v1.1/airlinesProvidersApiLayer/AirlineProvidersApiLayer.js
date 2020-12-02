@@ -47,4 +47,10 @@ module.exports = class AirlineProvidersApiLayer {
       return aviationProvider.fetchFlights(depCity, arrCity, depTime, airlineName, this.airlineProviderCredentials)
     }
   }
+
+  fetchFlightByNumber (flightNumber) {
+    if (this.airlineProvider === providers.aviation) {
+      return aviationProvider.fetchFlightByNumber(flightNumber, this.airlineProviderCredentials)[0]
+    }
+  }
 }
