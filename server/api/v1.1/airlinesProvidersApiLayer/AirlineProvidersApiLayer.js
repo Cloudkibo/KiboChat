@@ -1,5 +1,6 @@
 const providers = require('./constants.js')
 const aviationProvider = require('./aviationProvider.js')
+const util = require('./util')
 
 module.exports = class AirlineProvidersApiLayer {
   constructor (airlineProvider, airlineProviderCredentials) {
@@ -27,19 +28,23 @@ module.exports = class AirlineProvidersApiLayer {
 
   fetchCityInfo (cityName) {
     if (this.airlineProvider === providers.aviation) {
-      return aviationProvider.fetchCityInfo(cityName, this.airlineProviderCredentials)
+      return util.findCityInfo(cityName)[0]
+      // will use the following line when we have paid plan on aviation api
+      // return aviationProvider.fetchCityInfo(cityName, this.airlineProviderCredentials)
     }
   }
 
   fetchAirportInfo (airportName) {
     if (this.airlineProvider === providers.aviation) {
-      return aviationProvider.fetchAirportInfo(airportName, this.airlineProviderCredentials)
+      return util.findAirportInfo(airportName)[0]
+      // will use the following line when we have paid plan on aviation api
+      // return aviationProvider.fetchAirportInfo(airportName, this.airlineProviderCredentials)
     }
   }
 
   fetchFlights (depCity, arrCity, depTime, airlineName) {
     if (this.airlineProvider === providers.aviation) {
-      return aviationProvider.fetchFlights(depCity, arrCity, depTime, this.airlineProviderCredentials)
+      return aviationProvider.fetchFlights(depCity, arrCity, depTime, airlineName, this.airlineProviderCredentials)
     }
   }
 }
