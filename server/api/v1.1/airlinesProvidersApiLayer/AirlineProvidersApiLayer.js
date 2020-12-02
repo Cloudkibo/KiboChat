@@ -50,7 +50,7 @@ module.exports = class AirlineProvidersApiLayer {
 
   fetchFlightByNumber (flightNumber) {
     if (this.airlineProvider === providers.aviation) {
-      return aviationProvider.fetchFlightByNumber(flightNumber, this.airlineProviderCredentials)[0]
+      return aviationProvider.fetchFlightByNumber(flightNumber, this.airlineProviderCredentials)
     }
   }
 }
