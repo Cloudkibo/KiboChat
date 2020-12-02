@@ -247,7 +247,7 @@ const getAskDepartureDateBlock = async (chatbot, backId, argument) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Please enter your departure date in the format of YYYY/MM/DD`,
+          text: `Please enter your departure date in the format of YYYY-MM-DD`,
           componentType: 'text',
           action: { type: DYNAMIC, action: ASK_DEPARTURE_CITY, input: true, argument }
         }
@@ -268,7 +268,7 @@ const getAskDepartureCityBlock = async (chatbot, backId, userInput, argument) =>
   try {
     if (new Date(userInput).toString() === 'Invalid Date') {
       userError = true
-      throw new Error('Please enter a valid date in the format of YYYY/MM/DD')
+      throw new Error('Please enter a valid date in the format of YYYY-MM-DD')
     }
     let messageBlock = {
       module: {
