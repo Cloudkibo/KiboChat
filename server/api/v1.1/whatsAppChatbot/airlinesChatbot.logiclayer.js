@@ -152,7 +152,8 @@ const getFlightStatusBlock = async (chatbot, backId, AirlineProvider, userInput)
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    const flightInfo = await AirlineProvider.fetchFlightByNumber(userInput)
+    let flightInfo = await AirlineProvider.fetchFlightByNumber(userInput)
+    flightInfo = flightInfo[0]
     if (flightInfo) {
       messageBlock.payload[0].text += `*Airline*: ${flightInfo.airline.name}`
       messageBlock.payload[0].text += `\n*Flight Number*: ${flightInfo.flight.iata}`
