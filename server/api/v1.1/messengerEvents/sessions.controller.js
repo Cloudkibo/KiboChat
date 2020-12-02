@@ -491,7 +491,8 @@ const _prepareSubscriberUpdatePayload = (event, subscriber, company) => {
         last_activity_time: Date.now(),
         pendingResponse: true,
         lastMessagedAt: Date.now(),
-        status: subscriber.status === 'resolved' ? 'new' : subscriber.status
+        status: subscriber.status === 'resolved' ? 'new' : subscriber.status,
+        openedAt: subscriber.status === 'resolved' ? new Date() : subscriber.openedAt
       }
     }
   }
