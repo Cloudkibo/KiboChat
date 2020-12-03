@@ -802,7 +802,7 @@ module.exports = [
   {
     "IATA": "AEE",
     "ICAO": "",
-    "Airport name": "Adareil Airport[1]",
+    "Airport name": "Adareil Airport",
     "Location served": "Adareil, South Sudan",
     "Time": "UTC+03:00",
     "DST": ""
@@ -898,7 +898,7 @@ module.exports = [
   {
     "IATA": "AEU",
     "ICAO": "OIBA",
-    "Airport name": "Abu Musa Airport[1]",
+    "Airport name": "Abu Musa Airport",
     "Location served": "Abu Musa Island, Iran",
     "Time": "UTC+03:30",
     "DST": "Mar-Sep"
@@ -954,7 +954,7 @@ module.exports = [
   {
     "IATA": "AFK",
     "ICAO": "",
-    "Airport name": "Kondavattavan Tank Seaplane Base[1]",
+    "Airport name": "Kondavattavan Tank Seaplane Base",
     "Location served": "Ampara, Sri Lanka",
     "Time": "UTC+05:30",
     "DST": ""
@@ -1026,7 +1026,7 @@ module.exports = [
   {
     "IATA": "AFZ",
     "ICAO": "OIMS",
-    "Airport name": "Sabzevar Airport[1]",
+    "Airport name": "Sabzevar Airport",
     "Location served": "Sabzevar, Iran",
     "Time": "UTC+03:30",
     "DST": "Mar-Sep"
@@ -1298,7 +1298,7 @@ module.exports = [
   {
     "IATA": "AHM",
     "ICAO": "",
-    "Airport name": "Ashland Municipal Airport[1] (FAA: S03)",
+    "Airport name": "Ashland Municipal Airport (FAA: S03)",
     "Location served": "Ashland, Oregon, United States",
     "Time": "UTC−08:00",
     "DST": "Mar-Nov"
@@ -1338,7 +1338,7 @@ module.exports = [
   {
     "IATA": "AHW",
     "ICAO": "",
-    "Airport name": "Saih Rawl Airport[1]",
+    "Airport name": "Saih Rawl Airport",
     "Location served": "Saih Rawl, Oman",
     "Time": "UTC+04:00",
     "DST": ""
@@ -1562,7 +1562,7 @@ module.exports = [
   {
     "IATA": "AJK",
     "ICAO": "OIHR",
-    "Airport name": "Arak Airport[1]",
+    "Airport name": "Arak Airport",
     "Location served": "Arak, Iran",
     "Time": "UTC+03:30",
     "DST": "Mar-Sep"
@@ -1794,7 +1794,7 @@ module.exports = [
   {
     "IATA": "AKW",
     "ICAO": "OIAG",
-    "Airport name": "Aghajari Airport[1]",
+    "Airport name": "Aghajari Airport",
     "Location served": "Aghajari, Iran",
     "Time": "UTC+03:30",
     "DST": "Mar-Sep"
@@ -2498,7 +2498,7 @@ module.exports = [
   {
     "IATA": "AOM",
     "ICAO": "",
-    "Airport name": "Adam Airport[1]",
+    "Airport name": "Adam Airport",
     "Location served": "Adam, Oman",
     "Time": "UTC+04:00",
     "DST": ""
@@ -2802,7 +2802,7 @@ module.exports = [
   {
     "IATA": "AQY",
     "ICAO": "",
-    "Airport name": "Girdwood Airport[1]",
+    "Airport name": "Girdwood Airport",
     "Location served": "Girdwood, Alaska, United States",
     "Time": "UTC−09:00",
     "DST": "Mar-Nov"
@@ -3866,7 +3866,7 @@ module.exports = [
   {
     "IATA": "AXJ",
     "ICAO": "RJDA",
-    "Airport name": "Amakusa Airfield[1]",
+    "Airport name": "Amakusa Airfield",
     "Location served": "Amakusa, Amakusa Islands, Japan",
     "Time": "UTC+09:00",
     "DST": ""
@@ -4018,7 +4018,7 @@ module.exports = [
   {
     "IATA": "AYM",
     "ICAO": "",
-    "Airport name": "Yas Island Seaplane Base[1]",
+    "Airport name": "Yas Island Seaplane Base",
     "Location served": "Yas Island, Abu Dhabi, United Arab Emirates",
     "Time": "UTC+04:00",
     "DST": ""
@@ -4106,7 +4106,7 @@ module.exports = [
   {
     "IATA": "AYY",
     "ICAO": "",
-    "Airport name": "Arugam Bay Seaplane Base[1]",
+    "Airport name": "Arugam Bay Seaplane Base",
     "Location served": "Pottuvil, Sri Lanka",
     "Time": "UTC+05:30",
     "DST": ""
@@ -4154,7 +4154,7 @@ module.exports = [
   {
     "IATA": "AZL",
     "ICAO": "SWTU[4]",
-    "Airport name": "Fazenda Tucunaré Airport[1]",
+    "Airport name": "Fazenda Tucunaré Airport",
     "Location served": "Sapezal, Mato Grosso, Brazil",
     "Time": "UTC−04:00",
     "DST": "Oct-Feb"
@@ -4296,7 +4296,7 @@ module.exports = [
     "DST": ""
   },
   {
-    "IATA": "BAK[1]",
+    "IATA": "BAK",
     "ICAO": "",
     "Airport name": "metropolitan area2",
     "Location served": "Baku, Azerbaijan",
@@ -4986,7 +4986,7 @@ module.exports = [
   {
     "IATA": "BDX",
     "ICAO": "",
-    "Airport name": "Broadus Airport[1]",
+    "Airport name": "Broadus Airport",
     "Location served": "Broadus, Montana, United States",
     "Time": "UTC−07:00",
     "DST": "Mar-Nov"
@@ -5106,7 +5106,7 @@ module.exports = [
   {
     "IATA": "BEM",
     "ICAO": "GMMD",
-    "Airport name": "Beni Mellal Airport[1]",
+    "Airport name": "Beni Mellal Airport",
     "Location served": "Beni Mellal, Morocco",
     "Time": "UTC+00:00",
     "DST": "Mar-Oct1"
@@ -5216,9 +5216,9 @@ module.exports = [
     "DST": ""
   },
   {
-    "IATA": "BFA[1]",
+    "IATA": "BFA",
     "ICAO": "SGBN[4]",
-    "Airport name": "Bahía Negra Airport[1]",
+    "Airport name": "Bahía Negra Airport",
     "Location served": "Bahía Negra, Paraguay",
     "Time": "UTC−04:00",
     "DST": "Oct-Mar"
@@ -5450,7 +5450,7 @@ module.exports = [
   {
     "IATA": "BGG",
     "ICAO": "LTCU",
-    "Airport name": "Bingöl Airport[1]",
+    "Airport name": "Bingöl Airport",
     "Location served": "Bingöl, Turkey",
     "Time": "UTC+03:00",
     "DST": ""
@@ -5792,7 +5792,7 @@ module.exports = [
     "DST": ""
   },
   {
-    "IATA": "BHZ[1]",
+    "IATA": "BHZ",
     "ICAO": "",
     "Airport name": "metropolitan area3",
     "Location served": "Belo Horizonte, Minas Gerais, Brazil",
@@ -6034,7 +6034,7 @@ module.exports = [
   {
     "IATA": "BJE",
     "ICAO": "",
-    "Airport name": "Baleela Airport[1]",
+    "Airport name": "Baleela Airport",
     "Location served": "Baleela, Sudan",
     "Time": "UTC+03:00",
     "DST": ""
@@ -6050,7 +6050,7 @@ module.exports = [
   {
     "IATA": "BJG",
     "ICAO": "",
-    "Airport name": "Kotamobagu Mopait Airport[1]",
+    "Airport name": "Kotamobagu Mopait Airport",
     "Location served": "Kotamobagu, Indonesia",
     "Time": "UTC+08:00",
     "DST": ""
@@ -6122,7 +6122,7 @@ module.exports = [
   {
     "IATA": "BJP",
     "ICAO": "SBBP",
-    "Airport name": "Arthur Siqueira–Bragança Paulista State Airport[1]",
+    "Airport name": "Arthur Siqueira–Bragança Paulista State Airport",
     "Location served": "Bragança Paulista, São Paulo, Brazil",
     "Time": "UTC−03:00",
     "DST": "Oct-Feb"
@@ -6130,7 +6130,7 @@ module.exports = [
   {
     "IATA": "BJQ",
     "ICAO": "",
-    "Airport name": "Bahja Airport[1]",
+    "Airport name": "Bahja Airport",
     "Location served": "Bahja, Oman",
     "Time": "UTC+04:00",
     "DST": ""
@@ -6144,7 +6144,7 @@ module.exports = [
     "DST": ""
   },
   {
-    "IATA": "BJS[1]",
+    "IATA": "BJS",
     "ICAO": "",
     "Airport name": "metropolitan area4",
     "Location served": "Beijing, China",
@@ -6154,7 +6154,7 @@ module.exports = [
   {
     "IATA": "BJT",
     "ICAO": "",
-    "Airport name": "Bentota River Airport[1]",
+    "Airport name": "Bentota River Airport",
     "Location served": "Bentota, Sri Lanka",
     "Time": "UTC+05:30",
     "DST": ""
@@ -6306,7 +6306,7 @@ module.exports = [
   {
     "IATA": "BKN",
     "ICAO": "",
-    "Airport name": "Balkanabat Airport[1]",
+    "Airport name": "Balkanabat Airport",
     "Location served": "Balkanabat, Turkmenistan",
     "Time": "UTC+05:00",
     "DST": ""
@@ -7346,7 +7346,7 @@ module.exports = [
   {
     "IATA": "BQG",
     "ICAO": "UHNB",
-    "Airport name": "Bogorodskoye Airport[1]",
+    "Airport name": "Bogorodskoye Airport",
     "Location served": "Bogorodskoye, Khabarovsk Krai, Russia",
     "Time": "UTC+10:00",
     "DST": ""
@@ -7362,7 +7362,7 @@ module.exports = [
   {
     "IATA": "BQI",
     "ICAO": "",
-    "Airport name": "Bagani Airport[1]",
+    "Airport name": "Bagani Airport",
     "Location served": "Bagani, Namibia",
     "Time": "UTC+01:00",
     "DST": "Sep-Apr"
@@ -7802,7 +7802,7 @@ module.exports = [
   {
     "IATA": "BSV",
     "ICAO": "",
-    "Airport name": "Besakoa Airport[1]",
+    "Airport name": "Besakoa Airport",
     "Location served": "Besakoa, Madagascar",
     "Time": "UTC+03:00",
     "DST": ""
@@ -8064,7 +8064,7 @@ module.exports = [
     "DST": "Mar-Oct"
   },
   {
-    "IATA": "BUE[1]",
+    "IATA": "BUE",
     "ICAO": "",
     "Airport name": "metropolitan area5",
     "Location served": "Buenos Aires, Argentina",
@@ -8088,7 +8088,7 @@ module.exports = [
     "DST": ""
   },
   {
-    "IATA": "BUH[1]",
+    "IATA": "BUH",
     "ICAO": "",
     "Airport name": "metropolitan area6",
     "Location served": "Bucharest, Romania",
@@ -8378,7 +8378,7 @@ module.exports = [
   {
     "IATA": "BVV",
     "ICAO": "UHSB",
-    "Airport name": "Burevestnik Airport[1]",
+    "Airport name": "Burevestnik Airport",
     "Location served": "Burevestnik, Sakhalin Oblast, Russia",
     "Time": "UTC+11:00",
     "DST": ""
@@ -8506,7 +8506,7 @@ module.exports = [
   {
     "IATA": "BWL",
     "ICAO": "KBKN",
-    "Airport name": "Blackwell–Tonkawa Municipal Airport[1] (FAA: BKN)",
+    "Airport name": "Blackwell–Tonkawa Municipal Airport (FAA: BKN)",
     "Location served": "Blackwell, Oklahoma, United States",
     "Time": "UTC−06:00",
     "DST": "Mar-Nov"
@@ -8570,7 +8570,7 @@ module.exports = [
   {
     "IATA": "BWW",
     "ICAO": "MUBR",
-    "Airport name": "Las Brujas Airport[1]",
+    "Airport name": "Las Brujas Airport",
     "Location served": "Cayo Santa María, Cuba",
     "Time": "UTC−05:00",
     "DST": "Mar-Nov"
@@ -8626,7 +8626,7 @@ module.exports = [
   {
     "IATA": "BXF",
     "ICAO": "YBEB",
-    "Airport name": "Bellburn Airstrip[1]",
+    "Airport name": "Bellburn Airstrip",
     "Location served": "Bellburn Camps, Western Australia, Australia",
     "Time": "UTC+08:00",
     "DST": ""
@@ -8818,7 +8818,7 @@ module.exports = [
   {
     "IATA": "BYF",
     "ICAO": "LFAQ",
-    "Airport name": "Albert – Picardie Airport[1]",
+    "Airport name": "Albert – Picardie Airport",
     "Location served": "Albert, Picardy, France",
     "Time": "UTC+01:00",
     "DST": "Mar-Oct"
@@ -8890,7 +8890,7 @@ module.exports = [
   {
     "IATA": "BYO",
     "ICAO": "SBDB",
-    "Airport name": "Bonito Airport[1]",
+    "Airport name": "Bonito Airport",
     "Location served": "Bonito, Mato Grosso do Sul, Brazil",
     "Time": "UTC−03:00",
     "DST": "Oct-Feb"
@@ -8946,7 +8946,7 @@ module.exports = [
   {
     "IATA": "BYV",
     "ICAO": "",
-    "Airport name": "Beira Lake Seaplane Base[1]",
+    "Airport name": "Beira Lake Seaplane Base",
     "Location served": "Colombo, Sri Lanka",
     "Time": "UTC+05:30",
     "DST": ""
@@ -9010,7 +9010,7 @@ module.exports = [
   {
     "IATA": "BZF",
     "ICAO": "",
-    "Airport name": "Benton Field[1]",
+    "Airport name": "Benton Field",
     "Location served": "Redding, California, United States",
     "Time": "UTC−08:00",
     "DST": "Mar-Nov"
@@ -9026,7 +9026,7 @@ module.exports = [
   {
     "IATA": "BZH",
     "ICAO": "",
-    "Airport name": "Bumi Hills Airstrip[1]",
+    "Airport name": "Bumi Hills Airstrip",
     "Location served": "Bumi Hills, Zimbabwe",
     "Time": "UTC+02:00",
     "DST": ""
@@ -9058,7 +9058,7 @@ module.exports = [
   {
     "IATA": "BZM",
     "ICAO": "",
-    "Airport name": "Bemolanga Airport[1]",
+    "Airport name": "Bemolanga Airport",
     "Location served": "Bemolanga, Madagascar",
     "Time": "UTC+03:00",
     "DST": ""
@@ -9098,7 +9098,7 @@ module.exports = [
   {
     "IATA": "BZT",
     "ICAO": "",
-    "Airport name": "Eagle Air Park[1]",
+    "Airport name": "Eagle Air Park",
     "Location served": "Brazoria, Texas, United States",
     "Time": "UTC−06:00",
     "DST": "Mar-Nov"
@@ -9298,7 +9298,7 @@ module.exports = [
   {
     "IATA": "CAT",
     "ICAO": "LPCS",
-    "Airport name": "Cascais Municipal Aerodrome[1]",
+    "Airport name": "Cascais Municipal Aerodrome",
     "Location served": "Cascais, Portugal",
     "Time": "UTC±00:00",
     "DST": "Mar–Oct"
@@ -10202,7 +10202,7 @@ module.exports = [
   {
     "IATA": "CFQ",
     "ICAO": "",
-    "Airport name": "Creston Aerodrome[1] (TC: CAJ3)",
+    "Airport name": "Creston Aerodrome (TC: CAJ3)",
     "Location served": "Creston, British Columbia, Canada",
     "Time": "UTC−07:00",
     "DST": ""
@@ -10472,7 +10472,7 @@ module.exports = [
     "DST": ""
   },
   {
-    "IATA": "CHI[1]",
+    "IATA": "CHI",
     "ICAO": "",
     "Airport name": "metropolitan area2",
     "Location served": "Chicago, Illinois, United States",
@@ -10666,7 +10666,7 @@ module.exports = [
   {
     "IATA": "CII",
     "ICAO": "LTBD",
-    "Airport name": "Aydın Airport[1] (Çıldır Airport)",
+    "Airport name": "Aydın Airport (Çıldır Airport)",
     "Location served": "Aydın, Turkey",
     "Time": "UTC+03:00",
     "DST": ""
@@ -10938,7 +10938,7 @@ module.exports = [
   {
     "IATA": "CKE",
     "ICAO": "",
-    "Airport name": "Lampson Field[1] (FAA: 1O2)",
+    "Airport name": "Lampson Field (FAA: 1O2)",
     "Location served": "Lakeport, California, United States",
     "Time": "UTC−08:00",
     "DST": "Mar–Nov"
@@ -10970,7 +10970,7 @@ module.exports = [
   {
     "IATA": "CKK",
     "ICAO": "KCVK",
-    "Airport name": "Sharp County Regional Airport[1] (FAA: CVK)",
+    "Airport name": "Sharp County Regional Airport (FAA: CVK)",
     "Location served": "Ash Flat, Arkansas, United States",
     "Time": "UTC−06:00",
     "DST": "Mar–Nov"
@@ -11010,7 +11010,7 @@ module.exports = [
   {
     "IATA": "CKR",
     "ICAO": "",
-    "Airport name": "Crane Island Airstrip[1]",
+    "Airport name": "Crane Island Airstrip",
     "Location served": "Crane Island, Washington, United States",
     "Time": "UTC−08:00",
     "DST": "Mar–Nov"
@@ -11194,7 +11194,7 @@ module.exports = [
   {
     "IATA": "CLR",
     "ICAO": "KCLR",
-    "Airport name": "Cliff Hatfield Memorial Airport[1]",
+    "Airport name": "Cliff Hatfield Memorial Airport",
     "Location served": "Calipatria, California, United States",
     "Time": "UTC−08:00",
     "DST": "Mar–Nov"
@@ -11466,7 +11466,7 @@ module.exports = [
   {
     "IATA": "CMZ",
     "ICAO": "",
-    "Airport name": "Caia Airport[1]",
+    "Airport name": "Caia Airport",
     "Location served": "Caia, Mozambique",
     "Time": "UTC+02:00",
     "DST": ""
@@ -11938,7 +11938,7 @@ module.exports = [
   {
     "IATA": "CPI",
     "ICAO": "",
-    "Airport name": "Cape Orford Airport[1]",
+    "Airport name": "Cape Orford Airport",
     "Location served": "Cape Orford, Papua New Guinea",
     "Time": "UTC+10:00",
     "DST": ""
@@ -12434,7 +12434,7 @@ module.exports = [
   {
     "IATA": "CSU",
     "ICAO": "",
-    "Airport name": "Santa Cruz do Sul Airport[1]",
+    "Airport name": "Santa Cruz do Sul Airport",
     "Location served": "Santa Cruz do Sul, Rio Grande do Sul, Brazil",
     "Time": "UTC−03:00",
     "DST": "Oct–Feb"
@@ -13082,7 +13082,7 @@ module.exports = [
   {
     "IATA": "CWX",
     "ICAO": "",
-    "Airport name": "Cochise County Airport[1] (FAA: P33)",
+    "Airport name": "Cochise County Airport (FAA: P33)",
     "Location served": "Willcox, Arizona, United States",
     "Time": "UTC−07:00",
     "DST": ""
@@ -13234,7 +13234,7 @@ module.exports = [
   {
     "IATA": "CYD",
     "ICAO": "",
-    "Airport name": "San Ignacio Town Airstrip[1]",
+    "Airport name": "San Ignacio Town Airstrip",
     "Location served": "San Ignacio, Belize",
     "Time": "UTC−06:00",
     "DST": ""
@@ -13594,7 +13594,7 @@ module.exports = [
   {
     "IATA": "DAO",
     "ICAO": "",
-    "Airport name": "Dabo Airport[1]",
+    "Airport name": "Dabo Airport",
     "Location served": "Dabo, Papua New Guinea",
     "Time": "UTC+10:00",
     "DST": ""
@@ -13618,7 +13618,7 @@ module.exports = [
   {
     "IATA": "DAS",
     "ICAO": "",
-    "Airport name": "Great Bear Lake Airport[1] (TC: CFF4)",
+    "Airport name": "Great Bear Lake Airport (TC: CFF4)",
     "Location served": "Great Bear Lake, Northwest Territories, Canada",
     "Time": "UTC−08:00",
     "DST": "Mar-Nov"
@@ -13682,7 +13682,7 @@ module.exports = [
   {
     "IATA": "DBB",
     "ICAO": "HEAL[2]",
-    "Airport name": "Al Alamain International Airport[1]",
+    "Airport name": "Al Alamain International Airport",
     "Location served": "El Alamein, Egypt",
     "Time": "UTC+02:00",
     "DST": ""
@@ -13690,7 +13690,7 @@ module.exports = [
   {
     "IATA": "DBC",
     "ICAO": "ZYBA",
-    "Airport name": "Baicheng Chang'an Airport[1]",
+    "Airport name": "Baicheng Chang'an Airport",
     "Location served": "Baicheng, Jilin, China",
     "Time": "UTC+08:00",
     "DST": ""
@@ -13706,7 +13706,7 @@ module.exports = [
   {
     "IATA": "DBK",
     "ICAO": "",
-    "Airport name": "Dutch Bay Seaplane Base[1]",
+    "Airport name": "Dutch Bay Seaplane Base",
     "Location served": "Kalpitiya, Sri Lanka",
     "Time": "UTC+05:30",
     "DST": ""
@@ -13770,7 +13770,7 @@ module.exports = [
   {
     "IATA": "DBU",
     "ICAO": "",
-    "Airport name": "Dambulu Oya Tank Seaplane Base[1]",
+    "Airport name": "Dambulu Oya Tank Seaplane Base",
     "Location served": "Dambulla, Sri Lanka",
     "Time": "UTC+05:30",
     "DST": ""
@@ -13810,7 +13810,7 @@ module.exports = [
   {
     "IATA": "DCG",
     "ICAO": "",
-    "Airport name": "Dubai Creek Seaplane Base[1]",
+    "Airport name": "Dubai Creek Seaplane Base",
     "Location served": "Dubai, United Arab Emirates",
     "Time": "UTC+04:00",
     "DST": ""
@@ -13842,7 +13842,7 @@ module.exports = [
   {
     "IATA": "DCN",
     "ICAO": "YCIN",
-    "Airport name": "RAAF Base Curtin[1]",
+    "Airport name": "RAAF Base Curtin",
     "Location served": "Derby, Western Australia, Australia",
     "Time": "UTC+08:00",
     "DST": ""
@@ -13954,7 +13954,7 @@ module.exports = [
   {
     "IATA": "DEE",
     "ICAO": "UHSM",
-    "Airport name": "Yuzhno-Kurilsk Mendeleyevo Airport[1]",
+    "Airport name": "Yuzhno-Kurilsk Mendeleyevo Airport",
     "Location served": "Yuzhno-Kurilsk, Sakhalin Oblast, Russia",
     "Time": "UTC+11:00",
     "DST": ""
@@ -14050,7 +14050,7 @@ module.exports = [
   {
     "IATA": "DEX",
     "ICAO": "",
-    "Airport name": "Nop Goliat Dekai Airport[1]",
+    "Airport name": "Nop Goliat Dekai Airport",
     "Location served": "Yahukimo, Indonesia",
     "Time": "UTC+09:00",
     "DST": ""
@@ -14106,7 +14106,7 @@ module.exports = [
   {
     "IATA": "DGD",
     "ICAO": "YDGA",
-    "Airport name": "Dalgaranga Airport[1]",
+    "Airport name": "Dalgaranga Airport",
     "Location served": "Dalgaranga Gold Mine, Western Australia, Australia",
     "Time": "UTC+08:00",
     "DST": ""
@@ -14122,7 +14122,7 @@ module.exports = [
   {
     "IATA": "DGF",
     "ICAO": "",
-    "Airport name": "Douglas Lake Airport[1]",
+    "Airport name": "Douglas Lake Airport",
     "Location served": "Douglas Lake, British Columbia, Canada",
     "Time": "UTC−08:00",
     "DST": "Mar-Nov"
@@ -14130,7 +14130,7 @@ module.exports = [
   {
     "IATA": "DGK",
     "ICAO": "",
-    "Airport name": "Dugong Beach Lodge Airstrip[1]",
+    "Airport name": "Dugong Beach Lodge Airstrip",
     "Location served": "Dugong Beach Lodge, Mozambique",
     "Time": "UTC+02:00",
     "DST": ""
@@ -14146,7 +14146,7 @@ module.exports = [
   {
     "IATA": "DGM",
     "ICAO": "",
-    "Airport name": "Dandugama Seaplane Base[1]",
+    "Airport name": "Dandugama Seaplane Base",
     "Location served": "Colombo, Sri Lanka",
     "Time": "UTC+05:30",
     "DST": ""
@@ -14218,7 +14218,7 @@ module.exports = [
   {
     "IATA": "DHB",
     "ICAO": "",
-    "Airport name": "Deer Harbor Sea Plane Base[1]",
+    "Airport name": "Deer Harbor Sea Plane Base",
     "Location served": "Deer Harbor, Washington, United States",
     "Time": "UTC−08:00",
     "DST": "Mar-Nov"
@@ -14410,7 +14410,7 @@ module.exports = [
   {
     "IATA": "DIW",
     "ICAO": "",
-    "Airport name": "Mawella Lagoon Seaplane Base[1]",
+    "Airport name": "Mawella Lagoon Seaplane Base",
     "Location served": "Dickwella, Sri Lanka",
     "Time": "UTC+05:30",
     "DST": ""
@@ -14506,7 +14506,7 @@ module.exports = [
   {
     "IATA": "DKA",
     "ICAO": "",
-    "Airport name": "Katsina Airport[1]",
+    "Airport name": "Katsina Airport",
     "Location served": "Katsina, Nigeria",
     "Time": "UTC+01:00",
     "DST": ""
@@ -14810,7 +14810,7 @@ module.exports = [
   {
     "IATA": "DNG",
     "ICAO": "",
-    "Airport name": "Doongan Airport[1]",
+    "Airport name": "Doongan Airport",
     "Location served": "Doongan, Western Australia, Australia",
     "Time": "UTC+08:00",
     "DST": ""
@@ -15090,7 +15090,7 @@ module.exports = [
   {
     "IATA": "DOY",
     "ICAO": "ZSDY",
-    "Airport name": "Dongying Shengli Airport[1]",
+    "Airport name": "Dongying Shengli Airport",
     "Location served": "Dongying, Shandong, China",
     "Time": "UTC+08:00",
     "DST": ""
@@ -15178,7 +15178,7 @@ module.exports = [
   {
     "IATA": "DQM",
     "ICAO": "",
-    "Airport name": "Duqm International Airport[1]",
+    "Airport name": "Duqm International Airport",
     "Location served": "Duqm, Oman",
     "Time": "UTC+04:00",
     "DST": ""
@@ -15226,7 +15226,7 @@ module.exports = [
   {
     "IATA": "DRF",
     "ICAO": "",
-    "Airport name": "Drift River Airport[1]",
+    "Airport name": "Drift River Airport",
     "Location served": "Drift River, Alaska, United States",
     "Time": "UTC−09:00",
     "DST": "Mar-Nov"
@@ -15322,7 +15322,7 @@ module.exports = [
   {
     "IATA": "DRV",
     "ICAO": "VRMD",
-    "Airport name": "Dharavandhoo Airport[1]",
+    "Airport name": "Dharavandhoo Airport",
     "Location served": "Dharavandhoo Island, Baa Atoll, Maldives",
     "Time": "UTC+05:00",
     "DST": ""
@@ -15338,7 +15338,7 @@ module.exports = [
   {
     "IATA": "DRY",
     "ICAO": "YDRD[3]",
-    "Airport name": "Drysdale River Airport[1]",
+    "Airport name": "Drysdale River Airport",
     "Location served": "Drysdale River, Western Australia, Australia",
     "Time": "UTC+08:00",
     "DST": ""
@@ -15418,7 +15418,7 @@ module.exports = [
   {
     "IATA": "DSO",
     "ICAO": "ZKSD",
-    "Airport name": "Sondok Airport[1]",
+    "Airport name": "Sondok Airport",
     "Location served": "Sondok, North Korea",
     "Time": "UTC+08:30",
     "DST": ""
@@ -15442,7 +15442,7 @@ module.exports = [
   {
     "IATA": "DSX",
     "ICAO": "RCLM",
-    "Airport name": "Dongsha Island Airport[1]",
+    "Airport name": "Dongsha Island Airport",
     "Location served": "Pratas (Tungsha/Dongsha) Island, Taiwan",
     "Time": "UTC+08:00",
     "DST": ""
@@ -15458,7 +15458,7 @@ module.exports = [
   {
     "IATA": "DTB",
     "ICAO": "WIMN",
-    "Airport name": "Silangit Airport[1]",
+    "Airport name": "Silangit Airport",
     "Location served": "Siborong-Borong, Indonesia",
     "Time": "UTC+07:00",
     "DST": ""
@@ -15490,7 +15490,7 @@ module.exports = [
   {
     "IATA": "DTI",
     "ICAO": "SNDT",
-    "Airport name": "Diamantina Airport[1]",
+    "Airport name": "Diamantina Airport",
     "Location served": "Diamantina, Minas Gerais, Brazil",
     "Time": "UTC−03:00",
     "DST": "Oct-Feb"
@@ -15522,13 +15522,13 @@ module.exports = [
   {
     "IATA": "DTR",
     "ICAO": "",
-    "Airport name": "Decatur Shores Airport[1]",
+    "Airport name": "Decatur Shores Airport",
     "Location served": "Decatur Island, Washington, United States",
     "Time": "UTC−08:00",
     "DST": "Mar-Nov"
   },
   {
-    "IATA": "DTT[1]",
+    "IATA": "DTT",
     "ICAO": "",
     "Airport name": "metropolitan area1",
     "Location served": "Detroit, Michigan, United States",
@@ -15538,7 +15538,7 @@ module.exports = [
   {
     "IATA": "DTU",
     "ICAO": "",
-    "Airport name": "Wudalianchi Airport[1]",
+    "Airport name": "Wudalianchi Airport",
     "Location served": "Wudalianchi, Heilongjiang, China",
     "Time": "UTC+08:00",
     "DST": ""
@@ -15674,7 +15674,7 @@ module.exports = [
   {
     "IATA": "DVK",
     "ICAO": "",
-    "Airport name": "Diavik Airport[1]",
+    "Airport name": "Diavik Airport",
     "Location served": "Diavik Diamond Mine, Northwest Territories, Canada",
     "Time": "UTC−07:00",
     "DST": "Mar-Nov"
@@ -15770,7 +15770,7 @@ module.exports = [
   {
     "IATA": "DWO",
     "ICAO": "",
-    "Airport name": "Diyawanna Oya Seaplane Base[1]",
+    "Airport name": "Diyawanna Oya Seaplane Base",
     "Location served": "Sri Jayawardenepura Kotte, Sri Lanka",
     "Time": "UTC+05:30",
     "DST": ""
@@ -15778,7 +15778,7 @@ module.exports = [
   {
     "IATA": "DWR",
     "ICAO": "OADY",
-    "Airport name": "Dwyer Airport[1]",
+    "Airport name": "Dwyer Airport",
     "Location served": "Camp Dwyer, Afghanistan",
     "Time": "UTC+04:30",
     "DST": ""
@@ -15802,7 +15802,7 @@ module.exports = [
   {
     "IATA": "DXE",
     "ICAO": "KMBO",
-    "Airport name": "Bruce Campbell Field[1] (FAA: MBO)",
+    "Airport name": "Bruce Campbell Field (FAA: MBO)",
     "Location served": "Madison, Mississippi, United States",
     "Time": "UTC−06:00",
     "DST": "Mar-Nov"
@@ -15968,7 +15968,7 @@ module.exports = [
     "DST": "Mar-Nov"
   },
   {
-    "IATA": "EAP[1]",
+    "IATA": "EAP",
     "ICAO": "",
     "Airport name": "metropolitan area2",
     "Location served": "Basel, Switzerland / Mulhouse, Alsace, France",
@@ -16042,7 +16042,7 @@ module.exports = [
   {
     "IATA": "EBH",
     "ICAO": "DAOY",
-    "Airport name": "El Bayadh Airport[1]",
+    "Airport name": "El Bayadh Airport",
     "Location served": "El Bayadh, Algeria",
     "Time": "UTC+01:00",
     "DST": ""
@@ -16138,7 +16138,7 @@ module.exports = [
   {
     "IATA": "ECI",
     "ICAO": "MNLP",
-    "Airport name": "Costa Esmeralda Airport[1]",
+    "Airport name": "Costa Esmeralda Airport",
     "Location served": "Rivas, Nicaragua",
     "Time": "UTC−06:00",
     "DST": ""
@@ -16146,7 +16146,7 @@ module.exports = [
   {
     "IATA": "ECN",
     "ICAO": "LCEN",
-    "Airport name": "Ercan International Airport[1]",
+    "Airport name": "Ercan International Airport",
     "Location served": "Nicosia (Lefkoşa), Northern Cyprus",
     "Time": "UTC+03:00",
     "DST": ""
@@ -16186,7 +16186,7 @@ module.exports = [
   {
     "IATA": "EDA",
     "ICAO": "",
-    "Airport name": "Edna Bay Seaplane Base[1]",
+    "Airport name": "Edna Bay Seaplane Base",
     "Location served": "Edna Bay, Alaska, United States",
     "Time": "UTC−09:00",
     "DST": "Mar-Nov"
@@ -16474,7 +16474,7 @@ module.exports = [
   {
     "IATA": "EIB",
     "ICAO": "EDGE",
-    "Airport name": "Eisenach-Kindel Airport[1]",
+    "Airport name": "Eisenach-Kindel Airport",
     "Location served": "Eisenach, Thuringia, Germany",
     "Time": "UTC+01:00",
     "DST": "Mar-Oct"
@@ -16498,7 +16498,7 @@ module.exports = [
   {
     "IATA": "EIK",
     "ICAO": "URKE",
-    "Airport name": "Yeysk Airport[1]",
+    "Airport name": "Yeysk Airport",
     "Location served": "Yeysk, Krasnodar Krai, Russia",
     "Time": "UTC+03:00",
     "DST": ""
@@ -16626,7 +16626,7 @@ module.exports = [
   {
     "IATA": "EKS",
     "ICAO": "UHSK",
-    "Airport name": "Shakhtyorsk Airport[1]",
+    "Airport name": "Shakhtyorsk Airport",
     "Location served": "Shakhtyorsk, Sakhalin Oblast, Russia",
     "Time": "UTC+11:00",
     "DST": ""
@@ -17178,7 +17178,7 @@ module.exports = [
   {
     "IATA": "EPA",
     "ICAO": "SADP",
-    "Airport name": "El Palomar Airport[1]",
+    "Airport name": "El Palomar Airport",
     "Location served": "El Palomar, Buenos Aires, Argentina",
     "Time": "UTC−03:00",
     "DST": ""
@@ -17522,7 +17522,7 @@ module.exports = [
   {
     "IATA": "ESP",
     "ICAO": "",
-    "Airport name": "Stroudsburg–Pocono Airport[1] (FAA: N53)",
+    "Airport name": "Stroudsburg–Pocono Airport (FAA: N53)",
     "Location served": "East Stroudsburg, Pennsylvania, United States",
     "Time": "UTC−05:00",
     "DST": "Mar-Nov"
@@ -17698,7 +17698,7 @@ module.exports = [
   {
     "IATA": "EUO",
     "ICAO": "",
-    "Airport name": "Paratebueno Airport[1]",
+    "Airport name": "Paratebueno Airport",
     "Location served": "Paratebueno, Colombia",
     "Time": "UTC−05:00",
     "DST": ""
@@ -17906,7 +17906,7 @@ module.exports = [
   {
     "IATA": "EYR",
     "ICAO": "",
-    "Airport name": "Yerington Municipal Airport[1] (FAA: O43)",
+    "Airport name": "Yerington Municipal Airport (FAA: O43)",
     "Location served": "Yerington, Nevada, United States",
     "Time": "UTC−08:00",
     "DST": "Mar-Nov"
@@ -17946,7 +17946,7 @@ module.exports = [
   {
     "IATA": "EZV",
     "ICAO": "",
-    "Airport name": "Beryozovo Airport[1]",
+    "Airport name": "Beryozovo Airport",
     "Location served": "Beryozovo, Khanty-Mansi Autonomous Okrug, Russia",
     "Time": "UTC+05:00",
     "DST": ""
@@ -18082,7 +18082,7 @@ module.exports = [
   {
     "IATA": "FAU",
     "ICAO": "OOFD",
-    "Airport name": "Fahud Airport[1]",
+    "Airport name": "Fahud Airport",
     "Location served": "Fahud, Oman",
     "Time": "UTC+04:00",
     "DST": ""
@@ -18106,7 +18106,7 @@ module.exports = [
   {
     "IATA": "FAZ",
     "ICAO": "OISF",
-    "Airport name": "Fasa Airport[1]",
+    "Airport name": "Fasa Airport",
     "Location served": "Fasa, Iran",
     "Time": "UTC+03:30",
     "DST": "Mar-Sep"
@@ -18114,7 +18114,7 @@ module.exports = [
   {
     "IATA": "FBA",
     "ICAO": "SWOB",
-    "Airport name": "Fonte Boa Airport[1]",
+    "Airport name": "Fonte Boa Airport",
     "Location served": "Fonte Boa, Amazonas, Brazil",
     "Time": "UTC−05:00",
     "DST": ""
@@ -18778,7 +18778,7 @@ module.exports = [
   {
     "IATA": "FLZ",
     "ICAO": "WIMS",
-    "Airport name": "Ferdinand Lumban Tobing Airport[1]",
+    "Airport name": "Ferdinand Lumban Tobing Airport",
     "Location served": "Sibolga, Indonesia",
     "Time": "UTC+07:00",
     "DST": ""
@@ -18850,7 +18850,7 @@ module.exports = [
   {
     "IATA": "FMU",
     "ICAO": "",
-    "Airport name": "Florence Municipal Airport[1] (FAA: 6S2)",
+    "Airport name": "Florence Municipal Airport (FAA: 6S2)",
     "Location served": "Florence, Oregon, United States",
     "Time": "UTC−08:00",
     "DST": "Mar-Nov"
@@ -18962,7 +18962,7 @@ module.exports = [
   {
     "IATA": "FNU",
     "ICAO": "LIER",
-    "Airport name": "Oristano-Fenosu Airport[1]",
+    "Airport name": "Oristano-Fenosu Airport",
     "Location served": "Oristano, Sardinia, Italy",
     "Time": "UTC+01:00",
     "DST": "Mar-Oct"
@@ -19066,7 +19066,7 @@ module.exports = [
   {
     "IATA": "FOT",
     "ICAO": "YFST",
-    "Airport name": "Forster (Wallis Island) Airport[1][2]",
+    "Airport name": "Forster (Wallis Island) Airport[2]",
     "Location served": "Forster, New South Wales, Australia",
     "Time": "UTC+10:00",
     "DST": "Oct-Apr"
@@ -19482,7 +19482,7 @@ module.exports = [
   {
     "IATA": "FUM",
     "ICAO": "",
-    "Airport name": "Fuma Airport[1]",
+    "Airport name": "Fuma Airport",
     "Location served": "Fuma, Papua New Guinea",
     "Time": "UTC+10:00",
     "DST": ""
@@ -19514,7 +19514,7 @@ module.exports = [
   {
     "IATA": "FVL",
     "ICAO": "YFLO",
-    "Airport name": "Flora Valley Airport[1]",
+    "Airport name": "Flora Valley Airport",
     "Location served": "Flora Valley, Western Australia, Australia",
     "Time": "UTC+08:00",
     "DST": ""
@@ -19530,7 +19530,7 @@ module.exports = [
   {
     "IATA": "FVR",
     "ICAO": "YFRV",
-    "Airport name": "Forrest River Airport[1]",
+    "Airport name": "Forrest River Airport",
     "Location served": "Forrest River Mission, Western Australia, Australia",
     "Time": "UTC+08:00",
     "DST": ""
@@ -19602,7 +19602,7 @@ module.exports = [
   {
     "IATA": "FYN",
     "ICAO": "ZWFY",
-    "Airport name": "Fuyun Koktokay Airport[1]",
+    "Airport name": "Fuyun Koktokay Airport",
     "Location served": "Fuyun, Xinjiang, China",
     "Time": "UTC+06:00",
     "DST": ""
@@ -19657,7 +19657,7 @@ module.exports = [
   },
   {
     "IATA": "GAC",
-    "ICAO": "MHGS[1]",
+    "ICAO": "MHGS",
     "Airport name": "Gracias Airport",
     "Location served": "Gracias, Honduras",
     "Time": "UTC−06:00",
@@ -22842,7 +22842,7 @@ module.exports = [
   {
     "IATA": "HBK",
     "ICAO": "",
-    "Airport name": "Holbrook Municipal Airport[1] (FAA: P14)",
+    "Airport name": "Holbrook Municipal Airport (FAA: P14)",
     "Location served": "Holbrook, Arizona, United States",
     "Time": "UTC−07:00",
     "DST": ""
@@ -22874,7 +22874,7 @@ module.exports = [
   {
     "IATA": "HBU",
     "ICAO": "ZMBS",
-    "Airport name": "Bulgan Airport, Khovd[1]",
+    "Airport name": "Bulgan Airport, Khovd",
     "Location served": "Bulgan (Khovd Province), Mongolia",
     "Time": "UTC+07:00",
     "DST": ""
@@ -22890,7 +22890,7 @@ module.exports = [
   {
     "IATA": "HCA",
     "ICAO": "KBPG",
-    "Airport name": "Big Spring McMahon–Wrinkle Airport[1] (FAA: BPG)",
+    "Airport name": "Big Spring McMahon–Wrinkle Airport (FAA: BPG)",
     "Location served": "Big Spring, Texas, United States",
     "Time": "UTC−06:00",
     "DST": "Mar-Nov"
@@ -23026,7 +23026,7 @@ module.exports = [
   {
     "IATA": "HDR",
     "ICAO": "OIKP",
-    "Airport name": "Havadarya Airport[1]",
+    "Airport name": "Havadarya Airport",
     "Location served": "Bandar Abbas, Iran",
     "Time": "UTC+03:30",
     "DST": "Mar-Sep"
@@ -23234,7 +23234,7 @@ module.exports = [
   {
     "IATA": "HGE",
     "ICAO": "SVHG[2]",
-    "Airport name": "Higuerote Airport[1]",
+    "Airport name": "Higuerote Airport",
     "Location served": "Higuerote, Venezuela",
     "Time": "UTC−04:00",
     "DST": ""
@@ -23250,7 +23250,7 @@ module.exports = [
   {
     "IATA": "HGI",
     "ICAO": "HSFA",
-    "Airport name": "Paloich Airport[1]",
+    "Airport name": "Paloich Airport",
     "Location served": "Higlieg, Sudan",
     "Time": "UTC+03:00",
     "DST": ""
@@ -23762,7 +23762,7 @@ module.exports = [
   {
     "IATA": "HMB",
     "ICAO": "HEMK",
-    "Airport name": "Sohag International Airport[1]",
+    "Airport name": "Sohag International Airport",
     "Location served": "Sohag, Egypt",
     "Time": "UTC+02:00",
     "DST": ""
@@ -23842,7 +23842,7 @@ module.exports = [
   {
     "IATA": "HMY",
     "ICAO": "RKTP",
-    "Airport name": "Seosan Air Base[1]",
+    "Airport name": "Seosan Air Base",
     "Location served": "Seosan, South Korea",
     "Time": "UTC+09:00",
     "DST": ""
@@ -24354,7 +24354,7 @@ module.exports = [
   {
     "IATA": "HSJ",
     "ICAO": "",
-    "Airport name": "Zhengzhou Shangjie Airport[1]",
+    "Airport name": "Zhengzhou Shangjie Airport",
     "Location served": "Zhengzhou, Henan, China",
     "Time": "UTC+08:00",
     "DST": ""
@@ -24474,7 +24474,7 @@ module.exports = [
   {
     "IATA": "HTM",
     "ICAO": "ZMHG",
-    "Airport name": "Khatgal Airport[1]",
+    "Airport name": "Khatgal Airport",
     "Location served": "Khatgal, Mongolia",
     "Time": "UTC+07:00",
     "DST": ""
@@ -24674,7 +24674,7 @@ module.exports = [
   {
     "IATA": "HUO",
     "ICAO": "ZBHZ",
-    "Airport name": "Holingol Huolinhe Airport[1]",
+    "Airport name": "Holingol Huolinhe Airport",
     "Location served": "Holingol (Huolinguole), Inner Mongolia, China",
     "Time": "UTC+08:00",
     "DST": ""
@@ -24722,7 +24722,7 @@ module.exports = [
   {
     "IATA": "HUW",
     "ICAO": "SWHT",
-    "Airport name": "Francisco Correa da Cruz Airport[1]",
+    "Airport name": "Francisco Correa da Cruz Airport",
     "Location served": "Humaitá, Amazonas, Brazil",
     "Time": "UTC−04:00",
     "DST": "Oct-Feb"
@@ -25010,7 +25010,7 @@ module.exports = [
   {
     "IATA": "HZP",
     "ICAO": "CYNR",
-    "Airport name": "Fort MacKay/Horizon Airport[1]",
+    "Airport name": "Fort MacKay/Horizon Airport",
     "Location served": "Fort McKay, Alberta, Canada",
     "Time": "UTC−07:00",
     "DST": "Mar-Nov"
@@ -25082,7 +25082,7 @@ module.exports = [
   {
     "IATA": "IAO",
     "ICAO": "RPNS",
-    "Airport name": "Sayak Airport[1] (Siargao Airport)",
+    "Airport name": "Sayak Airport (Siargao Airport)",
     "Location served": "Del Carmen, Philippines",
     "Time": "UTC+08:00",
     "DST": ""
@@ -25130,7 +25130,7 @@ module.exports = [
   {
     "IATA": "IBB",
     "ICAO": "SEII[3]",
-    "Airport name": "General Villamil Airport[1]",
+    "Airport name": "General Villamil Airport",
     "Location served": "Isabela Island, Galápagos Islands, Ecuador",
     "Time": "UTC−06:00",
     "DST": ""
@@ -25162,7 +25162,7 @@ module.exports = [
   {
     "IATA": "IBO",
     "ICAO": "",
-    "Airport name": "Ibo Island Airport[1]",
+    "Airport name": "Ibo Island Airport",
     "Location served": "Ibo Island, Mozambique",
     "Time": "UTC+02:00",
     "DST": ""
@@ -25202,7 +25202,7 @@ module.exports = [
   {
     "IATA": "ICC",
     "ICAO": "SVIE",
-    "Airport name": "Andrés Miguel Salazar Marcano Airport[1]",
+    "Airport name": "Andrés Miguel Salazar Marcano Airport",
     "Location served": "Coche Island, Venezuela",
     "Time": "UTC−04:00",
     "DST": ""
@@ -25250,7 +25250,7 @@ module.exports = [
   {
     "IATA": "ICS",
     "ICAO": "",
-    "Airport name": "Cascade Airport[1] (FAA: KU70)",
+    "Airport name": "Cascade Airport (FAA: KU70)",
     "Location served": "Cascade, Idaho, United States",
     "Time": "UTC−07:00",
     "DST": "Mar-Nov"
@@ -25290,7 +25290,7 @@ module.exports = [
   {
     "IATA": "IDC",
     "ICAO": "",
-    "Airport name": "Chilonzuine Island Airstrip[1]",
+    "Airport name": "Chilonzuine Island Airstrip",
     "Location served": "Chilonzuine Island, Mozambique",
     "Time": "UTC+02:00",
     "DST": ""
@@ -25314,7 +25314,7 @@ module.exports = [
   {
     "IATA": "IDH",
     "ICAO": "KGIC",
-    "Airport name": "Idaho County Airport[1] (FAA: GIC)",
+    "Airport name": "Idaho County Airport (FAA: GIC)",
     "Location served": "Grangeville, Idaho, United States",
     "Time": "UTC−07:00",
     "DST": "Mar-Nov"
@@ -25426,7 +25426,7 @@ module.exports = [
   {
     "IATA": "IFH",
     "ICAO": "OIFE",
-    "Airport name": "Hesa Air Base[1]",
+    "Airport name": "Hesa Air Base",
     "Location served": "Shahin Shahr, Iran",
     "Time": "UTC+03:30",
     "DST": "Mar-Sep"
@@ -25474,7 +25474,7 @@ module.exports = [
   {
     "IATA": "IFU",
     "ICAO": "VREI",
-    "Airport name": "Ifuru Airport[1]",
+    "Airport name": "Ifuru Airport",
     "Location served": "Ifuru, Raa Atoll, Maldives",
     "Time": "UTC+05:00",
     "DST": ""
@@ -25498,7 +25498,7 @@ module.exports = [
   {
     "IATA": "IGD",
     "ICAO": "LTCT",
-    "Airport name": "Iğdır Airport[1]",
+    "Airport name": "Iğdır Airport",
     "Location served": "Iğdır, Turkey",
     "Time": "UTC+03:00",
     "DST": ""
@@ -25594,7 +25594,7 @@ module.exports = [
   {
     "IATA": "IHC",
     "ICAO": "FQIA",
-    "Airport name": "Inhaca Airport[1]",
+    "Airport name": "Inhaca Airport",
     "Location served": "Inhaca Island, Mozambique",
     "Time": "UTC+02:00",
     "DST": ""
@@ -25618,7 +25618,7 @@ module.exports = [
   {
     "IATA": "IHR",
     "ICAO": "OIZI",
-    "Airport name": "Iranshahr Airport[1]",
+    "Airport name": "Iranshahr Airport",
     "Location served": "Iranshahr, Iran",
     "Time": "UTC+03:30",
     "DST": "Mar-Sep"
@@ -25642,7 +25642,7 @@ module.exports = [
   {
     "IATA": "IIL",
     "ICAO": "OICI",
-    "Airport name": "Ilam Airport[1]",
+    "Airport name": "Ilam Airport",
     "Location served": "Ilam, Iran",
     "Time": "UTC+03:30",
     "DST": "Mar-Sep"
@@ -26378,7 +26378,7 @@ module.exports = [
   {
     "IATA": "IQA",
     "ICAO": "ORAA",
-    "Airport name": "Al Asad Airbase[1]",
+    "Airport name": "Al Asad Airbase",
     "Location served": "Anbar Province, Iraq",
     "Time": "UTC+03:00",
     "DST": ""
@@ -26490,7 +26490,7 @@ module.exports = [
   {
     "IATA": "IRM",
     "ICAO": "USHI",
-    "Airport name": "Igrim Airport[1]",
+    "Airport name": "Igrim Airport",
     "Location served": "Igrim, Khanty-Mansi Autonomous Okrug, Russia",
     "Time": "UTC+05:00",
     "DST": ""
@@ -26538,7 +26538,7 @@ module.exports = [
   {
     "IATA": "IRZ",
     "ICAO": "SWTP",
-    "Airport name": "Tapuruquara Airport[1]",
+    "Airport name": "Tapuruquara Airport",
     "Location served": "Santa Isabel do Rio Negro, Amazonas, Brazil",
     "Time": "UTC−04:00",
     "DST": ""
@@ -26794,7 +26794,7 @@ module.exports = [
   {
     "IATA": "ITU",
     "ICAO": "UHSI",
-    "Airport name": "Iturup Airport[1]",
+    "Airport name": "Iturup Airport",
     "Location served": "Kurilsk, Sakhalin Oblast, Russia",
     "Time": "UTC+11:00",
     "DST": ""
@@ -26850,7 +26850,7 @@ module.exports = [
   {
     "IATA": "IVI",
     "ICAO": "",
-    "Airport name": "Viveros Island Airport[1]",
+    "Airport name": "Viveros Island Airport",
     "Location served": "Viveros Island, Panama",
     "Time": "UTC−05:00",
     "DST": ""
@@ -26914,7 +26914,7 @@ module.exports = [
   {
     "IATA": "IWK",
     "ICAO": "RJOI",
-    "Airport name": "Marine Corps Air Station Iwakuni[1]",
+    "Airport name": "Marine Corps Air Station Iwakuni",
     "Location served": "Iwakuni, Honshu, Japan",
     "Time": "UTC+09:00",
     "DST": ""
@@ -27266,7 +27266,7 @@ module.exports = [
   {
     "IATA": "JAP",
     "ICAO": "MRCH",
-    "Airport name": "Chacarita Airport[1]",
+    "Airport name": "Chacarita Airport",
     "Location served": "Puntarenas, Costa Rica",
     "Time": "UTC−06:00",
     "DST": ""
@@ -27282,7 +27282,7 @@ module.exports = [
   {
     "IATA": "JAR",
     "ICAO": "OISJ",
-    "Airport name": "Jahrom Airport[1]",
+    "Airport name": "Jahrom Airport",
     "Location served": "Jahrom, Iran",
     "Time": "UTC+03:30",
     "DST": "Mar-Sep"
@@ -27474,7 +27474,7 @@ module.exports = [
   {
     "IATA": "JDR",
     "ICAO": "SNJR",
-    "Airport name": "Prefeito Octávio de Almeida Neves Airport[1]",
+    "Airport name": "Prefeito Octávio de Almeida Neves Airport",
     "Location served": "São João del Rei, Minas Gerais, Brazil",
     "Time": "UTC−03:00",
     "DST": "Oct-Feb"
@@ -27530,7 +27530,7 @@ module.exports = [
   {
     "IATA": "JEK",
     "ICAO": "",
-    "Airport name": "Jeki Airstrip[1]",
+    "Airport name": "Jeki Airstrip",
     "Location served": "Jeki, Zambia",
     "Time": "UTC+02:00",
     "DST": ""
@@ -27634,7 +27634,7 @@ module.exports = [
   {
     "IATA": "JHL",
     "ICAO": "",
-    "Airport name": "Fort MacKay/Albian Aerodrome[1] (TC: CAL4)",
+    "Airport name": "Fort MacKay/Albian Aerodrome (TC: CAL4)",
     "Location served": "Fort McKay, Alberta, Canada",
     "Time": "UTC−07:00",
     "DST": "Mar-Nov"
@@ -27778,7 +27778,7 @@ module.exports = [
   {
     "IATA": "JJA",
     "ICAO": "AGJO[2]",
-    "Airport name": "Jajao Airport[1]",
+    "Airport name": "Jajao Airport",
     "Location served": "Jajao, Isabel Province, Solomon Islands",
     "Time": "UTC+11:00",
     "DST": ""
@@ -27786,7 +27786,7 @@ module.exports = [
   {
     "IATA": "JJD",
     "ICAO": "SBJE",
-    "Airport name": "Comte. Ariston Pessoa Regional Airport[1]",
+    "Airport name": "Comte. Ariston Pessoa Regional Airport",
     "Location served": "Jijoca de Jericoacoara, Brazil",
     "Time": "UTC−03:00",
     "DST": "Oct-Feb"
@@ -27794,7 +27794,7 @@ module.exports = [
   {
     "IATA": "JJG",
     "ICAO": "SBJA",
-    "Airport name": "Humberto Ghizzo Bortoluzzi Regional Airport[1]",
+    "Airport name": "Humberto Ghizzo Bortoluzzi Regional Airport",
     "Location served": "Jaguaruna, Santa Catarina, Brazil",
     "Time": "UTC−03:00",
     "DST": "Oct-Feb"
@@ -27810,7 +27810,7 @@ module.exports = [
   {
     "IATA": "JJM",
     "ICAO": "HKMK",
-    "Airport name": "Mulika Lodge Airport[1]",
+    "Airport name": "Mulika Lodge Airport",
     "Location served": "Meru National Park, Kenya",
     "Time": "UTC+03:00",
     "DST": ""
@@ -27856,7 +27856,7 @@ module.exports = [
     "DST": ""
   },
   {
-    "IATA": "JKT[1]",
+    "IATA": "JKT",
     "ICAO": "",
     "Airport name": "metropolitan area2",
     "Location served": "Jakarta, Indonesia",
@@ -28050,7 +28050,7 @@ module.exports = [
   {
     "IATA": "JOJ",
     "ICAO": "",
-    "Airport name": "Doris Lake Aerodrome[1] (TC: CDL7)",
+    "Airport name": "Doris Lake Aerodrome (TC: CDL7)",
     "Location served": "Doris Lake, Nunavut, Canada",
     "Time": "UTC−07:00",
     "DST": "Mar-Nov"
@@ -28138,7 +28138,7 @@ module.exports = [
   {
     "IATA": "JRF",
     "ICAO": "PHJR",
-    "Airport name": "Kalaeloa Airport[1] (John Rodgers Field)",
+    "Airport name": "Kalaeloa Airport (John Rodgers Field)",
     "Location served": "Kapalua, Hawaii, United States",
     "Time": "UTC−10:00",
     "DST": ""
@@ -28146,7 +28146,7 @@ module.exports = [
   {
     "IATA": "JRG",
     "ICAO": "VEJH",
-    "Airport name": "Veer Surendra Sai Airport[1]",
+    "Airport name": "Veer Surendra Sai Airport",
     "Location served": "Jharsuguda, Odisha, India",
     "Time": "UTC+05:30",
     "DST": ""
@@ -28266,7 +28266,7 @@ module.exports = [
   {
     "IATA": "JTC",
     "ICAO": "SBAE",
-    "Airport name": "Moussa Nakhl Tobias–Bauru/Arealva State Airport[1]",
+    "Airport name": "Moussa Nakhl Tobias–Bauru/Arealva State Airport",
     "Location served": "Bauru, São Paulo, Brazil",
     "Time": "UTC−03:00",
     "DST": "Oct-Feb"
@@ -28434,7 +28434,7 @@ module.exports = [
   {
     "IATA": "JWN",
     "ICAO": "OITZ",
-    "Airport name": "Zanjan Airport[1]",
+    "Airport name": "Zanjan Airport",
     "Location served": "Zanjan, Iran",
     "Time": "UTC+03:30",
     "DST": "Mar-Sep"
@@ -28442,7 +28442,7 @@ module.exports = [
   {
     "IATA": "JWO",
     "ICAO": "RKTI",
-    "Airport name": "Jungwon Air Base[1]",
+    "Airport name": "Jungwon Air Base",
     "Location served": "Chungju, South Korea",
     "Time": "UTC+09:00",
     "DST": ""
@@ -28466,7 +28466,7 @@ module.exports = [
   {
     "IATA": "JYR",
     "ICAO": "OIKJ",
-    "Airport name": "Jiroft Airport[1]",
+    "Airport name": "Jiroft Airport",
     "Location served": "Jiroft, Iran",
     "Time": "UTC+03:30",
     "DST": "Mar-Sep"
@@ -28610,7 +28610,7 @@ module.exports = [
   {
     "IATA": "KAQ",
     "ICAO": "AYKH",
-    "Airport name": "Kamulai Airport[1]",
+    "Airport name": "Kamulai Airport",
     "Location served": "Kamulai, Papua New Guinea",
     "Time": "UTC+10:00",
     "DST": ""
@@ -28698,7 +28698,7 @@ module.exports = [
   {
     "IATA": "KBB",
     "ICAO": "",
-    "Airport name": "Kirkimbie Airport[1]",
+    "Airport name": "Kirkimbie Airport",
     "Location served": "Kirkimbie Station, Northern Territory, Australia",
     "Time": "UTC+09:30",
     "DST": ""
@@ -29210,7 +29210,7 @@ module.exports = [
   {
     "IATA": "KDW",
     "ICAO": "",
-    "Airport name": "Victoria Reservoir Seaplane Base[1]",
+    "Airport name": "Victoria Reservoir Seaplane Base",
     "Location served": "Kandy, Sri Lanka",
     "Time": "UTC+05:30",
     "DST": ""
@@ -29218,7 +29218,7 @@ module.exports = [
   {
     "IATA": "KDX",
     "ICAO": "HSLI",
-    "Airport name": "Kadugli Airport[1]",
+    "Airport name": "Kadugli Airport",
     "Location served": "Kaduqli (Kadugli), Sudan",
     "Time": "UTC+03:00",
     "DST": ""
@@ -29234,7 +29234,7 @@ module.exports = [
   {
     "IATA": "KDZ",
     "ICAO": "",
-    "Airport name": "Polgolla Reservoir Seaplane Base[1]",
+    "Airport name": "Polgolla Reservoir Seaplane Base",
     "Location served": "Kandy, Sri Lanka",
     "Time": "UTC+05:30",
     "DST": ""
@@ -29394,7 +29394,7 @@ module.exports = [
   {
     "IATA": "KEU",
     "ICAO": "HKKE",
-    "Airport name": "Keekorok Airport[1]",
+    "Airport name": "Keekorok Airport",
     "Location served": "Keekorok, Kenya",
     "Time": "UTC+03:00",
     "DST": ""
@@ -29434,7 +29434,7 @@ module.exports = [
   {
     "IATA": "KEZ",
     "ICAO": "",
-    "Airport name": "Kelani River-Peliyagoda Waterdrome[1]",
+    "Airport name": "Kelani River-Peliyagoda Waterdrome",
     "Location served": "Colombo, Sri Lanka",
     "Time": "UTC+05:30",
     "DST": ""
@@ -29586,7 +29586,7 @@ module.exports = [
   {
     "IATA": "KGM",
     "ICAO": "",
-    "Airport name": "Kungim Airport[1]",
+    "Airport name": "Kungim Airport",
     "Location served": "Kungim, Papua New Guinea",
     "Time": "UTC+10:00",
     "DST": ""
@@ -29634,7 +29634,7 @@ module.exports = [
   {
     "IATA": "KGT",
     "ICAO": "ZUKD",
-    "Airport name": "Kangding Airport[1]",
+    "Airport name": "Kangding Airport",
     "Location served": "Kangding, Sichuan, China",
     "Time": "UTC+08:00",
     "DST": ""
@@ -29826,7 +29826,7 @@ module.exports = [
   {
     "IATA": "KHX",
     "ICAO": "",
-    "Airport name": "Kihihi Airstrip[1]",
+    "Airport name": "Kihihi Airstrip",
     "Location served": "Kihihi, Uganda",
     "Time": "UTC+03:00",
     "DST": ""
@@ -29834,7 +29834,7 @@ module.exports = [
   {
     "IATA": "KHY",
     "ICAO": "OITK",
-    "Airport name": "Khoy Airport[1]",
+    "Airport name": "Khoy Airport",
     "Location served": "Khoy, Iran",
     "Time": "UTC+03:30",
     "DST": "Mar–Sep"
@@ -30242,7 +30242,7 @@ module.exports = [
   {
     "IATA": "KKQ",
     "ICAO": "USDP",
-    "Airport name": "Krasnoselkup Airport[1]",
+    "Airport name": "Krasnoselkup Airport",
     "Location served": "Krasnoselkup, Yamalo-Nenets Autonomous Okrug, Russia",
     "Time": "UTC+05:00",
     "DST": ""
@@ -30394,7 +30394,7 @@ module.exports = [
   {
     "IATA": "KLM",
     "ICAO": "OINE",
-    "Airport name": "Kalaleh Airport[1]",
+    "Airport name": "Kalaleh Airport",
     "Location served": "Kalaleh, Iran",
     "Time": "UTC+03:30",
     "DST": "Mar–Sep"
@@ -30586,7 +30586,7 @@ module.exports = [
   {
     "IATA": "KMN",
     "ICAO": "FZSB",
-    "Airport name": "Kamina Airport[1] (Kamina Ville Airport)",
+    "Airport name": "Kamina Airport (Kamina Ville Airport)",
     "Location served": "Kamina, Democratic Republic of the Congo",
     "Time": "UTC+02:00",
     "DST": ""
@@ -31202,7 +31202,7 @@ module.exports = [
   {
     "IATA": "KPW",
     "ICAO": "UHMK",
-    "Airport name": "Keperveyem Airport[1]",
+    "Airport name": "Keperveyem Airport",
     "Location served": "Keperveyem, Chukotka, Russia",
     "Time": "UTC+12:00",
     "DST": ""
@@ -31242,7 +31242,7 @@ module.exports = [
   {
     "IATA": "KQR",
     "ICAO": "YKAR",
-    "Airport name": "Karara Airport[1]",
+    "Airport name": "Karara Airport",
     "Location served": "Karara, Western Australia, Australia",
     "Time": "UTC+08:00",
     "DST": ""
@@ -31250,7 +31250,7 @@ module.exports = [
   {
     "IATA": "KQT",
     "ICAO": "UTDT",
-    "Airport name": "Qurghonteppa International Airport[1]",
+    "Airport name": "Qurghonteppa International Airport",
     "Location served": "Qurghonteppa, Tajikistan",
     "Time": "UTC+05:00",
     "DST": ""
@@ -31738,7 +31738,7 @@ module.exports = [
   {
     "IATA": "KTJ",
     "ICAO": "",
-    "Airport name": "Kichwa Tembo Airport[1]",
+    "Airport name": "Kichwa Tembo Airport",
     "Location served": "Kichwa Tembo, Kenya",
     "Time": "UTC+03:00",
     "DST": ""
@@ -31858,7 +31858,7 @@ module.exports = [
   {
     "IATA": "KTY",
     "ICAO": "VCCN",
-    "Airport name": "Katukurunda Airport[1]",
+    "Airport name": "Katukurunda Airport",
     "Location served": "Kalutara, Sri Lanka",
     "Time": "UTC+05:30",
     "DST": ""
@@ -32018,7 +32018,7 @@ module.exports = [
   {
     "IATA": "KUX",
     "ICAO": "",
-    "Airport name": "Kuyol Airport[1]",
+    "Airport name": "Kuyol Airport",
     "Location served": "Kuyol, Papua New Guinea",
     "Time": "UTC+11:00",
     "DST": ""
@@ -32026,7 +32026,7 @@ module.exports = [
   {
     "IATA": "KUY",
     "ICAO": "",
-    "Airport name": "Kamusi Airport[1]",
+    "Airport name": "Kamusi Airport",
     "Location served": "Kamusi, Papua New Guinea",
     "Time": "UTC+11:00",
     "DST": ""
@@ -32114,7 +32114,7 @@ module.exports = [
   {
     "IATA": "KVR",
     "ICAO": "",
-    "Airport name": "Kavalerovo Airport[1]",
+    "Airport name": "Kavalerovo Airport",
     "Location served": "Kavalerovo, Primorsky Krai, Russia",
     "Time": "UTC+10:00",
     "DST": ""
@@ -32154,7 +32154,7 @@ module.exports = [
   {
     "IATA": "KWD",
     "ICAO": "",
-    "Airport name": "Kavadja Airport[1]",
+    "Airport name": "Kavadja Airport",
     "Location served": "Kavadja, Central African Republic",
     "Time": "UTC+01:00",
     "DST": ""
@@ -32322,7 +32322,7 @@ module.exports = [
   {
     "IATA": "KXD",
     "ICAO": "USHK",
-    "Airport name": "Kondinskoye Airport[1]",
+    "Airport name": "Kondinskoye Airport",
     "Location served": "Kondinskoye, Khanty-Mansi Autonomous Okrug, Russia",
     "Time": "UTC+05:00",
     "DST": ""
@@ -32362,7 +32362,7 @@ module.exports = [
   {
     "IATA": "KXU",
     "ICAO": "NTKT",
-    "Airport name": "Katiu Airport[1]",
+    "Airport name": "Katiu Airport",
     "Location served": "Katiu, Tuamotus, French Polynesia",
     "Time": "UTC−10:00",
     "DST": ""
@@ -32418,7 +32418,7 @@ module.exports = [
   {
     "IATA": "KYO",
     "ICAO": "",
-    "Airport name": "Tampa North Aero Park[1] (FAA: X39)",
+    "Airport name": "Tampa North Aero Park (FAA: X39)",
     "Location served": "Tampa, Florida, United States",
     "Time": "UTC−05:00",
     "DST": "Mar–Nov"
@@ -32601,7 +32601,7 @@ module.exports = [
   },
   {
     "IATA": "LAH",
-    "ICAO": "WAPH[1]",
+    "ICAO": "WAPH",
     "Airport name": "Oesman Sadik Airport",
     "Location served": "Labuha, Indonesia",
     "Time": "UTC+09:00",
@@ -36578,7 +36578,7 @@ module.exports = [
   {
     "IATA": "MBM",
     "ICAO": "",
-    "Airport name": "Mkambati Airport[1]",
+    "Airport name": "Mkambati Airport",
     "Location served": "Mkambati, South Africa",
     "Time": "UTC+02:00",
     "DST": ""
@@ -37154,7 +37154,7 @@ module.exports = [
   {
     "IATA": "MEK",
     "ICAO": "GMFM",
-    "Airport name": "Bassatine Air Base[1]",
+    "Airport name": "Bassatine Air Base",
     "Location served": "Meknes, Morocco",
     "Time": "UTC±00:00",
     "DST": "Mar-Oct4"
@@ -37362,7 +37362,7 @@ module.exports = [
   {
     "IATA": "MFK",
     "ICAO": "RCMT",
-    "Airport name": "Matsu Beigan Airport[1]",
+    "Airport name": "Matsu Beigan Airport",
     "Location served": "Beigan, Taiwan",
     "Time": "UTC+08:00",
     "DST": ""
@@ -37370,7 +37370,7 @@ module.exports = [
   {
     "IATA": "MFL",
     "ICAO": "",
-    "Airport name": "Mount Full Stop Airport[1]",
+    "Airport name": "Mount Full Stop Airport",
     "Location served": "Wandovale, Queensland, Australia",
     "Time": "UTC+10:00",
     "DST": ""
@@ -37402,7 +37402,7 @@ module.exports = [
   {
     "IATA": "MFP",
     "ICAO": "YMCR",
-    "Airport name": "Manners Creek Airport[1]",
+    "Airport name": "Manners Creek Airport",
     "Location served": "Manners Creek Station, Northern Territory, Australia",
     "Time": "UTC+09:30",
     "DST": ""
@@ -37546,7 +37546,7 @@ module.exports = [
   {
     "IATA": "MGI",
     "ICAO": "",
-    "Airport name": "Aransas National Wildlife Refuge Airport[1] (FAA: XS10)",
+    "Airport name": "Aransas National Wildlife Refuge Airport (FAA: XS10)",
     "Location served": "Matagorda Island, Texas, United States",
     "Time": "UTC−06:00",
     "DST": "Mar-Nov"
@@ -37594,7 +37594,7 @@ module.exports = [
   {
     "IATA": "MGO",
     "ICAO": "",
-    "Airport name": "Manega Airport[1]",
+    "Airport name": "Manega Airport",
     "Location served": "Manega, Gabon",
     "Time": "UTC+01:00",
     "DST": ""
@@ -37642,7 +37642,7 @@ module.exports = [
   {
     "IATA": "MGU",
     "ICAO": "VYMN",
-    "Airport name": "Manaung Airport[1]",
+    "Airport name": "Manaung Airport",
     "Location served": "Manaung, Myanmar",
     "Time": "UTC+06:30",
     "DST": ""
@@ -37810,7 +37810,7 @@ module.exports = [
   {
     "IATA": "MHS",
     "ICAO": "",
-    "Airport name": "Dunsmuir Municipal-Mott Airport[1] (FAA: 1O6)",
+    "Airport name": "Dunsmuir Municipal-Mott Airport (FAA: 1O6)",
     "Location served": "Mount Shasta, California, United States",
     "Time": "UTC−08:00",
     "DST": "Mar-Nov"
@@ -37842,7 +37842,7 @@ module.exports = [
   {
     "IATA": "MHW",
     "ICAO": "SLAG",
-    "Airport name": "Monteagudo Airport[1]",
+    "Airport name": "Monteagudo Airport",
     "Location served": "Monteagudo, Bolivia",
     "Time": "UTC−04:00",
     "DST": ""
@@ -37960,7 +37960,7 @@ module.exports = [
     "DST": "Mar-Oct"
   },
   {
-    "IATA": "MIL[1]",
+    "IATA": "MIL",
     "ICAO": "",
     "Airport name": "metropolitan area1",
     "Location served": "Milan, Lombardy, Italy",
@@ -38066,7 +38066,7 @@ module.exports = [
   {
     "IATA": "MIY",
     "ICAO": "",
-    "Airport name": "Mittiebah Airport[1]",
+    "Airport name": "Mittiebah Airport",
     "Location served": "Mittiebah Station, Northern Territory, Australia",
     "Time": "UTC+09:30",
     "DST": ""
@@ -38074,7 +38074,7 @@ module.exports = [
   {
     "IATA": "MIZ",
     "ICAO": "",
-    "Airport name": "Mainoru Airport[1]",
+    "Airport name": "Mainoru Airport",
     "Location served": "Mainoru, Northern Territory, Australia",
     "Time": "UTC+09:30",
     "DST": ""
@@ -38178,7 +38178,7 @@ module.exports = [
   {
     "IATA": "MJO",
     "ICAO": "FYME",
-    "Airport name": "Mount Etjo Airport[1]",
+    "Airport name": "Mount Etjo Airport",
     "Location served": "Mount Etjo, Namibia",
     "Time": "UTC+01:00",
     "DST": "Sep-Apr"
@@ -38210,7 +38210,7 @@ module.exports = [
   {
     "IATA": "MJS",
     "ICAO": "",
-    "Airport name": "Maganja da Costa Airport[1]",
+    "Airport name": "Maganja da Costa Airport",
     "Location served": "Maganja da Costa, Mozambique",
     "Time": "UTC+02:00",
     "DST": ""
@@ -38242,7 +38242,7 @@ module.exports = [
   {
     "IATA": "MJW",
     "ICAO": "FVMH[2]",
-    "Airport name": "Mahenye Airport[1]",
+    "Airport name": "Mahenye Airport",
     "Location served": "Mahenye, Zimbabwe",
     "Time": "UTC+02:00",
     "DST": ""
@@ -38530,7 +38530,7 @@ module.exports = [
   {
     "IATA": "MLK",
     "ICAO": "",
-    "Airport name": "Malta Airport[1] (FAA: M75)",
+    "Airport name": "Malta Airport (FAA: M75)",
     "Location served": "Malta, Montana, United States",
     "Time": "UTC−07:00",
     "DST": "Mar-Nov"
@@ -38578,7 +38578,7 @@ module.exports = [
   {
     "IATA": "MLQ",
     "ICAO": "",
-    "Airport name": "Malalaua Airport[1]",
+    "Airport name": "Malalaua Airport",
     "Location served": "Malalaua, Papua New Guinea",
     "Time": "UTC+10:00",
     "DST": ""
@@ -38656,7 +38656,7 @@ module.exports = [
     "DST": ""
   },
   {
-    "IATA": "MMA[1]",
+    "IATA": "MMA",
     "ICAO": "",
     "Airport name": "metropolitan area2",
     "Location served": "Malmö, Sweden",
@@ -38762,7 +38762,7 @@ module.exports = [
   {
     "IATA": "MMN",
     "ICAO": "",
-    "Airport name": "Minute Man Air Field[1] (FAA: 6B6)",
+    "Airport name": "Minute Man Air Field (FAA: 6B6)",
     "Location served": "Stow, Massachusetts, United States",
     "Time": "UTC−05:00",
     "DST": "Mar-Nov"
@@ -38882,7 +38882,7 @@ module.exports = [
   {
     "IATA": "MND",
     "ICAO": "",
-    "Airport name": "Medina Airport[1]",
+    "Airport name": "Medina Airport",
     "Location served": "Medina, Colombia",
     "Time": "UTC−05:00",
     "DST": ""
@@ -38914,7 +38914,7 @@ module.exports = [
   {
     "IATA": "MNH",
     "ICAO": "",
-    "Airport name": "Al-Musannah Airport[1]",
+    "Airport name": "Al-Musannah Airport",
     "Location served": "Al-Musannah, Oman",
     "Time": "UTC+04:00",
     "DST": ""
@@ -38978,7 +38978,7 @@ module.exports = [
   {
     "IATA": "MNP",
     "ICAO": "",
-    "Airport name": "Maron Island Airport[1]",
+    "Airport name": "Maron Island Airport",
     "Location served": "Maron Island, Papua New Guinea",
     "Time": "UTC+10:00",
     "DST": ""
@@ -39026,7 +39026,7 @@ module.exports = [
   {
     "IATA": "MNV",
     "ICAO": "",
-    "Airport name": "Mount Valley Airport[1]",
+    "Airport name": "Mount Valley Airport",
     "Location served": "Mount Valley, Northern Territory, Australia",
     "Time": "UTC+09:30",
     "DST": ""
@@ -39186,7 +39186,7 @@ module.exports = [
   {
     "IATA": "MOQ",
     "ICAO": "FMMV",
-    "Airport name": "Morondava Airport[1]",
+    "Airport name": "Morondava Airport",
     "Location served": "Morondava, Madagascar",
     "Time": "UTC+03:00",
     "DST": ""
@@ -39202,7 +39202,7 @@ module.exports = [
   {
     "IATA": "MOS",
     "ICAO": "",
-    "Airport name": "Moses Point Airport[1]",
+    "Airport name": "Moses Point Airport",
     "Location served": "Elim, Alaska, United States",
     "Time": "UTC−09:00",
     "DST": "Mar-Nov"
@@ -39232,7 +39232,7 @@ module.exports = [
     "DST": ""
   },
   {
-    "IATA": "MOW[1]",
+    "IATA": "MOW",
     "ICAO": "",
     "Airport name": "metropolitan area3",
     "Location served": "Moscow, Russia",
@@ -39394,7 +39394,7 @@ module.exports = [
   {
     "IATA": "MPS",
     "ICAO": "KOSA",
-    "Airport name": "Mount Pleasant Regional Airport[1] (FAA: OSA)",
+    "Airport name": "Mount Pleasant Regional Airport (FAA: OSA)",
     "Location served": "Mount Pleasant, Texas, United States",
     "Time": "UTC−06:00",
     "DST": "Mar-Nov"
@@ -39490,7 +39490,7 @@ module.exports = [
   {
     "IATA": "MQE",
     "ICAO": "YMQA",
-    "Airport name": "Marqua Airport[1]",
+    "Airport name": "Marqua Airport",
     "Location served": "Marqua, Northern Territory, Australia",
     "Time": "UTC+09:30",
     "DST": ""
@@ -39506,7 +39506,7 @@ module.exports = [
   {
     "IATA": "MQG",
     "ICAO": "FYMG",
-    "Airport name": "Midgard Airport[1]",
+    "Airport name": "Midgard Airport",
     "Location served": "Midgard, Namibia",
     "Time": "UTC+01:00",
     "DST": "Sep-Apr"
@@ -39522,7 +39522,7 @@ module.exports = [
   {
     "IATA": "MQJ",
     "ICAO": "UEMA",
-    "Airport name": "Moma Airport[1]",
+    "Airport name": "Moma Airport",
     "Location served": "Khonuu, Yakutia, Russia",
     "Time": "UTC+11:00",
     "DST": ""
@@ -39530,7 +39530,7 @@ module.exports = [
   {
     "IATA": "MQK",
     "ICAO": "SLTI",
-    "Airport name": "San Matías Airport[1]",
+    "Airport name": "San Matías Airport",
     "Location served": "San Matías, Bolivia",
     "Time": "UTC−04:00",
     "DST": ""
@@ -39562,7 +39562,7 @@ module.exports = [
   {
     "IATA": "MQO",
     "ICAO": "",
-    "Airport name": "Malam Airport[1]",
+    "Airport name": "Malam Airport",
     "Location served": "Malam, Papua New Guinea",
     "Time": "UTC+10:00",
     "DST": ""
@@ -39586,7 +39586,7 @@ module.exports = [
   {
     "IATA": "MQR",
     "ICAO": "",
-    "Airport name": "Mosquera Airport[1]",
+    "Airport name": "Mosquera Airport",
     "Location served": "Mosquera, Colombia",
     "Time": "UTC−05:00",
     "DST": ""
@@ -39618,7 +39618,7 @@ module.exports = [
   {
     "IATA": "MQV",
     "ICAO": "",
-    "Airport name": "Mostaganem Airport[1]",
+    "Airport name": "Mostaganem Airport",
     "Location served": "Mostaganem, Algeria",
     "Time": "UTC+01:00",
     "DST": ""
@@ -39650,7 +39650,7 @@ module.exports = [
   {
     "IATA": "MQZ",
     "ICAO": "YMGT",
-    "Airport name": "Margaret River Airport[1]",
+    "Airport name": "Margaret River Airport",
     "Location served": "Margaret River, Western Australia, Australia",
     "Time": "UTC+08:00",
     "DST": ""
@@ -39714,7 +39714,7 @@ module.exports = [
   {
     "IATA": "MRH",
     "ICAO": "",
-    "Airport name": "May River Airport[1]",
+    "Airport name": "May River Airport",
     "Location served": "May River, Papua New Guinea",
     "Time": "UTC+10:00",
     "DST": ""
@@ -39746,7 +39746,7 @@ module.exports = [
   {
     "IATA": "MRL",
     "ICAO": "",
-    "Airport name": "Miners Lake Airport[1]",
+    "Airport name": "Miners Lake Airport",
     "Location served": "Miners Lake, Queensland, Australia",
     "Time": "UTC+10:00",
     "DST": ""
@@ -39906,7 +39906,7 @@ module.exports = [
   {
     "IATA": "MSG",
     "ICAO": "FXMA",
-    "Airport name": "Matsaile Airport[1]",
+    "Airport name": "Matsaile Airport",
     "Location served": "Matsaile, Lesotho",
     "Time": "UTC+02:00",
     "DST": ""
@@ -39922,7 +39922,7 @@ module.exports = [
   {
     "IATA": "MSI",
     "ICAO": "",
-    "Airport name": "Masalembo Airport[1]",
+    "Airport name": "Masalembo Airport",
     "Location served": "Masalembo, Indonesia",
     "Time": "UTC+07:00",
     "DST": ""
@@ -40082,7 +40082,7 @@ module.exports = [
   {
     "IATA": "MTD",
     "ICAO": "YMSF",
-    "Airport name": "Mount Sandford Station Airport[1]",
+    "Airport name": "Mount Sandford Station Airport",
     "Location served": "Mount Sandford Station, Northern Territory, Australia",
     "Time": "UTC+09:30",
     "DST": ""
@@ -40506,7 +40506,7 @@ module.exports = [
   {
     "IATA": "MVH",
     "ICAO": "",
-    "Airport name": "Macksville Airport[1]",
+    "Airport name": "Macksville Airport",
     "Location served": "Macksville, New South Wales, Australia",
     "Time": "UTC+10:00",
     "DST": "Oct-Apr"
@@ -40514,7 +40514,7 @@ module.exports = [
   {
     "IATA": "MVI",
     "ICAO": "",
-    "Airport name": "Manetai Airport[1]",
+    "Airport name": "Manetai Airport",
     "Location served": "Manetai, Papua New Guinea",
     "Time": "UTC+11:00",
     "DST": ""
@@ -40714,7 +40714,7 @@ module.exports = [
   {
     "IATA": "MWI",
     "ICAO": "",
-    "Airport name": "Maramuni Airport[1]",
+    "Airport name": "Maramuni Airport",
     "Location served": "Maramuni, Papua New Guinea",
     "Time": "UTC+10:00",
     "DST": ""
@@ -40754,7 +40754,7 @@ module.exports = [
   {
     "IATA": "MWN",
     "ICAO": "HTMD",
-    "Airport name": "Mwadui Airport[1]",
+    "Airport name": "Mwadui Airport",
     "Location served": "Mwadui, Tanzania",
     "Time": "UTC+03:00",
     "DST": ""
@@ -40778,7 +40778,7 @@ module.exports = [
   {
     "IATA": "MWR",
     "ICAO": "",
-    "Airport name": "Motswari Airstrip[1]",
+    "Airport name": "Motswari Airstrip",
     "Location served": "Motswari, South Africa",
     "Time": "UTC+02:00",
     "DST": ""
@@ -40802,7 +40802,7 @@ module.exports = [
   {
     "IATA": "MWV",
     "ICAO": "VDMK",
-    "Airport name": "Mondulkiri Airport[1]",
+    "Airport name": "Mondulkiri Airport",
     "Location served": "Senmonorom, Cambodia",
     "Time": "UTC+07:00",
     "DST": ""
@@ -40810,7 +40810,7 @@ module.exports = [
   {
     "IATA": "MWX",
     "ICAO": "RKJB",
-    "Airport name": "Muan International Airport[1]",
+    "Airport name": "Muan International Airport",
     "Location served": "Muan, South Korea",
     "Time": "UTC+09:00",
     "DST": ""
@@ -40882,7 +40882,7 @@ module.exports = [
   {
     "IATA": "MXG",
     "ICAO": "",
-    "Airport name": "Marlboro Airport[1] (FAA: 9B1)",
+    "Airport name": "Marlboro Airport (FAA: 9B1)",
     "Location served": "Marlborough, Massachusetts, United States",
     "Time": "UTC−05:00",
     "DST": "Mar-Nov"
@@ -41050,7 +41050,7 @@ module.exports = [
   {
     "IATA": "MYC",
     "ICAO": "SVBS",
-    "Airport name": "Mariscal Sucre Airport[1]",
+    "Airport name": "Mariscal Sucre Airport",
     "Location served": "Maracay, Venezuela",
     "Time": "UTC−04:00",
     "DST": ""
@@ -41090,7 +41090,7 @@ module.exports = [
   {
     "IATA": "MYH",
     "ICAO": "",
-    "Airport name": "Marble Canyon Airport[1] (FAA: L41)",
+    "Airport name": "Marble Canyon Airport (FAA: L41)",
     "Location served": "Marble Canyon, Arizona, United States",
     "Time": "UTC−07:00",
     "DST": ""
@@ -41234,7 +41234,7 @@ module.exports = [
   {
     "IATA": "MZA",
     "ICAO": "SPMF",
-    "Airport name": "Manuel Prado Ugarteche Airport[1]",
+    "Airport name": "Manuel Prado Ugarteche Airport",
     "Location served": "Mazamari, Peru",
     "Time": "UTC−05:00",
     "DST": ""
@@ -41266,7 +41266,7 @@ module.exports = [
   {
     "IATA": "MZE",
     "ICAO": "",
-    "Airport name": "Manatee Airport[1]",
+    "Airport name": "Manatee Airport",
     "Location served": "Manatee, Belize",
     "Time": "UTC−06:00",
     "DST": ""
@@ -41362,7 +41362,7 @@ module.exports = [
   {
     "IATA": "MZQ",
     "ICAO": "FAMU",
-    "Airport name": "Mkuze Airport[1]",
+    "Airport name": "Mkuze Airport",
     "Location served": "Mkuze, South Africa",
     "Time": "UTC+02:00",
     "DST": ""
@@ -41434,7 +41434,7 @@ module.exports = [
   {
     "IATA": "NAA",
     "ICAO": "YNBR",
-    "Airport name": "Narrabri Airport[1]",
+    "Airport name": "Narrabri Airport",
     "Location served": "Narrabri, New South Wales, Australia",
     "Time": "",
     "DST": ""
@@ -41442,7 +41442,7 @@ module.exports = [
   {
     "IATA": "NAC",
     "ICAO": "YNRC",
-    "Airport name": "Naracoorte Airport[1]",
+    "Airport name": "Naracoorte Airport",
     "Location served": "Naracoorte, South Australia, Australia",
     "Time": "",
     "DST": ""
@@ -41450,7 +41450,7 @@ module.exports = [
   {
     "IATA": "NAD",
     "ICAO": "",
-    "Airport name": "Macanal Airport[1]",
+    "Airport name": "Macanal Airport",
     "Location served": "Macanal, Colombia",
     "Time": "",
     "DST": ""
@@ -41466,7 +41466,7 @@ module.exports = [
   {
     "IATA": "NAF",
     "ICAO": "",
-    "Airport name": "Banaina Airport[1]",
+    "Airport name": "Banaina Airport",
     "Location served": "Banaina, Indonesia",
     "Time": "",
     "DST": ""
@@ -41522,7 +41522,7 @@ module.exports = [
   {
     "IATA": "NAM",
     "ICAO": "WAPR",
-    "Airport name": "Namlea Airport[1]",
+    "Airport name": "Namlea Airport",
     "Location served": "Namlea, Indonesia",
     "Time": "",
     "DST": ""
@@ -41554,7 +41554,7 @@ module.exports = [
   {
     "IATA": "NAQ",
     "ICAO": "BGQQ",
-    "Airport name": "Qaanaaq Airport[1]",
+    "Airport name": "Qaanaaq Airport",
     "Location served": "Qaanaaq, Greenland",
     "Time": "UTC-04:00",
     "DST": ""
@@ -41562,7 +41562,7 @@ module.exports = [
   {
     "IATA": "NAR",
     "ICAO": "SKPN",
-    "Airport name": "Puerto Nare Airport[1]",
+    "Airport name": "Puerto Nare Airport",
     "Location served": "Puerto Nare, Colombia",
     "Time": "",
     "DST": ""
@@ -41586,7 +41586,7 @@ module.exports = [
   {
     "IATA": "NAU",
     "ICAO": "NTGN",
-    "Airport name": "Napuka Airport[1]",
+    "Airport name": "Napuka Airport",
     "Location served": "Napuka, Tuamotus, French Polynesia",
     "Time": "",
     "DST": ""
@@ -41602,7 +41602,7 @@ module.exports = [
   {
     "IATA": "NAW",
     "ICAO": "VTSC",
-    "Airport name": "Narathiwat Airport[1]",
+    "Airport name": "Narathiwat Airport",
     "Location served": "Narathiwat, Thailand",
     "Time": "",
     "DST": ""
@@ -41618,7 +41618,7 @@ module.exports = [
   {
     "IATA": "NAZ",
     "ICAO": "AGNA",
-    "Airport name": "Nana Airport[1]",
+    "Airport name": "Nana Airport",
     "Location served": "Star Harbour, Solomon Islands",
     "Time": "",
     "DST": ""
@@ -41626,7 +41626,7 @@ module.exports = [
   {
     "IATA": "NBA",
     "ICAO": "",
-    "Airport name": "Nambaiyufa Airport[1]",
+    "Airport name": "Nambaiyufa Airport",
     "Location served": "Nambaiyufa, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -41634,7 +41634,7 @@ module.exports = [
   {
     "IATA": "NBB",
     "ICAO": "SKBM",
-    "Airport name": "Barranco Minas Airport[1]",
+    "Airport name": "Barranco Minas Airport",
     "Location served": "Barranco Minas, Colombia",
     "Time": "",
     "DST": ""
@@ -41666,7 +41666,7 @@ module.exports = [
   {
     "IATA": "NBH",
     "ICAO": "YNHS",
-    "Airport name": "Nambucca Heads Airport[1]",
+    "Airport name": "Nambucca Heads Airport",
     "Location served": "Nambucca Heads, New South Wales, Australia",
     "Time": "",
     "DST": ""
@@ -41674,7 +41674,7 @@ module.exports = [
   {
     "IATA": "NBL",
     "ICAO": "MPWN",
-    "Airport name": "Wannukandi Airport[1]",
+    "Airport name": "Wannukandi Airport",
     "Location served": "San Blas, Panama",
     "Time": "",
     "DST": ""
@@ -41746,7 +41746,7 @@ module.exports = [
   {
     "IATA": "NCH",
     "ICAO": "HTNA",
-    "Airport name": "Nachingwea Airport[1]",
+    "Airport name": "Nachingwea Airport",
     "Location served": "Nachingwea, Tanzania",
     "Time": "",
     "DST": ""
@@ -41754,7 +41754,7 @@ module.exports = [
   {
     "IATA": "NCI",
     "ICAO": "SKNC",
-    "Airport name": "Antioquia Airport[1]",
+    "Airport name": "Antioquia Airport",
     "Location served": "Necoclí, Colombia",
     "Time": "",
     "DST": ""
@@ -41762,7 +41762,7 @@ module.exports = [
   {
     "IATA": "NCJ",
     "ICAO": "SAFS",
-    "Airport name": "Sunchales Aeroclub Airport[1]",
+    "Airport name": "Sunchales Aeroclub Airport",
     "Location served": "Sunchales, Santa Fe, Argentina",
     "Time": "",
     "DST": ""
@@ -41786,7 +41786,7 @@ module.exports = [
   {
     "IATA": "NCO",
     "ICAO": "KOQU",
-    "Airport name": "Quonset State Airport[1] (FAA: OQU)",
+    "Airport name": "Quonset State Airport (FAA: OQU)",
     "Location served": "North Kingstown, Rhode Island, United States",
     "Time": "",
     "DST": ""
@@ -41794,7 +41794,7 @@ module.exports = [
   {
     "IATA": "NCR",
     "ICAO": "MNSC",
-    "Airport name": "San Carlos Airport[1]",
+    "Airport name": "San Carlos Airport",
     "Location served": "San Carlos, Nicaragua",
     "Time": "",
     "DST": ""
@@ -41802,7 +41802,7 @@ module.exports = [
   {
     "IATA": "NCS",
     "ICAO": "FANC",
-    "Airport name": "Newcastle Airport[1]",
+    "Airport name": "Newcastle Airport",
     "Location served": "Newcastle, South Africa",
     "Time": "",
     "DST": ""
@@ -41810,7 +41810,7 @@ module.exports = [
   {
     "IATA": "NCT",
     "ICAO": "MRNC",
-    "Airport name": "Nicoya Guanacaste Airport[1]",
+    "Airport name": "Nicoya Guanacaste Airport",
     "Location served": "Nicoya, Costa Rica",
     "Time": "",
     "DST": ""
@@ -41834,7 +41834,7 @@ module.exports = [
   {
     "IATA": "NDA",
     "ICAO": "WAPC",
-    "Airport name": "Bandanaira Airport[1]",
+    "Airport name": "Bandanaira Airport",
     "Location served": "Banda Islands, Indonesia",
     "Time": "",
     "DST": ""
@@ -41858,7 +41858,7 @@ module.exports = [
   {
     "IATA": "NDD",
     "ICAO": "FNSU",
-    "Airport name": "Sumbe Airport[1]",
+    "Airport name": "Sumbe Airport",
     "Location served": "Sumbe, Angola",
     "Time": "",
     "DST": ""
@@ -41866,7 +41866,7 @@ module.exports = [
   {
     "IATA": "NDE",
     "ICAO": "HKMA",
-    "Airport name": "Mandera Airport[1]",
+    "Airport name": "Mandera Airport",
     "Location served": "Mandera, Kenya",
     "Time": "",
     "DST": ""
@@ -41874,7 +41874,7 @@ module.exports = [
   {
     "IATA": "NDF",
     "ICAO": "",
-    "Airport name": "N'dalatando Airport[1]",
+    "Airport name": "N'dalatando Airport",
     "Location served": "N'dalatando, Angola",
     "Time": "",
     "DST": ""
@@ -41882,7 +41882,7 @@ module.exports = [
   {
     "IATA": "NDG",
     "ICAO": "ZYQQ",
-    "Airport name": "Qiqihar Sanjiazi Airport[1]",
+    "Airport name": "Qiqihar Sanjiazi Airport",
     "Location served": "Qiqihar, Heilongjiang, China",
     "Time": "",
     "DST": ""
@@ -41890,7 +41890,7 @@ module.exports = [
   {
     "IATA": "NDI",
     "ICAO": "",
-    "Airport name": "Namudi Airport[1]",
+    "Airport name": "Namudi Airport",
     "Location served": "Namudi, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -41914,7 +41914,7 @@ module.exports = [
   {
     "IATA": "NDL",
     "ICAO": "FEFN",
-    "Airport name": "N'Délé Airport[1]",
+    "Airport name": "N'Délé Airport",
     "Location served": "N'Délé (Ndele), Central African Republic",
     "Time": "",
     "DST": ""
@@ -41930,7 +41930,7 @@ module.exports = [
   {
     "IATA": "NDN",
     "ICAO": "",
-    "Airport name": "Nadunumu Airport[1]",
+    "Airport name": "Nadunumu Airport",
     "Location served": "Nadunumu, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -41946,7 +41946,7 @@ module.exports = [
   {
     "IATA": "NDS",
     "ICAO": "YSAN",
-    "Airport name": "Sandstone Airport[1]",
+    "Airport name": "Sandstone Airport",
     "Location served": "Sandstone, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -41994,7 +41994,7 @@ module.exports = [
   {
     "IATA": "NEJ",
     "ICAO": "HANJ",
-    "Airport name": "Nejjo Airport[1]",
+    "Airport name": "Nejjo Airport",
     "Location served": "Nejo, Ethiopia",
     "Time": "",
     "DST": ""
@@ -42002,7 +42002,7 @@ module.exports = [
   {
     "IATA": "NEK",
     "ICAO": "HANK",
-    "Airport name": "Nekemte Airport[1]",
+    "Airport name": "Nekemte Airport",
     "Location served": "Nekemte, Ethiopia",
     "Time": "",
     "DST": ""
@@ -42034,7 +42034,7 @@ module.exports = [
   {
     "IATA": "NEU",
     "ICAO": "VLSN",
-    "Airport name": "Nathong Airport[1]",
+    "Airport name": "Nathong Airport",
     "Location served": "Xam Neua, Laos",
     "Time": "",
     "DST": ""
@@ -42090,7 +42090,7 @@ module.exports = [
   {
     "IATA": "NGA",
     "ICAO": "YYNG",
-    "Airport name": "Young Airport[1]",
+    "Airport name": "Young Airport",
     "Location served": "Young, New South Wales, Australia",
     "Time": "",
     "DST": ""
@@ -42114,7 +42114,7 @@ module.exports = [
   {
     "IATA": "NGE",
     "ICAO": "FKKN",
-    "Airport name": "Ngaoundéré Airport[1]",
+    "Airport name": "Ngaoundéré Airport",
     "Location served": "Ngaoundéré, Cameroon",
     "Time": "",
     "DST": ""
@@ -42122,7 +42122,7 @@ module.exports = [
   {
     "IATA": "NGF",
     "ICAO": "PHNG",
-    "Airport name": "MCAS Kaneohe Bay[1]",
+    "Airport name": "MCAS Kaneohe Bay",
     "Location served": "Kaneohe, Hawaii, United States",
     "Time": "",
     "DST": ""
@@ -42130,7 +42130,7 @@ module.exports = [
   {
     "IATA": "NGI",
     "ICAO": "NFNG",
-    "Airport name": "Gau Airport[1]",
+    "Airport name": "Gau Airport",
     "Location served": "Gau Island, Fiji",
     "Time": "",
     "DST": ""
@@ -42138,7 +42138,7 @@ module.exports = [
   {
     "IATA": "NGK",
     "ICAO": "UHSN",
-    "Airport name": "Nogliki Airport[1]",
+    "Airport name": "Nogliki Airport",
     "Location served": "Nogliki, Sakhalin Oblast, Russia",
     "Time": "",
     "DST": ""
@@ -42146,7 +42146,7 @@ module.exports = [
   {
     "IATA": "NGL",
     "ICAO": "FANG",
-    "Airport name": "Ngala Airfield[1]",
+    "Airport name": "Ngala Airfield",
     "Location served": "Ngala, South Africa",
     "Time": "",
     "DST": ""
@@ -42154,7 +42154,7 @@ module.exports = [
   {
     "IATA": "NGN",
     "ICAO": "",
-    "Airport name": "Narganá Airport[1]",
+    "Airport name": "Narganá Airport",
     "Location served": "Narganá, Panama",
     "Time": "",
     "DST": ""
@@ -42186,7 +42186,7 @@ module.exports = [
   {
     "IATA": "NGR",
     "ICAO": "",
-    "Airport name": "Ningerum Airport[1]",
+    "Airport name": "Ningerum Airport",
     "Location served": "Ningerum, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -42218,7 +42218,7 @@ module.exports = [
   {
     "IATA": "NGX",
     "ICAO": "VNMA",
-    "Airport name": "Manang Airport[1]",
+    "Airport name": "Manang Airport",
     "Location served": "Manang, Nepal",
     "Time": "",
     "DST": ""
@@ -42226,7 +42226,7 @@ module.exports = [
   {
     "IATA": "NHA",
     "ICAO": "VVNT",
-    "Airport name": "Nha Trang Air Base[1]",
+    "Airport name": "Nha Trang Air Base",
     "Location served": "Nha Trang, Vietnam",
     "Time": "",
     "DST": ""
@@ -42234,7 +42234,7 @@ module.exports = [
   {
     "IATA": "NHD",
     "ICAO": "OMDM",
-    "Airport name": "Al Minhad Air Base[1]",
+    "Airport name": "Al Minhad Air Base",
     "Location served": "Dubai, United Arab Emirates",
     "Time": "",
     "DST": ""
@@ -42242,7 +42242,7 @@ module.exports = [
   {
     "IATA": "NHF",
     "ICAO": "HSNW",
-    "Airport name": "New Halfa Airport[1]",
+    "Airport name": "New Halfa Airport",
     "Location served": "New Halfa, Sudan",
     "Time": "",
     "DST": ""
@@ -42258,7 +42258,7 @@ module.exports = [
   {
     "IATA": "NHS",
     "ICAO": "",
-    "Airport name": "Nushki Airport[1]",
+    "Airport name": "Nushki Airport",
     "Location served": "Nushki, Pakistan",
     "Time": "",
     "DST": ""
@@ -42274,7 +42274,7 @@ module.exports = [
   {
     "IATA": "NHV",
     "ICAO": "NTMD",
-    "Airport name": "Nuku Hiva Airport[1]",
+    "Airport name": "Nuku Hiva Airport",
     "Location served": "Nuku Hiva, Marquesas Islands, French Polynesia",
     "Time": "",
     "DST": ""
@@ -42322,7 +42322,7 @@ module.exports = [
   {
     "IATA": "NIF",
     "ICAO": "YCNF",
-    "Airport name": "Nifty Airport[1]",
+    "Airport name": "Nifty Airport",
     "Location served": "Nifty Copper Mine, Telfer, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -42330,7 +42330,7 @@ module.exports = [
   {
     "IATA": "NIG",
     "ICAO": "NGNU",
-    "Airport name": "Nikunau Airport[1]",
+    "Airport name": "Nikunau Airport",
     "Location served": "Nikunau, Kiribati",
     "Time": "",
     "DST": ""
@@ -42338,7 +42338,7 @@ module.exports = [
   {
     "IATA": "NIK",
     "ICAO": "",
-    "Airport name": "Niokolo-Koba Airport[1]",
+    "Airport name": "Niokolo-Koba Airport",
     "Location served": "Niokolo-Koba, Senegal",
     "Time": "",
     "DST": ""
@@ -42378,7 +42378,7 @@ module.exports = [
   {
     "IATA": "NIR",
     "ICAO": "",
-    "Airport name": "Chase Field Industrial Complex[1] (FAA: 1XA2)",
+    "Airport name": "Chase Field Industrial Complex (FAA: 1XA2)",
     "Location served": "Beeville, Texas, United States",
     "Time": "",
     "DST": ""
@@ -42394,7 +42394,7 @@ module.exports = [
   {
     "IATA": "NIT",
     "ICAO": "LFBN",
-    "Airport name": "Niort - Souché Airport[1]",
+    "Airport name": "Niort - Souché Airport",
     "Location served": "Niort, Poitou-Charentes, France",
     "Time": "",
     "DST": ""
@@ -42402,7 +42402,7 @@ module.exports = [
   {
     "IATA": "NIU",
     "ICAO": "NTKN",
-    "Airport name": "Niau Airport[1]",
+    "Airport name": "Niau Airport",
     "Location served": "Niau, Tuamotus, French Polynesia",
     "Time": "",
     "DST": ""
@@ -42418,7 +42418,7 @@ module.exports = [
   {
     "IATA": "NJA",
     "ICAO": "RJTA",
-    "Airport name": "Naval Air Facility Atsugi[1]",
+    "Airport name": "Naval Air Facility Atsugi",
     "Location served": "Atsugi, Honshu, Japan",
     "Time": "",
     "DST": ""
@@ -42450,7 +42450,7 @@ module.exports = [
   {
     "IATA": "NKA",
     "ICAO": "",
-    "Airport name": "Nkan Airport[1]",
+    "Airport name": "Nkan Airport",
     "Location served": "Ntoum (Nkan), Gabon",
     "Time": "",
     "DST": ""
@@ -42458,7 +42458,7 @@ module.exports = [
   {
     "IATA": "NKB",
     "ICAO": "",
-    "Airport name": "Noonkanbah Airport[1]",
+    "Airport name": "Noonkanbah Airport",
     "Location served": "Noonkanbah Station, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -42474,7 +42474,7 @@ module.exports = [
   {
     "IATA": "NKD",
     "ICAO": "",
-    "Airport name": "Sinak Airport[1]",
+    "Airport name": "Sinak Airport",
     "Location served": "Sinak, Indonesia",
     "Time": "",
     "DST": ""
@@ -42490,7 +42490,7 @@ module.exports = [
   {
     "IATA": "NKI",
     "ICAO": "",
-    "Airport name": "Naukati Bay Seaplane Base[1] (FAA: AK62)",
+    "Airport name": "Naukati Bay Seaplane Base (FAA: AK62)",
     "Location served": "Naukati Bay, Alaska, United States",
     "Time": "",
     "DST": ""
@@ -42514,7 +42514,7 @@ module.exports = [
   {
     "IATA": "NKN",
     "ICAO": "",
-    "Airport name": "Nankina Airport[1]",
+    "Airport name": "Nankina Airport",
     "Location served": "Nankina, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -42522,7 +42522,7 @@ module.exports = [
   {
     "IATA": "NKO",
     "ICAO": "",
-    "Airport name": "Ankokoambo Airport[1]",
+    "Airport name": "Ankokoambo Airport",
     "Location served": "Ankokoambo, Madagascar",
     "Time": "",
     "DST": ""
@@ -42530,7 +42530,7 @@ module.exports = [
   {
     "IATA": "NKP",
     "ICAO": "",
-    "Airport name": "Nukutepipi Airport[1]",
+    "Airport name": "Nukutepipi Airport",
     "Location served": "Nukutepipi, Tuamotus, French Polynesia",
     "Time": "",
     "DST": ""
@@ -42554,7 +42554,7 @@ module.exports = [
   {
     "IATA": "NKU",
     "ICAO": "FXNK",
-    "Airport name": "Nkaus Airport[1]",
+    "Airport name": "Nkaus Airport",
     "Location served": "Nkau, Lesotho",
     "Time": "",
     "DST": ""
@@ -42610,7 +42610,7 @@ module.exports = [
   {
     "IATA": "NLF",
     "ICAO": "YDNI",
-    "Airport name": "Darnley Island Airport[1]",
+    "Airport name": "Darnley Island Airport",
     "Location served": "Darnley Island, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -42626,7 +42626,7 @@ module.exports = [
   {
     "IATA": "NLH",
     "ICAO": "",
-    "Airport name": "Ninglang Luguhu Airport[1]",
+    "Airport name": "Ninglang Luguhu Airport",
     "Location served": "Ninglang, Yunnan, China",
     "Time": "",
     "DST": ""
@@ -42650,7 +42650,7 @@ module.exports = [
   {
     "IATA": "NLL",
     "ICAO": "YNUL",
-    "Airport name": "Nullagine Airport[1]",
+    "Airport name": "Nullagine Airport",
     "Location served": "Nullagine, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -42658,7 +42658,7 @@ module.exports = [
   {
     "IATA": "NLN",
     "ICAO": "",
-    "Airport name": "Kneeland Airport[1] (FAA: O19)",
+    "Airport name": "Kneeland Airport (FAA: O19)",
     "Location served": "Arcata / Eureka, California, United States",
     "Time": "",
     "DST": ""
@@ -42666,7 +42666,7 @@ module.exports = [
   {
     "IATA": "NLO",
     "ICAO": "FZAB",
-    "Airport name": "N'Dolo Airport[1]",
+    "Airport name": "N'Dolo Airport",
     "Location served": "Kinshasa, Democratic Republic of the Congo",
     "Time": "",
     "DST": ""
@@ -42674,7 +42674,7 @@ module.exports = [
   {
     "IATA": "NLP",
     "ICAO": "FANS",
-    "Airport name": "Nelspruit Airport[1]",
+    "Airport name": "Nelspruit Airport",
     "Location served": "Mbombela, South Africa",
     "Time": "",
     "DST": ""
@@ -42682,7 +42682,7 @@ module.exports = [
   {
     "IATA": "NLS",
     "ICAO": "",
-    "Airport name": "Nicholson Airport[1]",
+    "Airport name": "Nicholson Airport",
     "Location served": "Nicholson, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -42714,7 +42714,7 @@ module.exports = [
   {
     "IATA": "NMA",
     "ICAO": "UTFN",
-    "Airport name": "Namangan Airport[1]",
+    "Airport name": "Namangan Airport",
     "Location served": "Namangan, Uzbekistan",
     "Time": "",
     "DST": ""
@@ -42730,7 +42730,7 @@ module.exports = [
   {
     "IATA": "NMC",
     "ICAO": "MYEN",
-    "Airport name": "Norman's Cay Airport[1]",
+    "Airport name": "Norman's Cay Airport",
     "Location served": "Norman's Cay, Exuma Islands, Bahamas",
     "Time": "",
     "DST": ""
@@ -42746,7 +42746,7 @@ module.exports = [
   {
     "IATA": "NMF",
     "ICAO": "VRDA",
-    "Airport name": "Maafaru International Airport[1]",
+    "Airport name": "Maafaru International Airport",
     "Location served": "Maafaru, Noonu, Maldives",
     "Time": "",
     "DST": ""
@@ -42754,7 +42754,7 @@ module.exports = [
   {
     "IATA": "NMG",
     "ICAO": "",
-    "Airport name": "San Miguel Airport[1]",
+    "Airport name": "San Miguel Airport",
     "Location served": "San Miguel, Panama",
     "Time": "",
     "DST": ""
@@ -42762,7 +42762,7 @@ module.exports = [
   {
     "IATA": "NML",
     "ICAO": "",
-    "Airport name": "Fort McMurray/Mildred Lake Airport[1] (TC: CAJ3)",
+    "Airport name": "Fort McMurray/Mildred Lake Airport (TC: CAJ3)",
     "Location served": "Fort McMurray, Alberta, Canada",
     "Time": "",
     "DST": ""
@@ -42770,7 +42770,7 @@ module.exports = [
   {
     "IATA": "NMN",
     "ICAO": "",
-    "Airport name": "Nomane Airport[1]",
+    "Airport name": "Nomane Airport",
     "Location served": "Nomane, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -42778,7 +42778,7 @@ module.exports = [
   {
     "IATA": "NMP",
     "ICAO": "",
-    "Airport name": "New Moon Airport[1]",
+    "Airport name": "New Moon Airport",
     "Location served": "New Moon, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -42786,7 +42786,7 @@ module.exports = [
   {
     "IATA": "NMR",
     "ICAO": "YNAP",
-    "Airport name": "Nappa Merrie Airport[1]",
+    "Airport name": "Nappa Merrie Airport",
     "Location served": "Nappa Merrie, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -42794,7 +42794,7 @@ module.exports = [
   {
     "IATA": "NMS",
     "ICAO": "VYNS",
-    "Airport name": "Nansang Airport[1]",
+    "Airport name": "Nansang Airport",
     "Location served": "Nansang (Namsang), Myanmar",
     "Time": "",
     "DST": ""
@@ -42802,7 +42802,7 @@ module.exports = [
   {
     "IATA": "NMT",
     "ICAO": "VYNT",
-    "Airport name": "Namtu Airport[1]",
+    "Airport name": "Namtu Airport",
     "Location served": "Namtu, Myanmar",
     "Time": "",
     "DST": ""
@@ -42818,7 +42818,7 @@ module.exports = [
   {
     "IATA": "NNB",
     "ICAO": "AGGT",
-    "Airport name": "Santa Ana Airport[1]",
+    "Airport name": "Santa Ana Airport",
     "Location served": "Santa Ana Island (Owaraha), Solomon Islands",
     "Time": "",
     "DST": ""
@@ -42826,7 +42826,7 @@ module.exports = [
   {
     "IATA": "NND",
     "ICAO": "",
-    "Airport name": "Nangade Airport[1]",
+    "Airport name": "Nangade Airport",
     "Location served": "Nangade, Mozambique",
     "Time": "",
     "DST": ""
@@ -42842,7 +42842,7 @@ module.exports = [
   {
     "IATA": "NNI",
     "ICAO": "FYNA",
-    "Airport name": "Namutoni Airport[1]",
+    "Airport name": "Namutoni Airport",
     "Location served": "Namutoni, Namibia",
     "Time": "",
     "DST": ""
@@ -42882,7 +42882,7 @@ module.exports = [
   {
     "IATA": "NNT",
     "ICAO": "VTCN",
-    "Airport name": "Nan Nakhon Airport[1]",
+    "Airport name": "Nan Nakhon Airport",
     "Location served": "Nan, Thailand",
     "Time": "",
     "DST": ""
@@ -42890,7 +42890,7 @@ module.exports = [
   {
     "IATA": "NNU",
     "ICAO": "SNNU",
-    "Airport name": "Nanuque Airport[1]",
+    "Airport name": "Nanuque Airport",
     "Location served": "Nanuque, Minas Gerais, Brazil",
     "Time": "",
     "DST": ""
@@ -42914,7 +42914,7 @@ module.exports = [
   {
     "IATA": "NOA",
     "ICAO": "YSNW",
-    "Airport name": "NAS Nowra[1]",
+    "Airport name": "NAS Nowra",
     "Location served": "Nowra, New South Wales, Australia",
     "Time": "",
     "DST": ""
@@ -42954,7 +42954,7 @@ module.exports = [
   {
     "IATA": "NOI",
     "ICAO": "",
-    "Airport name": "Novorossiysk Airport[1]",
+    "Airport name": "Novorossiysk Airport",
     "Location served": "Novorossiysk, Krasnodar Krai, Russia",
     "Time": "",
     "DST": ""
@@ -42970,7 +42970,7 @@ module.exports = [
   {
     "IATA": "NOK",
     "ICAO": "SWXV",
-    "Airport name": "Nova Xavantina Airport[1]",
+    "Airport name": "Nova Xavantina Airport",
     "Location served": "Nova Xavantina, Mato Grosso, Brazil",
     "Time": "",
     "DST": ""
@@ -42978,7 +42978,7 @@ module.exports = [
   {
     "IATA": "NOM",
     "ICAO": "ATNR",
-    "Airport name": "Nomad River Airport[1]",
+    "Airport name": "Nomad River Airport",
     "Location served": "Nomad River, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -42986,7 +42986,7 @@ module.exports = [
   {
     "IATA": "NON",
     "ICAO": "NGTO",
-    "Airport name": "Nonouti Airport[1]",
+    "Airport name": "Nonouti Airport",
     "Location served": "Nonouti, Kiribati",
     "Time": "",
     "DST": ""
@@ -42994,7 +42994,7 @@ module.exports = [
   {
     "IATA": "NOO",
     "ICAO": "",
-    "Airport name": "Naoro Airport[1]",
+    "Airport name": "Naoro Airport",
     "Location served": "Naoro, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -43010,7 +43010,7 @@ module.exports = [
   {
     "IATA": "NOR",
     "ICAO": "BINF",
-    "Airport name": "Norðfjörður Airport[1]",
+    "Airport name": "Norðfjörður Airport",
     "Location served": "Nordfjordur, Iceland",
     "Time": "",
     "DST": ""
@@ -43018,7 +43018,7 @@ module.exports = [
   {
     "IATA": "NOS",
     "ICAO": "FMNN",
-    "Airport name": "Fascene Airport[1]",
+    "Airport name": "Fascene Airport",
     "Location served": "Nosy Be, Madagascar",
     "Time": "",
     "DST": ""
@@ -43074,7 +43074,7 @@ module.exports = [
   {
     "IATA": "NPG",
     "ICAO": "",
-    "Airport name": "Nipa Airport[1]",
+    "Airport name": "Nipa Airport",
     "Location served": "Nipa, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -43098,7 +43098,7 @@ module.exports = [
   {
     "IATA": "NPO",
     "ICAO": "WIOG",
-    "Airport name": "Nanga Pinoh Airport[1]",
+    "Airport name": "Nanga Pinoh Airport",
     "Location served": "Nanga Pinoh, Indonesia",
     "Time": "",
     "DST": ""
@@ -43106,7 +43106,7 @@ module.exports = [
   {
     "IATA": "NPP",
     "ICAO": "",
-    "Airport name": "Napperby Airport[1]",
+    "Airport name": "Napperby Airport",
     "Location served": "Napperby, Northern Territory, Australia",
     "Time": "",
     "DST": ""
@@ -43114,7 +43114,7 @@ module.exports = [
   {
     "IATA": "NPR",
     "ICAO": "SJNP",
-    "Airport name": "Novo Progresso Airport[1]",
+    "Airport name": "Novo Progresso Airport",
     "Location served": "Novo Progresso, Pará, Brazil",
     "Time": "",
     "DST": ""
@@ -43130,7 +43130,7 @@ module.exports = [
   {
     "IATA": "NPU",
     "ICAO": "",
-    "Airport name": "San Pedro de Urabá Airport[1]",
+    "Airport name": "San Pedro de Urabá Airport",
     "Location served": "San Pedro de Urabá, Colombia",
     "Time": "",
     "DST": ""
@@ -43162,7 +43162,7 @@ module.exports = [
   {
     "IATA": "NQL",
     "ICAO": "SWNQ",
-    "Airport name": "Niquelândia Airport[1]",
+    "Airport name": "Niquelândia Airport",
     "Location served": "Niquelândia, Goiás, Brazil",
     "Time": "",
     "DST": ""
@@ -43178,7 +43178,7 @@ module.exports = [
   {
     "IATA": "NQT",
     "ICAO": "EGBN",
-    "Airport name": "Nottingham Airport[1]",
+    "Airport name": "Nottingham Airport",
     "Location served": "Nottingham, England, United Kingdom",
     "Time": "",
     "DST": ""
@@ -43218,7 +43218,7 @@ module.exports = [
   {
     "IATA": "NRA",
     "ICAO": "YNAR",
-    "Airport name": "Narrandera Airport[1]",
+    "Airport name": "Narrandera Airport",
     "Location served": "Narrandera, New South Wales, Australia",
     "Time": "",
     "DST": ""
@@ -43266,7 +43266,7 @@ module.exports = [
   {
     "IATA": "NRI",
     "ICAO": "",
-    "Airport name": "Grand Lake Regional Airport[1] (FAA: 3O9)",
+    "Airport name": "Grand Lake Regional Airport (FAA: 3O9)",
     "Location served": "Afton, Oklahoma, United States",
     "Time": "",
     "DST": ""
@@ -43282,7 +43282,7 @@ module.exports = [
   {
     "IATA": "NRL",
     "ICAO": "EGEN",
-    "Airport name": "North Ronaldsay Airport[1]",
+    "Airport name": "North Ronaldsay Airport",
     "Location served": "North Ronaldsay, Scotland, United Kingdom",
     "Time": "",
     "DST": ""
@@ -43306,7 +43306,7 @@ module.exports = [
   {
     "IATA": "NRR",
     "ICAO": "TJRV",
-    "Airport name": "José Aponte de la Torre Airport[1] (FAA: RVR)",
+    "Airport name": "José Aponte de la Torre Airport (FAA: RVR)",
     "Location served": "Ceiba, Puerto Rico, United States",
     "Time": "",
     "DST": ""
@@ -43330,7 +43330,7 @@ module.exports = [
   {
     "IATA": "NRY",
     "ICAO": "",
-    "Airport name": "Newry Airport[1]",
+    "Airport name": "Newry Airport",
     "Location served": "Newry Station, Northern Territory, Australia",
     "Time": "",
     "DST": ""
@@ -43338,7 +43338,7 @@ module.exports = [
   {
     "IATA": "NSB",
     "ICAO": "",
-    "Airport name": "North Seaplane Base[1]",
+    "Airport name": "North Seaplane Base",
     "Location served": "Bimini, Bahamas",
     "Time": "",
     "DST": ""
@@ -43354,7 +43354,7 @@ module.exports = [
   {
     "IATA": "NSH",
     "ICAO": "OINN",
-    "Airport name": "Noshahr Airport[1]",
+    "Airport name": "Noshahr Airport",
     "Location served": "Nowshahr, Iran",
     "Time": "",
     "DST": ""
@@ -43378,7 +43378,7 @@ module.exports = [
   {
     "IATA": "NSL",
     "ICAO": "KDVP",
-    "Airport name": "Slayton Municipal Airport[1] (FAA: DVP)",
+    "Airport name": "Slayton Municipal Airport (FAA: DVP)",
     "Location served": "Slayton, Minnesota, United States",
     "Time": "",
     "DST": ""
@@ -43386,7 +43386,7 @@ module.exports = [
   {
     "IATA": "NSM",
     "ICAO": "YNSM",
-    "Airport name": "Norseman Airport[1]",
+    "Airport name": "Norseman Airport",
     "Location served": "Norseman, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -43402,7 +43402,7 @@ module.exports = [
   {
     "IATA": "NSO",
     "ICAO": "YSCO",
-    "Airport name": "Scone Airport[1]",
+    "Airport name": "Scone Airport",
     "Location served": "Scone, New South Wales, Australia",
     "Time": "",
     "DST": ""
@@ -43418,7 +43418,7 @@ module.exports = [
   {
     "IATA": "NSV",
     "ICAO": "YNSH",
-    "Airport name": "Noosa Airport[1]",
+    "Airport name": "Noosa Airport",
     "Location served": "Noosaville, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -43434,7 +43434,7 @@ module.exports = [
   {
     "IATA": "NTA",
     "ICAO": "",
-    "Airport name": "Natadola Seaplane Base[1]",
+    "Airport name": "Natadola Seaplane Base",
     "Location served": "Natadola Bay, Fiji",
     "Time": "",
     "DST": ""
@@ -43450,7 +43450,7 @@ module.exports = [
   {
     "IATA": "NTC",
     "ICAO": "",
-    "Airport name": "Santa Carolina Airport[1]",
+    "Airport name": "Santa Carolina Airport",
     "Location served": "Santa Carolina, Mozambique",
     "Time": "",
     "DST": ""
@@ -43482,7 +43482,7 @@ module.exports = [
   {
     "IATA": "NTI",
     "ICAO": "",
-    "Airport name": "Stenkol Airport[1]",
+    "Airport name": "Stenkol Airport",
     "Location served": "Bintuni, Indonesia",
     "Time": "",
     "DST": ""
@@ -43506,7 +43506,7 @@ module.exports = [
   {
     "IATA": "NTM",
     "ICAO": "SNRW",
-    "Airport name": "Miracema do Tocantins Airport[1]",
+    "Airport name": "Miracema do Tocantins Airport",
     "Location served": "Miracema do Tocantins, Tocantins, Brazil",
     "Time": "",
     "DST": ""
@@ -43514,7 +43514,7 @@ module.exports = [
   {
     "IATA": "NTN",
     "ICAO": "YNTN",
-    "Airport name": "Normanton Airport[1]",
+    "Airport name": "Normanton Airport",
     "Location served": "Normanton, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -43530,7 +43530,7 @@ module.exports = [
   {
     "IATA": "NTQ",
     "ICAO": "RJNW",
-    "Airport name": "Noto Airport[1]",
+    "Airport name": "Noto Airport",
     "Location served": "Wajima, Honshu, Japan",
     "Time": "",
     "DST": ""
@@ -43538,7 +43538,7 @@ module.exports = [
   {
     "IATA": "NTR",
     "ICAO": "MMAN",
-    "Airport name": "Del Norte International Airport[1]",
+    "Airport name": "Del Norte International Airport",
     "Location served": "Monterrey, Nuevo León, Mexico",
     "Time": "",
     "DST": ""
@@ -43578,7 +43578,7 @@ module.exports = [
   {
     "IATA": "NUA",
     "ICAO": "",
-    "Airport name": "Gregory Lake Seaplane Base[1]",
+    "Airport name": "Gregory Lake Seaplane Base",
     "Location served": "Nuwara Eliya, Sri Lanka",
     "Time": "",
     "DST": ""
@@ -43586,7 +43586,7 @@ module.exports = [
   {
     "IATA": "NUB",
     "ICAO": "YNUM",
-    "Airport name": "Numbulwar Airport[1]",
+    "Airport name": "Numbulwar Airport",
     "Location served": "Numbulwar, Northern Territory, Australia",
     "Time": "",
     "DST": ""
@@ -43594,7 +43594,7 @@ module.exports = [
   {
     "IATA": "NUD",
     "ICAO": "HSNH",
-    "Airport name": "En Nahud Airport[1]",
+    "Airport name": "En Nahud Airport",
     "Location served": "En Nahud, Sudan",
     "Time": "",
     "DST": ""
@@ -43610,7 +43610,7 @@ module.exports = [
   {
     "IATA": "NUF",
     "ICAO": "",
-    "Airport name": "Castlereigh Reservoir Seaplane Base[1]",
+    "Airport name": "Castlereigh Reservoir Seaplane Base",
     "Location served": "Hatton, Sri Lanka",
     "Time": "",
     "DST": ""
@@ -43618,7 +43618,7 @@ module.exports = [
   {
     "IATA": "NUG",
     "ICAO": "",
-    "Airport name": "Nuguria Airstrip[1]",
+    "Airport name": "Nuguria Airstrip",
     "Location served": "Nuguria, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -43626,7 +43626,7 @@ module.exports = [
   {
     "IATA": "NUH",
     "ICAO": "",
-    "Airport name": "Nunchía Airport[1]",
+    "Airport name": "Nunchía Airport",
     "Location served": "Nunchía, Colombia",
     "Time": "",
     "DST": ""
@@ -43642,7 +43642,7 @@ module.exports = [
   {
     "IATA": "NUJ",
     "ICAO": "OIHS",
-    "Airport name": "Hamedan Air Base[1] (Nogeh Airport)",
+    "Airport name": "Hamedan Air Base (Nogeh Airport)",
     "Location served": "Hamadan, Iran",
     "Time": "",
     "DST": ""
@@ -43698,7 +43698,7 @@ module.exports = [
   {
     "IATA": "NUR",
     "ICAO": "YNUB",
-    "Airport name": "Nullabor Motel Airport[1]",
+    "Airport name": "Nullabor Motel Airport",
     "Location served": "Nullarbor, South Australia, Australia",
     "Time": "",
     "DST": ""
@@ -43714,7 +43714,7 @@ module.exports = [
   {
     "IATA": "NUT",
     "ICAO": "",
-    "Airport name": "Nutuve Airport[1]",
+    "Airport name": "Nutuve Airport",
     "Location served": "Nutuve, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -43722,7 +43722,7 @@ module.exports = [
   {
     "IATA": "NUU",
     "ICAO": "HKNK",
-    "Airport name": "Nakuru Airport[1]",
+    "Airport name": "Nakuru Airport",
     "Location served": "Nakuru, Kenya",
     "Time": "",
     "DST": ""
@@ -43762,7 +43762,7 @@ module.exports = [
   {
     "IATA": "NVG",
     "ICAO": "MNNG",
-    "Airport name": "Nueva Guinea Airport[1]",
+    "Airport name": "Nueva Guinea Airport",
     "Location served": "Nueva Guinea, Nicaragua",
     "Time": "",
     "DST": ""
@@ -43770,7 +43770,7 @@ module.exports = [
   {
     "IATA": "NVI",
     "ICAO": "UTSA",
-    "Airport name": "Navoi International Airport[1]",
+    "Airport name": "Navoi International Airport",
     "Location served": "Navoiy, Uzbekistan",
     "Time": "",
     "DST": ""
@@ -43794,7 +43794,7 @@ module.exports = [
   {
     "IATA": "NVP",
     "ICAO": "",
-    "Airport name": "Novo Aripuanã Airport[1]",
+    "Airport name": "Novo Aripuanã Airport",
     "Location served": "Novo Aripuanã, Amazonas, Brazil",
     "Time": "",
     "DST": ""
@@ -43810,7 +43810,7 @@ module.exports = [
   {
     "IATA": "NVS",
     "ICAO": "LFQG",
-    "Airport name": "Nevers - Fourchambault Airport[1]",
+    "Airport name": "Nevers - Fourchambault Airport",
     "Location served": "Nevers, Burgundy, France",
     "Time": "",
     "DST": ""
@@ -43834,7 +43834,7 @@ module.exports = [
   {
     "IATA": "NWA",
     "ICAO": "FMCI",
-    "Airport name": "Mohéli Bandar Es Eslam Airport[1]",
+    "Airport name": "Mohéli Bandar Es Eslam Airport",
     "Location served": "Mohéli, Comoros",
     "Time": "",
     "DST": ""
@@ -43858,7 +43858,7 @@ module.exports = [
   {
     "IATA": "NWT",
     "ICAO": "",
-    "Airport name": "Nowata Airport[1]",
+    "Airport name": "Nowata Airport",
     "Location served": "Nowata, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -43872,7 +43872,7 @@ module.exports = [
     "DST": ""
   },
   {
-    "IATA": "NYC[1]",
+    "IATA": "NYC",
     "ICAO": "",
     "Airport name": "metropolitan area2",
     "Location served": "New York City, New York, United States",
@@ -43882,7 +43882,7 @@ module.exports = [
   {
     "IATA": "NYE",
     "ICAO": "HKNI",
-    "Airport name": "Nyeri Airport[1]",
+    "Airport name": "Nyeri Airport",
     "Location served": "Nyeri, Kenya",
     "Time": "",
     "DST": ""
@@ -43922,7 +43922,7 @@ module.exports = [
   {
     "IATA": "NYN",
     "ICAO": "YNYN",
-    "Airport name": "Nyngan Airport[1]",
+    "Airport name": "Nyngan Airport",
     "Location served": "Nyngan, New South Wales, Australia",
     "Time": "",
     "DST": ""
@@ -43970,7 +43970,7 @@ module.exports = [
   {
     "IATA": "NYW",
     "ICAO": "VYMY",
-    "Airport name": "Monywa Airport[1]",
+    "Airport name": "Monywa Airport",
     "Location served": "Monywa, Myanmar",
     "Time": "",
     "DST": ""
@@ -44002,7 +44002,7 @@ module.exports = [
   {
     "IATA": "NZH",
     "ICAO": "ZBMZ",
-    "Airport name": "Manzhouli Xijiao Airport[1]",
+    "Airport name": "Manzhouli Xijiao Airport",
     "Location served": "Manzhouli, Inner Mongolia, China",
     "Time": "",
     "DST": ""
@@ -44010,7 +44010,7 @@ module.exports = [
   {
     "IATA": "NZL",
     "ICAO": "",
-    "Airport name": "Zhalantun Chengjisihan Airport[1]",
+    "Airport name": "Zhalantun Chengjisihan Airport",
     "Location served": "Zhalantun, Inner Mongolia, China",
     "Time": "",
     "DST": ""
@@ -44034,7 +44034,7 @@ module.exports = [
   {
     "IATA": "OAG",
     "ICAO": "YORG",
-    "Airport name": "Orange Airport[1]",
+    "Airport name": "Orange Airport",
     "Location served": "Orange, New South Wales, Australia",
     "Time": "",
     "DST": ""
@@ -44074,7 +44074,7 @@ module.exports = [
   {
     "IATA": "OAL",
     "ICAO": "SSKW",
-    "Airport name": "Capital do Café Airport[1]",
+    "Airport name": "Capital do Café Airport",
     "Location served": "Cacoal, Rondônia, Brazil",
     "Time": "",
     "DST": ""
@@ -44090,7 +44090,7 @@ module.exports = [
   {
     "IATA": "OAN",
     "ICAO": "MHEA",
-    "Airport name": "El Arrayán Airport[1]",
+    "Airport name": "El Arrayán Airport",
     "Location served": "Olanchito, Honduras",
     "Time": "",
     "DST": ""
@@ -44130,7 +44130,7 @@ module.exports = [
   {
     "IATA": "OBA",
     "ICAO": "",
-    "Airport name": "Oban Airport[1]",
+    "Airport name": "Oban Airport",
     "Location served": "Oban, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -44170,7 +44170,7 @@ module.exports = [
   {
     "IATA": "OBI",
     "ICAO": "SBTI",
-    "Airport name": "Óbidos Airport[1]",
+    "Airport name": "Óbidos Airport",
     "Location served": "Óbidos, Pará, Brazil",
     "Time": "",
     "DST": ""
@@ -44186,7 +44186,7 @@ module.exports = [
   {
     "IATA": "OBM",
     "ICAO": "",
-    "Airport name": "Morobe Airport[1]",
+    "Airport name": "Morobe Airport",
     "Location served": "Morobe, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -44194,7 +44194,7 @@ module.exports = [
   {
     "IATA": "OBN",
     "ICAO": "EGEO",
-    "Airport name": "Oban Airport[1] (North Connel Airport)",
+    "Airport name": "Oban Airport (North Connel Airport)",
     "Location served": "Oban, Scotland, United Kingdom",
     "Time": "",
     "DST": ""
@@ -44210,7 +44210,7 @@ module.exports = [
   {
     "IATA": "OBS",
     "ICAO": "LFHO",
-    "Airport name": "Aubenas Aerodrome[1] (Ardèche Méridionale Aerodrome)",
+    "Airport name": "Aubenas Aerodrome (Ardèche Méridionale Aerodrome)",
     "Location served": "Aubenas, Rhône-Alpes, France",
     "Time": "",
     "DST": ""
@@ -44282,7 +44282,7 @@ module.exports = [
   {
     "IATA": "OCM",
     "ICAO": "YBGD",
-    "Airport name": "Boolgeeda Airport[1]",
+    "Airport name": "Boolgeeda Airport",
     "Location served": "Boolgeeda, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -44298,7 +44298,7 @@ module.exports = [
   {
     "IATA": "OCS",
     "ICAO": "",
-    "Airport name": "Corisco International Airport[1]",
+    "Airport name": "Corisco International Airport",
     "Location served": "Corisco Island, Equatorial Guinea",
     "Time": "",
     "DST": ""
@@ -44306,7 +44306,7 @@ module.exports = [
   {
     "IATA": "OCV",
     "ICAO": "SKOC",
-    "Airport name": "Aguas Claras Airport[1]",
+    "Airport name": "Aguas Claras Airport",
     "Location served": "Ocaña, Colombia",
     "Time": "",
     "DST": ""
@@ -44322,7 +44322,7 @@ module.exports = [
   {
     "IATA": "ODA",
     "ICAO": "FEFW",
-    "Airport name": "Ouadda Airport[1]",
+    "Airport name": "Ouadda Airport",
     "Location served": "Ouadda, Central African Republic",
     "Time": "",
     "DST": ""
@@ -44338,7 +44338,7 @@ module.exports = [
   {
     "IATA": "ODC",
     "ICAO": "",
-    "Airport name": "Oakdale Airport[1] (FAA: O27)",
+    "Airport name": "Oakdale Airport (FAA: O27)",
     "Location served": "Oakdale, California, United States",
     "Time": "",
     "DST": ""
@@ -44346,7 +44346,7 @@ module.exports = [
   {
     "IATA": "ODD",
     "ICAO": "YOOD",
-    "Airport name": "Oodnadatta Airport[1]",
+    "Airport name": "Oodnadatta Airport",
     "Location served": "Oodnadatta, South Australia, Australia",
     "Time": "",
     "DST": ""
@@ -44370,7 +44370,7 @@ module.exports = [
   {
     "IATA": "ODJ",
     "ICAO": "FEGO",
-    "Airport name": "Ouanda Djallé Airport[1]",
+    "Airport name": "Ouanda Djallé Airport",
     "Location served": "Ouanda Djallé, Central African Republic",
     "Time": "",
     "DST": ""
@@ -44378,7 +44378,7 @@ module.exports = [
   {
     "IATA": "ODL",
     "ICAO": "",
-    "Airport name": "Cordillo Downs Airport[1]",
+    "Airport name": "Cordillo Downs Airport",
     "Location served": "Cordillo Downs, South Australia, Australia",
     "Time": "",
     "DST": ""
@@ -44386,7 +44386,7 @@ module.exports = [
   {
     "IATA": "ODM",
     "ICAO": "",
-    "Airport name": "Garrett County Airport[1] (FAA: 2G4)",
+    "Airport name": "Garrett County Airport (FAA: 2G4)",
     "Location served": "Oakland, Maryland, United States",
     "Time": "",
     "DST": ""
@@ -44394,7 +44394,7 @@ module.exports = [
   {
     "IATA": "ODN",
     "ICAO": "WBGI",
-    "Airport name": "Long Seridan Airport[1]",
+    "Airport name": "Long Seridan Airport",
     "Location served": "Long Seridan, Sarawak, Malaysia",
     "Time": "",
     "DST": ""
@@ -44402,7 +44402,7 @@ module.exports = [
   {
     "IATA": "ODO",
     "ICAO": "UIKB",
-    "Airport name": "Bodaybo Airport[1]",
+    "Airport name": "Bodaybo Airport",
     "Location served": "Bodaybo, Irkutsk Oblast, Russia",
     "Time": "",
     "DST": ""
@@ -44410,7 +44410,7 @@ module.exports = [
   {
     "IATA": "ODR",
     "ICAO": "YORV",
-    "Airport name": "Ord River Airport[1]",
+    "Airport name": "Ord River Airport",
     "Location served": "Ord River, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -44498,7 +44498,7 @@ module.exports = [
   {
     "IATA": "OFI",
     "ICAO": "DIOF",
-    "Airport name": "Ouango Fitini Airport[1]",
+    "Airport name": "Ouango Fitini Airport",
     "Location served": "Ouango Fitini, Ivory Coast",
     "Time": "",
     "DST": ""
@@ -44506,7 +44506,7 @@ module.exports = [
   {
     "IATA": "OFJ",
     "ICAO": "BIOF",
-    "Airport name": "Ólafsfjörður Airport[1]",
+    "Airport name": "Ólafsfjörður Airport",
     "Location served": "Ólafsfjörður, Iceland",
     "Time": "",
     "DST": ""
@@ -44554,7 +44554,7 @@ module.exports = [
   {
     "IATA": "OGE",
     "ICAO": "",
-    "Airport name": "Ogeramnang Airport[1]",
+    "Airport name": "Ogeramnang Airport",
     "Location served": "Ogeramnang, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -44578,7 +44578,7 @@ module.exports = [
   {
     "IATA": "OGM",
     "ICAO": "",
-    "Airport name": "Ustupu-Ogobsucum Airport[1]",
+    "Airport name": "Ustupu-Ogobsucum Airport",
     "Location served": "Ustupo, Panama",
     "Time": "",
     "DST": ""
@@ -44594,7 +44594,7 @@ module.exports = [
   {
     "IATA": "OGO",
     "ICAO": "DIAU",
-    "Airport name": "Abengourou Airport[1]",
+    "Airport name": "Abengourou Airport",
     "Location served": "Abengourou, Ivory Coast",
     "Time": "",
     "DST": ""
@@ -44626,7 +44626,7 @@ module.exports = [
   {
     "IATA": "OGV",
     "ICAO": "FYNG",
-    "Airport name": "Ongava Airstrip[1]",
+    "Airport name": "Ongava Airstrip",
     "Location served": "Ongava, Namibia",
     "Time": "",
     "DST": ""
@@ -44650,7 +44650,7 @@ module.exports = [
   {
     "IATA": "OHA",
     "ICAO": "NZOH",
-    "Airport name": "RNZAF Base Ohakea[1]",
+    "Airport name": "RNZAF Base Ohakea",
     "Location served": "Bulls, New Zealand",
     "Time": "",
     "DST": ""
@@ -44658,7 +44658,7 @@ module.exports = [
   {
     "IATA": "OHB",
     "ICAO": "",
-    "Airport name": "Ambohibary Airport[1]",
+    "Airport name": "Ambohibary Airport",
     "Location served": "Moramanga, Madagascar",
     "Time": "",
     "DST": ""
@@ -44690,7 +44690,7 @@ module.exports = [
   {
     "IATA": "OHI",
     "ICAO": "FYOS",
-    "Airport name": "Oshakati Airport[1]",
+    "Airport name": "Oshakati Airport",
     "Location served": "Oshakati, Namibia",
     "Time": "",
     "DST": ""
@@ -44706,7 +44706,7 @@ module.exports = [
   {
     "IATA": "OHR",
     "ICAO": "EDXY",
-    "Airport name": "Wyk auf Föhr Airport[1]",
+    "Airport name": "Wyk auf Föhr Airport",
     "Location served": "Wyk auf Föhr, Schleswig-Holstein, Germany",
     "Time": "",
     "DST": ""
@@ -44714,7 +44714,7 @@ module.exports = [
   {
     "IATA": "OHS",
     "ICAO": "OOSH",
-    "Airport name": "Sohar Airport[1]",
+    "Airport name": "Sohar Airport",
     "Location served": "Sohar, Oman",
     "Time": "",
     "DST": ""
@@ -44730,7 +44730,7 @@ module.exports = [
   {
     "IATA": "OIA",
     "ICAO": "SDOW",
-    "Airport name": "Ourilândia do Norte Airport[1]",
+    "Airport name": "Ourilândia do Norte Airport",
     "Location served": "Ourilândia do Norte, Pará, Brazil",
     "Time": "",
     "DST": ""
@@ -44746,7 +44746,7 @@ module.exports = [
   {
     "IATA": "OIM",
     "ICAO": "RJTO",
-    "Airport name": "Oshima Airport[1]",
+    "Airport name": "Oshima Airport",
     "Location served": "Ōshima, Izu Islands, Japan",
     "Time": "",
     "DST": ""
@@ -44810,7 +44810,7 @@ module.exports = [
   {
     "IATA": "OKD",
     "ICAO": "RJCO",
-    "Airport name": "Okadama Airport[1]",
+    "Airport name": "Okadama Airport",
     "Location served": "Sapporo, Hokkaido, Japan",
     "Time": "",
     "DST": ""
@@ -44818,7 +44818,7 @@ module.exports = [
   {
     "IATA": "OKE",
     "ICAO": "RJKB",
-    "Airport name": "Okinoerabu Airport[1]",
+    "Airport name": "Okinoerabu Airport",
     "Location served": "Okinoerabujima, Amami Islands, Japan",
     "Time": "",
     "DST": ""
@@ -44826,7 +44826,7 @@ module.exports = [
   {
     "IATA": "OKF",
     "ICAO": "FYOO",
-    "Airport name": "Okaukuejo Airport[1]",
+    "Airport name": "Okaukuejo Airport",
     "Location served": "Okaukuejo, Namibia",
     "Time": "",
     "DST": ""
@@ -44834,7 +44834,7 @@ module.exports = [
   {
     "IATA": "OKG",
     "ICAO": "",
-    "Airport name": "Okoyo Airport[1]",
+    "Airport name": "Okoyo Airport",
     "Location served": "Okoyo, Republic of the Congo",
     "Time": "",
     "DST": ""
@@ -44850,7 +44850,7 @@ module.exports = [
   {
     "IATA": "OKI",
     "ICAO": "RJNO",
-    "Airport name": "Oki Airport[1]",
+    "Airport name": "Oki Airport",
     "Location served": "Dogo, Oki Islands, Japan",
     "Time": "",
     "DST": ""
@@ -44890,7 +44890,7 @@ module.exports = [
   {
     "IATA": "OKN",
     "ICAO": "FOGQ",
-    "Airport name": "Okondja Airport[1]",
+    "Airport name": "Okondja Airport",
     "Location served": "Okondja, Gabon",
     "Time": "",
     "DST": ""
@@ -44898,7 +44898,7 @@ module.exports = [
   {
     "IATA": "OKO",
     "ICAO": "RJTY",
-    "Airport name": "Yokota Air Base[1]",
+    "Airport name": "Yokota Air Base",
     "Location served": "Fussa, Honshu, Japan",
     "Time": "",
     "DST": ""
@@ -44906,7 +44906,7 @@ module.exports = [
   {
     "IATA": "OKP",
     "ICAO": "AYOJ",
-    "Airport name": "Oksapmin Airport[1]",
+    "Airport name": "Oksapmin Airport",
     "Location served": "Oksapmin, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -44914,7 +44914,7 @@ module.exports = [
   {
     "IATA": "OKQ",
     "ICAO": "WAKO",
-    "Airport name": "Okaba Airport[1]",
+    "Airport name": "Okaba Airport",
     "Location served": "Okaba, Indonesia",
     "Time": "",
     "DST": ""
@@ -44922,7 +44922,7 @@ module.exports = [
   {
     "IATA": "OKR",
     "ICAO": "YYKI",
-    "Airport name": "Yorke Island Airport[1]",
+    "Airport name": "Yorke Island Airport",
     "Location served": "Yorke Island, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -44946,7 +44946,7 @@ module.exports = [
   {
     "IATA": "OKU",
     "ICAO": "FYMO",
-    "Airport name": "Mokuti Lodge Airport[1]",
+    "Airport name": "Mokuti Lodge Airport",
     "Location served": "Mokuti Lodge, Namibia",
     "Time": "",
     "DST": ""
@@ -44954,7 +44954,7 @@ module.exports = [
   {
     "IATA": "OKV",
     "ICAO": "",
-    "Airport name": "Okao Airport[1]",
+    "Airport name": "Okao Airport",
     "Location served": "Okao, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -44962,7 +44962,7 @@ module.exports = [
   {
     "IATA": "OKY",
     "ICAO": "YBOK",
-    "Airport name": "Oakey Army Aviation Centre[1]",
+    "Airport name": "Oakey Army Aviation Centre",
     "Location served": "Oakey, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -44970,7 +44970,7 @@ module.exports = [
   {
     "IATA": "OLA",
     "ICAO": "ENOL",
-    "Airport name": "Ørland Airport[1]",
+    "Airport name": "Ørland Airport",
     "Location served": "Ørland, Norway",
     "Time": "",
     "DST": ""
@@ -44986,7 +44986,7 @@ module.exports = [
   {
     "IATA": "OLC",
     "ICAO": "SDCG",
-    "Airport name": "Senadora Eunice Michiles Airport[1]",
+    "Airport name": "Senadora Eunice Michiles Airport",
     "Location served": "São Paulo de Olivença, Amazonas, Brazil",
     "Time": "",
     "DST": ""
@@ -45026,7 +45026,7 @@ module.exports = [
   {
     "IATA": "OLI",
     "ICAO": "BIRF",
-    "Airport name": "Rif Airport[1]",
+    "Airport name": "Rif Airport",
     "Location served": "Ólafsvík, Iceland",
     "Time": "",
     "DST": ""
@@ -45034,7 +45034,7 @@ module.exports = [
   {
     "IATA": "OLJ",
     "ICAO": "NVSZ",
-    "Airport name": "Olpoi Airport[1] (North West Santo Airport)",
+    "Airport name": "Olpoi Airport (North West Santo Airport)",
     "Location served": "Olpoi, Vanuatu",
     "Time": "",
     "DST": ""
@@ -45066,7 +45066,7 @@ module.exports = [
   {
     "IATA": "OLN",
     "ICAO": "SAVM",
-    "Airport name": "Lago Musters Airport[1]",
+    "Airport name": "Lago Musters Airport",
     "Location served": "Sarmiento, Chubut, Argentina",
     "Time": "",
     "DST": ""
@@ -45082,7 +45082,7 @@ module.exports = [
   {
     "IATA": "OLP",
     "ICAO": "YOLD",
-    "Airport name": "Olympic Dam Airport[1]",
+    "Airport name": "Olympic Dam Airport",
     "Location served": "Olympic Dam, South Australia, Australia",
     "Time": "",
     "DST": ""
@@ -45090,7 +45090,7 @@ module.exports = [
   {
     "IATA": "OLQ",
     "ICAO": "",
-    "Airport name": "Olsobip Airport[1]",
+    "Airport name": "Olsobip Airport",
     "Location served": "Olsobip, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -45130,7 +45130,7 @@ module.exports = [
   {
     "IATA": "OLX",
     "ICAO": "",
-    "Airport name": "Olkiombo Airstrip[1]",
+    "Airport name": "Olkiombo Airstrip",
     "Location served": "Olkiombo, Kenya",
     "Time": "",
     "DST": ""
@@ -45162,7 +45162,7 @@ module.exports = [
   {
     "IATA": "OMB",
     "ICAO": "FOOH",
-    "Airport name": "Omboué Hospital Airport[1]",
+    "Airport name": "Omboué Hospital Airport",
     "Location served": "Omboué, Gabon",
     "Time": "",
     "DST": ""
@@ -45178,7 +45178,7 @@ module.exports = [
   {
     "IATA": "OMD",
     "ICAO": "FYOG",
-    "Airport name": "Oranjemund Airport[1]",
+    "Airport name": "Oranjemund Airport",
     "Location served": "Oranjemund, Namibia",
     "Time": "",
     "DST": ""
@@ -45202,7 +45202,7 @@ module.exports = [
   {
     "IATA": "OMG",
     "ICAO": "FYOE",
-    "Airport name": "Omega Airport[1]",
+    "Airport name": "Omega Airport",
     "Location served": "Omega, Namibia",
     "Time": "",
     "DST": ""
@@ -45210,7 +45210,7 @@ module.exports = [
   {
     "IATA": "OMH",
     "ICAO": "OITR",
-    "Airport name": "Urmia Airport[1]",
+    "Airport name": "Urmia Airport",
     "Location served": "Urmia (Urūmiyeh), Iran",
     "Time": "",
     "DST": ""
@@ -45226,7 +45226,7 @@ module.exports = [
   {
     "IATA": "OMJ",
     "ICAO": "RJDU",
-    "Airport name": "Ōmura Airport[1]",
+    "Airport name": "Ōmura Airport",
     "Location served": "Nagasaki / Ōmura, Kyushu, Japan",
     "Time": "",
     "DST": ""
@@ -45242,7 +45242,7 @@ module.exports = [
   {
     "IATA": "OML",
     "ICAO": "",
-    "Airport name": "Omkalai Airport[1]",
+    "Airport name": "Omkalai Airport",
     "Location served": "Omkalai, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -45250,7 +45250,7 @@ module.exports = [
   {
     "IATA": "OMM",
     "ICAO": "OOMX",
-    "Airport name": "Marmul Airport[1]",
+    "Airport name": "Marmul Airport",
     "Location served": "Marmul, Oman",
     "Time": "",
     "DST": ""
@@ -45282,7 +45282,7 @@ module.exports = [
   {
     "IATA": "OMY",
     "ICAO": "",
-    "Airport name": "Thbeng Meanchey Airport[1] (Preah Vinhear Airport)",
+    "Airport name": "Thbeng Meanchey Airport (Preah Vinhear Airport)",
     "Location served": "Phnom Tbeng Meanchey, Cambodia",
     "Time": "",
     "DST": ""
@@ -45298,7 +45298,7 @@ module.exports = [
   {
     "IATA": "ONB",
     "ICAO": "AYQQ",
-    "Airport name": "Ononge Airport[1]",
+    "Airport name": "Ononge Airport",
     "Location served": "Ononge, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -45306,7 +45306,7 @@ module.exports = [
   {
     "IATA": "OND",
     "ICAO": "FYOA",
-    "Airport name": "Ondangwa Airport[1]",
+    "Airport name": "Ondangwa Airport",
     "Location served": "Ondangwa, Namibia",
     "Time": "",
     "DST": ""
@@ -45314,7 +45314,7 @@ module.exports = [
   {
     "IATA": "ONE",
     "ICAO": "",
-    "Airport name": "Onepusu Airport[1]",
+    "Airport name": "Onepusu Airport",
     "Location served": "Onepusu, Solomon Islands",
     "Time": "",
     "DST": ""
@@ -45322,7 +45322,7 @@ module.exports = [
   {
     "IATA": "ONG",
     "ICAO": "YMTI",
-    "Airport name": "Mornington Island Airport[1]",
+    "Airport name": "Mornington Island Airport",
     "Location served": "Mornington Island, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -45338,7 +45338,7 @@ module.exports = [
   {
     "IATA": "ONI",
     "ICAO": "WABD",
-    "Airport name": "Moanamani Airport[1]",
+    "Airport name": "Moanamani Airport",
     "Location served": "Moanemani (Moanamani), Indonesia",
     "Time": "",
     "DST": ""
@@ -45402,7 +45402,7 @@ module.exports = [
   {
     "IATA": "ONR",
     "ICAO": "YMNK",
-    "Airport name": "Monkira Airport[1]",
+    "Airport name": "Monkira Airport",
     "Location served": "Monkira, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -45410,7 +45410,7 @@ module.exports = [
   {
     "IATA": "ONS",
     "ICAO": "YOLW",
-    "Airport name": "Onslow Airport[1]",
+    "Airport name": "Onslow Airport",
     "Location served": "Onslow, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -45426,7 +45426,7 @@ module.exports = [
   {
     "IATA": "ONU",
     "ICAO": "NFOL",
-    "Airport name": "Ono-i-Lau Airport[1]",
+    "Airport name": "Ono-i-Lau Airport",
     "Location served": "Ono-i-Lau, Fiji",
     "Time": "",
     "DST": ""
@@ -45474,7 +45474,7 @@ module.exports = [
   {
     "IATA": "OOM",
     "ICAO": "YCOM",
-    "Airport name": "Cooma–Snowy Mountains Airport[1]",
+    "Airport name": "Cooma–Snowy Mountains Airport",
     "Location served": "Cooma, New South Wales, Australia",
     "Time": "",
     "DST": ""
@@ -45482,7 +45482,7 @@ module.exports = [
   {
     "IATA": "OOR",
     "ICAO": "YMOO",
-    "Airport name": "Mooraberree Airport[1]",
+    "Airport name": "Mooraberree Airport",
     "Location served": "Mooraberree, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -45490,7 +45490,7 @@ module.exports = [
   {
     "IATA": "OOT",
     "ICAO": "NGON",
-    "Airport name": "Onotoa Airport[1]",
+    "Airport name": "Onotoa Airport",
     "Location served": "Onotoa, Kiribati",
     "Time": "",
     "DST": ""
@@ -45498,7 +45498,7 @@ module.exports = [
   {
     "IATA": "OPA",
     "ICAO": "BIKP",
-    "Airport name": "Kópasker Airport[1]",
+    "Airport name": "Kópasker Airport",
     "Location served": "Kópasker, Iceland",
     "Time": "",
     "DST": ""
@@ -45506,7 +45506,7 @@ module.exports = [
   {
     "IATA": "OPB",
     "ICAO": "",
-    "Airport name": "Open Bay Airport[1]",
+    "Airport name": "Open Bay Airport",
     "Location served": "Open Bay, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -45522,7 +45522,7 @@ module.exports = [
   {
     "IATA": "OPI",
     "ICAO": "YOEN",
-    "Airport name": "Oenpelli Airport[1]",
+    "Airport name": "Oenpelli Airport",
     "Location served": "Gunbalanya (Oenpelli), Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -45554,7 +45554,7 @@ module.exports = [
   {
     "IATA": "OPU",
     "ICAO": "AYBM",
-    "Airport name": "Balimo Airport[1]",
+    "Airport name": "Balimo Airport",
     "Location served": "Balimo, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -45562,7 +45562,7 @@ module.exports = [
   {
     "IATA": "OPW",
     "ICAO": "FYOP",
-    "Airport name": "Opuwa Airport[1]",
+    "Airport name": "Opuwa Airport",
     "Location served": "Opuwo, Namibia",
     "Time": "",
     "DST": ""
@@ -45586,7 +45586,7 @@ module.exports = [
   {
     "IATA": "ORC",
     "ICAO": "SKOE",
-    "Airport name": "Orocue Airport[1]",
+    "Airport name": "Orocue Airport",
     "Location served": "Orocué, Colombia",
     "Time": "",
     "DST": ""
@@ -45602,7 +45602,7 @@ module.exports = [
   {
     "IATA": "ORE",
     "ICAO": "LFOZ",
-    "Airport name": "Orléans – Saint-Denis-de-l'Hôtel Airport[1]",
+    "Airport name": "Orléans – Saint-Denis-de-l'Hôtel Airport",
     "Location served": "Orléans, Centre-Val de Loire, France",
     "Time": "",
     "DST": ""
@@ -45682,7 +45682,7 @@ module.exports = [
   {
     "IATA": "ORO",
     "ICAO": "MHYR",
-    "Airport name": "Yoro Airport[1]",
+    "Airport name": "Yoro Airport",
     "Location served": "Yoro, Honduras",
     "Time": "",
     "DST": ""
@@ -45690,7 +45690,7 @@ module.exports = [
   {
     "IATA": "ORP",
     "ICAO": "FBOR",
-    "Airport name": "Orapa Airport[1]",
+    "Airport name": "Orapa Airport",
     "Location served": "Orapa, Botswana",
     "Time": "",
     "DST": ""
@@ -45738,7 +45738,7 @@ module.exports = [
   {
     "IATA": "ORW",
     "ICAO": "OPOR",
-    "Airport name": "Ormara Airport[1]",
+    "Airport name": "Ormara Airport",
     "Location served": "Ormara, Pakistan",
     "Time": "",
     "DST": ""
@@ -45746,7 +45746,7 @@ module.exports = [
   {
     "IATA": "ORX",
     "ICAO": "SNOX",
-    "Airport name": "Oriximiná Airport[1]",
+    "Airport name": "Oriximiná Airport",
     "Location served": "Oriximiná, Pará, Brazil",
     "Time": "",
     "DST": ""
@@ -45762,7 +45762,7 @@ module.exports = [
   {
     "IATA": "ORZ",
     "ICAO": "",
-    "Airport name": "Orange Walk Airport[1]",
+    "Airport name": "Orange Walk Airport",
     "Location served": "Orange Walk Town, Belize",
     "Time": "",
     "DST": ""
@@ -45802,7 +45802,7 @@ module.exports = [
   {
     "IATA": "OSE",
     "ICAO": "",
-    "Airport name": "Omora Airport[1]",
+    "Airport name": "Omora Airport",
     "Location served": "Omora, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -45818,7 +45818,7 @@ module.exports = [
   {
     "IATA": "OSG",
     "ICAO": "",
-    "Airport name": "Ossima Airport[1]",
+    "Airport name": "Ossima Airport",
     "Location served": "Ossima, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -45858,7 +45858,7 @@ module.exports = [
   {
     "IATA": "OSM",
     "ICAO": "ORBM",
-    "Airport name": "Mosul International Airport[1]",
+    "Airport name": "Mosul International Airport",
     "Location served": "Mosul, Iraq",
     "Time": "",
     "DST": ""
@@ -45866,7 +45866,7 @@ module.exports = [
   {
     "IATA": "OSN",
     "ICAO": "RKSO",
-    "Airport name": "Osan Air Base[1]",
+    "Airport name": "Osan Air Base",
     "Location served": "Osan, South Korea",
     "Time": "",
     "DST": ""
@@ -45874,7 +45874,7 @@ module.exports = [
   {
     "IATA": "OSO",
     "ICAO": "YOSB",
-    "Airport name": "Osborne Mine Airport[1]",
+    "Airport name": "Osborne Mine Airport",
     "Location served": "Osborne Mine, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -45938,7 +45938,7 @@ module.exports = [
   {
     "IATA": "OSZ",
     "ICAO": "EPKZ",
-    "Airport name": "Koszalin-Zegrze Pomorskie Airport[1]",
+    "Airport name": "Koszalin-Zegrze Pomorskie Airport",
     "Location served": "Koszalin, Poland",
     "Time": "",
     "DST": ""
@@ -45946,7 +45946,7 @@ module.exports = [
   {
     "IATA": "OTA",
     "ICAO": "",
-    "Airport name": "Mota Airport[1]",
+    "Airport name": "Mota Airport",
     "Location served": "Mota, Ethiopia",
     "Time": "",
     "DST": ""
@@ -45986,7 +45986,7 @@ module.exports = [
   {
     "IATA": "OTI",
     "ICAO": "WAMR",
-    "Airport name": "Pitu Airport[1]",
+    "Airport name": "Pitu Airport",
     "Location served": "Morotai Island, Indonesia",
     "Time": "",
     "DST": ""
@@ -45994,7 +45994,7 @@ module.exports = [
   {
     "IATA": "OTJ",
     "ICAO": "FYOW",
-    "Airport name": "Otjiwarongo Airport[1]",
+    "Airport name": "Otjiwarongo Airport",
     "Location served": "Otjiwarongo, Namibia",
     "Time": "",
     "DST": ""
@@ -46002,7 +46002,7 @@ module.exports = [
   {
     "IATA": "OTK",
     "ICAO": "KTMK",
-    "Airport name": "Tillamook Airport[1] (FAA: TMK)",
+    "Airport name": "Tillamook Airport (FAA: TMK)",
     "Location served": "Tillamook, Oregon, United States",
     "Time": "",
     "DST": ""
@@ -46058,7 +46058,7 @@ module.exports = [
   {
     "IATA": "OTT",
     "ICAO": "",
-    "Airport name": "Andre Maggi Airport[1]",
+    "Airport name": "Andre Maggi Airport",
     "Location served": "Cotriguaçu, Mato Grosso, Brazil",
     "Time": "",
     "DST": ""
@@ -46066,7 +46066,7 @@ module.exports = [
   {
     "IATA": "OTU",
     "ICAO": "SKOT",
-    "Airport name": "Otú Airport[1]",
+    "Airport name": "Otú Airport",
     "Location served": "Remedios, Colombia",
     "Time": "",
     "DST": ""
@@ -46074,7 +46074,7 @@ module.exports = [
   {
     "IATA": "OTV",
     "ICAO": "AGGQ",
-    "Airport name": "Ontong Java Airport[1]",
+    "Airport name": "Ontong Java Airport",
     "Location served": "Ontong Java Atoll, Solomon Islands",
     "Time": "",
     "DST": ""
@@ -46082,7 +46082,7 @@ module.exports = [
   {
     "IATA": "OTY",
     "ICAO": "",
-    "Airport name": "Oria Airport[1]",
+    "Airport name": "Oria Airport",
     "Location served": "Oria, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -46114,7 +46114,7 @@ module.exports = [
   {
     "IATA": "OUE",
     "ICAO": "FCOU",
-    "Airport name": "Ouésso Airport[1]",
+    "Airport name": "Ouésso Airport",
     "Location served": "Ouésso, Republic of the Congo",
     "Time": "",
     "DST": ""
@@ -46130,7 +46130,7 @@ module.exports = [
   {
     "IATA": "OUH",
     "ICAO": "FAOH",
-    "Airport name": "Oudtshoorn Airport[1]",
+    "Airport name": "Oudtshoorn Airport",
     "Location served": "Oudtshoorn, South Africa",
     "Time": "",
     "DST": ""
@@ -46138,7 +46138,7 @@ module.exports = [
   {
     "IATA": "OUK",
     "ICAO": "",
-    "Airport name": "Out Skerries Airport[1]",
+    "Airport name": "Out Skerries Airport",
     "Location served": "Out Skerries, Scotland, United Kingdom",
     "Time": "",
     "DST": ""
@@ -46178,7 +46178,7 @@ module.exports = [
   {
     "IATA": "OUS",
     "ICAO": "SDOU",
-    "Airport name": "Jornalista Benedito Pimentel–Ourinhos State Airport[1]",
+    "Airport name": "Jornalista Benedito Pimentel–Ourinhos State Airport",
     "Location served": "Ourinhos, São Paulo, Brazil",
     "Time": "",
     "DST": ""
@@ -46194,7 +46194,7 @@ module.exports = [
   {
     "IATA": "OUU",
     "ICAO": "",
-    "Airport name": "Ouanga Airport[1]",
+    "Airport name": "Ouanga Airport",
     "Location served": "Ouanga, Gabon",
     "Time": "",
     "DST": ""
@@ -46210,7 +46210,7 @@ module.exports = [
   {
     "IATA": "OVA",
     "ICAO": "FMSL",
-    "Airport name": "Bekily Airport[1]",
+    "Airport name": "Bekily Airport",
     "Location served": "Bekily, Madagascar",
     "Time": "",
     "DST": ""
@@ -46242,7 +46242,7 @@ module.exports = [
   {
     "IATA": "OVG",
     "ICAO": "FAOB",
-    "Airport name": "Air Force Base Overberg[1]",
+    "Airport name": "Air Force Base Overberg",
     "Location served": "Bredasdorp, South Africa",
     "Time": "",
     "DST": ""
@@ -46250,7 +46250,7 @@ module.exports = [
   {
     "IATA": "OVL",
     "ICAO": "SCOV",
-    "Airport name": "El Tuqui Airport[1]",
+    "Airport name": "El Tuqui Airport",
     "Location served": "Ovalle, Chile",
     "Time": "",
     "DST": ""
@@ -46298,7 +46298,7 @@ module.exports = [
   {
     "IATA": "OWE",
     "ICAO": "",
-    "Airport name": "Owendo Airport[1]",
+    "Airport name": "Owendo Airport",
     "Location served": "Owendo, Gabon",
     "Time": "",
     "DST": ""
@@ -46346,7 +46346,7 @@ module.exports = [
   {
     "IATA": "OXO",
     "ICAO": "",
-    "Airport name": "Orientos Airport[1]",
+    "Airport name": "Orientos Airport",
     "Location served": "Orientos, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -46362,7 +46362,7 @@ module.exports = [
   {
     "IATA": "OXY",
     "ICAO": "YMNY",
-    "Airport name": "Morney Airport[1]",
+    "Airport name": "Morney Airport",
     "Location served": "Morney, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -46370,7 +46370,7 @@ module.exports = [
   {
     "IATA": "OYA",
     "ICAO": "SATG",
-    "Airport name": "Goya Airport[1]",
+    "Airport name": "Goya Airport",
     "Location served": "Goya, Corrientes, Argentina",
     "Time": "",
     "DST": ""
@@ -46378,7 +46378,7 @@ module.exports = [
   {
     "IATA": "OYE",
     "ICAO": "FOGO",
-    "Airport name": "Oyem Airport[1]",
+    "Airport name": "Oyem Airport",
     "Location served": "Oyem, Gabon",
     "Time": "",
     "DST": ""
@@ -46386,7 +46386,7 @@ module.exports = [
   {
     "IATA": "OYG",
     "ICAO": "",
-    "Airport name": "Moyo Airport[1]",
+    "Airport name": "Moyo Airport",
     "Location served": "Moyo Town, Uganda",
     "Time": "",
     "DST": ""
@@ -46402,7 +46402,7 @@ module.exports = [
   {
     "IATA": "OYL",
     "ICAO": "HKMY",
-    "Airport name": "Moyale Airport[1]",
+    "Airport name": "Moyale Airport",
     "Location served": "Moyale, Kenya",
     "Time": "",
     "DST": ""
@@ -46410,7 +46410,7 @@ module.exports = [
   {
     "IATA": "OYN",
     "ICAO": "YOUY",
-    "Airport name": "Ouyen Airport[1]",
+    "Airport name": "Ouyen Airport",
     "Location served": "Ouyen, Victoria, Australia",
     "Time": "",
     "DST": ""
@@ -46426,7 +46426,7 @@ module.exports = [
   {
     "IATA": "OYP",
     "ICAO": "SOOG",
-    "Airport name": "Saint-Georges-de-l'Oyapock Airport[1]",
+    "Airport name": "Saint-Georges-de-l'Oyapock Airport",
     "Location served": "Saint-Georges-de-l'Oyapock, French Guiana",
     "Time": "",
     "DST": ""
@@ -46450,7 +46450,7 @@ module.exports = [
   {
     "IATA": "OZG",
     "ICAO": "GMAZ",
-    "Airport name": "Zagora Airport[1]",
+    "Airport name": "Zagora Airport",
     "Location served": "Zagora, Morocco",
     "Time": "",
     "DST": ""
@@ -46466,7 +46466,7 @@ module.exports = [
   {
     "IATA": "OZP",
     "ICAO": "LEMO",
-    "Airport name": "Morón Air Base[1]",
+    "Airport name": "Morón Air Base",
     "Location served": "Morón de la Frontera, Andalusia, Spain",
     "Time": "",
     "DST": ""
@@ -46490,7 +46490,7 @@ module.exports = [
   {
     "IATA": "PAA",
     "ICAO": "VYPA",
-    "Airport name": "Hpa-An Airport[1]",
+    "Airport name": "Hpa-An Airport",
     "Location served": "Hpa-An, Myanmar",
     "Time": "",
     "DST": ""
@@ -46554,7 +46554,7 @@ module.exports = [
   {
     "IATA": "PAJ",
     "ICAO": "OPPC",
-    "Airport name": "Parachinar Airport[1]",
+    "Airport name": "Parachinar Airport",
     "Location served": "Parachinar, Pakistan",
     "Time": "",
     "DST": ""
@@ -46570,7 +46570,7 @@ module.exports = [
   {
     "IATA": "PAL",
     "ICAO": "SKPQ",
-    "Airport name": "Captain Germán Olano Moreno Air Base[1]",
+    "Airport name": "Captain Germán Olano Moreno Air Base",
     "Location served": "Palanquero, Colombia",
     "Time": "",
     "DST": ""
@@ -46642,7 +46642,7 @@ module.exports = [
   {
     "IATA": "PAU",
     "ICAO": "VYPK",
-    "Airport name": "Pauk Airport[1]",
+    "Airport name": "Pauk Airport",
     "Location served": "Pauk, Myanmar",
     "Time": "",
     "DST": ""
@@ -46650,7 +46650,7 @@ module.exports = [
   {
     "IATA": "PAV",
     "ICAO": "SBUF",
-    "Airport name": "Paulo Afonso Airport[1]",
+    "Airport name": "Paulo Afonso Airport",
     "Location served": "Paulo Afonso, Bahia, Brazil",
     "Time": "",
     "DST": ""
@@ -46658,7 +46658,7 @@ module.exports = [
   {
     "IATA": "PAW",
     "ICAO": "",
-    "Airport name": "Pambwa Airport[1]",
+    "Airport name": "Pambwa Airport",
     "Location served": "Pambwa, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -46666,7 +46666,7 @@ module.exports = [
   {
     "IATA": "PAX",
     "ICAO": "MTPX",
-    "Airport name": "Port-de-Paix Airport[1]",
+    "Airport name": "Port-de-Paix Airport",
     "Location served": "Port-de-Paix, Haiti",
     "Time": "",
     "DST": ""
@@ -46674,7 +46674,7 @@ module.exports = [
   {
     "IATA": "PAY",
     "ICAO": "WBKP",
-    "Airport name": "Pamol Airport[1]",
+    "Airport name": "Pamol Airport",
     "Location served": "Pamol, Sabah, Malaysia",
     "Time": "",
     "DST": ""
@@ -46690,7 +46690,7 @@ module.exports = [
   {
     "IATA": "PBB",
     "ICAO": "SSPN",
-    "Airport name": "Paranaíba Airport[1]",
+    "Airport name": "Paranaíba Airport",
     "Location served": "Paranaíba, Mato Grosso do Sul, Brazil",
     "Time": "",
     "DST": ""
@@ -46706,7 +46706,7 @@ module.exports = [
   {
     "IATA": "PBD",
     "ICAO": "VAPR",
-    "Airport name": "Porbandar Airport[1]",
+    "Airport name": "Porbandar Airport",
     "Location served": "Porbandar, Gujarat, India",
     "Time": "",
     "DST": ""
@@ -46714,7 +46714,7 @@ module.exports = [
   {
     "IATA": "PBE",
     "ICAO": "SKPR",
-    "Airport name": "Morela Airport[1] (Puerto Berrío Airport)",
+    "Airport name": "Morela Airport (Puerto Berrío Airport)",
     "Location served": "Puerto Berrío, Colombia",
     "Time": "",
     "DST": ""
@@ -46754,7 +46754,7 @@ module.exports = [
   {
     "IATA": "PBJ",
     "ICAO": "NVSI",
-    "Airport name": "Paama Airport[1]",
+    "Airport name": "Paama Airport",
     "Location served": "Paama, Vanuatu",
     "Time": "",
     "DST": ""
@@ -46762,7 +46762,7 @@ module.exports = [
   {
     "IATA": "PBL",
     "ICAO": "SVPC",
-    "Airport name": "Bartolomé Salom Airport[1]",
+    "Airport name": "Bartolomé Salom Airport",
     "Location served": "Puerto Cabello, Venezuela",
     "Time": "",
     "DST": ""
@@ -46778,7 +46778,7 @@ module.exports = [
   {
     "IATA": "PBN",
     "ICAO": "FNPA",
-    "Airport name": "Porto Amboim Airport[1]",
+    "Airport name": "Porto Amboim Airport",
     "Location served": "Porto Amboim, Angola",
     "Time": "",
     "DST": ""
@@ -46802,7 +46802,7 @@ module.exports = [
   {
     "IATA": "PBQ",
     "ICAO": "SWPM",
-    "Airport name": "Pimenta Bueno Airport[1]",
+    "Airport name": "Pimenta Bueno Airport",
     "Location served": "Pimenta Bueno, Rondônia, Brazil",
     "Time": "",
     "DST": ""
@@ -46810,7 +46810,7 @@ module.exports = [
   {
     "IATA": "PBR",
     "ICAO": "MGPB",
-    "Airport name": "Puerto Barrios Airport[1]",
+    "Airport name": "Puerto Barrios Airport",
     "Location served": "Puerto Barrios, Guatemala",
     "Time": "",
     "DST": ""
@@ -46818,7 +46818,7 @@ module.exports = [
   {
     "IATA": "PBT",
     "ICAO": "",
-    "Airport name": "Puerto Leda Airport[1]",
+    "Airport name": "Puerto Leda Airport",
     "Location served": "Puerto Leda, Paraguay",
     "Time": "",
     "DST": ""
@@ -46826,7 +46826,7 @@ module.exports = [
   {
     "IATA": "PBU",
     "ICAO": "VYPT",
-    "Airport name": "Putao Airport[1]",
+    "Airport name": "Putao Airport",
     "Location served": "Putao, Myanmar",
     "Time": "",
     "DST": ""
@@ -46850,7 +46850,7 @@ module.exports = [
   {
     "IATA": "PBZ",
     "ICAO": "FAPG",
-    "Airport name": "Plettenberg Bay Airport[1]",
+    "Airport name": "Plettenberg Bay Airport",
     "Location served": "Plettenberg Bay, South Africa",
     "Time": "",
     "DST": ""
@@ -46866,7 +46866,7 @@ module.exports = [
   {
     "IATA": "PCB",
     "ICAO": "WIHP",
-    "Airport name": "Pondok Cabe Airport[1]",
+    "Airport name": "Pondok Cabe Airport",
     "Location served": "South Tangerang, Indonesia",
     "Time": "",
     "DST": ""
@@ -46874,7 +46874,7 @@ module.exports = [
   {
     "IATA": "PCC",
     "ICAO": "",
-    "Airport name": "Puerto Rico Airport[1]",
+    "Airport name": "Puerto Rico Airport",
     "Location served": "Puerto Rico, Colombia",
     "Time": "",
     "DST": ""
@@ -46890,7 +46890,7 @@ module.exports = [
   {
     "IATA": "PCF",
     "ICAO": "FAPS",
-    "Airport name": "Potchefstroom Airport[1]",
+    "Airport name": "Potchefstroom Airport",
     "Location served": "Potchefstroom, South Africa",
     "Time": "",
     "DST": ""
@@ -46898,7 +46898,7 @@ module.exports = [
   {
     "IATA": "PCH",
     "ICAO": "MHPC",
-    "Airport name": "Palacios Airport[1]",
+    "Airport name": "Palacios Airport",
     "Location served": "Palacios, Honduras",
     "Time": "",
     "DST": ""
@@ -46906,7 +46906,7 @@ module.exports = [
   {
     "IATA": "PCJ",
     "ICAO": "",
-    "Airport name": "Puerto La Victoria Airport[1]",
+    "Airport name": "Puerto La Victoria Airport",
     "Location served": "Puerto Casado (La Victoria), Paraguay",
     "Time": "",
     "DST": ""
@@ -46938,7 +46938,7 @@ module.exports = [
   {
     "IATA": "PCO",
     "ICAO": "MMPL",
-    "Airport name": "Punta Colorada Airstrip[1]",
+    "Airport name": "Punta Colorada Airstrip",
     "Location served": "La Ribera, Baja California Sur, Mexico",
     "Time": "",
     "DST": ""
@@ -46946,7 +46946,7 @@ module.exports = [
   {
     "IATA": "PCP",
     "ICAO": "FPPR",
-    "Airport name": "Príncipe Airport[1]",
+    "Airport name": "Príncipe Airport",
     "Location served": "Príncipe Island, São Tomé and Príncipe",
     "Time": "",
     "DST": ""
@@ -46954,7 +46954,7 @@ module.exports = [
   {
     "IATA": "PCQ",
     "ICAO": "",
-    "Airport name": "Boun Neua Airport[1]",
+    "Airport name": "Boun Neua Airport",
     "Location served": "Phongsaly, Laos",
     "Time": "",
     "DST": ""
@@ -46970,7 +46970,7 @@ module.exports = [
   {
     "IATA": "PCS",
     "ICAO": "SNPC",
-    "Airport name": "Picos Airport[1]",
+    "Airport name": "Picos Airport",
     "Location served": "Picos, Piauí, Brazil",
     "Time": "",
     "DST": ""
@@ -46986,7 +46986,7 @@ module.exports = [
   {
     "IATA": "PCU",
     "ICAO": "",
-    "Airport name": "Poplarville-Pearl River County Airport[1] (FAA: M13)",
+    "Airport name": "Poplarville-Pearl River County Airport (FAA: M13)",
     "Location served": "Poplarville, Mississippi, United States",
     "Time": "",
     "DST": ""
@@ -46994,7 +46994,7 @@ module.exports = [
   {
     "IATA": "PCV",
     "ICAO": "",
-    "Airport name": "Punta Chivato Airstrip[1]",
+    "Airport name": "Punta Chivato Airstrip",
     "Location served": "Punta Chivato, Baja California Sur, Mexico",
     "Time": "",
     "DST": ""
@@ -47026,7 +47026,7 @@ module.exports = [
   {
     "IATA": "PDD",
     "ICAO": "FQPO",
-    "Airport name": "Ponta do Ouro Airport[1]",
+    "Airport name": "Ponta do Ouro Airport",
     "Location served": "Ponta do Ouro, Mozambique",
     "Time": "",
     "DST": ""
@@ -47034,7 +47034,7 @@ module.exports = [
   {
     "IATA": "PDE",
     "ICAO": "YPDI",
-    "Airport name": "Pandie Pandie Airport[1]",
+    "Airport name": "Pandie Pandie Airport",
     "Location served": "Pandie Pandie Station, South Australia, Australia",
     "Time": "",
     "DST": ""
@@ -47042,7 +47042,7 @@ module.exports = [
   {
     "IATA": "PDF",
     "ICAO": "SIAJ",
-    "Airport name": "Faz Taua Airport[1]",
+    "Airport name": "Faz Taua Airport",
     "Location served": "Prado, Bahia, Brazil",
     "Time": "",
     "DST": ""
@@ -47058,7 +47058,7 @@ module.exports = [
   {
     "IATA": "PDI",
     "ICAO": "",
-    "Airport name": "Pindiu Airport[1]",
+    "Airport name": "Pindiu Airport",
     "Location served": "Pindiu, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -47082,7 +47082,7 @@ module.exports = [
   {
     "IATA": "PDM",
     "ICAO": "",
-    "Airport name": "Pedasí Airport[1] (Capt. J. Montenegro Airport)",
+    "Airport name": "Pedasí Airport (Capt. J. Montenegro Airport)",
     "Location served": "Pedasí, Panama",
     "Time": "",
     "DST": ""
@@ -47090,7 +47090,7 @@ module.exports = [
   {
     "IATA": "PDN",
     "ICAO": "",
-    "Airport name": "Parndana Airport[1]",
+    "Airport name": "Parndana Airport",
     "Location served": "Parndana, South Australia, Australia",
     "Time": "",
     "DST": ""
@@ -47098,7 +47098,7 @@ module.exports = [
   {
     "IATA": "PDO",
     "ICAO": "WIPQ",
-    "Airport name": "Pendopo Airport[1]",
+    "Airport name": "Pendopo Airport",
     "Location served": "Pendopo, Indonesia",
     "Time": "",
     "DST": ""
@@ -47114,7 +47114,7 @@ module.exports = [
   {
     "IATA": "PDR",
     "ICAO": "",
-    "Airport name": "Presidente Dutra Airport[1]",
+    "Airport name": "Presidente Dutra Airport",
     "Location served": "Presidente Dutra, Maranhão, Brazil",
     "Time": "",
     "DST": ""
@@ -47162,7 +47162,7 @@ module.exports = [
   {
     "IATA": "PDZ",
     "ICAO": "SVPE",
-    "Airport name": "Pedernales Airport[1]",
+    "Airport name": "Pedernales Airport",
     "Location served": "Pedernales, Venezuela",
     "Time": "",
     "DST": ""
@@ -47170,7 +47170,7 @@ module.exports = [
   {
     "IATA": "PEA",
     "ICAO": "YPSH",
-    "Airport name": "Penneshaw Airport[1]",
+    "Airport name": "Penneshaw Airport",
     "Location served": "Penneshaw, South Australia, Australia",
     "Time": "",
     "DST": ""
@@ -47178,7 +47178,7 @@ module.exports = [
   {
     "IATA": "PEB",
     "ICAO": "",
-    "Airport name": "Pebane Airport[1]",
+    "Airport name": "Pebane Airport",
     "Location served": "Pebane, Mozambique",
     "Time": "",
     "DST": ""
@@ -47186,7 +47186,7 @@ module.exports = [
   {
     "IATA": "PEC",
     "ICAO": "",
-    "Airport name": "Pelican Seaplane Base[1]",
+    "Airport name": "Pelican Seaplane Base",
     "Location served": "Pelican, Alaska, United States",
     "Time": "",
     "DST": ""
@@ -47210,7 +47210,7 @@ module.exports = [
   {
     "IATA": "PEF",
     "ICAO": "EDCP",
-    "Airport name": "Peenemünde Airfield[1]",
+    "Airport name": "Peenemünde Airfield",
     "Location served": "Peenemünde, Mecklenburg-Vorpommern, Germany",
     "Time": "",
     "DST": ""
@@ -47250,7 +47250,7 @@ module.exports = [
   {
     "IATA": "PEL",
     "ICAO": "FXPG",
-    "Airport name": "Pelaneng Airport[1]",
+    "Airport name": "Pelaneng Airport",
     "Location served": "Pelaneng, Lesotho",
     "Time": "",
     "DST": ""
@@ -47274,7 +47274,7 @@ module.exports = [
   {
     "IATA": "PEP",
     "ICAO": "",
-    "Airport name": "Peppimenarti Airport[1]",
+    "Airport name": "Peppimenarti Airport",
     "Location served": "Peppimenarti, Northern Territory, Australia",
     "Time": "",
     "DST": ""
@@ -47314,7 +47314,7 @@ module.exports = [
   {
     "IATA": "PEU",
     "ICAO": "MHPL",
-    "Airport name": "Puerto Lempira Airport[1]",
+    "Airport name": "Puerto Lempira Airport",
     "Location served": "Puerto Lempira, Honduras",
     "Time": "",
     "DST": ""
@@ -47322,7 +47322,7 @@ module.exports = [
   {
     "IATA": "PEV",
     "ICAO": "LHPP",
-    "Airport name": "Pécs-Pogány International Airport[1]",
+    "Airport name": "Pécs-Pogány International Airport",
     "Location served": "Pécs, Hungary",
     "Time": "",
     "DST": ""
@@ -47346,7 +47346,7 @@ module.exports = [
   {
     "IATA": "PEY",
     "ICAO": "",
-    "Airport name": "Penong Airport[1]",
+    "Airport name": "Penong Airport",
     "Location served": "Penong, South Australia, Australia",
     "Time": "",
     "DST": ""
@@ -47402,7 +47402,7 @@ module.exports = [
   {
     "IATA": "PFQ",
     "ICAO": "OITP",
-    "Airport name": "Parsabad-Moghan Airport[1]",
+    "Airport name": "Parsabad-Moghan Airport",
     "Location served": "Parsabad, Iran",
     "Time": "",
     "DST": ""
@@ -47410,7 +47410,7 @@ module.exports = [
   {
     "IATA": "PFR",
     "ICAO": "FZVS",
-    "Airport name": "Ilebo Airport[1]",
+    "Airport name": "Ilebo Airport",
     "Location served": "Ilebo, Democratic Republic of the Congo",
     "Time": "",
     "DST": ""
@@ -47426,7 +47426,7 @@ module.exports = [
   {
     "IATA": "PGB",
     "ICAO": "",
-    "Airport name": "Pangoa Airport[1]",
+    "Airport name": "Pangoa Airport",
     "Location served": "Pangoa, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -47466,7 +47466,7 @@ module.exports = [
   {
     "IATA": "PGH",
     "ICAO": "VIPT",
-    "Airport name": "Pantnagar Airport[1]",
+    "Airport name": "Pantnagar Airport",
     "Location served": "Pantnagar, Uttarakhand, India",
     "Time": "",
     "DST": ""
@@ -47474,7 +47474,7 @@ module.exports = [
   {
     "IATA": "PGI",
     "ICAO": "FNCH",
-    "Airport name": "Chitato Airport[1]",
+    "Airport name": "Chitato Airport",
     "Location served": "Chitato, Angola",
     "Time": "",
     "DST": ""
@@ -47482,7 +47482,7 @@ module.exports = [
   {
     "IATA": "PGK",
     "ICAO": "WIPK",
-    "Airport name": "Depati Amir Airport[1]",
+    "Airport name": "Depati Amir Airport",
     "Location served": "Pangkal Pinang (Pangkalpinang), Indonesia",
     "Time": "",
     "DST": ""
@@ -47506,7 +47506,7 @@ module.exports = [
   {
     "IATA": "PGN",
     "ICAO": "",
-    "Airport name": "Pangia Airport[1]",
+    "Airport name": "Pangia Airport",
     "Location served": "Pangia, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -47546,7 +47546,7 @@ module.exports = [
   {
     "IATA": "PGU",
     "ICAO": "OIBP",
-    "Airport name": "Persian Gulf Airport[1]",
+    "Airport name": "Persian Gulf Airport",
     "Location served": "Asaluyeh (Asaloyeh), Iran",
     "Time": "",
     "DST": ""
@@ -47570,7 +47570,7 @@ module.exports = [
   {
     "IATA": "PGZ",
     "ICAO": "SSZW",
-    "Airport name": "Comte. Antonio Amilton Beraldo Airport[1]",
+    "Airport name": "Comte. Antonio Amilton Beraldo Airport",
     "Location served": "Ponta Grossa, Paraná, Brazil",
     "Time": "",
     "DST": ""
@@ -47578,7 +47578,7 @@ module.exports = [
   {
     "IATA": "PHA",
     "ICAO": "VVPR",
-    "Airport name": "Phan Rang Air Base[1]",
+    "Airport name": "Phan Rang Air Base",
     "Location served": "Phan Rang–Tháp Chàm, Vietnam",
     "Time": "",
     "DST": ""
@@ -47626,7 +47626,7 @@ module.exports = [
   {
     "IATA": "PHG",
     "ICAO": "",
-    "Airport name": "Port Harcourt City Airport[1]",
+    "Airport name": "Port Harcourt City Airport",
     "Location served": "Port Harcourt, Nigeria",
     "Time": "",
     "DST": ""
@@ -47634,7 +47634,7 @@ module.exports = [
   {
     "IATA": "PHI",
     "ICAO": "SNYE",
-    "Airport name": "Pinheiro Airport[1]",
+    "Airport name": "Pinheiro Airport",
     "Location served": "Pinheiro, Maranhão, Brazil",
     "Time": "",
     "DST": ""
@@ -47682,7 +47682,7 @@ module.exports = [
   {
     "IATA": "PHQ",
     "ICAO": "YTMO",
-    "Airport name": "The Monument Airport[1]",
+    "Airport name": "The Monument Airport",
     "Location served": "Phosphate Hill, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -47690,7 +47690,7 @@ module.exports = [
   {
     "IATA": "PHR",
     "ICAO": "NFND",
-    "Airport name": "Pacific Harbour Airport[1]",
+    "Airport name": "Pacific Harbour Airport",
     "Location served": "Pacific Harbour, Fiji",
     "Time": "",
     "DST": ""
@@ -47754,7 +47754,7 @@ module.exports = [
   {
     "IATA": "PIC",
     "ICAO": "MBPI",
-    "Airport name": "Pine Cay Airport[1]",
+    "Airport name": "Pine Cay Airport",
     "Location served": "Pine Cay, British Overseas Territory of Turks and Caicos Islands",
     "Time": "",
     "DST": ""
@@ -47770,7 +47770,7 @@ module.exports = [
   {
     "IATA": "PIF",
     "ICAO": "RCDC[2]",
-    "Airport name": "Pingtung South Airport[1]",
+    "Airport name": "Pingtung South Airport",
     "Location served": "Pingtung City, Taiwan",
     "Time": "",
     "DST": ""
@@ -47834,7 +47834,7 @@ module.exports = [
   {
     "IATA": "PIQ",
     "ICAO": "",
-    "Airport name": "Pipillipai Airport[1]",
+    "Airport name": "Pipillipai Airport",
     "Location served": "Pipillipai, Guyana",
     "Time": "",
     "DST": ""
@@ -47874,7 +47874,7 @@ module.exports = [
   {
     "IATA": "PIV",
     "ICAO": "SNPX",
-    "Airport name": "Pirapora Airport[1]",
+    "Airport name": "Pirapora Airport",
     "Location served": "Pirapora, Minas Gerais, Brazil",
     "Time": "",
     "DST": ""
@@ -47882,7 +47882,7 @@ module.exports = [
   {
     "IATA": "PIW",
     "ICAO": "CZMN",
-    "Airport name": "Pikwitonei Airport[1]",
+    "Airport name": "Pikwitonei Airport",
     "Location served": "Pikwitonei, Manitoba, Canada",
     "Time": "",
     "DST": ""
@@ -47978,7 +47978,7 @@ module.exports = [
   {
     "IATA": "PKE",
     "ICAO": "YPKS",
-    "Airport name": "Parkes Airport[1]",
+    "Airport name": "Parkes Airport",
     "Location served": "Parkes, New South Wales, Australia",
     "Time": "",
     "DST": ""
@@ -47994,7 +47994,7 @@ module.exports = [
   {
     "IATA": "PKG",
     "ICAO": "WMPA",
-    "Airport name": "Pangkor Airport[1]",
+    "Airport name": "Pangkor Airport",
     "Location served": "Pangkor Island, Perak, Malaysia",
     "Time": "",
     "DST": ""
@@ -48010,7 +48010,7 @@ module.exports = [
   {
     "IATA": "PKJ",
     "ICAO": "MGPG",
-    "Airport name": "Playa Grande Airport[1]",
+    "Airport name": "Playa Grande Airport",
     "Location served": "Playa Grande, Guatemala",
     "Time": "",
     "DST": ""
@@ -48018,7 +48018,7 @@ module.exports = [
   {
     "IATA": "PKK",
     "ICAO": "VYPU",
-    "Airport name": "Pakokku Airport[1]",
+    "Airport name": "Pakokku Airport",
     "Location served": "Pakokku, Myanmar",
     "Time": "",
     "DST": ""
@@ -48026,7 +48026,7 @@ module.exports = [
   {
     "IATA": "PKM",
     "ICAO": "",
-    "Airport name": "Port Kaituma Airstrip[1]",
+    "Airport name": "Port Kaituma Airstrip",
     "Location served": "Port Kaituma, Guyana",
     "Time": "",
     "DST": ""
@@ -48034,7 +48034,7 @@ module.exports = [
   {
     "IATA": "PKN",
     "ICAO": "WAOI",
-    "Airport name": "Iskandar Airport[1]",
+    "Airport name": "Iskandar Airport",
     "Location served": "Pangkalan Bun (Pangkalanbuun), Indonesia",
     "Time": "",
     "DST": ""
@@ -48050,7 +48050,7 @@ module.exports = [
   {
     "IATA": "PKP",
     "ICAO": "NTGP",
-    "Airport name": "Puka-Puka Airport[1]",
+    "Airport name": "Puka-Puka Airport",
     "Location served": "Puka-Puka, Tuamotus, French Polynesia",
     "Time": "",
     "DST": ""
@@ -48106,7 +48106,7 @@ module.exports = [
   {
     "IATA": "PKY",
     "ICAO": "WAGG",
-    "Airport name": "Tjilik Riwut Airport[1]",
+    "Airport name": "Tjilik Riwut Airport",
     "Location served": "Palangkaraya, Indonesia",
     "Time": "",
     "DST": ""
@@ -48122,7 +48122,7 @@ module.exports = [
   {
     "IATA": "PLA",
     "ICAO": "",
-    "Airport name": "Planadas Airport[1]",
+    "Airport name": "Planadas Airport",
     "Location served": "Planadas, Colombia",
     "Time": "",
     "DST": ""
@@ -48130,7 +48130,7 @@ module.exports = [
   {
     "IATA": "PLC",
     "ICAO": "",
-    "Airport name": "Planeta Rica Airport[1]",
+    "Airport name": "Planeta Rica Airport",
     "Location served": "Planeta Rica, Colombia",
     "Time": "",
     "DST": ""
@@ -48138,7 +48138,7 @@ module.exports = [
   {
     "IATA": "PLD",
     "ICAO": "MRCR",
-    "Airport name": "Carrillo Airport[1] (Playa Samara/Carrillo Airport)",
+    "Airport name": "Carrillo Airport (Playa Samara/Carrillo Airport)",
     "Location served": "Sámara / Puerto Carrillo, Costa Rica",
     "Time": "",
     "DST": ""
@@ -48154,7 +48154,7 @@ module.exports = [
   {
     "IATA": "PLF",
     "ICAO": "FTTP",
-    "Airport name": "Pala Airport[1]",
+    "Airport name": "Pala Airport",
     "Location served": "Pala, Chad",
     "Time": "",
     "DST": ""
@@ -48170,7 +48170,7 @@ module.exports = [
   {
     "IATA": "PLI",
     "ICAO": "",
-    "Airport name": "Palm Island Airport[1]",
+    "Airport name": "Palm Island Airport",
     "Location served": "Palm Island, Saint Vincent and the Grenadines",
     "Time": "",
     "DST": ""
@@ -48226,7 +48226,7 @@ module.exports = [
   {
     "IATA": "PLP",
     "ICAO": "MPLP",
-    "Airport name": "Captain Ramon Xatruch Airport[1]",
+    "Airport name": "Captain Ramon Xatruch Airport",
     "Location served": "La Palma, Panama",
     "Time": "",
     "DST": ""
@@ -48258,7 +48258,7 @@ module.exports = [
   {
     "IATA": "PLT",
     "ICAO": "SKPL",
-    "Airport name": "Plato Airport[1]",
+    "Airport name": "Plato Airport",
     "Location served": "Plato, Colombia",
     "Time": "",
     "DST": ""
@@ -48274,7 +48274,7 @@ module.exports = [
   {
     "IATA": "PLV",
     "ICAO": "UKHP",
-    "Airport name": "Poltava Airport[1]",
+    "Airport name": "Poltava Airport",
     "Location served": "Poltava, Ukraine",
     "Time": "",
     "DST": ""
@@ -48282,7 +48282,7 @@ module.exports = [
   {
     "IATA": "PLW",
     "ICAO": "WAFF",
-    "Airport name": "Mutiara Airport[1]",
+    "Airport name": "Mutiara Airport",
     "Location served": "Palu, Indonesia",
     "Time": "",
     "DST": ""
@@ -48314,7 +48314,7 @@ module.exports = [
   {
     "IATA": "PMA",
     "ICAO": "HTPE",
-    "Airport name": "Pemba Airport[1]",
+    "Airport name": "Pemba Airport",
     "Location served": "Pemba Island, Tanzania",
     "Time": "",
     "DST": ""
@@ -48378,7 +48378,7 @@ module.exports = [
   {
     "IATA": "PMK",
     "ICAO": "YPAM",
-    "Airport name": "Palm Island Airport[1]",
+    "Airport name": "Palm Island Airport",
     "Location served": "Palm Island, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -48394,7 +48394,7 @@ module.exports = [
   {
     "IATA": "PMN",
     "ICAO": "",
-    "Airport name": "Pumani Airport[1]",
+    "Airport name": "Pumani Airport",
     "Location served": "Pumani, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -48442,7 +48442,7 @@ module.exports = [
   {
     "IATA": "PMT",
     "ICAO": "",
-    "Airport name": "Paramakatoi Airstrip[1]",
+    "Airport name": "Paramakatoi Airstrip",
     "Location served": "Paramakatoi, Guyana",
     "Time": "",
     "DST": ""
@@ -48466,7 +48466,7 @@ module.exports = [
   {
     "IATA": "PMX",
     "ICAO": "",
-    "Airport name": "Metropolitan Airport[1] (FAA: 13MA)",
+    "Airport name": "Metropolitan Airport (FAA: 13MA)",
     "Location served": "Palmer, Massachusetts, United States",
     "Time": "",
     "DST": ""
@@ -48498,7 +48498,7 @@ module.exports = [
   {
     "IATA": "PNB",
     "ICAO": "SBPN",
-    "Airport name": "Porto Nacional Airport[1]",
+    "Airport name": "Porto Nacional Airport",
     "Location served": "Porto Nacional, Tocantins, Brazil",
     "Time": "",
     "DST": ""
@@ -48514,7 +48514,7 @@ module.exports = [
   {
     "IATA": "PND",
     "ICAO": "",
-    "Airport name": "Punta Gorda Airport[1]",
+    "Airport name": "Punta Gorda Airport",
     "Location served": "Punta Gorda, Belize",
     "Time": "",
     "DST": ""
@@ -48530,7 +48530,7 @@ module.exports = [
   {
     "IATA": "PNG",
     "ICAO": "SSPG",
-    "Airport name": "Santos Dumont Airport[1]",
+    "Airport name": "Santos Dumont Airport",
     "Location served": "Paranaguá, Paraná, Brazil",
     "Time": "",
     "DST": ""
@@ -48554,7 +48554,7 @@ module.exports = [
   {
     "IATA": "PNJ",
     "ICAO": "",
-    "Airport name": "Penglai Shahekou Airport[1]",
+    "Airport name": "Penglai Shahekou Airport",
     "Location served": "Penglai, Shandong, China",
     "Time": "",
     "DST": ""
@@ -48570,7 +48570,7 @@ module.exports = [
   {
     "IATA": "PNL",
     "ICAO": "LICG",
-    "Airport name": "Pantelleria Airport[1]",
+    "Airport name": "Pantelleria Airport",
     "Location served": "Pantelleria, Sicily, Italy",
     "Time": "",
     "DST": ""
@@ -48586,7 +48586,7 @@ module.exports = [
   {
     "IATA": "PNP",
     "ICAO": "AYGR",
-    "Airport name": "Girua Airport[1]",
+    "Airport name": "Girua Airport",
     "Location served": "Popondetta, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -48634,7 +48634,7 @@ module.exports = [
   {
     "IATA": "PNV",
     "ICAO": "EYPP",
-    "Airport name": "Panevėžys Air Base[1] (Pajuostis Airport)",
+    "Airport name": "Panevėžys Air Base (Pajuostis Airport)",
     "Location served": "Panevėžys, Lithuania",
     "Time": "",
     "DST": ""
@@ -48730,7 +48730,7 @@ module.exports = [
   {
     "IATA": "POI",
     "ICAO": "SLPO",
-    "Airport name": "Captain Nicolas Rojas Airport[1]",
+    "Airport name": "Captain Nicolas Rojas Airport",
     "Location served": "Potosí, Bolivia",
     "Time": "",
     "DST": ""
@@ -48762,7 +48762,7 @@ module.exports = [
   {
     "IATA": "PON",
     "ICAO": "MGPP",
-    "Airport name": "Poptún Airport[1]",
+    "Airport name": "Poptún Airport",
     "Location served": "Poptún, Guatemala",
     "Time": "",
     "DST": ""
@@ -48770,7 +48770,7 @@ module.exports = [
   {
     "IATA": "POO",
     "ICAO": "SBPC",
-    "Airport name": "Poços de Caldas Airport[1]",
+    "Airport name": "Poços de Caldas Airport",
     "Location served": "Poços de Caldas, Minas Gerais, Brazil",
     "Time": "",
     "DST": ""
@@ -48818,7 +48818,7 @@ module.exports = [
   {
     "IATA": "POV",
     "ICAO": "LZPW",
-    "Airport name": "Prešov Air Base[1]",
+    "Airport name": "Prešov Air Base",
     "Location served": "Prešov, Slovakia",
     "Time": "",
     "DST": ""
@@ -48906,7 +48906,7 @@ module.exports = [
   {
     "IATA": "PPH",
     "ICAO": "",
-    "Airport name": "Parai-tepuí Airport[1]",
+    "Airport name": "Parai-tepuí Airport",
     "Location served": "Parai-tepuí (Peraitepuy), Venezuela",
     "Time": "",
     "DST": ""
@@ -48922,7 +48922,7 @@ module.exports = [
   {
     "IATA": "PPJ",
     "ICAO": "WIIG",
-    "Airport name": "Panjang Island Airport[1]",
+    "Airport name": "Panjang Island Airport",
     "Location served": "Panjang Island, Indonesia",
     "Time": "",
     "DST": ""
@@ -48978,7 +48978,7 @@ module.exports = [
   {
     "IATA": "PPR",
     "ICAO": "WIDE",
-    "Airport name": "Tuanku Tambusai Airport[1]",
+    "Airport name": "Tuanku Tambusai Airport",
     "Location served": "Pasir Pangaraian (Pasir Pangarayan), Indonesia",
     "Time": "",
     "DST": ""
@@ -49002,7 +49002,7 @@ module.exports = [
   {
     "IATA": "PPU",
     "ICAO": "VYPP",
-    "Airport name": "Papun Airport[1]",
+    "Airport name": "Papun Airport",
     "Location served": "Papun, Myanmar",
     "Time": "",
     "DST": ""
@@ -49026,7 +49026,7 @@ module.exports = [
   {
     "IATA": "PPX",
     "ICAO": "",
-    "Airport name": "Param Airport[1]",
+    "Airport name": "Param Airport",
     "Location served": "Param, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -49034,7 +49034,7 @@ module.exports = [
   {
     "IATA": "PPY",
     "ICAO": "SNZA",
-    "Airport name": "Pouso Alegre Airport[1]",
+    "Airport name": "Pouso Alegre Airport",
     "Location served": "Pouso Alegre, Minas Gerais, Brazil",
     "Time": "",
     "DST": ""
@@ -49042,7 +49042,7 @@ module.exports = [
   {
     "IATA": "PPZ",
     "ICAO": "",
-    "Airport name": "Puerto Páez Airport[1]",
+    "Airport name": "Puerto Páez Airport",
     "Location served": "Puerto Páez, Venezuela",
     "Time": "",
     "DST": ""
@@ -49058,7 +49058,7 @@ module.exports = [
   {
     "IATA": "PQD",
     "ICAO": "",
-    "Airport name": "Batticaloa Seaplane Base[1]",
+    "Airport name": "Batticaloa Seaplane Base",
     "Location served": "Batticaloa, Sri Lanka",
     "Time": "",
     "DST": ""
@@ -49074,7 +49074,7 @@ module.exports = [
   {
     "IATA": "PQM",
     "ICAO": "MMPQ",
-    "Airport name": "Palenque International Airport[1]",
+    "Airport name": "Palenque International Airport",
     "Location served": "Palenque, Chiapas, Mexico",
     "Time": "",
     "DST": ""
@@ -49122,7 +49122,7 @@ module.exports = [
   {
     "IATA": "PRD",
     "ICAO": "YPDO",
-    "Airport name": "Pardoo Airport[1]",
+    "Airport name": "Pardoo Airport",
     "Location served": "Pardoo Station, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -49130,7 +49130,7 @@ module.exports = [
   {
     "IATA": "PRE",
     "ICAO": "",
-    "Airport name": "Pore Airport[1]",
+    "Airport name": "Pore Airport",
     "Location served": "Pore, Colombia",
     "Time": "",
     "DST": ""
@@ -49162,7 +49162,7 @@ module.exports = [
   {
     "IATA": "PRK",
     "ICAO": "FAPK",
-    "Airport name": "Prieska Airport[1]",
+    "Airport name": "Prieska Airport",
     "Location served": "Prieska, South Africa",
     "Time": "",
     "DST": ""
@@ -49218,7 +49218,7 @@ module.exports = [
   {
     "IATA": "PRS",
     "ICAO": "AGGP",
-    "Airport name": "Parasi Airport[1]",
+    "Airport name": "Parasi Airport",
     "Location served": "Parasi, Solomon Islands",
     "Time": "",
     "DST": ""
@@ -49226,7 +49226,7 @@ module.exports = [
   {
     "IATA": "PRU",
     "ICAO": "VYPY",
-    "Airport name": "Pyay Airport[1]",
+    "Airport name": "Pyay Airport",
     "Location served": "Pyay (Prome), Myanmar",
     "Time": "",
     "DST": ""
@@ -49234,7 +49234,7 @@ module.exports = [
   {
     "IATA": "PRV",
     "ICAO": "LKPO",
-    "Airport name": "Přerov Airport[1]",
+    "Airport name": "Přerov Airport",
     "Location served": "Přerov, Czech Republic",
     "Time": "",
     "DST": ""
@@ -49282,7 +49282,7 @@ module.exports = [
   {
     "IATA": "PSB",
     "ICAO": "",
-    "Airport name": "Bellefonte Airport[1] (FAA: N96)",
+    "Airport name": "Bellefonte Airport (FAA: N96)",
     "Location served": "Philipsburg, Pennsylvania, United States",
     "Time": "",
     "DST": ""
@@ -49298,7 +49298,7 @@ module.exports = [
   {
     "IATA": "PSD",
     "ICAO": "HEPS",
-    "Airport name": "Port Said Airport[1]",
+    "Airport name": "Port Said Airport",
     "Location served": "Port Said, Egypt",
     "Time": "",
     "DST": ""
@@ -49330,7 +49330,7 @@ module.exports = [
   {
     "IATA": "PSH",
     "ICAO": "EDXO",
-    "Airport name": "Sankt Peter-Ording Airport[1]",
+    "Airport name": "Sankt Peter-Ording Airport",
     "Location served": "Sankt Peter-Ording, Schleswig-Holstein, Germany",
     "Time": "",
     "DST": ""
@@ -49338,7 +49338,7 @@ module.exports = [
   {
     "IATA": "PSI",
     "ICAO": "OPPI",
-    "Airport name": "Pasni Airport[1]",
+    "Airport name": "Pasni Airport",
     "Location served": "Pasni, Pakistan",
     "Time": "",
     "DST": ""
@@ -49346,7 +49346,7 @@ module.exports = [
   {
     "IATA": "PSJ",
     "ICAO": "WAMP",
-    "Airport name": "Kasiguncu Airport[1]",
+    "Airport name": "Kasiguncu Airport",
     "Location served": "Poso, Indonesia",
     "Time": "",
     "DST": ""
@@ -49426,7 +49426,7 @@ module.exports = [
   {
     "IATA": "PSU",
     "ICAO": "WIOP",
-    "Airport name": "Pangsuma Airport[1]",
+    "Airport name": "Pangsuma Airport",
     "Location served": "Putussibau, Indonesia",
     "Time": "",
     "DST": ""
@@ -49434,7 +49434,7 @@ module.exports = [
   {
     "IATA": "PSV",
     "ICAO": "",
-    "Airport name": "Papa Stour Airstrip[1]",
+    "Airport name": "Papa Stour Airstrip",
     "Location served": "Papa Stour, Scotland, United Kingdom",
     "Time": "",
     "DST": ""
@@ -49442,7 +49442,7 @@ module.exports = [
   {
     "IATA": "PSW",
     "ICAO": "SNOS",
-    "Airport name": "Passos Airport[1]",
+    "Airport name": "Passos Airport",
     "Location served": "Passos, Minas Gerais, Brazil",
     "Time": "",
     "DST": ""
@@ -49506,7 +49506,7 @@ module.exports = [
   {
     "IATA": "PTF",
     "ICAO": "NFFO",
-    "Airport name": "Malolo Lailai Airport[1]",
+    "Airport name": "Malolo Lailai Airport",
     "Location served": "Malolo Lailai, Fiji",
     "Time": "",
     "DST": ""
@@ -49546,7 +49546,7 @@ module.exports = [
   {
     "IATA": "PTM",
     "ICAO": "SVPT",
-    "Airport name": "Palmarito Airport[1]",
+    "Airport name": "Palmarito Airport",
     "Location served": "Palmarito, Venezuela",
     "Time": "",
     "DST": ""
@@ -49562,7 +49562,7 @@ module.exports = [
   {
     "IATA": "PTO",
     "ICAO": "SSPB",
-    "Airport name": "Juvenal Loureiro Cardoso Airport[1]",
+    "Airport name": "Juvenal Loureiro Cardoso Airport",
     "Location served": "Pato Branco, Paraná, Brazil",
     "Time": "",
     "DST": ""
@@ -49578,7 +49578,7 @@ module.exports = [
   {
     "IATA": "PTQ",
     "ICAO": "SNMZ",
-    "Airport name": "Porto de Moz Airport[1]",
+    "Airport name": "Porto de Moz Airport",
     "Location served": "Porto de Moz, Pará, Brazil",
     "Time": "",
     "DST": ""
@@ -49626,7 +49626,7 @@ module.exports = [
   {
     "IATA": "PTX",
     "ICAO": "SKPI",
-    "Airport name": "Contador Airport[1]",
+    "Airport name": "Contador Airport",
     "Location served": "Pitalito, Colombia",
     "Time": "",
     "DST": ""
@@ -49650,7 +49650,7 @@ module.exports = [
   {
     "IATA": "PUA",
     "ICAO": "",
-    "Airport name": "Puas Airport[1]",
+    "Airport name": "Puas Airport",
     "Location served": "Puas, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -49682,7 +49682,7 @@ module.exports = [
   {
     "IATA": "PUE",
     "ICAO": "MPOA",
-    "Airport name": "Puerto Obaldia Airport[1]",
+    "Airport name": "Puerto Obaldia Airport",
     "Location served": "Puerto Obaldía, Panama",
     "Time": "",
     "DST": ""
@@ -49698,7 +49698,7 @@ module.exports = [
   {
     "IATA": "PUG",
     "ICAO": "YPAG",
-    "Airport name": "Port Augusta Airport[1]",
+    "Airport name": "Port Augusta Airport",
     "Location served": "Port Augusta, South Australia, Australia",
     "Time": "",
     "DST": ""
@@ -49738,7 +49738,7 @@ module.exports = [
   {
     "IATA": "PUM",
     "ICAO": "WAWP",
-    "Airport name": "Sangia Nibandera Airport[1]",
+    "Airport name": "Sangia Nibandera Airport",
     "Location served": "Kolaka, Indonesia",
     "Time": "",
     "DST": ""
@@ -49746,7 +49746,7 @@ module.exports = [
   {
     "IATA": "PUN",
     "ICAO": "FZOP",
-    "Airport name": "Punia Airport[1]",
+    "Airport name": "Punia Airport",
     "Location served": "Punia, Democratic Republic of the Congo",
     "Time": "",
     "DST": ""
@@ -49770,7 +49770,7 @@ module.exports = [
   {
     "IATA": "PUR",
     "ICAO": "SLPR",
-    "Airport name": "Puerto Rico Airport[1]",
+    "Airport name": "Puerto Rico Airport",
     "Location served": "Puerto Rico, Bolivia",
     "Time": "",
     "DST": ""
@@ -49786,7 +49786,7 @@ module.exports = [
   {
     "IATA": "PUT",
     "ICAO": "VOPN",
-    "Airport name": "Sri Sathya Sai Airport[1]",
+    "Airport name": "Sri Sathya Sai Airport",
     "Location served": "Puttaparthi, Andhra Pradesh, India",
     "Time": "",
     "DST": ""
@@ -49802,7 +49802,7 @@ module.exports = [
   {
     "IATA": "PUV",
     "ICAO": "NWWP",
-    "Airport name": "Malabou Airport[1]",
+    "Airport name": "Malabou Airport",
     "Location served": "Poum, New Caledonia",
     "Time": "",
     "DST": ""
@@ -49818,7 +49818,7 @@ module.exports = [
   {
     "IATA": "PUX",
     "ICAO": "SCPV",
-    "Airport name": "El Mirador Airport[1]",
+    "Airport name": "El Mirador Airport",
     "Location served": "Puerto Varas, Chile",
     "Time": "",
     "DST": ""
@@ -49866,7 +49866,7 @@ module.exports = [
   {
     "IATA": "PVE",
     "ICAO": "MPVR",
-    "Airport name": "El Porvenir Airport[1]",
+    "Airport name": "El Porvenir Airport",
     "Location served": "El Porvenir, Panama",
     "Time": "",
     "DST": ""
@@ -49898,7 +49898,7 @@ module.exports = [
   {
     "IATA": "PVI",
     "ICAO": "SSPI",
-    "Airport name": "Edu Chaves Airport[1]",
+    "Airport name": "Edu Chaves Airport",
     "Location served": "Paranavaí, Paraná, Brazil",
     "Time": "",
     "DST": ""
@@ -49914,7 +49914,7 @@ module.exports = [
   {
     "IATA": "PVL",
     "ICAO": "KPBX",
-    "Airport name": "Pike County Airport[1] (FAA: PBX)",
+    "Airport name": "Pike County Airport (FAA: PBX)",
     "Location served": "Pikeville, Kentucky, United States",
     "Time": "",
     "DST": ""
@@ -49986,7 +49986,7 @@ module.exports = [
   {
     "IATA": "PWI",
     "ICAO": "",
-    "Airport name": "Beles Airport[1]",
+    "Airport name": "Beles Airport",
     "Location served": "Pawi, Ethiopia",
     "Time": "",
     "DST": ""
@@ -50018,7 +50018,7 @@ module.exports = [
   {
     "IATA": "PWN",
     "ICAO": "MYCP",
-    "Airport name": "Pitts Town Airport[1]",
+    "Airport name": "Pitts Town Airport",
     "Location served": "Pitts Town, Crooked Island, Bahamas",
     "Time": "",
     "DST": ""
@@ -50026,7 +50026,7 @@ module.exports = [
   {
     "IATA": "PWO",
     "ICAO": "FZQC",
-    "Airport name": "Pweto Airport[1]",
+    "Airport name": "Pweto Airport",
     "Location served": "Pweto, Democratic Republic of the Congo",
     "Time": "",
     "DST": ""
@@ -50042,7 +50042,7 @@ module.exports = [
   {
     "IATA": "PWR",
     "ICAO": "",
-    "Airport name": "Port Walter Seaplane Base[1]",
+    "Airport name": "Port Walter Seaplane Base",
     "Location served": "Port Walter, Alaska, United States",
     "Time": "",
     "DST": ""
@@ -50066,7 +50066,7 @@ module.exports = [
   {
     "IATA": "PXA",
     "ICAO": "WIPY",
-    "Airport name": "Atung Bungsu Airport[1]",
+    "Airport name": "Atung Bungsu Airport",
     "Location served": "Pagar Alam, South Sumatra, Indonesia",
     "Time": "",
     "DST": ""
@@ -50074,7 +50074,7 @@ module.exports = [
   {
     "IATA": "PXH",
     "ICAO": "YPMH",
-    "Airport name": "Prominent Hill Airport[1]",
+    "Airport name": "Prominent Hill Airport",
     "Location served": "Prominent Hill, South Australia, Australia",
     "Time": "",
     "DST": ""
@@ -50106,7 +50106,7 @@ module.exports = [
   {
     "IATA": "PXR",
     "ICAO": "VTUJ",
-    "Airport name": "Surin Airport[1]",
+    "Airport name": "Surin Airport",
     "Location served": "Surin, Thailand",
     "Time": "",
     "DST": ""
@@ -50122,7 +50122,7 @@ module.exports = [
   {
     "IATA": "PYA",
     "ICAO": "SKVL",
-    "Airport name": "Velasquez Airport[1]",
+    "Airport name": "Velasquez Airport",
     "Location served": "Puerto Boyacá, Colombia",
     "Time": "",
     "DST": ""
@@ -50130,7 +50130,7 @@ module.exports = [
   {
     "IATA": "PYB",
     "ICAO": "VEJP",
-    "Airport name": "Jeypore Airport[1]",
+    "Airport name": "Jeypore Airport",
     "Location served": "Jeypore, Odisha, India",
     "Time": "",
     "DST": ""
@@ -50146,7 +50146,7 @@ module.exports = [
   {
     "IATA": "PYE",
     "ICAO": "NCPY",
-    "Airport name": "Tongareva Airport[1]",
+    "Airport name": "Tongareva Airport",
     "Location served": "Penrhyn Atoll, Cook Islands",
     "Time": "",
     "DST": ""
@@ -50178,7 +50178,7 @@ module.exports = [
   {
     "IATA": "PYK",
     "ICAO": "OIIP",
-    "Airport name": "Payam International Airport[1]",
+    "Airport name": "Payam International Airport",
     "Location served": "Karaj, Iran",
     "Time": "",
     "DST": ""
@@ -50186,7 +50186,7 @@ module.exports = [
   {
     "IATA": "PYL",
     "ICAO": "",
-    "Airport name": "Perry Island Seaplane Base[1]",
+    "Airport name": "Perry Island Seaplane Base",
     "Location served": "Perry Island, Alaska, United States",
     "Time": "",
     "DST": ""
@@ -50202,7 +50202,7 @@ module.exports = [
   {
     "IATA": "PYN",
     "ICAO": "",
-    "Airport name": "Payán Airport[1]",
+    "Airport name": "Payán Airport",
     "Location served": "Payán, Colombia",
     "Time": "",
     "DST": ""
@@ -50210,7 +50210,7 @@ module.exports = [
   {
     "IATA": "PYO",
     "ICAO": "SEPT",
-    "Airport name": "Putumayo Airport[1]",
+    "Airport name": "Putumayo Airport",
     "Location served": "Puerto El Carmen de Putumayo, Ecuador",
     "Time": "",
     "DST": ""
@@ -50218,7 +50218,7 @@ module.exports = [
   {
     "IATA": "PYR",
     "ICAO": "LGAD",
-    "Airport name": "Andravida Air Base[1]",
+    "Airport name": "Andravida Air Base",
     "Location served": "Pyrgos, Greece",
     "Time": "",
     "DST": ""
@@ -50226,7 +50226,7 @@ module.exports = [
   {
     "IATA": "PYS",
     "ICAO": "",
-    "Airport name": "Paradise Skypark[1] (FAA: CA92)",
+    "Airport name": "Paradise Skypark (FAA: CA92)",
     "Location served": "Paradise, California, United States",
     "Time": "",
     "DST": ""
@@ -50234,7 +50234,7 @@ module.exports = [
   {
     "IATA": "PYV",
     "ICAO": "",
-    "Airport name": "Yaviza Airport[1]",
+    "Airport name": "Yaviza Airport",
     "Location served": "Yaviza, Panama",
     "Time": "",
     "DST": ""
@@ -50250,7 +50250,7 @@ module.exports = [
   {
     "IATA": "PZA",
     "ICAO": "SKPZ",
-    "Airport name": "Paz de Ariporo Airport[1]",
+    "Airport name": "Paz de Ariporo Airport",
     "Location served": "Paz de Ariporo, Colombia",
     "Time": "",
     "DST": ""
@@ -50274,7 +50274,7 @@ module.exports = [
   {
     "IATA": "PZI",
     "ICAO": "ZUZH",
-    "Airport name": "Panzhihua Bao'anying Airport[1]",
+    "Airport name": "Panzhihua Bao'anying Airport",
     "Location served": "Panzhihua, Sichuan, China",
     "Time": "",
     "DST": ""
@@ -50282,7 +50282,7 @@ module.exports = [
   {
     "IATA": "PZK",
     "ICAO": "NCPK",
-    "Airport name": "Pukapuka Island Airfield[1]",
+    "Airport name": "Pukapuka Island Airfield",
     "Location served": "Pukapuka Island, Cook Islands",
     "Time": "",
     "DST": ""
@@ -50290,7 +50290,7 @@ module.exports = [
   {
     "IATA": "PZL",
     "ICAO": "FADQ",
-    "Airport name": "Zulu Inyala Airport[1]",
+    "Airport name": "Zulu Inyala Airport",
     "Location served": "Phinda, South Africa",
     "Time": "",
     "DST": ""
@@ -50306,7 +50306,7 @@ module.exports = [
   {
     "IATA": "PZS",
     "ICAO": "SCTC",
-    "Airport name": "Maquehue Airport[1]",
+    "Airport name": "Maquehue Airport",
     "Location served": "Temuco, Chile",
     "Time": "",
     "DST": ""
@@ -50330,7 +50330,7 @@ module.exports = [
   {
     "IATA": "QAQ",
     "ICAO": "LIAP",
-    "Airport name": "L'Aquila–Preturo Airport[1]",
+    "Airport name": "L'Aquila–Preturo Airport",
     "Location served": "L'Aquila, Abruzzo, Italy",
     "Time": "",
     "DST": ""
@@ -50354,7 +50354,7 @@ module.exports = [
   {
     "IATA": "QHU",
     "ICAO": "EDXJ",
-    "Airport name": "Husum Schwesing Airport[1]",
+    "Airport name": "Husum Schwesing Airport",
     "Location served": "Husum, Schleswig-Holstein, Germany",
     "Time": "",
     "DST": ""
@@ -50450,7 +50450,7 @@ module.exports = [
   {
     "IATA": "QUB",
     "ICAO": "HLUB",
-    "Airport name": "Ubari Airport[1]",
+    "Airport name": "Ubari Airport",
     "Location served": "Ubari, Libya",
     "Time": "",
     "DST": ""
@@ -50474,7 +50474,7 @@ module.exports = [
   {
     "IATA": "QUY",
     "ICAO": "EGUY",
-    "Airport name": "RAF Wyton[1]",
+    "Airport name": "RAF Wyton",
     "Location served": "Wyton, England, United Kingdom",
     "Time": "",
     "DST": ""
@@ -50490,7 +50490,7 @@ module.exports = [
   {
     "IATA": "RAA",
     "ICAO": "",
-    "Airport name": "Rakanda Airport[1]",
+    "Airport name": "Rakanda Airport",
     "Location served": "Rakanda, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -50514,7 +50514,7 @@ module.exports = [
   {
     "IATA": "RAD",
     "ICAO": "",
-    "Airport name": "Road Town Seaplane Base[1]",
+    "Airport name": "Road Town Seaplane Base",
     "Location served": "Tortola, British Overseas Territory of Virgin Islands",
     "Time": "",
     "DST": ""
@@ -50530,7 +50530,7 @@ module.exports = [
   {
     "IATA": "RAF",
     "ICAO": "SAFR",
-    "Airport name": "Rafaela Airport[1]",
+    "Airport name": "Rafaela Airport",
     "Location served": "Rafaela, Santa Fe, Argentina",
     "Time": "",
     "DST": ""
@@ -50538,7 +50538,7 @@ module.exports = [
   {
     "IATA": "RAG",
     "ICAO": "NZRA",
-    "Airport name": "Raglan Aerodrome[1]",
+    "Airport name": "Raglan Aerodrome",
     "Location served": "Raglan, New Zealand",
     "Time": "",
     "DST": ""
@@ -50546,7 +50546,7 @@ module.exports = [
   {
     "IATA": "RAH",
     "ICAO": "OERF",
-    "Airport name": "Rafha Domestic Airport[1]",
+    "Airport name": "Rafha Domestic Airport",
     "Location served": "Rafha, Saudi Arabia",
     "Time": "",
     "DST": ""
@@ -50586,7 +50586,7 @@ module.exports = [
   {
     "IATA": "RAM",
     "ICAO": "YRNG",
-    "Airport name": "Ramingining Airport[1]",
+    "Airport name": "Ramingining Airport",
     "Location served": "Ramingining, Northern Territory, Australia",
     "Time": "",
     "DST": ""
@@ -50594,7 +50594,7 @@ module.exports = [
   {
     "IATA": "RAN",
     "ICAO": "LIDR",
-    "Airport name": "Ravenna Airport[1]",
+    "Airport name": "Ravenna Airport",
     "Location served": "Ravenna, Emilia-Romagna, Italy",
     "Time": "",
     "DST": ""
@@ -50618,7 +50618,7 @@ module.exports = [
   {
     "IATA": "RAQ",
     "ICAO": "WAWR",
-    "Airport name": "Sugimanuru Airport[1]",
+    "Airport name": "Sugimanuru Airport",
     "Location served": "Muna Island, Indonesia",
     "Time": "",
     "DST": ""
@@ -50634,7 +50634,7 @@ module.exports = [
   {
     "IATA": "RAS",
     "ICAO": "OIGG",
-    "Airport name": "Rasht Airport[1]",
+    "Airport name": "Rasht Airport",
     "Location served": "Rasht, Iran",
     "Time": "",
     "DST": ""
@@ -50650,7 +50650,7 @@ module.exports = [
   {
     "IATA": "RAV",
     "ICAO": "SKCN",
-    "Airport name": "Cravo Norte Airport[1]",
+    "Airport name": "Cravo Norte Airport",
     "Location served": "Cravo Norte, Colombia",
     "Time": "",
     "DST": ""
@@ -50658,7 +50658,7 @@ module.exports = [
   {
     "IATA": "RAW",
     "ICAO": "",
-    "Airport name": "Arawa Airport[1]",
+    "Airport name": "Arawa Airport",
     "Location served": "Arawa, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -50666,7 +50666,7 @@ module.exports = [
   {
     "IATA": "RAX",
     "ICAO": "",
-    "Airport name": "Oram Airport[1]",
+    "Airport name": "Oram Airport",
     "Location served": "Oram, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -50674,7 +50674,7 @@ module.exports = [
   {
     "IATA": "RAZ",
     "ICAO": "OPRT",
-    "Airport name": "Rawalakot Airport[1]",
+    "Airport name": "Rawalakot Airport",
     "Location served": "Rawalakot, Pakistan",
     "Time": "",
     "DST": ""
@@ -50722,7 +50722,7 @@ module.exports = [
   {
     "IATA": "RBF",
     "ICAO": "",
-    "Airport name": "Big Bear City Airport[1] (FAA: L35)",
+    "Airport name": "Big Bear City Airport (FAA: L35)",
     "Location served": "Big Bear City, California, United States",
     "Time": "",
     "DST": ""
@@ -50738,7 +50738,7 @@ module.exports = [
   {
     "IATA": "RBI",
     "ICAO": "NFFR",
-    "Airport name": "Rabi Airport[1]",
+    "Airport name": "Rabi Airport",
     "Location served": "Rabi Island, Fiji",
     "Time": "",
     "DST": ""
@@ -50746,7 +50746,7 @@ module.exports = [
   {
     "IATA": "RBJ",
     "ICAO": "RJCR",
-    "Airport name": "Rebun Airport[1]",
+    "Airport name": "Rebun Airport",
     "Location served": "Rebun, Rebun Island, Japan",
     "Time": "",
     "DST": ""
@@ -50754,7 +50754,7 @@ module.exports = [
   {
     "IATA": "RBK",
     "ICAO": "",
-    "Airport name": "French Valley Airport[1] (FAA: F70)",
+    "Airport name": "French Valley Airport (FAA: F70)",
     "Location served": "Murrieta / Temecula, California, United States",
     "Time": "",
     "DST": ""
@@ -50778,7 +50778,7 @@ module.exports = [
   {
     "IATA": "RBO",
     "ICAO": "SLRB",
-    "Airport name": "Roboré Airport[1]",
+    "Airport name": "Roboré Airport",
     "Location served": "Roboré, Bolivia",
     "Time": "",
     "DST": ""
@@ -50786,7 +50786,7 @@ module.exports = [
   {
     "IATA": "RBP",
     "ICAO": "",
-    "Airport name": "Rabaraba Airport[1]",
+    "Airport name": "Rabaraba Airport",
     "Location served": "Rabaraba, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -50810,7 +50810,7 @@ module.exports = [
   {
     "IATA": "RBS",
     "ICAO": "YORB",
-    "Airport name": "Orbost Airport[1]",
+    "Airport name": "Orbost Airport",
     "Location served": "Orbost, Victoria, Australia",
     "Time": "",
     "DST": ""
@@ -50818,7 +50818,7 @@ module.exports = [
   {
     "IATA": "RBT",
     "ICAO": "HKMB",
-    "Airport name": "Marsabit Airport[1]",
+    "Airport name": "Marsabit Airport",
     "Location served": "Marsabit, Kenya",
     "Time": "",
     "DST": ""
@@ -50826,7 +50826,7 @@ module.exports = [
   {
     "IATA": "RBU",
     "ICAO": "YROE",
-    "Airport name": "Roebourne Airport[1]",
+    "Airport name": "Roebourne Airport",
     "Location served": "Roebourne, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -50834,7 +50834,7 @@ module.exports = [
   {
     "IATA": "RBV",
     "ICAO": "AGRM",
-    "Airport name": "Ramata Airport[1]",
+    "Airport name": "Ramata Airport",
     "Location served": "Ramata Island, Solomon Islands",
     "Time": "",
     "DST": ""
@@ -50850,7 +50850,7 @@ module.exports = [
   {
     "IATA": "RBX",
     "ICAO": "HSMK",
-    "Airport name": "Rumbek Airport[1]",
+    "Airport name": "Rumbek Airport",
     "Location served": "Rumbek, South Sudan",
     "Time": "",
     "DST": ""
@@ -50906,7 +50906,7 @@ module.exports = [
   {
     "IATA": "RCL",
     "ICAO": "NVSR",
-    "Airport name": "Redcliffe Airport[1]",
+    "Airport name": "Redcliffe Airport",
     "Location served": "Redcliffe, Aoba Island, Vanuatu",
     "Time": "",
     "DST": ""
@@ -50922,7 +50922,7 @@ module.exports = [
   {
     "IATA": "RCN",
     "ICAO": "",
-    "Airport name": "American River Airport[1]",
+    "Airport name": "American River Airport",
     "Location served": "American River, South Australia, Australia",
     "Time": "",
     "DST": ""
@@ -50930,7 +50930,7 @@ module.exports = [
   {
     "IATA": "RCO",
     "ICAO": "LFDN",
-    "Airport name": "Rochefort – Saint-Agnant Airport[1]",
+    "Airport name": "Rochefort – Saint-Agnant Airport",
     "Location served": "Rochefort, Poitou-Charentes, France",
     "Time": "",
     "DST": ""
@@ -50978,7 +50978,7 @@ module.exports = [
   {
     "IATA": "RCY",
     "ICAO": "MYRP",
-    "Airport name": "Port Nelson Airport[1]",
+    "Airport name": "Port Nelson Airport",
     "Location served": "Port Nelson, Rum Cay Island, Bahamas",
     "Time": "",
     "DST": ""
@@ -51002,7 +51002,7 @@ module.exports = [
   {
     "IATA": "RDC",
     "ICAO": "SNDC",
-    "Airport name": "Redenção Airport[1]",
+    "Airport name": "Redenção Airport",
     "Location served": "Redenção, Pará, Brazil",
     "Time": "",
     "DST": ""
@@ -51018,7 +51018,7 @@ module.exports = [
   {
     "IATA": "RDE",
     "ICAO": "",
-    "Airport name": "Merdey Airport[1] (Jahabra Airport)",
+    "Airport name": "Merdey Airport (Jahabra Airport)",
     "Location served": "Merdey, Indonesia",
     "Time": "",
     "DST": ""
@@ -51042,7 +51042,7 @@ module.exports = [
   {
     "IATA": "RDN",
     "ICAO": "WMPR",
-    "Airport name": "Redang Airport[1]",
+    "Airport name": "Redang Airport",
     "Location served": "Redang Island, Terengganu, Malaysia",
     "Time": "",
     "DST": ""
@@ -51050,7 +51050,7 @@ module.exports = [
   {
     "IATA": "RDO",
     "ICAO": "EPRA",
-    "Airport name": "Radom Airport[1]",
+    "Airport name": "Radom Airport",
     "Location served": "Radom, Poland",
     "Time": "",
     "DST": ""
@@ -51074,7 +51074,7 @@ module.exports = [
   {
     "IATA": "RDS",
     "ICAO": "SAHS",
-    "Airport name": "Rincón de los Sauces Airport[1]",
+    "Airport name": "Rincón de los Sauces Airport",
     "Location served": "Rincón de los Sauces, Neuquén, Argentina",
     "Time": "",
     "DST": ""
@@ -51114,7 +51114,7 @@ module.exports = [
   {
     "IATA": "REA",
     "ICAO": "NTGE",
-    "Airport name": "Reao Airport[1]",
+    "Airport name": "Reao Airport",
     "Location served": "Reao, Tuamotus, French Polynesia",
     "Time": "",
     "DST": ""
@@ -51122,7 +51122,7 @@ module.exports = [
   {
     "IATA": "REB",
     "ICAO": "EDAX",
-    "Airport name": "Rechlin–Lärz Airfield[1]",
+    "Airport name": "Rechlin–Lärz Airfield",
     "Location served": "Rechlin, Mecklenburg-Vorpommern, Germany",
     "Time": "",
     "DST": ""
@@ -51146,7 +51146,7 @@ module.exports = [
   {
     "IATA": "REE",
     "ICAO": "",
-    "Airport name": "Reese Airpark[1] (FAA: 8XS8)",
+    "Airport name": "Reese Airpark (FAA: 8XS8)",
     "Location served": "Lubbock, Texas, United States",
     "Time": "",
     "DST": ""
@@ -51162,7 +51162,7 @@ module.exports = [
   {
     "IATA": "REI",
     "ICAO": "SOOR",
-    "Airport name": "Régina Airport[1]",
+    "Airport name": "Régina Airport",
     "Location served": "Régina, French Guiana",
     "Time": "",
     "DST": ""
@@ -51210,7 +51210,7 @@ module.exports = [
   {
     "IATA": "REQ",
     "ICAO": "",
-    "Airport name": "Reko Diq Airport[1]",
+    "Airport name": "Reko Diq Airport",
     "Location served": "Reko Diq, Pakistan",
     "Time": "",
     "DST": ""
@@ -51250,7 +51250,7 @@ module.exports = [
   {
     "IATA": "REW",
     "ICAO": "",
-    "Airport name": "Churhata Airport[1]",
+    "Airport name": "Churhata Airport",
     "Location served": "Rewa, Madhya Pradesh, India",
     "Time": "",
     "DST": ""
@@ -51266,7 +51266,7 @@ module.exports = [
   {
     "IATA": "REY",
     "ICAO": "SLRY",
-    "Airport name": "Reyes Airport[1]",
+    "Airport name": "Reyes Airport",
     "Location served": "Reyes, Bolivia",
     "Time": "",
     "DST": ""
@@ -51274,7 +51274,7 @@ module.exports = [
   {
     "IATA": "REZ",
     "ICAO": "SDRS",
-    "Airport name": "Resende Airport[1]",
+    "Airport name": "Resende Airport",
     "Location served": "Resende, Rio de Janeiro, Brazil",
     "Time": "",
     "DST": ""
@@ -51282,7 +51282,7 @@ module.exports = [
   {
     "IATA": "RFA",
     "ICAO": "FEGR",
-    "Airport name": "Rafaï Airport[1]",
+    "Airport name": "Rafaï Airport",
     "Location served": "Rafaï, Central African Republic",
     "Time": "",
     "DST": ""
@@ -51306,7 +51306,7 @@ module.exports = [
   {
     "IATA": "RFK",
     "ICAO": "",
-    "Airport name": "Rollang Field[1] (FAA: 5MS1)",
+    "Airport name": "Rollang Field (FAA: 5MS1)",
     "Location served": "Rolling Fork, Mississippi, United States",
     "Time": "",
     "DST": ""
@@ -51314,7 +51314,7 @@ module.exports = [
   {
     "IATA": "RFN",
     "ICAO": "BIRG",
-    "Airport name": "Raufarhöfn Airport[1]",
+    "Airport name": "Raufarhöfn Airport",
     "Location served": "Raufarhöfn, Iceland",
     "Time": "",
     "DST": ""
@@ -51322,7 +51322,7 @@ module.exports = [
   {
     "IATA": "RFP",
     "ICAO": "NTTR",
-    "Airport name": "Raiatea Airport[1] (Uturoa Airport)",
+    "Airport name": "Raiatea Airport (Uturoa Airport)",
     "Location served": "Raiatea, Society Islands, French Polynesia",
     "Time": "",
     "DST": ""
@@ -51330,7 +51330,7 @@ module.exports = [
   {
     "IATA": "RFR",
     "ICAO": "MRRF",
-    "Airport name": "Río Frío Airport[1]",
+    "Airport name": "Río Frío Airport",
     "Location served": "Río Frío, Costa Rica",
     "Time": "",
     "DST": ""
@@ -51338,7 +51338,7 @@ module.exports = [
   {
     "IATA": "RFS",
     "ICAO": "MNRT",
-    "Airport name": "Rosita Airport[1]",
+    "Airport name": "Rosita Airport",
     "Location served": "Rosita, Nicaragua",
     "Time": "",
     "DST": ""
@@ -51354,7 +51354,7 @@ module.exports = [
   {
     "IATA": "RGE",
     "ICAO": "",
-    "Airport name": "Porgera Airport[1]",
+    "Airport name": "Porgera Airport",
     "Location served": "Porgera, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -51362,7 +51362,7 @@ module.exports = [
   {
     "IATA": "RGH",
     "ICAO": "VEBG",
-    "Airport name": "Balurghat Airport[1]",
+    "Airport name": "Balurghat Airport",
     "Location served": "Balurghat, West Bengal, India",
     "Time": "",
     "DST": ""
@@ -51370,7 +51370,7 @@ module.exports = [
   {
     "IATA": "RGI",
     "ICAO": "NTTG",
-    "Airport name": "Rangiroa Airport[1]",
+    "Airport name": "Rangiroa Airport",
     "Location served": "Rangiroa, Tuamotus, French Polynesia",
     "Time": "",
     "DST": ""
@@ -51378,7 +51378,7 @@ module.exports = [
   {
     "IATA": "RGK",
     "ICAO": "UNBG",
-    "Airport name": "Gorno-Altaysk Airport[1]",
+    "Airport name": "Gorno-Altaysk Airport",
     "Location served": "Gorno-Altaysk, Altai Republic, Russia",
     "Time": "",
     "DST": ""
@@ -51410,7 +51410,7 @@ module.exports = [
   {
     "IATA": "RGR",
     "ICAO": "",
-    "Airport name": "Ranger Municipal Airport[1] (FAA: F23)",
+    "Airport name": "Ranger Municipal Airport (FAA: F23)",
     "Location served": "Ranger, Texas, United States",
     "Time": "",
     "DST": ""
@@ -51426,7 +51426,7 @@ module.exports = [
   {
     "IATA": "RGT",
     "ICAO": "WIPR",
-    "Airport name": "Japura Airport[1]",
+    "Airport name": "Japura Airport",
     "Location served": "Rengat, Indonesia",
     "Time": "",
     "DST": ""
@@ -51434,7 +51434,7 @@ module.exports = [
   {
     "IATA": "RHA",
     "ICAO": "BIRE",
-    "Airport name": "Reykhólar Airport[1]",
+    "Airport name": "Reykhólar Airport",
     "Location served": "Reykhólar, Iceland",
     "Time": "",
     "DST": ""
@@ -51442,7 +51442,7 @@ module.exports = [
   {
     "IATA": "RHD",
     "ICAO": "SANR[2]",
-    "Airport name": "Termas de Río Hondo Airport[1]",
+    "Airport name": "Termas de Río Hondo Airport",
     "Location served": "Termas de Río Hondo, Santiago del Estero, Argentina",
     "Time": "",
     "DST": ""
@@ -51458,7 +51458,7 @@ module.exports = [
   {
     "IATA": "RHG",
     "ICAO": "HRYU",
-    "Airport name": "Ruhengeri Airport[1]",
+    "Airport name": "Ruhengeri Airport",
     "Location served": "Ruhengeri, Rwanda",
     "Time": "",
     "DST": ""
@@ -51474,7 +51474,7 @@ module.exports = [
   {
     "IATA": "RHL",
     "ICAO": "YRYH",
-    "Airport name": "Roy Hill Station Airport[1]",
+    "Airport name": "Roy Hill Station Airport",
     "Location served": "Roy Hill Station, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -51482,7 +51482,7 @@ module.exports = [
   {
     "IATA": "RHN",
     "ICAO": "FYSA",
-    "Airport name": "Skorpion Mine Airport[1]",
+    "Airport name": "Skorpion Mine Airport",
     "Location served": "Rosh Pinah, Namibia",
     "Time": "",
     "DST": ""
@@ -51506,7 +51506,7 @@ module.exports = [
   {
     "IATA": "RHR",
     "ICAO": "",
-    "Airport name": "Al Hamra Seaplane Base[1]",
+    "Airport name": "Al Hamra Seaplane Base",
     "Location served": "Ras al-Khaimah, United Arab Emirates",
     "Time": "",
     "DST": ""
@@ -51594,7 +51594,7 @@ module.exports = [
   {
     "IATA": "RIJ",
     "ICAO": "SPJA",
-    "Airport name": "Juan Simons Vela Airport[1]",
+    "Airport name": "Juan Simons Vela Airport",
     "Location served": "Rioja, Peru",
     "Time": "",
     "DST": ""
@@ -51610,7 +51610,7 @@ module.exports = [
   {
     "IATA": "RIM",
     "ICAO": "SPLN",
-    "Airport name": "San Nicolas Airport[1]",
+    "Airport name": "San Nicolas Airport",
     "Location served": "Rodríguez de Mendoza, Peru",
     "Time": "",
     "DST": ""
@@ -51618,7 +51618,7 @@ module.exports = [
   {
     "IATA": "RIN",
     "ICAO": "AGRC",
-    "Airport name": "Ringgi Cove Airport[1]",
+    "Airport name": "Ringgi Cove Airport",
     "Location served": "Ringgi Cove, Solomon Islands",
     "Time": "",
     "DST": ""
@@ -51642,7 +51642,7 @@ module.exports = [
   {
     "IATA": "RIS",
     "ICAO": "RJER",
-    "Airport name": "Rishiri Airport[1]",
+    "Airport name": "Rishiri Airport",
     "Location served": "Rishiri, Rishiri Island, Japan",
     "Time": "",
     "DST": ""
@@ -51674,7 +51674,7 @@ module.exports = [
   {
     "IATA": "RIY",
     "ICAO": "OYRN",
-    "Airport name": "Riyan Airport[1]",
+    "Airport name": "Riyan Airport",
     "Location served": "Mukalla, Yemen",
     "Time": "",
     "DST": ""
@@ -51698,7 +51698,7 @@ module.exports = [
   {
     "IATA": "RJB",
     "ICAO": "VNRB",
-    "Airport name": "Rajbiraj Airport[1]",
+    "Airport name": "Rajbiraj Airport",
     "Location served": "Rajbiraj, Nepal",
     "Time": "",
     "DST": ""
@@ -51714,7 +51714,7 @@ module.exports = [
   {
     "IATA": "RJI",
     "ICAO": "",
-    "Airport name": "Rajouri Airport[1]",
+    "Airport name": "Rajouri Airport",
     "Location served": "Rajouri, Jammu and Kashmir, India",
     "Time": "",
     "DST": ""
@@ -51738,7 +51738,7 @@ module.exports = [
   {
     "IATA": "RJM",
     "ICAO": "",
-    "Airport name": "Marinda Airport[1]",
+    "Airport name": "Marinda Airport",
     "Location served": "Waisai, Indonesia",
     "Time": "",
     "DST": ""
@@ -51746,7 +51746,7 @@ module.exports = [
   {
     "IATA": "RJN",
     "ICAO": "OIKR",
-    "Airport name": "Rafsanjan Airport[1]",
+    "Airport name": "Rafsanjan Airport",
     "Location served": "Rafsanjan, Iran",
     "Time": "",
     "DST": ""
@@ -51754,7 +51754,7 @@ module.exports = [
   {
     "IATA": "RKA",
     "ICAO": "NTKK",
-    "Airport name": "Aratika-Nord Airport[1]",
+    "Airport name": "Aratika-Nord Airport",
     "Location served": "Aratika, Tuamotus, French Polynesia",
     "Time": "",
     "DST": ""
@@ -51778,7 +51778,7 @@ module.exports = [
   {
     "IATA": "RKH",
     "ICAO": "KUZA",
-    "Airport name": "Rock Hill/York County Airport[1] (FAA: UZA)",
+    "Airport name": "Rock Hill/York County Airport (FAA: UZA)",
     "Location served": "Rock Hill, South Carolina, United States",
     "Time": "",
     "DST": ""
@@ -51826,7 +51826,7 @@ module.exports = [
   {
     "IATA": "RKU",
     "ICAO": "",
-    "Airport name": "Kairuku Airport[1]",
+    "Airport name": "Kairuku Airport",
     "Location served": "Yule Island, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -51850,7 +51850,7 @@ module.exports = [
   {
     "IATA": "RKY",
     "ICAO": "",
-    "Airport name": "Rokeby Airport[1]",
+    "Airport name": "Rokeby Airport",
     "Location served": "Rokeby, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -51882,7 +51882,7 @@ module.exports = [
   {
     "IATA": "RLK",
     "ICAO": "ZBYZ",
-    "Airport name": "Bayannur Tianjitai Airport[1]",
+    "Airport name": "Bayannur Tianjitai Airport",
     "Location served": "Bayannur, Inner Mongolia, China",
     "Time": "",
     "DST": ""
@@ -51890,7 +51890,7 @@ module.exports = [
   {
     "IATA": "RLO",
     "ICAO": "SAOS",
-    "Airport name": "Valle del Conlara Airport[1]",
+    "Airport name": "Valle del Conlara Airport",
     "Location served": "Villa de Merlo, San Luis, Argentina",
     "Time": "",
     "DST": ""
@@ -51898,7 +51898,7 @@ module.exports = [
   {
     "IATA": "RLP",
     "ICAO": "",
-    "Airport name": "Rosella Plains Airport[1]",
+    "Airport name": "Rosella Plains Airport",
     "Location served": "Rosella Plains, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -51906,7 +51906,7 @@ module.exports = [
   {
     "IATA": "RLR",
     "ICAO": "",
-    "Airport name": "Relais de la Reine Airport[1]",
+    "Airport name": "Relais de la Reine Airport",
     "Location served": "Isalo, Madagascar",
     "Time": "",
     "DST": ""
@@ -51930,7 +51930,7 @@ module.exports = [
   {
     "IATA": "RMB",
     "ICAO": "OOBR",
-    "Airport name": "Buraimi Airport[1]",
+    "Airport name": "Buraimi Airport",
     "Location served": "Buraimi, Oman",
     "Time": "",
     "DST": ""
@@ -52026,7 +52026,7 @@ module.exports = [
   {
     "IATA": "RMT",
     "ICAO": "NTAM",
-    "Airport name": "Rimatara Airport[1]",
+    "Airport name": "Rimatara Airport",
     "Location served": "Rimatara, Austral Islands, French Polynesia",
     "Time": "",
     "DST": ""
@@ -52034,7 +52034,7 @@ module.exports = [
   {
     "IATA": "RMU",
     "ICAO": "LEMI",
-    "Airport name": "Región de Murcia International Airport[1]",
+    "Airport name": "Región de Murcia International Airport",
     "Location served": "Murcia / Cartagena, Murcia, Spain",
     "Time": "",
     "DST": ""
@@ -52042,7 +52042,7 @@ module.exports = [
   {
     "IATA": "RMY",
     "ICAO": "KMPI",
-    "Airport name": "Mariposa-Yosemite Airport[1] (FAA: MPI)",
+    "Airport name": "Mariposa-Yosemite Airport (FAA: MPI)",
     "Location served": "Mariposa, California, United States",
     "Time": "",
     "DST": ""
@@ -52090,7 +52090,7 @@ module.exports = [
   {
     "IATA": "RNG",
     "ICAO": "",
-    "Airport name": "Rangely Airport[1] (FAA: 4V0)",
+    "Airport name": "Rangely Airport (FAA: 4V0)",
     "Location served": "Rangely, Colorado, United States",
     "Time": "",
     "DST": ""
@@ -52114,7 +52114,7 @@ module.exports = [
   {
     "IATA": "RNJ",
     "ICAO": "RORY",
-    "Airport name": "Yoron Airport[1]",
+    "Airport name": "Yoron Airport",
     "Location served": "Yoronjima, Amami Islands, Japan",
     "Time": "",
     "DST": ""
@@ -52122,7 +52122,7 @@ module.exports = [
   {
     "IATA": "RNL",
     "ICAO": "AGGR",
-    "Airport name": "Rennell/Tingoa Airport[1]",
+    "Airport name": "Rennell/Tingoa Airport",
     "Location served": "Rennell Island, Solomon Islands",
     "Time": "",
     "DST": ""
@@ -52130,7 +52130,7 @@ module.exports = [
   {
     "IATA": "RNM",
     "ICAO": "OOGB",
-    "Airport name": "Qarn Alam Airport[1]",
+    "Airport name": "Qarn Alam Airport",
     "Location served": "Qarn Alam, Oman",
     "Time": "",
     "DST": ""
@@ -52162,7 +52162,7 @@ module.exports = [
   {
     "IATA": "RNR",
     "ICAO": "",
-    "Airport name": "Robinson River Airport[1]",
+    "Airport name": "Robinson River Airport",
     "Location served": "Robinson River, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -52186,7 +52186,7 @@ module.exports = [
   {
     "IATA": "RNU",
     "ICAO": "WBKR",
-    "Airport name": "Ranau Airport[1]",
+    "Airport name": "Ranau Airport",
     "Location served": "Ranau, Sabah, Malaysia",
     "Time": "",
     "DST": ""
@@ -52226,7 +52226,7 @@ module.exports = [
   {
     "IATA": "ROD",
     "ICAO": "FARS",
-    "Airport name": "Robertson Airfield[1]",
+    "Airport name": "Robertson Airfield",
     "Location served": "Robertson, South Africa",
     "Time": "",
     "DST": ""
@@ -52234,7 +52234,7 @@ module.exports = [
   {
     "IATA": "ROF",
     "ICAO": "",
-    "Airport name": "Montague Airport[1] (Yreka Rohrer Field) (FAA: 1O5)",
+    "Airport name": "Montague Airport (Yreka Rohrer Field) (FAA: 1O5)",
     "Location served": "Montague / Yreka, California, United States",
     "Time": "",
     "DST": ""
@@ -52250,7 +52250,7 @@ module.exports = [
   {
     "IATA": "ROH",
     "ICAO": "YROB",
-    "Airport name": "Robinhood Airport[1]",
+    "Airport name": "Robinhood Airport",
     "Location served": "Robinhood, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -52290,7 +52290,7 @@ module.exports = [
   {
     "IATA": "RON",
     "ICAO": "SKPA",
-    "Airport name": "Juan José Rondón Airport[1]",
+    "Airport name": "Juan José Rondón Airport",
     "Location served": "Paipa, Colombia",
     "Time": "",
     "DST": ""
@@ -52370,7 +52370,7 @@ module.exports = [
   {
     "IATA": "ROY",
     "ICAO": "SAWM",
-    "Airport name": "Río Mayo Airport[1]",
+    "Airport name": "Río Mayo Airport",
     "Location served": "Río Mayo, Chubut, Argentina",
     "Time": "",
     "DST": ""
@@ -52378,7 +52378,7 @@ module.exports = [
   {
     "IATA": "ROZ",
     "ICAO": "LERT",
-    "Airport name": "US Naval Station Rota[1]",
+    "Airport name": "US Naval Station Rota",
     "Location served": "Rota, Andalusia, Spain",
     "Time": "",
     "DST": ""
@@ -52386,7 +52386,7 @@ module.exports = [
   {
     "IATA": "RPA",
     "ICAO": "VNRP",
-    "Airport name": "Rolpa Airport[1]",
+    "Airport name": "Rolpa Airport",
     "Location served": "Rolpa, Nepal",
     "Time": "",
     "DST": ""
@@ -52402,7 +52402,7 @@ module.exports = [
   {
     "IATA": "RPM",
     "ICAO": "YNGU",
-    "Airport name": "Ngukurr Airport[1]",
+    "Airport name": "Ngukurr Airport",
     "Location served": "Ngukurr, Northern Territory, Australia",
     "Time": "",
     "DST": ""
@@ -52426,7 +52426,7 @@ module.exports = [
   {
     "IATA": "RPV",
     "ICAO": "",
-    "Airport name": "Roper Valley Airport[1]",
+    "Airport name": "Roper Valley Airport",
     "Location served": "Roper Valley, Northern Territory, Australia",
     "Time": "",
     "DST": ""
@@ -52450,7 +52450,7 @@ module.exports = [
   {
     "IATA": "RQW",
     "ICAO": "",
-    "Airport name": "Qayyarah Airfield West[1]",
+    "Airport name": "Qayyarah Airfield West",
     "Location served": "Qayyarah, Iraq",
     "Time": "",
     "DST": ""
@@ -52458,7 +52458,7 @@ module.exports = [
   {
     "IATA": "RRE",
     "ICAO": "",
-    "Airport name": "Marree Airport[1]",
+    "Airport name": "Marree Airport",
     "Location served": "Marree, South Australia, Australia",
     "Time": "",
     "DST": ""
@@ -52474,7 +52474,7 @@ module.exports = [
   {
     "IATA": "RRI",
     "ICAO": "",
-    "Airport name": "Barora Airport[1]",
+    "Airport name": "Barora Airport",
     "Location served": "Barora, Solomon Islands",
     "Time": "",
     "DST": ""
@@ -52482,7 +52482,7 @@ module.exports = [
   {
     "IATA": "RRJ",
     "ICAO": "SBJR",
-    "Airport name": "Jacarepaguá Airport[1]",
+    "Airport name": "Jacarepaguá Airport",
     "Location served": "Barra da Tijuca, Rio de Janeiro, Brazil",
     "Time": "",
     "DST": ""
@@ -52506,7 +52506,7 @@ module.exports = [
   {
     "IATA": "RRM",
     "ICAO": "",
-    "Airport name": "Marromeu Airport[1]",
+    "Airport name": "Marromeu Airport",
     "Location served": "Marromeu, Mozambique",
     "Time": "",
     "DST": ""
@@ -52538,7 +52538,7 @@ module.exports = [
   {
     "IATA": "RRV",
     "ICAO": "",
-    "Airport name": "Robinson River Airport[1]",
+    "Airport name": "Robinson River Airport",
     "Location served": "Robinson River, Northern Territory, Australia",
     "Time": "",
     "DST": ""
@@ -52554,7 +52554,7 @@ module.exports = [
   {
     "IATA": "RSB",
     "ICAO": "",
-    "Airport name": "Roseberth Airport[1]",
+    "Airport name": "Roseberth Airport",
     "Location served": "Roseberth, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -52562,7 +52562,7 @@ module.exports = [
   {
     "IATA": "RSD",
     "ICAO": "MYER",
-    "Airport name": "Rock Sound International Airport[1]",
+    "Airport name": "Rock Sound International Airport",
     "Location served": "Rock Sound, Eleuthera Island, Bahamas",
     "Time": "",
     "DST": ""
@@ -52570,7 +52570,7 @@ module.exports = [
   {
     "IATA": "RSE",
     "ICAO": "",
-    "Airport name": "Rose Bay Water Airport[1]",
+    "Airport name": "Rose Bay Water Airport",
     "Location served": "Sydney, New South Wales, Australia",
     "Time": "",
     "DST": ""
@@ -52594,7 +52594,7 @@ module.exports = [
   {
     "IATA": "RSK",
     "ICAO": "WASC",
-    "Airport name": "Abresso Airport[1]",
+    "Airport name": "Abresso Airport",
     "Location served": "Ransiki, Indonesia",
     "Time": "",
     "DST": ""
@@ -52618,7 +52618,7 @@ module.exports = [
   {
     "IATA": "RSS",
     "ICAO": "HSDZ",
-    "Airport name": "Damazin Airport[1]",
+    "Airport name": "Damazin Airport",
     "Location served": "Ad-Damazin, Sudan",
     "Time": "",
     "DST": ""
@@ -52634,7 +52634,7 @@ module.exports = [
   {
     "IATA": "RSU",
     "ICAO": "RKJY",
-    "Airport name": "Yeosu/Suncheon Airport[1]",
+    "Airport name": "Yeosu/Suncheon Airport",
     "Location served": "Yeosu / Suncheon, South Korea",
     "Time": "",
     "DST": ""
@@ -52650,7 +52650,7 @@ module.exports = [
   {
     "IATA": "RSX",
     "ICAO": "",
-    "Airport name": "Rouses Point Seaplane Base[1] (FAA: K21)",
+    "Airport name": "Rouses Point Seaplane Base (FAA: K21)",
     "Location served": "Rouses Point, New York, United States",
     "Time": "",
     "DST": ""
@@ -52658,7 +52658,7 @@ module.exports = [
   {
     "IATA": "RTA",
     "ICAO": "NFNR",
-    "Airport name": "Rotuma Airport[1]",
+    "Airport name": "Rotuma Airport",
     "Location served": "Rotuma Island, Fiji",
     "Time": "",
     "DST": ""
@@ -52682,7 +52682,7 @@ module.exports = [
   {
     "IATA": "RTG",
     "ICAO": "WATG",
-    "Airport name": "Frans Sales Lega Airport[1]",
+    "Airport name": "Frans Sales Lega Airport",
     "Location served": "Ruteng, Indonesia",
     "Time": "",
     "DST": ""
@@ -52690,7 +52690,7 @@ module.exports = [
   {
     "IATA": "RTI",
     "ICAO": "",
-    "Airport name": "David Constantijn Saudale Airport[1]",
+    "Airport name": "David Constantijn Saudale Airport",
     "Location served": "Rote Island (Roti), Indonesia",
     "Time": "",
     "DST": ""
@@ -52698,7 +52698,7 @@ module.exports = [
   {
     "IATA": "RTL",
     "ICAO": "",
-    "Airport name": "Spirit Lake Municipal Airport[1] (FAA: 0F3)",
+    "Airport name": "Spirit Lake Municipal Airport (FAA: 0F3)",
     "Location served": "Spirit Lake, Iowa, United States",
     "Time": "",
     "DST": ""
@@ -52722,7 +52722,7 @@ module.exports = [
   {
     "IATA": "RTP",
     "ICAO": "YRTP",
-    "Airport name": "Rutland Plains Airport[1]",
+    "Airport name": "Rutland Plains Airport",
     "Location served": "Rutland Plains, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -52746,7 +52746,7 @@ module.exports = [
   {
     "IATA": "RTY",
     "ICAO": "YMYT",
-    "Airport name": "Merty Merty Airport[1]",
+    "Airport name": "Merty Merty Airport",
     "Location served": "Merty Merty, South Australia, Australia",
     "Time": "",
     "DST": ""
@@ -52762,7 +52762,7 @@ module.exports = [
   {
     "IATA": "RUD",
     "ICAO": "OIMJ",
-    "Airport name": "Shahroud Airport[1]",
+    "Airport name": "Shahroud Airport",
     "Location served": "Shahrud, Iran",
     "Time": "",
     "DST": ""
@@ -52770,7 +52770,7 @@ module.exports = [
   {
     "IATA": "RUE",
     "ICAO": "",
-    "Airport name": "Butembo Airport[1]",
+    "Airport name": "Butembo Airport",
     "Location served": "Butembo, Democratic Republic of the Congo",
     "Time": "",
     "DST": ""
@@ -52778,7 +52778,7 @@ module.exports = [
   {
     "IATA": "RUF",
     "ICAO": "WAJE",
-    "Airport name": "Yuruf Airport[1]",
+    "Airport name": "Yuruf Airport",
     "Location served": "Yuruf, Indonesia",
     "Time": "",
     "DST": ""
@@ -52802,7 +52802,7 @@ module.exports = [
   {
     "IATA": "RUI",
     "ICAO": "KSRR",
-    "Airport name": "Sierra Blanca Regional Airport[1] (FAA: SRR)",
+    "Airport name": "Sierra Blanca Regional Airport (FAA: SRR)",
     "Location served": "Ruidoso, New Mexico, United States",
     "Time": "",
     "DST": ""
@@ -52818,7 +52818,7 @@ module.exports = [
   {
     "IATA": "RUL",
     "ICAO": "",
-    "Airport name": "Maavaarulaa Airport[1]",
+    "Airport name": "Maavaarulaa Airport",
     "Location served": "Gaddhoo, Gaafu Dhaalu Atoll, Maldives",
     "Time": "",
     "DST": ""
@@ -52874,7 +52874,7 @@ module.exports = [
   {
     "IATA": "RUU",
     "ICAO": "",
-    "Airport name": "Ruti Airport[1]",
+    "Airport name": "Ruti Airport",
     "Location served": "Kawbenaberi, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -52882,7 +52882,7 @@ module.exports = [
   {
     "IATA": "RUV",
     "ICAO": "MGRB",
-    "Airport name": "Rubelsanto Airport[1]",
+    "Airport name": "Rubelsanto Airport",
     "Location served": "Rubelsanto, Guatemala",
     "Time": "",
     "DST": ""
@@ -52890,7 +52890,7 @@ module.exports = [
   {
     "IATA": "RUY",
     "ICAO": "MHRU",
-    "Airport name": "Copán Ruinas Airport[1]",
+    "Airport name": "Copán Ruinas Airport",
     "Location served": "Copán Ruinas, Honduras",
     "Time": "",
     "DST": ""
@@ -52898,7 +52898,7 @@ module.exports = [
   {
     "IATA": "RVA",
     "ICAO": "FMSG",
-    "Airport name": "Farafangana Airport[1]",
+    "Airport name": "Farafangana Airport",
     "Location served": "Farafangana, Madagascar",
     "Time": "",
     "DST": ""
@@ -52906,7 +52906,7 @@ module.exports = [
   {
     "IATA": "RVC",
     "ICAO": "",
-    "Airport name": "River Cess Airport[1]",
+    "Airport name": "River Cess Airport",
     "Location served": "River Cess, Liberia",
     "Time": "",
     "DST": ""
@@ -52914,7 +52914,7 @@ module.exports = [
   {
     "IATA": "RVD",
     "ICAO": "SWLC",
-    "Airport name": "General Leite de Castro Airport[1]",
+    "Airport name": "General Leite de Castro Airport",
     "Location served": "Rio Verde, Goiás, Brazil",
     "Time": "",
     "DST": ""
@@ -52962,7 +52962,7 @@ module.exports = [
   {
     "IATA": "RVO",
     "ICAO": "FARI",
-    "Airport name": "Reivilo Airport[1]",
+    "Airport name": "Reivilo Airport",
     "Location served": "Reivilo, South Africa",
     "Time": "",
     "DST": ""
@@ -52970,7 +52970,7 @@ module.exports = [
   {
     "IATA": "RVR",
     "ICAO": "",
-    "Airport name": "Green River Municipal Airport[1] (FAA: U34)",
+    "Airport name": "Green River Municipal Airport (FAA: U34)",
     "Location served": "Green River, Utah, United States",
     "Time": "",
     "DST": ""
@@ -52986,7 +52986,7 @@ module.exports = [
   {
     "IATA": "RVT",
     "ICAO": "YNRV",
-    "Airport name": "Ravensthorpe Airport[1]",
+    "Airport name": "Ravensthorpe Airport",
     "Location served": "Ravensthorpe, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -53042,7 +53042,7 @@ module.exports = [
   {
     "IATA": "RXA",
     "ICAO": "",
-    "Airport name": "Ar Rawdah Airport[1]",
+    "Airport name": "Ar Rawdah Airport",
     "Location served": "Ar Rawdah (Raudha), Yemen",
     "Time": "",
     "DST": ""
@@ -53082,7 +53082,7 @@ module.exports = [
   {
     "IATA": "RYK",
     "ICAO": "OPRK",
-    "Airport name": "Shaikh Zayed International Airport[1]",
+    "Airport name": "Shaikh Zayed International Airport",
     "Location served": "Rahim Yar Khan, Pakistan",
     "Time": "",
     "DST": ""
@@ -53090,7 +53090,7 @@ module.exports = [
   {
     "IATA": "RYL",
     "ICAO": "",
-    "Airport name": "Royal Airstrip[1]",
+    "Airport name": "Royal Airstrip",
     "Location served": "Lower Zambezi National Park, Zambia",
     "Time": "",
     "DST": ""
@@ -53106,7 +53106,7 @@ module.exports = [
   {
     "IATA": "RYO",
     "ICAO": "SAWT",
-    "Airport name": "Rio Turbio Airport[1]",
+    "Airport name": "Rio Turbio Airport",
     "Location served": "Río Turbio, Santa Cruz, Argentina",
     "Time": "",
     "DST": ""
@@ -53114,7 +53114,7 @@ module.exports = [
   {
     "IATA": "RZA",
     "ICAO": "SAWU",
-    "Airport name": "Santa Cruz Airport[1]",
+    "Airport name": "Santa Cruz Airport",
     "Location served": "Puerto Santa Cruz, Santa Cruz, Argentina",
     "Time": "",
     "DST": ""
@@ -53146,7 +53146,7 @@ module.exports = [
   {
     "IATA": "RZR",
     "ICAO": "OINR",
-    "Airport name": "Ramsar International Airport[1]",
+    "Airport name": "Ramsar International Airport",
     "Location served": "Ramsar, Iran",
     "Time": "",
     "DST": ""
@@ -53154,7 +53154,7 @@ module.exports = [
   {
     "IATA": "RZS",
     "ICAO": "OPSW",
-    "Airport name": "Sawan Airport[1]",
+    "Airport name": "Sawan Airport",
     "Location served": "Sawan, Pakistan",
     "Time": "",
     "DST": ""
@@ -53242,7 +53242,7 @@ module.exports = [
   {
     "IATA": "SAM",
     "ICAO": "",
-    "Airport name": "Salamo Airport[1]",
+    "Airport name": "Salamo Airport",
     "Location served": "Salamo, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -53256,7 +53256,7 @@ module.exports = [
     "DST": ""
   },
   {
-    "IATA": "SAO[1]",
+    "IATA": "SAO",
     "ICAO": "",
     "Airport name": "metropolitan area1",
     "Location served": "São Paulo, São Paulo, Brazil",
@@ -53274,7 +53274,7 @@ module.exports = [
   {
     "IATA": "SAQ",
     "ICAO": "MYAN",
-    "Airport name": "San Andros Airport[1]",
+    "Airport name": "San Andros Airport",
     "Location served": "Nicholls Town, Andros Island, Bahamas",
     "Time": "",
     "DST": ""
@@ -53330,7 +53330,7 @@ module.exports = [
   {
     "IATA": "SAX",
     "ICAO": "",
-    "Airport name": "Sambú Airport[1]",
+    "Airport name": "Sambú Airport",
     "Location served": "Sambú, Panama",
     "Time": "",
     "DST": ""
@@ -53362,7 +53362,7 @@ module.exports = [
   {
     "IATA": "SBB",
     "ICAO": "SVSB",
-    "Airport name": "Santa Bárbara de Barinas Airport[1]",
+    "Airport name": "Santa Bárbara de Barinas Airport",
     "Location served": "Santa Bárbara, Venezuela",
     "Time": "",
     "DST": ""
@@ -53370,7 +53370,7 @@ module.exports = [
   {
     "IATA": "SBC",
     "ICAO": "AYSO",
-    "Airport name": "Selbang Airport[1]",
+    "Airport name": "Selbang Airport",
     "Location served": "Selbang, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -53386,7 +53386,7 @@ module.exports = [
   {
     "IATA": "SBE",
     "ICAO": "AYSA",
-    "Airport name": "Suabi Airport[1]",
+    "Airport name": "Suabi Airport",
     "Location served": "Suabi, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -53402,7 +53402,7 @@ module.exports = [
   {
     "IATA": "SBG",
     "ICAO": "WITN",
-    "Airport name": "Maimun Saleh Airport[1]",
+    "Airport name": "Maimun Saleh Airport",
     "Location served": "Sabang, Indonesia",
     "Time": "",
     "DST": ""
@@ -53426,7 +53426,7 @@ module.exports = [
   {
     "IATA": "SBJ",
     "ICAO": "SNMX",
-    "Airport name": "São Mateus Airport[1]",
+    "Airport name": "São Mateus Airport",
     "Location served": "São Mateus, Espírito Santo, Brazil",
     "Time": "",
     "DST": ""
@@ -53466,7 +53466,7 @@ module.exports = [
   {
     "IATA": "SBO",
     "ICAO": "",
-    "Airport name": "Salina-Gunnison Airport[1] (FAA: 44U)",
+    "Airport name": "Salina-Gunnison Airport (FAA: 44U)",
     "Location served": "Salina / Gunnison, Utah, United States",
     "Time": "",
     "DST": ""
@@ -53482,7 +53482,7 @@ module.exports = [
   {
     "IATA": "SBQ",
     "ICAO": "OPSB",
-    "Airport name": "Sibi Airport[1]",
+    "Airport name": "Sibi Airport",
     "Location served": "Sibi, Pakistan",
     "Time": "",
     "DST": ""
@@ -53490,7 +53490,7 @@ module.exports = [
   {
     "IATA": "SBR",
     "ICAO": "YSII",
-    "Airport name": "Saibai Island Airport[1]",
+    "Airport name": "Saibai Island Airport",
     "Location served": "Saibai Island, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -53506,7 +53506,7 @@ module.exports = [
   {
     "IATA": "SBT",
     "ICAO": "USDA",
-    "Airport name": "Sabetta International Airport[1]",
+    "Airport name": "Sabetta International Airport",
     "Location served": "Sabetta, Yamalo-Nenets Autonomous Okrug, Russia",
     "Time": "",
     "DST": ""
@@ -53522,7 +53522,7 @@ module.exports = [
   {
     "IATA": "SBV",
     "ICAO": "AYSH",
-    "Airport name": "Sabah Airport[1]",
+    "Airport name": "Sabah Airport",
     "Location served": "Sabah, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -53562,7 +53562,7 @@ module.exports = [
   {
     "IATA": "SCA",
     "ICAO": "",
-    "Airport name": "Santa Catalina Airport[1]",
+    "Airport name": "Santa Catalina Airport",
     "Location served": "Santa Catalina, Colombia",
     "Time": "",
     "DST": ""
@@ -53610,7 +53610,7 @@ module.exports = [
   {
     "IATA": "SCG",
     "ICAO": "YSPK",
-    "Airport name": "Spring Creek Airport[1]",
+    "Airport name": "Spring Creek Airport",
     "Location served": "Conjuboy, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -53626,7 +53626,7 @@ module.exports = [
   {
     "IATA": "SCI",
     "ICAO": "SVPM",
-    "Airport name": "Paramillo Airport[1]",
+    "Airport name": "Paramillo Airport",
     "Location served": "San Cristóbal, Venezuela",
     "Time": "",
     "DST": ""
@@ -53674,7 +53674,7 @@ module.exports = [
   {
     "IATA": "SCP",
     "ICAO": "LFNC",
-    "Airport name": "Mont-Dauphin - Saint-Crépin Airport[1]",
+    "Airport name": "Mont-Dauphin - Saint-Crépin Airport",
     "Location served": "Mont-Dauphin, Provence-Alpes-Côte d'Azur, France",
     "Time": "",
     "DST": ""
@@ -53706,7 +53706,7 @@ module.exports = [
   {
     "IATA": "SCT",
     "ICAO": "OYSQ",
-    "Airport name": "Socotra Airport[1]",
+    "Airport name": "Socotra Airport",
     "Location served": "Socotra, Yemen",
     "Time": "",
     "DST": ""
@@ -53754,7 +53754,7 @@ module.exports = [
   {
     "IATA": "SCZ",
     "ICAO": "AGGL",
-    "Airport name": "Santa Cruz/Graciosa Bay/Luova Airport[1]",
+    "Airport name": "Santa Cruz/Graciosa Bay/Luova Airport",
     "Location served": "Santa Cruz Islands, Solomon Islands",
     "Time": "",
     "DST": ""
@@ -53762,7 +53762,7 @@ module.exports = [
   {
     "IATA": "SDB",
     "ICAO": "FALW",
-    "Airport name": "Air Force Base Langebaanweg[1]",
+    "Airport name": "Air Force Base Langebaanweg",
     "Location served": "Saldanha Bay, South Africa",
     "Time": "",
     "DST": ""
@@ -53802,7 +53802,7 @@ module.exports = [
   {
     "IATA": "SDG",
     "ICAO": "OICS",
-    "Airport name": "Sanandaj Airport[1]",
+    "Airport name": "Sanandaj Airport",
     "Location served": "Sanandaj, Iran",
     "Time": "",
     "DST": ""
@@ -53810,7 +53810,7 @@ module.exports = [
   {
     "IATA": "SDH",
     "ICAO": "MHSR",
-    "Airport name": "Santa Rosa de Copán Airport[1]",
+    "Airport name": "Santa Rosa de Copán Airport",
     "Location served": "Santa Rosa de Copán, Honduras",
     "Time": "",
     "DST": ""
@@ -53818,7 +53818,7 @@ module.exports = [
   {
     "IATA": "SDI",
     "ICAO": "AYSD",
-    "Airport name": "Saidor Airport[1]",
+    "Airport name": "Saidor Airport",
     "Location served": "Saidor, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -53890,7 +53890,7 @@ module.exports = [
   {
     "IATA": "SDS",
     "ICAO": "RJSD",
-    "Airport name": "Sado Airport[1]",
+    "Airport name": "Sado Airport",
     "Location served": "Sado, Niigata, Japan",
     "Time": "",
     "DST": ""
@@ -53898,7 +53898,7 @@ module.exports = [
   {
     "IATA": "SDT",
     "ICAO": "OPSS",
-    "Airport name": "Saidu Sharif Airport[1]",
+    "Airport name": "Saidu Sharif Airport",
     "Location served": "Saidu Sharif, Pakistan",
     "Time": "",
     "DST": ""
@@ -53954,7 +53954,7 @@ module.exports = [
   {
     "IATA": "SEB",
     "ICAO": "HLLS",
-    "Airport name": "Sabha Airport[1]",
+    "Airport name": "Sabha Airport",
     "Location served": "Sabha (Sebha), Libya",
     "Time": "",
     "DST": ""
@@ -53962,7 +53962,7 @@ module.exports = [
   {
     "IATA": "SED",
     "ICAO": "",
-    "Airport name": "Sdom Airfield[1] (Hashnayim Airfield)",
+    "Airport name": "Sdom Airfield (Hashnayim Airfield)",
     "Location served": "Neve Zohar (Sedom), Israel",
     "Time": "",
     "DST": ""
@@ -54034,7 +54034,7 @@ module.exports = [
   {
     "IATA": "SEO",
     "ICAO": "DISG",
-    "Airport name": "Séguéla Airport[1]",
+    "Airport name": "Séguéla Airport",
     "Location served": "Séguéla, Ivory Coast",
     "Time": "",
     "DST": ""
@@ -54066,7 +54066,7 @@ module.exports = [
   {
     "IATA": "SEU",
     "ICAO": "HTSN",
-    "Airport name": "Seronera Airstrip[1]",
+    "Airport name": "Seronera Airstrip",
     "Location served": "Seronera, Tanzania",
     "Time": "",
     "DST": ""
@@ -54074,7 +54074,7 @@ module.exports = [
   {
     "IATA": "SEV",
     "ICAO": "",
-    "Airport name": "Severodonetsk Airport[1]",
+    "Airport name": "Severodonetsk Airport",
     "Location served": "Severodonetsk, Ukraine",
     "Time": "",
     "DST": ""
@@ -54082,7 +54082,7 @@ module.exports = [
   {
     "IATA": "SEW",
     "ICAO": "",
-    "Airport name": "Siwa Oasis North Airport[1]",
+    "Airport name": "Siwa Oasis North Airport",
     "Location served": "Siwa Oasis, Egypt",
     "Time": "",
     "DST": ""
@@ -54122,7 +54122,7 @@ module.exports = [
   {
     "IATA": "SFC",
     "ICAO": "TFFC",
-    "Airport name": "Saint-François Airport[1]",
+    "Airport name": "Saint-François Airport",
     "Location served": "Saint-François, Guadeloupe",
     "Time": "",
     "DST": ""
@@ -54154,7 +54154,7 @@ module.exports = [
   {
     "IATA": "SFG",
     "ICAO": "TFFG",
-    "Airport name": "L'Espérance Airport[1] (Grand Case Airport)",
+    "Airport name": "L'Espérance Airport (Grand Case Airport)",
     "Location served": "Grand Case, Saint Martin",
     "Time": "",
     "DST": ""
@@ -54178,7 +54178,7 @@ module.exports = [
   {
     "IATA": "SFK",
     "ICAO": "SNSW",
-    "Airport name": "Soure Airport[1]",
+    "Airport name": "Soure Airport",
     "Location served": "Soure, Pará, Brazil",
     "Time": "",
     "DST": ""
@@ -54202,7 +54202,7 @@ module.exports = [
   {
     "IATA": "SFN",
     "ICAO": "SAAV",
-    "Airport name": "Sauce Viejo Airport[1]",
+    "Airport name": "Sauce Viejo Airport",
     "Location served": "Santa Fe de la Vera Cruz, Santa Fe, Argentina",
     "Time": "",
     "DST": ""
@@ -54242,7 +54242,7 @@ module.exports = [
   {
     "IATA": "SFU",
     "ICAO": "",
-    "Airport name": "Safia Airport[1]",
+    "Airport name": "Safia Airport",
     "Location served": "Safia, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -54250,7 +54250,7 @@ module.exports = [
   {
     "IATA": "SFV",
     "ICAO": "",
-    "Airport name": "Santa Fé do Sul Airport[1]",
+    "Airport name": "Santa Fé do Sul Airport",
     "Location served": "Santa Fé do Sul, São Paulo, Brazil",
     "Time": "",
     "DST": ""
@@ -54258,7 +54258,7 @@ module.exports = [
   {
     "IATA": "SFX",
     "ICAO": "",
-    "Airport name": "Macagua Airport[1]",
+    "Airport name": "Macagua Airport",
     "Location served": "San Félix, Venezuela",
     "Time": "",
     "DST": ""
@@ -54290,7 +54290,7 @@ module.exports = [
   {
     "IATA": "SGB",
     "ICAO": "",
-    "Airport name": "Singaua Airport[1]",
+    "Airport name": "Singaua Airport",
     "Location served": "Singaua, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -54338,7 +54338,7 @@ module.exports = [
   {
     "IATA": "SGI",
     "ICAO": "OPSR",
-    "Airport name": "PAF Base Mushaf[1]",
+    "Airport name": "PAF Base Mushaf",
     "Location served": "Sargodha, Pakistan",
     "Time": "",
     "DST": ""
@@ -54346,7 +54346,7 @@ module.exports = [
   {
     "IATA": "SGJ",
     "ICAO": "",
-    "Airport name": "Sagarai Airport[1]",
+    "Airport name": "Sagarai Airport",
     "Location served": "Sagarai, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -54370,7 +54370,7 @@ module.exports = [
   {
     "IATA": "SGM",
     "ICAO": "",
-    "Airport name": "San Ignacio Airfield[1]",
+    "Airport name": "San Ignacio Airfield",
     "Location served": "San Ignacio, Baja California Sur, Mexico",
     "Time": "",
     "DST": ""
@@ -54386,7 +54386,7 @@ module.exports = [
   {
     "IATA": "SGO",
     "ICAO": "YSGE",
-    "Airport name": "St George Airport[1]",
+    "Airport name": "St George Airport",
     "Location served": "St George, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -54394,7 +54394,7 @@ module.exports = [
   {
     "IATA": "SGP",
     "ICAO": "YSHG",
-    "Airport name": "Shay Gap Airport[1]",
+    "Airport name": "Shay Gap Airport",
     "Location served": "Shay Gap, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -54402,7 +54402,7 @@ module.exports = [
   {
     "IATA": "SGQ",
     "ICAO": "WRLA",
-    "Airport name": "Sangkimah Airport[1]",
+    "Airport name": "Sangkimah Airport",
     "Location served": "Sangatta, Indonesia",
     "Time": "",
     "DST": ""
@@ -54434,7 +54434,7 @@ module.exports = [
   {
     "IATA": "SGV",
     "ICAO": "SAVS",
-    "Airport name": "Sierra Grande Airport[1]",
+    "Airport name": "Sierra Grande Airport",
     "Location served": "Sierra Grande, Río Negro, Argentina",
     "Time": "",
     "DST": ""
@@ -54442,7 +54442,7 @@ module.exports = [
   {
     "IATA": "SGW",
     "ICAO": "",
-    "Airport name": "Saginaw Seaplane Base[1] (FAA: A23)",
+    "Airport name": "Saginaw Seaplane Base (FAA: A23)",
     "Location served": "Saginaw Bay, Alaska, United States",
     "Time": "",
     "DST": ""
@@ -54450,7 +54450,7 @@ module.exports = [
   {
     "IATA": "SGX",
     "ICAO": "HTSO",
-    "Airport name": "Songea Airport[1]",
+    "Airport name": "Songea Airport",
     "Location served": "Songea, Tanzania",
     "Time": "",
     "DST": ""
@@ -54466,7 +54466,7 @@ module.exports = [
   {
     "IATA": "SGZ",
     "ICAO": "VTSH",
-    "Airport name": "Songkhla Airport[1]",
+    "Airport name": "Songkhla Airport",
     "Location served": "Songkhla, Thailand",
     "Time": "",
     "DST": ""
@@ -54490,7 +54490,7 @@ module.exports = [
   {
     "IATA": "SHC",
     "ICAO": "",
-    "Airport name": "Shire Airport[1]",
+    "Airport name": "Shire Airport",
     "Location served": "Shire (Inda Selassie), Ethiopia",
     "Time": "",
     "DST": ""
@@ -54554,7 +54554,7 @@ module.exports = [
   {
     "IATA": "SHK",
     "ICAO": "FXSH",
-    "Airport name": "Sehonghong Airport[1]",
+    "Airport name": "Sehonghong Airport",
     "Location served": "Sehonghong, Lesotho",
     "Time": "",
     "DST": ""
@@ -54586,7 +54586,7 @@ module.exports = [
   {
     "IATA": "SHO",
     "ICAO": "FDSK",
-    "Airport name": "King Mswati III International Airport[1] (Sikhuphe Int'l)",
+    "Airport name": "King Mswati III International Airport (Sikhuphe Int'l)",
     "Location served": "Manzini, Swaziland",
     "Time": "",
     "DST": ""
@@ -54594,7 +54594,7 @@ module.exports = [
   {
     "IATA": "SHQ",
     "ICAO": "YSPT",
-    "Airport name": "Southport Airport[1]",
+    "Airport name": "Southport Airport",
     "Location served": "Southport, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -54626,7 +54626,7 @@ module.exports = [
   {
     "IATA": "SHU",
     "ICAO": "YSMP",
-    "Airport name": "Smith Point Airport[1]",
+    "Airport name": "Smith Point Airport",
     "Location served": "Smith Point, Northern Territory, Australia",
     "Time": "",
     "DST": ""
@@ -54658,7 +54658,7 @@ module.exports = [
   {
     "IATA": "SHY",
     "ICAO": "HTSY",
-    "Airport name": "Shinyanga Airport[1]",
+    "Airport name": "Shinyanga Airport",
     "Location served": "Shinyanga, Tanzania",
     "Time": "",
     "DST": ""
@@ -54666,7 +54666,7 @@ module.exports = [
   {
     "IATA": "SHZ",
     "ICAO": "FXSS",
-    "Airport name": "Seshutes Airport[1]",
+    "Airport name": "Seshutes Airport",
     "Location served": "Seshote, Lesotho",
     "Time": "",
     "DST": ""
@@ -54682,7 +54682,7 @@ module.exports = [
   {
     "IATA": "SIB",
     "ICAO": "FCBS",
-    "Airport name": "Sibiti Airport[1]",
+    "Airport name": "Sibiti Airport",
     "Location served": "Sibiti, Republic of the Congo",
     "Time": "",
     "DST": ""
@@ -54690,7 +54690,7 @@ module.exports = [
   {
     "IATA": "SIC",
     "ICAO": "",
-    "Airport name": "San José Airport[1]",
+    "Airport name": "San José Airport",
     "Location served": "San José Island, Panama",
     "Time": "",
     "DST": ""
@@ -54706,7 +54706,7 @@ module.exports = [
   {
     "IATA": "SIE",
     "ICAO": "LPSI",
-    "Airport name": "Sines Airport[1]",
+    "Airport name": "Sines Airport",
     "Location served": "Sines, Portugal",
     "Time": "",
     "DST": ""
@@ -54714,7 +54714,7 @@ module.exports = [
   {
     "IATA": "SIF",
     "ICAO": "VNSI",
-    "Airport name": "Simara Airport[1]",
+    "Airport name": "Simara Airport",
     "Location served": "Simara, Nepal",
     "Time": "",
     "DST": ""
@@ -54730,7 +54730,7 @@ module.exports = [
   {
     "IATA": "SIH",
     "ICAO": "VNDT",
-    "Airport name": "Silgadhi Airport[1]",
+    "Airport name": "Silgadhi Airport",
     "Location served": "Dipayal Silgadhi, Nepal",
     "Time": "",
     "DST": ""
@@ -54762,7 +54762,7 @@ module.exports = [
   {
     "IATA": "SIL",
     "ICAO": "AYSG",
-    "Airport name": "Sila Airport[1]",
+    "Airport name": "Sila Airport",
     "Location served": "Sila, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -54770,7 +54770,7 @@ module.exports = [
   {
     "IATA": "SIM",
     "ICAO": "AYSJ",
-    "Airport name": "Simbai Airport[1]",
+    "Airport name": "Simbai Airport",
     "Location served": "Simbai, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -54802,7 +54802,7 @@ module.exports = [
   {
     "IATA": "SIQ",
     "ICAO": "WIDS",
-    "Airport name": "Dabo Singkep Airport[1]",
+    "Airport name": "Dabo Singkep Airport",
     "Location served": "Singkep, Indonesia",
     "Time": "",
     "DST": ""
@@ -54850,7 +54850,7 @@ module.exports = [
   {
     "IATA": "SIW",
     "ICAO": "WIMP",
-    "Airport name": "Sibisa Airport[1]",
+    "Airport name": "Sibisa Airport",
     "Location served": "Parapat, Indonesia",
     "Time": "",
     "DST": ""
@@ -54858,7 +54858,7 @@ module.exports = [
   {
     "IATA": "SIX",
     "ICAO": "YSGT",
-    "Airport name": "Singleton Airport[1]",
+    "Airport name": "Singleton Airport",
     "Location served": "Singleton, New South Wales, Australia",
     "Time": "",
     "DST": ""
@@ -54874,7 +54874,7 @@ module.exports = [
   {
     "IATA": "SIZ",
     "ICAO": "AYZN",
-    "Airport name": "Sissano Airport[1]",
+    "Airport name": "Sissano Airport",
     "Location served": "Sissano, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -54882,7 +54882,7 @@ module.exports = [
   {
     "IATA": "SJA",
     "ICAO": "SPJN",
-    "Airport name": "San Juan de Marcona Airport[1]",
+    "Airport name": "San Juan de Marcona Airport",
     "Location served": "San Juan de Marcona, Peru",
     "Time": "",
     "DST": ""
@@ -54890,7 +54890,7 @@ module.exports = [
   {
     "IATA": "SJB",
     "ICAO": "SLJO",
-    "Airport name": "San Joaquín Airport[1]",
+    "Airport name": "San Joaquín Airport",
     "Location served": "San Joaquín, Bolivia",
     "Time": "",
     "DST": ""
@@ -54922,7 +54922,7 @@ module.exports = [
   {
     "IATA": "SJF",
     "ICAO": "",
-    "Airport name": "Cruz Bay Seaplane Base[1]",
+    "Airport name": "Cruz Bay Seaplane Base",
     "Location served": "Saint John, United States Virgin Islands",
     "Time": "",
     "DST": ""
@@ -54930,7 +54930,7 @@ module.exports = [
   {
     "IATA": "SJG",
     "ICAO": "",
-    "Airport name": "San Pedro de Jagua Airport[1]",
+    "Airport name": "San Pedro de Jagua Airport",
     "Location served": "San Pedro de Jagua, Colombia",
     "Time": "",
     "DST": ""
@@ -54938,7 +54938,7 @@ module.exports = [
   {
     "IATA": "SJH",
     "ICAO": "",
-    "Airport name": "San Juan del Cesar Airport[1]",
+    "Airport name": "San Juan del Cesar Airport",
     "Location served": "San Juan del Cesar, Colombia",
     "Time": "",
     "DST": ""
@@ -54970,7 +54970,7 @@ module.exports = [
   {
     "IATA": "SJL",
     "ICAO": "SBUA",
-    "Airport name": "São Gabriel da Cachoeira Airport[1]",
+    "Airport name": "São Gabriel da Cachoeira Airport",
     "Location served": "São Gabriel da Cachoeira, Amazonas, Brazil",
     "Time": "",
     "DST": ""
@@ -55002,7 +55002,7 @@ module.exports = [
   {
     "IATA": "SJQ",
     "ICAO": "FLSS",
-    "Airport name": "Sesheke Airport[1]",
+    "Airport name": "Sesheke Airport",
     "Location served": "Sesheke, Zambia",
     "Time": "",
     "DST": ""
@@ -55010,7 +55010,7 @@ module.exports = [
   {
     "IATA": "SJR",
     "ICAO": "",
-    "Airport name": "San Juan de Urabá Airport[1]",
+    "Airport name": "San Juan de Urabá Airport",
     "Location served": "San Juan de Urabá, Colombia",
     "Time": "",
     "DST": ""
@@ -55018,7 +55018,7 @@ module.exports = [
   {
     "IATA": "SJS",
     "ICAO": "SLJE",
-    "Airport name": "San José de Chiquitos Airport[1]",
+    "Airport name": "San José de Chiquitos Airport",
     "Location served": "San José de Chiquitos, Bolivia",
     "Time": "",
     "DST": ""
@@ -55042,7 +55042,7 @@ module.exports = [
   {
     "IATA": "SJV",
     "ICAO": "SLJV",
-    "Airport name": "San Javier Airport[1]",
+    "Airport name": "San Javier Airport",
     "Location served": "San Javier, Bolivia",
     "Time": "",
     "DST": ""
@@ -55098,7 +55098,7 @@ module.exports = [
   {
     "IATA": "SKC",
     "ICAO": "AYSU",
-    "Airport name": "Suki Airport[1]",
+    "Airport name": "Suki Airport",
     "Location served": "Suki, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -55106,7 +55106,7 @@ module.exports = [
   {
     "IATA": "SKD",
     "ICAO": "UTSS",
-    "Airport name": "Samarkand International Airport[1]",
+    "Airport name": "Samarkand International Airport",
     "Location served": "Samarkand, Uzbekistan",
     "Time": "",
     "DST": ""
@@ -55138,7 +55138,7 @@ module.exports = [
   {
     "IATA": "SKH",
     "ICAO": "VNSK",
-    "Airport name": "Surkhet Airport[1]",
+    "Airport name": "Surkhet Airport",
     "Location served": "Surkhet, Nepal",
     "Time": "",
     "DST": ""
@@ -55162,7 +55162,7 @@ module.exports = [
   {
     "IATA": "SKL",
     "ICAO": "EGEI",
-    "Airport name": "Broadford Airfield[1]",
+    "Airport name": "Broadford Airfield",
     "Location served": "Isle of Skye, Scotland, United Kingdom",
     "Time": "",
     "DST": ""
@@ -55170,7 +55170,7 @@ module.exports = [
   {
     "IATA": "SKM",
     "ICAO": "",
-    "Airport name": "Skeldon Airport[1]",
+    "Airport name": "Skeldon Airport",
     "Location served": "Skeldon, Guyana",
     "Time": "",
     "DST": ""
@@ -55186,7 +55186,7 @@ module.exports = [
   {
     "IATA": "SKO",
     "ICAO": "DNSO",
-    "Airport name": "Sadiq Abubakar III International Airport[1]",
+    "Airport name": "Sadiq Abubakar III International Airport",
     "Location served": "Sokoto, Nigeria",
     "Time": "",
     "DST": ""
@@ -55202,7 +55202,7 @@ module.exports = [
   {
     "IATA": "SKQ",
     "ICAO": "FXSK",
-    "Airport name": "Sekake Airport[1]",
+    "Airport name": "Sekake Airport",
     "Location served": "Sekake, Lesotho",
     "Time": "",
     "DST": ""
@@ -55210,7 +55210,7 @@ module.exports = [
   {
     "IATA": "SKR",
     "ICAO": "HASK",
-    "Airport name": "Shakiso Airport[1]",
+    "Airport name": "Shakiso Airport",
     "Location served": "Shakiso, Ethiopia",
     "Time": "",
     "DST": ""
@@ -55322,7 +55322,7 @@ module.exports = [
   {
     "IATA": "SLF",
     "ICAO": "OESL",
-    "Airport name": "Sulayel Airport[1]",
+    "Airport name": "Sulayel Airport",
     "Location served": "As Sulayyil (Sulayel), Saudi Arabia",
     "Time": "",
     "DST": ""
@@ -55466,7 +55466,7 @@ module.exports = [
   {
     "IATA": "SLX",
     "ICAO": "MBSY",
-    "Airport name": "Salt Cay Airport[1]",
+    "Airport name": "Salt Cay Airport",
     "Location served": "Salt Cay, British Overseas Territory of Turks and Caicos Islands",
     "Time": "",
     "DST": ""
@@ -55498,7 +55498,7 @@ module.exports = [
   {
     "IATA": "SMB",
     "ICAO": "SCSB",
-    "Airport name": "Franco Bianco Airport[1]",
+    "Airport name": "Franco Bianco Airport",
     "Location served": "Cerro Sombrero, Chile",
     "Time": "",
     "DST": ""
@@ -55506,7 +55506,7 @@ module.exports = [
   {
     "IATA": "SMC",
     "ICAO": "",
-    "Airport name": "Santa María Airport[1]",
+    "Airport name": "Santa María Airport",
     "Location served": "Santa María, Colombia",
     "Time": "",
     "DST": ""
@@ -55538,7 +55538,7 @@ module.exports = [
   {
     "IATA": "SMG",
     "ICAO": "SPMR",
-    "Airport name": "Santa María Airport[1]",
+    "Airport name": "Santa María Airport",
     "Location served": "Santa María del Mar, Peru",
     "Time": "",
     "DST": ""
@@ -55562,7 +55562,7 @@ module.exports = [
   {
     "IATA": "SMJ",
     "ICAO": "",
-    "Airport name": "Sim Airport[1]",
+    "Airport name": "Sim Airport",
     "Location served": "Sim, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -55578,7 +55578,7 @@ module.exports = [
   {
     "IATA": "SML",
     "ICAO": "MYLS",
-    "Airport name": "Stella Maris Airport[1]",
+    "Airport name": "Stella Maris Airport",
     "Location served": "Stella Maris, Long Island, Bahamas",
     "Time": "",
     "DST": ""
@@ -55610,7 +55610,7 @@ module.exports = [
   {
     "IATA": "SMP",
     "ICAO": "",
-    "Airport name": "Stockholm Airport[1]",
+    "Airport name": "Stockholm Airport",
     "Location served": "Stockholm, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -55658,7 +55658,7 @@ module.exports = [
   {
     "IATA": "SMW",
     "ICAO": "GMMA",
-    "Airport name": "Smara Airport[1]",
+    "Airport name": "Smara Airport",
     "Location served": "Smara, Morocco",
     "Time": "",
     "DST": ""
@@ -55722,7 +55722,7 @@ module.exports = [
   {
     "IATA": "SNF",
     "ICAO": "SVSP",
-    "Airport name": "Sub Teniente Nestor Arias Airport[1]",
+    "Airport name": "Sub Teniente Nestor Arias Airport",
     "Location served": "San Felipe, Venezuela",
     "Time": "",
     "DST": ""
@@ -55730,7 +55730,7 @@ module.exports = [
   {
     "IATA": "SNG",
     "ICAO": "SLSI",
-    "Airport name": "Capitán Av. Juan Cochamanidis Airport[1]",
+    "Airport name": "Capitán Av. Juan Cochamanidis Airport",
     "Location served": "San Ignacio de Velasco, Bolivia",
     "Time": "",
     "DST": ""
@@ -55754,7 +55754,7 @@ module.exports = [
   {
     "IATA": "SNJ",
     "ICAO": "MUSJ",
-    "Airport name": "San Julián Air Base[1]",
+    "Airport name": "San Julián Air Base",
     "Location served": "Guane, Cuba",
     "Time": "",
     "DST": ""
@@ -55778,7 +55778,7 @@ module.exports = [
   {
     "IATA": "SNM",
     "ICAO": "SLSM",
-    "Airport name": "San Ignacio de Moxos Airport[1]",
+    "Airport name": "San Ignacio de Moxos Airport",
     "Location served": "San Ignacio de Moxos, Bolivia",
     "Time": "",
     "DST": ""
@@ -55794,7 +55794,7 @@ module.exports = [
   {
     "IATA": "SNO",
     "ICAO": "VTUI",
-    "Airport name": "Sakon Nakhon Airport[1]",
+    "Airport name": "Sakon Nakhon Airport",
     "Location served": "Sakon Nakhon, Thailand",
     "Time": "",
     "DST": ""
@@ -55810,7 +55810,7 @@ module.exports = [
   {
     "IATA": "SNQ",
     "ICAO": "",
-    "Airport name": "San Quintín Military Airstrip[1]",
+    "Airport name": "San Quintín Military Airstrip",
     "Location served": "San Quintín, Baja California, Mexico",
     "Time": "",
     "DST": ""
@@ -55834,7 +55834,7 @@ module.exports = [
   {
     "IATA": "SNT",
     "ICAO": "SKRU",
-    "Airport name": "Las Cruces Airport[1]",
+    "Airport name": "Las Cruces Airport",
     "Location served": "Sabana de Torres, Colombia",
     "Time": "",
     "DST": ""
@@ -55850,7 +55850,7 @@ module.exports = [
   {
     "IATA": "SNV",
     "ICAO": "SVSE",
-    "Airport name": "Santa Elena de Uairén Airport[1]",
+    "Airport name": "Santa Elena de Uairén Airport",
     "Location served": "Santa Elena de Uairén, Venezuela",
     "Time": "",
     "DST": ""
@@ -55858,7 +55858,7 @@ module.exports = [
   {
     "IATA": "SNW",
     "ICAO": "VYTD",
-    "Airport name": "Thandwe Airport[1]",
+    "Airport name": "Thandwe Airport",
     "Location served": "Thandwe, Myanmar",
     "Time": "",
     "DST": ""
@@ -55866,7 +55866,7 @@ module.exports = [
   {
     "IATA": "SNX",
     "ICAO": "OIIS",
-    "Airport name": "Semnan Municipal Airport[1]",
+    "Airport name": "Semnan Municipal Airport",
     "Location served": "Semnan, Iran",
     "Time": "",
     "DST": ""
@@ -55890,7 +55890,7 @@ module.exports = [
   {
     "IATA": "SOA",
     "ICAO": "",
-    "Airport name": "Sóc Trăng Airfield[1]",
+    "Airport name": "Sóc Trăng Airfield",
     "Location served": "Sóc Trăng, Vietnam",
     "Time": "",
     "DST": ""
@@ -55922,7 +55922,7 @@ module.exports = [
   {
     "IATA": "SOE",
     "ICAO": "FCOS",
-    "Airport name": "Souanké Airport[1]",
+    "Airport name": "Souanké Airport",
     "Location served": "Souanké, Republic of the Congo",
     "Time": "",
     "DST": ""
@@ -55962,7 +55962,7 @@ module.exports = [
   {
     "IATA": "SOL",
     "ICAO": "",
-    "Airport name": "Solomon State Field Airport[1] (FAA: AK26)",
+    "Airport name": "Solomon State Field Airport (FAA: AK26)",
     "Location served": "Solomon, Alaska, United States",
     "Time": "",
     "DST": ""
@@ -55986,7 +55986,7 @@ module.exports = [
   {
     "IATA": "SOO",
     "ICAO": "ESNY",
-    "Airport name": "Söderhamn Airport[1] (Helsinge Airport)",
+    "Airport name": "Söderhamn Airport (Helsinge Airport)",
     "Location served": "Söderhamn, Sweden",
     "Time": "",
     "DST": ""
@@ -56002,7 +56002,7 @@ module.exports = [
   {
     "IATA": "SOQ",
     "ICAO": "WASS",
-    "Airport name": "Dominique Edward Osok Airport[1]",
+    "Airport name": "Dominique Edward Osok Airport",
     "Location served": "Sorong, Indonesia",
     "Time": "",
     "DST": ""
@@ -56010,7 +56010,7 @@ module.exports = [
   {
     "IATA": "SOT",
     "ICAO": "EFSO",
-    "Airport name": "Sodankylä Airfield[1]",
+    "Airport name": "Sodankylä Airfield",
     "Location served": "Sodankylä, Finland",
     "Time": "",
     "DST": ""
@@ -56042,7 +56042,7 @@ module.exports = [
   {
     "IATA": "SOX",
     "ICAO": "SKSO",
-    "Airport name": "Alberto Lleras Camargo Airport[1]",
+    "Airport name": "Alberto Lleras Camargo Airport",
     "Location served": "Sogamoso, Colombia",
     "Time": "",
     "DST": ""
@@ -56058,7 +56058,7 @@ module.exports = [
   {
     "IATA": "SOZ",
     "ICAO": "LFKS",
-    "Airport name": "Solenzara Air Base[1]",
+    "Airport name": "Solenzara Air Base",
     "Location served": "Sari-Solenzara, Corsica, France",
     "Time": "",
     "DST": ""
@@ -56098,7 +56098,7 @@ module.exports = [
   {
     "IATA": "SPE",
     "ICAO": "WBKO",
-    "Airport name": "Sepulot Airport[1]",
+    "Airport name": "Sepulot Airport",
     "Location served": "Sapulut, Sabah, Malaysia",
     "Time": "",
     "DST": ""
@@ -56170,7 +56170,7 @@ module.exports = [
   {
     "IATA": "SPP",
     "ICAO": "FNME",
-    "Airport name": "Menongue Airport[1]",
+    "Airport name": "Menongue Airport",
     "Location served": "Menongue, Angola",
     "Time": "",
     "DST": ""
@@ -56194,7 +56194,7 @@ module.exports = [
   {
     "IATA": "SPT",
     "ICAO": "",
-    "Airport name": "Sipitang Airstrip[1]",
+    "Airport name": "Sipitang Airstrip",
     "Location served": "Sipitang, Sabah, Malaysia",
     "Time": "",
     "DST": ""
@@ -56210,7 +56210,7 @@ module.exports = [
   {
     "IATA": "SPV",
     "ICAO": "",
-    "Airport name": "Sepik Plains Airport[1]",
+    "Airport name": "Sepik Plains Airport",
     "Location served": "Sepik Plains, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -56226,7 +56226,7 @@ module.exports = [
   {
     "IATA": "SPY",
     "ICAO": "DISP",
-    "Airport name": "San Pédro Airport[1]",
+    "Airport name": "San Pédro Airport",
     "Location served": "San-Pédro, Ivory Coast",
     "Time": "",
     "DST": ""
@@ -56234,7 +56234,7 @@ module.exports = [
   {
     "IATA": "SPX",
     "ICAO": "",
-    "Airport name": "Sphinx International Airport[1]",
+    "Airport name": "Sphinx International Airport",
     "Location served": "Egypt, Egypt",
     "Time": "",
     "DST": ""
@@ -56258,7 +56258,7 @@ module.exports = [
   {
     "IATA": "SQB",
     "ICAO": "",
-    "Airport name": "Santa Ana Airport[1]",
+    "Airport name": "Santa Ana Airport",
     "Location served": "Piedras, Colombia",
     "Time": "",
     "DST": ""
@@ -56266,7 +56266,7 @@ module.exports = [
   {
     "IATA": "SQC",
     "ICAO": "YSCR",
-    "Airport name": "Southern Cross Airport[1]",
+    "Airport name": "Southern Cross Airport",
     "Location served": "Southern Cross, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -56274,7 +56274,7 @@ module.exports = [
   {
     "IATA": "SQD",
     "ICAO": "ZSSR",
-    "Airport name": "Shangrao Sanqingshan Airport[1]",
+    "Airport name": "Shangrao Sanqingshan Airport",
     "Location served": "Shangrao, Jiangxi, China",
     "Time": "",
     "DST": ""
@@ -56282,7 +56282,7 @@ module.exports = [
   {
     "IATA": "SQE",
     "ICAO": "",
-    "Airport name": "San Luis de Palenque Airport[1]",
+    "Airport name": "San Luis de Palenque Airport",
     "Location served": "San Luis de Palenque, Colombia",
     "Time": "",
     "DST": ""
@@ -56290,7 +56290,7 @@ module.exports = [
   {
     "IATA": "SQG",
     "ICAO": "WIOS",
-    "Airport name": "Tebelian Airport[1] (Susilo Airport)",
+    "Airport name": "Tebelian Airport (Susilo Airport)",
     "Location served": "Sintang, Indonesia",
     "Time": "",
     "DST": ""
@@ -56298,7 +56298,7 @@ module.exports = [
   {
     "IATA": "SQH",
     "ICAO": "VVNS",
-    "Airport name": "Nà Sản Airport[1]",
+    "Airport name": "Nà Sản Airport",
     "Location served": "Sơn La, Vietnam",
     "Time": "",
     "DST": ""
@@ -56314,7 +56314,7 @@ module.exports = [
   {
     "IATA": "SQJ",
     "ICAO": "",
-    "Airport name": "Sanming Shaxian Airport[1]",
+    "Airport name": "Sanming Shaxian Airport",
     "Location served": "Sanming, Fujian, China",
     "Time": "",
     "DST": ""
@@ -56322,7 +56322,7 @@ module.exports = [
   {
     "IATA": "SQK",
     "ICAO": "",
-    "Airport name": "Sidi Barrani Airport[1]",
+    "Airport name": "Sidi Barrani Airport",
     "Location served": "Sidi Barrani, Egypt",
     "Time": "",
     "DST": ""
@@ -56338,7 +56338,7 @@ module.exports = [
   {
     "IATA": "SQM",
     "ICAO": "SWUA",
-    "Airport name": "São Miguel do Araguaia Airport[1]",
+    "Airport name": "São Miguel do Araguaia Airport",
     "Location served": "São Miguel do Araguaia, Goiás, Brazil",
     "Time": "",
     "DST": ""
@@ -56346,7 +56346,7 @@ module.exports = [
   {
     "IATA": "SQN",
     "ICAO": "WAPN",
-    "Airport name": "Sanana Airport[1]",
+    "Airport name": "Sanana Airport",
     "Location served": "Sanana Island, Indonesia",
     "Time": "",
     "DST": ""
@@ -56354,7 +56354,7 @@ module.exports = [
   {
     "IATA": "SQO",
     "ICAO": "ESUD",
-    "Airport name": "Storuman Airport[1]",
+    "Airport name": "Storuman Airport",
     "Location served": "Storuman, Sweden",
     "Time": "",
     "DST": ""
@@ -56378,7 +56378,7 @@ module.exports = [
   {
     "IATA": "SQS",
     "ICAO": "",
-    "Airport name": "Matthew Spain Airport[1]",
+    "Airport name": "Matthew Spain Airport",
     "Location served": "San Ignacio, Belize",
     "Time": "",
     "DST": ""
@@ -56386,7 +56386,7 @@ module.exports = [
   {
     "IATA": "SQT",
     "ICAO": "",
-    "Airport name": "China Strait Airstrip[1]",
+    "Airport name": "China Strait Airstrip",
     "Location served": "Samarai, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -56394,7 +56394,7 @@ module.exports = [
   {
     "IATA": "SQU",
     "ICAO": "SPOA",
-    "Airport name": "Saposoa Airport[1]",
+    "Airport name": "Saposoa Airport",
     "Location served": "Saposoa, Peru",
     "Time": "",
     "DST": ""
@@ -56426,7 +56426,7 @@ module.exports = [
   {
     "IATA": "SQY",
     "ICAO": "SSRU",
-    "Airport name": "São Lourenço do Sul Airport[1]",
+    "Airport name": "São Lourenço do Sul Airport",
     "Location served": "São Lourenço do Sul, Rio Grande do Sul, Brazil",
     "Time": "",
     "DST": ""
@@ -56434,7 +56434,7 @@ module.exports = [
   {
     "IATA": "SQZ",
     "ICAO": "EGXP",
-    "Airport name": "RAF Scampton[1]",
+    "Airport name": "RAF Scampton",
     "Location served": "Scampton, England, United Kingdom",
     "Time": "",
     "DST": ""
@@ -56442,7 +56442,7 @@ module.exports = [
   {
     "IATA": "SRA",
     "ICAO": "SSZR",
-    "Airport name": "Santa Rosa Airport[1]",
+    "Airport name": "Santa Rosa Airport",
     "Location served": "Santa Rosa, Rio Grande do Sul, Brazil",
     "Time": "",
     "DST": ""
@@ -56450,7 +56450,7 @@ module.exports = [
   {
     "IATA": "SRB",
     "ICAO": "SLSR",
-    "Airport name": "Santa Rosa Airport[1]",
+    "Airport name": "Santa Rosa Airport",
     "Location served": "Santa Rosa de Yacuma, Bolivia",
     "Time": "",
     "DST": ""
@@ -56466,7 +56466,7 @@ module.exports = [
   {
     "IATA": "SRD",
     "ICAO": "SLRA",
-    "Airport name": "San Ramón Airport[1]",
+    "Airport name": "San Ramón Airport",
     "Location served": "San Ramón, Bolivia",
     "Time": "",
     "DST": ""
@@ -56522,7 +56522,7 @@ module.exports = [
   {
     "IATA": "SRL",
     "ICAO": "",
-    "Airport name": "Palo Verde Airport[1]",
+    "Airport name": "Palo Verde Airport",
     "Location served": "Santa Rosalía, Baja California Sur, Mexico",
     "Time": "",
     "DST": ""
@@ -56530,7 +56530,7 @@ module.exports = [
   {
     "IATA": "SRM",
     "ICAO": "",
-    "Airport name": "Sandringham Station Airport[1]",
+    "Airport name": "Sandringham Station Airport",
     "Location served": "Sandringham Station, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -56538,7 +56538,7 @@ module.exports = [
   {
     "IATA": "SRN",
     "ICAO": "YSRN",
-    "Airport name": "Strahan Airport[1]",
+    "Airport name": "Strahan Airport",
     "Location served": "Strahan, Tasmania, Australia",
     "Time": "",
     "DST": ""
@@ -56546,7 +56546,7 @@ module.exports = [
   {
     "IATA": "SRO",
     "ICAO": "",
-    "Airport name": "Santana Ramos Airport[1]",
+    "Airport name": "Santana Ramos Airport",
     "Location served": "Santana Ramos, Colombia",
     "Time": "",
     "DST": ""
@@ -56570,7 +56570,7 @@ module.exports = [
   {
     "IATA": "SRR",
     "ICAO": "",
-    "Airport name": "Dunwich Airport[1]",
+    "Airport name": "Dunwich Airport",
     "Location served": "North Stradbroke Island, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -56578,7 +56578,7 @@ module.exports = [
   {
     "IATA": "SRS",
     "ICAO": "",
-    "Airport name": "San Marcos Airport[1]",
+    "Airport name": "San Marcos Airport",
     "Location served": "San Marcos, Colombia",
     "Time": "",
     "DST": ""
@@ -56658,7 +56658,7 @@ module.exports = [
   {
     "IATA": "SSD",
     "ICAO": "",
-    "Airport name": "San Felipe Airport[1]",
+    "Airport name": "San Felipe Airport",
     "Location served": "San Felipe, Colombia",
     "Time": "",
     "DST": ""
@@ -56714,7 +56714,7 @@ module.exports = [
   {
     "IATA": "SSK",
     "ICAO": "",
-    "Airport name": "Sturt Creek Airport[1]",
+    "Airport name": "Sturt Creek Airport",
     "Location served": "Sturt Creek, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -56722,7 +56722,7 @@ module.exports = [
   {
     "IATA": "SSL",
     "ICAO": "SKSL",
-    "Airport name": "Santa Rosalía Airport[1]",
+    "Airport name": "Santa Rosalía Airport",
     "Location served": "Santa Rosalía, Colombia",
     "Time": "",
     "DST": ""
@@ -56738,7 +56738,7 @@ module.exports = [
   {
     "IATA": "SSO",
     "ICAO": "SNLO",
-    "Airport name": "São Lourenço Airport[1]",
+    "Airport name": "São Lourenço Airport",
     "Location served": "São Lourenço, Minas Gerais, Brazil",
     "Time": "",
     "DST": ""
@@ -56746,7 +56746,7 @@ module.exports = [
   {
     "IATA": "SSP",
     "ICAO": "",
-    "Airport name": "Silver Plains Airport[1]",
+    "Airport name": "Silver Plains Airport",
     "Location served": "Silver Plains, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -56770,7 +56770,7 @@ module.exports = [
   {
     "IATA": "SSS",
     "ICAO": "",
-    "Airport name": "Siassi Airport[1]",
+    "Airport name": "Siassi Airport",
     "Location served": "Umboi Island (Siassi), Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -56778,7 +56778,7 @@ module.exports = [
   {
     "IATA": "SST",
     "ICAO": "SAZL",
-    "Airport name": "Santa Teresita Airport[1]",
+    "Airport name": "Santa Teresita Airport",
     "Location served": "Santa Teresita, Buenos Aires, Argentina",
     "Time": "",
     "DST": ""
@@ -56794,7 +56794,7 @@ module.exports = [
   {
     "IATA": "SSW",
     "ICAO": "",
-    "Airport name": "Stuart Island Airpark[1] (FAA: 7WA5)",
+    "Airport name": "Stuart Island Airpark (FAA: 7WA5)",
     "Location served": "Stuart Island, Washington, United States",
     "Time": "",
     "DST": ""
@@ -56802,7 +56802,7 @@ module.exports = [
   {
     "IATA": "SSY",
     "ICAO": "FNBC",
-    "Airport name": "Mbanza Congo Airport[1]",
+    "Airport name": "Mbanza Congo Airport",
     "Location served": "M'banza-Kongo, Angola",
     "Time": "",
     "DST": ""
@@ -56874,7 +56874,7 @@ module.exports = [
   {
     "IATA": "STH",
     "ICAO": "YSMR",
-    "Airport name": "Strathmore Airport[1]",
+    "Airport name": "Strathmore Airport",
     "Location served": "Strathmore Station, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -57010,7 +57010,7 @@ module.exports = [
   {
     "IATA": "STZ",
     "ICAO": "SWST",
-    "Airport name": "Santa Terezinha Airport[1]",
+    "Airport name": "Santa Terezinha Airport",
     "Location served": "Santa Terezinha, Mato Grosso, Brazil",
     "Time": "",
     "DST": ""
@@ -57066,7 +57066,7 @@ module.exports = [
   {
     "IATA": "SUH",
     "ICAO": "OOSR",
-    "Airport name": "Sur Airport[1]",
+    "Airport name": "Sur Airport",
     "Location served": "Sur, Oman",
     "Time": "",
     "DST": ""
@@ -57098,7 +57098,7 @@ module.exports = [
   {
     "IATA": "SUL",
     "ICAO": "OPSU",
-    "Airport name": "Sui Airport[1]",
+    "Airport name": "Sui Airport",
     "Location served": "Sui, Pakistan",
     "Time": "",
     "DST": ""
@@ -57130,7 +57130,7 @@ module.exports = [
   {
     "IATA": "SUP",
     "ICAO": "WART",
-    "Airport name": "Trunojoyo Airport[1]",
+    "Airport name": "Trunojoyo Airport",
     "Location served": "Sumenep, Indonesia",
     "Time": "",
     "DST": ""
@@ -57138,7 +57138,7 @@ module.exports = [
   {
     "IATA": "SUQ",
     "ICAO": "SESC",
-    "Airport name": "Sucúa Airport[1]",
+    "Airport name": "Sucúa Airport",
     "Location served": "Sucúa, Ecuador",
     "Time": "",
     "DST": ""
@@ -57146,7 +57146,7 @@ module.exports = [
   {
     "IATA": "SUR",
     "ICAO": "",
-    "Airport name": "Summer Beaver Airport[1] (TC: CJV7)",
+    "Airport name": "Summer Beaver Airport (TC: CJV7)",
     "Location served": "Summer Beaver, Ontario, Canada",
     "Time": "",
     "DST": ""
@@ -57202,7 +57202,7 @@ module.exports = [
   {
     "IATA": "SUY",
     "ICAO": "UENS",
-    "Airport name": "Suntar Airport[1]",
+    "Airport name": "Suntar Airport",
     "Location served": "Suntar, Yakutia, Russia",
     "Time": "",
     "DST": ""
@@ -57210,7 +57210,7 @@ module.exports = [
   {
     "IATA": "SUZ",
     "ICAO": "",
-    "Airport name": "Suria Airport[1]",
+    "Airport name": "Suria Airport",
     "Location served": "Suria, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -57226,7 +57226,7 @@ module.exports = [
   {
     "IATA": "SVB",
     "ICAO": "FMNS",
-    "Airport name": "Sambava Airport[1]",
+    "Airport name": "Sambava Airport",
     "Location served": "Sambava, Madagascar",
     "Time": "",
     "DST": ""
@@ -57282,7 +57282,7 @@ module.exports = [
   {
     "IATA": "SVI",
     "ICAO": "SKSV",
-    "Airport name": "Eduardo Falla Solano Airport[1]",
+    "Airport name": "Eduardo Falla Solano Airport",
     "Location served": "San Vicente del Caguán, Colombia",
     "Time": "",
     "DST": ""
@@ -57298,7 +57298,7 @@ module.exports = [
   {
     "IATA": "SVK",
     "ICAO": "",
-    "Airport name": "Silver Creek Airport[1]",
+    "Airport name": "Silver Creek Airport",
     "Location served": "Silver Creek, Belize",
     "Time": "",
     "DST": ""
@@ -57306,7 +57306,7 @@ module.exports = [
   {
     "IATA": "SVL",
     "ICAO": "EFSA",
-    "Airport name": "Savonlinna Airport[1]",
+    "Airport name": "Savonlinna Airport",
     "Location served": "Savonlinna, Finland",
     "Time": "",
     "DST": ""
@@ -57314,7 +57314,7 @@ module.exports = [
   {
     "IATA": "SVM",
     "ICAO": "",
-    "Airport name": "St Pauls Airport[1]",
+    "Airport name": "St Pauls Airport",
     "Location served": "St Pauls, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -57338,7 +57338,7 @@ module.exports = [
   {
     "IATA": "SVP",
     "ICAO": "FNKU",
-    "Airport name": "Kuito Airport[1]",
+    "Airport name": "Kuito Airport",
     "Location served": "Kuito, Angola",
     "Time": "",
     "DST": ""
@@ -57362,7 +57362,7 @@ module.exports = [
   {
     "IATA": "SVT",
     "ICAO": "FBSV",
-    "Airport name": "Savuti Airport[1]",
+    "Airport name": "Savuti Airport",
     "Location served": "Savuti, Botswana",
     "Time": "",
     "DST": ""
@@ -57394,7 +57394,7 @@ module.exports = [
   {
     "IATA": "SVY",
     "ICAO": "",
-    "Airport name": "Savo Airport[1]",
+    "Airport name": "Savo Airport",
     "Location served": "Savo Island, Solomon Islands",
     "Time": "",
     "DST": ""
@@ -57418,7 +57418,7 @@ module.exports = [
   {
     "IATA": "SWB",
     "ICAO": "",
-    "Airport name": "Shaw River Airport[1]",
+    "Airport name": "Shaw River Airport",
     "Location served": "Shaw River, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -57426,7 +57426,7 @@ module.exports = [
   {
     "IATA": "SWC",
     "ICAO": "YSWL",
-    "Airport name": "Stawell Airport[1]",
+    "Airport name": "Stawell Airport",
     "Location served": "Stawell, Victoria, Australia",
     "Time": "",
     "DST": ""
@@ -57442,7 +57442,7 @@ module.exports = [
   {
     "IATA": "SWE",
     "ICAO": "",
-    "Airport name": "Siwea Airport[1]",
+    "Airport name": "Siwea Airport",
     "Location served": "Siwea, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -57458,7 +57458,7 @@ module.exports = [
   {
     "IATA": "SWG",
     "ICAO": "",
-    "Airport name": "Satwag Airport[1]",
+    "Airport name": "Satwag Airport",
     "Location served": "Satwag, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -57466,7 +57466,7 @@ module.exports = [
   {
     "IATA": "SWH",
     "ICAO": "YSWH",
-    "Airport name": "Swan Hill Airport[1]",
+    "Airport name": "Swan Hill Airport",
     "Location served": "Swan Hill, Victoria, Australia",
     "Time": "",
     "DST": ""
@@ -57474,7 +57474,7 @@ module.exports = [
   {
     "IATA": "SWJ",
     "ICAO": "NVSX",
-    "Airport name": "South West Bay Airport[1]",
+    "Airport name": "South West Bay Airport",
     "Location served": "South West Bay, Vanuatu",
     "Time": "",
     "DST": ""
@@ -57490,7 +57490,7 @@ module.exports = [
   {
     "IATA": "SWM",
     "ICAO": "",
-    "Airport name": "Suia-Missu Airport[1]",
+    "Airport name": "Suia-Missu Airport",
     "Location served": "Alto Boa Vista, Mato Grosso, Brazil",
     "Time": "",
     "DST": ""
@@ -57514,7 +57514,7 @@ module.exports = [
   {
     "IATA": "SWP",
     "ICAO": "FYSM",
-    "Airport name": "Swakopmund Airport[1]",
+    "Airport name": "Swakopmund Airport",
     "Location served": "Swakopmund, Namibia",
     "Time": "",
     "DST": ""
@@ -57522,7 +57522,7 @@ module.exports = [
   {
     "IATA": "SWQ",
     "ICAO": "WADS",
-    "Airport name": "Sultan Muhammad Kaharuddin III Airport[1] (Brangbiji Airport)",
+    "Airport name": "Sultan Muhammad Kaharuddin III Airport (Brangbiji Airport)",
     "Location served": "Sumbawa Besar, Indonesia",
     "Time": "",
     "DST": ""
@@ -57530,7 +57530,7 @@ module.exports = [
   {
     "IATA": "SWR",
     "ICAO": "",
-    "Airport name": "Silur Airport[1]",
+    "Airport name": "Silur Airport",
     "Location served": "Silur, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -57554,7 +57554,7 @@ module.exports = [
   {
     "IATA": "SWU",
     "ICAO": "RKSW",
-    "Airport name": "Suwon Air Base[1]",
+    "Airport name": "Suwon Air Base",
     "Location served": "Suwon, South Korea",
     "Time": "",
     "DST": ""
@@ -57562,7 +57562,7 @@ module.exports = [
   {
     "IATA": "SWV",
     "ICAO": "UHMW",
-    "Airport name": "Severo-Evensk Airport[1]",
+    "Airport name": "Severo-Evensk Airport",
     "Location served": "Evensk, Magadan Oblast, Russia",
     "Time": "",
     "DST": ""
@@ -57578,7 +57578,7 @@ module.exports = [
   {
     "IATA": "SWX",
     "ICAO": "FBSW",
-    "Airport name": "Shakawe Airport[1]",
+    "Airport name": "Shakawe Airport",
     "Location served": "Shakawe, Botswana",
     "Time": "",
     "DST": ""
@@ -57594,7 +57594,7 @@ module.exports = [
   {
     "IATA": "SXA",
     "ICAO": "",
-    "Airport name": "Sialum Airport[1]",
+    "Airport name": "Sialum Airport",
     "Location served": "Sialum, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -57610,7 +57610,7 @@ module.exports = [
   {
     "IATA": "SXE",
     "ICAO": "YWSL",
-    "Airport name": "West Sale Airport[1]",
+    "Airport name": "West Sale Airport",
     "Location served": "Sale, Victoria, Australia",
     "Time": "",
     "DST": ""
@@ -57618,7 +57618,7 @@ module.exports = [
   {
     "IATA": "SXG",
     "ICAO": "FLSN",
-    "Airport name": "Senanga Airport[1]",
+    "Airport name": "Senanga Airport",
     "Location served": "Senanga, Zambia",
     "Time": "",
     "DST": ""
@@ -57626,7 +57626,7 @@ module.exports = [
   {
     "IATA": "SXH",
     "ICAO": "",
-    "Airport name": "Sehulea Airport[1]",
+    "Airport name": "Sehulea Airport",
     "Location served": "Sehulea, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -57634,7 +57634,7 @@ module.exports = [
   {
     "IATA": "SXI",
     "ICAO": "OIBS",
-    "Airport name": "Sirri Island Airport[1]",
+    "Airport name": "Sirri Island Airport",
     "Location served": "Sirri Island, Iran",
     "Time": "",
     "DST": ""
@@ -57642,7 +57642,7 @@ module.exports = [
   {
     "IATA": "SXJ",
     "ICAO": "ZWSS",
-    "Airport name": "Shanshan Airport[1]",
+    "Airport name": "Shanshan Airport",
     "Location served": "Shanshan, Xinjiang, China",
     "Time": "",
     "DST": ""
@@ -57650,7 +57650,7 @@ module.exports = [
   {
     "IATA": "SXK",
     "ICAO": "WAPI",
-    "Airport name": "Saumlaki Airport[1] (Olilit Airport)",
+    "Airport name": "Saumlaki Airport (Olilit Airport)",
     "Location served": "Saumlaki, Indonesia",
     "Time": "",
     "DST": ""
@@ -57674,7 +57674,7 @@ module.exports = [
   {
     "IATA": "SXN",
     "ICAO": "FBSN",
-    "Airport name": "Sua Pan Airport[1]",
+    "Airport name": "Sua Pan Airport",
     "Location served": "Sua Pan, Botswana",
     "Time": "",
     "DST": ""
@@ -57682,7 +57682,7 @@ module.exports = [
   {
     "IATA": "SXO",
     "ICAO": "SWFX",
-    "Airport name": "São Félix do Araguaia Airport[1]",
+    "Airport name": "São Félix do Araguaia Airport",
     "Location served": "São Félix do Araguaia, Mato Grosso, Brazil",
     "Time": "",
     "DST": ""
@@ -57706,7 +57706,7 @@ module.exports = [
   {
     "IATA": "SXR",
     "ICAO": "VISR",
-    "Airport name": "Sheikh ul-Alam International Airport[1]",
+    "Airport name": "Sheikh ul-Alam International Airport",
     "Location served": "Srinagar, Jammu and Kashmir, India",
     "Time": "",
     "DST": ""
@@ -57714,7 +57714,7 @@ module.exports = [
   {
     "IATA": "SXS",
     "ICAO": "WBKH",
-    "Airport name": "Sahabat Airport[1]",
+    "Airport name": "Sahabat Airport",
     "Location served": "Sahabat, Sabah, Malaysia",
     "Time": "",
     "DST": ""
@@ -57722,7 +57722,7 @@ module.exports = [
   {
     "IATA": "SXT",
     "ICAO": "WMAN",
-    "Airport name": "Sungai Tiang Airport[1]",
+    "Airport name": "Sungai Tiang Airport",
     "Location served": "Taman Negara, Pahang, Malaysia",
     "Time": "",
     "DST": ""
@@ -57730,7 +57730,7 @@ module.exports = [
   {
     "IATA": "SXU",
     "ICAO": "HASD",
-    "Airport name": "Soddu Airport[1]",
+    "Airport name": "Soddu Airport",
     "Location served": "Sodo, Ethiopia",
     "Time": "",
     "DST": ""
@@ -57746,7 +57746,7 @@ module.exports = [
   {
     "IATA": "SXW",
     "ICAO": "",
-    "Airport name": "Sauren Airport[1]",
+    "Airport name": "Sauren Airport",
     "Location served": "Sauren, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -57754,7 +57754,7 @@ module.exports = [
   {
     "IATA": "SXX",
     "ICAO": "SNFX",
-    "Airport name": "São Félix do Xingu Airport[1]",
+    "Airport name": "São Félix do Xingu Airport",
     "Location served": "São Félix do Xingu, Pará, Brazil",
     "Time": "",
     "DST": ""
@@ -57786,7 +57786,7 @@ module.exports = [
   {
     "IATA": "SYB",
     "ICAO": "",
-    "Airport name": "Seal Bay Seaplane Base[1]",
+    "Airport name": "Seal Bay Seaplane Base",
     "Location served": "Seal Bay, Alaska, United States",
     "Time": "",
     "DST": ""
@@ -57794,7 +57794,7 @@ module.exports = [
   {
     "IATA": "SYC",
     "ICAO": "SPSY",
-    "Airport name": "Shiringayoc Airport[1]",
+    "Airport name": "Shiringayoc Airport",
     "Location served": "Shiringayoc, Peru",
     "Time": "",
     "DST": ""
@@ -57810,7 +57810,7 @@ module.exports = [
   {
     "IATA": "SYE",
     "ICAO": "OYSH",
-    "Airport name": "Saadah Airport[1]",
+    "Airport name": "Saadah Airport",
     "Location served": "Sa'dah, Yemen",
     "Time": "",
     "DST": ""
@@ -57850,7 +57850,7 @@ module.exports = [
   {
     "IATA": "SYM",
     "ICAO": "ZPSM",
-    "Airport name": "Pu'er Simao Airport[1]",
+    "Airport name": "Pu'er Simao Airport",
     "Location served": "Simao, Yunnan, China",
     "Time": "",
     "DST": ""
@@ -57898,7 +57898,7 @@ module.exports = [
   {
     "IATA": "SYS",
     "ICAO": "UERS",
-    "Airport name": "Saskylakh Airport[1]",
+    "Airport name": "Saskylakh Airport",
     "Location served": "Saskylakh, Yakutia, Russia",
     "Time": "",
     "DST": ""
@@ -57906,7 +57906,7 @@ module.exports = [
   {
     "IATA": "SYT",
     "ICAO": "LFLN",
-    "Airport name": "Saint-Yan Airport[1] (Charolais Bourgogne Sud Airport)",
+    "Airport name": "Saint-Yan Airport (Charolais Bourgogne Sud Airport)",
     "Location served": "Saint-Yan, Burgundy, France",
     "Time": "",
     "DST": ""
@@ -57914,7 +57914,7 @@ module.exports = [
   {
     "IATA": "SYU",
     "ICAO": "YWBS",
-    "Airport name": "Warraber Island Airport[1]",
+    "Airport name": "Warraber Island Airport",
     "Location served": "Sue Islet, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -57930,7 +57930,7 @@ module.exports = [
   {
     "IATA": "SYW",
     "ICAO": "OPSN",
-    "Airport name": "Sehwan Sharif Airport[1]",
+    "Airport name": "Sehwan Sharif Airport",
     "Location served": "Sehwan Sharif, Pakistan",
     "Time": "",
     "DST": ""
@@ -57962,7 +57962,7 @@ module.exports = [
   {
     "IATA": "SZA",
     "ICAO": "FNSO",
-    "Airport name": "Soyo Airport[1]",
+    "Airport name": "Soyo Airport",
     "Location served": "Soyo, Angola",
     "Time": "",
     "DST": ""
@@ -57978,7 +57978,7 @@ module.exports = [
   {
     "IATA": "SZE",
     "ICAO": "HASM",
-    "Airport name": "Semera Airport[1]",
+    "Airport name": "Semera Airport",
     "Location served": "Semera, Ethiopia",
     "Time": "",
     "DST": ""
@@ -58010,7 +58010,7 @@ module.exports = [
   {
     "IATA": "SZJ",
     "ICAO": "MUSN",
-    "Airport name": "Siguanea Airport[1]",
+    "Airport name": "Siguanea Airport",
     "Location served": "Isla de la Juventud, Cuba",
     "Time": "",
     "DST": ""
@@ -58018,7 +58018,7 @@ module.exports = [
   {
     "IATA": "SZK",
     "ICAO": "FASZ",
-    "Airport name": "Skukuza Airport[1]",
+    "Airport name": "Skukuza Airport",
     "Location served": "Skukuza, South Africa",
     "Time": "",
     "DST": ""
@@ -58034,7 +58034,7 @@ module.exports = [
   {
     "IATA": "SZM",
     "ICAO": "",
-    "Airport name": "Sesriem Airport[1]",
+    "Airport name": "Sesriem Airport",
     "Location served": "Sesriem, Namibia",
     "Time": "",
     "DST": ""
@@ -58074,7 +58074,7 @@ module.exports = [
   {
     "IATA": "SZU",
     "ICAO": "",
-    "Airport name": "Ségou Airport[1]",
+    "Airport name": "Ségou Airport",
     "Location served": "Ségou, Mali",
     "Time": "",
     "DST": ""
@@ -58122,7 +58122,7 @@ module.exports = [
   {
     "IATA": "TAA",
     "ICAO": "",
-    "Airport name": "Tarapaina Airport[1]",
+    "Airport name": "Tarapaina Airport",
     "Location served": "Tarapaina, Solomon Islands",
     "Time": "",
     "DST": ""
@@ -58250,7 +58250,7 @@ module.exports = [
   {
     "IATA": "TAQ",
     "ICAO": "",
-    "Airport name": "Tarcoola Airport[1]",
+    "Airport name": "Tarcoola Airport",
     "Location served": "Tarcoola, South Australia, Australia",
     "Time": "",
     "DST": ""
@@ -58282,7 +58282,7 @@ module.exports = [
   {
     "IATA": "TAU",
     "ICAO": "",
-    "Airport name": "Tauramena Airport[1]",
+    "Airport name": "Tauramena Airport",
     "Location served": "Tauramena, Colombia",
     "Time": "",
     "DST": ""
@@ -58330,7 +58330,7 @@ module.exports = [
   {
     "IATA": "TBA",
     "ICAO": "",
-    "Airport name": "Tabibuga Airport[1]",
+    "Airport name": "Tabibuga Airport",
     "Location served": "Tabibuga, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -58338,7 +58338,7 @@ module.exports = [
   {
     "IATA": "TBB",
     "ICAO": "VVTH",
-    "Airport name": "Dong Tac Airport[1]",
+    "Airport name": "Dong Tac Airport",
     "Location served": "Tuy Hòa, Vietnam",
     "Time": "",
     "DST": ""
@@ -58346,7 +58346,7 @@ module.exports = [
   {
     "IATA": "TBC",
     "ICAO": "",
-    "Airport name": "Tuba City Airport[1] (FAA: T03)",
+    "Airport name": "Tuba City Airport (FAA: T03)",
     "Location served": "Tuba City, Arizona, United States",
     "Time": "",
     "DST": ""
@@ -58354,7 +58354,7 @@ module.exports = [
   {
     "IATA": "TBD",
     "ICAO": "SKMB",
-    "Airport name": "Timbiquí Airport[1]",
+    "Airport name": "Timbiquí Airport",
     "Location served": "Timbiquí, Colombia",
     "Time": "",
     "DST": ""
@@ -58362,7 +58362,7 @@ module.exports = [
   {
     "IATA": "TBE",
     "ICAO": "",
-    "Airport name": "Timbunke Airport[1]",
+    "Airport name": "Timbunke Airport",
     "Location served": "Timbunke, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -58370,7 +58370,7 @@ module.exports = [
   {
     "IATA": "TBF",
     "ICAO": "NGTE",
-    "Airport name": "Tabiteuea North Airport[1]",
+    "Airport name": "Tabiteuea North Airport",
     "Location served": "Tabiteuea North, Kiribati",
     "Time": "",
     "DST": ""
@@ -58378,7 +58378,7 @@ module.exports = [
   {
     "IATA": "TBG",
     "ICAO": "AYTB",
-    "Airport name": "Tabubil Airport[1]",
+    "Airport name": "Tabubil Airport",
     "Location served": "Tabubil, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -58410,7 +58410,7 @@ module.exports = [
   {
     "IATA": "TBK",
     "ICAO": "YTBR",
-    "Airport name": "Timber Creek Airport[1]",
+    "Airport name": "Timber Creek Airport",
     "Location served": "Timber Creek, Northern Territory, Australia",
     "Time": "",
     "DST": ""
@@ -58418,7 +58418,7 @@ module.exports = [
   {
     "IATA": "TBL",
     "ICAO": "YTAB",
-    "Airport name": "Tableland Homestead Airport[1]",
+    "Airport name": "Tableland Homestead Airport",
     "Location served": "Tableland, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -58426,7 +58426,7 @@ module.exports = [
   {
     "IATA": "TBM",
     "ICAO": "WAOW",
-    "Airport name": "Tumbang Samba Airport[1]",
+    "Airport name": "Tumbang Samba Airport",
     "Location served": "Tumbang Samba, Indonesia",
     "Time": "",
     "DST": ""
@@ -58442,7 +58442,7 @@ module.exports = [
   {
     "IATA": "TBO",
     "ICAO": "HTTB",
-    "Airport name": "Tabora Airport[1]",
+    "Airport name": "Tabora Airport",
     "Location served": "Tabora, Tanzania",
     "Time": "",
     "DST": ""
@@ -58458,7 +58458,7 @@ module.exports = [
   {
     "IATA": "TBQ",
     "ICAO": "",
-    "Airport name": "Tarabo Airport[1]",
+    "Airport name": "Tarabo Airport",
     "Location served": "Tarabo, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -58498,7 +58498,7 @@ module.exports = [
   {
     "IATA": "TBV",
     "ICAO": "",
-    "Airport name": "Tabal Airport[1]",
+    "Airport name": "Tabal Airport",
     "Location served": "Tabal Island, Aur Atoll, Marshall Islands",
     "Time": "",
     "DST": ""
@@ -58514,7 +58514,7 @@ module.exports = [
   {
     "IATA": "TBY",
     "ICAO": "FBTS",
-    "Airport name": "Tshabong Airport[1]",
+    "Airport name": "Tshabong Airport",
     "Location served": "Tsabong, Botswana",
     "Time": "",
     "DST": ""
@@ -58554,7 +58554,7 @@ module.exports = [
   {
     "IATA": "TCD",
     "ICAO": "SKRA",
-    "Airport name": "Tarapacá Airport[1]",
+    "Airport name": "Tarapacá Airport",
     "Location served": "Tarapacá, Colombia",
     "Time": "",
     "DST": ""
@@ -58562,7 +58562,7 @@ module.exports = [
   {
     "IATA": "TCE",
     "ICAO": "LRTC",
-    "Airport name": "Tulcea Danube Delta Airport[1]",
+    "Airport name": "Tulcea Danube Delta Airport",
     "Location served": "Tulcea, Romania",
     "Time": "",
     "DST": ""
@@ -58570,7 +58570,7 @@ module.exports = [
   {
     "IATA": "TCF",
     "ICAO": "",
-    "Airport name": "Tocoa Airport[1]",
+    "Airport name": "Tocoa Airport",
     "Location served": "Tocoa, Honduras",
     "Time": "",
     "DST": ""
@@ -58578,7 +58578,7 @@ module.exports = [
   {
     "IATA": "TCG",
     "ICAO": "ZWTC",
-    "Airport name": "Tacheng Airport[1]",
+    "Airport name": "Tacheng Airport",
     "Location served": "Tacheng, Xinjiang, China",
     "Time": "",
     "DST": ""
@@ -58586,13 +58586,13 @@ module.exports = [
   {
     "IATA": "TCH",
     "ICAO": "FOOT",
-    "Airport name": "Tchibanga Airport[1]",
+    "Airport name": "Tchibanga Airport",
     "Location served": "Tchibanga, Gabon",
     "Time": "",
     "DST": ""
   },
   {
-    "IATA": "TCI[1]",
+    "IATA": "TCI",
     "ICAO": "",
     "Airport name": "metropolitan area1",
     "Location served": "Tenerife, Canary Islands, Spain",
@@ -58602,7 +58602,7 @@ module.exports = [
   {
     "IATA": "TCJ",
     "ICAO": "",
-    "Airport name": "Torembi Airport[1]",
+    "Airport name": "Torembi Airport",
     "Location served": "Torembi, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -58610,7 +58610,7 @@ module.exports = [
   {
     "IATA": "TCK",
     "ICAO": "",
-    "Airport name": "Tinboli Airport[1]",
+    "Airport name": "Tinboli Airport",
     "Location served": "Tinboli, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -58642,7 +58642,7 @@ module.exports = [
   {
     "IATA": "TCO",
     "ICAO": "SKCO",
-    "Airport name": "La Florida Airport[1]",
+    "Airport name": "La Florida Airport",
     "Location served": "Tumaco, Colombia",
     "Time": "",
     "DST": ""
@@ -58658,7 +58658,7 @@ module.exports = [
   {
     "IATA": "TCQ",
     "ICAO": "SPTN",
-    "Airport name": "Coronel FAP Carlos Ciriani Santa Rosa International Airport[1]",
+    "Airport name": "Coronel FAP Carlos Ciriani Santa Rosa International Airport",
     "Location served": "Tacna, Peru",
     "Time": "",
     "DST": ""
@@ -58666,7 +58666,7 @@ module.exports = [
   {
     "IATA": "TCR",
     "ICAO": "VOTK",
-    "Airport name": "Tuticorin Airport[1]",
+    "Airport name": "Tuticorin Airport",
     "Location served": "Thoothukudi (Tuticorin), Tamil Nadu, India",
     "Time": "",
     "DST": ""
@@ -58690,7 +58690,7 @@ module.exports = [
   {
     "IATA": "TCU",
     "ICAO": "FATN",
-    "Airport name": "Thaba Nchu Airport[1]",
+    "Airport name": "Thaba Nchu Airport",
     "Location served": "Thaba 'Nchu, South Africa",
     "Time": "",
     "DST": ""
@@ -58698,7 +58698,7 @@ module.exports = [
   {
     "IATA": "TCW",
     "ICAO": "YTOC",
-    "Airport name": "Tocumwal Airport[1]",
+    "Airport name": "Tocumwal Airport",
     "Location served": "Tocumwal, New South Wales, Australia",
     "Time": "",
     "DST": ""
@@ -58714,7 +58714,7 @@ module.exports = [
   {
     "IATA": "TCY",
     "ICAO": "FYTE",
-    "Airport name": "Terrace Bay Airport[1]",
+    "Airport name": "Terrace Bay Airport",
     "Location served": "Terrace Bay, Namibia",
     "Time": "",
     "DST": ""
@@ -58730,7 +58730,7 @@ module.exports = [
   {
     "IATA": "TDA",
     "ICAO": "SKTD",
-    "Airport name": "Trinidad Airport[1]",
+    "Airport name": "Trinidad Airport",
     "Location served": "Trinidad, Colombia",
     "Time": "",
     "DST": ""
@@ -58738,7 +58738,7 @@ module.exports = [
   {
     "IATA": "TDB",
     "ICAO": "",
-    "Airport name": "Tetebedi Airport[1]",
+    "Airport name": "Tetebedi Airport",
     "Location served": "Tetebedi, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -58762,7 +58762,7 @@ module.exports = [
   {
     "IATA": "TDJ",
     "ICAO": "HDTJ",
-    "Airport name": "Tadjoura Airport[1]",
+    "Airport name": "Tadjoura Airport",
     "Location served": "Tadjoura, Djibouti",
     "Time": "",
     "DST": ""
@@ -58786,7 +58786,7 @@ module.exports = [
   {
     "IATA": "TDN",
     "ICAO": "YTHD",
-    "Airport name": "Theda Station Airport[1]",
+    "Airport name": "Theda Station Airport",
     "Location served": "Theda Station, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -58802,7 +58802,7 @@ module.exports = [
   {
     "IATA": "TDP",
     "ICAO": "SPDR",
-    "Airport name": "Trompeteros Airport[1]",
+    "Airport name": "Trompeteros Airport",
     "Location served": "Trompeteros, Peru",
     "Time": "",
     "DST": ""
@@ -58826,7 +58826,7 @@ module.exports = [
   {
     "IATA": "TDT",
     "ICAO": "",
-    "Airport name": "Tanda Tula Airport[1]",
+    "Airport name": "Tanda Tula Airport",
     "Location served": "Timbavati, South Africa",
     "Time": "",
     "DST": ""
@@ -58866,7 +58866,7 @@ module.exports = [
   {
     "IATA": "TEA",
     "ICAO": "MHTE",
-    "Airport name": "Tela Airport[1]",
+    "Airport name": "Tela Airport",
     "Location served": "Tela, Honduras",
     "Time": "",
     "DST": ""
@@ -58882,7 +58882,7 @@ module.exports = [
   {
     "IATA": "TEC",
     "ICAO": "SBTL",
-    "Airport name": "Telêmaco Borba Airport[1]",
+    "Airport name": "Telêmaco Borba Airport",
     "Location served": "Telêmaco Borba, Paraná, Brazil",
     "Time": "",
     "DST": ""
@@ -58898,7 +58898,7 @@ module.exports = [
   {
     "IATA": "TEE",
     "ICAO": "DABS",
-    "Airport name": "Cheikh Larbi Tébessi Airport[1]",
+    "Airport name": "Cheikh Larbi Tébessi Airport",
     "Location served": "Tébessa, Algeria",
     "Time": "",
     "DST": ""
@@ -58906,7 +58906,7 @@ module.exports = [
   {
     "IATA": "TEF",
     "ICAO": "YTEF",
-    "Airport name": "Telfer Airport[1]",
+    "Airport name": "Telfer Airport",
     "Location served": "Telfer, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -58922,7 +58922,7 @@ module.exports = [
   {
     "IATA": "TEH",
     "ICAO": "",
-    "Airport name": "Tetlin Airport[1] (FAA: 3T4)",
+    "Airport name": "Tetlin Airport (FAA: 3T4)",
     "Location served": "Tetlin, Alaska, United States",
     "Time": "",
     "DST": ""
@@ -58946,7 +58946,7 @@ module.exports = [
   {
     "IATA": "TEL",
     "ICAO": "WBKE",
-    "Airport name": "Telupid Airport[1]",
+    "Airport name": "Telupid Airport",
     "Location served": "Telupid, Sabah, Malaysia",
     "Time": "",
     "DST": ""
@@ -58954,7 +58954,7 @@ module.exports = [
   {
     "IATA": "TEM",
     "ICAO": "YTEM",
-    "Airport name": "Temora Airport[1]",
+    "Airport name": "Temora Airport",
     "Location served": "Temora, New South Wales, Australia",
     "Time": "",
     "DST": ""
@@ -58970,7 +58970,7 @@ module.exports = [
   {
     "IATA": "TEO",
     "ICAO": "",
-    "Airport name": "Terapo Airport[1]",
+    "Airport name": "Terapo Airport",
     "Location served": "Terapo, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -58978,7 +58978,7 @@ module.exports = [
   {
     "IATA": "TEP",
     "ICAO": "",
-    "Airport name": "Teptep Airport[1]",
+    "Airport name": "Teptep Airport",
     "Location served": "Teptep, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -59002,7 +59002,7 @@ module.exports = [
   {
     "IATA": "TES",
     "ICAO": "HHTS",
-    "Airport name": "Teseney Airport[1]",
+    "Airport name": "Teseney Airport",
     "Location served": "Teseney, Eritrea",
     "Time": "",
     "DST": ""
@@ -59018,7 +59018,7 @@ module.exports = [
   {
     "IATA": "TEU",
     "ICAO": "NZMO",
-    "Airport name": "Te Anau Airport[1] (Manapouri Airport)",
+    "Airport name": "Te Anau Airport (Manapouri Airport)",
     "Location served": "Te Anau, New Zealand",
     "Time": "",
     "DST": ""
@@ -59026,7 +59026,7 @@ module.exports = [
   {
     "IATA": "TEV",
     "ICAO": "LETL",
-    "Airport name": "Teruel Airport[1]",
+    "Airport name": "Teruel Airport",
     "Location served": "Teruel, Aragon, Spain",
     "Time": "",
     "DST": ""
@@ -59042,7 +59042,7 @@ module.exports = [
   {
     "IATA": "TEY",
     "ICAO": "BITE",
-    "Airport name": "Thingeyri Airport[1]",
+    "Airport name": "Thingeyri Airport",
     "Location served": "Thingeyri (Þingeyri), Iceland",
     "Time": "",
     "DST": ""
@@ -59058,7 +59058,7 @@ module.exports = [
   {
     "IATA": "TFB",
     "ICAO": "",
-    "Airport name": "Tifalmin Airport[1]",
+    "Airport name": "Tifalmin Airport",
     "Location served": "Tifalmin, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -59074,7 +59074,7 @@ module.exports = [
   {
     "IATA": "TFI",
     "ICAO": "AYTU",
-    "Airport name": "Tufi Airport[1]",
+    "Airport name": "Tufi Airport",
     "Location served": "Tufi, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -59082,7 +59082,7 @@ module.exports = [
   {
     "IATA": "TFL",
     "ICAO": "SNTO",
-    "Airport name": "Teófilo Otoni Airport[1] (Juscelino Kubitscheck Airport)",
+    "Airport name": "Teófilo Otoni Airport (Juscelino Kubitscheck Airport)",
     "Location served": "Teófilo Otoni, Minas Gerais, Brazil",
     "Time": "",
     "DST": ""
@@ -59090,7 +59090,7 @@ module.exports = [
   {
     "IATA": "TFM",
     "ICAO": "AYTE",
-    "Airport name": "Telefomin Airport[1]",
+    "Airport name": "Telefomin Airport",
     "Location served": "Telefomin, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -59106,7 +59106,7 @@ module.exports = [
   {
     "IATA": "TFR",
     "ICAO": "HE13",
-    "Airport name": "Wadi al Jandali Airport[1]",
+    "Airport name": "Wadi al Jandali Airport",
     "Location served": "10th of Ramadan City, Egypt",
     "Time": "",
     "DST": ""
@@ -59122,7 +59122,7 @@ module.exports = [
   {
     "IATA": "TFT",
     "ICAO": "",
-    "Airport name": "Taftan Airport[1]",
+    "Airport name": "Taftan Airport",
     "Location served": "Taftan, Pakistan",
     "Time": "",
     "DST": ""
@@ -59154,7 +59154,7 @@ module.exports = [
   {
     "IATA": "TGC",
     "ICAO": "WBTM",
-    "Airport name": "Tanjung Manis Airport[1]",
+    "Airport name": "Tanjung Manis Airport",
     "Location served": "Tanjung Manis, Sarawak, Malaysia",
     "Time": "",
     "DST": ""
@@ -59202,7 +59202,7 @@ module.exports = [
   {
     "IATA": "TGJ",
     "ICAO": "NWWA",
-    "Airport name": "Tiga Airport[1]",
+    "Airport name": "Tiga Airport",
     "Location served": "Tiga Island, Loyalty Islands, New Caledonia",
     "Time": "",
     "DST": ""
@@ -59210,7 +59210,7 @@ module.exports = [
   {
     "IATA": "TGK",
     "ICAO": "URRT",
-    "Airport name": "Taganrog Airport[1]",
+    "Airport name": "Taganrog Airport",
     "Location served": "Taganrog, Rostov Oblast, Russia",
     "Time": "",
     "DST": ""
@@ -59218,7 +59218,7 @@ module.exports = [
   {
     "IATA": "TGL",
     "ICAO": "",
-    "Airport name": "Tagula Airport[1]",
+    "Airport name": "Tagula Airport",
     "Location served": "Vanatinai (Tagula Island), Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -59234,7 +59234,7 @@ module.exports = [
   {
     "IATA": "TGN",
     "ICAO": "YLTV",
-    "Airport name": "Latrobe Regional Airport[1]",
+    "Airport name": "Latrobe Regional Airport",
     "Location served": "Traralgon, Victoria, Australia",
     "Time": "",
     "DST": ""
@@ -59242,7 +59242,7 @@ module.exports = [
   {
     "IATA": "TGO",
     "ICAO": "ZBTL",
-    "Airport name": "Tongliao Airport[1]",
+    "Airport name": "Tongliao Airport",
     "Location served": "Tongliao, Inner Mongolia, China",
     "Time": "",
     "DST": ""
@@ -59258,7 +59258,7 @@ module.exports = [
   {
     "IATA": "TGQ",
     "ICAO": "SWTS",
-    "Airport name": "Tangará da Serra Airport[1]",
+    "Airport name": "Tangará da Serra Airport",
     "Location served": "Tangará da Serra, Mato Grosso, Brazil",
     "Time": "",
     "DST": ""
@@ -59266,7 +59266,7 @@ module.exports = [
   {
     "IATA": "TGR",
     "ICAO": "DAUK",
-    "Airport name": "Sidi Mahdi Airport[1]",
+    "Airport name": "Sidi Mahdi Airport",
     "Location served": "Touggourt, Algeria",
     "Time": "",
     "DST": ""
@@ -59274,7 +59274,7 @@ module.exports = [
   {
     "IATA": "TGS",
     "ICAO": "",
-    "Airport name": "Chokwe Airport[1]",
+    "Airport name": "Chokwe Airport",
     "Location served": "Chokwe, Mozambique",
     "Time": "",
     "DST": ""
@@ -59282,7 +59282,7 @@ module.exports = [
   {
     "IATA": "TGT",
     "ICAO": "HTTG",
-    "Airport name": "Tanga Airport[1]",
+    "Airport name": "Tanga Airport",
     "Location served": "Tanga, Tanzania",
     "Time": "",
     "DST": ""
@@ -59298,7 +59298,7 @@ module.exports = [
   {
     "IATA": "TGV",
     "ICAO": "LBTG",
-    "Airport name": "Targovishte Airport[1] (Buhovtsi Airfield)",
+    "Airport name": "Targovishte Airport (Buhovtsi Airfield)",
     "Location served": "Targovishte, Bulgaria",
     "Time": "",
     "DST": ""
@@ -59322,7 +59322,7 @@ module.exports = [
   {
     "IATA": "THB",
     "ICAO": "FXTA",
-    "Airport name": "Thaba Tseka Airport[1]",
+    "Airport name": "Thaba Tseka Airport",
     "Location served": "Thaba-Tseka, Lesotho",
     "Time": "",
     "DST": ""
@@ -59354,7 +59354,7 @@ module.exports = [
   {
     "IATA": "THG",
     "ICAO": "YTNG",
-    "Airport name": "Thangool Airport[1]",
+    "Airport name": "Thangool Airport",
     "Location served": "Thangool, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -59362,7 +59362,7 @@ module.exports = [
   {
     "IATA": "THH",
     "ICAO": "",
-    "Airport name": "Taharoa Aerodrome[1]",
+    "Airport name": "Taharoa Aerodrome",
     "Location served": "Taharoa, New Zealand",
     "Time": "",
     "DST": ""
@@ -59378,7 +59378,7 @@ module.exports = [
   {
     "IATA": "THK",
     "ICAO": "VLTK",
-    "Airport name": "Thakhek Airport[1]",
+    "Airport name": "Thakhek Airport",
     "Location served": "Thakhek, Laos",
     "Time": "",
     "DST": ""
@@ -59394,7 +59394,7 @@ module.exports = [
   {
     "IATA": "THM",
     "ICAO": "KTHM",
-    "Airport name": "Thompson Falls Airport[1]",
+    "Airport name": "Thompson Falls Airport",
     "Location served": "Thompson Falls, Montana, United States",
     "Time": "",
     "DST": ""
@@ -59426,7 +59426,7 @@ module.exports = [
   {
     "IATA": "THQ",
     "ICAO": "ZLTS",
-    "Airport name": "Tianshui Maijishan Airport[1]",
+    "Airport name": "Tianshui Maijishan Airport",
     "Location served": "Tianshui, Gansu, China",
     "Time": "",
     "DST": ""
@@ -59474,7 +59474,7 @@ module.exports = [
   {
     "IATA": "THW",
     "ICAO": "",
-    "Airport name": "Trincomalee Harbour Seaplane Base[1]",
+    "Airport name": "Trincomalee Harbour Seaplane Base",
     "Location served": "Trincomalee, Sri Lanka",
     "Time": "",
     "DST": ""
@@ -59490,7 +59490,7 @@ module.exports = [
   {
     "IATA": "THY",
     "ICAO": "FATH",
-    "Airport name": "P.R. Mphephu Airport[1]",
+    "Airport name": "P.R. Mphephu Airport",
     "Location served": "Thohoyandou, South Africa",
     "Time": "",
     "DST": ""
@@ -59514,7 +59514,7 @@ module.exports = [
   {
     "IATA": "TIB",
     "ICAO": "SKTB",
-    "Airport name": "Tibú Airport[1]",
+    "Airport name": "Tibú Airport",
     "Location served": "Tibú, Colombia",
     "Time": "",
     "DST": ""
@@ -59530,7 +59530,7 @@ module.exports = [
   {
     "IATA": "TID",
     "ICAO": "DAOB",
-    "Airport name": "Abdelhafid Boussouf Bou Chekif Airport[1]",
+    "Airport name": "Abdelhafid Boussouf Bou Chekif Airport",
     "Location served": "Tiaret, Algeria",
     "Time": "",
     "DST": ""
@@ -59538,7 +59538,7 @@ module.exports = [
   {
     "IATA": "TIE",
     "ICAO": "HATP",
-    "Airport name": "Tippi Airport[1]",
+    "Airport name": "Tippi Airport",
     "Location served": "Tepi (Tippi), Ethiopia",
     "Time": "",
     "DST": ""
@@ -59554,7 +59554,7 @@ module.exports = [
   {
     "IATA": "TIG",
     "ICAO": "",
-    "Airport name": "Tingwon Airport[1]",
+    "Airport name": "Tingwon Airport",
     "Location served": "Tingwon, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -59562,7 +59562,7 @@ module.exports = [
   {
     "IATA": "TIH",
     "ICAO": "NTGC",
-    "Airport name": "Tikehau Airport[1]",
+    "Airport name": "Tikehau Airport",
     "Location served": "Tikehau, Tuamotus, French Polynesia",
     "Time": "",
     "DST": ""
@@ -59594,7 +59594,7 @@ module.exports = [
   {
     "IATA": "TIL",
     "ICAO": "",
-    "Airport name": "Cheadle Airport[1] (TC: CFQ4)",
+    "Airport name": "Cheadle Airport (TC: CFQ4)",
     "Location served": "Cheadle, Alberta, Canada",
     "Time": "",
     "DST": ""
@@ -59610,7 +59610,7 @@ module.exports = [
   {
     "IATA": "TIN",
     "ICAO": "DAOF",
-    "Airport name": "Tindouf Airport[1]",
+    "Airport name": "Tindouf Airport",
     "Location served": "Tindouf, Algeria",
     "Time": "",
     "DST": ""
@@ -59618,7 +59618,7 @@ module.exports = [
   {
     "IATA": "TIO",
     "ICAO": "VYHN",
-    "Airport name": "Tilin Airport[1]",
+    "Airport name": "Tilin Airport",
     "Location served": "Htilin (Tilin), Myanmar",
     "Time": "",
     "DST": ""
@@ -59690,7 +59690,7 @@ module.exports = [
   {
     "IATA": "TIZ",
     "ICAO": "AYTA",
-    "Airport name": "Tari Airport[1]",
+    "Airport name": "Tari Airport",
     "Location served": "Tari, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -59706,7 +59706,7 @@ module.exports = [
   {
     "IATA": "TJB",
     "ICAO": "WIBT",
-    "Airport name": "Sei Bati Airport[1]",
+    "Airport name": "Sei Bati Airport",
     "Location served": "Tanjung Balai, Indonesia",
     "Time": "",
     "DST": ""
@@ -59714,7 +59714,7 @@ module.exports = [
   {
     "IATA": "TJC",
     "ICAO": "",
-    "Airport name": "Ticantiquí Airport[1]",
+    "Airport name": "Ticantiquí Airport",
     "Location served": "Ticantiquí, Panama",
     "Time": "",
     "DST": ""
@@ -59722,7 +59722,7 @@ module.exports = [
   {
     "IATA": "TJG",
     "ICAO": "WAON",
-    "Airport name": "Warukin Airport[1]",
+    "Airport name": "Warukin Airport",
     "Location served": "Tanjung, Indonesia",
     "Time": "",
     "DST": ""
@@ -59730,7 +59730,7 @@ module.exports = [
   {
     "IATA": "TJH",
     "ICAO": "RJBT",
-    "Airport name": "Tajima Airport[1]",
+    "Airport name": "Tajima Airport",
     "Location served": "Toyooka, Honshu, Japan",
     "Time": "",
     "DST": ""
@@ -59738,7 +59738,7 @@ module.exports = [
   {
     "IATA": "TJI",
     "ICAO": "MHTJ",
-    "Airport name": "Trujillo Airport[1] (Capiro Airport)",
+    "Airport name": "Trujillo Airport (Capiro Airport)",
     "Location served": "Trujillo, Honduras",
     "Time": "",
     "DST": ""
@@ -59770,7 +59770,7 @@ module.exports = [
   {
     "IATA": "TJN",
     "ICAO": "NTKM",
-    "Airport name": "Takume Airport[1]",
+    "Airport name": "Takume Airport",
     "Location served": "Takume, Tuamotus, French Polynesia",
     "Time": "",
     "DST": ""
@@ -59786,7 +59786,7 @@ module.exports = [
   {
     "IATA": "TJS",
     "ICAO": "WAGD",
-    "Airport name": "Tanjung Harapan Airport[1]",
+    "Airport name": "Tanjung Harapan Airport",
     "Location served": "Tanjung Selor, Indonesia",
     "Time": "",
     "DST": ""
@@ -59794,7 +59794,7 @@ module.exports = [
   {
     "IATA": "TJU",
     "ICAO": "UTDK",
-    "Airport name": "Kulob Airport[1]",
+    "Airport name": "Kulob Airport",
     "Location served": "Kulob, Tajikistan",
     "Time": "",
     "DST": ""
@@ -59802,7 +59802,7 @@ module.exports = [
   {
     "IATA": "TJV",
     "ICAO": "VOTJ",
-    "Airport name": "Thanjavur Air Force Station[1]",
+    "Airport name": "Thanjavur Air Force Station",
     "Location served": "Thanjavur, Tamil Nadu, India",
     "Time": "",
     "DST": ""
@@ -59818,7 +59818,7 @@ module.exports = [
   {
     "IATA": "TKB",
     "ICAO": "",
-    "Airport name": "Tekadu Airport[1]",
+    "Airport name": "Tekadu Airport",
     "Location served": "Tekadu, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -59826,7 +59826,7 @@ module.exports = [
   {
     "IATA": "TKC",
     "ICAO": "FKKC",
-    "Airport name": "Tiko Airport[1]",
+    "Airport name": "Tiko Airport",
     "Location served": "Tiko, Cameroon",
     "Time": "",
     "DST": ""
@@ -59842,7 +59842,7 @@ module.exports = [
   {
     "IATA": "TKE",
     "ICAO": "",
-    "Airport name": "Tenakee Seaplane Base[1]",
+    "Airport name": "Tenakee Seaplane Base",
     "Location served": "Tenakee Springs, Alaska, United States",
     "Time": "",
     "DST": ""
@@ -59866,7 +59866,7 @@ module.exports = [
   {
     "IATA": "TKH",
     "ICAO": "VTPI",
-    "Airport name": "Takhli Royal Thai Air Force Base[1]",
+    "Airport name": "Takhli Royal Thai Air Force Base",
     "Location served": "Takhli, Thailand",
     "Time": "",
     "DST": ""
@@ -59882,7 +59882,7 @@ module.exports = [
   {
     "IATA": "TKJ",
     "ICAO": "PFTO",
-    "Airport name": "Tok Junction Airport[1] (FAA: 6K8)",
+    "Airport name": "Tok Junction Airport (FAA: 6K8)",
     "Location served": "Tok, Alaska, United States",
     "Time": "",
     "DST": ""
@@ -59898,7 +59898,7 @@ module.exports = [
   {
     "IATA": "TKL",
     "ICAO": "",
-    "Airport name": "Taku Lodge Seaplane Base[1]",
+    "Airport name": "Taku Lodge Seaplane Base",
     "Location served": "Taku Lodge, Alaska, United States",
     "Time": "",
     "DST": ""
@@ -59906,7 +59906,7 @@ module.exports = [
   {
     "IATA": "TKN",
     "ICAO": "RJKN",
-    "Airport name": "Tokunoshima Airport[1]",
+    "Airport name": "Tokunoshima Airport",
     "Location served": "Tokunoshima, Amami Islands, Japan",
     "Time": "",
     "DST": ""
@@ -59914,7 +59914,7 @@ module.exports = [
   {
     "IATA": "TKO",
     "ICAO": "FXTK",
-    "Airport name": "Tlokoeng Airport[1]",
+    "Airport name": "Tlokoeng Airport",
     "Location served": "Tlokoeng, Lesotho",
     "Time": "",
     "DST": ""
@@ -59922,7 +59922,7 @@ module.exports = [
   {
     "IATA": "TKP",
     "ICAO": "NTGT",
-    "Airport name": "Takapoto Airport[1]",
+    "Airport name": "Takapoto Airport",
     "Location served": "Takapoto, Tuamotus, French Polynesia",
     "Time": "",
     "DST": ""
@@ -59938,7 +59938,7 @@ module.exports = [
   {
     "IATA": "TKR",
     "ICAO": "VGSG",
-    "Airport name": "Thakurgaon Airport[1]",
+    "Airport name": "Thakurgaon Airport",
     "Location served": "Thakurgaon, Bangladesh",
     "Time": "",
     "DST": ""
@@ -59946,7 +59946,7 @@ module.exports = [
   {
     "IATA": "TKS",
     "ICAO": "RJOS",
-    "Airport name": "Tokushima Airport[1]",
+    "Airport name": "Tokushima Airport",
     "Location served": "Tokushima, Shikoku, Japan",
     "Time": "",
     "DST": ""
@@ -59970,7 +59970,7 @@ module.exports = [
   {
     "IATA": "TKV",
     "ICAO": "NTGO",
-    "Airport name": "Tatakoto Airport[1]",
+    "Airport name": "Tatakoto Airport",
     "Location served": "Tatakoto, Tuamotus, French Polynesia",
     "Time": "",
     "DST": ""
@@ -59978,7 +59978,7 @@ module.exports = [
   {
     "IATA": "TKW",
     "ICAO": "AYTN",
-    "Airport name": "Tekin Airport[1]",
+    "Airport name": "Tekin Airport",
     "Location served": "Tekin, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -59986,7 +59986,7 @@ module.exports = [
   {
     "IATA": "TKX",
     "ICAO": "NTKR",
-    "Airport name": "Takaroa Airport[1]",
+    "Airport name": "Takaroa Airport",
     "Location served": "Takaroa, Tuamotus, French Polynesia",
     "Time": "",
     "DST": ""
@@ -59994,7 +59994,7 @@ module.exports = [
   {
     "IATA": "TKY",
     "ICAO": "YTKY",
-    "Airport name": "Turkey Creek Airport[1]",
+    "Airport name": "Turkey Creek Airport",
     "Location served": "Warmun (Turkey Creek), Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -60002,7 +60002,7 @@ module.exports = [
   {
     "IATA": "TKZ",
     "ICAO": "NZTO",
-    "Airport name": "Tokoroa Aerodrome[1]",
+    "Airport name": "Tokoroa Aerodrome",
     "Location served": "Tokoroa, New Zealand",
     "Time": "",
     "DST": ""
@@ -60018,7 +60018,7 @@ module.exports = [
   {
     "IATA": "TLB",
     "ICAO": "OPTA",
-    "Airport name": "Tarbela Dam Airport[1]",
+    "Airport name": "Tarbela Dam Airport",
     "Location served": "Tarbela Dam, Pakistan",
     "Time": "",
     "DST": ""
@@ -60034,7 +60034,7 @@ module.exports = [
   {
     "IATA": "TLD",
     "ICAO": "FBTL",
-    "Airport name": "Tuli Lodge Airport[1]",
+    "Airport name": "Tuli Lodge Airport",
     "Location served": "Tuli Lodge, Botswana",
     "Time": "",
     "DST": ""
@@ -60042,7 +60042,7 @@ module.exports = [
   {
     "IATA": "TLE",
     "ICAO": "FMST",
-    "Airport name": "Toliara Airport[1]",
+    "Airport name": "Toliara Airport",
     "Location served": "Toliara, Madagascar",
     "Time": "",
     "DST": ""
@@ -60058,7 +60058,7 @@ module.exports = [
   {
     "IATA": "TLG",
     "ICAO": "AGTI",
-    "Airport name": "Tulaghi Heliport[1]",
+    "Airport name": "Tulaghi Heliport",
     "Location served": "Tulagi, Solomon Islands",
     "Time": "",
     "DST": ""
@@ -60074,7 +60074,7 @@ module.exports = [
   {
     "IATA": "TLI",
     "ICAO": "WAMI",
-    "Airport name": "Sultan Bantilan Airport[1] (Lalos Airport)",
+    "Airport name": "Sultan Bantilan Airport (Lalos Airport)",
     "Location served": "Tolitoli, Indonesia",
     "Time": "",
     "DST": ""
@@ -60106,7 +60106,7 @@ module.exports = [
   {
     "IATA": "TLM",
     "ICAO": "DAON",
-    "Airport name": "Zenata – Messali El Hadj Airport[1]",
+    "Airport name": "Zenata – Messali El Hadj Airport",
     "Location served": "Tlemcen, Algeria",
     "Time": "",
     "DST": ""
@@ -60122,7 +60122,7 @@ module.exports = [
   {
     "IATA": "TLO",
     "ICAO": "",
-    "Airport name": "Tol Airport[1]",
+    "Airport name": "Tol Airport",
     "Location served": "Tol, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -60130,7 +60130,7 @@ module.exports = [
   {
     "IATA": "TLP",
     "ICAO": "",
-    "Airport name": "Tumolbil Airport[1]",
+    "Airport name": "Tumolbil Airport",
     "Location served": "Tumolbil, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -60170,7 +60170,7 @@ module.exports = [
   {
     "IATA": "TLU",
     "ICAO": "SKTL",
-    "Airport name": "Golfo de Morrosquillo Airport[1]",
+    "Airport name": "Golfo de Morrosquillo Airport",
     "Location served": "Tolú, Colombia",
     "Time": "",
     "DST": ""
@@ -60186,7 +60186,7 @@ module.exports = [
   {
     "IATA": "TLW",
     "ICAO": "AYVL",
-    "Airport name": "Talasea Airport[1]",
+    "Airport name": "Talasea Airport",
     "Location served": "Talasea, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -60194,7 +60194,7 @@ module.exports = [
   {
     "IATA": "TLX",
     "ICAO": "SCTL",
-    "Airport name": "Panguilemo Airport[1]",
+    "Airport name": "Panguilemo Airport",
     "Location served": "Talca, Chile",
     "Time": "",
     "DST": ""
@@ -60202,7 +60202,7 @@ module.exports = [
   {
     "IATA": "TLY",
     "ICAO": "UHWP",
-    "Airport name": "Plastun Airport[1]",
+    "Airport name": "Plastun Airport",
     "Location served": "Plastun, Primorsky Krai, Russia",
     "Time": "",
     "DST": ""
@@ -60210,7 +60210,7 @@ module.exports = [
   {
     "IATA": "TLZ",
     "ICAO": "SWKT",
-    "Airport name": "Catalão Airport[1]",
+    "Airport name": "Catalão Airport",
     "Location served": "Catalão, Goiás, Brazil",
     "Time": "",
     "DST": ""
@@ -60234,7 +60234,7 @@ module.exports = [
   {
     "IATA": "TMC",
     "ICAO": "WADT",
-    "Airport name": "Tambolaka Airport[1] (Waikabubak Airport)",
+    "Airport name": "Tambolaka Airport (Waikabubak Airport)",
     "Location served": "Tambolaka, Indonesia",
     "Time": "",
     "DST": ""
@@ -60266,7 +60266,7 @@ module.exports = [
   {
     "IATA": "TMG",
     "ICAO": "WBKM",
-    "Airport name": "Tommanggong Airport[1]",
+    "Airport name": "Tommanggong Airport",
     "Location served": "Tommanggong, Sabah, Malaysia",
     "Time": "",
     "DST": ""
@@ -60274,7 +60274,7 @@ module.exports = [
   {
     "IATA": "TMH",
     "ICAO": "WAKT",
-    "Airport name": "Tanah Merah Airport[1]",
+    "Airport name": "Tanah Merah Airport",
     "Location served": "Tanahmerah, Indonesia",
     "Time": "",
     "DST": ""
@@ -60282,7 +60282,7 @@ module.exports = [
   {
     "IATA": "TMI",
     "ICAO": "VNTR",
-    "Airport name": "Tumlingtar Airport[1]",
+    "Airport name": "Tumlingtar Airport",
     "Location served": "Tumlingtar, Nepal",
     "Time": "",
     "DST": ""
@@ -60298,7 +60298,7 @@ module.exports = [
   {
     "IATA": "TMK",
     "ICAO": "",
-    "Airport name": "Tam Kỳ Airport[1]",
+    "Airport name": "Tam Kỳ Airport",
     "Location served": "Tam Kỳ, Vietnam",
     "Time": "",
     "DST": ""
@@ -60322,7 +60322,7 @@ module.exports = [
   {
     "IATA": "TMN",
     "ICAO": "NGTM",
-    "Airport name": "Tamana Airport[1]",
+    "Airport name": "Tamana Airport",
     "Location served": "Tamana, Kiribati",
     "Time": "",
     "DST": ""
@@ -60330,7 +60330,7 @@ module.exports = [
   {
     "IATA": "TMO",
     "ICAO": "SVTM",
-    "Airport name": "Tumeremo Airport[1]",
+    "Airport name": "Tumeremo Airport",
     "Location served": "Tumeremo, Venezuela",
     "Time": "",
     "DST": ""
@@ -60394,7 +60394,7 @@ module.exports = [
   {
     "IATA": "TMX",
     "ICAO": "DAUT",
-    "Airport name": "Timimoun Airport[1]",
+    "Airport name": "Timimoun Airport",
     "Location served": "Timimoun, Algeria",
     "Time": "",
     "DST": ""
@@ -60402,7 +60402,7 @@ module.exports = [
   {
     "IATA": "TMY",
     "ICAO": "",
-    "Airport name": "Tiom Airport[1]",
+    "Airport name": "Tiom Airport",
     "Location served": "Tiom, Indonesia",
     "Time": "",
     "DST": ""
@@ -60426,7 +60426,7 @@ module.exports = [
   {
     "IATA": "TNB",
     "ICAO": "WRLH",
-    "Airport name": "Tanah Grogot Airport[1]",
+    "Airport name": "Tanah Grogot Airport",
     "Location served": "Tanah Grogot, Indonesia",
     "Time": "",
     "DST": ""
@@ -60442,7 +60442,7 @@ module.exports = [
   {
     "IATA": "TND",
     "ICAO": "MUTD",
-    "Airport name": "Alberto Delgado Airport[1]",
+    "Airport name": "Alberto Delgado Airport",
     "Location served": "Trinidad, Cuba",
     "Time": "",
     "DST": ""
@@ -60450,7 +60450,7 @@ module.exports = [
   {
     "IATA": "TNE",
     "ICAO": "RJFG",
-    "Airport name": "New Tanegashima Airport[1]",
+    "Airport name": "New Tanegashima Airport",
     "Location served": "Tanegashima, Ōsumi Islands, Japan",
     "Time": "",
     "DST": ""
@@ -60562,7 +60562,7 @@ module.exports = [
   {
     "IATA": "TNS",
     "ICAO": "",
-    "Airport name": "Tungsten (Cantung) Airport[1] (TC: CBX5)",
+    "Airport name": "Tungsten (Cantung) Airport (TC: CBX5)",
     "Location served": "Tungsten, Northwest Territories, Canada",
     "Time": "",
     "DST": ""
@@ -60586,7 +60586,7 @@ module.exports = [
   {
     "IATA": "TNV",
     "ICAO": "",
-    "Airport name": "Tabuaeran Island Airport[1]",
+    "Airport name": "Tabuaeran Island Airport",
     "Location served": "Tabuaeran, Kiribati",
     "Time": "",
     "DST": ""
@@ -60594,7 +60594,7 @@ module.exports = [
   {
     "IATA": "TNW",
     "ICAO": "SEJD",
-    "Airport name": "Jumandy Airport[1]",
+    "Airport name": "Jumandy Airport",
     "Location served": "Tena, Ecuador",
     "Time": "",
     "DST": ""
@@ -60602,7 +60602,7 @@ module.exports = [
   {
     "IATA": "TNX",
     "ICAO": "VDST",
-    "Airport name": "Steung Treng Airport[1]",
+    "Airport name": "Steung Treng Airport",
     "Location served": "Stung Treng, Cambodia",
     "Time": "",
     "DST": ""
@@ -60610,7 +60610,7 @@ module.exports = [
   {
     "IATA": "TNZ",
     "ICAO": "ZMTL",
-    "Airport name": "Tosontsengel Airport[1]",
+    "Airport name": "Tosontsengel Airport",
     "Location served": "Tosontsengel, Mongolia",
     "Time": "",
     "DST": ""
@@ -60674,7 +60674,7 @@ module.exports = [
   {
     "IATA": "TOH",
     "ICAO": "NVSD",
-    "Airport name": "Torres Airport[1]",
+    "Airport name": "Torres Airport",
     "Location served": "Torres Islands, Vanuatu",
     "Time": "",
     "DST": ""
@@ -60698,7 +60698,7 @@ module.exports = [
   {
     "IATA": "TOK",
     "ICAO": "",
-    "Airport name": "Torokina Airport[1]",
+    "Airport name": "Torokina Airport",
     "Location served": "Torokina, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -60722,7 +60722,7 @@ module.exports = [
   {
     "IATA": "TON",
     "ICAO": "",
-    "Airport name": "Tonu Airport[1]",
+    "Airport name": "Tonu Airport",
     "Location served": "Tonu, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -60730,7 +60730,7 @@ module.exports = [
   {
     "IATA": "TOO",
     "ICAO": "MRSV",
-    "Airport name": "San Vito de Java Airport[1]",
+    "Airport name": "San Vito de Java Airport",
     "Location served": "San Vito, Costa Rica",
     "Time": "",
     "DST": ""
@@ -60746,7 +60746,7 @@ module.exports = [
   {
     "IATA": "TOQ",
     "ICAO": "SCBE",
-    "Airport name": "Barriles Airport[1]",
+    "Airport name": "Barriles Airport",
     "Location served": "Tocopilla, Chile",
     "Time": "",
     "DST": ""
@@ -60778,7 +60778,7 @@ module.exports = [
   {
     "IATA": "TOU",
     "ICAO": "NWWU",
-    "Airport name": "Touho Airport[1]",
+    "Airport name": "Touho Airport",
     "Location served": "Touho, New Caledonia",
     "Time": "",
     "DST": ""
@@ -60786,7 +60786,7 @@ module.exports = [
   {
     "IATA": "TOV",
     "ICAO": "",
-    "Airport name": "West End Seaplane Base[1]",
+    "Airport name": "West End Seaplane Base",
     "Location served": "Tortola, British Overseas Territory of Virgin Islands",
     "Time": "",
     "DST": ""
@@ -60794,7 +60794,7 @@ module.exports = [
   {
     "IATA": "TOW",
     "ICAO": "SBTD",
-    "Airport name": "Luiz dal Canalle Filho Airport[1]",
+    "Airport name": "Luiz dal Canalle Filho Airport",
     "Location served": "Toledo, Paraná, Brazil",
     "Time": "",
     "DST": ""
@@ -60802,7 +60802,7 @@ module.exports = [
   {
     "IATA": "TOX",
     "ICAO": "USTO",
-    "Airport name": "Tobolsk Airport[1]",
+    "Airport name": "Tobolsk Airport",
     "Location served": "Tobolsk, Tyumen Oblast, Russia",
     "Time": "",
     "DST": ""
@@ -60818,7 +60818,7 @@ module.exports = [
   {
     "IATA": "TOZ",
     "ICAO": "DITM",
-    "Airport name": "Mahana Airport[1]",
+    "Airport name": "Mahana Airport",
     "Location served": "Touba, Ivory Coast",
     "Time": "",
     "DST": ""
@@ -60834,7 +60834,7 @@ module.exports = [
   {
     "IATA": "TPC",
     "ICAO": "SETR",
-    "Airport name": "Tarapoa Airport[1]",
+    "Airport name": "Tarapoa Airport",
     "Location served": "Tarapoa, Ecuador",
     "Time": "",
     "DST": ""
@@ -60858,7 +60858,7 @@ module.exports = [
   {
     "IATA": "TPG",
     "ICAO": "WMBI",
-    "Airport name": "Taiping Airport[1]",
+    "Airport name": "Taiping Airport",
     "Location served": "Taiping, Perak, Malaysia",
     "Time": "",
     "DST": ""
@@ -60874,7 +60874,7 @@ module.exports = [
   {
     "IATA": "TPI",
     "ICAO": "AYTI",
-    "Airport name": "Tapini Airport[1]",
+    "Airport name": "Tapini Airport",
     "Location served": "Tapini, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -60882,7 +60882,7 @@ module.exports = [
   {
     "IATA": "TPJ",
     "ICAO": "VNTJ",
-    "Airport name": "Taplejung Airport[1]",
+    "Airport name": "Taplejung Airport",
     "Location served": "Taplejung, Nepal",
     "Time": "",
     "DST": ""
@@ -60890,7 +60890,7 @@ module.exports = [
   {
     "IATA": "TPK",
     "ICAO": "WITA",
-    "Airport name": "Teuku Cut Ali Airport[1]",
+    "Airport name": "Teuku Cut Ali Airport",
     "Location served": "Tapaktuan, Indonesia",
     "Time": "",
     "DST": ""
@@ -60906,7 +60906,7 @@ module.exports = [
   {
     "IATA": "TPN",
     "ICAO": "SETI",
-    "Airport name": "Tiputini Airport[1]",
+    "Airport name": "Tiputini Airport",
     "Location served": "Tiputini, Ecuador",
     "Time": "",
     "DST": ""
@@ -60914,7 +60914,7 @@ module.exports = [
   {
     "IATA": "TPP",
     "ICAO": "SPST",
-    "Airport name": "Cad. FAP Guillermo del Castillo Paredes Airport[1]",
+    "Airport name": "Cad. FAP Guillermo del Castillo Paredes Airport",
     "Location served": "Tarapoto, Peru",
     "Time": "",
     "DST": ""
@@ -60946,7 +60946,7 @@ module.exports = [
   {
     "IATA": "TPT",
     "ICAO": "",
-    "Airport name": "Tapeta Airport[1]",
+    "Airport name": "Tapeta Airport",
     "Location served": "Tapeta, Liberia",
     "Time": "",
     "DST": ""
@@ -60954,7 +60954,7 @@ module.exports = [
   {
     "IATA": "TPU",
     "ICAO": "VNTP",
-    "Airport name": "Tikapur Airport[1]",
+    "Airport name": "Tikapur Airport",
     "Location served": "Tikapur, Nepal",
     "Time": "",
     "DST": ""
@@ -60962,7 +60962,7 @@ module.exports = [
   {
     "IATA": "TPX",
     "ICAO": "NTTU",
-    "Airport name": "Tupai Airport[1]",
+    "Airport name": "Tupai Airport",
     "Location served": "Tūpai, Society Islands, French Polynesia",
     "Time": "",
     "DST": ""
@@ -60970,7 +60970,7 @@ module.exports = [
   {
     "IATA": "TQD",
     "ICAO": "ORAT",
-    "Airport name": "Al-Taqaddum Air Base[1]",
+    "Airport name": "Al-Taqaddum Air Base",
     "Location served": "Fallujah, Iraq",
     "Time": "",
     "DST": ""
@@ -60978,7 +60978,7 @@ module.exports = [
   {
     "IATA": "TQL",
     "ICAO": "USDS",
-    "Airport name": "Tarko-Sale Airport[1]",
+    "Airport name": "Tarko-Sale Airport",
     "Location served": "Tarko-Sale, Yamalo-Nenets Autonomous Okrug, Russia",
     "Time": "",
     "DST": ""
@@ -61002,7 +61002,7 @@ module.exports = [
   {
     "IATA": "TQQ",
     "ICAO": "",
-    "Airport name": "Maranggo Airport[1]",
+    "Airport name": "Maranggo Airport",
     "Location served": "Tomia Island, Indonesia",
     "Time": "",
     "DST": ""
@@ -61010,7 +61010,7 @@ module.exports = [
   {
     "IATA": "TQS",
     "ICAO": "SKTQ",
-    "Airport name": "Captain Ernesto Esguerra Cubides Air Base[1]",
+    "Airport name": "Captain Ernesto Esguerra Cubides Air Base",
     "Location served": "Tres Esquinas, Colombia",
     "Time": "",
     "DST": ""
@@ -61018,7 +61018,7 @@ module.exports = [
   {
     "IATA": "TRA",
     "ICAO": "RORT",
-    "Airport name": "Tarama Airport[1]",
+    "Airport name": "Tarama Airport",
     "Location served": "Tarama, Miyako Islands, Japan",
     "Time": "",
     "DST": ""
@@ -61026,7 +61026,7 @@ module.exports = [
   {
     "IATA": "TRB",
     "ICAO": "SKTU",
-    "Airport name": "Gonzalo Mejía Airport[1]",
+    "Airport name": "Gonzalo Mejía Airport",
     "Location served": "Turbo, Colombia",
     "Time": "",
     "DST": ""
@@ -61090,7 +61090,7 @@ module.exports = [
   {
     "IATA": "TRJ",
     "ICAO": "AYTT",
-    "Airport name": "Tarakbits Airport[1]",
+    "Airport name": "Tarakbits Airport",
     "Location served": "Tarakbits, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -61130,7 +61130,7 @@ module.exports = [
   {
     "IATA": "TRO",
     "ICAO": "YTRE",
-    "Airport name": "Taree Airport[1]",
+    "Airport name": "Taree Airport",
     "Location served": "Taree, New South Wales, Australia",
     "Time": "",
     "DST": ""
@@ -61138,7 +61138,7 @@ module.exports = [
   {
     "IATA": "TRQ",
     "ICAO": "SBTK",
-    "Airport name": "José Galera dos Santos Airport[1]",
+    "Airport name": "José Galera dos Santos Airport",
     "Location served": "Tarauacá, Acre, Brazil",
     "Time": "",
     "DST": ""
@@ -61194,7 +61194,7 @@ module.exports = [
   {
     "IATA": "TRY",
     "ICAO": "HUTO",
-    "Airport name": "Tororo Airport[1]",
+    "Airport name": "Tororo Airport",
     "Location served": "Tororo, Uganda",
     "Time": "",
     "DST": ""
@@ -61218,7 +61218,7 @@ module.exports = [
   {
     "IATA": "TSB",
     "ICAO": "FYTM",
-    "Airport name": "Tsumeb Airport[1]",
+    "Airport name": "Tsumeb Airport",
     "Location served": "Tsumeb, Namibia",
     "Time": "",
     "DST": ""
@@ -61226,7 +61226,7 @@ module.exports = [
   {
     "IATA": "TSC",
     "ICAO": "SETH",
-    "Airport name": "Taisha Airport[1]",
+    "Airport name": "Taisha Airport",
     "Location served": "Taisha, Ecuador",
     "Time": "",
     "DST": ""
@@ -61234,7 +61234,7 @@ module.exports = [
   {
     "IATA": "TSD",
     "ICAO": "",
-    "Airport name": "Tshipise Airport[1]",
+    "Airport name": "Tshipise Airport",
     "Location served": "Tshipise, South Africa",
     "Time": "",
     "DST": ""
@@ -61266,7 +61266,7 @@ module.exports = [
   {
     "IATA": "TSH",
     "ICAO": "FZUK",
-    "Airport name": "Tshikapa Airport[1]",
+    "Airport name": "Tshikapa Airport",
     "Location served": "Tshikapa, Democratic Republic of the Congo",
     "Time": "",
     "DST": ""
@@ -61274,7 +61274,7 @@ module.exports = [
   {
     "IATA": "TSI",
     "ICAO": "",
-    "Airport name": "Tsile Tsile Airport[1]",
+    "Airport name": "Tsile Tsile Airport",
     "Location served": "Tsili Tsili (Tsile Tsile), Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -61290,7 +61290,7 @@ module.exports = [
   {
     "IATA": "TSK",
     "ICAO": "",
-    "Airport name": "Taskul Airport[1]",
+    "Airport name": "Taskul Airport",
     "Location served": "Taskul, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -61330,7 +61330,7 @@ module.exports = [
   {
     "IATA": "TSQ",
     "ICAO": "SBTR",
-    "Airport name": "Torres Airport[1]",
+    "Airport name": "Torres Airport",
     "Location served": "Torres, Rio Grande do Sul, Brazil",
     "Time": "",
     "DST": ""
@@ -61354,7 +61354,7 @@ module.exports = [
   {
     "IATA": "TSU",
     "ICAO": "NGTS",
-    "Airport name": "Tabiteuea South Airport[1]",
+    "Airport name": "Tabiteuea South Airport",
     "Location served": "Tabiteuea South, Kiribati",
     "Time": "",
     "DST": ""
@@ -61370,7 +61370,7 @@ module.exports = [
   {
     "IATA": "TSW",
     "ICAO": "",
-    "Airport name": "Tsewi Airport[1]",
+    "Airport name": "Tsewi Airport",
     "Location served": "Tsewi, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -61378,7 +61378,7 @@ module.exports = [
   {
     "IATA": "TSY",
     "ICAO": "WICM",
-    "Airport name": "Tasikmalaya Airport[1] (Wiriadinata Airport)",
+    "Airport name": "Tasikmalaya Airport (Wiriadinata Airport)",
     "Location served": "Tasikmalaya, West Java, Indonesia",
     "Time": "",
     "DST": ""
@@ -61386,7 +61386,7 @@ module.exports = [
   {
     "IATA": "TSX",
     "ICAO": "WRLT",
-    "Airport name": "Tanjung Santan Airport[1]",
+    "Airport name": "Tanjung Santan Airport",
     "Location served": "Tanjung Santan, Indonesia",
     "Time": "",
     "DST": ""
@@ -61418,7 +61418,7 @@ module.exports = [
   {
     "IATA": "TTC",
     "ICAO": "SCTT",
-    "Airport name": "Las Breas Airport[1]",
+    "Airport name": "Las Breas Airport",
     "Location served": "Taltal, Chile",
     "Time": "",
     "DST": ""
@@ -61434,7 +61434,7 @@ module.exports = [
   {
     "IATA": "TTE",
     "ICAO": "WAEE",
-    "Airport name": "Sultan Babullah Airport[1]",
+    "Airport name": "Sultan Babullah Airport",
     "Location served": "Ternate, Indonesia",
     "Time": "",
     "DST": ""
@@ -61450,7 +61450,7 @@ module.exports = [
   {
     "IATA": "TTH",
     "ICAO": "OOTH",
-    "Airport name": "RAFO Thumrait[1]",
+    "Airport name": "RAFO Thumrait",
     "Location served": "Thumrait, Oman",
     "Time": "",
     "DST": ""
@@ -61458,7 +61458,7 @@ module.exports = [
   {
     "IATA": "TTI",
     "ICAO": "NTTE",
-    "Airport name": "Tetiaroa Airport[1]",
+    "Airport name": "Tetiaroa Airport",
     "Location served": "Tetiaroa, Society Islands, French Polynesia",
     "Time": "",
     "DST": ""
@@ -61466,7 +61466,7 @@ module.exports = [
   {
     "IATA": "TTJ",
     "ICAO": "RJOR",
-    "Airport name": "Tottori Airport[1]",
+    "Airport name": "Tottori Airport",
     "Location served": "Tottori, Honshu, Japan",
     "Time": "",
     "DST": ""
@@ -61474,7 +61474,7 @@ module.exports = [
   {
     "IATA": "TTL",
     "ICAO": "",
-    "Airport name": "Turtle Island Seaplane Base[1]",
+    "Airport name": "Turtle Island Seaplane Base",
     "Location served": "Nanuya Levu, Fiji",
     "Time": "",
     "DST": ""
@@ -61514,7 +61514,7 @@ module.exports = [
   {
     "IATA": "TTR",
     "ICAO": "WAWT",
-    "Airport name": "Pongtiku Airport[1]",
+    "Airport name": "Pongtiku Airport",
     "Location served": "Tana Toraja, Indonesia",
     "Time": "",
     "DST": ""
@@ -61546,7 +61546,7 @@ module.exports = [
   {
     "IATA": "TTW",
     "ICAO": "",
-    "Airport name": "Tissa Tank Waterdrome[1]",
+    "Airport name": "Tissa Tank Waterdrome",
     "Location served": "Tissamaharama, Sri Lanka",
     "Time": "",
     "DST": ""
@@ -61554,7 +61554,7 @@ module.exports = [
   {
     "IATA": "TTX",
     "ICAO": "YTST",
-    "Airport name": "Truscott-Mungalalu Airport[1]",
+    "Airport name": "Truscott-Mungalalu Airport",
     "Location served": "Mungalalu, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -61570,7 +61570,7 @@ module.exports = [
   {
     "IATA": "TUB",
     "ICAO": "NTAT",
-    "Airport name": "Tubuai – Mataura Airport[1]",
+    "Airport name": "Tubuai – Mataura Airport",
     "Location served": "Tubuai, French Polynesia",
     "Time": "",
     "DST": ""
@@ -61610,7 +61610,7 @@ module.exports = [
   {
     "IATA": "TUI",
     "ICAO": "OETR",
-    "Airport name": "Turaif Domestic Airport[1]",
+    "Airport name": "Turaif Domestic Airport",
     "Location served": "Turaif, Saudi Arabia",
     "Time": "",
     "DST": ""
@@ -61618,7 +61618,7 @@ module.exports = [
   {
     "IATA": "TUJ",
     "ICAO": "HAMJ",
-    "Airport name": "Tum Airport[1]",
+    "Airport name": "Tum Airport",
     "Location served": "Tum, Ethiopia",
     "Time": "",
     "DST": ""
@@ -61642,7 +61642,7 @@ module.exports = [
   {
     "IATA": "TUM",
     "ICAO": "YTMU",
-    "Airport name": "Tumut Airport[1]",
+    "Airport name": "Tumut Airport",
     "Location served": "Tumut, New South Wales, Australia",
     "Time": "",
     "DST": ""
@@ -61682,7 +61682,7 @@ module.exports = [
   {
     "IATA": "TUR",
     "ICAO": "SBTU",
-    "Airport name": "Tucuruí Airport[1]",
+    "Airport name": "Tucuruí Airport",
     "Location served": "Tucuruí, Pará, Brazil",
     "Time": "",
     "DST": ""
@@ -61698,7 +61698,7 @@ module.exports = [
   {
     "IATA": "TUT",
     "ICAO": "",
-    "Airport name": "Tauta Airport[1]",
+    "Airport name": "Tauta Airport",
     "Location served": "Tauta, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -61714,7 +61714,7 @@ module.exports = [
   {
     "IATA": "TUV",
     "ICAO": "SVTC",
-    "Airport name": "San Rafael Airport[1]",
+    "Airport name": "San Rafael Airport",
     "Location served": "Tucupita, Venezuela",
     "Time": "",
     "DST": ""
@@ -61722,7 +61722,7 @@ module.exports = [
   {
     "IATA": "TUW",
     "ICAO": "",
-    "Airport name": "Tubala Airport[1]",
+    "Airport name": "Tubala Airport",
     "Location served": "Tubala (Tubualá), Panama",
     "Time": "",
     "DST": ""
@@ -61730,7 +61730,7 @@ module.exports = [
   {
     "IATA": "TUX",
     "ICAO": "",
-    "Airport name": "Tumbler Ridge Airport[1] (TC: CBX7)",
+    "Airport name": "Tumbler Ridge Airport (TC: CBX7)",
     "Location served": "Tumbler Ridge, British Columbia, Canada",
     "Time": "",
     "DST": ""
@@ -61746,7 +61746,7 @@ module.exports = [
   {
     "IATA": "TUZ",
     "ICAO": "",
-    "Airport name": "Tucumã Airport[1]",
+    "Airport name": "Tucumã Airport",
     "Location served": "Tucumã, Pará, Brazil",
     "Time": "",
     "DST": ""
@@ -61754,7 +61754,7 @@ module.exports = [
   {
     "IATA": "TVA",
     "ICAO": "FMMR",
-    "Airport name": "Morafenobe Airport[1]",
+    "Airport name": "Morafenobe Airport",
     "Location served": "Morafenobe, Madagascar",
     "Time": "",
     "DST": ""
@@ -61826,7 +61826,7 @@ module.exports = [
   {
     "IATA": "TWB",
     "ICAO": "YTWB",
-    "Airport name": "Toowoomba City Aerodrome[1]",
+    "Airport name": "Toowoomba City Aerodrome",
     "Location served": "Toowoomba, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -61834,7 +61834,7 @@ module.exports = [
   {
     "IATA": "TWC",
     "ICAO": "",
-    "Airport name": "Tumxuk Tangwangcheng Airport[1]",
+    "Airport name": "Tumxuk Tangwangcheng Airport",
     "Location served": "Tumxuk, Xinjiang, China",
     "Time": "",
     "DST": ""
@@ -61866,7 +61866,7 @@ module.exports = [
   {
     "IATA": "TWN",
     "ICAO": "",
-    "Airport name": "Tewantin Airport[1]",
+    "Airport name": "Tewantin Airport",
     "Location served": "Tewantin, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -61874,7 +61874,7 @@ module.exports = [
   {
     "IATA": "TWP",
     "ICAO": "",
-    "Airport name": "Torwood Airport[1]",
+    "Airport name": "Torwood Airport",
     "Location served": "Torwood, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -61898,7 +61898,7 @@ module.exports = [
   {
     "IATA": "TWY",
     "ICAO": "",
-    "Airport name": "Tawa Airport[1]",
+    "Airport name": "Tawa Airport",
     "Location served": "Tawa, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -61906,7 +61906,7 @@ module.exports = [
   {
     "IATA": "TWZ",
     "ICAO": "NZUK",
-    "Airport name": "Pukaki Airport[1] (Twizel Airport)",
+    "Airport name": "Pukaki Airport (Twizel Airport)",
     "Location served": "Twizel, New Zealand",
     "Time": "",
     "DST": ""
@@ -61914,7 +61914,7 @@ module.exports = [
   {
     "IATA": "TXE",
     "ICAO": "WITK",
-    "Airport name": "Rembele Airport[1]",
+    "Airport name": "Rembele Airport",
     "Location served": "Takengon, Sumatra, Indonesia",
     "Time": "",
     "DST": ""
@@ -61922,7 +61922,7 @@ module.exports = [
   {
     "IATA": "TXF",
     "ICAO": "SNTF",
-    "Airport name": "Teixeira de Freitas Airport[1] (9 de maio Airport)",
+    "Airport name": "Teixeira de Freitas Airport (9 de maio Airport)",
     "Location served": "Teixeira de Freitas, Bahia, Brazil",
     "Time": "",
     "DST": ""
@@ -61938,7 +61938,7 @@ module.exports = [
   {
     "IATA": "TXM",
     "ICAO": "WAST",
-    "Airport name": "Teminabuan Airport[1]",
+    "Airport name": "Teminabuan Airport",
     "Location served": "Teminabuan, Indonesia",
     "Time": "",
     "DST": ""
@@ -61946,7 +61946,7 @@ module.exports = [
   {
     "IATA": "TXN",
     "ICAO": "ZSTX",
-    "Airport name": "Huangshan Tunxi International Airport[1]",
+    "Airport name": "Huangshan Tunxi International Airport",
     "Location served": "Huangshan, Anhui, China",
     "Time": "",
     "DST": ""
@@ -61954,7 +61954,7 @@ module.exports = [
   {
     "IATA": "TXR",
     "ICAO": "",
-    "Airport name": "Tanbar Airport[1]",
+    "Airport name": "Tanbar Airport",
     "Location served": "Tanbar, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -61962,7 +61962,7 @@ module.exports = [
   {
     "IATA": "TXU",
     "ICAO": "DITB",
-    "Airport name": "Tabou Airport[1]",
+    "Airport name": "Tabou Airport",
     "Location served": "Tabou, Ivory Coast",
     "Time": "",
     "DST": ""
@@ -61970,7 +61970,7 @@ module.exports = [
   {
     "IATA": "TYA",
     "ICAO": "UUBT",
-    "Airport name": "Klokovo Airport[1]",
+    "Airport name": "Klokovo Airport",
     "Location served": "Tula, Tula Oblast, Russia",
     "Time": "",
     "DST": ""
@@ -61978,7 +61978,7 @@ module.exports = [
   {
     "IATA": "TYB",
     "ICAO": "YTIB",
-    "Airport name": "Tibooburra Airport[1]",
+    "Airport name": "Tibooburra Airport",
     "Location served": "Tibooburra, New South Wales, Australia",
     "Time": "",
     "DST": ""
@@ -62002,7 +62002,7 @@ module.exports = [
   {
     "IATA": "TYF",
     "ICAO": "ESST",
-    "Airport name": "Torsby Airport[1]",
+    "Airport name": "Torsby Airport",
     "Location served": "Torsby, Sweden",
     "Time": "",
     "DST": ""
@@ -62010,7 +62010,7 @@ module.exports = [
   {
     "IATA": "TYG",
     "ICAO": "",
-    "Airport name": "Thylungra Airport[1]",
+    "Airport name": "Thylungra Airport",
     "Location served": "Thylungra, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -62026,7 +62026,7 @@ module.exports = [
   {
     "IATA": "TYM",
     "ICAO": "MYES",
-    "Airport name": "Staniel Cay Airport[1]",
+    "Airport name": "Staniel Cay Airport",
     "Location served": "Staniel Cay, Exuma Islands, Bahamas",
     "Time": "",
     "DST": ""
@@ -62050,7 +62050,7 @@ module.exports = [
   {
     "IATA": "TYP",
     "ICAO": "YTMY",
-    "Airport name": "Tobermorey Airport[1]",
+    "Airport name": "Tobermorey Airport",
     "Location served": "Tobermorey, Northern Territory, Australia",
     "Time": "",
     "DST": ""
@@ -62098,7 +62098,7 @@ module.exports = [
   {
     "IATA": "TZC",
     "ICAO": "KCFS",
-    "Airport name": "Tuscola Area Airport[1] (FAA: CFS)",
+    "Airport name": "Tuscola Area Airport (FAA: CFS)",
     "Location served": "Caro, Michigan, United States",
     "Time": "",
     "DST": ""
@@ -62130,7 +62130,7 @@ module.exports = [
   {
     "IATA": "TZO",
     "ICAO": "",
-    "Airport name": "Tsimiroro Airport[1]",
+    "Airport name": "Tsimiroro Airport",
     "Location served": "Ankisatra, Madagascar",
     "Time": "",
     "DST": ""
@@ -62146,7 +62146,7 @@ module.exports = [
   {
     "IATA": "UAB",
     "ICAO": "LTAG",
-    "Airport name": "Incirlik Air Base[1]",
+    "Airport name": "Incirlik Air Base",
     "Location served": "Adana, Turkey",
     "Time": "",
     "DST": ""
@@ -62154,7 +62154,7 @@ module.exports = [
   {
     "IATA": "UAC",
     "ICAO": "",
-    "Airport name": "San Luis Río Colorado Airport[1]",
+    "Airport name": "San Luis Río Colorado Airport",
     "Location served": "San Luis Río Colorado, Sonora, Mexico",
     "Time": "",
     "DST": ""
@@ -62162,7 +62162,7 @@ module.exports = [
   {
     "IATA": "UAE",
     "ICAO": "",
-    "Airport name": "Mount Aue Airport[1]",
+    "Airport name": "Mount Aue Airport",
     "Location served": "Mount Aue, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -62170,7 +62170,7 @@ module.exports = [
   {
     "IATA": "UAH",
     "ICAO": "NTMU",
-    "Airport name": "Ua Huka Airport[1]",
+    "Airport name": "Ua Huka Airport",
     "Location served": "Ua Huka, Marquesas Islands, French Polynesia",
     "Time": "",
     "DST": ""
@@ -62178,7 +62178,7 @@ module.exports = [
   {
     "IATA": "UAI",
     "ICAO": "WPDB",
-    "Airport name": "Suai Airport[1]",
+    "Airport name": "Suai Airport",
     "Location served": "Suai, East Timor",
     "Time": "",
     "DST": ""
@@ -62210,7 +62210,7 @@ module.exports = [
   {
     "IATA": "UAP",
     "ICAO": "NTMP",
-    "Airport name": "Ua Pou Airport[1]",
+    "Airport name": "Ua Pou Airport",
     "Location served": "Ua Pou, Marquesas Islands, French Polynesia",
     "Time": "",
     "DST": ""
@@ -62226,7 +62226,7 @@ module.exports = [
   {
     "IATA": "UAR",
     "ICAO": "GMFB",
-    "Airport name": "Bouarfa Airport[1]",
+    "Airport name": "Bouarfa Airport",
     "Location served": "Bouarfa, Morocco",
     "Time": "",
     "DST": ""
@@ -62234,7 +62234,7 @@ module.exports = [
   {
     "IATA": "UAS",
     "ICAO": "HKSB",
-    "Airport name": "Samburu Airport[1] (Buffalo Spring Airport)",
+    "Airport name": "Samburu Airport (Buffalo Spring Airport)",
     "Location served": "Samburu, Kenya",
     "Time": "",
     "DST": ""
@@ -62242,7 +62242,7 @@ module.exports = [
   {
     "IATA": "UAX",
     "ICAO": "",
-    "Airport name": "Uaxactun Airport[1]",
+    "Airport name": "Uaxactun Airport",
     "Location served": "Uaxactun, Guatemala",
     "Time": "",
     "DST": ""
@@ -62258,7 +62258,7 @@ module.exports = [
   {
     "IATA": "UBB",
     "ICAO": "YMAA",
-    "Airport name": "Mabuiag Island Airport[1]",
+    "Airport name": "Mabuiag Island Airport",
     "Location served": "Mabuiag Island, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -62266,7 +62266,7 @@ module.exports = [
   {
     "IATA": "UBI",
     "ICAO": "",
-    "Airport name": "Buin Airport[1]",
+    "Airport name": "Buin Airport",
     "Location served": "Buin, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -62290,7 +62290,7 @@ module.exports = [
   {
     "IATA": "UBR",
     "ICAO": "WAJU",
-    "Airport name": "Ubrub Airport[1]",
+    "Airport name": "Ubrub Airport",
     "Location served": "Ubrub, Indonesia",
     "Time": "",
     "DST": ""
@@ -62306,7 +62306,7 @@ module.exports = [
   {
     "IATA": "UBT",
     "ICAO": "SDUB",
-    "Airport name": "Ubatuba Airport[1] (Gastão Madeira Airport)",
+    "Airport name": "Ubatuba Airport (Gastão Madeira Airport)",
     "Location served": "Ubatuba, São Paulo, Brazil",
     "Time": "",
     "DST": ""
@@ -62314,7 +62314,7 @@ module.exports = [
   {
     "IATA": "UBU",
     "ICAO": "YKAL",
-    "Airport name": "Kalumburu Airport[1]",
+    "Airport name": "Kalumburu Airport",
     "Location served": "Kalumburu, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -62322,7 +62322,7 @@ module.exports = [
   {
     "IATA": "UCB",
     "ICAO": "",
-    "Airport name": "Ulanqab Airport[1]",
+    "Airport name": "Ulanqab Airport",
     "Location served": "Ulanqab, Inner Mongolia, China",
     "Time": "",
     "DST": ""
@@ -62346,7 +62346,7 @@ module.exports = [
   {
     "IATA": "UCK",
     "ICAO": "UKLC",
-    "Airport name": "Lutsk Airport[1]",
+    "Airport name": "Lutsk Airport",
     "Location served": "Lutsk, Ukraine",
     "Time": "",
     "DST": ""
@@ -62378,7 +62378,7 @@ module.exports = [
   {
     "IATA": "UDA",
     "ICAO": "YUDA",
-    "Airport name": "Undara Airport[1]",
+    "Airport name": "Undara Airport",
     "Location served": "Undara, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -62410,7 +62410,7 @@ module.exports = [
   {
     "IATA": "UDJ",
     "ICAO": "UKLU",
-    "Airport name": "Uzhhorod International Airport[1]",
+    "Airport name": "Uzhhorod International Airport",
     "Location served": "Uzhhorod, Ukraine",
     "Time": "",
     "DST": ""
@@ -62418,7 +62418,7 @@ module.exports = [
   {
     "IATA": "UDN",
     "ICAO": "LIPD",
-    "Airport name": "Campoformido Airport[1]",
+    "Airport name": "Campoformido Airport",
     "Location served": "Udine, Friuli-Venezia Giulia, Italy",
     "Time": "",
     "DST": ""
@@ -62434,7 +62434,7 @@ module.exports = [
   {
     "IATA": "UEE",
     "ICAO": "YQNS",
-    "Airport name": "Queenstown Airport[1]",
+    "Airport name": "Queenstown Airport",
     "Location served": "Queenstown, Tasmania, Australia",
     "Time": "",
     "DST": ""
@@ -62450,7 +62450,7 @@ module.exports = [
   {
     "IATA": "UEN",
     "ICAO": "USDU",
-    "Airport name": "Urengoy Airport[1]",
+    "Airport name": "Urengoy Airport",
     "Location served": "Urengoy, Yamalo-Nenets Autonomous Okrug, Russia",
     "Time": "",
     "DST": ""
@@ -62458,7 +62458,7 @@ module.exports = [
   {
     "IATA": "UEO",
     "ICAO": "ROKJ",
-    "Airport name": "Kumejima Airport[1]",
+    "Airport name": "Kumejima Airport",
     "Location served": "Kumejima, Okinawa Islands, Japan",
     "Time": "",
     "DST": ""
@@ -62538,7 +62538,7 @@ module.exports = [
   {
     "IATA": "UGO",
     "ICAO": "FNUG",
-    "Airport name": "Uíge Airport[1]",
+    "Airport name": "Uíge Airport",
     "Location served": "Uíge, Angola",
     "Time": "",
     "DST": ""
@@ -62554,7 +62554,7 @@ module.exports = [
   {
     "IATA": "UGT",
     "ICAO": "ZMBR",
-    "Airport name": "Bulagtai Airport[1]",
+    "Airport name": "Bulagtai Airport",
     "Location served": "Bulagtai, Mongolia",
     "Time": "",
     "DST": ""
@@ -62562,7 +62562,7 @@ module.exports = [
   {
     "IATA": "UGU",
     "ICAO": "",
-    "Airport name": "Bilogai Airport[1]",
+    "Airport name": "Bilogai Airport",
     "Location served": "Bilogai, Indonesia",
     "Time": "",
     "DST": ""
@@ -62650,7 +62650,7 @@ module.exports = [
   {
     "IATA": "UIR",
     "ICAO": "YQDI",
-    "Airport name": "Quirindi Airport[1]",
+    "Airport name": "Quirindi Airport",
     "Location served": "Quirindi, New South Wales, Australia",
     "Time": "",
     "DST": ""
@@ -62674,7 +62674,7 @@ module.exports = [
   {
     "IATA": "UJN",
     "ICAO": "RKTL",
-    "Airport name": "Uljin Airport[1]",
+    "Airport name": "Uljin Airport",
     "Location served": "Uljin, South Korea",
     "Time": "",
     "DST": ""
@@ -62682,7 +62682,7 @@ module.exports = [
   {
     "IATA": "UJU",
     "ICAO": "ZKUJ",
-    "Airport name": "Uiju Airfield[1]",
+    "Airport name": "Uiju Airfield",
     "Location served": "Uiju, North Korea",
     "Time": "",
     "DST": ""
@@ -62690,7 +62690,7 @@ module.exports = [
   {
     "IATA": "UKA",
     "ICAO": "HKUK",
-    "Airport name": "Ukunda Airport[1] (Diani Airport)",
+    "Airport name": "Ukunda Airport (Diani Airport)",
     "Location served": "Ukunda, Kenya",
     "Time": "",
     "DST": ""
@@ -62714,7 +62714,7 @@ module.exports = [
   {
     "IATA": "UKH",
     "ICAO": "OOMK",
-    "Airport name": "Mukhaizna Airport[1]",
+    "Airport name": "Mukhaizna Airport",
     "Location served": "Mukhaizna, Oman",
     "Time": "",
     "DST": ""
@@ -62746,7 +62746,7 @@ module.exports = [
   {
     "IATA": "UKR",
     "ICAO": "OYMK",
-    "Airport name": "Mukeiras Airport[1]",
+    "Airport name": "Mukeiras Airport",
     "Location served": "Mukayras, Yemen",
     "Time": "",
     "DST": ""
@@ -62754,7 +62754,7 @@ module.exports = [
   {
     "IATA": "UKS",
     "ICAO": "UKFB",
-    "Airport name": "Sevastopol International Airport[1]",
+    "Airport name": "Sevastopol International Airport",
     "Location served": "Sevastopol",
     "Time": "",
     "DST": ""
@@ -62770,7 +62770,7 @@ module.exports = [
   {
     "IATA": "UKU",
     "ICAO": "",
-    "Airport name": "Nuku Airport[1]",
+    "Airport name": "Nuku Airport",
     "Location served": "Nuku, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -62786,7 +62786,7 @@ module.exports = [
   {
     "IATA": "ULA",
     "ICAO": "SAWJ",
-    "Airport name": "Capitán José Daniel Vazquez Airport[1]",
+    "Airport name": "Capitán José Daniel Vazquez Airport",
     "Location served": "Puerto San Julián, Santa Cruz, Argentina",
     "Time": "",
     "DST": ""
@@ -62794,7 +62794,7 @@ module.exports = [
   {
     "IATA": "ULB",
     "ICAO": "NVSU",
-    "Airport name": "Ulei Airport[1]",
+    "Airport name": "Ulei Airport",
     "Location served": "Ulei, Vanuatu",
     "Time": "",
     "DST": ""
@@ -62802,7 +62802,7 @@ module.exports = [
   {
     "IATA": "ULD",
     "ICAO": "FAUL",
-    "Airport name": "Ulundi Airport[1]",
+    "Airport name": "Ulundi Airport",
     "Location served": "Ulundi, South Africa",
     "Time": "",
     "DST": ""
@@ -62810,7 +62810,7 @@ module.exports = [
   {
     "IATA": "ULE",
     "ICAO": "",
-    "Airport name": "Sule Airport[1]",
+    "Airport name": "Sule Airport",
     "Location served": "Sule, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -62818,7 +62818,7 @@ module.exports = [
   {
     "IATA": "ULG",
     "ICAO": "ZMUL",
-    "Airport name": "Ölgii Airport[1]",
+    "Airport name": "Ölgii Airport",
     "Location served": "Ölgii, Mongolia",
     "Time": "",
     "DST": ""
@@ -62826,7 +62826,7 @@ module.exports = [
   {
     "IATA": "ULH",
     "ICAO": "OEAO",
-    "Airport name": "Prince Abdul Majeed bin Abdulaziz Domestic Airport[1]",
+    "Airport name": "Prince Abdul Majeed bin Abdulaziz Domestic Airport",
     "Location served": "Al-Ula, Saudi Arabia",
     "Time": "",
     "DST": ""
@@ -62842,7 +62842,7 @@ module.exports = [
   {
     "IATA": "ULK",
     "ICAO": "UERL",
-    "Airport name": "Lensk Airport[1]",
+    "Airport name": "Lensk Airport",
     "Location served": "Lensk, Yakutia, Russia",
     "Time": "",
     "DST": ""
@@ -62850,7 +62850,7 @@ module.exports = [
   {
     "IATA": "ULL",
     "ICAO": "",
-    "Airport name": "Glenforsa Airfield[1]",
+    "Airport name": "Glenforsa Airfield",
     "Location served": "Mull, Scotland, United Kingdom",
     "Time": "",
     "DST": ""
@@ -62882,7 +62882,7 @@ module.exports = [
   {
     "IATA": "ULP",
     "ICAO": "YQLP",
-    "Airport name": "Quilpie Airport[1]",
+    "Airport name": "Quilpie Airport",
     "Location served": "Quilpie, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -62890,7 +62890,7 @@ module.exports = [
   {
     "IATA": "ULQ",
     "ICAO": "SKUL",
-    "Airport name": "Heriberto Gíl Martínez Airport[1]",
+    "Airport name": "Heriberto Gíl Martínez Airport",
     "Location served": "Tuluá, Colombia",
     "Time": "",
     "DST": ""
@@ -62906,7 +62906,7 @@ module.exports = [
   {
     "IATA": "ULU",
     "ICAO": "HUGU",
-    "Airport name": "Gulu Airport[1]",
+    "Airport name": "Gulu Airport",
     "Location served": "Gulu, Uganda",
     "Time": "",
     "DST": ""
@@ -62922,7 +62922,7 @@ module.exports = [
   {
     "IATA": "ULX",
     "ICAO": "",
-    "Airport name": "Ulusaba Airstrip[1]",
+    "Airport name": "Ulusaba Airstrip",
     "Location served": "Ulusaba, South Africa",
     "Time": "",
     "DST": ""
@@ -62938,7 +62938,7 @@ module.exports = [
   {
     "IATA": "ULZ",
     "ICAO": "ZMDN",
-    "Airport name": "Donoi Airport[1]",
+    "Airport name": "Donoi Airport",
     "Location served": "Uliastai, Mongolia",
     "Time": "",
     "DST": ""
@@ -62954,7 +62954,7 @@ module.exports = [
   {
     "IATA": "UMC",
     "ICAO": "",
-    "Airport name": "Umba Airport[1]",
+    "Airport name": "Umba Airport",
     "Location served": "Umba, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -62970,7 +62970,7 @@ module.exports = [
   {
     "IATA": "UMI",
     "ICAO": "SPIL",
-    "Airport name": "Quince Mil Airport[1]",
+    "Airport name": "Quince Mil Airport",
     "Location served": "Quince Mil, Peru",
     "Time": "",
     "DST": ""
@@ -62986,7 +62986,7 @@ module.exports = [
   {
     "IATA": "UMR",
     "ICAO": "YPWR",
-    "Airport name": "RAAF Woomera Airfield[1]",
+    "Airport name": "RAAF Woomera Airfield",
     "Location served": "Woomera, South Australia, Australia",
     "Time": "",
     "DST": ""
@@ -63010,7 +63010,7 @@ module.exports = [
   {
     "IATA": "UMU",
     "ICAO": "SSUM",
-    "Airport name": "Orlando de Carvalho Airport[1]",
+    "Airport name": "Orlando de Carvalho Airport",
     "Location served": "Umuarama, Paraná, Brazil",
     "Time": "",
     "DST": ""
@@ -63018,7 +63018,7 @@ module.exports = [
   {
     "IATA": "UMY",
     "ICAO": "UKHS",
-    "Airport name": "Sumy Airport[1]",
+    "Airport name": "Sumy Airport",
     "Location served": "Sumy, Ukraine",
     "Time": "",
     "DST": ""
@@ -63034,7 +63034,7 @@ module.exports = [
   {
     "IATA": "UNA",
     "ICAO": "SBTC",
-    "Airport name": "Una-Comandatuba Airport[1]",
+    "Airport name": "Una-Comandatuba Airport",
     "Location served": "Una / Comandatuba Island, Bahia, Brazil",
     "Time": "",
     "DST": ""
@@ -63058,7 +63058,7 @@ module.exports = [
   {
     "IATA": "UNE",
     "ICAO": "FXQN",
-    "Airport name": "Qacha's Nek Airport[1]",
+    "Airport name": "Qacha's Nek Airport",
     "Location served": "Qacha's Nek, Lesotho",
     "Time": "",
     "DST": ""
@@ -63066,7 +63066,7 @@ module.exports = [
   {
     "IATA": "UNG",
     "ICAO": "AYKI",
-    "Airport name": "Kiunga Airport[1]",
+    "Airport name": "Kiunga Airport",
     "Location served": "Kiunga, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -63106,7 +63106,7 @@ module.exports = [
   {
     "IATA": "UNT",
     "ICAO": "",
-    "Airport name": "Unst Airport[1]",
+    "Airport name": "Unst Airport",
     "Location served": "Unst, Scotland, United Kingdom",
     "Time": "",
     "DST": ""
@@ -63122,7 +63122,7 @@ module.exports = [
   {
     "IATA": "UOA",
     "ICAO": "NTTX",
-    "Airport name": "Mururoa Airport[1]",
+    "Airport name": "Mururoa Airport",
     "Location served": "Moruroa (Mururoa), Tuamotus, French Polynesia",
     "Time": "",
     "DST": ""
@@ -63154,7 +63154,7 @@ module.exports = [
   {
     "IATA": "UPB",
     "ICAO": "MUPB",
-    "Airport name": "Playa Baracoa Airport[1]",
+    "Airport name": "Playa Baracoa Airport",
     "Location served": "Havana, Cuba",
     "Time": "",
     "DST": ""
@@ -63194,7 +63194,7 @@ module.exports = [
   {
     "IATA": "UPR",
     "ICAO": "",
-    "Airport name": "Upiara Airport[1]",
+    "Airport name": "Upiara Airport",
     "Location served": "Upiara, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -63202,7 +63202,7 @@ module.exports = [
   {
     "IATA": "UPV",
     "ICAO": "EGDJ",
-    "Airport name": "RAF Upavon[1]",
+    "Airport name": "RAF Upavon",
     "Location served": "Upavon, England, United Kingdom",
     "Time": "",
     "DST": ""
@@ -63218,7 +63218,7 @@ module.exports = [
   {
     "IATA": "URB",
     "ICAO": "",
-    "Airport name": "Castilho Airport[1] (Urubupunga Airport)",
+    "Airport name": "Castilho Airport (Urubupunga Airport)",
     "Location served": "Castilho, São Paulo, Brazil",
     "Time": "",
     "DST": ""
@@ -63234,7 +63234,7 @@ module.exports = [
   {
     "IATA": "URD",
     "ICAO": "EDQE",
-    "Airport name": "Burg Feuerstein Airport[1]",
+    "Airport name": "Burg Feuerstein Airport",
     "Location served": "Burg Feuerstein, Bavaria, Germany",
     "Time": "",
     "DST": ""
@@ -63274,7 +63274,7 @@ module.exports = [
   {
     "IATA": "URM",
     "ICAO": "SVUM",
-    "Airport name": "Uriman Airport[1]",
+    "Airport name": "Uriman Airport",
     "Location served": "Uriman, Venezuela",
     "Time": "",
     "DST": ""
@@ -63298,7 +63298,7 @@ module.exports = [
   {
     "IATA": "URR",
     "ICAO": "SKUR",
-    "Airport name": "Urrao Airport[1]",
+    "Airport name": "Urrao Airport",
     "Location served": "Urrao, Colombia",
     "Time": "",
     "DST": ""
@@ -63322,7 +63322,7 @@ module.exports = [
   {
     "IATA": "URU",
     "ICAO": "",
-    "Airport name": "Uroubi Airport[1]",
+    "Airport name": "Uroubi Airport",
     "Location served": "Uroubi, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -63330,7 +63330,7 @@ module.exports = [
   {
     "IATA": "URY",
     "ICAO": "OEGT",
-    "Airport name": "Gurayat Domestic Airport[1]",
+    "Airport name": "Gurayat Domestic Airport",
     "Location served": "Qurayyat (Gurayat), Saudi Arabia",
     "Time": "",
     "DST": ""
@@ -63386,7 +63386,7 @@ module.exports = [
   {
     "IATA": "USK",
     "ICAO": "UUYS",
-    "Airport name": "Usinsk Airport[1]",
+    "Airport name": "Usinsk Airport",
     "Location served": "Usinsk, Komi Republic, Russia",
     "Time": "",
     "DST": ""
@@ -63394,7 +63394,7 @@ module.exports = [
   {
     "IATA": "USL",
     "ICAO": "YUSL",
-    "Airport name": "Useless Loop Airport[1]",
+    "Airport name": "Useless Loop Airport",
     "Location served": "Useless Loop, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -63410,7 +63410,7 @@ module.exports = [
   {
     "IATA": "USN",
     "ICAO": "RKPU",
-    "Airport name": "Ulsan Airport[1]",
+    "Airport name": "Ulsan Airport",
     "Location served": "Ulsan, South Korea",
     "Time": "",
     "DST": ""
@@ -63418,7 +63418,7 @@ module.exports = [
   {
     "IATA": "USO",
     "ICAO": "",
-    "Airport name": "Usino Airport[1]",
+    "Airport name": "Usino Airport",
     "Location served": "Usino, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -63442,7 +63442,7 @@ module.exports = [
   {
     "IATA": "USS",
     "ICAO": "MUSS",
-    "Airport name": "Sancti Spíritus Airport[1]",
+    "Airport name": "Sancti Spíritus Airport",
     "Location served": "Sancti Spíritus, Cuba",
     "Time": "",
     "DST": ""
@@ -63474,7 +63474,7 @@ module.exports = [
   {
     "IATA": "UTB",
     "ICAO": "YMTB",
-    "Airport name": "Muttaburra Airport[1]",
+    "Airport name": "Muttaburra Airport",
     "Location served": "Muttaburra, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -63490,7 +63490,7 @@ module.exports = [
   {
     "IATA": "UTD",
     "ICAO": "",
-    "Airport name": "Nutwood Downs Airport[1]",
+    "Airport name": "Nutwood Downs Airport",
     "Location served": "Nutwood Downs, Northern Territory, Australia",
     "Time": "",
     "DST": ""
@@ -63498,7 +63498,7 @@ module.exports = [
   {
     "IATA": "UTG",
     "ICAO": "FXQG",
-    "Airport name": "Quthing Airport[1]",
+    "Airport name": "Quthing Airport",
     "Location served": "Quthing, Lesotho",
     "Time": "",
     "DST": ""
@@ -63562,7 +63562,7 @@ module.exports = [
   {
     "IATA": "UTS",
     "ICAO": "UUYX",
-    "Airport name": "Ust-Tsilma Airport[1]",
+    "Airport name": "Ust-Tsilma Airport",
     "Location served": "Ust-Tsilma, Komi Republic, Russia",
     "Time": "",
     "DST": ""
@@ -63578,7 +63578,7 @@ module.exports = [
   {
     "IATA": "UTU",
     "ICAO": "",
-    "Airport name": "Ustupo Airport[1]",
+    "Airport name": "Ustupo Airport",
     "Location served": "Ustupo, Panama",
     "Time": "",
     "DST": ""
@@ -63586,7 +63586,7 @@ module.exports = [
   {
     "IATA": "UTW",
     "ICAO": "FAQT",
-    "Airport name": "Queenstown Airport[1]",
+    "Airport name": "Queenstown Airport",
     "Location served": "Queenstown, South Africa",
     "Time": "",
     "DST": ""
@@ -63618,7 +63618,7 @@ module.exports = [
   {
     "IATA": "UUN",
     "ICAO": "ZMBU",
-    "Airport name": "Baruun-Urt Airport[1]",
+    "Airport name": "Baruun-Urt Airport",
     "Location served": "Baruun-Urt, Mongolia",
     "Time": "",
     "DST": ""
@@ -63650,7 +63650,7 @@ module.exports = [
   {
     "IATA": "UVE",
     "ICAO": "NWWV",
-    "Airport name": "Ouvéa Airport[1] (Ouloup Airport)",
+    "Airport name": "Ouvéa Airport (Ouloup Airport)",
     "Location served": "Ouvéa, New Caledonia",
     "Time": "",
     "DST": ""
@@ -63666,7 +63666,7 @@ module.exports = [
   {
     "IATA": "UVI",
     "ICAO": "SSUV",
-    "Airport name": "União da Vitória Airport[1]",
+    "Airport name": "União da Vitória Airport",
     "Location served": "União da Vitória, Paraná, Brazil",
     "Time": "",
     "DST": ""
@@ -63674,7 +63674,7 @@ module.exports = [
   {
     "IATA": "UVL",
     "ICAO": "HEKG",
-    "Airport name": "El Kharga Airport[1]",
+    "Airport name": "El Kharga Airport",
     "Location served": "Kharga Oasis, Egypt",
     "Time": "",
     "DST": ""
@@ -63682,7 +63682,7 @@ module.exports = [
   {
     "IATA": "UVO",
     "ICAO": "",
-    "Airport name": "Uvol Airport[1]",
+    "Airport name": "Uvol Airport",
     "Location served": "Uvol, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -63722,7 +63722,7 @@ module.exports = [
   {
     "IATA": "UZM",
     "ICAO": "",
-    "Airport name": "Hope Bay Aerodrome[1] (TC: CHB3)",
+    "Airport name": "Hope Bay Aerodrome (TC: CHB3)",
     "Location served": "Hope Bay, Nunavut, Canada",
     "Time": "",
     "DST": ""
@@ -63754,7 +63754,7 @@ module.exports = [
   {
     "IATA": "VAB",
     "ICAO": "",
-    "Airport name": "Yavarate Airport[1]",
+    "Airport name": "Yavarate Airport",
     "Location served": "Yavarate, Colombia",
     "Time": "",
     "DST": ""
@@ -63762,7 +63762,7 @@ module.exports = [
   {
     "IATA": "VAC",
     "ICAO": "EDWU",
-    "Airport name": "Varrelbusch Airport[1]",
+    "Airport name": "Varrelbusch Airport",
     "Location served": "Cloppenburg, Lower Saxony, Germany",
     "Time": "",
     "DST": ""
@@ -63794,7 +63794,7 @@ module.exports = [
   {
     "IATA": "VAH",
     "ICAO": "SLVG",
-    "Airport name": "Cap. Av. Vidal Villagomez Toledo Airport[1]",
+    "Airport name": "Cap. Av. Vidal Villagomez Toledo Airport",
     "Location served": "Vallegrande, Bolivia",
     "Time": "",
     "DST": ""
@@ -63802,7 +63802,7 @@ module.exports = [
   {
     "IATA": "VAI",
     "ICAO": "AYVN",
-    "Airport name": "Vanimo Airport[1]",
+    "Airport name": "Vanimo Airport",
     "Location served": "Vanimo, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -63818,7 +63818,7 @@ module.exports = [
   {
     "IATA": "VAL",
     "ICAO": "SNVB",
-    "Airport name": "Valença Airport[1]",
+    "Airport name": "Valença Airport",
     "Location served": "Valença, Bahia, Brazil",
     "Time": "",
     "DST": ""
@@ -63842,7 +63842,7 @@ module.exports = [
   {
     "IATA": "VAO",
     "ICAO": "AGGV",
-    "Airport name": "Suavanao Airport[1]",
+    "Airport name": "Suavanao Airport",
     "Location served": "Suavanao, Solomon Islands",
     "Time": "",
     "DST": ""
@@ -63850,7 +63850,7 @@ module.exports = [
   {
     "IATA": "VAP",
     "ICAO": "SCRD",
-    "Airport name": "Rodelillo Airfield[1]",
+    "Airport name": "Rodelillo Airfield",
     "Location served": "Valparaíso, Chile",
     "Time": "",
     "DST": ""
@@ -63874,7 +63874,7 @@ module.exports = [
   {
     "IATA": "VAT",
     "ICAO": "FMMY",
-    "Airport name": "Vatomandry Airport[1]",
+    "Airport name": "Vatomandry Airport",
     "Location served": "Vatomandry, Madagascar",
     "Time": "",
     "DST": ""
@@ -63882,7 +63882,7 @@ module.exports = [
   {
     "IATA": "VAU",
     "ICAO": "NFNV",
-    "Airport name": "Vatukoula Airport[1]",
+    "Airport name": "Vatukoula Airport",
     "Location served": "Vatukoula, Fiji",
     "Time": "",
     "DST": ""
@@ -63890,7 +63890,7 @@ module.exports = [
   {
     "IATA": "VAV",
     "ICAO": "NFTV",
-    "Airport name": "Vavaʻu International Airport[1]",
+    "Airport name": "Vavaʻu International Airport",
     "Location served": "Vavaʻu, Tonga",
     "Time": "",
     "DST": ""
@@ -63906,7 +63906,7 @@ module.exports = [
   {
     "IATA": "VBA",
     "ICAO": "VYAN",
-    "Airport name": "Ann Airport[1]",
+    "Airport name": "Ann Airport",
     "Location served": "Ann, Myanmar",
     "Time": "",
     "DST": ""
@@ -63914,7 +63914,7 @@ module.exports = [
   {
     "IATA": "VBC",
     "ICAO": "VYCZ",
-    "Airport name": "Mandalay Chanmyathazi Airport[1]",
+    "Airport name": "Mandalay Chanmyathazi Airport",
     "Location served": "Mandalay, Myanmar",
     "Time": "",
     "DST": ""
@@ -63930,7 +63930,7 @@ module.exports = [
   {
     "IATA": "VBP",
     "ICAO": "VYBP",
-    "Airport name": "Bokpyin Airport[1]",
+    "Airport name": "Bokpyin Airport",
     "Location served": "Bokpyin, Myanmar",
     "Time": "",
     "DST": ""
@@ -63946,7 +63946,7 @@ module.exports = [
   {
     "IATA": "VBV",
     "ICAO": "NFVB",
-    "Airport name": "Vanuabalavu Airport[1]",
+    "Airport name": "Vanuabalavu Airport",
     "Location served": "Vanua Balavu, Fiji",
     "Time": "",
     "DST": ""
@@ -63970,7 +63970,7 @@ module.exports = [
   {
     "IATA": "VCD",
     "ICAO": "YVRD",
-    "Airport name": "Victoria River Downs Airport[1]",
+    "Airport name": "Victoria River Downs Airport",
     "Location served": "Victoria River Downs Station, Northern Territory, Australia",
     "Time": "",
     "DST": ""
@@ -63986,7 +63986,7 @@ module.exports = [
   {
     "IATA": "VCF",
     "ICAO": "",
-    "Airport name": "Valcheta Airport[1]",
+    "Airport name": "Valcheta Airport",
     "Location served": "Valcheta, Río Negro, Argentina",
     "Time": "",
     "DST": ""
@@ -64018,7 +64018,7 @@ module.exports = [
   {
     "IATA": "VCR",
     "ICAO": "SVCO",
-    "Airport name": "Carora Airport[1]",
+    "Airport name": "Carora Airport",
     "Location served": "Carora, Venezuela",
     "Time": "",
     "DST": ""
@@ -64074,7 +64074,7 @@ module.exports = [
   {
     "IATA": "VDE",
     "ICAO": "GCHI",
-    "Airport name": "El Hierro Airport[1]",
+    "Airport name": "El Hierro Airport",
     "Location served": "Valverde, Canary Islands, Spain",
     "Time": "",
     "DST": ""
@@ -64082,7 +64082,7 @@ module.exports = [
   {
     "IATA": "VDH",
     "ICAO": "VVDH",
-    "Airport name": "Dong Hoi Airport[1]",
+    "Airport name": "Dong Hoi Airport",
     "Location served": "Dong Hoi (Đồng Hới), Vietnam",
     "Time": "",
     "DST": ""
@@ -64138,7 +64138,7 @@ module.exports = [
   {
     "IATA": "VDY",
     "ICAO": "VOJV",
-    "Airport name": "Vidyanagar Airport[1] (Jindal Airport)",
+    "Airport name": "Vidyanagar Airport (Jindal Airport)",
     "Location served": "Toranagallu, Karnataka, India",
     "Time": "",
     "DST": ""
@@ -64162,7 +64162,7 @@ module.exports = [
   {
     "IATA": "VEG",
     "ICAO": "SYMK",
-    "Airport name": "Maikwak Airport[1]",
+    "Airport name": "Maikwak Airport",
     "Location served": "Maikwak, Guyana",
     "Time": "",
     "DST": ""
@@ -64186,7 +64186,7 @@ module.exports = [
   {
     "IATA": "VEV",
     "ICAO": "AGBA",
-    "Airport name": "Barakoma Airport[1]",
+    "Airport name": "Barakoma Airport",
     "Location served": "Barakoma, Solomon Islands",
     "Time": "",
     "DST": ""
@@ -64242,7 +64242,7 @@ module.exports = [
   {
     "IATA": "VGS",
     "ICAO": "",
-    "Airport name": "General Villegas Airport[1]",
+    "Airport name": "General Villegas Airport",
     "Location served": "General Villegas, Buenos Aires, Argentina",
     "Time": "",
     "DST": ""
@@ -64266,7 +64266,7 @@ module.exports = [
   {
     "IATA": "VHC",
     "ICAO": "FNSA",
-    "Airport name": "Henrique de Carvalho Airport[1]",
+    "Airport name": "Henrique de Carvalho Airport",
     "Location served": "Saurimo, Angola",
     "Time": "",
     "DST": ""
@@ -64298,7 +64298,7 @@ module.exports = [
   {
     "IATA": "VHY",
     "ICAO": "LFLV",
-    "Airport name": "Vichy — Charmeil Airport[1]",
+    "Airport name": "Vichy — Charmeil Airport",
     "Location served": "Vichy, Auvergne, France",
     "Time": "",
     "DST": ""
@@ -64306,7 +64306,7 @@ module.exports = [
   {
     "IATA": "VHZ",
     "ICAO": "NTUV",
-    "Airport name": "Vahitahi Airport[1]",
+    "Airport name": "Vahitahi Airport",
     "Location served": "Vahitahi, Tuamotus, French Polynesia",
     "Time": "",
     "DST": ""
@@ -64322,7 +64322,7 @@ module.exports = [
   {
     "IATA": "VIB",
     "ICAO": "",
-    "Airport name": "Villa Constitución Airport[1]",
+    "Airport name": "Villa Constitución Airport",
     "Location served": "Ciudad Constitución, Baja California Sur, Mexico",
     "Time": "",
     "DST": ""
@@ -64402,7 +64402,7 @@ module.exports = [
   {
     "IATA": "VIR",
     "ICAO": "FAVG",
-    "Airport name": "Virginia Airport[1]",
+    "Airport name": "Virginia Airport",
     "Location served": "Durban, South Africa",
     "Time": "",
     "DST": ""
@@ -64426,7 +64426,7 @@ module.exports = [
   {
     "IATA": "VIU",
     "ICAO": "",
-    "Airport name": "Viru Harbour Airport[1]",
+    "Airport name": "Viru Harbour Airport",
     "Location served": "Viru Harbour, Solomon Islands",
     "Time": "",
     "DST": ""
@@ -64450,7 +64450,7 @@ module.exports = [
   {
     "IATA": "VIY",
     "ICAO": "LFPV",
-    "Airport name": "Vélizy – Villacoublay Air Base[1]",
+    "Airport name": "Vélizy – Villacoublay Air Base",
     "Location served": "Paris, Île-de-France, France",
     "Time": "",
     "DST": ""
@@ -64474,7 +64474,7 @@ module.exports = [
   {
     "IATA": "VJQ",
     "ICAO": "",
-    "Airport name": "Gurúé Airport[1]",
+    "Airport name": "Gurúé Airport",
     "Location served": "Gurúè, Mozambique",
     "Time": "",
     "DST": ""
@@ -64562,7 +64562,7 @@ module.exports = [
   {
     "IATA": "VLK",
     "ICAO": "URRY",
-    "Airport name": "Volgodonsk Airport[1]",
+    "Airport name": "Volgodonsk Airport",
     "Location served": "Volgodonsk, Rostov Oblast, Russia",
     "Time": "",
     "DST": ""
@@ -64578,7 +64578,7 @@ module.exports = [
   {
     "IATA": "VLM",
     "ICAO": "SLVM",
-    "Airport name": "Lieutenant Colonel Rafael Pabón Airport[1]",
+    "Airport name": "Lieutenant Colonel Rafael Pabón Airport",
     "Location served": "Villamontes, Bolivia",
     "Time": "",
     "DST": ""
@@ -64594,7 +64594,7 @@ module.exports = [
   {
     "IATA": "VLP",
     "ICAO": "",
-    "Airport name": "Vila Rica Municipal Airport[1]",
+    "Airport name": "Vila Rica Municipal Airport",
     "Location served": "Vila Rica, Mato Grosso, Brazil",
     "Time": "",
     "DST": ""
@@ -64602,7 +64602,7 @@ module.exports = [
   {
     "IATA": "VLR",
     "ICAO": "SCLL",
-    "Airport name": "Vallenar Airport[1]",
+    "Airport name": "Vallenar Airport",
     "Location served": "Vallenar, Chile",
     "Time": "",
     "DST": ""
@@ -64610,7 +64610,7 @@ module.exports = [
   {
     "IATA": "VLS",
     "ICAO": "NVSV",
-    "Airport name": "Valesdir Airport[1]",
+    "Airport name": "Valesdir Airport",
     "Location served": "Valesdir, Vanuatu",
     "Time": "",
     "DST": ""
@@ -64650,7 +64650,7 @@ module.exports = [
   {
     "IATA": "VMI",
     "ICAO": "",
-    "Airport name": "Dr. Juan Plate Airport[1]",
+    "Airport name": "Dr. Juan Plate Airport",
     "Location served": "Puerto Valle-Mi, Paraguay",
     "Time": "",
     "DST": ""
@@ -64666,7 +64666,7 @@ module.exports = [
   {
     "IATA": "VNA",
     "ICAO": "VLSV",
-    "Airport name": "Salavan Airport[1]",
+    "Airport name": "Salavan Airport",
     "Location served": "Salavan (Saravane), Laos",
     "Time": "",
     "DST": ""
@@ -64682,7 +64682,7 @@ module.exports = [
   {
     "IATA": "VND",
     "ICAO": "FMSU",
-    "Airport name": "Vangaindrano Airport[1]",
+    "Airport name": "Vangaindrano Airport",
     "Location served": "Vangaindrano, Madagascar",
     "Time": "",
     "DST": ""
@@ -64706,7 +64706,7 @@ module.exports = [
   {
     "IATA": "VNR",
     "ICAO": "YVRS",
-    "Airport name": "Vanrook Airport[1]",
+    "Airport name": "Vanrook Airport",
     "Location served": "Vanrook Station, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -64762,7 +64762,7 @@ module.exports = [
   {
     "IATA": "VOH",
     "ICAO": "FMNV",
-    "Airport name": "Vohemar Airport[1]",
+    "Airport name": "Vohemar Airport",
     "Location served": "Vohemar (Vohimarina), Madagascar",
     "Time": "",
     "DST": ""
@@ -64794,7 +64794,7 @@ module.exports = [
   {
     "IATA": "VOT",
     "ICAO": "SDVG",
-    "Airport name": "Votuporanga Airport[1] (Domingos Pignatari Airport)",
+    "Airport name": "Votuporanga Airport (Domingos Pignatari Airport)",
     "Location served": "Votuporanga, São Paulo, Brazil",
     "Time": "",
     "DST": ""
@@ -64810,7 +64810,7 @@ module.exports = [
   {
     "IATA": "VPE",
     "ICAO": "FNGI",
-    "Airport name": "Ondjiva Pereira Airport[1]",
+    "Airport name": "Ondjiva Pereira Airport",
     "Location served": "Ondjiva, Angola",
     "Time": "",
     "DST": ""
@@ -64818,7 +64818,7 @@ module.exports = [
   {
     "IATA": "VPG",
     "ICAO": "",
-    "Airport name": "Vipingo Airport[1]",
+    "Airport name": "Vipingo Airport",
     "Location served": "Vipingo, Kenya",
     "Time": "",
     "DST": ""
@@ -64858,7 +64858,7 @@ module.exports = [
   {
     "IATA": "VQQ",
     "ICAO": "KVQQ",
-    "Airport name": "Cecil Airport[1]",
+    "Airport name": "Cecil Airport",
     "Location served": "Jacksonville, Florida, United States",
     "Time": "",
     "DST": ""
@@ -64898,7 +64898,7 @@ module.exports = [
   {
     "IATA": "VRE",
     "ICAO": "FAVR",
-    "Airport name": "Vredendal Airport[1]",
+    "Airport name": "Vredendal Airport",
     "Location served": "Vredendal, South Africa",
     "Time": "",
     "DST": ""
@@ -64954,7 +64954,7 @@ module.exports = [
   {
     "IATA": "VRU",
     "ICAO": "FAVB",
-    "Airport name": "Vryburg Airport[1]",
+    "Airport name": "Vryburg Airport",
     "Location served": "Vryburg, South Africa",
     "Time": "",
     "DST": ""
@@ -64970,7 +64970,7 @@ module.exports = [
   {
     "IATA": "VSE",
     "ICAO": "LPVZ",
-    "Airport name": "Viseu Airport[1]",
+    "Airport name": "Viseu Airport",
     "Location served": "Viseu, Portugal",
     "Time": "",
     "DST": ""
@@ -65002,7 +65002,7 @@ module.exports = [
   {
     "IATA": "VTB",
     "ICAO": "UMII",
-    "Airport name": "Vitebsk Vostochny Airport[1]",
+    "Airport name": "Vitebsk Vostochny Airport",
     "Location served": "Vitebsk, Belarus",
     "Time": "",
     "DST": ""
@@ -65018,7 +65018,7 @@ module.exports = [
   {
     "IATA": "VTF",
     "ICAO": "NFVL",
-    "Airport name": "Vatulele Airport[1]",
+    "Airport name": "Vatulele Airport",
     "Location served": "Vatulele, Fiji",
     "Time": "",
     "DST": ""
@@ -65034,7 +65034,7 @@ module.exports = [
   {
     "IATA": "VTL",
     "ICAO": "LFSZ",
-    "Airport name": "Vittel - Champ-de-Courses Airport[1]",
+    "Airport name": "Vittel - Champ-de-Courses Airport",
     "Location served": "Vittel, Lorraine, France",
     "Time": "",
     "DST": ""
@@ -65042,7 +65042,7 @@ module.exports = [
   {
     "IATA": "VTM",
     "ICAO": "LLNV",
-    "Airport name": "Nevatim Airbase[1]",
+    "Airport name": "Nevatim Airbase",
     "Location served": "Nevatim, Israel",
     "Time": "",
     "DST": ""
@@ -65058,7 +65058,7 @@ module.exports = [
   {
     "IATA": "VTU",
     "ICAO": "MUVT",
-    "Airport name": "Hermanos Ameijeiras Airport[1]",
+    "Airport name": "Hermanos Ameijeiras Airport",
     "Location served": "Las Tunas, Cuba",
     "Time": "",
     "DST": ""
@@ -65090,7 +65090,7 @@ module.exports = [
   {
     "IATA": "VUU",
     "ICAO": "",
-    "Airport name": "Mvuu Camp Airport[1]",
+    "Airport name": "Mvuu Camp Airport",
     "Location served": "Liwonde, Malawi",
     "Time": "",
     "DST": ""
@@ -65098,7 +65098,7 @@ module.exports = [
   {
     "IATA": "VVB",
     "ICAO": "FMMH",
-    "Airport name": "Mahanoro Airport[1]",
+    "Airport name": "Mahanoro Airport",
     "Location served": "Mahanoro, Madagascar",
     "Time": "",
     "DST": ""
@@ -65106,7 +65106,7 @@ module.exports = [
   {
     "IATA": "VVC",
     "ICAO": "SKVV",
-    "Airport name": "La Vanguardia Airport[1]",
+    "Airport name": "La Vanguardia Airport",
     "Location served": "Villavicencio, Colombia",
     "Time": "",
     "DST": ""
@@ -65122,7 +65122,7 @@ module.exports = [
   {
     "IATA": "VVK",
     "ICAO": "ESSW",
-    "Airport name": "Västervik Airport[1]",
+    "Airport name": "Västervik Airport",
     "Location served": "Västervik, Sweden",
     "Time": "",
     "DST": ""
@@ -65130,7 +65130,7 @@ module.exports = [
   {
     "IATA": "VVN",
     "ICAO": "",
-    "Airport name": "Las Malvinas Airport[1]",
+    "Airport name": "Las Malvinas Airport",
     "Location served": "Las Malvinas, Peru",
     "Time": "",
     "DST": ""
@@ -65202,7 +65202,7 @@ module.exports = [
   {
     "IATA": "WAA",
     "ICAO": "PAIW",
-    "Airport name": "Wales Airport[1]",
+    "Airport name": "Wales Airport",
     "Location served": "Wales, Alaska, United States",
     "Time": "",
     "DST": ""
@@ -65210,7 +65210,7 @@ module.exports = [
   {
     "IATA": "WAC",
     "ICAO": "HAWC",
-    "Airport name": "Wacca Airport[1]",
+    "Airport name": "Wacca Airport",
     "Location served": "Wacca, Ethiopia",
     "Time": "",
     "DST": ""
@@ -65226,7 +65226,7 @@ module.exports = [
   {
     "IATA": "WAE",
     "ICAO": "OEWD",
-    "Airport name": "Wadi al-Dawasir Domestic Airport[1]",
+    "Airport name": "Wadi al-Dawasir Domestic Airport",
     "Location served": "Wadi ad-Dawasir (Wadi al-Dawaser), Saudi Arabia",
     "Time": "",
     "DST": ""
@@ -65234,7 +65234,7 @@ module.exports = [
   {
     "IATA": "WAF",
     "ICAO": "OPWN",
-    "Airport name": "Wana Airport[1]",
+    "Airport name": "Wana Airport",
     "Location served": "Wana, Pakistan",
     "Time": "",
     "DST": ""
@@ -65258,7 +65258,7 @@ module.exports = [
   {
     "IATA": "WAI",
     "ICAO": "FMNW",
-    "Airport name": "Ambalabe Airport[1]",
+    "Airport name": "Ambalabe Airport",
     "Location served": "Antsohihy, Madagascar",
     "Time": "",
     "DST": ""
@@ -65266,7 +65266,7 @@ module.exports = [
   {
     "IATA": "WAJ",
     "ICAO": "",
-    "Airport name": "Wawoi Falls Airport[1]",
+    "Airport name": "Wawoi Falls Airport",
     "Location served": "Wawoi Falls, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -65274,7 +65274,7 @@ module.exports = [
   {
     "IATA": "WAK",
     "ICAO": "FMSZ",
-    "Airport name": "Ankazoabo Airport[1]",
+    "Airport name": "Ankazoabo Airport",
     "Location served": "Ankazoabo, Madagascar",
     "Time": "",
     "DST": ""
@@ -65290,7 +65290,7 @@ module.exports = [
   {
     "IATA": "WAM",
     "ICAO": "FMMZ",
-    "Airport name": "Ambatondrazaka Airport[1]",
+    "Airport name": "Ambatondrazaka Airport",
     "Location served": "Ambatondrazaka, Madagascar",
     "Time": "",
     "DST": ""
@@ -65298,7 +65298,7 @@ module.exports = [
   {
     "IATA": "WAO",
     "ICAO": "AYWB",
-    "Airport name": "Wabo Airport[1]",
+    "Airport name": "Wabo Airport",
     "Location served": "Wabo, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -65306,7 +65306,7 @@ module.exports = [
   {
     "IATA": "WAP",
     "ICAO": "SCAP",
-    "Airport name": "Alto Palena Airfield[1]",
+    "Airport name": "Alto Palena Airfield",
     "Location served": "Palena, Chile",
     "Time": "",
     "DST": ""
@@ -65314,7 +65314,7 @@ module.exports = [
   {
     "IATA": "WAQ",
     "ICAO": "FMMG",
-    "Airport name": "Antsalova Airport[1]",
+    "Airport name": "Antsalova Airport",
     "Location served": "Antsalova, Madagascar",
     "Time": "",
     "DST": ""
@@ -65322,13 +65322,13 @@ module.exports = [
   {
     "IATA": "WAR",
     "ICAO": "WAJR",
-    "Airport name": "Waris Airport[1]",
+    "Airport name": "Waris Airport",
     "Location served": "Waris, Indonesia",
     "Time": "",
     "DST": ""
   },
   {
-    "IATA": "WAS[1]",
+    "IATA": "WAS",
     "ICAO": "",
     "Airport name": "metropolitan area1",
     "Location served": "Washington, D.C., United States",
@@ -65346,7 +65346,7 @@ module.exports = [
   {
     "IATA": "WAU",
     "ICAO": "",
-    "Airport name": "Wauchope Airport[1]",
+    "Airport name": "Wauchope Airport",
     "Location served": "Wauchope, New South Wales, Australia",
     "Time": "",
     "DST": ""
@@ -65354,7 +65354,7 @@ module.exports = [
   {
     "IATA": "WAV",
     "ICAO": "YWAV",
-    "Airport name": "Wave Hill Airport[1]",
+    "Airport name": "Wave Hill Airport",
     "Location served": "Kalkarindji (Wave Hill), Northern Territory, Australia",
     "Time": "",
     "DST": ""
@@ -65370,7 +65370,7 @@ module.exports = [
   {
     "IATA": "WAX",
     "ICAO": "HLZW",
-    "Airport name": "Zuwarah Airport[1]",
+    "Airport name": "Zuwarah Airport",
     "Location served": "Zuwarah (Zuara), Libya",
     "Time": "",
     "DST": ""
@@ -65386,7 +65386,7 @@ module.exports = [
   {
     "IATA": "WAZ",
     "ICAO": "YWCK",
-    "Airport name": "Warwick Airport[1]",
+    "Airport name": "Warwick Airport",
     "Location served": "Warwick, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -65394,7 +65394,7 @@ module.exports = [
   {
     "IATA": "WBA",
     "ICAO": "WAPV",
-    "Airport name": "Wahai Airport[1]",
+    "Airport name": "Wahai Airport",
     "Location served": "Seram Island, Indonesia",
     "Time": "",
     "DST": ""
@@ -65410,7 +65410,7 @@ module.exports = [
   {
     "IATA": "WBC",
     "ICAO": "",
-    "Airport name": "Wapolu Airport[1]",
+    "Airport name": "Wapolu Airport",
     "Location served": "Wapolu, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -65418,7 +65418,7 @@ module.exports = [
   {
     "IATA": "WBD",
     "ICAO": "FMNF",
-    "Airport name": "Befandriana Airport[1]",
+    "Airport name": "Befandriana Airport",
     "Location served": "Befandriana-Avaratra, Madagascar",
     "Time": "",
     "DST": ""
@@ -65426,7 +65426,7 @@ module.exports = [
   {
     "IATA": "WBE",
     "ICAO": "",
-    "Airport name": "Ankaizina Airport[1]",
+    "Airport name": "Ankaizina Airport",
     "Location served": "Bealanana, Madagascar",
     "Time": "",
     "DST": ""
@@ -65442,7 +65442,7 @@ module.exports = [
   {
     "IATA": "WBK",
     "ICAO": "",
-    "Airport name": "West Branch Community Airport[1] (FAA: Y31)",
+    "Airport name": "West Branch Community Airport (FAA: Y31)",
     "Location served": "West Branch, Michigan, United States",
     "Time": "",
     "DST": ""
@@ -65450,7 +65450,7 @@ module.exports = [
   {
     "IATA": "WBM",
     "ICAO": "AYWD",
-    "Airport name": "Wapenamanda Airport[1]",
+    "Airport name": "Wapenamanda Airport",
     "Location served": "Wapenamanda, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -65458,7 +65458,7 @@ module.exports = [
   {
     "IATA": "WBO",
     "ICAO": "FMSB",
-    "Airport name": "Antsoa Airport[1]",
+    "Airport name": "Antsoa Airport",
     "Location served": "Beroroha, Madagascar",
     "Time": "",
     "DST": ""
@@ -65546,7 +65546,7 @@ module.exports = [
   {
     "IATA": "WDI",
     "ICAO": "YWND",
-    "Airport name": "Wondai Airport[1]",
+    "Airport name": "Wondai Airport",
     "Location served": "Wondai, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -65554,7 +65554,7 @@ module.exports = [
   {
     "IATA": "WDN",
     "ICAO": "",
-    "Airport name": "Waldronaire Airport[1] (FAA: 90WA)",
+    "Airport name": "Waldronaire Airport (FAA: 90WA)",
     "Location served": "Waldron Island, Washington, United States",
     "Time": "",
     "DST": ""
@@ -65586,7 +65586,7 @@ module.exports = [
   {
     "IATA": "WED",
     "ICAO": "",
-    "Airport name": "Wedau Airport[1]",
+    "Airport name": "Wedau Airport",
     "Location served": "Wedau, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -65618,7 +65618,7 @@ module.exports = [
   {
     "IATA": "WEL",
     "ICAO": "FAWM",
-    "Airport name": "Welkom Airport[1]",
+    "Airport name": "Welkom Airport",
     "Location served": "Welkom, South Africa",
     "Time": "",
     "DST": ""
@@ -65626,7 +65626,7 @@ module.exports = [
   {
     "IATA": "WEP",
     "ICAO": "",
-    "Airport name": "Weam Airport[1]",
+    "Airport name": "Weam Airport",
     "Location served": "Weam, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -65634,7 +65634,7 @@ module.exports = [
   {
     "IATA": "WET",
     "ICAO": "WABG",
-    "Airport name": "Waghete Airport[1]",
+    "Airport name": "Waghete Airport",
     "Location served": "Waghete, Indonesia",
     "Time": "",
     "DST": ""
@@ -65642,7 +65642,7 @@ module.exports = [
   {
     "IATA": "WEW",
     "ICAO": "YWWA",
-    "Airport name": "Wee Waa Airport[1]",
+    "Airport name": "Wee Waa Airport",
     "Location served": "Wee Waa, New South Wales, Australia",
     "Time": "",
     "DST": ""
@@ -65658,7 +65658,7 @@ module.exports = [
   {
     "IATA": "WFD",
     "ICAO": "EGCD",
-    "Airport name": "Woodford Aerodrome[1]",
+    "Airport name": "Woodford Aerodrome",
     "Location served": "Woodford, England, United Kingdom",
     "Time": "",
     "DST": ""
@@ -65690,7 +65690,7 @@ module.exports = [
   {
     "IATA": "WGC",
     "ICAO": "VOWA",
-    "Airport name": "Warangal Airport[1]",
+    "Airport name": "Warangal Airport",
     "Location served": "Warangal, Telangana, India",
     "Time": "",
     "DST": ""
@@ -65698,7 +65698,7 @@ module.exports = [
   {
     "IATA": "WGE",
     "ICAO": "YWLG",
-    "Airport name": "Walgett Airport[1]",
+    "Airport name": "Walgett Airport",
     "Location served": "Walgett, New South Wales, Australia",
     "Time": "",
     "DST": ""
@@ -65738,7 +65738,7 @@ module.exports = [
   {
     "IATA": "WGU",
     "ICAO": "",
-    "Airport name": "Wagau Airport[1]",
+    "Airport name": "Wagau Airport",
     "Location served": "Wagau, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -65746,7 +65746,7 @@ module.exports = [
   {
     "IATA": "WGY",
     "ICAO": "",
-    "Airport name": "Wagny Airport[1]",
+    "Airport name": "Wagny Airport",
     "Location served": "Wagny, Gabon",
     "Time": "",
     "DST": ""
@@ -65778,7 +65778,7 @@ module.exports = [
   {
     "IATA": "WHL",
     "ICAO": "",
-    "Airport name": "Welshpool Airport[1]",
+    "Airport name": "Welshpool Airport",
     "Location served": "Welshpool, Victoria, Australia",
     "Time": "",
     "DST": ""
@@ -65786,7 +65786,7 @@ module.exports = [
   {
     "IATA": "WHO",
     "ICAO": "",
-    "Airport name": "Franz Josef Glacier Aerodrome[1]",
+    "Airport name": "Franz Josef Glacier Aerodrome",
     "Location served": "Franz Josef Glacier, New Zealand",
     "Time": "",
     "DST": ""
@@ -65802,7 +65802,7 @@ module.exports = [
   {
     "IATA": "WHS",
     "ICAO": "EGEH",
-    "Airport name": "Whalsay Airstrip[1]",
+    "Airport name": "Whalsay Airstrip",
     "Location served": "Whalsay, Scotland, United Kingdom",
     "Time": "",
     "DST": ""
@@ -65818,7 +65818,7 @@ module.exports = [
   {
     "IATA": "WHU",
     "ICAO": "ZSWU",
-    "Airport name": "Wuhu Airport[1]",
+    "Airport name": "Wuhu Airport",
     "Location served": "Wuhu, Anhui, China",
     "Time": "",
     "DST": ""
@@ -65826,7 +65826,7 @@ module.exports = [
   {
     "IATA": "WIB",
     "ICAO": "",
-    "Airport name": "Wilbarger County Airport[1] (FAA: F05)",
+    "Airport name": "Wilbarger County Airport (FAA: F05)",
     "Location served": "Vernon, Texas, United States",
     "Time": "",
     "DST": ""
@@ -65850,7 +65850,7 @@ module.exports = [
   {
     "IATA": "WIK",
     "ICAO": "NZKE",
-    "Airport name": "Waiheke Island Aerodrome[1]",
+    "Airport name": "Waiheke Island Aerodrome",
     "Location served": "Waiheke Island, New Zealand",
     "Time": "",
     "DST": ""
@@ -65866,7 +65866,7 @@ module.exports = [
   {
     "IATA": "WIN",
     "ICAO": "YWTN",
-    "Airport name": "Winton Airport[1]",
+    "Airport name": "Winton Airport",
     "Location served": "Winton, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -65874,7 +65874,7 @@ module.exports = [
   {
     "IATA": "WIO",
     "ICAO": "YWCA",
-    "Airport name": "Wilcannia Airport[1]",
+    "Airport name": "Wilcannia Airport",
     "Location served": "Wilcannia, New South Wales, Australia",
     "Time": "",
     "DST": ""
@@ -65882,7 +65882,7 @@ module.exports = [
   {
     "IATA": "WIR",
     "ICAO": "NZWO",
-    "Airport name": "Wairoa Aerodrome[1]",
+    "Airport name": "Wairoa Aerodrome",
     "Location served": "Wairoa, New Zealand",
     "Time": "",
     "DST": ""
@@ -65890,7 +65890,7 @@ module.exports = [
   {
     "IATA": "WIT",
     "ICAO": "YWIT",
-    "Airport name": "Wittenoom Airport[1]",
+    "Airport name": "Wittenoom Airport",
     "Location served": "Wittenoom, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -65898,7 +65898,7 @@ module.exports = [
   {
     "IATA": "WIU",
     "ICAO": "",
-    "Airport name": "Witu Airport[1]",
+    "Airport name": "Witu Airport",
     "Location served": "Witu, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -65922,7 +65922,7 @@ module.exports = [
   {
     "IATA": "WJR",
     "ICAO": "HKWJ",
-    "Airport name": "Wajir Airport[1]",
+    "Airport name": "Wajir Airport",
     "Location served": "Wajir, Kenya",
     "Time": "",
     "DST": ""
@@ -65946,7 +65946,7 @@ module.exports = [
   {
     "IATA": "WKB",
     "ICAO": "YWKB",
-    "Airport name": "Warracknabeal Airport[1]",
+    "Airport name": "Warracknabeal Airport",
     "Location served": "Warracknabeal, Victoria, Australia",
     "Time": "",
     "DST": ""
@@ -65954,7 +65954,7 @@ module.exports = [
   {
     "IATA": "WKF",
     "ICAO": "FAWK",
-    "Airport name": "Air Force Base Waterkloof[1]",
+    "Airport name": "Air Force Base Waterkloof",
     "Location served": "Pretoria, South Africa",
     "Time": "",
     "DST": ""
@@ -65962,7 +65962,7 @@ module.exports = [
   {
     "IATA": "WKI",
     "ICAO": "FVWT",
-    "Airport name": "Hwange Town Airport[1]",
+    "Airport name": "Hwange Town Airport",
     "Location served": "Hwange, Zimbabwe",
     "Time": "",
     "DST": ""
@@ -65994,7 +65994,7 @@ module.exports = [
   {
     "IATA": "WKR",
     "ICAO": "MYAW",
-    "Airport name": "Walker's Cay Airport[1]",
+    "Airport name": "Walker's Cay Airport",
     "Location served": "Walker's Cay, Abaco Islands, Bahamas",
     "Time": "",
     "DST": ""
@@ -66002,7 +66002,7 @@ module.exports = [
   {
     "IATA": "WLA",
     "ICAO": "YWAL",
-    "Airport name": "Wallal Airport[1]",
+    "Airport name": "Wallal Airport",
     "Location served": "Wallal (Wallal Downs), Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -66010,7 +66010,7 @@ module.exports = [
   {
     "IATA": "WLC",
     "ICAO": "YWCH",
-    "Airport name": "Walcha Airport[1]",
+    "Airport name": "Walcha Airport",
     "Location served": "Walcha, New South Wales, Australia",
     "Time": "",
     "DST": ""
@@ -66042,7 +66042,7 @@ module.exports = [
   {
     "IATA": "WLH",
     "ICAO": "NVSW",
-    "Airport name": "Walaha Airport[1]",
+    "Airport name": "Walaha Airport",
     "Location served": "Walaha, Vanuatu",
     "Time": "",
     "DST": ""
@@ -66074,7 +66074,7 @@ module.exports = [
   {
     "IATA": "WLP",
     "ICAO": "YANG",
-    "Airport name": "West Angelas Airport[1]",
+    "Airport name": "West Angelas Airport",
     "Location served": "West Angelas, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -66130,7 +66130,7 @@ module.exports = [
   {
     "IATA": "WMD",
     "ICAO": "FMSC",
-    "Airport name": "Mandabe Airport[1]",
+    "Airport name": "Mandabe Airport",
     "Location served": "Mandabe, Madagascar",
     "Time": "",
     "DST": ""
@@ -66178,7 +66178,7 @@ module.exports = [
   {
     "IATA": "WMN",
     "ICAO": "FMNR",
-    "Airport name": "Maroantsetra Airport[1]",
+    "Airport name": "Maroantsetra Airport",
     "Location served": "Maroantsetra, Madagascar",
     "Time": "",
     "DST": ""
@@ -66194,7 +66194,7 @@ module.exports = [
   {
     "IATA": "WMP",
     "ICAO": "FMNP",
-    "Airport name": "Mampikony Airport[1]",
+    "Airport name": "Mampikony Airport",
     "Location served": "Mampikony, Madagascar",
     "Time": "",
     "DST": ""
@@ -66202,7 +66202,7 @@ module.exports = [
   {
     "IATA": "WMR",
     "ICAO": "FMNC",
-    "Airport name": "Mananara Nord Airport[1]",
+    "Airport name": "Mananara Nord Airport",
     "Location served": "Mananara Nord (Mananara Avaratra), Madagascar",
     "Time": "",
     "DST": ""
@@ -66210,7 +66210,7 @@ module.exports = [
   {
     "IATA": "WMT",
     "ICAO": "ZUMT",
-    "Airport name": "Zunyi Maotai Airport[1]",
+    "Airport name": "Zunyi Maotai Airport",
     "Location served": "Renhuai, China",
     "Time": "",
     "DST": ""
@@ -66218,7 +66218,7 @@ module.exports = [
   {
     "IATA": "WMV",
     "ICAO": "",
-    "Airport name": "Madirovalo Airport[1]",
+    "Airport name": "Madirovalo Airport",
     "Location served": "Madirovalo, Madagascar",
     "Time": "",
     "DST": ""
@@ -66226,7 +66226,7 @@ module.exports = [
   {
     "IATA": "WMX",
     "ICAO": "WAVV",
-    "Airport name": "Wamena Airport[1]",
+    "Airport name": "Wamena Airport",
     "Location served": "Wamena, Indonesia",
     "Time": "",
     "DST": ""
@@ -66242,7 +66242,7 @@ module.exports = [
   {
     "IATA": "WND",
     "ICAO": "",
-    "Airport name": "Windarra Airport[1]",
+    "Airport name": "Windarra Airport",
     "Location served": "Windarra, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -66250,7 +66250,7 @@ module.exports = [
   {
     "IATA": "WNE",
     "ICAO": "",
-    "Airport name": "Wora na Yeno Airport[1]",
+    "Airport name": "Wora na Yeno Airport",
     "Location served": "Wora na Yeno, Gabon",
     "Time": "",
     "DST": ""
@@ -66274,7 +66274,7 @@ module.exports = [
   {
     "IATA": "WNN",
     "ICAO": "",
-    "Airport name": "Wunnummin Lake Airport[1] (TC: CKL3)",
+    "Airport name": "Wunnummin Lake Airport (TC: CKL3)",
     "Location served": "Wunnumin Lake, Ontario, Canada",
     "Time": "",
     "DST": ""
@@ -66290,7 +66290,7 @@ module.exports = [
   {
     "IATA": "WNR",
     "ICAO": "YWDH",
-    "Airport name": "Windorah Airport[1]",
+    "Airport name": "Windorah Airport",
     "Location served": "Windorah, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -66298,7 +66298,7 @@ module.exports = [
   {
     "IATA": "WNS",
     "ICAO": "OPNH",
-    "Airport name": "Nawabshah Airport[1]",
+    "Airport name": "Nawabshah Airport",
     "Location served": "Nawabshah (Shaheed Benazirabad), Pakistan",
     "Time": "",
     "DST": ""
@@ -66306,7 +66306,7 @@ module.exports = [
   {
     "IATA": "WNU",
     "ICAO": "",
-    "Airport name": "Wanuma Airport[1]",
+    "Airport name": "Wanuma Airport",
     "Location served": "Wanuma, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -66322,7 +66322,7 @@ module.exports = [
   {
     "IATA": "WOA",
     "ICAO": "",
-    "Airport name": "Wonenara Airport[1]",
+    "Airport name": "Wonenara Airport",
     "Location served": "Wonenara, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -66338,7 +66338,7 @@ module.exports = [
   {
     "IATA": "WOK",
     "ICAO": "SVUQ",
-    "Airport name": "Uonquén Airport[1]",
+    "Airport name": "Uonquén Airport",
     "Location served": "Uonquén, Venezuela",
     "Time": "",
     "DST": ""
@@ -66354,7 +66354,7 @@ module.exports = [
   {
     "IATA": "WON",
     "ICAO": "YWDL",
-    "Airport name": "Wondoola Airport[1]",
+    "Airport name": "Wondoola Airport",
     "Location served": "Wondoola, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -66362,7 +66362,7 @@ module.exports = [
   {
     "IATA": "WOR",
     "ICAO": "",
-    "Airport name": "Moramba Airport[1]",
+    "Airport name": "Moramba Airport",
     "Location served": "Ankorefo, Madagascar",
     "Time": "",
     "DST": ""
@@ -66370,7 +66370,7 @@ module.exports = [
   {
     "IATA": "WOS",
     "ICAO": "ZKWS",
-    "Airport name": "Wonsan Kalma International Airport[1]",
+    "Airport name": "Wonsan Kalma International Airport",
     "Location served": "Wonsan, North Korea",
     "Time": "",
     "DST": ""
@@ -66418,7 +66418,7 @@ module.exports = [
   {
     "IATA": "WPK",
     "ICAO": "YWMP",
-    "Airport name": "Wrotham Park Airport[1]",
+    "Airport name": "Wrotham Park Airport",
     "Location served": "Wrotham Park, Queensland, Australia",
     "Time": "",
     "DST": ""
@@ -66426,7 +66426,7 @@ module.exports = [
   {
     "IATA": "WPL",
     "ICAO": "",
-    "Airport name": "Powell Lake Water Aerodrome[1] (TC: CAQ8)",
+    "Airport name": "Powell Lake Water Aerodrome (TC: CAQ8)",
     "Location served": "Powell River, British Columbia, Canada",
     "Time": "",
     "DST": ""
@@ -66434,7 +66434,7 @@ module.exports = [
   {
     "IATA": "WPM",
     "ICAO": "AYXP",
-    "Airport name": "Wipim Airport[1]",
+    "Airport name": "Wipim Airport",
     "Location served": "Wipim, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -66450,7 +66450,7 @@ module.exports = [
   {
     "IATA": "WPR",
     "ICAO": "SCFM",
-    "Airport name": "Capitán Fuentes Martínez Airport[1]",
+    "Airport name": "Capitán Fuentes Martínez Airport",
     "Location served": "Porvenir, Chile",
     "Time": "",
     "DST": ""
@@ -66458,7 +66458,7 @@ module.exports = [
   {
     "IATA": "WPU",
     "ICAO": "SCGZ",
-    "Airport name": "Guardiamarina Zañartu Airport[1]",
+    "Airport name": "Guardiamarina Zañartu Airport",
     "Location served": "Puerto Williams, Chile",
     "Time": "",
     "DST": ""
@@ -66466,7 +66466,7 @@ module.exports = [
   {
     "IATA": "WRA",
     "ICAO": "HAWR",
-    "Airport name": "Warder Airport[1]",
+    "Airport name": "Warder Airport",
     "Location served": "Werder (Warder), Ethiopia",
     "Time": "",
     "DST": ""
@@ -66538,7 +66538,7 @@ module.exports = [
   {
     "IATA": "WRW",
     "ICAO": "YWWG",
-    "Airport name": "Warrawagine Airport[1]",
+    "Airport name": "Warrawagine Airport",
     "Location served": "Warrawagine Station, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -66546,7 +66546,7 @@ module.exports = [
   {
     "IATA": "WRY",
     "ICAO": "EGEW",
-    "Airport name": "Westray Airport[1]",
+    "Airport name": "Westray Airport",
     "Location served": "Westray, Scotland, United Kingdom",
     "Time": "",
     "DST": ""
@@ -66562,7 +66562,7 @@ module.exports = [
   {
     "IATA": "WSA",
     "ICAO": "",
-    "Airport name": "Wasua Airport[1]",
+    "Airport name": "Wasua Airport",
     "Location served": "Wasua, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -66570,7 +66570,7 @@ module.exports = [
   {
     "IATA": "WSB",
     "ICAO": "",
-    "Airport name": "Steamboat Bay Seaplane Base[1]",
+    "Airport name": "Steamboat Bay Seaplane Base",
     "Location served": "Steamboat Bay, Alaska, United States",
     "Time": "",
     "DST": ""
@@ -66586,7 +66586,7 @@ module.exports = [
   {
     "IATA": "WSF",
     "ICAO": "PACS",
-    "Airport name": "Cape Sarichef Airport[1] (FAA: 26AK)",
+    "Airport name": "Cape Sarichef Airport (FAA: 26AK)",
     "Location served": "Cape Sarichef, Alaska, United States",
     "Time": "",
     "DST": ""
@@ -66650,7 +66650,7 @@ module.exports = [
   {
     "IATA": "WSR",
     "ICAO": "WASW",
-    "Airport name": "Wasior Airport[1]",
+    "Airport name": "Wasior Airport",
     "Location served": "Wasior, Indonesia",
     "Time": "",
     "DST": ""
@@ -66666,7 +66666,7 @@ module.exports = [
   {
     "IATA": "WSU",
     "ICAO": "",
-    "Airport name": "Wasu Airport[1]",
+    "Airport name": "Wasu Airport",
     "Location served": "Wasu, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -66674,7 +66674,7 @@ module.exports = [
   {
     "IATA": "WSX",
     "ICAO": "",
-    "Airport name": "Westsound Seaplane Base[1] (FAA: WA83)",
+    "Airport name": "Westsound Seaplane Base (FAA: WA83)",
     "Location served": "West Sound, Washington, United States",
     "Time": "",
     "DST": ""
@@ -66746,7 +66746,7 @@ module.exports = [
   {
     "IATA": "WTN",
     "ICAO": "EGXW",
-    "Airport name": "RAF Waddington[1]",
+    "Airport name": "RAF Waddington",
     "Location served": "Waddington, England, United Kingdom",
     "Time": "",
     "DST": ""
@@ -66762,7 +66762,7 @@ module.exports = [
   {
     "IATA": "WTP",
     "ICAO": "AYWT",
-    "Airport name": "Woitape Airport[1]",
+    "Airport name": "Woitape Airport",
     "Location served": "Woitape, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -66786,7 +66786,7 @@ module.exports = [
   {
     "IATA": "WTT",
     "ICAO": "",
-    "Airport name": "Wantoat Airport[1]",
+    "Airport name": "Wantoat Airport",
     "Location served": "Wantoat, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -66794,7 +66794,7 @@ module.exports = [
   {
     "IATA": "WTZ",
     "ICAO": "NZWT",
-    "Airport name": "Whitianga Aerodrome[1]",
+    "Airport name": "Whitianga Aerodrome",
     "Location served": "Whitianga, New Zealand",
     "Time": "",
     "DST": ""
@@ -66810,7 +66810,7 @@ module.exports = [
   {
     "IATA": "WUD",
     "ICAO": "YWUD",
-    "Airport name": "Wudinna Airport[1]",
+    "Airport name": "Wudinna Airport",
     "Location served": "Wudinna, South Australia, Australia",
     "Time": "",
     "DST": ""
@@ -66818,7 +66818,7 @@ module.exports = [
   {
     "IATA": "WUG",
     "ICAO": "AYWU",
-    "Airport name": "Wau Airport[1]",
+    "Airport name": "Wau Airport",
     "Location served": "Wau, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -66842,7 +66842,7 @@ module.exports = [
   {
     "IATA": "WUM",
     "ICAO": "",
-    "Airport name": "Wasum Airport[1]",
+    "Airport name": "Wasum Airport",
     "Location served": "Wasum, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -66850,7 +66850,7 @@ module.exports = [
   {
     "IATA": "WUN",
     "ICAO": "YWLU",
-    "Airport name": "Wiluna Airport[1]",
+    "Airport name": "Wiluna Airport",
     "Location served": "Wiluna, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -66866,7 +66866,7 @@ module.exports = [
   {
     "IATA": "WUT",
     "ICAO": "ZBXZ",
-    "Airport name": "Xinzhou Wutaishan Airport[1]",
+    "Airport name": "Xinzhou Wutaishan Airport",
     "Location served": "Xinzhou, Shanxi, China",
     "Time": "",
     "DST": ""
@@ -66882,7 +66882,7 @@ module.exports = [
   {
     "IATA": "WUV",
     "ICAO": "",
-    "Airport name": "Wuvulu Island Airport[1]",
+    "Airport name": "Wuvulu Island Airport",
     "Location served": "Wuvulu Island, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -66922,7 +66922,7 @@ module.exports = [
   {
     "IATA": "WVK",
     "ICAO": "FMSK",
-    "Airport name": "Manakara Airport[1]",
+    "Airport name": "Manakara Airport",
     "Location served": "Manakara, Madagascar",
     "Time": "",
     "DST": ""
@@ -66962,7 +66962,7 @@ module.exports = [
   {
     "IATA": "WWI",
     "ICAO": "YWWI",
-    "Airport name": "Woodie Woodie Airport[1]",
+    "Airport name": "Woodie Woodie Airport",
     "Location served": "Woodie Woodie, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -66970,7 +66970,7 @@ module.exports = [
   {
     "IATA": "WWK",
     "ICAO": "AYWK",
-    "Airport name": "Wewak Airport[1]",
+    "Airport name": "Wewak Airport",
     "Location served": "Wewak, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -67042,7 +67042,7 @@ module.exports = [
   {
     "IATA": "WYN",
     "ICAO": "YWYM",
-    "Airport name": "Wyndham Airport[1]",
+    "Airport name": "Wyndham Airport",
     "Location served": "Wyndham, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -67066,7 +67066,7 @@ module.exports = [
   {
     "IATA": "WZQ",
     "ICAO": "",
-    "Airport name": "Urad Middle Banner Airport[1]",
+    "Airport name": "Urad Middle Banner Airport",
     "Location served": "Urad Middle Banner, Inner Mongolia, China",
     "Time": "",
     "DST": ""
@@ -67314,7 +67314,7 @@ module.exports = [
   {
     "IATA": "XIE",
     "ICAO": "",
-    "Airport name": "Xienglom Airport[1]",
+    "Airport name": "Xienglom Airport",
     "Location served": "Xienglom, Laos",
     "Time": "",
     "DST": ""
@@ -67330,7 +67330,7 @@ module.exports = [
   {
     "IATA": "XIJ",
     "ICAO": "OKAJ",
-    "Airport name": "Ahmad al-Jaber Air Base[1]",
+    "Airport name": "Ahmad al-Jaber Air Base",
     "Location served": "Al Ahmadi, Kuwait",
     "Time": "",
     "DST": ""
@@ -67362,7 +67362,7 @@ module.exports = [
   {
     "IATA": "XJD",
     "ICAO": "OTBH",
-    "Airport name": "Al Udeid Air Base[1]",
+    "Airport name": "Al Udeid Air Base",
     "Location served": "Al Rayyan, Qatar",
     "Time": "",
     "DST": ""
@@ -67370,7 +67370,7 @@ module.exports = [
   {
     "IATA": "XJM",
     "ICAO": "OPMA",
-    "Airport name": "Mangla Airport[1]",
+    "Airport name": "Mangla Airport",
     "Location served": "Mangla, Pakistan",
     "Time": "",
     "DST": ""
@@ -67458,7 +67458,7 @@ module.exports = [
   {
     "IATA": "XMC",
     "ICAO": "YMCO",
-    "Airport name": "Mallacoota Airport[1]",
+    "Airport name": "Mallacoota Airport",
     "Location served": "Mallacoota, Victoria, Australia",
     "Time": "",
     "DST": ""
@@ -67514,7 +67514,7 @@ module.exports = [
   {
     "IATA": "XMP",
     "ICAO": "",
-    "Airport name": "Macmillan Pass Airport[1] (TC: CFC4)",
+    "Airport name": "Macmillan Pass Airport (TC: CFC4)",
     "Location served": "Macmillan Pass, Yukon, Canada",
     "Time": "",
     "DST": ""
@@ -67546,7 +67546,7 @@ module.exports = [
   {
     "IATA": "XNG",
     "ICAO": "",
-    "Airport name": "Quang Ngai Airport[1]",
+    "Airport name": "Quang Ngai Airport",
     "Location served": "Quang Ngai (Quảng Ngãi), Vietnam",
     "Time": "",
     "DST": ""
@@ -67554,7 +67554,7 @@ module.exports = [
   {
     "IATA": "XNH",
     "ICAO": "ORTL",
-    "Airport name": "Ali Air Base[1]",
+    "Airport name": "Ali Air Base",
     "Location served": "Nasiriyah, Iraq",
     "Time": "",
     "DST": ""
@@ -67642,7 +67642,7 @@ module.exports = [
   {
     "IATA": "XRH",
     "ICAO": "YSRI",
-    "Airport name": "RAAF Base Richmond[1]",
+    "Airport name": "RAAF Base Richmond",
     "Location served": "Richmond, New South Wales, Australia",
     "Time": "",
     "DST": ""
@@ -67674,7 +67674,7 @@ module.exports = [
   {
     "IATA": "XSB",
     "ICAO": "OMBY",
-    "Airport name": "Sir Bani Yas Airport[1]",
+    "Airport name": "Sir Bani Yas Airport",
     "Location served": "Sir Bani Yas, United Arab Emirates",
     "Time": "",
     "DST": ""
@@ -67802,7 +67802,7 @@ module.exports = [
   {
     "IATA": "XYR",
     "ICAO": "AYED",
-    "Airport name": "Edwaki Airport[1]",
+    "Airport name": "Edwaki Airport",
     "Location served": "Yellow River, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -67978,7 +67978,7 @@ module.exports = [
   {
     "IATA": "YAX",
     "ICAO": "",
-    "Airport name": "Angling Lake/Wapekeka Airport[1] (TC: CKB6)",
+    "Airport name": "Angling Lake/Wapekeka Airport (TC: CKB6)",
     "Location served": "Wapekeka, Ontario, Canada",
     "Time": "",
     "DST": ""
@@ -68122,7 +68122,7 @@ module.exports = [
   {
     "IATA": "YBS",
     "ICAO": "",
-    "Airport name": "Opapimiskan Lake Airport[1] (TC: CKM8)",
+    "Airport name": "Opapimiskan Lake Airport (TC: CKM8)",
     "Location served": "Opapimiskan Lake, Ontario, Canada",
     "Time": "",
     "DST": ""
@@ -68386,7 +68386,7 @@ module.exports = [
   {
     "IATA": "YDJ",
     "ICAO": "",
-    "Airport name": "Hatchet Lake Airport[1] (TC: CJL2)",
+    "Airport name": "Hatchet Lake Airport (TC: CJL2)",
     "Location served": "Hatchet Lake, Saskatchewan, Canada",
     "Time": "",
     "DST": ""
@@ -68442,7 +68442,7 @@ module.exports = [
   {
     "IATA": "YDU",
     "ICAO": "",
-    "Airport name": "Kasba Lake Airport[1] (TC: CJL8)",
+    "Airport name": "Kasba Lake Airport (TC: CJL8)",
     "Location served": "Kasba Lake, Northwest Territories, Canada",
     "Time": "",
     "DST": ""
@@ -68474,7 +68474,7 @@ module.exports = [
   {
     "IATA": "YEB",
     "ICAO": "",
-    "Airport name": "Bar River Airport[1] (TC: CPF2)",
+    "Airport name": "Bar River Airport (TC: CPF2)",
     "Location served": "Bar River, Ontario, Canada",
     "Time": "",
     "DST": ""
@@ -68562,7 +68562,7 @@ module.exports = [
   {
     "IATA": "YES",
     "ICAO": "OISY",
-    "Airport name": "Yasuj Airport[1]",
+    "Airport name": "Yasuj Airport",
     "Location served": "Yasuj (Yasouj), Iran",
     "Time": "",
     "DST": ""
@@ -68650,7 +68650,7 @@ module.exports = [
   {
     "IATA": "YFI",
     "ICAO": "",
-    "Airport name": "Fort MacKay/Firebag Aerodrome[1] (TC: CFG6)",
+    "Airport name": "Fort MacKay/Firebag Aerodrome (TC: CFG6)",
     "Location served": "Fort McKay, Alberta, Canada",
     "Time": "",
     "DST": ""
@@ -68658,7 +68658,7 @@ module.exports = [
   {
     "IATA": "YFJ",
     "ICAO": "CYWE",
-    "Airport name": "Wekweètì Airport[1] (Snare Lake Airport) (TC: CFJ7)",
+    "Airport name": "Wekweètì Airport (Snare Lake Airport) (TC: CFJ7)",
     "Location served": "Wekweeti, Northwest Territories, Canada",
     "Time": "",
     "DST": ""
@@ -69162,7 +69162,7 @@ module.exports = [
   {
     "IATA": "YJS",
     "ICAO": "ZKSE",
-    "Airport name": "Samjiyon Airport[1]",
+    "Airport name": "Samjiyon Airport",
     "Location served": "Samjiyon, North Korea",
     "Time": "",
     "DST": ""
@@ -69234,7 +69234,7 @@ module.exports = [
   {
     "IATA": "YKJ",
     "ICAO": "CYKJ",
-    "Airport name": "Key Lake Airport[1]",
+    "Airport name": "Key Lake Airport",
     "Location served": "Key Lake, Saskatchewan, Canada",
     "Time": "",
     "DST": ""
@@ -69274,7 +69274,7 @@ module.exports = [
   {
     "IATA": "YKO",
     "ICAO": "LTCW",
-    "Airport name": "Hakkari Yüksekova Airport[1]",
+    "Airport name": "Hakkari Yüksekova Airport",
     "Location served": "Hakkâri / Yüksekova, Turkey",
     "Time": "",
     "DST": ""
@@ -69402,7 +69402,7 @@ module.exports = [
   {
     "IATA": "YLK",
     "ICAO": "CYLS",
-    "Airport name": "Lake Simcoe Regional Airport[1]",
+    "Airport name": "Lake Simcoe Regional Airport",
     "Location served": "Barrie / Orillia, Ontario, Canada",
     "Time": "",
     "DST": ""
@@ -69418,7 +69418,7 @@ module.exports = [
   {
     "IATA": "YLM",
     "ICAO": "",
-    "Airport name": "Clinton Creek Airport[1]",
+    "Airport name": "Clinton Creek Airport",
     "Location served": "Clinton Creek, Yukon, Canada",
     "Time": "",
     "DST": ""
@@ -69474,7 +69474,7 @@ module.exports = [
   {
     "IATA": "YLV",
     "ICAO": "UBEE",
-    "Airport name": "Yevlakh Airport[1]",
+    "Airport name": "Yevlakh Airport",
     "Location served": "Yevlakh, Azerbaijan",
     "Time": "",
     "DST": ""
@@ -69498,7 +69498,7 @@ module.exports = [
   {
     "IATA": "YLY",
     "ICAO": "CYNJ",
-    "Airport name": "Langley Regional Airport[1]",
+    "Airport name": "Langley Regional Airport",
     "Location served": "Langley, British Columbia, Canada",
     "Time": "",
     "DST": ""
@@ -69570,7 +69570,7 @@ module.exports = [
   {
     "IATA": "YMK",
     "ICAO": "USDK",
-    "Airport name": "Mys-Kamenny Airport[1]",
+    "Airport name": "Mys-Kamenny Airport",
     "Location served": "Mys-Kamenny, Yamalo-Nenets Autonomous Okrug, Russia",
     "Time": "",
     "DST": ""
@@ -69642,7 +69642,7 @@ module.exports = [
   {
     "IATA": "YMU",
     "ICAO": "",
-    "Airport name": "Mansons Landing Water Aerodrome[1] (TC: CAV7)",
+    "Airport name": "Mansons Landing Water Aerodrome (TC: CAV7)",
     "Location served": "Mansons Landing, British Columbia, Canada",
     "Time": "",
     "DST": ""
@@ -69650,7 +69650,7 @@ module.exports = [
   {
     "IATA": "YMV",
     "ICAO": "",
-    "Airport name": "Mary River Aerodrome[1] (TC: CMR2)",
+    "Airport name": "Mary River Aerodrome (TC: CMR2)",
     "Location served": "Mary River, Nunavut, Canada",
     "Time": "",
     "DST": ""
@@ -69754,7 +69754,7 @@ module.exports = [
   {
     "IATA": "YNN",
     "ICAO": "",
-    "Airport name": "Yandicoogina Airport[1]",
+    "Airport name": "Yandicoogina Airport",
     "Location served": "Yandicoogina, Western Australia, Australia",
     "Time": "",
     "DST": ""
@@ -69770,7 +69770,7 @@ module.exports = [
   {
     "IATA": "YNP",
     "ICAO": "",
-    "Airport name": "Natuashish Airport[1] (TC: CNH2)",
+    "Airport name": "Natuashish Airport (TC: CNH2)",
     "Location served": "Natuashish, Newfoundland and Labrador, Canada",
     "Time": "",
     "DST": ""
@@ -69794,7 +69794,7 @@ module.exports = [
   {
     "IATA": "YNX",
     "ICAO": "",
-    "Airport name": "Snap Lake Airport[1] (TC: CSK6)",
+    "Airport name": "Snap Lake Airport (TC: CSK6)",
     "Location served": "Snap Lake, Northwest Territories, Canada",
     "Time": "",
     "DST": ""
@@ -69802,7 +69802,7 @@ module.exports = [
   {
     "IATA": "YNY",
     "ICAO": "RKNY",
-    "Airport name": "Yangyang International Airport[1]",
+    "Airport name": "Yangyang International Airport",
     "Location served": "Yangyang, South Korea",
     "Time": "",
     "DST": ""
@@ -69818,7 +69818,7 @@ module.exports = [
   {
     "IATA": "YOA",
     "ICAO": "CYOA",
-    "Airport name": "Ekati Airport[1]",
+    "Airport name": "Ekati Airport",
     "Location served": "Ekati, Northwest Territories, Canada",
     "Time": "",
     "DST": ""
@@ -69866,7 +69866,7 @@ module.exports = [
   {
     "IATA": "YOI",
     "ICAO": "",
-    "Airport name": "Opinaca Aerodrome[1] (TC: CPN8)",
+    "Airport name": "Opinaca Aerodrome (TC: CPN8)",
     "Location served": "Opinaca, Quebec, Canada",
     "Time": "",
     "DST": ""
@@ -69890,7 +69890,7 @@ module.exports = [
   {
     "IATA": "YON",
     "ICAO": "VQTY",
-    "Airport name": "Yongphulla Airport[1] (Yonphula Airport)",
+    "Airport name": "Yongphulla Airport (Yonphula Airport)",
     "Location served": "Trashigang, Bhutan",
     "Time": "",
     "DST": ""
@@ -70170,7 +70170,7 @@ module.exports = [
   {
     "IATA": "YQJ",
     "ICAO": "",
-    "Airport name": "April Point Water Aerodrome[1]",
+    "Airport name": "April Point Water Aerodrome",
     "Location served": "Quadra Island, British Columbia, Canada",
     "Time": "",
     "DST": ""
@@ -70306,7 +70306,7 @@ module.exports = [
   {
     "IATA": "YRC",
     "ICAO": "",
-    "Airport name": "Refuge Cove Water Aerodrome[1]",
+    "Airport name": "Refuge Cove Water Aerodrome",
     "Location served": "Refuge Cove, British Columbia, Canada",
     "Time": "",
     "DST": ""
@@ -70874,7 +70874,7 @@ module.exports = [
   {
     "IATA": "YVN",
     "ICAO": "CYVN",
-    "Airport name": "Cape Dyer Airport[1]",
+    "Airport name": "Cape Dyer Airport",
     "Location served": "Cape Dyer, Nunavut, Canada",
     "Time": "",
     "DST": ""
@@ -71010,7 +71010,7 @@ module.exports = [
   {
     "IATA": "YWQ",
     "ICAO": "",
-    "Airport name": "Chutes-des-Passes/Lac Margane Water Aerodrome[1] (TC: CTM3)",
+    "Airport name": "Chutes-des-Passes/Lac Margane Water Aerodrome (TC: CTM3)",
     "Location served": "Passes-Dangereuses (Chute-des-Passes), Quebec, Canada",
     "Time": "",
     "DST": ""
@@ -71050,7 +71050,7 @@ module.exports = [
   {
     "IATA": "YXD",
     "ICAO": "CYXD",
-    "Airport name": "Edmonton City Centre (Blatchford Field) Airport[1]",
+    "Airport name": "Edmonton City Centre (Blatchford Field) Airport",
     "Location served": "Edmonton, Alberta, Canada",
     "Time": "",
     "DST": ""
@@ -71450,7 +71450,7 @@ module.exports = [
   {
     "IATA": "YZZ",
     "ICAO": "",
-    "Airport name": "Trail Airport[1] (TC: CAD4)",
+    "Airport name": "Trail Airport (TC: CAD4)",
     "Location served": "Trail, British Columbia, Canada",
     "Time": "",
     "DST": ""
@@ -71674,7 +71674,7 @@ module.exports = [
   {
     "IATA": "ZEN",
     "ICAO": "",
-    "Airport name": "Zenag Airport[1]",
+    "Airport name": "Zenag Airport",
     "Location served": "Zenag, Papua New Guinea",
     "Time": "",
     "DST": ""
@@ -71818,7 +71818,7 @@ module.exports = [
   {
     "IATA": "ZIA",
     "ICAO": "UUBW",
-    "Airport name": "Ramenskoye Airport[1] (Zhukovsky Airport)",
+    "Airport name": "Ramenskoye Airport (Zhukovsky Airport)",
     "Location served": "Zhukovsky, Moscow Oblast, Russia",
     "Time": "",
     "DST": ""
@@ -71850,7 +71850,7 @@ module.exports = [
   {
     "IATA": "ZIS",
     "ICAO": "HLZN",
-    "Airport name": "Alzintan Airport[1]",
+    "Airport name": "Alzintan Airport",
     "Location served": "Zintan, Libya",
     "Time": "",
     "DST": ""
@@ -71858,7 +71858,7 @@ module.exports = [
   {
     "IATA": "ZIX",
     "ICAO": "UEVV",
-    "Airport name": "Zhigansk Airport[1]",
+    "Airport name": "Zhigansk Airport",
     "Location served": "Zhigansk, Yakutia, Russia",
     "Time": "",
     "DST": ""
@@ -71866,7 +71866,7 @@ module.exports = [
   {
     "IATA": "ZIZ",
     "ICAO": "",
-    "Airport name": "Zamzama Airport[1]",
+    "Airport name": "Zamzama Airport",
     "Location served": "Zamzama, Pakistan",
     "Time": "",
     "DST": ""
@@ -71890,7 +71890,7 @@ module.exports = [
   {
     "IATA": "ZJT",
     "ICAO": "",
-    "Airport name": "Tanjung Pelepas Port Airport[1]",
+    "Airport name": "Tanjung Pelepas Port Airport",
     "Location served": "Tanjung Pelepas, Johor, Malaysia",
     "Time": "",
     "DST": ""
@@ -71946,7 +71946,7 @@ module.exports = [
   {
     "IATA": "ZLW",
     "ICAO": "",
-    "Airport name": "Pasir Gudang Port Airport[1]",
+    "Airport name": "Pasir Gudang Port Airport",
     "Location served": "Pasir Gudang, Johor, Malaysia",
     "Time": "",
     "DST": ""
@@ -71954,7 +71954,7 @@ module.exports = [
   {
     "IATA": "ZLX",
     "ICAO": "HSZA",
-    "Airport name": "Zalingei Airport[1]",
+    "Airport name": "Zalingei Airport",
     "Location served": "Zalingei (Zalengei), Sudan",
     "Time": "",
     "DST": ""
@@ -72338,7 +72338,7 @@ module.exports = [
   {
     "IATA": "ZXT",
     "ICAO": "UBTT",
-    "Airport name": "Zabrat Airport[1]",
+    "Airport name": "Zabrat Airport",
     "Location served": "Baku, Azerbaijan",
     "Time": "",
     "DST": ""
@@ -72362,7 +72362,7 @@ module.exports = [
   {
     "IATA": "ZZO",
     "ICAO": "UHSO",
-    "Airport name": "Zonalnoye Airport[1]",
+    "Airport name": "Zonalnoye Airport",
     "Location served": "Tymovskoye, Sakhalin Oblast, Russia",
     "Time": "",
     "DST": ""
