@@ -88,6 +88,7 @@ exports.respondUsingChatbot = (platform, provider, company, message, contact, is
               reject(err)
             })
         } else {
+          resolve(null)
         }
       })
       .catch(err => {
