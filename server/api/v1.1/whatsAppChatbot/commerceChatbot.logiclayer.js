@@ -1558,7 +1558,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
         const message = err || 'Invalid user input'
         logger.serverLog(message, `${TAG}: exports.getNextMessageBlock`, chatbot, {}, 'error')
       }
-      if (chatbot.triggers.includes(input)) {
+      if (chatbot.triggers.includes(input) || moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15) {
         return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
       } else {
         return invalidInput(chatbot, contact.lastMessageSentByBot, `${ERROR_INDICATOR}You entered an invalid response.`)
@@ -1652,7 +1652,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
         await messageBlockDataLayer.createForMessageBlock(messageBlock)
         return messageBlock
       } catch (err) {
-        if (chatbot.triggers.includes(input)) {
+        if (chatbot.triggers.includes(input) || moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15) {
           return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
         } else {
           return invalidInput(chatbot, contact.lastMessageSentByBot, err.message)

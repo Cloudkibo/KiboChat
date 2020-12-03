@@ -660,7 +660,7 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
     const message = err || 'Error in async await calls above'
     logger.serverLog(message, `${TAG}: exports.temporarySuperBotResponseHandling`, req.body, {data, contact, company, number, isNewContact}, 'error')
   }
-  if (contact && contact.isSubscribed && contact.activeChatbotBuilt === 'custom') {
+  if (contact && contact.isSubscribed) {
     storeChat(number, company.whatsApp.businessNumber, contact, data.messageData, 'whatsApp')
     if (data.messageData.componentType === 'text') {
       try {
