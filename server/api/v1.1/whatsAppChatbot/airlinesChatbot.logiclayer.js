@@ -331,7 +331,7 @@ const getAskDepartureDateBlock = async (chatbot, backId, argument) => {
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    if (argument.airline) {
+    if (argument && argument.airline) {
       messageBlock.payload[0].text += `You have selected ${argument.airline.airline_name}\n\n`
     }
     messageBlock.payload[0].text += 'Please enter your departure date in the format of YYYY-MM-DD'
@@ -597,7 +597,7 @@ exports.getNextMessageBlock = async (chatbot, AirlineProvider, contact, input) =
             break
           }
           case ASK_DEPARTURE_DATE: {
-            messageBlock = await getAskDepartureDateBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.input ? input : '', action.argument)
+            messageBlock = await getAskDepartureDateBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument)
             break
           }
           case ASK_DEPARTURE_CITY: {
