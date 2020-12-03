@@ -27,7 +27,7 @@
   "homepage": "repo_readme_path",
   "dependencies": {
     "@sendgrid/mail": "^7.3.0",
-    "@sentry/node": "^5.27.3",
+    "@sentry/node": "^5.28.0",
     "async": "^2.6.1",
     "bluebird": "^3.5.2",
     "body-parser": "^1.18.3",
