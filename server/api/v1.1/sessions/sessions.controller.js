@@ -334,6 +334,14 @@ exports.changeStatus = function (req, res) {
     status: req.body.status
   }
   _sendNotification(req.body._id, req.body.status, req.user.companyId, req.user.name)
+  let updatedPayload = {
+    status: req.body.status
+  }
+  if (req.body.status === 'new') {
+    updatedPayload['openedAt'] = new Date()
+  } else {
+    updatedPayload['resolvedAt'] = new Date()
+  }
   callApi('subscribers/update', 'put', { query: { _id: req.body._id }, newPayload: { status: req.body.status }, options: {} })
     .then(updated => {
       if (req.body.status === 'resolved') {
