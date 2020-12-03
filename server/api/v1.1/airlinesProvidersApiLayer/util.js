@@ -1,4 +1,6 @@
 const airportsData = require('./data.js')
+const needle = require('needle')
+const config = require('./../../../config/environment/index')
 
 exports.findCityInfo = function (name) {
   const re = new RegExp(name, 'gi')
@@ -22,4 +24,16 @@ exports.findAirportInfo = function (name) {
     }
   }
   return airports
+}
+
+exports.findWeatherInfo = function (city, date) {
+  return new Promise(function (resolve, reject) {
+    needle('get', `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${config.openWeatherMapApi}`)
+      .then(result => {
+        resolve(result.body.list[0].weather[0])
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
 }
