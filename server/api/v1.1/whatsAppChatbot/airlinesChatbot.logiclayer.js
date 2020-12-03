@@ -458,11 +458,13 @@ const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, userInp
   }
 }
 
-const getFlightScheduleDetailsBlock = (chatbot, backId, argument) => {
+const getFlightScheduleDetailsBlock = async (chatbot, backId, argument) => {
   try {
     // departure date in argument.departure_date
     // departure city in arugment.departure_city
     // arrival city in argument.arrival_city
+    const weatherDepart = await airlinesUtil.findWeatherInfo(argument.departure_city)
+    const weatherArrive = await airlinesUtil.findWeatherInfo(argument.arrival_city)
     const flightInfo = argument.flight
     let messageBlock = {
       module: {
@@ -478,7 +480,9 @@ const getFlightScheduleDetailsBlock = (chatbot, backId, argument) => {
           *Departure Time*: ${new Date(flightInfo.departure.scheduled).toLocaleString('en-US', {timeZone: flightInfo.departure.timezone, dateStyle: 'full', timeStyle: 'full'})}
           *Arrival Time*: ${new Date(flightInfo.arrival.scheduled).toLocaleString('en-US', {timeZone: flightInfo.arrival.timezone, dateStyle: 'full', timeStyle: 'full'})}
           *Departure Airport Location*: https://www.google.com/maps/search/?api=1&query=${flightInfo.departure.airport}
-          *Arrival Airport Location*: https://www.google.com/maps/search/?api=1&query=${flightInfo.arrival.airport}`),
+          *Arrival Airport Location*: https://www.google.com/maps/search/?api=1&query=${flightInfo.arrival.airport}
+          \n\n*${argument.departure_city} weather*: ${weatherDepart.main}
+          \n*${argument.arrival_city} weather*: ${weatherArrive.main}`),
           componentType: 'text',
           specialKeys: {
             [BACK_KEY]: { type: STATIC, blockId: backId },
