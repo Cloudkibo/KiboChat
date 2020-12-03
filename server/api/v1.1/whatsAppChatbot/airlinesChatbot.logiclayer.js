@@ -302,7 +302,7 @@ const getSelectAirlineBlock = async (chatbot, backId, AirlineProvider) => {
         type: DYNAMIC, action: ASK_DEPARTURE_DATE, argument: {airline}
       })
     }
-    messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
+    messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
     return messageBlock
   } catch (err) {
@@ -323,7 +323,7 @@ const getAskDepartureDateBlock = async (chatbot, backId, argument) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Please enter your departure date in the format of YYYY-MM-DD`,
+          text: '',
           componentType: 'text',
           action: { type: DYNAMIC, action: ASK_DEPARTURE_CITY, input: true, argument }
         }
@@ -331,6 +331,10 @@ const getAskDepartureDateBlock = async (chatbot, backId, argument) => {
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
+    if (argument.airline) {
+      messageBlock.payload[0].text += `You have selected ${argument.airline.airline_name}\n\n`
+    }
+    messageBlock.payload[0].text += 'Please enter your departure date in the format of YYYY-MM-DD'
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to get Ask Departure Date block'
@@ -450,7 +454,7 @@ const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, userInp
         messageBlock.payload[0].text += `\n`
       }
     }
-    messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
+    messageBlock.payload[0].text += `\n\n${specialKeyText(HOME_KEY)}`
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to get flight schedules'
