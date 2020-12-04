@@ -300,6 +300,7 @@ exports.setSubscriberPayloadInfo = (subscriber, payload, blockInfo) => {
         quickReply.query = 'phone'
       }
       quickReply.skipAllowed = qr.skipAllowed
+      quickReply.keyboardInputAllowed = qr.keyboardInputAllowed
       if (qr.blockId) {
         quickReply.blockId = qr.blockId
       }
@@ -313,7 +314,7 @@ exports.setSubscriberPayloadInfo = (subscriber, payload, blockInfo) => {
   }
   awaitingQuickReplyPayload.action = action
   var updated = {$set: {awaitingQuickReplyPayload}}
-  console.log('updated', JSON.stringify(updated))
+
   callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: updated, options: {multi: true}}, 'accounts')
     .then(updatedSubscriber => {
       console.log('updatedSubscriber', JSON.stringify(updatedSubscriber))
