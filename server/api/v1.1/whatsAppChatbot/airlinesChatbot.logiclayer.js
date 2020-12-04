@@ -77,17 +77,15 @@ exports.getMessageBlocks = (chatbot) => {
     uniqueId: mainMenuId,
     payload: [
       {
-        text: dedent(`Please select an option by sending the corresponding number for it (e.g. send '1' to select "Check status by flight number"):\n
-                ${convertToEmoji(0)} Get flight schedules        
-                ${convertToEmoji(1)} Check status by flight number
-                ${convertToEmoji(2)} Airport information
-                ${convertToEmoji(3)} Select airline for flight schedule`),
+        text: dedent(`Please select an option by sending the corresponding number for it (e.g. send '1' to select "Select airline for flight schedule"):\n
+                ${convertToEmoji(0)} Get flight schedules   
+                ${convertToEmoji(1)} Select airline for flight schedule     
+                ${convertToEmoji(2)} Airport information`),
         componentType: 'text',
         menu: [
-          { type: DYNAMIC, action: ASK_DEPARTURE_DATE },
-          { type: DYNAMIC, action: ASK_FLIGHT_NUMBER },
-          { type: DYNAMIC, action: ASK_AIRPORT_NAME },
-          { type: DYNAMIC, action: SELECT_AIRLINE }
+          { type: DYNAMIC, action: ASK_DEPARTURE_CITY },
+          { type: DYNAMIC, action: SELECT_AIRLINE },
+          { type: DYNAMIC, action: ASK_AIRPORT_NAME }
         ],
         specialKeys: {}
       }
@@ -103,8 +101,13 @@ exports.getMessageBlocks = (chatbot) => {
   return messageBlocks
 }
 
-const getAskFlightNumberBlock = (chatbot) => {
+const getAskFlightNumberBlock = (chatbot, argument, userInput) => {
+  let userError = false
   try {
+    if (new Date(userInput).toString() === 'Invalid Date') {
+      userError = true
+      throw new Error('Please enter a valid date in the format of YYYY-MM-DD')
+    }
     let messageBlock = {
       module: {
         id: chatbot._id,
@@ -114,9 +117,12 @@ const getAskFlightNumberBlock = (chatbot) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Please enter the flight number`,
+          text: `Please enter the flight number or send 'S' to skip`,
           componentType: 'text',
-          action: { type: DYNAMIC, action: GET_FLIGHT_STATUS, input: true }
+          action: { type: DYNAMIC, action: GET_FLIGHT_SCHEDULES, input: true, argument: {...argument, departureDate: userInput} },
+          specialKeys: {
+            's': { type: DYNAMIC, action: GET_FLIGHT_SCHEDULES, argument: {...argument} }
+          }
         }
       ],
       userId: chatbot.userId,
@@ -124,9 +130,15 @@ const getAskFlightNumberBlock = (chatbot) => {
     }
     return messageBlock
   } catch (err) {
-    const message = err || 'Unable to get Ask Flight Number block'
-    logger.serverLog(message, `${TAG}: getAskFlightNumberBlock`, {}, {chatbot}, 'error')
-    throw new Error(`${DEFAULT_ERROR_MESSAGE}`)
+    if (!userError) {
+      const message = err || 'Unable to get Ask Flight Number block'
+      logger.serverLog(message, `${TAG}: getAskFlightNumberBlock`, {}, {chatbot}, 'error')
+    }
+    if (err.message) {
+      throw new Error(`${ERROR_INDICATOR}${err.message}`)
+    } else {
+      throw new Error(`${DEFAULT_ERROR_MESSAGE}`)
+    }
   }
 }
 
@@ -299,7 +311,7 @@ const getSelectAirlineBlock = async (chatbot, backId, AirlineProvider) => {
       const airline = airlines[i]
       messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${airline.airline_name}`
       messageBlock.payload[0].menu.push({
-        type: DYNAMIC, action: ASK_DEPARTURE_DATE, argument: {airline}
+        type: DYNAMIC, action: ASK_DEPARTURE_CITY, argument: {airline}
       })
     }
     messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
@@ -312,7 +324,65 @@ const getSelectAirlineBlock = async (chatbot, backId, AirlineProvider) => {
   }
 }
 
-const getAskDepartureDateBlock = async (chatbot, backId, argument) => {
+const getAskDepartureCityBlock = async (chatbot, backId, argument, userInput) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_airlines_chatbot'
+      },
+      title: 'Ask Departure City',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: '',
+          componentType: 'text',
+          action: { type: DYNAMIC, action: ASK_ARRIVAL_CITY, input: true, argument: {...argument} }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    if (argument && argument.airline) {
+      messageBlock.payload[0].text += `You have selected ${argument.airline.airline_name}\n\n`
+    }
+    messageBlock.payload[0].text += 'Please enter your departure city'
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to get Ask Departure City block'
+    logger.serverLog(message, `${TAG}: exports.getAskDepartureCityBlock`, {}, {chatbot, userInput}, 'error')
+    throw new Error(`${DEFAULT_ERROR_MESSAGE}`)
+  }
+}
+
+const getAskArrivalCityBlock = async (chatbot, backId, argument, userInput) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_airlines_chatbot'
+      },
+      title: 'Ask Arrival City',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Please enter your arrival city`,
+          componentType: 'text',
+          action: { type: DYNAMIC, action: ASK_DEPARTURE_DATE, input: true, argument: { ...argument, departureCity: userInput } }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to get Ask Arrival City Block'
+    logger.serverLog(message, `${TAG}: exports.getAskArrivalCityBlock`, {}, {chatbot}, 'error')
+    throw new Error(`${DEFAULT_ERROR_MESSAGE}`)
+  }
+}
+
+const getAskDepartureDateBlock = async (chatbot, backId, argument, userInput) => {
   try {
     let messageBlock = {
       module: {
@@ -325,14 +395,11 @@ const getAskDepartureDateBlock = async (chatbot, backId, argument) => {
         {
           text: '',
           componentType: 'text',
-          action: { type: DYNAMIC, action: ASK_DEPARTURE_CITY, input: true, argument }
+          action: { type: DYNAMIC, action: GET_FLIGHT_SCHEDULES, input: true, argument: {...argument, arrivalCity: userInput} }
         }
       ],
       userId: chatbot.userId,
       companyId: chatbot.companyId
-    }
-    if (argument && argument.airline) {
-      messageBlock.payload[0].text += `You have selected ${argument.airline.airline_name}\n\n`
     }
     messageBlock.payload[0].text += 'Please enter your departure date in the format of YYYY-MM-DD'
     return messageBlock
@@ -343,72 +410,8 @@ const getAskDepartureDateBlock = async (chatbot, backId, argument) => {
   }
 }
 
-const getAskDepartureCityBlock = async (chatbot, backId, userInput, argument) => {
+const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, argument, userInput) => {
   let userError = false
-  try {
-    if (new Date(userInput).toString() === 'Invalid Date') {
-      userError = true
-      throw new Error('Please enter a valid date in the format of YYYY-MM-DD')
-    }
-    let messageBlock = {
-      module: {
-        id: chatbot._id,
-        type: 'whatsapp_airlines_chatbot'
-      },
-      title: 'Ask Departure City',
-      uniqueId: '' + new Date().getTime(),
-      payload: [
-        {
-          text: `Please enter your departure city`,
-          componentType: 'text',
-          action: { type: DYNAMIC, action: ASK_ARRIVAL_CITY, input: true, argument: {...argument, departure_date: new Date(userInput)} }
-        }
-      ],
-      userId: chatbot.userId,
-      companyId: chatbot.companyId
-    }
-    return messageBlock
-  } catch (err) {
-    if (!userError) {
-      const message = err || 'Unable to get Ask Departure City block'
-      logger.serverLog(message, `${TAG}: exports.getAskDepartureCityBlock`, {}, {chatbot, userInput}, 'error')
-    }
-    if (err.message) {
-      throw new Error(`${ERROR_INDICATOR}${err.message}`)
-    } else {
-      throw new Error(`${DEFAULT_ERROR_MESSAGE}`)
-    }
-  }
-}
-
-const getAskArrivalCityBlock = async (chatbot, backId, userInput, argument) => {
-  try {
-    let messageBlock = {
-      module: {
-        id: chatbot._id,
-        type: 'whatsapp_airlines_chatbot'
-      },
-      title: 'Ask Departure City',
-      uniqueId: '' + new Date().getTime(),
-      payload: [
-        {
-          text: `Please enter your arrival city`,
-          componentType: 'text',
-          action: { type: DYNAMIC, action: GET_FLIGHT_SCHEDULES, input: true, argument: {...argument, departure_city: userInput} }
-        }
-      ],
-      userId: chatbot.userId,
-      companyId: chatbot.companyId
-    }
-    return messageBlock
-  } catch (err) {
-    const message = err || 'Unable to get Ask Departure City Block'
-    logger.serverLog(message, `${TAG}: exports.getAskArrivalCityBlock`, {}, {chatbot}, 'error')
-    throw new Error(`${DEFAULT_ERROR_MESSAGE}`)
-  }
-}
-
-const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, userInput, argument) => {
   try {
     let messageBlock = {
       module: {
@@ -431,11 +434,11 @@ const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, userInp
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    argument.arrival_city = userInput
-    const departureCity = airlinesUtil.findCityInfo(argument.departure_city)[0]['IATA']
-    const arrivalCity = airlinesUtil.findCityInfo(argument.arrival_city)[0]['IATA']
+    argument.flightNumber = userInput
+    const departureCity = airlinesUtil.findCityInfo(argument.departureCity)[0]['IATA']
+    const arrivalCity = airlinesUtil.findCityInfo(argument.arrivalCity)[0]['IATA']
     const airline = argument.airline ? argument.airline.airline_name : null
-    let flights = await AirlineProvider.fetchFlights(departureCity, arrivalCity, argument.departure_date, airline)
+    let flights = await AirlineProvider.fetchFlights(departureCity, arrivalCity, argument.departureDate, airline, argument.flightNumber)
 
     if (flights.length === 0) {
       messageBlock.payload[0].text += `No Flights found\n`
@@ -457,17 +460,24 @@ const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, userInp
     messageBlock.payload[0].text += `\n\n${specialKeyText(HOME_KEY)}`
     return messageBlock
   } catch (err) {
-    const message = err || 'Unable to get flight schedules'
-    logger.serverLog(message, `${TAG}: getFlightSchedulesBlock`, {}, {chatbot, backId, argument, userInput}, 'error')
-    throw new Error(`${DEFAULT_ERROR_MESSAGE}`)
+    if (!userError) {
+      const message = err || 'Unable to get flight schedules'
+      logger.serverLog(message, `${TAG}: getFlightSchedulesBlock`, {}, {chatbot, backId, argument, userInput}, 'error')
+    }
+    if (err.message) {
+      throw new Error(`${ERROR_INDICATOR}${err.message}`)
+    } else {
+      throw new Error(`${DEFAULT_ERROR_MESSAGE}`)
+    }
   }
 }
 
 const getFlightScheduleDetailsBlock = (chatbot, backId, argument) => {
   try {
-    // departure date in argument.departure_date
-    // departure city in arugment.departure_city
-    // arrival city in argument.arrival_city
+    // departure date in argument.departureDate
+    // departure city in arugment.departureCity
+    // arrival city in argument.arrivalCity
+    // optional flight number in argument.flightNumber
     const flightInfo = argument.flight
     let messageBlock = {
       module: {
@@ -597,19 +607,19 @@ exports.getNextMessageBlock = async (chatbot, AirlineProvider, contact, input) =
             break
           }
           case ASK_DEPARTURE_DATE: {
-            messageBlock = await getAskDepartureDateBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument)
+            messageBlock = await getAskDepartureDateBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument, action.input ? input : '')
             break
           }
           case ASK_DEPARTURE_CITY: {
-            messageBlock = await getAskDepartureCityBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.input ? input : '', action.argument)
+            messageBlock = await getAskDepartureCityBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument, action.input ? input : '')
             break
           }
           case ASK_ARRIVAL_CITY: {
-            messageBlock = await getAskArrivalCityBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.input ? input : '', action.argument)
+            messageBlock = await getAskArrivalCityBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument, action.input ? input : '')
             break
           }
           case GET_FLIGHT_SCHEDULES: {
-            messageBlock = await getFlightSchedulesBlock(chatbot, contact.lastMessageSentByBot.uniqueId, AirlineProvider, action.input ? input : '', action.argument)
+            messageBlock = await getFlightSchedulesBlock(chatbot, contact.lastMessageSentByBot.uniqueId, AirlineProvider, action.argument, action.input ? input : '')
             break
           }
           case ASK_AIRPORT_NAME: {
@@ -621,7 +631,7 @@ exports.getNextMessageBlock = async (chatbot, AirlineProvider, contact, input) =
             break
           }
           case ASK_FLIGHT_NUMBER: {
-            messageBlock = await getAskFlightNumberBlock(chatbot)
+            messageBlock = await getAskFlightNumberBlock(chatbot, action.input ? input : '')
             break
           }
           case GET_FLIGHT_STATUS: {
