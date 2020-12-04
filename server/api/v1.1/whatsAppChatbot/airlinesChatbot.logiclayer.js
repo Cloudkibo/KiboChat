@@ -631,7 +631,7 @@ exports.getNextMessageBlock = async (chatbot, AirlineProvider, contact, input) =
             break
           }
           case ASK_FLIGHT_NUMBER: {
-            messageBlock = await getAskFlightNumberBlock(chatbot, action.input ? input : '')
+            messageBlock = await getAskFlightNumberBlock(chatbot, action.argument, action.input ? input : '')
             break
           }
           case GET_FLIGHT_STATUS: {
