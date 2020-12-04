@@ -484,6 +484,8 @@ const _prepareSubscriberUpdatePayload = (event, subscriber, company) => {
     if (company.saveAutomationMessages) {
       if (['SENT_FROM_KIBOPUSH', 'SENT_FROM_CHATBOT'].indexOf(event.message.metadata) === -1) {
         updated = { $inc: { messagesCount: 1 }, $set: {unreadCount: 0, last_activity_time: Date.now()} }
+      } else {
+        updated = { $inc: { messagesCount: 1 }, $set: {last_activity_time: Date.now()} }
       }
     }
   } else if (event.message) {
