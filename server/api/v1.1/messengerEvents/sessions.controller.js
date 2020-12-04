@@ -7,6 +7,7 @@ const needle = require('needle')
 // const moment = require('moment')
 const sessionLogicLayer = require('../sessions/sessions.logiclayer')
 const logicLayer = require('./logiclayer')
+const { captureUserEmailAndPhone } = require('./capturePhoneEmail.logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
 const { record } = require('../../global/messageStatistics')
 const { updateCompanyUsage } = require('../../global/billingPricing')
@@ -66,6 +67,12 @@ exports.index = function (req, res) {
                 }
                 if (req.body.pushPendingSessionInfo && JSON.stringify(req.body.pushPendingSessionInfo) === 'true') {
                   pushSessionPendingAlertInStack(company, subscriber)
+                }
+                if (!event.message.is_echo && subscriber.awaitingQuickReplyPayload && subscriber.awaitingQuickReplyPayload.action) {
+                  var query = subscriber.awaitingQuickReplyPayload.action.find((ac) => { return ac.query === 'email' || ac.query === 'phone' })
+                  if (query.keyboardInputAllowed) {
+                    captureUserEmailAndPhone(event, subscriber, page)
+                  }
                 }
                 utility.callApi('subscribers/update', 'put', { query: { _id: subscriber._id }, newPayload: _prepareSubscriberUpdatePayload(event, subscriber, company), options: {} })
                   .then(updated => {

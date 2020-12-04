@@ -20,10 +20,10 @@ exports.change = function (req, res) {
     .catch((err) => {
       let userError = isPasswordWrong(err)
       if (!userError) {
-        const message = err || 'error in Password change'
-        logger.serverLog(message, `${TAG}: exports.change`, {}, {}, 'error')
+        const message = err || 'Error in Password change'
+        logger.serverLog(message, `${TAG}: exports.change`, req.body, {user: req.user}, 'error')
       }
-      res.status(200).json({status: 'failed', description: err})
+      res.status(500).json({status: 'failed', description: err})
     })
   /* let userId = req.user._id
   let oldPass = String(req.body.old_password)
