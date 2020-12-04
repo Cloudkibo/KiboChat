@@ -79,7 +79,7 @@ exports.getMessageBlocks = (chatbot) => {
       {
         text: dedent(`Please select an option by sending the corresponding number for it (e.g. send '1' to select "Select airline for flight schedule"):\n
                 ${convertToEmoji(0)} Get flight schedules   
-                ${convertToEmoji(1)} Select airline for flight schedule     
+                ${convertToEmoji(1)} Select airline for flight schedules     
                 ${convertToEmoji(2)} Airport information`),
         componentType: 'text',
         menu: [
@@ -113,7 +113,7 @@ const getAskFlightNumberBlock = (chatbot, argument, userInput) => {
         id: chatbot._id,
         type: 'whatsapp_airlines_chatbot'
       },
-      title: 'Ask Airport Name',
+      title: 'Ask Flight Number',
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
@@ -350,7 +350,7 @@ const getAskDepartureCityBlock = async (chatbot, backId, argument, userInput) =>
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to get Ask Departure City block'
-    logger.serverLog(message, `${TAG}: exports.getAskDepartureCityBlock`, {}, {chatbot, userInput}, 'error')
+    logger.serverLog(message, `${TAG}: exports.getAskDepartureCityBlock`, {}, {chatbot, argument, userInput}, 'error')
     throw new Error(`${DEFAULT_ERROR_MESSAGE}`)
   }
 }
@@ -377,7 +377,7 @@ const getAskArrivalCityBlock = async (chatbot, backId, argument, userInput) => {
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to get Ask Arrival City Block'
-    logger.serverLog(message, `${TAG}: exports.getAskArrivalCityBlock`, {}, {chatbot}, 'error')
+    logger.serverLog(message, `${TAG}: exports.getAskArrivalCityBlock`, {}, {chatbot, argument, userInput}, 'error')
     throw new Error(`${DEFAULT_ERROR_MESSAGE}`)
   }
 }
@@ -395,7 +395,7 @@ const getAskDepartureDateBlock = async (chatbot, backId, argument, userInput) =>
         {
           text: '',
           componentType: 'text',
-          action: { type: DYNAMIC, action: GET_FLIGHT_SCHEDULES, input: true, argument: {...argument, arrivalCity: userInput} }
+          action: { type: DYNAMIC, action: ASK_FLIGHT_NUMBER, input: true, argument: {...argument, arrivalCity: userInput} }
         }
       ],
       userId: chatbot.userId,
@@ -405,7 +405,7 @@ const getAskDepartureDateBlock = async (chatbot, backId, argument, userInput) =>
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to get Ask Departure Date block'
-    logger.serverLog(message, `${TAG}: exports.getSelectAirlineBlock`, {}, {chatbot}, 'error')
+    logger.serverLog(message, `${TAG}: exports.getSelectAirlineBlock`, {}, {chatbot, argument, userInput}, 'error')
     throw new Error(`${DEFAULT_ERROR_MESSAGE}`)
   }
 }
