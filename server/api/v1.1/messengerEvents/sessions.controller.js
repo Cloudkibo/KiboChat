@@ -64,7 +64,7 @@ exports.index = function (req, res) {
                   })
                 }
                 if (req.body.pushPendingSessionInfo && JSON.stringify(req.body.pushPendingSessionInfo) === 'true') {
-                  pushSessionPendingAlertInStack(company, subscriber)
+                  pushSessionPendingAlertInStack(company, subscriber, 'messenger')
                 }
                 utility.callApi('subscribers/update', 'put', { query: { _id: subscriber._id }, newPayload: _prepareSubscriberUpdatePayload(event, subscriber, company), options: {} })
                   .then(updated => {
@@ -78,7 +78,7 @@ exports.index = function (req, res) {
                           }
                         }
                         if (!event.message.is_echo) {
-                          pushUnresolveAlertInStack(company, subscriber)
+                          pushUnresolveAlertInStack(company, subscriber, 'messenger')
                         }
                       }
                     }
