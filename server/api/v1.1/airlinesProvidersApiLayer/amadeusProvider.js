@@ -142,7 +142,7 @@ exports.fetchFlights = (depIata, arrIata, depTime, airlineCode, flightNumber, cr
           }
         })
         if (flightNumber) {
-          payload = payload.filter(item => item.flight.number)
+          payload = payload.filter(item => item.flight.number === flightNumber)
         }
         payload = payload.filter(item => item.airline.name)
         resolve(payload)
