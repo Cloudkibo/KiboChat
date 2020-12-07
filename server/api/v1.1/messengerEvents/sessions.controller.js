@@ -66,7 +66,7 @@ exports.index = function (req, res) {
                   })
                 }
                 if (req.body.pushPendingSessionInfo && JSON.stringify(req.body.pushPendingSessionInfo) === 'true') {
-                  pushSessionPendingAlertInStack(company, subscriber)
+                  pushSessionPendingAlertInStack(company, subscriber, 'messenger')
                 }
                 if (!event.message.is_echo && subscriber.awaitingQuickReplyPayload && subscriber.awaitingQuickReplyPayload.action) {
                   var query = subscriber.awaitingQuickReplyPayload.action.find((ac) => { return ac.query === 'email' || ac.query === 'phone' })
@@ -86,7 +86,7 @@ exports.index = function (req, res) {
                           }
                         }
                         if (!event.message.is_echo) {
-                          pushUnresolveAlertInStack(company, subscriber)
+                          pushUnresolveAlertInStack(company, subscriber, 'messenger')
                         }
                       }
                     }
