@@ -219,7 +219,7 @@ const getAskAirportNameBlock = (chatbot) => {
   }
 }
 
-const getAirportInfoBlock = (chatbot, backId, AirlineProvider, userInput) => {
+const getAirportInfoBlock = async (chatbot, backId, AirlineProvider, userInput) => {
   let userError = false
   try {
     let messageBlock = {
@@ -243,10 +243,10 @@ const getAirportInfoBlock = (chatbot, backId, AirlineProvider, userInput) => {
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    const airportInfo = AirlineProvider.fetchAirportInfo(userInput)
+    const airportInfo = await AirlineProvider.fetchAirportInfo(userInput)
     if (airportInfo) {
-      // messageBlock.payload[0].text += `\n*Location*: https://www.google.com/maps/search/?api=1&query=${airportInfo.latitude},${airportInfo.longitude}`
-      messageBlock.payload[0].text += `\n*Location*: https://www.google.com/maps/search/?api=1&query=${escape(airportInfo['Airport name'])}`
+      messageBlock.payload[0].text += `\n*Location*: https://www.google.com/maps/search/?api=1&query=${airportInfo[0].latitude},${airportInfo[0].longitude}`
+      // messageBlock.payload[0].text += `\n*Location*: https://www.google.com/maps/search/?api=1&query=${escape(airportInfo['Airport name'])}`
     } else {
       userError = true
       throw new Error()
