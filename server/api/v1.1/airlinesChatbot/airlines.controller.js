@@ -32,7 +32,7 @@ exports.testRoute = async (req, res) => {
       clientId: config.amadeus.clientId,
       clientSecret: config.amadeus.clientSecret
     })
-    const result = await amadeus.fetchFlights('SEA', 'CHI', '2020-12-12', 'UA', '2436')
+    const result = await amadeus.fetchFlights('SEA', 'CHI', '2020-12-12', 'UA')
     // const result = await amadeus.fetchAirportInfo('John F')
     sendSuccessResponse(res, 200, result)
   } catch (err) {
