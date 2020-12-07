@@ -1,4 +1,5 @@
 const airportsData = require('./data.js')
+const airlinesData = require('./airlinesData.js')
 const needle = require('needle')
 const config = require('./../../../config/environment/index')
 
@@ -24,6 +25,17 @@ exports.findAirportInfo = function (name) {
     }
   }
   return airports
+}
+
+exports.findAirlineInfo = function (iata) {
+  const airlines = []
+  for (let i = 0; i < airlinesData.length; i++) {
+    const location = airlinesData[i]['IATA']
+    if (location === iata) {
+      airlines.push(airlinesData[i])
+    }
+  }
+  return airlines
 }
 
 exports.findWeatherInfo = function (city, date) {
