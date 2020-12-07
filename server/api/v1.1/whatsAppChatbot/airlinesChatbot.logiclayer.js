@@ -444,7 +444,7 @@ const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, argumen
     })
     const departureCityTemp = await amadeus.fetchCityInfo(argument.departureCity)
     const arrivalCityTemp = await amadeus.fetchCityInfo(argument.arrivalCity)
-    if (departureCityTemp && arrivalCityTemp) {
+    if (departureCityTemp.length > 0 && arrivalCityTemp.length > 0) {
       const departureCity = departureCityTemp[0]['iata_code']
       const arrivalCity = arrivalCityTemp[0]['iata_code']
       const airline = argument.airline ? argument.airline.iata_code : null
