@@ -23,6 +23,9 @@ const TAG = 'api/v1️.1/whatsAppChatbot/airlinesChatbot.logiclayer.js'
 const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 const moment = require('moment')
 const airlinesUtil = require('./../airlinesProvidersApiLayer/util')
+const AirlinesProviders = require('./../airlinesProvidersApiLayer/AirlineProvidersApiLayer.js')
+const airlinesConstants = require('./../airlinesProvidersApiLayer/constants')
+const config = require('./../../../config/environment/index')
 
 const DEFAULT_ERROR_MESSAGE = `${ERROR_INDICATOR}Something went wrong! Please try again or send "Hi" to go back home.`
 
@@ -435,8 +438,14 @@ const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, argumen
       companyId: chatbot.companyId
     }
     argument.flightNumber = userInput
-    const departureCity = airlinesUtil.findCityInfo(argument.departureCity)[0]['IATA']
-    const arrivalCity = airlinesUtil.findCityInfo(argument.arrivalCity)[0]['IATA']
+    const amadeus = new AirlinesProviders(airlinesConstants.amadeus, {
+      clientId: config.amadeus.clientId,
+      clientSecret: config.amadeus.clientSecret
+    })
+    const departureCityTemp = await amadeus.fetchCityInfo(argument.departureCity)
+    const arrivalCityTemp = await amadeus.fetchCityInfo(argument.arrivalCity)
+    const departureCity = departureCityTemp[0]['iata_code']
+    const arrivalCity = arrivalCityTemp[0]['iata_code']
     const airline = argument.airline ? argument.airline.iata_code : null
     let flights = await AirlineProvider.fetchFlights(departureCity, arrivalCity, argument.departureDate, airline, argument.flightNumber)
 
