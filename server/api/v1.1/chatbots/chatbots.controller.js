@@ -443,7 +443,7 @@ exports.createCommerceChatbot = async (req, res) => {
         storeType: req.body.storeType
       })
       let messageBlocks = commerceLogicLayer.getMessageBlocks(chatbot, storeInfo.name)
-      await datalayer.genericUpdateChatBot({ companyId: req.user.companyId, pageId: req.body.pageId }, {
+      await datalayer.genericUpdateChatBot({ companyId: req.user.companyId, pageId: req.body.pageId, type: 'automated' }, {
         startingBlockId: messageBlocks[0].uniqueId
       })
       chatbot.startingBlockId = messageBlocks[0].uniqueId
