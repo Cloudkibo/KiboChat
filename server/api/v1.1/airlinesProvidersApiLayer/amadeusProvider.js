@@ -95,7 +95,7 @@ exports.fetchAirportInfo = (name, credentials) => {
   })
 }
 
-exports.fetchFlights = (depIata, arrIata, depTime, airlineCode, credentials) => {
+exports.fetchFlights = (depIata, arrIata, depTime, airlineCode, flightNumber, credentials) => {
   const amadeus = initAmadeus(credentials)
   depTime = new Date(depTime)
   depTime = `${depTime.getFullYear()}-${(depTime.getMonth() + 1)}-${depTime.getDate()}`
@@ -141,7 +141,10 @@ exports.fetchFlights = (depIata, arrIata, depTime, airlineCode, credentials) => 
             }
           }
         })
-        payload = payload.filter(item => item.airline.name )
+        if (flightNumber) {
+          payload = payload.filter(item => item.flight.number)
+        }
+        payload = payload.filter(item => item.airline.name)
         resolve(payload)
       })
       .catch(err => {

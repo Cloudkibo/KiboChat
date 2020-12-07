@@ -59,11 +59,11 @@ module.exports = class AirlineProvidersApiLayer {
     }
   }
 
-  fetchFlights (depCity, arrCity, depTime, airlineName) {
+  fetchFlights (depCity, arrCity, depTime, airlineName, flightNumber) {
     if (this.airlineProvider === providers.aviation) {
       return aviationProvider.fetchFlights(depCity, arrCity, depTime, airlineName, this.airlineProviderCredentials)
     } else if (this.airlineProvider === providers.amadeus) {
-      return amadeusProvider.fetchFlights(depCity, arrCity, depTime, airlineName, this.airlineProviderCredentials)
+      return amadeusProvider.fetchFlights(depCity, arrCity, depTime, airlineName, flightNumber, this.airlineProviderCredentials)
     }
   }
 
