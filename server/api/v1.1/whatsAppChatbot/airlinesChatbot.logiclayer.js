@@ -444,30 +444,34 @@ const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, argumen
     })
     const departureCityTemp = await amadeus.fetchCityInfo(argument.departureCity)
     const arrivalCityTemp = await amadeus.fetchCityInfo(argument.arrivalCity)
-    const departureCity = departureCityTemp[0]['iata_code']
-    const arrivalCity = arrivalCityTemp[0]['iata_code']
-    const airline = argument.airline ? argument.airline.iata_code : null
-    let flights = await AirlineProvider.fetchFlights(departureCity, arrivalCity, argument.departureDate, airline, argument.flightNumber)
+    if (departureCityTemp && arrivalCityTemp) {
+      const departureCity = departureCityTemp[0]['iata_code']
+      const arrivalCity = arrivalCityTemp[0]['iata_code']
+      const airline = argument.airline ? argument.airline.iata_code : null
+      let flights = await AirlineProvider.fetchFlights(departureCity, arrivalCity, argument.departureDate, airline, argument.flightNumber)
 
-    if (flights.length === 0) {
-      messageBlock.payload[0].text += `No Flights found\n`
-    } else {
-      messageBlock.payload[0].text += `Select a flight by sending the corresponding number for it:\n`
-      flights = flights.filter(f => f.flight && f.flight.iata)
-      flights = flights.slice(0, 10)
-    }
-    for (let i = 0; i < flights.length; i++) {
-      const flight = flights[i]
-      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${flight.airline.name} ${flight.flight.iata}`
-      messageBlock.payload[0].text += `\n*Departure Time*: ${new Date(flight.departure.scheduled).toLocaleString('en-US', {timeZone: flight.departure.timezone, dateStyle: 'full', timeStyle: 'full'})}`
-      messageBlock.payload[0].text += `\n*Arrival Time*: ${new Date(flight.arrival.scheduled).toLocaleString('en-US', {timeZone: flight.arrival.timezone, dateStyle: 'full', timeStyle: 'full'})}`
-      messageBlock.payload[0].text += `\n*Price*: ${flight.price.currency} ${flight.price.amount}`
-      messageBlock.payload[0].menu.push({type: DYNAMIC, action: GET_FLIGHT_SCHEDULE_DETAILS, argument: {...argument, flight}})
-      if (i + 1 < flights.length) {
-        messageBlock.payload[0].text += `\n`
+      if (flights.length === 0) {
+        messageBlock.payload[0].text += `No Flights found\n`
+      } else {
+        messageBlock.payload[0].text += `Select a flight by sending the corresponding number for it:\n`
+        flights = flights.filter(f => f.flight && f.flight.iata)
+        flights = flights.slice(0, 10)
       }
+      for (let i = 0; i < flights.length; i++) {
+        const flight = flights[i]
+        messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${flight.airline.name} ${flight.flight.iata}`
+        messageBlock.payload[0].text += `\n*Departure Time*: ${new Date(flight.departure.scheduled).toLocaleString('en-US', {timeZone: flight.departure.timezone, dateStyle: 'full', timeStyle: 'full'})}`
+        messageBlock.payload[0].text += `\n*Arrival Time*: ${new Date(flight.arrival.scheduled).toLocaleString('en-US', {timeZone: flight.arrival.timezone, dateStyle: 'full', timeStyle: 'full'})}`
+        messageBlock.payload[0].text += `\n*Price*: ${flight.price.currency} ${flight.price.amount}`
+        messageBlock.payload[0].menu.push({type: DYNAMIC, action: GET_FLIGHT_SCHEDULE_DETAILS, argument: {...argument, flight}})
+        if (i + 1 < flights.length) {
+          messageBlock.payload[0].text += `\n`
+        }
+      }
+      messageBlock.payload[0].text += `\n\n${specialKeyText(HOME_KEY)}`
+    } else {
+      messageBlock.payload[0].text += `No Flights data found for given cities.\n`
     }
-    messageBlock.payload[0].text += `\n\n${specialKeyText(HOME_KEY)}`
     return messageBlock
   } catch (err) {
     if (!userError) {
