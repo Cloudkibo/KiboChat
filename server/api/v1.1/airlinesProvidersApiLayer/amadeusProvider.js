@@ -3,31 +3,33 @@ const Amadeus = require('amadeus')
 const util = require('./util')
 
 exports.fetchAirlines = (credentials) => {
-  const params = initAmadeus(credentials)
+  const airlines = [{
+    'airline_name': 'Emirates Airlines',
+    'iata_code': 'EK',
+    'icao_code': 'UAE'
+  },
+  {
+    'airline_name': 'Qatar Airways',
+    'iata_code': 'QR',
+    'icao_code': 'QTR'
+  },
+  {
+    'airline_name': 'United Airlines',
+    'iata_code': 'UA',
+    'icao_code': 'UAL'
+  },
+  {
+    'airline_name': 'American Airlines',
+    'iata_code': 'AA',
+    'icao_code': 'AAL'
+  },
+  {
+    'airline_name': 'Delta Air Lines',
+    'iata_code': 'DL',
+    'icao_code': 'DAL'
+  }]
   return new Promise(function (resolve, reject) {
-    needle('get', `${API_URL}/airlines?access_key=${params}`)
-      .then(result => {
-        result = result.body
-        let payload = result.data
-        payload = payload.map(item => {
-          return {
-            'airline_name': item.airline_name,
-            'iata_code': item.iata_code,
-            'icao_code': item.icao_code,
-            'callsign': item.callsign,
-            'type': item.type,
-            'status': item.status,
-            'fleet_size': item.fleet_size,
-            'fleet_average_age': item.fleet_average_age,
-            'date_founded': item.date_founded,
-            'hub_code': item.hub_code,
-            'country_name': item.country_name,
-            'country_iso2': item.country_iso2
-          }
-        })
-        resolve(payload)
-      })
-      .catch(err => reject(err))
+    resolve(airlines)
   })
 }
 
