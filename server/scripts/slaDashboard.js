@@ -83,3 +83,52 @@ const _calculateMaxResponseTime = (subscriber, messages, index, maxRespTime) => 
       })
   }
 }
+
+// let avgRespTime = 0
+// let responses = 0
+// let agentReplies = messages.filter((msg) => msg.format === 'convos')
+//
+// if (agentReplies.length > 0) {
+//  await _calculateAvgResponseTime(subscriber, messages, agentReplies, 0, responses, avgRespTime)
+// }
+
+const _calculateAvgResponseTime = async (subscriber, messages, agentReplies, index, responses, avgRespTime) => {
+  if (index === agentReplies.length) {
+    return {avgRespTime, responses}
+  } else {
+    const reply = agentReplies[index]
+    const firstMsg = messages[0]
+
+    if (reply._id === firstMsg._id) {
+      let lastMsgCriteria = [
+        {$match: {_id: {$lt: firstMsg._id}, subscriber_id: subscriber._id}},
+        {$sort: {_id: -1}},
+        {$limit: 1}
+      ]
+      callApi('subscribers/aggregate', 'post', lastMsgCriteria)
+      .then(lastMsg => {
+        if (lastMsg && lastMsg.length > 0 && lastMsg[0].format === 'facebook') {
+          responses = responses + 1
+          avgRespTime = ((new Date(firstMsg.datetime) - new Date(lastMsg[0].datetime)) + avgRespTime) / responses
+          return _calculateAvgResponseTime(subscriber, messages, firstMsg, index + 1, responses, avgRespTime)
+        } else {
+          return _calculateAvgResponseTime(subscriber, messages, firstMsg, index + 1, responses, avgRespTime)
+        }
+      })
+      .catch(err => {
+        const message = err || 'Error at finding last message'
+        logger.serverLog(message, `${TAG}: exports._calculateAvgResponseTime`, {}, {subscriber, message}, 'error')
+        return _calculateAvgResponseTime(subscriber, messages, firstMsg, index + 1, responses, avgRespTime)
+      })
+    } else {
+      const currentMsgIndex = messages.findIndex((msg) => msg._id === reply._id)
+      if (messages[currentMsgIndex - 1].format === 'facebook') {
+        responses = responses + 1
+        avgRespTime = ((new Date(reply.datetime) - new Date(messages[currentMsgIndex - 1].datetime)) + avgRespTime) / responses
+        return _calculateAvgResponseTime(subscriber, messages, firstMsg, index + 1, responses, avgRespTime)
+      } else {
+        return _calculateAvgResponseTime(subscriber, messages, firstMsg, index + 1, responses, avgRespTime)
+      }
+    }
+  }
+}
