@@ -108,8 +108,6 @@ exports.fetchFlights = (depIata, arrIata, depTime, airlineCode, credentials) => 
   if (airlineCode) {
     queryPayload.includedAirlineCodes = airlineCode
   }
-  console.log('final fetch flights payload')
-  console.log(queryPayload)
   return new Promise(function (resolve, reject) {
     amadeus.shopping.flightOffersSearch.get(queryPayload)
       .then(result => {
@@ -133,9 +131,9 @@ exports.fetchFlights = (depIata, arrIata, depTime, airlineCode, credentials) => 
               'scheduled': item.itineraries[0].segments[0].arrival.at
             },
             'airline': {
-              'name': airline.Airline,
-              'iata': airline.IATA,
-              'icao': airline.ICAO
+              'name': airline ? airline.Airline : '',
+              'iata': airline ? airline.IATA : '',
+              'icao': airline ? airline.ICAO : ''
             },
             'flight': {
               'number': item.itineraries[0].segments[0].number,
@@ -143,6 +141,7 @@ exports.fetchFlights = (depIata, arrIata, depTime, airlineCode, credentials) => 
             }
           }
         })
+        payload = payload.filter(item => item.airline.name )
         resolve(payload)
       })
       .catch(err => {
