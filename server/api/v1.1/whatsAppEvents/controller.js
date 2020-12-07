@@ -79,8 +79,9 @@ exports.messageReceived = function (req, res) {
                                   storeHash: bigCommerceIntegration.payload.context
                                 })
                               } else if (chatbot.vertical === 'airlines') {
-                                airlinesProvider = new AirlinesProvider(airlinesConstants.aviation, {
-                                  access_key: config.aviationKey
+                                airlinesProvider = new AirlinesProvider(airlinesConstants.amadeus, {
+                                  clientId: config.amadeus.clientId,
+                                  clientSecret: config.amadeus.clientSecret
                                 })
                               }
                               let nextMessageBlock = null
@@ -578,8 +579,9 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
               })
             }
           } else if (chatbot.vertical === 'airlines') {
-            airlinesProvider = new AirlinesProvider(airlinesConstants.aviation, {
-              access_key: config.aviationKey
+            airlinesProvider = new AirlinesProvider(airlinesConstants.amadeus, {
+              clientId: config.amadeus.clientId,
+              clientSecret: config.amadeus.clientSecret
             })
           }
           let nextMessageBlock = null
