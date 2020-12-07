@@ -121,7 +121,7 @@ const getAskFlightNumberBlock = (chatbot, argument, userInput) => {
           componentType: 'text',
           action: { type: DYNAMIC, action: GET_FLIGHT_SCHEDULES, input: true, argument: {...argument, departureDate: userInput} },
           specialKeys: {
-            's': { type: DYNAMIC, action: GET_FLIGHT_SCHEDULES, argument: {...argument} }
+            's': { type: DYNAMIC, action: GET_FLIGHT_SCHEDULES, argument: {...argument, departureDate: userInput} }
           }
         }
       ],
