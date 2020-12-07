@@ -1,3 +1,4 @@
 module.exports = {
-  aviation: 'aviation'
+  aviation: 'aviation',
+  amadeus: 'amadeus'
 }
