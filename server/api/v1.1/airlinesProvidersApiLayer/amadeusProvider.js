@@ -100,14 +100,16 @@ exports.fetchFlights = (depIata, arrIata, depTime, airlineCode, credentials) => 
   depTime = new Date(depTime)
   depTime = `${depTime.getFullYear()}-${(depTime.getMonth() + 1)}-${depTime.getDate()}`
   let queryPayload = {
-    originLocationCode: arrIata,
-    destinationLocationCode: depIata,
+    originLocationCode: depIata,
+    destinationLocationCode: arrIata,
     departureDate: depTime,
     adults: '1'
   }
   if (airlineCode) {
     queryPayload.includedAirlineCodes = airlineCode
   }
+  console.log('final fetch flights payload')
+  console.log(queryPayload)
   return new Promise(function (resolve, reject) {
     amadeus.shopping.flightOffersSearch.get(queryPayload)
       .then(result => {
