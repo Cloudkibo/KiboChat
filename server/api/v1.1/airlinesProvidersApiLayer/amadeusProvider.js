@@ -138,6 +138,10 @@ exports.fetchFlights = (depIata, arrIata, depTime, airlineCode, flightNumber, cr
             'flight': {
               'number': item.itineraries[0].segments[0].number,
               'iata': item.itineraries[0].segments[0].number
+            },
+            'price': {
+              'currency': item.price.currency,
+              'amount': item.price.grandTotal
             }
           }
         })
