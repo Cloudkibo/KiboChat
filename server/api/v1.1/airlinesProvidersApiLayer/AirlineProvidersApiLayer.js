@@ -71,7 +71,7 @@ module.exports = class AirlineProvidersApiLayer {
     if (this.airlineProvider === providers.aviation) {
       return aviationProvider.fetchFlightByNumber(flightNumber, this.airlineProviderCredentials)
     } else if (this.airlineProvider === providers.amadeus) {
-      return amadeusProvider.fetchFlightByNumber(flightNumber, this.airlineProviderCredentials)
+      throw new Error('Function not implemented for Amadeus API')
     }
   }
 }
