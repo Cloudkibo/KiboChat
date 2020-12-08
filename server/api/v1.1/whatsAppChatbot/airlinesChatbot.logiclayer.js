@@ -464,8 +464,8 @@ const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, argumen
         const airports = flight.airports
         messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${flight.airline.name} ${flight.flight.iata}`
         messageBlock.payload[0].text += `\n*Connecting Flight*: ${airports.length > 1 ? `True, ${airports.length} flights` : `False`}`
-        messageBlock.payload[0].text += `\n*Departure Time*: ${new Date(flight.airports[0].departure.scheduled).toLocaleString('en-US', {timeZone: flight.departure.timezone, dateStyle: 'full', timeStyle: 'full'})}`
-        messageBlock.payload[0].text += `\n*Arrival Time*: ${new Date(flight.airports[flight.airports.length - 1].arrival.scheduled).toLocaleString('en-US', {timeZone: flight.arrival.timezone, dateStyle: 'full', timeStyle: 'full'})}`
+        messageBlock.payload[0].text += `\n*Departure Time*: ${new Date(flight.airports[0].departure.scheduled).toLocaleString('en-US', {timeZone: flight.airports[0].departure.timezone, dateStyle: 'full', timeStyle: 'full'})}`
+        messageBlock.payload[0].text += `\n*Arrival Time*: ${new Date(flight.airports[flight.airports.length - 1].arrival.scheduled).toLocaleString('en-US', {timeZone: flight.airports[0].timezone, dateStyle: 'full', timeStyle: 'full'})}`
         messageBlock.payload[0].text += `\n*Price*: ${flight.price.currency} ${flight.price.amount}`
         messageBlock.payload[0].menu.push({type: DYNAMIC, action: GET_FLIGHT_SCHEDULE_DETAILS, argument: {...argument, flight}})
         if (i + 1 < flights.length) {
