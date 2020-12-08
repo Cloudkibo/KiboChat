@@ -27,6 +27,17 @@ exports.findAirportInfo = function (name) {
   return airports
 }
 
+exports.findAirportInfoByCode = function (iata) {
+  const airports = []
+  for (let i = 0; i < airportsData.length; i++) {
+    const location = airportsData[i]['IATA']
+    if (location.toUpperCase() === iata.toUpperCase()) {
+      airports.push(airportsData[i])
+    }
+  }
+  return airports
+}
+
 exports.findAirlineInfo = function (iata) {
   const airlines = []
   for (let i = 0; i < airlinesData.length; i++) {
