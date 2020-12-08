@@ -1,6 +1,6 @@
-const needle = require('needle')
 const Amadeus = require('amadeus')
 const util = require('./util')
+const { padWithZeros } = require('./../../../components/utility')
 
 exports.fetchAirlines = (credentials) => {
   const airlines = [{
@@ -99,7 +99,7 @@ exports.fetchAirportInfo = (name, credentials) => {
 exports.fetchFlights = (depIata, arrIata, depTime, airlineCode, flightNumber, credentials) => {
   const amadeus = initAmadeus(credentials)
   depTime = new Date(depTime)
-  depTime = `${depTime.getFullYear()}-${(depTime.getMonth() + 1)}-${depTime.getDate()}`
+  depTime = `${depTime.getFullYear()}-${(depTime.getMonth() + 1)}-${padWithZeros(depTime.getDate(), 2)}`
   let queryPayload = {
     originLocationCode: depIata,
     destinationLocationCode: arrIata,
@@ -113,7 +113,6 @@ exports.fetchFlights = (depIata, arrIata, depTime, airlineCode, flightNumber, cr
     amadeus.shopping.flightOffersSearch.get(queryPayload)
       .then(result => {
         let payload = result.data
-        // console.log('fetch flights payload', JSON.stringify(payload))
         payload = payload.map(item => {
           const airlineCode = item.itineraries[0].segments[0].carrierCode
           let airline = util.findAirlineInfo(airlineCode)[0]
