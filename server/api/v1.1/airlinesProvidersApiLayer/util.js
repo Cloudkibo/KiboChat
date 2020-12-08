@@ -28,14 +28,12 @@ exports.findAirportInfo = function (name) {
 }
 
 exports.findAirportInfoByCode = function (iata) {
-  const airports = []
   for (let i = 0; i < airportsData.length; i++) {
     const location = airportsData[i]['IATA']
     if (location.toUpperCase() === iata.toUpperCase()) {
-      airports.push(airportsData[i])
+      return airportsData[i]
     }
   }
-  return airports
 }
 
 exports.findAirlineInfo = function (iata) {
