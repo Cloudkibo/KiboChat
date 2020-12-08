@@ -66,7 +66,9 @@ exports.attachment = function (req, res) {
         })
         .catch(error => {
           const message = error || 'Failed to work on the attachment'
-          logger.serverLog(message, `${TAG}: exports.attachment`, req.body, {user: req.user}, 'error')
+          if (message !== 'Unable to process video link. Please try again.') {
+            logger.serverLog(message, `${TAG}: exports.attachment`, req.body, {user: req.user}, 'error')
+          }
           return sendErrorResponse(res, 500, error.body, 'Failed to work on the attachment. Please contact admin.')
         })
     } else {
