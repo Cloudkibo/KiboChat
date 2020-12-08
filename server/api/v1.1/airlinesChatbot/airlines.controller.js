@@ -35,7 +35,6 @@ exports.testRoute = async (req, res) => {
     // const result = await amadeus.fetchFlights('SEA', 'CHI', '2020-12-12', 'UA')
     // const result = await amadeus.fetchAirportInfo('Karachi')
     const result = await require('./../airlinesProvidersApiLayer/util').findWeatherInfo('Karachi', '2020-12-16')
-    // const result = await amadeus.fetchAirportInfo('Karachi')
     sendSuccessResponse(res, 200, result)
   } catch (err) {
     sendErrorResponse(res, 500, `Failed to test aviation api endpoint ${JSON.stringify(err)}`)

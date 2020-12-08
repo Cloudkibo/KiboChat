@@ -25,6 +25,7 @@ const moment = require('moment')
 const AirlinesProviders = require('./../airlinesProvidersApiLayer/AirlineProvidersApiLayer.js')
 const airlinesConstants = require('./../airlinesProvidersApiLayer/constants')
 const config = require('./../../../config/environment/index')
+const airlinesUtil = require('./../airlinesProvidersApiLayer/util')
 
 const DEFAULT_ERROR_MESSAGE = `${ERROR_INDICATOR}Something went wrong! Please try again or send "Hi" to go back home.`
 
@@ -491,7 +492,7 @@ const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, argumen
   }
 }
 
-const getFlightScheduleDetailsBlock = (chatbot, backId, argument) => {
+const getFlightScheduleDetailsBlock = async (chatbot, backId, argument) => {
   try {
     // departure date in argument.departureDate
     // departure city in arugment.departureCity
@@ -539,6 +540,15 @@ const getFlightScheduleDetailsBlock = (chatbot, backId, argument) => {
       messageBlock.payload[0].text += `\n`
     }
     messageBlock.payload[0].text += `\n*Price*: ${flightInfo.price.currency} ${flightInfo.price.amount}`
+
+    const departureDate = new Date(airports[0].departure.scheduled).toLocaleDateString('en-CA')
+    const departureCityWeather = await airlinesUtil.findWeatherInfo(argument.departureCity, departureDate)
+    messageBlock.payload[0].text += `\n*Weather in ${argument.departureCity} at departure date*: ${departureCityWeather.main}`
+
+    const arrivalDate = new Date(airports[airports.length - 1].arrival.scheduled).toLocaleDateString('en-CA')
+    const arrivalCityWeather = await airlinesUtil.findWeatherInfo(argument.arrivalCity, arrivalDate)
+    messageBlock.payload[0].text += `\n*Weather in ${argument.arrivalCity} at arrival date*: ${arrivalCityWeather.main}`
+
     messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
     return messageBlock
