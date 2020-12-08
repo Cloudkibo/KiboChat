@@ -67,10 +67,11 @@ exports.fetchAirportInfo = (name, credentials) => {
   return new Promise(function (resolve, reject) {
     amadeus.referenceData.locations.get({
       keyword: name,
-      subType: Amadeus.location.airport
+      subType: Amadeus.location.any
     })
       .then(result => {
         let payload = result.data
+        payload = payload.filter(item => item.subType === 'AIRPORT')
         payload = payload.map(item => {
           return {
             'airport_name': item.name,
