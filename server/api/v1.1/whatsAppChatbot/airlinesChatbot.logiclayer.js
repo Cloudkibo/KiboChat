@@ -216,8 +216,8 @@ const getAskAirportBlock = (chatbot) => {
     }
     return messageBlock
   } catch (err) {
-    const message = err || 'Unable to get Ask Airport Name block'
-    logger.serverLog(message, `${TAG}: exports.getAskAirportNameBlock`, {}, {chatbot}, 'error')
+    const message = err || 'Unable to get Ask Airport block'
+    logger.serverLog(message, `${TAG}: exports.getAskAirportBlock`, {}, {chatbot}, 'error')
     throw new Error(`${DEFAULT_ERROR_MESSAGE}`)
   }
 }
@@ -255,7 +255,7 @@ const getAirportInfoBlock = async (chatbot, backId, AirlineProvider, userInput) 
     for (let i = 0; i < airports.length; i++) {
       const airportInfo = airports[i]
       messageBlock.payload[0].text += `\n*Airport Name*: ${airportInfo.airport_name}\n`
-      messageBlock.payload[0].text += `*Location*: https://www.google.com/maps/search/?api=1&query=${airportInfo[0].latitude},${airportInfo[0].longitude}`
+      messageBlock.payload[0].text += `*Location*: https://www.google.com/maps/search/?api=1&query=${airportInfo.latitude},${airportInfo.longitude}`
       if (i < airports.length - 1) {
         messageBlock.payload[0].text += `\n`
       }
