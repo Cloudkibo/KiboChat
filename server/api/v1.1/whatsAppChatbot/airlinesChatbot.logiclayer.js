@@ -483,7 +483,7 @@ const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, argumen
       const message = err || 'Unable to get flight schedules'
       logger.serverLog(message, `${TAG}: getFlightSchedulesBlock`, {}, {chatbot, backId, argument, userInput}, 'error')
     }
-    if (err.message) {
+    if (err.message && userError) {
       throw new Error(`${ERROR_INDICATOR}${err.message}`)
     } else {
       throw new Error(`${DEFAULT_ERROR_MESSAGE}`)
@@ -507,7 +507,7 @@ const getFlightScheduleDetailsBlock = (chatbot, backId, argument) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: dedent(`Details for ${flightInfo.airline.name} ${flightInfo.flight.iata}:\n`),
+          text: dedent(`Details for *${flightInfo.airline.name} ${flightInfo.flight.iata}*:\n\n`),
           componentType: 'text',
           specialKeys: {
             [BACK_KEY]: { type: STATIC, blockId: backId },
@@ -519,22 +519,22 @@ const getFlightScheduleDetailsBlock = (chatbot, backId, argument) => {
       companyId: chatbot.companyId
     }
     const airports = flightInfo.airports
-    messageBlock.payload[0].text += `\n*Connecting Flight*: ${airports.length > 1 ? `True, ${airports.length} flights` : `False`}`
+    messageBlock.payload[0].text += `\n*Connecting Flight*: ${airports.length > 1 ? `True, ${airports.length} flights` : `False`}\n`
     for (let i = 0; i < airports.length; i++) {
       const airport = airports[i]
       if (airports.length > 1) {
-        messageBlock.payload[0].text += `\nFlight #${i + 1}:`
+        messageBlock.payload[0].text += `\n*Flight #${i + 1}*:`
       }
       messageBlock.payload[0].text += `\n*Flight Number*: ${airport.flight_number}`
       messageBlock.payload[0].text += `\n*Departure Time*: ${new Date(airport.departure.scheduled).toLocaleString('en-US', {timeZone: airport.departure.timezone, dateStyle: 'full', timeStyle: 'full'})}`
       if (airport.departure.airport) {
-        messageBlock.payload[0].text += `\n*Departure Airport*: ${airport.departure.airport}`
-        messageBlock.payload[0].text += `\n*Departure Airport Location*: https://www.google.com/maps/search/?api=1&query=${escape(airport.departure.airport)}`
+        messageBlock.payload[0].text += `\n*Departure Airport*: ${airport.departure.airport['Airport name']}`
+        messageBlock.payload[0].text += `\n*Departure Airport Location*: https://www.google.com/maps/search/?api=1&query=${escape(airport.departure.airport['Airport name'])}`
       }
       messageBlock.payload[0].text += `\n*Arrival Time*: ${new Date(airport.arrival.scheduled).toLocaleString('en-US', {timeZone: airport.arrival.timezone, dateStyle: 'full', timeStyle: 'full'})}`
       if (airport.arrival.airport) {
-        messageBlock.payload[0].text += `\n*Arrival Airport*: ${airport.arrival.airport}`
-        messageBlock.payload[0].text += `\n*Arrival Airport Location*: https://www.google.com/maps/search/?api=1&query=${escape(airport.arrival.airport)}`
+        messageBlock.payload[0].text += `\n*Arrival Airport*: ${airport.arrival.airport['Airport name']}`
+        messageBlock.payload[0].text += `\n*Arrival Airport Location*: https://www.google.com/maps/search/?api=1&query=${escape(airport.arrival.airport['Airport name'])}`
       }
       messageBlock.payload[0].text += `\n`
     }
@@ -623,7 +623,7 @@ exports.getNextMessageBlock = async (chatbot, AirlineProvider, contact, input) =
         const message = err || 'Invalid user input'
         logger.serverLog(message, `${TAG}: exports.getNextMessageBlock`, chatbot, {}, 'error')
       }
-      if (chatbot.triggers.includes(input) || moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15) {
+      if (chatbot.triggers.includes(input) || (lastMessageSentByBot.menu && lastMessageSentByBot.menu.length === 0 && !lastMessageSentByBot.action) || moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15) {
         return getWelcomeMessageBlock(chatbot, contact)
       } else {
         return invalidInput(chatbot, contact.lastMessageSentByBot, `${ERROR_INDICATOR}You entered an invalid response.`)
