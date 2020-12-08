@@ -159,7 +159,7 @@ exports.fetchFlights = (depIata, arrIata, depTime, airlineCode, flightNumber, cr
           payload = payload.filter(item => item.flight.number === flightNumber)
           payload = [payload[0]]
         }
-        payload = payload.filter(item => item.airline.name)
+        payload = payload.filter(item => item.airline && item.airline.name)
         resolve(payload)
       })
       .catch(err => {
