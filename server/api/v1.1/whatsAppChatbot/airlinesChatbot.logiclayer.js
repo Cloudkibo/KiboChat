@@ -7,7 +7,7 @@ const {
   HOME_KEY,
   ERROR_INDICATOR,
   SELECT_AIRLINE,
-  ASK_AIRPORT_NAME,
+  ASK_AIRPORT,
   ASK_DEPARTURE_DATE,
   ASK_DEPARTURE_CITY,
   ASK_ARRIVAL_CITY,
@@ -83,12 +83,12 @@ exports.getMessageBlocks = (chatbot) => {
         text: dedent(`Please select an option by sending the corresponding number for it (e.g. send '1' to select "Select airline for flight schedule"):\n
                 ${convertToEmoji(0)} Get flight schedules   
                 ${convertToEmoji(1)} Select airline for flight schedules     
-                ${convertToEmoji(2)} Airport information`),
+                ${convertToEmoji(2)} Get airport information`),
         componentType: 'text',
         menu: [
           { type: DYNAMIC, action: ASK_DEPARTURE_CITY },
           { type: DYNAMIC, action: SELECT_AIRLINE },
-          { type: DYNAMIC, action: ASK_AIRPORT_NAME }
+          { type: DYNAMIC, action: ASK_AIRPORT }
         ],
         specialKeys: {}
       }
@@ -195,7 +195,7 @@ const getFlightStatusBlock = async (chatbot, backId, AirlineProvider, userInput)
   }
 }
 
-const getAskAirportNameBlock = (chatbot) => {
+const getAskAirportBlock = (chatbot) => {
   try {
     let messageBlock = {
       module: {
@@ -206,7 +206,7 @@ const getAskAirportNameBlock = (chatbot) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Please enter the name of the airport for which you wish to retreive information`,
+          text: `Please enter city name, airport code, or city code`,
           componentType: 'text',
           action: { type: DYNAMIC, action: GET_AIRPORT_INFO, input: true }
         }
@@ -246,14 +246,22 @@ const getAirportInfoBlock = async (chatbot, backId, AirlineProvider, userInput) 
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    const airportInfo = await AirlineProvider.fetchAirportInfo(userInput)
-    if (airportInfo > 0) {
-      messageBlock.payload[0].text += `\n*Location*: https://www.google.com/maps/search/?api=1&query=${airportInfo[0].latitude},${airportInfo[0].longitude}`
-      // messageBlock.payload[0].text += `\n*Location*: https://www.google.com/maps/search/?api=1&query=${escape(airportInfo['Airport name'])}`
-    } else {
-      messageBlock.payload[0].text += `\nNo airports information found for ${userInput}`
-      // userError = true
-      // throw new Error()
+    const airports = await AirlineProvider.fetchAirportInfo(userInput)
+
+    if (airports.length > 0) {
+      messageBlock.payload[0].text += `*Airports found for ${userInput}*:\n`
+    }
+
+    for (let i = 0; i < airports.length; i++) {
+      const airportInfo = airports[i]
+      messageBlock.payload[0].text += `\n*Airport Name*: ${airportInfo.airport_name}\n`
+      messageBlock.payload[0].text += `*Location*: https://www.google.com/maps/search/?api=1&query=${airportInfo[0].latitude},${airportInfo[0].longitude}`
+      if (i < airports.length - 1) {
+        messageBlock.payload[0].text += `\n`
+      }
+    }
+    if (airports.length === 0) {
+      messageBlock.payload[0].text += `No airports found for ${userInput}`
     }
     messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
@@ -663,8 +671,8 @@ exports.getNextMessageBlock = async (chatbot, AirlineProvider, contact, input) =
             messageBlock = await getFlightSchedulesBlock(chatbot, contact.lastMessageSentByBot.uniqueId, AirlineProvider, action.argument, action.input ? input : '')
             break
           }
-          case ASK_AIRPORT_NAME: {
-            messageBlock = await getAskAirportNameBlock(chatbot)
+          case ASK_AIRPORT: {
+            messageBlock = await getAskAirportBlock(chatbot)
             break
           }
           case GET_AIRPORT_INFO: {
