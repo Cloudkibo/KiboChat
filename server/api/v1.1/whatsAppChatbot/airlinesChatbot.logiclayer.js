@@ -480,7 +480,7 @@ const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, argumen
       const message = err || 'Unable to get flight schedules'
       logger.serverLog(message, `${TAG}: getFlightSchedulesBlock`, {}, {chatbot, backId, argument, userInput}, 'error')
     }
-    if (err.message) {
+    if (err.message && userError) {
       throw new Error(`${ERROR_INDICATOR}${err.message}`)
     } else {
       throw new Error(`${DEFAULT_ERROR_MESSAGE}`)
@@ -620,7 +620,7 @@ exports.getNextMessageBlock = async (chatbot, AirlineProvider, contact, input) =
         const message = err || 'Invalid user input'
         logger.serverLog(message, `${TAG}: exports.getNextMessageBlock`, chatbot, {}, 'error')
       }
-      if (chatbot.triggers.includes(input) || moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15) {
+      if (chatbot.triggers.includes(input) || (lastMessageSentByBot.menu && lastMessageSentByBot.menu.length === 0) || moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15) {
         return getWelcomeMessageBlock(chatbot, contact)
       } else {
         return invalidInput(chatbot, contact.lastMessageSentByBot, `${ERROR_INDICATOR}You entered an invalid response.`)
