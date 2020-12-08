@@ -32,8 +32,8 @@ exports.testRoute = async (req, res) => {
       clientId: config.amadeus.clientId,
       clientSecret: config.amadeus.clientSecret
     })
-    const result = await amadeus.fetchFlights('SEA', 'CHI', '2020-12-12', 'UA')
-    // const result = await amadeus.fetchAirportInfo('John F')
+    // const result = await amadeus.fetchFlights('SEA', 'CHI', '2020-12-12', 'UA')
+    const result = await amadeus.fetchAirportInfo('Karachi')
     sendSuccessResponse(res, 200, result)
   } catch (err) {
     sendErrorResponse(res, 500, `Failed to test aviation api endpoint ${JSON.stringify(err)}`)

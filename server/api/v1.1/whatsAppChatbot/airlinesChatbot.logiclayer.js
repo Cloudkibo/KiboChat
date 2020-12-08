@@ -181,6 +181,8 @@ const getFlightStatusBlock = async (chatbot, backId, AirlineProvider, userInput)
       messageBlock.payload[0].text += `\n*Arrival Airport Location*: https://www.google.com/maps/search/?api=1&query=${escape(flightInfo.arrival.airport)}`
     } else {
       messageBlock.payload[0].text += `No flight info found for flight number ${userInput}`
+      messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
+      messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
     }
     messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
@@ -244,12 +246,13 @@ const getAirportInfoBlock = async (chatbot, backId, AirlineProvider, userInput) 
       companyId: chatbot.companyId
     }
     const airportInfo = await AirlineProvider.fetchAirportInfo(userInput)
-    if (airportInfo) {
+    if (airportInfo > 0) {
       messageBlock.payload[0].text += `\n*Location*: https://www.google.com/maps/search/?api=1&query=${airportInfo[0].latitude},${airportInfo[0].longitude}`
       // messageBlock.payload[0].text += `\n*Location*: https://www.google.com/maps/search/?api=1&query=${escape(airportInfo['Airport name'])}`
     } else {
-      userError = true
-      throw new Error()
+      messageBlock.payload[0].text += `\nNo airports information found for ${userInput}`
+      // userError = true
+      // throw new Error()
     }
     messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
