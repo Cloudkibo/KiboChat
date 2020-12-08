@@ -113,25 +113,33 @@ exports.fetchFlights = (depIata, arrIata, depTime, airlineCode, flightNumber, cr
     amadeus.shopping.flightOffersSearch.get(queryPayload)
       .then(result => {
         let payload = result.data
-        console.log('fetch flights payload', JSON.stringify(payload))
+        // console.log('fetch flights payload', JSON.stringify(payload))
         payload = payload.map(item => {
           const airlineCode = item.itineraries[0].segments[0].carrierCode
           let airline = util.findAirlineInfo(airlineCode)[0]
+          const airports = item.itineraries[0].segments.map(segment => {
+            const departureAirport = util.findAirportInfoByCode(segment.departure.iataCode)
+            const arrivalAirport = util.findAirportInfoByCode(segment.arrival.iataCode)
+            return {
+              'flight_number': segment.number,
+              'departure': {
+                'airport': departureAirport,
+                'timezone': segment.departure.timezone,
+                'iata': segment.departure.iataCode,
+                'scheduled': segment.departure.at
+              },
+              'arrival': {
+                'airport': arrivalAirport,
+                'timezone': segment.arrival.timezone,
+                'iata': segment.arrival.iataCode,
+                'scheduled': segment.arrival.at
+              }
+            }
+          })
           return {
             'flight_date': item.itineraries[0].segments[0].departure.at,
             'flight_status': '',
-            'departure': {
-              'airport': item.itineraries[0].segments[0].departure.airport,
-              'timezone': item.itineraries[0].segments[0].departure.timezone,
-              'iata': item.itineraries[0].segments[0].departure.iataCode,
-              'scheduled': item.itineraries[0].segments[0].departure.at
-            },
-            'arrival': {
-              'airport': item.itineraries[0].segments[0].arrival.airport,
-              'timezone': item.itineraries[0].segments[0].arrival.timezone,
-              'iata': item.itineraries[0].segments[0].arrival.iataCode,
-              'scheduled': item.itineraries[0].segments[0].arrival.at
-            },
+            'airports': airports,
             'airline': {
               'name': airline ? airline.Airline : '',
               'iata': airline ? airline.IATA : '',
@@ -157,82 +165,6 @@ exports.fetchFlights = (depIata, arrIata, depTime, airlineCode, flightNumber, cr
       .catch(err => {
         reject(err)
       })
-  })
-}
-
-exports.fetchFlightByNumber = (flightNumber, credentials) => {
-  const params = initAmadeus(credentials)
-  let query = `flight_iata=${flightNumber}&flight_status=scheduled`
-  return new Promise(function (resolve, reject) {
-    needle('get', `${API_URL}/flights?access_key=${params}&${query}`)
-      .then(result => {
-        result = result.body
-        let payload = result.data
-        payload = payload.map(item => {
-          return {
-            'flight_date': item.flight_date,
-            'flight_status': item.flight_status,
-            'departure': {
-              'airport': item.departure.airport,
-              'timezone': item.departure.timezone,
-              'iata': item.departure.iata,
-              'icao': item.departure.icao,
-              'terminal': item.departure.terminal,
-              'gate': item.departure.gate,
-              'delay': item.departure.delay,
-              'scheduled': item.departure.scheduled,
-              'estimated': item.departure.estimated,
-              'actual': item.departure.actual,
-              'estimated_runway': item.departure.estimated_runway,
-              'actual_runway': item.departure.actual_runway
-            },
-            'arrival': {
-              'airport': item.arrival.airport,
-              'timezone': item.arrival.timezone,
-              'iata': item.arrival.iata,
-              'icao': item.arrival.icao,
-              'terminal': item.arrival.terminal,
-              'gate': item.arrival.gate,
-              'baggage': item.arrival.baggage,
-              'delay': item.arrival.delay,
-              'scheduled': item.arrival.scheduled,
-              'estimated': item.arrival.estimated,
-              'actual': item.arrival.actual,
-              'estimated_runway': item.arrival.estimated_runway,
-              'actual_runway': item.arrival.actual_runway
-            },
-            'airline': {
-              'name': item.airline.name,
-              'iata': item.airline.iata,
-              'icao': item.airline.icao
-            },
-            'flight': {
-              'number': item.flight.number,
-              'iata': item.flight.iata,
-              'icao': item.flight.icao,
-              'codeshared': item.flight.codeshared
-            }
-            // 'aircraft': {
-            //   'registration': item.aircraft.registration,
-            //   'iata': item.aircraft.iata,
-            //   'icao': item.aircraft.icao,
-            //   'icao24': item.aircraft.icao24
-            // },
-            // 'live': {
-            //   'updated': item.live.updated,
-            //   'latitude': item.live.latitude,
-            //   'longitude': item.live.longitude,
-            //   'altitude': item.live.altitude,
-            //   'direction': item.live.direction,
-            //   'speed_horizontal': item.live.speed_horizontal,
-            //   'speed_vertical': item.live.speed_vertical,
-            //   'is_ground': item.live.is_ground
-            // }
-          }
-        })
-        resolve(payload)
-      })
-      .catch(err => reject(err))
   })
 }
 

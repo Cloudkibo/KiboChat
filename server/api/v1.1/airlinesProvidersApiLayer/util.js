@@ -27,6 +27,15 @@ exports.findAirportInfo = function (name) {
   return airports
 }
 
+exports.findAirportInfoByCode = function (iata) {
+  for (let i = 0; i < airportsData.length; i++) {
+    const location = airportsData[i]['IATA']
+    if (location.toUpperCase() === iata.toUpperCase()) {
+      return airportsData[i]
+    }
+  }
+}
+
 exports.findAirlineInfo = function (iata) {
   const airlines = []
   for (let i = 0; i < airlinesData.length; i++) {
@@ -38,11 +47,25 @@ exports.findAirlineInfo = function (iata) {
   return airlines
 }
 
+// Params:
+// city -> city name
+// date -> YYYY-MM-DD
 exports.findWeatherInfo = function (city, date) {
   return new Promise(function (resolve, reject) {
     needle('get', `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${config.openWeatherMapApi}`)
       .then(result => {
-        resolve(result.body.list[0].weather[0])
+        let weather = null
+        const list = result.body.list
+        for (let i = 0; i < list.length; i++) {
+          const dt = list[i].dt_txt.split(' ')[0]
+          if (dt === date) {
+            weather = list[i].weather[0]
+          }
+        }
+        if (!weather) {
+          weather = list[list.length - 1].weather[0]
+        }
+        resolve(weather)
       })
       .catch(err => {
         reject(err)
