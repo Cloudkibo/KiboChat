@@ -112,7 +112,7 @@ exports.fetchFlights = (depIata, arrIata, depTime, airlineCode, flightNumber, cr
     amadeus.shopping.flightOffersSearch.get(queryPayload)
       .then(result => {
         let payload = result.data
-        console.log('fetch flights payload', payload)
+        console.log('fetch flights payload', JSON.stringify(payload))
         payload = payload.map(item => {
           const airlineCode = item.itineraries[0].segments[0].carrierCode
           let airline = util.findAirlineInfo(airlineCode)[0]
