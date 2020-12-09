@@ -381,14 +381,15 @@ const getAskDepartureCityBlock = async (chatbot, backId, argument, userInput) =>
 const getAskArrivalCityBlock = async (chatbot, backId, AirlineProvider, argument, userInput) => {
   let userError = false
   try {
+    const nextArgument = {...argument}
     const cityInfo = await AirlineProvider.fetchCityInfo(userInput)
     if (cityInfo.length === 0) {
       userError = true
       let titleCaseCity = userInput.split(' ').map(w => w[0].toUpperCase() + w.substr(1).toLowerCase()).join(' ')
       throw new Error(`No city found for ${titleCaseCity}`)
     } else {
-      argument.departureCityInfo = cityInfo
-      argument.departureCity = userInput
+      nextArgument.departureCityInfo = cityInfo
+      nextArgument.departureCity = userInput
     }
     let messageBlock = {
       module: {
@@ -401,7 +402,7 @@ const getAskArrivalCityBlock = async (chatbot, backId, AirlineProvider, argument
         {
           text: `Please enter your arrival city`,
           componentType: 'text',
-          action: { type: DYNAMIC, action: ASK_DEPARTURE_DATE, input: true, argument },
+          action: { type: DYNAMIC, action: ASK_DEPARTURE_DATE, input: true, argument: nextArgument },
           specialKeys: {
             [BACK_KEY]: { type: STATIC, blockId: backId },
             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
@@ -428,14 +429,15 @@ const getAskArrivalCityBlock = async (chatbot, backId, AirlineProvider, argument
 const getAskDepartureDateBlock = async (chatbot, backId, AirlineProvider, argument, userInput) => {
   let userError = false
   try {
+    const nextArgument = {...argument}
     const cityInfo = await AirlineProvider.fetchCityInfo(userInput)
     if (cityInfo.length === 0) {
       userError = true
       let titleCaseCity = userInput.split(' ').map(w => w[0].toUpperCase() + w.substr(1).toLowerCase()).join(' ')
       throw new Error(`No city found for ${titleCaseCity}`)
     } else {
-      argument.arrivalCityInfo = cityInfo
-      argument.arrivalCity = userInput
+      nextArgument.arrivalCityInfo = cityInfo
+      nextArgument.arrivalCity = userInput
     }
     let messageBlock = {
       module: {
@@ -448,7 +450,7 @@ const getAskDepartureDateBlock = async (chatbot, backId, AirlineProvider, argume
         {
           text: '',
           componentType: 'text',
-          action: { type: DYNAMIC, action: ASK_FLIGHT_NUMBER, input: true, argument },
+          action: { type: DYNAMIC, action: ASK_FLIGHT_NUMBER, input: true, argument: nextArgument },
           specialKeys: {
             [BACK_KEY]: { type: STATIC, blockId: backId },
             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
