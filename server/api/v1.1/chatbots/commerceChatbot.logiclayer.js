@@ -1219,9 +1219,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
       messageBlock.payload[0].buttons = [{
         type: 'web_url',
         title: 'Proceed to Checkout',
-        url: checkoutLink,
-        messenger_extensions: true,
-        webview_height_ratio: 'full'
+        url: checkoutLink
       }]
     } else {
       throw new Error()
