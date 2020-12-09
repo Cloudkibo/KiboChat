@@ -314,16 +314,25 @@ exports.handleChatBotTestMessage = (req, page, subscriber, type) => {
       if (chatbot) {
         messageBlockDataLayer.findOneMessageBlock(type === 'automated' ? { uniqueId: chatbot.startingBlockId } : { _id: chatbot.startingBlockId })
           .then(messageBlock => {
-            if (messageBlock) {
-              _sendToClientUsingSocket(chatbot)
-              senderAction(req.sender.id, 'typing_on', page.accessToken)
-              intervalForEach(messageBlock.payload, (item) => {
-                sendResponse(req.sender.id, item, subscriber, page.accessToken)
-                saveLiveChatMessage(page, subscriber, item)
-                senderAction(req.sender.id, 'typing_off', page.accessToken)
-              }, 1500)
-            }
-            saveTesterInfoForLater(page._id, subscriber.id, chatbot)
+            callApi(`companyprofile/query`, 'post', { _id: page.companyId })
+              .then(company => {
+                if (messageBlock) {
+                  _sendToClientUsingSocket(chatbot)
+                  senderAction(req.sender.id, 'typing_on', page.accessToken)
+                  intervalForEach(messageBlock.payload, (item) => {
+                    sendResponse(req.sender.id, item, subscriber, page.accessToken)
+                    if (company.saveAutomationMessages) {
+                      saveLiveChatMessage(page, subscriber, item)
+                    }
+                    senderAction(req.sender.id, 'typing_off', page.accessToken)
+                  }, 1500)
+                }
+                saveTesterInfoForLater(page._id, subscriber.id, chatbot)
+              })
+              .catch(err => {
+                const message = err || 'error in fetching company'
+                return logger.serverLog(message, `${TAG}: exports.handleChatBotTestMessage`, {}, {req, page, subscriber, type, messageBlock}, 'error')
+              })
           })
           .catch(error => {
             const message = error || 'error in fetching message block'
