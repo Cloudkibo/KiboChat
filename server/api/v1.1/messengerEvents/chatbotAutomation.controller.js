@@ -621,7 +621,7 @@ function saveTesterInfoForLater (pageId, subscriberId, chatBot) {
 
 function shouldAvoidSendingAutomatedMessage (subscriber) {
   return new Promise((resolve, reject) => {
-    /*callApi(`companyprofile/query`, 'post', { _id: subscriber.companyId })
+    callApi(`companyprofile/query`, 'post', { _id: subscriber.companyId })
       .then(company => {
         if (company.automated_options === 'MIX_CHAT' && subscriber.agent_activity_time) {
           const currentDate = new Date()
@@ -638,8 +638,7 @@ function shouldAvoidSendingAutomatedMessage (subscriber) {
       })
       .catch(err => {
         reject(err)
-      }) */
-    resolve(false)
+      })
   })
 }
 
