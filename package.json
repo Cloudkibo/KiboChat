@@ -63,7 +63,6 @@
     "needle": "^2.2.4",
     "node-bigcommerce": "^4.1.0",
     "node-cron": "^2.0.3",
-    "nodejs-currency-converter": "^1.0.2",
     "nonce": "^1.0.4",
     "open-graph": "^0.2.3",
     "open-graph-scraper": "^3.6.2",
