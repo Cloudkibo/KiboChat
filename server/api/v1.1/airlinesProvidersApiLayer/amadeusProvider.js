@@ -1,4 +1,5 @@
 const Amadeus = require('amadeus')
+const CityTimeZones = require('city-timezones')
 const util = require('./util')
 const { padWithZeros } = require('./../../../components/utility')
 
@@ -119,17 +120,31 @@ exports.fetchFlights = (depIata, arrIata, depTime, airlineCode, flightNumber, cr
           const airports = item.itineraries[0].segments.map(segment => {
             const departureAirport = util.findAirportInfoByCode(segment.departure.iataCode)
             const arrivalAirport = util.findAirportInfoByCode(segment.arrival.iataCode)
+            let departureAirportTimeZone
+            let arrivalAirportTimeZone
+            if (departureAirport) {
+              departureAirportTimeZone = CityTimeZones.findFromCityStateProvince(departureAirport['Airport name'])
+              if (departureAirportTimeZone[0]) {
+                departureAirportTimeZone = departureAirportTimeZone[0].timezone
+              }
+            }
+            if (arrivalAirport) {
+              arrivalAirportTimeZone = CityTimeZones.findFromCityStateProvince(arrivalAirport['Airport name'])
+              if (arrivalAirportTimeZone[0]) {
+                arrivalAirportTimeZone = arrivalAirportTimeZone[0].timezone
+              }
+            }
             return {
               'flight_number': segment.number,
               'departure': {
                 'airport': departureAirport,
-                'timezone': segment.departure.timezone,
+                'timezone': departureAirportTimeZone,
                 'iata': segment.departure.iataCode,
                 'scheduled': segment.departure.at
               },
               'arrival': {
                 'airport': arrivalAirport,
-                'timezone': segment.arrival.timezone,
+                'timezone': arrivalAirportTimeZone,
                 'iata': segment.arrival.iataCode,
                 'scheduled': segment.arrival.at
               }
