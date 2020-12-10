@@ -123,13 +123,13 @@ exports.fetchFlights = (depIata, arrIata, depTime, airlineCode, flightNumber, cr
             let departureAirportTimeZone
             let arrivalAirportTimeZone
             if (departureAirport) {
-              departureAirportTimeZone = CityTimeZones.findFromCityStateProvince(departureAirport['Airport name'])
+              departureAirportTimeZone = CityTimeZones.findFromCityStateProvince(departureAirport['Location served'])
               if (departureAirportTimeZone[0]) {
                 departureAirportTimeZone = departureAirportTimeZone[0].timezone
               }
             }
             if (arrivalAirport) {
-              arrivalAirportTimeZone = CityTimeZones.findFromCityStateProvince(arrivalAirport['Airport name'])
+              arrivalAirportTimeZone = CityTimeZones.findFromCityStateProvince(arrivalAirport['Location served'])
               if (arrivalAirportTimeZone[0]) {
                 arrivalAirportTimeZone = arrivalAirportTimeZone[0].timezone
               }
