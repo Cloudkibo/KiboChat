@@ -535,7 +535,7 @@ const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, argumen
       }
       messageBlock.payload[0].text += `\n*Departure Time*: ${new Date(flight.airports[0].departure.scheduled).toLocaleString('en-US', {timeZone: flight.airports[0].departure.timezone, ...dateTimeOptions})}`
       messageBlock.payload[0].text += `\n*Arrival Time*: ${new Date(flight.airports[flight.airports.length - 1].arrival.scheduled).toLocaleString('en-US', {timeZone: flight.airports[0].timezone, ...dateTimeOptions})}`
-      const priceInUSD = await currencyConverter(Number(flight.price.amount), flight.price.currency, 'USD')
+      const priceInUSD = await currencyConverter.convert(Number(flight.price.amount), flight.price.currency, 'USD')
       messageBlock.payload[0].text += `\n*Price*: ${priceInUSD.amount} USD`
       messageBlock.payload[0].menu.push({type: DYNAMIC, action: GET_FLIGHT_SCHEDULE_DETAILS, argument: {...argument, flight}})
       if (i + 1 < flights.length) {
@@ -609,7 +609,7 @@ const getFlightScheduleDetailsBlock = async (chatbot, backId, argument) => {
       }
       messageBlock.payload[0].text += `\n`
     }
-    const priceInUSD = await currencyConverter(Number(flightInfo.price.amount), flightInfo.price.currency, 'USD')
+    const priceInUSD = await currencyConverter.convert(Number(flightInfo.price.amount), flightInfo.price.currency, 'USD')
     messageBlock.payload[0].text += `\n*Price*: ${priceInUSD.amount} USD`
 
     const departureDate = new Date(airports[0].departure.scheduled).toLocaleDateString('en-CA')
