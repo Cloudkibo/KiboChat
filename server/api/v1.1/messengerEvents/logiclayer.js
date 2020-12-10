@@ -31,7 +31,39 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse, me
       }
     }
     if (body.quickReplies && body.quickReplies.length > 0) {
-      payload.message.quick_replies = body.quickReplies
+      let chatbotQuickReplies = []
+      let skipAllowed = false
+      for (let qr of body.quickReplies) {
+        if (qr.query) {
+          if (qr.query === 'email') {
+            chatbotQuickReplies.push({
+              'content_type': 'user_email'
+            })
+          }
+          if (qr.query === 'phone') {
+            chatbotQuickReplies.push({
+              'content_type': 'user_phone_number'
+            })
+          }
+          if (qr.skipAllowed && qr.skipAllowed !== '') {
+            skipAllowed = true
+          }
+        } else {
+          chatbotQuickReplies.push(qr)
+        }
+      }
+      if (skipAllowed) {
+        chatbotQuickReplies.push({
+          'content_type': 'text',
+          'title': 'Skip',
+          'payload': JSON.stringify(
+            {
+              option: 'captureEmailPhoneSkip'
+            }
+          )
+        })
+      }
+      payload.message.quick_replies = chatbotQuickReplies
     }
     payload.message = JSON.stringify(payload.message)
     return payload
@@ -408,6 +440,22 @@ function isJsonString (str) {
   return true
 }
 
+function checkCaptureUserEmailPhone (body) {
+  let isCaptureUserEmailPhone = false
+  if (body.quickReplies && body.quickReplies.length > 0) {
+    for (let qr of body.quickReplies) {
+      if (qr.query) {
+        if (qr.query === 'email' || qr.query === 'phone') {
+          isCaptureUserEmailPhone = true
+          break
+        }
+      }
+    }
+  }
+  return isCaptureUserEmailPhone
+}
+
+exports.checkCaptureUserEmailPhone = checkCaptureUserEmailPhone
 exports.prepareSendAPIPayload = prepareSendAPIPayload
 exports.prepareLiveChatPayload = prepareLiveChatPayload
 exports.isJsonString = isJsonString
