@@ -342,7 +342,7 @@ exports.changeStatus = function (req, res) {
   } else {
     updatedPayload['resolvedAt'] = new Date()
   }
-  callApi('subscribers/update', 'put', { query: { _id: req.body._id }, newPayload: { status: req.body.status }, options: {} })
+  callApi('subscribers/update', 'put', { query: { _id: req.body._id }, newPayload: updatedPayload, options: {} })
     .then(updated => {
       if (req.body.status === 'resolved') {
         deleteUnresolvedSessionFromStack(req.body._id)
@@ -555,9 +555,23 @@ exports.assignTeam = function (req, res) {
 }
 
 exports.updatePendingResponse = function (req, res) {
+  let updated = {}
+  if (req.body.pendingResponse) {
+    updated = {
+      $set: {
+        pendingResponse: req.body.pendingResponse,
+        pendingAt: new Date()
+      }
+    }
+  } else {
+    updated = {
+      $set: {pendingResponse: req.body.pendingResponse},
+      $unset: {pendingAt: 1}
+    }
+  }
   callApi('subscribers/update', 'put', {
     query: { _id: req.body.id },
-    newPayload: { pendingResponse: req.body.pendingResponse },
+    newPayload: updated,
     options: {}
   })
     .then(updated => {
