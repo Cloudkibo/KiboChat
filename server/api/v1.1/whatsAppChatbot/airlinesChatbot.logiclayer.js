@@ -524,6 +524,7 @@ const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, argumen
     }
     for (let i = 0; i < flights.length; i++) {
       const flight = flights[i]
+      console.log('flight', JSON.stringify(flight))
       const airports = flight.airports
       messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${flight.airline.name} ${flight.flight.iata}`
       if (airports.length > 1) {
