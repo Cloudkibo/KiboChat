@@ -92,13 +92,11 @@ exports.getMessageBlocks = (chatbot) => {
       {
         text: dedent(`Please select an option by sending the corresponding number for it (e.g. send '1' to select "Select airline for flight schedule"):\n
                 ${convertToEmoji(0)} Get flight schedules   
-                ${convertToEmoji(1)} Select airline for flight schedules     
-                ${convertToEmoji(2)} Get airport information`),
+                ${convertToEmoji(1)} Select airline for flight schedules`),
         componentType: 'text',
         menu: [
           { type: DYNAMIC, action: ASK_DEPARTURE_CITY },
-          { type: DYNAMIC, action: SELECT_AIRLINE },
-          { type: DYNAMIC, action: ASK_AIRPORT }
+          { type: DYNAMIC, action: SELECT_AIRLINE }
         ],
         specialKeys: {}
       }
@@ -534,7 +532,7 @@ const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, argumen
         messageBlock.payload[0].text += `\n*This is a direct flight*:`
       }
       messageBlock.payload[0].text += `\n*Departure Time*: ${new Date(flight.airports[0].departure.scheduled).toLocaleString('en-US', {timeZone: flight.airports[0].departure.timezone, ...dateTimeOptions})}`
-      messageBlock.payload[0].text += `\n*Arrival Time*: ${new Date(flight.airports[flight.airports.length - 1].arrival.scheduled).toLocaleString('en-US', {timeZone: flight.airports[0].timezone, ...dateTimeOptions})}`
+      messageBlock.payload[0].text += `\n*Arrival Time*: ${new Date(flight.airports[flight.airports.length - 1].arrival.scheduled).toLocaleString('en-US', {timeZone: flight.airports[0].arrival.timezone, ...dateTimeOptions})}`
       const priceInUSD = await currencyConverter.convert(Number(flight.price.amount), flight.price.currency, 'USD')
       messageBlock.payload[0].text += `\n*Price*: ${priceInUSD.amount} USD`
       messageBlock.payload[0].menu.push({type: DYNAMIC, action: GET_FLIGHT_SCHEDULE_DETAILS, argument: {...argument, flight}})
