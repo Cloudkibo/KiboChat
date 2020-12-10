@@ -120,7 +120,7 @@ const getAskFlightNumberBlock = (chatbot, argument, userInput) => {
       throw new Error('Please enter a valid date in the format of YYYY-MM-DD')
     } else if (new Date(userInput).toDateString() !== new Date().toDateString() && new Date(userInput) < new Date()) {
       userError = true
-      throw new Error('Date should not be be in the past')
+      throw new Error('Date should not be in the past')
     }
     let messageBlock = {
       module: {
