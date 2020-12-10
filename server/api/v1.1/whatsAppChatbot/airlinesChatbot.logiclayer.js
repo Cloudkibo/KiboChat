@@ -23,7 +23,9 @@ const TAG = 'api/v1️.1/whatsAppChatbot/airlinesChatbot.logiclayer.js'
 const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 const moment = require('moment')
 const airlinesUtil = require('./../airlinesProvidersApiLayer/util')
-const convertCurrency = require('nodejs-currency-converter')
+
+const config = require('../../../config/environment/index')
+const currencyConverter = require('currency-converter')({ CLIENTKEY: config.openExchangeRateKey })
 
 const DEFAULT_ERROR_MESSAGE = `${ERROR_INDICATOR}Something went wrong! Please try again or send "Hi" to go back home.`
 
@@ -533,8 +535,8 @@ const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, argumen
       }
       messageBlock.payload[0].text += `\n*Departure Time*: ${new Date(flight.airports[0].departure.scheduled).toLocaleString('en-US', {timeZone: flight.airports[0].departure.timezone, ...dateTimeOptions})}`
       messageBlock.payload[0].text += `\n*Arrival Time*: ${new Date(flight.airports[flight.airports.length - 1].arrival.scheduled).toLocaleString('en-US', {timeZone: flight.airports[0].timezone, ...dateTimeOptions})}`
-      const priceInUSD = await convertCurrency(Number(flight.price.amount), flight.price.currency, 'USD')
-      messageBlock.payload[0].text += `\n*Price*: ${priceInUSD} USD`
+      const priceInUSD = await currencyConverter(Number(flight.price.amount), flight.price.currency, 'USD')
+      messageBlock.payload[0].text += `\n*Price*: ${priceInUSD.amount} USD`
       messageBlock.payload[0].menu.push({type: DYNAMIC, action: GET_FLIGHT_SCHEDULE_DETAILS, argument: {...argument, flight}})
       if (i + 1 < flights.length) {
         messageBlock.payload[0].text += `\n`
@@ -607,8 +609,8 @@ const getFlightScheduleDetailsBlock = async (chatbot, backId, argument) => {
       }
       messageBlock.payload[0].text += `\n`
     }
-    const priceInUSD = await convertCurrency(Number(flightInfo.price.amount), flightInfo.price.currency, 'USD')
-    messageBlock.payload[0].text += `\n*Price*: ${priceInUSD} USD`
+    const priceInUSD = await currencyConverter(Number(flightInfo.price.amount), flightInfo.price.currency, 'USD')
+    messageBlock.payload[0].text += `\n*Price*: ${priceInUSD.amount} USD`
 
     const departureDate = new Date(airports[0].departure.scheduled).toLocaleDateString('en-CA')
     const departureCityWeather = await airlinesUtil.findWeatherInfo(argument.departureCity, departureDate)
