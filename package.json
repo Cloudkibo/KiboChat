@@ -40,6 +40,7 @@
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "csv-parser": "^1.12.1",
+    "currency-converter": "^0.1.12",
     "debug": "^2.6.8",
     "dedent-js": "^1.0.1",
     "errorhandler": "^1.5.0",
