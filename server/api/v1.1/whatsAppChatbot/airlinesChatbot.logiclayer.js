@@ -237,7 +237,6 @@ const getAirportInfoBlock = async (chatbot, backId, AirlineProvider, userInput) 
         {
           text: '',
           componentType: 'text',
-          action: { type: DYNAMIC, action: GET_AIRPORT_INFO },
           specialKeys: {
             [BACK_KEY]: { type: STATIC, blockId: backId },
             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
