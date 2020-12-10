@@ -20,11 +20,6 @@ exports.fetchAirlines = (credentials) => {
     'icao_code': 'UAL'
   },
   {
-    'airline_name': 'American Airlines',
-    'iata_code': 'AA',
-    'icao_code': 'AAL'
-  },
-  {
     'airline_name': 'Delta Air Lines',
     'iata_code': 'DL',
     'icao_code': 'DAL'
@@ -58,7 +53,7 @@ exports.fetchCityInfo = (name, credentials) => {
         resolve(payload)
       })
       .catch(err => {
-        reject(err)
+        reject(JSON.parse(err.response.body))
       })
   })
 }
@@ -92,7 +87,7 @@ exports.fetchAirportInfo = (name, credentials) => {
         resolve(payload)
       })
       .catch(err => {
-        reject(err)
+        reject(JSON.parse(err.response.body))
       })
   })
 }
@@ -177,10 +172,51 @@ exports.fetchFlights = (depIata, arrIata, depTime, airlineCode, flightNumber, cr
           payload = payload.filter(item => item.flight.number === flightNumber)
         }
         payload = payload.filter(item => item.airline && item.airline.name)
+        payload = payload.slice().sort((item1, item2) => {
+          return new Date(item1.flight_date) - new Date(item2.flight_date)
+        })
+        payload = payload.slice().sort((item1, item2) => item1.airports.length - item2.airports.length)
         resolve(payload)
       })
       .catch(err => {
-        reject(err)
+        if (err.response.statusCode === 400) {
+          const errorBody = JSON.parse(err.response.body)
+          let errorMessage = ''
+          for (let i = 0; i < errorBody.errors.length; i++) {
+            if (errorBody.errors[i].detail === 'Date/Time is in the past') {
+              errorMessage = 'Date/Time is in the past'
+              break
+            }
+          }
+          if (errorMessage) {
+            resolve([])
+          } else {
+            reject(errorBody.errors)
+          }
+        } else {
+          reject(JSON.parse(err.response.body))
+        }
+      })
+  })
+}
+
+exports.fetchFlightByNumber = (flightNumber, airlineCode, depTime, credentials) => {
+  const amadeus = initAmadeus(credentials)
+  depTime = new Date(depTime)
+  depTime = `${depTime.getFullYear()}-${(depTime.getMonth() + 1)}-${padWithZeros(depTime.getDate(), 2)}`
+  let queryPayload = {
+    carrierCode: airlineCode,
+    flightNumber: flightNumber,
+    scheduledDepartureDate: depTime
+  }
+  return new Promise(function (resolve, reject) {
+    amadeus.schedule.flights.get(queryPayload)
+      .then(result => {
+        let payload = result.data
+        resolve(payload)
+      })
+      .catch(err => {
+        reject(JSON.parse(err.response.body))
       })
   })
 }
