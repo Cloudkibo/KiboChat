@@ -212,6 +212,7 @@ exports.enable = function (req, res) {
                   needle('get', `https://graph.facebook.com/v6.0/me?access_token=${page.accessToken}`)
                     .then(response => {
                       if (response.body.error) {
+                        console.log('response.body.error', response.body.error)
                         const message = response.body.error || 'Failed to fetch company user'
                         logger.serverLog(message, `${TAG}: exports.enable`, {}, {user: req.user}, 'error')
                         // sendOpAlert(response.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
