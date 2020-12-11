@@ -25,6 +25,9 @@ router.get('/callback',
 router.post('/app-uninstall',
   controller.handleAppUninstall) // this id will be userid
 
+router.post('/complete-checkout',
+  controller.handleCompleteCheckout)
+
 router.get('/fetchStore',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer(),
