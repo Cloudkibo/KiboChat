@@ -1,12 +1,35 @@
 const ogs = require('open-graph-scraper')
+const config = require('../../config/environment/index')
 const logger = require('../../components/logger')
 const TAG = 'api/global/utility.js'
 
 const openGraphScrapper = function (url) {
-  let options = {url}
   return new Promise((resolve, reject) => {
+    let redirectUrl = ''
+    try {
+      const urlData = new URL(url)
+      if (config.domain.includes(urlData.host)) {
+        if (urlData.search) {
+          const query = 'url='
+          let queryIndex = urlData.search.indexOf(query.length)
+          if (queryIndex > -1) {
+            queryIndex += query.length
+            redirectUrl = urlData.search.substring(queryIndex)
+          }
+        } else {
+          redirectUrl = 'https://kibopush.com'
+        }
+      }
+    } catch (err) {
+      const message = err || 'invalid url'
+      logger.serverLog(message, `${TAG}: openGraphScrapper`, {}, {url}, 'error')
+      reject(err)
+    }
+    let options = {url: redirectUrl || url}
     ogs(options, (error, results) => {
       if (error) {
+        const message = error || 'unable fetch url open graph info'
+        logger.serverLog(message, `${TAG}: openGraphScrapper`, {}, {url}, 'error')
         reject(results.error)
       } else {
         resolve(results.data)
@@ -35,3 +58,4 @@ exports.openGraphScrapper = openGraphScrapper
 exports.getTimeDiffInMinutes = getTimeDiffInMinutes
 exports.isEmail = isEmail
 exports.isPhoneNumber = isPhoneNumber
+g
