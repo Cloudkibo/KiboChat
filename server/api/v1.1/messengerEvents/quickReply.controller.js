@@ -55,7 +55,8 @@ exports.index = function (req, res) {
                 }
               } else {
                 if (subscriber.awaitingQuickReplyPayload) {
-                  captureUserEmailAndPhone(messengerPayload, subscriber, page)
+                  console.log('captureUserEmailAndPhone req.user', req.user)
+                  captureUserEmailAndPhone(messengerPayload, subscriber, page, req)
                 }
               }
               unSetAwaitingUserInfoPayload(subscriber)
