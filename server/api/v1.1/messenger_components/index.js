@@ -15,4 +15,14 @@ router.get('/',
   auth.isSuperUserActingAsCustomer('write'),
   controller.index)
 
+router.post('/create',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
+  controller.create)
+
+router.post('/edit',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
+  controller.edit)
+
 module.exports = router
