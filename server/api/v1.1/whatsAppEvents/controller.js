@@ -501,23 +501,7 @@ async function temporarySuperBotTestHandling (data, contact, company, number, re
     !(contact.lastMessageSentByBot &&
       contact.lastMessageSentByBot.module.id === 'sojharo-s-chatbot-custom-id'))) {
     try {
-      let chatbots = await whatsAppChatbotDataLayer.fetchAllWhatsAppChatbots({ companyId: company._id, published: true })
-      chatbots = chatbots.map(chatbot => {
-        let title = ''
-        if (chatbot.vertical === 'airlines') {
-          title = 'airlines'
-        } else if (chatbot.vertical === 'commerce') {
-          title = chatbot.storeType
-        }
-        return {botId: chatbot._id, title, built: 'automated', ...chatbot}
-      })
-
-      let sqlChatbots = await configureChatbotDatalayer.fetchChatbotRecords({platform: 'whatsApp', companyId: company._id, published: true})
-      sqlChatbots = sqlChatbots.map(chatbot => {
-        return {botId: chatbot.chatbotId, built: 'custom', ...chatbot}
-      })
-
-      const allChatbots = [...sqlChatbots, ...chatbots]
+      const allChatbots = getAllChatbots(company)
 
       let nextMessageBlock = whatsAppChatbotLogicLayer.getChatbotsListMessageBlock(allChatbots)
       if (nextMessageBlock) {
@@ -534,20 +518,58 @@ async function temporarySuperBotTestHandling (data, contact, company, number, re
 
     if (!isNaN(menuInput)) {
       const selectedBot = lastMessageSentByBot.menu[menuInput]
-      const nextMessageBlock = whatsAppChatbotLogicLayer.getChatbotSelectedMessageBlock(selectedBot.title)
-
-      if (nextMessageBlock) {
-        sendWhatsAppMessage(nextMessageBlock, data, number, req)
-        updateWhatsAppContact({ _id: contact._id },
-          { lastMessageSentByBot: nextMessageBlock,
-            activeChatbotId: selectedBot.botId,
-            activeChatbotBuilt: selectedBot.built
-          }, null, {})
+      if (selectedBot) {
+        const nextMessageBlock = whatsAppChatbotLogicLayer.getChatbotSelectedMessageBlock(selectedBot.title)
+        if (nextMessageBlock) {
+          sendWhatsAppMessage(nextMessageBlock, data, number, req)
+          updateWhatsAppContact({ _id: contact._id },
+            { lastMessageSentByBot: nextMessageBlock,
+              activeChatbotId: selectedBot.botId,
+              activeChatbotBuilt: selectedBot.built
+            }, null, {})
+        }
+      } else {
+        sendInvalidSelectChatbotsResponse(data, contact, company, number, req)
       }
+    } else {
+      sendInvalidSelectChatbotsResponse(data, contact, company, number, req)
     }
   } else {
     temporarySuperBotResponseHandling(data, contact, company, number, req, isNewContact)
   }
+}
+
+function sendInvalidSelectChatbotsResponse (data, contact, company, number, req) {
+  const allChatbots = getAllChatbots(company)
+
+  let nextMessageBlock = whatsAppChatbotLogicLayer.getChatbotsListMessageBlock(allChatbots)
+
+  if (nextMessageBlock && allChatbots.length > 0) {
+    nextMessageBlock.payload[0].text = `Please enter a number between 0 and ${allChatbots.length - 1}\n\n${nextMessageBlock.payload[0].text}`
+    sendWhatsAppMessage(nextMessageBlock, data, number, req)
+    updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
+  }
+}
+
+async function getAllChatbots (company) {
+  let chatbots = await whatsAppChatbotDataLayer.fetchAllWhatsAppChatbots({ companyId: company._id, published: true })
+  chatbots = chatbots.map(chatbot => {
+    let title = ''
+    if (chatbot.vertical === 'airlines') {
+      title = 'airlines'
+    } else if (chatbot.vertical === 'commerce') {
+      title = chatbot.storeType
+    }
+    return {botId: chatbot._id, title, built: 'automated', ...chatbot}
+  })
+
+  let sqlChatbots = await configureChatbotDatalayer.fetchChatbotRecords({platform: 'whatsApp', companyId: company._id, published: true})
+  sqlChatbots = sqlChatbots.map(chatbot => {
+    return {botId: chatbot.chatbotId, built: 'custom', ...chatbot}
+  })
+
+  const allChatbots = [...sqlChatbots, ...chatbots]
+  return allChatbots
 }
 
 // NOTE: This is just a temporary function to give capability of super chatbot
