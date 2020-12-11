@@ -58,4 +58,3 @@ exports.openGraphScrapper = openGraphScrapper
 exports.getTimeDiffInMinutes = getTimeDiffInMinutes
 exports.isEmail = isEmail
 exports.isPhoneNumber = isPhoneNumber
-g
