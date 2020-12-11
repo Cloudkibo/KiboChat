@@ -1,13 +1,7 @@
 const logger = require('../../components/logger')
 const TAG = 'scripts/slaDashboard.js'
 const { callApi } = require('../../api/v1.1/utility')
-const {
-  _getUniquePageIds,
-  _getSessionsCount,
-  _getMessagesCount,
-  _getAverageResolveTime,
-  _getResponsesData
-} = require('./utilities')
+const { _getResponsesData } = require('./utilities')
 
 exports.pushDayWiseRecordsToSDAPage = function (last24) {
   const newSessionsCriteria = [
@@ -65,10 +59,10 @@ exports.pushDayWiseRecordsToSDAPage = function (last24) {
       const messagesSent = results[4]
       const messagesReceived = results[5]
       const avgResolvedTime = results[6]
-      const pageData = await _getUniquePageIds(newSessions, openSessions, closedSessions, pendingSessions, messagesSent, messagesReceived)
+      const pageData = await _getUniquePageIds([...newSessions, ...openSessions, ...closedSessions, ...pendingSessions, ...messagesSent, ...messagesReceived])
       let SDAPageWiseData = []
       for (let i = 0; i < pageData.length; i++) {
-        const responsesData = await _getResponsesData(pageData[i].pageId)
+        const responsesData = await _getResponsesData(pageData[i].pageId, last24)
         SDAPageWiseData.push({
           companyId: pageData[i].companyId,
           pageId: pageData[i].pageId,
@@ -91,4 +85,38 @@ exports.pushDayWiseRecordsToSDAPage = function (last24) {
       const message = err || 'Error at finding SDAPageWise data'
       logger.serverLog(message, `${TAG}: exports.pushDayWiseRecordsToSDAPage`, {}, {last24}, 'error')
     })
+}
+
+const _getUniquePageIds = (array) => {
+  let pageData = array.filter((p, i, a) => a.findIndex((v) => v.pageId === p.pageId) === i)
+  return pageData
+}
+
+const _getSessionsCount = (pageId, newSessions, openSessions, closedSessions, pendingSessions) => {
+  const criteria = (s) => s._id === pageId
+  newSessions = newSessions.find(criteria)
+  pendingSessions = pendingSessions.find(criteria)
+  openSessions = openSessions.find(criteria)
+  closedSessions = closedSessions.find(criteria)
+  return {
+    new: newSessions ? newSessions.count : 0,
+    pending: pendingSessions ? pendingSessions.count : 0,
+    open: openSessions ? openSessions.count : 0,
+    resolved: closedSessions ? closedSessions.count : 0
+  }
+}
+
+const _getMessagesCount = (pageId, messagesSent, messagesReceived) => {
+  messagesSent = messagesSent.find((m) => m._id === pageId)
+  messagesReceived = messagesReceived.find((m) => m._id === pageId)
+  return {
+    sent: messagesSent ? messagesSent.count : 0,
+    received: messagesReceived ? messagesReceived.count : 0
+  }
+}
+
+const _getAverageResolveTime = (pageId, avgResolvedTime) => {
+  avgResolvedTime = avgResolvedTime.find((a) => a._id === pageId)
+  const average = avgResolvedTime ? avgResolvedTime.average : undefined
+  return average
 }

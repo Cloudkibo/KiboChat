@@ -2,45 +2,6 @@ const logger = require('../../components/logger')
 const TAG = 'scripts/slaDashboard.js'
 const { callApi } = require('../../api/v1.1/utility')
 
-exports._getUniquePageIds = (newSessions, openSessions, closedSessions, pendingSessions, messagesSent, messagesReceived) => {
-  let pageData = newSessions.map((p) => { return {pageId: p._id, companyId: p.companyId} })
-  pageData = [...pageData, ...openSessions.map((p) => { return {pageId: p._id, companyId: p.companyId} })]
-  pageData = [...pageData, ...closedSessions.map((p) => { return {pageId: p._id, companyId: p.companyId} })]
-  pageData = [...pageData, ...pendingSessions.map((p) => { return {pageId: p._id, companyId: p.companyId} })]
-  pageData = [...pageData, ...messagesSent.map((p) => { return {pageId: p._id, companyId: p.companyId} })]
-  pageData = [...pageData, ...messagesReceived.map((p) => { return {pageId: p._id, companyId: p.companyId} })]
-  pageData = pageData.filter((p, i, a) => a.findIndex((v) => v.pageId === p.pageId) === i)
-  return pageData
-}
-
-exports._getSessionsCount = (pageId, newSessions, openSessions, closedSessions, pendingSessions) => {
-  newSessions = newSessions.find((s) => s._id === pageId)
-  pendingSessions = pendingSessions.find((s) => s._id === pageId)
-  openSessions = openSessions.find((s) => s._id === pageId)
-  closedSessions = closedSessions.find((s) => s._id === pageId)
-  return {
-    new: newSessions ? newSessions.count : 0,
-    pending: pendingSessions ? pendingSessions.count : 0,
-    open: openSessions ? openSessions.count : 0,
-    resolved: closedSessions ? closedSessions.count : 0
-  }
-}
-
-exports._getMessagesCount = (pageId, messagesSent, messagesReceived) => {
-  messagesSent = messagesSent.find((m) => m._id === pageId)
-  messagesReceived = messagesReceived.find((m) => m._id === pageId)
-  return {
-    sent: messagesSent ? messagesSent.count : 0,
-    received: messagesReceived ? messagesReceived.count : 0
-  }
-}
-
-exports._getAverageResolveTime = (pageId, avgResolvedTime) => {
-  avgResolvedTime = avgResolvedTime.find((a) => a._id === pageId)
-  const average = avgResolvedTime ? avgResolvedTime.average : undefined
-  return average
-}
-
 exports._getResponsesData = (pageId, last24) => {
   const criteria = [
     {$match: {datetime: {$gt: last24}, $or: [{sender_id: pageId}, {recipient_id: pageId}]}},
