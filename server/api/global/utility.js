@@ -11,7 +11,7 @@ const openGraphScrapper = function (url) {
       if (config.domain.includes(urlData.host)) {
         if (urlData.search) {
           const query = 'url='
-          let queryIndex = urlData.search.indexOf(query.length)
+          let queryIndex = urlData.search.indexOf(query)
           if (queryIndex > -1) {
             queryIndex += query.length
             redirectUrl = urlData.search.substring(queryIndex)
