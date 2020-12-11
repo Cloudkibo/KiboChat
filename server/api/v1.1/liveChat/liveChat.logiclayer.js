@@ -78,7 +78,7 @@ exports.prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) =
         '{{user_last_name}}', lname)
     }
     let message = {
-      'text': text,  
+      'text': text,
       'metadata': 'SENT_FROM_KIBOPUSH'
     }
     if (body.quickReplies) {
