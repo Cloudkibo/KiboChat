@@ -501,7 +501,7 @@ async function temporarySuperBotTestHandling (data, contact, company, number, re
     !(contact.lastMessageSentByBot &&
       contact.lastMessageSentByBot.module.id === 'sojharo-s-chatbot-custom-id'))) {
     try {
-      const allChatbots = getAllChatbots(company)
+      const allChatbots = await getAllChatbots(company)
 
       let nextMessageBlock = whatsAppChatbotLogicLayer.getChatbotsListMessageBlock(allChatbots)
       if (nextMessageBlock) {
@@ -539,8 +539,8 @@ async function temporarySuperBotTestHandling (data, contact, company, number, re
   }
 }
 
-function sendInvalidSelectChatbotsResponse (data, contact, company, number, req) {
-  const allChatbots = getAllChatbots(company)
+async function sendInvalidSelectChatbotsResponse (data, contact, company, number, req) {
+  const allChatbots = await getAllChatbots(company)
 
   let nextMessageBlock = whatsAppChatbotLogicLayer.getChatbotsListMessageBlock(allChatbots)
 
