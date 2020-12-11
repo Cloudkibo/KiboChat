@@ -66,8 +66,6 @@ function _saveUserInfoInCustomField (subscriber, awaitingUserInfo, event, compan
           'subscriberId': subscriber._id,
           'value': event.message.text
         }
-        console.log('companyId', companyId)
-        console.log('customFieldSubscriber', customFieldSubscriber)
         require('./../../../config/socketio').sendMessageToClient({
           room_id: companyId,
           body: {
@@ -79,7 +77,6 @@ function _saveUserInfoInCustomField (subscriber, awaitingUserInfo, event, compan
         })
         utility.callApi('custom_field_subscribers', 'post', customFieldSubscriber)
           .then(customFieldUpdated => {
-            console.log('updated')
             logger.serverLog('Custom field updated successfully', `${TAG}: exports.captureUserEmailAndPhone`, {}, {awaitingUserInfo, event, subscriber}, 'debug')
           })
           .catch(error => {
