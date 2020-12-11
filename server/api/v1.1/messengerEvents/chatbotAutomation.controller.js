@@ -683,7 +683,6 @@ const isTriggerMessage = (event, page) => {
       .then(chatbot => {
         if (chatbot) {
           let userText = event.message && event.message.text ? event.message.text.toLowerCase().trim() : ''
-          console.log('userText', userText)
           if (userText !== '') {
             messageBlockDataLayer.findOneMessageBlock({
               'module.type': 'chatbot',
