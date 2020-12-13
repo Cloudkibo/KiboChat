@@ -10,6 +10,7 @@ const logicLayer = require('./logiclayer')
 const { captureUserEmailAndPhone } = require('./capturePhoneEmail.logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
 const { record } = require('../../global/messageStatistics')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 const { sendNotifications } = require('../../global/sendNotification')
 const { sendWebhook } = require('../../global/sendWebhook')
 
@@ -106,7 +107,7 @@ exports.index = function (req, res) {
 }
 
 function saveLiveChat (page, subscriber, event, chatPayload) {
-  // record('messengerChatInComing')
+  record('messengerChatInComing')
   if (subscriber && !event.message.is_echo) {
     botController.respondUsingBot(page, subscriber, event.message.text)
   }
@@ -131,6 +132,7 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
   ) {
     LiveChatDataLayer.createFbMessageObject(chatPayload)
       .then(chat => {
+        updateCompanyUsage(page.companyId, 'chat_messages', 1)
         if (!event.message.is_echo) {
           setTimeout(() => {
             utility.callApi('subscribers/query', 'post', { _id: subscriber._id })
