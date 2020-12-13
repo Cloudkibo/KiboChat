@@ -443,7 +443,7 @@ exports.addOrUpdateProductToCart = (customerId, lineItems, cartToken, credential
 // ]
 exports.createPermalinkForCart = (customer, lineItems, credentials) => {
   let shopUrl = credentials.shopUrl
-  let permaLink = `http://${shopUrl}/cart/`
+  let permaLink = `https://${shopUrl}/cart/`
   lineItems.forEach(item => {
     permaLink += `${item.variant_id}:${item.quantity},`
   })

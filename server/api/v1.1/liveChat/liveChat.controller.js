@@ -200,6 +200,9 @@ exports.create = function (req, res) {
                     let message = (res.body.error && res.body.error.message) || 'Error while sending message in live chat'
                     logger.serverLog(message, TAG, req.body, {messageData: messageData, subscriber: subscriber}, severity)
                   } else {
+                    if (req.body.payload && req.body.payload.quickReplies) {
+                      logicLayer.setSubscriberPayloadInfo(subscriber, req.body.payload)
+                    }
                     callback(null, subscriber)
                   }
                 })

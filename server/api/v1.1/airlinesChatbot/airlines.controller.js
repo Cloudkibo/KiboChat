@@ -24,10 +24,18 @@ exports.fetchChatbot = (req, res) => {
 
 exports.testRoute = async (req, res) => {
   try {
-    const aviation = new AirlinesProviders(airlinesConstants.aviation, {
-      access_key: config.aviationKey
+    // const aviation = new AirlinesProviders(airlinesConstants.aviation, {
+    //   access_key: config.aviationKey
+    // })
+    // const result = await aviation.fetchFlightByNumber('pa204')
+    const amadeus = new AirlinesProviders(airlinesConstants.amadeus, {
+      clientId: config.amadeus.clientId,
+      clientSecret: config.amadeus.clientSecret
     })
-    const result = await aviation.fetchFlightByNumber('pa204')
+    // const result = await amadeus.fetchFlights('NYC', 'SEA', '2020-12-29', 'UA')
+    const result = await amadeus.fetchFlightByNumber('1790', 'UA', '2020-12-29')
+    // const result = await amadeus.fetchAirportInfo('Karachi')
+    // const result = await require('./../airlinesProvidersApiLayer/util').findWeatherInfo('Karachi', '2020-12-16')
     sendSuccessResponse(res, 200, result)
   } catch (err) {
     sendErrorResponse(res, 500, `Failed to test aviation api endpoint ${JSON.stringify(err)}`)

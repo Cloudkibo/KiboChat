@@ -41,32 +41,40 @@ exports.attachment = function (req, res) {
     if (req.body.isYoutubePlayable) {
       needle('post', `${config.accountsDomain}/downloadYouTubeVideo`, req.body)
         .then(data => {
+          console.log('data', data.body)
           data = data.body
-          if (data.payload && data.payload === 'ERR_LIMIT_REACHED') {
-            fetchMetaData(req, res)
+          if (data.status !== 'failed') {
+            if (data.payload && data.payload === 'ERR_LIMIT_REACHED') {
+              fetchMetaData(req, res)
+            } else {
+              console.log('data.payload.fileurl', data.payload.fileurl)
+              let payload = data.payload.fileurl
+              payload.pages = [req.body.pageId]
+              payload.deleteLater = true
+              payload.componentType = 'video'
+              needle('post', `${config.accountsDomain}/uploadTemplate`, payload)
+                .then(dataFinal => {
+                  if (dataFinal.body.status === 'failed') {
+                    fetchMetaData(req, res)
+                  } else {
+                    return sendSuccessResponse(res, 200, dataFinal.body.payload, 'Fetched youtube video')
+                  }
+                })
+                .catch(error => {
+                  const message = error || 'Failed to upload youtube video to facebook.'
+                  logger.serverLog(message, `${TAG}: exports.attachment`, req.body, {user: req.user}, 'error')
+                  return sendErrorResponse(res, 500, error.body, 'Failed to upload youtube video to facebook. Check with admin.')
+                })
+            }
           } else {
-            let payload = data.payload.fileurl
-            payload.pages = [req.body.pageId]
-            payload.deleteLater = true
-            payload.componentType = 'video'
-            needle('post', `${config.accountsDomain}/uploadTemplate`, payload)
-              .then(dataFinal => {
-                if (dataFinal.body.status === 'failed') {
-                  fetchMetaData(req, res)
-                } else {
-                  return sendSuccessResponse(res, 200, dataFinal.body.payload, 'Fetched youtube video')
-                }
-              })
-              .catch(error => {
-                const message = error || 'Failed to upload youtube video to facebook.'
-                logger.serverLog(message, `${TAG}: exports.attachment`, req.body, {user: req.user}, 'error')
-                return sendErrorResponse(res, 500, error.body, 'Failed to upload youtube video to facebook. Check with admin.')
-              })
+            return sendErrorResponse(res, 500, data, 'Failed to work on the attachment. Please contact admin.')
           }
         })
         .catch(error => {
           const message = error || 'Failed to work on the attachment'
-          logger.serverLog(message, `${TAG}: exports.attachment`, req.body, {user: req.user}, 'error')
+          if (message !== 'Unable to process video link. Please try again.') {
+            logger.serverLog(message, `${TAG}: exports.attachment`, req.body, {user: req.user}, 'error')
+          }
           return sendErrorResponse(res, 500, error.body, 'Failed to work on the attachment. Please contact admin.')
         })
     } else {
