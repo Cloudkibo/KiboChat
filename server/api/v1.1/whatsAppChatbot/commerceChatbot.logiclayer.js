@@ -1559,7 +1559,10 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
         logger.serverLog(message, `${TAG}: exports.getNextMessageBlock`, chatbot, {}, 'error')
       }
       if (chatbot.triggers.includes(input) || moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15) {
-        return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
+        // for CloudKibo company, it will return the select chatbots message block
+        if (chatbot.companyId !== '5a89ecdaf6b0460c552bf7fe') {
+          return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
+        }
       } else {
         return invalidInput(chatbot, contact.lastMessageSentByBot, `${ERROR_INDICATOR}You entered an invalid response.`)
       }
