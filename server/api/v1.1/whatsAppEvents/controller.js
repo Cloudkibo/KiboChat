@@ -574,7 +574,6 @@ async function getAllChatbots (company) {
   const allChatbots = [...sqlChatbots, ...chatbots]
   return allChatbots
 }
-exports.getAllChatbots = getAllChatbots
 
 // NOTE: This is just a temporary function to give capability of super chatbot
 // to adil which will activate selected chatbots for demo purposes.
