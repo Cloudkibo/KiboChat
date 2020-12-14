@@ -7,6 +7,7 @@ const whatsAppMapper = require('../../../whatsAppMapper/whatsAppMapper')
 const sessionLogicLayer = require('../whatsAppSessions/whatsAppSessions.logiclayer')
 const whatsAppChatbotDataLayer = require('../whatsAppChatbot/whatsAppChatbot.datalayer')
 const whatsAppChatbotLogicLayer = require('../whatsAppChatbot/whatsAppChatbot.logiclayer')
+const { ERROR_INDICATOR } = require('../whatsAppChatbot/constants')
 const commerceChatbotLogicLayer = require('../whatsAppChatbot/commerceChatbot.logiclayer')
 const airlinesChatbotLogicLayer = require('../whatsAppChatbot/airlinesChatbot.logiclayer')
 const shopifyDataLayer = require('../shopify/shopify.datalayer')
@@ -500,8 +501,10 @@ function updateChatInDB (match, updated, dataToSend) {
 // This code will be removed in future there it may contain some repetitive code from
 // above - Sojharo
 async function temporarySuperBotTestHandling (data, contact, company, number, req, isNewContact) {
-  if (data.messageData.text.toLowerCase() === 'select' ||
-  (!contact.activeChatbotId &&
+  if (
+    (data.messageData.text.toLowerCase() === 'select') ||
+    (data.messageData.text.includes(ERROR_INDICATOR) && moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15) ||
+    (!contact.activeChatbotId &&
     !(contact.lastMessageSentByBot &&
       contact.lastMessageSentByBot.module.id === 'sojharo-s-chatbot-custom-id'))) {
     try {
