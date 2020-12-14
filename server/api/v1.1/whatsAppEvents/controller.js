@@ -499,7 +499,6 @@ function updateChatInDB (match, updated, dataToSend) {
 async function temporarySuperBotTestHandling (data, contact, company, number, req, isNewContact) {
   if (
     (data.messageData.text.toLowerCase() === 'select') ||
-    (data.messageData.text.includes(ERROR_INDICATOR) && moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15) ||
     (!contact.activeChatbotId &&
     !(contact.lastMessageSentByBot &&
       contact.lastMessageSentByBot.module.id === 'sojharo-s-chatbot-custom-id'))) {
@@ -510,6 +509,11 @@ async function temporarySuperBotTestHandling (data, contact, company, number, re
       if (nextMessageBlock) {
         sendWhatsAppMessage(nextMessageBlock, data, number, req)
         updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
+        if (company.saveAutomationMessages) {
+          for (let i = 0; i < nextMessageBlock.payload.length; i++) {
+            storeChat(company.whatsApp.businessNumber, number, contact, nextMessageBlock.payload[i], 'convos')
+          }
+        }
       }
     } catch (err) {
       const message = err || 'Error in async await calls above'
@@ -551,6 +555,11 @@ async function sendInvalidSelectChatbotsResponse (data, contact, company, number
     nextMessageBlock.payload[0].text = `Please enter a number between 0 and ${allChatbots.length - 1}\n\n${nextMessageBlock.payload[0].text}`
     sendWhatsAppMessage(nextMessageBlock, data, number, req)
     updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
+    if (company.saveAutomationMessages) {
+      for (let i = 0; i < nextMessageBlock.payload.length; i++) {
+        storeChat(company.whatsApp.businessNumber, number, contact, nextMessageBlock.payload[i], 'convos')
+      }
+    }
   }
 }
 
@@ -616,6 +625,20 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
             nextMessageBlock = await airlinesChatbotLogicLayer.getNextMessageBlock(chatbot, airlinesProvider, contact, data.messageData.text)
           }
           if (nextMessageBlock) {
+            if (nextMessageBlock.payload[0].text.includes(ERROR_INDICATOR) && moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15) {
+              const allChatbots = await getAllChatbots(company)
+              nextMessageBlock = whatsAppChatbotLogicLayer.getChatbotsListMessageBlock(allChatbots)
+              if (nextMessageBlock) {
+                sendWhatsAppMessage(nextMessageBlock, data, number, req)
+                updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
+                if (company.saveAutomationMessages) {
+                  for (let i = 0; i < nextMessageBlock.payload.length; i++) {
+                    storeChat(company.whatsApp.businessNumber, number, contact, nextMessageBlock.payload[i], 'convos')
+                  }
+                }
+                return
+              }
+            }
             for (let messagePayload of nextMessageBlock.payload) {
               let chatbotResponse = {
                 whatsApp: {
