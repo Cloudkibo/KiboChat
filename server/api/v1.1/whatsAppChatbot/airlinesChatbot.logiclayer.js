@@ -91,12 +91,12 @@ exports.getMessageBlocks = (chatbot) => {
     payload: [
       {
         text: dedent(`Please select an option by sending the corresponding number for it (e.g. send '1' to select "Select airline for flight schedule"):\n
-                ${convertToEmoji(0)} Get flight schedules   
-                ${convertToEmoji(1)} Select airline for flight schedules`),
+                ${convertToEmoji(0)} Get flight status   
+                ${convertToEmoji(1)} Get flight schedules`),
         componentType: 'text',
         menu: [
-          { type: DYNAMIC, action: ASK_DEPARTURE_CITY },
-          { type: DYNAMIC, action: SELECT_AIRLINE }
+          { type: DYNAMIC, action: SELECT_AIRLINE, argument: {purpose: GET_FLIGHT_STATUS} },
+          { type: DYNAMIC, action: SELECT_AIRLINE, argument: {purpose: GET_FLIGHT_SCHEDULES} }
         ],
         specialKeys: {}
       }
@@ -112,7 +112,7 @@ exports.getMessageBlocks = (chatbot) => {
   return messageBlocks
 }
 
-const getAskFlightNumberBlock = (chatbot, argument, userInput) => {
+const getAskFlightNumberBlock = (chatbot, backId, argument, userInput) => {
   let userError = false
   try {
     if (new Date(userInput).toString() === 'Invalid Date') {
@@ -133,15 +133,18 @@ const getAskFlightNumberBlock = (chatbot, argument, userInput) => {
         {
           text: `Please enter the flight number or send 'S' to skip`,
           componentType: 'text',
-          action: { type: DYNAMIC, action: GET_FLIGHT_SCHEDULES, input: true, argument: {...argument, departureDate: userInput} },
           specialKeys: {
-            's': { type: DYNAMIC, action: GET_FLIGHT_SCHEDULES, argument: {...argument, departureDate: userInput} }
+            's': { type: DYNAMIC, action: GET_FLIGHT_SCHEDULES, argument: {...argument, departureDate: userInput} },
+            [BACK_KEY]: { type: STATIC, blockId: backId },
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
           }
         }
       ],
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
+    messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
     return messageBlock
   } catch (err) {
     if (!userError) {
@@ -156,8 +159,9 @@ const getAskFlightNumberBlock = (chatbot, argument, userInput) => {
   }
 }
 
-const getFlightStatusBlock = async (chatbot, backId, AirlineProvider, userInput) => {
+const getFlightStatusBlock = async (chatbot, backId, AirlineProvider, argument, userInput) => {
   try {
+    const flightInfo = argument.flight
     let messageBlock = {
       module: {
         id: chatbot._id,
@@ -167,7 +171,7 @@ const getFlightStatusBlock = async (chatbot, backId, AirlineProvider, userInput)
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: '',
+          text: ``,
           componentType: 'text',
           specialKeys: {
             [BACK_KEY]: { type: STATIC, blockId: backId },
@@ -178,23 +182,53 @@ const getFlightStatusBlock = async (chatbot, backId, AirlineProvider, userInput)
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    let flightInfo = await AirlineProvider.fetchFlightByNumber(userInput)
-    flightInfo = flightInfo[0]
-    if (flightInfo) {
+    const flightStatus = await AirlineProvider.fetchFlightByNumber(flightInfo.flight.iata)
+    if (flightStatus) {
       const airports = flightInfo.airports
-      messageBlock.payload[0].text += `*Airline*: ${flightInfo.airline.name}`
-      messageBlock.payload[0].text += `\n*Flight Number*: ${flightInfo.flight.iata}`
-      messageBlock.payload[0].text += `\n*Flight Status*: ${flightInfo.flight_status}`
-      messageBlock.payload[0].text += `\n*Departure Time*: ${new Date(airports[0].departure.scheduled).toLocaleString('en-US', {timeZone: airports[0].departure.timezone, ...dateTimeOptions})}`
-      messageBlock.payload[0].text += `\n*Arrival Time*: ${new Date(airports[airports.length - 1].arrival.scheduled).toLocaleString('en-US', {timeZone: airports[airports.length - 1].arrival.timezone, ...dateTimeOptions})}`
+      messageBlock.payload[0].text += `Here is flight status for *${flightInfo.airline.name} ${flightInfo.flight.iata}*:\n`
+
+      messageBlock.payload[0].text += `\n*Scheduled Departure Time*: ${new Date(airports[0].departure.scheduled).toLocaleString('en-US', {timeZone: airports[0].departure.timezone, ...dateTimeOptions})}`
+      let departureDelay
+      if (flightStatus.flightPoints[0] && flightStatus.flightPoints[0].departure.timings[0] && flightStatus.flightPoints[0].departure.timings[0].delays) {
+        const delays = flightStatus.flightPoints[0].departure.timings[0].delays
+        if (delays[0] && delays[0].duration) {
+          departureDelay = moment.duration(delays[0].duration)
+          for (let i = 1; i < delays.length; i++) {
+            departureDelay = departureDelay.add(delays[i].duration.toString())
+          }
+        }
+      }
+      messageBlock.payload[0].text += `\n*Expected Departure Delay*: ${departureDelay ? departureDelay.locale('en').humanize() : 'No delay'}`
+      if (departureDelay) {
+        const expectedDepartureDate = moment(airports[0].departure.scheduled).add(departureDelay.toString()).toDate()
+        messageBlock.payload[0].text += `\n*Expected Departure Time*: ${new Date(expectedDepartureDate).toLocaleString('en-US', {timeZone: airports[0].departure.timezone, ...dateTimeOptions})}`
+      }
+      messageBlock.payload[0].text += `\n`
+
+      messageBlock.payload[0].text += `\n*Scheduled Arrival Time*: ${new Date(airports[0].arrival.scheduled).toLocaleString('en-US', {timeZone: airports[0].arrival.timezone, ...dateTimeOptions})}`
+      let arrivalDelay
+      if (flightStatus.flightPoints[0] && flightStatus.flightPoints[0].arrival.timings[0] && flightStatus.flightPoints[0].arrival.timings[0].delays) {
+        const delays = flightStatus.flightPoints[0].arrival.timings[0].delays
+        if (delays[0] && delays[0].duration) {
+          arrivalDelay = moment.duration(delays[0].duration)
+          for (let i = 1; i < delays.length; i++) {
+            arrivalDelay = arrivalDelay.add(delays[i].duration.toString())
+          }
+        }
+      }
+      messageBlock.payload[0].text += `\n*Expected Arrival Delay*: ${arrivalDelay ? arrivalDelay.locale('en').humanize() : 'No delay'}`
+      if (arrivalDelay) {
+        const expectedArrivalDate = moment(airports[airports.length - 1].arrival.scheduled).add(arrivalDelay.toString()).toDate()
+        messageBlock.payload[0].text += `\n*Expected Arrival Time*: ${new Date(expectedArrivalDate).toLocaleString('en-US', {timeZone: airports[airports.length - 1].arrival.timezone, ...dateTimeOptions})}`
+      }
+      messageBlock.payload[0].text += `\n`
+
       messageBlock.payload[0].text += `\n*Departure Airport*: ${airports[0].departure.airport}`
       messageBlock.payload[0].text += `\n*Departure Airport Location*: https://www.google.com/maps/search/?api=1&query=${encodeURI(airports[0].departure.airport)}`
-      messageBlock.payload[0].text += `\n*Arrival Airport*: ${airports[airports.length - 1].arrival.airport}`
-      messageBlock.payload[0].text += `\n*Arrival Airport Location*: https://www.google.com/maps/search/?api=1&query=${encodeURI(airports[airports.length - 1].airport)}`
+      messageBlock.payload[0].text += `\n*Arrival Airport*: ${airports[0].arrival.airport}`
+      messageBlock.payload[0].text += `\n*Arrival Airport Location*: https://www.google.com/maps/search/?api=1&query=${encodeURI(airports[0].arrival.airport)}`
     } else {
-      messageBlock.payload[0].text += `No flight info found for flight number ${userInput}`
-      messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
-      messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
+      messageBlock.payload[0].text += `No flight status info found for *${flightInfo.airline.name} ${flightInfo.flight.iata}*`
     }
     messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
@@ -312,7 +346,7 @@ const getFaqsBlock = (chatbot, blockId, messageBlocks, backId) => {
   })
 }
 
-const getSelectAirlineBlock = async (chatbot, backId, AirlineProvider) => {
+const getSelectAirlineBlock = async (chatbot, backId, AirlineProvider, argument) => {
   try {
     let messageBlock = {
       module: {
@@ -340,7 +374,7 @@ const getSelectAirlineBlock = async (chatbot, backId, AirlineProvider) => {
       const airline = airlines[i]
       messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${airline.airline_name}`
       messageBlock.payload[0].menu.push({
-        type: DYNAMIC, action: ASK_DEPARTURE_CITY, argument: {airline}
+        type: DYNAMIC, action: ASK_DEPARTURE_CITY, argument: {...argument, airline}
       })
     }
     messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
@@ -534,11 +568,16 @@ const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, argumen
       } else {
         messageBlock.payload[0].text += `\n*This is a direct flight*:`
       }
-      messageBlock.payload[0].text += `\n*Departure Time*: ${new Date(flight.airports[0].departure.scheduled).toLocaleString('en-US', {timeZone: flight.airports[0].departure.timezone, ...dateTimeOptions})}`
-      messageBlock.payload[0].text += `\n*Arrival Time*: ${new Date(flight.airports[flight.airports.length - 1].arrival.scheduled).toLocaleString('en-US', {timeZone: flight.airports[flight.airports.length - 1].arrival.timezone, ...dateTimeOptions})}`
-      const priceInUSD = await currencyConverter.convert(Number(flight.price.amount), flight.price.currency, 'USD')
-      messageBlock.payload[0].text += `\n*Price*: ${priceInUSD.amount} USD`
-      messageBlock.payload[0].menu.push({type: DYNAMIC, action: GET_FLIGHT_SCHEDULE_DETAILS, argument: {...argument, flight}})
+      messageBlock.payload[0].text += `\n*Scheduled Departure Time*: ${new Date(flight.airports[0].departure.scheduled).toLocaleString('en-US', {timeZone: flight.airports[0].departure.timezone, ...dateTimeOptions})}`
+      messageBlock.payload[0].text += `\n*Scheduled Arrival Time*: ${new Date(flight.airports[flight.airports.length - 1].arrival.scheduled).toLocaleString('en-US', {timeZone: flight.airports[flight.airports.length - 1].arrival.timezone, ...dateTimeOptions})}`
+
+      if (argument.purpose === GET_FLIGHT_SCHEDULES) {
+        const priceInUSD = await currencyConverter.convert(Number(flight.price.amount), flight.price.currency, 'USD')
+        messageBlock.payload[0].text += `\n*Price*: ${priceInUSD.amount} USD`
+        messageBlock.payload[0].menu.push({type: DYNAMIC, action: GET_FLIGHT_SCHEDULE_DETAILS, argument: {...argument, flight}})
+      } else if (argument.purpose === GET_FLIGHT_STATUS) {
+        messageBlock.payload[0].menu.push({type: DYNAMIC, action: GET_FLIGHT_STATUS, argument: {...argument, flight}})
+      }
       if (i + 1 < flights.length) {
         messageBlock.payload[0].text += `\n`
       }
@@ -598,12 +637,12 @@ const getFlightScheduleDetailsBlock = async (chatbot, backId, argument) => {
         messageBlock.payload[0].text += `\n*Flight #${i + 1}*:`
       }
       messageBlock.payload[0].text += `\n*Flight Number*: ${airport.flight_number}`
-      messageBlock.payload[0].text += `\n*Departure Time*: ${new Date(airport.departure.scheduled).toLocaleString('en-US', {timeZone: airport.departure.timezone, ...dateTimeOptions})}`
+      messageBlock.payload[0].text += `\n*Scheduled Departure Time*: ${new Date(airport.departure.scheduled).toLocaleString('en-US', {timeZone: airport.departure.timezone, ...dateTimeOptions})}`
       if (airport.departure.airport) {
         messageBlock.payload[0].text += `\n*Departure Airport*: ${airport.departure.airport['Airport name']}`
         messageBlock.payload[0].text += `\n*Departure Airport Location*: https://www.google.com/maps/search/?api=1&query=${encodeURI(airport.departure.airport['Airport name'])}`
       }
-      messageBlock.payload[0].text += `\n*Arrival Time*: ${new Date(airport.arrival.scheduled).toLocaleString('en-US', {timeZone: airport.arrival.timezone, ...dateTimeOptions})}`
+      messageBlock.payload[0].text += `\n*Scheduled Arrival Time*: ${new Date(airport.arrival.scheduled).toLocaleString('en-US', {timeZone: airport.arrival.timezone, ...dateTimeOptions})}`
       if (airport.arrival.airport) {
         messageBlock.payload[0].text += `\n*Arrival Airport*: ${airport.arrival.airport['Airport name']}`
         messageBlock.payload[0].text += `\n*Arrival Airport Location*: https://www.google.com/maps/search/?api=1&query=${encodeURI(airport.arrival.airport['Airport name'])}`
@@ -720,7 +759,7 @@ exports.getNextMessageBlock = async (chatbot, AirlineProvider, contact, input) =
         let messageBlock = null
         switch (action.action) {
           case SELECT_AIRLINE: {
-            messageBlock = await getSelectAirlineBlock(chatbot, contact.lastMessageSentByBot.uniqueId, AirlineProvider)
+            messageBlock = await getSelectAirlineBlock(chatbot, contact.lastMessageSentByBot.uniqueId, AirlineProvider, action.argument)
             break
           }
           case ASK_DEPARTURE_DATE: {
@@ -748,11 +787,11 @@ exports.getNextMessageBlock = async (chatbot, AirlineProvider, contact, input) =
             break
           }
           case ASK_FLIGHT_NUMBER: {
-            messageBlock = await getAskFlightNumberBlock(chatbot, action.argument, action.input ? input : '')
+            messageBlock = await getAskFlightNumberBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument, action.input ? input : '')
             break
           }
           case GET_FLIGHT_STATUS: {
-            messageBlock = await getFlightStatusBlock(chatbot, contact.lastMessageSentByBot.uniqueId, AirlineProvider, action.input ? input : '')
+            messageBlock = await getFlightStatusBlock(chatbot, contact.lastMessageSentByBot.uniqueId, AirlineProvider, action.argument, action.input ? input : '')
             break
           }
           case GET_FLIGHT_SCHEDULE_DETAILS: {
