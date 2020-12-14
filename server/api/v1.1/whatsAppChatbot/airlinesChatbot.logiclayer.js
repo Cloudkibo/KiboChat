@@ -160,8 +160,8 @@ const getAskFlightNumberBlock = (chatbot, backId, argument, userInput) => {
 }
 
 const getFlightStatusBlock = async (chatbot, backId, AirlineProvider, argument, userInput) => {
+  const flightInfo = argument.flight
   try {
-    const flightInfo = argument.flight
     let messageBlock = {
       module: {
         id: chatbot._id,
@@ -182,7 +182,7 @@ const getFlightStatusBlock = async (chatbot, backId, AirlineProvider, argument, 
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    const flightStatus = await AirlineProvider.fetchFlightByNumber(flightInfo.flight.iata, argument.airline.iata_code, argument.departureTime)
+    const flightStatus = await AirlineProvider.fetchFlightByNumber(flightInfo.flight.iata, argument.airline.iata_code, argument.departureDate)
     if (flightStatus) {
       const airports = flightInfo.airports
       messageBlock.payload[0].text += `Here is flight status for *${flightInfo.airline.name} ${flightInfo.flight.iata}*:\n`
@@ -228,7 +228,7 @@ const getFlightStatusBlock = async (chatbot, backId, AirlineProvider, argument, 
       messageBlock.payload[0].text += `\n*Arrival Airport*: ${airports[0].arrival.airport}`
       messageBlock.payload[0].text += `\n*Arrival Airport Location*: https://www.google.com/maps/search/?api=1&query=${encodeURI(airports[0].arrival.airport)}`
     } else {
-      messageBlock.payload[0].text += `No flight status info found for *${flightInfo.airline.name} ${flightInfo.flight.iata}*`
+      messageBlock.payload[0].text += `No flight status info found for ${flightInfo.airline.name} ${flightInfo.flight.iata}`
     }
     messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
@@ -236,7 +236,7 @@ const getFlightStatusBlock = async (chatbot, backId, AirlineProvider, argument, 
   } catch (err) {
     const message = err || 'Unable to get flight status'
     logger.serverLog(message, `${TAG}: getFlightStatus`, {}, {chatbot}, 'error')
-    throw new Error(`${ERROR_INDICATOR} Unable to get flight status for ${userInput}`)
+    throw new Error(`${ERROR_INDICATOR} Unable to get flight status for ${flightInfo.airline.name} ${flightInfo.flight.iata}`)
   }
 }
 
