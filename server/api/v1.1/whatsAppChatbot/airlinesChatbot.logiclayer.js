@@ -754,11 +754,10 @@ exports.getNextMessageBlock = async (chatbot, AirlineProvider, contact, input) =
         const message = err || 'Invalid user input'
         logger.serverLog(message, `${TAG}: exports.getNextMessageBlock`, chatbot, {}, 'error')
       }
-      if (chatbot.triggers.includes(input) || (lastMessageSentByBot.menu && lastMessageSentByBot.menu.length === 0 && !lastMessageSentByBot.action) || moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15) {
-        // for CloudKibo company, it will return the select chatbots message block
-        if (chatbot.companyId !== '5a89ecdaf6b0460c552bf7fe') {
-          return getWelcomeMessageBlock(chatbot, contact)
-        }
+      if (chatbot.triggers.includes(input) ||
+        (lastMessageSentByBot.menu && lastMessageSentByBot.menu.length === 0 && !lastMessageSentByBot.action) ||
+        (moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15 && chatbot.companyId !== '5a89ecdaf6b0460c552bf7fe')) {
+        return getWelcomeMessageBlock(chatbot, contact)
       } else {
         return invalidInput(chatbot, contact.lastMessageSentByBot, `${ERROR_INDICATOR}You entered an invalid response.`)
       }
