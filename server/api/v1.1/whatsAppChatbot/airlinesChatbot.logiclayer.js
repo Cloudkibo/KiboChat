@@ -183,13 +183,14 @@ const getFlightStatusBlock = async (chatbot, backId, AirlineProvider, argument, 
       companyId: chatbot.companyId
     }
     const flightStatus = await AirlineProvider.fetchFlightByNumber(flightInfo.flight.iata, argument.airline.iata_code, argument.departureDate)
+    console.log('flightStatus', JSON.stringify(flightStatus))
     if (flightStatus) {
       const airports = flightInfo.airports
       messageBlock.payload[0].text += `Here is flight status for *${flightInfo.airline.name} ${flightInfo.flight.iata}*:\n`
 
       messageBlock.payload[0].text += `\n*Scheduled Departure Time*: ${new Date(airports[0].departure.scheduled).toLocaleString('en-US', {timeZone: airports[0].departure.timezone, ...dateTimeOptions})}`
       let departureDelay
-      if (flightStatus.flightPoints[0] && flightStatus.flightPoints[0].departure.timings[0] && flightStatus.flightPoints[0].departure.timings[0].delays) {
+      if (flightStatus.flightPoints && flightStatus.flightPoints[0] && flightStatus.flightPoints[0].departure.timings[0] && flightStatus.flightPoints[0].departure.timings[0].delays) {
         const delays = flightStatus.flightPoints[0].departure.timings[0].delays
         if (delays[0] && delays[0].duration) {
           departureDelay = moment.duration(delays[0].duration)
