@@ -226,10 +226,10 @@ const getFlightStatusBlock = async (chatbot, backId, AirlineProvider, argument, 
       }
       messageBlock.payload[0].text += `\n`
 
-      messageBlock.payload[0].text += `\n*Departure Airport*: ${airports[0].departure.airport}`
-      messageBlock.payload[0].text += `\n*Departure Airport Location*: https://www.google.com/maps/search/?api=1&query=${encodeURI(airports[0].departure.airport)}`
-      messageBlock.payload[0].text += `\n*Arrival Airport*: ${airports[0].arrival.airport}`
-      messageBlock.payload[0].text += `\n*Arrival Airport Location*: https://www.google.com/maps/search/?api=1&query=${encodeURI(airports[0].arrival.airport)}`
+      messageBlock.payload[0].text += `\n*Departure Airport*: ${airports[0].departure.airport['Airport name']}`
+      messageBlock.payload[0].text += `\n*Departure Airport Location*: https://www.google.com/maps/search/?api=1&query=${encodeURI(airports[0].departure.airports[0].arrival.airport['Airport name'])}\n`
+      messageBlock.payload[0].text += `\n*Arrival Airport*: ${airports[0].arrival.airport['Airport name']}`
+      messageBlock.payload[0].text += `\n*Arrival Airport Location*: https://www.google.com/maps/search/?api=1&query=${encodeURI(airports[0].arrival.airports[0].arrival.airport['Airport name'])}`
     } else {
       messageBlock.payload[0].text += `No flight status info found for ${flightInfo.airline.name} ${flightInfo.flight.iata}`
     }
