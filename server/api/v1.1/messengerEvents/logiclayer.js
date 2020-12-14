@@ -121,10 +121,10 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse, me
         mediaElement.buttons.push(tempButton)
       }
     }
-    if (body.fileurl.attachment_id) {
+    if (body.fileurl && body.fileurl.attachment_id) {
       mediaElement.attachment_id = body.fileurl.attachment_id
     }
-    if (body.fileurl.facebookUrl) {
+    if (body.fileurl && body.fileurl.facebookUrl) {
       mediaElement.url = body.fileurl.facebookUrl
     }
     payload = {
