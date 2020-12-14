@@ -90,7 +90,7 @@ exports.getMessageBlocks = (chatbot) => {
     uniqueId: mainMenuId,
     payload: [
       {
-        text: dedent(`Please select an option by sending the corresponding number for it (e.g. send '1' to select "Select airline for flight schedule"):\n
+        text: dedent(`Please select an option by sending the corresponding number for it (e.g. send '1' to select "Get flight schedules"):\n
                 ${convertToEmoji(0)} Get flight status   
                 ${convertToEmoji(1)} Get flight schedules`),
         componentType: 'text',
@@ -182,7 +182,7 @@ const getFlightStatusBlock = async (chatbot, backId, AirlineProvider, argument, 
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    const flightStatus = await AirlineProvider.fetchFlightByNumber(flightInfo.flight.iata)
+    const flightStatus = await AirlineProvider.fetchFlightByNumber(flightInfo.flight.iata, argument.airline.iata_code, argument.departureTime)
     if (flightStatus) {
       const airports = flightInfo.airports
       messageBlock.payload[0].text += `Here is flight status for *${flightInfo.airline.name} ${flightInfo.flight.iata}*:\n`
