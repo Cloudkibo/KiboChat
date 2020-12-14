@@ -190,9 +190,10 @@ const getFlightStatusBlock = async (chatbot, backId, AirlineProvider, argument, 
 
       messageBlock.payload[0].text += `\n*Scheduled Departure Time*: ${new Date(airports[0].departure.scheduled).toLocaleString('en-US', {timeZone: airports[0].departure.timezone, ...dateTimeOptions})}`
       let departureDelay
-      if (flightStatus.flightPoints && flightStatus.flightPoints[0] && flightStatus.flightPoints[0].departure.timings[0] && flightStatus.flightPoints[0].departure.timings[0].delays) {
-        const delays = flightStatus.flightPoints[0].departure.timings[0].delays
-        if (delays[0] && delays[0].duration) {
+      if (flightStatus && flightStatus[0] && flightStatus[0].flightPoints) {
+        const flightPoints = flightStatus[0].flightPoints
+        const delays = flightPoints[0].departure.timings[0].delays
+        if (delays && delays[0] && delays[0].duration) {
           departureDelay = moment.duration(delays[0].duration)
           for (let i = 1; i < delays.length; i++) {
             departureDelay = departureDelay.add(delays[i].duration.toString())
@@ -208,8 +209,9 @@ const getFlightStatusBlock = async (chatbot, backId, AirlineProvider, argument, 
 
       messageBlock.payload[0].text += `\n*Scheduled Arrival Time*: ${new Date(airports[0].arrival.scheduled).toLocaleString('en-US', {timeZone: airports[0].arrival.timezone, ...dateTimeOptions})}`
       let arrivalDelay
-      if (flightStatus.flightPoints[0] && flightStatus.flightPoints[0].arrival.timings[0] && flightStatus.flightPoints[0].arrival.timings[0].delays) {
-        const delays = flightStatus.flightPoints[0].arrival.timings[0].delays
+      if (flightStatus && flightStatus[0] && flightStatus[0].flightPoints) {
+        const flightPoints = flightStatus[0].flightPoints
+        const delays = flightPoints[flightPoints.length - 1].arrival.timings[0].delays
         if (delays[0] && delays[0].duration) {
           arrivalDelay = moment.duration(delays[0].duration)
           for (let i = 1; i < delays.length; i++) {
