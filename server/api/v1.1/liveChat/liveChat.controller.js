@@ -247,9 +247,11 @@ exports.create = function (req, res) {
                 // TODO This is crashing when agent has a bot and sending an attahment from livechat
                 botId = bot._id
                 let arr = bot.blockedSubscribers
-                arr.push(subscriber._id)
-                let updateBotData = logicLayer.getUpdateData('updateOne', {_id: botId}, {blockedSubscribers: arr})
-                return callApi(`smart_replies`, 'put', updateBotData, '', 'kibochat')
+                if (arr) {
+                  arr.push(subscriber._id)
+                  let updateBotData = logicLayer.getUpdateData('updateOne', {_id: botId}, {blockedSubscribers: arr})
+                  return callApi(`smart_replies`, 'put', updateBotData, '', 'kibochat')
+                }
               }
             })
             .then(result => {
