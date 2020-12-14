@@ -174,7 +174,8 @@ const getFlightStatusBlock = async (chatbot, backId, AirlineProvider, argument, 
           text: ``,
           componentType: 'text',
           specialKeys: {
-            [BACK_KEY]: { type: STATIC, blockId: backId },
+            'r': {type: DYNAMIC, action: GET_FLIGHT_STATUS, argument: {...argument, backId: argument.backId ? argument.backId : backId}},
+            [BACK_KEY]: { type: STATIC, blockId: argument.backId ? argument.backId : backId },
             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
           }
         }
@@ -183,7 +184,6 @@ const getFlightStatusBlock = async (chatbot, backId, AirlineProvider, argument, 
       companyId: chatbot.companyId
     }
     const flightStatus = await AirlineProvider.fetchFlightByNumber(flightInfo.flight.iata, argument.airline.iata_code, argument.departureDate)
-    console.log('flightStatus', JSON.stringify(flightStatus))
     if (flightStatus) {
       const airports = flightInfo.airports
       messageBlock.payload[0].text += `Here is flight status for *${flightInfo.airline.name} ${flightInfo.flight.iata}*:\n`
@@ -233,7 +233,8 @@ const getFlightStatusBlock = async (chatbot, backId, AirlineProvider, argument, 
     } else {
       messageBlock.payload[0].text += `No flight status info found for ${flightInfo.airline.name} ${flightInfo.flight.iata}`
     }
-    messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
+    messageBlock.payload[0].text += `\n\nSend 'R' to Refresh`
+    messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
     return messageBlock
   } catch (err) {
@@ -542,6 +543,7 @@ const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, argumen
           componentType: 'text',
           menu: [],
           specialKeys: {
+            [BACK_KEY]: { type: STATIC, blockId: backId },
             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
           }
         }
@@ -586,7 +588,8 @@ const getFlightSchedulesBlock = async (chatbot, backId, AirlineProvider, argumen
       }
     }
 
-    messageBlock.payload[0].text += `\n\n${specialKeyText(HOME_KEY)}`
+    messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
     return messageBlock
   } catch (err) {
     if (!userError) {
