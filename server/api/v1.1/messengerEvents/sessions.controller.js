@@ -74,12 +74,6 @@ exports.index = function (req, res) {
                     captureUserEmailAndPhone(event, subscriber, page)
                   }
                 }
-                if (!event.message.is_echo && subscriber.awaitingQuickReplyPayload && subscriber.awaitingQuickReplyPayload.action) {
-                  var query = subscriber.awaitingQuickReplyPayload.action.find((ac) => { return ac.query === 'email' || ac.query === 'phone' })
-                  if (query.keyboardInputAllowed) {
-                    captureUserEmailAndPhone(event, subscriber, page)
-                  }
-                }
                 utility.callApi('subscribers/update', 'put', { query: { _id: subscriber._id }, newPayload: _prepareSubscriberUpdatePayload(event, subscriber, company), options: {} })
                   .then(updated => {
                     if (event.message) {
