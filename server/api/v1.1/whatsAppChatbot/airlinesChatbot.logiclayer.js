@@ -212,7 +212,7 @@ const getFlightStatusBlock = async (chatbot, backId, AirlineProvider, argument, 
       if (flightStatus && flightStatus[0] && flightStatus[0].flightPoints) {
         const flightPoints = flightStatus[0].flightPoints
         const delays = flightPoints[flightPoints.length - 1].arrival.timings[0].delays
-        if (delays[0] && delays[0].duration) {
+        if (delays && delays[0] && delays[0].duration) {
           arrivalDelay = moment.duration(delays[0].duration)
           for (let i = 1; i < delays.length; i++) {
             arrivalDelay = arrivalDelay.add(delays[i].duration.toString())
