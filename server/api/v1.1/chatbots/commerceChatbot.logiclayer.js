@@ -461,6 +461,7 @@ const getOrderIdBlock = (chatbot, blockId, backId, messageBlocks) => {
 }
 
 const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) => {
+  let userError = false
   try {
     let messageBlock = {
       module: {
@@ -496,6 +497,10 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
       companyId: chatbot.companyId
     }
     let orderStatus = await EcommerceProvider.checkOrderStatus(Number(orderId))
+    if (!orderStatus) {
+      userError = true
+      throw new Error('Unable to get order status. Please make sure your order ID is valid and that the order was placed within the last 60 days.')
+    }
     if (orderStatus.displayFinancialStatus) {
       messageBlock.payload[0].text += `\nPayment: ${orderStatus.displayFinancialStatus}`
     }
@@ -550,9 +555,15 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     messageBlock.payload[0].text += `\n\nThis order was placed on ${new Date(orderStatus.createdAt).toDateString()}`
     return messageBlock
   } catch (err) {
-    const message = err || 'Unable to get order status'
-    logger.serverLog(message, `${TAG}: exports.getOrderStatusBlock`, {}, {}, 'error')
-    throw new Error(`${ERROR_INDICATOR}Unable to get order status. Please make sure your order ID is valid.`)
+    if (!userError) {
+      const message = err || 'Unable to get order status'
+      logger.serverLog(message, `${TAG}: exports.getOrderStatusBlock`, {}, {}, 'error')
+    }
+    if (err && err.message) {
+      throw new Error(`${ERROR_INDICATOR}${err.message}`)
+    } else {
+      throw new Error(`${ERROR_INDICATOR}Unable to get order status.`)
+    }
   }
 }
 
