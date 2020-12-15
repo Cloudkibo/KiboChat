@@ -49,7 +49,6 @@ exports.index = function (req, res) {
                 let chatBotInfo = _getChatbotInfo(subscriber)
                 handleChatBotNextMessage(messengerPayload, page, subscriber, chatBotInfo.nextBlockId, chatBotInfo.parentBlockTitle)
               } else if (resp[0] && resp[0].action === '_chatbot') {
-                handleCommerceChatbot(messengerPayload, page, subscriber)
                 if (logicLayer.isJsonString(messengerPayload.message.quick_reply.payload)) {
                   let quickRepyPayload = JSON.parse(messengerPayload.message.quick_reply.payload)
                   for (let i = 0; i < quickRepyPayload.length; i++) {
@@ -59,6 +58,7 @@ exports.index = function (req, res) {
                   }
                 }
               } else {
+                handleCommerceChatbot(messengerPayload, page, subscriber)
                 if (subscriber.awaitingQuickReplyPayload) {
                   captureUserEmailAndPhone(messengerPayload, subscriber, page)
                 }

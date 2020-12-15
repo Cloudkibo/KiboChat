@@ -852,7 +852,7 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
       contact.commerceCustomer.cartId = null
     }
     updateSubscriber({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
-    let text = `${quantity} ${product.product}${quantity !== 1 ? 's have' : 'has'} been succesfully added to your cart.`
+    let text = `${quantity} ${product.product}${quantity !== 1 ? 's have' : ' has'} been succesfully added to your cart.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
     const message = err || 'Unable to add to cart'
