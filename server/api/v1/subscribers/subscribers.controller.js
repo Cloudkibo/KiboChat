@@ -195,7 +195,6 @@ exports.getAll = function (req, res) {
           .then(count => {
             utility.callApi(`tags_subscriber/aggregate`, 'post', criterias.fetchCriteria) // fetch subscribers count
               .then(subscribers => {
-                console.log('subscribers by filter', subscribers)
                 let newSubscribersArray = []
                 subscribers.forEach((subscriber, index) => {
                   let newSubscriberTemp = subscriber.Subscribers
@@ -264,7 +263,6 @@ exports.subscribeBack = function (req, res) {
 }
 
 exports.updatePicture = function (req, res) {
-  // console.log('hit the updatePicture endpoint', req.body)
   utility.callApi('subscribers/updatePicture', 'post', req.body)
     .then(update => {
       return res.status(200).json({
