@@ -766,8 +766,10 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
         })
       }
     }
-
-    updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
+    if (contact.commerceCustomer) {
+      contact.commerceCustomer.cartId = null
+    }
+    updateWhatsAppContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
     let text = `${quantity} ${product.product}${quantity !== 1 ? 's have' : 'has'} been succesfully added to your cart.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
@@ -867,7 +869,10 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
       userError = true
       throw new Error(`${ERROR_INDICATOR}Invalid quantity given.`)
     }
-    updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
+    if (contact.commerceCustomer) {
+      contact.commerceCustomer.cartId = null
+    }
+    updateWhatsAppContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
     let text = `${quantity} ${productInfo.product}${quantity !== 1 ? 's have' : 'has'} been succesfully removed from your cart.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
@@ -1052,7 +1057,10 @@ const getUpdateCartBlock = async (chatbot, backId, contact, product, quantity) =
         currency: product.currency
       })
     }
-    updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
+    if (contact.commerceCustomer) {
+      contact.commerceCustomer.cartId = null
+    }
+    updateWhatsAppContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
     let text = `${product.product} quantity has been updated to ${quantity}.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
@@ -1090,7 +1098,10 @@ const clearCart = async (chatbot, contact) => {
       companyId: chatbot.companyId
     }
     let shoppingCart = []
-    updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
+    if (contact.commerceCustomer) {
+      contact.commerceCustomer.cartId = null
+    }
+    updateWhatsAppContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to clear cart'
@@ -1411,7 +1422,6 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
         commerceCustomer = commerceCustomer[0]
       }
       commerceCustomer.provider = chatbot.storeType
-      updateWhatsAppContact({ _id: contact._id }, { commerceCustomer }, null, {})
     } else {
       if (!contact.commerceCustomer.provider || contact.commerceCustomer.provider !== chatbot.storeType) {
         commerceCustomer = await EcommerceProvider.searchCustomerUsingEmail(contact.commerceCustomer.email)
@@ -1421,7 +1431,6 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
           commerceCustomer = commerceCustomer[0]
         }
         commerceCustomer.provider = chatbot.storeType
-        updateWhatsAppContact({ _id: contact._id }, { commerceCustomer }, null, {})
       } else {
         commerceCustomer = contact.commerceCustomer
       }
@@ -1432,10 +1441,11 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
       checkoutLink = await EcommerceProvider.createPermalinkForCart(commerceCustomer, contact.shoppingCart)
     } else if (chatbot.storeType === commerceConstants.bigcommerce) {
       const bigcommerceCart = await EcommerceProvider.createCart(commerceCustomer.id, contact.shoppingCart)
+      commerceCustomer.cartId = bigcommerceCart.id
       checkoutLink = await EcommerceProvider.createPermalinkForCartBigCommerce(bigcommerceCart.id)
       checkoutLink = checkoutLink.data.cart_url
     }
-    updateWhatsAppContact({ _id: contact._id }, { shoppingCart: [] }, null, {})
+    updateWhatsAppContact({ _id: contact._id }, { commerceCustomer }, null, {})
 
     if (checkoutLink) {
       messageBlock.payload[0].text += `\n${checkoutLink} `
