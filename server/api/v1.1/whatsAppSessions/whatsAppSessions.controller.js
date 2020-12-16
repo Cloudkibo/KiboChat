@@ -116,6 +116,16 @@ exports.markread = function (req, res) {
         let updateData = logicLayer.getUpdateData('updateAll', {contactId: req.params.id, format: 'twilio'}, {status: 'seen', seenDateTime: Date.now}, false, true)
         callApi('whatsAppChat', 'put', updateData, 'kibochat')
           .then(updated => {
+            require('./../../../config/socketio').sendMessageToClient({
+              room_id: req.user.companyId,
+              body: {
+                action: 'mark_read',
+                payload: {
+                  session_id: req.params.id,
+                  read_count: updated.nModified
+                }
+              }
+            })
             sendSuccessResponse(res, 200, 'Chat has been marked read successfully!')
           })
           .catch(err => {
