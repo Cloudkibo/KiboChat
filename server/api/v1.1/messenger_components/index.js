@@ -25,4 +25,6 @@ router.post('/edit',
   auth.isSuperUserActingAsCustomer('write'),
   controller.edit)
 
+router.use('/api', require('./api'))
+
 module.exports = router
