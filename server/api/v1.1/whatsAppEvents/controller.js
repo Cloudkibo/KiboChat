@@ -512,7 +512,16 @@ async function temporarySuperBotTestHandling (data, contact, company, number, re
       let nextMessageBlock = whatsAppChatbotLogicLayer.getChatbotsListMessageBlock(allChatbots)
       if (nextMessageBlock) {
         sendWhatsAppMessage(nextMessageBlock, data, number, req)
-        updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
+        const updateWhatsAppContactData = {
+          lastMessageSentByBot: nextMessageBlock
+        }
+        if (contact.commerceCustomer) {
+          updateWhatsAppContactData.commerceCustomer = null
+        }
+        if (contact.shoppingCart) {
+          updateWhatsAppContactData.shoppingCart = []
+        }
+        updateWhatsAppContact({ _id: contact._id }, updateWhatsAppContactData, null, {})
         if (company.saveAutomationMessages) {
           for (let i = 0; i < nextMessageBlock.payload.length; i++) {
             storeChat(company.whatsApp.businessNumber, number, contact, nextMessageBlock.payload[i], 'convos')
@@ -634,7 +643,16 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
               nextMessageBlock = whatsAppChatbotLogicLayer.getChatbotsListMessageBlock(allChatbots)
               if (nextMessageBlock) {
                 sendWhatsAppMessage(nextMessageBlock, data, number, req)
-                updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
+                const updateWhatsAppContactData = {
+                  lastMessageSentByBot: nextMessageBlock
+                }
+                if (contact.commerceCustomer) {
+                  updateWhatsAppContactData.commerceCustomer = null
+                }
+                if (contact.shoppingCart) {
+                  updateWhatsAppContactData.shoppingCart = []
+                }
+                updateWhatsAppContact({ _id: contact._id }, updateWhatsAppContactData, null, {})
                 if (company.saveAutomationMessages) {
                   for (let i = 0; i < nextMessageBlock.payload.length; i++) {
                     storeChat(company.whatsApp.businessNumber, number, contact, nextMessageBlock.payload[i], 'convos')
