@@ -119,7 +119,7 @@ exports.markread = function (req, res) {
             require('./../../../config/socketio').sendMessageToClient({
               room_id: req.user.companyId,
               body: {
-                action: 'mark_read',
+                action: 'mark_read_whatsapp',
                 payload: {
                   session_id: req.params.id,
                   read_count: updated.nModified
