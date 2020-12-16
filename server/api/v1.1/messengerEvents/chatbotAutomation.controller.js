@@ -694,6 +694,44 @@ function saveLiveChatMessage (page, subscriber, item) {
   require('./sessions.controller').saveChatInDb(page, message, subscriber, {message: {is_echo: true}})
 }
 
+const isTriggerMessage = (event, page) => {
+  return new Promise((resolve, reject) => {
+    chatbotDataLayer.findOneChatBot({ pageId: page._id, type: 'manual' })
+      .then(chatbot => {
+        if (chatbot) {
+          let userText = event.message && event.message.text ? event.message.text.toLowerCase().trim() : ''
+          if (userText !== '') {
+            messageBlockDataLayer.findOneMessageBlock({
+              'module.type': 'chatbot',
+              'module.id': chatbot._id,
+              triggers: userText
+            })
+              .then(messageBlock => {
+                if (messageBlock) {
+                  console.log('messageBlock', messageBlock)
+                  resolve(true)
+                } else {
+                  resolve(false)
+                }
+              })
+              .catch(err => {
+                const message = err || 'Unable to find messageblock'
+                logger.serverLog(message, `${TAG}: exports.isTriggerMessage`, {}, {event, page}, 'error')
+                reject(err)
+              })
+          }
+        } else {
+          resolve(false)
+        }
+      })
+      .catch(err => {
+        const message = err || 'Unable to find Chatbot'
+        logger.serverLog(message, `${TAG}: exports.isTriggerMessage`, {}, {event, page}, 'error')
+        reject(err)
+      })
+  })
+}
 exports.updateBotPeriodicStatsForBlock = updateBotPeriodicStatsForBlock
 exports.updateBotLifeStatsForBlock = updateBotLifeStatsForBlock
 exports.sendResponse = sendResponse
+exports.isTriggerMessage = isTriggerMessage
