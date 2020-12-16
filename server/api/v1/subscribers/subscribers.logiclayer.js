@@ -107,7 +107,8 @@ exports.getCriterias = function (req, tagIDs) {
       'timezone': 1,
       'senderId': 1,
       'siteInfo': 1,
-      '_id': 1
+      '_id': 1,
+      'unSubscribedBy': 1
     }},
     { $match: temp },
     { $group: { _id: null, count: { $sum: 1 } } }
@@ -140,7 +141,8 @@ exports.getCriterias = function (req, tagIDs) {
         'timezone': 1,
         'senderId': 1,
         'siteInfo': 1,
-        '_id': 1
+        '_id': 1,
+        'unSubscribedBy': 1
       }},
       { $match: temp },
       { $skip: recordsToSkip },
@@ -170,7 +172,8 @@ exports.getCriterias = function (req, tagIDs) {
         'timezone': 1,
         'senderId': 1,
         'siteInfo': 1,
-        '_id': 1
+        '_id': 1,
+        'unSubscribedBy': 1
       }},
       { $match: { $and: [temp, { _id: { $lt: req.body.last_id } }] } },
       { $skip: recordsToSkip },
@@ -200,7 +203,8 @@ exports.getCriterias = function (req, tagIDs) {
         'timezone': 1,
         'senderId': 1,
         'siteInfo': 1,
-        '_id': 1
+        '_id': 1,
+        'unSubscribedBy': 1
       }},
       { $match: { $and: [temp, { _id: { $gt: req.body.last_id } }] } },
       { $skip: recordsToSkip },
