@@ -7,27 +7,38 @@ let config = require('./../../../config/environment')
 let request = require('request')
 const crypto = require('crypto')
 const utility = require('../utility')
-const ogs = require('open-graph-scraper')
+const { openGraphScrapper } = require('../../global/utility')
+
+const isHtmlPageError = (err) => {
+  if (err === 'Must scrape an HTML page') {
+    return true
+  } else {
+    return false
+  }
+}
 
 exports.urlMetaData = (req, res) => {
   let url = req.body.url
+  if (url.includes('kiboengage.cloudkibo.com') || url.includes('kibochat.cloudkibo.com')) {
+    url = 'https://kibopush.com'
+  }
   if (url) {
-    let options = {url}
-    ogs(options, (error, results) => {
-      if (!error) {
+    openGraphScrapper(url)
+      .then(meta => {
         return res.status(200).json({
           status: 'success',
-          payload: results.data
+          payload: meta
         })
-      } else {
-        const message = error || 'error in fetching url meta data'
-        logger.serverLog(message, `${TAG}: exports.urlMetaData`, req.body, {user: req.user}, 'error')
+      }).catch(err => {
+        if (!isHtmlPageError(err)) {
+          const message = err || 'Error from open graph'
+          logger.serverLog(message, `${TAG}: urlMetaData`, req.body, {}, 'error')           
+        }
         return res.status(500).json({
           status: 'failed',
-          description: `Failed to retrieve url ${results.error}`
+          description: `Failed to retrieve url ${err}`
         })
-      }
-    })
+      })
   } else {
     res.status(400).json({
       status: 'failed',
@@ -96,12 +107,15 @@ exports.deleteButton = function (req, res) {
     })
 }
 exports.uploadRecording = function (req, res) {
+  console.log('in uploadRecording')
+  console.log('req.files', req.files)
+  console.log('req.files.file', req.files.file)
   const today = new Date()
   const uid = crypto.randomBytes(5).toString('hex')
   const fext = req.files.file.name.split('.')
   const serverPath = `f${uid}${today.getFullYear()}${today.getMonth() + 1}${today.getDate()}${today.getHours()}${today.getMinutes()}${today.getSeconds()}.${fext[fext.length - 1].toLowerCase()}`
   const dir = path.resolve(__dirname, '../../../../broadcastFiles/')
-
+  console.log('req.files.file', req.files.file)
   if (req.files.file.size === 0) {
     return res.status(400).json({
       status: 'failed',

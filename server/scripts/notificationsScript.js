@@ -6,16 +6,21 @@ const moment = require('moment')
 
 exports.runLiveChatNotificationScript = function () {
   // logger.serverLog(TAG, 'runLiveChatNotificationScript')
-  var findAdminAlerts = {
-    purpose: 'findAll',
-    match: {
-      type: 'adminAlert'
-    }
+  sendNotification(0, 15)
+}
+
+function sendNotification (skipRecords, LimitRecords) {
+  let findAdminAlerts = {
+    purpose: 'aggregate',
+    match: {type: 'adminAlert'},
+    skip: skipRecords,
+    limit: LimitRecords
   }
   utility.callApi(`cronStack/query`, 'post', findAdminAlerts, 'kibochat')
     .then(alerts => {
       // logger.serverLog(TAG, `alerts ${JSON.stringify(alerts)} ${JSON.stringify(alerts.length)}`)
       if (alerts.length > 0) {
+        let deleteAlerts = 0
         async.each(alerts, function (alert, cb) {
           // logger.serverLog(TAG, `alert ${JSON.stringify(alert)}`)
           if (alert.payload && alert.payload.notification_interval) {
@@ -25,6 +30,7 @@ exports.runLiveChatNotificationScript = function () {
             // logger.serverLog(TAG, `duration ${duration.asMinutes()}`)
             // logger.serverLog(TAG, `notification_interval ${alert.payload.notification_interval}`)
             if (duration.asMinutes() > alert.payload.notification_interval) {
+              deleteAlerts = deleteAlerts + 1
               // logger.serverLog(TAG, `duration passed ${duration}`)
               utility.callApi(`companyUser/queryAll`, 'post', {companyId: alert.payload.companyId}, 'accounts')
                 .then(companyUsers => {
@@ -57,6 +63,7 @@ exports.runLiveChatNotificationScript = function () {
             const message = err || 'Unable to generate admin alerts'
             logger.serverLog(message, `${TAG}: exports.runLiveChatNotificationScript`, {}, {alerts}, 'error')
           } else {
+            sendNotification(skipRecords + LimitRecords - deleteAlerts, LimitRecords)
           }
         })
       }

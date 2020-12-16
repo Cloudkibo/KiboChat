@@ -76,7 +76,7 @@ exports.getMessageBlocks = (chatbot, storeName) => {
   messageBlocks.push({
     module: {
       id: chatbot._id,
-      type: 'messenger_shopify_chatbot'
+      type: 'messenger_commerce_chatbot'
     },
     title: 'Main Menu',
     triggers: ['hi', 'hello'],
@@ -137,7 +137,7 @@ const getSearchProductsBlock = async (chatbot, blockId, messageBlocks, input) =>
   messageBlocks.push({
     module: {
       id: chatbot._id,
-      type: 'messenger_shopify_chatbot'
+      type: 'messenger_commerce_chatbot'
     },
     title: 'Search Products',
     uniqueId: blockId,
@@ -170,7 +170,7 @@ const getCheckOrdersBlock = (chatbot, mainMenuId, blockId, orderStatusId, messag
   messageBlocks.push({
     module: {
       id: chatbot._id,
-      type: 'messenger_shopify_chatbot'
+      type: 'messenger_commerce_chatbot'
     },
     title: 'Check Orders',
     uniqueId: blockId,
@@ -212,7 +212,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'messenger_shopify_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Discover Products',
       uniqueId: '' + new Date().getTime(),
@@ -270,6 +270,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
       }
 
       if (products.nextPageParameters) {
+        console.log('products.nextPageParameters', products.nextPageParameters)
         messageBlock.payload[1].cards.push({
           title: 'View More',
           subtitle: `Click on the "View More" button to view more products`,
@@ -314,7 +315,7 @@ const getReturnOrderIdBlock = (chatbot, blockId, messageBlocks) => {
   messageBlocks.push({
     module: {
       id: chatbot._id,
-      type: 'messenger_shopify_chatbot'
+      type: 'messenger_commerce_chatbot'
     },
     title: 'Get Return Product ID',
     uniqueId: blockId,
@@ -347,7 +348,7 @@ const getReturnOrderBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'messenger_shopify_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Show My Cart',
       uniqueId: '' + new Date().getTime(),
@@ -391,7 +392,7 @@ const getFaqsBlock = (chatbot, blockId, messageBlocks, backId) => {
   messageBlocks.push({
     module: {
       id: chatbot._id,
-      type: 'messenger_shopify_chatbot'
+      type: 'messenger_commerce_chatbot'
     },
     title: 'FAQs',
     uniqueId: blockId,
@@ -427,7 +428,7 @@ const getOrderIdBlock = (chatbot, blockId, backId, messageBlocks) => {
   messageBlocks.push({
     module: {
       id: chatbot._id,
-      type: 'messenger_shopify_chatbot'
+      type: 'messenger_commerce_chatbot'
     },
     title: 'Get Order ID',
     uniqueId: blockId,
@@ -466,7 +467,7 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'messenger_shopify_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Order Status',
       uniqueId: '' + new Date().getTime(),
@@ -572,7 +573,7 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider, arg
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'messenger_shopify_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Product Categories',
       uniqueId: '' + new Date().getTime(),
@@ -634,7 +635,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, argum
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'messenger_shopify_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Product Variants',
       uniqueId: '' + new Date().getTime(),
@@ -728,7 +729,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'messenger_shopify_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Select Product',
       uniqueId: '' + new Date().getTime(),
@@ -777,7 +778,7 @@ const getQuantityToAddBlock = async (chatbot, backId, contact, product) => {
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'messenger_shopify_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Quantity to Add',
       uniqueId: '' + new Date().getTime(),
@@ -858,8 +859,10 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
         image: product.image
       })
     }
-
-    updateSubscriber({ _id: contact._id }, { shoppingCart }, null, {})
+    if (contact.commerceCustomer) {
+      contact.commerceCustomer.cartId = null
+    }
+    updateSubscriber({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
     let text = `${quantity} ${product.product}${quantity !== 1 ? 's have' : ' has'} been succesfully added to your cart.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
@@ -878,7 +881,7 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'messenger_shopify_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Show My Cart',
       uniqueId: '' + new Date().getTime(),
@@ -991,7 +994,10 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
     } else if (shoppingCart[productInfo.productIndex].quantity < 0) {
       throw new Error(`${ERROR_INDICATOR}Invalid quantity given.`)
     }
-    updateSubscriber({ _id: contact._id }, { shoppingCart }, null, {})
+    if (contact.commerceCustomer) {
+      contact.commerceCustomer.cartId = null
+    }
+    updateSubscriber({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
     let text = `${quantity} ${productInfo.product}${quantity !== 1 ? 's have' : 'has'} been succesfully removed from your cart.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
@@ -1011,7 +1017,7 @@ const getQuantityToRemoveBlock = async (chatbot, backId, product) => {
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'messenger_shopify_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Quantity to Remove',
       uniqueId: '' + new Date().getTime(),
@@ -1055,7 +1061,7 @@ const clearCart = async (chatbot, contact) => {
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'messenger_shopify_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Your cart has been successfully cleared',
       uniqueId: '' + new Date().getTime(),
@@ -1076,7 +1082,10 @@ const clearCart = async (chatbot, contact) => {
       companyId: chatbot.companyId
     }
     let shoppingCart = []
-    updateSubscriber({ _id: contact._id }, { shoppingCart }, {})
+    if (contact.commerceCustomer) {
+      contact.commerceCustomer.cartId = null
+    }
+    updateSubscriber({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, {})
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to clear cart'
@@ -1100,7 +1109,7 @@ const getCheckoutEmailBlock = async (chatbot, contact, backId, newEmail) => {
       messageBlock = {
         module: {
           id: chatbot._id,
-          type: 'messenger_shopify_chatbot'
+          type: 'messenger_commerce_chatbot'
         },
         title: 'Checkout Email',
         uniqueId: '' + new Date().getTime(),
@@ -1129,7 +1138,7 @@ const getCheckoutEmailBlock = async (chatbot, contact, backId, newEmail) => {
       messageBlock = {
         module: {
           id: chatbot._id,
-          type: 'messenger_shopify_chatbot'
+          type: 'messenger_commerce_chatbot'
         },
         title: 'Checkout Email',
         uniqueId: '' + new Date().getTime(),
@@ -1174,7 +1183,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'messenger_shopify_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Checkout Link',
       uniqueId: '' + new Date().getTime(),
@@ -1203,7 +1212,6 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
       } else {
         commerceCustomer = commerceCustomer[0]
       }
-      updateSubscriber({ _id: contact._id }, { commerceCustomer }, {})
     } else {
       commerceCustomer = contact.commerceCustomer
     }
@@ -1212,10 +1220,11 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
       checkoutLink = await EcommerceProvider.createPermalinkForCart(commerceCustomer, contact.shoppingCart)
     } else if (chatbot.storeType === commerceConstants.bigcommerce) {
       const bigcommerceCart = await EcommerceProvider.createCart(commerceCustomer.id, contact.shoppingCart)
+      commerceCustomer.cartId = bigcommerceCart.id
       checkoutLink = await EcommerceProvider.createPermalinkForCartBigCommerce(bigcommerceCart.id)
       checkoutLink = checkoutLink.data.cart_url
     }
-    updateSubscriber({ _id: contact._id }, { shoppingCart: [] }, null, {})
+    updateSubscriber({ _id: contact._id }, { commerceCustomer: contact.commerceCustomer }, null, {})
 
     if (checkoutLink) {
       messageBlock.payload[0].buttons = [{
@@ -1239,7 +1248,7 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'messenger_shopify_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Recent Orders',
       uniqueId: '' + new Date().getTime(),
@@ -1303,7 +1312,7 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
 //   return {
 //     module: {
 //       id: chatbot._id,
-//       type: 'messenger_shopify_chatbot'
+//       type: 'messenger_commerce_chatbot'
 //     },
 //     title: 'Error',
 //     uniqueId: '' + new Date().getTime(),
@@ -1381,7 +1390,7 @@ const getQuantityToUpdateBlock = async (chatbot, backId, product, contact) => {
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'messenger_shopify_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Quantity to Update',
       uniqueId: '' + new Date().getTime(),
@@ -1449,7 +1458,10 @@ const getUpdateCartBlock = async (chatbot, backId, contact, product, quantity) =
         image: product.image
       })
     }
-    updateSubscriber({ _id: contact._id }, { shoppingCart }, null, {})
+    if (contact.commerceCustomer) {
+      contact.commerceCustomer.cartId = null
+    }
+    updateSubscriber({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
     let text = `${product.product} quantity has been updated to ${quantity}.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
