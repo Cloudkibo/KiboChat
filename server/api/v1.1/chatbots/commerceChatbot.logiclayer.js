@@ -843,11 +843,13 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
     if (existingProductIndex > -1) {
       let previousQuantity = shoppingCart[existingProductIndex].quantity
       if ((previousQuantity + quantity) > product.inventory_quantity) {
+        userError = true
         throw new Error(`${ERROR_INDICATOR}Your requested quantity exceeds the stock available (${product.inventory_quantity}). Your cart already contains ${previousQuantity}. Please enter a quantity less than ${product.inventory_quantity - previousQuantity}.`)
       }
       shoppingCart[existingProductIndex].quantity += quantity
     } else {
       if (quantity > product.inventory_quantity) {
+        userError = true
         throw new Error(`${ERROR_INDICATOR}Your requested quantity exceeds the stock available (${product.inventory_quantity}). Please enter a quantity less than ${product.inventory_quantity}.`)
       }
       shoppingCart.push({
