@@ -66,18 +66,45 @@ function _saveUserInfoInCustomField (subscriber, awaitingUserInfo, event, compan
           'subscriberId': subscriber._id,
           'value': event.message.text
         }
-        require('./../../../config/socketio').sendMessageToClient({
-          room_id: companyId,
-          body: {
-            action: 'set_custom_field_value',
-            payload: {
-              setCustomField: customFieldSubscriber
+        utility.callApi('custom_field_subscribers/query', 'post', { purpose: 'findOne', match: {customFieldId: customField._id, subscriberId: subscriber._id} })
+          .then(fieldFound => {
+            if (fieldFound) {
+              utility.callApi('custom_field_subscribers', 'put', { purpose: 'updateOne', match: { customFieldId: customField._id, subscriberId: subscriber._id }, updated: { value: event.message.text } })
+                .then(updated => {
+                  logger.serverLog('Custom field updated', `${TAG}: exports._saveUserInfoInCustomField`, {}, {awaitingUserInfo, event, subscriber}, 'info')
+                  require('./../../../config/socketio').sendMessageToClient({
+                    room_id: companyId,
+                    body: {
+                      action: 'set_custom_field_value',
+                      payload: {
+                        setCustomField: customFieldSubscriber
+                      }
+                    }
+                  })
+                })
+                .catch(err => {
+                  const message = err || 'Failed to update custom field'
+                  return logger.serverLog(message, `${TAG}: exports._saveUserInfoInCustomField`, {}, {awaitingUserInfo, event, subscriber}, 'error')
+                })
+            } else {
+              utility.callApi('custom_field_subscribers', 'post', customFieldSubscriber)
+                .then(created => {
+                  require('./../../../config/socketio').sendMessageToClient({
+                    room_id: companyId,
+                    body: {
+                      action: 'set_custom_field_value',
+                      payload: {
+                        setCustomField: customFieldSubscriber
+                      }
+                    }
+                  })
+                  logger.serverLog('Custom field created', `${TAG}: exports._saveUserInfoInCustomField`, {}, {awaitingUserInfo, event, subscriber}, 'info')
+                })
+                .catch(err => {
+                  const message = err || 'Failed to create custom field'
+                  return logger.serverLog(message, `${TAG}: exports.captureUserEmailAndPhone`, {}, {awaitingUserInfo, event, subscriber}, 'error')
+                })
             }
-          }
-        })
-        utility.callApi('custom_field_subscribers', 'post', customFieldSubscriber)
-          .then(customFieldUpdated => {
-            logger.serverLog('Custom field updated successfully', `${TAG}: exports.captureUserEmailAndPhone`, {}, {awaitingUserInfo, event, subscriber}, 'debug')
           })
           .catch(error => {
             const message = error || 'Failed to update custom field'
