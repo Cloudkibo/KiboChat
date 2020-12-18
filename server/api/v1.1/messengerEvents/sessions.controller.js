@@ -7,14 +7,14 @@ const needle = require('needle')
 // const moment = require('moment')
 const sessionLogicLayer = require('../sessions/sessions.logiclayer')
 const logicLayer = require('./logiclayer')
-const { captureUserEmailAndPhone } = require('./capturePhoneEmail.logiclayer')
+const { captureUserEmailAndPhone, unSetAwaitingUserInfoPayload } = require('./capturePhoneEmail.logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
 const { record } = require('../../global/messageStatistics')
 const { sendNotifications } = require('../../global/sendNotification')
 const { sendWebhook } = require('../../global/sendWebhook')
 
 const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('../../global/messageAlerts')
-const { handleTriggerMessage, handleCommerceChatbot } = require('./chatbotAutomation.controller')
+const { handleTriggerMessage, handleCommerceChatbot, isTriggerMessage } = require('./chatbotAutomation.controller')
 
 exports.index = function (req, res) {
   // logger.serverLog(TAG, `payload received in page ${JSON.stringify(req.body.page)}`, 'debug')
@@ -68,10 +68,21 @@ exports.index = function (req, res) {
                   pushSessionPendingAlertInStack(company, subscriber, 'messenger')
                 }
                 if (!event.message.is_echo && subscriber.awaitingQuickReplyPayload && subscriber.awaitingQuickReplyPayload.action) {
-                  var query = subscriber.awaitingQuickReplyPayload.action.find((ac) => { return ac.query === 'email' || ac.query === 'phone' })
-                  if (query.keyboardInputAllowed) {
-                    captureUserEmailAndPhone(event, subscriber, page)
-                  }
+                  isTriggerMessage(event, page)
+                    .then(isTrigger => {
+                      if (!isTrigger) {
+                        var query = subscriber.awaitingQuickReplyPayload.action.find((ac) => { return ac.query === 'email' || ac.query === 'phone' })
+                        if (query.keyboardInputAllowed) {
+                          captureUserEmailAndPhone(event, subscriber, page)
+                        }
+                      } else {
+                        unSetAwaitingUserInfoPayload(subscriber)
+                      }
+                    })
+                    .catch(err => {
+                      const message = err || 'Failed to check trigger message'
+                      return logger.serverLog(message, `${TAG}: exports.index`, req.body, {}, 'error')
+                    })
                 }
                 utility.callApi('subscribers/update', 'put', { query: { _id: subscriber._id }, newPayload: _prepareSubscriberUpdatePayload(event, subscriber, company), options: {} })
                   .then(updated => {

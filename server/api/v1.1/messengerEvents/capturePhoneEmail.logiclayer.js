@@ -41,7 +41,7 @@ exports.captureUserEmailAndPhone = (event, subscriber, page) => {
     }
   }
   if (awaitingUserInfo !== '') {
-    _saveUserInfoInCustomField(subscriber, awaitingUserInfo, event)
+    _saveUserInfoInCustomField(subscriber, awaitingUserInfo, event, page.companyId)
   } else {
     if (invalidInput !== '') {
       var payload = {
@@ -57,7 +57,7 @@ exports.captureUserEmailAndPhone = (event, subscriber, page) => {
   _unSetAwaitingUserInfoPayload(subscriber)
 }
 
-function _saveUserInfoInCustomField (subscriber, awaitingUserInfo, event) {
+function _saveUserInfoInCustomField (subscriber, awaitingUserInfo, event, companyId) {
   utility.callApi('custom_fields/query', 'post', { purpose: 'findOne', match: { name: awaitingUserInfo, default: true } })
     .then(customField => {
       if (customField) {
@@ -66,11 +66,45 @@ function _saveUserInfoInCustomField (subscriber, awaitingUserInfo, event) {
           'subscriberId': subscriber._id,
           'value': event.message.text
         }
-        console.log(customField)
-        utility.callApi('custom_field_subscribers', 'post', customFieldSubscriber)
-          .then(customFieldUpdated => {
-            console.log('updated')
-            logger.serverLog('Custom field updated successfully', `${TAG}: exports.captureUserEmailAndPhone`, {}, {awaitingUserInfo, event, subscriber}, 'debug')
+        utility.callApi('custom_field_subscribers/query', 'post', { purpose: 'findOne', match: {customFieldId: customField._id, subscriberId: subscriber._id} })
+          .then(fieldFound => {
+            if (fieldFound) {
+              utility.callApi('custom_field_subscribers', 'put', { purpose: 'updateOne', match: { customFieldId: customField._id, subscriberId: subscriber._id }, updated: { value: event.message.text } })
+                .then(updated => {
+                  logger.serverLog('Custom field updated', `${TAG}: exports._saveUserInfoInCustomField`, {}, {awaitingUserInfo, event, subscriber}, 'info')
+                  require('./../../../config/socketio').sendMessageToClient({
+                    room_id: companyId,
+                    body: {
+                      action: 'set_custom_field_value',
+                      payload: {
+                        setCustomField: customFieldSubscriber
+                      }
+                    }
+                  })
+                })
+                .catch(err => {
+                  const message = err || 'Failed to update custom field'
+                  return logger.serverLog(message, `${TAG}: exports._saveUserInfoInCustomField`, {}, {awaitingUserInfo, event, subscriber}, 'error')
+                })
+            } else {
+              utility.callApi('custom_field_subscribers', 'post', customFieldSubscriber)
+                .then(created => {
+                  require('./../../../config/socketio').sendMessageToClient({
+                    room_id: companyId,
+                    body: {
+                      action: 'set_custom_field_value',
+                      payload: {
+                        setCustomField: customFieldSubscriber
+                      }
+                    }
+                  })
+                  logger.serverLog('Custom field created', `${TAG}: exports._saveUserInfoInCustomField`, {}, {awaitingUserInfo, event, subscriber}, 'info')
+                })
+                .catch(err => {
+                  const message = err || 'Failed to create custom field'
+                  return logger.serverLog(message, `${TAG}: exports.captureUserEmailAndPhone`, {}, {awaitingUserInfo, event, subscriber}, 'error')
+                })
+            }
           })
           .catch(error => {
             const message = error || 'Failed to update custom field'

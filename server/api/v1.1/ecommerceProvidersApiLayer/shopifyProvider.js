@@ -249,7 +249,13 @@ exports.getOrderStatus = (id, credentials) => {
   return new Promise(function (resolve, reject) {
     shopify.graphql(query)
       .then(result => {
-        let order = result.orders.edges[0].node
+        let order = null
+        if (result.orders.edges[0]) {
+          order = result.orders.edges[0].node
+        } else {
+          resolve(order)
+          return
+        }
         order = {
           ...order,
           lineItems: order.lineItems.edges.map(lineItem => {

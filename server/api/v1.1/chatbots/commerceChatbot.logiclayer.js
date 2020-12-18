@@ -382,7 +382,7 @@ const getReturnOrderBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to return order'
-    return logger.serverLog(message, `${TAG}: exports.getReturnOrderBlock`, {}, {}, 'error')
+    logger.serverLog(message, `${TAG}: exports.getReturnOrderBlock`, {}, {}, 'error')
     throw new Error(`${ERROR_INDICATOR}Unable to return order`)
   }
 }
@@ -461,6 +461,7 @@ const getOrderIdBlock = (chatbot, blockId, backId, messageBlocks) => {
 }
 
 const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) => {
+  let userError = false
   try {
     let messageBlock = {
       module: {
@@ -496,6 +497,10 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
       companyId: chatbot.companyId
     }
     let orderStatus = await EcommerceProvider.checkOrderStatus(Number(orderId))
+    if (!orderStatus) {
+      userError = true
+      throw new Error('Unable to get order status. Please make sure your order ID is valid and that the order was placed within the last 60 days.')
+    }
     if (orderStatus.displayFinancialStatus) {
       messageBlock.payload[0].text += `\nPayment: ${orderStatus.displayFinancialStatus}`
     }
@@ -550,9 +555,15 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     messageBlock.payload[0].text += `\n\nThis order was placed on ${new Date(orderStatus.createdAt).toDateString()}`
     return messageBlock
   } catch (err) {
-    const message = err || 'Unable to get order status'
-    logger.serverLog(message, `${TAG}: exports.getOrderStatusBlock`, {}, {}, 'error')
-    throw new Error(`${ERROR_INDICATOR}Unable to get order status. Please make sure your order ID is valid.`)
+    if (!userError) {
+      const message = err || 'Unable to get order status'
+      logger.serverLog(message, `${TAG}: exports.getOrderStatusBlock`, {}, {}, 'error')
+    }
+    if (err && err.message) {
+      throw new Error(`${ERROR_INDICATOR}${err.message}`)
+    } else {
+      throw new Error(`${ERROR_INDICATOR}Unable to get order status.`)
+    }
   }
 }
 
@@ -819,9 +830,11 @@ const getQuantityToAddBlock = async (chatbot, backId, contact, product) => {
 }
 
 const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) => {
+  let userError = false
   try {
     quantity = Number(quantity)
     if (!Number.isInteger(quantity) || quantity <= 0) {
+      userError = true
       throw new Error(`${ERROR_INDICATOR}Invalid quantity given.`)
     }
     let shoppingCart = contact.shoppingCart ? contact.shoppingCart : []
@@ -829,11 +842,13 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
     if (existingProductIndex > -1) {
       let previousQuantity = shoppingCart[existingProductIndex].quantity
       if ((previousQuantity + quantity) > product.inventory_quantity) {
+        userError = true
         throw new Error(`${ERROR_INDICATOR}Your requested quantity exceeds the stock available (${product.inventory_quantity}). Your cart already contains ${previousQuantity}. Please enter a quantity less than ${product.inventory_quantity - previousQuantity}.`)
       }
       shoppingCart[existingProductIndex].quantity += quantity
     } else {
       if (quantity > product.inventory_quantity) {
+        userError = true
         throw new Error(`${ERROR_INDICATOR}Your requested quantity exceeds the stock available (${product.inventory_quantity}). Please enter a quantity less than ${product.inventory_quantity}.`)
       }
       shoppingCart.push({
@@ -849,11 +864,13 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
     }
 
     updateSubscriber({ _id: contact._id }, { shoppingCart }, null, {})
-    let text = `${quantity} ${product.product}${quantity !== 1 ? 's have' : 'has'} been succesfully added to your cart.`
+    let text = `${quantity} ${product.product}${quantity !== 1 ? 's have' : ' has'} been succesfully added to your cart.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
-    const message = err || 'Unable to add to cart'
-    logger.serverLog(message, `${TAG}: exports.getAddToCartBlock`, {}, {}, 'error')
+    if (!userError) {
+      const message = err || 'Unable to add to cart'
+      logger.serverLog(message, `${TAG}: exports.getAddToCartBlock`, {}, {}, 'error')
+    }
     if (err.message) {
       throw new Error(`${ERROR_INDICATOR}${err.message}`)
     } else {
@@ -960,6 +977,7 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
 }
 
 const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, quantity) => {
+  let userError = false
   try {
     let shoppingCart = contact.shoppingCart ? contact.shoppingCart : []
     let existingProductIndex = shoppingCart.findIndex((item) => item.variant_id === productInfo.variant_id)
@@ -972,20 +990,24 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
     }
     quantity = Number(quantity)
     if (!Number.isInteger(quantity) || quantity < 0) {
+      userError = true
       throw new Error(`${ERROR_INDICATOR}Invalid quantity given.`)
     }
     shoppingCart[productInfo.productIndex].quantity -= quantity
     if (shoppingCart[productInfo.productIndex].quantity === 0) {
       shoppingCart.splice(productInfo.productIndex, 1)
     } else if (shoppingCart[productInfo.productIndex].quantity < 0) {
+      userError = true
       throw new Error(`${ERROR_INDICATOR}Invalid quantity given.`)
     }
     updateSubscriber({ _id: contact._id }, { shoppingCart }, null, {})
     let text = `${quantity} ${productInfo.product}${quantity !== 1 ? 's have' : 'has'} been succesfully removed from your cart.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
-    const message = err || 'Unable to remove item(s) from cart'
-    logger.serverLog(message, `${TAG}: exports.getRemoveFromCartBlock`, {}, {}, 'error')
+    if (!userError) {
+      const message = err || 'Unable to remove item(s) from cart'
+      logger.serverLog(message, `${TAG}: exports.getRemoveFromCartBlock`, {}, {}, 'error')
+    }
     if (err.message) {
       throw new Error(`${ERROR_INDICATOR}${err.message}`)
     } else {
@@ -1410,12 +1432,15 @@ const getQuantityToUpdateBlock = async (chatbot, backId, product, contact) => {
 }
 
 const getUpdateCartBlock = async (chatbot, backId, contact, product, quantity) => {
+  let userError = false
   try {
     quantity = Number(quantity)
     if (!Number.isInteger(quantity) || quantity < 0) {
+      userError = true
       throw new Error(`${ERROR_INDICATOR}Invalid quantity given.`)
     }
     if (quantity > product.inventory_quantity) {
+      userError = true
       throw new Error(`${ERROR_INDICATOR}Your requested quantity exceeds the stock available (${product.inventory_quantity}). Please enter a quantity less than ${product.inventory_quantity}.`)
     }
     let shoppingCart = contact.shoppingCart ? contact.shoppingCart : []
@@ -1442,8 +1467,10 @@ const getUpdateCartBlock = async (chatbot, backId, contact, product, quantity) =
     let text = `${product.product} quantity has been updated to ${quantity}.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
-    const message = err || 'Unable to update cart'
-    logger.serverLog(message, `${TAG}: exports.getUpdateCartBlock`, {}, {}, 'error')
+    if (!userError) {
+      const message = err || 'Unable to update cart'
+      logger.serverLog(message, `${TAG}: exports.getUpdateCartBlock`, {}, {}, 'error')
+    }
     if (err.message) {
       throw new Error(`${ERROR_INDICATOR}${err.message}`)
     } else {
