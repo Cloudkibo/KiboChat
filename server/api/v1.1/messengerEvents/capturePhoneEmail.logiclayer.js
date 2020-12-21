@@ -134,7 +134,7 @@ function _unSetAwaitingUserInfoPayload (subscriber, awaiting) {
 }
 
 function sendInvalidInputResponse (senderId, item, subscriber, page) {
-  sendResponse(senderId, item, subscriber, page.accessToken)
+  sendResponse(senderId, item, subscriber, page.accessToken, null, 'SENT_FROM_CHATBOT')
 }
 
 exports.unSetAwaitingUserInfoPayload = _unSetAwaitingUserInfoPayload
