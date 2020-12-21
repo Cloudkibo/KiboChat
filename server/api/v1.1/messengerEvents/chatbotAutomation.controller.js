@@ -362,9 +362,9 @@ exports.handleChatBotTestMessage = (req, page, subscriber, type) => {
     })
 }
 
-function sendResponse (recipientId, payload, subscriber, accessToken, blockInfo) {
+function sendResponse (recipientId, payload, subscriber, accessToken, blockInfo, metadata) {
   let isCaptureUserPhoneEmail = logicLayer.checkCaptureUserEmailPhone(payload)
-  let finalPayload = logicLayer.prepareSendAPIPayload(recipientId, payload, subscriber.firstName, subscriber.lastName, true)
+  let finalPayload = logicLayer.prepareSendAPIPayload(recipientId, payload, subscriber.firstName, subscriber.lastName, true, metadata)
   record('messengerChatOutGoing')
   facebookApiCaller('v3.2', `me/messages?access_token=${accessToken}`, 'post', finalPayload)
     .then(response => {
