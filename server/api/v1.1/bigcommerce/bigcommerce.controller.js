@@ -10,6 +10,7 @@ const EcommerceProviders = require('./../ecommerceProvidersApiLayer/EcommercePro
 const commerceConstants = require('./../ecommerceProvidersApiLayer/constants')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const path = require('path')
+const { callApi } = require('../utility')
 const BigCommerce = require('node-bigcommerce')
 const bigCommerce = new BigCommerce({
   clientId: config.bigcommerce.client_id,
@@ -18,11 +19,35 @@ const bigCommerce = new BigCommerce({
   responseType: 'json'
 })
 
+function registerWebhooks () {
+  bigCommerce.post('/hooks', {
+    'scope': 'store/cart/converted',
+    'destination': `${config.domain}/api/bigcommerce/complete-checkout`,
+    'is_active': true
+  })
+}
+
+exports.handleCompleteCheckout = function (req, res) {
+  try {
+    const updateData = {
+      query: {'commerceCustomer.cartId': req.body.data.id},
+      newPayload: { shoppingCart: [] },
+      options: {}
+    }
+    callApi(`whatsAppContacts/update`, 'put', updateData)
+    callApi(`subscribers/update`, 'put', updateData)
+  } catch (err) {
+    const message = err || 'Error processing bigcommerce complete checkout webhook '
+    logger.serverLog(message, `${TAG}: exports.handleCompleteCheckout`, req.body, {header: req.header}, 'error')
+  }
+}
+
 exports.install = function (req, res) {
   bigCommerce.authorize(req.query)
     .then(data => {
       res.cookie('bigCommerceAuthPayload', JSON.stringify(data))
       res.cookie('bigCommerceSetupState', 'startedFromApp')
+      registerWebhooks()
       res.sendFile(path.join(__dirname, '/proceedToIntegratePage.html'))
     })
     .catch(err => {

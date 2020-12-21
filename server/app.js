@@ -21,6 +21,7 @@ const appObj = (config.env === 'production' || config.env === 'staging') ? app :
   }).install()
   appObj.use(Raven.requestHandler())
 } */
+
 if (config.env === 'production' || config.env === 'staging') {
   Sentry.init({
     dsn: 'https://6c7958e0570f455381d6f17122fbd117@o132281.ingest.sentry.io/292307',
