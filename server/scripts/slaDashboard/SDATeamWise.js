@@ -3,31 +3,31 @@ const TAG = 'scripts/slaDashboard.js'
 const { callApi } = require('../../api/v1.1/utility')
 const { _getResponsesData } = require('./utilities')
 
-exports.pushDayWiseRecordsToSDAUser = function (last24) {
+exports.pushDayWiseRecordsToSDATeam = function (last24) {
   const newSessionsCriteria = [
-    {$match: {assignedAt: {$gt: last24}, is_assigned: true, 'assigned_to.type': 'agent'}},
-    {$group: {_id: {userId: '$assigned_to.id', pageId: '$pageId'}, companyId: {$first: '$companyId'}, count: {$sum: 1}}}
+    {$match: {assignedAt: {$gt: last24}, is_assigned: true, 'assigned_to.type': 'team'}},
+    {$group: {_id: {teamId: '$assigned_to.id', pageId: '$pageId'}, companyId: {$first: '$companyId'}, count: {$sum: 1}}}
   ]
   const openSessionsCriteria = [
-    {$match: {openedAt: {$gt: last24}, is_assigned: true, 'assigned_to.type': 'agent', status: 'new'}},
-    {$group: {_id: {userId: '$assigned_to.id', pageId: '$pageId'}, companyId: {$first: '$companyId'}, count: {$sum: 1}}}
+    {$match: {openedAt: {$gt: last24}, is_assigned: true, 'assigned_to.type': 'team', status: 'new'}},
+    {$group: {_id: {teamId: '$assigned_to.id', pageId: '$pageId'}, companyId: {$first: '$companyId'}, count: {$sum: 1}}}
   ]
   const closedSessionsCriteria = [
-    {$match: {resolvedAt: {$gt: last24}, is_assigned: true, 'assigned_to.type': 'agent', status: 'resolved'}},
-    {$group: {_id: {userId: '$assigned_to.id', pageId: '$pageId'}, companyId: {$first: '$companyId'}, count: {$sum: 1}}}
+    {$match: {resolvedAt: {$gt: last24}, is_assigned: true, 'assigned_to.type': 'team', status: 'resolved'}},
+    {$group: {_id: {teamId: '$assigned_to.id', pageId: '$pageId'}, companyId: {$first: '$companyId'}, count: {$sum: 1}}}
   ]
   const pendingSessionsCriteria = [
-    {$match: {pendingAt: {$gt: last24}, is_assigned: true, 'assigned_to.type': 'agent'}},
-    {$group: {_id: {userId: '$assigned_to.id', pageId: '$pageId'}, companyId: {$first: '$companyId'}, count: {$sum: 1}}}
+    {$match: {pendingAt: {$gt: last24}, is_assigned: true, 'assigned_to.type': 'team'}},
+    {$group: {_id: {teamId: '$assigned_to.id', pageId: '$pageId'}, companyId: {$first: '$companyId'}, count: {$sum: 1}}}
   ]
   const messagesSentCriteria = [
     {$match: {datetime: {$gt: last24}, format: 'convos', replied_by: {$exists: true}}},
-    {$group: {_id: {pageId: '$sender_id', userId: '$replied_by.id'}, companyId: {$first: '$company_id'}, count: {$sum: 1}}}
+    {$group: {_id: {pageId: '$sender_id', teamId: '$replied_by.id'}, companyId: {$first: '$company_id'}, count: {$sum: 1}}}
   ]
   const avgResolvedTimeCriteria = [
-    {$match: {resolvedAt: {$gt: last24}, is_assigned: true, 'assigned_to.type': 'agent', status: 'resolved'}},
+    {$match: {resolvedAt: {$gt: last24}, is_assigned: true, 'assigned_to.type': 'team', status: 'resolved'}},
     {$project: {pageId: 1, diff: {$subtract: ['$resolvedAt', '$openedAt']}}},
-    {$group: {_id: {userId: '$assigned_to.id', pageId: '$pageId'}, average: {$avg: '$diff'}}}
+    {$group: {_id: {teamId: '$assigned_to.id', pageId: '$pageId'}, average: {$avg: '$diff'}}}
   ]
 
   const newSessionsPromise = callApi('subscribers/aggregate', 'post', newSessionsCriteria)
@@ -52,17 +52,17 @@ exports.pushDayWiseRecordsToSDAUser = function (last24) {
       const pendingSessions = results[3]
       const messagesSent = results[4]
       const avgResolvedTime = results[5]
-      const usersData = await _getUniqueRecords([...newSessions, ...openSessions, ...closedSessions, ...pendingSessions, ...messagesSent])
+      const teamsData = await _getUniqueRecords([...newSessions, ...openSessions, ...closedSessions, ...pendingSessions, ...messagesSent])
       let SDAUserWiseData = []
-      for (let i = 0; i < usersData.length; i++) {
-        const responsesData = await _getResponsesData(usersData[i]._id.pageId, last24)
+      for (let i = 0; i < teamsData.length; i++) {
+        const responsesData = await _getResponsesData(teamsData[i]._id.pageId, last24)
         SDAUserWiseData.push({
-          companyId: usersData[i].companyId,
-          pageId: usersData[i]._id.pageId,
-          userId: usersData[i]._id.userId,
-          session: await _getSessionsCount(usersData[i]._id, newSessions, openSessions, closedSessions, pendingSessions),
-          messages: await _getMessagesCount(usersData[i]._id, messagesSent),
-          avgResolveTime: await _getAverageResolveTime(usersData[i]._id, avgResolvedTime),
+          companyId: teamsData[i].companyId,
+          pageId: teamsData[i]._id.pageId,
+          teamId: teamsData[i]._id.teamId,
+          session: await _getSessionsCount(teamsData[i]._id, newSessions, openSessions, closedSessions, pendingSessions),
+          messages: await _getMessagesCount(teamsData[i]._id, messagesSent),
+          avgResolveTime: await _getAverageResolveTime(teamsData[i]._id, avgResolvedTime),
           maxRespTime: responsesData.maxRespTime,
           avgRespTime: responsesData.avgRespTime,
           responses: responsesData.responsesData
@@ -83,13 +83,13 @@ exports.pushDayWiseRecordsToSDAUser = function (last24) {
 
 const _getUniqueRecords = (array) => {
   let uniqueRecords = array.filter(
-    (p, i, a) => a.findIndex((v) => v._id.pageId === p._id.pageId && v._id.userId === p._id.userId) === i
+    (p, i, a) => a.findIndex((v) => v._id.pageId === p._id.pageId && v._id.teamId === p._id.teamId) === i
   )
   return uniqueRecords
 }
 
 const _getSessionsCount = (data, newSessions, openSessions, closedSessions, pendingSessions) => {
-  const criteria = (s) => s._id.pageId === data.pageId && s._id.userId === data.userId
+  const criteria = (s) => s._id.pageId === data.pageId && s._id.teamId === data.teamId
   newSessions = newSessions.find(criteria)
   pendingSessions = pendingSessions.find(criteria)
   openSessions = openSessions.find(criteria)
@@ -103,14 +103,14 @@ const _getSessionsCount = (data, newSessions, openSessions, closedSessions, pend
 }
 
 const _getMessagesCount = (data, messagesSent) => {
-  messagesSent = messagesSent.find((m) => m._id.pageId === data.pageId && m._id.userId === data.userId)
+  messagesSent = messagesSent.find((m) => m._id.pageId === data.pageId && m._id.teamId === data.teamId)
   return {
     sent: messagesSent ? messagesSent.count : 0
   }
 }
 
 const _getAverageResolveTime = (data, avgResolvedTime) => {
-  avgResolvedTime = avgResolvedTime.find((a) => a._id.pageId === data.pageId && a._id.userId === data.userId)
+  avgResolvedTime = avgResolvedTime.find((a) => a._id.pageId === data.pageId && a._id.teamId === data.teamId)
   const average = avgResolvedTime ? avgResolvedTime.average : undefined
   return average
 }
