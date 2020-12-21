@@ -405,7 +405,7 @@ exports.assignAgent = function (req, res) {
         'put',
         {
           query: { _id: req.body.subscriberId },
-          newPayload: { assigned_to: assignedTo, is_assigned: req.body.isAssigned },
+          newPayload: { assigned_to: assignedTo, is_assigned: req.body.isAssigned, assignedAt: new Date() },
           options: {}
         }
       )
@@ -506,7 +506,7 @@ exports.assignTeam = function (req, res) {
         'put',
         {
           query: { _id: req.body.subscriberId },
-          newPayload: { assigned_to: assignedTo, is_assigned: req.body.isAssigned },
+          newPayload: { assigned_to: assignedTo, is_assigned: req.body.isAssigned, assignedAt: new Date() },
           options: {}
         }
       )
