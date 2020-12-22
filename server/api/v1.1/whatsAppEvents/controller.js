@@ -95,7 +95,7 @@ exports.messageReceived = function (req, res) {
                                 nextMessageBlock = await airlinesChatbotLogicLayer.getNextMessageBlock(chatbot, airlinesProvider, contact, data.messageData.text)
                               }
                               if (nextMessageBlock) {
-                                for (let messagePayload of nextMessageBlock.payload) {
+                                for (let i = 0; i < nextMessageBlock.payload.length; i++) {
                                   let chatbotResponse = {
                                     whatsApp: {
                                       accessToken: data.accessToken,
@@ -103,7 +103,7 @@ exports.messageReceived = function (req, res) {
                                       businessNumber: data.businessNumber
                                     },
                                     recipientNumber: number,
-                                    payload: messagePayload
+                                    payload: nextMessageBlock.payload[i]
                                   }
                                   record('whatsappChatOutGoing')
                                   whatsAppMapper.whatsAppMapper(req.body.provider, ActionTypes.SEND_CHAT_MESSAGE, chatbotResponse)
@@ -113,9 +113,7 @@ exports.messageReceived = function (req, res) {
                                       logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {chatbotId: chatbot._id, companyId: chatbot.companyId, chatbotResponse}, 'error')
                                     })
                                   if (company.saveAutomationMessages) {
-                                    for (let i = 0; i < nextMessageBlock.payload.length; i++) {
-                                      storeChat(company.whatsApp.businessNumber, number, contact, nextMessageBlock.payload[i], 'convos')
-                                    }
+                                    storeChat(company.whatsApp.businessNumber, number, contact, nextMessageBlock.payload[i], 'convos')
                                   }
                                 }
                                 updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
