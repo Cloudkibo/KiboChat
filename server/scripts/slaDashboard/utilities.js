@@ -3,12 +3,14 @@ const TAG = 'scripts/slaDashboard.js'
 const { callApi } = require('../../api/v1.1/utility')
 
 exports._getResponsesData = (pageId, last24) => {
+  console.log('_getResponsesData called')
   const criteria = [
     {$match: {datetime: {$gt: last24}, $or: [{sender_id: pageId}, {recipient_id: pageId}]}},
     {$group: {_id: '$subscriber_id', messages: {$push: '$$ROOT'}}}
   ]
-  callApi('livechat/aggregate', 'post', criteria, 'kibochat')
+  return callApi('livechat/aggregate', 'post', criteria, 'kibochat')
     .then(async (subscribers) => {
+      console.log('subscribers', subscribers)
       if (subscribers.length > 0) {
         let totalRespTime = 0
         let maxRespTime = 0
@@ -55,7 +57,7 @@ const _calculateMaxResponseTime = (subscriber, messages, index, maxRespTime) => 
       {$sort: {_id: -1}},
       {$limit: 1}
     ]
-    callApi('livechat/aggregate', 'post', lastMsgCriteria, 'kibochat')
+    return callApi('livechat/aggregate', 'post', lastMsgCriteria, 'kibochat')
       .then(lastMsg => {
         if (lastMsg && lastMsg.format === 'facebook') {
           lastMsgCriteria['$match'].format = 'convos'
@@ -140,21 +142,21 @@ const _calculateAvgResponseTime = async (subscriber, messages, agentReplies, ind
         {$sort: {_id: -1}},
         {$limit: 1}
       ]
-      callApi('livechat/aggregate', 'post', lastMsgCriteria, 'kibochat')
-      .then(lastMsg => {
-        if (lastMsg && lastMsg.length > 0 && lastMsg[0].format === 'facebook') {
-          responses = responses + 1
-          avgRespTime = ((new Date(firstMsg.datetime) - new Date(lastMsg[0].datetime)) + avgRespTime) / responses
+      return callApi('livechat/aggregate', 'post', lastMsgCriteria, 'kibochat')
+        .then(lastMsg => {
+          if (lastMsg && lastMsg.length > 0 && lastMsg[0].format === 'facebook') {
+            responses = responses + 1
+            avgRespTime = ((new Date(firstMsg.datetime) - new Date(lastMsg[0].datetime)) + avgRespTime) / responses
+            return _calculateAvgResponseTime(subscriber, messages, firstMsg, index + 1, responses, avgRespTime)
+          } else {
+            return _calculateAvgResponseTime(subscriber, messages, firstMsg, index + 1, responses, avgRespTime)
+          }
+        })
+        .catch(err => {
+          const message = err || 'Error at finding last message'
+          logger.serverLog(message, `${TAG}: exports._calculateAvgResponseTime`, {}, {subscriber, message}, 'error')
           return _calculateAvgResponseTime(subscriber, messages, firstMsg, index + 1, responses, avgRespTime)
-        } else {
-          return _calculateAvgResponseTime(subscriber, messages, firstMsg, index + 1, responses, avgRespTime)
-        }
-      })
-      .catch(err => {
-        const message = err || 'Error at finding last message'
-        logger.serverLog(message, `${TAG}: exports._calculateAvgResponseTime`, {}, {subscriber, message}, 'error')
-        return _calculateAvgResponseTime(subscriber, messages, firstMsg, index + 1, responses, avgRespTime)
-      })
+        })
     } else {
       const currentMsgIndex = messages.findIndex((msg) => msg._id === reply._id)
       if (messages[currentMsgIndex - 1].format === 'facebook') {

@@ -60,24 +60,23 @@ exports.pushDayWiseRecordsToSDAPage = function (last24) {
       const messagesReceived = results[5]
       const avgResolvedTime = results[6]
       const pageData = await _getUniquePageIds([...newSessions, ...openSessions, ...closedSessions, ...pendingSessions, ...messagesSent, ...messagesReceived])
-      let SDAPageWiseData = []
       for (let i = 0; i < pageData.length; i++) {
-        const responsesData = await _getResponsesData(pageData[i].pageId, last24)
-        SDAPageWiseData.push({
+        const responsesData = await _getResponsesData(pageData[i]._id, last24)
+        const data = JSON.parse(JSON.stringify({
           companyId: pageData[i].companyId,
-          pageId: pageData[i].pageId,
-          session: await _getSessionsCount(pageData[i].pageId, newSessions, openSessions, closedSessions, pendingSessions),
-          messages: await _getMessagesCount(pageData[i].pageId, messagesSent, messagesReceived),
-          avgResolveTime: await _getAverageResolveTime(pageData[i].pageId, avgResolvedTime),
+          pageId: pageData[i]._id,
+          session: await _getSessionsCount(pageData[i]._id, newSessions, openSessions, closedSessions, pendingSessions),
+          messages: await _getMessagesCount(pageData[i]._id, messagesSent, messagesReceived),
+          avgResolveTime: await _getAverageResolveTime(pageData[i]._id, avgResolvedTime),
           maxRespTime: responsesData.maxRespTime,
           avgRespTime: responsesData.avgRespTime,
           responses: responsesData.responsesData
-        })
-        callApi('slaDashboard/pageWise', 'post', SDAPageWiseData, 'kibodash')
+        }))
+        callApi('slaDashboard/pageWise', 'post', data, 'kibodash')
           .then(saved => {})
           .catch(err => {
             const message = err || 'Error at storing SDAPageWise data'
-            logger.serverLog(message, `${TAG}: exports.pushDayWiseRecordsToSDAPage`, {}, {SDAPageWiseData}, 'error')
+            logger.serverLog(message, `${TAG}: exports.pushDayWiseRecordsToSDAPage`, {}, {data}, 'error')
           })
       }
     })
