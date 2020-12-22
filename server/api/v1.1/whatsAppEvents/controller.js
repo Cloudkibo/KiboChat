@@ -47,6 +47,9 @@ exports.messageReceived = function (req, res) {
                     .then(async (contact) => {
                       try {
                         contact = contact[0]
+                        if (contact && contact.isSubscribed) {
+                          storeChat(number, company.whatsApp.businessNumber, contact, data.messageData, 'whatsApp')
+                        }
                         // whatsapp chatbot
                         pushUnresolveAlertInStack(company, contact, 'whatsApp')
                         if (isNewContact) {
@@ -160,7 +163,6 @@ exports.messageReceived = function (req, res) {
                           }
                         }
                         if (contact && contact.isSubscribed) {
-                          storeChat(number, company.whatsApp.businessNumber, contact, data.messageData, 'whatsApp')
                           if (data.messageData.componentType === 'text') {
                             try {
                               const responseBlock = await chatbotResponder.respondUsingChatbot('whatsApp', req.body.provider, company, data.messageData.text, contact)
@@ -733,7 +735,6 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
     logger.serverLog(message, `${TAG}: exports.temporarySuperBotResponseHandling`, req.body, {data, contact, company, number, isNewContact}, 'error')
   }
   if (contact && contact.isSubscribed) {
-    storeChat(number, company.whatsApp.businessNumber, contact, data.messageData, 'whatsApp')
     if (data.messageData.componentType === 'text') {
       try {
         const responseBlock = await chatbotResponder.respondUsingChatbot('whatsApp', req.body.provider, company, data.messageData.text, contact, true)
