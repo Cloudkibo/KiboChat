@@ -460,6 +460,32 @@ exports.createPermalinkForCart = (customer, lineItems, credentials) => {
   return permaLink
 }
 
+exports.createTestOrder = (customer, lineItems, credentials) => {
+  const shopify = initShopify(credentials)
+  return new Promise(function (resolve, reject) {
+    shopify.order.create({ 
+      financial_status: 'partially_paid', // 'pending',
+      line_items: lineItems,
+      customer: {
+        id: customer.id
+      },
+      transactions: [
+        {
+          kind: 'authorization',
+          status: 'success',
+          amount: 1.0
+        }
+      ]
+    })
+      .then(order => {
+        resolve(order)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
 // Address object required as discussed in shopify api
 // https://shopify.dev/docs/admin-api/rest/reference/sales-channels/checkout
 exports.updateBillingAddressOnCart = (billingAddress, cartToken, credentials) => {
