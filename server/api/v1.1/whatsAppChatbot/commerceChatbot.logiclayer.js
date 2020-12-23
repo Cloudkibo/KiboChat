@@ -1502,7 +1502,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
       if (chatbot.storeType === commerceConstants.shopify) {
         const testOrderCart = contact.shoppingCart.map((item) => {
           return {
-            variant_id: item.variant_id,
+            variant_id: item.variant_id + '',
             quantity: item.quantity
           }
         })
