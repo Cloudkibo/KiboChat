@@ -158,6 +158,14 @@ module.exports = class EcommerceProvidersApiLayer {
     }
   }
 
+  createTestOrder (customer, lineItems) {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.createTestOrder(customer, lineItems, this.eCommerceProviderCredentials)
+    } else if (this.eCommerceProvider === providers.bigcommerce) {
+      // TODO Implement when we apply for Sales API on BigCommerce
+    }
+  }
+
   checkOrderStatus (id) {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.getOrderStatus(id, this.eCommerceProviderCredentials)
