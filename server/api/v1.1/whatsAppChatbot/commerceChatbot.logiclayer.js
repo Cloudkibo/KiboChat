@@ -1483,7 +1483,7 @@ const getAskPaymentMethodBlock = async (chatbot, backId, contact, newEmail) => {
   } catch (err) {
     if (!userError) {
       const message = err || 'Unable to checkout'
-      logger.serverLog(message, `${TAG}: askPaymentMethod`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: askPaymentMethod`, {}, {contact, newEmail}, 'error')
     }
     if (userError && err.message) {
       throw new Error(`${ERROR_INDICATOR}${err.message}`)
@@ -1546,8 +1546,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
     let checkoutLink = ''
     if (argument.paymentMethod === 'cod') {
       if (chatbot.storeType === commerceConstants.shopify) {
-        console.log('creating test order commerce customer', JSON.stringify(commerceCustomer))
-        const order = EcommerceProvider.createTestOrder({id: commerceCustomer.id}, contact.shoppingCart)
+        const order = EcommerceProvider.createTestOrder(commerceCustomer, contact.shoppingCart)
         if (order && order.name) {
           messageBlock.payload[0].text += `Your order has been successfully placed. Order ID is ${order.name.replace('#', '')}`
         } else {
@@ -1575,13 +1574,13 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)} `
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)} `
 
-    updateWhatsAppContact({ _id: contact._id }, { shoppingCart: [] }, null, {})
+    updateWhatsAppContact({ _id: contact._id }, { shoppingCart: [], commerceCustomer }, null, {})
 
     return messageBlock
   } catch (err) {
     if (!userError) {
       const message = err || 'Unable to checkout'
-      logger.serverLog(message, `${TAG}: exports.getCheckoutBlock`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.getCheckoutBlock`, {}, {contact, argument}, 'error')
     }
     if (userError && err.message) {
       throw new Error(`${ERROR_INDICATOR}${err.message}`)
