@@ -1,7 +1,7 @@
 const logicLayer = require('./teams.logicLayer')
 const utility = require('../utility')
 const logger = require('../../../components/logger')
-const TAG = 'api/v2/pages/teams.controller.js'
+const TAG = 'api/v1/teams/teams.controller.js'
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
 const { updateCompanyUsage } = require('../../global/billingPricing')
 
@@ -12,44 +12,40 @@ exports.index = function (req, res) {
   }
   utility.callApi(`teams/query`, 'post', teamQuery) // fetch all teams of company
     .then(teams => {
-      if (teams && teams.length > 0) {
-        utility.callApi(`teams/agents/distinct`, 'post', {companyId: req.user.companyId}) // fetch distinct team agents
-          .then(agentIds => {
-            populateAgentIds(agentIds)
-              .then(result => {
-                utility.callApi(`user/query`, 'post', {_id: {$in: result.agentIds}}) // fetch unique agents info
-                  .then(uniqueAgents => {
-                    utility.callApi(`teams/pages/distinct`, 'post', {companyId: req.user.companyId}) // fetch distinct team pages
-                      .then(pageIds => {
-                        utility.callApi(`pages/query`, 'post', {_id: {$in: pageIds}}) // fetch unique pages info
-                          .then(uniquePages => {
-                            sendSuccessResponse(res, 200, {teams: teams, teamUniqueAgents: uniqueAgents, teamUniquePages: uniquePages})
-                          })
-                      })
-                      .catch(error => {
-                        const message = error || 'Failed to fetch distinct team pages'
-                        logger.serverLog(message, `${TAG}: exports.index`, req.body, {user: req.user}, 'error')
-                        sendErrorResponse(res, 500, `Failed to fetch distinct team pages ${JSON.stringify(error)}`)
-                      })
-                  })
-                  .catch(error => {
-                    const message = error || 'Failed to fetch unique team agents'
-                    logger.serverLog(message, `${TAG}: exports.index`, req.body, {user: req.user}, 'error')
-                    sendErrorResponse(res, 500, `Failed to fetch unique team agents ${JSON.stringify(error)}`)
-                  })
-              })
-          })
-          .catch(error => {
-            const message = error || 'Failed to fetch distinct team agents'
-            logger.serverLog(message, `${TAG}: exports.index`, req.body, {user: req.user}, 'error')
-            sendErrorResponse(res, 500, `Failed to fetch distinct team agents ${JSON.stringify(error)}`)
-          })
-      } else {
-        sendSuccessResponse(res, 200, {teams: [], teamUniqueAgents: [], teamUniquePages: []})
-      }
+      utility.callApi(`teams/agents/distinct`, 'post', {companyId: req.user.companyId}) // fetch distinct team agents
+        .then(agentIds => {
+          populateAgentIds(agentIds)
+            .then(result => {
+              utility.callApi(`user/query`, 'post', {_id: {$in: result.agentIds}}) // fetch unique agents info
+                .then(uniqueAgents => {
+                  utility.callApi(`teams/pages/distinct`, 'post', {companyId: req.user.companyId}) // fetch distinct team pages
+                    .then(pageIds => {
+                      utility.callApi(`pages/query`, 'post', {_id: {$in: pageIds}}) // fetch unique pages info
+                        .then(uniquePages => {
+                          sendSuccessResponse(res, 200, {teams: teams, teamUniqueAgents: uniqueAgents, teamUniquePages: uniquePages})
+                        })
+                    })
+                    .catch(error => {
+                      const message = error || 'Internal Server Error'
+                      logger.serverLog(message, `${TAG}: exports.index`, req.body, {user: req.user}, 'error')
+                      sendErrorResponse(res, 500, `Failed to fetch distinct team pages ${JSON.stringify(error)}`)
+                    })
+                })
+                .catch(error => {
+                  const message = error || 'Internal Server Error'
+                  logger.serverLog(message, `${TAG}: exports.index`, req.body, {user: req.user}, 'error')
+                  sendErrorResponse(res, 500, `Failed to fetch unique team agents ${JSON.stringify(error)}`)
+                })
+            })
+        })
+        .catch(error => {
+          const message = error || 'Internal Server Error'
+          logger.serverLog(message, `${TAG}: exports.index`, req.body, {user: req.user}, 'error')
+          sendErrorResponse(res, 500, `Failed to fetch distinct team agents ${JSON.stringify(error)}`)
+        })
     })
     .catch(error => {
-      const message = error || 'Failed to fetch teams'
+      const message = error || 'Internal Server Error'
       logger.serverLog(message, `${TAG}: exports.index`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch teams ${JSON.stringify(error)}`)
     })
@@ -125,9 +121,9 @@ exports.createTeam = function (req, res) {
         })
     })
     .catch(error => {
-      const message = error || 'Failed to fetch company user'
+      const message = error || 'Internal Server Error'
       logger.serverLog(message, `${TAG}: exports.createTeam`, req.body, {user: req.user}, 'error')
-      sendErrorResponse(res, 500, `Failed to fetch company user ${JSON.stringify(error)}`)
+      sendErrorResponse(res, 500, `Failed to create team ${JSON.stringify(error)}`)
     })
 }
 
@@ -164,8 +160,8 @@ exports.deleteTeam = function (req, res) {
       sendSuccessResponse(res, 200, 'Team deleted successfully!')
     })
     .catch(error => {
-      const message = error || 'Failed to delete team'
-      logger.serverLog(message, `${TAG}: exports.deleteTeam`, {}, {user: req.user, params: req.params}, 'error')
+      const message = error || 'Internal Server Error'
+      logger.serverLog(message, `${TAG}: exports.deleteTeam`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to delete team ${JSON.stringify(error)}`)
     })
 }
@@ -283,8 +279,10 @@ function populateAgentIds (agentIds) {
     for (let i = 0; i < agentIds.length; i++) {
       if (agentIds[i].agentId) {
         agentIdsToSend.push(agentIds[i].agentId._id)
+        if (i === agentIds.length - 1) {
+          resolve({agentIds: agentIdsToSend})
+        }
       }
     }
-    resolve({agentIds: agentIdsToSend})
   })
 }
