@@ -1391,6 +1391,7 @@ const getCheckoutEmailBlock = async (chatbot, contact, newEmail) => {
 // }
 
 const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, newEmail) => {
+  let userError = false
   try {
     let messageBlock = {
       module: {
@@ -1413,11 +1414,23 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
       companyId: chatbot.companyId
     }
 
+    if (newEmail) {
+      const emailRegex = /\S+@\S+\.\S+/
+      if (!emailRegex.test(newEmail)) {
+        userError = true
+        throw new Error('Invalid Email. Please input a valid email address.')
+      }
+    }
+
+    const names = contact.name.split(' ')
+    const firstName = names[0]
+    const lastName = names[1] ? names[1] : names[0]
+
     let commerceCustomer = null
     if (newEmail) {
       commerceCustomer = await EcommerceProvider.searchCustomerUsingEmail(newEmail)
       if (commerceCustomer.length === 0) {
-        commerceCustomer = await EcommerceProvider.createCustomer(contact.firstName, contact.lastName, newEmail)
+        commerceCustomer = await EcommerceProvider.createCustomer(firstName, lastName, newEmail)
       } else {
         commerceCustomer = commerceCustomer[0]
       }
@@ -1427,7 +1440,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
       if (!contact.commerceCustomer.provider || contact.commerceCustomer.provider !== chatbot.storeType) {
         commerceCustomer = await EcommerceProvider.searchCustomerUsingEmail(contact.commerceCustomer.email)
         if (commerceCustomer.length === 0) {
-          commerceCustomer = await EcommerceProvider.createCustomer(contact.firstName, contact.lastName, contact.commerceCustomer.email)
+          commerceCustomer = await EcommerceProvider.createCustomer(firstName, lastName, contact.commerceCustomer.email)
         } else {
           commerceCustomer = commerceCustomer[0]
         }
@@ -1458,9 +1471,15 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
 
     return messageBlock
   } catch (err) {
-    const message = err || 'Unable to checkout'
-    logger.serverLog(message, `${TAG}: exports.getCheckoutBlock`, {}, {}, 'error')
-    throw new Error(`${ERROR_INDICATOR}Unable to show checkout. Please make sure you have entered a correct email.`)
+    if (!userError) {
+      const message = err || 'Unable to checkout'
+      logger.serverLog(message, `${TAG}: exports.getCheckoutBlock`, {}, {}, 'error')
+    }
+    if (userError && err.message) {
+      throw new Error(`${ERROR_INDICATOR}${err.message}`)
+    } else {
+      throw new Error(`${ERROR_INDICATOR}Unable to show checkout. Please make sure you have entered a correct email.`)
+    }
   }
 }
 
