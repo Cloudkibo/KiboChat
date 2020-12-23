@@ -491,9 +491,10 @@ exports.createPermalinkForCart = (customer, lineItems, credentials) => {
 }
 
 exports.createTestOrder = (customer, lineItems, credentials) => {
+  console.log('shopify createTestOrder')
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
-    shopify.order.create({ 
+    shopify.order.create({
       financial_status: 'partially_paid', // 'pending',
       line_items: lineItems,
       customer: {
