@@ -47,6 +47,9 @@ exports.messageReceived = function (req, res) {
                     .then(async (contact) => {
                       try {
                         contact = contact[0]
+                        if (contact && contact.isSubscribed) {
+                          storeChat(number, company.whatsApp.businessNumber, contact, data.messageData, 'whatsApp')
+                        }
                         // whatsapp chatbot
                         pushUnresolveAlertInStack(company, contact, 'whatsApp')
                         if (isNewContact) {
@@ -92,7 +95,7 @@ exports.messageReceived = function (req, res) {
                                 nextMessageBlock = await airlinesChatbotLogicLayer.getNextMessageBlock(chatbot, airlinesProvider, contact, data.messageData.text)
                               }
                               if (nextMessageBlock) {
-                                for (let messagePayload of nextMessageBlock.payload) {
+                                for (let i = 0; i < nextMessageBlock.payload.length; i++) {
                                   let chatbotResponse = {
                                     whatsApp: {
                                       accessToken: data.accessToken,
@@ -100,7 +103,7 @@ exports.messageReceived = function (req, res) {
                                       businessNumber: data.businessNumber
                                     },
                                     recipientNumber: number,
-                                    payload: messagePayload
+                                    payload: nextMessageBlock.payload[i]
                                   }
                                   record('whatsappChatOutGoing')
                                   whatsAppMapper.whatsAppMapper(req.body.provider, ActionTypes.SEND_CHAT_MESSAGE, chatbotResponse)
@@ -110,9 +113,7 @@ exports.messageReceived = function (req, res) {
                                       logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {chatbotId: chatbot._id, companyId: chatbot.companyId, chatbotResponse}, 'error')
                                     })
                                   if (company.saveAutomationMessages) {
-                                    for (let i = 0; i < nextMessageBlock.payload.length; i++) {
-                                      storeChat(company.whatsApp.businessNumber, number, contact, nextMessageBlock.payload[i], 'convos')
-                                    }
+                                    storeChat(company.whatsApp.businessNumber, number, contact, nextMessageBlock.payload[i], 'convos')
                                   }
                                 }
                                 updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
@@ -160,7 +161,6 @@ exports.messageReceived = function (req, res) {
                           }
                         }
                         if (contact && contact.isSubscribed) {
-                          storeChat(number, company.whatsApp.businessNumber, contact, data.messageData, 'whatsApp')
                           if (data.messageData.componentType === 'text') {
                             try {
                               const responseBlock = await chatbotResponder.respondUsingChatbot('whatsApp', req.body.provider, company, data.messageData.text, contact)
@@ -729,7 +729,6 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
     logger.serverLog(message, `${TAG}: exports.temporarySuperBotResponseHandling`, req.body, {data, contact, company, number, isNewContact}, 'error')
   }
   if (contact && contact.isSubscribed) {
-    storeChat(number, company.whatsApp.businessNumber, contact, data.messageData, 'whatsApp')
     if (data.messageData.componentType === 'text') {
       try {
         const responseBlock = await chatbotResponder.respondUsingChatbot('whatsApp', req.body.provider, company, data.messageData.text, contact, true)
