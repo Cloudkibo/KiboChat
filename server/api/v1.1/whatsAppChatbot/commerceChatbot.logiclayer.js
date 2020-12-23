@@ -1520,18 +1520,6 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
     const firstName = names[0]
     const lastName = names[1] ? names[1] : names[0]
 
-    if (newEmail) {
-      const emailRegex = /\S+@\S+\.\S+/
-      if (!emailRegex.test(newEmail)) {
-        userError = true
-        throw new Error('Invalid Email. Please input a valid email address.')
-      }
-    }
-
-    const names = contact.name.split(' ')
-    const firstName = names[0]
-    const lastName = names[1] ? names[1] : names[0]
-
     let commerceCustomer = null
     if (argument.newEmail) {
       commerceCustomer = await EcommerceProvider.searchCustomerUsingEmail(argument.newEmail)
