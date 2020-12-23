@@ -1500,7 +1500,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
     let checkoutLink = ''
     if (argument.paymentMethod === 'cod') {
       if (chatbot.storeType === commerceConstants.shopify) {
-        const order = EcommerceProvider.createTestOrder(commerceCustomer, contact.shoppingCart)
+        const order = EcommerceProvider.createTestOrder(commerceCustomer.id, contact.shoppingCart)
         if (order && order.name) {
           messageBlock.payload[0].text += `Your order has been successfully placed. Order ID is ${order.name.replace('#', '')}`
         } else {
