@@ -7,7 +7,9 @@ module.exports = {
   BACK_KEY: 'b',
   SHOW_CART_KEY: 'c',
   HOME_KEY: 'h',
+  TALK_TO_AGENT_KEY: 't',
   ERROR_INDICATOR: '\u200B',
+  TALK_TO_AGENT: 'TALK_TO_AGENT',
   // commerce constants
   PRODUCT_CATEGORIES: 'PRODUCT_CATEGORIES',
   FETCH_PRODUCTS: 'FETCH_PRODUCTS',

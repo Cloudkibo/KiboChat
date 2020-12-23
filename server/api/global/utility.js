@@ -28,8 +28,6 @@ const openGraphScrapper = function (url) {
     let options = {url: redirectUrl || url, timeout: 10000, retry: 3}
     ogs(options, (error, results) => {
       if (error) {
-        const message = error || 'unable fetch url open graph info'
-        logger.serverLog(message, `${TAG}: openGraphScrapper`, {}, {url}, 'error')
         reject(results.error)
       } else {
         resolve(results.data)
