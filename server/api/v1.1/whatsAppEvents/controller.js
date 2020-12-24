@@ -539,7 +539,38 @@ async function temporarySuperBotTestHandling (data, contact, company, number, re
     if (!isNaN(menuInput)) {
       const selectedBot = lastMessageSentByBot.menu[menuInput]
       if (selectedBot) {
-        const nextMessageBlock = whatsAppChatbotLogicLayer.getChatbotSelectedMessageBlock(selectedBot.title)
+        contact.activeChatbotId = selectedBot.botId
+        let nextMessageBlock = await chatbotResponder.respondUsingChatbot('whatsApp', req.body.provider, company, 'hi', contact, true)
+        if (!nextMessageBlock) {
+          let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ _id: selectedBot.botId })
+          let ecommerceProvider = null
+          let airlinesProvider = null
+          if (chatbot.vertical === 'commerce') {
+            if (chatbot.storeType === commerceConstants.shopify) {
+              const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
+              ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
+                shopUrl: shopifyIntegration.shopUrl,
+                shopToken: shopifyIntegration.shopToken
+              })
+            } else if (chatbot.storeType === commerceConstants.bigcommerce) {
+              const bigCommerceIntegration = await bigcommerceDataLayer.findOneBigCommerceIntegration({ companyId: chatbot.companyId })
+              ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
+                shopToken: bigCommerceIntegration.shopToken,
+                storeHash: bigCommerceIntegration.payload.context
+              })
+            }
+          } else if (chatbot.vertical === 'airlines') {
+            airlinesProvider = new AirlinesProvider(airlinesConstants.amadeus, {
+              clientId: config.amadeus.clientId,
+              clientSecret: config.amadeus.clientSecret
+            })
+          }
+          if (ecommerceProvider) {
+            nextMessageBlock = await commerceChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text)
+          } else if (airlinesProvider) {
+            nextMessageBlock = await airlinesChatbotLogicLayer.getNextMessageBlock(chatbot, airlinesProvider, contact, data.messageData.text)
+          }
+        }
         if (nextMessageBlock) {
           sendWhatsAppMessage(nextMessageBlock, data, number, req)
           updateWhatsAppContact({ _id: contact._id },
