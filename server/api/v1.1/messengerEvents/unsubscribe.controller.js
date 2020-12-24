@@ -6,7 +6,7 @@ exports.index = function (req, res) {
   require('./../../../config/socketio').sendMessageToClient({
     room_id: req.body.companyId,
     body: {
-      action: 'Messenger_subscribe_subscriber',
+      action: 'Messenger_unsubscribe_subscriber',
       payload: {
         subscriber_id: req.body._id
       }
