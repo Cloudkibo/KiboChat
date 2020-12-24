@@ -570,9 +570,11 @@ async function temporarySuperBotTestHandling (data, contact, company, number, re
           } else if (airlinesProvider) {
             nextMessageBlock = await airlinesChatbotLogicLayer.getNextMessageBlock(chatbot, airlinesProvider, contact, 'hi')
           }
+          if (nextMessageBlock) {
+            sendWhatsAppMessage(nextMessageBlock, data, number, req)
+          }
         }
         if (nextMessageBlock) {
-          sendWhatsAppMessage(nextMessageBlock, data, number, req)
           updateWhatsAppContact({ _id: contact._id },
             { lastMessageSentByBot: nextMessageBlock,
               activeChatbotId: selectedBot.botId,
