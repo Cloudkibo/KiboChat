@@ -77,7 +77,7 @@ exports.unSubscribe = function (req, res) {
       require('./../../../config/socketio').sendMessageToClient({
         room_id: req.user.companyId,
         body: {
-          action: 'Whatsapp_subscribe_subscriber',
+          action: 'Whatsapp_unsubscribe_subscriber',
           payload: {
             subscriber_id: req.params.id,
             user_id: req.user._id,
