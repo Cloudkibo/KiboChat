@@ -370,7 +370,7 @@ exports.unSubscribe = function (req, res) {
                 })
               }
               require('./../../../config/socketio').sendMessageToClient({
-                room_id: companyUser.companyId,
+                room_id: req.user.companyId,
                 body: {
                   action: 'Messenger_unsubscribe_subscriber',
                   payload: {
