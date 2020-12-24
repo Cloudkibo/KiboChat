@@ -11,7 +11,7 @@ exports.sendTalkToAgentNotification = async (contact, companyId) => {
       action: 'chat_whatsapp',
       subscriber: contact
     }
-    const companyUsers = callApi(`companyUser/queryAll`, 'post', { companyId: companyId }, 'accounts')
+    const companyUsers = await callApi(`companyUser/queryAll`, 'post', { companyId: companyId }, 'accounts')
     sendNotifications(title, message, newPayload, companyUsers)
     saveNotifications(contact, message, companyUsers)
   } catch (err) {
