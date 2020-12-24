@@ -364,6 +364,15 @@ function sendautomatedmsg (req, page) {
                 }
                 utility.callApi(`subscribers/update`, 'put', { query: { senderId: req.sender.id }, newPayload: { isSubscribed: true }, options: {} })
                   .then(updated => {
+                    require('./../../../config/socketio').sendMessageToClient({
+                      room_id: page.companyId,
+                      body: {
+                        action: 'Messenger_subscribe_subscriber',
+                        payload: {
+                          subscriber_id: subscribers[0]._id
+                        }
+                      }
+                    })
                     logger.serverLog('Subscriber isSubscribed Updated', `${TAG}: exports.sendautomatedmsg`, {}, {req: JSON.stringify(req)}, 'debug')
                   })
                   .catch(error => {
