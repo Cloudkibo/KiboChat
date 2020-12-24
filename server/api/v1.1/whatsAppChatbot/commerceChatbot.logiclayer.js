@@ -15,6 +15,7 @@ const {
   SHOW_ITEMS_TO_REMOVE,
   SHOW_ITEMS_TO_UPDATE,
   PROCEED_TO_CHECKOUT,
+  ASK_PAYMENT_METHOD,
   RETURN_ORDER,
   GET_CHECKOUT_EMAIL,
   CLEAR_CART,
@@ -1175,7 +1176,7 @@ const getCheckoutEmailBlock = async (chatbot, contact, newEmail) => {
                         Send '1' for No`),
             componentType: 'text',
             menu: [
-              { type: DYNAMIC, action: PROCEED_TO_CHECKOUT },
+              { type: DYNAMIC, action: ASK_PAYMENT_METHOD },
               { type: DYNAMIC, action: GET_CHECKOUT_EMAIL, argument: true }
             ]
           }
@@ -1195,7 +1196,7 @@ const getCheckoutEmailBlock = async (chatbot, contact, newEmail) => {
           {
             text: `Please enter your email: `,
             componentType: 'text',
-            action: { type: DYNAMIC, action: PROCEED_TO_CHECKOUT, input: true }
+            action: { type: DYNAMIC, action: ASK_PAYMENT_METHOD, input: true }
           }
         ],
         userId: chatbot.userId,
@@ -1427,7 +1428,7 @@ const getCheckoutEmailBlock = async (chatbot, contact, newEmail) => {
 //   }
 // }
 
-const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, newEmail) => {
+const getAskPaymentMethodBlock = async (chatbot, backId, contact, newEmail) => {
   let userError = false
   try {
     let messageBlock = {
@@ -1435,12 +1436,20 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
         id: chatbot._id,
         type: 'whatsapp_commerce_chatbot'
       },
-      title: 'Checkout Link',
+      title: 'Ask Payment Method',
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Here is your checkout link: `,
+          text: dedent(`Please select a payment method:\n
+                        ${convertToEmoji(0)} Cash on Delivery
+                        ${convertToEmoji(1)} Electronic Payment\n
+                        ${specialKeyText(SHOW_CART_KEY)}
+                        ${specialKeyText(HOME_KEY)}`),
           componentType: 'text',
+          menu: [
+            { type: DYNAMIC, action: PROCEED_TO_CHECKOUT, argument: {newEmail, paymentMethod: 'cod'} },
+            { type: DYNAMIC, action: PROCEED_TO_CHECKOUT, argument: {newEmail, paymentMethod: 'e-payment'} }
+          ],
           specialKeys: {
             [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
@@ -1459,15 +1468,52 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
       }
     }
 
+    return messageBlock
+  } catch (err) {
+    if (!userError) {
+      const message = err || 'Unable to checkout'
+      logger.serverLog(message, `${TAG}: askPaymentMethod`, {}, {contact, newEmail}, 'error')
+    }
+    if (userError && err.message) {
+      throw new Error(`${ERROR_INDICATOR}${err.message}`)
+    } else {
+      throw new Error(`${ERROR_INDICATOR}Unable to select payment method`)
+    }
+  }
+}
+
+const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, argument) => {
+  let userError = false
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_commerce_chatbot'
+      },
+      title: 'Checkout Link',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: ``,
+          componentType: 'text',
+          specialKeys: {
+            [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
     const names = contact.name.split(' ')
     const firstName = names[0]
     const lastName = names[1] ? names[1] : names[0]
 
     let commerceCustomer = null
-    if (newEmail) {
-      commerceCustomer = await EcommerceProvider.searchCustomerUsingEmail(newEmail)
+    if (argument.newEmail) {
+      commerceCustomer = await EcommerceProvider.searchCustomerUsingEmail(argument.newEmail)
       if (commerceCustomer.length === 0) {
-        commerceCustomer = await EcommerceProvider.createCustomer(firstName, lastName, newEmail)
+        commerceCustomer = await EcommerceProvider.createCustomer(firstName, lastName, argument.newEmail)
       } else {
         commerceCustomer = commerceCustomer[0]
       }
@@ -1489,33 +1535,54 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
     }
 
     let checkoutLink = ''
-    if (chatbot.storeType === commerceConstants.shopify) {
-      checkoutLink = await EcommerceProvider.createPermalinkForCart(commerceCustomer, contact.shoppingCart)
-    } else if (chatbot.storeType === commerceConstants.bigcommerce) {
-      const bigcommerceCart = await EcommerceProvider.createCart(commerceCustomer.id, contact.shoppingCart)
-      checkoutLink = await EcommerceProvider.createPermalinkForCartBigCommerce(bigcommerceCart.id)
-      checkoutLink = checkoutLink.data.cart_url
+    if (argument.paymentMethod === 'cod') {
+      if (chatbot.storeType === commerceConstants.shopify) {
+        const testOrderCart = contact.shoppingCart.map((item) => {
+          return {
+            variant_id: item.variant_id + '',
+            quantity: item.quantity
+          }
+        })
+        const order = EcommerceProvider.createTestOrder({id: commerceCustomer.id + ''}, testOrderCart)
+        if (order && order.name) {
+          messageBlock.payload[0].text += `Your order has been successfully placed. Order ID is ${order.name.replace('#', '')}`
+        } else {
+          throw new Error()
+        }
+      } else {
+        messageBlock.payload[0].text += `Cash on delivery is currently not supported for this store`
+      }
+    } else if (argument.paymentMethod === 'e-payment') {
+      messageBlock.payload[0].text += `Here is your checkout link:`
+      if (chatbot.storeType === commerceConstants.shopify) {
+        checkoutLink = await EcommerceProvider.createPermalinkForCart(commerceCustomer, contact.shoppingCart)
+      } else if (chatbot.storeType === commerceConstants.bigcommerce) {
+        const bigcommerceCart = await EcommerceProvider.createCart(commerceCustomer.id, contact.shoppingCart)
+        checkoutLink = await EcommerceProvider.createPermalinkForCartBigCommerce(bigcommerceCart.id)
+        checkoutLink = checkoutLink.data.cart_url
+        if (checkoutLink) {
+          messageBlock.payload[0].text += `\n${checkoutLink} `
+        } else {
+          throw new Error()
+        }
+      }
     }
-    updateWhatsAppContact({ _id: contact._id }, { shoppingCart: [] }, null, {})
 
-    if (checkoutLink) {
-      messageBlock.payload[0].text += `\n${checkoutLink} `
-      messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)} `
-      messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)} `
-    } else {
-      throw new Error()
-    }
+    messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)} `
+    messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)} `
+
+    updateWhatsAppContact({ _id: contact._id }, { shoppingCart: [], commerceCustomer }, null, {})
 
     return messageBlock
   } catch (err) {
     if (!userError) {
       const message = err || 'Unable to checkout'
-      logger.serverLog(message, `${TAG}: exports.getCheckoutBlock`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.getCheckoutBlock`, {}, {contact, argument}, 'error')
     }
     if (userError && err.message) {
       throw new Error(`${ERROR_INDICATOR}${err.message}`)
     } else {
-      throw new Error(`${ERROR_INDICATOR}Unable to show checkout. Please make sure you have entered a correct email.`)
+      throw new Error(`${ERROR_INDICATOR}Unable to checkout`)
     }
   }
 }
@@ -1671,8 +1738,12 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             messageBlock = await getCheckoutEmailBlock(chatbot, contact, action.argument)
             break
           }
+          case ASK_PAYMENT_METHOD: {
+            messageBlock = await getAskPaymentMethodBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.input ? input : '')
+            break
+          }
           case PROCEED_TO_CHECKOUT: {
-            messageBlock = await getCheckoutBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, contact, action.input ? input : '')
+            messageBlock = await getCheckoutBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, contact, action.argument)
             break
           }
           case RETURN_ORDER: {
