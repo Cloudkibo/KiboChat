@@ -41,11 +41,13 @@ exports.index = function (req, res) {
                 message: messengerPayload.message
               }, page)
               if (resp.option === 'captureEmailPhoneSkip' && subscriber.awaitingQuickReplyPayload) {
-                let chatBotInfo = {
-                  nextBlockId: resp.blockId,
-                  parentBlockTitle: resp.messageBlockTitle
+                if (resp.blockId && resp.messageBlockTitle) {
+                  let chatBotInfo = {
+                    nextBlockId: resp.blockId,
+                    parentBlockTitle: resp.messageBlockTitle
+                  }
+                  handleChatBotNextMessage(messengerPayload, page, subscriber, chatBotInfo.nextBlockId, chatBotInfo.parentBlockTitle)
                 }
-                handleChatBotNextMessage(messengerPayload, page, subscriber, chatBotInfo.nextBlockId, chatBotInfo.parentBlockTitle)
               } else if (resp[0] && resp[0].action === '_chatbot') {
                 if (logicLayer.isJsonString(messengerPayload.message.quick_reply.payload)) {
                   let quickRepyPayload = JSON.parse(messengerPayload.message.quick_reply.payload)
