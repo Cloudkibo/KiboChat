@@ -1553,8 +1553,9 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
           }
         })
         const order = EcommerceProvider.createTestOrder({id: commerceCustomer.id + ''}, testOrderCart)
-        if (order && order.name) {
-          messageBlock.payload[0].text += `Your order has been successfully placed. Order ID is ${order.name.replace('#', '')}`
+        if (order) {
+          console.log('order', JSON.stringify(order))
+          messageBlock.payload[0].text += `Your order has been successfully placed. Order ID is 123`
         } else {
           throw new Error()
         }
