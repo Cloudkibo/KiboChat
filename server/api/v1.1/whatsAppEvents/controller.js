@@ -566,9 +566,9 @@ async function temporarySuperBotTestHandling (data, contact, company, number, re
             })
           }
           if (ecommerceProvider) {
-            nextMessageBlock = await commerceChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text)
+            nextMessageBlock = await commerceChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, 'hi')
           } else if (airlinesProvider) {
-            nextMessageBlock = await airlinesChatbotLogicLayer.getNextMessageBlock(chatbot, airlinesProvider, contact, data.messageData.text)
+            nextMessageBlock = await airlinesChatbotLogicLayer.getNextMessageBlock(chatbot, airlinesProvider, contact, 'hi')
           }
         }
         if (nextMessageBlock) {
