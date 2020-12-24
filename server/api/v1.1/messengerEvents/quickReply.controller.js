@@ -72,17 +72,3 @@ exports.index = function (req, res) {
       return logger.serverLog(message, `${TAG}: exports.index`, req.body, {messengerPayload}, 'error')
     })
 }
-
-const _getChatbotInfo = (subscriber) => {
-  let chatBotInfo = {}
-  for (let action of subscriber.awaitingQuickReplyPayload.action) {
-    if (action.blockId) {
-      chatBotInfo = {
-        nextBlockId: action.blockId,
-        parentBlockTitle: subscriber.awaitingQuickReplyPayload.messageBlockTitle
-      }
-    }
-    break
-  }
-  return chatBotInfo
-}
