@@ -267,6 +267,8 @@ function createContact (data) {
                 }
               })
               .catch(error => {
+                const message = error || 'Failed to map whatsapp contact'
+                logger.serverLog(message, `${TAG}: exports.createContact`, {}, {data}, 'error')
                 reject(error)
               })
           })
@@ -275,6 +277,8 @@ function createContact (data) {
         }
       })
       .catch(error => {
+        const message = error || 'Failed to company profile'
+        logger.serverLog(message, `${TAG}: exports.createContact`, {}, {data}, 'error')
         reject(error)
       })
   })
@@ -312,10 +316,10 @@ function storeChat (from, to, contact, messageData, format) {
         logger.serverLog(message, `${TAG}: storeChat`, chatPayload, {from, to, contact, messageData, format}, 'error')
       })
   })
-    .catch(err => {
-      const message = err || 'Failed to prepare chat'
-      logger.serverLog(message, `${TAG}: storeChat`, {}, {from, to, contact, messageData, format}, 'error')
-    })
+  .catch(err => {
+    const message = err || 'Failed to prepare chat'
+    logger.serverLog(message, `${TAG}: storeChat`, {}, {from, to, contact, messageData, format}, 'error')
+  })
 }
 
 function saveNotifications (contact, companyUsers) {
