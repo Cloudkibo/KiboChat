@@ -96,7 +96,7 @@ exports.prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) =
               'content_type': 'user_phone_number'
             })
           }
-          if (qr.skipAllowed && qr.skipAllowed !== '') {
+          if (qr.skipAllowed && qr.skipAllowed.isSkip) {
             skipAllowed = true
           }
         }
