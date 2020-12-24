@@ -26,7 +26,6 @@ const chatbotResponder = require('../../../chatbotResponder')
 const configureChatbotDatalayer = require('./../configureChatbot/datalayer')
 
 exports.messageReceived = function (req, res) {
-  console.log('whatsapp messageReceived')
   res.status(200).json({
     status: 'success',
     description: `received the payload`
@@ -66,10 +65,8 @@ exports.messageReceived = function (req, res) {
                         }
                         if (data.messageData.componentType === 'text') {
                           let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ _id: company.whatsApp.activeWhatsappBot })
-                          console.log('chatbot', chatbot)
                           if (chatbot) {
                             const shouldSend = chatbot.published || chatbot.testSubscribers.includes(contact.number)
-                            console.log('shouldSend', shouldSend)
                             if (shouldSend) {
                               let ecommerceProvider = null
                               let airlinesProvider = null
@@ -179,7 +176,6 @@ exports.messageReceived = function (req, res) {
                           }
                         }
                       } catch (err) {
-                        console.log('error', err.stack)
                         const message = err || 'Failed to respond using chatbot'
                         logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {companyId: company._id}, 'error')
                       }
