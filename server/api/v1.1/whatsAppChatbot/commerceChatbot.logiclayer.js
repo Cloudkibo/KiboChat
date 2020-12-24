@@ -48,17 +48,17 @@ const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
 function specialKeyText (key) {
   switch (key) {
     case TALK_TO_AGENT_KEY:
-      return `*${key.toUpperCase()}* Talk to a customer support agent`
+      return `*${key.toUpperCase()}*  Talk to a customer support agent`
     case FAQS_KEY:
-      return `*${key.toUpperCase()}* View FAQs`
+      return `*${key.toUpperCase()}*  View FAQs`
     case SHOW_CART_KEY:
-      return `*${key.toUpperCase()}* View your cart`
+      return `*${key.toUpperCase()}*  View your cart`
     case ORDER_STATUS_KEY:
-      return `*${key.toUpperCase()}* Check order status`
+      return `*${key.toUpperCase()}*  Check order status`
     case BACK_KEY:
-      return `*${key.toUpperCase()}* Go back`
+      return `*${key.toUpperCase()}*  Go back`
     case HOME_KEY:
-      return `*${key.toUpperCase()}* Go home`
+      return `*${key.toUpperCase()}*  Go home`
   }
 }
 
@@ -681,10 +681,6 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, argum
             [BACK_KEY]: { type: STATIC, blockId: backId },
             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
           }
-        },
-        {
-          componentType: 'image',
-          fileurl: product.image
         }
       ],
       userId: chatbot.userId,
@@ -714,6 +710,12 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, argum
           fileurl: productVariant.image
         })
       }
+    }
+    if (messageBlock.payload.length === 1) {
+      messageBlock.payload.push({
+        componentType: 'image',
+        fileurl: product.image
+      })
     }
     if (productVariants.nextPageParameters) {
       messageBlock.payload[0].text += `\n${convertToEmoji(productVariants.length)} View More`
@@ -1222,13 +1224,13 @@ const getCheckoutEmailBlock = async (chatbot, contact, newEmail) => {
         payload: [
           {
             text: dedent(`Would you like to use ${contact.commerceCustomer.email} as your email?\n
-                        Send '0' for No
-                        Send '1' for Yes`),
+                        Send 'Y' for Yes
+                        Send 'N' for No`),
             componentType: 'text',
-            menu: [
-              { type: DYNAMIC, action: GET_CHECKOUT_EMAIL, argument: true },
-              { type: DYNAMIC, action: ASK_PAYMENT_METHOD }
-            ]
+            specialKeys: {
+              'n': { type: DYNAMIC, action: GET_CHECKOUT_EMAIL, argument: true },
+              'y': { type: DYNAMIC, action: ASK_PAYMENT_METHOD }
+            }
           }
         ],
         userId: chatbot.userId,
@@ -1334,14 +1336,12 @@ const getAskAddressBlock = async (chatbot, contact, argument) => {
         payload: [
           {
             text: dedent(`Would you like to use your existing address as your shipping address?\n
-                        Send '0' for No
-                        Send '1' for Yes`),
+                        Send 'Y' for Yes
+                        Send 'N' for No`),
             componentType: 'text',
-            menu: [
-              { type: DYNAMIC, action: GET_CHECKOUT_STREET_ADDRESS, argument: { ...argument, address: {address1: ''} } },
-              { type: DYNAMIC, action: GET_CHECKOUT_CITY, argument: { ...argument, address: contact.commerceCustomer.defaultAddress } }
-            ],
             specialKeys: {
+              'n': { type: DYNAMIC, action: GET_CHECKOUT_STREET_ADDRESS, argument: { ...argument, address: {address1: ''} } },
+              'y': { type: DYNAMIC, action: GET_CHECKOUT_CITY, argument: { ...argument, address: contact.commerceCustomer.defaultAddress } },
               [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
             }
           }
@@ -1361,7 +1361,14 @@ const getAskAddressBlock = async (chatbot, contact, argument) => {
           {
             text: `Please enter your street address: `,
             componentType: 'text',
-            action: { type: DYNAMIC, action: GET_CHECKOUT_CITY, input: true, argument: { address1: '' } }
+            action: {
+              type: DYNAMIC,
+              action: GET_CHECKOUT_CITY,
+              input: true,
+              argument: { ...argument,
+                address: { address1: '' }
+              }
+            }
           }
         ],
         userId: chatbot.userId,
@@ -1621,11 +1628,11 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
         const bigcommerceCart = await EcommerceProvider.createCart(commerceCustomer.id, contact.shoppingCart)
         checkoutLink = await EcommerceProvider.createPermalinkForCartBigCommerce(bigcommerceCart.id)
         checkoutLink = checkoutLink.data.cart_url
-        if (checkoutLink) {
-          messageBlock.payload[0].text += `\n${checkoutLink} `
-        } else {
-          throw new Error()
-        }
+      }
+      if (checkoutLink) {
+        messageBlock.payload[0].text += `\n${checkoutLink} `
+      } else {
+        throw new Error()
       }
     }
 
@@ -1697,14 +1704,12 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
     let action = null
     let lastMessageSentByBot = contact.lastMessageSentByBot.payload[0]
     try {
-      if (lastMessageSentByBot.specialKeys) {
-        if (lastMessageSentByBot.specialKeys[input]) {
-          action = lastMessageSentByBot.specialKeys[input]
-        } else if (input === 'home' && lastMessageSentByBot.specialKeys[HOME_KEY]) {
-          action = lastMessageSentByBot.specialKeys[HOME_KEY]
-        } else if (input === 'back' && lastMessageSentByBot.specialKeys[BACK_KEY]) {
-          action = lastMessageSentByBot.specialKeys[BACK_KEY]
-        }
+      if (lastMessageSentByBot.specialKeys && lastMessageSentByBot.specialKeys[input]) {
+        action = lastMessageSentByBot.specialKeys[input]
+      } else if (input === 'home' && lastMessageSentByBot.specialKeys[HOME_KEY]) {
+        action = lastMessageSentByBot.specialKeys[HOME_KEY]
+      } else if (input === 'back' && lastMessageSentByBot.specialKeys[BACK_KEY]) {
+        action = lastMessageSentByBot.specialKeys[BACK_KEY]
       } else if (lastMessageSentByBot.menu) {
         let menuInput = parseInt(input)
         if (isNaN(menuInput) || menuInput >= lastMessageSentByBot.menu.length || menuInput < 0) {
