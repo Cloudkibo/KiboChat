@@ -354,7 +354,8 @@ const prepareUrlMeta = (data) => {
         const attachmentUrl = addr.query.u
         let options = {url: attachmentUrl}
         ogs(options, (error, results) => {
-          console.log(results)
+          console.log('results', results)
+          console.log('data in prepareUrlMeta', data)
           console.log(error)
           if (!error) {
             const payload = {
@@ -409,6 +410,7 @@ function getQuickReplies (body, payload) {
   if (body.quickReplies && body.quickReplies.length > 0) {
     let chatbotQuickReplies = []
     let skipAllowed = false
+    let skipBlock = {}
     for (let qr of body.quickReplies) {
       if (qr.query) {
         if (qr.query === 'email') {
@@ -421,8 +423,10 @@ function getQuickReplies (body, payload) {
             'content_type': 'user_phone_number'
           })
         }
-        if (qr.skipAllowed && qr.skipAllowed !== '') {
+        if (qr.skipAllowed && qr.skipAllowed.isSkip) {
           skipAllowed = true
+          skipBlock.blockId = qr.skipAllowed.blockId
+          skipBlock.messageBlockTitle = qr.skipAllowed.messageBlockTitle
         }
       } else {
         chatbotQuickReplies.push(qr)
@@ -434,7 +438,10 @@ function getQuickReplies (body, payload) {
         'title': 'Skip',
         'payload': JSON.stringify(
           {
-            option: 'captureEmailPhoneSkip'
+            option: 'captureEmailPhoneSkip',
+            blockId: skipBlock.blockId,
+            messageBlockTitle: skipBlock.messageBlockTitle
+
           }
         )
       })

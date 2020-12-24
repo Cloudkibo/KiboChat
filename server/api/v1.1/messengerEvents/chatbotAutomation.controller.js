@@ -101,8 +101,13 @@ exports.handleCommerceChatbot = (event, page, subscriber) => {
           })
           let shouldSend = false
           let isSendingToTester = false
-          if (chatbot && chatbot.testSession && !chatbot.published) {
-            if (chatbot.testSession.subscriberId === subscriber.senderId) {
+          if (chatbot && chatbot.testSession && !chatbot.published &&
+          chatbot.testSession.sessionStartTime) {
+            const currentDate = new Date()
+            const testSessionTime = new Date(chatbot.testSession.sessionStartTime)
+            const diffInMinutes = Math.abs(currentDate - testSessionTime) / 1000 / 60
+            if (chatbot.testSession.subscriberId === subscriber.senderId &&
+            diffInMinutes <= 60) {
               shouldSend = true
               isSendingToTester = true
             }
@@ -181,8 +186,13 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
             if (chatbot) {
               let shouldSend = false
               let isSendingToTester = false
-              if (chatbot.testSession && !chatbot.published) {
-                if (chatbot.testSession.subscriberId === subscriber.senderId) {
+              if (chatbot.testSession && !chatbot.published &&
+              chatbot.testSession.sessionStartTime) {
+                const currentDate = new Date()
+                const testSessionTime = new Date(chatbot.testSession.sessionStartTime)
+                const diffInMinutes = Math.abs(currentDate - testSessionTime) / 1000 / 60
+                if (chatbot.testSession.subscriberId === subscriber.senderId &&
+                  diffInMinutes <= 60) {
                   shouldSend = true
                   isSendingToTester = true
                 }
@@ -252,6 +262,7 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
 }
 
 exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId, parentBlockTitle) => {
+  console.log('in handleChatbotNextMessage')
   record('messengerChatInComing')
   shouldAvoidSendingAutomatedMessage(subscriber)
     .then(shouldAvoid => {
@@ -261,8 +272,13 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId, parentBlock
             if (chatbot) {
               let shouldSend = false
               let isSendingToTester = false
-              if (chatbot.testSession && !chatbot.published) {
-                if (chatbot.testSession.subscriberId === subscriber.senderId) {
+              if (chatbot.testSession && !chatbot.published &&
+              chatbot.testSession.sessionStartTime) {
+                const currentDate = new Date()
+                const testSessionTime = new Date(chatbot.testSession.sessionStartTime)
+                const diffInMinutes = Math.abs(currentDate - testSessionTime) / 1000 / 60
+                if (chatbot.testSession.subscriberId === subscriber.senderId &&
+                diffInMinutes <= 60) {
                   shouldSend = true
                   isSendingToTester = true
                 }
@@ -362,9 +378,9 @@ exports.handleChatBotTestMessage = (req, page, subscriber, type) => {
     })
 }
 
-function sendResponse (recipientId, payload, subscriber, accessToken, blockInfo) {
+function sendResponse (recipientId, payload, subscriber, accessToken, blockInfo, metadata) {
   let isCaptureUserPhoneEmail = logicLayer.checkCaptureUserEmailPhone(payload)
-  let finalPayload = logicLayer.prepareSendAPIPayload(recipientId, payload, subscriber.firstName, subscriber.lastName, true)
+  let finalPayload = logicLayer.prepareSendAPIPayload(recipientId, payload, subscriber.firstName, subscriber.lastName, true, metadata)
   record('messengerChatOutGoing')
   facebookApiCaller('v3.2', `me/messages?access_token=${accessToken}`, 'post', finalPayload)
     .then(response => {
@@ -628,7 +644,8 @@ function saveTesterInfoForLater (pageId, subscriberId, chatBot) {
   }
   const updated = {
     testSession: {
-      subscriberId
+      subscriberId,
+      sessionStartTime: new Date()
     }
   }
   chatbotDataLayer.genericUpdateChatBot(query, updated)
