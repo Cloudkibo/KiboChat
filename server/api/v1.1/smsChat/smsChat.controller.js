@@ -85,21 +85,11 @@ exports.create = function (req, res) {
             function (callback) {
               let subscriberData = {
                 query: {_id: req.body.contactId},
-                newPayload: {$inc: { messagesCount: 1 }},
-                options: {}
-              }
-              callApi(`contacts/update`, 'put', subscriberData)
-                .then(updated => {
-                  callback(null)
-                })
-                .catch(error => {
-                  callback(error)
-                })
-            },
-            function (callback) {
-              let subscriberData = {
-                query: {_id: req.body.contactId},
-                newPayload: {last_activity_time: Date.now(), hasChat: true, pendingResponse: false},
+                newPayload: {
+                  $inc: { messagesCount: 1 },
+                  $set: {last_activity_time: Date.now(), hasChat: true, pendingResponse: false},
+                  $unset: {waitingForBroadcastResponse: 1}
+                },
                 options: {}
               }
               callApi(`contacts/update`, 'put', subscriberData)
