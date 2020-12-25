@@ -161,16 +161,21 @@ exports.getProductVariants = (id, paginationParams, credentials) => {
   return new Promise(function (resolve, reject) {
     paginationParams = paginationParams || { limit: 9 }
     shopify.productVariant.list(id, paginationParams)
-      .then(products => {
+      .then(async products => {
         let nextPageParameters = products.nextPageParameters
-        products = products.map(product => {
-          return { id: product.id,
+        products = await Promise.all(products.map(async product => {
+          let variantPayload = { id: product.id,
             name: product.title,
             product_id: product.product_id,
             price: product.price,
             inventory_quantity: product.inventory_quantity
           }
-        })
+          if (product.image_id) {
+            let image = await shopify.productImage.get(product.product_id, product.image_id)
+            variantPayload.image_url = image.src
+          }
+          return variantPayload
+        }))
         if (nextPageParameters) {
           products.nextPageParameters = nextPageParameters
         }
