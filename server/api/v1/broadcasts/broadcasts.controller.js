@@ -32,7 +32,7 @@ exports.urlMetaData = (req, res) => {
       }).catch(err => {
         if (!isHtmlPageError(err)) {
           const message = err || 'Error from open graph'
-          logger.serverLog(message, `${TAG}: urlMetaData`, req.body, {}, 'error')           
+          logger.serverLog(message, `${TAG}: urlMetaData`, req.body, {}, 'error')
         }
         return res.status(500).json({
           status: 'failed',

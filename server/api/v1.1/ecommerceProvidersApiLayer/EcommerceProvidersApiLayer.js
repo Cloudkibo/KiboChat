@@ -159,7 +159,6 @@ module.exports = class EcommerceProvidersApiLayer {
   }
 
   createTestOrder (customer, lineItems) {
-    console.log('createTestOrder', JSON.stringify(customer), JSON.stringify(lineItems))
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.createTestOrder(customer, lineItems, this.eCommerceProviderCredentials)
     } else if (this.eCommerceProvider === providers.bigcommerce) {
