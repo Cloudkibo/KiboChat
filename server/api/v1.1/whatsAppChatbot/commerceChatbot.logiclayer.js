@@ -1582,7 +1582,6 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
         commerceCustomer = commerceCustomer[0]
       }
       commerceCustomer.provider = chatbot.storeType
-      updateWhatsAppContact({ _id: contact._id }, { commerceCustomer }, null, {})
     } else {
       if (!contact.commerceCustomer.provider || contact.commerceCustomer.provider !== chatbot.storeType) {
         commerceCustomer = await EcommerceProvider.searchCustomerUsingEmail(contact.commerceCustomer.email)
@@ -1592,7 +1591,6 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
           commerceCustomer = commerceCustomer[0]
         }
         commerceCustomer.provider = chatbot.storeType
-        updateWhatsAppContact({ _id: contact._id }, { commerceCustomer }, null, {})
       } else {
         commerceCustomer = contact.commerceCustomer
       }
@@ -1635,6 +1633,8 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
     }
 
     messageBlock.payload[0].text += `\n\n${specialKeyText(HOME_KEY)} `
+
+    commerceCustomer.defaultAddress = argument.address
 
     updateWhatsAppContact({ _id: contact._id }, { shoppingCart: [], commerceCustomer }, null, {})
 
