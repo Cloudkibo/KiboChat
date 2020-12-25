@@ -32,7 +32,6 @@ exports.index = function (req, res) {
 }
 
 function isAlreadyExistCustomField (err, customFieldName) {
-
   if (err && err === `${customFieldName} custom field already exists`) {
     return true
   } else {

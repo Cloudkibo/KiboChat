@@ -41,7 +41,7 @@ exports.receiveSMS = function (req, res) {
   // map response to template and call lab work api
   callApi('twilio/receiveMessage', 'post', req.body, 'COVIS')
     .then(result => {})
-    .catch(err => { 
+    .catch(err => {
       const message = err || 'error at receiving message'
       logger.serverLog(message, `${TAG}: exports.receiveSMS`, req.body, {}, 'error')
     })
