@@ -1361,6 +1361,8 @@ const getAskAddressBlock = async (chatbot, contact, argument) => {
         userId: chatbot.userId,
         companyId: chatbot.companyId
       }
+      const address = contact.commerceCustomer.defaultAddress
+      messageBlock.payload[0].text += `\n\nYour current existing address is ${address.address1}, ${address.city} ${address.zip}, ${address.country}`
     } else {
       messageBlock = {
         module: {
