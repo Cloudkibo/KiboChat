@@ -1239,8 +1239,8 @@ const getCheckoutEmailBlock = async (chatbot, contact, newEmail) => {
                         Send 'N' for No`),
             componentType: 'text',
             specialKeys: {
-              'n': { type: DYNAMIC, action: GET_CHECKOUT_EMAIL, argument: true },
-              'y': { type: DYNAMIC, action: ASK_PAYMENT_METHOD }
+              'y': { type: DYNAMIC, action: ASK_PAYMENT_METHOD },
+              'n': { type: DYNAMIC, action: GET_CHECKOUT_EMAIL, argument: true }
             }
           }
         ],
@@ -1352,8 +1352,8 @@ const getAskAddressBlock = async (chatbot, contact, argument) => {
                         Send 'N' for No`),
             componentType: 'text',
             specialKeys: {
+              'y': { type: DYNAMIC, action: PROCEED_TO_CHECKOUT, argument: { ...argument, address: contact.commerceCustomer.defaultAddress } },
               'n': { type: DYNAMIC, action: GET_CHECKOUT_STREET_ADDRESS, argument: { ...argument, address: {address1: ''} } },
-              'y': { type: DYNAMIC, action: GET_CHECKOUT_CITY, argument: { ...argument, address: contact.commerceCustomer.defaultAddress } },
               [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
             }
           }
@@ -1645,6 +1645,8 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
 
     messageBlock.payload[0].text += `\n\n${specialKeyText(HOME_KEY)} `
 
+    commerceCustomer.defaultAddress = argument.address
+
     updateWhatsAppContact({ _id: contact._id }, { shoppingCart: [], commerceCustomer }, null, {})
 
     return messageBlock
@@ -1790,7 +1792,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             break
           }
           case PROCEED_TO_CHECKOUT: {
-            messageBlock = await getCheckoutBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, contact, action.argument)
+            messageBlock = await getCheckoutBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, contact, action.argument, action.input ? input : '')
             break
           }
           case RETURN_ORDER: {
