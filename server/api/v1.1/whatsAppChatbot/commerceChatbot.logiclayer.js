@@ -1321,6 +1321,7 @@ const getAskAddressBlock = async (chatbot, contact, argument) => {
   try {
     let messageBlock = null
     if (contact.commerceCustomer &&
+        contact.commerceCustomer.defaultAddress &&
         contact.commerceCustomer.defaultAddress.address1 &&
         contact.commerceCustomer.defaultAddress.city &&
         contact.commerceCustomer.defaultAddress.country &&
@@ -1561,7 +1562,6 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
           text: ``,
           componentType: 'text',
           specialKeys: {
-            [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
           }
         }
@@ -1607,13 +1607,11 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
             quantity: item.quantity
           }
         })
-        const order = EcommerceProvider.createTestOrder({id: commerceCustomer.id + ''}, testOrderCart)
+        const order = await EcommerceProvider.createTestOrder({id: commerceCustomer.id + ''}, testOrderCart)
         if (order) {
-          if (order.name) {
-            messageBlock.payload[0].text += `Your order has been successfully placed. Order ID is ${order.name.replace('#', '')}`
-          } else {
-            messageBlock.payload[0].text += `Your order has been successfully placed. Order ID is 123 (This is a test order - no real order has been created).`
-          }
+          let storeInfo = await EcommerceProvider.fetchStoreInfo()
+          messageBlock.payload[0].text += `Thank you for shopping at ${storeInfo.name}. We have received your order. Please note the order id given below to track your order:\n\n`
+          messageBlock.payload[0].text += `*${order.name.replace('#', '')}*`
         } else {
           throw new Error()
         }
@@ -1636,8 +1634,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
       }
     }
 
-    messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)} `
-    messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)} `
+    messageBlock.payload[0].text += `\n\n${specialKeyText(HOME_KEY)} `
 
     updateWhatsAppContact({ _id: contact._id }, { shoppingCart: [], commerceCustomer }, null, {})
 
