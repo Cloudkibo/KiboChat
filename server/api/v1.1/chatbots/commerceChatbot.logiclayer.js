@@ -382,7 +382,7 @@ const getReturnOrderBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to return order'
-    return logger.serverLog(message, `${TAG}: exports.getReturnOrderBlock`, {}, {}, 'error')
+    logger.serverLog(message, `${TAG}: exports.getReturnOrderBlock`, {}, {}, 'error')
     throw new Error(`${ERROR_INDICATOR}Unable to return order`)
   }
 }

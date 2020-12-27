@@ -29,6 +29,7 @@
     "@sendgrid/mail": "^7.3.0",
     "@sentry/node": "^5.27.3",
     "async": "^2.6.1",
+    "base64url": "^3.0.1",
     "bluebird": "^3.5.2",
     "body-parser": "^1.18.3",
     "composable-middleware": "^0.3.0",
