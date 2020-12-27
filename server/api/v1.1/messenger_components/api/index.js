@@ -12,7 +12,7 @@ const validate = require('express-jsonschema').validate
 const validationSchema = require('./validationSchema')
 
 router.post('/subscriberInfo',
-  validate({body: validationSchema.subscriberInfoSchema}),
+  validate({body: validationSchema.subscriberInfoPayload}),
   controller.subscriberInfo)
 
 module.exports = router
