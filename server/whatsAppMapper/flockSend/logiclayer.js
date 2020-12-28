@@ -147,6 +147,7 @@ exports.prepareChatbotPayload = (company, contact, payload, options) => {
       route = 'text'
     } else if (payload.componentType === 'image' || payload.mediaType === 'image') {
       message.image = payload.fileurl.url
+      message.title = (payload.caption) ? payload.caption : undefined
       route = 'image'
     } else if (payload.componentType === 'video' || payload.mediaType === 'video') {
       message.video = payload.fileurl.url
