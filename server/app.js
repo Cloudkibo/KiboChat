@@ -35,7 +35,7 @@ if (config.env === 'production' || config.env === 'staging') {
 
 cron.schedule('*/5 * * * *', NotificationsScript.runLiveChatNotificationScript)
 cron.schedule('0 13 * * *', WhatsappScript.runWhatspdeleteScript) //  daily 6 pm pakistan time
-cron.schedule('27 16 * * *', slaDashboardScript)
+// cron.schedule('27 16 * * *', slaDashboardScript)
 
 require('./config/express')(appObj)
 require('./config/setup')(app, httpApp, config)
