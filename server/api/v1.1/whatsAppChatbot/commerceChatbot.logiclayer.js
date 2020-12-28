@@ -248,7 +248,8 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
       if (product.image) {
         messageBlock.payload.push({
           componentType: 'image',
-          fileurl: product.image
+          fileurl: product.image,
+          caption: product.product
         })
       }
     }
@@ -640,7 +641,8 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ar
       if (product.image) {
         messageBlock.payload.push({
           componentType: 'image',
-          fileurl: product.image
+          fileurl: product.image,
+          caption: product.product
         })
       }
     }
@@ -673,7 +675,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, argum
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `You have selected ${product.name}.\n\nPlease select a product variant by sending the corresponding number for it:\n`,
+          text: `You have selected ${product.name}.\n\nPlease select from following options by sending the corresponding number for it:\n`,
           componentType: 'text',
           menu: [],
           specialKeys: {
@@ -748,7 +750,8 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
           text: `You have selected ${product.product}\n\n(price: ${product.price} ${product.currency}) (stock available: ${product.inventory_quantity}).\n`,
           componentType: 'text',
           menu: [
-            { type: DYNAMIC, action: QUANTITY_TO_ADD, argument: product }
+            { type: DYNAMIC, action: QUANTITY_TO_ADD, argument: product },
+            { type: DYNAMIC, action: PRODUCT_VARIANTS, argument: product }
           ],
           specialKeys: {
             [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
@@ -762,12 +765,20 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
     }
 
     if (product.inventory_quantity > 0) {
-      messageBlock.payload[0].text += `\nPlease select an option by sending the corresponding number for it:\n\n${convertToEmoji(0)} Add to Cart\n`
+      messageBlock.payload[0].text += `\nDo you want to purchase this product?\n\n${convertToEmoji(0)} Yes\n\n${convertToEmoji(1)} No\n`
     } else {
       messageBlock.payload[0].text += `\nThis product is currently out of stock. Please check again later.\n`
     }
 
     messageBlock.payload[0].text += `\n${specialKeyText(SHOW_CART_KEY)}\n${specialKeyText(BACK_KEY)}\n${specialKeyText(HOME_KEY)}`
+
+    if (product.image) {
+      messageBlock.payload.push({
+        componentType: 'image',
+        fileurl: product.image,
+        caption: product.product
+      })
+    }
 
     return messageBlock
   } catch (err) {
@@ -804,6 +815,13 @@ const getQuantityToAddBlock = async (chatbot, backId, contact, product) => {
         let text = `Your cart already contains the maximum stock available for this product.`
         return getShowMyCartBlock(chatbot, backId, contact, text)
       }
+    }
+    if (product.image) {
+      messageBlock.payload.push({
+        componentType: 'image',
+        fileurl: product.image,
+        caption: product.product
+      })
     }
     return messageBlock
   } catch (err) {
@@ -913,7 +931,8 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
         if (product.image) {
           messageBlock.payload.push({
             componentType: 'image',
-            fileurl: product.image
+            fileurl: product.image,
+            caption: product.product
           })
         }
       }
@@ -993,7 +1012,8 @@ const getQuantityToRemoveBlock = async (chatbot, product) => {
     if (product.image) {
       messageBlock.payload.push({
         componentType: 'image',
-        fileurl: product.image
+        fileurl: product.image,
+        caption: product.product
       })
     }
     return messageBlock
@@ -1068,7 +1088,8 @@ const getQuantityToUpdateBlock = async (chatbot, product) => {
     if (product.image) {
       messageBlock.payload.push({
         componentType: 'image',
-        fileurl: product.image
+        fileurl: product.image,
+        caption: product.product
       })
     }
     return messageBlock
