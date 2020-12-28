@@ -53,10 +53,9 @@ exports.pushDayWiseRecordsToSDAUser = function (last24) {
       const messagesSent = results[4]
       const avgResolvedTime = results[5]
       const usersData = await _getUniqueRecords([...newSessions, ...openSessions, ...closedSessions, ...pendingSessions, ...messagesSent])
-      let SDAUserWiseData = []
       for (let i = 0; i < usersData.length; i++) {
         const responsesData = await _getResponsesData(usersData[i]._id.pageId, last24)
-        SDAUserWiseData.push({
+        const data = JSON.parse(JSON.stringify({
           companyId: usersData[i].companyId,
           pageId: usersData[i]._id.pageId,
           userId: usersData[i]._id.userId,
@@ -66,18 +65,18 @@ exports.pushDayWiseRecordsToSDAUser = function (last24) {
           maxRespTime: responsesData.maxRespTime,
           avgRespTime: responsesData.avgRespTime,
           responses: responsesData.responsesData
-        })
-        callApi('slaDashboard/pageWise', 'post', SDAUserWiseData, 'kibodash')
+        }))
+        callApi('slaDashboard/userWise', 'post', data, 'kibodash')
           .then(saved => {})
           .catch(err => {
-            const message = err || 'Error at storing SDAPageWise data'
-            logger.serverLog(message, `${TAG}: exports.pushDayWiseRecordsToSDAPage`, {}, {SDAUserWiseData}, 'error')
+            const message = err || 'Error at storing SDAUserWise data'
+            logger.serverLog(message, `${TAG}: exports.pushDayWiseRecordsToSDAUser`, {}, {data}, 'error')
           })
       }
     })
     .catch(err => {
-      const message = err || 'Error at finding SDAPageWise data'
-      logger.serverLog(message, `${TAG}: exports.pushDayWiseRecordsToSDAPage`, {}, {last24}, 'error')
+      const message = err || 'Error at finding SDAUserWise data'
+      logger.serverLog(message, `${TAG}: exports.pushDayWiseRecordsToSDAUser`, {}, {last24}, 'error')
     })
 }
 
