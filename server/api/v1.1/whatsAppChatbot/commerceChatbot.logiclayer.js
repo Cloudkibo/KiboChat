@@ -739,7 +739,8 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, argum
 }
 
 const getSelectProductBlock = async (chatbot, backId, product) => {
-  const tempProductForNo = {
+  const tempProductForNo = {}
+  tempProductForNo.product = {
     id: product.product_id,
     name: product.product,
     price: product.price,
