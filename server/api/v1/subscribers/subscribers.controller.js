@@ -247,6 +247,17 @@ exports.getAll = function (req, res) {
 exports.subscribeBack = function (req, res) {
   utility.callApi(`subscribers/update`, 'put', { query: { _id: req.params.id, unSubscribedBy: 'agent' }, newPayload: { isSubscribed: true, unSubscribedBy: 'subscriber' }, options: {} }) // fetch single subscriber
     .then(subscriber => {
+      require('./../../../config/socketio').sendMessageToClient({
+        room_id: req.user.companyId,
+        body: {
+          action: 'Messenger_subscribe_subscriber',
+          payload: {
+            subscriber_id: req.params.id,
+            user_id: req.user._id,
+            user_name: req.user.name
+          }
+        }
+      })
       return res.status(200).json({
         status: 'success',
         payload: subscriber
@@ -359,9 +370,9 @@ exports.unSubscribe = function (req, res) {
                 })
               }
               require('./../../../config/socketio').sendMessageToClient({
-                room_id: companyUser.companyId,
+                room_id: req.user.companyId,
                 body: {
-                  action: 'unsubscribe',
+                  action: 'Messenger_unsubscribe_subscriber',
                   payload: {
                     subscriber_id: req.body.subscriber_id,
                     user_id: req.user._id,

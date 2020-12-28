@@ -54,12 +54,14 @@ exports.index = function (req, res) {
             if (!(company.automated_options === 'DISABLE_CHAT')) {
               if (subscriber.unSubscribedBy !== 'agent') {
                 if (newSubscriber) {
+                  let subscriberEvent = JSON.stringify(JSON.parse(subscriber))
+                  subscriberEvent.pageId = page
                   require('./../../../config/socketio').sendMessageToClient({
                     room_id: page.companyId,
                     body: {
                       action: 'Messenger_new_subscriber',
                       payload: {
-                        subscriber: subscriber
+                        subscriber: subscriberEvent
                       }
                     }
                   })
@@ -364,6 +366,15 @@ function sendautomatedmsg (req, page) {
                 }
                 utility.callApi(`subscribers/update`, 'put', { query: { senderId: req.sender.id }, newPayload: { isSubscribed: true }, options: {} })
                   .then(updated => {
+                    require('./../../../config/socketio').sendMessageToClient({
+                      room_id: page.companyId,
+                      body: {
+                        action: 'Messenger_subscribe_subscriber',
+                        payload: {
+                          subscriber_id: subscribers[0]._id
+                        }
+                      }
+                    })
                     logger.serverLog('Subscriber isSubscribed Updated', `${TAG}: exports.sendautomatedmsg`, {}, {req: JSON.stringify(req)}, 'debug')
                   })
                   .catch(error => {
