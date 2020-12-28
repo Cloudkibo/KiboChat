@@ -54,7 +54,7 @@ exports.index = function (req, res) {
             if (!(company.automated_options === 'DISABLE_CHAT')) {
               if (subscriber.unSubscribedBy !== 'agent') {
                 if (newSubscriber) {
-                  let subscriberEvent = JSON.stringify(JSON.parse(subscriber))
+                  let subscriberEvent = JSON.parse(JSON.stringify(subscriber))
                   subscriberEvent.pageId = page
                   require('./../../../config/socketio').sendMessageToClient({
                     room_id: page.companyId,
