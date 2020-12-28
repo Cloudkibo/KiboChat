@@ -797,5 +797,5 @@ function sendWhatsAppMessage (nextMessageBlock, data, number, req) {
         const message = err || 'Failed to send chat message'
         logger.serverLog(message, `${TAG}: exports.sendWhatsAppMessage`, req.body, {chatbotResponse}, 'error')
       })
-  }, 500)
+  }, 1000)
 }
