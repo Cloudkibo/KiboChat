@@ -24,6 +24,7 @@ const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('.
 const { record } = require('../../global/messageStatistics')
 const chatbotResponder = require('../../../chatbotResponder')
 const configureChatbotDatalayer = require('./../configureChatbot/datalayer')
+const { intervalForEach } = require('./../../../components/utility')
 
 exports.messageReceived = function (req, res) {
   res.status(200).json({
@@ -779,7 +780,7 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
 }
 
 function sendWhatsAppMessage (nextMessageBlock, data, number, req) {
-  for (let messagePayload of nextMessageBlock.payload) {
+  intervalForEach(nextMessageBlock.payload, (messagePayload) => {
     let chatbotResponse = {
       whatsApp: {
         accessToken: data.accessToken,
@@ -796,5 +797,5 @@ function sendWhatsAppMessage (nextMessageBlock, data, number, req) {
         const message = err || 'Failed to send chat message'
         logger.serverLog(message, `${TAG}: exports.sendWhatsAppMessage`, req.body, {chatbotResponse}, 'error')
       })
-  }
+  }, 500)
 }

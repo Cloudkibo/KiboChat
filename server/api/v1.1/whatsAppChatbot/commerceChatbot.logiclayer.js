@@ -739,6 +739,12 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, argum
 }
 
 const getSelectProductBlock = async (chatbot, backId, product) => {
+  const tempProductForNo = {
+    id: product.product_id,
+    name: product.product,
+    price: product.price,
+    image: product.image
+  }
   try {
     let messageBlock = {
       module: {
@@ -753,7 +759,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
           componentType: 'text',
           menu: [
             { type: DYNAMIC, action: QUANTITY_TO_ADD, argument: product },
-            { type: DYNAMIC, action: PRODUCT_VARIANTS, argument: product }
+            { type: DYNAMIC, action: PRODUCT_VARIANTS, argument: tempProductForNo }
           ],
           specialKeys: {
             [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
@@ -767,7 +773,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
     }
 
     if (product.inventory_quantity > 0) {
-      messageBlock.payload[0].text += `\nDo you want to purchase this product?\n\n${convertToEmoji(0)} Yes\n\n${convertToEmoji(1)} No\n`
+      messageBlock.payload[0].text += `\nDo you want to purchase this product?\n\n${convertToEmoji(0)} Yes\n${convertToEmoji(1)} No\n`
     } else {
       messageBlock.payload[0].text += `\nThis product is currently out of stock. Please check again later.\n`
     }
