@@ -249,7 +249,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
         messageBlock.payload.push({
           componentType: 'image',
           fileurl: product.image,
-          caption: product.product
+          caption: `${convertToEmoji(i)} ${product.name}`
         })
       }
     }
@@ -642,7 +642,7 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ar
         messageBlock.payload.push({
           componentType: 'image',
           fileurl: product.image,
-          caption: product.product
+          caption: `${convertToEmoji(i)} product.name`
         })
       }
     }
@@ -709,14 +709,16 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, argum
       if (productVariant.image) {
         messageBlock.payload.push({
           componentType: 'image',
-          fileurl: productVariant.image
+          fileurl: productVariant.image,
+          caption: `${convertToEmoji(i)} ${productVariant.name} ${product.name}\nPrice: ${productVariant.price ? productVariant.price : product.price}`
         })
       }
     }
     if (messageBlock.payload.length === 1) {
       messageBlock.payload.push({
         componentType: 'image',
-        fileurl: product.image
+        fileurl: product.image,
+        caption: `${product.name}\nPrice: ${product.price}`
       })
     }
     if (productVariants.nextPageParameters) {
