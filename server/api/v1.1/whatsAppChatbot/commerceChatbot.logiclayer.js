@@ -419,13 +419,6 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
         for (let i = 0; i < recentOrders.length; i++) {
           messageBlock.payload[0].text += `\n${convertToEmoji(i)} Order ${recentOrders[i].name} (${recentOrders[i].lineItems[0].name})`
           messageBlock.payload[0].menu.push({ type: DYNAMIC, action: ORDER_STATUS, argument: recentOrders[i].name.substr(1) })
-
-          const lineItem = recentOrders[i].lineItems[0]
-          messageBlock[0].payload.unshift({
-            componentType: 'image',
-            fileurl: lineItem.image.originalSrc,
-            caption: `${lineItem.name}\nQuantity: ${lineItem.quantity}\nOrder number: ${recentOrders[i].name}`
-          })
         }
       } else {
         messageBlock.payload[0].text = 'You have not placed any orders within the last 60 days.'
@@ -437,6 +430,15 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
+
+    for (let i = 0; i < recentOrders.length; i++) {
+      const lineItem = recentOrders[i].lineItems[0]
+      messageBlock[0].payload.unshift({
+        componentType: 'image',
+        fileurl: lineItem.image.originalSrc,
+        caption: `${lineItem.name}\nQuantity: ${lineItem.quantity}\nOrder number: ${recentOrders[i].name}`
+      })
+    }
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to get recent orders'
@@ -513,11 +515,6 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
         if (i + 1 < orderStatus.lineItems.length) {
           messageBlock.payload[0].text += `\n`
         }
-        messageBlock.payload.unshift({
-          componentType: 'image',
-          fileurl: product.image.originalSrc,
-          caption: `${product.name}\nQuantity: ${product.quantity}`
-        })
       }
     }
 
@@ -556,6 +553,15 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
+
+    for (let i = 0; i < orderStatus.lineItems.length; i++) {
+      let product = orderStatus.lineItems[i]
+      messageBlock.payload.unshift({
+        componentType: 'image',
+        fileurl: product.image.originalSrc,
+        caption: `${product.name}\nQuantity: ${product.quantity}`
+      })
+    }
     return messageBlock
   } catch (err) {
     if (!userError) {
@@ -797,7 +803,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
       messageBlock.payload.push({
         componentType: 'image',
         fileurl: product.image,
-        caption: product.product
+        caption: `${product.product}\nPrice: ${product.price}`
       })
     }
 
@@ -841,7 +847,7 @@ const getQuantityToAddBlock = async (chatbot, backId, contact, product) => {
       messageBlock.payload.push({
         componentType: 'image',
         fileurl: product.image,
-        caption: product.product
+        caption: `${product.product}\nPrice: ${product.price}`
       })
     }
     return messageBlock
@@ -955,7 +961,7 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
           messageBlock.payload.push({
             componentType: 'image',
             fileurl: product.image,
-            caption: `${product.product}\nQuantity: ${product.quantity}\nPrice: %{price} ${currency}`
+            caption: `${product.product}\nQuantity: ${product.quantity}\nPrice: ${price} ${currency}`
           })
         }
       }
