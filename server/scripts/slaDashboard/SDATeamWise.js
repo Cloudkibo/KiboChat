@@ -46,32 +46,37 @@ exports.pushDayWiseRecordsToSDATeam = function (last24) {
     avgResolvedTimePromise
   ])
     .then(async (results) => {
-      const newSessions = results[0]
-      const openSessions = results[1]
-      const closedSessions = results[2]
-      const pendingSessions = results[3]
-      const messagesSent = results[4]
-      const avgResolvedTime = results[5]
-      const teamsData = await _getUniqueRecords([...newSessions, ...openSessions, ...closedSessions, ...pendingSessions, ...messagesSent])
-      for (let i = 0; i < teamsData.length; i++) {
-        const responsesData = await _getResponsesData(teamsData[i]._id.pageId, last24)
-        const data = JSON.parse(JSON.stringify({
-          companyId: teamsData[i].companyId,
-          pageId: teamsData[i]._id.pageId,
-          teamId: teamsData[i]._id.teamId,
-          session: await _getSessionsCount(teamsData[i]._id, newSessions, openSessions, closedSessions, pendingSessions),
-          messages: await _getMessagesCount(teamsData[i]._id, messagesSent),
-          avgResolveTime: await _getAverageResolveTime(teamsData[i]._id, avgResolvedTime),
-          maxRespTime: responsesData.maxRespTime,
-          avgRespTime: responsesData.avgRespTime,
-          responses: responsesData.responsesData
-        }))
-        callApi('slaDashboard/teamWise', 'post', data, 'kibodash')
-          .then(saved => {})
-          .catch(err => {
-            const message = err || 'Error at storing SDATeamWise data'
-            logger.serverLog(message, `${TAG}: exports.pushDayWiseRecordsToSDATeam`, {}, {data}, 'error')
-          })
+      try {
+        const newSessions = results[0]
+        const openSessions = results[1]
+        const closedSessions = results[2]
+        const pendingSessions = results[3]
+        const messagesSent = results[4]
+        const avgResolvedTime = results[5]
+        const teamsData = await _getUniqueRecords([...newSessions, ...openSessions, ...closedSessions, ...pendingSessions, ...messagesSent])
+        for (let i = 0; i < teamsData.length; i++) {
+          const responsesData = await _getResponsesData(teamsData[i]._id.pageId, last24)
+          const data = JSON.parse(JSON.stringify({
+            companyId: teamsData[i].companyId,
+            pageId: teamsData[i]._id.pageId,
+            teamId: teamsData[i]._id.teamId,
+            sessions: await _getSessionsCount(teamsData[i]._id, newSessions, openSessions, closedSessions, pendingSessions),
+            messages: await _getMessagesCount(teamsData[i]._id, messagesSent),
+            avgResolveTime: await _getAverageResolveTime(teamsData[i]._id, avgResolvedTime),
+            maxRespTime: responsesData.maxRespTime,
+            avgRespTime: responsesData.avgRespTime,
+            responses: responsesData.responses
+          }))
+          callApi('slaDashboard/teamWise', 'post', data, 'kibodash')
+            .then(saved => {})
+            .catch(err => {
+              const message = err || 'Error at storing SDATeamWise data'
+              logger.serverLog(message, `${TAG}: exports.pushDayWiseRecordsToSDATeam`, {}, {data}, 'error')
+            })
+        }
+      } catch (err) {
+        const message = err || 'Error at SDATeamWise script'
+        logger.serverLog(message, `${TAG}: exports.pushDayWiseRecordsToSDATeam`, {}, {}, 'error')
       }
     })
     .catch(err => {

@@ -46,32 +46,37 @@ exports.pushDayWiseRecordsToSDAUser = function (last24) {
     avgResolvedTimePromise
   ])
     .then(async (results) => {
-      const newSessions = results[0]
-      const openSessions = results[1]
-      const closedSessions = results[2]
-      const pendingSessions = results[3]
-      const messagesSent = results[4]
-      const avgResolvedTime = results[5]
-      const usersData = await _getUniqueRecords([...newSessions, ...openSessions, ...closedSessions, ...pendingSessions, ...messagesSent])
-      for (let i = 0; i < usersData.length; i++) {
-        const responsesData = await _getResponsesData(usersData[i]._id.pageId, last24)
-        const data = JSON.parse(JSON.stringify({
-          companyId: usersData[i].companyId,
-          pageId: usersData[i]._id.pageId,
-          userId: usersData[i]._id.userId,
-          session: await _getSessionsCount(usersData[i]._id, newSessions, openSessions, closedSessions, pendingSessions),
-          messages: await _getMessagesCount(usersData[i]._id, messagesSent),
-          avgResolveTime: await _getAverageResolveTime(usersData[i]._id, avgResolvedTime),
-          maxRespTime: responsesData.maxRespTime,
-          avgRespTime: responsesData.avgRespTime,
-          responses: responsesData.responsesData
-        }))
-        callApi('slaDashboard/userWise', 'post', data, 'kibodash')
-          .then(saved => {})
-          .catch(err => {
-            const message = err || 'Error at storing SDAUserWise data'
-            logger.serverLog(message, `${TAG}: exports.pushDayWiseRecordsToSDAUser`, {}, {data}, 'error')
-          })
+      try {
+        const newSessions = results[0]
+        const openSessions = results[1]
+        const closedSessions = results[2]
+        const pendingSessions = results[3]
+        const messagesSent = results[4]
+        const avgResolvedTime = results[5]
+        const usersData = await _getUniqueRecords([...newSessions, ...openSessions, ...closedSessions, ...pendingSessions, ...messagesSent])
+        for (let i = 0; i < usersData.length; i++) {
+          const responsesData = await _getResponsesData(usersData[i]._id.pageId, last24)
+          const data = JSON.parse(JSON.stringify({
+            companyId: usersData[i].companyId,
+            pageId: usersData[i]._id.pageId,
+            userId: usersData[i]._id.userId,
+            sessions: await _getSessionsCount(usersData[i]._id, newSessions, openSessions, closedSessions, pendingSessions),
+            messages: await _getMessagesCount(usersData[i]._id, messagesSent),
+            avgResolveTime: await _getAverageResolveTime(usersData[i]._id, avgResolvedTime),
+            maxRespTime: responsesData.maxRespTime,
+            avgRespTime: responsesData.avgRespTime,
+            responses: responsesData.responses
+          }))
+          callApi('slaDashboard/userWise', 'post', data, 'kibodash')
+            .then(saved => {})
+            .catch(err => {
+              const message = err || 'Error at storing SDAUserWise data'
+              logger.serverLog(message, `${TAG}: exports.pushDayWiseRecordsToSDAUser`, {}, {data}, 'error')
+            })
+        }
+      } catch (err) {
+        const message = err || 'Error at SDAUserWise script'
+        logger.serverLog(message, `${TAG}: exports.pushDayWiseRecordsToSDAUser`, {}, {}, 'error')
       }
     })
     .catch(err => {
