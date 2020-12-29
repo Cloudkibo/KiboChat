@@ -433,7 +433,7 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
 
     for (let i = 0; i < recentOrders.length; i++) {
       const lineItem = recentOrders[i].lineItems[0]
-      messageBlock[0].payload.unshift({
+      messageBlock[0].payload.push({
         componentType: 'image',
         fileurl: lineItem.image.originalSrc,
         caption: `${lineItem.name}\nQuantity: ${lineItem.quantity}\nOrder number: ${recentOrders[i].name}`
@@ -556,7 +556,7 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
 
     for (let i = 0; i < orderStatus.lineItems.length; i++) {
       let product = orderStatus.lineItems[i]
-      messageBlock.payload.unshift({
+      messageBlock.payload.push({
         componentType: 'image',
         fileurl: product.image.originalSrc,
         caption: `${product.name}\nQuantity: ${product.quantity}`
