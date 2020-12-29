@@ -250,6 +250,9 @@ exports.getOrderStatus = (id, credentials) => {
                 }
                 variantTitle
                 quantity
+                image {
+                  originalSrc
+                }
                 sku
                 vendor
                 product {
@@ -284,6 +287,7 @@ exports.getOrderStatus = (id, credentials) => {
               title: lineItem.node.title,
               quantity: lineItem.node.quantity,
               sku: lineItem.node.sku,
+              image: lineItem.node.image,
               variant_title: lineItem.node.variant_title,
               vendor: lineItem.node.vendor,
               product: lineItem.node.product,
@@ -410,6 +414,18 @@ exports.findCustomerOrders = (customerId, limit, credentials) => {
               node {
                 id
                 name
+                lineItems(first: 1) {
+                  edges {
+                    node {
+                      id
+                      name
+                      quantity
+                      image {
+                        originalSrc
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -423,6 +439,11 @@ exports.findCustomerOrders = (customerId, limit, credentials) => {
       .then(result => {
         let customer = result.customers.edges[0].node
         customer.orders = customer.orders.edges.map(order => {
+          const lineItems = order.node.lineItems.edges.map(lineItem => {
+            return lineItem.node
+          })
+          const orderItem = order.node
+          orderItem.lineItems = lineItems
           return order.node
         })
         resolve(customer)
