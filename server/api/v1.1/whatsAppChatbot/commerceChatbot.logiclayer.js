@@ -249,7 +249,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
         messageBlock.payload.push({
           componentType: 'image',
           fileurl: product.image,
-          caption: `${convertToEmoji(i)} ${product.name}`
+          caption: `${convertToEmoji(i)} ${product.name}\nPrice: ${product.price}`
         })
       }
     }
@@ -662,7 +662,7 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ar
         messageBlock.payload.push({
           componentType: 'image',
           fileurl: product.image,
-          caption: `${convertToEmoji(i)} ${product.name}`
+          caption: `${convertToEmoji(i)} ${product.name}\nPrice: ${product.price}`
         })
       }
     }
