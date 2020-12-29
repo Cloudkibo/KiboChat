@@ -1728,7 +1728,7 @@ const invalidInput = async (chatbot, messageBlock, errMessage) => {
     messageBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
   }
 
-  if (messageBlock.payload[0].text.includes(ERROR_INDICATOR)) {
+  if (messageBlock.payload[0].text && messageBlock.payload[0].text.includes(ERROR_INDICATOR)) {
     messageBlock.payload[0].text = messageBlock.payload[0].text.split('\n').filter((line) => {
       return !line.includes(ERROR_INDICATOR)
     }).join('\n')
