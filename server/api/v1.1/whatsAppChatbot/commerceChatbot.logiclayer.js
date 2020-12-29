@@ -417,8 +417,15 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
       if (recentOrders.length > 0) {
         messageBlock.payload[0].text = 'Here are your recently placed orders. Select an order by sending the corresponding number for it:\n'
         for (let i = 0; i < recentOrders.length; i++) {
-          messageBlock.payload[0].text += `\n${convertToEmoji(i)} Order ${recentOrders[i].name}`
+          messageBlock.payload[0].text += `\n${convertToEmoji(i)} Order ${recentOrders[i].name} (${recentOrders[i].lineItems[0].name})`
           messageBlock.payload[0].menu.push({ type: DYNAMIC, action: ORDER_STATUS, argument: recentOrders[i].name.substr(1) })
+
+          const lineItem = recentOrders[i].lineItems[0]
+          messageBlock[0].payload.unshift({
+            componentType: 'image',
+            fileurl: lineItem.image.originalSrc,
+            caption: `${lineItem.name}\nQuantity: ${lineItem.quantity}\nOrder number: ${recentOrders[i].name}`
+          })
         }
       } else {
         messageBlock.payload[0].text = 'You have not placed any orders within the last 60 days.'
@@ -506,6 +513,11 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
         if (i + 1 < orderStatus.lineItems.length) {
           messageBlock.payload[0].text += `\n`
         }
+        messageBlock.payload.unshift({
+          componentType: 'image',
+          fileurl: product.image.originalSrc,
+          caption: `${product.name}\nQuantity: ${product.quantity}`
+        })
       }
     }
 
@@ -642,7 +654,7 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ar
         messageBlock.payload.push({
           componentType: 'image',
           fileurl: product.image,
-          caption: `${convertToEmoji(i)} product.name`
+          caption: `${convertToEmoji(i)} ${product.name}`
         })
       }
     }
@@ -941,7 +953,7 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
           messageBlock.payload.push({
             componentType: 'image',
             fileurl: product.image,
-            caption: product.product
+            caption: `${product.product}\nQuantity: ${product.quantity}\nPrice: %{price} ${currency}`
           })
         }
       }
