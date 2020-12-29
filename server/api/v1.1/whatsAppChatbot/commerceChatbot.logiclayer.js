@@ -433,11 +433,13 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
 
     for (let i = 0; i < recentOrders.length; i++) {
       const lineItem = recentOrders[i].lineItems[0]
-      messageBlock.payload.push({
-        componentType: 'image',
-        fileurl: lineItem.image.originalSrc,
-        caption: `${lineItem.name}\nQuantity: ${lineItem.quantity}\nOrder number: ${recentOrders[i].name}`
-      })
+      if (lineItem.image) {
+        messageBlock.payload.push({
+          componentType: 'image',
+          fileurl: lineItem.image.originalSrc,
+          caption: `${lineItem.name}\nQuantity: ${lineItem.quantity}\nOrder number: ${recentOrders[i].name}`
+        })
+      }
     }
     return messageBlock
   } catch (err) {
