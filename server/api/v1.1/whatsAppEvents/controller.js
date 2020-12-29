@@ -668,7 +668,7 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
             nextMessageBlock = await airlinesChatbotLogicLayer.getNextMessageBlock(chatbot, airlinesProvider, contact, data.messageData.text)
           }
           if (nextMessageBlock) {
-            if (nextMessageBlock.payload[0].text.includes(ERROR_INDICATOR) && moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15) {
+            if (nextMessageBlock.payload[0].text && nextMessageBlock.payload[0].text.includes(ERROR_INDICATOR) && moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15) {
               const allChatbots = await getAllChatbots(company)
               nextMessageBlock = whatsAppChatbotLogicLayer.getChatbotsListMessageBlock(allChatbots)
               if (nextMessageBlock) {
