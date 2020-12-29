@@ -249,7 +249,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
         messageBlock.payload.push({
           componentType: 'image',
           fileurl: product.image,
-          caption: `${convertToEmoji(i)} ${product.name}`
+          caption: `${convertToEmoji(i)} ${product.name}\nPrice: ${product.price}`
         })
       }
     }
@@ -433,11 +433,13 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
 
     for (let i = 0; i < recentOrders.length; i++) {
       const lineItem = recentOrders[i].lineItems[0]
-      messageBlock[0].payload.unshift({
-        componentType: 'image',
-        fileurl: lineItem.image.originalSrc,
-        caption: `${lineItem.name}\nQuantity: ${lineItem.quantity}\nOrder number: ${recentOrders[i].name}`
-      })
+      if (lineItem.image) {
+        messageBlock.payload.push({
+          componentType: 'image',
+          fileurl: lineItem.image.originalSrc,
+          caption: `${lineItem.name}\nQuantity: ${lineItem.quantity}\nOrder number: ${recentOrders[i].name}`
+        })
+      }
     }
     return messageBlock
   } catch (err) {
@@ -556,7 +558,7 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
 
     for (let i = 0; i < orderStatus.lineItems.length; i++) {
       let product = orderStatus.lineItems[i]
-      messageBlock.payload.unshift({
+      messageBlock.payload.push({
         componentType: 'image',
         fileurl: product.image.originalSrc,
         caption: `${product.name}\nQuantity: ${product.quantity}`
@@ -660,7 +662,7 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ar
         messageBlock.payload.push({
           componentType: 'image',
           fileurl: product.image,
-          caption: `${convertToEmoji(i)} ${product.name}`
+          caption: `${convertToEmoji(i)} ${product.name}\nPrice: ${product.price}`
         })
       }
     }
@@ -1739,7 +1741,7 @@ const invalidInput = async (chatbot, messageBlock, errMessage) => {
     messageBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
   }
 
-  if (messageBlock.payload[0].text.includes(ERROR_INDICATOR)) {
+  if (messageBlock.payload[0].text && messageBlock.payload[0].text.includes(ERROR_INDICATOR)) {
     messageBlock.payload[0].text = messageBlock.payload[0].text.split('\n').filter((line) => {
       return !line.includes(ERROR_INDICATOR)
     }).join('\n')
