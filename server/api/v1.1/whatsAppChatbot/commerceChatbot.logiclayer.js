@@ -742,7 +742,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, argum
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
-    for (let i = productVariants.length - 1; i < 0; i--) {
+    for (let i = productVariants.length - 1; i >= 0; i--) {
       let productVariant = productVariants[i]
       if (productVariant.image_url) {
         messageBlock.payload.unshift({
