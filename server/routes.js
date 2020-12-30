@@ -75,6 +75,7 @@ module.exports = function (app) {
   app.use('/api/bigcommerce', require('./api/v1.1/bigcommerce'))
   app.use('/api/attachment', require('./api/v1.1/attachment'))
   app.use('/api/airlines', require('./api/v1.1/airlinesChatbot'))
+  app.use('/api/messageAlerts', require('./api/v1.1/messageAlerts'))
   // auth middleware go here if you authenticate on same server
 
   app.get('/', (req, res) => {

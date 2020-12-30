@@ -139,3 +139,16 @@ exports.advancedSettingsPayload = {
     }
   }
 }
+exports.setBusinessHoursPayload = {
+  'type': 'object',
+  'properties': {
+    opening: {
+      type: 'string',
+      required: true
+    },
+    closing: {
+      type: 'string',
+      required: true
+    }
+  }
+}
