@@ -118,45 +118,7 @@ exports.messageReceived = function (req, res) {
                                   }
                                 }
                                 updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
-                                const triggerWordsMatched = chatbot.triggers.includes(data.messageData.text.toLowerCase()) ? 1 : 0
-
-                                if (isNewContact) {
-                                  await whatsAppChatbotDataLayer.updateWhatsAppChatbot({_id: chatbot._id}, { $inc: { 'stats.triggerWordsMatched': triggerWordsMatched, 'stats.newSubscribers': 1 } })
-                                  whatsAppChatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
-                                    { chatbotId: chatbot._id, companyId: chatbot.companyId, dateToday: moment(new Date()).format('YYYY-MM-DD') },
-                                    { $inc: { sentCount: 1, newSubscribersCount: 1, triggerWordsMatched } },
-                                    { upsert: true })
-                                    .then(updated => {})
-                                    .catch(err => {
-                                      const message = err || 'Failed to update WhatsApp chatbot analytics'
-                                      logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {chatbotId: chatbot._id, companyId: chatbot.companyId}, 'error')
-                                    })
-                                } else {
-                                  whatsAppChatbotDataLayer.updateWhatsAppChatbot({_id: chatbot._id}, { $inc: { 'stats.triggerWordsMatched': triggerWordsMatched } })
-                                  let subscriberLastMessageAt = moment(contact.lastMessagedAt)
-                                  let dateNow = moment()
-                                  if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
-                                    whatsAppChatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
-                                      { chatbotId: chatbot._id, companyId: chatbot.companyId, dateToday: moment(new Date()).format('YYYY-MM-DD') },
-                                      { $inc: { sentCount: 1, returningSubscribers: 1, triggerWordsMatched } },
-                                      { upsert: true })
-                                      .then(updated => {})
-                                      .catch(err => {
-                                        const message = err || 'Failed to update WhatsApp chatbot analytics'
-                                        logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {chatbotId: chatbot._id, companyId: chatbot.companyId}, 'error')
-                                      })
-                                  } else {
-                                    whatsAppChatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
-                                      { chatbotId: chatbot._id, companyId: chatbot.companyId, dateToday: moment(new Date()).format('YYYY-MM-DD') },
-                                      { $inc: { sentCount: 1, triggerWordsMatched } },
-                                      { upsert: true })
-                                      .then(updated => {})
-                                      .catch(err => {
-                                        const message = err || 'Failed to update WhatsApp chatbot analytics'
-                                        logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {chatbotId: chatbot._id, companyId: chatbot.companyId}, 'error')
-                                      })
-                                  }
-                                }
+                                logicLayer.storeWhatsAppStats(data, chatbot, isNewContact, contact, req)
                               }
                             }
                           }
@@ -668,6 +630,8 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
             nextMessageBlock = await airlinesChatbotLogicLayer.getNextMessageBlock(chatbot, airlinesProvider, contact, data.messageData.text)
           }
           if (nextMessageBlock) {
+            console.log('INSIDE NEXT MESSAGE BLOCK IF')
+            console.log(nextMessageBlock.payload)
             if (nextMessageBlock.payload[0].text && nextMessageBlock.payload[0].text.includes(ERROR_INDICATOR) && moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15) {
               const allChatbots = await getAllChatbots(company)
               nextMessageBlock = whatsAppChatbotLogicLayer.getChatbotsListMessageBlock(allChatbots)
@@ -698,45 +662,7 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
               }
             }
             updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
-            const triggerWordsMatched = chatbot.triggers.includes(data.messageData.text.toLowerCase()) ? 1 : 0
-
-            if (isNewContact) {
-              await whatsAppChatbotDataLayer.updateWhatsAppChatbot({_id: chatbot._id}, { $inc: { 'stats.triggerWordsMatched': triggerWordsMatched, 'stats.newSubscribers': 1 } })
-              whatsAppChatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
-                { chatbotId: chatbot._id, companyId: chatbot.companyId, dateToday: moment(new Date()).format('YYYY-MM-DD') },
-                { $inc: { sentCount: 1, newSubscribersCount: 1, triggerWordsMatched } },
-                { upsert: true })
-                .then(updated => {})
-                .catch(err => {
-                  const message = err || 'Failed to update WhatsApp chatbot analytics'
-                  logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {chatbotId: chatbot._id, companyId: chatbot.companyId}, 'error')
-                })
-            } else {
-              whatsAppChatbotDataLayer.updateWhatsAppChatbot({_id: chatbot._id}, { $inc: { 'stats.triggerWordsMatched': triggerWordsMatched } })
-              let subscriberLastMessageAt = moment(contact.lastMessagedAt)
-              let dateNow = moment()
-              if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1) {
-                whatsAppChatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
-                  { chatbotId: chatbot._id, companyId: chatbot.companyId, dateToday: moment(new Date()).format('YYYY-MM-DD') },
-                  { $inc: { sentCount: 1, returningSubscribers: 1, triggerWordsMatched } },
-                  { upsert: true })
-                  .then(updated => {})
-                  .catch(err => {
-                    const message = err || 'Failed to update WhatsApp chatbot analytics'
-                    logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {chatbotId: chatbot._id, companyId: chatbot.companyId}, 'error')
-                  })
-              } else {
-                whatsAppChatbotAnalyticsDataLayer.genericUpdateBotAnalytics(
-                  { chatbotId: chatbot._id, companyId: chatbot.companyId, dateToday: moment(new Date()).format('YYYY-MM-DD') },
-                  { $inc: { sentCount: 1, triggerWordsMatched } },
-                  { upsert: true })
-                  .then(updated => {})
-                  .catch(err => {
-                    const message = err || 'Failed to update WhatsApp chatbot analytics'
-                    logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {chatbotId: chatbot._id, companyId: chatbot.companyId}, 'error')
-                  })
-              }
-            }
+            logicLayer.storeWhatsAppStats(data, chatbot, isNewContact, contact, req)
           }
         }
       }
