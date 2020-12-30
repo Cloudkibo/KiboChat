@@ -695,27 +695,10 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
                 return
               }
             }
-            for (let messagePayload of nextMessageBlock.payload) {
-              let chatbotResponse = {
-                whatsApp: {
-                  accessToken: data.accessToken,
-                  accountSID: data.accountSID,
-                  businessNumber: data.businessNumber
-                },
-                recipientNumber: number,
-                payload: messagePayload
-              }
-              record('whatsappChatOutGoing')
-              whatsAppMapper.whatsAppMapper(req.body.provider, ActionTypes.SEND_CHAT_MESSAGE, chatbotResponse)
-                .then(sent => {})
-                .catch(err => {
-                  const message = err || 'Failed to send chat message'
-                  logger.serverLog(message, `${TAG}: exports.temporarySuperBotResponseHandling`, req.body, {chatbotId: chatbot._id, companyId: chatbot.companyId, chatbotResponse}, 'error')
-                })
-              if (company.saveAutomationMessages) {
-                for (let i = 0; i < nextMessageBlock.payload.length; i++) {
-                  storeChat(company.whatsApp.businessNumber, number, contact, nextMessageBlock.payload[i], 'convos')
-                }
+            sendWhatsAppMessage(nextMessageBlock, data, number, req)
+            if (company.saveAutomationMessages) {
+              for (let i = 0; i < nextMessageBlock.payload.length; i++) {
+                storeChat(company.whatsApp.businessNumber, number, contact, nextMessageBlock.payload[i], 'convos')
               }
             }
             updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
@@ -801,5 +784,5 @@ function sendWhatsAppMessage (nextMessageBlock, data, number, req) {
         const message = err || 'Failed to send chat message'
         logger.serverLog(message, `${TAG}: exports.sendWhatsAppMessage`, req.body, {chatbotResponse}, 'error')
       })
-  }, 2000)
+  }, 1500)
 }
