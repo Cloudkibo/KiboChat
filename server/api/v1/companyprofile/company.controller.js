@@ -816,5 +816,6 @@ exports.setBusinessHours = function (req, res) {
     .catch(err => {
       const message = err || 'Failed to set business hours'
       logger.serverLog(message, `${TAG}: exports.setBusinessHours`, req.body, {user: req.user}, 'error')
+      sendErrorResponse(res, 500, err, 'Failed to set business hours')
     })
 }

@@ -23,15 +23,7 @@ router.post('/subscriptions',
   validate({body: validationSchema.fetchMessageAlertsPayload}),
   controller.fetchSubscriptions)
 
-router.post('/createAlert',
-  auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer('write'),
-  auth.doesPlanPermitsThisAction('message_alerts'),
-  auth.doesRolePermitsThisAction('configure_message_alerts'),
-  validate({body: validationSchema.createAlertPayload}),
-  controller.createAlert)
-
-router.post('/updateAlert/:id',
+router.post('/updateAlert',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer('write'),
   auth.doesPlanPermitsThisAction('message_alerts'),

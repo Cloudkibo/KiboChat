@@ -7,40 +7,23 @@ exports.fetchMessageAlertsPayload = {
     }
   }
 }
-exports.createAlertPayload = {
+exports.updateAlertPayload = {
   type: 'object',
   properties: {
     platform: {
-      type: 'string',
-      required: true
+      type: 'string'
     },
     type: {
-      type: 'string',
-      required: true
+      type: 'string'
     },
     enabled: {
-      type: 'boolean',
-      required: true
+      type: 'boolean'
     },
     interval: {
       type: 'number'
     },
     intervalUnit: {
       type: 'string'
-    },
-    promptCriteria: {
-      type: 'string'
-    }
-  }
-}
-exports.updateAlertPayload = {
-  type: 'object',
-  properties: {
-    enabled: {
-      type: 'boolean'
-    },
-    interval: {
-      type: 'number'
     },
     promptCriteria: {
       type: 'string'
