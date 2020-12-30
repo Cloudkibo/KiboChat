@@ -226,7 +226,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
     if (input) {
       products = await EcommerceProvider.searchProducts(input)
       if (products.length > 0) {
-        messageBlock.payload[0].text = `Following products were found for "${input}". Please select a product by sending the corresponding number for it or enter another product name to search again:\n`
+        messageBlock.payload[0].text = `These products were found for "${input}". Please select a product by sending the corresponding number for it or enter another product name to search again:\n`
       } else {
         messageBlock.payload[0].text = `No products found that match "${input}".\n\nEnter another product name to search again:`
       }
@@ -255,8 +255,9 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
-    for (let i = 0; i < products.length; i++) {
-      let product = products[i]
+    const reversedProducts = products.slice().reverse()
+    for (let i = 0; i < reversedProducts.length; i++) {
+      let product = reversedProducts[i]
       if (product.image) {
         messageBlock.payload.unshift({
           componentType: 'image',
@@ -671,8 +672,9 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ar
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
-    for (let i = 0; i < products.length; i++) {
-      let product = products[i]
+    const reversedProducts = products.slice().reverse()
+    for (let i = 0; i < reversedProducts.length; i++) {
+      let product = reversedProducts[i]
       if (product.image) {
         messageBlock.payload.push({
           componentType: 'image',
@@ -733,13 +735,6 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, argum
         }
       })
     }
-    if (messageBlock.payload.length === 1) {
-      messageBlock.payload.push({
-        componentType: 'image',
-        fileurl: product.image,
-        caption: `${product.name}\nPrice: ${product.price}`
-      })
-    }
     if (productVariants.nextPageParameters) {
       messageBlock.payload[0].text += `\n${convertToEmoji(productVariants.length)} View More`
       messageBlock.payload[0].menu.push({
@@ -749,12 +744,13 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, argum
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
-    for (let i = 0; i < productVariants.length; i++) {
-      let productVariant = productVariants[i]
-      if (productVariant.image) {
+    const reversedProducts = productVariants.slice().reverse()
+    for (let i = 0; i < reversedProducts.length; i++) {
+      let productVariant = reversedProducts[i]
+      if (productVariant.image_url) {
         messageBlock.payload.unshift({
           componentType: 'image',
-          fileurl: productVariant.image,
+          fileurl: productVariant.image_url,
           caption: `${convertToEmoji(i)} ${productVariant.name} ${product.name}\nPrice: ${productVariant.price ? productVariant.price : product.price}`
         })
       }
