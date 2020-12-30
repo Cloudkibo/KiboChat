@@ -35,7 +35,7 @@ exports.fetchSubscriptions = function (req, res) {
       sendErrorResponse(res, 500, err, 'Failed to fetch subscriptions')
     })
 }
-exports.updateAlert = function (req, res) {
+exports.saveAlert = function (req, res) {
   let query = {
     purpose: 'updateOne',
     match: {
@@ -60,7 +60,7 @@ exports.updateAlert = function (req, res) {
     })
     .catch(err => {
       const message = err || 'Error in updating alert'
-      logger.serverLog(message, `${TAG}: exports.updateAlert`, req.body, {user: req.user}, 'error')
+      logger.serverLog(message, `${TAG}: exports.saveAlert`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err, 'Failed to update message alert')
     })
 }
