@@ -246,7 +246,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
         type: DYNAMIC, action: PRODUCT_VARIANTS, argument: {product}
       })
       if (product.image) {
-        messageBlock.payload.push({
+        messageBlock.payload.unshift({
           componentType: 'image',
           fileurl: product.image,
           caption: `${convertToEmoji(i)} ${product.name}\nPrice: ${product.price}`
@@ -558,7 +558,7 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
 
     for (let i = 0; i < orderStatus.lineItems.length; i++) {
       let product = orderStatus.lineItems[i]
-      messageBlock.payload.push({
+      messageBlock.payload.unshift({
         componentType: 'image',
         fileurl: product.image.originalSrc,
         caption: `${product.name}\nQuantity: ${product.quantity}`
