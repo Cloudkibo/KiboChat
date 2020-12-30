@@ -68,7 +68,6 @@ module.exports = function (app) {
   app.use('/api/flockSendEvents', require('./api/v1.1/flockSendEvents'))
   app.use('/api/shopify', require('./api/v1.1/shopify'))
   app.use('/api/whatsAppChatbot', require('./api/v1.1/whatsAppChatbot'))
-  app.use('/api/adminAlerts', require('./api/v1.1/adminAlerts'))
   app.use('/api/whatsAppEvents', require('./api/v1.1/whatsAppEvents'))
   app.use('/api/backdoor', require('./api/v1.1/backdoor'))
   app.use('/api/configure/chatbot', require('./api/v1.1/configureChatbot'))
