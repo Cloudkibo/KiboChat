@@ -245,13 +245,6 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
       messageBlock.payload[0].menu.push({
         type: DYNAMIC, action: PRODUCT_VARIANTS, argument: {product}
       })
-      if (product.image) {
-        messageBlock.payload.unshift({
-          componentType: 'image',
-          fileurl: product.image,
-          caption: `${convertToEmoji(i)} ${product.name}\nPrice: ${product.price}`
-        })
-      }
     }
     if (products.nextPageParameters) {
       messageBlock.payload[0].text += `\n${convertToEmoji(products.length)} View More`
@@ -262,6 +255,16 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
+    for (let i = 0; i < products.length; i++) {
+      let product = products[i]
+      if (product.image) {
+        messageBlock.payload.unshift({
+          componentType: 'image',
+          fileurl: product.image,
+          caption: `${convertToEmoji(i)} ${product.name}\nPrice: ${product.price}`
+        })
+      }
+    }
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to discover products'
