@@ -1189,7 +1189,7 @@ const getShowItemsToUpdateBlock = (chatbot, backId, contact) => {
         messageBlock.payload.unshift({
           componentType: 'image',
           fileurl: product.image,
-          caption: `${convertToEmoji(i)} ${product.name}\nPrice: ${product.price} ${product.currency}`
+          caption: `${convertToEmoji(i)} ${product.product}\nPrice: ${product.price} ${product.currency}`
         })
       }
     }
