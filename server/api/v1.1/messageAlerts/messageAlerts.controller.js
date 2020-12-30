@@ -59,8 +59,8 @@ exports.saveAlert = function (req, res) {
       sendSuccessResponse(res, 200, data, 'saved successfully')
     })
     .catch(err => {
-      const message = err || 'Error in updating alert'
+      const message = err || 'Error in saving alert'
       logger.serverLog(message, `${TAG}: exports.saveAlert`, req.body, {user: req.user}, 'error')
-      sendErrorResponse(res, 500, err, 'Failed to update message alert')
+      sendErrorResponse(res, 500, err, 'Failed to save message alert')
     })
 }
