@@ -1052,7 +1052,7 @@ const getQuantityToRemoveBlock = async (chatbot, product) => {
       messageBlock.payload.unshift({
         componentType: 'image',
         fileurl: product.image,
-        caption: `${product.name}\nPrice: ${product.price} ${product.currency}\nQuantity: ${product.quantity}`
+        caption: `${product.product}\nPrice: ${product.price} ${product.currency}\nQuantity: ${product.quantity}`
       })
     }
     return messageBlock
@@ -1103,7 +1103,7 @@ const getShowItemsToRemoveBlock = (chatbot, backId, contact) => {
         messageBlock.payload.unshift({
           componentType: 'image',
           fileurl: product.image,
-          caption: `${convertToEmoji(i)} ${product.name}\nPrice: ${product.price} ${product.currency}`
+          caption: `${convertToEmoji(i)} ${product.product}\nPrice: ${product.price} ${product.currency}`
         })
       }
     }
@@ -1138,7 +1138,7 @@ const getQuantityToUpdateBlock = async (chatbot, product) => {
       messageBlock.payload.unshift({
         componentType: 'image',
         fileurl: product.image,
-        caption: product.product
+        caption: `${product.product}\nQuantity: ${product.quantity}\nPrice: ${product.price} ${product.currency}`
       })
     }
     return messageBlock
