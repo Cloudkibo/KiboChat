@@ -1233,7 +1233,10 @@ const getUpdateCartBlock = async (chatbot, backId, contact, product, quantity) =
         image: product.image
       })
     }
-    updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
+    if (contact.commerceCustomer) {
+      contact.commerceCustomer.cartId = null
+    }
+    updateWhatsAppContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
     let text = `${product.product} quantity has been updated to ${quantity}.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
@@ -1271,7 +1274,10 @@ const clearCart = async (chatbot, contact) => {
       companyId: chatbot.companyId
     }
     let shoppingCart = []
-    updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
+    if (contact.commerceCustomer) {
+      contact.commerceCustomer.cartId = null
+    }
+    updateWhatsAppContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to clear cart'
