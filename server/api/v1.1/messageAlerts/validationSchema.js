@@ -7,7 +7,7 @@ exports.fetchMessageAlertsPayload = {
     }
   }
 }
-exports.updateAlertPayload = {
+exports.saveAlertPayload = {
   type: 'object',
   properties: {
     platform: {

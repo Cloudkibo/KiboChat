@@ -23,12 +23,12 @@ router.post('/subscriptions',
   validate({body: validationSchema.fetchMessageAlertsPayload}),
   controller.fetchSubscriptions)
 
-router.post('/updateAlert',
+router.post('/saveAlert',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer('write'),
   auth.doesPlanPermitsThisAction('message_alerts'),
   auth.doesRolePermitsThisAction('configure_message_alerts'),
-  validate({body: validationSchema.updateAlertPayload}),
-  controller.updateAlert)
+  validate({body: validationSchema.saveAlertPayload}),
+  controller.saveAlert)
 
 module.exports = router
