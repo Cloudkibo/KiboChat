@@ -750,8 +750,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, argum
         messageBlock.payload.unshift({
           componentType: 'image',
           fileurl: productVariant.image_url,
-          caption: `${convertToEmoji(i)} ${productVariant.name} ${product.name}\n
-          Price: ${productVariant.price ? productVariant.price : product.price} ${storeInfo.currency}`
+          caption: `${convertToEmoji(i)} ${productVariant.name} ${product.name}\nPrice: ${productVariant.price ? productVariant.price : product.price} ${storeInfo.currency}`
         })
       }
     }
@@ -900,11 +899,9 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
         })
       }
     }
-    if (contact.commerceCustomer) {
-      contact.commerceCustomer.cartId = null
-    }
-    updateWhatsAppContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
-    let text = `${quantity} ${product.product}${quantity !== 1 ? 's have' : 'has'} been succesfully added to your cart.`
+
+    updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
+    let text = `${quantity} ${product.product}${quantity !== 1 ? 's have' : 'has'} been successfully added to your cart.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
     if (!userError) {
@@ -1016,11 +1013,8 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
       userError = true
       throw new Error(`${ERROR_INDICATOR}Invalid quantity given.`)
     }
-    if (contact.commerceCustomer) {
-      contact.commerceCustomer.cartId = null
-    }
-    updateWhatsAppContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
-    let text = `${quantity} ${productInfo.product}${quantity !== 1 ? 's have' : 'has'} been succesfully removed from your cart.`
+    updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
+    let text = `${quantity} ${productInfo.product}${quantity !== 1 ? 's have' : ' has'} been successfully removed from your cart.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
     if (!userError) {
@@ -1058,7 +1052,7 @@ const getQuantityToRemoveBlock = async (chatbot, product) => {
       messageBlock.payload.unshift({
         componentType: 'image',
         fileurl: product.image,
-        caption: product.product
+        caption: `${product.name}\nPrice: ${product.price} ${product.currency}\nQuantity: ${product.quantity}`
       })
     }
     return messageBlock
@@ -1103,6 +1097,16 @@ const getShowItemsToRemoveBlock = (chatbot, backId, contact) => {
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)} `
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)} `
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)} `
+    for (let i = shoppingCart.length - 1; i >= 0; i--) {
+      let product = shoppingCart[i]
+      if (product.image) {
+        messageBlock.payload.unshift({
+          componentType: 'image',
+          fileurl: product.image,
+          caption: `${convertToEmoji(i)} ${product.name}\nPrice: ${product.price} ${product.currency}`
+        })
+      }
+    }
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to show items from cart'
@@ -1179,6 +1183,16 @@ const getShowItemsToUpdateBlock = (chatbot, backId, contact) => {
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)} `
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)} `
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)} `
+    for (let i = shoppingCart.length - 1; i >= 0; i--) {
+      let product = shoppingCart[i]
+      if (product.image) {
+        messageBlock.payload.unshift({
+          componentType: 'image',
+          fileurl: product.image,
+          caption: `${convertToEmoji(i)} ${product.name}\nPrice: ${product.price} ${product.currency}`
+        })
+      }
+    }
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to show items from cart'
