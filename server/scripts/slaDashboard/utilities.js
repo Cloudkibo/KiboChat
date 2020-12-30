@@ -1,45 +1,51 @@
 const { callApi } = require('../../api/v1.1/utility')
 const async = require('async')
 
-exports._getResponsesData = (pageId, last24) => {
+exports._getResponsesData = (pageId, last24, type, id, companyId) => {
   return new Promise((resolve, reject) => {
-    const criteria = [
-      {$match: {datetime: {$gt: last24}, $or: [{sender_id: pageId}, {recipient_id: pageId}]}},
-      {$group: {_id: '$subscriber_id', messages: {$push: '$$ROOT'}}}
-    ]
-    callApi('livechat/aggregate', 'post', criteria, 'kibochat')
-      .then(async (subscribers) => {
-        if (subscribers.length > 0) {
-          let totalRespTime = 0
-          let responses = 0
-          let sessions = 0
-          let maxRespTime = 0
-          async.each(subscribers, function (subscriber, cb) {
-            let agentReplies = subscriber.messages.filter((msg) => msg.format === 'convos')
-            if (agentReplies.length > 0) {
-              _calculateResponsesData(subscriber)
-                .then(subRespData => {
-                  totalRespTime = totalRespTime + subRespData.avgRespTime
-                  responses = responses + subRespData.responses
-                  maxRespTime = maxRespTime < subRespData.maxRespTime ? subRespData.maxRespTime : maxRespTime
-                  sessions++
-                  cb()
+    _getCriteria(pageId, last24, type, id, companyId)
+      .then(criteria => {
+        if (criteria !== 'NO_RECORDS') {
+          callApi('livechat/aggregate', 'post', criteria, 'kibochat')
+            .then(async (subscribers) => {
+              if (subscribers.length > 0) {
+                let totalRespTime = 0
+                let responses = 0
+                let sessions = 0
+                let maxRespTime = 0
+                async.each(subscribers, function (subscriber, cb) {
+                  let agentReplies = subscriber.messages.filter((msg) => msg.format === 'convos')
+                  if (agentReplies.length > 0) {
+                    _calculateResponsesData(subscriber)
+                      .then(subRespData => {
+                        totalRespTime = totalRespTime + subRespData.avgRespTime
+                        responses = responses + subRespData.responses
+                        maxRespTime = maxRespTime < subRespData.maxRespTime ? subRespData.maxRespTime : maxRespTime
+                        sessions++
+                        cb()
+                      })
+                      .catch(err => {
+                        cb(err)
+                      })
+                  }
+                }, function (err) {
+                  if (err) {
+                    reject(err)
+                  } else {
+                    resolve({
+                      avgRespTime: totalRespTime > 0 ? parseInt(totalRespTime / sessions) : undefined,
+                      responses: responses > 0 ? responses : undefined,
+                      maxRespTime: maxRespTime > 0 ? maxRespTime : undefined
+                    })
+                  }
                 })
-                .catch(err => {
-                  cb(err)
-                })
-            }
-          }, function (err) {
-            if (err) {
+              } else {
+                resolve({})
+              }
+            })
+            .catch(err => {
               reject(err)
-            } else {
-              resolve({
-                avgRespTime: totalRespTime > 0 ? parseInt(totalRespTime / sessions) : undefined,
-                responses: responses > 0 ? responses : undefined,
-                maxRespTime: maxRespTime > 0 ? maxRespTime : undefined
-              })
-            }
-          })
+            })
         } else {
           resolve({})
         }
@@ -118,5 +124,32 @@ const _calculateResponsesData = (subscriber) => {
         })
       }
     })
+  })
+}
+
+const _getCriteria = (pageId, last24, type, id, companyId) => {
+  return new Promise((resolve, reject) => {
+    let criteria = [
+      {$match: {datetime: {$gt: last24}, $or: [{sender_id: pageId}, {recipient_id: pageId}]}},
+      {$group: {_id: '$subscriber_id', messages: {$push: '$$ROOT'}}}
+    ]
+    if (['user', 'team'].includes(type)) {
+      const subsCriteria = {is_assigned: true, 'assigned_to.id': id, companyId}
+      callApi('subscribers/query', 'post', subsCriteria)
+        .then(subscribers => {
+          if (subscribers.length > 0) {
+            const ids = subscribers.map((s) => s._id)
+            criteria[0]['$match'] = {datetime: {$gt: last24}, subscriber_id: {$in: ids}}
+            resolve(criteria)
+          } else {
+            resolve('NO_RECORDS')
+          }
+        })
+        .catch(err => {
+          reject(err)
+        })
+    } else {
+      resolve(criteria)
+    }
   })
 }

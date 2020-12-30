@@ -2,6 +2,7 @@ const logger = require('../../components/logger')
 const TAG = 'scripts/slaDashboard.js'
 const { callApi } = require('../../api/v1.1/utility')
 const { _getResponsesData } = require('./utilities')
+const async = require('async')
 
 exports.pushDayWiseRecordsToSDATeam = function (last24) {
   const newSessionsCriteria = [
@@ -20,10 +21,6 @@ exports.pushDayWiseRecordsToSDATeam = function (last24) {
     {$match: {pendingAt: {$gt: last24}, is_assigned: true, 'assigned_to.type': 'team'}},
     {$group: {_id: {teamId: '$assigned_to.id', pageId: '$pageId'}, companyId: {$first: '$companyId'}, count: {$sum: 1}}}
   ]
-  const messagesSentCriteria = [
-    {$match: {datetime: {$gt: last24}, format: 'convos', replied_by: {$exists: true}}},
-    {$group: {_id: {pageId: '$sender_id', teamId: '$replied_by.id'}, companyId: {$first: '$company_id'}, count: {$sum: 1}}}
-  ]
   const avgResolvedTimeCriteria = [
     {$match: {resolvedAt: {$gt: last24}, is_assigned: true, 'assigned_to.type': 'team', status: 'resolved'}},
     {$project: {pageId: 1, diff: {$subtract: ['$resolvedAt', '$openedAt']}}},
@@ -34,7 +31,7 @@ exports.pushDayWiseRecordsToSDATeam = function (last24) {
   const openSessionsPromise = callApi('subscribers/aggregate', 'post', openSessionsCriteria)
   const closedSessionsPromise = callApi('subscribers/aggregate', 'post', closedSessionsCriteria)
   const pendingSessionsPromise = callApi('subscribers/aggregate', 'post', pendingSessionsCriteria)
-  const messagesSentPromise = callApi('livechat/aggregate', 'post', messagesSentCriteria, 'kibochat')
+  const messagesSentPromise = _getMessagesSentCount(last24)
   const avgResolvedTimePromise = callApi('subscribers/aggregate', 'post', avgResolvedTimeCriteria)
 
   Promise.all([
@@ -55,7 +52,7 @@ exports.pushDayWiseRecordsToSDATeam = function (last24) {
         const avgResolvedTime = results[5]
         const teamsData = await _getUniqueRecords([...newSessions, ...openSessions, ...closedSessions, ...pendingSessions, ...messagesSent])
         for (let i = 0; i < teamsData.length; i++) {
-          const responsesData = await _getResponsesData(teamsData[i]._id.pageId, last24)
+          const responsesData = await _getResponsesData(teamsData[i]._id.pageId, last24, 'team', teamsData[i]._id.teamId)
           const data = JSON.parse(JSON.stringify({
             companyId: teamsData[i].companyId,
             pageId: teamsData[i]._id.pageId,
@@ -67,6 +64,7 @@ exports.pushDayWiseRecordsToSDATeam = function (last24) {
             avgRespTime: responsesData.avgRespTime,
             responses: responsesData.responses
           }))
+          console.log(data)
           callApi('slaDashboard/teamWise', 'post', data, 'kibodash')
             .then(saved => {})
             .catch(err => {
@@ -117,4 +115,55 @@ const _getAverageResolveTime = (data, avgResolvedTime) => {
   avgResolvedTime = avgResolvedTime.find((a) => a._id.pageId === data.pageId && a._id.teamId === data.teamId)
   const average = avgResolvedTime ? avgResolvedTime.average : undefined
   return average
+}
+
+const _getMessagesSentCount = (last24) => {
+  return new Promise((resolve, reject) => {
+    let sentData = []
+    const messagesSentCriteria = [
+      {$match: {datetime: {$gt: last24}, format: 'convos', replied_by: {$exists: true}}},
+      {$group: {_id: '$subscriber_id', count: {$sum: 1}}}
+    ]
+    callApi('livechat/aggregate', 'post', messagesSentCriteria, 'kibochat')
+      .then(records => {
+        const subIds = records.map((item) => item._id)
+        const criteria = [
+          {$match: {_id: {$in: subIds}, 'assigned_to.type': 'team', is_assigned: true}},
+          {$group: {_id: {pageId: '$pageId', teamId: '$assigned_to.id'}, subscribers: {$push: '$$ROOT'}}}
+        ]
+        callApi('subscribers/aggregate', 'post', criteria)
+          .then(results => {
+            if (results.length > 0) {
+              async.each(results, function (item, cb) {
+                const ids = item.subscribers.map((s) => s._id)
+                const filtered = records.filter((r) => ids.includes(r._id))
+                const count = filtered.reduce((a, b) => a + b['count'], 0)
+                sentData.push({
+                  _id: {
+                    pageId: item._id.pageId,
+                    teamId: item._id.teamId
+                  },
+                  companyId: item.subscribers[0].companyId,
+                  count
+                })
+                cb()
+              }, function (err) {
+                if (err) {
+                  reject(err)
+                } else {
+                  resolve(sentData)
+                }
+              })
+            } else {
+              resolve(sentData)
+            }
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
 }
