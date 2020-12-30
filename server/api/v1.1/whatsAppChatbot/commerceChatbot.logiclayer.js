@@ -437,7 +437,7 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
     for (let i = 0; i < recentOrders.length; i++) {
       const lineItem = recentOrders[i].lineItems[0]
       if (lineItem.image) {
-        messageBlock.payload.push({
+        messageBlock.payload.unshift({
           componentType: 'image',
           fileurl: lineItem.image.originalSrc,
           caption: `${lineItem.name}\nQuantity: ${lineItem.quantity}\nOrder number: ${recentOrders[i].name}`
@@ -661,13 +661,6 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ar
       messageBlock.payload[0].menu.push({
         type: DYNAMIC, action: PRODUCT_VARIANTS, argument: {product}
       })
-      if (product.image) {
-        messageBlock.payload.push({
-          componentType: 'image',
-          fileurl: product.image,
-          caption: `${convertToEmoji(i)} ${product.name}\nPrice: ${product.price}`
-        })
-      }
     }
     if (products.nextPageParameters) {
       messageBlock.payload[0].text += `\n${convertToEmoji(products.length)} View More`
@@ -678,6 +671,16 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ar
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
+    for (let i = 0; i < products.length; i++) {
+      let product = products[i]
+      if (product.image) {
+        messageBlock.payload.push({
+          componentType: 'image',
+          fileurl: product.image,
+          caption: `${convertToEmoji(i)} ${product.name}\nPrice: ${product.price}`
+        })
+      }
+    }
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to get products in category'
@@ -729,13 +732,6 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, argum
           image: productVariant.image ? productVariant.image : product.image
         }
       })
-      if (productVariant.image) {
-        messageBlock.payload.push({
-          componentType: 'image',
-          fileurl: productVariant.image,
-          caption: `${convertToEmoji(i)} ${productVariant.name} ${product.name}\nPrice: ${productVariant.price ? productVariant.price : product.price}`
-        })
-      }
     }
     if (messageBlock.payload.length === 1) {
       messageBlock.payload.push({
@@ -753,6 +749,16 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, argum
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
+    for (let i = 0; i < productVariants.length; i++) {
+      let productVariant = productVariants[i]
+      if (productVariant.image) {
+        messageBlock.payload.unshift({
+          componentType: 'image',
+          fileurl: productVariant.image,
+          caption: `${convertToEmoji(i)} ${productVariant.name} ${product.name}\nPrice: ${productVariant.price ? productVariant.price : product.price}`
+        })
+      }
+    }
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to get product variants'
@@ -805,7 +811,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
     messageBlock.payload[0].text += `\n${specialKeyText(SHOW_CART_KEY)}\n${specialKeyText(BACK_KEY)}\n${specialKeyText(HOME_KEY)}`
 
     if (product.image) {
-      messageBlock.payload.push({
+      messageBlock.payload.unshift({
         componentType: 'image',
         fileurl: product.image,
         caption: `${product.product}\nPrice: ${product.price}`
@@ -849,7 +855,7 @@ const getQuantityToAddBlock = async (chatbot, backId, contact, product) => {
       }
     }
     if (product.image) {
-      messageBlock.payload.push({
+      messageBlock.payload.unshift({
         componentType: 'image',
         fileurl: product.image,
         caption: `${product.product}\nPrice: ${product.price}`
@@ -960,13 +966,6 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
         if (i + 1 < shoppingCart.length) {
           messageBlock.payload[0].text += `\n`
         }
-        if (product.image) {
-          messageBlock.payload.push({
-            componentType: 'image',
-            fileurl: product.image,
-            caption: `${product.product}\nQuantity: ${product.quantity}\nPrice: ${price} ${currency}`
-          })
-        }
       }
       messageBlock.payload[0].text += `\n\n*Total price*: ${totalPrice} ${currency}\n\n`
       messageBlock.payload[0].menu.push(
@@ -982,6 +981,19 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
     }
     messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
+    for (let i = 0; i < shoppingCart.length; i++) {
+      let product = shoppingCart[i]
+      if (product.image) {
+        let currency = product.currency
+        let price = product.quantity * product.price
+        price = Number(price.toFixed(2))
+        messageBlock.payload.unshift({
+          componentType: 'image',
+          fileurl: product.image,
+          caption: `${product.product}\nQuantity: ${product.quantity}\nPrice: ${price} ${currency}`
+        })
+      }
+    }
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to show cart'
@@ -1042,7 +1054,7 @@ const getQuantityToRemoveBlock = async (chatbot, product) => {
       companyId: chatbot.companyId
     }
     if (product.image) {
-      messageBlock.payload.push({
+      messageBlock.payload.unshift({
         componentType: 'image',
         fileurl: product.image,
         caption: product.product
@@ -1118,7 +1130,7 @@ const getQuantityToUpdateBlock = async (chatbot, product) => {
       companyId: chatbot.companyId
     }
     if (product.image) {
-      messageBlock.payload.push({
+      messageBlock.payload.unshift({
         componentType: 'image',
         fileurl: product.image,
         caption: product.product
@@ -1755,6 +1767,18 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
   } else {
     let action = null
     let lastMessageSentByBot = contact.lastMessageSentByBot.payload[0]
+    // sometimes the message with menu and special keys may appear last
+    // in payload array due to request by sir to show menu as last message
+    // so at zero index we may not have the message containing menu
+    // Following loope is trying to find that particular message payload which
+    // contains menu
+    for (let i = 0; i < contact.lastMessageSentByBot.payload.length; i++) {
+      const payload = contact.lastMessageSentByBot.payload[i]
+      if (payload.specialKeys || payload.menu) {
+        lastMessageSentByBot = payload
+        break
+      }
+    }
     try {
       if (lastMessageSentByBot.specialKeys && lastMessageSentByBot.specialKeys[input]) {
         action = lastMessageSentByBot.specialKeys[input]
