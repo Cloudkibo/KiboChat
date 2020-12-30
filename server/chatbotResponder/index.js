@@ -133,12 +133,16 @@ const _handleUserInput = (userText, context) => {
     chatbotDatalayer.fetchChatbotBlockRecords({uniqueId: context})
       .then(blocks => {
         const block = blocks[0]
-        const options = block.options.map((item) => item.code)
-        const index = options.indexOf(userText)
-        if (index === -1) {
-          resolve({status: 'failed', description: 'You have entered an incorrect option. Please try again.'})
+        if (block) {
+          const options = block.options.map((item) => item.code)
+          const index = options.indexOf(userText)
+          if (index === -1) {
+            resolve({status: 'failed', description: 'You have entered an incorrect option. Please try again.'})
+          } else {
+            resolve({status: 'success', payload: block.options[index].blockId})
+          }
         } else {
-          resolve({status: 'success', payload: block.options[index].blockId})
+          resolve({status: 'failed', description: 'You have entered an incorrect option. Please try again.'})
         }
       })
       .catch(err => {
