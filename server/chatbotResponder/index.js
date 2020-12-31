@@ -30,14 +30,17 @@ exports.respondUsingChatbot = (platform, provider, company, message, contact, is
             .then(blocks => {
               let block = blocks[0]
               if (block) {
-              // trigger matched
+                console.log('trigger matched')
+                // trigger matched
                 _respond(platform, provider, company, contact, block)
                 resolve(block)
               } else {
               // trigger not matched. check chatbot context
                 if (contact.chatbotContext) {
+                  console.log('contact.chatbotContext', contact.chatbotContext)
                   _handleUserInput(userText, contact.chatbotContext)
                     .then(result => {
+                      console.log('result.status', result.status)
                       if (result.status === 'success') {
                       // correct option, send next block
                         _fetchChatbotBlocks({uniqueId: result.payload})
@@ -55,6 +58,8 @@ exports.respondUsingChatbot = (platform, provider, company, message, contact, is
                           })
                       } else {
                       // incorrect option, send fallback reply
+                        console.log('incorrect option, send fallback reply')
+                        console.log('company', company)
                         _callMapperFunction(
                           platform,
                           provider,
