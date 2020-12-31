@@ -825,14 +825,14 @@ function subscribeToMessageAlerts (contact, data, provider) {
                 }
               }
             })
-            sendMessageAlertSubscriptionResponse(data, contact, provider, 'You have been subscribed successfully to receive alerts on whatsApp')
+            sendMessageAlertSubscriptionResponse(data, contact, provider, 'You have been subscribed successfully to receive alerts on whatsApp. If you want to unsubscribe, please send cancel-notify')
           })
           .catch(error => {
             const message = error || 'error in creating subscription'
             return logger.serverLog(message, `${TAG}: subscribeToMessageAlerts`, {data}, {contact}, 'error')
           })
       } else {
-        sendMessageAlertSubscriptionResponse(data, contact, provider, 'You are already subscribed')
+        sendMessageAlertSubscriptionResponse(data, contact, provider, 'You are already subscribed. If you want to unsubscribe, please send cancel-notify')
       }
     })
     .catch(error => {
