@@ -857,6 +857,6 @@ function sendMessageAlertSubscriptionResponse (data, contact, provider, text) {
     })
     .catch(err => {
       const message = err || 'Failed to send subscription response'
-      logger.serverLog(message, `${TAG}: exports.subscribeToMessageAlerts`, data, {contact, provider}, 'error')
+      logger.serverLog(message, `${TAG}: sendMessageAlertSubscriptionResponse`, data, {contact, provider}, 'error')
     })
 }

@@ -595,7 +595,7 @@ function sendMessageAlertSubscriptionResponse (subscriber, page, message) {
   })
     .catch(error => {
       const message = error || 'error in sending subscription message'
-      return logger.serverLog(message, `${TAG}: exports.subscribeToMessenger`, {}, {subscriber, page}, 'error')
+      return logger.serverLog(message, `${TAG}: sendMessageAlertSubscriptionResponse`, {}, {subscriber, page}, 'error')
     })
 }
 exports.saveLiveChat = saveLiveChat
