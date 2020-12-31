@@ -559,14 +559,14 @@ function subscribeToMessageAlerts (subscriber, page) {
                 }
               }
             })
-            sendMessageAlertSubscriptionResponse(subscriber, page, 'You have been subscribed successfully to receive alerts on messenger')
+            sendMessageAlertSubscriptionResponse(subscriber, page, 'You have been subscribed successfully to receive alerts on messenger. If you want to unsubscribe, please send cancel-notify')
           })
           .catch(error => {
             const message = error || 'error in creating subscription'
             return logger.serverLog(message, `${TAG}: subscribeToMessageAlerts`, {}, {subscriber, page}, 'error')
           })
       } else {
-        sendMessageAlertSubscriptionResponse(subscriber, page, 'You are already subscribed')
+        sendMessageAlertSubscriptionResponse(subscriber, page, 'You are already subscribed. If you want to unsubscribe, please send cancel-notify')
       }
     })
     .catch(error => {
