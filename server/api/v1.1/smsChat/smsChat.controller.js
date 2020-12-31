@@ -138,7 +138,7 @@ exports.create = function (req, res) {
             logger.serverLog(message, `${TAG}: exports.create`, req.body, {params: req.params, user: req.user}, 'error')
             sendErrorResponse(res, 500, `Failed to send message ${JSON.stringify(err)}`)  
           } else {
-            sendErrorResponse(res, 500, `Please verify your number on Twilio Trail account before sending messages.`)
+            sendErrorResponse(res, 500, 'Please verify your number on Twilio Trail account before sending messages.')
           }
         })
     })
