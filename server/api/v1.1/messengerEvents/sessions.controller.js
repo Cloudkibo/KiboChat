@@ -12,7 +12,7 @@ const notificationsUtility = require('../notifications/notifications.utility')
 const { record } = require('../../global/messageStatistics')
 const { sendNotifications } = require('../../global/sendNotification')
 const { sendWebhook } = require('../../global/sendWebhook')
-
+const { facebookApiCaller } = require('./../../global/facebookApiCaller')
 const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('../../global/messageAlerts')
 const { handleTriggerMessage, handleCommerceChatbot, isTriggerMessage } = require('./chatbotAutomation.controller')
 
@@ -144,6 +144,7 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
   ) {
     LiveChatDataLayer.createFbMessageObject(chatPayload)
       .then(chat => {
+        console.log('chatCreated', chat)
         if (!event.message.is_echo) {
           setTimeout(() => {
             utility.callApi('subscribers/query', 'post', { _id: subscriber._id })
@@ -166,7 +167,7 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
                 })
               })
           }, 500)
-          sendautomatedmsg(event, page)
+          sendautomatedmsg(event, page, subscriber)
         } else {
           require('./../../../config/socketio').sendMessageToClient({
             room_id: page.companyId,
@@ -298,7 +299,7 @@ function saveNotifications (subscriber, companyUsers, page) {
   })
 }
 
-function sendautomatedmsg (req, page) {
+function sendautomatedmsg (req, page, subscriber) {
   if (req.message && req.message.text) {
     let index = -3
     if (req.message.text.toLowerCase() === 'stop' ||
@@ -308,6 +309,9 @@ function sendautomatedmsg (req, page) {
     if (req.message.text.toLowerCase() === 'start' ||
       req.message.text.toLowerCase() === 'subscribe') {
       index = -111
+    }
+    if (req.message.text.toLowerCase() === 'notify-me') {
+      subscribeToMessageAlerts(subscriber, page)
     }
 
     // user query matched with keywords, send response
@@ -527,6 +531,59 @@ const _prepareSubscriberUpdatePayload = (event, subscriber, company) => {
     }
   }
   return updated
+}
+
+function subscribeToMessageAlerts (subscriber, page) {
+  utility.callApi(`alerts/subscriptions/query`, 'post', {
+    purpose: 'findOne',
+    match: {companyId: page.companyId, alertChannel: 'messenger', platform: 'messenger', channelId: subscriber.senderId}
+  }, 'kibochat')
+    .then(subscriptions => {
+      if (!subscriptions) {
+        let payload = {
+          companyId: page.companyId,
+          platform: 'messenger',
+          alertChannel: 'messenger',
+          channelId: subscriber.senderId,
+          userName: subscriber.firstName + ' ' + subscriber.lastName,
+          profilePic: subscriber.profilePic
+        }
+        utility.callApi(`alerts/subscriptions`, 'post', payload, 'kibochat')
+          .then(subscription => {
+            require('../../../config/socketio').sendMessageToClient({
+              room_id: page.companyId,
+              body: {
+                action: 'messenger_messageAlert_subscription',
+                payload: {
+                  subscription: subscription,
+                  subscriber: subscriber
+                }
+              }
+            })
+            let message = 'You have been subscribed successfully to receive alerts on messenger'
+            facebookApiCaller('v6.0', `me/messages?access_token=${page.accessToken}`, 'post', {
+              messaging_type: 'RESPONSE',
+              recipient: JSON.stringify({ id: subscriber.senderId }),
+              message: {
+                text: message,
+                'metadata': 'This is a meta data'
+              }
+            }).then(response => {})
+              .catch(error => {
+                const message = error || 'error in sending subscription message'
+                return logger.serverLog(message, `${TAG}: exports.subscribeToMessenger`, {}, {subscriber, page}, 'error')
+              })
+          })
+          .catch(error => {
+            const message = error || 'error in creating subscription'
+            return logger.serverLog(message, `${TAG}: subscribeToMessageAlerts`, {}, {subscriber, page}, 'error')
+          })
+      }
+    })
+    .catch(error => {
+      const message = error || 'error in fetching subscriptions'
+      return logger.serverLog(message, `${TAG}: subscribeToMessageAlerts`, {}, {subscriber, page}, 'error')
+    })
 }
 
 exports.saveLiveChat = saveLiveChat

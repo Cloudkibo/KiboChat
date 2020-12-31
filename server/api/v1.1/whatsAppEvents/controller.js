@@ -65,6 +65,7 @@ exports.messageReceived = function (req, res) {
                           return
                         }
                         if (data.messageData.componentType === 'text') {
+                          if (data.messageData.text.toLowerCase() === 'notify-me') subscribeToMessageAlerts(contact, data, req.body.provider)
                           let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ _id: company.whatsApp.activeWhatsappBot })
                           if (chatbot) {
                             const shouldSend = chatbot.published || chatbot.testSubscribers.includes(contact.number)
@@ -798,4 +799,61 @@ function sendWhatsAppMessage (nextMessageBlock, data, number, req) {
         logger.serverLog(message, `${TAG}: exports.sendWhatsAppMessage`, req.body, {chatbotResponse}, 'error')
       })
   }, 2000)
+}
+
+function subscribeToMessageAlerts (contact, data, provider) {
+  callApi(`alerts/subscriptions/query`, 'post', {
+    purpose: 'findOne',
+    match: {companyId: contact.companyId, alertChannel: 'whatsApp', platform: 'whatsApp', channelId: contact.number}
+  }, 'kibochat')
+    .then(subscriptions => {
+      if (!subscriptions) {
+        let payload = {
+          companyId: contact.companyId,
+          platform: 'whatsApp',
+          alertChannel: 'whatsApp',
+          channelId: contact.number,
+          userName: contact.name
+        }
+        callApi(`alerts/subscriptions`, 'post', payload, 'kibochat')
+          .then(subscription => {
+            require('../../../config/socketio').sendMessageToClient({
+              room_id: contact.companyId,
+              body: {
+                action: 'whatsApp_messageAlert_subscription',
+                payload: {
+                  subscription: subscription,
+                  subscriber: contact
+                }
+              }
+            })
+            let response = {
+              whatsApp: {
+                accessToken: data.accessToken,
+                accountSID: data.accountSID,
+                businessNumber: data.businessNumber
+              },
+              recipientNumber: contact.number,
+              payload: { componentType: 'text', text: 'You have been subscribed successfully to receive alerts on whatsApp' }
+            }
+            record('whatsappChatOutGoing')
+            whatsAppMapper.whatsAppMapper(provider, ActionTypes.SEND_CHAT_MESSAGE, response)
+              .then(sent => {
+                storeChat(data.businessNumber, contact.number, contact, response.payload, 'convos')
+              })
+              .catch(err => {
+                const message = err || 'Failed to send subscription response'
+                logger.serverLog(message, `${TAG}: exports.subscribeToMessageAlerts`, data, {contact, provider}, 'error')
+              })
+          })
+          .catch(error => {
+            const message = error || 'error in creating subscription'
+            return logger.serverLog(message, `${TAG}: subscribeToMessageAlerts`, {data}, {contact}, 'error')
+          })
+      }
+    })
+    .catch(error => {
+      const message = error || 'error in fetching subscriptions'
+      return logger.serverLog(message, `${TAG}: subscribeToMessageAlerts`, {data}, {contact}, 'error')
+    })
 }

@@ -1,8 +1,6 @@
 const logger = require('../../../components/logger')
-const logicLayer = require('./messageAlerts.logiclayer')
 const TAG = '/api/v1/messageAlerts/messageAlerts.controller.js'
 const { callApi } = require('../utility')
-const async = require('async')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
 exports.index = function (req, res) {
@@ -62,5 +60,38 @@ exports.saveAlert = function (req, res) {
       const message = err || 'Error in saving alert'
       logger.serverLog(message, `${TAG}: exports.saveAlert`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err, 'Failed to save message alert')
+    })
+}
+exports.subscribe = function (req, res) {
+  let payload = {
+    companyId: req.user.companyId,
+    platform: req.body.platform,
+    alertChannel: req.body.channel,
+    channelId: req.body.channelId,
+    userName: req.body.name,
+    profilePic: req.body.profilePic
+  }
+  callApi(`alerts/subscriptions`, 'post', payload, 'kibochat')
+    .then(data => {
+      sendSuccessResponse(res, 200, data, 'subscribed successfully')
+    })
+    .catch(err => {
+      const message = err || 'Error in subscribe'
+      logger.serverLog(message, `${TAG}: exports.subscribe`, req.body, {user: req.user}, 'error')
+      sendErrorResponse(res, 500, err, 'Failed to subscribe')
+    })
+}
+exports.unsubscribe = function (req, res) {
+  callApi(`alerts/subscriptions`, 'delete', {
+    purpose: 'deleteOne',
+    match: {_id: req.params.id}
+  }, 'kibochat')
+    .then(data => {
+      sendSuccessResponse(res, 200, data, 'unsubscribed successfully')
+    })
+    .catch(err => {
+      const message = err || 'Error in unsubscribe'
+      logger.serverLog(message, `${TAG}: exports.unsubscribe`, req.body, {user: req.user}, 'error')
+      sendErrorResponse(res, 500, err, 'Failed to unsubscribe')
     })
 }
