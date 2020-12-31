@@ -124,6 +124,8 @@ exports.create = function (req, res) {
             }
           ], 10, function (err, results) {
             if (err) {
+              console.log('err.message', err.message)
+              console.log('err', err)
               const message = err || 'Error in async calls while sending message'
               if (!isUnverfiedTwilioNumber(err)) {
                 logger.serverLog(message, `${TAG}: exports.create`, req.body, {params: req.params, user: req.user}, 'error')
