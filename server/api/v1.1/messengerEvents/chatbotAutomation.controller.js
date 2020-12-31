@@ -691,7 +691,6 @@ const isTriggerMessage = (event, page) => {
             })
               .then(messageBlock => {
                 if (messageBlock) {
-                  console.log('messageBlock', messageBlock)
                   resolve(true)
                 } else {
                   resolve(false)

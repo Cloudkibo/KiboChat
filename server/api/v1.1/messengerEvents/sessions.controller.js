@@ -144,7 +144,6 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
   ) {
     LiveChatDataLayer.createFbMessageObject(chatPayload)
       .then(chat => {
-        console.log('chatCreated', chat)
         if (!event.message.is_echo) {
           setTimeout(() => {
             utility.callApi('subscribers/query', 'post', { _id: subscriber._id })
