@@ -564,24 +564,14 @@ function subscribeToMessageAlerts (subscriber, page) {
                 }
               }
             })
-            let message = 'You have been subscribed successfully to receive alerts on messenger'
-            facebookApiCaller('v6.0', `me/messages?access_token=${page.accessToken}`, 'post', {
-              messaging_type: 'RESPONSE',
-              recipient: JSON.stringify({ id: subscriber.senderId }),
-              message: {
-                text: message,
-                'metadata': 'This is a meta data'
-              }
-            }).then(response => {})
-              .catch(error => {
-                const message = error || 'error in sending subscription message'
-                return logger.serverLog(message, `${TAG}: exports.subscribeToMessenger`, {}, {subscriber, page}, 'error')
-              })
+            sendMessageAlertSubscriptionResponse(subscriber, page, 'You have been subscribed successfully to receive alerts on messenger')
           })
           .catch(error => {
             const message = error || 'error in creating subscription'
             return logger.serverLog(message, `${TAG}: subscribeToMessageAlerts`, {}, {subscriber, page}, 'error')
           })
+      } else {
+        sendMessageAlertSubscriptionResponse(subscriber, page, 'You are already subscribed')
       }
     })
     .catch(error => {
@@ -589,6 +579,24 @@ function subscribeToMessageAlerts (subscriber, page) {
       return logger.serverLog(message, `${TAG}: subscribeToMessageAlerts`, {}, {subscriber, page}, 'error')
     })
 }
-
+function sendMessageAlertSubscriptionResponse (subscriber, page, message) {
+  facebookApiCaller('v6.0', `me/messages?access_token=${page.accessToken}`, 'post', {
+    messaging_type: 'RESPONSE',
+    recipient: JSON.stringify({ id: subscriber.senderId }),
+    message: {
+      text: message,
+      'metadata': 'This is a meta data'
+    }
+  }).then(response => {
+    if (response.body && response.body.error) {
+      const message = response.body.error || 'error in sending subscription message'
+      return logger.serverLog(message, `${TAG}: exports.subscribeToMessenger`, {}, {subscriber, page}, 'error')
+    }
+  })
+    .catch(error => {
+      const message = error || 'error in sending subscription message'
+      return logger.serverLog(message, `${TAG}: exports.subscribeToMessenger`, {}, {subscriber, page}, 'error')
+    })
+}
 exports.saveLiveChat = saveLiveChat
 exports.saveChatInDb = saveChatInDb
