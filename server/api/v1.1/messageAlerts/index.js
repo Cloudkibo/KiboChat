@@ -31,4 +31,19 @@ router.post('/saveAlert',
   validate({body: validationSchema.saveAlertPayload}),
   controller.saveAlert)
 
+router.post('/subscribe',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
+  auth.doesPlanPermitsThisAction('message_alerts'),
+  auth.doesRolePermitsThisAction('configure_message_alerts'),
+  validate({body: validationSchema.subscribePayload}),
+  controller.subscribe)
+
+router.get('/unsubscribe/:id',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
+  auth.doesPlanPermitsThisAction('message_alerts'),
+  auth.doesRolePermitsThisAction('configure_message_alerts'),
+  controller.unsubscribe)
+
 module.exports = router
