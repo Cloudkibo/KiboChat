@@ -15,9 +15,11 @@ const {
   GET_FLIGHT_SCHEDULES,
   GET_AIRPORT_INFO,
   GET_FLIGHT_STATUS,
-  GET_FLIGHT_SCHEDULE_DETAILS
+  GET_FLIGHT_SCHEDULE_DETAILS,
+  TALK_TO_AGENT_KEY,
+  TALK_TO_AGENT
 } = require('./constants')
-const { convertToEmoji } = require('./whatsAppChatbot.logiclayer')
+const { convertToEmoji, sendTalkToAgentNotification } = require('./whatsAppChatbot.logiclayer')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/whatsAppChatbot/airlinesChatbot.logiclayer.js'
 const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
@@ -41,6 +43,8 @@ const dateTimeOptions = {
 
 function specialKeyText (key) {
   switch (key) {
+    case TALK_TO_AGENT_KEY:
+      return `Send '${key.toUpperCase()}' to talk to a customer support agent`
     case FAQS_KEY:
       return `Send '${key.toUpperCase()}' for faqs`
     case BACK_KEY:
@@ -79,7 +83,7 @@ exports.updateFaqsForStartingBlock = async (chatbot) => {
 exports.getMessageBlocks = (chatbot) => {
   const messageBlocks = []
   const mainMenuId = '' + new Date().getTime()
-  const faqsId = '' + new Date().getTime() + 500
+  const faqsId = '' + new Date().getTime() + 100
 
   messageBlocks.push({
     module: {
@@ -92,13 +96,13 @@ exports.getMessageBlocks = (chatbot) => {
       {
         text: dedent(`Please select an option by sending the corresponding number for it (e.g. send '1' to select "Get flight schedules"):\n
                 ${convertToEmoji(0)} Get flight status   
-                ${convertToEmoji(1)} Get flight schedules`),
+                ${convertToEmoji(1)} Get flight schedules\n
+                ${specialKeyText(TALK_TO_AGENT_KEY)}`),
         componentType: 'text',
         menu: [
           { type: DYNAMIC, action: SELECT_AIRLINE, argument: {purpose: GET_FLIGHT_STATUS} },
           { type: DYNAMIC, action: SELECT_AIRLINE, argument: {purpose: GET_FLIGHT_SCHEDULES} }
-        ],
-        specialKeys: {}
+        ]
       }
     ],
     userId: chatbot.userId,
@@ -110,6 +114,37 @@ exports.getMessageBlocks = (chatbot) => {
     getFaqsBlock(chatbot, faqsId, messageBlocks, mainMenuId)
   }
   return messageBlocks
+}
+
+const getTalkToAgentBlock = (chatbot, backId, contact) => {
+  try {
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_airlines_chatbot'
+      },
+      title: 'FAQs',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: dedent(`Our support agents have been notified and will get back to you shortly\n
+                      ${specialKeyText(HOME_KEY)}`),
+          componentType: 'text',
+          specialKeys: {
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    sendTalkToAgentNotification(contact, chatbot.companyId)
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable get talk to agent message block'
+    logger.serverLog(message, `${TAG}: getTalkToAgentBlock`, {}, {chatbot, backId, contact}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to notify customer support agent`)
+  }
 }
 
 const getAskFlightNumberBlock = (chatbot, backId, argument, userInput) => {
@@ -804,6 +839,10 @@ exports.getNextMessageBlock = async (chatbot, AirlineProvider, contact, input) =
           }
           case GET_FLIGHT_SCHEDULE_DETAILS: {
             messageBlock = await getFlightScheduleDetailsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument)
+            break
+          }
+          case TALK_TO_AGENT: {
+            messageBlock = await getTalkToAgentBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
             break
           }
         }

@@ -161,16 +161,21 @@ exports.getProductVariants = (id, paginationParams, credentials) => {
   return new Promise(function (resolve, reject) {
     paginationParams = paginationParams || { limit: 9 }
     shopify.productVariant.list(id, paginationParams)
-      .then(products => {
+      .then(async products => {
         let nextPageParameters = products.nextPageParameters
-        products = products.map(product => {
-          return { id: product.id,
+        products = await Promise.all(products.map(async product => {
+          let variantPayload = { id: product.id,
             name: product.title,
             product_id: product.product_id,
             price: product.price,
             inventory_quantity: product.inventory_quantity
           }
-        })
+          if (product.image_id) {
+            let image = await shopify.productImage.get(product.product_id, product.image_id)
+            variantPayload.image_url = image.src
+          }
+          return variantPayload
+        }))
         if (nextPageParameters) {
           products.nextPageParameters = nextPageParameters
         }
@@ -245,6 +250,9 @@ exports.getOrderStatus = (id, credentials) => {
                 }
                 variantTitle
                 quantity
+                image {
+                  originalSrc
+                }
                 sku
                 vendor
                 product {
@@ -279,6 +287,7 @@ exports.getOrderStatus = (id, credentials) => {
               title: lineItem.node.title,
               quantity: lineItem.node.quantity,
               sku: lineItem.node.sku,
+              image: lineItem.node.image,
               variant_title: lineItem.node.variant_title,
               vendor: lineItem.node.vendor,
               product: lineItem.node.product,
@@ -405,6 +414,18 @@ exports.findCustomerOrders = (customerId, limit, credentials) => {
               node {
                 id
                 name
+                lineItems(first: 1) {
+                  edges {
+                    node {
+                      id
+                      name
+                      quantity
+                      image {
+                        originalSrc
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -418,6 +439,11 @@ exports.findCustomerOrders = (customerId, limit, credentials) => {
       .then(result => {
         let customer = result.customers.edges[0].node
         customer.orders = customer.orders.edges.map(order => {
+          const lineItems = order.node.lineItems.edges.map(lineItem => {
+            return lineItem.node
+          })
+          const orderItem = order.node
+          orderItem.lineItems = lineItems
           return order.node
         })
         resolve(customer)
@@ -488,6 +514,33 @@ exports.createPermalinkForCart = (customer, lineItems, credentials) => {
   permaLink = `${permaLink}&checkout[shipping_address][first_name]=${customer.first_name}`
   permaLink = `${permaLink}&checkout[shipping_address][last_name]=${customer.last_name}`
   return permaLink
+}
+
+exports.createTestOrder = (customer, lineItems, credentials) => {
+  console.log('shopify createTestOrder')
+  const shopify = initShopify(credentials)
+  return new Promise(function (resolve, reject) {
+    shopify.order.create({
+      financial_status: 'partially_paid', // 'pending',
+      line_items: lineItems,
+      customer: {
+        id: customer.id
+      },
+      transactions: [
+        {
+          kind: 'authorization',
+          status: 'success',
+          amount: 1.0
+        }
+      ]
+    })
+      .then(order => {
+        resolve(order)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
 }
 
 // Address object required as discussed in shopify api

@@ -25,7 +25,7 @@ const openGraphScrapper = function (url) {
       logger.serverLog(message, `${TAG}: openGraphScrapper`, {}, {url}, 'error')
       reject(err)
     }
-    let options = {url: redirectUrl || url}
+    let options = {url: redirectUrl || url, timeout: 10000, retry: 3}
     ogs(options, (error, results) => {
       if (error) {
         reject(results.error)

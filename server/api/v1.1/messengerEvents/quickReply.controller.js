@@ -46,8 +46,13 @@ exports.index = function (req, res) {
                 message: messengerPayload.message
               }, page)
               if (resp.option === 'captureEmailPhoneSkip' && subscriber.awaitingQuickReplyPayload) {
-                let chatBotInfo = _getChatbotInfo(subscriber)
-                handleChatBotNextMessage(messengerPayload, page, subscriber, chatBotInfo.nextBlockId, chatBotInfo.parentBlockTitle)
+                if (resp.blockId && resp.messageBlockTitle) {
+                  let chatBotInfo = {
+                    nextBlockId: resp.blockId,
+                    parentBlockTitle: resp.messageBlockTitle
+                  }
+                  handleChatBotNextMessage(messengerPayload, page, subscriber, chatBotInfo.nextBlockId, chatBotInfo.parentBlockTitle)
+                }
               } else if (resp[0] && resp[0].action === '_chatbot') {
                 if (logicLayer.isJsonString(messengerPayload.message.quick_reply.payload)) {
                   let quickRepyPayload = JSON.parse(messengerPayload.message.quick_reply.payload)
@@ -73,18 +78,4 @@ exports.index = function (req, res) {
       const message = error || 'error on getting subcribers'
       return logger.serverLog(message, `${TAG}: exports.index`, req.body, {messengerPayload}, 'error')
     })
-}
-
-const _getChatbotInfo = (subscriber) => {
-  let chatBotInfo = {}
-  for (let action of subscriber.awaitingQuickReplyPayload.action) {
-    if (action.blockId) {
-      chatBotInfo = {
-        nextBlockId: action.blockId,
-        parentBlockTitle: subscriber.awaitingQuickReplyPayload.messageBlockTitle
-      }
-    }
-    break
-  }
-  return chatBotInfo
 }

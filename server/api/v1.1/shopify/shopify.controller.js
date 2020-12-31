@@ -347,9 +347,9 @@ exports.testRoute = (req, res) => {
         shopUrl: shopifyIntegration.shopUrl,
         shopToken: shopifyIntegration.shopToken
       })
-      return shopify.fetchProductsInThisCategory(166185566271)
-      // return shopify.findCustomerOrders('3367449755711')
-      // return shopify.checkOrderStatus('1037')
+      // return shopify.fetchProductsInThisCategory(166185566271)
+      // return shopify.findCustomerOrders('1264935993407')
+      // return shopify.checkOrderStatus('1058')
       // return shopify.createPermalinkForCart({
       // email: 'sojharo@gmail.com',
       // first_name: 'sojharo',
@@ -358,6 +358,16 @@ exports.testRoute = (req, res) => {
       // variant_id: 32734085808191,
       // quantity: 1
       // }])
+      // return shopify.searchProducts('Kurti')
+      return shopify.getVariantsOfSelectedProduct('4885559935039')
+      // return shopify.searchCustomerUsingEmail('sojharo@gmail.com')
+      // return shopify.createTestOrder(
+      //   { id: '3634555748415' },
+      //   [{
+      //     variant_id: '33276201402431',
+      //     quantity: 2
+      //   }]
+      // )
     })
     .then(shop => {
       sendSuccessResponse(res, 200, shop)

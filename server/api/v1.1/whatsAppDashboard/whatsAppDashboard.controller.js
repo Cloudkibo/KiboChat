@@ -11,19 +11,15 @@ exports.index = function (req, res) {
     .then(companyuser => {
       let aggregateQuery = [
         { $match: { companyId: companyuser.companyId, isSubscribed: true } },
-        { $group: { _id: null, count: { $sum: 1 } } }
+        { $group: {
+          _id: null,
+          subscribers: { $sum: 1 },
+          unreadMessages: {$sum: '$unreadCount'}
+        } }
       ]
-      utility.callApi(`whatsAppContacts/aggregate`, 'post', aggregateQuery) // fetch subscribers count
+      utility.callApi(`whatsAppContacts/aggregate`, 'post', aggregateQuery)
         .then(contacts => {
-          utility.callApi('whatsAppChat/query', 'post', {purpose: 'aggregate', match: {companyId: companyuser.companyId, status: 'unseen', format: 'twilio'}, group: { _id: null, count: { $sum: 1 } }}, 'kibochat')
-            .then(chats => {
-              sendSuccessResponse(res, 200, {subscribers: contacts.length > 0 ? contacts[0].count : 0, chats: chats.length > 0 ? chats[0].count : 0})
-            })
-            .catch(error => {
-              const message = error || 'Failed to broadcast count'
-              logger.serverLog(message, `${TAG}: exports.index`, {}, { user: req.user }, 'error')
-              sendErrorResponse(res, 500, `Failed to broadcast count ${JSON.stringify(error)}`)
-            })
+          sendSuccessResponse(res, 200, {subscribers: contacts.length > 0 ? contacts[0].subscribers : 0, chats: contacts.length > 0 ? contacts[0].unreadMessages : 0})
         })
         .catch(error => {
           const message = error || 'Failed to fetch subscriber count'

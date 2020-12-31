@@ -8,6 +8,8 @@ const router = express.Router()
 const auth = require('../../../auth/auth.service')
 const controller = require('./dashboard.controller')
 
+router.use('/sla', require('../slaDashboard'))
+
 router.get('/sentVsSeen/:pageId',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer(),
