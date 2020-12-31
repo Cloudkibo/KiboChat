@@ -30,3 +30,27 @@ exports.saveAlertPayload = {
     }
   }
 }
+exports.subscribePayload = {
+  type: 'object',
+  properties: {
+    platform: {
+      type: 'string',
+      required: true
+    },
+    channel: {
+      type: 'string',
+      required: true
+    },
+    name: {
+      type: 'string',
+      required: true
+    },
+    channelId: {
+      type: 'string',
+      required: true
+    },
+    profilePic: {
+      type: 'string'
+    }
+  }
+}
