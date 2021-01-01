@@ -12,7 +12,7 @@ const notificationsUtility = require('../notifications/notifications.utility')
 const { record } = require('../../global/messageStatistics')
 const { sendNotifications } = require('../../global/sendNotification')
 const { sendWebhook } = require('../../global/sendWebhook')
-const { facebookApiCaller } = require('./../../global/facebookApiCaller')
+const { handleMessageAlertsSubscription } = require('../messageAlerts/utility')
 const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('../../global/messageAlerts')
 const { handleTriggerMessage, handleCommerceChatbot, isTriggerMessage } = require('./chatbotAutomation.controller')
 
@@ -310,7 +310,10 @@ function sendautomatedmsg (req, page, subscriber) {
       index = -111
     }
     if (req.message.text.toLowerCase() === 'notify-me') {
-      subscribeToMessageAlerts(subscriber, page)
+      handleMessageAlertsSubscription('messenger', 'subscribe', subscriber, page)
+    }
+    if (req.message.text.toLowerCase() === 'cancel-notify') {
+      handleMessageAlertsSubscription('messenger', 'unsubscribe', subscriber, page)
     }
 
     // user query matched with keywords, send response
@@ -532,66 +535,5 @@ const _prepareSubscriberUpdatePayload = (event, subscriber, company) => {
   return updated
 }
 
-function subscribeToMessageAlerts (subscriber, page) {
-  utility.callApi(`alerts/subscriptions/query`, 'post', {
-    purpose: 'findOne',
-    match: {companyId: page.companyId, alertChannel: 'messenger', platform: 'messenger', channelId: subscriber.senderId}
-  }, 'kibochat')
-    .then(subscriptions => {
-      if (!subscriptions) {
-        let payload = {
-          companyId: page.companyId,
-          platform: 'messenger',
-          alertChannel: 'messenger',
-          channelId: subscriber.senderId,
-          userName: subscriber.firstName + ' ' + subscriber.lastName,
-          profilePic: subscriber.profilePic
-        }
-        utility.callApi(`alerts/subscriptions`, 'post', payload, 'kibochat')
-          .then(subscription => {
-            require('../../../config/socketio').sendMessageToClient({
-              room_id: page.companyId,
-              body: {
-                action: 'messenger_messageAlert_subscription',
-                payload: {
-                  subscription: subscription,
-                  subscriber: subscriber
-                }
-              }
-            })
-            sendMessageAlertSubscriptionResponse(subscriber, page, 'You have been subscribed successfully to receive alerts on messenger. If you want to unsubscribe, please send cancel-notify')
-          })
-          .catch(error => {
-            const message = error || 'error in creating subscription'
-            return logger.serverLog(message, `${TAG}: subscribeToMessageAlerts`, {}, {subscriber, page}, 'error')
-          })
-      } else {
-        sendMessageAlertSubscriptionResponse(subscriber, page, 'You are already subscribed. If you want to unsubscribe, please send cancel-notify')
-      }
-    })
-    .catch(error => {
-      const message = error || 'error in fetching subscriptions'
-      return logger.serverLog(message, `${TAG}: subscribeToMessageAlerts`, {}, {subscriber, page}, 'error')
-    })
-}
-function sendMessageAlertSubscriptionResponse (subscriber, page, message) {
-  facebookApiCaller('v6.0', `me/messages?access_token=${page.accessToken}`, 'post', {
-    messaging_type: 'RESPONSE',
-    recipient: JSON.stringify({ id: subscriber.senderId }),
-    message: {
-      text: message,
-      'metadata': 'This is a meta data'
-    }
-  }).then(response => {
-    if (response.body && response.body.error) {
-      const message = response.body.error || 'error in sending subscription message'
-      return logger.serverLog(message, `${TAG}: exports.subscribeToMessenger`, {}, {subscriber, page}, 'error')
-    }
-  })
-    .catch(error => {
-      const message = error || 'error in sending subscription message'
-      return logger.serverLog(message, `${TAG}: sendMessageAlertSubscriptionResponse`, {}, {subscriber, page}, 'error')
-    })
-}
 exports.saveLiveChat = saveLiveChat
 exports.saveChatInDb = saveChatInDb
