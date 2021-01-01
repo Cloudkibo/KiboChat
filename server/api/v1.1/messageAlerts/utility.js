@@ -8,6 +8,10 @@ const { facebookApiCaller } = require('./../../global/facebookApiCaller')
 const { storeChat } = require('../whatsAppEvents/controller')
 
 exports.handleMessageAlertsSubscription = function (platform, subscriptionType, subscriber, data, provider) {
+  handleSubscription(platform, subscriptionType, subscriber, data, provider)
+}
+
+function handleSubscription (platform, subscriptionType, subscriber, data, provider) {
   let query = {
     purpose: 'findOne',
     match: {
@@ -140,4 +144,31 @@ function handleUnSubscribe (subscription, platform, subscriber, data, provider) 
       sendResponseMessenger(subscriber, data, message)
     }
   }
+}
+exports.optin = function (req, res) {
+  res.status(200).json({
+    status: 'success',
+    description: `received the payload`
+  })
+  let pageId = req.body.entry[0].messaging[0].recipient.id
+  const senderId = req.body.entry[0].messaging[0].sender.id
+  utility.callApi('pages/query', 'post', { pageId, connected: true })
+    .then(page => {
+      page = page[0]
+      if (page) {
+        utility.callApi('subscribers/query', 'post', {pageId: page._id, senderId: senderId, companyId: page.companyId})
+          .then(subscriber => {
+            if (subscriber.length > 0) {
+              handleSubscription('messenger', 'subscribe', subscriber[0], page)
+            }
+          }).catch(error => {
+            const message = error || 'Failed to fetch subscriber'
+            logger.serverLog(message, `${TAG}: exports.optin`, req.body, {page}, 'error')
+          })
+      }
+    })
+    .catch(error => {
+      const message = error || 'error on fetching page'
+      logger.serverLog(message, `${TAG}: exports.optin`, req.body, {}, 'error')
+    })
 }

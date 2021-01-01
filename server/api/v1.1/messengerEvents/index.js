@@ -15,6 +15,7 @@ const postback = require('./postback.controller')
 const seenController = require('./seen.controller')
 const deliveryController = require('./delivery.controller')
 const unsubscribeController = require('./unsubscribe.controller')
+const messageAlerts = require('../messageAlerts/utility')
 
 router.post('/sessions', auth.isItWebhookServer(), sessionsController.index)
 router.post('/messagingReferrals', auth.isItWebhookServer(), messagingReferrals.index)
@@ -28,5 +29,6 @@ router.post('/postback', auth.isItWebhookServer(), postback.index)
 router.post('/seen', auth.isItWebhookServer(), seenController.index)
 router.post('/delivery', auth.isItWebhookServer(), deliveryController.index)
 router.post('/unsubscribe', auth.isItWebhookServer(), unsubscribeController.index)
+router.post('/messageAlertsOptin', auth.isItWebhookServer(), messageAlerts.optin)
 
 module.exports = router
