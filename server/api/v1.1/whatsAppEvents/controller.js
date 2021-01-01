@@ -72,7 +72,12 @@ exports.messageReceived = function (req, res) {
                         if (company.whatsApp && company.whatsApp.activeWhatsappBot) {
                           let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({_id: company.whatsApp.activeWhatsappBot})
                           if (chatbot && data.messageData.componentType === 'text') {
-                            if (data.messageData.text.toLowerCase() === 'notify-me') subscribeToMessageAlerts(contact, data, req.body.provider)
+                            if (data.messageData.text.toLowerCase() === 'notify-me') {
+                              require('../messageAlerts/utility').handleMessageAlertsSubscription('whatsApp', 'subscribe', contact, data, req.body.provider)
+                            }
+                            if (data.messageData.text.toLowerCase() === 'cancel-notify') {
+                              require('../messageAlerts/utility').handleMessageAlertsSubscription('whatsApp', 'unsubscribe', contact, data, req.body.provider)
+                            }
                             if (shouldAvoidSendingMessage) {
                               if (chatbot.triggers.includes(data.messageData.text.toLowerCase())) {
                                 let allowUserUnPause = await commerceChatbotLogicLayer.allowUserUnpauseChatbot(contact)
@@ -799,64 +804,4 @@ function sendWhatsAppMessageLogic (messagePayload, data, number, company, contac
     })
 }
 
-function subscribeToMessageAlerts (contact, data, provider) {
-  callApi(`alerts/subscriptions/query`, 'post', {
-    purpose: 'findOne',
-    match: {companyId: contact.companyId, alertChannel: 'whatsApp', platform: 'whatsApp', channelId: contact.number}
-  }, 'kibochat')
-    .then(subscriptions => {
-      if (!subscriptions) {
-        let payload = {
-          companyId: contact.companyId,
-          platform: 'whatsApp',
-          alertChannel: 'whatsApp',
-          channelId: contact.number,
-          userName: contact.name
-        }
-        callApi(`alerts/subscriptions`, 'post', payload, 'kibochat')
-          .then(subscription => {
-            require('../../../config/socketio').sendMessageToClient({
-              room_id: contact.companyId,
-              body: {
-                action: 'whatsApp_messageAlert_subscription',
-                payload: {
-                  subscription: subscription,
-                  subscriber: contact
-                }
-              }
-            })
-            sendMessageAlertSubscriptionResponse(data, contact, provider, 'You have been subscribed successfully to receive alerts on whatsApp. If you want to unsubscribe, please send cancel-notify')
-          })
-          .catch(error => {
-            const message = error || 'error in creating subscription'
-            return logger.serverLog(message, `${TAG}: subscribeToMessageAlerts`, {data}, {contact}, 'error')
-          })
-      } else {
-        sendMessageAlertSubscriptionResponse(data, contact, provider, 'You are already subscribed. If you want to unsubscribe, please send cancel-notify')
-      }
-    })
-    .catch(error => {
-      const message = error || 'error in fetching subscriptions'
-      return logger.serverLog(message, `${TAG}: subscribeToMessageAlerts`, {data}, {contact}, 'error')
-    })
-}
-
-function sendMessageAlertSubscriptionResponse (data, contact, provider, text) {
-  let response = {
-    whatsApp: {
-      accessToken: data.accessToken,
-      accountSID: data.accountSID,
-      businessNumber: data.businessNumber
-    },
-    recipientNumber: contact.number,
-    payload: { componentType: 'text', text: text }
-  }
-  whatsAppMapper.whatsAppMapper(provider, ActionTypes.SEND_CHAT_MESSAGE, response)
-    .then(sent => {
-      storeChat(data.businessNumber, contact.number, contact, response.payload, 'convos')
-    })
-    .catch(err => {
-      const message = err || 'Failed to send subscription response'
-      logger.serverLog(message, `${TAG}: sendMessageAlertSubscriptionResponse`, data, {contact, provider}, 'error')
-    })
-}
+exports.storeChat = storeChat
