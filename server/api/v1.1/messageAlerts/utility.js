@@ -160,12 +160,7 @@ exports.optin = function (req, res) {
         utility.callApi('subscribers/query', 'post', {pageId: page._id, senderId: senderId, companyId: page.companyId})
           .then(subscriber => {
             if (subscriber.length > 0) {
-              handleSubscription('messenger', 'subscribe', {
-                companyId: subscriber[0].companyId,
-                channelId: subscriber[0].senderId,
-                name: subscriber[0].firstName + ' ' + subscriber[0].lastName,
-                profilePic: subscriber[0].profilePic
-              }, page)
+              handleSubscription('messenger', 'subscribe', subscriber[0], page)
             }
           }).catch(error => {
             const message = error || 'Failed to fetch subscriber'
