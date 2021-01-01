@@ -81,12 +81,12 @@ exports.create = function (req, res) {
           }
         })
         .catch(err => {
-          let userError = isAlreadyExistCustomField(req.body.name)
+          let userError = isAlreadyExistCustomField(err, req.body.name)
           if (!userError) {
             const message = err || 'Internal Server Error in custom fields'
             logger.serverLog(message, `${TAG}: exports.index`, req.body, {user: req.user}, 'error')
-            sendErrorResponse(res, 500, '', err)
           }
+          sendErrorResponse(res, 500, '', err)
         })
     })
     .catch(err => {
@@ -122,12 +122,12 @@ exports.update = function (req, res) {
           sendSuccessResponse(res, 200, updated)
         })
         .catch(err => {
-          let userError = isAlreadyExistCustomField(req.body.updated.name)
+          let userError = isAlreadyExistCustomField(err, req.body.updated.name)
           if (!userError) {
             const message = err || 'Internal Server Error in updating custom fields'
             logger.serverLog(message, `${TAG}: exports.update`, req.body, {user: req.user}, 'error')
-            sendErrorResponse(res, 500, '', err)
           }
+          sendErrorResponse(res, 500, '', err)
         })
     })
     .catch(err => {
