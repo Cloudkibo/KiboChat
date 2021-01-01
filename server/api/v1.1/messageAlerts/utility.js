@@ -26,7 +26,7 @@ exports.handleMessageAlertsSubscription = function (platform, subscriptionType, 
     })
     .catch(error => {
       const message = error || 'error in fetching subscriptions'
-      return logger.serverLog(message, `${TAG}: exports.handleMessageAlertsSubscription`, {subscriber}, {platform, subscriptionType, subscriber, data, provider}, 'error')
+      logger.serverLog(message, `${TAG}: exports.handleMessageAlertsSubscription`, {subscriber}, {platform, subscriptionType, subscriber, data, provider}, 'error')
     })
 }
 
@@ -34,15 +34,14 @@ function handleSubscribe (subscription, platform, subscriber, data, provider) {
   if (!subscription) {
     let payload = logicLayer.getCreateSubscriptionPayload(platform, subscriber)
     utility.callApi(`alerts/subscriptions`, 'post', payload, 'kibochat')
-      .then(subscription => {
+      .then(subscriptionCreated => {
         require('../../../config/socketio').sendMessageToClient({
           room_id: subscriber.companyId,
           body: {
             action: platform === 'whatsApp' ? 'whatsApp_messageAlert_subscription' : 'messenger_messageAlert_subscription',
             payload: {
               type: 'subscribed',
-              subscription: subscription,
-              subscriber: subscriber
+              subscription: subscriptionCreated
             }
           }
         })
@@ -55,7 +54,7 @@ function handleSubscribe (subscription, platform, subscriber, data, provider) {
       })
       .catch(error => {
         const message = error || 'error in creating subscription'
-        return logger.serverLog(message, `${TAG}: handleSubscribe`, {data}, {subscription, platform, subscriber, provider}, 'error')
+        logger.serverLog(message, `${TAG}: handleSubscribe`, {data}, {subscription, platform, subscriber, provider}, 'error')
       })
   } else {
     let message = 'You are already subscribed. If you want to unsubscribe, please send "cancel-notify"'
@@ -78,12 +77,12 @@ function sendResponseMessenger (subscriber, page, message) {
   }).then(response => {
     if (response.body && response.body.error) {
       const message = response.body.error || 'error in sending response'
-      return logger.serverLog(message, `${TAG}: sendResponseMessenger`, {}, {subscriber, page}, 'error')
+      logger.serverLog(message, `${TAG}: sendResponseMessenger`, {}, {subscriber, page}, 'error')
     }
   })
     .catch(error => {
       const message = error || 'error in sending response'
-      return logger.serverLog(message, `${TAG}: sendResponseMessenger`, {}, {subscriber, page}, 'error')
+      logger.serverLog(message, `${TAG}: sendResponseMessenger`, {}, {subscriber, page}, 'error')
     })
 }
 function sendResponseWhatsApp (data, contact, provider, text) {
@@ -111,15 +110,14 @@ function handleUnSubscribe (subscription, platform, subscriber, data, provider) 
       purpose: 'deleteOne',
       match: {_id: subscription._id}
     }, 'kibochat')
-      .then(subscription => {
+      .then(deleted => {
         require('../../../config/socketio').sendMessageToClient({
           room_id: subscriber.companyId,
           body: {
             action: platform === 'whatsApp' ? 'whatsApp_messageAlert_subscription' : 'messenger_messageAlert_subscription',
             payload: {
               type: 'unsubscribed',
-              subscription: subscription,
-              subscriber: subscriber
+              subscription: subscription
             }
           }
         })
@@ -132,7 +130,7 @@ function handleUnSubscribe (subscription, platform, subscriber, data, provider) 
       })
       .catch(error => {
         const message = error || 'error in deleting subscription'
-        return logger.serverLog(message, `${TAG}: handleUnSubscribe`, {data}, {subscription, platform, subscriber, provider}, 'error')
+        logger.serverLog(message, `${TAG}: handleUnSubscribe`, {data}, {subscription, platform, subscriber, provider}, 'error')
       })
   } else {
     let message = 'You are already unsubscribed. If you want to subscribe, please send "notify-me"'
