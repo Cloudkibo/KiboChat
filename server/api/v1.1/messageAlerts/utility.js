@@ -152,11 +152,11 @@ exports.optin = function (req, res) {
   })
   let messengerPayload = req.body.entry[0].messaging[0]
   let pageId = messengerPayload.recipient.id
-  const senderId = req.body.entry[0].messaging[0].sender.id
+  const senderId = messengerPayload.sender.id
   utility.callApi('pages/query', 'post', { pageId, connected: true })
     .then(page => {
+      page = page[0]
       if (page) {
-        page = page[0]
         utility.callApi('subscribers/query', 'post', {pageId: page._id, senderId: senderId, companyId: page.companyId})
           .then(subscriber => {
             if (subscriber.length > 0) {
