@@ -150,9 +150,8 @@ exports.optin = function (req, res) {
     status: 'success',
     description: `received the payload`
   })
-  let messengerPayload = req.body.entry[0].messaging[0]
-  let pageId = messengerPayload.recipient.id
-  const senderId = messengerPayload.sender.id
+  let pageId = req.body.entry[0].messaging[0].recipient.id
+  const senderId = req.body.entry[0].messaging[0].sender.id
   utility.callApi('pages/query', 'post', { pageId, connected: true })
     .then(page => {
       page = page[0]
@@ -164,12 +163,12 @@ exports.optin = function (req, res) {
             }
           }).catch(error => {
             const message = error || 'Failed to fetch subscriber'
-            return logger.serverLog(message, `${TAG}: exports.optin`, req.body, {page}, 'error')
+            logger.serverLog(message, `${TAG}: exports.optin`, req.body, {page}, 'error')
           })
       }
     })
     .catch(error => {
       const message = error || 'error on fetching page'
-      return logger.serverLog(message, `${TAG}: exports.optin`, req.body, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.optin`, req.body, {}, 'error')
     })
 }
