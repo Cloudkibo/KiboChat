@@ -18,9 +18,10 @@ const {
   ASK_PAYMENT_METHOD,
   RETURN_ORDER,
   GET_CHECKOUT_EMAIL,
+  CONFIRM_CLEAR_CART,
   CLEAR_CART,
   QUANTITY_TO_ADD,
-  QUANTITY_TO_REMOVE,
+  CONFIRM_TO_REMOVE_CART_ITEM,
   QUANTITY_TO_UPDATE,
   VIEW_RECENT_ORDERS,
   FAQS_KEY,
@@ -32,10 +33,21 @@ const {
   TALK_TO_AGENT_KEY,
   TALK_TO_AGENT,
   ASK_ADDRESS,
+  CONFIRM_COMPLETE_ADDRESS,
+  UPDATE_ADDRESS_BLOCK,
   GET_CHECKOUT_STREET_ADDRESS,
   GET_CHECKOUT_COUNTRY,
   GET_CHECKOUT_CITY,
-  GET_CHECKOUT_ZIP_CODE
+  GET_CHECKOUT_ZIP_CODE,
+  UPDATE_CHECKOUT_STREET_ADDRESS,
+  UPDATE_CHECKOUT_CITY,
+  UPDATE_CHECKOUT_COUNTRY,
+  UPDATE_CHECKOUT_ZIP_CODE,
+  GET_NEW_CHECKOUT_STREET_ADDRESS,
+  GET_NEW_CHECKOUT_CITY,
+  GET_NEW_CHECKOUT_COUNTRY,
+  GET_NEW_CHECKOUT_ZIP_CODE
+
 } = require('./constants')
 const { convertToEmoji, sendTalkToAgentNotification } = require('./whatsAppChatbot.logiclayer')
 const logger = require('../../../components/logger')
@@ -966,7 +978,7 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
       messageBlock.payload[0].menu.push(
         { type: DYNAMIC, action: SHOW_ITEMS_TO_REMOVE },
         { type: DYNAMIC, action: SHOW_ITEMS_TO_UPDATE },
-        { type: DYNAMIC, action: CLEAR_CART },
+        { type: DYNAMIC, action: CONFIRM_CLEAR_CART },
         { type: DYNAMIC, action: GET_CHECKOUT_EMAIL })
       messageBlock.payload[0].text += dedent(`Please select an option by sending the corresponding number for it:\n
                                             ${convertToEmoji(0)} Remove an item
@@ -976,6 +988,8 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
     }
     messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
+
+    // adding images of cart items to message
     for (let i = 0; i < shoppingCart.length; i++) {
       let product = shoppingCart[i]
       if (product.image) {
@@ -997,39 +1011,14 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
   }
 }
 
-const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, quantity) => {
-  let userError = false
-  try {
-    quantity = Number(quantity)
-    if (!Number.isInteger(quantity) || quantity <= 0) {
-      userError = true
-      throw new Error(`${ERROR_INDICATOR}Invalid quantity given.`)
-    }
-    let shoppingCart = contact.shoppingCart
-    shoppingCart[productInfo.productIndex].quantity -= quantity
-    if (shoppingCart[productInfo.productIndex].quantity === 0) {
-      shoppingCart.splice(productInfo.productIndex, 1)
-    } else if (shoppingCart[productInfo.productIndex].quantity <= 0) {
-      userError = true
-      throw new Error(`${ERROR_INDICATOR}Invalid quantity given.`)
-    }
-    updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
-    let text = `${quantity} ${productInfo.product}${quantity !== 1 ? 's have' : ' has'} been successfully removed from your cart.`
-    return getShowMyCartBlock(chatbot, backId, contact, text)
-  } catch (err) {
-    if (!userError) {
-      const message = err || 'Unable to remove item(s) from cart'
-      logger.serverLog(message, `${TAG}: exports.getRemoveFromCartBlock`, chatbot, {}, 'error')
-    }
-    if (err.message) {
-      throw new Error(`${ERROR_INDICATOR}${err.message}`)
-    } else {
-      throw new Error(`${ERROR_INDICATOR}Unable to remove item(s) from cart`)
-    }
-  }
+const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo) => {
+  const shoppingCart = contact.shoppingCart.filter((item, index) => index !== productInfo.productIndex)
+  updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
+  const text = `${productInfo.product} has been successfully removed from your cart.`
+  return getShowMyCartBlock(chatbot, backId, contact, text)
 }
 
-const getQuantityToRemoveBlock = async (chatbot, product) => {
+const getConfirmRemoveItemBlock = async (chatbot, backId, product) => {
   try {
     let messageBlock = {
       module: {
@@ -1040,14 +1029,28 @@ const getQuantityToRemoveBlock = async (chatbot, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `How many ${product.product}s would you like to remove from your cart?\n\nYou currently have ${product.quantity} in your cart.\n\n(price: ${product.price} ${product.currency})`,
+          text: `Are you sure you want to remove ${product.product}?\n\nYou currently have ${product.quantity} in your cart.\n\n(price: ${product.price} ${product.currency})\n\n`,
           componentType: 'text',
-          action: { type: DYNAMIC, action: REMOVE_FROM_CART, argument: product, input: true }
+          menu: [],
+          specialKeys: {
+            [BACK_KEY]: { type: STATIC, blockId: backId },
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
+          }
         }
       ],
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
+    messageBlock.payload[0].menu.push(
+      { type: DYNAMIC, action: REMOVE_FROM_CART, argument: product },
+      { type: DYNAMIC, action: SHOW_ITEMS_TO_REMOVE })
+    messageBlock.payload[0].text += dedent(`Please select an option by sending the corresponding number for it:\n
+                                            ${convertToEmoji(0)} Yes
+                                            ${convertToEmoji(1)} No`)
+
+    messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
+
     if (product.image) {
       messageBlock.payload.unshift({
         componentType: 'image',
@@ -1058,7 +1061,7 @@ const getQuantityToRemoveBlock = async (chatbot, product) => {
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to remove product(s) from cart'
-    logger.serverLog(message, `${TAG}: exports.getQuantityToRemoveBlock`, {}, {}, 'error')
+    logger.serverLog(message, `${TAG}: exports.getConfirmRemoveItemBlock`, {}, {}, 'error')
     throw new Error(`${ERROR_INDICATOR}Unable to remove product(s) from cart`)
   }
 }
@@ -1092,7 +1095,7 @@ const getShowItemsToRemoveBlock = (chatbot, backId, contact) => {
     for (let i = 0; i < shoppingCart.length; i++) {
       let product = shoppingCart[i]
       messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${product.product} `
-      messageBlock.payload[0].menu.push({ type: DYNAMIC, action: QUANTITY_TO_REMOVE, argument: { ...product, productIndex: i } })
+      messageBlock.payload[0].menu.push({ type: DYNAMIC, action: CONFIRM_TO_REMOVE_CART_ITEM, argument: { ...product, productIndex: i } })
     }
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)} `
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)} `
@@ -1249,6 +1252,38 @@ const getUpdateCartBlock = async (chatbot, backId, contact, product, quantity) =
       throw new Error(`${ERROR_INDICATOR}Unable to update cart`)
     }
   }
+}
+
+const confirmClearCart = (chatbot, contact) => {
+  let messageBlock = {
+    module: {
+      id: chatbot._id,
+      type: 'whatsapp_commerce_chatbot'
+    },
+    title: 'Are you sure you want empty your cart?',
+    uniqueId: '' + new Date().getTime(),
+    payload: [
+      {
+        text: dedent(`Are you sure you want to empty your cart? Please select an option by sending the corresponding number for it:\n
+                                            ${convertToEmoji(0)} Yes
+                                            ${convertToEmoji(1)} No`),
+        componentType: 'text',
+        menu: [],
+        specialKeys: {
+          [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
+        }
+      }
+    ],
+    userId: chatbot.userId,
+    companyId: chatbot.companyId
+  }
+
+  messageBlock.payload[0].menu.push(
+    { type: DYNAMIC, action: CLEAR_CART },
+    { type: DYNAMIC, action: SHOW_MY_CART })
+
+  messageBlock.payload[0].text += `\n\n${specialKeyText(HOME_KEY)}`
+  return messageBlock
 }
 
 const clearCart = async (chatbot, contact) => {
@@ -1609,7 +1644,7 @@ const getCheckoutZipCodeBlock = async (chatbot, contact, argument, userInput) =>
           componentType: 'text',
           action: {
             type: DYNAMIC,
-            action: PROCEED_TO_CHECKOUT,
+            action: CONFIRM_COMPLETE_ADDRESS,
             input: true,
             argument: { ...argument,
               address: { ...argument.address, zip: '' }
@@ -1630,6 +1665,318 @@ const getCheckoutZipCodeBlock = async (chatbot, contact, argument, userInput) =>
     logger.serverLog(TAG, `Unable to input country ${err} `, 'error')
     throw new Error(`${ERROR_INDICATOR}Unable to input country`)
   }
+}
+
+const confirmCompleteAddress = (chatbot, contact, argument, userInput) => {
+  if (userInput && argument.address && !argument.address.zip) {
+    argument.address.zip = userInput
+  }
+  let messageBlock = {
+    module: {
+      id: chatbot._id,
+      type: 'whatsapp_commerce_chatbot'
+    },
+    title: 'Is this address confirmed?',
+    uniqueId: '' + new Date().getTime(),
+    payload: [
+      {
+        text: 'Thank you for providing address details.',
+        componentType: 'text',
+        menu: [],
+        specialKeys: {
+          [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
+        }
+      }
+    ],
+    userId: chatbot.userId,
+    companyId: chatbot.companyId
+  }
+
+  const address = argument.address
+  messageBlock.payload[0].text += `\n\nYour given address is ${address.address1}, ${address.city} ${address.zip}, ${address.country}`
+
+  messageBlock.payload[0].text += dedent(`Do you want to update this address before continue with the checkout:\n
+                                              ${convertToEmoji(0)} Yes, update address
+                                              ${convertToEmoji(1)} No, continue to checkout`)
+
+  messageBlock.payload[0].menu.push(
+    { type: DYNAMIC, action: UPDATE_ADDRESS_BLOCK, argument },
+    { type: DYNAMIC, action: PROCEED_TO_CHECKOUT, argument })
+
+  messageBlock.payload[0].text += `\n\n${specialKeyText(HOME_KEY)}`
+  return messageBlock
+}
+
+const updateAddressBlock = (chatbot, contact, argument) => {
+  let messageBlock = {
+    module: {
+      id: chatbot._id,
+      type: 'whatsapp_commerce_chatbot'
+    },
+    title: 'Update in the address',
+    uniqueId: '' + new Date().getTime(),
+    payload: [
+      {
+        text: '',
+        componentType: 'text',
+        menu: [],
+        specialKeys: {
+          [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
+        }
+      }
+    ],
+    userId: chatbot.userId,
+    companyId: chatbot.companyId
+  }
+
+  messageBlock.payload[0].text += dedent(`Select from following that you want to change in your address:\n
+                                              ${convertToEmoji(0)} Update Street Address
+                                              ${convertToEmoji(1)} Update City
+                                              ${convertToEmoji(2)} Update Country
+                                              ${convertToEmoji(1)} Update Zip Code`)
+
+  messageBlock.payload[0].menu.push(
+    { type: DYNAMIC, action: UPDATE_CHECKOUT_STREET_ADDRESS, argument },
+    { type: DYNAMIC, action: UPDATE_CHECKOUT_CITY, argument },
+    { type: DYNAMIC, action: UPDATE_CHECKOUT_COUNTRY, argument },
+    { type: DYNAMIC, action: UPDATE_CHECKOUT_ZIP_CODE, argument })
+
+  messageBlock.payload[0].text += `\n\n${specialKeyText(HOME_KEY)}`
+  return messageBlock
+}
+
+const updateCheckoutStreetAddressBlock = async (chatbot, contact, argument) => {
+  try {
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_commerce_chatbot'
+      },
+      title: 'Update street address for checkout',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Please enter the new street address: `,
+          componentType: 'text',
+          action: {
+            type: DYNAMIC,
+            action: GET_NEW_CHECKOUT_STREET_ADDRESS,
+            input: true,
+            argument
+          },
+          specialKeys: {
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    messageBlock.payload[0].text += `\n\n${specialKeyText(HOME_KEY)} `
+    return messageBlock
+  } catch (err) {
+    logger.serverLog(TAG, `Unable to input street address ${err} `, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to input street address`)
+  }
+}
+
+const updateCheckoutCityBlock = async (chatbot, contact, argument) => {
+  try {
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_commerce_chatbot'
+      },
+      title: 'Update city for checkout',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Please enter the new city : `,
+          componentType: 'text',
+          action: {
+            type: DYNAMIC,
+            action: GET_NEW_CHECKOUT_CITY,
+            input: true,
+            argument
+          },
+          specialKeys: {
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    messageBlock.payload[0].text += `\n\n${specialKeyText(HOME_KEY)} `
+    return messageBlock
+  } catch (err) {
+    logger.serverLog(TAG, `Unable to input city name ${err} `, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to input city name`)
+  }
+}
+
+const updateCheckoutCountryBlock = async (chatbot, contact, argument) => {
+  try {
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_commerce_chatbot'
+      },
+      title: 'Update country for checkout',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Please enter the new country : `,
+          componentType: 'text',
+          action: {
+            type: DYNAMIC,
+            action: GET_NEW_CHECKOUT_COUNTRY,
+            input: true,
+            argument
+          },
+          specialKeys: {
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    messageBlock.payload[0].text += `\n\n${specialKeyText(HOME_KEY)} `
+    return messageBlock
+  } catch (err) {
+    logger.serverLog(TAG, `Unable to input country ${err} `, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to input country`)
+  }
+}
+
+const updateCheckoutZipCodeBlock = async (chatbot, contact, argument) => {
+  try {
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_commerce_chatbot'
+      },
+      title: 'Update zip code for checkout',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Please enter the new zip code : `,
+          componentType: 'text',
+          action: {
+            type: DYNAMIC,
+            action: GET_NEW_CHECKOUT_ZIP_CODE,
+            input: true,
+            argument
+          },
+          specialKeys: {
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    messageBlock.payload[0].text += `\n\n${specialKeyText(HOME_KEY)} `
+    return messageBlock
+  } catch (err) {
+    logger.serverLog(TAG, `Unable to input zip code ${err} `, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to input zip code`)
+  }
+}
+
+const getNewCheckoutStreetAddressBlock = async (chatbot, contact, argument, userInput) => {
+  try {
+    if (userInput && argument.address) {
+      argument.address.address1 = userInput
+      return updatedAddressBlockedMessage(chatbot, contact, argument)
+    } else {
+      throw new Error(`${ERROR_INDICATOR} Unable to input street address for update`)
+    }
+  } catch (err) {
+    logger.serverLog(TAG, `Unable to input street address for update ${err} `, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to input street address for update`)
+  }
+}
+
+const getNewCheckoutCityBlock = async (chatbot, contact, argument, userInput) => {
+  try {
+    if (userInput && argument.address) {
+      argument.address.city = userInput
+      return updatedAddressBlockedMessage(chatbot, contact, argument)
+    } else {
+      throw new Error(`${ERROR_INDICATOR} Unable to input city for update`)
+    }
+  } catch (err) {
+    logger.serverLog(TAG, `Unable to input city for update ${err} `, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to input city for update`)
+  }
+}
+
+const getNewCheckoutCountryBlock = async (chatbot, contact, argument, userInput) => {
+  try {
+    if (userInput && argument.address) {
+      argument.address.country = userInput
+      return updatedAddressBlockedMessage(chatbot, contact, argument)
+    } else {
+      throw new Error(`${ERROR_INDICATOR} Unable to input country for update`)
+    }
+  } catch (err) {
+    logger.serverLog(TAG, `Unable to input country for update ${err} `, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to input country for update`)
+  }
+}
+
+const getNewCheckoutZipCodeBlock =
+  async (chatbot, contact, argument, userInput) => {
+    try {
+      if (userInput && argument.address) {
+        argument.address.zip = userInput
+        return updatedAddressBlockedMessage(chatbot, contact, argument)
+      } else {
+        throw new Error(`${ERROR_INDICATOR} Unable to input zip for update`)
+      }
+    } catch (err) {
+      logger.serverLog(TAG, `Unable to input zip for update ${err} `, 'error')
+      throw new Error(`${ERROR_INDICATOR}Unable to input zip for update`)
+    }
+  }
+
+const updatedAddressBlockedMessage = async (chatbot, contact, argument) => {
+  let messageBlock = {
+    module: {
+      id: chatbot._id,
+      type: 'whatsapp_commerce_chatbot'
+    },
+    title: 'Is this new address confirmed?',
+    uniqueId: '' + new Date().getTime(),
+    payload: [
+      {
+        text: 'Thank you for updating address details.',
+        componentType: 'text',
+        menu: [],
+        specialKeys: {
+          [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
+        }
+      }
+    ],
+    userId: chatbot.userId,
+    companyId: chatbot.companyId
+  }
+
+  const address = argument.address
+  messageBlock.payload[0].text += `\n\nYour new address is ${address.address1}, ${address.city} ${address.zip}, ${address.country}`
+
+  messageBlock.payload[0].text += dedent(`Do you want to update this address before continue with the checkout:\n
+                                              ${convertToEmoji(0)} Yes, update address
+                                              ${convertToEmoji(1)} No, continue to checkout`)
+
+  messageBlock.payload[0].menu.push(
+    { type: DYNAMIC, action: UPDATE_ADDRESS_BLOCK, argument },
+    { type: DYNAMIC, action: PROCEED_TO_CHECKOUT, argument })
+
+  messageBlock.payload[0].text += `\n\n${specialKeyText(HOME_KEY)}`
+  return messageBlock
 }
 
 const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, argument, userInput) => {
@@ -1766,14 +2113,19 @@ const invalidInput = async (chatbot, messageBlock, errMessage) => {
     messageBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
   }
 
-  if (messageBlock.payload[0].text && messageBlock.payload[0].text.includes(ERROR_INDICATOR)) {
-    messageBlock.payload[0].text = messageBlock.payload[0].text.split('\n').filter((line) => {
-      return !line.includes(ERROR_INDICATOR)
-    }).join('\n')
-    messageBlock.payload[0].text = `${errMessage}\n` + messageBlock.payload[0].text
-  } else {
-    messageBlock.payload[0].text = `${errMessage}\n\n` + messageBlock.payload[0].text
+  for (let i = 0; i < messageBlock.payload.length; i++) {
+    if (messageBlock.payload[i].text && messageBlock.payload[i].text.includes(ERROR_INDICATOR)) {
+      messageBlock.payload[i].text = messageBlock.payload[i].text.split('\n').filter((line) => {
+        return !line.includes(ERROR_INDICATOR)
+      }).join('\n')
+      messageBlock.payload[i].text = `${errMessage}\n` + messageBlock.payload[i].text
+    } else {
+      messageBlock.payload[i].text = `${errMessage}\n\n` + messageBlock.payload[i].text
+    }
   }
+
+  // removing the images so that they won't repeat in error message
+  messageBlock.payload = messageBlock.payload.filter(item => item.componentType === 'text')
 
   return messageBlock
 }
@@ -1897,11 +2249,15 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             break
           }
           case REMOVE_FROM_CART: {
-            messageBlock = await getRemoveFromCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument, action.input ? input : '')
+            messageBlock = await getRemoveFromCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument)
             break
           }
           case UPDATE_CART: {
             messageBlock = await getUpdateCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument, action.input ? input : '')
+            break
+          }
+          case CONFIRM_CLEAR_CART: {
+            messageBlock = await confirmClearCart(chatbot, contact)
             break
           }
           case CLEAR_CART: {
@@ -1912,8 +2268,8 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             messageBlock = await getQuantityToAddBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument)
             break
           }
-          case QUANTITY_TO_REMOVE: {
-            messageBlock = await getQuantityToRemoveBlock(chatbot, action.argument)
+          case CONFIRM_TO_REMOVE_CART_ITEM: {
+            messageBlock = await getConfirmRemoveItemBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument)
             break
           }
           case QUANTITY_TO_UPDATE: {
@@ -1946,6 +2302,46 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
           }
           case GET_CHECKOUT_ZIP_CODE: {
             messageBlock = await getCheckoutZipCodeBlock(chatbot, contact, action.argument, action.input ? input : '')
+            break
+          }
+          case CONFIRM_COMPLETE_ADDRESS: {
+            messageBlock = await confirmCompleteAddress(chatbot, contact, action.argument, action.input ? input : '')
+            break
+          }
+          case UPDATE_ADDRESS_BLOCK: {
+            messageBlock = await updateAddressBlock(chatbot, contact, action.argument)
+            break
+          }
+          case UPDATE_CHECKOUT_STREET_ADDRESS: {
+            messageBlock = await updateCheckoutStreetAddressBlock(chatbot, contact, action.argument)
+            break
+          }
+          case UPDATE_CHECKOUT_CITY: {
+            messageBlock = await updateCheckoutCityBlock(chatbot, contact, action.argument)
+            break
+          }
+          case UPDATE_CHECKOUT_COUNTRY: {
+            messageBlock = await updateCheckoutCountryBlock(chatbot, contact, action.argument)
+            break
+          }
+          case UPDATE_CHECKOUT_ZIP_CODE: {
+            messageBlock = await updateCheckoutZipCodeBlock(chatbot, contact, action.argument, action.input ? input : '')
+            break
+          }
+          case GET_NEW_CHECKOUT_STREET_ADDRESS: {
+            messageBlock = await getNewCheckoutStreetAddressBlock(chatbot, contact, action.argument, action.input ? input : '')
+            break
+          }
+          case GET_NEW_CHECKOUT_CITY: {
+            messageBlock = await getNewCheckoutCityBlock(chatbot, contact, action.argument, action.input ? input : '')
+            break
+          }
+          case GET_NEW_CHECKOUT_COUNTRY: {
+            messageBlock = await getNewCheckoutCountryBlock(chatbot, contact, action.argument, action.input ? input : '')
+            break
+          }
+          case GET_NEW_CHECKOUT_ZIP_CODE: {
+            messageBlock = await getNewCheckoutZipCodeBlock(chatbot, contact, action.argument, action.input ? input : '')
             break
           }
         }
