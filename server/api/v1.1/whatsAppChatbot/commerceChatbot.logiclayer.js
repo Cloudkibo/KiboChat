@@ -1013,7 +1013,7 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
 
 const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo) => {
   const shoppingCart = contact.shoppingCart.filter((item, index) => index !== productInfo.productIndex)
-  updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
+  await updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
   const text = `${productInfo.product} has been successfully removed from your cart.`
   return getShowMyCartBlock(chatbot, backId, contact, text)
 }
@@ -1695,7 +1695,7 @@ const confirmCompleteAddress = (chatbot, contact, argument, userInput) => {
   const address = argument.address
   messageBlock.payload[0].text += `\n\nYour given address is ${address.address1}, ${address.city} ${address.zip}, ${address.country}`
 
-  messageBlock.payload[0].text += dedent(`Do you want to update this address before continue with the checkout:\n
+  messageBlock.payload[0].text += dedent(`\nDo you want to update this address before continue with the checkout:\n
                                               ${convertToEmoji(0)} Yes, update address
                                               ${convertToEmoji(1)} No, continue to checkout`)
 
@@ -1733,7 +1733,7 @@ const updateAddressBlock = (chatbot, contact, argument) => {
                                               ${convertToEmoji(0)} Update Street Address
                                               ${convertToEmoji(1)} Update City
                                               ${convertToEmoji(2)} Update Country
-                                              ${convertToEmoji(1)} Update Zip Code`)
+                                              ${convertToEmoji(3)} Update Zip Code`)
 
   messageBlock.payload[0].menu.push(
     { type: DYNAMIC, action: UPDATE_CHECKOUT_STREET_ADDRESS, argument },
@@ -1967,7 +1967,7 @@ const updatedAddressBlockedMessage = async (chatbot, contact, argument) => {
   const address = argument.address
   messageBlock.payload[0].text += `\n\nYour new address is ${address.address1}, ${address.city} ${address.zip}, ${address.country}`
 
-  messageBlock.payload[0].text += dedent(`Do you want to update this address before continue with the checkout:\n
+  messageBlock.payload[0].text += dedent(`\nDo you want to update this address before continue with the checkout:\n
                                               ${convertToEmoji(0)} Yes, update address
                                               ${convertToEmoji(1)} No, continue to checkout`)
 
