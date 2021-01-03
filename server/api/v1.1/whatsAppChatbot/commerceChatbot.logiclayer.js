@@ -1687,9 +1687,9 @@ const confirmCompleteAddress = (chatbot, contact, argument, userInput) => {
   }
 
   const address = argument.address
-  messageBlock.payload[0].text += `\n\nYour given address is ${address.address1}, ${address.city} ${address.zip}, ${address.country}`
+  messageBlock.payload[0].text += `\n\nYour given address is ${address.address1}, ${address.city} ${address.zip}, ${address.country}\n\n`
 
-  messageBlock.payload[0].text += dedent(`\nDo you want to update this address before continue with the checkout:\n
+  messageBlock.payload[0].text += dedent(`Do you want to update this address before continue with the checkout:\n
                                               ${convertToEmoji(0)} Yes, update address
                                               ${convertToEmoji(1)} No, continue to checkout`)
 
@@ -1959,9 +1959,9 @@ const updatedAddressBlockedMessage = async (chatbot, contact, argument) => {
   }
 
   const address = argument.address
-  messageBlock.payload[0].text += `\n\nYour new address is ${address.address1}, ${address.city} ${address.zip}, ${address.country}`
+  messageBlock.payload[0].text += `\n\nYour new address is ${address.address1}, ${address.city} ${address.zip}, ${address.country}\n\n`
 
-  messageBlock.payload[0].text += dedent(`\nDo you want to update this address before continue with the checkout:\n
+  messageBlock.payload[0].text += dedent(`Do you want to update this address before continue with the checkout:\n
                                               ${convertToEmoji(0)} Yes, update address
                                               ${convertToEmoji(1)} No, continue to checkout`)
 
