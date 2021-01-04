@@ -172,7 +172,7 @@ exports.getProductVariants = (id, paginationParams, credentials) => {
           }
           if (product.image_id) {
             let image = await shopify.productImage.get(product.product_id, product.image_id)
-            variantPayload.image_url = image.src
+            variantPayload.image = image.src
           }
           return variantPayload
         }))
