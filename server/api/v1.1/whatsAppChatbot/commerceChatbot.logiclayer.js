@@ -427,8 +427,17 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
       companyId: chatbot.companyId
     }
     let recentOrders = []
-    if (contact.commerceCustomer) {
-      recentOrders = await EcommerceProvider.findCustomerOrders(contact.commerceCustomer.id, 9)
+    // this is workaround to store both bigcommerce and shopify
+    // customer information in contacts table so that during
+    // demo we can easily switch between commerce providers.
+    // Here we are checking which store the chatbot belongs to
+    // and getting the customer payload for that store - Sojharo
+    let tempCustomerPayload = contact.commerceCustomer
+    if (chatbot.storeType === commerceConstants.shopify) {
+      tempCustomerPayload = contact.commerceCustomerShopify
+    }
+    if (tempCustomerPayload) {
+      recentOrders = await EcommerceProvider.findCustomerOrders(tempCustomerPayload.id, 9)
       recentOrders = recentOrders.orders
       if (recentOrders.length > 0) {
         messageBlock.payload[0].text = 'Here are your recently placed orders. Select an order by sending the corresponding number for it:\n'
@@ -457,6 +466,7 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
         })
       }
     }
+
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to get recent orders'
@@ -1013,6 +1023,7 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
 
 const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo) => {
   const shoppingCart = contact.shoppingCart.filter((item, index) => index !== productInfo.productIndex)
+  contact.shoppingCart = shoppingCart
   await updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
   const text = `${productInfo.product} has been successfully removed from your cart.`
   return getShowMyCartBlock(chatbot, backId, contact, text)
@@ -1236,7 +1247,10 @@ const getUpdateCartBlock = async (chatbot, backId, contact, product, quantity) =
         image: product.image
       })
     }
-    updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
+    if (contact.commerceCustomer) {
+      contact.commerceCustomer.cartId = null
+    }
+    updateWhatsAppContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
     let text = `${product.product} quantity has been updated to ${quantity}.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
@@ -1306,7 +1320,10 @@ const clearCart = async (chatbot, contact) => {
       companyId: chatbot.companyId
     }
     let shoppingCart = []
-    updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
+    if (contact.commerceCustomer) {
+      contact.commerceCustomer.cartId = null
+    }
+    updateWhatsAppContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to clear cart'
@@ -1328,7 +1345,18 @@ function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options)
 const getCheckoutEmailBlock = async (chatbot, contact, newEmail) => {
   try {
     let messageBlock = null
-    if (!newEmail && contact.commerceCustomer && contact.commerceCustomer.email) {
+
+    // this is workaround to store both bigcommerce and shopify
+    // customer information in contacts table so that during
+    // demo we can easily switch between commerce providers.
+    // Here we are checking which store the chatbot belongs to
+    // and getting the customer payload for that store - Sojharo
+    let tempCustomerPayload = contact.commerceCustomer
+    if (chatbot.storeType === commerceConstants.shopify) {
+      tempCustomerPayload = contact.commerceCustomerShopify
+    }
+
+    if (!newEmail && tempCustomerPayload && tempCustomerPayload.email) {
       messageBlock = {
         module: {
           id: chatbot._id,
@@ -1338,7 +1366,7 @@ const getCheckoutEmailBlock = async (chatbot, contact, newEmail) => {
         uniqueId: '' + new Date().getTime(),
         payload: [
           {
-            text: dedent(`Would you like to use ${contact.commerceCustomer.email} as your email?\n
+            text: dedent(`Would you like to use ${tempCustomerPayload.email} as your email?\n
                         Send 'Y' for Yes
                         Send 'N' for No`),
             componentType: 'text',
@@ -1435,12 +1463,23 @@ const getAskPaymentMethodBlock = async (chatbot, backId, contact, newEmail) => {
 const getAskAddressBlock = async (chatbot, contact, argument) => {
   try {
     let messageBlock = null
-    if (contact.commerceCustomer &&
-        contact.commerceCustomer.defaultAddress &&
-        contact.commerceCustomer.defaultAddress.address1 &&
-        contact.commerceCustomer.defaultAddress.city &&
-        contact.commerceCustomer.defaultAddress.country &&
-        contact.commerceCustomer.defaultAddress.zip
+
+    // this is workaround to store both bigcommerce and shopify
+    // customer information in contacts table so that during
+    // demo we can easily switch between commerce providers.
+    // Here we are checking which store the chatbot belongs to
+    // and getting the customer payload for that store - Sojharo
+    let tempCustomerPayload = contact.commerceCustomer
+    if (chatbot.storeType === commerceConstants.shopify) {
+      tempCustomerPayload = contact.commerceCustomerShopify
+    }
+
+    if (tempCustomerPayload &&
+        tempCustomerPayload.defaultAddress &&
+        tempCustomerPayload.defaultAddress.address1 &&
+        tempCustomerPayload.defaultAddress.city &&
+        tempCustomerPayload.defaultAddress.country &&
+        tempCustomerPayload.defaultAddress.zip
     ) {
       messageBlock = {
         module: {
@@ -1456,7 +1495,7 @@ const getAskAddressBlock = async (chatbot, contact, argument) => {
                         Send 'N' for No`),
             componentType: 'text',
             specialKeys: {
-              'y': { type: DYNAMIC, action: PROCEED_TO_CHECKOUT, argument: { ...argument, address: contact.commerceCustomer.defaultAddress } },
+              'y': { type: DYNAMIC, action: PROCEED_TO_CHECKOUT, argument: { ...argument, address: tempCustomerPayload.defaultAddress } },
               'n': { type: DYNAMIC, action: GET_CHECKOUT_STREET_ADDRESS, argument: { ...argument, address: {address1: ''} } },
               [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
             }
@@ -1465,7 +1504,7 @@ const getAskAddressBlock = async (chatbot, contact, argument) => {
         userId: chatbot.userId,
         companyId: chatbot.companyId
       }
-      const address = contact.commerceCustomer.defaultAddress
+      const address = tempCustomerPayload.defaultAddress
       messageBlock.payload[0].text += `\n\nYour current existing address is ${address.address1}, ${address.city} ${address.zip}, ${address.country}`
     } else {
       messageBlock = {
@@ -2003,6 +2042,17 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
     const lastName = names[1] ? names[1] : names[0]
 
     let commerceCustomer = null
+
+    // this is workaround to store both bigcommerce and shopify
+    // customer information in contacts table so that during
+    // demo we can easily switch between commerce providers.
+    // Here we are checking which store the chatbot belongs to
+    // and getting the customer payload for that store - Sojharo
+    let tempCustomerPayload = contact.commerceCustomer
+    if (chatbot.storeType === commerceConstants.shopify) {
+      tempCustomerPayload = contact.commerceCustomerShopify
+    }
+
     if (argument.newEmail) {
       commerceCustomer = await EcommerceProvider.searchCustomerUsingEmail(argument.newEmail)
       if (commerceCustomer.length === 0) {
@@ -2012,16 +2062,16 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
       }
       commerceCustomer.provider = chatbot.storeType
     } else {
-      if (!contact.commerceCustomer.provider || contact.commerceCustomer.provider !== chatbot.storeType) {
-        commerceCustomer = await EcommerceProvider.searchCustomerUsingEmail(contact.commerceCustomer.email)
+      if (!tempCustomerPayload.provider || tempCustomerPayload.provider !== chatbot.storeType) {
+        commerceCustomer = await EcommerceProvider.searchCustomerUsingEmail(tempCustomerPayload.email)
         if (commerceCustomer.length === 0) {
-          commerceCustomer = await EcommerceProvider.createCustomer(firstName, lastName, contact.commerceCustomer.email, argument.address)
+          commerceCustomer = await EcommerceProvider.createCustomer(firstName, lastName, tempCustomerPayload.email, argument.address)
         } else {
           commerceCustomer = commerceCustomer[0]
         }
         commerceCustomer.provider = chatbot.storeType
       } else {
-        commerceCustomer = contact.commerceCustomer
+        commerceCustomer = tempCustomerPayload
       }
     }
 
@@ -2065,7 +2115,15 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
 
     commerceCustomer.defaultAddress = argument.address
 
-    updateWhatsAppContact({ _id: contact._id }, { shoppingCart: [], commerceCustomer }, null, {})
+    let updatePayload = {
+      shoppingCart: []
+    }
+    if (chatbot.storeType === commerceConstants.shopify) {
+      updatePayload.commerceCustomerShopify = commerceCustomer
+    } else {
+      updatePayload.commerceCustomer = commerceCustomer
+    }
+    updateWhatsAppContact({ _id: contact._id }, updatePayload, null, {})
 
     return messageBlock
   } catch (err) {
