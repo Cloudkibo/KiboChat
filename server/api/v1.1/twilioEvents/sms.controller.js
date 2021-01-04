@@ -55,6 +55,7 @@ exports.index = function (req, res) {
                     updateContact(contact)
                   })
                   .catch(error => {
+                    console.log('error 1', error)
                     const message = error || 'Failed to create sms'
                     logger.serverLog(message, `${TAG}: exports.index`, req.body, {MessageObject}, 'error')
                   })
@@ -66,16 +67,19 @@ exports.index = function (req, res) {
               }
             })
             .catch(error => {
+              console.log('error 2', error)
               const message = error || 'Failed to fetch contact'
               logger.serverLog(message, `${TAG}: exports.index`, req.body, { user }, 'error')
             })
         })
         .catch(error => {
+          console.log('error 3', error)
           const message = error || 'Failed to fetch user'
           logger.serverLog(message, `${TAG}: exports.index`, req.body, {company}, 'error')
         })
     })
     .catch(error => {
+      console.log('error 4', error)
       const message = error || 'Failed to get company'
       logger.serverLog(message, `${TAG}: exports.index`, req.body, {}, 'error')
     })
@@ -104,22 +108,41 @@ function updateContact (contact) {
 }
 
 function saveBroadcastResponse (contact, MessageObject) {
-  if (contact.waitingForBroadcastResponse) {
+  // if (contact.waitingForBroadcastResponse) {
     let data = {
       companyId: contact.companyId,
-      broadcastId: contact.waitingForBroadcastResponse.broadcastId,
+      broadcastId: 'abc',
+      // broadcastId: contact.waitingForBroadcastResponse.broadcastId,
       customerId: contact._id,
       platform: 'sms',
       response: MessageObject.payload
     }
     callApi(`broadcasts/responses`, 'post', data, kiboengage)
       .then(response => {
+        console.log('response saved', response)
+        let body = {
+          room_id: contact.companyId,
+          body: {
+            action: 'sms_broadcast_response',
+            payload: {
+              response: response,
+              subscriber: contact
+            }
+          }
+        }
+        callApi(`receiveSocketEvent`, 'post', body, 'engage')
+          .then(response => {
+          }).catch(err => {
+            console.log('error in sending', err)
+            const message = err || 'failed to send socket event'
+            logger.serverLog(message, `${TAG}: saveBroadcastResponse`, {}, {contact, data}, 'error')
+          })
       })
       .catch(error => {
         const message = error || 'Failed to save broadcast response'
-        logger.serverLog(message, `${TAG}: exports.saveBroadcastResponse`, {}, {contact, data}, 'error')
+        logger.serverLog(message, `${TAG}: saveBroadcastResponse`, {}, {contact, data}, 'error')
       })
-  }
+  // }
 }
 
 function handleUnsub (user, company, contact, body) {
