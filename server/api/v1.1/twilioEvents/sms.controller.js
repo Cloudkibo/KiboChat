@@ -55,7 +55,6 @@ exports.index = function (req, res) {
                     updateContact(contact)
                   })
                   .catch(error => {
-                    console.log('error 1', error)
                     const message = error || 'Failed to create sms'
                     logger.serverLog(message, `${TAG}: exports.index`, req.body, {MessageObject}, 'error')
                   })
@@ -67,19 +66,16 @@ exports.index = function (req, res) {
               }
             })
             .catch(error => {
-              console.log('error 2', error)
               const message = error || 'Failed to fetch contact'
               logger.serverLog(message, `${TAG}: exports.index`, req.body, { user }, 'error')
             })
         })
         .catch(error => {
-          console.log('error 3', error)
           const message = error || 'Failed to fetch user'
           logger.serverLog(message, `${TAG}: exports.index`, req.body, {company}, 'error')
         })
     })
     .catch(error => {
-      console.log('error 4', error)
       const message = error || 'Failed to get company'
       logger.serverLog(message, `${TAG}: exports.index`, req.body, {}, 'error')
     })
@@ -118,7 +114,6 @@ function saveBroadcastResponse (contact, MessageObject) {
     }
     callApi(`broadcasts/responses`, 'post', data, kiboengage)
       .then(response => {
-        console.log('response saved', response)
         let body = {
           room_id: contact.companyId,
           body: {
@@ -132,7 +127,6 @@ function saveBroadcastResponse (contact, MessageObject) {
         callApi(`receiveSocketEvent`, 'post', body, 'engage')
           .then(response => {
           }).catch(err => {
-            console.log('error in sending', err)
             const message = err || 'failed to send socket event'
             logger.serverLog(message, `${TAG}: saveBroadcastResponse`, {}, {contact, data}, 'error')
           })
