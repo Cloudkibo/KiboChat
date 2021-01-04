@@ -3,16 +3,19 @@ const utility = require('../v1.1/utility')
 const TAG = 'api/global/messageAlerts.js'
 
 function pushUnresolveAlertInStack (company, subscriber, platform) {
-  utility.callApi(`companypreferences/query`, 'post', {companyId: company._id}, 'accounts')
-    .then(companypreferences => {
-      if (companypreferences.length > 0) {
-        var unresolveSessionAlert = companypreferences[0].unresolveSessionAlert
+  let query = {
+    purpose: 'findOne',
+    match: {companyId: company._id, platform: platform, type: 'unresolved_session'}
+  }
+  utility.callApi(`alerts/query`, 'post', query, 'kibochat')
+    .then(alert => {
+      if (alert) {
+        var unresolveSessionAlert = alert
         if (unresolveSessionAlert.enabled) {
           var payload = {
             type: 'unresolvedSession',
-            notification_interval: unresolveSessionAlert.notification_interval,
-            unit: unresolveSessionAlert.unit,
-            assignedMembers: unresolveSessionAlert.assignedMembers,
+            notification_interval: unresolveSessionAlert.interval,
+            unit: unresolveSessionAlert.intervalUnit,
             subscriber: subscriber,
             companyId: company._id,
             platform: platform
@@ -52,15 +55,19 @@ function pushUnresolveAlertInStack (company, subscriber, platform) {
       }
     })
     .catch(error => {
-      const message = error || 'Error while fetching company preferences'
+      const message = error || 'Error while fetching message alert'
       logger.serverLog(message, `${TAG}: exports.pushUnresolveAlertInStack`, {}, {company, subscriber, platform}, 'error')
     })
 }
 
 function pushSessionPendingAlertInStack (company, subscriber, platform) {
-  utility.callApi(`companypreferences/query`, 'post', {companyId: company._id}, 'accounts')
-    .then(companypreferences => {
-      if (companypreferences.length > 0) {
+  let query = {
+    purpose: 'findOne',
+    match: {companyId: company._id, platform: platform, type: 'unresolved_session'}
+  }
+  utility.callApi(`alerts/query`, 'post', query, 'kibochat')
+    .then(alert => {
+      if (alert) {
         var pendingSessionAlert = companypreferences[0].pendingSessionAlert
         if (pendingSessionAlert.enabled) {
           var payload = {
@@ -87,7 +94,7 @@ function pushSessionPendingAlertInStack (company, subscriber, platform) {
       }
     })
     .catch(error => {
-      const message = error || 'Error while fetching company preferences'
+      const message = error || 'Error while fetch message alert'
       logger.serverLog(message, `${TAG}: exports.pushSessionPendingAlertInStack`, {}, {company, subscriber, platform}, 'error')
     })
 }
