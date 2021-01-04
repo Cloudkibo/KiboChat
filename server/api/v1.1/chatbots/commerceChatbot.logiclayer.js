@@ -280,7 +280,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
           title: product.name,
           subtitle: `Price: ${priceString}`,
           buttons: [{
-            title: 'Add to Cart',
+            title: 'Select Product',
             type: 'postback',
             payload: JSON.stringify({ type: DYNAMIC, action: PRODUCT_VARIANTS, argument: { product } })
           }]
@@ -1239,7 +1239,7 @@ const getCheckoutEmailBlock = async (chatbot, contact, backId, newEmail) => {
   }
 }
 
-const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, newEmail) => {
+const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, argument) => {
   try {
     let messageBlock = {
       module: {
@@ -1250,7 +1250,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Your checkout link has been generated.`,
+          text: ``,
           componentType: 'text',
           quickReplies: [
             {
@@ -1266,36 +1266,61 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, new
     }
 
     let commerceCustomer = null
-    if (newEmail) {
-      commerceCustomer = await EcommerceProvider.searchCustomerUsingEmail(newEmail)
+    if (argument.newEmail) {
+      commerceCustomer = await EcommerceProvider.searchCustomerUsingEmail(argument.newEmail)
       if (commerceCustomer.length === 0) {
-        commerceCustomer = await EcommerceProvider.createCustomer(contact.firstName, contact.lastName, newEmail)
+        commerceCustomer = await EcommerceProvider.createCustomer(contact.firstName, contact.lastName, argument.newEmail, argument.address)
       } else {
         commerceCustomer = commerceCustomer[0]
       }
-      updateSubscriber({ _id: contact._id }, { commerceCustomer }, {})
     } else {
       commerceCustomer = contact.commerceCustomer
     }
-    let checkoutLink = ''
-    if (chatbot.storeType === commerceConstants.shopify) {
-      checkoutLink = await EcommerceProvider.createPermalinkForCart(commerceCustomer, contact.shoppingCart)
-    } else if (chatbot.storeType === commerceConstants.bigcommerce) {
-      const bigcommerceCart = await EcommerceProvider.createCart(commerceCustomer.id, contact.shoppingCart)
-      checkoutLink = await EcommerceProvider.createPermalinkForCartBigCommerce(bigcommerceCart.id)
-      checkoutLink = checkoutLink.data.cart_url
-    }
-    updateSubscriber({ _id: contact._id }, { shoppingCart: [] }, null, {})
 
-    if (checkoutLink) {
-      messageBlock.payload[0].buttons = [{
-        type: 'web_url',
-        title: 'Proceed to Checkout',
-        url: checkoutLink
-      }]
-    } else {
-      throw new Error()
+    let checkoutLink = ''
+    if (argument.paymentMethod === 'cod') {
+      if (chatbot.storeType === commerceConstants.shopify) {
+        const testOrderCart = contact.shoppingCart.map((item) => {
+          return {
+            variant_id: item.variant_id + '',
+            quantity: item.quantity
+          }
+        })
+        const order = await EcommerceProvider.createTestOrder({id: commerceCustomer.id + ''}, testOrderCart)
+        if (order) {
+          let storeInfo = await EcommerceProvider.fetchStoreInfo()
+          messageBlock.payload[0].text += `Thank you for shopping at ${storeInfo.name}. We have received your order. Please note the order id given below to track your order:\n\n`
+          messageBlock.payload[0].text += `${order.name.replace('#', '')}`
+        } else {
+          throw new Error()
+        }
+      } else {
+        messageBlock.payload[0].text += `Cash on delivery is currently not supported for this store`
+      }
+    } else if (argument.paymentMethod === 'e-payment') {
+      messageBlock.payload[0].text += `Here is your checkout link:`
+      if (chatbot.storeType === commerceConstants.shopify) {
+        checkoutLink = await EcommerceProvider.createPermalinkForCart(commerceCustomer, contact.shoppingCart)
+      } else if (chatbot.storeType === commerceConstants.bigcommerce) {
+        const bigcommerceCart = await EcommerceProvider.createCart(commerceCustomer.id, contact.shoppingCart)
+        checkoutLink = await EcommerceProvider.createPermalinkForCartBigCommerce(bigcommerceCart.id)
+        checkoutLink = checkoutLink.data.cart_url
+      }
+      if (checkoutLink) {
+        messageBlock.payload[0].buttons = [{
+          type: 'web_url',
+          title: 'Proceed to Checkout',
+          url: checkoutLink
+        }]
+      } else {
+        throw new Error()
+      }
     }
+
+    commerceCustomer.defaultAddress = argument.address
+
+    updateSubscriber({ _id: contact._id }, { shoppingCart: [], commerceCustomer }, null, {})
+
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to checkout'
@@ -1501,16 +1526,6 @@ const getAskPaymentMethodBlock = async (chatbot, backId, contact, newEmail) => {
           quickReplies: [
             {
               content_type: 'text',
-              title: 'Cash on Delivery',
-              payload: JSON.stringify({ type: DYNAMIC, action: ASK_ADDRESS, argument: {newEmail, paymentMethod: 'cod'} })
-            },
-            {
-              content_type: 'text',
-              title: 'Electronic Payment',
-              payload: JSON.stringify({ type: DYNAMIC, action: PROCEED_TO_CHECKOUT, argument: {newEmail, paymentMethod: 'e-payment'} })
-            },
-            {
-              content_type: 'text',
               title: 'Show my Cart',
               payload: JSON.stringify({ type: DYNAMIC, action: SHOW_MY_CART })
             },
@@ -1532,6 +1547,29 @@ const getAskPaymentMethodBlock = async (chatbot, backId, contact, newEmail) => {
         userError = true
         throw new Error('Invalid Email. Please input a valid email address.')
       }
+    }
+
+    if (chatbot.storeType === 'shopify') {
+      messageBlock.payload[0].quickReplies.unshift(
+        {
+          content_type: 'text',
+          title: 'Cash on Delivery',
+          payload: JSON.stringify({ type: DYNAMIC, action: ASK_ADDRESS, argument: {newEmail, paymentMethod: 'cod'} })
+        },
+        {
+          content_type: 'text',
+          title: 'Electronic Payment',
+          payload: JSON.stringify({ type: DYNAMIC, action: PROCEED_TO_CHECKOUT, argument: {newEmail, paymentMethod: 'e-payment'} })
+        }
+      )
+    } else {
+      messageBlock.payload[0].quickReplies.unshift(
+        {
+          content_type: 'text',
+          title: 'Electronic Payment',
+          payload: JSON.stringify({ type: DYNAMIC, action: PROCEED_TO_CHECKOUT, argument: {newEmail, paymentMethod: 'e-payment'} })
+        }
+      )
     }
 
     return messageBlock
@@ -2274,7 +2312,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
                 break
               }
               case PROCEED_TO_CHECKOUT: {
-                messageBlock = await getCheckoutBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, contact, action.input ? input : '')
+                messageBlock = await getCheckoutBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, contact, action.argument)
                 break
               }
               case RETURN_ORDER: {
