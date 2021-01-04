@@ -114,10 +114,26 @@ function saveBroadcastResponse (contact, MessageObject) {
     }
     callApi(`broadcasts/responses`, 'post', data, kiboengage)
       .then(response => {
+        let body = {
+          room_id: contact.companyId,
+          body: {
+            action: 'sms_broadcast_response',
+            payload: {
+              response: response,
+              subscriber: contact
+            }
+          }
+        }
+        callApi(`receiveSocketEvent`, 'post', body, 'engage')
+          .then(response => {
+          }).catch(err => {
+            const message = err || 'failed to send socket event'
+            logger.serverLog(message, `${TAG}: saveBroadcastResponse`, {}, {contact, data}, 'error')
+          })
       })
       .catch(error => {
         const message = error || 'Failed to save broadcast response'
-        logger.serverLog(message, `${TAG}: exports.saveBroadcastResponse`, {}, {contact, data}, 'error')
+        logger.serverLog(message, `${TAG}: saveBroadcastResponse`, {}, {contact, data}, 'error')
       })
   }
 }
