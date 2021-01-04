@@ -108,11 +108,10 @@ function updateContact (contact) {
 }
 
 function saveBroadcastResponse (contact, MessageObject) {
-  // if (contact.waitingForBroadcastResponse) {
+  if (contact.waitingForBroadcastResponse) {
     let data = {
       companyId: contact.companyId,
-      broadcastId: 'abc',
-      // broadcastId: contact.waitingForBroadcastResponse.broadcastId,
+      broadcastId: contact.waitingForBroadcastResponse.broadcastId,
       customerId: contact._id,
       platform: 'sms',
       response: MessageObject.payload
@@ -142,7 +141,7 @@ function saveBroadcastResponse (contact, MessageObject) {
         const message = error || 'Failed to save broadcast response'
         logger.serverLog(message, `${TAG}: saveBroadcastResponse`, {}, {contact, data}, 'error')
       })
-  // }
+  }
 }
 
 function handleUnsub (user, company, contact, body) {
