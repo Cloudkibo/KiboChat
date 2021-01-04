@@ -642,12 +642,6 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
                 const updateWhatsAppContactData = {
                   lastMessageSentByBot: nextMessageBlock
                 }
-                if (contact.commerceCustomer) {
-                  updateWhatsAppContactData.commerceCustomer = null
-                }
-                if (contact.shoppingCart) {
-                  updateWhatsAppContactData.shoppingCart = []
-                }
                 updateWhatsAppContact({ _id: contact._id }, updateWhatsAppContactData, null, {})
                 if (company.saveAutomationMessages) {
                   for (let i = 0; i < nextMessageBlock.payload.length; i++) {
