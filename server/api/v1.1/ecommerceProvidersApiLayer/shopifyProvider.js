@@ -414,6 +414,7 @@ exports.findCustomerOrders = (customerId, limit, credentials) => {
               node {
                 id
                 name
+                createdAt
                 lineItems(first: 1) {
                   edges {
                     node {

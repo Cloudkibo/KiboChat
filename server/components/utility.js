@@ -44,6 +44,9 @@ exports.isFacebookVideoUrl = (url) => {
   return (regExp.test(url))
 }
 
+const truncate = (input, size) => input.length > size ? `${input.substring(0, size)}...` : input
+
 exports.validateUrl = validateUrl
 exports.padWithZeros = padWithZeros
 exports.dateDiffInDays = dateDiffInDays
+exports.truncate = truncate
