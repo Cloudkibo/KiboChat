@@ -681,22 +681,30 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
 }
 
 function sendWhatsAppMessage (nextMessageBlock, data, number, req) {
-  intervalForEach(nextMessageBlock.payload, (messagePayload) => {
-    let chatbotResponse = {
-      whatsApp: {
-        accessToken: data.accessToken,
-        accountSID: data.accountSID,
-        businessNumber: data.businessNumber
-      },
-      recipientNumber: number,
-      payload: messagePayload
-    }
+  if (nextMessageBlock.payload.length > 1) {
+    intervalForEach(nextMessageBlock.payload, (messagePayload) => {
+      sendWhatsAppMessageLogic(messagePayload, data, number, req)
+    }, 1800)
+  } else {
+    sendWhatsAppMessageLogic(nextMessageBlock.payload[0], data, number, req)
+  }
+}
 
-    whatsAppMapper.whatsAppMapper(req.body.provider, ActionTypes.SEND_CHAT_MESSAGE, chatbotResponse)
-      .then(sent => {})
-      .catch(err => {
-        const message = err || 'Failed to send chat message'
-        logger.serverLog(message, `${TAG}: exports.sendWhatsAppMessage`, req.body, {chatbotResponse}, 'error')
-      })
-  }, 1800)
+function sendWhatsAppMessageLogic (messagePayload, data, number, req) {
+  let chatbotResponse = {
+    whatsApp: {
+      accessToken: data.accessToken,
+      accountSID: data.accountSID,
+      businessNumber: data.businessNumber
+    },
+    recipientNumber: number,
+    payload: messagePayload
+  }
+
+  whatsAppMapper.whatsAppMapper(req.body.provider, ActionTypes.SEND_CHAT_MESSAGE, chatbotResponse)
+    .then(sent => {})
+    .catch(err => {
+      const message = err || 'Failed to send chat message'
+      logger.serverLog(message, `${TAG}: exports.sendWhatsAppMessage`, req.body, {chatbotResponse}, 'error')
+    })
 }
