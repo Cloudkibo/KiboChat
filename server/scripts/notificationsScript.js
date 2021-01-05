@@ -22,7 +22,6 @@ function unresolvedSession (findAdminAlerts) {
   utility.callApi(`cronStack/query`, 'post', findAdminAlerts, 'kibochat')
     .then(cronStacks => {
       if (cronStacks.length > 0) {
-        let deletedAlerts = 0
         async.each(cronStacks, function (cronStack, cb) {
           let query = {
             purpose: 'findOne',
@@ -35,12 +34,12 @@ function unresolvedSession (findAdminAlerts) {
                 let sessionTime = moment(cronStack.datetime)
                 let duration = moment.duration(currentTime.diff(sessionTime))
                 if (duration.asHours() > messageAlert.interval) {
-                  _sendAlerts(cronStack, messageAlert, deletedAlerts, cb)
+                  _sendAlerts(cronStack, messageAlert, cb)
                 } else {
                   cb()
                 }
               } else {
-                _deleteCronStackRecord(cronStack, deletedAlerts, cb)
+                _deleteCronStackRecord(cronStack, cb)
               }
             })
             .catch(error => {
@@ -63,7 +62,7 @@ function unresolvedSession (findAdminAlerts) {
     })
 }
 
-function _sendAlerts (cronStack, messageAlert, deletedAlerts, cb) {
+function _sendAlerts (cronStack, messageAlert, cb) {
   let query = {
     purpose: 'findAll',
     match: {companyId: cronStack.payload.companyId, platform: cronStack.payload.platform}
@@ -99,11 +98,11 @@ function _sendAlerts (cronStack, messageAlert, deletedAlerts, cb) {
           if (err) {
             cb(err)
           } else {
-            _deleteCronStackRecord(cronStack, deletedAlerts, cb)
+            _deleteCronStackRecord(cronStack, cb)
           }
         })
       } else {
-        _deleteCronStackRecord(cronStack, deletedAlerts, cb)
+        _deleteCronStackRecord(cronStack, cb)
       }
     })
     .catch(error => {
@@ -157,7 +156,7 @@ function _sendInAppNotification (data, next) {
   }
 }
 
-function _deleteCronStackRecord (alert, deletedAlerts, cb) {
+function _deleteCronStackRecord (alert, cb) {
   var deleteData = {
     purpose: 'deleteMany',
     match: {
@@ -168,7 +167,6 @@ function _deleteCronStackRecord (alert, deletedAlerts, cb) {
   }
   utility.callApi(`cronstack`, 'delete', deleteData, 'kibochat')
     .then(updatedRecord => {
-      deletedAlerts = deletedAlerts + 1
       cb()
     })
     .catch(err => {
