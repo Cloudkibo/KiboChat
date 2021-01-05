@@ -443,7 +443,7 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
       if (recentOrders.length > 0) {
         messageBlock.payload[0].text = 'Here are your recently placed orders. Select an order by sending the corresponding number for it:\n'
         for (let i = 0; i < recentOrders.length; i++) {
-          const orderTitle = `\n${convertToEmoji(i)} Order ${recentOrders[i].name} ${new Date(recentOrders[i].createdAt).toDateString()} (${recentOrders[i].lineItems[0].name})`
+          const orderTitle = `\n${convertToEmoji(i)} Order ${recentOrders[i].name} - ${new Date(recentOrders[i].createdAt).toDateString()} (${recentOrders[i].lineItems[0].name})`
           messageBlock.payload[0].text += utility.truncate(orderTitle, 55)
           messageBlock.payload[0].menu.push({ type: DYNAMIC, action: ORDER_STATUS, argument: recentOrders[i].name.substr(1) })
         }
@@ -700,7 +700,7 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ar
     for (let i = products.length - 1; i >= 0; i--) {
       let product = products[i]
       if (product.image) {
-        messageBlock.payload.push({
+        messageBlock.payload.unshift({
           componentType: 'image',
           fileurl: product.image,
           caption: `${convertToEmoji(i)} ${product.name}\nPrice: ${product.price} ${storeInfo.currency}`
@@ -1064,7 +1064,7 @@ const getConfirmRemoveItemBlock = async (chatbot, backId, product) => {
       companyId: chatbot.companyId
     }
     messageBlock.payload[0].text += dedent(`Please select an option from following:\n
-                                            Send 'Y' for Yes\n
+                                            Send 'Y' for Yes
                                             Send 'N' for No`)
 
     messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
@@ -1164,7 +1164,7 @@ const getQuantityToUpdateBlock = async (chatbot, backId, product) => {
 
     messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
-    messageBlock.payload[0].text += `*P*  Proceed to Checkout`
+    messageBlock.payload[0].text += `\n*P*  Proceed to Checkout`
 
     if (product.image) {
       messageBlock.payload.unshift({
@@ -1278,6 +1278,9 @@ const getUpdateCartBlock = async (chatbot, backId, contact, product, quantity) =
     }
     updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
     let text = `${product.product} quantity has been updated to ${quantity}.`
+    if (quantity === 0) {
+      text = `${product.product} has been removed from cart.`
+    }
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
     if (!userError) {
@@ -1302,7 +1305,7 @@ const confirmClearCart = (chatbot, contact) => {
     payload: [
       {
         text: dedent(`Are you sure you want to empty your cart? Please select an option by sending the corresponding number for it:\n
-                                            Send 'Y' for Yes\n
+                                            Send 'Y' for Yes
                                             Send 'N' for No`),
         componentType: 'text',
         menu: [],
@@ -1391,7 +1394,7 @@ const getCheckoutEmailBlock = async (chatbot, contact, newEmail) => {
         payload: [
           {
             text: dedent(`Would you like to use ${tempCustomerPayload.email} as your email?\n
-                        Send 'Y' for Yes\n
+                        Send 'Y' for Yes
                         Send 'N' for No`),
             componentType: 'text',
             specialKeys: {
@@ -1515,7 +1518,7 @@ const getAskAddressBlock = async (chatbot, contact, argument) => {
         payload: [
           {
             text: dedent(`Would you like to use your existing address as your shipping address?\n
-                        Send 'Y' for Yes\n
+                        Send 'Y' for Yes
                         Send 'N' for No`),
             componentType: 'text',
             specialKeys: {
@@ -1759,7 +1762,7 @@ const confirmCompleteAddress = (chatbot, contact, argument, userInput) => {
   messageBlock.payload[0].text += `\n\nYour given address is ${address.address1}, ${address.city} ${address.zip}, ${address.country}\n\n`
 
   messageBlock.payload[0].text += dedent(`Please validate the address. Is it correct to proceed to checkout:\n
-                                      Send 'Y' for Yes, Proceed to checkout\n
+                                      Send 'Y' for Yes, Proceed to checkout
                                       Send 'N' for No, Change the address`)
 
   messageBlock.payload[0].text += `\n\n${specialKeyText(HOME_KEY)}`
@@ -2031,7 +2034,7 @@ const updatedAddressBlockedMessage = async (chatbot, contact, argument) => {
   messageBlock.payload[0].text += `\n\nYour new address is ${address.address1}, ${address.city} ${address.zip}, ${address.country}\n\n`
 
   messageBlock.payload[0].text += dedent(`Please validate the new address. Is it correct to proceed to checkout:\n
-                                      Send 'Y' for Yes, Proceed to checkout\n
+                                      Send 'Y' for Yes, Proceed to checkout
                                       Send 'N' for No, Change the address`)
 
   messageBlock.payload[0].text += `\n\n${specialKeyText(HOME_KEY)}`
@@ -2140,7 +2143,11 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
               messageBlock.payload[0].text += `\n`
             }
           }
-          messageBlock.payload[0].text += `\n\n*Total price*: ${totalPrice} ${currency}\n\n`
+
+          messageBlock.payload[0].text += `\n\n*Total price*: ${totalPrice} ${currency}\n`
+
+          const address = argument.address
+          messageBlock.payload[0].text += `*Address*: ${address.address1}, ${address.city} ${address.zip}, ${address.country}\n`
         } else {
           throw new Error()
         }
