@@ -10,31 +10,19 @@ function pushUnresolveAlertInStack (company, subscriber, platform) {
   utility.callApi(`alerts/query`, 'post', query, 'kibochat')
     .then(alert => {
       if (alert) {
-        var unresolveSessionAlert = alert
-        if (unresolveSessionAlert.enabled) {
-          var payload = {
-            type: 'unresolvedSession',
-            notification_interval: unresolveSessionAlert.interval,
-            unit: unresolveSessionAlert.intervalUnit,
-            subscriber: subscriber,
-            companyId: company._id,
-            platform: platform
-          }
-          var record = {
-            type: 'adminAlert',
-            payload: payload
-          }
-          var findSession = {
-            purpose: 'findAll',
+        if (alert.enabled) {
+          let findSession = {
+            purpose: 'findOne',
             match: {
               type: 'adminAlert',
-              'payload.type': 'unresolvedSession',
+              'payload.type': 'unresolved_session',
               'payload.subscriber._id': subscriber._id
             }
           }
           utility.callApi(`cronStack/query`, 'post', findSession, 'kibochat')
             .then(result => {
-              if (result.length < 1) {
+              if (!result) {
+                let record = preparePayload(subscriber, company, platform, 'unresolved_session')
                 utility.callApi(`cronStack`, 'post', record, 'kibochat')
                   .then(savedRecord => {
                   })
@@ -63,26 +51,13 @@ function pushUnresolveAlertInStack (company, subscriber, platform) {
 function pushSessionPendingAlertInStack (company, subscriber, platform) {
   let query = {
     purpose: 'findOne',
-    match: {companyId: company._id, platform: platform, type: 'unresolved_session'}
+    match: {companyId: company._id, platform: platform, type: 'pending_session'}
   }
   utility.callApi(`alerts/query`, 'post', query, 'kibochat')
     .then(alert => {
       if (alert) {
-        var pendingSessionAlert = companypreferences[0].pendingSessionAlert
-        if (pendingSessionAlert.enabled) {
-          var payload = {
-            type: 'pendingSession',
-            notification_interval: pendingSessionAlert.notification_interval,
-            unit: pendingSessionAlert.unit,
-            assignedMembers: pendingSessionAlert.assignedMembers,
-            subscriber: subscriber,
-            companyId: company._id,
-            platform: platform
-          }
-          var record = {
-            type: 'adminAlert',
-            payload: payload
-          }
+        if (alert.enabled) {
+          let record = preparePayload(subscriber, company, platform, 'pending_session')
           utility.callApi(`cronStack`, 'post', record, 'kibochat')
             .then(savedRecord => {
             })
@@ -100,11 +75,11 @@ function pushSessionPendingAlertInStack (company, subscriber, platform) {
 }
 
 function deleteUnresolvedSessionFromStack (subscriberId) {
-  var deleteData = {
+  let deleteData = {
     purpose: 'deleteMany',
     match: {
       type: 'adminAlert',
-      'payload.type': 'unresolvedSession',
+      'payload.type': 'unresolved_session',
       'payload.subscriber._id': subscriberId
     }
   }
@@ -118,11 +93,11 @@ function deleteUnresolvedSessionFromStack (subscriberId) {
 }
 
 function deletePendingSessionFromStack (subscriberId) {
-  var deleteData = {
+  let deleteData = {
     purpose: 'deleteMany',
     match: {
       type: 'adminAlert',
-      'payload.type': 'pendingSession',
+      'payload.type': 'pending_session',
       'payload.subscriber._id': subscriberId
     }
   }
@@ -135,7 +110,68 @@ function deletePendingSessionFromStack (subscriberId) {
     })
 }
 
+function pushTalkToAgentAlertInStack (company, subscriber, platform, chatbotName) {
+  let query = {
+    purpose: 'findOne',
+    match: {companyId: company._id, platform: platform, type: 'talk_to_agent'}
+  }
+  utility.callApi(`alerts/query`, 'post', query, 'kibochat')
+    .then(alert => {
+      if (alert) {
+        if (alert.enabled) {
+          let findSession = {
+            purpose: 'findOne',
+            match: {
+              type: 'adminAlert',
+              'payload.type': 'talk_to_agent',
+              'payload.subscriber._id': subscriber._id
+            }
+          }
+          utility.callApi(`cronStack/query`, 'post', findSession, 'kibochat')
+            .then(result => {
+              if (!result) {
+                let record = preparePayload(subscriber, company, platform, 'talk_to_agent', chatbotName)
+                utility.callApi(`cronStack`, 'post', record, 'kibochat')
+                  .then(savedRecord => {
+                  })
+                  .catch(err => {
+                    const message = err || 'Unable to push session info in cronStack'
+                    logger.serverLog(message, `${TAG}: exports.pushTalkToAgentAlertInStack`, {}, {company, subscriber, platform}, 'error')
+                  })
+              }
+            })
+            .catch(err => {
+              const message = err || 'Unable to fetch session'
+              logger.serverLog(message, `${TAG}: exports.pushTalkToAgentAlertInStack`, {}, {company, subscriber, platform}, 'error')
+            })
+        }
+      }
+    })
+    .catch(error => {
+      const message = error || 'Error while fetch message alert'
+      logger.serverLog(message, `${TAG}: exports.pushTalkToAgentAlertInStack`, {}, {company, subscriber, platform}, 'error')
+    })
+}
+
+function preparePayload (subscriber, company, platform, type, chatbotName) {
+  return {
+    type: 'adminAlert',
+    payload: {
+      type: type,
+      subscriber: {
+        _id: subscriber._id,
+        name: subscriber.name ? subscriber.name : subscriber.firstName + ' ' + subscriber.lastName
+      },
+      pageId: subscriber.pageId && typeof subscriber.pageId === 'object' ? subscriber.pageId._id : subscriber.pageId,
+      chatbotName: chatbotName,
+      companyId: company._id,
+      platform: platform
+    }
+  }
+}
+
 exports.pushUnresolveAlertInStack = pushUnresolveAlertInStack
 exports.pushSessionPendingAlertInStack = pushSessionPendingAlertInStack
 exports.deleteUnresolvedSessionFromStack = deleteUnresolvedSessionFromStack
 exports.deletePendingSessionFromStack = deletePendingSessionFromStack
+exports.pushTalkToAgentAlertInStack = pushTalkToAgentAlertInStack
