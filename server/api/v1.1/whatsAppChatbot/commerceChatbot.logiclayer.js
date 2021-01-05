@@ -890,7 +890,7 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
   let userError = false
   try {
     quantity = Number(quantity)
-    if (!Number.isInteger(quantity) || quantity <= 0) {
+    if (!Number.isInteger(quantity) || quantity < 0) {
       userError = true
       throw new Error(`${ERROR_INDICATOR}Invalid quantity given.`)
     }
@@ -1219,7 +1219,7 @@ const getUpdateCartBlock = async (chatbot, backId, contact, product, quantity) =
   let userError = false
   try {
     quantity = Number(quantity)
-    if (!Number.isInteger(quantity) || quantity <= 0) {
+    if (!Number.isInteger(quantity) || quantity < 0) {
       userError = true
       throw new Error(`${ERROR_INDICATOR}Invalid quantity given.`)
     }
