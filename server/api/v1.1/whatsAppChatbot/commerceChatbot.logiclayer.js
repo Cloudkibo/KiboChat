@@ -2144,10 +2144,10 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
             }
           }
 
-          messageBlock.payload[0].text += `\n\n*Total price*: ${totalPrice} ${currency}\n`
+          messageBlock.payload[0].text += `\n\n*Total price*: ${totalPrice} ${currency}\n\n`
 
           const address = argument.address
-          messageBlock.payload[0].text += `*Address*: ${address.address1}, ${address.city} ${address.zip}, ${address.country}\n`
+          messageBlock.payload[0].text += `*Address*: ${address.address1}, ${address.city} ${address.zip}, ${address.country}`
         } else {
           throw new Error()
         }
