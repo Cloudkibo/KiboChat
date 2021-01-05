@@ -30,11 +30,11 @@ function unresolvedSession (findAdminAlerts) {
                 let currentTime = moment(new Date())
                 let sessionTime = moment(cronStack.datetime)
                 let duration = moment.duration(currentTime.diff(sessionTime))
-                // if (duration.asHours() > messageAlert.interval) {
+                if (duration.asHours() > messageAlert.interval) {
                   _sendAlerts(cronStack, messageAlert, deletedAlerts, cb)
-                // } else {
-                //   cb()
-                // }
+                } else {
+                  cb()
+                }
               } else {
                 _deleteCronStackRecord(cronStack, deletedAlerts, cb)
               }
