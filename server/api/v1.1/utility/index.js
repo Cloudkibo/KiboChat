@@ -25,6 +25,8 @@ exports.callApi = (endpoint, method = 'get', body, type = 'accounts', token) => 
     apiUrl = config.kibodash
   } else if (type === 'COVIS') {
     apiUrl = config.COVIS
+  } else if (type === 'engage') {
+    apiUrl = config.KIBOENGAGE_URL
   }
   let options = {
     method: method.toUpperCase(),
