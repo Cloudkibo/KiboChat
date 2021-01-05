@@ -899,7 +899,7 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
   }
 }
 
-const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
+const getShowMyCartBlock = async (chatbot, backId, contact, optionalText, showButtons = true) => {
   try {
     let messageBlock = {
       module: {
@@ -928,7 +928,7 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
         cards: [],
         quickReplies: []
       })
-      messageBlock.payload[0].text += `Here is your cart.`
+      messageBlock.payload[0].text += showButtons ? `Here is your cart.` : `Here is your order.`
       let totalPrice = 0
       let currency = ''
       for (let i = 0; i < shoppingCart.length; i++) {
@@ -946,7 +946,7 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
           image_url: product.image,
           title: product.product,
           subtitle: `Price: ${priceString}\nQuantity: ${product.quantity}\nTotal Price: ${totalPriceString}`,
-          buttons: [
+          buttons: showButtons ? [
             {
               title: 'Update Quantity',
               type: 'postback',
@@ -957,23 +957,26 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
               type: 'postback',
               payload: JSON.stringify({ type: DYNAMIC, action: CONFIRM_TO_REMOVE_CART_ITEM, argument: { ...product, productIndex: i } })
             }
-          ]
+          ] : undefined
         })
       }
       let totalPriceString = currency === 'USD' ? `$${totalPrice}` : `${totalPrice} ${currency}`
       messageBlock.payload[0].text += ` Total price is: ${totalPriceString}.`
 
-      messageBlock.payload[messageBlock.payload.length - 1].quickReplies.push(
-        {
-          content_type: 'text',
-          title: 'Clear cart',
-          payload: JSON.stringify({ type: DYNAMIC, action: CONFIRM_CLEAR_CART })
-        },
-        {
-          content_type: 'text',
-          title: 'Proceed to Checkout',
-          payload: JSON.stringify({ type: DYNAMIC, action: GET_CHECKOUT_EMAIL })
-        })
+      if (showButtons) {
+        messageBlock.payload[messageBlock.payload.length - 1].quickReplies.push(
+          {
+            content_type: 'text',
+            title: 'Clear cart',
+            payload: JSON.stringify({ type: DYNAMIC, action: CONFIRM_CLEAR_CART })
+          },
+          {
+            content_type: 'text',
+            title: 'Proceed to Checkout',
+            payload: JSON.stringify({ type: DYNAMIC, action: GET_CHECKOUT_EMAIL })
+          }
+        )
+      }
     }
     messageBlock.payload[messageBlock.payload.length - 1].quickReplies.push(
       {
@@ -1278,6 +1281,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
     }
 
     let checkoutLink = ''
+    let text = ''
     if (argument.paymentMethod === 'cod') {
       if (chatbot.storeType === commerceConstants.shopify) {
         const testOrderCart = contact.shoppingCart.map((item) => {
@@ -1289,8 +1293,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
         const order = await EcommerceProvider.createTestOrder({id: commerceCustomer.id + ''}, testOrderCart)
         if (order) {
           let storeInfo = await EcommerceProvider.fetchStoreInfo()
-          messageBlock.payload[0].text += `Thank you for shopping at ${storeInfo.name}. We have received your order. Please note the order id given below to track your order:\n\n`
-          messageBlock.payload[0].text += `${order.name.replace('#', '')}`
+          text += `Thank you for shopping at ${storeInfo.name}. We have received your order. Please note the order id given below to track your order:\n\n${order.name.replace('#', '')}`
         } else {
           throw new Error()
         }
@@ -1321,6 +1324,9 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
 
     updateSubscriber({ _id: contact._id }, { shoppingCart: [], commerceCustomer }, null, {})
 
+    if (argument.paymentMethod === 'cod' && chatbot.storeType === commerceConstants.shopify) {
+      return getShowMyCartBlock(chatbot, backId, contact, text, false)
+    }
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to checkout'
