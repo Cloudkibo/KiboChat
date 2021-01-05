@@ -768,10 +768,10 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, argum
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
     for (let i = productVariants.length - 1; i >= 0; i--) {
       let productVariant = productVariants[i]
-      if (productVariant.image_url) {
+      if (productVariant.image) {
         messageBlock.payload.unshift({
           componentType: 'image',
-          fileurl: productVariant.image_url,
+          fileurl: productVariant.image,
           caption: `${convertToEmoji(i)} ${productVariant.name} ${product.name}\nPrice: ${productVariant.price ? productVariant.price : product.price} ${storeInfo.currency}`
         })
       }
