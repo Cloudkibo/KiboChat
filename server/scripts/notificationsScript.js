@@ -492,8 +492,6 @@ function getEmailBody (notificationMessage, userName) {
                                                                       <td style="padding:15px 045px 30px 45px;line-height:22px;text-align:inherit;" height="100%" valign="top" bgcolor="">
                                                                         <div>Hello ${userName},</div>
                                                                         <div>&nbsp;</div>
-                                                                        <div>Hope you are doing well!</div>
-                                                                        <div>&nbsp;</div>
                                                                         <div>${notificationMessage}</div>
                                                                         <div>&nbsp;</div>
                                                                         <div>If you have any queries, you can send message to our <a href="https://www.facebook.com/kibopush/" style="background-color: rgb(255, 255, 255); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; font-family: arial; font-size: 14px;">Facebook Page</a>. Our admins will get back to you. Or, you can join our <a href="https://www.facebook.com/groups/kibopush/">Facebook Community</a>.</div>
