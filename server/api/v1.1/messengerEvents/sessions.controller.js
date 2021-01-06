@@ -68,7 +68,9 @@ exports.index = function (req, res) {
                   })
                 }
                 if (req.body.pushPendingSessionInfo && JSON.stringify(req.body.pushPendingSessionInfo) === 'true') {
-                  pushSessionPendingAlertInStack(company, subscriber, 'messenger')
+                  let subscriberEvent = JSON.parse(JSON.stringify(subscriber))
+                  subscriberEvent.pageId = page
+                  pushSessionPendingAlertInStack(company, subscriberEvent, 'messenger')
                 }
                 if (!event.message.is_echo && subscriber.awaitingQuickReplyPayload && subscriber.awaitingQuickReplyPayload.action) {
                   isTriggerMessage(event, page)
@@ -99,7 +101,9 @@ exports.index = function (req, res) {
                           }
                         }
                         if (!event.message.is_echo) {
-                          pushUnresolveAlertInStack(company, subscriber, 'messenger')
+                          let subscriberEvent = JSON.parse(JSON.stringify(subscriber))
+                          subscriberEvent.pageId = page
+                          pushUnresolveAlertInStack(company, subscriberEvent, 'messenger')
                         }
                       }
                     }
