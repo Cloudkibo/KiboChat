@@ -465,6 +465,7 @@ async function temporarySuperBotTestHandling (data, contact, company, number, re
       (data.messageData.text.toLowerCase() === 'select') ||
       (!contact.activeChatbotId &&
         !(contact.lastMessageSentByBot &&
+          contact.lastMessageSentByBot.module &&
           contact.lastMessageSentByBot.module.id === 'sojharo-s-chatbot-custom-id'))) {
       const allChatbots = await getAllChatbots(company)
 
