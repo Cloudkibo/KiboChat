@@ -3,6 +3,7 @@ module.exports = {
   DYNAMIC: 'DYNAMIC',
   STATIC: 'STATIC',
   DEFAULT_TEXT: 'Please select an option to continue',
+  ERROR_INDICATOR: '\u200B',
   // commerce constants
   PRODUCT_CATEGORIES: 'PRODUCT_CATEGORIES',
   FETCH_PRODUCTS: 'FETCH_PRODUCTS',
