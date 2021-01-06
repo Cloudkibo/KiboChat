@@ -45,6 +45,7 @@ const TAG = 'api/v1️.1/chatbots/commerceChatbot.logiclayer.js'
 const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 const { callApi } = require('../utility')
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
+const moment = require('moment')
 
 exports.updateFaqsForStartingBlock = async (chatbot) => {
   let messageBlocks = []
@@ -2250,6 +2251,7 @@ const getConfirmRemoveItemBlock = async (chatbot, backId, product) => {
 }
 
 exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event) => {
+  let userError = false
   try {
     const userMessage = event.message
     const input = (userMessage && userMessage.text) ? userMessage.text.toLowerCase() : null
@@ -2270,11 +2272,16 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
           action = lastMessageSentByBot.action
         } else if (startingBlock.triggers.includes(input)) {
           return startingBlock
+        } else {
+          userError = true
+          throw new Error(`${ERROR_INDICATOR}Invalid User Input`)
         }
       } catch (err) {
-        const message = err || 'Invalid user input'
-        logger.serverLog(message, `${TAG}: exports.getNextMessageBlock`, {}, {chatbot, EcommerceProvider, contact, event}, 'error')
-        if (startingBlock.triggers.includes(input)) {
+        if (!userError) {
+          const message = err || 'Invalid user input'
+          logger.serverLog(message, `${TAG}: exports.getNextMessageBlock`, {}, {chatbot, EcommerceProvider, contact, event}, 'error')
+        }
+        if (startingBlock.triggers.includes(input) || (moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15)) {
           return startingBlock
         } else {
           return invalidInput(chatbot, contact.lastMessageSentByBot, `${ERROR_INDICATOR}You entered an invalid response.`)
