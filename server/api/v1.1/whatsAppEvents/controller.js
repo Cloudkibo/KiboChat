@@ -36,7 +36,6 @@ exports.messageReceived = function (req, res) {
     .then(data => {
       createContact(data)
         .then((isNewContact) => {
-          console.log('isNewContact', isNewContact)
           let number = `+${data.userData.number}`
           if (data.messageData.constructor === Object && Object.keys(data.messageData).length > 0) {
             let query = [
@@ -55,7 +54,6 @@ exports.messageReceived = function (req, res) {
                         // whatsapp chatbot
                         pushUnresolveAlertInStack(company, contact, 'whatsApp')
                         if (isNewContact) {
-                          console.log('insde')
                           _sendEvent(company._id, contact)
                           pushSessionPendingAlertInStack(company, contact, 'whatsApp')
                         }
