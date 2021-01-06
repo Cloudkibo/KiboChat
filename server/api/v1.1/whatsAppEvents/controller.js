@@ -36,6 +36,7 @@ exports.messageReceived = function (req, res) {
     .then(data => {
       createContact(data)
         .then((isNewContact) => {
+          console.log('isNewContact', isNewContact)
           let number = `+${data.userData.number}`
           if (data.messageData.constructor === Object && Object.keys(data.messageData).length > 0) {
             let query = [
@@ -54,6 +55,7 @@ exports.messageReceived = function (req, res) {
                         // whatsapp chatbot
                         pushUnresolveAlertInStack(company, contact, 'whatsApp')
                         if (isNewContact) {
+                          console.log('insde')
                           _sendEvent(company._id, contact)
                           pushSessionPendingAlertInStack(company, contact, 'whatsApp')
                         }
@@ -311,11 +313,13 @@ function storeChat (from, to, contact, messageData, format) {
         }
       })
       .catch(err => {
+        console.log('err in store chat 1', err)
         const message = err || 'Failed to save WhatsApp chat'
         logger.serverLog(message, `${TAG}: storeChat`, chatPayload, {from, to, contact, messageData, format}, 'error')
       })
   })
     .catch(err => {
+      console.log('err in store chat 2', err)
       const message = err || 'Failed to prepare chat'
       logger.serverLog(message, `${TAG}: storeChat`, {}, {from, to, contact, messageData, format}, 'error')
     })

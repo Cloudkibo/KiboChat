@@ -30,9 +30,6 @@ function pushUnresolveAlertInStack (company, subscriber, platform) {
                     const message = err || 'Unable to save session info in cronStack'
                     logger.serverLog(message, `${TAG}: exports.pushUnresolveAlertInStack`, {}, {company, subscriber, platform}, 'error')
                   })
-              } else {
-                const message = 'Unresolved Session info already in cronStack'
-                logger.serverLog(message, `${TAG}: exports.pushUnresolveAlertInStack`, {}, {company, subscriber, platform}, 'debug')
               }
             })
             .catch(err => {
@@ -154,7 +151,7 @@ function pushTalkToAgentAlertInStack (company, subscriber, platform, chatbotName
 }
 
 function preparePayload (subscriber, company, platform, type, chatbotName) {
-  return {
+  let data = {
     type: 'adminAlert',
     payload: {
       type: type,
@@ -162,12 +159,18 @@ function preparePayload (subscriber, company, platform, type, chatbotName) {
         _id: subscriber._id,
         name: subscriber.name ? subscriber.name : subscriber.firstName + ' ' + subscriber.lastName
       },
-      pageId: subscriber.pageId && typeof subscriber.pageId === 'object' ? subscriber.pageId._id : subscriber.pageId,
       chatbotName: chatbotName,
       companyId: company._id,
       platform: platform
     }
   }
+  if (subscriber.pageId && typeof subscriber.pageId === 'object') {
+    data.payload.page = {
+      _id: subscriber.pageId._id,
+      accessToken: subscriber.pageId.accessToken
+    }
+  }
+  return data
 }
 
 exports.pushUnresolveAlertInStack = pushUnresolveAlertInStack
