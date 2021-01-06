@@ -302,7 +302,6 @@ function storeChat (from, to, contact, messageData, format) {
         })
     })
     .catch(err => {
-      console.log('err in store chat 2', err)
       const message = err || 'Failed to prepare chat'
       logger.serverLog(message, `${TAG}: storeChat`, {}, {from, to, contact, messageData, format}, 'error')
     })
