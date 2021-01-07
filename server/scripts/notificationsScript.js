@@ -9,6 +9,7 @@ const { storeChat } = require('../api/v1.1/whatsAppEvents/controller')
 const { facebookApiCaller } = require('../api/global/facebookApiCaller')
 const config = require('../config/environment/index')
 const sgMail = require('@sendgrid/mail')
+const needle = require('needle')
 
 exports.runLiveChatNotificationScript = function () {
   let query = {
@@ -38,7 +39,7 @@ function unresolvedSession (findAdminAlerts) {
                 let currentTime = moment(new Date())
                 let sessionTime = moment(cronStack.datetime)
                 let duration = moment.duration(currentTime.diff(sessionTime))
-                if (duration.asHours() > messageAlert.interval) {
+                // if (duration.asHours() > messageAlert.interval) {
                   utility.callApi(`companyProfile/query`, 'post', { _id: messageAlert.companyId })
                     .then(companyProfile => {
                       _sendAlerts(cronStack, messageAlert, companyProfile, cb)
@@ -46,9 +47,9 @@ function unresolvedSession (findAdminAlerts) {
                     .catch((err) => {
                       cb(err)
                     })
-                } else {
-                  cb()
-                }
+                // } else {
+                //   cb()
+                // }
               } else {
                 _deleteCronStackRecord(cronStack, cb)
               }
@@ -98,10 +99,10 @@ function pendingSession (findAdminAlerts) {
                         let dt = new Date()
                         let s = companyProfile.businessHours.opening.split(':')
                         let dt1 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(),
-                          parseInt(s[0]), parseInt(s[1]), parseInt(s[2]))
+                          parseInt(s[0]), parseInt(s[1]), parseInt('00'))
                         let e = companyProfile.businessHours.closing.split(':')
                         let dt2 = new Date(dt.getFullYear(), dt.getMonth(),
-                          dt.getDate(), parseInt(e[0]), parseInt(e[1]), parseInt(e[2]))
+                          dt.getDate(), parseInt(e[0]), parseInt(e[1]), parseInt('00'))
                         if (dt >= dt1 && dt <= dt2) {
                           _deleteCronStackRecord(cronStack, cb)
                         } else {
@@ -161,10 +162,10 @@ function talkToAgent (findAdminAlerts) {
                       let dt = new Date()
                       let s = companyProfile.businessHours.opening.split(':')
                       let dt1 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(),
-                        parseInt(s[0]), parseInt(s[1]), parseInt(s[2]))
+                        parseInt(s[0]), parseInt(s[1]), parseInt('00'))
                       let e = companyProfile.businessHours.closing.split(':')
                       let dt2 = new Date(dt.getFullYear(), dt.getMonth(),
-                        dt.getDate(), parseInt(e[0]), parseInt(e[1]), parseInt(e[2]))
+                        dt.getDate(), parseInt(e[0]), parseInt(e[1]), parseInt('00'))
                       if (dt >= dt1 && dt <= dt2) {
                         _deleteCronStackRecord(cronStack, cb)
                       } else {
@@ -206,18 +207,18 @@ function _sendAlerts (cronStack, messageAlert, companyProfile, cb) {
     purpose: 'findAll',
     match: {companyId: cronStack.payload.companyId, platform: cronStack.payload.platform}
   }
+  let name = cronStack.payload.subscriber.name
+  let notificationMessage = ''
+  if (cronStack.payload.type === 'unresolved_session') {
+    notificationMessage = `Subscriber ${name} session is unresolved and sitting in an open sessions queue for the last ${messageAlert.interval} hour(s).`
+  } else if (cronStack.payload.type === 'pending_session') {
+    notificationMessage = `Subscriber ${name} session is in pending state for the last ${messageAlert.interval} minute(s) and they are waiting for an agent to respond to them.`
+  } else if (cronStack.payload.type === 'talk_to_agent') {
+    notificationMessage = `Subscriber ${name} have selected the "Talk to agent" option from ${cronStack.payload.chatbotName} chatbot and they are waiting for an agent to respond to them`
+  }
   utility.callApi(`alerts/subscriptions/query`, 'post', query, 'kibochat')
     .then(subscriptions => {
       if (subscriptions.length > 0) {
-        let name = cronStack.payload.subscriber.name
-        let notificationMessage = ''
-        if (cronStack.payload.type === 'unresolved_session') {
-          notificationMessage = `Subscriber ${name} session is unresolved and sitting in an open sessions queue for the last ${messageAlert.interval} hour(s).`
-        } else if (cronStack.payload.type === 'pending_session') {
-          notificationMessage = `Subscriber ${name} session is in pending state for the last ${messageAlert.interval} minute(s) and they are waiting for an agent to respond to them.`
-        } else if (cronStack.payload.type === 'talk_to_agent') {
-          notificationMessage = `Subscriber ${name} have selected the "Talk to agent" option from ${cronStack.payload.chatbotName} chatbot and they are waiting for an agent to respond to them`
-        }
         let notificationSubscriptions = subscriptions.filter(s => s.alertChannel === 'notification')
         let messengerSubscriptions = subscriptions.filter(s => s.alertChannel === 'messenger')
         let whatsAppSubscriptions = subscriptions.filter(s => s.alertChannel === 'whatsApp')
@@ -241,10 +242,12 @@ function _sendAlerts (cronStack, messageAlert, companyProfile, cb) {
           if (err) {
             cb(err)
           } else {
+            _sendWebhook(data)
             _deleteCronStackRecord(cronStack, cb)
           }
         })
       } else {
+        _sendWebhook({cronStack, notificationMessage})
         _deleteCronStackRecord(cronStack, cb)
       }
     })
@@ -299,10 +302,8 @@ function _sendInAppNotification (data, next) {
       if (err) {
         const message = err || 'Unable to send notification'
         logger.serverLog(message, `${TAG}: _sendInAppNotification`, {}, {data}, 'error')
-        next()
-      } else {
-        next()
       }
+      next()
     })
   } else {
     next()
@@ -332,11 +333,10 @@ function _sendOnMessenger (data, next) {
     }, function (err, result) {
       if (err) {
         const message = err || 'Unable to send message to messenger'
-        logger.serverLog(message, `${TAG}: _sendOnMessenger`, {}, {data}, 'error')
-        next()
-      } else {
-        next()
+        logger.serverLog(message, `${TAG}: _sendOnMessenger`, {}, {data},
+          err.error_subcode && err.code && err.error_subcode === 2018278 && err.code === 10 ? 'info' : 'error')
       }
+      next()
     })
   } else {
     next()
@@ -376,10 +376,8 @@ function _sendOnWhatsApp (data, next) {
       if (err) {
         const message = err || 'Unable to send message to whatsapp'
         logger.serverLog(message, `${TAG}: _sendOnWhatsApp`, {}, {data}, 'error')
-        next()
-      } else {
-        next()
       }
+      next()
     })
   } else {
     next()
@@ -407,13 +405,43 @@ function _sendEmail (data, next) {
       if (err) {
         const message = err || 'Unable to send email'
         logger.serverLog(message, `${TAG}: _sendEmail`, {}, {data}, 'error')
-        next()
-      } else {
-        next()
       }
+      next()
     })
   } else {
     next()
+  }
+}
+
+function _sendWebhook (data) {
+  if (data.cronStack.payload.platform === 'messenger') {
+    utility.callApi(`webhooks/query`, 'post', { pageId: data.cronStack.payload.page._id, isEnabled: true })
+      .then(webhooks => {
+        let webhook = webhooks[0]
+        if (webhook && webhook.optIn['NOTIFICATION_ALERTS']) {
+          var webhookPayload = {
+            type: 'NOTIFICATION_ALERT',
+            platform: 'facebook',
+            payload: {
+              psid: data.cronStack.payload.subscriber.senderId,
+              pageId: data.cronStack.payload.page.pageId,
+              message: data.notificationMessage,
+              timestamp: Date.now()
+            }
+          }
+          needle.post(webhook.webhook_url, webhookPayload, {json: true},
+            (error, response) => {
+              if (error || response.statusCode !== 200) {
+                const message = error || 'Cannot send webhook event'
+                logger.serverLog(message, `${TAG}: _sendWebhook`, {}, {data}, error ? 'error' : 'info')
+              }
+            })
+        }
+      })
+      .catch(error => {
+        const message = error || 'Cannot fetch webhook'
+        logger.serverLog(message, `${TAG}: _sendWebhook`, {}, {data}, 'error')
+      })
   }
 }
 

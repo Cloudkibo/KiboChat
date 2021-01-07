@@ -157,7 +157,8 @@ function preparePayload (subscriber, company, platform, type, chatbotName) {
       type: type,
       subscriber: {
         _id: subscriber._id,
-        name: subscriber.name ? subscriber.name : subscriber.firstName + ' ' + subscriber.lastName
+        name: subscriber.name ? subscriber.name : subscriber.firstName + ' ' + subscriber.lastName,
+        senderId: subscriber.senderId ? subscriber.senderId : subscriber.number
       },
       chatbotName: chatbotName,
       companyId: company._id,
@@ -167,7 +168,8 @@ function preparePayload (subscriber, company, platform, type, chatbotName) {
   if (subscriber.pageId && typeof subscriber.pageId === 'object') {
     data.payload.page = {
       _id: subscriber.pageId._id,
-      accessToken: subscriber.pageId.accessToken
+      accessToken: subscriber.pageId.accessToken,
+      pageId: subscriber.pageId.pageId
     }
   }
   return data
