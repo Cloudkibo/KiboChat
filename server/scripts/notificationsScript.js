@@ -99,10 +99,10 @@ function pendingSession (findAdminAlerts) {
                         let dt = new Date()
                         let s = companyProfile.businessHours.opening.split(':')
                         let dt1 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(),
-                          parseInt(s[0]), parseInt(s[1]), parseInt('00'))
+                          parseInt(s[0]), parseInt(s[1]), 0)
                         let e = companyProfile.businessHours.closing.split(':')
                         let dt2 = new Date(dt.getFullYear(), dt.getMonth(),
-                          dt.getDate(), parseInt(e[0]), parseInt(e[1]), parseInt('00'))
+                          dt.getDate(), parseInt(e[0]), parseInt(e[1]), 0)
                         if (dt >= dt1 && dt <= dt2) {
                           _deleteCronStackRecord(cronStack, cb)
                         } else {
@@ -162,10 +162,10 @@ function talkToAgent (findAdminAlerts) {
                       let dt = new Date()
                       let s = companyProfile.businessHours.opening.split(':')
                       let dt1 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(),
-                        parseInt(s[0]), parseInt(s[1]), parseInt('00'))
+                        parseInt(s[0]), parseInt(s[1]), 0)
                       let e = companyProfile.businessHours.closing.split(':')
                       let dt2 = new Date(dt.getFullYear(), dt.getMonth(),
-                        dt.getDate(), parseInt(e[0]), parseInt(e[1]), parseInt('00'))
+                        dt.getDate(), parseInt(e[0]), parseInt(e[1]), 0)
                       if (dt >= dt1 && dt <= dt2) {
                         _deleteCronStackRecord(cronStack, cb)
                       } else {
