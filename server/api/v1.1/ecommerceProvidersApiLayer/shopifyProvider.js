@@ -160,7 +160,7 @@ exports.getProductVariants = (id, paginationParams, credentials) => {
           }
           if (product.image_id) {
             let image = await shopify.productImage.get(product.product_id, product.image_id)
-            variantPayload.image_url = image.src
+            variantPayload.image = image.src
           }
           return variantPayload
         }))
@@ -245,6 +245,12 @@ exports.getOrderStatus = (id, credentials) => {
                   id
                 }
                 name
+                originalTotalSet {
+                  presentmentMoney {
+                    amount
+                    currencyCode
+                  }
+                }
               }
             }
           }
@@ -277,7 +283,9 @@ exports.getOrderStatus = (id, credentials) => {
               variant_title: lineItem.node.variant_title,
               vendor: lineItem.node.vendor,
               product: lineItem.node.product,
-              name: lineItem.node.name
+              name: lineItem.node.name,
+              price: lineItem.node.originalTotalSet.presentmentMoney.amount,
+              currency: lineItem.node.originalTotalSet.presentmentMoney.currencyCode
             }
           })
         }
@@ -390,6 +398,7 @@ exports.findCustomerOrders = (customerId, limit, credentials) => {
               node {
                 id
                 name
+                createdAt
                 lineItems(first: 1) {
                   edges {
                     node {
@@ -398,6 +407,12 @@ exports.findCustomerOrders = (customerId, limit, credentials) => {
                       quantity
                       image {
                         originalSrc
+                      }
+                      originalTotalSet {
+                        presentmentMoney {
+                          amount
+                          currencyCode
+                        }
                       }
                     }
                   }
@@ -486,7 +501,7 @@ exports.createPermalinkForCart = (customer, lineItems, credentials) => {
   return permaLink
 }
 
-exports.createTestOrder = (customer, lineItems, credentials) => {
+exports.createTestOrder = (customer, lineItems, address, credentials) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
     shopify.order.create({
@@ -501,7 +516,9 @@ exports.createTestOrder = (customer, lineItems, credentials) => {
           status: 'success',
           amount: 1.0
         }
-      ]
+      ],
+      billing_address: address,
+      shipping_address: address
     })
       .then(order => {
         resolve(order)
