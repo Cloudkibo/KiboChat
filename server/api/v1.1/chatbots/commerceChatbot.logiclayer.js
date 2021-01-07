@@ -1443,13 +1443,13 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
         )
         messageBlock.payload[0].text = 'Here are your recently placed orders. Select an order to view its status:'
         for (let i = 0; i < recentOrders.length; i++) {
-          const totalPrice = recentOrders[i].lineItems.reduce((acc, item) => acc + Number(item.originalTotalSet.presentmentMoney.amount), 0)
-          const currency = recentOrders[i].lineItems[0].originalTotalSet.presentmentMoney.currencyCode
+          const totalPrice = Number(recentOrders[i].totalPriceSet.presentmentMoney.amount)
+          const currency = recentOrders[i].totalPriceSet.presentmentMoney.currencyCode
           const totalPriceString = currency === 'USD' ? `$${totalPrice}` : `${totalPrice} ${currency}`
           messageBlock.payload[1].cards.push({
             image_url: recentOrders[i].lineItems[0].image.originalSrc,
             title: `Order ${recentOrders[i].name}`,
-            subtitle: `Order date: ${new Date(recentOrders[i].createdAt).toLocaleString()}\nTotal unique items: ${recentOrders[i].lineItems.length}\nTotal Price:${totalPriceString}`,
+            subtitle: `Date/time: ${new Date(recentOrders[i].createdAt).toLocaleString()}\nTotal Price: ${totalPriceString}`,
             buttons: [
               {
                 title: 'View Status',
