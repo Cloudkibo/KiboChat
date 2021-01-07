@@ -39,7 +39,7 @@ function unresolvedSession (findAdminAlerts) {
                 let currentTime = moment(new Date())
                 let sessionTime = moment(cronStack.datetime)
                 let duration = moment.duration(currentTime.diff(sessionTime))
-                // if (duration.asHours() > messageAlert.interval) {
+                if (duration.asHours() > messageAlert.interval) {
                   utility.callApi(`companyProfile/query`, 'post', { _id: messageAlert.companyId })
                     .then(companyProfile => {
                       _sendAlerts(cronStack, messageAlert, companyProfile, cb)
@@ -47,9 +47,9 @@ function unresolvedSession (findAdminAlerts) {
                     .catch((err) => {
                       cb(err)
                     })
-                // } else {
-                //   cb()
-                // }
+                } else {
+                  cb()
+                }
               } else {
                 _deleteCronStackRecord(cronStack, cb)
               }
@@ -243,12 +243,12 @@ function _sendAlerts (cronStack, messageAlert, companyProfile, cb) {
             cb(err)
           } else {
             _sendWebhook(data)
-            // _deleteCronStackRecord(cronStack, cb)
+            _deleteCronStackRecord(cronStack, cb)
           }
         })
       } else {
         _sendWebhook({cronStack, notificationMessage})
-        // _deleteCronStackRecord(cronStack, cb)
+        _deleteCronStackRecord(cronStack, cb)
       }
     })
     .catch(error => {
