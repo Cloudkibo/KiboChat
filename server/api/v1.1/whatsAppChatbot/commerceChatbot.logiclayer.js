@@ -441,7 +441,7 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
       recentOrders = await EcommerceProvider.findCustomerOrders(tempCustomerPayload.id, 9)
       recentOrders = recentOrders.orders
       if (recentOrders.length > 0) {
-        messageBlock.payload[0].text = 'Here are your recently placed orders. Select an order by sending the corresponding number for it:\n'
+        messageBlock.payload[0].text = 'Select an order by sending the corresponding number for it:\n'
         for (let i = 0; i < recentOrders.length; i++) {
           const orderTitle = `\n${convertToEmoji(i)} Order ${recentOrders[i].name} - ${new Date(recentOrders[i].createdAt).toDateString()} (${recentOrders[i].lineItems[0].name})`
           messageBlock.payload[0].text += utility.truncate(orderTitle, 55)
@@ -727,7 +727,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, argum
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `You have selected ${product.name}.\n\nPlease select from following options by sending the corresponding number for it:\n`,
+          text: `Please select from following *${product.name}* options by sending the corresponding number for it:\n`,
           componentType: 'text',
           menu: [],
           specialKeys: {
@@ -797,7 +797,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `You have selected ${product.product}\n\n(price: ${product.price} ${product.currency}) (stock available: ${product.inventory_quantity}).\n`,
+          text: `Do you want to purchase this product?\n\n${product.product} (price: ${product.price} ${product.currency}) (stock available: ${product.inventory_quantity}).`,
           componentType: 'text',
           specialKeys: {
             [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
@@ -815,7 +815,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
     }
 
     if (product.inventory_quantity > 0) {
-      messageBlock.payload[0].text += `\nDo you want to purchase this product?\n\nSend 'Y' for Yes\nSend 'N' for No\n`
+      messageBlock.payload[0].text += `\n\nSend 'Y' for Yes\nSend 'N' for No\n`
     } else {
       messageBlock.payload[0].text += `\nThis product is currently out of stock. Please check again later.\n`
     }
