@@ -2115,7 +2115,15 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
           }
         })
 
-        const order = await EcommerceProvider.createTestOrder({id: commerceCustomer.id + ''}, testOrderCart)
+        const order = await EcommerceProvider.createTestOrder(
+          {id: commerceCustomer.id + ''},
+          testOrderCart,
+          {
+            first_name: commerceCustomer.first_name,
+            last_name: commerceCustomer.last_name,
+            ...argument.address
+          }
+        )
 
         if (order) {
           let storeInfo = await EcommerceProvider.fetchStoreInfo()

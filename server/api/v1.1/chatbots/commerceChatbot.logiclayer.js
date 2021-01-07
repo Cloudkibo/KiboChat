@@ -91,7 +91,9 @@ exports.getMessageBlocks = (chatbot, storeName) => {
   const returnOrderId = '' + new Date().getTime() + 300
   const searchProductsId = '' + new Date().getTime() + 400
   const faqsId = '' + new Date().getTime() + 500
-
+  let welcomeMessage = `Hi {{user_first_name}}! Greetings from ${chatbot.storeType} chatbot 🤖😀\n\nI am here to guide you on your journey of shopping on ${storeName}`
+  welcomeMessage += `\n\nI am here to guide you on your journey of shopping on ${storeName}`
+  welcomeMessage += `Please select an option to let me know what you would like to do? (i.e. send “1” to View products on sale):\n`
   messageBlocks.push({
     module: {
       id: chatbot._id,
@@ -102,17 +104,17 @@ exports.getMessageBlocks = (chatbot, storeName) => {
     uniqueId: mainMenuId,
     payload: [
       {
-        text: `Hi {{user_first_name}}! Welcome to ${storeName} chatbot!\n\n${DEFAULT_TEXT}`,
+        text: welcomeMessage,
         componentType: 'text',
         quickReplies: [
           {
             content_type: 'text',
-            title: 'All Categories',
+            title: 'Browse all categories',
             payload: JSON.stringify({ type: DYNAMIC, action: PRODUCT_CATEGORIES })
           },
           {
             content_type: 'text',
-            title: 'On Sale',
+            title: 'View products on sale',
             payload: JSON.stringify({ type: DYNAMIC, action: DISCOVER_PRODUCTS })
           },
           {
@@ -122,12 +124,12 @@ exports.getMessageBlocks = (chatbot, storeName) => {
           },
           {
             content_type: 'text',
-            title: 'Check Order Status',
+            title: 'Check order status',
             payload: JSON.stringify({ type: STATIC, blockId: checkOrdersId })
           },
           {
             content_type: 'text',
-            title: 'Show my Cart',
+            title: 'Show my cart',
             payload: JSON.stringify({ type: DYNAMIC, action: SHOW_MY_CART })
           }
         ]
@@ -479,7 +481,7 @@ const getOrderIdBlock = (chatbot, blockId, backId, messageBlocks) => {
   })
 }
 
-const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) => {
+const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, contact, orderId) => {
   let userError = false
   try {
     let messageBlock = {
@@ -492,7 +494,11 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
       payload: [
         {
           text: `Here is your order status:\n`,
-          componentType: 'text',
+          componentType: 'text'
+        },
+        {
+          componentType: 'gallery',
+          cards: [],
           quickReplies: [
             {
               content_type: 'text',
@@ -530,14 +536,14 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     if (orderStatus.lineItems) {
       for (let i = 0; i < orderStatus.lineItems.length; i++) {
         let product = orderStatus.lineItems[i]
-        if (i === 0) {
-          messageBlock.payload[0].text += `\n`
-        }
-        messageBlock.payload[0].text += `\nItem: ${product.name}`
-        messageBlock.payload[0].text += `\nQuantity: ${product.quantity}`
-        if (i + 1 < orderStatus.lineItems.length) {
-          messageBlock.payload[0].text += `\n`
-        }
+        const priceString = product.currency === 'USD' ? `$${product.price}` : `${product.price} ${product.currency}`
+        const totalPrice = Number(product.price) * Number(product.quantity)
+        const totalPriceString = product.currency === 'USD' ? `$${totalPrice}` : `${totalPrice} ${product.currency}`
+        messageBlock.payload[1].cards.push({
+          image_url: product.image.originalSrc,
+          title: product.name,
+          subtitle: `Price: ${priceString}\nQuantity: ${product.quantity}\nTotal Price: ${totalPriceString}`
+        })
       }
     }
 
@@ -551,6 +557,9 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
       }
       if (orderStatus.shippingAddress.province) {
         messageBlock.payload[0].text += `, ${orderStatus.shippingAddress.province}`
+      }
+      if (orderStatus.shippingAddress.zip) {
+        messageBlock.payload[0].text += `, ${orderStatus.shippingAddress.zip}`
       }
       if (orderStatus.shippingAddress.country) {
         messageBlock.payload[0].text += `, ${orderStatus.shippingAddress.country}`
@@ -566,12 +575,33 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
       if (orderStatus.billingAddress.province) {
         messageBlock.payload[0].text += `, ${orderStatus.billingAddress.province}`
       }
+      if (orderStatus.billingAddress.zip) {
+        messageBlock.payload[0].text += `, ${orderStatus.billingAddress.zip}`
+      }
       if (orderStatus.billingAddress.country) {
         messageBlock.payload[0].text += `, ${orderStatus.billingAddress.country}`
       }
+    } else if (contact.commerceCustomer && contact.commerceCustomer.defaultAddress) {
+      const defaultAddress = contact.commerceCustomer.defaultAddress
+      messageBlock.payload[0].text += `\n\nShipping Address: ${defaultAddress.address1}`
+      if (defaultAddress.address2) {
+        messageBlock.payload[0].text += `, ${defaultAddress.address2}`
+      }
+      if (defaultAddress.city) {
+        messageBlock.payload[0].text += `, ${defaultAddress.city}`
+      }
+      if (defaultAddress.province) {
+        messageBlock.payload[0].text += `, ${defaultAddress.province}`
+      }
+      if (defaultAddress.zip) {
+        messageBlock.payload[0].text += `, ${defaultAddress.zip}`
+      }
+      if (defaultAddress.country) {
+        messageBlock.payload[0].text += `, ${defaultAddress.country}`
+      }
     }
 
-    messageBlock.payload[0].text += `\n\nThis order was placed on ${new Date(orderStatus.createdAt).toDateString()}`
+    messageBlock.payload[0].text += `\n\nThis order was placed on ${new Date(orderStatus.createdAt).toLocaleString()}`
     return messageBlock
   } catch (err) {
     if (!userError) {
@@ -659,7 +689,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, argum
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `You have selected ${product.name}.\n\nPlease select a product variant:`,
+          text: `Please select from the following options for ${product.name}:`,
           componentType: 'text'
         }
       ],
@@ -709,7 +739,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, argum
       if (productVariants.nextPageParameters) {
         messageBlock.payload[1].cards.push({
           title: 'View More',
-          subtitle: `Click on the "View More" button to view more product variants`,
+          subtitle: `Click on the "View More" button to view more options`,
           buttons: [{
             title: 'View More',
             type: 'postback',
@@ -795,6 +825,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
 
 const getQuantityToAddBlock = async (chatbot, backId, contact, product) => {
   try {
+    let priceString = product.currency === 'USD' ? `$${product.price}` : `${product.price} ${product.currency}`
     let messageBlock = {
       module: {
         id: chatbot._id,
@@ -803,6 +834,16 @@ const getQuantityToAddBlock = async (chatbot, backId, contact, product) => {
       title: 'Quantity to Add',
       uniqueId: '' + new Date().getTime(),
       payload: [
+        {
+          componentType: 'gallery',
+          cards: [
+            {
+              image_url: product.image,
+              title: product.product,
+              subtitle: `Price: ${priceString}\nStock Available: ${product.inventory_quantity}`
+            }
+          ]
+        },
         {
           text: ``,
           componentType: 'text',
@@ -829,7 +870,6 @@ const getQuantityToAddBlock = async (chatbot, backId, contact, product) => {
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    let priceString = product.currency === 'USD' ? `$${product.price}` : `${product.price} ${product.currency}`
     let shoppingCart = contact.shoppingCart ? contact.shoppingCart : []
     let existingProductIndex = shoppingCart.findIndex((item) => item.variant_id === product.variant_id)
     if (existingProductIndex > -1) {
@@ -837,10 +877,10 @@ const getQuantityToAddBlock = async (chatbot, backId, contact, product) => {
         let text = `Your cart already contains the maximum stock available for this product.`
         return getShowMyCartBlock(chatbot, backId, contact, text)
       } else {
-        messageBlock.payload[0].text = `How many ${product.product}s would you like to add to your cart?\n\nYou already have ${shoppingCart[existingProductIndex].quantity} in your cart.\n\n(price: ${priceString}) (stock available: ${product.inventory_quantity})`
+        messageBlock.payload[1].text = `How many ${product.product}s would you like to add to your cart?\n\nYou already have ${shoppingCart[existingProductIndex].quantity} in your cart.`
       }
     } else {
-      messageBlock.payload[0].text = `How many ${product.product}s would you like to add to your cart?\n\n(price: ${priceString}) (stock available: ${product.inventory_quantity})`
+      messageBlock.payload[1].text = `How many ${product.product}s would you like to add to your cart?`
     }
     return messageBlock
   } catch (err) {
@@ -1291,7 +1331,15 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
             quantity: item.quantity
           }
         })
-        const order = await EcommerceProvider.createTestOrder({id: commerceCustomer.id + ''}, testOrderCart)
+        const order = await EcommerceProvider.createTestOrder(
+          {id: commerceCustomer.id + ''},
+          testOrderCart,
+          {
+            first_name: commerceCustomer.first_name,
+            last_name: commerceCustomer.last_name,
+            ...argument.address
+          }
+        )
         if (order) {
           let storeInfo = await EcommerceProvider.fetchStoreInfo()
           text += `Thank you for shopping at ${storeInfo.name}. We have received your order. Please note the order id given below to track your order:\n\n${order.name.replace('#', '')}`
@@ -1360,14 +1408,30 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
       recentOrders = await EcommerceProvider.findCustomerOrders(contact.commerceCustomer.id, 9)
       recentOrders = recentOrders.orders
       if (recentOrders.length > 0) {
+        messageBlock.payload.push(
+          {
+            componentType: 'gallery',
+            cards: [],
+            quickReplies: []
+          }
+        )
         messageBlock.payload[0].text = 'Here are your recently placed orders. Select an order to view its status:'
         for (let i = 0; i < recentOrders.length; i++) {
-          messageBlock.payload[0].quickReplies.push(
-            {
-              content_type: 'text',
-              title: `Order ${recentOrders[i].name}`,
-              payload: JSON.stringify({ type: DYNAMIC, action: ORDER_STATUS, argument: recentOrders[i].name.substr(1) })
-            })
+          const totalPrice = recentOrders[i].lineItems.reduce((acc, item) => acc + item.price, 0)
+          const currency = recentOrders[i].lineItems[0].currency
+          const totalPriceString = currency === 'USD' ? `$${totalPrice}` : `${totalPrice} ${currency}`
+          messageBlock.payload[1].cards.push({
+            image_url: recentOrders[i].lineItems[0].image.originalSrc,
+            title: `Order ${recentOrders[i].name}`,
+            subtitle: `Order date: ${new Date(recentOrders[i].createdAt).toLocaleString()}\nTotal Price:${totalPriceString}\nTotal items: ${recentOrders[i].lineItems.length}`,
+            buttons: [
+              {
+                title: 'View Status',
+                type: 'postback',
+                payload: JSON.stringify({ type: DYNAMIC, action: ORDER_STATUS, argument: recentOrders[i].name.substr(1) })
+              }
+            ]
+          })
         }
       } else {
         messageBlock.payload[0].text = 'You have not placed any orders within the last 60 days.'
@@ -1376,7 +1440,7 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
       messageBlock.payload[0].text = 'You have not placed any orders yet.'
     }
 
-    messageBlock.payload[0].quickReplies.push(
+    messageBlock.payload[messageBlock.payload.length - 1].quickReplies.push(
       {
         content_type: 'text',
         title: 'Show my Cart',
@@ -1435,7 +1499,17 @@ const getQuantityToUpdateBlock = async (chatbot, backId, product, contact) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `What quantity would you like to set for ${product.product}?\n\nYou currently have ${product.quantity} in your cart.\n\n(price: ${priceString}) (stock available: ${product.inventory_quantity})`,
+          componentType: 'gallery',
+          cards: [
+            {
+              image_url: product.image,
+              title: product.product,
+              subtitle: `Price: ${priceString}\nStock Available: ${product.inventory_quantity}`
+            }
+          ]
+        },
+        {
+          text: `What quantity would you like to set for ${product.product}?\n\nYou currently have ${product.quantity} in your cart.`,
           componentType: 'text',
           action: { type: DYNAMIC, action: UPDATE_CART, argument: product, input: true },
           quickReplies: [
@@ -2202,6 +2276,7 @@ const updatedAddressBlockedMessage = async (chatbot, contact, argument) => {
 
 const getConfirmRemoveItemBlock = async (chatbot, backId, product) => {
   try {
+    const priceString = product.currency === 'USD' ? `$${product.price}` : `${product.price} ${product.currency}`
     let messageBlock = {
       module: {
         id: chatbot._id,
@@ -2211,7 +2286,17 @@ const getConfirmRemoveItemBlock = async (chatbot, backId, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Are you sure you want to remove ${product.product}?\n\nYou currently have ${product.quantity} in your cart.\n\n(price: ${product.price} ${product.currency})\n\n`,
+          componentType: 'gallery',
+          cards: [
+            {
+              image_url: product.image,
+              title: product.product,
+              subtitle: `Price: ${priceString}\nStock Available: ${product.inventory_quantity}`
+            }
+          ]
+        },
+        {
+          text: `Are you sure you want to remove ${product.product}?\n\nYou currently have ${product.quantity} in your cart.`,
           componentType: 'text',
           menu: [],
           quickReplies: [
@@ -2305,7 +2390,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
                 break
               }
               case ORDER_STATUS: {
-                messageBlock = await getOrderStatusBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : action.argument)
+                messageBlock = await getOrderStatusBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, contact, action.input ? input : action.argument)
                 break
               }
               case SELECT_PRODUCT: {
