@@ -2267,9 +2267,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
   let userError = false
   input = input.toLowerCase()
   if (!contact || !contact.lastMessageSentByBot) {
-    if (chatbot.triggers.includes(input)) {
-      return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
-    }
+    return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
   } else {
     let action = null
     let lastMessageSentByBot = contact.lastMessageSentByBot.payload[0]
