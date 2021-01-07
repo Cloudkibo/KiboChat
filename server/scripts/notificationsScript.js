@@ -440,7 +440,7 @@ function _sendWebhook (data) {
       })
       .catch(error => {
         const message = error || 'Cannot fetch webhook'
-        logger.serverLog(message, `${TAG}: _sendWebhook`, {}, {data}, error ? 'error' : 'info')
+        logger.serverLog(message, `${TAG}: _sendWebhook`, {}, {data}, 'error')
       })
   }
 }
