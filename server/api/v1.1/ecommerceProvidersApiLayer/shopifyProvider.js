@@ -423,6 +423,12 @@ exports.findCustomerOrders = (customerId, limit, credentials) => {
                 id
                 name
                 createdAt
+                currentTotalPriceSet {
+                  presentmentMoney {
+                    amount
+                    currencyCode
+                  }
+                }
                 lineItems(first: 1) {
                   edges {
                     node {
