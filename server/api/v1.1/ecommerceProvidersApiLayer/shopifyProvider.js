@@ -423,7 +423,7 @@ exports.findCustomerOrders = (customerId, limit, credentials) => {
                 id
                 name
                 createdAt
-                currentTotalPriceSet {
+                totalPriceSet {
                   presentmentMoney {
                     amount
                     currencyCode
