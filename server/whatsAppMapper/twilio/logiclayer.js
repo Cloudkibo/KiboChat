@@ -20,7 +20,6 @@ exports.prepareSendMessagePayload = (body) => {
   } else {
     MessageObject.body = body.payload.text
   }
-  console.log('MediaBinary', MessageObject)
   return MessageObject
 }
 exports.prepareInvitationPayload = (body, number) => {
@@ -97,7 +96,6 @@ exports.prepareReceivedMessageData = (event) => {
 
 exports.prepareChatbotPayload = (company, contact, payload, options) => {
   return new Promise((resolve, reject) => {
-    console.log(payload)
     let message = {
       from: `whatsapp:${company.whatsApp.businessNumber}`,
       to: `whatsapp:${contact.number}`,
