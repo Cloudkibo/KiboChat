@@ -2115,7 +2115,15 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
           }
         })
 
-        const order = await EcommerceProvider.createTestOrder({id: commerceCustomer.id + ''}, testOrderCart)
+        const order = await EcommerceProvider.createTestOrder(
+          {id: commerceCustomer.id + ''},
+          testOrderCart,
+          {
+            first_name: commerceCustomer.first_name,
+            last_name: commerceCustomer.last_name,
+            ...argument.address
+          }
+        )
 
         if (order) {
           let storeInfo = await EcommerceProvider.fetchStoreInfo()
@@ -2259,9 +2267,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
   let userError = false
   input = input.toLowerCase()
   if (!contact || !contact.lastMessageSentByBot) {
-    if (chatbot.triggers.includes(input)) {
-      return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
-    }
+    return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
   } else {
     let action = null
     let lastMessageSentByBot = contact.lastMessageSentByBot.payload[0]

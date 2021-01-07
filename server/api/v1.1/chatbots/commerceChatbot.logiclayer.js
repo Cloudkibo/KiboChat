@@ -78,8 +78,11 @@ exports.updateFaqsForStartingBlock = async (chatbot) => {
 }
 
 exports.updateStartingBlock = (chatbot, storeName) => {
+  let welcomeMessage = `Hi {{user_first_name}}! Greetings from ${chatbot.storeType} chatbot 🤖😀`
+  welcomeMessage += `\n\nI am here to guide you on your journey of shopping on ${storeName}.`
+  welcomeMessage += `\n\nPlease select an option to let me know what you would like to do?`
   const startingBlock = messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
-  startingBlock.payload[0].text = `Hi {{user_first_name}}! Welcome to ${storeName} chatbot!\n\n${DEFAULT_TEXT}`
+  startingBlock.payload[0].text = welcomeMessage
   messageBlockDataLayer.genericUpdateMessageBlock({ uniqueId: chatbot.startingBlockId }, startingBlock)
 }
 
@@ -91,28 +94,30 @@ exports.getMessageBlocks = (chatbot, storeName) => {
   const returnOrderId = '' + new Date().getTime() + 300
   const searchProductsId = '' + new Date().getTime() + 400
   const faqsId = '' + new Date().getTime() + 500
-
+  let welcomeMessage = `Hi {{user_first_name}}! Greetings from ${chatbot.storeType} chatbot 🤖😀`
+  welcomeMessage += `\n\nI am here to guide you on your journey of shopping on ${storeName}.`
+  welcomeMessage += `\n\nPlease select an option to let me know what you would like to do?`
   messageBlocks.push({
     module: {
       id: chatbot._id,
-      type: 'messenger_shopify_chatbot'
+      type: 'messenger_commerce_chatbot'
     },
     title: 'Main Menu',
     triggers: ['hi', 'hello'],
     uniqueId: mainMenuId,
     payload: [
       {
-        text: `Hi {{user_first_name}}! Welcome to ${storeName} chatbot!\n\n${DEFAULT_TEXT}`,
+        text: welcomeMessage,
         componentType: 'text',
         quickReplies: [
           {
             content_type: 'text',
-            title: 'All Categories',
+            title: 'Browse all categories',
             payload: JSON.stringify({ type: DYNAMIC, action: PRODUCT_CATEGORIES })
           },
           {
             content_type: 'text',
-            title: 'On Sale',
+            title: 'View products on sale',
             payload: JSON.stringify({ type: DYNAMIC, action: DISCOVER_PRODUCTS })
           },
           {
@@ -122,12 +127,12 @@ exports.getMessageBlocks = (chatbot, storeName) => {
           },
           {
             content_type: 'text',
-            title: 'Check Order Status',
+            title: 'Check order status',
             payload: JSON.stringify({ type: STATIC, blockId: checkOrdersId })
           },
           {
             content_type: 'text',
-            title: 'Show my Cart',
+            title: 'Show my cart',
             payload: JSON.stringify({ type: DYNAMIC, action: SHOW_MY_CART })
           }
         ]
@@ -156,7 +161,7 @@ const getSearchProductsBlock = async (chatbot, blockId, messageBlocks, input) =>
   messageBlocks.push({
     module: {
       id: chatbot._id,
-      type: 'messenger_shopify_chatbot'
+      type: 'messenger_commerce_chatbot'
     },
     title: 'Search Products',
     uniqueId: blockId,
@@ -189,7 +194,7 @@ const getCheckOrdersBlock = (chatbot, mainMenuId, blockId, orderStatusId, messag
   messageBlocks.push({
     module: {
       id: chatbot._id,
-      type: 'messenger_shopify_chatbot'
+      type: 'messenger_commerce_chatbot'
     },
     title: 'Check Orders',
     uniqueId: blockId,
@@ -231,7 +236,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'messenger_shopify_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Discover Products',
       uniqueId: '' + new Date().getTime(),
@@ -333,7 +338,7 @@ const getReturnOrderIdBlock = (chatbot, blockId, messageBlocks) => {
   messageBlocks.push({
     module: {
       id: chatbot._id,
-      type: 'messenger_shopify_chatbot'
+      type: 'messenger_commerce_chatbot'
     },
     title: 'Get Return Product ID',
     uniqueId: blockId,
@@ -366,7 +371,7 @@ const getReturnOrderBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'messenger_shopify_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Show My Cart',
       uniqueId: '' + new Date().getTime(),
@@ -410,7 +415,7 @@ const getFaqsBlock = (chatbot, blockId, messageBlocks, backId) => {
   messageBlocks.push({
     module: {
       id: chatbot._id,
-      type: 'messenger_shopify_chatbot'
+      type: 'messenger_commerce_chatbot'
     },
     title: 'FAQs',
     uniqueId: blockId,
@@ -446,7 +451,7 @@ const getOrderIdBlock = (chatbot, blockId, backId, messageBlocks) => {
   messageBlocks.push({
     module: {
       id: chatbot._id,
-      type: 'messenger_shopify_chatbot'
+      type: 'messenger_commerce_chatbot'
     },
     title: 'Get Order ID',
     uniqueId: blockId,
@@ -479,20 +484,24 @@ const getOrderIdBlock = (chatbot, blockId, backId, messageBlocks) => {
   })
 }
 
-const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) => {
+const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, contact, orderId) => {
   let userError = false
   try {
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'messenger_shopify_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Order Status',
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Here is your order status:\n`,
-          componentType: 'text',
+          text: `Here is your order status for order #${orderId}:\n`,
+          componentType: 'text'
+        },
+        {
+          componentType: 'gallery',
+          cards: [],
           quickReplies: [
             {
               content_type: 'text',
@@ -527,17 +536,21 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
       messageBlock.payload[0].text += `\nDelivery: ${orderStatus.displayFulfillmentStatus}`
     }
 
-    if (orderStatus.lineItems) {
+    if (orderStatus.lineItems && orderStatus.lineItems.length > 0) {
+      const totalOrderPrice = orderStatus.lineItems.reduce((acc, item) => acc + Number(item.price), 0)
+      const currency = orderStatus.lineItems[0].currency
+      const totalOrderPriceString = currency === 'USD' ? `$${totalOrderPrice}` : `${totalOrderPrice} ${currency}`
+      messageBlock.payload[0].text += `\n\nTotal Price: ${totalOrderPriceString}`
       for (let i = 0; i < orderStatus.lineItems.length; i++) {
         let product = orderStatus.lineItems[i]
-        if (i === 0) {
-          messageBlock.payload[0].text += `\n`
-        }
-        messageBlock.payload[0].text += `\nItem: ${product.name}`
-        messageBlock.payload[0].text += `\nQuantity: ${product.quantity}`
-        if (i + 1 < orderStatus.lineItems.length) {
-          messageBlock.payload[0].text += `\n`
-        }
+        const individualPrice = Number(product.price) / Number(product.quantity)
+        const priceString = currency === 'USD' ? `$${individualPrice}` : `${individualPrice} ${currency}`
+        const totalPriceString = currency === 'USD' ? `$${product.price}` : `${product.price} ${currency}`
+        messageBlock.payload[1].cards.push({
+          image_url: product.image.originalSrc,
+          title: product.name,
+          subtitle: `Price: ${priceString}\nQuantity: ${product.quantity}\nTotal Price: ${totalPriceString}`
+        })
       }
     }
 
@@ -551,6 +564,9 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
       }
       if (orderStatus.shippingAddress.province) {
         messageBlock.payload[0].text += `, ${orderStatus.shippingAddress.province}`
+      }
+      if (orderStatus.shippingAddress.zip) {
+        messageBlock.payload[0].text += `, ${orderStatus.shippingAddress.zip}`
       }
       if (orderStatus.shippingAddress.country) {
         messageBlock.payload[0].text += `, ${orderStatus.shippingAddress.country}`
@@ -566,12 +582,33 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
       if (orderStatus.billingAddress.province) {
         messageBlock.payload[0].text += `, ${orderStatus.billingAddress.province}`
       }
+      if (orderStatus.billingAddress.zip) {
+        messageBlock.payload[0].text += `, ${orderStatus.billingAddress.zip}`
+      }
       if (orderStatus.billingAddress.country) {
         messageBlock.payload[0].text += `, ${orderStatus.billingAddress.country}`
       }
+    } else if (contact.commerceCustomer && contact.commerceCustomer.defaultAddress) {
+      const defaultAddress = contact.commerceCustomer.defaultAddress
+      messageBlock.payload[0].text += `\n\nShipping Address: ${defaultAddress.address1}`
+      if (defaultAddress.address2) {
+        messageBlock.payload[0].text += `, ${defaultAddress.address2}`
+      }
+      if (defaultAddress.city) {
+        messageBlock.payload[0].text += `, ${defaultAddress.city}`
+      }
+      if (defaultAddress.province) {
+        messageBlock.payload[0].text += `, ${defaultAddress.province}`
+      }
+      if (defaultAddress.zip) {
+        messageBlock.payload[0].text += `, ${defaultAddress.zip}`
+      }
+      if (defaultAddress.country) {
+        messageBlock.payload[0].text += `, ${defaultAddress.country}`
+      }
     }
 
-    messageBlock.payload[0].text += `\n\nThis order was placed on ${new Date(orderStatus.createdAt).toDateString()}`
+    messageBlock.payload[0].text += `\n\nThis order was placed on ${new Date(orderStatus.createdAt).toLocaleString()}`
     return messageBlock
   } catch (err) {
     if (!userError) {
@@ -591,7 +628,7 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider, arg
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'messenger_shopify_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Product Categories',
       uniqueId: '' + new Date().getTime(),
@@ -653,13 +690,13 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, argum
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'messenger_shopify_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Product Variants',
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `You have selected ${product.name}.\n\nPlease select a product variant:`,
+          text: `Please select from the following options for ${product.name}:`,
           componentType: 'text'
         }
       ],
@@ -709,7 +746,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, argum
       if (productVariants.nextPageParameters) {
         messageBlock.payload[1].cards.push({
           title: 'View More',
-          subtitle: `Click on the "View More" button to view more product variants`,
+          subtitle: `Click on the "View More" button to view more options`,
           buttons: [{
             title: 'View More',
             type: 'postback',
@@ -749,7 +786,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'messenger_shopify_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Select Product',
       uniqueId: '' + new Date().getTime(),
@@ -795,14 +832,25 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
 
 const getQuantityToAddBlock = async (chatbot, backId, contact, product) => {
   try {
+    let priceString = product.currency === 'USD' ? `$${product.price}` : `${product.price} ${product.currency}`
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'messenger_shopify_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Quantity to Add',
       uniqueId: '' + new Date().getTime(),
       payload: [
+        {
+          componentType: 'gallery',
+          cards: [
+            {
+              image_url: product.image,
+              title: product.product,
+              subtitle: `Price: ${priceString}\nStock Available: ${product.inventory_quantity}`
+            }
+          ]
+        },
         {
           text: ``,
           componentType: 'text',
@@ -829,7 +877,6 @@ const getQuantityToAddBlock = async (chatbot, backId, contact, product) => {
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    let priceString = product.currency === 'USD' ? `$${product.price}` : `${product.price} ${product.currency}`
     let shoppingCart = contact.shoppingCart ? contact.shoppingCart : []
     let existingProductIndex = shoppingCart.findIndex((item) => item.variant_id === product.variant_id)
     if (existingProductIndex > -1) {
@@ -837,10 +884,10 @@ const getQuantityToAddBlock = async (chatbot, backId, contact, product) => {
         let text = `Your cart already contains the maximum stock available for this product.`
         return getShowMyCartBlock(chatbot, backId, contact, text)
       } else {
-        messageBlock.payload[0].text = `How many ${product.product}s would you like to add to your cart?\n\nYou already have ${shoppingCart[existingProductIndex].quantity} in your cart.\n\n(price: ${priceString}) (stock available: ${product.inventory_quantity})`
+        messageBlock.payload[1].text = `How many ${product.product}s would you like to add to your cart?\n\nYou already have ${shoppingCart[existingProductIndex].quantity} in your cart.`
       }
     } else {
-      messageBlock.payload[0].text = `How many ${product.product}s would you like to add to your cart?\n\n(price: ${priceString}) (stock available: ${product.inventory_quantity})`
+      messageBlock.payload[1].text = `How many ${product.product}s would you like to add to your cart?`
     }
     return messageBlock
   } catch (err) {
@@ -905,7 +952,7 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText, showBu
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'messenger_shopify_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Show My Cart',
       uniqueId: '' + new Date().getTime(),
@@ -1047,7 +1094,7 @@ const getQuantityToRemoveBlock = async (chatbot, backId, product) => {
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'messenger_shopify_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Quantity to Remove',
       uniqueId: '' + new Date().getTime(),
@@ -1090,7 +1137,7 @@ const confirmClearCart = (chatbot, contact) => {
   let messageBlock = {
     module: {
       id: chatbot._id,
-      type: 'whatsapp_commerce_chatbot'
+      type: 'messenger_commerce_chatbot'
     },
     title: 'Are you sure you want empty your cart?',
     uniqueId: '' + new Date().getTime(),
@@ -1107,6 +1154,11 @@ const confirmClearCart = (chatbot, contact) => {
           {
             content_type: 'text',
             title: 'No',
+            payload: JSON.stringify({ type: DYNAMIC, action: SHOW_MY_CART })
+          },
+          {
+            content_type: 'text',
+            title: 'Go Back',
             payload: JSON.stringify({ type: DYNAMIC, action: SHOW_MY_CART })
           },
           {
@@ -1129,7 +1181,7 @@ const clearCart = async (chatbot, contact) => {
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'messenger_shopify_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Your cart has been successfully cleared',
       uniqueId: '' + new Date().getTime(),
@@ -1174,7 +1226,7 @@ const getCheckoutEmailBlock = async (chatbot, contact, backId, newEmail) => {
       messageBlock = {
         module: {
           id: chatbot._id,
-          type: 'messenger_shopify_chatbot'
+          type: 'messenger_commerce_chatbot'
         },
         title: 'Checkout Email',
         uniqueId: '' + new Date().getTime(),
@@ -1192,6 +1244,16 @@ const getCheckoutEmailBlock = async (chatbot, contact, backId, newEmail) => {
                 content_type: 'text',
                 title: 'No',
                 payload: JSON.stringify({ type: DYNAMIC, action: GET_CHECKOUT_EMAIL, argument: true })
+              },
+              {
+                content_type: 'text',
+                title: 'Go Back',
+                payload: JSON.stringify({ type: STATIC, blockId: backId })
+              },
+              {
+                content_type: 'text',
+                title: 'Go Home',
+                payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
               }
             ]
           }
@@ -1203,7 +1265,7 @@ const getCheckoutEmailBlock = async (chatbot, contact, backId, newEmail) => {
       messageBlock = {
         module: {
           id: chatbot._id,
-          type: 'messenger_shopify_chatbot'
+          type: 'messenger_commerce_chatbot'
         },
         title: 'Checkout Email',
         uniqueId: '' + new Date().getTime(),
@@ -1213,11 +1275,6 @@ const getCheckoutEmailBlock = async (chatbot, contact, backId, newEmail) => {
             componentType: 'text',
             action: { type: DYNAMIC, action: ASK_PAYMENT_METHOD, input: true },
             quickReplies: [
-              {
-                content_type: 'text',
-                title: 'Show my Cart',
-                payload: JSON.stringify({ type: DYNAMIC, action: SHOW_MY_CART })
-              },
               {
                 content_type: 'text',
                 title: 'Go Back',
@@ -1248,7 +1305,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'messenger_shopify_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Checkout Link',
       uniqueId: '' + new Date().getTime(),
@@ -1291,7 +1348,15 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
             quantity: item.quantity
           }
         })
-        const order = await EcommerceProvider.createTestOrder({id: commerceCustomer.id + ''}, testOrderCart)
+        const order = await EcommerceProvider.createTestOrder(
+          {id: commerceCustomer.id + ''},
+          testOrderCart,
+          {
+            first_name: commerceCustomer.first_name,
+            last_name: commerceCustomer.last_name,
+            ...argument.address
+          }
+        )
         if (order) {
           let storeInfo = await EcommerceProvider.fetchStoreInfo()
           text += `Thank you for shopping at ${storeInfo.name}. We have received your order. Please note the order id given below to track your order:\n\n${order.name.replace('#', '')}`
@@ -1341,7 +1406,7 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'messenger_shopify_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Recent Orders',
       uniqueId: '' + new Date().getTime(),
@@ -1360,14 +1425,30 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
       recentOrders = await EcommerceProvider.findCustomerOrders(contact.commerceCustomer.id, 9)
       recentOrders = recentOrders.orders
       if (recentOrders.length > 0) {
+        messageBlock.payload.push(
+          {
+            componentType: 'gallery',
+            cards: [],
+            quickReplies: []
+          }
+        )
         messageBlock.payload[0].text = 'Here are your recently placed orders. Select an order to view its status:'
         for (let i = 0; i < recentOrders.length; i++) {
-          messageBlock.payload[0].quickReplies.push(
-            {
-              content_type: 'text',
-              title: `Order ${recentOrders[i].name}`,
-              payload: JSON.stringify({ type: DYNAMIC, action: ORDER_STATUS, argument: recentOrders[i].name.substr(1) })
-            })
+          const totalPrice = recentOrders[i].lineItems.reduce((acc, item) => acc + Number(item.originalTotalSet.presentmentMoney.amount), 0)
+          const currency = recentOrders[i].lineItems[0].originalTotalSet.presentmentMoney.currencyCode
+          const totalPriceString = currency === 'USD' ? `$${totalPrice}` : `${totalPrice} ${currency}`
+          messageBlock.payload[1].cards.push({
+            image_url: recentOrders[i].lineItems[0].image.originalSrc,
+            title: `Order ${recentOrders[i].name}`,
+            subtitle: `Order date: ${new Date(recentOrders[i].createdAt).toLocaleString()}\nTotal unique items: ${recentOrders[i].lineItems.length}\nTotal Price:${totalPriceString}`,
+            buttons: [
+              {
+                title: 'View Status',
+                type: 'postback',
+                payload: JSON.stringify({ type: DYNAMIC, action: ORDER_STATUS, argument: recentOrders[i].name.substr(1) })
+              }
+            ]
+          })
         }
       } else {
         messageBlock.payload[0].text = 'You have not placed any orders within the last 60 days.'
@@ -1376,7 +1457,7 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
       messageBlock.payload[0].text = 'You have not placed any orders yet.'
     }
 
-    messageBlock.payload[0].quickReplies.push(
+    messageBlock.payload[messageBlock.payload.length - 1].quickReplies.push(
       {
         content_type: 'text',
         title: 'Show my Cart',
@@ -1429,13 +1510,23 @@ const getQuantityToUpdateBlock = async (chatbot, backId, product, contact) => {
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'messenger_shopify_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Quantity to Update',
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `What quantity would you like to set for ${product.product}?\n\nYou currently have ${product.quantity} in your cart.\n\n(price: ${priceString}) (stock available: ${product.inventory_quantity})`,
+          componentType: 'gallery',
+          cards: [
+            {
+              image_url: product.image,
+              title: product.product,
+              subtitle: `Price: ${priceString}\nStock Available: ${product.inventory_quantity}`
+            }
+          ]
+        },
+        {
+          text: `What quantity would you like to set for ${product.product}?\n\nYou currently have ${product.quantity} in your cart.`,
           componentType: 'text',
           action: { type: DYNAMIC, action: UPDATE_CART, argument: product, input: true },
           quickReplies: [
@@ -1447,7 +1538,7 @@ const getQuantityToUpdateBlock = async (chatbot, backId, product, contact) => {
             {
               content_type: 'text',
               title: 'Go Back',
-              payload: JSON.stringify({ type: STATIC, blockId: backId })
+              payload: JSON.stringify({ type: DYNAMIC, action: SHOW_MY_CART })
             },
             {
               content_type: 'text',
@@ -1522,7 +1613,7 @@ const getAskPaymentMethodBlock = async (chatbot, backId, contact, newEmail) => {
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'whatsapp_commerce_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Ask Payment Method',
       uniqueId: '' + new Date().getTime(),
@@ -1533,8 +1624,8 @@ const getAskPaymentMethodBlock = async (chatbot, backId, contact, newEmail) => {
           quickReplies: [
             {
               content_type: 'text',
-              title: 'Show my Cart',
-              payload: JSON.stringify({ type: DYNAMIC, action: SHOW_MY_CART })
+              title: 'Go Back',
+              payload: JSON.stringify({ type: STATIC, blockId: backId })
             },
             {
               content_type: 'text',
@@ -1593,7 +1684,7 @@ const getAskPaymentMethodBlock = async (chatbot, backId, contact, newEmail) => {
   }
 }
 
-const getAskAddressBlock = async (chatbot, contact, argument) => {
+const getAskAddressBlock = async (chatbot, backId, contact, argument) => {
   try {
     let messageBlock = null
     if (contact.commerceCustomer &&
@@ -1606,7 +1697,7 @@ const getAskAddressBlock = async (chatbot, contact, argument) => {
       messageBlock = {
         module: {
           id: chatbot._id,
-          type: 'whatsapp_commerce_chatbot'
+          type: 'messenger_commerce_chatbot'
         },
         title: 'Ask Address',
         uniqueId: '' + new Date().getTime(),
@@ -1627,6 +1718,11 @@ const getAskAddressBlock = async (chatbot, contact, argument) => {
               },
               {
                 content_type: 'text',
+                title: 'Go Back',
+                payload: JSON.stringify({ type: STATIC, blockId: backId })
+              },
+              {
+                content_type: 'text',
                 title: 'Go Home',
                 payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
               }
@@ -1642,7 +1738,7 @@ const getAskAddressBlock = async (chatbot, contact, argument) => {
       messageBlock = {
         module: {
           id: chatbot._id,
-          type: 'whatsapp_commerce_chatbot'
+          type: 'messenger_commerce_chatbot'
         },
         title: 'Checkout Email',
         uniqueId: '' + new Date().getTime(),
@@ -1659,6 +1755,11 @@ const getAskAddressBlock = async (chatbot, contact, argument) => {
               }
             },
             quickReplies: [
+              {
+                content_type: 'text',
+                title: 'Go Back',
+                payload: JSON.stringify({ type: STATIC, blockId: backId })
+              },
               {
                 content_type: 'text',
                 title: 'Go Home',
@@ -1678,12 +1779,12 @@ const getAskAddressBlock = async (chatbot, contact, argument) => {
   }
 }
 
-const getCheckoutStreetAddressBlock = async (chatbot, contact, argument) => {
+const getCheckoutStreetAddressBlock = async (chatbot, backId, contact, argument) => {
   try {
     const messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'whatsapp_commerce_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Checkout Email',
       uniqueId: '' + new Date().getTime(),
@@ -1702,6 +1803,11 @@ const getCheckoutStreetAddressBlock = async (chatbot, contact, argument) => {
           quickReplies: [
             {
               content_type: 'text',
+              title: 'Go Back',
+              payload: JSON.stringify({ type: STATIC, blockId: backId })
+            },
+            {
+              content_type: 'text',
               title: 'Go Home',
               payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
             }
@@ -1718,7 +1824,7 @@ const getCheckoutStreetAddressBlock = async (chatbot, contact, argument) => {
   }
 }
 
-const getCheckoutCityBlock = async (chatbot, contact, argument, userInput) => {
+const getCheckoutCityBlock = async (chatbot, backId, contact, argument, userInput) => {
   try {
     if (userInput && argument.address && !argument.address.address1) {
       argument.address.address1 = userInput
@@ -1726,7 +1832,7 @@ const getCheckoutCityBlock = async (chatbot, contact, argument, userInput) => {
     const messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'whatsapp_commerce_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Checkout Email',
       uniqueId: '' + new Date().getTime(),
@@ -1743,6 +1849,11 @@ const getCheckoutCityBlock = async (chatbot, contact, argument, userInput) => {
             }
           },
           quickReplies: [
+            {
+              content_type: 'text',
+              title: 'Go Back',
+              payload: JSON.stringify({ type: STATIC, blockId: backId })
+            },
             {
               content_type: 'text',
               title: 'Go Home',
@@ -1762,7 +1873,7 @@ const getCheckoutCityBlock = async (chatbot, contact, argument, userInput) => {
   }
 }
 
-const getCheckoutCountryBlock = async (chatbot, contact, argument, userInput) => {
+const getCheckoutCountryBlock = async (chatbot, backId, contact, argument, userInput) => {
   try {
     if (userInput && argument.address && !argument.address.city) {
       argument.address.city = userInput
@@ -1770,7 +1881,7 @@ const getCheckoutCountryBlock = async (chatbot, contact, argument, userInput) =>
     const messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'whatsapp_commerce_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Checkout Email',
       uniqueId: '' + new Date().getTime(),
@@ -1789,48 +1900,9 @@ const getCheckoutCountryBlock = async (chatbot, contact, argument, userInput) =>
           quickReplies: [
             {
               content_type: 'text',
-              title: 'Go Home',
-              payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
-            }
-          ]
-        }
-      ],
-      userId: chatbot.userId,
-      companyId: chatbot.companyId
-    }
-
-    return messageBlock
-  } catch (err) {
-    logger.serverLog(TAG, `Unable to input country ${err} `, 'error')
-    throw new Error(`${ERROR_INDICATOR}Unable to input country`)
-  }
-}
-
-const getCheckoutZipCodeBlock = async (chatbot, contact, argument, userInput) => {
-  try {
-    if (userInput && argument.address && !argument.address.country) {
-      argument.address.country = userInput
-    }
-    const messageBlock = {
-      module: {
-        id: chatbot._id,
-        type: 'whatsapp_commerce_chatbot'
-      },
-      title: 'Checkout Email',
-      uniqueId: '' + new Date().getTime(),
-      payload: [
-        {
-          text: `Please enter your zip code: `,
-          componentType: 'text',
-          action: {
-            type: DYNAMIC,
-            action: CONFIRM_COMPLETE_ADDRESS,
-            input: true,
-            argument: { ...argument,
-              address: { ...argument.address, zip: '' }
-            }
-          },
-          quickReplies: [
+              title: 'Go Back',
+              payload: JSON.stringify({ type: STATIC, blockId: backId })
+            },
             {
               content_type: 'text',
               title: 'Go Home',
@@ -1850,14 +1922,63 @@ const getCheckoutZipCodeBlock = async (chatbot, contact, argument, userInput) =>
   }
 }
 
-const confirmCompleteAddress = (chatbot, contact, argument, userInput) => {
+const getCheckoutZipCodeBlock = async (chatbot, backId, contact, argument, userInput) => {
+  try {
+    if (userInput && argument.address && !argument.address.country) {
+      argument.address.country = userInput
+    }
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'messenger_commerce_chatbot'
+      },
+      title: 'Checkout Email',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Please enter your zip code: `,
+          componentType: 'text',
+          action: {
+            type: DYNAMIC,
+            action: CONFIRM_COMPLETE_ADDRESS,
+            input: true,
+            argument: { ...argument,
+              address: { ...argument.address, zip: '' }
+            }
+          },
+          quickReplies: [
+            {
+              content_type: 'text',
+              title: 'Go Back',
+              payload: JSON.stringify({ type: STATIC, blockId: backId })
+            },
+            {
+              content_type: 'text',
+              title: 'Go Home',
+              payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
+            }
+          ]
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+
+    return messageBlock
+  } catch (err) {
+    logger.serverLog(TAG, `Unable to input country ${err} `, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to input country`)
+  }
+}
+
+const confirmCompleteAddress = (chatbot, backId, contact, argument, userInput) => {
   if (userInput && argument.address && !argument.address.zip) {
     argument.address.zip = userInput
   }
   let messageBlock = {
     module: {
       id: chatbot._id,
-      type: 'whatsapp_commerce_chatbot'
+      type: 'messenger_commerce_chatbot'
     },
     title: 'Is this address confirmed?',
     uniqueId: '' + new Date().getTime(),
@@ -1875,6 +1996,11 @@ const confirmCompleteAddress = (chatbot, contact, argument, userInput) => {
             content_type: 'text',
             title: 'No, continue to checkout',
             payload: JSON.stringify({ type: DYNAMIC, action: PROCEED_TO_CHECKOUT, argument })
+          },
+          {
+            content_type: 'text',
+            title: 'Go Back',
+            payload: JSON.stringify({ type: STATIC, blockId: backId })
           },
           {
             content_type: 'text',
@@ -1896,11 +2022,11 @@ const confirmCompleteAddress = (chatbot, contact, argument, userInput) => {
   return messageBlock
 }
 
-const updateAddressBlock = (chatbot, contact, argument) => {
+const updateAddressBlock = (chatbot, backId, contact, argument) => {
   let messageBlock = {
     module: {
       id: chatbot._id,
-      type: 'whatsapp_commerce_chatbot'
+      type: 'messenger_commerce_chatbot'
     },
     title: 'Update in the address',
     uniqueId: '' + new Date().getTime(),
@@ -1931,6 +2057,11 @@ const updateAddressBlock = (chatbot, contact, argument) => {
           },
           {
             content_type: 'text',
+            title: 'Go Back',
+            payload: JSON.stringify({ type: STATIC, blockId: backId })
+          },
+          {
+            content_type: 'text',
             title: 'Go Home',
             payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
           }
@@ -1944,18 +2075,18 @@ const updateAddressBlock = (chatbot, contact, argument) => {
   return messageBlock
 }
 
-const updateCheckoutStreetAddressBlock = async (chatbot, contact, argument) => {
+const updateCheckoutStreetAddressBlock = async (chatbot, backId, contact, argument) => {
   try {
     const messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'whatsapp_commerce_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Update street address for checkout',
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Please enter the new street address: `,
+          text: `Your current given street address is ${argument.address.address1}\n\nPlease enter the new street address: `,
           componentType: 'text',
           action: {
             type: DYNAMIC,
@@ -1964,6 +2095,11 @@ const updateCheckoutStreetAddressBlock = async (chatbot, contact, argument) => {
             argument
           },
           quickReplies: [
+            {
+              content_type: 'text',
+              title: 'Go Back',
+              payload: JSON.stringify({ type: STATIC, blockId: backId })
+            },
             {
               content_type: 'text',
               title: 'Go Home',
@@ -1983,18 +2119,18 @@ const updateCheckoutStreetAddressBlock = async (chatbot, contact, argument) => {
   }
 }
 
-const updateCheckoutCityBlock = async (chatbot, contact, argument) => {
+const updateCheckoutCityBlock = async (chatbot, backId, contact, argument) => {
   try {
     const messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'whatsapp_commerce_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Update city for checkout',
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Please enter the new city : `,
+          text: `Your current given city is ${argument.address.city}\n\nPlease enter the new city : `,
           componentType: 'text',
           action: {
             type: DYNAMIC,
@@ -2003,6 +2139,11 @@ const updateCheckoutCityBlock = async (chatbot, contact, argument) => {
             argument
           },
           quickReplies: [
+            {
+              content_type: 'text',
+              title: 'Go Back',
+              payload: JSON.stringify({ type: STATIC, blockId: backId })
+            },
             {
               content_type: 'text',
               title: 'Go Home',
@@ -2022,18 +2163,18 @@ const updateCheckoutCityBlock = async (chatbot, contact, argument) => {
   }
 }
 
-const updateCheckoutCountryBlock = async (chatbot, contact, argument) => {
+const updateCheckoutCountryBlock = async (chatbot, backId, contact, argument) => {
   try {
     const messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'whatsapp_commerce_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Update country for checkout',
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Please enter the new country : `,
+          text: `Your current given country is ${argument.address.country}\n\nPlease enter the new country : `,
           componentType: 'text',
           action: {
             type: DYNAMIC,
@@ -2042,6 +2183,11 @@ const updateCheckoutCountryBlock = async (chatbot, contact, argument) => {
             argument
           },
           quickReplies: [
+            {
+              content_type: 'text',
+              title: 'Go Back',
+              payload: JSON.stringify({ type: STATIC, blockId: backId })
+            },
             {
               content_type: 'text',
               title: 'Go Home',
@@ -2061,18 +2207,18 @@ const updateCheckoutCountryBlock = async (chatbot, contact, argument) => {
   }
 }
 
-const updateCheckoutZipCodeBlock = async (chatbot, contact, argument) => {
+const updateCheckoutZipCodeBlock = async (chatbot, backId, contact, argument) => {
   try {
     const messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'whatsapp_commerce_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Update zip code for checkout',
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Please enter the new zip code : `,
+          text: `Your current given zip code is ${argument.address.zip}\n\nPlease enter the new zip code : `,
           componentType: 'text',
           action: {
             type: DYNAMIC,
@@ -2081,6 +2227,11 @@ const updateCheckoutZipCodeBlock = async (chatbot, contact, argument) => {
             argument
           },
           quickReplies: [
+            {
+              content_type: 'text',
+              title: 'Go Back',
+              payload: JSON.stringify({ type: STATIC, blockId: backId })
+            },
             {
               content_type: 'text',
               title: 'Go Home',
@@ -2161,7 +2312,7 @@ const updatedAddressBlockedMessage = async (chatbot, contact, argument) => {
   let messageBlock = {
     module: {
       id: chatbot._id,
-      type: 'whatsapp_commerce_chatbot'
+      type: 'messenger_commerce_chatbot'
     },
     title: 'Is this new address confirmed?',
     uniqueId: '' + new Date().getTime(),
@@ -2202,16 +2353,27 @@ const updatedAddressBlockedMessage = async (chatbot, contact, argument) => {
 
 const getConfirmRemoveItemBlock = async (chatbot, backId, product) => {
   try {
+    const priceString = product.currency === 'USD' ? `$${product.price}` : `${product.price} ${product.currency}`
     let messageBlock = {
       module: {
         id: chatbot._id,
-        type: 'whatsapp_commerce_chatbot'
+        type: 'messenger_commerce_chatbot'
       },
       title: 'Quantity to Remove',
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Are you sure you want to remove ${product.product}?\n\nYou currently have ${product.quantity} in your cart.\n\n(price: ${product.price} ${product.currency})\n\n`,
+          componentType: 'gallery',
+          cards: [
+            {
+              image_url: product.image,
+              title: product.product,
+              subtitle: `Price: ${priceString}\nStock Available: ${product.inventory_quantity}`
+            }
+          ]
+        },
+        {
+          text: `Are you sure you want to remove ${product.product}?\n\nYou currently have ${product.quantity} in your cart.`,
           componentType: 'text',
           menu: [],
           quickReplies: [
@@ -2228,7 +2390,7 @@ const getConfirmRemoveItemBlock = async (chatbot, backId, product) => {
             {
               content_type: 'text',
               title: 'Go Back',
-              payload: JSON.stringify({ type: STATIC, blockId: backId })
+              payload: JSON.stringify({ type: DYNAMIC, action: SHOW_MY_CART })
             },
             {
               content_type: 'text',
@@ -2257,9 +2419,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
     const input = (userMessage && userMessage.text) ? userMessage.text.toLowerCase() : null
     let startingBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
     if (!contact || !contact.lastMessageSentByBot) {
-      if (startingBlock.triggers.includes(input)) {
-        return startingBlock
-      }
+      return startingBlock
     } else {
       let action = null
       try {
@@ -2305,7 +2465,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
                 break
               }
               case ORDER_STATUS: {
-                messageBlock = await getOrderStatusBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : action.argument)
+                messageBlock = await getOrderStatusBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, contact, action.input ? input : action.argument)
                 break
               }
               case SELECT_PRODUCT: {
@@ -2365,47 +2525,47 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
                 break
               }
               case ASK_ADDRESS: {
-                messageBlock = await getAskAddressBlock(chatbot, contact, action.argument)
+                messageBlock = await getAskAddressBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument)
                 break
               }
               case GET_CHECKOUT_STREET_ADDRESS: {
-                messageBlock = await getCheckoutStreetAddressBlock(chatbot, contact, action.argument)
+                messageBlock = await getCheckoutStreetAddressBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument)
                 break
               }
               case GET_CHECKOUT_CITY: {
-                messageBlock = await getCheckoutCityBlock(chatbot, contact, action.argument, action.input ? input : '')
+                messageBlock = await getCheckoutCityBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument, action.input ? input : '')
                 break
               }
               case GET_CHECKOUT_COUNTRY: {
-                messageBlock = await getCheckoutCountryBlock(chatbot, contact, action.argument, action.input ? input : '')
+                messageBlock = await getCheckoutCountryBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument, action.input ? input : '')
                 break
               }
               case GET_CHECKOUT_ZIP_CODE: {
-                messageBlock = await getCheckoutZipCodeBlock(chatbot, contact, action.argument, action.input ? input : '')
+                messageBlock = await getCheckoutZipCodeBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument, action.input ? input : '')
                 break
               }
               case CONFIRM_COMPLETE_ADDRESS: {
-                messageBlock = await confirmCompleteAddress(chatbot, contact, action.argument, action.input ? input : '')
+                messageBlock = await confirmCompleteAddress(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument, action.input ? input : '')
                 break
               }
               case UPDATE_ADDRESS_BLOCK: {
-                messageBlock = await updateAddressBlock(chatbot, contact, action.argument)
+                messageBlock = await updateAddressBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument)
                 break
               }
               case UPDATE_CHECKOUT_STREET_ADDRESS: {
-                messageBlock = await updateCheckoutStreetAddressBlock(chatbot, contact, action.argument)
+                messageBlock = await updateCheckoutStreetAddressBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument)
                 break
               }
               case UPDATE_CHECKOUT_CITY: {
-                messageBlock = await updateCheckoutCityBlock(chatbot, contact, action.argument)
+                messageBlock = await updateCheckoutCityBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument)
                 break
               }
               case UPDATE_CHECKOUT_COUNTRY: {
-                messageBlock = await updateCheckoutCountryBlock(chatbot, contact, action.argument)
+                messageBlock = await updateCheckoutCountryBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument)
                 break
               }
               case UPDATE_CHECKOUT_ZIP_CODE: {
-                messageBlock = await updateCheckoutZipCodeBlock(chatbot, contact, action.argument, action.input ? input : '')
+                messageBlock = await updateCheckoutZipCodeBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument, action.input ? input : '')
                 break
               }
               case GET_NEW_CHECKOUT_STREET_ADDRESS: {
