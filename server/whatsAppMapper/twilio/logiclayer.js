@@ -20,6 +20,7 @@ exports.prepareSendMessagePayload = (body) => {
   } else {
     MessageObject.body = body.payload.text
   }
+  console.log('MediaBinary', MessageObject)
   return MessageObject
 }
 exports.prepareInvitationPayload = (body, number) => {

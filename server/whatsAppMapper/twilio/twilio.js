@@ -12,9 +12,11 @@ exports.sendChatMessage = (body) => {
     return client.messages
       .create(messageToSend)
       .then(response => {
+        console.log('response from twilio', response)
         resolve(response.sid)
       })
       .catch(error => {
+        console.log('response from twilio', error)
         reject(error)
       })
   })
