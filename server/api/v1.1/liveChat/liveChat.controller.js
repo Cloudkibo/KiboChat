@@ -149,8 +149,6 @@ exports.create = function (req, res) {
           }
           callApi(`companyprofile/getAutomatedOptions`, 'get', {}, 'accounts', req.headers.authorization)
             .then(payload => {
-              console.log('subscriber.pageId.accessToken', subscriber.pageId.accessToken)
-              console.log('subscriberSenderId', subscriberSenderId)
               if (payload.showAgentName) {
                 if (req.body.payload.componentType === 'text') {
                   req.body.payload.text = `${req.body.replied_by.name} sent:\r\n` + req.body.payload.text
