@@ -52,11 +52,9 @@ function _isSessionTimedOut (subscription) {
           if (lastMessage.length > 0) {
             lastMessage = lastMessage[0]
             console.log('messenger', moment(lastMessage.datetime).fromNow())
-            let hours = moment().diff(moment(lastMessage.datetime), 'hours')
-            console.log('messenger hours', hours)
-            // let isSessionTimedOut = moment(lastMessage.datetime).isAfter(moment().subtract(23, 'hours'))
-            // console.log('isSessionTimedOut', isSessionTimedOut)
-            resolve(true)
+            let isSessionTimedOut = moment(lastMessage.datetime).isAfter(moment().subtract(23, 'hours'))
+            console.log('isSessionTimedOut', isSessionTimedOut)
+            resolve(isSessionTimedOut ? lastMessage : false)
           } else {
             resolve(false)
           }
@@ -76,11 +74,9 @@ function _isSessionTimedOut (subscription) {
           if (lastMessage.length > 0) {
             lastMessage = lastMessage[0]
             console.log('whatsApp', moment(lastMessage.datetime).fromNow())
-            let hours = moment().diff(moment(lastMessage.datetime), 'hours')
-            console.log('whatsapp hours', hours)
-            // let isSessionTimedOut = moment(lastMessage.datetime).isAfter(moment().subtract(2, 'hours'))
-            // console.log('isSessionTimedOut', isSessionTimedOut)
-            resolve(true)
+            let isSessionTimedOut = moment(lastMessage.datetime).isAfter(moment().subtract(2, 'hours'))
+            console.log('isSessionTimedOut', isSessionTimedOut)
+            resolve(isSessionTimedOut ? lastMessage : false)
           } else {
             resolve(false)
           }
