@@ -51,8 +51,8 @@ exports.attachment = function (req, res) {
               console.log('data.payload.fileurl', data.payload.fileurl)
               let payload = data.payload.fileurl
               payload.pages = [req.body.pageId]
-              payload.deleteLater = true
               payload.componentType = 'video'
+              payload.deleteLater = false
               needle('post', `${config.accountsDomain}/uploadTemplate`, payload)
                 .then(dataFinal => {
                   if (dataFinal.body.status === 'failed') {
