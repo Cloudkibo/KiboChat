@@ -38,7 +38,10 @@ const {
   GET_NEW_CHECKOUT_COUNTRY,
   GET_NEW_CHECKOUT_ZIP_CODE,
   CONFIRM_CLEAR_CART,
-  CONFIRM_TO_REMOVE_CART_ITEM
+  CONFIRM_TO_REMOVE_CART_ITEM,
+  TALK_TO_AGENT,
+  UNPAUSE_CHATBOT,
+  ASK_UNPAUSE_CHATBOT
 } = require('./constants')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/chatbots/commerceChatbot.logiclayer.js'
@@ -134,6 +137,11 @@ exports.getMessageBlocks = (chatbot, storeName) => {
             content_type: 'text',
             title: 'Show my cart',
             payload: JSON.stringify({ type: DYNAMIC, action: SHOW_MY_CART })
+          },
+          {
+            content_type: 'text',
+            title: 'Talk to agent',
+            payload: JSON.stringify({ type: DYNAMIC, action: TALK_TO_AGENT })
           }
         ]
       }
@@ -155,6 +163,33 @@ exports.getMessageBlocks = (chatbot, storeName) => {
   }
   messageBlockDataLayer.createBulkMessageBlocks(messageBlocks)
   return messageBlocks
+}
+
+const getTalkToAgentBlock = (chatbot, contact) => {
+  try {
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_commerce_chatbot'
+      },
+      title: 'FAQs',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          componentType: 'text',
+          text: dedent(`Our support agents have been notified and will get back to you shortly`)
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    updateSubscriber({ _id: contact._id }, { chatbotPaused: true }, null, {})
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable get talk to agent message block'
+    logger.serverLog(message, `${TAG}: getTalkToAgentBlock`, {}, {chatbot, contact}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to notify customer support agent`)
+  }
 }
 
 const getSearchProductsBlock = async (chatbot, blockId, messageBlocks, input) => {
@@ -2424,6 +2459,44 @@ const getConfirmRemoveItemBlock = async (chatbot, backId, product) => {
   }
 }
 
+const getAskUnpauseChatbotBlock = (chatbot, contact) => {
+  try {
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'messenger_commerce_chatbot'
+      },
+      title: 'Checkout Link',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Do you want to unpause the chatbot and cancel the customer support agent request?`,
+          componentType: 'text',
+          quickReplies: [
+            {
+              content_type: 'text',
+              title: 'Yes, unpause chatbot',
+              payload: JSON.stringify({ type: DYNAMIC, action: UNPAUSE_CHATBOT })
+            },
+            {
+              content_type: 'text',
+              title: 'No, wait for agent',
+              payload: JSON.stringify({ type: DYNAMIC, action: TALK_TO_AGENT })
+            }
+          ]
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to request for unpause chatbot'
+    logger.serverLog(message, `${TAG}: getAskUnpauseChatbotBlock`, {}, {chatbot, contact}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to request for unpause chatbot`)
+  }
+}
+
 exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event) => {
   let userError = false
   try {
@@ -2436,7 +2509,16 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
       let action = null
       try {
         let lastMessageSentByBot = contact.lastMessageSentByBot.payload[contact.lastMessageSentByBot.payload.length - 1]
-        if (userMessage && userMessage.quick_reply && userMessage.quick_reply.payload) {
+        if (contact.chatbotPaused) {
+          if (userMessage && userMessage.quick_reply && userMessage.quick_reply.payload) {
+            action = JSON.parse(userMessage.quick_reply.payload)
+          } else {
+            action = {
+              type: DYNAMIC,
+              action: ASK_UNPAUSE_CHATBOT
+            }
+          }
+        } else if (userMessage && userMessage.quick_reply && userMessage.quick_reply.payload) {
           action = JSON.parse(userMessage.quick_reply.payload)
         } else if (event.postback && event.postback.payload) {
           action = JSON.parse(event.postback.payload)
@@ -2464,6 +2546,18 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
           try {
             let messageBlock = null
             switch (action.action) {
+              case ASK_UNPAUSE_CHATBOT: {
+                messageBlock = await getAskUnpauseChatbotBlock(chatbot, contact)
+                break
+              }
+              case UNPAUSE_CHATBOT: {
+                updateSubscriber({ _id: contact._id }, { chatbotPaused: false }, null, {})
+                return startingBlock
+              }
+              case TALK_TO_AGENT: {
+                messageBlock = await getTalkToAgentBlock(chatbot, contact)
+                break
+              }
               case PRODUCT_CATEGORIES: {
                 messageBlock = await getProductCategoriesBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument ? action.argument : {})
                 break
