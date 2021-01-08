@@ -77,8 +77,10 @@ function specialKeyText (key) {
 
 exports.updateFaqsForStartingBlock = async (chatbot) => {
   let messageBlocks = []
+
   const faqsId = '' + new Date().getTime()
   let startingBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
+
   if (!startingBlock.payload[0].specialKeys[FAQS_KEY]) {
     if (chatbot.botLinks && chatbot.botLinks.faqs) {
       startingBlock.payload[0].text += `\n${specialKeyText(FAQS_KEY)}`
@@ -146,17 +148,20 @@ exports.getMessageBlocks = (chatbot) => {
   getCheckOrdersBlock(chatbot, mainMenuId, checkOrdersId, orderStatusId, messageBlocks)
   getReturnOrderIdBlock(chatbot, returnOrderId, messageBlocks)
   getSearchProductsBlock(chatbot, searchProductsId, messageBlocks)
+
   if (chatbot.botLinks && chatbot.botLinks.faqs) {
     messageBlocks[0].payload[0].text += `\n${specialKeyText(FAQS_KEY, 'faqs')} FAQs`
     messageBlocks[0].payload[0].specialKeys[FAQS_KEY] = { type: STATIC, blockId: faqsId }
     getFaqsBlock(chatbot, faqsId, messageBlocks, mainMenuId)
   }
+
   if (chatbot.brandImage) {
     messageBlocks[0].payload.push({
       componentType: 'image',
       fileurl: chatbot.brandImage
     })
   }
+
   return messageBlocks
 }
 
@@ -182,7 +187,9 @@ const getTalkToAgentBlock = (chatbot, backId, contact) => {
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
+
     sendTalkToAgentNotification(contact, chatbot.companyId)
+
     return messageBlock
   } catch (err) {
     const message = err || 'Unable get talk to agent message block'
@@ -235,24 +242,30 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
+
     let products = []
     const storeInfo = await EcommerceProvider.fetchStoreInfo()
+
     if (input) {
       products = await EcommerceProvider.searchProducts(input)
+
       if (products.length > 0) {
         messageBlock.payload[0].text = `These products were found for "${input}". Please select a product by sending the corresponding number for it or enter another product name to search again:\n`
       } else {
         messageBlock.payload[0].text = `No products found that match "${input}".\n\nEnter another product name to search again:`
       }
+
       messageBlock.payload[0].action = { type: DYNAMIC, action: DISCOVER_PRODUCTS, input: true }
     } else {
       products = await EcommerceProvider.fetchProducts(argument.paginationParams)
+
       if (products.length > 0) {
         messageBlock.payload[0].text = `Please select a product by sending the corresponding number for it:\n`
       } else {
         messageBlock.payload[0].text = `No products were found using discover.`
       }
     }
+
     for (let i = 0; i < products.length; i++) {
       let product = products[i]
       messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${product.name}`
@@ -260,15 +273,18 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
         type: DYNAMIC, action: PRODUCT_VARIANTS, argument: {product}
       })
     }
+
     if (products.nextPageParameters) {
       messageBlock.payload[0].text += `\n${convertToEmoji(products.length)} View More`
       messageBlock.payload[0].menu.push({
         type: DYNAMIC, action: DISCOVER_PRODUCTS, argument: {paginationParams: products.nextPageParameters}
       })
     }
+
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
+
     for (let i = products.length - 1; i >= 0; i--) {
       let product = products[i]
       if (product.image) {
@@ -279,6 +295,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
         })
       }
     }
+
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to discover products'
@@ -333,6 +350,7 @@ const getReturnOrderBlock = async (chatbot, backId, EcommerceProvider, orderId) 
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
+
     await EcommerceProvider.returnOrder(orderId)
 
     return messageBlock

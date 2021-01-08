@@ -348,8 +348,8 @@ exports.testRoute = (req, res) => {
         shopToken: shopifyIntegration.shopToken
       })
       // return shopify.fetchProductsInThisCategory(166185566271)
-      return shopify.findCustomerOrders('1264935993407')
-      // return shopify.checkOrderStatus('1058')
+      // return shopify.findCustomerOrders('1264935993407')
+      return shopify.checkOrderStatus('1125')
       // return shopify.createPermalinkForCart({
       // email: 'sojharo@gmail.com',
       // first_name: 'sojharo',
