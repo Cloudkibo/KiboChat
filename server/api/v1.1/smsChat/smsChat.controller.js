@@ -126,7 +126,7 @@ exports.create = function (req, res) {
             if (err) {
               const message = err || 'Error in async calls while sending message'
               logger.serverLog(message, `${TAG}: exports.create`, req.body, {params: req.params, user: req.user}, 'error')
-              sendErrorResponse(res, 500, `Failed to send message ${JSON.stringify(err)}`)  
+              sendErrorResponse(res, 500, `Failed to send message ${JSON.stringify(err)}`)
             } else {
               sendSuccessResponse(res, 200, results[0])
             }
@@ -136,7 +136,7 @@ exports.create = function (req, res) {
           const message = err || 'Failed to send twilio message'
           if (!isUnverfiedTwilioNumber(err)) {
             logger.serverLog(message, `${TAG}: exports.create`, req.body, {params: req.params, user: req.user}, 'error')
-            sendErrorResponse(res, 500, `Failed to send message ${JSON.stringify(err)}`)  
+            sendErrorResponse(res, 500, `Failed to send message ${JSON.stringify(err)}`)
           } else {
             sendErrorResponse(res, 500, 'Please verify your number on Twilio Trail account before sending messages.')
           }
