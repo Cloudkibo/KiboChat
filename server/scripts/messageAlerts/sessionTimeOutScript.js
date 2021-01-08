@@ -17,7 +17,7 @@ exports.runSessionTimeOutScript = function () {
     .then(subscriptions => {
       if (subscriptions.length > 0) {
         async.each(subscriptions, function (subscription, cb) {
-          let data = {subscription}
+          let data = {subscription, url: subscription.platform === 'messenger' ? 'livechat' : 'whatsAppChat'}
           async.series([
             _isSessionTimedOut.bind(null, data),
             _shouldSendMessage.bind(null, data),
@@ -45,112 +45,62 @@ exports.runSessionTimeOutScript = function () {
 
 const _isSessionTimedOut = (data, next) => {
   let subscription = data.subscription
-  if (subscription.platform === 'messenger') {
-    let query = {
-      purpose: 'aggregate',
-      match: {sender_fb_id: subscription.channelId, format: 'facebook', company_id: subscription.companyId},
-      sort: {_id: -1},
-      limit: 1
-    }
-    utility.callApi(`livechat/query`, 'post', query, 'kibochat')
-      .then(lastMessage => {
-        if (lastMessage.length > 0) {
-          lastMessage = lastMessage[0]
-          if (moment().diff(moment(lastMessage.datetime), 'hours') >= 23) {
-            data.isSessionTimedOut = true
-            data.lastMessageBySubscriber = lastMessage
-          }
-          next()
-        } else {
-          next()
-        }
-      })
-      .catch((err) => {
-        next(err)
-      })
-  } else {
-    let query = {
-      purpose: 'aggregate',
-      match: {senderNumber: subscription.channelId, format: 'whatsApp', companyId: subscription.companyId},
-      sort: {_id: -1},
-      limit: 1
-    }
-    utility.callApi(`whatsAppChat/query`, 'post', query, 'kibochat')
-      .then(lastMessage => {
-        if (lastMessage.length > 0) {
-          lastMessage = lastMessage[0]
-          if (moment().diff(moment(lastMessage.datetime), 'hours') >= 23) {
-            data.isSessionTimedOut = true
-            data.lastMessageBySubscriber = lastMessage
-          }
-          next()
-        } else {
-          next()
-        }
-      })
-      .catch((err) => {
-        next(err)
-      })
+  let query = {
+    purpose: 'aggregate',
+    sort: {_id: -1},
+    limit: 1
   }
+  if (subscription.platform === 'messenger') {
+    query.match = {sender_fb_id: subscription.channelId, format: 'facebook', company_id: subscription.companyId}
+  } else if (subscription.platform === 'whatsApp') {
+    query.match = {senderNumber: subscription.channelId, format: 'whatsApp', companyId: subscription.companyId}
+  }
+  utility.callApi(`${data.url}/query`, 'post', query, 'kibochat')
+    .then(lastMessage => {
+      if (lastMessage.length > 0) {
+        lastMessage = lastMessage[0]
+        if (moment().diff(moment(lastMessage.datetime), 'hours') >= 15) {
+          data.isSessionTimedOut = true
+          data.lastMessageBySubscriber = lastMessage
+        }
+        next()
+      } else {
+        next()
+      }
+    })
+    .catch((err) => {
+      next(err)
+    })
 }
 const _shouldSendMessage = (data, next) => {
   if (data.isSessionTimedOut) {
     let subscription = data.subscription
-    if (subscription.platform === 'messenger') {
-      let query = {
-        purpose: 'aggregate',
-        match: {
-          _id: {$gt: data.lastMessageBySubscriber._id},
-          sender_id: data.lastMessageBySubscriber.recipient_id,
-          format: 'convos',
-          company_id: subscription.companyId,
-          'payload.componentType': 'text'
-        }
+    let query = {
+      purpose: 'aggregate',
+      match: {
+        _id: {$gt: data.lastMessageBySubscriber._id},
+        format: 'convos',
+        'payload.componentType': 'text',
+        'payload.text': {$regex: `^\\The alert session has been timed out.`}
       }
-      utility.callApi(`livechat/query`, 'post', query, 'kibochat')
-        .then(messages => {
-          if (messages.length > 0) {
-            let messageSent = messages.filter(m => m.payload.text.includes('The alert session has been timed out'))
-            if (messageSent.length <= 0) {
-              data.shouldSendMessage = true
-            }
-            next()
-          } else {
-            data.shouldSendMessage = true
-            next()
-          }
-        })
-        .catch((err) => {
-          next(err)
-        })
-    } else {
-      let query = {
-        purpose: 'aggregate',
-        match: {
-          _id: {$gt: data.lastMessageBySubscriber._id},
-          senderNumber: data.lastMessageBySubscriber.recipientNumber,
-          format: 'convos',
-          companyId: subscription.companyId,
-          'payload.componentType': 'text'
-        }
-      }
-      utility.callApi(`whatsAppChat/query`, 'post', query, 'kibochat')
-        .then(messages => {
-          if (messages.length > 0) {
-            let messageSent = messages.filter(m => m.payload.text.includes('The alert session has been timed out'))
-            if (messageSent.length <= 0) {
-              data.shouldSendMessage = true
-            }
-            next()
-          } else {
-            data.shouldSendMessage = true
-            next()
-          }
-        })
-        .catch((err) => {
-          next(err)
-        })
     }
+    if (subscription.platform === 'messenger') {
+      query.match['sender_id'] = data.lastMessageBySubscriber.recipient_id
+      query.match['company_id'] = subscription.companyId
+    } else if (subscription.platform === 'whatsApp') {
+      query.match['senderNumber'] = data.lastMessageBySubscriber.recipientNumber
+      query.match['companyId'] = subscription.companyId
+    }
+    utility.callApi(`${data.url}/query`, 'post', query, 'kibochat')
+      .then(messages => {
+        if (messages.length <= 0) {
+          data.shouldSendMessage = true
+        }
+        next()
+      })
+      .catch((err) => {
+        next(err)
+      })
   } else {
     next()
   }
@@ -160,7 +110,7 @@ const _sendMessage = (data, next) => {
     data.notificationMessage = 'The alert session has been timed out. If you wish to continue receiving alerts from us, please reply to this message to reactivate the session.'
     if (data.subscription.platform === 'messenger') {
       _sendMessageOnMessenger(data)
-    } else {
+    } else if (data.subscription.platform === 'whatsApp') {
       _sendMessageOnWhatsApp(data)
     }
     next()
