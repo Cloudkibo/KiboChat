@@ -56,7 +56,7 @@ const _isSessionTimedOut = (data, next) => {
       .then(lastMessage => {
         if (lastMessage.length > 0) {
           lastMessage = lastMessage[0]
-          if (moment().diff(moment(lastMessage.datetime), 'hours') >= 15) {
+          if (moment().diff(moment(lastMessage.datetime), 'hours') >= 23) {
             data.isSessionTimedOut = true
             data.lastMessageBySubscriber = lastMessage
           }
@@ -79,7 +79,7 @@ const _isSessionTimedOut = (data, next) => {
       .then(lastMessage => {
         if (lastMessage.length > 0) {
           lastMessage = lastMessage[0]
-          if (moment().diff(moment(lastMessage.datetime), 'hours') >= 15) {
+          if (moment().diff(moment(lastMessage.datetime), 'hours') >= 23) {
             data.isSessionTimedOut = true
             data.lastMessageBySubscriber = lastMessage
           }
