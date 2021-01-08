@@ -53,7 +53,7 @@ exports.attachment = function (req, res) {
               payload.pages = [req.body.pageId]
               payload.deleteLater = true
               payload.componentType = 'video'
-              needle('post', `${config.accountsDomain}/uploadTemplate`, payload)
+              needle('post', `${config.accountsDomain}/uploadTemplate`, payload, {open_timeout: 0})
                 .then(dataFinal => {
                   if (dataFinal.body.status === 'failed') {
                     fetchMetaData(req, res)
