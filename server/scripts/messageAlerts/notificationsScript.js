@@ -1,13 +1,13 @@
-const utility = require('../api/v1.1/utility')
-const logger = require('../components/logger')
+const utility = require('../../api/v1.1/utility')
+const logger = require('../../components/logger')
 const TAG = 'scripts/NotificationScript.js'
 const async = require('async')
 const moment = require('moment')
-const { ActionTypes } = require('../whatsAppMapper/constants')
-const whatsAppMapper = require('../whatsAppMapper/whatsAppMapper')
-const { storeChat } = require('../api/v1.1/whatsAppEvents/controller')
-const { facebookApiCaller } = require('../api/global/facebookApiCaller')
-const config = require('../config/environment/index')
+const { ActionTypes } = require('../../whatsAppMapper/constants')
+const whatsAppMapper = require('../../whatsAppMapper/whatsAppMapper')
+const { storeChat } = require('../../api/v1.1/whatsAppEvents/controller')
+const { facebookApiCaller } = require('../../api/global/facebookApiCaller')
+const config = require('../../config/environment/index')
 const sgMail = require('@sendgrid/mail')
 const needle = require('needle')
 
@@ -99,10 +99,10 @@ function pendingSession (findAdminAlerts) {
                         let dt = new Date()
                         let s = companyProfile.businessHours.opening.split(':')
                         let dt1 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(),
-                          parseInt(s[0]), parseInt(s[1]), parseInt('00'))
+                          parseInt(s[0]), parseInt(s[1]), 0)
                         let e = companyProfile.businessHours.closing.split(':')
                         let dt2 = new Date(dt.getFullYear(), dt.getMonth(),
-                          dt.getDate(), parseInt(e[0]), parseInt(e[1]), parseInt('00'))
+                          dt.getDate(), parseInt(e[0]), parseInt(e[1]), 0)
                         if (dt >= dt1 && dt <= dt2) {
                           _deleteCronStackRecord(cronStack, cb)
                         } else {
@@ -162,10 +162,10 @@ function talkToAgent (findAdminAlerts) {
                       let dt = new Date()
                       let s = companyProfile.businessHours.opening.split(':')
                       let dt1 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(),
-                        parseInt(s[0]), parseInt(s[1]), parseInt('00'))
+                        parseInt(s[0]), parseInt(s[1]), 0)
                       let e = companyProfile.businessHours.closing.split(':')
                       let dt2 = new Date(dt.getFullYear(), dt.getMonth(),
-                        dt.getDate(), parseInt(e[0]), parseInt(e[1]), parseInt('00'))
+                        dt.getDate(), parseInt(e[0]), parseInt(e[1]), 0)
                       if (dt >= dt1 && dt <= dt2) {
                         _deleteCronStackRecord(cronStack, cb)
                       } else {

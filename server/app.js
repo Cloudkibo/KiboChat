@@ -5,7 +5,8 @@ const Sentry = require('@sentry/node')
 const config = require('./config/environment/index')
 
 const cron = require('node-cron')
-const NotificationsScript = require('./scripts/notificationsScript.js')
+const NotificationsScript = require('./scripts/messageAlerts/notificationsScript.js')
+const SessionTimeOutScript = require('./scripts/messageAlerts/sessionTimeOutScript.js')
 const WhatsappScript = require('./scripts/whatsappDeleteDataScript.js')
 
 const app = express()
@@ -32,6 +33,7 @@ if (config.env === 'production' || config.env === 'staging') {
 }
 
 cron.schedule('* * * * *', NotificationsScript.runLiveChatNotificationScript)
+cron.schedule('*/30 * * * *', SessionTimeOutScript.runSessionTimeOutScript)
 cron.schedule('0 13 * * *', WhatsappScript.runWhatspdeleteScript) //  daily 6 pm pakistan time
 require('./config/express')(appObj)
 require('./config/setup')(app, httpApp, config)
