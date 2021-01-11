@@ -4,12 +4,9 @@ const async = require('async')
 
 exports.sendChatMessage = (data) => {
   return new Promise((resolve, reject) => {
-    console.log('data got', data)
     let MessageObject = logicLayer.prepareSendMessagePayload(data)
-    console.log('MessageObject', MessageObject)
     cequensApiCaller('messages', data.whatsApp.clientName, data.whatsApp.businessNumber, 'post', data.whatsApp.accessToken, MessageObject)
       .then(response => {
-        console.log('response got', response.body)
         if (response.body.errors) {
           reject(response.body.errors.title)
         } else {
