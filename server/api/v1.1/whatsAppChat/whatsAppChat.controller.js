@@ -66,7 +66,11 @@ exports.create = function (req, res) {
           let subscriberData = {
             query: {_id: req.body.contactId},
             newPayload: {
-              $set: {last_activity_time: Date.now(), pendingResponse: false},
+              $set: {
+                last_activity_time: Date.now(),
+                agent_activity_time: Date.now(),
+                pendingResponse: false
+              },
               $inc: { messagesCount: 1 }
             },
             options: {}
