@@ -1,3 +1,5 @@
+var path = require('path')
+
 exports.prepareSendMessagePayload = (body) => {
   let MessageObject = {
     to: body.whatsAppId,
@@ -23,26 +25,27 @@ exports.prepareSendMessagePayload = (body) => {
       link: body.payload.fileurl.url || body.payload.fileurl,
       caption: body.payload.caption
     }
+  } else if (body.payload.componentType === 'video' || body.payload.componentType === 'gif') {
+    MessageObject.type = 'video'
+    MessageObject['video'] = {
+      link: body.payload.fileurl.url || body.payload.fileurl,
+      caption: body.payload.caption
+    }
+  } else if (body.payload.componentType === 'file') {
+    let ext = path.extname(body.payload.fileName)
+    if (ext !== '') {
+      body.payload.fileName = body.payload.fileName.replace(ext, '')
+    }
+    MessageObject.type = 'document'
+    MessageObject['document'] = {
+      link: body.payload.fileurl.url || body.payload.fileurl,
+      caption: body.payload.fileName
+    }
+  } else if (body.payload.componentType === 'audio') {
+    MessageObject.type = 'audio'
+    MessageObject['audio'] = {
+      link: body.payload.fileurl.url || body.payload.fileurl
+    }
   }
-  // } else if (body.payload.componentType === 'video' || body.payload.componentType === 'gif') {
-  //   MessageObject.video = body.payload.fileurl.url || body.payload.fileurl
-  //   MessageObject.title = body.payload.caption
-  // } else if (body.payload.componentType === 'file') {
-  //   let ext = path.extname(body.payload.fileName)
-  //   if (ext !== '') {
-  //     body.payload.fileName = body.payload.fileName.replace(ext, '')
-  //   }
-  //   MessageObject.title = body.payload.fileName
-  //   MessageObject.file = body.payload.fileurl.url || body.payload.fileurl
-  //   route = 'file'
-  // } else if (body.payload.componentType === 'audio') {
-  //   let ext = path.extname(body.payload.fileName)
-  //   if (ext !== '') {
-  //     body.payload.fileName = body.payload.fileName.replace(ext, '')
-  //   }
-  //   MessageObject.audio = body.payload.fileurl.url || body.payload.fileurl
-  //   MessageObject.title = body.payload.fileName
-  //   route = 'audio'
-  // }
   return MessageObject
 }
