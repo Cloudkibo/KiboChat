@@ -56,14 +56,16 @@ exports.messageReceived = function (req, res) {
                           _sendEvent(company._id, contact)
                           pushSessionPendingAlertInStack(company, contact, 'whatsApp')
                         }
+                        const shouldAvoidSendingMessage = await shouldAvoidSendingAutomatedMessage(contact)
                         if (company._id === '5a89ecdaf6b0460c552bf7fe') {
                           // NOTE: This if condition is temporary testing code for
                           // adil. We will remove this in future. It will only run for
                           // our own company. Please don't remove this. - Sojharo
-                          temporarySuperBotTestHandling(data, contact, company, number, req, isNewContact)
+                          if (!shouldAvoidSendingMessage) {
+                            temporarySuperBotTestHandling(data, contact, company, number, req, isNewContact)
+                          }
                           return
                         }
-                        const shouldAvoidSendingMessage = await shouldAvoidSendingAutomatedMessage(contact)
                         if (!shouldAvoidSendingMessage && data.messageData.componentType === 'text') {
                           let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ _id: company.whatsApp.activeWhatsappBot })
                           if (chatbot) {

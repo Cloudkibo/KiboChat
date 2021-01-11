@@ -177,8 +177,7 @@ const getTalkToAgentBlock = (chatbot, backId, contact) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: dedent(`Our support agents have been notified and will get back to you shortly.
-                      ${specialKeyText(HOME_KEY)}`),
+          text: `Our support agents have been notified and will get back to you shortly.`,
           componentType: 'text'
         }
       ],
