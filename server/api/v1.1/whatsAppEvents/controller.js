@@ -15,7 +15,6 @@ const bigcommerceDataLayer = require('../bigcommerce/bigcommerce.datalayer')
 const { ActionTypes } = require('../../../whatsAppMapper/constants')
 const commerceConstants = require('./../ecommerceProvidersApiLayer/constants')
 const EcommerceProvider = require('./../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
-const whatsAppChatbotAnalyticsDataLayer = require('../whatsAppChatbot/whatsAppChatbot_analytics.datalayer')
 const airlinesConstants = require('./../airlinesProvidersApiLayer/constants')
 const AirlinesProvider = require('./../airlinesProvidersApiLayer/AirlineProvidersApiLayer')
 const config = require('./../../../config/environment/index')
@@ -64,7 +63,8 @@ exports.messageReceived = function (req, res) {
                           temporarySuperBotTestHandling(data, contact, company, number, req, isNewContact)
                           return
                         }
-                        if (data.messageData.componentType === 'text') {
+                        const shouldAvoidSendingMessage = await shouldAvoidSendingAutomatedMessage(contact)
+                        if (!shouldAvoidSendingMessage && data.messageData.componentType === 'text') {
                           let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ _id: company.whatsApp.activeWhatsappBot })
                           if (chatbot) {
                             const shouldSend = chatbot.published || chatbot.testSubscribers.includes(contact.number)
@@ -123,7 +123,7 @@ exports.messageReceived = function (req, res) {
                             }
                           }
                         }
-                        if (contact && contact.isSubscribed) {
+                        if (!shouldAvoidSendingMessage && contact && contact.isSubscribed) {
                           if (data.messageData.componentType === 'text') {
                             try {
                               const responseBlock = await chatbotResponder.respondUsingChatbot('whatsApp', req.body.provider, company, data.messageData.text, contact)
@@ -275,6 +275,29 @@ function storeChat (from, to, contact, messageData, format) {
       const message = err || 'Failed to prepare chat'
       logger.serverLog(message, `${TAG}: storeChat`, {}, {from, to, contact, messageData, format}, 'error')
     })
+}
+
+function shouldAvoidSendingAutomatedMessage (contact) {
+  return new Promise((resolve, reject) => {
+    callApi(`companyprofile/query`, 'post', { _id: contact.companyId })
+      .then(company => {
+        if (company.automated_options === 'MIX_CHAT' && contact.agent_activity_time) {
+          const currentDate = new Date()
+          const agentTime = new Date(contact.agent_activity_time)
+          const diffInMinutes = Math.abs(currentDate - agentTime) / 1000 / 60
+          if (diffInMinutes > 30) {
+            resolve(false)
+          } else {
+            resolve(true)
+          }
+        } else {
+          resolve(false)
+        }
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
 }
 
 function saveNotifications (contact, companyUsers) {
