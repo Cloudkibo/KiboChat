@@ -64,6 +64,7 @@ exports.messageReceived = function (req, res) {
                           return
                         }
                         const shouldAvoidSendingMessage = await shouldAvoidSendingAutomatedMessage(contact)
+                        console.log('shouldAvoidSendingMessage whatsApp', shouldAvoidSendingMessage)
                         if (!shouldAvoidSendingMessage && data.messageData.componentType === 'text') {
                           let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ _id: company.whatsApp.activeWhatsappBot })
                           if (chatbot) {
