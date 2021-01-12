@@ -152,3 +152,44 @@ exports.prepareChatbotPayload = (company, contact, payload, options) => {
     resolve(MessageObject)
   })
 }
+
+exports.prepareReceivedMessageData = (event) => {
+  let message = event.messages[0]
+  let payload = {}
+  if (message.type === 'image' && message.image) {
+    payload = { componentType: 'image', fileurl: { url: message.image.file } }
+    if (message.image.caption !== '') {
+      payload.caption = message.image.caption
+    }
+  } else if (message.type === 'video' && message.video) {
+    payload = { componentType: 'video', fileurl: { url: message.video.file } }
+    if (message.video.caption !== '') {
+      payload.caption = message.video.caption
+    }
+  } else if (message.type === 'document') {
+    payload = {
+      componentType: 'file',
+      fileurl: { url: message.document.file },
+      fileName: message.document.filename
+    }
+  } else if (message.type === 'audio') {
+    payload = { componentType: 'audio', fileurl: { url: message.audio.file } }
+  } else if (message.type === 'voice') {
+    payload = { componentType: 'voice', fileurl: { url: message.voice.file } }
+  } else if (message.type === 'location') {
+    payload = {
+      componentType: 'location',
+      title: 'Pinned Location',
+      payload: {
+        coordinates: { lat: message.location.latitude, long: message.location.longitude }
+      }
+    }
+  } else if (message.type === 'contacts' && message.contacts[0]) {
+    payload = { componentType: 'contact',
+      name: message.contacts[0].name.formatted_name,
+      number: message.contacts[0].phones[0].phone }
+  } else if (message.type === 'text' && message.text.body !== '') {
+    payload = { componentType: 'text', text: message.text.body }
+  }
+  return payload
+}

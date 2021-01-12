@@ -139,3 +139,22 @@ exports.sendTextMessage = ({text, company, subscriber}) => {
       })
   })
 }
+
+exports.getNormalizedMessageReceivedData = (event) => {
+  let contact = event.contacts[0]
+  let message = event.messages[0]
+  return new Promise((resolve, reject) => {
+    try {
+      resolve({
+        accessToken: event.user_id,
+        userData: {
+          number: message.from,
+          name: contact.profile.name
+        },
+        messageData: logicLayer.prepareReceivedMessageData(event)
+      })
+    } catch (err) {
+      reject(err)
+    }
+  })
+}
