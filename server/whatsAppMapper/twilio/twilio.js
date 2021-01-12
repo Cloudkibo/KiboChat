@@ -155,7 +155,7 @@ exports.sendTextMessage = ({text, company, subscriber}) => {
     const client = twilioClient(company)
     client.messages.create({
       body: text,
-      from: `whatsapp:${company.businessNumber}`,
+      from: `whatsapp:${company.whatsApp.businessNumber}`,
       to: `whatsapp:${subscriber.number}`
     })
       .then(res => {
