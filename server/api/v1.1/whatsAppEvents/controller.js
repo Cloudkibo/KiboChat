@@ -116,7 +116,7 @@ exports.messageReceived = function (req, res) {
                                       logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {chatbotId: chatbot._id, companyId: chatbot.companyId, chatbotResponse}, 'error')
                                     })
                                   if (company.saveAutomationMessages) {
-                                    storeChat(company.whatsApp.businessNumber, number, contact, nextMessageBlock.payload[i], 'convos')
+                                    await storeChat(company.whatsApp.businessNumber, number, contact, nextMessageBlock.payload[i], 'convos')
                                   }
                                 }
                                 updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
@@ -131,7 +131,7 @@ exports.messageReceived = function (req, res) {
                               const responseBlock = await chatbotResponder.respondUsingChatbot('whatsApp', req.body.provider, company, data.messageData.text, contact)
                               if (company.saveAutomationMessages && responseBlock) {
                                 for (let i = 0; i < responseBlock.payload.length; i++) {
-                                  storeChat(company.whatsApp.businessNumber, number, contact, responseBlock.payload[i], 'convos')
+                                  await storeChat(company.whatsApp.businessNumber, number, contact, responseBlock.payload[i], 'convos')
                                 }
                               }
                             } catch (err) {
@@ -242,37 +242,38 @@ function createContact (data) {
 }
 
 function storeChat (from, to, contact, messageData, format) {
-  logicLayer.prepareChat(from, to, contact, messageData, format).then(chatPayload => {
-    callApi(`whatsAppChat`, 'post', chatPayload, 'kibochat')
-      .then(message => {
-        message.payload.format = format
-        require('./../../../config/socketio').sendMessageToClient({
-          room_id: contact.companyId,
-          body: {
-            action: 'new_chat_whatsapp',
-            payload: {
-              subscriber_id: contact._id,
-              chat_id: message._id,
-              text: message.payload.text,
-              name: contact.name,
-              subscriber: contact,
-              message: message
+  return logicLayer.prepareChat(from, to, contact, messageData, format)
+    .then(chatPayload => {
+      callApi(`whatsAppChat`, 'post', chatPayload, 'kibochat')
+        .then(message => {
+          message.payload.format = format
+          require('./../../../config/socketio').sendMessageToClient({
+            room_id: contact.companyId,
+            body: {
+              action: 'new_chat_whatsapp',
+              payload: {
+                subscriber_id: contact._id,
+                chat_id: message._id,
+                text: message.payload.text,
+                name: contact.name,
+                subscriber: contact,
+                message: message
+              }
             }
+          })
+          if (format === 'whatsApp') {
+            _sendNotification(contact, message.payload, contact.companyId)
+            let query = { _id: contact._id }
+            let updatePayload = { last_activity_time: Date.now(), status: 'new', pendingResponse: true, lastMessagedAt: Date.now() }
+            let incrementPayload = { $inc: { unreadCount: 1, messagesCount: 1 } }
+            updateWhatsAppContact(query, updatePayload, incrementPayload, {})
           }
         })
-        if (format === 'whatsApp') {
-          _sendNotification(contact, message.payload, contact.companyId)
-          let query = { _id: contact._id }
-          let updatePayload = { last_activity_time: Date.now(), status: 'new', pendingResponse: true, lastMessagedAt: Date.now() }
-          let incrementPayload = { $inc: { unreadCount: 1, messagesCount: 1 } }
-          updateWhatsAppContact(query, updatePayload, incrementPayload, {})
-        }
-      })
-      .catch(err => {
-        const message = err || 'Failed to save WhatsApp chat'
-        logger.serverLog(message, `${TAG}: storeChat`, chatPayload, {from, to, contact, messageData, format}, 'error')
-      })
-  })
+        .catch(err => {
+          const message = err || 'Failed to save WhatsApp chat'
+          logger.serverLog(message, `${TAG}: storeChat`, chatPayload, {from, to, contact, messageData, format}, 'error')
+        })
+    })
     .catch(err => {
       const message = err || 'Failed to prepare chat'
       logger.serverLog(message, `${TAG}: storeChat`, {}, {from, to, contact, messageData, format}, 'error')
@@ -509,7 +510,7 @@ async function temporarySuperBotTestHandling (data, contact, company, number, re
         updateWhatsAppContact({ _id: contact._id }, updateWhatsAppContactData, null, {})
         if (company.saveAutomationMessages) {
           for (let i = 0; i < nextMessageBlock.payload.length; i++) {
-            storeChat(company.whatsApp.businessNumber, number, contact, nextMessageBlock.payload[i], 'convos')
+            await storeChat(company.whatsApp.businessNumber, number, contact, nextMessageBlock.payload[i], 'convos')
           }
         }
       }
@@ -588,7 +589,7 @@ async function sendInvalidSelectChatbotsResponse (data, contact, company, number
     updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
     if (company.saveAutomationMessages) {
       for (let i = 0; i < nextMessageBlock.payload.length; i++) {
-        storeChat(company.whatsApp.businessNumber, number, contact, nextMessageBlock.payload[i], 'convos')
+        await storeChat(company.whatsApp.businessNumber, number, contact, nextMessageBlock.payload[i], 'convos')
       }
     }
   }
@@ -667,7 +668,7 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
                 updateWhatsAppContact({ _id: contact._id }, updateWhatsAppContactData, null, {})
                 if (company.saveAutomationMessages) {
                   for (let i = 0; i < nextMessageBlock.payload.length; i++) {
-                    storeChat(company.whatsApp.businessNumber, number, contact, nextMessageBlock.payload[i], 'convos')
+                    await storeChat(company.whatsApp.businessNumber, number, contact, nextMessageBlock.payload[i], 'convos')
                   }
                 }
                 return
@@ -676,7 +677,7 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
             sendWhatsAppMessage(nextMessageBlock, data, number, req)
             if (company.saveAutomationMessages) {
               for (let i = 0; i < nextMessageBlock.payload.length; i++) {
-                storeChat(company.whatsApp.businessNumber, number, contact, nextMessageBlock.payload[i], 'convos')
+                await storeChat(company.whatsApp.businessNumber, number, contact, nextMessageBlock.payload[i], 'convos')
               }
             }
             updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
@@ -695,7 +696,7 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
         const responseBlock = await chatbotResponder.respondUsingChatbot('whatsApp', req.body.provider, company, data.messageData.text, contact, true)
         if (company.saveAutomationMessages && responseBlock) {
           for (let i = 0; i < responseBlock.payload.length; i++) {
-            storeChat(company.whatsApp.businessNumber, number, contact, responseBlock.payload[i], 'convos')
+            await storeChat(company.whatsApp.businessNumber, number, contact, responseBlock.payload[i], 'convos')
           }
         }
       } catch (err) {
