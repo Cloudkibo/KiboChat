@@ -477,7 +477,7 @@ async function temporarySuperBotTestHandling (data, contact, company, number, re
 
       let nextMessageBlock = whatsAppChatbotLogicLayer.getChatbotsListMessageBlock(allChatbots)
       if (nextMessageBlock) {
-        sendWhatsAppMessage(nextMessageBlock, data, number, req)
+        sendWhatsAppMessage(nextMessageBlock, data, number, req, company, contact)
         const updateWhatsAppContactData = {
           lastMessageSentByBot: nextMessageBlock
         }
@@ -528,7 +528,7 @@ async function temporarySuperBotTestHandling (data, contact, company, number, re
               nextMessageBlock = await airlinesChatbotLogicLayer.getNextMessageBlock(chatbot, airlinesProvider, contact, 'hi')
             }
             if (nextMessageBlock) {
-              sendWhatsAppMessage(nextMessageBlock, data, number, req)
+              sendWhatsAppMessage(nextMessageBlock, data, number, req, company, contact)
             }
           }
           if (nextMessageBlock) {
@@ -560,7 +560,7 @@ async function sendInvalidSelectChatbotsResponse (data, contact, company, number
 
   if (nextMessageBlock && allChatbots.length > 0) {
     nextMessageBlock.payload[0].text = `Please enter a number between 0 and ${allChatbots.length - 1}\n\n${nextMessageBlock.payload[0].text}`
-    sendWhatsAppMessage(nextMessageBlock, data, number, req)
+    sendWhatsAppMessage(nextMessageBlock, data, number, req, company, contact)
     updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
   }
 }
@@ -631,7 +631,7 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
               const allChatbots = await getAllChatbots(company)
               nextMessageBlock = whatsAppChatbotLogicLayer.getChatbotsListMessageBlock(allChatbots)
               if (nextMessageBlock) {
-                sendWhatsAppMessage(nextMessageBlock, data, number, req)
+                sendWhatsAppMessage(nextMessageBlock, data, number, req, company, contact)
                 const updateWhatsAppContactData = {
                   lastMessageSentByBot: nextMessageBlock
                 }
@@ -639,7 +639,7 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
                 return
               }
             }
-            sendWhatsAppMessage(nextMessageBlock, data, number, req)
+            sendWhatsAppMessage(nextMessageBlock, data, number, req, company, contact)
             updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
             logicLayer.storeWhatsAppStats(data, chatbot, isNewContact, contact, req)
           }
