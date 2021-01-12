@@ -354,7 +354,8 @@ const prepareUrlMeta = (data) => {
         const attachmentUrl = addr.query.u
         let options = {url: attachmentUrl}
         ogs(options, (error, results) => {
-          console.log(results)
+          console.log('results', results)
+          console.log('data in prepareUrlMeta', data)
           console.log(error)
           if (!error) {
             const payload = {
