@@ -1,16 +1,34 @@
 var path = require('path')
+const { appendOptions } = require('../logiclayer')
 
 exports.prepareSendMessagePayload = (body) => {
   let MessageObject = {
-    to: body.whatsAppId,
+    to: body.recipientNumber.replace(/\D/g, ''),
     recipient_type: 'individual'
   }
   if (body.payload.componentType === 'text') {
-    // to do
     if (body.payload.templateName) {
-      MessageObject.template_name = body.payload.templateName
-      MessageObject.template_argument = body.payload.templateArguments
-      MessageObject.language = 'en'
+      let templateArguments = body.payload.templateArguments.split(',')
+      MessageObject.type = 'template'
+      MessageObject['template'] = {
+        namespace: body.payload.templateNameSpace,
+        name: body.payload.templateName,
+        language: {
+          policy: 'deterministic',
+          code: body.payload.templateCode
+        },
+        components: [
+          {
+            type: 'body',
+            parameters: templateArguments.map(t => {
+              return {
+                type: 'text',
+                text: t
+              }
+            })
+          }
+        ]
+      }
     } else {
       MessageObject.type = 'text'
       MessageObject['text'] = {
@@ -48,4 +66,89 @@ exports.prepareSendMessagePayload = (body) => {
     }
   }
   return MessageObject
+}
+exports.prepareTemplates = () => {
+  let templates = [
+    {
+      name: 'cequens_autoreply',
+      namespace: 'c088281d_2079_43e6_820e_5389ef88806d',
+      code: 'en',
+      text: 'This is automated message regarding to your Ticket No. {{1}}. We have received your request and will get back to you within 1 working day',
+      templateArguments: '{{1}}',
+      regex: '^This is automated message regarding to your Ticket No. (.*). We have received your request and will get back to you within 1 working day$',
+      buttons: []
+    }
+  ]
+  return templates
+}
+exports.prepareInvitationPayload = (body, number) => {
+  let templateArguments = body.payload.templateArguments.split(',')
+  let MessageObject = {
+    to: number.replace(/\D/g, ''),
+    recipient_type: 'individual',
+    type: 'template',
+    template: {
+      namespace: body.payload.templateNameSpace,
+      name: body.payload.templateName,
+      language: {
+        policy: 'deterministic',
+        code: body.payload.templateCode
+      },
+      components: [
+        {
+          type: 'body',
+          parameters: templateArguments.map(t => {
+            return {
+              type: 'text',
+              text: t
+            }
+          })
+        }
+      ]
+    }
+  }
+  return MessageObject
+}
+exports.prepareChatbotPayload = (company, contact, payload, options) => {
+  return new Promise((resolve, reject) => {
+    let MessageObject = {
+      to: contact.number.replace(/\D/g, ''),
+      recipient_type: 'individual'
+    }
+    if (payload.componentType === 'text') {
+      MessageObject.type = 'text'
+      MessageObject['text'] = {
+        body: payload.text + appendOptions(options)
+      }
+    } else if (payload.componentType === 'image' || payload.mediaType === 'image') {
+      MessageObject.type = 'image'
+      MessageObject['image'] = {
+        link: payload.fileurl.url,
+        caption: (payload.caption) ? payload.caption : undefined
+      }
+    } else if (payload.componentType === 'file') {
+      MessageObject.type = 'document'
+      MessageObject['document'] = {
+        link: payload.fileurl.url,
+        caption: (payload.caption) ? payload.caption : undefined
+      }
+    } else if (payload.componentType === 'audio') {
+      MessageObject.type = 'audio'
+      MessageObject['audio'] = {
+        link: payload.fileurl.url
+      }
+    } else if (payload.componentType === 'video' || payload.mediaType === 'video') {
+      MessageObject.type = 'video'
+      MessageObject['video'] = {
+        link: payload.fileurl.url,
+        caption: (payload.caption) ? payload.caption : undefined
+      }
+    } else if (payload.componentType === 'card') {
+      MessageObject.type = 'text'
+      MessageObject['text'] = {
+        body: payload.url
+      }
+    }
+    resolve(MessageObject)
+  })
 }
