@@ -543,6 +543,7 @@ exports.createTestOrder = (customer, lineItems, address, credentials) => {
     shopify.order.create({
       financial_status: 'pending',
       line_items: lineItems,
+      send_receipt: true,
       customer: {
         id: customer.id
       },
