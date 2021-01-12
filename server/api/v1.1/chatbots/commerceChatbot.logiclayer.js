@@ -720,7 +720,7 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider, arg
   }
 }
 
-const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, argument) => {
+const getProductVariantsBlock = async (chatbot, backId, contact, EcommerceProvider, argument) => {
   try {
     const product = argument.product
     let messageBlock = {
@@ -741,7 +741,19 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, argum
     }
     let productVariants = await EcommerceProvider.getVariantsOfSelectedProduct(product.id)
     let storeInfo = await EcommerceProvider.fetchStoreInfo()
-
+    if (productVariants.length === 1) {
+      const productVariant = productVariants[0]
+      messageBlock = await getSelectProductBlock(chatbot, backId, {
+        variant_id: productVariant.id,
+        product_id: productVariant.product_id,
+        product: `${productVariant.name} ${product.name}`,
+        price: productVariant.price ? productVariant.price : product.price,
+        inventory_quantity: productVariant.inventory_quantity,
+        currency: storeInfo.currency,
+        image: productVariant.image ? productVariant.image : product.image
+      })
+      return messageBlock
+    }
     if (productVariants.length > 0) {
       messageBlock.payload.push({
         componentType: 'gallery',
@@ -2563,7 +2575,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
                 break
               }
               case PRODUCT_VARIANTS: {
-                messageBlock = await getProductVariantsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument)
+                messageBlock = await getProductVariantsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, EcommerceProvider, action.argument)
                 break
               }
               case DISCOVER_PRODUCTS: {
