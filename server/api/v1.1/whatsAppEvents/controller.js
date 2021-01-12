@@ -674,7 +674,7 @@ function sendWhatsAppMessage (nextMessageBlock, data, number, req, company, cont
       if (company.saveAutomationMessages) {
         storeChat(company.whatsApp.businessNumber, number, contact, messagePayload, 'convos')
       }
-      sendWhatsAppMessageLogic(messagePayload, data, number, req)
+      sendWhatsAppMessageLogic(messagePayload, data, number, req, company, contact)
     }, 1800)
   } else {
     sendWhatsAppMessageLogic(nextMessageBlock.payload[0], data, number, req, company, contact)
