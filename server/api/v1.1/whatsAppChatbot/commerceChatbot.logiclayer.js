@@ -281,10 +281,10 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
 
-    for (let i = 0; i < products.length; i++) {
+    for (let i = products.length - 1; i >= 0; i--) {
       let product = products[i]
       if (product.image) {
-        messageBlock.payload.push({
+        messageBlock.payload.unshift({
           componentType: 'image',
           fileurl: product.image,
           caption: `${convertToEmoji(i)} ${product.name}\nPrice: ${product.price} ${storeInfo.currency}`
@@ -475,7 +475,7 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
     for (let i = 0; i < recentOrders.length; i++) {
       const lineItem = recentOrders[i].lineItems[0]
       if (lineItem.image) {
-        messageBlock.payload.push({
+        messageBlock.payload.unshift({
           componentType: 'image',
           fileurl: lineItem.image.originalSrc,
           caption: `${lineItem.name}\nQuantity: ${lineItem.quantity}\nOrder number: ${recentOrders[i].name}`
@@ -600,7 +600,7 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
 
     for (let i = 0; i < orderStatus.lineItems.length; i++) {
       let product = orderStatus.lineItems[i]
-      messageBlock.payload.push({
+      messageBlock.payload.unshift({
         componentType: 'image',
         fileurl: product.image.originalSrc,
         caption: `${product.name}\nQuantity: ${product.quantity}`
@@ -711,10 +711,10 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ar
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
-    for (let i = 0; i < products.length; i++) {
+    for (let i = products.length - 1; i >= 0; i--) {
       let product = products[i]
       if (product.image) {
-        messageBlock.payload.push({
+        messageBlock.payload.unshift({
           componentType: 'image',
           fileurl: product.image,
           caption: `${convertToEmoji(i)} ${product.name}\nPrice: ${product.price} ${storeInfo.currency}`
@@ -729,7 +729,7 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ar
   }
 }
 
-const getProductVariantsBlock = async (chatbot, backId, contact, EcommerceProvider, argument) => {
+const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, argument) => {
   try {
     const product = argument.product
     let messageBlock = {
@@ -756,19 +756,6 @@ const getProductVariantsBlock = async (chatbot, backId, contact, EcommerceProvid
     }
     let productVariants = await EcommerceProvider.getVariantsOfSelectedProduct(product.id)
     let storeInfo = await EcommerceProvider.fetchStoreInfo()
-    if (productVariants.length === 1) {
-      const productVariant = productVariants[0]
-      messageBlock = await getSelectProductBlock(chatbot, backId, {
-        variant_id: productVariant.id,
-        product_id: productVariant.product_id,
-        product: `${productVariant.name} ${product.name}`,
-        price: productVariant.price ? productVariant.price : product.price,
-        inventory_quantity: productVariant.inventory_quantity,
-        currency: storeInfo.currency,
-        image: productVariant.image ? productVariant.image : product.image
-      })
-      return messageBlock
-    }
     for (let i = 0; i < productVariants.length; i++) {
       let productVariant = productVariants[i]
       messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${productVariant.name} (price: ${productVariant.price ? productVariant.price : product.price} ${storeInfo.currency})`
@@ -795,10 +782,10 @@ const getProductVariantsBlock = async (chatbot, backId, contact, EcommerceProvid
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
-    for (let i = 0; i < productVariants.length; i++) {
+    for (let i = productVariants.length - 1; i >= 0; i--) {
       let productVariant = productVariants[i]
       if (productVariant.image) {
-        messageBlock.payload.push({
+        messageBlock.payload.unshift({
           componentType: 'image',
           fileurl: productVariant.image,
           caption: `${convertToEmoji(i)} ${productVariant.name} ${product.name}\nPrice: ${productVariant.price ? productVariant.price : product.price} ${storeInfo.currency}`
@@ -850,7 +837,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
     messageBlock.payload[0].text += `\n${specialKeyText(SHOW_CART_KEY)}\n${specialKeyText(BACK_KEY)}\n${specialKeyText(HOME_KEY)}`
 
     if (product.image) {
-      messageBlock.payload.push({
+      messageBlock.payload.unshift({
         componentType: 'image',
         fileurl: product.image,
         caption: `${product.product}\nPrice: ${product.price} ${product.currency}`
@@ -905,7 +892,7 @@ const getQuantityToAddBlock = async (chatbot, backId, contact, product) => {
       }
     }
     if (product.image) {
-      messageBlock.payload.push({
+      messageBlock.payload.unshift({
         componentType: 'image',
         fileurl: product.image,
         caption: `${product.product}\nPrice: ${product.price} ${product.currency}`
@@ -1041,7 +1028,7 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
         let currency = product.currency
         let price = product.quantity * product.price
         price = Number(price.toFixed(2))
-        messageBlock.payload.push({
+        messageBlock.payload.unshift({
           componentType: 'image',
           fileurl: product.image,
           caption: `${product.product}\nQuantity: ${product.quantity}\nPrice: ${price} ${currency}`
@@ -1098,7 +1085,7 @@ const getConfirmRemoveItemBlock = async (chatbot, backId, product) => {
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
 
     if (product.image) {
-      messageBlock.payload.push({
+      messageBlock.payload.unshift({
         componentType: 'image',
         fileurl: product.image,
         caption: `${product.product}\nPrice: ${product.price} ${product.currency}\nQuantity: ${product.quantity}`
@@ -1146,10 +1133,10 @@ const getShowItemsToRemoveBlock = (chatbot, backId, contact) => {
     messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)} `
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)} `
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)} `
-    for (let i = 0; i < shoppingCart.length; i++) {
+    for (let i = shoppingCart.length - 1; i >= 0; i--) {
       let product = shoppingCart[i]
       if (product.image) {
-        messageBlock.payload.push({
+        messageBlock.payload.unshift({
           componentType: 'image',
           fileurl: product.image,
           caption: `${convertToEmoji(i)} ${product.product}\nPrice: ${product.price} ${product.currency}`
@@ -1194,7 +1181,7 @@ const getQuantityToUpdateBlock = async (chatbot, backId, product) => {
     messageBlock.payload[0].text += `\n*P*  Proceed to Checkout`
 
     if (product.image) {
-      messageBlock.payload.push({
+      messageBlock.payload.unshift({
         componentType: 'image',
         fileurl: product.image,
         caption: `${product.product}\nQuantity: ${product.quantity}\nPrice: ${product.price} ${product.currency}`
@@ -1253,10 +1240,10 @@ const getShowItemsToUpdateBlock = (chatbot, backId, contact) => {
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)} `
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)} `
 
-    for (let i = 0; i < shoppingCart.length; i++) {
+    for (let i = shoppingCart.length - 1; i >= 0; i--) {
       let product = shoppingCart[i]
       if (product.image) {
-        messageBlock.payload.push({
+        messageBlock.payload.unshift({
           componentType: 'image',
           fileurl: product.image,
           caption: `${convertToEmoji(i)} ${product.product}\nPrice: ${product.price} ${product.currency}`
@@ -2226,7 +2213,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
         let currency = product.currency
         let price = product.quantity * product.price
         price = Number(price.toFixed(2))
-        messageBlock.payload.push({
+        messageBlock.payload.unshift({
           componentType: 'image',
           fileurl: product.image,
           caption: `${product.product}\nQuantity: ${product.quantity}\nPrice: ${price} ${currency}`
@@ -2410,7 +2397,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             break
           }
           case PRODUCT_VARIANTS: {
-            messageBlock = await getProductVariantsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, EcommerceProvider, action.argument)
+            messageBlock = await getProductVariantsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument)
             break
           }
           case DISCOVER_PRODUCTS: {
