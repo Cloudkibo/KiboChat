@@ -193,6 +193,14 @@ exports.connectedPages = function (req, res) {
     })
 }
 
+const isPageManagePermissionError = (error) => {
+  if (error.code === 190) {
+    return true
+  } else {
+    return false
+  }
+}
+
 exports.enable = function (req, res) {
   utility.callApi('companyuser/query', 'post', { domain_email: req.user.domain_email, populate: 'companyId' })
     .then(companyUser => {
@@ -212,9 +220,10 @@ exports.enable = function (req, res) {
                   needle('get', `https://graph.facebook.com/v6.0/me?access_token=${page.accessToken}`)
                     .then(response => {
                       if (response.body.error) {
-                        const message = response.body.error || 'Failed to fetch company user'
-                        logger.serverLog(message, `${TAG}: exports.enable`, {}, {user: req.user}, 'error')
-                        // sendOpAlert(response.body.error, 'pages controller in kiboengage', page._id, page.userId, page.companyId)
+                        if (!isPageManagePermissionError(response.body.error)) {
+                          const message = response.body.error || 'Failed to fetch page information from Facebook'
+                          logger.serverLog(message, `${TAG}: exports.enable`, {}, {user: req.user}, 'error')
+                        }
                         return res.status(400).json({ status: 'failed', payload: response.body.error.message, type: 'invalid_permissions' })
                       } else {
                         utility.callApi(`pages/query`, 'post', { pageId: req.body.pageId, connected: true })

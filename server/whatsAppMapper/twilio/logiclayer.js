@@ -106,6 +106,7 @@ exports.prepareChatbotPayload = (company, contact, payload, options) => {
       message.body = payload.text + appendOptions(options)
     } else if (['image', 'file', 'audio', 'video', 'media'].includes(payload.componentType)) {
       message.mediaUrl = payload.fileurl.url
+      message.body = (payload.caption) ? payload.caption : undefined
     } else if (payload.componentType === 'card') {
       message.body = payload.url
     }

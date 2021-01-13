@@ -149,16 +149,21 @@ exports.getProductVariants = (id, paginationParams, credentials) => {
   return new Promise(function (resolve, reject) {
     paginationParams = paginationParams || { limit: 9 }
     shopify.productVariant.list(id, paginationParams)
-      .then(products => {
+      .then(async products => {
         let nextPageParameters = products.nextPageParameters
-        products = products.map(product => {
-          return { id: product.id,
+        products = await Promise.all(products.map(async product => {
+          let variantPayload = { id: product.id,
             name: product.title,
             product_id: product.product_id,
             price: product.price,
             inventory_quantity: product.inventory_quantity
           }
-        })
+          if (product.image_id) {
+            let image = await shopify.productImage.get(product.product_id, product.image_id)
+            variantPayload.image = image.src
+          }
+          return variantPayload
+        }))
         if (nextPageParameters) {
           products.nextPageParameters = nextPageParameters
         }
@@ -231,12 +236,21 @@ exports.getOrderStatus = (id, credentials) => {
                 }
                 variantTitle
                 quantity
+                image {
+                  originalSrc
+                }
                 sku
                 vendor
                 product {
                   id
                 }
                 name
+                originalTotalSet {
+                  presentmentMoney {
+                    amount
+                    currencyCode
+                  }
+                }
               }
             }
           }
@@ -249,7 +263,13 @@ exports.getOrderStatus = (id, credentials) => {
   return new Promise(function (resolve, reject) {
     shopify.graphql(query)
       .then(result => {
-        let order = result.orders.edges[0].node
+        let order = null
+        if (result.orders.edges[0]) {
+          order = result.orders.edges[0].node
+        } else {
+          resolve(order)
+          return
+        }
         order = {
           ...order,
           lineItems: order.lineItems.edges.map(lineItem => {
@@ -259,10 +279,13 @@ exports.getOrderStatus = (id, credentials) => {
               title: lineItem.node.title,
               quantity: lineItem.node.quantity,
               sku: lineItem.node.sku,
+              image: lineItem.node.image,
               variant_title: lineItem.node.variant_title,
               vendor: lineItem.node.vendor,
               product: lineItem.node.product,
-              name: lineItem.node.name
+              name: lineItem.node.name,
+              price: lineItem.node.originalTotalSet.presentmentMoney.amount,
+              currency: lineItem.node.originalTotalSet.presentmentMoney.currencyCode
             }
           })
         }
@@ -375,6 +398,31 @@ exports.findCustomerOrders = (customerId, limit, credentials) => {
               node {
                 id
                 name
+                createdAt
+                totalPriceSet {
+                  presentmentMoney {
+                    amount
+                    currencyCode
+                  }
+                }
+                lineItems(first: 1) {
+                  edges {
+                    node {
+                      id
+                      name
+                      quantity
+                      image {
+                        originalSrc
+                      }
+                      originalTotalSet {
+                        presentmentMoney {
+                          amount
+                          currencyCode
+                        }
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -388,6 +436,11 @@ exports.findCustomerOrders = (customerId, limit, credentials) => {
       .then(result => {
         let customer = result.customers.edges[0].node
         customer.orders = customer.orders.edges.map(order => {
+          const lineItems = order.node.lineItems.edges.map(lineItem => {
+            return lineItem.node
+          })
+          const orderItem = order.node
+          orderItem.lineItems = lineItems
           return order.node
         })
         resolve(customer)
@@ -443,7 +496,7 @@ exports.addOrUpdateProductToCart = (customerId, lineItems, cartToken, credential
 // ]
 exports.createPermalinkForCart = (customer, lineItems, credentials) => {
   let shopUrl = credentials.shopUrl
-  let permaLink = `http://${shopUrl}/cart/`
+  let permaLink = `https://${shopUrl}/cart/`
   lineItems.forEach(item => {
     permaLink += `${item.variant_id}:${item.quantity},`
   })
@@ -452,6 +505,35 @@ exports.createPermalinkForCart = (customer, lineItems, credentials) => {
   permaLink = `${permaLink}&checkout[shipping_address][first_name]=${customer.first_name}`
   permaLink = `${permaLink}&checkout[shipping_address][last_name]=${customer.last_name}`
   return permaLink
+}
+
+exports.createTestOrder = (customer, lineItems, address, credentials) => {
+  const shopify = initShopify(credentials)
+  return new Promise(function (resolve, reject) {
+    shopify.order.create({
+      financial_status: 'pending',
+      line_items: lineItems,
+      send_receipt: true,
+      customer: {
+        id: customer.id
+      },
+      transactions: [
+        {
+          kind: 'authorization',
+          status: 'success',
+          amount: 1.0
+        }
+      ],
+      billing_address: address,
+      shipping_address: address
+    })
+      .then(order => {
+        resolve(order)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
 }
 
 // Address object required as discussed in shopify api

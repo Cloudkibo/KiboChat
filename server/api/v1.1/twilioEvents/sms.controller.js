@@ -6,6 +6,7 @@ const { pushUnresolveAlertInStack } = require('../../global/messageAlerts')
 const { ActionTypes } = require('../../../smsMapper/constants')
 const { smsMapper } = require('../../../smsMapper')
 const chatbotResponder = require('../../../chatbotResponder')
+const { kiboengage } = require('../../global/constants').serverConstants
 
 exports.index = function (req, res) {
   res.status(200).json({
@@ -48,10 +49,10 @@ exports.index = function (req, res) {
                         }
                       }
                     })
+                    saveBroadcastResponse(contact, MessageObject)
                     chatbotResponder.respondUsingChatbot('sms', 'twilio', {...company, number: req.body.To}, req.body.Body, contact)
                     _sendNotification(contact, contact.companyId)
-                    updateContact(contact._id, {last_activity_time: Date.now(), lastMessagedAt: Date.now(), hasChat: true, pendingResponse: true, status: 'new'})
-                    updateContact(contact._id, {$inc: { unreadCount: 1, messagesCount: 1 }})
+                    updateContact(contact)
                   })
                   .catch(error => {
                     const message = error || 'Failed to create sms'
@@ -80,9 +81,16 @@ exports.index = function (req, res) {
     })
 }
 
-function updateContact (contactId, newPayload) {
+function updateContact (contact) {
+  let newPayload = {
+    $inc: { unreadCount: 1, messagesCount: 1 },
+    $set: {last_activity_time: Date.now(), lastMessagedAt: Date.now(), hasChat: true, pendingResponse: true, status: 'new'}
+  }
+  if (contact.waitingForBroadcastResponse) {
+    newPayload.$unset = {waitingForBroadcastResponse: 1}
+  }
   let subscriberData = {
-    query: {_id: contactId},
+    query: {_id: contact._id},
     newPayload: newPayload,
     options: {}
   }
@@ -91,8 +99,43 @@ function updateContact (contactId, newPayload) {
     })
     .catch(error => {
       const message = error || 'Failed to update contact'
-      logger.serverLog(message, `${TAG}: exports.updateContact`, {}, {contactId, newPayload}, 'error')
+      logger.serverLog(message, `${TAG}: exports.updateContact`, {}, {contactId: contact._id, newPayload}, 'error')
     })
+}
+
+function saveBroadcastResponse (contact, MessageObject) {
+  if (contact.waitingForBroadcastResponse) {
+    let data = {
+      companyId: contact.companyId,
+      broadcastId: contact.waitingForBroadcastResponse.broadcastId,
+      customerId: contact._id,
+      platform: 'sms',
+      response: MessageObject.payload
+    }
+    callApi(`broadcasts/responses`, 'post', data, kiboengage)
+      .then(response => {
+        let body = {
+          room_id: contact.companyId,
+          body: {
+            action: 'sms_broadcast_response',
+            payload: {
+              response: response,
+              subscriber: contact
+            }
+          }
+        }
+        callApi(`receiveSocketEvent`, 'post', body, 'engage')
+          .then(response => {
+          }).catch(err => {
+            const message = err || 'failed to send socket event'
+            logger.serverLog(message, `${TAG}: saveBroadcastResponse`, {}, {contact, data}, 'error')
+          })
+      })
+      .catch(error => {
+        const message = error || 'Failed to save broadcast response'
+        logger.serverLog(message, `${TAG}: saveBroadcastResponse`, {}, {contact, data}, 'error')
+      })
+  }
 }
 
 function handleUnsub (user, company, contact, body) {

@@ -2,6 +2,7 @@ const chatbotDataLayer = require('./../chatbots/chatbots.datalayer')
 const chatbotAnalyticsDataLayer = require('./../chatbots/chatbots_analytics.datalayer')
 const messageBlockDataLayer = require('./../messageBlock/messageBlock.datalayer')
 const shopifyDataLayer = require('../shopify/shopify.datalayer')
+const { setSubscriberPayloadInfo } = require('../liveChat/liveChat.logiclayer')
 const bigCommerceDataLayer = require('../bigcommerce/bigcommerce.datalayer')
 const logicLayer = require('./logiclayer')
 const shopifyChatbotLogicLayer = require('../chatbots/commerceChatbot.logiclayer')
@@ -29,9 +30,14 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
                   messageBlockDataLayer.findOneMessageBlock(chatbot.type === 'automated' ? { uniqueId: chatbot.startingBlockId } : { _id: chatbot.startingBlockId })
                     .then(messageBlock => {
                       if (messageBlock) {
+                        let blockInfo = {
+                          chatBotId: chatbot._id,
+                          messageBlockId: messageBlock._id,
+                          messageBlockTitle: messageBlock.title
+                        }
                         senderAction(req.sender.id, 'typing_on', page.accessToken)
                         intervalForEach(messageBlock.payload, (item) => {
-                          sendResponse(req.sender.id, item, subscriber, page.accessToken)
+                          sendResponse(req.sender.id, item, subscriber, page.accessToken, blockInfo)
                           saveLiveChatMessage(page, subscriber, item)
                           senderAction(req.sender.id, 'typing_off', page.accessToken)
                         }, 1500)
@@ -192,9 +198,14 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
                 })
                   .then(messageBlock => {
                     if (messageBlock) {
+                      let blockInfo = {
+                        chatBotId: chatbot._id,
+                        messageBlockId: messageBlock._id,
+                        messageBlockTitle: messageBlock.title
+                      }
                       senderAction(req.sender.id, 'typing_on', page.accessToken)
                       intervalForEach(messageBlock.payload, (item) => {
-                        sendResponse(req.sender.id, item, subscriber, page.accessToken)
+                        sendResponse(req.sender.id, item, subscriber, page.accessToken, blockInfo)
                         saveLiveChatMessage(page, subscriber, item)
                         senderAction(req.sender.id, 'typing_off', page.accessToken)
                       }, 1500)
@@ -270,9 +281,14 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId, parentBlock
                 messageBlockDataLayer.findOneMessageBlock({ uniqueId: uniqueId.toString() })
                   .then(messageBlock => {
                     if (messageBlock) {
+                      let blockInfo = {
+                        chatBotId: chatbot._id,
+                        messageBlockId: messageBlock._id,
+                        messageBlockTitle: messageBlock.title
+                      }
                       senderAction(req.sender.id, 'typing_on', page.accessToken)
                       intervalForEach(messageBlock.payload, (item) => {
-                        sendResponse(req.sender.id, item, subscriber, page.accessToken)
+                        sendResponse(req.sender.id, item, subscriber, page.accessToken, blockInfo)
                         saveLiveChatMessage(page, subscriber, item)
                         senderAction(req.sender.id, 'typing_off', page.accessToken)
                       }, 1500)
@@ -314,16 +330,25 @@ exports.handleChatBotTestMessage = (req, page, subscriber, type) => {
       if (chatbot) {
         messageBlockDataLayer.findOneMessageBlock(type === 'automated' ? { uniqueId: chatbot.startingBlockId } : { _id: chatbot.startingBlockId })
           .then(messageBlock => {
-            if (messageBlock) {
-              _sendToClientUsingSocket(chatbot)
-              senderAction(req.sender.id, 'typing_on', page.accessToken)
-              intervalForEach(messageBlock.payload, (item) => {
-                sendResponse(req.sender.id, item, subscriber, page.accessToken)
-                saveLiveChatMessage(page, subscriber, item)
-                senderAction(req.sender.id, 'typing_off', page.accessToken)
-              }, 1500)
-            }
-            saveTesterInfoForLater(page._id, subscriber.id, chatbot)
+            callApi(`companyprofile/query`, 'post', { _id: page.companyId })
+              .then(company => {
+                if (messageBlock) {
+                  _sendToClientUsingSocket(chatbot)
+                  senderAction(req.sender.id, 'typing_on', page.accessToken)
+                  intervalForEach(messageBlock.payload, (item) => {
+                    sendResponse(req.sender.id, item, subscriber, page.accessToken)
+                    if (company.saveAutomationMessages) {
+                      saveLiveChatMessage(page, subscriber, item)
+                    }
+                    senderAction(req.sender.id, 'typing_off', page.accessToken)
+                  }, 1500)
+                }
+                saveTesterInfoForLater(page._id, subscriber.id, chatbot)
+              })
+              .catch(err => {
+                const message = err || 'error in fetching company'
+                return logger.serverLog(message, `${TAG}: exports.handleChatBotTestMessage`, {}, {req, page, subscriber, type, messageBlock}, 'error')
+              })
           })
           .catch(error => {
             const message = error || 'error in fetching message block'
@@ -337,11 +362,15 @@ exports.handleChatBotTestMessage = (req, page, subscriber, type) => {
     })
 }
 
-function sendResponse (recipientId, payload, subscriber, accessToken) {
-  let finalPayload = logicLayer.prepareSendAPIPayload(recipientId, payload, subscriber.firstName, subscriber.lastName, true)
+function sendResponse (recipientId, payload, subscriber, accessToken, blockInfo, metadata) {
+  let isCaptureUserPhoneEmail = logicLayer.checkCaptureUserEmailPhone(payload)
+  let finalPayload = logicLayer.prepareSendAPIPayload(recipientId, payload, subscriber.firstName, subscriber.lastName, true, metadata)
   record('messengerChatOutGoing')
   facebookApiCaller('v3.2', `me/messages?access_token=${accessToken}`, 'post', finalPayload)
     .then(response => {
+      if (isCaptureUserPhoneEmail) {
+        setSubscriberPayloadInfo(subscriber, payload, blockInfo)
+      }
     })
     .catch(error => {
       const message = error || 'error in sending message'
@@ -648,5 +677,44 @@ function saveLiveChatMessage (page, subscriber, item) {
   require('./sessions.controller').saveChatInDb(page, message, subscriber, {message: {is_echo: true}})
 }
 
+const isTriggerMessage = (event, page) => {
+  return new Promise((resolve, reject) => {
+    chatbotDataLayer.findOneChatBot({ pageId: page._id, type: 'manual' })
+      .then(chatbot => {
+        if (chatbot) {
+          let userText = event.message && event.message.text ? event.message.text.toLowerCase().trim() : ''
+          if (userText !== '') {
+            messageBlockDataLayer.findOneMessageBlock({
+              'module.type': 'chatbot',
+              'module.id': chatbot._id,
+              triggers: userText
+            })
+              .then(messageBlock => {
+                if (messageBlock) {
+                  console.log('messageBlock', messageBlock)
+                  resolve(true)
+                } else {
+                  resolve(false)
+                }
+              })
+              .catch(err => {
+                const message = err || 'Unable to find messageblock'
+                logger.serverLog(message, `${TAG}: exports.isTriggerMessage`, {}, {event, page}, 'error')
+                reject(err)
+              })
+          }
+        } else {
+          resolve(false)
+        }
+      })
+      .catch(err => {
+        const message = err || 'Unable to find Chatbot'
+        logger.serverLog(message, `${TAG}: exports.isTriggerMessage`, {}, {event, page}, 'error')
+        reject(err)
+      })
+  })
+}
 exports.updateBotPeriodicStatsForBlock = updateBotPeriodicStatsForBlock
 exports.updateBotLifeStatsForBlock = updateBotLifeStatsForBlock
+exports.sendResponse = sendResponse
+exports.isTriggerMessage = isTriggerMessage

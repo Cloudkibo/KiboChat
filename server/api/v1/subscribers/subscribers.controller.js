@@ -195,7 +195,6 @@ exports.getAll = function (req, res) {
           .then(count => {
             utility.callApi(`tags_subscriber/aggregate`, 'post', criterias.fetchCriteria) // fetch subscribers count
               .then(subscribers => {
-                console.log('subscribers by filter', subscribers)
                 let newSubscribersArray = []
                 subscribers.forEach((subscriber, index) => {
                   let newSubscriberTemp = subscriber.Subscribers
@@ -248,6 +247,17 @@ exports.getAll = function (req, res) {
 exports.subscribeBack = function (req, res) {
   utility.callApi(`subscribers/update`, 'put', { query: { _id: req.params.id, unSubscribedBy: 'agent' }, newPayload: { isSubscribed: true, unSubscribedBy: 'subscriber' }, options: {} }) // fetch single subscriber
     .then(subscriber => {
+      require('./../../../config/socketio').sendMessageToClient({
+        room_id: req.user.companyId,
+        body: {
+          action: 'Messenger_subscribe_subscriber',
+          payload: {
+            subscriber_id: req.params.id,
+            user_id: req.user._id,
+            user_name: req.user.name
+          }
+        }
+      })
       return res.status(200).json({
         status: 'success',
         payload: subscriber
@@ -264,7 +274,6 @@ exports.subscribeBack = function (req, res) {
 }
 
 exports.updatePicture = function (req, res) {
-  // console.log('hit the updatePicture endpoint', req.body)
   utility.callApi('subscribers/updatePicture', 'post', req.body)
     .then(update => {
       return res.status(200).json({
@@ -361,9 +370,9 @@ exports.unSubscribe = function (req, res) {
                 })
               }
               require('./../../../config/socketio').sendMessageToClient({
-                room_id: companyUser.companyId,
+                room_id: req.user.companyId,
                 body: {
-                  action: 'unsubscribe',
+                  action: 'Messenger_unsubscribe_subscriber',
                   payload: {
                     subscriber_id: req.body.subscriber_id,
                     user_id: req.user._id,

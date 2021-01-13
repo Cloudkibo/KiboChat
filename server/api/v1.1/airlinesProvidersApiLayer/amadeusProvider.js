@@ -1,4 +1,5 @@
 const Amadeus = require('amadeus')
+const CityTimeZones = require('city-timezones')
 const util = require('./util')
 const { padWithZeros } = require('./../../../components/utility')
 
@@ -17,11 +18,6 @@ exports.fetchAirlines = (credentials) => {
     'airline_name': 'United Airlines',
     'iata_code': 'UA',
     'icao_code': 'UAL'
-  },
-  {
-    'airline_name': 'American Airlines',
-    'iata_code': 'AA',
-    'icao_code': 'AAL'
   },
   {
     'airline_name': 'Delta Air Lines',
@@ -57,7 +53,7 @@ exports.fetchCityInfo = (name, credentials) => {
         resolve(payload)
       })
       .catch(err => {
-        reject(err)
+        reject(JSON.parse(err.response.body))
       })
   })
 }
@@ -91,7 +87,7 @@ exports.fetchAirportInfo = (name, credentials) => {
         resolve(payload)
       })
       .catch(err => {
-        reject(err)
+        reject(JSON.parse(err.response.body))
       })
   })
 }
@@ -119,17 +115,35 @@ exports.fetchFlights = (depIata, arrIata, depTime, airlineCode, flightNumber, cr
           const airports = item.itineraries[0].segments.map(segment => {
             const departureAirport = util.findAirportInfoByCode(segment.departure.iataCode)
             const arrivalAirport = util.findAirportInfoByCode(segment.arrival.iataCode)
+            let departureAirportTimeZone
+            let arrivalAirportTimeZone
+            if (departureAirport) {
+              departureAirportTimeZone = CityTimeZones.findFromCityStateProvince(departureAirport['Location served'].split(',')[1])
+              if (departureAirportTimeZone[0]) {
+                departureAirportTimeZone = departureAirportTimeZone[0].timezone
+              } else {
+                departureAirportTimeZone = undefined
+              }
+            }
+            if (arrivalAirport) {
+              arrivalAirportTimeZone = CityTimeZones.findFromCityStateProvince(arrivalAirport['Location served'].split(',')[1])
+              if (arrivalAirportTimeZone[0]) {
+                arrivalAirportTimeZone = arrivalAirportTimeZone[0].timezone
+              } else {
+                arrivalAirportTimeZone = undefined
+              }
+            }
             return {
               'flight_number': segment.number,
               'departure': {
                 'airport': departureAirport,
-                'timezone': segment.departure.timezone,
+                'timezone': departureAirportTimeZone,
                 'iata': segment.departure.iataCode,
                 'scheduled': segment.departure.at
               },
               'arrival': {
                 'airport': arrivalAirport,
-                'timezone': segment.arrival.timezone,
+                'timezone': arrivalAirportTimeZone,
                 'iata': segment.arrival.iataCode,
                 'scheduled': segment.arrival.at
               }
@@ -156,13 +170,53 @@ exports.fetchFlights = (depIata, arrIata, depTime, airlineCode, flightNumber, cr
         })
         if (flightNumber) {
           payload = payload.filter(item => item.flight.number === flightNumber)
-          payload = [payload[0]]
         }
         payload = payload.filter(item => item.airline && item.airline.name)
+        payload = payload.slice().sort((item1, item2) => {
+          return new Date(item1.flight_date) - new Date(item2.flight_date)
+        })
+        payload = payload.slice().sort((item1, item2) => item1.airports.length - item2.airports.length)
         resolve(payload)
       })
       .catch(err => {
-        reject(err)
+        if (err.response.statusCode === 400) {
+          const errorBody = JSON.parse(err.response.body)
+          let errorMessage = ''
+          for (let i = 0; i < errorBody.errors.length; i++) {
+            if (errorBody.errors[i].detail === 'Date/Time is in the past') {
+              errorMessage = 'Date/Time is in the past'
+              break
+            }
+          }
+          if (errorMessage) {
+            resolve([])
+          } else {
+            reject(errorBody.errors)
+          }
+        } else {
+          reject(JSON.parse(err.response.body))
+        }
+      })
+  })
+}
+
+exports.fetchFlightByNumber = (flightNumber, airlineCode, depTime, credentials) => {
+  const amadeus = initAmadeus(credentials)
+  depTime = new Date(depTime)
+  depTime = `${depTime.getFullYear()}-${(depTime.getMonth() + 1)}-${padWithZeros(depTime.getDate(), 2)}`
+  let queryPayload = {
+    carrierCode: airlineCode,
+    flightNumber: flightNumber,
+    scheduledDepartureDate: depTime
+  }
+  return new Promise(function (resolve, reject) {
+    amadeus.schedule.flights.get(queryPayload)
+      .then(result => {
+        let payload = result.data
+        resolve(payload)
+      })
+      .catch(err => {
+        reject(JSON.parse(err.response.body))
       })
   })
 }
