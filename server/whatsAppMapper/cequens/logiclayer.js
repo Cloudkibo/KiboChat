@@ -1,5 +1,10 @@
 var path = require('path')
 const { appendOptions } = require('../logiclayer')
+const fs = require('fs')
+const crypto = require('crypto')
+let config = require('../../config/environment')
+var mime = require('mime-types')
+const { cequensApiCaller } = require('../../api/global/cequensApiCaller')
 
 exports.prepareSendMessagePayload = (body) => {
   let MessageObject = {
@@ -150,5 +155,110 @@ exports.prepareChatbotPayload = (company, contact, payload, options) => {
       }
     }
     resolve(MessageObject)
+  })
+}
+
+exports.prepareReceivedMessageData = (event, company) => {
+  let message = event.messages[0]
+  let companyWhatsApp = company.whatsApp
+  let payload = {}
+  return new Promise((resolve, reject) => {
+    if (message.type === 'image' || message.type === 'video' || message.type === 'document' || message.type === 'audio' || message.type === 'voice') {
+      cequensApiCaller(`media/` + message[message.type].id, 'cequens-wab', event.businessNumber.replace('+', ''), 'get', companyWhatsApp.accessToken)
+        .then(response => {
+          console.log('response', response.body)
+          if (response.body.errors) {
+            reject(response.body.errors)
+          } else {
+            let ext = mime.extension(response.headers['content-type'])
+            uploadMedia(response.body, message[message.type].id + '.' + ext)
+              .then(payload => {
+                let uploadedUrl = payload.url
+                if (message.type === 'image' && message.image) {
+                  payload = { componentType: 'image', fileurl: { url: uploadedUrl } }
+                  if (message.image.caption && message.image.caption !== '') {
+                    payload.caption = message.image.caption
+                  }
+                  resolve(payload)
+                } else if (message.type === 'video' && message.video) {
+                  payload = { componentType: 'video', fileurl: { url: uploadedUrl } }
+                  if (message.video.caption !== '') {
+                    payload.caption = message.video.caption
+                  }
+                  resolve(payload)
+                } else if (message.type === 'document') {
+                  payload = {
+                    componentType: 'file',
+                    fileurl: { url: uploadedUrl },
+                    fileName: message.document.filename
+                  }
+                  resolve(payload)
+                } else if (message.type === 'audio') {
+                  payload = { componentType: 'audio', fileurl: { url: uploadedUrl } }
+                  resolve(payload)
+                } else if (message.type === 'voice') {
+                  payload = { componentType: 'audio', fileurl: { url: uploadedUrl } }
+                  resolve(payload)
+                }
+              })
+              .catch(err => {
+                reject(err)
+              })
+          }
+        })
+        .catch(error => {
+          reject(error)
+        })
+    } else if (message.type === 'location') {
+      payload = {
+        componentType: 'location',
+        title: 'Pinned Location',
+        payload: {
+          coordinates: { lat: message.location.latitude, long: message.location.longitude }
+        }
+      }
+      resolve(payload)
+    } else if (message.type === 'contacts' && message.contacts[0]) {
+      payload = { componentType: 'contact',
+        name: message.contacts[0].name.formatted_name,
+        number: message.contacts[0].phones[0].phone }
+      resolve(payload)
+    } else if (message.type === 'text' && message.text.body !== '') {
+      payload = { componentType: 'text', text: message.text.body }
+      resolve(payload)
+    } else {
+      resolve(payload)
+    }
+  })
+}
+
+const uploadMedia = function (blob, fileName) {
+  return new Promise((resolve, reject) => {
+    var today = new Date()
+    var uid = crypto.randomBytes(5).toString('hex')
+    var serverPath = 'f' + uid + '' + today.getFullYear() + '' +
+    (today.getMonth() + 1) + '' + today.getDate()
+    serverPath += '' + today.getHours() + '' + today.getMinutes() + '' +
+    today.getSeconds()
+    let fext = fileName.split('.')
+    serverPath += '.' + fext[fext.length - 1].toLowerCase()
+    console.log('dir', __dirname)
+    let dir = path.resolve(__dirname, '../../../broadcastFiles/')
+    if (blob) {
+      fs.writeFile(dir + '/userfiles/' + serverPath, blob, (err) => {
+        if (err) {
+          reject(err)
+        } else {
+          let payload = {
+            id: serverPath,
+            name: fileName,
+            url: `${config.domain}/api/broadcasts/download/${serverPath}`
+          }
+          resolve(payload)
+        }
+      })
+    } else {
+      reject(new Error('Blob not found'))
+    }
   })
 }

@@ -3,6 +3,7 @@ const { cequensApiCaller } = require('../../api/global/cequensApiCaller')
 const logger = require('../../components/logger')
 const TAG = 'whatsAppMapper/cequens/cequens.js'
 const async = require('async')
+const { callApi } = require('../../api/v1/utility')
 
 exports.sendChatMessage = (data) => {
   return new Promise((resolve, reject) => {
@@ -139,13 +140,33 @@ exports.sendTextMessage = ({text, company, subscriber}) => {
       })
   })
 }
-exports.getNormalizedMessageStatusData = (event) => {
+
+exports.getNormalizedMessageReceivedData = (event) => {
   return new Promise((resolve, reject) => {
     try {
-      resolve({
-        messageId: event.statuses[0].id,
-        status: event.statuses[0].status === 'read' ? 'seen' : event.statuses[0].status
-      })
+      let contact = event.contacts[0]
+      let message = event.messages[0]
+      let businessNumber = '+' + event.businessNumber
+      callApi(`companyprofile/query`, 'post', { 'whatsApp.businessNumber': businessNumber })
+        .then(company => {
+          logicLayer.prepareReceivedMessageData(event, company)
+            .then(payload => {
+              resolve({
+                accessToken: company.whatsApp.accessToken,
+                userData: {
+                  number: message.from,
+                  name: contact.profile.name
+                },
+                messageData: payload
+              })
+            })
+            .catch(err => {
+              reject(err)
+            })
+        })
+        .catch(err => {
+          reject(err)
+        })
     } catch (err) {
       reject(err)
     }
