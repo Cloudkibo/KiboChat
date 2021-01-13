@@ -63,20 +63,36 @@ exports.saveAlert = function (req, res) {
     })
 }
 exports.subscribe = function (req, res) {
-  let payload = {
-    companyId: req.user.companyId,
-    platform: req.body.platform,
-    alertChannel: req.body.channel,
-    channelId: req.body.channelId,
-    userName: req.body.name,
-    profilePic: req.body.profilePic
+  let query = {
+    purpose: 'findOne',
+    match: {companyId: req.user.companyId, platform: req.body.platform, alertChannel: req.body.channel, channelId: req.body.channelId}
   }
-  callApi(`alerts/subscriptions`, 'post', payload, 'kibochat')
-    .then(data => {
-      sendSuccessResponse(res, 200, data, 'subscribed successfully')
+  callApi(`alerts/subscriptions/query`, 'post', query, 'kibochat')
+    .then(subscription => {
+      if (subscription) {
+        sendErrorResponse(res, 500, '', 'Subscription already Exists')
+      } else {
+        let payload = {
+          companyId: req.user.companyId,
+          platform: req.body.platform,
+          alertChannel: req.body.channel,
+          channelId: req.body.channelId,
+          userName: req.body.name,
+          profilePic: req.body.profilePic
+        }
+        callApi(`alerts/subscriptions`, 'post', payload, 'kibochat')
+          .then(data => {
+            sendSuccessResponse(res, 200, data, 'subscribed successfully')
+          })
+          .catch(err => {
+            const message = err || 'Error in subscribe'
+            logger.serverLog(message, `${TAG}: exports.subscribe`, req.body, {user: req.user}, 'error')
+            sendErrorResponse(res, 500, err, 'Failed to subscribe')
+          })
+      }
     })
     .catch(err => {
-      const message = err || 'Error in subscribe'
+      const message = err || 'Error in fetching subscriptions'
       logger.serverLog(message, `${TAG}: exports.subscribe`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err, 'Failed to subscribe')
     })

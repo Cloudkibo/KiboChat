@@ -214,7 +214,7 @@ function _sendAlerts (cronStack, messageAlert, companyProfile, cb) {
   } else if (cronStack.payload.type === 'pending_session') {
     notificationMessage = `Subscriber ${name} session is in pending state for the last ${messageAlert.interval} minute(s) and they are waiting for an agent to respond to them.`
   } else if (cronStack.payload.type === 'talk_to_agent') {
-    notificationMessage = `Subscriber ${name} have selected the "Talk to agent" option from ${cronStack.payload.chatbotName} chatbot and they are waiting for an agent to respond to them`
+    notificationMessage = `Subscriber ${name} has selected the "Talk to agent" option from ${cronStack.payload.chatbotName} chatbot and they are waiting for an agent to respond to them.`
   }
   utility.callApi(`alerts/subscriptions/query`, 'post', query, 'kibochat')
     .then(subscriptions => {
@@ -282,7 +282,7 @@ function _sendInAppNotification (data, next) {
                   notification.muteNotification = false
                 }
               }
-              require('../config/socketio').sendMessageToClient({
+              require('../../config/socketio').sendMessageToClient({
                 room_id: data.messageAlert.companyId,
                 body: {
                   action: 'new_notification',
