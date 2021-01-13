@@ -51,7 +51,7 @@ function unresolvedSession (findAdminAlerts) {
                   cb()
                 }
               } else {
-                // _deleteCronStackRecord(cronStack, cb)
+                _deleteCronStackRecord(cronStack, cb)
               }
             })
             .catch(error => {
@@ -300,7 +300,6 @@ function _sendInAppNotification (data, next) {
         })
     }, function (err, result) {
       if (err) {
-        console.log('error in _sendInAppNotification', err)
         const message = err || 'Unable to send notification'
         logger.serverLog(message, `${TAG}: _sendInAppNotification`, {}, {data}, 'error')
       }

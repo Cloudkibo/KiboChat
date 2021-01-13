@@ -274,15 +274,15 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId, parentBlock
                 if (payloadAction === 'talk_to_agent') {
                   handleTalkToAgent(page, subscriber)
                 }
+                sendWebhook('CHATBOT_OPTION_SELECTED', 'facebook', {
+                  psid: subscriber.senderId,
+                  pageId: page.pageId,
+                  blockTitle: parentBlockTitle,
+                  option: req.message ? req.message.text : req.postback.title,
+                  chatbotTitle: page.pageName,
+                  timestamp: Date.now()
+                }, page)
                 if (uniqueId) {
-                  sendWebhook('CHATBOT_OPTION_SELECTED', 'facebook', {
-                    psid: subscriber.senderId,
-                    pageId: page.pageId,
-                    blockTitle: parentBlockTitle,
-                    option: req.message ? req.message.text : req.postback.title,
-                    chatbotTitle: page.pageName,
-                    timestamp: Date.now()
-                  }, page)
                   messageBlockDataLayer.findOneMessageBlock({ uniqueId: uniqueId.toString() })
                     .then(messageBlock => {
                       if (messageBlock) {
