@@ -493,7 +493,7 @@ async function temporarySuperBotTestHandling (data, contact, company, number, re
         }
         updateWhatsAppContact({ _id: contact._id }, updateWhatsAppContactData, null, {})
       }
-    } else if (contact.lastMessageSentByBot && contact.lastMessageSentByBot.module.id === 'sojharo-s-chatbot-custom-id') {
+    } else if (contact.lastMessageSentByBot && contact.lastMessageSentByBot.module && contact.lastMessageSentByBot.module.id === 'sojharo-s-chatbot-custom-id') {
       const menuInput = parseInt(data.messageData.text)
       const lastMessageSentByBot = contact.lastMessageSentByBot.payload[0]
 
