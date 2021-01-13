@@ -1545,15 +1545,18 @@ const invalidInput = async (chatbot, messageBlock, errMessage) => {
     messageBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
   }
 
-  if (messageBlock.payload[0].text.includes(ERROR_INDICATOR)) {
-    messageBlock.payload[0].text = messageBlock.payload[0].text.split('\n').filter((line) => {
-      return !line.includes(ERROR_INDICATOR)
-    }).join('\n')
-    messageBlock.payload[0].text = `${errMessage}\n` + messageBlock.payload[0].text
-  } else {
-    messageBlock.payload[0].text = `${errMessage}\n\n` + messageBlock.payload[0].text
+  for (let i = 0; i < messageBlock.payload.length; i++) {
+    if (messageBlock.payload[i].text && messageBlock.payload[i].text.includes(ERROR_INDICATOR)) {
+      messageBlock.payload[i].text = messageBlock.payload[i].text.split('\n').filter((line) => {
+        return !line.includes(ERROR_INDICATOR)
+      }).join('\n')
+      messageBlock.payload[i].text = `${errMessage}\n` + messageBlock.payload[i].text
+      break
+    } else if (messageBlock.payload[i].text) {
+      messageBlock.payload[i].text = `${errMessage}\n\n` + messageBlock.payload[i].text
+      break
+    }
   }
-
   return messageBlock
 }
 
