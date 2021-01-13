@@ -139,3 +139,15 @@ exports.sendTextMessage = ({text, company, subscriber}) => {
       })
   })
 }
+exports.getNormalizedMessageStatusData = (event) => {
+  return new Promise((resolve, reject) => {
+    try {
+      resolve({
+        messageId: event.statuses[0].id,
+        status: event.statuses[0].status === 'read' ? 'seen' : event.statuses[0].status
+      })
+    } catch (err) {
+      reject(err)
+    }
+  })
+}
