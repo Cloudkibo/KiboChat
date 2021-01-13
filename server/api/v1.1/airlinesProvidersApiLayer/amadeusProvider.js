@@ -1,5 +1,5 @@
 const Amadeus = require('amadeus')
-//const CityTimeZones = require('city-timezones')
+const CityTimeZones = require('city-timezones')
 const util = require('./util')
 const { padWithZeros } = require('./../../../components/utility')
 
