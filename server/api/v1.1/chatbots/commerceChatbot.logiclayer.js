@@ -982,7 +982,7 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
       contact.commerceCustomer.cartId = null
     }
     updateSubscriber({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
-    let text = `${quantity} ${product.product}${quantity !== 1 ? 's have' : ' has'} been succesfully added to your cart.`
+    let text = `${quantity} ${product.product}${quantity !== 1 ? 's have' : 'has'} been succesfully added to your cart.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
     if (!userError) {
@@ -1428,6 +1428,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
         checkoutLink = await EcommerceProvider.createPermalinkForCart(commerceCustomer, contact.shoppingCart)
       } else if (chatbot.storeType === commerceConstants.bigcommerce) {
         const bigcommerceCart = await EcommerceProvider.createCart(commerceCustomer.id, contact.shoppingCart)
+        commerceCustomer.cartId = bigcommerceCart.id
         checkoutLink = await EcommerceProvider.createPermalinkForCartBigCommerce(bigcommerceCart.id)
         checkoutLink = checkoutLink.data.cart_url
       }

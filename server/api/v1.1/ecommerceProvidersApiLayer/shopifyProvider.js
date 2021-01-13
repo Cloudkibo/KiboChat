@@ -555,7 +555,8 @@ exports.createTestOrder = (customer, lineItems, address, credentials) => {
         }
       ],
       billing_address: address,
-      shipping_address: address
+      shipping_address: address,
+      inventory_behaviour: 'decrement_obeying_policy'
     })
       .then(order => {
         resolve(order)
