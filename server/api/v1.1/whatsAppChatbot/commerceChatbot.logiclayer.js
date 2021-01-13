@@ -954,9 +954,11 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
         })
       }
     }
-
-    updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
-    let text = `${quantity} ${product.product}${quantity !== 1 ? 's have' : 'has'} been successfully added to your cart.`
+    if (contact.commerceCustomer) {
+      contact.commerceCustomer.cartId = null
+    }
+    updateWhatsAppContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
+    let text = `${quantity} ${product.product}${quantity !== 1 ? 's have' : 'has'} been succesfully added to your cart.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
     if (!userError) {
@@ -1059,7 +1061,10 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
 const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo) => {
   const shoppingCart = contact.shoppingCart.filter((item, index) => index !== productInfo.productIndex)
   contact.shoppingCart = shoppingCart
-  await updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
+  if (contact.commerceCustomer) {
+      contact.commerceCustomer.cartId = null
+  }
+  await updateWhatsAppContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
   const text = `${productInfo.product} has been successfully removed from your cart.`
   return getShowMyCartBlock(chatbot, backId, contact, text)
 }
@@ -1303,7 +1308,10 @@ const getUpdateCartBlock = async (chatbot, backId, contact, product, quantity) =
         image: product.image
       })
     }
-    updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
+    if (contact.commerceCustomer) {
+      contact.commerceCustomer.cartId = null
+    }
+    updateWhatsAppContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
     let text = `${product.product} quantity has been updated to ${quantity}.`
     if (quantity === 0) {
       text = `${product.product} has been removed from cart.`
@@ -1377,7 +1385,10 @@ const clearCart = async (chatbot, contact) => {
       companyId: chatbot.companyId
     }
     let shoppingCart = []
-    updateWhatsAppContact({ _id: contact._id }, { shoppingCart }, null, {})
+    if (contact.commerceCustomer) {
+      contact.commerceCustomer.cartId = null
+    }
+    updateWhatsAppContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to clear cart'

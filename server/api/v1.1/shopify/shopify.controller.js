@@ -20,6 +20,7 @@ const commerceConstants = require('./../ecommerceProvidersApiLayer/constants')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const path = require('path')
 const Shopify = require('shopify-api-node')
+const { callApi } = require('../utility')
 
 exports.index = function (req, res) {
   const shop = req.body.shop
@@ -109,6 +110,31 @@ function registerWebhooks (shop, token) {
     const message = err || 'Error Creating App Uninstall Webhook'
     logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
   })
+
+  shopify.webhook.create({
+    topic: 'checkouts/create',
+    address: `${config.domain}/api/shopify/complete-checkout`,
+    format: 'json'
+  }).then((response) => {
+  }).catch((err) => {
+    const message = err || 'Error Creating Shopify Complete Checkout Webhook'
+    logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
+  })
+}
+
+exports.handleCompleteCheckout = function (req, res) {
+  try {
+    const updateData = {
+      query: {'commerceCustomer.email': req.body.email},
+      newPayload: { shoppingCart: [] },
+      options: {}
+    }
+    callApi(`whatsAppContacts/update`, 'put', updateData)
+    callApi(`subscribers/update`, 'put', updateData)
+  } catch (err) {
+    const message = err || 'Error processing shopify complete checkout webhook '
+    logger.serverLog(message, `${TAG}: exports.handleCompleteCheckout`, req.body, {header: req.header}, 'error')
+  }
 }
 
 exports.handleAppUninstall = async function (req, res) {
