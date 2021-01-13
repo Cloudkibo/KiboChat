@@ -768,6 +768,7 @@ const getProductVariantsBlock = async (chatbot, backId, contact, EcommerceProvid
           subtitle: priceString
         })
         if (productVariant.inventory_quantity > 0) {
+          messageBlock.payload[1].cards[i].image_url = productVariant.image ? productVariant.image : product.image
           messageBlock.payload[1].cards[i].buttons = [{
             title: 'Add to Cart',
             type: 'postback',
