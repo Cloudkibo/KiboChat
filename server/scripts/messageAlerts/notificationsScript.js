@@ -39,7 +39,7 @@ function unresolvedSession (findAdminAlerts) {
                 let currentTime = moment(new Date())
                 let sessionTime = moment(cronStack.datetime)
                 let duration = moment.duration(currentTime.diff(sessionTime))
-                if (duration.asHours() > messageAlert.interval) {
+                // if (duration.asHours() > messageAlert.interval) {
                   utility.callApi(`companyProfile/query`, 'post', { _id: messageAlert.companyId })
                     .then(companyProfile => {
                       _sendAlerts(cronStack, messageAlert, companyProfile, cb)
@@ -47,9 +47,9 @@ function unresolvedSession (findAdminAlerts) {
                     .catch((err) => {
                       cb(err)
                     })
-                } else {
-                  cb()
-                }
+                // } else {
+                //   cb()
+                // }
               } else {
                 _deleteCronStackRecord(cronStack, cb)
               }
@@ -220,7 +220,7 @@ function _sendAlerts (cronStack, messageAlert, companyProfile, cb) {
     .then(subscriptions => {
       if (subscriptions.length > 0) {
         let notificationSubscriptions = subscriptions.filter(s => s.alertChannel === 'notification')
-        let messengerSubscriptions = subscriptions.filter(s => s.alertChannel === 'messenger')
+        let messengerSubscriptions = subscriptions.filter(s => s.alertChannel === 'messenger' && s.pageId === cronStack.payload.page._id)
         let whatsAppSubscriptions = subscriptions.filter(s => s.alertChannel === 'whatsApp')
         let emailSubscriptions = subscriptions.filter(s => s.alertChannel === 'email')
         let data = {
