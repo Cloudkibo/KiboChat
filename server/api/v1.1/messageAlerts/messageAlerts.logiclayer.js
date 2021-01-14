@@ -15,7 +15,8 @@ exports.getCreateSubscriptionPayload = function (platform, subscriber) {
       alertChannel: 'messenger',
       channelId: subscriber.senderId,
       userName: subscriber.firstName + ' ' + subscriber.lastName,
-      profilePic: subscriber.profilePic
+      profilePic: subscriber.profilePic,
+      pageId: subscriber.pageId._id ? subscriber.pageId._id : subscriber.pageId
     }
   }
   return payload

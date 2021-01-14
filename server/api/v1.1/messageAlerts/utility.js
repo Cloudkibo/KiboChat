@@ -35,6 +35,7 @@ function handleSubscription (platform, subscriptionType, subscriber, data, provi
 }
 
 function handleSubscribe (subscription, platform, subscriber, data, provider) {
+  console.log('subscriber.pageid', subscriber.pageId)
   if (!subscription) {
     let payload = logicLayer.getCreateSubscriptionPayload(platform, subscriber)
     utility.callApi(`alerts/subscriptions`, 'post', payload, 'kibochat')
