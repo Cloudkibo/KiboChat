@@ -73,13 +73,15 @@ const _calculateResponsesData = (subscriber) => {
         ]
         callApi('livechat/aggregate', 'post', lastMsgCriteria, 'kibochat')
           .then(lastMsg => {
-            const lmpd = lastMsg[0] // last message of previous day
-            if (lmpd && lmpd.format === 'facebook') {
-              responses++
-              let diff = new Date(fmd.datetime) - new Date(lmpd.datetime)
-              avgRespTime = (diff + avgRespTime) / responses
-              if (maxRespTime < diff) {
-                maxRespTime = diff
+            if (lastMsg.length > 0) {
+              const lmpd = lastMsg[0] // last message of previous day
+              if (lmpd && lmpd.format === 'facebook') {
+                responses++
+                let diff = new Date(fmd.datetime) - new Date(lmpd.datetime)
+                avgRespTime = (diff + avgRespTime) / responses
+                if (maxRespTime < diff) {
+                  maxRespTime = diff
+                }
               }
             }
             index = 1
