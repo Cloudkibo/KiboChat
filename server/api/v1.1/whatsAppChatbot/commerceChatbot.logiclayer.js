@@ -16,7 +16,6 @@ const {
   SHOW_ITEMS_TO_UPDATE,
   PROCEED_TO_CHECKOUT,
   ASK_PAYMENT_METHOD,
-  RETURN_ORDER,
   GET_CHECKOUT_EMAIL,
   CONFIRM_CLEAR_CART,
   CLEAR_CART,
@@ -48,7 +47,10 @@ const {
   GET_NEW_CHECKOUT_COUNTRY,
   GET_NEW_CHECKOUT_ZIP_CODE,
   ASK_UNPAUSE_CHATBOT,
-  UNPAUSE_CHATBOT
+  UNPAUSE_CHATBOT,
+  SEARCH_PRODUCTS,
+  CHECK_ORDERS,
+  ASK_ORDER_ID
 } = require('./constants')
 const { convertToEmoji, sendTalkToAgentNotification } = require('./whatsAppChatbot.logiclayer')
 const logger = require('../../../components/logger')
@@ -107,10 +109,6 @@ exports.updateFaqsForStartingBlock = async (chatbot) => {
 exports.getMessageBlocks = (chatbot) => {
   const messageBlocks = []
   const mainMenuId = '' + new Date().getTime()
-  const orderStatusId = '' + new Date().getTime() + 100
-  const checkOrdersId = '' + new Date().getTime() + 200
-  const returnOrderId = '' + new Date().getTime() + 300
-  const searchProductsId = '' + new Date().getTime() + 400
   const faqsId = '' + new Date().getTime() + 500
 
   messageBlocks.push({
@@ -133,10 +131,10 @@ exports.getMessageBlocks = (chatbot) => {
         menu: [
           { type: DYNAMIC, action: PRODUCT_CATEGORIES },
           { type: DYNAMIC, action: DISCOVER_PRODUCTS },
-          { type: STATIC, blockId: searchProductsId }
+          { type: DYNAMIC, action: SEARCH_PRODUCTS }
         ],
         specialKeys: {
-          [ORDER_STATUS_KEY]: { type: STATIC, blockId: checkOrdersId },
+          [ORDER_STATUS_KEY]: { type: DYNAMIC, blockId: CHECK_ORDERS },
           [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
           [TALK_TO_AGENT_KEY]: { type: DYNAMIC, action: TALK_TO_AGENT }
         }
@@ -145,10 +143,6 @@ exports.getMessageBlocks = (chatbot) => {
     userId: chatbot.userId,
     companyId: chatbot.companyId
   })
-
-  getCheckOrdersBlock(chatbot, mainMenuId, checkOrdersId, orderStatusId, messageBlocks)
-  getReturnOrderIdBlock(chatbot, returnOrderId, messageBlocks)
-  getSearchProductsBlock(chatbot, searchProductsId, messageBlocks)
 
   if (chatbot.botLinks && chatbot.botLinks.faqs) {
     messageBlocks[0].payload[0].text += `\n${specialKeyText(FAQS_KEY, 'faqs')} FAQs`
@@ -194,24 +188,31 @@ const getTalkToAgentBlock = (chatbot, backId, contact) => {
   }
 }
 
-const getSearchProductsBlock = async (chatbot, blockId, messageBlocks) => {
-  messageBlocks.push({
-    module: {
-      id: chatbot._id,
-      type: 'whatsapp_commerce_chatbot'
-    },
-    title: 'Search Products',
-    uniqueId: blockId,
-    payload: [
-      {
-        text: `Please enter the name of the product you wish to search for:\n`,
-        componentType: 'text',
-        action: { type: DYNAMIC, action: DISCOVER_PRODUCTS, input: true }
-      }
-    ],
-    userId: chatbot.userId,
-    companyId: chatbot.companyId
-  })
+const getSearchProductsBlock = async (chatbot, contact) => {
+  try {
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_commerce_chatbot'
+      },
+      title: 'Search Products',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Please enter the name of the product you wish to search for:\n`,
+          componentType: 'text',
+          action: { type: DYNAMIC, action: DISCOVER_PRODUCTS, input: true }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable get search for products message block'
+    logger.serverLog(message, `${TAG}: getSearchProductsBlock`, {}, {chatbot, contact}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable get search for products message block`)
+  }
 }
 
 const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, input, argument) => {
@@ -300,62 +301,62 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
   }
 }
 
-const getReturnOrderIdBlock = (chatbot, blockId, messageBlocks) => {
-  messageBlocks.push({
-    module: {
-      id: chatbot._id,
-      type: 'whatsapp_commerce_chatbot'
-    },
-    title: 'Get Return Product ID',
-    uniqueId: blockId,
-    payload: [
-      {
-        text: `Please enter your order id`,
-        componentType: 'text',
-        action: { type: DYNAMIC, action: RETURN_ORDER, input: true }
-      }
-    ],
-    userId: chatbot.userId,
-    companyId: chatbot.companyId
-  })
-}
+// const getReturnOrderIdBlock = (chatbot, blockId, messageBlocks) => {
+//   messageBlocks.push({
+//     module: {
+//       id: chatbot._id,
+//       type: 'whatsapp_commerce_chatbot'
+//     },
+//     title: 'Get Return Product ID',
+//     uniqueId: blockId,
+//     payload: [
+//       {
+//         text: `Please enter your order id`,
+//         componentType: 'text',
+//         action: { type: DYNAMIC, action: RETURN_ORDER, input: true }
+//       }
+//     ],
+//     userId: chatbot.userId,
+//     companyId: chatbot.companyId
+//   })
+// }
 
-const getReturnOrderBlock = async (chatbot, backId, EcommerceProvider, orderId) => {
-  try {
-    let messageBlock = {
-      module: {
-        id: chatbot._id,
-        type: 'whatsapp_commerce_chatbot'
-      },
-      title: 'Return Request',
-      uniqueId: '' + new Date().getTime(),
-      payload: [
-        {
-          text: dedent(`Your return request has been made.\n
-            ${specialKeyText(SHOW_CART_KEY)}
-            ${specialKeyText(BACK_KEY)}
-            ${specialKeyText(HOME_KEY)}`),
-          componentType: 'text',
-          specialKeys: {
-            [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
-            [BACK_KEY]: { type: STATIC, blockId: backId },
-            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
-          }
-        }
-      ],
-      userId: chatbot.userId,
-      companyId: chatbot.companyId
-    }
+// const getReturnOrderBlock = async (chatbot, backId, EcommerceProvider, orderId) => {
+//   try {
+//     let messageBlock = {
+//       module: {
+//         id: chatbot._id,
+//         type: 'whatsapp_commerce_chatbot'
+//       },
+//       title: 'Return Request',
+//       uniqueId: '' + new Date().getTime(),
+//       payload: [
+//         {
+//           text: dedent(`Your return request has been made.\n
+//             ${specialKeyText(SHOW_CART_KEY)}
+//             ${specialKeyText(BACK_KEY)}
+//             ${specialKeyText(HOME_KEY)}`),
+//           componentType: 'text',
+//           specialKeys: {
+//             [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
+//             [BACK_KEY]: { type: STATIC, blockId: backId },
+//             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
+//           }
+//         }
+//       ],
+//       userId: chatbot.userId,
+//       companyId: chatbot.companyId
+//     }
 
-    await EcommerceProvider.returnOrder(orderId)
+//     await EcommerceProvider.returnOrder(orderId)
 
-    return messageBlock
-  } catch (err) {
-    const message = err || 'Unable to return order'
-    logger.serverLog(message, `${TAG}: exports.getReturnOrderBlock`, {}, {}, 'error')
-    throw new Error(`${ERROR_INDICATOR}Unable to return order. Please make sure your order ID is valid.`)
-  }
-}
+//     return messageBlock
+//   } catch (err) {
+//     const message = err || 'Unable to return order'
+//     logger.serverLog(message, `${TAG}: exports.getReturnOrderBlock`, {}, {}, 'error')
+//     throw new Error(`${ERROR_INDICATOR}Unable to return order. Please make sure your order ID is valid.`)
+//   }
+// }
 
 const getFaqsBlock = (chatbot, blockId, messageBlocks, backId) => {
   messageBlocks.push({
@@ -385,36 +386,42 @@ const getFaqsBlock = (chatbot, blockId, messageBlocks, backId) => {
   })
 }
 
-const getCheckOrdersBlock = (chatbot, mainMenuId, blockId, orderStatusId, messageBlocks) => {
-  getOrderIdBlock(chatbot, orderStatusId, messageBlocks)
-  messageBlocks.push({
-    module: {
-      id: chatbot._id,
-      type: 'whatsapp_commerce_chatbot'
-    },
-    title: 'Check Orders',
-    uniqueId: blockId,
-    payload: [
-      {
-        text: dedent(`Please select an option by sending the corresponding number for it:\n
-                    ${convertToEmoji(0)} View recently placed orders
-                    ${convertToEmoji(1)} Check order status for a specific order id\n
-                    ${specialKeyText(SHOW_CART_KEY)}
-                    ${specialKeyText(HOME_KEY)}`),
-        componentType: 'text',
-        menu: [
-          { type: DYNAMIC, action: VIEW_RECENT_ORDERS },
-          { type: STATIC, blockId: orderStatusId }
-        ],
-        specialKeys: {
-          [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
-          [HOME_KEY]: { type: STATIC, blockId: mainMenuId }
+const getCheckOrdersBlock = (chatbot, contact) => {
+  try {
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_commerce_chatbot'
+      },
+      title: 'Check Orders',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: dedent(`Please select an option by sending the corresponding number for it:\n
+                      ${convertToEmoji(0)} View recently placed orders
+                      ${convertToEmoji(1)} Check order status for a specific order id\n
+                      ${specialKeyText(SHOW_CART_KEY)}
+                      ${specialKeyText(HOME_KEY)}`),
+          componentType: 'text',
+          menu: [
+            { type: DYNAMIC, action: VIEW_RECENT_ORDERS },
+            { type: DYNAMIC, blockId: ASK_ORDER_ID }
+          ],
+          specialKeys: {
+            [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
+          }
         }
-      }
-    ],
-    userId: chatbot.userId,
-    companyId: chatbot.companyId
-  })
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable get check orders message block'
+    logger.serverLog(message, `${TAG}: getCheckOrdersBlock`, {}, {chatbot, contact}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable get check orders message block`)
+  }
 }
 
 const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider) => {
@@ -491,24 +498,31 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
   }
 }
 
-const getOrderIdBlock = (chatbot, blockId, messageBlocks) => {
-  messageBlocks.push({
-    module: {
-      id: chatbot._id,
-      type: 'whatsapp_commerce_chatbot'
-    },
-    title: 'Get Order ID',
-    uniqueId: blockId,
-    payload: [
-      {
-        text: `Please enter your order ID`,
-        componentType: 'text',
-        action: { type: DYNAMIC, action: ORDER_STATUS, input: true }
-      }
-    ],
-    userId: chatbot.userId,
-    companyId: chatbot.companyId
-  })
+const getOrderIdBlock = (chatbot, contact, backId) => {
+  try {
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_commerce_chatbot'
+      },
+      title: 'Get Order ID',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Please enter your order ID`,
+          componentType: 'text',
+          action: { type: DYNAMIC, action: ORDER_STATUS, input: true }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable get search for products message block'
+    logger.serverLog(message, `${TAG}: getSearchProductsBlock`, {}, {chatbot, contact}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to notify customer support agent`)
+  }
 }
 
 const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) => {
@@ -1062,7 +1076,7 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo) => 
   const shoppingCart = contact.shoppingCart.filter((item, index) => index !== productInfo.productIndex)
   contact.shoppingCart = shoppingCart
   if (contact.commerceCustomer) {
-      contact.commerceCustomer.cartId = null
+    contact.commerceCustomer.cartId = null
   }
   await updateWhatsAppContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
   const text = `${productInfo.product} has been successfully removed from your cart.`
@@ -2456,10 +2470,10 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             messageBlock = await getCheckoutBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, contact, action.argument, action.input ? input : '')
             break
           }
-          case RETURN_ORDER: {
-            messageBlock = await getReturnOrderBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : '')
-            break
-          }
+          // case RETURN_ORDER: {
+          //   messageBlock = await getReturnOrderBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : '')
+          //   break
+          // }
           case SHOW_ITEMS_TO_REMOVE: {
             messageBlock = await getShowItemsToRemoveBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
             break
@@ -2562,6 +2576,18 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
           }
           case GET_NEW_CHECKOUT_ZIP_CODE: {
             messageBlock = await getNewCheckoutZipCodeBlock(chatbot, contact, action.argument, action.input ? input : '')
+            break
+          }
+          case SEARCH_PRODUCTS: {
+            messageBlock = await getSearchProductsBlock(chatbot, contact)
+            break
+          }
+          case CHECK_ORDERS: {
+            messageBlock = await getCheckOrdersBlock(chatbot, contact)
+            break
+          }
+          case ASK_ORDER_ID: {
+            messageBlock = await getOrderIdBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId)
             break
           }
         }
