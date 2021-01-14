@@ -251,7 +251,7 @@ const getCheckOrdersBlock = (chatbot, contact) => {
             {
               content_type: 'text',
               title: 'View Specific Order Status',
-              payload: JSON.stringify({ type: DYNAMIC, blockId: ASK_ORDER_ID })
+              payload: JSON.stringify({ type: DYNAMIC, action: ASK_ORDER_ID })
             },
             {
               content_type: 'text',
@@ -273,7 +273,7 @@ const getCheckOrdersBlock = (chatbot, contact) => {
   } catch (err) {
     const message = err || 'Unable get check orders message block'
     logger.serverLog(message, `${TAG}: getCheckOrdersBlock`, {}, {chatbot, contact}, 'error')
-    throw new Error(`${ERROR_INDICATOR}Unable to notify customer support agent`)
+    throw new Error(`${ERROR_INDICATOR}Unable get check orders message block`)
   }
 }
 
@@ -2647,10 +2647,6 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
               }
               case QUANTITY_TO_ADD: {
                 messageBlock = await getQuantityToAddBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument)
-                break
-              }
-              case QUANTITY_TO_REMOVE: {
-                messageBlock = await getQuantityToRemoveBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument)
                 break
               }
               case QUANTITY_TO_UPDATE: {
