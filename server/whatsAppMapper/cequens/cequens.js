@@ -117,6 +117,7 @@ exports.sendTextMessage = ({text, company, subscriber}) => {
     let MessageObject = {
       to: subscriber.number.replace(/\D/g, ''),
       recipient_type: 'individual',
+      preview_url: true,
       type: 'text',
       text: {
         body: text
