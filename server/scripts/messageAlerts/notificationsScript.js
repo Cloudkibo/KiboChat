@@ -220,7 +220,7 @@ function _sendAlerts (cronStack, messageAlert, companyProfile, cb) {
     .then(subscriptions => {
       if (subscriptions.length > 0) {
         let notificationSubscriptions = subscriptions.filter(s => s.alertChannel === 'notification')
-        let messengerSubscriptions = subscriptions.filter(s => s.alertChannel === 'messenger')
+        let messengerSubscriptions = subscriptions.filter(s => s.alertChannel === 'messenger' && s.pageId === cronStack.payload.page._id)
         let whatsAppSubscriptions = subscriptions.filter(s => s.alertChannel === 'whatsApp')
         let emailSubscriptions = subscriptions.filter(s => s.alertChannel === 'email')
         let data = {
