@@ -9,8 +9,7 @@ const { cequensApiCaller } = require('../../api/global/cequensApiCaller')
 exports.prepareSendMessagePayload = (body) => {
   let MessageObject = {
     to: body.recipientNumber.replace(/\D/g, ''),
-    recipient_type: 'individual',
-    preview_url: true
+    recipient_type: 'individual'
   }
   if (body.payload.componentType === 'text') {
     if (body.payload.templateName) {
@@ -119,8 +118,7 @@ exports.prepareChatbotPayload = (company, contact, payload, options) => {
   return new Promise((resolve, reject) => {
     let MessageObject = {
       to: contact.number.replace(/\D/g, ''),
-      recipient_type: 'individual',
-      preview_url: true
+      recipient_type: 'individual'
     }
     if (payload.componentType === 'text') {
       MessageObject.type = 'text'
