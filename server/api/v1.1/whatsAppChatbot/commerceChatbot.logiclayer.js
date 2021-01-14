@@ -134,7 +134,7 @@ exports.getMessageBlocks = (chatbot) => {
           { type: DYNAMIC, action: SEARCH_PRODUCTS }
         ],
         specialKeys: {
-          [ORDER_STATUS_KEY]: { type: DYNAMIC, blockId: CHECK_ORDERS },
+          [ORDER_STATUS_KEY]: { type: DYNAMIC, action: CHECK_ORDERS },
           [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
           [TALK_TO_AGENT_KEY]: { type: DYNAMIC, action: TALK_TO_AGENT }
         }
@@ -405,7 +405,7 @@ const getCheckOrdersBlock = (chatbot, contact) => {
           componentType: 'text',
           menu: [
             { type: DYNAMIC, action: VIEW_RECENT_ORDERS },
-            { type: DYNAMIC, blockId: ASK_ORDER_ID }
+            { type: DYNAMIC, action: ASK_ORDER_ID }
           ],
           specialKeys: {
             [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
