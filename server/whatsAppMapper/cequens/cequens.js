@@ -146,23 +146,34 @@ exports.getNormalizedMessageReceivedData = (event) => {
     try {
       let contact = event.contacts[0]
       let message = event.messages[0]
-      let businessNumber = '+' + event.businessNumber
-      callApi(`companyprofile/query`, 'post', { 'whatsApp.businessNumber': businessNumber })
+      let businessNumber = '+' + event.businessNumber.replace(/\D/g, '')
+      let query = {
+        $or: [
+          {'whatsApp.businessNumber': businessNumber},
+          {'whatsApp.businessNumber': `+${businessNumber}`},
+          {'whatsApp.businessNumber': event.businessNumber}
+        ]
+      }
+      callApi(`companyprofile/query`, 'post', query)
         .then(company => {
-          logicLayer.prepareReceivedMessageData(event, company)
-            .then(payload => {
-              resolve({
-                accessToken: company.whatsApp.accessToken,
-                userData: {
-                  number: message.from,
-                  name: contact.profile.name
-                },
-                messageData: payload
+          if (company) {
+            logicLayer.prepareReceivedMessageData(event, company)
+              .then(payload => {
+                resolve({
+                  accessToken: company.whatsApp.accessToken,
+                  userData: {
+                    number: message.from,
+                    name: contact.profile.name
+                  },
+                  messageData: payload
+                })
               })
-            })
-            .catch(err => {
-              reject(err)
-            })
+              .catch(err => {
+                reject(err)
+              })
+          } else {
+            reject(new Error())
+          }
         })
         .catch(err => {
           reject(err)
