@@ -166,7 +166,7 @@ exports.prepareReceivedMessageData = (event, company) => {
   let payload = {}
   return new Promise((resolve, reject) => {
     if (message.type === 'image' || message.type === 'video' || message.type === 'document' || message.type === 'audio' || message.type === 'voice') {
-      cequensApiCaller(`media/` + message[message.type].id, 'cequens-wab', event.businessNumber.replace('+', ''), 'get', companyWhatsApp.accessToken)
+      cequensApiCaller(`media/` + message[message.type].id, companyWhatsApp.clientName, event.businessNumber.replace('+', ''), 'get', companyWhatsApp.accessToken)
         .then(response => {
           if (response.body.errors) {
             reject(response.body.errors)
