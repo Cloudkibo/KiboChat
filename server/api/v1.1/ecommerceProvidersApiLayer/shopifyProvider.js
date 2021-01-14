@@ -541,8 +541,9 @@ exports.createTestOrder = (customer, lineItems, address, credentials) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
     shopify.order.create({
-      financial_status: 'partially_paid', // 'pending',
+      financial_status: 'pending',
       line_items: lineItems,
+      send_receipt: true,
       customer: {
         id: customer.id
       },
@@ -554,7 +555,8 @@ exports.createTestOrder = (customer, lineItems, address, credentials) => {
         }
       ],
       billing_address: address,
-      shipping_address: address
+      shipping_address: address,
+      inventory_behaviour: 'decrement_obeying_policy'
     })
       .then(order => {
         resolve(order)

@@ -38,7 +38,10 @@ const {
   GET_NEW_CHECKOUT_COUNTRY,
   GET_NEW_CHECKOUT_ZIP_CODE,
   CONFIRM_CLEAR_CART,
-  CONFIRM_TO_REMOVE_CART_ITEM
+  CONFIRM_TO_REMOVE_CART_ITEM,
+  TALK_TO_AGENT,
+  UNPAUSE_CHATBOT,
+  ASK_UNPAUSE_CHATBOT
 } = require('./constants')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/chatbots/commerceChatbot.logiclayer.js'
@@ -134,6 +137,11 @@ exports.getMessageBlocks = (chatbot, storeName) => {
             content_type: 'text',
             title: 'Show my cart',
             payload: JSON.stringify({ type: DYNAMIC, action: SHOW_MY_CART })
+          },
+          {
+            content_type: 'text',
+            title: 'Talk to agent',
+            payload: JSON.stringify({ type: DYNAMIC, action: TALK_TO_AGENT })
           }
         ]
       }
@@ -155,6 +163,33 @@ exports.getMessageBlocks = (chatbot, storeName) => {
   }
   messageBlockDataLayer.createBulkMessageBlocks(messageBlocks)
   return messageBlocks
+}
+
+const getTalkToAgentBlock = (chatbot, contact) => {
+  try {
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_commerce_chatbot'
+      },
+      title: 'FAQs',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          componentType: 'text',
+          text: dedent(`Our support agents have been notified and will get back to you shortly`)
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    updateSubscriber({ _id: contact._id }, { chatbotPaused: true }, null, {})
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable get talk to agent message block'
+    logger.serverLog(message, `${TAG}: getTalkToAgentBlock`, {}, {chatbot, contact}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to notify customer support agent`)
+  }
 }
 
 const getSearchProductsBlock = async (chatbot, blockId, messageBlocks, input) => {
@@ -685,7 +720,7 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider, arg
   }
 }
 
-const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, argument) => {
+const getProductVariantsBlock = async (chatbot, backId, contact, EcommerceProvider, argument) => {
   try {
     const product = argument.product
     let messageBlock = {
@@ -706,7 +741,19 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, argum
     }
     let productVariants = await EcommerceProvider.getVariantsOfSelectedProduct(product.id)
     let storeInfo = await EcommerceProvider.fetchStoreInfo()
-
+    if (productVariants.length === 1) {
+      const productVariant = productVariants[0]
+      messageBlock = await getSelectProductBlock(chatbot, backId, {
+        variant_id: productVariant.id,
+        product_id: productVariant.product_id,
+        product: `${productVariant.name} ${product.name}`,
+        price: productVariant.price ? productVariant.price : product.price,
+        inventory_quantity: productVariant.inventory_quantity,
+        currency: storeInfo.currency,
+        image: productVariant.image ? productVariant.image : product.image
+      })
+      return messageBlock
+    }
     if (productVariants.length > 0) {
       messageBlock.payload.push({
         componentType: 'gallery',
@@ -741,6 +788,7 @@ const getProductVariantsBlock = async (chatbot, backId, EcommerceProvider, argum
           }]
           messageBlock.payload[1].cards[i].subtitle += `\nStock Available: ${productVariant.inventory_quantity}`
         } else {
+          messageBlock.payload[1].cards[i].image_url = productVariant.image ? productVariant.image : product.image
           messageBlock.payload[1].cards[i].subtitle += `\nOut of Stock`
         }
       }
@@ -935,7 +983,7 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
       contact.commerceCustomer.cartId = null
     }
     updateSubscriber({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
-    let text = `${quantity} ${product.product}${quantity !== 1 ? 's have' : ' has'} been succesfully added to your cart.`
+    let text = `${quantity} ${product.product}${quantity !== 1 ? 's have' : 'has'} been succesfully added to your cart.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
     if (!userError) {
@@ -1381,6 +1429,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
         checkoutLink = await EcommerceProvider.createPermalinkForCart(commerceCustomer, contact.shoppingCart)
       } else if (chatbot.storeType === commerceConstants.bigcommerce) {
         const bigcommerceCart = await EcommerceProvider.createCart(commerceCustomer.id, contact.shoppingCart)
+        commerceCustomer.cartId = bigcommerceCart.id
         checkoutLink = await EcommerceProvider.createPermalinkForCartBigCommerce(bigcommerceCart.id)
         checkoutLink = checkoutLink.data.cart_url
       }
@@ -1496,15 +1545,18 @@ const invalidInput = async (chatbot, messageBlock, errMessage) => {
     messageBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
   }
 
-  if (messageBlock.payload[0].text.includes(ERROR_INDICATOR)) {
-    messageBlock.payload[0].text = messageBlock.payload[0].text.split('\n').filter((line) => {
-      return !line.includes(ERROR_INDICATOR)
-    }).join('\n')
-    messageBlock.payload[0].text = `${errMessage}\n` + messageBlock.payload[0].text
-  } else {
-    messageBlock.payload[0].text = `${errMessage}\n\n` + messageBlock.payload[0].text
+  for (let i = 0; i < messageBlock.payload.length; i++) {
+    if (messageBlock.payload[i].text && messageBlock.payload[i].text.includes(ERROR_INDICATOR)) {
+      messageBlock.payload[i].text = messageBlock.payload[i].text.split('\n').filter((line) => {
+        return !line.includes(ERROR_INDICATOR)
+      }).join('\n')
+      messageBlock.payload[i].text = `${errMessage}\n` + messageBlock.payload[i].text
+      break
+    } else if (messageBlock.payload[i].text) {
+      messageBlock.payload[i].text = `${errMessage}\n\n` + messageBlock.payload[i].text
+      break
+    }
   }
-
   return messageBlock
 }
 
@@ -2424,6 +2476,44 @@ const getConfirmRemoveItemBlock = async (chatbot, backId, product) => {
   }
 }
 
+const getAskUnpauseChatbotBlock = (chatbot, contact) => {
+  try {
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'messenger_commerce_chatbot'
+      },
+      title: 'Checkout Link',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Do you want to unpause the chatbot and cancel the customer support agent request?`,
+          componentType: 'text',
+          quickReplies: [
+            {
+              content_type: 'text',
+              title: 'Yes, unpause chatbot',
+              payload: JSON.stringify({ type: DYNAMIC, action: UNPAUSE_CHATBOT })
+            },
+            {
+              content_type: 'text',
+              title: 'No, wait for agent',
+              payload: JSON.stringify({ type: DYNAMIC, action: TALK_TO_AGENT })
+            }
+          ]
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to request for unpause chatbot'
+    logger.serverLog(message, `${TAG}: getAskUnpauseChatbotBlock`, {}, {chatbot, contact}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to request for unpause chatbot`)
+  }
+}
+
 exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event) => {
   let userError = false
   try {
@@ -2436,7 +2526,16 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
       let action = null
       try {
         let lastMessageSentByBot = contact.lastMessageSentByBot.payload[contact.lastMessageSentByBot.payload.length - 1]
-        if (userMessage && userMessage.quick_reply && userMessage.quick_reply.payload) {
+        if (contact.chatbotPaused) {
+          if (userMessage && userMessage.quick_reply && userMessage.quick_reply.payload) {
+            action = JSON.parse(userMessage.quick_reply.payload)
+          } else {
+            action = {
+              type: DYNAMIC,
+              action: ASK_UNPAUSE_CHATBOT
+            }
+          }
+        } else if (userMessage && userMessage.quick_reply && userMessage.quick_reply.payload) {
           action = JSON.parse(userMessage.quick_reply.payload)
         } else if (event.postback && event.postback.payload) {
           action = JSON.parse(event.postback.payload)
@@ -2464,12 +2563,24 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
           try {
             let messageBlock = null
             switch (action.action) {
+              case ASK_UNPAUSE_CHATBOT: {
+                messageBlock = await getAskUnpauseChatbotBlock(chatbot, contact)
+                break
+              }
+              case UNPAUSE_CHATBOT: {
+                updateSubscriber({ _id: contact._id }, { chatbotPaused: false }, null, {})
+                return startingBlock
+              }
+              case TALK_TO_AGENT: {
+                messageBlock = await getTalkToAgentBlock(chatbot, contact)
+                break
+              }
               case PRODUCT_CATEGORIES: {
                 messageBlock = await getProductCategoriesBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument ? action.argument : {})
                 break
               }
               case PRODUCT_VARIANTS: {
-                messageBlock = await getProductVariantsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument)
+                messageBlock = await getProductVariantsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, EcommerceProvider, action.argument)
                 break
               }
               case DISCOVER_PRODUCTS: {

@@ -129,6 +129,7 @@ module.exports = class EcommerceProvidersApiLayer {
     }
     if (this.eCommerceProvider === providers.shopify) {
       // TODO Implement when we apply for Sales API on shopify
+      throw new Error('create cart is not implemented for shopify')
     } else if (this.eCommerceProvider === providers.bigcommerce) {
       return bigCommerceProvider.createCart(customerId, lineItems, this.eCommerceProviderCredentials)
     }
@@ -137,6 +138,7 @@ module.exports = class EcommerceProvidersApiLayer {
   viewCart (cartId) {
     if (this.eCommerceProvider === providers.shopify) {
       // TODO Implement when we apply for Sales API on shopify
+      throw new Error('view cart is not implemented for shopify')
     } else if (this.eCommerceProvider === providers.bigcommerce) {
       return bigCommerceProvider.viewCart(cartId, this.eCommerceProviderCredentials)
     }
@@ -145,6 +147,7 @@ module.exports = class EcommerceProvidersApiLayer {
   updateCart (cartId, itemId, productId, quantity) {
     if (this.eCommerceProvider === providers.shopify) {
       // TODO Implement when we apply for Sales API on shopify
+      throw new Error('update cart is not implemented for shopify')
     } else if (this.eCommerceProvider === providers.bigcommerce) {
       return bigCommerceProvider.updateCart(cartId, itemId, productId, quantity, this.eCommerceProviderCredentials)
     }
@@ -153,6 +156,7 @@ module.exports = class EcommerceProvidersApiLayer {
   createOrder (cartId) {
     if (this.eCommerceProvider === providers.shopify) {
       // TODO Implement when we apply for Sales API on shopify
+      throw new Error('create order is not implemented for shopify')
     } else if (this.eCommerceProvider === providers.bigcommerce) {
       return bigCommerceProvider.createOrder(cartId, this.eCommerceProviderCredentials)
     }
@@ -163,6 +167,7 @@ module.exports = class EcommerceProvidersApiLayer {
       return shopifyProvider.createTestOrder(customer, lineItems, address, this.eCommerceProviderCredentials)
     } else if (this.eCommerceProvider === providers.bigcommerce) {
       // TODO Implement when we apply for Sales API on BigCommerce
+      throw new Error('create test order is not implemented for bigcommerce')
     }
   }
 
