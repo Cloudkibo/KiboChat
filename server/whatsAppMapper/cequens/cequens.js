@@ -84,6 +84,7 @@ exports.respondUsingChatbot = ({payload, options, company, subscriber}) => {
     async.eachSeries(payload, function (item, cb) {
       logicLayer.prepareChatbotPayload(company, subscriber, item, options)
         .then(message => {
+          console.log('message prepared', message)
           cequensApiCaller('messages',
             company.whatsApp.clientName,
             company.whatsApp.businessNumber,
