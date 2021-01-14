@@ -37,8 +37,7 @@ if (config.env === 'production' || config.env === 'staging') {
 
 cron.schedule('* * * * *', NotificationsScript.runLiveChatNotificationScript)
 cron.schedule('0 */2 * * *', AbandonedScriptShopify.runScript) // runs after every 2 hours
-// cron.schedule('*/30 * * * *', SessionTimeOutScript.runSessionTimeOutScript)
-cron.schedule('* * * * *', SessionTimeOutScript.runSessionTimeOutScript)
+cron.schedule('*/30 * * * *', SessionTimeOutScript.runSessionTimeOutScript)
 cron.schedule('0 13 * * *', WhatsappScript.runWhatspdeleteScript) //  daily 6 pm pakistan time
 cron.schedule('0 0 * * *', slaDashboardScript)
 
