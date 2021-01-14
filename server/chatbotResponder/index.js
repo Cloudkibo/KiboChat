@@ -15,6 +15,7 @@ exports.respondUsingChatbot = (platform, provider, company, message, contact, is
     chatbotDatalayer.fetchChatbotRecords(chatBotPayload)
       .then(chatbots => {
         const chatbot = chatbots[0]
+        console.log('chatbot got', chatbot)
         const userText = message.toLowerCase().trim()
         if (chatbot && chatbot.startingBlockId) {
         // fetch blocks with matching trigger
