@@ -95,7 +95,7 @@ exports.fetchAirportInfo = (name, credentials) => {
 exports.fetchFlights = (depIata, arrIata, depTime, airlineCode, flightNumber, credentials) => {
   const amadeus = initAmadeus(credentials)
   depTime = new Date(depTime)
-  depTime = `${depTime.getFullYear()}-${(depTime.getMonth() + 1)}-${padWithZeros(depTime.getDate(), 2)}`
+  depTime = `${depTime.getFullYear()}-${padWithZeros((depTime.getMonth() + 1), 2)}-${padWithZeros(depTime.getDate(), 2)}`
   let queryPayload = {
     originLocationCode: depIata,
     destinationLocationCode: arrIata,
@@ -203,7 +203,7 @@ exports.fetchFlights = (depIata, arrIata, depTime, airlineCode, flightNumber, cr
 exports.fetchFlightByNumber = (flightNumber, airlineCode, depTime, credentials) => {
   const amadeus = initAmadeus(credentials)
   depTime = new Date(depTime)
-  depTime = `${depTime.getFullYear()}-${(depTime.getMonth() + 1)}-${padWithZeros(depTime.getDate(), 2)}`
+  depTime = `${depTime.getFullYear()}-${padWithZeros((depTime.getMonth() + 1))}-${padWithZeros(depTime.getDate(), 2)}`
   let queryPayload = {
     carrierCode: airlineCode,
     flightNumber: flightNumber,
