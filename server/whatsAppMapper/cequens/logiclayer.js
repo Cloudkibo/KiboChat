@@ -5,6 +5,7 @@ const crypto = require('crypto')
 let config = require('../../config/environment')
 var mime = require('mime-types')
 const { cequensApiCaller } = require('../../api/global/cequensApiCaller')
+const { containsURL } = require('../../api/global/utility')
 
 exports.prepareSendMessagePayload = (body) => {
   let MessageObject = {
@@ -35,6 +36,9 @@ exports.prepareSendMessagePayload = (body) => {
         ]
       }
     } else {
+      if (containsURL(body.payload.text)) {
+        MessageObject.preview_url = true
+      }
       MessageObject.type = 'text'
       MessageObject['text'] = {
         body: body.payload.text
@@ -121,6 +125,9 @@ exports.prepareChatbotPayload = (company, contact, payload, options) => {
       recipient_type: 'individual'
     }
     if (payload.componentType === 'text') {
+      if (containsURL(payload.text)) {
+        MessageObject.preview_url = true
+      }
       MessageObject.type = 'text'
       MessageObject['text'] = {
         body: payload.text + appendOptions(options)
@@ -150,6 +157,9 @@ exports.prepareChatbotPayload = (company, contact, payload, options) => {
       }
     } else if (payload.componentType === 'card') {
       MessageObject.type = 'text'
+      if (containsURL(payload.url)) {
+        MessageObject.preview_url = true
+      }
       MessageObject['text'] = {
         body: payload.url
       }

@@ -4,6 +4,7 @@ const logger = require('../../components/logger')
 const TAG = 'whatsAppMapper/cequens/cequens.js'
 const async = require('async')
 const { callApi } = require('../../api/v1/utility')
+const { containsURL } = require('../../api/global/utility')
 
 exports.sendChatMessage = (data) => {
   return new Promise((resolve, reject) => {
@@ -121,6 +122,9 @@ exports.sendTextMessage = ({text, company, subscriber}) => {
       text: {
         body: text
       }
+    }
+    if (containsURL(text)) {
+      MessageObject.preview_url = true
     }
     cequensApiCaller('messages',
       company.whatsApp.clientName,
