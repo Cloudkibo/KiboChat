@@ -376,7 +376,7 @@ exports.messageStatus = function (req, res) {
   })
   whatsAppMapper.handleInboundMessageStatus(req.body.provider, req.body.event)
     .then(data => {
-      if (data.status === 'delivered' || data.status === 'seen') {
+      if (data.status === 'delivered' || data.status === 'seen' || data.status === 'deleted') {
         let query = {
           purpose: 'findOne',
           match: { messageId: data.messageId }
@@ -400,45 +400,71 @@ exports.messageStatus = function (req, res) {
 }
 
 function updateChat (message, body) {
-  let dateTime = Date.now()
-  let matchQuery = {
-    $or: [
-      { _id: message._id },
-      { _id: { $lt: message._id } }
-    ],
-    format: 'convos',
-    contactId: message.contactId
-  }
-  if (body.status === 'delivered') {
-    matchQuery.$or = [
-      { delivered: false },
-      { delivered: { $exists: false } }
-    ]
+  if (body.status === 'deleted') {
+    deleteChat(message)
   } else {
-    matchQuery.$or = [
-      { seen: false },
-      { seen: { $exists: false } }
-    ]
-  }
-  let updated = body.status === 'delivered'
-    ? { delivered: true, deliveryDateTime: dateTime }
-    : { seen: true, seenDateTime: dateTime }
-  let dataToSend = {
-    action: body.status === 'delivered' ? 'message_delivered_whatsApp' : 'message_seen_whatsApp',
-    payload: {
-      message: message
+    let dateTime = Date.now()
+    let matchQuery = {
+      $or: [
+        { _id: message._id },
+        { _id: { $lt: message._id } }
+      ],
+      format: 'convos',
+      contactId: message.contactId
     }
+    if (body.status === 'delivered') {
+      matchQuery.$or = [
+        { delivered: false },
+        { delivered: { $exists: false } }
+      ]
+    } else {
+      matchQuery.$or = [
+        { seen: false },
+        { seen: { $exists: false } }
+      ]
+    }
+    let updated = body.status === 'delivered'
+      ? { delivered: true, deliveryDateTime: dateTime }
+      : { seen: true, seenDateTime: dateTime }
+    let dataToSend = {
+      action: body.status === 'delivered' ? 'message_delivered_whatsApp' : 'message_seen_whatsApp',
+      payload: {
+        message: message
+      }
+    }
+    if (body.status === 'delivered') {
+      dataToSend.payload.message.delivered = true
+      dataToSend.payload.message.deliveredDateTime = dateTime
+      dataToSend.payload.message.action = 'message_delivered_whatsApp'
+    } else {
+      dataToSend.payload.message.seen = true
+      dataToSend.payload.message.seenDateTime = dateTime
+      dataToSend.payload.message.action = 'message_seen_whatsApp'
+    }
+    updateChatInDB(matchQuery, updated, dataToSend)
   }
-  if (body.status === 'delivered') {
-    dataToSend.payload.message.delivered = true
-    dataToSend.payload.message.deliveredDateTime = dateTime
-    dataToSend.payload.message.action = 'message_delivered_whatsApp'
-  } else {
-    dataToSend.payload.message.seen = true
-    dataToSend.payload.message.seenDateTime = dateTime
-    dataToSend.payload.message.action = 'message_seen_whatsApp'
-  }
-  updateChatInDB(matchQuery, updated, dataToSend)
+}
+
+function deleteChat (chat) {
+  let query = { purpose: 'deleteOne', match: { _id: chat._id } }
+  callApi(`whatsAppChat`, 'delete', query, 'kibochat')
+    .then(deleted => {
+      let dataToSend = {
+        action: 'message_deleted_whatsApp',
+        payload: {
+          message: chat
+        }
+      }
+      dataToSend.payload.message.action = 'message_deleted_whatsApp'
+      require('./../../../config/socketio').sendMessageToClient({
+        room_id: chat.companyId,
+        body: dataToSend
+      })
+    })
+    .catch((err) => {
+      const message = err || 'Failed to delete message'
+      logger.serverLog(message, `${TAG}: deleteChat`, {}, { query }, 'error')
+    })
 }
 
 function updateChatInDB (match, updated, dataToSend) {
