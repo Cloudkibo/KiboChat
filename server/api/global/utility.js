@@ -52,7 +52,15 @@ const isPhoneNumber = function (str) {
   return regexp.test(str)
 }
 
+const containsURL = function (text) {
+  /* eslint-disable */
+  var urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig
+  /* eslint-enable */
+  return text.match(urlRegex)
+}
+
 exports.openGraphScrapper = openGraphScrapper
 exports.getTimeDiffInMinutes = getTimeDiffInMinutes
 exports.isEmail = isEmail
 exports.isPhoneNumber = isPhoneNumber
+exports.containsURL = containsURL
