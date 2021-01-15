@@ -18,7 +18,6 @@ const {
   GET_CHECKOUT_EMAIL,
   CLEAR_CART,
   QUANTITY_TO_ADD,
-  QUANTITY_TO_REMOVE,
   QUANTITY_TO_UPDATE,
   VIEW_RECENT_ORDERS,
   ERROR_INDICATOR,
@@ -52,6 +51,7 @@ const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 const { callApi } = require('../utility')
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
 const moment = require('moment')
+const { sendTalkToAgentNotification } = require('./chatbots.logiclayer')
 
 exports.updateFaqsForStartingBlock = async (chatbot) => {
   let messageBlocks = []
@@ -181,6 +181,8 @@ const getTalkToAgentBlock = (chatbot, contact) => {
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
+
+    sendTalkToAgentNotification(contact, chatbot.companyId)
     updateSubscriber({ _id: contact._id }, { chatbotPaused: true }, null, {})
     return messageBlock
   } catch (err) {
@@ -1160,50 +1162,50 @@ const getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo, qua
   }
 }
 
-const getQuantityToRemoveBlock = async (chatbot, backId, product) => {
-  try {
-    let priceString = product.currency === 'USD' ? `$${product.price}` : `${product.price} ${product.currency}`
-    let messageBlock = {
-      module: {
-        id: chatbot._id,
-        type: 'messenger_commerce_chatbot'
-      },
-      title: 'Quantity to Remove',
-      uniqueId: '' + new Date().getTime(),
-      payload: [
-        {
-          text: `How many ${product.product}s would you like to remove from your cart?\n\nYou currently have ${product.quantity} in your cart.\n\n(price: ${priceString})`,
-          componentType: 'text',
-          action: { type: DYNAMIC, action: REMOVE_FROM_CART, argument: product, input: true },
-          quickReplies: [
-            {
-              content_type: 'text',
-              title: 'Show my Cart',
-              payload: JSON.stringify({ type: DYNAMIC, action: SHOW_MY_CART })
-            },
-            {
-              content_type: 'text',
-              title: 'Go Back',
-              payload: JSON.stringify({ type: STATIC, blockId: backId })
-            },
-            {
-              content_type: 'text',
-              title: 'Go Home',
-              payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
-            }
-          ]
-        }
-      ],
-      userId: chatbot.userId,
-      companyId: chatbot.companyId
-    }
-    return messageBlock
-  } catch (err) {
-    const message = err || 'Unable to remove product(s) from cart'
-    logger.serverLog(message, `${TAG}: exports.getQuantityToRemoveBlock`, {}, {}, 'error')
-    throw new Error(`${ERROR_INDICATOR}Unable to remove product(s) from cart`)
-  }
-}
+// const getQuantityToRemoveBlock = async (chatbot, backId, product) => {
+//   try {
+//     let priceString = product.currency === 'USD' ? `$${product.price}` : `${product.price} ${product.currency}`
+//     let messageBlock = {
+//       module: {
+//         id: chatbot._id,
+//         type: 'messenger_commerce_chatbot'
+//       },
+//       title: 'Quantity to Remove',
+//       uniqueId: '' + new Date().getTime(),
+//       payload: [
+//         {
+//           text: `How many ${product.product}s would you like to remove from your cart?\n\nYou currently have ${product.quantity} in your cart.\n\n(price: ${priceString})`,
+//           componentType: 'text',
+//           action: { type: DYNAMIC, action: REMOVE_FROM_CART, argument: product, input: true },
+//           quickReplies: [
+//             {
+//               content_type: 'text',
+//               title: 'Show my Cart',
+//               payload: JSON.stringify({ type: DYNAMIC, action: SHOW_MY_CART })
+//             },
+//             {
+//               content_type: 'text',
+//               title: 'Go Back',
+//               payload: JSON.stringify({ type: STATIC, blockId: backId })
+//             },
+//             {
+//               content_type: 'text',
+//               title: 'Go Home',
+//               payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
+//             }
+//           ]
+//         }
+//       ],
+//       userId: chatbot.userId,
+//       companyId: chatbot.companyId
+//     }
+//     return messageBlock
+//   } catch (err) {
+//     const message = err || 'Unable to remove product(s) from cart'
+//     logger.serverLog(message, `${TAG}: exports.getQuantityToRemoveBlock`, {}, {}, 'error')
+//     throw new Error(`${ERROR_INDICATOR}Unable to remove product(s) from cart`)
+//   }
+// }
 
 const confirmClearCart = (chatbot, contact) => {
   let messageBlock = {
