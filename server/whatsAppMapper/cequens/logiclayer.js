@@ -1,9 +1,5 @@
 var path = require('path')
 const { appendOptions } = require('../logiclayer')
-const fs = require('fs')
-const crypto = require('crypto')
-let config = require('../../config/environment')
-var mime = require('mime-types')
 const { cequensApiCaller } = require('../../api/global/cequensApiCaller')
 const { containsURL } = require('../../api/global/utility')
 
@@ -179,40 +175,32 @@ exports.prepareReceivedMessageData = (event, company) => {
           if (response.body.errors) {
             reject(response.body.errors)
           } else {
-            let ext = mime.extension(response.headers['content-type'])
-            uploadMedia(response.body, message[message.type].id + '.' + ext)
-              .then(payload => {
-                let uploadedUrl = payload.url
-                if (message.type === 'image' && message.image) {
-                  payload = { componentType: 'image', fileurl: { url: uploadedUrl } }
-                  if (message.image.caption && message.image.caption !== '') {
-                    payload.caption = message.image.caption
-                  }
-                  resolve(payload)
-                } else if (message.type === 'video' && message.video) {
-                  payload = { componentType: 'video', fileurl: { url: uploadedUrl } }
-                  if (message.video.caption !== '') {
-                    payload.caption = message.video.caption
-                  }
-                  resolve(payload)
-                } else if (message.type === 'document') {
-                  payload = {
-                    componentType: 'file',
-                    fileurl: { url: uploadedUrl },
-                    fileName: message.document.filename
-                  }
-                  resolve(payload)
-                } else if (message.type === 'audio') {
-                  payload = { componentType: 'audio', fileurl: { url: uploadedUrl } }
-                  resolve(payload)
-                } else if (message.type === 'voice') {
-                  payload = { componentType: 'audio', fileurl: { url: uploadedUrl } }
-                  resolve(payload)
-                }
-              })
-              .catch(err => {
-                reject(err)
-              })
+            if (message.type === 'image' && message.image) {
+              payload = { componentType: 'image', fileurl: { url: response.body.url } }
+              if (message.image.caption && message.image.caption !== '') {
+                payload.caption = message.image.caption
+              }
+              resolve(payload)
+            } else if (message.type === 'video' && message.video) {
+              payload = { componentType: 'video', fileurl: { url: response.body.url } }
+              if (message.video.caption !== '') {
+                payload.caption = message.video.caption
+              }
+              resolve(payload)
+            } else if (message.type === 'document') {
+              payload = {
+                componentType: 'file',
+                fileurl: { url: response.body.url },
+                fileName: message.document.filename
+              }
+              resolve(payload)
+            } else if (message.type === 'audio') {
+              payload = { componentType: 'audio', fileurl: { url: response.body.url } }
+              resolve(payload)
+            } else if (message.type === 'voice') {
+              payload = { componentType: 'audio', fileurl: { url: response.body.url } }
+              resolve(payload)
+            }
           }
         })
         .catch(error => {
@@ -237,37 +225,6 @@ exports.prepareReceivedMessageData = (event, company) => {
       resolve(payload)
     } else {
       resolve(payload)
-    }
-  })
-}
-
-const uploadMedia = function (blob, fileName) {
-  return new Promise((resolve, reject) => {
-    var today = new Date()
-    var uid = crypto.randomBytes(5).toString('hex')
-    var serverPath = 'f' + uid + '' + today.getFullYear() + '' +
-    (today.getMonth() + 1) + '' + today.getDate()
-    serverPath += '' + today.getHours() + '' + today.getMinutes() + '' +
-    today.getSeconds()
-    let fext = fileName.split('.')
-    serverPath += '.' + fext[fext.length - 1].toLowerCase()
-    console.log('dir', __dirname)
-    let dir = path.resolve(__dirname, '../../../broadcastFiles/')
-    if (blob) {
-      fs.writeFile(dir + '/userfiles/' + serverPath, blob, (err) => {
-        if (err) {
-          reject(err)
-        } else {
-          let payload = {
-            id: serverPath,
-            name: fileName,
-            url: `${config.domain}/api/broadcasts/download/${serverPath}`
-          }
-          resolve(payload)
-        }
-      })
-    } else {
-      reject(new Error('Blob not found'))
     }
   })
 }
