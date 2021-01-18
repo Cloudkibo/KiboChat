@@ -52,6 +52,10 @@ const { callApi } = require('../utility')
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
 const moment = require('moment')
 const { sendTalkToAgentNotification } = require('./chatbots.logiclayer')
+const pdf = require('pdf-creator-node')
+const fs = require('fs')
+const path = require('path')
+const config = require('../../../config/environment/index')
 
 exports.updateFaqsForStartingBlock = async (chatbot) => {
   let messageBlocks = []
@@ -1435,7 +1439,22 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
         )
         if (order) {
           let storeInfo = await EcommerceProvider.fetchStoreInfo()
-          text += `Thank you for shopping at ${storeInfo.name}. We have received your order. Please note the order id given below to track your order:\n\n${order.name.replace('#', '')}`
+          const orderId = order.name.replace('#', '')
+          text += `Thank you for shopping at ${storeInfo.name}. We have received your order. Please note the order id given below to track your order:\n\n${orderId}`
+          const shoppingCart = contact.shoppingCart.map(product => ({
+            name: product.product,
+            quantity: product.quantity,
+            price: product.currency === 'USD' ? `$${product.price}` : `${product.price} ${product.currency}`,
+            totalPrice: product.currency === 'USD' ? `$${product.price * product.quantity}` : `${product.price * product.quantity} ${product.currency}`
+          }))
+          let totalPrice = 0
+          for (let i = 0; i < contact.shoppingCart.length; i++) {
+            totalPrice += Number(contact.shoppingCart[i].price) * Number(contact.shoppingCart[i].quantity)
+          }
+          const totalPriceString = storeInfo.currency === 'USD' ? `$${totalPrice}` : `${totalPrice} ${storeInfo.currency}`
+          const invoiceComponent = await generateInvoice(storeInfo, orderId, new Date().toLocaleString(), commerceCustomer, argument.address, shoppingCart, totalPriceString)
+          messageBlock.payload.unshift(invoiceComponent)
+          messageBlock.payload[1].text += text
         } else {
           throw new Error()
         }
@@ -1467,9 +1486,9 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
 
     updateSubscriber({ _id: contact._id }, { shoppingCart: [], commerceCustomer }, null, {})
 
-    if (argument.paymentMethod === 'cod' && chatbot.storeType === commerceConstants.shopify) {
-      return getShowMyCartBlock(chatbot, backId, contact, text, false)
-    }
+    // if (argument.paymentMethod === 'cod' && chatbot.storeType === commerceConstants.shopify) {
+    //   return getShowMyCartBlock(chatbot, backId, contact, text, false)
+    // }
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to checkout'
@@ -2530,6 +2549,36 @@ const getAskUnpauseChatbotBlock = (chatbot, contact) => {
     const message = err || 'Unable to request for unpause chatbot'
     logger.serverLog(message, `${TAG}: getAskUnpauseChatbotBlock`, {}, {chatbot, contact}, 'error')
     throw new Error(`${ERROR_INDICATOR}Unable to request for unpause chatbot`)
+  }
+}
+
+const generateInvoice = async (shopInfo, orderId, date, commerceCustomer, shippingAddress, items, totalPrice) => {
+  const html = fs.readFileSync(path.join(__dirname, '/invoice_template.html'), 'utf8')
+  const options = {
+    format: 'A3',
+    orientation: 'portrait',
+    border: '10mm'
+  }
+  const document = {
+    html: html,
+    data: {
+      shopName: shopInfo.name,
+      orderId,
+      date,
+      commerceCustomer,
+      shippingAddress,
+      items,
+      totalPrice
+    },
+    path: `./invoices/${shopInfo.id}/order${orderId}.pdf`
+  }
+  await pdf.create(document, options)
+  return {
+    componentType: 'file',
+    fileurl: {
+      url: `${config.domain}/invoices/${shopInfo.id}/order${orderId}.pdf`
+    },
+    fileName: `order${orderId}.pdf`
   }
 }
 

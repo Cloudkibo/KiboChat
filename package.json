@@ -72,6 +72,7 @@
     "passport-facebook": "^2.1.1",
     "passport-facebook-extension": "0.0.7",
     "passport-local": "^1.0.0",
+    "pdf-creator-node": "^1.4.2",
     "pug": "^2.0.3",
     "raven": "^2.6.4",
     "redis": "^2.8.0",
