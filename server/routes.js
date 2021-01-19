@@ -78,6 +78,10 @@ module.exports = function (app) {
   app.use('/api/airlines', require('./api/v1.1/airlinesChatbot'))
   // auth middleware go here if you authenticate on same server
 
+  app.get('/invoices/:shopId/:fileName', (req, res) => {
+    res.sendFile(path.join(config.root, `./invoices/${req.params.shopId}/${req.params.fileName}`))
+  })
+
   app.get('/', (req, res) => {
     res.cookie('environment', config.env,
       { expires: new Date(Date.now() + 900000) })

@@ -60,6 +60,10 @@ const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 const { callApi } = require('../utility')
 const moment = require('moment')
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
+const pdf = require('pdf-creator-node')
+const fs = require('fs')
+const path = require('path')
+const config = require('../../../config/environment/index')
 
 function specialKeyText (key) {
   switch (key) {
@@ -2093,6 +2097,36 @@ const updatedAddressBlockedMessage = async (chatbot, contact, argument) => {
   return messageBlock
 }
 
+const generateInvoice = async (shopInfo, orderId, date, commerceCustomer, shippingAddress, items, totalPrice) => {
+  const html = fs.readFileSync(path.join(__dirname, '../chatbots/invoice_template.html'), 'utf8')
+  const options = {
+    format: 'A3',
+    orientation: 'portrait',
+    border: '10mm'
+  }
+  const document = {
+    html: html,
+    data: {
+      shopName: shopInfo.name,
+      orderId,
+      date,
+      commerceCustomer,
+      shippingAddress,
+      items,
+      totalPrice
+    },
+    path: `./invoices/${shopInfo.id}/order${orderId}.pdf`
+  }
+  await pdf.create(document, options)
+  return {
+    componentType: 'file',
+    fileurl: {
+      url: `${config.domain}/invoices/${shopInfo.id}/order${orderId}.pdf`
+    },
+    fileName: `order${orderId}.pdf`
+  }
+}
+
 const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, argument, userInput) => {
   let userError = false
   try {
@@ -2180,34 +2214,24 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
         if (order) {
           let storeInfo = await EcommerceProvider.fetchStoreInfo()
 
-          messageBlock.payload[0].text += `Thank you for shopping at ${storeInfo.name}. We have received your order. Please note the order number given below to track your order:\n\n`
-          messageBlock.payload[0].text += `*${order.name.replace('#', '')}*\n\n`
-          messageBlock.payload[0].text += `Here is your complete order:\n`
+          const orderId = order.name.replace('#', '')
 
-          let totalPrice = 0
-          let currency = ''
-          for (let i = 0; i < shoppingCart.length; i++) {
-            let product = shoppingCart[i]
-
-            currency = product.currency
-
-            let price = product.quantity * product.price
-            price = Number(price.toFixed(2))
-            totalPrice += price
-
-            messageBlock.payload[0].text += `\n*Item*: ${product.product}`
-            messageBlock.payload[0].text += `\n*Quantity*: ${product.quantity}`
-            messageBlock.payload[0].text += `\n*Price*: ${price} ${currency}`
-
-            if (i + 1 < shoppingCart.length) {
-              messageBlock.payload[0].text += `\n`
-            }
+          const invoiceShoppingCart = contact.shoppingCart.map(product => ({
+            name: product.product,
+            quantity: product.quantity,
+            price: product.currency === 'USD' ? `$${product.price}` : `${product.price} ${product.currency}`,
+            totalPrice: product.currency === 'USD' ? `$${product.price * product.quantity}` : `${product.price * product.quantity} ${product.currency}`
+          }))
+          let totalInvoicePrice = 0
+          for (let i = 0; i < contact.shoppingCart.length; i++) {
+            totalInvoicePrice += Number(contact.shoppingCart[i].price) * Number(contact.shoppingCart[i].quantity)
           }
+          const totalInvoicePriceString = storeInfo.currency === 'USD' ? `$${totalInvoicePrice}` : `${totalInvoicePrice} ${storeInfo.currency}`
+          const invoiceComponent = await generateInvoice(storeInfo, orderId, new Date().toLocaleString(), commerceCustomer, argument.address, invoiceShoppingCart, totalInvoicePriceString)
+          messageBlock.payload.unshift(invoiceComponent)
 
-          messageBlock.payload[0].text += `\n\n*Total price*: ${totalPrice} ${currency}\n\n`
-
-          const address = argument.address
-          messageBlock.payload[0].text += `*Address*: ${address.address1}, ${address.city} ${address.zip}, ${address.country}`
+          messageBlock.payload[1].text += `Thank you for shopping at ${storeInfo.name}. We have received your order. Please note the order number given below to track your order:\n\n`
+          messageBlock.payload[1].text += `*${orderId}*\n\n`
         } else {
           throw new Error()
         }
