@@ -1030,7 +1030,7 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
   }
 }
 
-const getShowMyCartBlock = async (chatbot, backId, contact, optionalText, showButtons = true) => {
+const getShowMyCartBlock = async (chatbot, backId, contact, optionalText, showButtons = true, orderId) => {
   try {
     let messageBlock = {
       module: {
@@ -1093,6 +1093,16 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText, showBu
       }
       let totalPriceString = currency === 'USD' ? `$${totalPrice}` : `${totalPrice} ${currency}`
       messageBlock.payload[0].text += ` Total price is: ${totalPriceString}.`
+
+      if (orderId) {
+        messageBlock.payload[messageBlock.payload.length - 1].quickReplies.push(
+          {
+            content_type: 'text',
+            title: 'Get PDF Invoice',
+            payload: JSON.stringify({ type: DYNAMIC, action: GET_INVOICE, argument: orderId })
+          }
+        )
+      }
 
       if (showButtons) {
         messageBlock.payload[messageBlock.payload.length - 1].quickReplies.push(
@@ -1429,6 +1439,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
 
     let checkoutLink = ''
     let text = ''
+    let orderId = ''
     if (argument.paymentMethod === 'cod') {
       if (chatbot.storeType === commerceConstants.shopify) {
         const testOrderCart = contact.shoppingCart.map((item) => {
@@ -1448,15 +1459,8 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
         )
         if (order) {
           let storeInfo = await EcommerceProvider.fetchStoreInfo()
-          const orderId = order.name.replace('#', '')
+          orderId = order.name.replace('#', '')
           text += `Thank you for shopping at ${storeInfo.name}. We have received your order. Please note the order id given below to track your order:\n\n${orderId}`
-          messageBlock.payload[0].quickReplies.unshift(
-            {
-              content_type: 'text',
-              title: 'Get PDF Invoice',
-              payload: JSON.stringify({ type: DYNAMIC, action: GET_INVOICE, argument: orderId })
-            }
-          )
         } else {
           throw new Error()
         }
@@ -1489,7 +1493,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
     updateSubscriber({ _id: contact._id }, { shoppingCart: [], commerceCustomer }, null, {})
 
     if (argument.paymentMethod === 'cod' && chatbot.storeType === commerceConstants.shopify) {
-      return getShowMyCartBlock(chatbot, backId, contact, text, false)
+      return getShowMyCartBlock(chatbot, backId, contact, text, false, orderId)
     }
     return messageBlock
   } catch (err) {
