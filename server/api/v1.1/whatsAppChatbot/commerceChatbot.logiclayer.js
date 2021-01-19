@@ -614,7 +614,7 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
 
     messageBlock.payload[0].text += `\n\nThis order was placed on ${new Date(orderStatus.createdAt).toDateString()}`
 
-    messageBlock.payload[0].text += `\n\n*I* Get PDF Invoice`
+    messageBlock.payload[0].text += `\n\n*I*  Get PDF Invoice`
     messageBlock.payload[0].text += `\n${specialKeyText(SHOW_CART_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
@@ -2171,7 +2171,7 @@ const getInvoiceBlock = async (chatbot, contact, backId, EcommerceProvider, orde
       storeInfo,
       orderId,
       new Date(orderStatus.createdAt).toLocaleString(),
-      contact.commerceCustomer,
+      orderStatus.customer,
       shippingAddress,
       billingAddress,
       shoppingCart,
@@ -2195,7 +2195,7 @@ const getInvoiceBlock = async (chatbot, contact, backId, EcommerceProvider, orde
   }
 }
 
-const generateInvoice = async (storeInfo, orderId, date, commerceCustomer, shippingAddress, billingAddress, items, totalPrice) => {
+const generateInvoice = async (storeInfo, orderId, date, customer, shippingAddress, billingAddress, items, totalPrice) => {
   const html = fs.readFileSync(path.join(__dirname, '../chatbots/invoice_template.html'), 'utf8')
   const options = {
     format: 'A3',
@@ -2208,7 +2208,7 @@ const generateInvoice = async (storeInfo, orderId, date, commerceCustomer, shipp
       shopName: storeInfo.name,
       orderId,
       date,
-      commerceCustomer,
+      customer,
       shippingAddress,
       billingAddress,
       items,
@@ -2342,7 +2342,7 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
           const address = argument.address
           messageBlock.payload[0].text += `*Address*: ${address.address1}, ${address.city} ${address.zip}, ${address.country}`
 
-          messageBlock.payload[0].text += `\n\n*I* Get PDF Invoice`
+          messageBlock.payload[0].text += `\n\n*I*  Get PDF Invoice`
           messageBlock.payload[0].specialKeys['i'] = { type: DYNAMIC, action: GET_INVOICE, argument: orderId }
         } else {
           throw new Error()
