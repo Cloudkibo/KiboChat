@@ -1613,6 +1613,9 @@ const getAskAddressBlock = async (chatbot, contact, argument) => {
               argument: { ...argument,
                 address: { address1: '' }
               }
+            },
+            specialKeys: {
+              [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
             }
           }
         ],
@@ -2193,7 +2196,7 @@ const getInvoiceBlock = async (chatbot, contact, backId, EcommerceProvider, orde
 }
 
 const generateInvoice = async (storeInfo, orderId, date, commerceCustomer, shippingAddress, billingAddress, items, totalPrice) => {
-  const html = fs.readFileSync(path.join(__dirname, '/invoice_template.html'), 'utf8')
+  const html = fs.readFileSync(path.join(__dirname, '../chatbots/invoice_template.html'), 'utf8')
   const options = {
     format: 'A3',
     orientation: 'portrait',
