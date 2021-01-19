@@ -498,7 +498,7 @@ function updateChatInDB (match, updated, dataToSend) {
 async function temporarySuperBotTestHandling (data, contact, company, number, req, isNewContact) {
   try {
     if (
-      (data.messageData.text.toLowerCase() === 'select') ||
+      (data.messageData.componentType === 'text' && data.messageData.text.toLowerCase() === 'select') ||
       (!contact.activeChatbotId &&
         !(contact.lastMessageSentByBot &&
           contact.lastMessageSentByBot.module &&
