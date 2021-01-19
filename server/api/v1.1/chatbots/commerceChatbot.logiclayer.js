@@ -2618,7 +2618,7 @@ const getInvoiceBlock = async (chatbot, contact, backId, EcommerceProvider, orde
       storeInfo,
       orderId,
       new Date(orderStatus.createdAt).toLocaleString(),
-      contact.commerceCustomer,
+      orderStatus.customer,
       shippingAddress,
       billingAddress,
       shoppingCart,
@@ -2654,7 +2654,7 @@ const getInvoiceBlock = async (chatbot, contact, backId, EcommerceProvider, orde
   }
 }
 
-const generateInvoice = async (storeInfo, orderId, date, commerceCustomer, shippingAddress, billingAddress, items, totalPrice) => {
+const generateInvoice = async (storeInfo, orderId, date, customer, shippingAddress, billingAddress, items, totalPrice) => {
   const html = fs.readFileSync(path.join(__dirname, '/invoice_template.html'), 'utf8')
   const options = {
     format: 'A3',
@@ -2667,7 +2667,7 @@ const generateInvoice = async (storeInfo, orderId, date, commerceCustomer, shipp
       shopName: storeInfo.name,
       orderId,
       date,
-      commerceCustomer,
+      customer,
       shippingAddress,
       billingAddress,
       items,
