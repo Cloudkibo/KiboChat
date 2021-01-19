@@ -108,7 +108,7 @@
                             </td>
 
                             <td style="margin-left: auto; text-align: right;">
-                                Order #: 123<br>
+                                Order #: {{orderId}}<br>
                                 Created: {{date}}<br>
                                 {{commerceCustomer.first_name}} {{commerceCustomer.last_name}}<br>
                             </td>
@@ -118,7 +118,7 @@
             </tr>
 
             <tr class="information">
-                <td colspan="2">
+                <td colspan="3">
                     <table>
                         <tr>
                             <td>
@@ -126,6 +126,13 @@
                                 {{shippingAddress.address1}}, {{shippingAddress.city}} {{shippingAddress.zip}},
                                 {{shippingAddress.country}}<br>
                             </td>
+                            {{#if billingAddress}}
+                            <td>
+                                <strong>Billing Address:</strong><br>
+                                {{billingAddress.address1}}, {{billingAddress.city}} {{billingAddress.zip}},
+                                {{billingAddress.country}}<br>
+                            </td>
+                            {{/if}}
                         </tr>
                     </table>
                 </td>
@@ -164,6 +171,7 @@
             {{#each items}}
             <tr class='item{{#if @last}}last{{/if}}'>
                 <td>
+                    <img style="width: 25px; height: 25px;" src={{this.image_url}} />
                     {{this.name}}
                 </td>
 
