@@ -43,7 +43,8 @@ const {
   ASK_UNPAUSE_CHATBOT,
   SEARCH_PRODUCTS,
   CHECK_ORDERS,
-  ASK_ORDER_ID
+  ASK_ORDER_ID,
+  GET_INVOICE
 } = require('./constants')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/chatbots/commerceChatbot.logiclayer.js'
@@ -52,6 +53,10 @@ const { callApi } = require('../utility')
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
 const moment = require('moment')
 const { sendTalkToAgentNotification } = require('./chatbots.logiclayer')
+const pdf = require('pdf-creator-node')
+const fs = require('fs')
+const path = require('path')
+const config = require('../../../config/environment/index')
 
 exports.updateFaqsForStartingBlock = async (chatbot) => {
   let messageBlocks = []
@@ -664,6 +669,14 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, contact, 
     }
 
     messageBlock.payload[0].text += `\n\nThis order was placed on ${new Date(orderStatus.createdAt).toLocaleString()}`
+
+    messageBlock.payload[messageBlock.payload.length - 1].quickReplies.unshift(
+      {
+        content_type: 'text',
+        title: 'Get PDF Invoice',
+        payload: JSON.stringify({ type: DYNAMIC, action: GET_INVOICE, argument: orderId })
+      }
+    )
     return messageBlock
   } catch (err) {
     if (!userError) {
@@ -1435,7 +1448,15 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
         )
         if (order) {
           let storeInfo = await EcommerceProvider.fetchStoreInfo()
-          text += `Thank you for shopping at ${storeInfo.name}. We have received your order. Please note the order id given below to track your order:\n\n${order.name.replace('#', '')}`
+          const orderId = order.name.replace('#', '')
+          text += `Thank you for shopping at ${storeInfo.name}. We have received your order. Please note the order id given below to track your order:\n\n${orderId}`
+          messageBlock.payload[0].quickReplies.unshift(
+            {
+              content_type: 'text',
+              title: 'Get PDF Invoice',
+              payload: JSON.stringify({ type: DYNAMIC, action: GET_INVOICE, argument: orderId })
+            }
+          )
         } else {
           throw new Error()
         }
@@ -2533,6 +2554,137 @@ const getAskUnpauseChatbotBlock = (chatbot, contact) => {
   }
 }
 
+const getInvoiceBlock = async (chatbot, contact, backId, EcommerceProvider, orderId) => {
+  let userError = false
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'messenger_commerce_chatbot'
+      },
+      title: 'Order Invoice',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Here is your invoice for order #${orderId}:`,
+          componentType: 'text'
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    let orderStatus = await EcommerceProvider.checkOrderStatus(Number(orderId))
+    if (!orderStatus) {
+      userError = true
+      throw new Error('Unable to get order status. Please make sure your order ID is valid and that the order was placed within the last 60 days.')
+    }
+
+    let shoppingCart = []
+    let totalOrderPriceString = ''
+    if (orderStatus.lineItems && orderStatus.lineItems.length > 0) {
+      const totalOrderPrice = orderStatus.lineItems.reduce((acc, item) => acc + Number(item.price), 0)
+      const currency = orderStatus.lineItems[0].currency
+      totalOrderPriceString = currency === 'USD' ? `$${totalOrderPrice}` : `${totalOrderPrice} ${currency}`
+      for (let i = 0; i < orderStatus.lineItems.length; i++) {
+        let product = orderStatus.lineItems[i]
+        const individualPrice = Number(product.price) / Number(product.quantity)
+        const priceString = currency === 'USD' ? `$${individualPrice}` : `${individualPrice} ${currency}`
+        const totalPriceString = currency === 'USD' ? `$${product.price}` : `${product.price} ${currency}`
+        shoppingCart.push({
+          image_url: product.image.originalSrc,
+          name: product.name,
+          price: priceString,
+          quantity: product.quantity,
+          totalPrice: totalPriceString
+        })
+      }
+    }
+
+    let shippingAddress = null
+    let billingAddress = null
+    if (orderStatus.shippingAddress) {
+      shippingAddress = orderStatus.shippingAddress
+    } else if (contact.commerceCustomer && contact.commerceCustomer.defaultAddress) {
+      shippingAddress = contact.commerceCustomer.defaultAddress
+    }
+
+    if (orderStatus.billingAddress) {
+      billingAddress = orderStatus.billingAddress
+    }
+
+    const storeInfo = await EcommerceProvider.fetchStoreInfo()
+
+    const invoiceComponent = await generateInvoice(
+      storeInfo,
+      orderId,
+      new Date(orderStatus.createdAt).toLocaleString(),
+      contact.commerceCustomer,
+      shippingAddress,
+      billingAddress,
+      shoppingCart,
+      totalOrderPriceString
+    )
+
+    invoiceComponent.quickReplies = [
+      {
+        content_type: 'text',
+        title: 'Go Back',
+        payload: JSON.stringify({ type: DYNAMIC, action: backId })
+      },
+      {
+        content_type: 'text',
+        title: 'Go Home',
+        payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
+      }
+    ]
+
+    messageBlock.payload.push(invoiceComponent)
+
+    return messageBlock
+  } catch (err) {
+    if (!userError) {
+      const message = err || 'Unable to get order status'
+      logger.serverLog(message, `${TAG}: getInvoiceBlock`, {}, {}, 'error')
+    }
+    if (err && err.message) {
+      throw new Error(`${ERROR_INDICATOR}${err.message}`)
+    } else {
+      throw new Error(`${ERROR_INDICATOR}Unable to get order status.`)
+    }
+  }
+}
+
+const generateInvoice = async (storeInfo, orderId, date, commerceCustomer, shippingAddress, billingAddress, items, totalPrice) => {
+  const html = fs.readFileSync(path.join(__dirname, '/invoice_template.html'), 'utf8')
+  const options = {
+    format: 'A3',
+    orientation: 'portrait',
+    border: '10mm'
+  }
+  const document = {
+    html: html,
+    data: {
+      shopName: storeInfo.name,
+      orderId,
+      date,
+      commerceCustomer,
+      shippingAddress,
+      billingAddress,
+      items,
+      totalPrice
+    },
+    path: `./invoices/${storeInfo.id}/order${orderId}.pdf`
+  }
+  await pdf.create(document, options)
+  return {
+    componentType: 'file',
+    fileurl: {
+      url: `${config.domain}/invoices/${storeInfo.id}/order${orderId}.pdf`
+    },
+    fileName: `order${orderId}.pdf`
+  }
+}
+
 exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event) => {
   let userError = false
   try {
@@ -2740,6 +2892,10 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
               }
               case ASK_ORDER_ID: {
                 messageBlock = await getOrderIdBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId)
+                break
+              }
+              case GET_INVOICE: {
+                messageBlock = await getInvoiceBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument)
                 break
               }
             }

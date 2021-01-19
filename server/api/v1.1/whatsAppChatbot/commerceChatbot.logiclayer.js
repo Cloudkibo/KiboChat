@@ -50,7 +50,8 @@ const {
   UNPAUSE_CHATBOT,
   SEARCH_PRODUCTS,
   CHECK_ORDERS,
-  ASK_ORDER_ID
+  ASK_ORDER_ID,
+  GET_INVOICE
 } = require('./constants')
 const { convertToEmoji, sendTalkToAgentNotification } = require('./whatsAppChatbot.logiclayer')
 const logger = require('../../../components/logger')
@@ -60,6 +61,10 @@ const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 const { callApi } = require('../utility')
 const moment = require('moment')
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
+const pdf = require('pdf-creator-node')
+const fs = require('fs')
+const path = require('path')
+const config = require('../../../config/environment/index')
 
 function specialKeyText (key) {
   switch (key) {
@@ -542,7 +547,8 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
           specialKeys: {
             [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
             [BACK_KEY]: { type: STATIC, blockId: backId },
-            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
+            'i': { type: DYNAMIC, action: GET_INVOICE, argument: orderId }
           }
         }
       ],
@@ -608,7 +614,8 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
 
     messageBlock.payload[0].text += `\n\nThis order was placed on ${new Date(orderStatus.createdAt).toDateString()}`
 
-    messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
+    messageBlock.payload[0].text += `\n\n*I* Get PDF Invoice`
+    messageBlock.payload[0].text += `\n${specialKeyText(SHOW_CART_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
 
@@ -2093,6 +2100,129 @@ const updatedAddressBlockedMessage = async (chatbot, contact, argument) => {
   return messageBlock
 }
 
+const getInvoiceBlock = async (chatbot, contact, backId, EcommerceProvider, orderId) => {
+  let userError = false
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'messenger_commerce_chatbot'
+      },
+      title: 'Order Invoice',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Here is your invoice for order #${orderId}:`,
+          componentType: 'text',
+          specialKeys: {
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
+            [BACK_KEY]: { type: STATIC, blockId: backId }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    let orderStatus = await EcommerceProvider.checkOrderStatus(Number(orderId))
+    if (!orderStatus) {
+      userError = true
+      throw new Error('Unable to get order status. Please make sure your order ID is valid and that the order was placed within the last 60 days.')
+    }
+
+    let shoppingCart = []
+    let totalOrderPriceString = ''
+    if (orderStatus.lineItems && orderStatus.lineItems.length > 0) {
+      const totalOrderPrice = orderStatus.lineItems.reduce((acc, item) => acc + Number(item.price), 0)
+      const currency = orderStatus.lineItems[0].currency
+      totalOrderPriceString = currency === 'USD' ? `$${totalOrderPrice}` : `${totalOrderPrice} ${currency}`
+      for (let i = 0; i < orderStatus.lineItems.length; i++) {
+        let product = orderStatus.lineItems[i]
+        const individualPrice = Number(product.price) / Number(product.quantity)
+        const priceString = currency === 'USD' ? `$${individualPrice}` : `${individualPrice} ${currency}`
+        const totalPriceString = currency === 'USD' ? `$${product.price}` : `${product.price} ${currency}`
+        shoppingCart.push({
+          image_url: product.image.originalSrc,
+          name: product.name,
+          price: priceString,
+          quantity: product.quantity,
+          totalPrice: totalPriceString
+        })
+      }
+    }
+
+    let shippingAddress = null
+    let billingAddress = null
+    if (orderStatus.shippingAddress) {
+      shippingAddress = orderStatus.shippingAddress
+    } else if (contact.commerceCustomer && contact.commerceCustomer.defaultAddress) {
+      shippingAddress = contact.commerceCustomer.defaultAddress
+    }
+
+    if (orderStatus.billingAddress) {
+      billingAddress = orderStatus.billingAddress
+    }
+
+    const storeInfo = await EcommerceProvider.fetchStoreInfo()
+
+    const invoiceComponent = await generateInvoice(
+      storeInfo,
+      orderId,
+      new Date(orderStatus.createdAt).toLocaleString(),
+      contact.commerceCustomer,
+      shippingAddress,
+      billingAddress,
+      shoppingCart,
+      totalOrderPriceString
+    )
+    messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
+    messageBlock.payload.push(invoiceComponent)
+
+    return messageBlock
+  } catch (err) {
+    if (!userError) {
+      const message = err || 'Unable to get order status'
+      logger.serverLog(message, `${TAG}: getInvoiceBlock`, {}, {}, 'error')
+    }
+    if (err && err.message) {
+      throw new Error(`${ERROR_INDICATOR}${err.message}`)
+    } else {
+      throw new Error(`${ERROR_INDICATOR}Unable to get order status.`)
+    }
+  }
+}
+
+const generateInvoice = async (storeInfo, orderId, date, commerceCustomer, shippingAddress, billingAddress, items, totalPrice) => {
+  const html = fs.readFileSync(path.join(__dirname, '/invoice_template.html'), 'utf8')
+  const options = {
+    format: 'A3',
+    orientation: 'portrait',
+    border: '10mm'
+  }
+  const document = {
+    html: html,
+    data: {
+      shopName: storeInfo.name,
+      orderId,
+      date,
+      commerceCustomer,
+      shippingAddress,
+      billingAddress,
+      items,
+      totalPrice
+    },
+    path: `./invoices/${storeInfo.id}/order${orderId}.pdf`
+  }
+  await pdf.create(document, options)
+  return {
+    componentType: 'file',
+    fileurl: {
+      url: `${config.domain}/invoices/${storeInfo.id}/order${orderId}.pdf`
+    },
+    fileName: `order${orderId}.pdf`
+  }
+}
+
 const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, argument, userInput) => {
   let userError = false
   try {
@@ -2179,9 +2309,9 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
 
         if (order) {
           let storeInfo = await EcommerceProvider.fetchStoreInfo()
-
+          const orderId = order.name.replace('#', '')
           messageBlock.payload[0].text += `Thank you for shopping at ${storeInfo.name}. We have received your order. Please note the order number given below to track your order:\n\n`
-          messageBlock.payload[0].text += `*${order.name.replace('#', '')}*\n\n`
+          messageBlock.payload[0].text += `*${orderId}*\n\n`
           messageBlock.payload[0].text += `Here is your complete order:\n`
 
           let totalPrice = 0
@@ -2208,6 +2338,9 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
 
           const address = argument.address
           messageBlock.payload[0].text += `*Address*: ${address.address1}, ${address.city} ${address.zip}, ${address.country}`
+
+          messageBlock.payload[0].text += `\n\n*I* Get PDF Invoice`
+          messageBlock.payload[0].specialKeys['i'] = { type: DYNAMIC, action: GET_INVOICE, argument: orderId }
         } else {
           throw new Error()
         }
@@ -2588,6 +2721,10 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
           }
           case ASK_ORDER_ID: {
             messageBlock = await getOrderIdBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId)
+            break
+          }
+          case GET_INVOICE: {
+            messageBlock = await getInvoiceBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument)
             break
           }
         }
