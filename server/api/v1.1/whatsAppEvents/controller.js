@@ -620,6 +620,7 @@ async function getAllChatbots (company) {
 async function temporarySuperBotResponseHandling (data, contact, company, number, req, isNewContact) {
   try {
     if (data.messageData.componentType === 'text' && contact.activeChatbotBuilt === 'automated') {
+      // handleUserInput()
       let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ _id: contact.activeChatbotId })
       if (chatbot) {
         const shouldSend = chatbot.published || chatbot.testSubscribers.includes(contact.number)
@@ -729,3 +730,5 @@ function sendWhatsAppMessageLogic (messagePayload, data, number, req, company, c
       logger.serverLog(message, `${TAG}: exports.sendWhatsAppMessage`, req.body, {chatbotResponse}, 'error')
     })
 }
+
+exports.sendWhatsAppMessage = sendWhatsAppMessage
