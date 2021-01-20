@@ -165,10 +165,11 @@ exports.handleAppUninstall = async function (req, res) {
       })
     })
 
-    const whatsAppChatbots = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({
+    const whatsAppChatbots = await whatsAppChatbotDataLayer.fetchAllWhatsAppChatbots({
       type: 'automated',
       vertical: 'commerce',
-      storeType: 'shopify'
+      storeType: 'shopify',
+      companyId: shopifyIntegration.companyId
     })
 
     whatsAppChatbots.forEach(chatbot => {
