@@ -24,6 +24,7 @@ const { record } = require('../../global/messageStatistics')
 const chatbotResponder = require('../../../chatbotResponder')
 const configureChatbotDatalayer = require('./../configureChatbot/datalayer')
 const { intervalForEach } = require('./../../../components/utility')
+const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 
 exports.messageReceived = function (req, res) {
   res.status(200).json({
@@ -75,16 +76,24 @@ exports.messageReceived = function (req, res) {
                               let airlinesProvider = null
                               if (chatbot.storeType === commerceConstants.shopify) {
                                 const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
-                                ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
-                                  shopUrl: shopifyIntegration.shopUrl,
-                                  shopToken: shopifyIntegration.shopToken
-                                })
+                                if (shopifyIntegration) {
+                                  ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
+                                    shopUrl: shopifyIntegration.shopUrl,
+                                    shopToken: shopifyIntegration.shopToken
+                                  })
+                                } else {
+                                  deleteShopifyIntegeration(chatbot.companyId, commerceConstants.shopify)
+                                }
                               } else if (chatbot.storeType === commerceConstants.bigcommerce) {
                                 const bigCommerceIntegration = await bigcommerceDataLayer.findOneBigCommerceIntegration({ companyId: chatbot.companyId })
-                                ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
-                                  shopToken: bigCommerceIntegration.shopToken,
-                                  storeHash: bigCommerceIntegration.payload.context
-                                })
+                                if (bigCommerceIntegration) {
+                                  ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
+                                    shopToken: bigCommerceIntegration.shopToken,
+                                    storeHash: bigCommerceIntegration.payload.context
+                                  })
+                                } else {
+                                  deleteShopifyIntegeration(chatbot.companyId, commerceConstants.bigcommerce)
+                                }
                               } else if (chatbot.vertical === 'airlines') {
                                 airlinesProvider = new AirlinesProvider(airlinesConstants.amadeus, {
                                   clientId: config.amadeus.clientId,
@@ -146,6 +155,24 @@ exports.messageReceived = function (req, res) {
       const message = error || 'Failed to map whatsapp message received data'
       logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {user: req.user}, 'error')
     })
+}
+
+async function deleteShopifyIntegeration (companyId, storeType) {
+  const whatsAppChatbots = await whatsAppChatbotDataLayer.fetchAllWhatsAppChatbots({
+    type: 'automated',
+    vertical: 'commerce',
+    storeType: storeType,
+    companyId: companyId
+  })
+
+  whatsAppChatbots.forEach(chatbot => {
+    whatsAppChatbotDataLayer.deleteForChatBot({
+      _id: chatbot._id
+    })
+    messageBlockDataLayer.deleteForMessageBlock({
+      'module.id': chatbot._id
+    })
+  })
 }
 
 function _sendEvent (companyId, contact) {
