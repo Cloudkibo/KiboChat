@@ -50,7 +50,8 @@ const {
   SEARCH_PRODUCTS,
   CHECK_ORDERS,
   ASK_ORDER_ID,
-  GET_INVOICE
+  GET_INVOICE,
+  GET_CHECKOUT_INFO
 } = require('./constants')
 const { convertToEmoji, sendTalkToAgentNotification } = require('./whatsAppChatbot.logiclayer')
 const logger = require('../../../components/logger')
@@ -138,7 +139,7 @@ exports.getMessageBlocks = (chatbot) => {
           { type: DYNAMIC, action: SEARCH_PRODUCTS }
         ],
         specialKeys: {
-          [ORDER_STATUS_KEY]: { type: DYNAMIC, action: CHECK_ORDERS },
+          [ORDER_STATUS_KEY]: { type: DYNAMIC, action: VIEW_RECENT_ORDERS },
           [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
           [TALK_TO_AGENT_KEY]: { type: DYNAMIC, action: TALK_TO_AGENT }
         }
@@ -443,6 +444,7 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
           componentType: 'text',
           menu: [],
           specialKeys: {
+            'o': { type: DYNAMIC, action: ASK_ORDER_ID },
             [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
             [BACK_KEY]: { type: STATIC, blockId: backId },
             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
@@ -479,7 +481,8 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
       messageBlock.payload[0].text = 'You have not placed any orders yet.'
     }
 
-    messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
+    messageBlock.payload[0].text += `\n\n*O*  Check order status for a specific order id`
+    messageBlock.payload[0].text += `\n${specialKeyText(SHOW_CART_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
 
@@ -515,12 +518,20 @@ const getOrderIdBlock = (chatbot, contact, backId) => {
         {
           text: `Please enter your order ID`,
           componentType: 'text',
-          action: { type: DYNAMIC, action: ORDER_STATUS, input: true }
+          action: { type: DYNAMIC, action: ORDER_STATUS, input: true },
+          specialKeys: {
+            [BACK_KEY]: { type: STATIC, blockId: backId },
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
+            'o': { type: DYNAMIC, action: VIEW_RECENT_ORDERS }
+          }
         }
       ],
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
+    messageBlock.payload[0].text += `\n\n*O*  View Recent Orders`
+    messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
     return messageBlock
   } catch (err) {
     const message = err || 'Unable get search for products message block'
@@ -547,7 +558,8 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
             [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
             [BACK_KEY]: { type: STATIC, blockId: backId },
             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
-            'i': { type: DYNAMIC, action: GET_INVOICE, argument: orderId }
+            'i': { type: DYNAMIC, action: GET_INVOICE, argument: orderId },
+            'o': { type: DYNAMIC, action: VIEW_RECENT_ORDERS }
           }
         }
       ],
@@ -613,7 +625,8 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
 
     messageBlock.payload[0].text += `\n\nThis order was placed on ${new Date(orderStatus.createdAt).toDateString()}`
 
-    messageBlock.payload[0].text += `\n\n*I*  Get PDF Invoice`
+    messageBlock.payload[0].text += `\n\n*I*   Get PDF Invoice`
+    messageBlock.payload[0].text += `\n*O*  View Recent Orders`
     messageBlock.payload[0].text += `\n${specialKeyText(SHOW_CART_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
@@ -1049,7 +1062,7 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
         { type: DYNAMIC, action: SHOW_ITEMS_TO_REMOVE },
         { type: DYNAMIC, action: SHOW_ITEMS_TO_UPDATE },
         { type: DYNAMIC, action: CONFIRM_CLEAR_CART },
-        { type: DYNAMIC, action: GET_CHECKOUT_EMAIL })
+        { type: DYNAMIC, action: ASK_PAYMENT_METHOD })
       messageBlock.payload[0].text += dedent(`Please select an option by sending the corresponding number for it:\n
                                             ${convertToEmoji(0)} Remove an item
                                             ${convertToEmoji(1)} Update quantity for an item
@@ -1209,7 +1222,7 @@ const getQuantityToUpdateBlock = async (chatbot, backId, product) => {
           specialKeys: {
             [BACK_KEY]: { type: STATIC, blockId: backId },
             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
-            'p': { type: DYNAMIC, action: GET_CHECKOUT_EMAIL }
+            'p': { type: DYNAMIC, action: ASK_PAYMENT_METHOD }
           }
         }
       ],
@@ -1430,6 +1443,118 @@ function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options)
     })
 }
 
+const getCheckoutInfoBlock = async (chatbot, contact, backId, argument, userInput) => {
+  let userError = false
+  try {
+    let messageBlock = null
+    let newEmailInput = userInput && argument.newEmail
+    if (userInput && argument.updatingZip) {
+      argument.updatingZip = false
+      argument.address.zip = userInput
+      newEmailInput = false
+    }
+    // this is workaround to store both bigcommerce and shopify
+    // customer information in contacts table so that during
+    // demo we can easily switch between commerce providers.
+    // Here we are checking which store the chatbot belongs to
+    // and getting the customer payload for that store - Sojharo
+    let tempCustomerPayload = contact.commerceCustomer
+    if (chatbot.storeType === commerceConstants.shopify) {
+      tempCustomerPayload = contact.commerceCustomerShopify
+    }
+    const address = argument.address ? argument.address : tempCustomerPayload ? tempCustomerPayload.defaultAddress : null
+    let yesAction = null
+    if (address && argument.paymentMethod === 'cod') {
+      yesAction = { type: DYNAMIC, action: PROCEED_TO_CHECKOUT, argument: {...argument, address} }
+    } else if (!address && argument.paymentMethod === 'cod') {
+      yesAction = { type: DYNAMIC, action: ASK_ADDRESS, argument: {...argument} }
+    } else {
+      yesAction = { type: DYNAMIC, action: PROCEED_TO_CHECKOUT, argument: {...argument} }
+    }
+    if (userInput || (!argument.newEmail && tempCustomerPayload && tempCustomerPayload.email)) {
+      if (newEmailInput) {
+        const emailRegex = /\S+@\S+\.\S+/
+        if (!emailRegex.test(userInput)) {
+          userError = true
+          throw new Error('Invalid Email. Please input a valid email address.')
+        }
+        argument.newEmail = userInput
+      }
+      messageBlock = {
+        module: {
+          id: chatbot._id,
+          type: 'messenger_commerce_chatbot'
+        },
+        title: 'Checkout Info',
+        uniqueId: '' + new Date().getTime(),
+        payload: [
+          {
+            text: ``,
+            componentType: 'text',
+            menu: [
+              yesAction,
+              { type: DYNAMIC, action: GET_CHECKOUT_INFO, argument: {...argument, newEmail: true} }
+            ],
+            specialKeys: {
+              [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
+              [BACK_KEY]: { type: STATIC, blockId: backId }
+            }
+          }
+        ],
+        userId: chatbot.userId,
+        companyId: chatbot.companyId
+      }
+      messageBlock.payload[0].text += `Would you like to use the current information for checkout?`
+      messageBlock.payload[0].text += `\n\nEmail: ${argument.newEmail ? argument.newEmail : tempCustomerPayload.email}`
+
+      if (address && argument.paymentMethod === 'cod') {
+        messageBlock.payload[0].text += `\n\nAddress: ${address.address1}, ${address.city} ${address.zip}, ${address.country}`
+        messageBlock.payload[0].menu.push(
+          { type: DYNAMIC, action: UPDATE_ADDRESS_BLOCK, argument: {...argument, address} }
+        )
+      }
+      messageBlock.payload[0].text += `\n\n${convertToEmoji(0)} Yes, Proceed to checkut`
+      messageBlock.payload[0].text += `\n${convertToEmoji(1)} No, update email`
+      if (address && argument.paymentMethod === 'cod') {
+        messageBlock.payload[0].text += `\n${convertToEmoji(2)} No, update address`
+      }
+    } else {
+      messageBlock = {
+        module: {
+          id: chatbot._id,
+          type: 'messenger_commerce_chatbot'
+        },
+        title: 'Checkout Email',
+        uniqueId: '' + new Date().getTime(),
+        payload: [
+          {
+            text: `Please enter your email: `,
+            componentType: 'text',
+            action: { type: DYNAMIC, action: address ? GET_CHECKOUT_INFO : ASK_ADDRESS, argument: {...argument}, input: true },
+            specialKeys: {
+              [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
+              [BACK_KEY]: { type: STATIC, blockId: backId }
+            }
+          }
+        ],
+        userId: chatbot.userId,
+        companyId: chatbot.companyId
+      }
+    }
+    messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
+    return messageBlock
+  } catch (err) {
+    if (!userError) {
+      const message = err || 'Unable to checkout'
+      logger.serverLog(message, `${TAG}: exports.getCheckoutEmailBlock`, {}, {}, 'error')
+      throw new Error(`${ERROR_INDICATOR}Unable to show checkout`)
+    } else {
+      throw new Error(`${ERROR_INDICATOR}${err.message}`)
+    }
+  }
+}
+
 const getCheckoutEmailBlock = async (chatbot, contact, newEmail) => {
   try {
     let messageBlock = null
@@ -1513,8 +1638,8 @@ const getAskPaymentMethodBlock = async (chatbot, backId, contact, newEmail) => {
                         ${specialKeyText(HOME_KEY)}`),
           componentType: 'text',
           menu: [
-            { type: DYNAMIC, action: ASK_ADDRESS, argument: {newEmail, paymentMethod: 'cod'} },
-            { type: DYNAMIC, action: PROCEED_TO_CHECKOUT, argument: {newEmail, paymentMethod: 'e-payment'} }
+            { type: DYNAMIC, action: GET_CHECKOUT_INFO, argument: {paymentMethod: 'cod'} },
+            { type: DYNAMIC, action: GET_CHECKOUT_INFO, argument: {paymentMethod: 'e-payment'} }
           ],
           specialKeys: {
             [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
@@ -1548,10 +1673,18 @@ const getAskPaymentMethodBlock = async (chatbot, backId, contact, newEmail) => {
   }
 }
 
-const getAskAddressBlock = async (chatbot, contact, argument) => {
+const getAskAddressBlock = async (chatbot, contact, argument, userInput) => {
+  let userError = false
   try {
     let messageBlock = null
-
+    if (userInput) {
+      const emailRegex = /\S+@\S+\.\S+/
+      if (!emailRegex.test(userInput)) {
+        userError = true
+        throw new Error('Invalid Email. Please input a valid email address.')
+      }
+      argument.newEmail = userInput
+    }
     // this is workaround to store both bigcommerce and shopify
     // customer information in contacts table so that during
     // demo we can easily switch between commerce providers.
@@ -1628,8 +1761,12 @@ const getAskAddressBlock = async (chatbot, contact, argument) => {
     messageBlock.payload[0].text += `\n\n${specialKeyText(HOME_KEY)} `
     return messageBlock
   } catch (err) {
-    logger.serverLog(TAG, `Unable to input street address ${err} `, 'error')
-    throw new Error(`${ERROR_INDICATOR}Unable to input street address`)
+    if (!userError) {
+      logger.serverLog(TAG, `Unable to input street address ${err} `, 'error')
+      throw new Error(`${ERROR_INDICATOR}Unable to input street address`)
+    } else {
+      throw new Error(`${ERROR_INDICATOR}${err.message}`)
+    }
   }
 }
 
@@ -1770,9 +1907,10 @@ const getCheckoutZipCodeBlock = async (chatbot, contact, argument, userInput) =>
           componentType: 'text',
           action: {
             type: DYNAMIC,
-            action: CONFIRM_COMPLETE_ADDRESS,
+            action: GET_CHECKOUT_INFO,
             input: true,
             argument: { ...argument,
+              updatingZip: true,
               address: { ...argument.address, zip: '' }
             }
           },
@@ -2015,7 +2153,8 @@ const getNewCheckoutStreetAddressBlock = async (chatbot, contact, argument, user
   try {
     if (userInput && argument.address) {
       argument.address.address1 = userInput
-      return updatedAddressBlockedMessage(chatbot, contact, argument)
+      return getCheckoutInfoBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, argument)
+      // return updatedAddressBlockedMessage(chatbot, contact, argument)
     } else {
       throw new Error(`${ERROR_INDICATOR} Unable to input street address for update`)
     }
@@ -2029,7 +2168,8 @@ const getNewCheckoutCityBlock = async (chatbot, contact, argument, userInput) =>
   try {
     if (userInput && argument.address) {
       argument.address.city = userInput
-      return updatedAddressBlockedMessage(chatbot, contact, argument)
+      return getCheckoutInfoBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, argument)
+      // return updatedAddressBlockedMessage(chatbot, contact, argument)
     } else {
       throw new Error(`${ERROR_INDICATOR} Unable to input city for update`)
     }
@@ -2043,7 +2183,8 @@ const getNewCheckoutCountryBlock = async (chatbot, contact, argument, userInput)
   try {
     if (userInput && argument.address) {
       argument.address.country = userInput
-      return updatedAddressBlockedMessage(chatbot, contact, argument)
+      return getCheckoutInfoBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, argument)
+      // return updatedAddressBlockedMessage(chatbot, contact, argument)
     } else {
       throw new Error(`${ERROR_INDICATOR} Unable to input country for update`)
     }
@@ -2058,7 +2199,8 @@ const getNewCheckoutZipCodeBlock =
     try {
       if (userInput && argument.address) {
         argument.address.zip = userInput
-        return updatedAddressBlockedMessage(chatbot, contact, argument)
+        return getCheckoutInfoBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, argument)
+        // return updatedAddressBlockedMessage(chatbot, contact, argument)
       } else {
         throw new Error(`${ERROR_INDICATOR} Unable to input zip for update`)
       }
@@ -2596,6 +2738,10 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             messageBlock = await getShowMyCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
             break
           }
+          case GET_CHECKOUT_INFO: {
+            messageBlock = await getCheckoutInfoBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, action.argument, action.input ? input : '')
+            break
+          }
           case GET_CHECKOUT_EMAIL: {
             messageBlock = await getCheckoutEmailBlock(chatbot, contact, action.argument)
             break
@@ -2657,7 +2803,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             break
           }
           case ASK_ADDRESS: {
-            messageBlock = await getAskAddressBlock(chatbot, contact, action.argument)
+            messageBlock = await getAskAddressBlock(chatbot, contact, action.argument, action.input ? input : '')
             break
           }
           case GET_CHECKOUT_STREET_ADDRESS: {

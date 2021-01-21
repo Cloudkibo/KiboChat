@@ -1330,6 +1330,12 @@ const getCheckoutInfoBlock = async (chatbot, contact, backId, argument, userInpu
   let userError = false
   try {
     let messageBlock = null
+    let newEmailInput = userInput && argument.newEmail
+    if (userInput && argument.updatingZip) {
+      argument.updatingZip = false
+      argument.address.zip = userInput
+      newEmailInput = false
+    }
     const address = argument.address ? argument.address : contact.commerceCustomer ? contact.commerceCustomer.defaultAddress : null
     let yesAction = null
     if (address && argument.paymentMethod === 'cod') {
@@ -1339,8 +1345,8 @@ const getCheckoutInfoBlock = async (chatbot, contact, backId, argument, userInpu
     } else {
       yesAction = { type: DYNAMIC, action: PROCEED_TO_CHECKOUT, argument: {...argument} }
     }
-    if (userInput || (!argument.newEmail && contact.commerceCustomer && contact.commerceCustomer.email)) {
-      if (userInput) {
+    if (newEmailInput || (!argument.newEmail && contact.commerceCustomer && contact.commerceCustomer.email)) {
+      if (newEmailInput) {
         const emailRegex = /\S+@\S+\.\S+/
         if (!emailRegex.test(userInput)) {
           userError = true
@@ -1925,7 +1931,6 @@ const getAskAddressBlock = async (chatbot, backId, contact, argument, userInput)
         throw new Error('Invalid Email. Please input a valid email address.')
       }
       argument.newEmail = userInput
-      argument.newEmail = userInput
     }
     let messageBlock = null
     if (contact.commerceCustomer &&
@@ -2188,7 +2193,9 @@ const getCheckoutZipCodeBlock = async (chatbot, backId, contact, argument, userI
             type: DYNAMIC,
             action: GET_CHECKOUT_INFO,
             input: true,
-            argument: { ...argument,
+            argument: {
+              ...argument,
+              updatingZip: true,
               address: { ...argument.address, zip: '' }
             }
           },
