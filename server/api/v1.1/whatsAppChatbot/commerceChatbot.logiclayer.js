@@ -19,7 +19,6 @@ const {
   GET_CHECKOUT_EMAIL,
   CONFIRM_CLEAR_CART,
   CLEAR_CART,
-  QUANTITY_TO_ADD,
   CONFIRM_TO_REMOVE_CART_ITEM,
   QUANTITY_TO_UPDATE,
   VIEW_RECENT_ORDERS,
@@ -851,10 +850,13 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
             [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
             [BACK_KEY]: { type: STATIC, blockId: backId },
             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
-            'y': { type: DYNAMIC, action: QUANTITY_TO_ADD, argument: product },
+            'y': { type: DYNAMIC, action: ADD_TO_CART, argument: {product, quantity: 1} },
             'n': { type: STATIC, blockId: chatbot.startingBlockId },
-            'yes': { type: DYNAMIC, action: QUANTITY_TO_ADD, argument: product },
-            'no': { type: STATIC, blockId: chatbot.startingBlockId }
+            'yes': { type: DYNAMIC,
+              action: ADD_TO_CART,
+              argument: {product, quantity: 1},
+              'no': { type: STATIC, blockId: chatbot.startingBlockId }
+            }
           }
         }
       ],
@@ -887,60 +889,60 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
   }
 }
 
-const getQuantityToAddBlock = async (chatbot, backId, contact, product) => {
-  try {
-    let messageBlock = {
-      module: {
-        id: chatbot._id,
-        type: 'whatsapp_commerce_chatbot'
-      },
-      title: 'Quantity to Add',
-      uniqueId: '' + new Date().getTime(),
-      payload: [
-        {
-          text: `How many ${product.product}s (price: ${product.price} ${product.currency}) would you like to add to your cart?\n\n(stock available: ${product.inventory_quantity})`,
-          componentType: 'text',
-          action: { type: DYNAMIC, action: ADD_TO_CART, argument: product, input: true },
-          specialKeys: {
-            [BACK_KEY]: { type: STATIC, blockId: backId },
-            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
-            [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART }
-          }
-        }
-      ],
-      userId: chatbot.userId,
-      companyId: chatbot.companyId
-    }
+// const getQuantityToAddBlock = async (chatbot, backId, contact, product) => {
+//   try {
+//     let messageBlock = {
+//       module: {
+//         id: chatbot._id,
+//         type: 'whatsapp_commerce_chatbot'
+//       },
+//       title: 'Quantity to Add',
+//       uniqueId: '' + new Date().getTime(),
+//       payload: [
+//         {
+//           text: `How many ${product.product}s (price: ${product.price} ${product.currency}) would you like to add to your cart?\n\n(stock available: ${product.inventory_quantity})`,
+//           componentType: 'text',
+//           action: { type: DYNAMIC, action: ADD_TO_CART, argument: product, input: true },
+//           specialKeys: {
+//             [BACK_KEY]: { type: STATIC, blockId: backId },
+//             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
+//             [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART }
+//           }
+//         }
+//       ],
+//       userId: chatbot.userId,
+//       companyId: chatbot.companyId
+//     }
 
-    messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
-    messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
-    messageBlock.payload[0].text += `\n${specialKeyText(SHOW_CART_KEY)} `
+//     messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
+//     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
+//     messageBlock.payload[0].text += `\n${specialKeyText(SHOW_CART_KEY)} `
 
-    let shoppingCart = contact.shoppingCart ? contact.shoppingCart : []
-    let existingProductIndex = shoppingCart.findIndex((item) => item.variant_id === product.variant_id)
+//     let shoppingCart = contact.shoppingCart ? contact.shoppingCart : []
+//     let existingProductIndex = shoppingCart.findIndex((item) => item.variant_id === product.variant_id)
 
-    if (existingProductIndex > -1) {
-      if (shoppingCart[existingProductIndex].quantity >= product.inventory_quantity) {
-        let text = `Your cart already contains the maximum stock available for this product.`
-        return getShowMyCartBlock(chatbot, backId, contact, text)
-      }
-    }
-    if (product.image) {
-      messageBlock.payload.unshift({
-        componentType: 'image',
-        fileurl: product.image,
-        caption: `${product.product}\nPrice: ${product.price} ${product.currency}`
-      })
-    }
-    return messageBlock
-  } catch (err) {
-    const message = err || 'Unable to add product(s) to cart'
-    logger.serverLog(message, `${TAG}: exports.getQuantityToAddBlock`, {}, {}, 'error')
-    throw new Error(`${ERROR_INDICATOR}Unable to add product(s) to cart`)
-  }
-}
+//     if (existingProductIndex > -1) {
+//       if (shoppingCart[existingProductIndex].quantity >= product.inventory_quantity) {
+//         let text = `Your cart already contains the maximum stock available for this product.`
+//         return getShowMyCartBlock(chatbot, backId, contact, text)
+//       }
+//     }
+//     if (product.image) {
+//       messageBlock.payload.unshift({
+//         componentType: 'image',
+//         fileurl: product.image,
+//         caption: `${product.product}\nPrice: ${product.price} ${product.currency}`
+//       })
+//     }
+//     return messageBlock
+//   } catch (err) {
+//     const message = err || 'Unable to add product(s) to cart'
+//     logger.serverLog(message, `${TAG}: exports.getQuantityToAddBlock`, {}, {}, 'error')
+//     throw new Error(`${ERROR_INDICATOR}Unable to add product(s) to cart`)
+//   }
+// }
 
-const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) => {
+const getAddToCartBlock = async (chatbot, backId, contact, {product, quantity}) => {
   let userError = false
   try {
     quantity = Number(quantity)
@@ -954,7 +956,7 @@ const getAddToCartBlock = async (chatbot, backId, contact, product, quantity) =>
       let previousQuantity = shoppingCart[existingProductIndex].quantity
       if ((previousQuantity + quantity) > product.inventory_quantity) {
         userError = true
-        throw new Error(`${ERROR_INDICATOR}Your requested quantity exceeds the stock available (${product.inventory_quantity}). Your cart already contains ${previousQuantity}. Please enter a quantity less than ${product.inventory_quantity - previousQuantity}.`)
+        throw new Error(`${ERROR_INDICATOR}You can not add any more of this product. Your cart already contains ${previousQuantity}, which is the maximum stock currently available.`)
       }
       shoppingCart[existingProductIndex].quantity += quantity
     } else {
@@ -2634,10 +2636,10 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             messageBlock = await clearCart(chatbot, contact)
             break
           }
-          case QUANTITY_TO_ADD: {
-            messageBlock = await getQuantityToAddBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument)
-            break
-          }
+          // case QUANTITY_TO_ADD: {
+          //   messageBlock = await getQuantityToAddBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument)
+          //   break
+          // }
           case CONFIRM_TO_REMOVE_CART_ITEM: {
             messageBlock = await getConfirmRemoveItemBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument)
             break
