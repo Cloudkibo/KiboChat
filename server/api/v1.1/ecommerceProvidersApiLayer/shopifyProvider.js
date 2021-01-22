@@ -40,7 +40,7 @@ exports.fetchAllProductCategories = (paginationParams, credentials) => {
   })
 }
 
-exports.fetchProductsInThisCategory = (id, paginationParams, credentials, numberOfProducts) => {
+exports.fetchProductsInThisCategory = (id, paginationParams, numberOfProducts, credentials) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
     paginationParams = paginationParams || { limit: numberOfProducts }
@@ -70,7 +70,7 @@ exports.fetchProductsInThisCategory = (id, paginationParams, credentials, number
   })
 }
 
-exports.fetchProducts = (paginationParams, credentials, numberOfProducts) => {
+exports.fetchProducts = (paginationParams, numberOfProducts, credentials) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
     paginationParams = paginationParams || { limit: numberOfProducts }
@@ -146,7 +146,7 @@ exports.searchProducts = (searchQuery, credentials) => {
   })
 }
 
-exports.getProductVariants = (id, paginationParams, credentials, numberOfProducts) => {
+exports.getProductVariants = (id, paginationParams, numberOfProducts, credentials) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
     paginationParams = paginationParams || { limit: numberOfProducts }

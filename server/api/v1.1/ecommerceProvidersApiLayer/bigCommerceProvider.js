@@ -37,7 +37,7 @@ exports.fetchAllProductCategories = (credentials) => {
   })
 }
 
-exports.fetchProductsInThisCategory = (id, credentials, numberOfProducts) => {
+exports.fetchProductsInThisCategory = (id, numberOfProducts, credentials) => {
   const bigCommerce = initBigCommerce(credentials)
   return new Promise(function (resolve, reject) {
     bigCommerce.get(`/catalog/products?limit=${numberOfProducts}&categories:in=` + id)
@@ -62,7 +62,7 @@ exports.fetchProductsInThisCategory = (id, credentials, numberOfProducts) => {
   })
 }
 
-exports.fetchProducts = (credentials, numberOfProducts) => {
+exports.fetchProducts = (numberOfProducts, credentials) => {
   const bigCommerce = initBigCommerce(credentials)
   return new Promise(function (resolve, reject) {
     bigCommerce.get(`/catalog/products?limit=${numberOfProducts}`)
@@ -113,7 +113,7 @@ exports.searchProducts = (searchQuery, credentials) => {
   })
 }
 
-exports.getProductVariants = (id, credentials, numberOfProducts) => {
+exports.getProductVariants = (id, numberOfProducts, credentials) => {
   const bigCommerce = initBigCommerce(credentials)
   const nameReducer = (accumulator, current) => `${accumulator} ${current.label}`
   return new Promise(function (resolve, reject) {
