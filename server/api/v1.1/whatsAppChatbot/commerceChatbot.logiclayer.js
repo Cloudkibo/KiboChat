@@ -259,7 +259,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
 
       messageBlock.payload[0].action = { type: DYNAMIC, action: DISCOVER_PRODUCTS, input: true }
     } else {
-      products = await EcommerceProvider.fetchProducts(argument.paginationParams)
+      products = await EcommerceProvider.fetchProducts(argument.paginationParams, chatbot.numberOfProducts)
 
       if (products.length > 0) {
         messageBlock.payload[0].text = `Please select a product by sending the corresponding number for it:\n`
@@ -727,7 +727,7 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ar
       companyId: chatbot.companyId
     }
     const storeInfo = await EcommerceProvider.fetchStoreInfo()
-    let products = await EcommerceProvider.fetchProductsInThisCategory(argument.categoryId, argument.paginationParams)
+    let products = await EcommerceProvider.fetchProductsInThisCategory(argument.categoryId, argument.paginationParams, chatbot.numberOfProducts)
     for (let i = 0; i < products.length; i++) {
       let product = products[i]
       messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${product.name}`
@@ -787,7 +787,7 @@ const getProductVariantsBlock = async (chatbot, backId, contact, EcommerceProvid
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    let productVariants = await EcommerceProvider.getVariantsOfSelectedProduct(product.id)
+    let productVariants = await EcommerceProvider.getVariantsOfSelectedProduct(product.id, chatbot.numberOfProducts)
     let storeInfo = await EcommerceProvider.fetchStoreInfo()
     if (productVariants.length === 1) {
       const productVariant = productVariants[0]

@@ -13,7 +13,8 @@ exports.createWhatsAppChatbot = (req) => {
         testSubscribers: req.body.testSubscribers ? req.body.testSubscribers : [],
         storeType: req.body.storeType,
         type: req.body.type,
-        vertical: req.body.vertical
+        vertical: req.body.vertical,
+        numberOfProducts: req.body.numberOfProducts
       }, kibochat)
       resolve(createdChatbot)
     } catch (err) {
