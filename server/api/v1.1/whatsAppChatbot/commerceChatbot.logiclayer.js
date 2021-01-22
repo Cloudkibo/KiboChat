@@ -994,7 +994,7 @@ const getAddToCartBlock = async (chatbot, backId, contact, {product, quantity}) 
       contact.commerceCustomer.cartId = null
     }
     updateWhatsAppContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
-    let text = `${quantity} ${product.product}${quantity !== 1 ? 's have' : 'has'} been succesfully added to your cart.`
+    let text = `${quantity} ${product.product}${quantity !== 1 ? 's have' : ' has'} been succesfully added to your cart.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
     if (!userError) {
@@ -1449,7 +1449,6 @@ const getCheckoutInfoBlock = async (chatbot, contact, backId, argument, userInpu
     let messageBlock = null
     let newEmailInput = userInput && argument.newEmail
     if (userInput && argument.updatingZip) {
-      argument.updatingZip = false
       argument.address.zip = userInput
       newEmailInput = false
     }
@@ -1471,7 +1470,7 @@ const getCheckoutInfoBlock = async (chatbot, contact, backId, argument, userInpu
     } else {
       yesAction = { type: DYNAMIC, action: PROCEED_TO_CHECKOUT, argument: {...argument} }
     }
-    if (userInput || (!argument.newEmail && tempCustomerPayload && tempCustomerPayload.email)) {
+    if (userInput || argument.updatingZip || (!argument.newEmail && tempCustomerPayload && tempCustomerPayload.email)) {
       if (newEmailInput) {
         const emailRegex = /\S+@\S+\.\S+/
         if (!emailRegex.test(userInput)) {
@@ -1479,6 +1478,9 @@ const getCheckoutInfoBlock = async (chatbot, contact, backId, argument, userInpu
           throw new Error('Invalid Email. Please input a valid email address.')
         }
         argument.newEmail = userInput
+      }
+      if (argument.updatingZip) {
+        argument.updatingZip = false
       }
       messageBlock = {
         module: {
