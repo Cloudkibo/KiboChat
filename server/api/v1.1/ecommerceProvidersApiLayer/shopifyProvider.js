@@ -44,7 +44,9 @@ exports.fetchProductsInThisCategory = (id, paginationParams, credentials, number
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
     paginationParams = paginationParams || { limit: numberOfProducts }
-    paginationParams.collection_id = id
+    if (!paginationParams.page_info) {
+      paginationParams.collection_id = id
+    }
     shopify.product.list(paginationParams)
       .then(products => {
         let nextPageParameters = products.nextPageParameters
