@@ -40,10 +40,10 @@ exports.fetchAllProductCategories = (paginationParams, credentials) => {
   })
 }
 
-exports.fetchProductsInThisCategory = (id, paginationParams, credentials) => {
+exports.fetchProductsInThisCategory = (id, paginationParams, credentials, numberOfProducts) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
-    paginationParams = paginationParams || { limit: 9 }
+    paginationParams = paginationParams || { limit: numberOfProducts }
     paginationParams.collection_id = id
     shopify.product.list(paginationParams)
       .then(products => {
@@ -68,10 +68,10 @@ exports.fetchProductsInThisCategory = (id, paginationParams, credentials) => {
   })
 }
 
-exports.fetchProducts = (paginationParams, credentials) => {
+exports.fetchProducts = (paginationParams, credentials, numberOfProducts) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
-    paginationParams = paginationParams || { limit: 9 }
+    paginationParams = paginationParams || { limit: numberOfProducts }
     shopify.product.list(paginationParams)
       .then(products => {
         let nextPageParameters = products.nextPageParameters
@@ -144,10 +144,10 @@ exports.searchProducts = (searchQuery, credentials) => {
   })
 }
 
-exports.getProductVariants = (id, paginationParams, credentials) => {
+exports.getProductVariants = (id, paginationParams, credentials, numberOfProducts) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
-    paginationParams = paginationParams || { limit: 9 }
+    paginationParams = paginationParams || { limit: numberOfProducts }
     shopify.productVariant.list(id, paginationParams)
       .then(async products => {
         let nextPageParameters = products.nextPageParameters

@@ -314,9 +314,9 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
       }
     } else {
       if (argument && argument.categoryId) {
-        products = await EcommerceProvider.fetchProductsInThisCategory(argument.categoryId, argument.paginationParams)
+        products = await EcommerceProvider.fetchProductsInThisCategory(argument.categoryId, argument.paginationParams, chatbot.numberOfProducts)
       } else {
-        products = await EcommerceProvider.fetchProducts(argument.paginationParams)
+        products = await EcommerceProvider.fetchProducts(argument.paginationParams, chatbot.numberOfProducts)
       }
       if (products.length > 0) {
         messageBlock.payload[0].text = `Please select a product:`
@@ -771,7 +771,7 @@ const getProductVariantsBlock = async (chatbot, backId, contact, EcommerceProvid
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    let productVariants = await EcommerceProvider.getVariantsOfSelectedProduct(product.id)
+    let productVariants = await EcommerceProvider.getVariantsOfSelectedProduct(product.id, chatbot.numberOfProducts)
     let storeInfo = await EcommerceProvider.fetchStoreInfo()
     if (productVariants.length === 1) {
       const productVariant = productVariants[0]
