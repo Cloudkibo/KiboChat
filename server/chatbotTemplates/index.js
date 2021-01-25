@@ -1,80 +1,65 @@
-const logger = require('../components/logger')
-const TAG = '/chatbotTemplates/index.js'
-const async = require('async')
-
-const whatsAppChatbotLogicLayer = require('../api/v1.1/whatsAppChatbot/whatsAppChatbot.logiclayer')
-const whatsAppChatbotDataLayer = require('../api/v1.1/whatsAppChatbot/whatsAppChatbot.datalayer')
-const configureChatbotDatalayer = require('../api/v1.1/configureChatbot/datalayer')
-const { callApi } = require('../api/v1.1/utility')
+const { prepareInvalidResponse } = require('./utility')
 const { getChatbotResponse } = require('./kiboautomation.layer.js')
 const { SPECIALKEYWORDS, transformSpecialKeywords } = require('./specialKeywords')
 
-exports.handleUserInput = async function (inputData, subscriber, company, req, isNewContact, channel) {
-  try {
-    const inputText = inputData.messageData.text.toLowerCase()
-    let isCode = false
-    const chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ _id: subscriber.activeChatbotId })
-    if (chatbot) {
-      const shouldSend = chatbot.published || chatbot.testSubscribers.includes(subscriber.number)
-      if (shouldSend) {
-        if (
-          !isNaN(parseInt(inputText)) ||
-          (inputText.length === 1 || SPECIALKEYWORDS.includes(inputText))
-        ) {
-          isCode = true
-        }
-        if (isCode) {
-          const validCode = await isCodeValid(inputText, subscriber)
-          if (validCode) {
-            const response = await getChatbotResponse(inputText, chatbot.vertical, subscriber._id)
-            // send response back to subscriber
-          } else {
-            // send Invalid response
-          }
+exports.handleUserInput = function (chatbot, inputData, subscriber, channel) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let inputText = inputData.messageData.text.toLowerCase()
+      let isCode = false
+      let response
+
+      if (SPECIALKEYWORDS.includes(inputText)) {
+        inputText = transformSpecialKeywords(inputText)
+      }
+
+      if (!isNaN(parseInt(inputText)) || (inputText.length === 1)) isCode = true
+
+      if (isCode) {
+        const option = await getOption(inputText, subscriber)
+        if (option.validCode) {
+          response = await getChatbotResponse(chatbot, option.event, subscriber, option, true)
         } else {
-          const response = await getChatbotResponse(inputText, chatbot.vertical, subscriber._id)
-          // send response back to subscriber
+          response = {
+            chatbotResponse: await prepareInvalidResponse(chatbot, subscriber, 'You have entered an incorrect option.')
+          }
+        }
+      } else {
+        const lastMessage = subscriber.lastMessageSentByBot
+        if (lastMessage && lastMessage.openEndedResponse) {
+          response = await getChatbotResponse(chatbot, lastMessage.event, subscriber, {userInput: inputText}, true)
+        } else {
+          response = await getChatbotResponse(chatbot, inputText, subscriber)
         }
       }
+      resolve(response)
+    } catch (err) {
+      reject(err)
     }
-  } catch (err) {
-    const message = err || 'Error at handling user input'
-    logger.serverLog(message, `${TAG}: exports.handleUserInput`, req.body, {inputData, subscriber, company, isNewContact}, 'error')
-  }
+  })
 }
 
-function isCodeValid (inputText, subscriber) {
+function getOption (inputText, subscriber) {
   const lastMessage = subscriber.lastMessageSentByBot
-  if (SPECIALKEYWORDS.includes(inputText)) {
-    inputText = transformSpecialKeywords(inputText)
-  }
   if (lastMessage) {
-    let options = lastMessage.options.map((item) => item.code)
-    options = lastMessage.otherOptions.map((item) => item.code)
-    if (options.includes(inputText)) {
-      return true
+    let options = []
+    if (lastMessage.options && lastMessage.options.length > 0 && Array.isArray(lastMessage.options)) {
+      options = [...options, ...lastMessage.options.map((item) => item.code.toLowerCase())]
     } else {
-      return false
+      lastMessage.options = []
+    }
+    if (lastMessage.otherOptions && lastMessage.otherOptions.length > 0) {
+      options = [...options, ...lastMessage.otherOptions.map((item) => item.code.toLowerCase())]
+    } else {
+      lastMessage.otherOptions = []
+    }
+    if (options.includes(inputText)) {
+      const option = [...lastMessage.options, ...lastMessage.otherOptions].find((item) => item.code.toLowerCase() === inputText)
+      return {...option, validCode: true}
+    } else {
+      return {validCode: false}
     }
   } else {
-    return false
+    return {validCode: false}
   }
-}
-
-function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
-  callApi(
-    `whatsAppContacts/update`,
-    'put',
-    {
-      query: query,
-      newPayload: { ...bodyForIncrement, ...bodyForUpdate },
-      options: options
-    }
-  )
-    .then(updated => {
-    })
-    .catch(error => {
-      const message = error || 'Failed to update contact'
-      logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { query, bodyForUpdate, bodyForIncrement, options }, 'error')
-    })
 }
