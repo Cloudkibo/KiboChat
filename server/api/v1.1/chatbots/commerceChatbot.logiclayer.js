@@ -347,6 +347,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
       }
 
       if (products.nextPageParameters) {
+        console.log('products.nextPageParameters', products.nextPageParameters)
         messageBlock.payload[1].cards.push({
           title: 'View More',
           subtitle: `Click on the "View More" button to view more products`,
