@@ -5,7 +5,7 @@ exports.SPECIALKEYWORDS = [
 exports.transformSpecialKeywords = function (text) {
   switch (text) {
     case 'home':
-      return 'h'
+      return 'hi'
     case 'back':
       return 'b'
     case 'yes':

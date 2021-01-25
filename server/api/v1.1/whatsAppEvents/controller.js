@@ -24,6 +24,8 @@ const { record } = require('../../global/messageStatistics')
 const chatbotResponder = require('../../../chatbotResponder')
 const configureChatbotDatalayer = require('./../configureChatbot/datalayer')
 const { intervalForEach } = require('./../../../components/utility')
+const kiboAutomationLayer = require('../../../chatbotTemplates/kiboAutomation.layer')
+const chatbotTemplates = require('../../../chatbotTemplates')
 
 exports.messageReceived = function (req, res) {
   res.status(200).json({
@@ -58,6 +60,7 @@ exports.messageReceived = function (req, res) {
                         }
                         const shouldAvoidSendingMessage = await shouldAvoidSendingAutomatedMessage(contact)
                         if (company._id === '5a89ecdaf6b0460c552bf7fe') {
+                          console.log('inside company')
                           // NOTE: This if condition is temporary testing code for
                           // adil. We will remove this in future. It will only run for
                           // our own company. Please don't remove this. - Sojharo
@@ -523,43 +526,30 @@ async function temporarySuperBotTestHandling (data, contact, company, number, re
         const selectedBot = lastMessageSentByBot.menu[menuInput]
         if (selectedBot) {
           contact.activeChatbotId = selectedBot.botId
-          let nextMessageBlock = await chatbotResponder.respondUsingChatbot('whatsApp', req.body.provider, company, 'hi', contact, true)
+          let nextMessageBlock = null
+          let currentMessage = null
           if (!nextMessageBlock) {
             let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ _id: selectedBot.botId })
-            let ecommerceProvider = null
-            let airlinesProvider = null
             if (chatbot.vertical === 'commerce') {
-              if (chatbot.storeType === commerceConstants.shopify) {
-                const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
-                ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
-                  shopUrl: shopifyIntegration.shopUrl,
-                  shopToken: shopifyIntegration.shopToken
-                })
-              } else if (chatbot.storeType === commerceConstants.bigcommerce) {
-                const bigCommerceIntegration = await bigcommerceDataLayer.findOneBigCommerceIntegration({ companyId: chatbot.companyId })
-                ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
-                  shopToken: bigCommerceIntegration.shopToken,
-                  storeHash: bigCommerceIntegration.payload.context
-                })
-              }
+              const response = await kiboAutomationLayer.getChatbotResponse(chatbot, 'welcome', contact, true)
+              nextMessageBlock = response.chatbotResponse
+              currentMessage = response.automationResponse
             } else if (chatbot.vertical === 'airlines') {
-              airlinesProvider = new AirlinesProvider(airlinesConstants.amadeus, {
+              const airlinesProvider = new AirlinesProvider(airlinesConstants.amadeus, {
                 clientId: config.amadeus.clientId,
                 clientSecret: config.amadeus.clientSecret
               })
-            }
-            if (ecommerceProvider) {
-              nextMessageBlock = await commerceChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, 'hi')
-            } else if (airlinesProvider) {
               nextMessageBlock = await airlinesChatbotLogicLayer.getNextMessageBlock(chatbot, airlinesProvider, contact, 'hi')
+              currentMessage = nextMessageBlock
             }
             if (nextMessageBlock) {
+              console.log('going to send message')
               sendWhatsAppMessage(nextMessageBlock, data, number, req, company, contact)
             }
           }
           if (nextMessageBlock) {
             updateWhatsAppContact({ _id: contact._id },
-              { lastMessageSentByBot: nextMessageBlock,
+              { lastMessageSentByBot: currentMessage,
                 activeChatbotId: selectedBot.botId,
                 activeChatbotBuilt: selectedBot.built
               }, null, {})
@@ -574,6 +564,7 @@ async function temporarySuperBotTestHandling (data, contact, company, number, re
       temporarySuperBotResponseHandling(data, contact, company, number, req, isNewContact)
     }
   } catch (err) {
+    console.log(err)
     const message = err || 'Error in async await calls above'
     logger.serverLog(message, `${TAG}: exports.temporarySuperBotTestHandling`, req.body, {data, contact, company, number, isNewContact}, 'error')
   }
@@ -603,10 +594,11 @@ async function getAllChatbots (company) {
     return {botId: chatbot._id, title, built: 'automated', ...chatbot}
   })
 
-  let sqlChatbots = await configureChatbotDatalayer.fetchChatbotRecords({platform: 'whatsApp', companyId: company._id, published: true})
-  sqlChatbots = sqlChatbots.map(chatbot => {
-    return {botId: chatbot.chatbotId, built: 'custom', ...chatbot}
-  })
+  let sqlChatbots = []
+  // let sqlChatbots = await configureChatbotDatalayer.fetchChatbotRecords({platform: 'whatsApp', companyId: company._id, published: true})
+  // sqlChatbots = sqlChatbots.map(chatbot => {
+  //   return {botId: chatbot.chatbotId, built: 'custom', ...chatbot}
+  // })
 
   const allChatbots = [...sqlChatbots, ...chatbots]
   return allChatbots
@@ -620,39 +612,27 @@ async function getAllChatbots (company) {
 async function temporarySuperBotResponseHandling (data, contact, company, number, req, isNewContact) {
   try {
     if (data.messageData.componentType === 'text' && contact.activeChatbotBuilt === 'automated') {
-      // handleUserInput()
       let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ _id: contact.activeChatbotId })
       if (chatbot) {
         const shouldSend = chatbot.published || chatbot.testSubscribers.includes(contact.number)
         if (shouldSend) {
-          let ecommerceProvider = null
-          let airlinesProvider = null
+          let nextMessageBlock = null
+          let currentMessage = null
           if (chatbot.vertical === 'commerce') {
-            if (chatbot.storeType === commerceConstants.shopify) {
-              const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
-              ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
-                shopUrl: shopifyIntegration.shopUrl,
-                shopToken: shopifyIntegration.shopToken
-              })
-            } else if (chatbot.storeType === commerceConstants.bigcommerce) {
-              const bigCommerceIntegration = await bigcommerceDataLayer.findOneBigCommerceIntegration({ companyId: chatbot.companyId })
-              ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
-                shopToken: bigCommerceIntegration.shopToken,
-                storeHash: bigCommerceIntegration.payload.context
-              })
-            }
+            console.log('inside commerce chatbot')
+            const response = await chatbotTemplates.handleUserInput(chatbot, data, contact, 'whatsApp')
+            console.log('response', response)
+            nextMessageBlock = response.chatbotResponse
+            currentMessage = response.automationResponse
           } else if (chatbot.vertical === 'airlines') {
-            airlinesProvider = new AirlinesProvider(airlinesConstants.amadeus, {
+            const airlinesProvider = new AirlinesProvider(airlinesConstants.amadeus, {
               clientId: config.amadeus.clientId,
               clientSecret: config.amadeus.clientSecret
             })
-          }
-          let nextMessageBlock = null
-          if (ecommerceProvider) {
-            nextMessageBlock = await commerceChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text)
-          } else if (airlinesProvider) {
             nextMessageBlock = await airlinesChatbotLogicLayer.getNextMessageBlock(chatbot, airlinesProvider, contact, data.messageData.text)
+            currentMessage = nextMessageBlock
           }
+
           if (nextMessageBlock) {
             if (nextMessageBlock.payload[0].text && nextMessageBlock.payload[0].text.includes(ERROR_INDICATOR) && moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15) {
               const allChatbots = await getAllChatbots(company)
@@ -667,13 +647,14 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
               }
             }
             sendWhatsAppMessage(nextMessageBlock, data, number, req, company, contact)
-            updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
+            if (currentMessage) updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: currentMessage }, null, {})
             logicLayer.storeWhatsAppStats(data, chatbot, isNewContact, contact, req)
           }
         }
       }
     }
   } catch (err) {
+    console.log(err)
     const message = err || 'Error in async await calls above'
     logger.serverLog(message, `${TAG}: exports.temporarySuperBotResponseHandling`, req.body, {data, contact, company, number, isNewContact}, 'error')
   }
