@@ -268,7 +268,7 @@ exports.findCustomerOrders = (customerId, limit, credentials) => {
             return { id: item.id,
               name: '#' + item.id
             }
-          })
+          }).reverse()
         } else {
           result.orders = []
         }
