@@ -443,8 +443,8 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
           text: ``,
           componentType: 'text',
           menu: [],
+          action: { type: DYNAMIC, action: ORDER_STATUS, input: true },
           specialKeys: {
-            'o': { type: DYNAMIC, action: ASK_ORDER_ID },
             [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
             [BACK_KEY]: { type: STATIC, blockId: backId },
             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
@@ -468,21 +468,20 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
       recentOrders = await EcommerceProvider.findCustomerOrders(tempCustomerPayload.id, 9)
       recentOrders = recentOrders.orders
       if (recentOrders.length > 0) {
-        messageBlock.payload[0].text = 'Select an order by sending the corresponding number for it:\n'
+        messageBlock.payload[0].text = 'Select an order by sending the corresponding number for it or enter an order ID:\n'
         for (let i = 0; i < recentOrders.length; i++) {
           const orderTitle = `\n${convertToEmoji(i)} Order ${recentOrders[i].name} - ${new Date(recentOrders[i].createdAt).toDateString()} (${recentOrders[i].lineItems[0].name})`
           messageBlock.payload[0].text += utility.truncate(orderTitle, 55)
           messageBlock.payload[0].menu.push({ type: DYNAMIC, action: ORDER_STATUS, argument: recentOrders[i].name.substr(1) })
         }
       } else {
-        messageBlock.payload[0].text = 'You have not placed any orders within the last 60 days.'
+        messageBlock.payload[0].text = 'You have not placed any orders within the last 60 days. If you have an order ID, you can enter that to view its status.'
       }
     } else {
-      messageBlock.payload[0].text = 'You have not placed any orders yet.'
+      messageBlock.payload[0].text = 'You have not placed any orders here yet. If you have an order ID, you can enter that to view its status.'
     }
 
-    messageBlock.payload[0].text += `\n\n*O*  Check order status for a specific order id`
-    messageBlock.payload[0].text += `\n${specialKeyText(SHOW_CART_KEY)}`
+    messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
 
@@ -2684,7 +2683,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
       } else if (lastMessageSentByBot.menu) {
         let menuInput = parseInt(input)
         if (isNaN(menuInput) || menuInput >= lastMessageSentByBot.menu.length || menuInput < 0) {
-          if (isNaN(menuInput) && lastMessageSentByBot.action) {
+          if (lastMessageSentByBot.action) {
             action = lastMessageSentByBot.action
           } else {
             userError = true

@@ -1669,7 +1669,7 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
             quickReplies: []
           }
         )
-        messageBlock.payload[0].text = 'Here are your recently placed orders. Select an order to view its status:'
+        messageBlock.payload[0].text = 'Here are your recently placed orders. Select an order to view its status or enter an order ID:'
         for (let i = 0; i < recentOrders.length; i++) {
           const totalPrice = Number(recentOrders[i].totalPriceSet.presentmentMoney.amount)
           const currency = recentOrders[i].totalPriceSet.presentmentMoney.currencyCode
@@ -1688,18 +1688,15 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
           })
         }
       } else {
-        messageBlock.payload[0].text = 'You have not placed any orders within the last 60 days.'
+        messageBlock.payload[0].text = 'You have not placed any orders within the last 60 days. If you have an order ID, you can enter that to view its status.'
       }
     } else {
-      messageBlock.payload[0].text = 'You have not placed any orders yet.'
+      messageBlock.payload[0].text = 'You have not placed any orders yet. If you have an order ID, you can enter that to view its status.'
     }
 
+    messageBlock.payload[messageBlock.payload.length - 1].action = { type: DYNAMIC, action: ORDER_STATUS, input: true }
+
     messageBlock.payload[messageBlock.payload.length - 1].quickReplies.push(
-      {
-        content_type: 'text',
-        title: 'View Specific Order Status',
-        payload: JSON.stringify({ type: DYNAMIC, action: ASK_ORDER_ID })
-      },
       {
         content_type: 'text',
         title: 'Show my Cart',
