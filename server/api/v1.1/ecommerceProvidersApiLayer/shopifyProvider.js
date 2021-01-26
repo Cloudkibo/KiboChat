@@ -419,7 +419,7 @@ exports.findCustomerOrders = (customerId, limit, credentials) => {
       edges {
         node {
           id
-          orders(first: 10) {
+          orders(first: 10, reverse: true) {
             edges {
               node {
                 id

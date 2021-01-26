@@ -361,22 +361,22 @@ exports.testRoute = (req, res) => {
       // }])
       // return shopify.searchProducts('Kurti')
       // return shopify.getVariantsOfSelectedProduct('4885559935039')
-      // return shopify.searchCustomerUsingEmail('sojharo@gmail.com')
-      return shopify.createTestOrder(
-        { id: '3634555748415' },
-        [{
-          variant_id: '33276201402431',
-          quantity: 2
-        }],
-        {
-          first_name: 'Sojharo',
-          last_name: 'Mangi',
-          address1: 'C-23 Fariya Apartments',
-          city: 'Karachi',
-          country: 'Pakistan',
-          zip: '71200'
-        }
-      )
+      return shopify.searchCustomerUsingEmail('sojharo@gmail.com')
+      // return shopify.createTestOrder(
+      //   { id: '3634555748415' },
+      //   [{
+      //     variant_id: '33276201402431',
+      //     quantity: 2
+      //   }],
+      //   {
+      //     first_name: 'Sojharo',
+      //     last_name: 'Mangi',
+      //     address1: 'C-23 Fariya Apartments',
+      //     city: 'Karachi',
+      //     country: 'Pakistan',
+      //     zip: '71200'
+      //   }
+      // )
     })
     .then(shop => {
       sendSuccessResponse(res, 200, shop)
