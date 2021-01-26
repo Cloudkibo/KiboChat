@@ -103,6 +103,7 @@ exports.create = function (req, res) {
         }
       ], 10, function (err, results) {
         if (err) {
+          console.log('err', err)
           const message = err || 'Failed to update webhooks'
           logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user, params: req.params}, 'error')
           sendErrorResponse(res, 500, err)
@@ -127,6 +128,7 @@ exports.create = function (req, res) {
       })
     })
     .catch(error => {
+      console.log('error', error)
       const message = error || 'Failed to save message'
       logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user, params: req.params}, 'error')
       sendErrorResponse(res, 500, `Failed to save message ${error}`)
