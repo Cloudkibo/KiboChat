@@ -21,7 +21,7 @@ exports.prepareSendMessagePayload = (body) => {
         type: 'sticker',
         url: url.split('?')[0]
       })
-    } else if (componentType === 'sticker' || componentType === 'image' || componentType === 'thumbsUp') {
+    } else if (componentType === 'image') {
       let url = body.payload.fileurl.url || body.payload.fileurl
       message = JSON.stringify({
         type: 'image',
