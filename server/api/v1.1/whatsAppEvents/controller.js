@@ -34,7 +34,6 @@ exports.messageReceived = function (req, res) {
   record('whatsappChatInComing')
   whatsAppMapper.handleInboundMessageReceived(req.body.provider, req.body.event)
     .then(data => {
-      console.log('Data', data)
       createContact(data)
         .then((isNewContact) => {
           let number = `+${data.userData.number}`
@@ -200,11 +199,9 @@ function createContact (data) {
       .then(companies => {
         if (companies && companies.length > 0) {
           companies.forEach((company, index) => {
-            console.log('company', company)
             callApi(`whatsAppContacts/query`, 'post', { number: number, companyId: company._id }, 'accounts')
               .then(contact => {
                 contact = contact[0]
-                console.log('contact', contact)
                 if (!contact) {
                   isNewContact = true
                   callApi(`whatsAppContacts`, 'post', {
