@@ -44,7 +44,8 @@ const {
   CHECK_ORDERS,
   ASK_ORDER_ID,
   GET_INVOICE,
-  GET_CHECKOUT_INFO
+  GET_CHECKOUT_INFO,
+  VIEW_CATALOG
 } = require('./constants')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/chatbots/commerceChatbot.logiclayer.js'
@@ -134,6 +135,11 @@ exports.getMessageBlocks = (chatbot, storeName) => {
           },
           {
             content_type: 'text',
+            title: 'View catalog',
+            payload: JSON.stringify({ type: DYNAMIC, action: VIEW_CATALOG })
+          },
+          {
+            content_type: 'text',
             title: 'Check order status',
             payload: JSON.stringify({ type: DYNAMIC, action: VIEW_RECENT_ORDERS })
           },
@@ -166,6 +172,46 @@ exports.getMessageBlocks = (chatbot, storeName) => {
   }
   messageBlockDataLayer.createBulkMessageBlocks(messageBlocks)
   return messageBlocks
+}
+
+const getViewCatalogBlock = (chatbot, backId, contact) => {
+  try {
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_commerce_chatbot'
+      },
+      title: 'View Catalog',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Here is our catalog. Please wait a moment for it to send.`,
+          componentType: 'text'
+        },
+        {
+          componentType: 'file',
+          fileurl: {
+            url: `https://kibochat.cloudkibo.com/api/broadcasts/download/f6c83ab0a3a202112794242.pdf`
+          },
+          fileName: `catalog.pdf`,
+          quickReplies: [
+            {
+              content_type: 'text',
+              title: 'Go Home',
+              payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
+            }
+          ]
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable get talk to agent message block'
+    logger.serverLog(message, `${TAG}: getTalkToAgentBlock`, {}, {chatbot, backId, contact}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to notify customer support agent`)
+  }
 }
 
 const getTalkToAgentBlock = (chatbot, contact) => {
@@ -3052,6 +3098,10 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
               }
               case GET_INVOICE: {
                 messageBlock = await getInvoiceBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument)
+                break
+              }
+              case VIEW_CATALOG: {
+                messageBlock = await getViewCatalogBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
                 break
               }
             }
