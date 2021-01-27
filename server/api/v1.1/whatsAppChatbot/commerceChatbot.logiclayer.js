@@ -51,7 +51,8 @@ const {
   CHECK_ORDERS,
   ASK_ORDER_ID,
   GET_INVOICE,
-  GET_CHECKOUT_INFO
+  GET_CHECKOUT_INFO,
+  VIEW_CATALOG
 } = require('./constants')
 const { convertToEmoji, sendTalkToAgentNotification } = require('./whatsAppChatbot.logiclayer')
 const logger = require('../../../components/logger')
@@ -128,7 +129,8 @@ exports.getMessageBlocks = (chatbot) => {
         text: dedent(`Please select an option to let me know what you would like to do? (i.e. send “1” to View products on sale):\n
                 ${convertToEmoji(0)} Browse all categories
                 ${convertToEmoji(1)} View products on sale
-                ${convertToEmoji(2)} Search for a product\n
+                ${convertToEmoji(2)} Search for a product
+                ${convertToEmoji(3)} View Catalog\n
                 ${specialKeyText(ORDER_STATUS_KEY)}
                 ${specialKeyText(SHOW_CART_KEY)}
                 ${specialKeyText(TALK_TO_AGENT_KEY)}`),
@@ -136,7 +138,8 @@ exports.getMessageBlocks = (chatbot) => {
         menu: [
           { type: DYNAMIC, action: PRODUCT_CATEGORIES },
           { type: DYNAMIC, action: DISCOVER_PRODUCTS },
-          { type: DYNAMIC, action: SEARCH_PRODUCTS }
+          { type: DYNAMIC, action: SEARCH_PRODUCTS },
+          { type: DYNAMIC, action: VIEW_CATALOG }
         ],
         specialKeys: {
           [ORDER_STATUS_KEY]: { type: DYNAMIC, action: VIEW_RECENT_ORDERS },
@@ -163,6 +166,44 @@ exports.getMessageBlocks = (chatbot) => {
   }
 
   return messageBlocks
+}
+
+const getViewCatalogBlock = (chatbot, backId, contact) => {
+  try {
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_commerce_chatbot'
+      },
+      title: 'View Catalog',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Here is our catalog. Please wait a moment for it to send.`,
+          componentType: 'text',
+          specialKeys: {
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
+          }
+        },
+        {
+          componentType: 'file',
+          fileurl: {
+            url: `https://kibochat.cloudkibo.com/api/broadcasts/download/f6c83ab0a3a202112794242.pdf`
+          },
+          fileName: `catalog.pdf`
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+
+    messageBlock.payload[0].text += `\n\n${specialKeyText(HOME_KEY)}`
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable get talk to agent message block'
+    logger.serverLog(message, `${TAG}: getTalkToAgentBlock`, {}, {chatbot, backId, contact}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to notify customer support agent`)
+  }
 }
 
 const getTalkToAgentBlock = (chatbot, backId, contact) => {
@@ -2891,6 +2932,10 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
           }
           case GET_INVOICE: {
             messageBlock = await getInvoiceBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument)
+            break
+          }
+          case VIEW_CATALOG: {
+            messageBlock = await getViewCatalogBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
             break
           }
         }
