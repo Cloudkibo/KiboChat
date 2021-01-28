@@ -131,6 +131,7 @@ exports.handleCompleteCheckout = function (req, res) {
     }
     callApi(`whatsAppContacts/update`, 'put', updateData)
     callApi(`subscribers/update`, 'put', updateData)
+    return sendSuccessResponse(res, 200, {status: 'success'})
   } catch (err) {
     const message = err || 'Error processing shopify complete checkout webhook '
     logger.serverLog(message, `${TAG}: exports.handleCompleteCheckout`, req.body, {header: req.header}, 'error')
