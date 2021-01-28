@@ -13,13 +13,11 @@ exports.getNormalizedMessageReceivedData = (event) => {
           {'whatsApp.businessNumber': `+${businessNumber}`}
         ]
       }
-      console.log('Event info', sender, payload, businessNumber)
       callApi(`companyprofile/query`, 'post', query)
         .then(company => {
           if (company) {
             logicLayer.prepareReceivedMessageData(payload, company)
               .then(payload => {
-                console.log('Payload', payload)
                 resolve({
                   accessToken: company.whatsApp.accessToken,
                   userData: {
@@ -39,6 +37,20 @@ exports.getNormalizedMessageReceivedData = (event) => {
         .catch(err => {
           reject(err)
         })
+    } catch (err) {
+      reject(err)
+    }
+  })
+}
+
+exports.getNormalizedMessageStatusData = (event) => {
+  console.log('Event Received')
+  return new Promise((resolve, reject) => {
+    try {
+      resolve({
+        messageId: event.payload.id,
+        status: event.payload.type
+      })
     } catch (err) {
       reject(err)
     }
