@@ -179,24 +179,29 @@ const getViewCatalogBlock = (chatbot, backId, contact) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Here is our catalog. Please wait a moment for it to send.`,
+          text: ``,
           componentType: 'text',
           specialKeys: {
             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
           }
-        },
-        {
-          componentType: 'file',
-          fileurl: {
-            url: `https://kibochat.cloudkibo.com/api/broadcasts/download/f6c83ab0a3a202112794242.pdf`
-          },
-          fileName: `catalog.pdf`
         }
       ],
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
 
+    if (chatbot.botLinks.catalogUrl) {
+      messageBlock.payload[0].text += `Here is our catalog. Please wait a moment for it to send.`
+      messageBlock.payload.push({
+        componentType: 'file',
+        fileurl: {
+          url: chatbot.botLinks.catalogUrl
+        },
+        fileName: `catalog.pdf`
+      })
+    } else {
+      messageBlock.payload[0].text += `No catalog currently available.`
+    }
     messageBlock.payload[0].text += `\n\n${specialKeyText(HOME_KEY)}`
     return messageBlock
   } catch (err) {
