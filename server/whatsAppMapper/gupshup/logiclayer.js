@@ -1,5 +1,5 @@
+
 var path = require('path')
-const { appendOptions } = require('../logiclayer')
 var mime = require('mime-types')
 const fs = require('fs')
 let config = require('../../config/environment')
@@ -7,53 +7,56 @@ const crypto = require('crypto')
 const needle = require('needle')
 
 exports.prepareSendMessagePayload = (body) => {
-  let route = ''
-  let MessageObject = {
-    token: body.whatsApp.accessToken,
-    number_details: JSON.stringify([
-      { phone: body.recipientNumber }])
-  }
-  if (body.payload.componentType === 'text') {
+  let from = body.whatsApp.businessNumber.replace(/\D/g, '')
+  let to = body.recipientNumber.replace(/\D/g, '')
+  let appName = body.whatsApp.appName
+  let componentType = body.payload.componentType
+  let MessageObject = `channel=whatsapp&source=${from}&destination=${to}&src.name=${appName}`
+  if (componentType === 'text') {
     if (body.payload.templateName) {
       MessageObject.template_name = body.payload.templateName
       MessageObject.template_argument = body.payload.templateArguments
       MessageObject.language = 'en'
-      route = 'hsm'
     } else {
-      MessageObject.message = body.payload.text
-      route = 'text'
+      MessageObject = MessageObject + `&message.type=text&message.text=${body.payload.text}`
     }
-  } else if (body.payload.componentType === 'sticker' ||
-    body.payload.componentType === 'image' ||
-    body.payload.componentType === 'thumbsUp') {
-    MessageObject.image = body.payload.fileurl.url || body.payload.fileurl
-    MessageObject.title = body.payload.caption
-    route = 'image'
-  } else if (body.payload.componentType === 'video' || body.payload.componentType === 'gif') {
-    MessageObject.video = body.payload.fileurl.url || body.payload.fileurl
-    MessageObject.title = body.payload.caption
-    route = 'video'
-  } else if (body.payload.componentType === 'file') {
-    let ext = path.extname(body.payload.fileName)
-    if (ext !== '') {
-      body.payload.fileName = body.payload.fileName.replace(ext, '')
+  } else {
+    let message
+    if (componentType === 'sticker') {
+      let url = body.payload.fileurl.url || body.payload.fileurl
+      message = JSON.stringify({
+        type: 'sticker',
+        url: url.split('?')[0]
+      })
+    } else if (componentType === 'image') {
+      let url = body.payload.fileurl.url || body.payload.fileurl
+      message = JSON.stringify({
+        type: 'image',
+        originalUrl: url,
+        previewUrl: url,
+        caption: body.payload.caption
+      })
+    } else if (componentType === 'video' || componentType === 'gif') {
+      message = JSON.stringify({
+        type: 'video',
+        url: body.payload.fileurl.url || body.payload.fileurl,
+        caption: body.payload.caption
+      })
+    } else if (componentType === 'file') {
+      message = JSON.stringify({
+        type: 'file',
+        url: body.payload.fileurl.url || body.payload.fileurl,
+        filename: body.payload.fileName
+      })
+    } else if (componentType === 'audio') {
+      message = JSON.stringify({
+        type: 'audio',
+        url: body.payload.fileurl.url || body.payload.fileurl
+      })
     }
-    MessageObject.title = body.payload.fileName
-    MessageObject.file = body.payload.fileurl.url || body.payload.fileurl
-    route = 'file'
-  } else if (body.payload.componentType === 'audio') {
-    let ext = path.extname(body.payload.fileName)
-    if (ext !== '') {
-      body.payload.fileName = body.payload.fileName.replace(ext, '')
-    }
-    MessageObject.audio = body.payload.fileurl.url || body.payload.fileurl
-    MessageObject.title = body.payload.fileName
-    route = 'audio'
+    MessageObject = MessageObject + `&message=${message}`
   }
-  return {
-    MessageObject,
-    route
-  }
+  return MessageObject
 }
 
 exports.prepareReceivedMessageData = (body) => {
@@ -113,83 +116,6 @@ exports.prepareReceivedMessageData = (body) => {
     } else {
       resolve(payload)
     }
-  })
-}
-
-exports.prepareTemplates = (flockSendTemplates) => {
-  let templates = []
-  for (let i = 0; i < flockSendTemplates.length; i++) {
-    if (flockSendTemplates[i].localizations[0].status === 'APPROVED') {
-      let template = {}
-      template.name = flockSendTemplates[i].templateName
-      let templateComponents = flockSendTemplates[i].localizations[0].components
-      for (let j = 0; j < templateComponents.length; j++) {
-        if (templateComponents[j].type === 'BODY') {
-          template.text = templateComponents[j].text
-          let argumentsRegex = /{{[0-9]}}/g
-          let templateArguments = template.text.match(argumentsRegex).join(',')
-          template.templateArguments = templateArguments
-          let regex = template.text.replace('.', '\\.')
-          regex = regex.replace(argumentsRegex, '(.*)')
-          template.regex = `^${regex}$`
-        } else if (templateComponents[j].type === 'BUTTONS') {
-          template.buttons = templateComponents[j].buttons.map(button => {
-            return {
-              title: button.text
-            }
-          })
-        }
-      }
-      if (!template.buttons) {
-        template.buttons = []
-      }
-      templates.push(template)
-    }
-  }
-  return templates
-}
-
-exports.prepareInvitationPayload = (data) => {
-  let contactNumbers = []
-  data.numbers.map((c) => contactNumbers.push({ phone: c }))
-  let MessageObject = {
-    token: data.whatsApp.accessToken,
-    number_details: JSON.stringify(contactNumbers),
-    template_name: data.payload.templateName,
-    template_argument: data.payload.templateArguments,
-    language: 'en'
-  }
-  return MessageObject
-}
-
-exports.prepareChatbotPayload = (company, contact, payload, options) => {
-  return new Promise((resolve, reject) => {
-    let route = ''
-    let message = {
-      token: company.whatsApp.accessToken,
-      number_details: JSON.stringify([{phone: contact.number}])
-    }
-    if (payload.componentType === 'text') {
-      message.message = payload.text + appendOptions(options)
-      route = 'text'
-    } else if (payload.componentType === 'image' || payload.mediaType === 'image') {
-      message.image = payload.fileurl.url
-      message.title = (payload.caption) ? payload.caption : undefined
-      route = 'image'
-    } else if (payload.componentType === 'video' || payload.mediaType === 'video') {
-      message.video = payload.fileurl.url
-      route = 'video'
-    } else if (payload.componentType === 'file') {
-      message.file = payload.fileurl.url
-      route = 'file'
-    } else if (payload.componentType === 'audio') {
-      message.audio = payload.fileurl.url
-      route = 'audio'
-    } else if (payload.componentType === 'card') {
-      message.message = payload.url
-      route = 'text'
-    }
-    resolve({message, route})
   })
 }
 

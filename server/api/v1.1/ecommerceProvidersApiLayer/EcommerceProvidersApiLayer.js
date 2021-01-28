@@ -1,6 +1,7 @@
 const providers = require('./constants.js')
 const shopifyProvider = require('./shopifyProvider.js')
 const bigCommerceProvider = require('./bigCommerceProvider.js')
+const shopsProvider = require('./shopsProvider.js')
 
 module.exports = class EcommerceProvidersApiLayer {
   constructor (eCommerceProvider, eCommerceProviderCredentials) {
@@ -11,7 +12,7 @@ module.exports = class EcommerceProvidersApiLayer {
 
   verifyParams (provider, credentials) {
     if (!provider || (typeof provider !== 'string')) throw new Error('First parameter "provider" is must')
-    if (provider === providers.shopify) {
+    if (provider === providers.shopify || provider === providers.shops) {
       if (
         credentials &&
         credentials.hasOwnProperty('shopUrl') &&
@@ -37,6 +38,22 @@ module.exports = class EcommerceProvidersApiLayer {
     }
   }
 
+  fetchBusinessAccounts () {
+    if (this.eCommerceProvider === providers.shops) {
+      return shopsProvider.fetchBusinessAccounts(this.eCommerceProviderCredentials)
+    } else {
+      throw new Error('This function is not implemented for this shop type')
+    }
+  }
+
+  fetchCommerceCatalogs (businessId) {
+    if (this.eCommerceProvider === providers.shops) {
+      return shopsProvider.fetchCommerceCatalogs(businessId, this.eCommerceProviderCredentials)
+    } else {
+      throw new Error('This function is not implemented for this shop type')
+    }
+  }
+
   fetchStoreInfo () {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.fetchStoreInfo(this.eCommerceProviderCredentials)
@@ -58,14 +75,24 @@ module.exports = class EcommerceProvidersApiLayer {
       return shopifyProvider.fetchProducts(paginationParams, numberOfProducts, this.eCommerceProviderCredentials)
     } else if (this.eCommerceProvider === providers.bigcommerce) {
       return bigCommerceProvider.fetchProducts(numberOfProducts, this.eCommerceProviderCredentials)
+    } else if (this.eCommerceProvider === providers.shops) {
+      // NOTE: send the catalog id as string in paginationParams,
+      // pagination is not supported on this endpoint from fb for now.
+      // see this link for updates: https://developers.facebook.com/docs/marketing-api/reference/product-catalog/products
+      return shopsProvider.fetchProducts(paginationParams, this.eCommerceProviderCredentials)
     }
   }
 
-  searchProducts (query) {
+  searchProducts (query, catalogId) {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.searchProducts(query, this.eCommerceProviderCredentials)
     } else if (this.eCommerceProvider === providers.bigcommerce) {
       return bigCommerceProvider.searchProducts(query, this.eCommerceProviderCredentials)
+    } else if (this.eCommerceProvider === providers.shops) {
+      // NOTE: send the catalog id as string
+      // pagination is not supported on this endpoint from fb for now.
+      // see this link for updates: https://developers.facebook.com/docs/marketing-api/reference/product-catalog/products
+      return shopsProvider.searchProducts(query, catalogId, this.eCommerceProviderCredentials)
     }
   }
 

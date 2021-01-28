@@ -1,31 +1,52 @@
+// APIs Quick Reference:
+//
+// - list businesses of a user
+// - https://developers.facebook.com/docs/marketing-api/business-manager/get-started#users
+// - /me/businesses
+//
+// - list catalogs inside a business
+// - https://developers.facebook.com/docs/marketing-api/reference/product-catalog
+// - /<business_id>/owned_product_catalogs
+//
+// - list product categories
+// - https://developers.facebook.com/docs/marketing-api/reference/product-catalog/categories/
+// - /{product-catalog-id}/categories?categorization_criteria=CATEGORY
+//
+// - list products
+// - https://developers.facebook.com/docs/marketing-api/reference/product-catalog/products/
+// - /<PRODUCT_CATALOG_ID>/products?fields=condition,id,name
+//
+// - search products by name
+// - https://developers.facebook.com/docs/marketing-api/reference/product-catalog/products/#Reading
+// - /<PRODUCT_CATALOG_ID>//products?filter=Satin&fields=condition,id,name,category
+// filter must be json encoded string
+//
+
 const needle = require('needle')
 
-const API_URL = 'http://developers.facebook.com/v1'
+const API_URL = 'https://graph.facebook.com/v8.0'
 
-exports.fetchStoreInfo = (credentials) => {
+exports.fetchBusinessAccounts = (credentials) => {
   const params = initShops(credentials)
   return new Promise(function (resolve, reject) {
-    needle('get', `${API_URL}/airlines?access_key=${params}`)
+    const fields = 'fields=id,name,primary_page,created_by'
+    needle('get', `${API_URL}/me/businesses?access_token=${params}&${fields}`)
       .then(result => {
         result = result.body
-        let payload = result.data
-        payload = payload.map(item => {
-          return {
-            'airline_name': item.airline_name,
-            'iata_code': item.iata_code,
-            'icao_code': item.icao_code,
-            'callsign': item.callsign,
-            'type': item.type,
-            'status': item.status,
-            'fleet_size': item.fleet_size,
-            'fleet_average_age': item.fleet_average_age,
-            'date_founded': item.date_founded,
-            'hub_code': item.hub_code,
-            'country_name': item.country_name,
-            'country_iso2': item.country_iso2
-          }
-        })
-        resolve(payload)
+        resolve(result)
+      })
+      .catch(err => reject(err))
+  })
+}
+
+exports.fetchCommerceCatalogs = (businessId, credentials) => {
+  const params = initShops(credentials)
+  return new Promise(function (resolve, reject) {
+    const fields = 'fields=id,name,business,vertical,product_count'
+    needle('get', `${API_URL}/${businessId}/owned_product_catalogs?access_token=${params}&${fields}`)
+      .then(result => {
+        result = result.body
+        resolve(result)
       })
       .catch(err => reject(err))
   })
@@ -80,22 +101,20 @@ exports.fetchProductsInThisCategory = (category, credentials) => {
 exports.fetchProducts = (query, credentials) => {
   const params = initShops(credentials)
   return new Promise(function (resolve, reject) {
-    needle('get', `${API_URL}/${query}/products?access_key=${params}&${query}`)
+    const fields = 'fields=id,name,fb_product_category,currency,image_url,price,product_type,brand'
+    needle('get', `${API_URL}/${query}/products?access_token=${params}&${fields}`)
       .then(result => {
         result = result.body
         let payload = result.data
-        payload = payload.map(item => {
+        payload = payload.map(product => {
           return {
-            id: item.id,
-            brand: item.brand,
-            category: item.category,
-            condition: item.condition,
-            currency: item.currency,
-            description: item.description,
-            gender: item.gender,
-            image: item.image_url,
-            name: item.name,
-            inventory: item.inventory
+            id: product.id,
+            name: product.name,
+            product_type: product.product_type,
+            vendor: product.brand,
+            price: product.price,
+            currency: product.currency,
+            image: product.image_url
           }
         })
         resolve(payload)
@@ -104,74 +123,24 @@ exports.fetchProducts = (query, credentials) => {
   })
 }
 
-exports.searchProducts = (flightNumber, credentials) => {
+exports.searchProducts = (query, catalogId, credentials) => {
   const params = initShops(credentials)
-  let query = `flight_iata=${flightNumber}&flight_status=scheduled`
   return new Promise(function (resolve, reject) {
-    needle('get', `${API_URL}/flights?access_key=${params}&${query}`)
+    const fields = 'fields=id,name,fb_product_category,currency,image_url,price,product_type,brand'
+    const filter = `filter=${JSON.stringify({name: { i_contains: query }})}`
+    needle('get', `${API_URL}/${catalogId}/products?access_token=${params}&${filter}&${fields}`)
       .then(result => {
         result = result.body
         let payload = result.data
-        payload = payload.map(item => {
+        payload = payload.map(product => {
           return {
-            'flight_date': item.flight_date,
-            'flight_status': item.flight_status,
-            'departure': {
-              'airport': item.departure.airport,
-              'timezone': item.departure.timezone,
-              'iata': item.departure.iata,
-              'icao': item.departure.icao,
-              'terminal': item.departure.terminal,
-              'gate': item.departure.gate,
-              'delay': item.departure.delay,
-              'scheduled': item.departure.scheduled,
-              'estimated': item.departure.estimated,
-              'actual': item.departure.actual,
-              'estimated_runway': item.departure.estimated_runway,
-              'actual_runway': item.departure.actual_runway
-            },
-            'arrival': {
-              'airport': item.arrival.airport,
-              'timezone': item.arrival.timezone,
-              'iata': item.arrival.iata,
-              'icao': item.arrival.icao,
-              'terminal': item.arrival.terminal,
-              'gate': item.arrival.gate,
-              'baggage': item.arrival.baggage,
-              'delay': item.arrival.delay,
-              'scheduled': item.arrival.scheduled,
-              'estimated': item.arrival.estimated,
-              'actual': item.arrival.actual,
-              'estimated_runway': item.arrival.estimated_runway,
-              'actual_runway': item.arrival.actual_runway
-            },
-            'airline': {
-              'name': item.airline.name,
-              'iata': item.airline.iata,
-              'icao': item.airline.icao
-            },
-            'flight': {
-              'number': item.flight.number,
-              'iata': item.flight.iata,
-              'icao': item.flight.icao,
-              'codeshared': item.flight.codeshared
-            }
-            // 'aircraft': {
-            //   'registration': item.aircraft.registration,
-            //   'iata': item.aircraft.iata,
-            //   'icao': item.aircraft.icao,
-            //   'icao24': item.aircraft.icao24
-            // },
-            // 'live': {
-            //   'updated': item.live.updated,
-            //   'latitude': item.live.latitude,
-            //   'longitude': item.live.longitude,
-            //   'altitude': item.live.altitude,
-            //   'direction': item.live.direction,
-            //   'speed_horizontal': item.live.speed_horizontal,
-            //   'speed_vertical': item.live.speed_vertical,
-            //   'is_ground': item.live.is_ground
-            // }
+            id: product.id,
+            name: product.name,
+            product_type: product.product_type,
+            vendor: product.brand,
+            price: product.price,
+            currency: product.currency,
+            image: product.image_url
           }
         })
         resolve(payload)
@@ -181,5 +150,5 @@ exports.searchProducts = (flightNumber, credentials) => {
 }
 
 function initShops (credentials) {
-  return credentials.access_key
+  return credentials.shopToken
 }
