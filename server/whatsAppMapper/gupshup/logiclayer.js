@@ -59,7 +59,9 @@ exports.prepareSendMessagePayload = (body) => {
 exports.prepareReceivedMessageData = (body) => {
   let payload = {}
   return new Promise((resolve, reject) => {
-    if (body.payload.url) {
+    var media = ['image', 'video', 'audio', 'voice']
+    var isMedia = media.includes(body.type)
+    if (isMedia) {
       let ext = mime.extension(body.payload.contentType)
       uploadMedia(body.payload.url, body.payload.id + '.' + ext)
         .then(payload => {
@@ -68,20 +70,24 @@ exports.prepareReceivedMessageData = (body) => {
             if (body.payload.caption && body.payload.caption !== '') {
               payload.caption = body.payload.caption
             }
+            resolve(payload)
           } else if (body.type === 'video') {
             payload = { componentType: 'video', fileurl: { url: payload.url } }
             if (body.payload.caption && body.payload.caption !== '') {
               payload.caption = body.payload.caption
             }
+            resolve(payload)
           } else if (body.type === 'audio') {
             payload = { componentType: 'audio', fileurl: { url: payload.url } }
             if (body.payload.caption && body.payload.caption !== '') {
               payload.caption = body.payload.caption
             }
-          }  else if (body.type === 'voice') {
+            resolve(payload)
+          } else if (body.type === 'voice') {
             payload = { componentType: 'audio', fileurl: { url: payload.url } }
           } else if (body.type === 'document') {
             payload = { componentType: 'file', fileurl: { url: payload.url } }
+            resolve(payload)
           }
         })
         .catch(err => {
