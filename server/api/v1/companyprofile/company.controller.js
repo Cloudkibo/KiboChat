@@ -120,8 +120,10 @@ exports.invite = function (req, res) {
                 sendSuccessResponse(res, 200, result)
               })
               .catch((err) => {
-                const message = err || 'error from invite company profile'
-                logger.serverLog(message, `${TAG}: exports.invite`, req.body, {user: req.user}, 'error')
+                if (!_isUserError(err, req)) {
+                  const message = err || 'error from invite company profile'
+                  logger.serverLog(message, `${TAG}: exports.invite`, req.body, {user: req.user}, 'error')
+                }
                 sendErrorResponse(res, 500, err)
               })
           }
@@ -133,10 +135,8 @@ exports.invite = function (req, res) {
         })
     })
     .catch((err) => {
-      if (!_isUserError(err, req)) {
-        const message = err || 'result from invite endpoint accounts'
-        logger.serverLog(message, `${TAG}: exports.invite`, req.body, {user: req.user}, 'error')
-      }
+      const message = err || 'result from invite endpoint accounts'
+      logger.serverLog(message, `${TAG}: exports.invite`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err)
     })
 }
