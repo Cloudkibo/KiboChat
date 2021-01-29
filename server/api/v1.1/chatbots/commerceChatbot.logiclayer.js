@@ -665,7 +665,11 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, contact, 
           messageBlock.payload[0].text += `\n\n*Tracking Details*`
           messageBlock.payload[0].text += `\n*Company*: ${trackingDetails.company}`
           messageBlock.payload[0].text += `\n*Number*: ${trackingDetails.number}`
-          messageBlock.payload[0].text += `\n*Url*: ${trackingDetails.url}`
+          messageBlock.payload[0].buttons = [{
+            type: 'web_url',
+            title: 'Tracking Link',
+            url: trackingDetails.url
+          }]
         }
       }
     }
