@@ -52,7 +52,8 @@ const {
   ASK_ORDER_ID,
   GET_INVOICE,
   GET_CHECKOUT_INFO,
-  VIEW_CATALOG
+  VIEW_CATALOG,
+  CANCEL_ORDER
 } = require('./constants')
 const { convertToEmoji, sendTalkToAgentNotification } = require('./whatsAppChatbot.logiclayer')
 const logger = require('../../../components/logger')
@@ -207,6 +208,44 @@ const getViewCatalogBlock = (chatbot, backId, contact) => {
   } catch (err) {
     const message = err || 'Unable get talk to agent message block'
     logger.serverLog(message, `${TAG}: getTalkToAgentBlock`, {}, {chatbot, backId, contact}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to notify customer support agent`)
+  }
+}
+
+const getCancelOrderBlock = (chatbot, backId, EcommerceProvider, orderId, input) => {
+  try {
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_commerce_chatbot'
+      },
+      title: 'Cancel Order',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: ``,
+          componentType: 'text',
+          specialKeys: {
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    let canceledOrder = true
+    if (canceledOrder) {
+      messageBlock.payload[0].text += `Your order with orderId: ${orderId} has been successfully canceled.`
+    } else {
+      messageBlock.payload[0].text += `Your order could not be canceled.`
+    }
+    messageBlock.payload[0].text += `\n\n${specialKeyText(ORDER_STATUS_KEY)}`
+    messageBlock.payload[0].text += `\n${specialKeyText(SHOW_CART_KEY)}`
+    messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to cancel order'
+    logger.serverLog(message, `${TAG}: getCancelOrderBlock`, {}, {chatbot, backId}, 'error')
     throw new Error(`${ERROR_INDICATOR}Unable to notify customer support agent`)
   }
 }
@@ -604,7 +643,8 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
             [BACK_KEY]: { type: STATIC, blockId: backId },
             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
             'i': { type: DYNAMIC, action: GET_INVOICE, argument: orderId },
-            'o': { type: DYNAMIC, action: VIEW_RECENT_ORDERS }
+            'o': { type: DYNAMIC, action: VIEW_RECENT_ORDERS },
+            'x': { type: DYNAMIC, action: CANCEL_ORDER, argument: orderId }
           }
         }
       ],
@@ -682,6 +722,9 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
 
     messageBlock.payload[0].text += `\n\n*I*   Get PDF Invoice`
     messageBlock.payload[0].text += `\n*O*  View Recent Orders`
+    if (orderStatus.displayFulfillmentStatus.toLowerCase() === 'unfulfilled') {
+      messageBlock.payload[0].text += `\n*X*  Cancel Order`
+    }
     messageBlock.payload[0].text += `\n${specialKeyText(SHOW_CART_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
@@ -2953,6 +2996,10 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             messageBlock = await getViewCatalogBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
             break
           }
+          case CANCEL_ORDER: {
+            messageBlock = await getCancelOrderBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument, action.input ? input : '')
+            break
+          }  
         }
         await messageBlockDataLayer.createForMessageBlock(messageBlock)
         return messageBlock
