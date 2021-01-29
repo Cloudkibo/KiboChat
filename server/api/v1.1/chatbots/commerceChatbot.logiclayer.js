@@ -659,6 +659,17 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, contact, 
     if (orderStatus.displayFulfillmentStatus) {
       messageBlock.payload[0].text += `\nDelivery: ${orderStatus.displayFulfillmentStatus}`
     }
+    if (orderStatus.displayFulfillmentStatus.toLowerCase() === 'fulfilled' && orderStatus.fulfillments) {
+      if (orderStatus.fulfillments[0]) {
+        let trackingDetails = orderStatus.fulfillments[0].trackingInfo && orderStatus.fulfillments[0].trackingInfo[0] ? orderStatus.fulfillments[0].trackingInfo[0] : null
+        if (trackingDetails) {
+          messageBlock.payload[0].text += `\n\n*Tracking Details*`
+          messageBlock.payload[0].text += `\n*Company*: ${trackingDetails.company}`
+          messageBlock.payload[0].text += `\n*Number*: ${trackingDetails.number}`
+          messageBlock.payload[0].text += `\n*Url*: ${trackingDetails.url}`
+        }
+      }
+    }
 
     if (orderStatus.lineItems && orderStatus.lineItems.length > 0) {
       const totalOrderPrice = orderStatus.lineItems.reduce((acc, item) => acc + Number(item.price), 0)

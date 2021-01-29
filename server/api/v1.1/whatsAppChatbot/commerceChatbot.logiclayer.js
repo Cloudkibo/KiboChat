@@ -623,7 +623,17 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     if (orderStatus.displayFulfillmentStatus) {
       messageBlock.payload[0].text += `\n*Delivery*: ${orderStatus.displayFulfillmentStatus}`
     }
-
+    if (orderStatus.displayFulfillmentStatus.toLowerCase() === 'fulfilled' && orderStatus.fulfillments) {
+      if (orderStatus.fulfillments[0]) {
+        let trackingDetails = orderStatus.fulfillments[0].trackingInfo && orderStatus.fulfillments[0].trackingInfo[0] ? orderStatus.fulfillments[0].trackingInfo[0] : null
+        if (trackingDetails) {
+          messageBlock.payload[0].text += `\n\n*Tracking Details*`
+          messageBlock.payload[0].text += `\n*Company*: ${trackingDetails.company}`
+          messageBlock.payload[0].text += `\n*Number*: ${trackingDetails.number}`
+          messageBlock.payload[0].text += `\n*Url*: ${trackingDetails.url}`
+        }
+      }
+    }
     if (orderStatus.lineItems) {
       for (let i = 0; i < orderStatus.lineItems.length; i++) {
         let product = orderStatus.lineItems[i]
