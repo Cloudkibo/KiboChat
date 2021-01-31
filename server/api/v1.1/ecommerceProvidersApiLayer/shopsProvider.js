@@ -54,7 +54,25 @@ exports.fetchCommerceCatalogs = (businessId, credentials) => {
   })
 }
 
-exports.fetchAllProductCategories = (name, credentials) => {
+exports.fetchAllProductCategories = (catalogId, credentials) => {
+  const params = initShops(credentials)
+  return new Promise(function (resolve, reject) {
+    const fields = 'categorization_criteria=CATEGORY'
+    needle('get', `${API_URL}/${catalogId}/categories?access_token=${params}&${fields}`)
+      .then(result => {
+        result = result.body
+        let payload = result.data
+        payload = payload.map(category => {
+          return {
+            id: category.destination_uri,
+            name: category.name,
+            image: category.image_url
+          }
+        })
+        resolve(payload)
+      })
+      .catch(err => reject(err))
+  })
 }
 
 exports.fetchProductsInThisCategory = (category, credentials) => {
