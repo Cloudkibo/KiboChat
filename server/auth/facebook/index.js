@@ -21,6 +21,13 @@ router.get('/callback', passport.authenticate('facebook', {
   session: false
 }), auth.fbConnectDone)
 
+router.get('/reauth/shops', passport.authenticate('facebook', {
+  authType: 'rerequest',
+  scope: ['business_management', 'catalog_management'],
+  failureRedirect: '/',
+  session: false
+}))
+
 router.get('/error', auth.fbConnectError)
 
 module.exports = router
