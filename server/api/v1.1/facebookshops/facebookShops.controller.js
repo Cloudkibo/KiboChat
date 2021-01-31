@@ -5,6 +5,7 @@
 const EcommerceProviders = require('./../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
 const commerceConstants = require('./../ecommerceProvidersApiLayer/constants')
 const dataLayer = require('./facebookShops.datalayer')
+const logiclayer = require('./facebookShops.logiclayer')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
 exports.testRoute = (req, res) => {
@@ -12,7 +13,7 @@ exports.testRoute = (req, res) => {
     .then(shopifyIntegration => {
       const shops = new EcommerceProviders(commerceConstants.shops, {
         shopUrl: shopifyIntegration.shopUrl,
-        shopToken: 'EAACQ9dMxl7QBAD4VaITl1CcLFd4avIJkVSU1mBqMv9PZB98tGZCU1vcxkR8Bz7arJUQM1XCDnYz6L3RPFLeldbZAiQkXfCUr5ggMPXRL7zRjinNv1YDQdDNpChzeeZCASZCKU0QJx0alK9CUANlGp5ZAjME94sEExGEKl4SL7ZAO9gaACLa6HbOwyJ695NbY6pP3b7CBU7hRlFibwtnuNkIzKZCGt5DsbNt4jnuZCGSJQEEItwyayhDkyRpQqZBsSXtBoZD'// shopifyIntegration.shopToken
+        shopToken: 'EAACQ9dMxl7QBACfTMZAyZBU3FELcMhgsxH33XgMEXIa57RU5lCpGGDhs7huXRlqngkK9ZBRq0yM9o3nXjXB0gkjXBE6zdJ3FTYI3bJJLGWcL79XJqIANABFucZBbBPLts9jYtHngQSSeVQ6gi3rZBFD5KAnjkjvqEmnXbA995eDFC4yN3ueihfWmI9irmfK9uB8oPkmhQ05xSl2ZBL92NERsdRlOvzSVOb4FGPJvTZBtWRRL6xJAZCKBJc7kkBKJ1x8ZD'// shopifyIntegration.shopToken
       })
       // return shops.fetchBusinessAccounts()
       // return shops.fetchCommerceCatalogs('2457078727940351')
@@ -27,4 +28,13 @@ exports.testRoute = (req, res) => {
       sendErrorResponse(res, 500, `Failed to test shops
       ${JSON.stringify(err)}`)
     })
+}
+
+exports.checkFacebookPermissions = async (req, res) => {
+  let facebookInfo = req.user.facebookInfo
+  if (req.user.role !== 'buyer') {
+    facebookInfo = req.user.buyerInfo.facebookInfo
+  }
+  const permissions = await logiclayer.checkFacebookPermissions(facebookInfo)
+  sendSuccessResponse(res, 200, {permissionsGiven: permissions})
 }

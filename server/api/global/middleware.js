@@ -95,3 +95,37 @@ function isApprovedForSMP (page) {
     }
   })
 }
+
+exports.attachBuyerInfo = () => {
+  return compose().use((req, res, next) => {
+    callApi(`companyUser/query`, 'post', { companyId: req.user.companyId, role: 'buyer' })
+      .then(buyerInfo => {
+        if (!buyerInfo) {
+          return res.status(404).json({
+            status: 'failed',
+            description: 'The buyer account has some technical problems. Please contact support'
+          })
+        }
+        return callApi(`user/query`, 'post', {domain_email: buyerInfo.domain_email})
+      })
+      .then(buyerInfo => {
+        buyerInfo = buyerInfo[0]
+        if (!buyerInfo) {
+          return res.status(404).json({
+            status: 'failed',
+            description: 'The buyer account has some technical problems. Please contact support'
+          })
+        }
+        req.user.buyerInfo = buyerInfo
+        next()
+      })
+      .catch(error => {
+        const message = error || 'Failed to fetch buyer account'
+        logger.serverLog(message, `${TAG}: attachBuyerInfo`, req.body, {user: req.user}, 'error')
+        return res.status(500).json({
+          status: 'failed',
+          payload: `Failed to fetch buyer account ${JSON.stringify(error)}`
+        })
+      })
+  })
+}
