@@ -203,6 +203,8 @@ module.exports = class EcommerceProvidersApiLayer {
       return shopifyProvider.getOrderStatus(id, this.eCommerceProviderCredentials)
     } else if (this.eCommerceProvider === providers.bigcommerce) {
       return bigCommerceProvider.getOrderStatus(id, this.eCommerceProviderCredentials)
+    } else if (this.eCommerceProvider === providers.shops) {
+      return shopsProvider.getOrderStatus(id, this.eCommerceProviderCredentials)
     }
   }
 
