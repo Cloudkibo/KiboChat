@@ -7,13 +7,7 @@ exports.getNormalizedMessageReceivedData = (event) => {
     try {
       let sender = event.payload.sender
       let payload = event.payload
-      let businessNumber = event.businessNumber.replace(/\D/g, '')
-      let query = {
-        $or: [
-          {'whatsApp.businessNumber': businessNumber},
-          {'whatsApp.businessNumber': `+${businessNumber}`}
-        ]
-      }
+      let query = {'whatsApp.appName': {$regex: event.app, $options: 'i'}}
       callApi(`companyprofile/query`, 'post', query)
         .then(company => {
           if (company) {
