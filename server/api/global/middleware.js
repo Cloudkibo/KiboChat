@@ -70,7 +70,12 @@ function isApprovedForSMP (page) {
       )
         .then(response => {
           if (response.body.error) {
-            reject(response.body.error)
+            // handling "This action was not submitted due to new privacy rules in Europe." error
+            if (response.body.error.code === 10 && response.body.error.subcode === 2018336) {
+              resolve('rejected')
+            } else {
+              reject(response.body.error)
+            }
           } else {
             let data = response.body.data
             let smp = data.filter((d) => d.feature === 'subscription_messaging')
