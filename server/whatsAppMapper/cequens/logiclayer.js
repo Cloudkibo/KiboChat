@@ -13,7 +13,7 @@ exports.prepareSendMessagePayload = (body) => {
       let templateArguments = body.payload.templateArguments.split(',')
       MessageObject.type = 'template'
       MessageObject['template'] = {
-        namespace: body.payload.templateNameSpace,
+        namespace: body.payload.templateId,
         name: body.payload.templateName,
         language: {
           policy: 'deterministic',
@@ -93,7 +93,7 @@ exports.prepareInvitationPayload = (body, number) => {
     recipient_type: 'individual',
     type: 'template',
     template: {
-      namespace: body.payload.templateNameSpace,
+      namespace: body.payload.templateId,
       name: body.payload.templateName,
       language: {
         policy: 'deterministic',

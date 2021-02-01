@@ -7,6 +7,7 @@ const crypto = require('crypto')
 const needle = require('needle')
 
 exports.prepareSendMessagePayload = (body) => {
+  let route = 'msg'
   let from = body.whatsApp.businessNumber.replace(/\D/g, '')
   let to = body.recipientNumber.replace(/\D/g, '')
   let appName = body.whatsApp.appName
@@ -14,9 +15,13 @@ exports.prepareSendMessagePayload = (body) => {
   let MessageObject = `channel=whatsapp&source=${from}&destination=${to}&src.name=${appName}`
   if (componentType === 'text') {
     if (body.payload.templateName) {
-      MessageObject.template_name = body.payload.templateName
-      MessageObject.template_argument = body.payload.templateArguments
-      MessageObject.language = 'en'
+      let templateArguments = body.payload.templateArguments.split(',')
+      let message = JSON.stringify({
+        id: body.payload.templateId,
+        params: templateArguments
+      })
+      route = 'template/msg'
+      MessageObject = MessageObject + `&template=${message}`
     } else {
       MessageObject = MessageObject + `&message.type=text&message.text=${body.payload.text}`
     }
@@ -56,6 +61,42 @@ exports.prepareSendMessagePayload = (body) => {
     }
     MessageObject = MessageObject + `&message=${message}`
   }
+  return {MessageObject, route}
+}
+exports.prepareTemplates = (gupshupTemplates) => {
+  let templates = []
+  for (let i = 0; i < gupshupTemplates.length; i++) {
+    if (gupshupTemplates[i].status === 'APPROVED' || gupshupTemplates[i].status === 'SANDBOX_REQUESTED') {
+      let template = {}
+      template.code = gupshupTemplates[i].languageCode
+      template.id = gupshupTemplates[i].id
+      template.name = gupshupTemplates[i].elementName
+      template.text = gupshupTemplates[i].data
+      let argumentsRegex = /{{[0-9]}}/g
+      let templateArguments = template.text.match(argumentsRegex) ? template.text.match(argumentsRegex).join(',') : ''
+      template.templateArguments = templateArguments
+      let regex = template.text.replace('.', '\\.')
+      regex = regex.replace(argumentsRegex, '(.*)')
+      template.regex = `^${regex}$`
+      if (!template.buttons) {
+        template.buttons = []
+      }
+      templates.push(template)
+    }
+  }
+  return templates
+}
+exports.prepareInvitationPayload = (body, number) => {
+  let templateArguments = body.payload.templateArguments.split(',')
+  let from = body.whatsApp.businessNumber.replace(/\D/g, '')
+  let to = number.replace(/\D/g, '')
+  let appName = body.whatsApp.appName
+  let MessageObject = `channel=whatsapp&source=${from}&destination=${to}&src.name=${appName}`
+  let message = JSON.stringify({
+    id: body.payload.templateId,
+    params: templateArguments
+  })
+  MessageObject = MessageObject + `&template=${message}`
   return MessageObject
 }
 
