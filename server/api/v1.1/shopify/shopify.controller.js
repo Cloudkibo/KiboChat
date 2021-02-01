@@ -131,6 +131,7 @@ exports.handleCompleteCheckout = function (req, res) {
     }
     callApi(`whatsAppContacts/update`, 'put', updateData)
     callApi(`subscribers/update`, 'put', updateData)
+    return sendSuccessResponse(res, 200, {status: 'success'})
   } catch (err) {
     const message = err || 'Error processing shopify complete checkout webhook '
     logger.serverLog(message, `${TAG}: exports.handleCompleteCheckout`, req.body, {header: req.header}, 'error')
@@ -138,10 +139,11 @@ exports.handleCompleteCheckout = function (req, res) {
 }
 
 exports.handleAppUninstall = async function (req, res) {
+  console.log('shopify handleAppUninstall')
   const shopUrl = req.header('X-Shopify-Shop-Domain')
   try {
     const shopifyIntegration = await dataLayer.findOneShopifyIntegration({ shopUrl: shopUrl })
-
+    console.log('shopifyIntegration', shopifyIntegration)
     dataLayer.deleteShopifyIntegration({
       shopToken: shopifyIntegration.shopToken,
       shopUrl: shopifyIntegration.shopUrl,
