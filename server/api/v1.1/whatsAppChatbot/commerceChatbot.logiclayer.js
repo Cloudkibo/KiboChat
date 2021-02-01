@@ -183,7 +183,8 @@ const getViewCatalogBlock = (chatbot, backId, contact) => {
           text: ``,
           componentType: 'text',
           specialKeys: {
-            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
+            [ORDER_STATUS_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
           }
         }
       ],
@@ -212,7 +213,8 @@ const getViewCatalogBlock = (chatbot, backId, contact) => {
   }
 }
 
-const getCancelOrderBlock = (chatbot, backId, EcommerceProvider, orderId, input) => {
+const getCancelOrderBlock = async (chatbot, backId, EcommerceProvider, argument) => {
+  let orderId = argument.id.split('//')[1].split('/')[2]
   try {
     const messageBlock = {
       module: {
@@ -226,16 +228,18 @@ const getCancelOrderBlock = (chatbot, backId, EcommerceProvider, orderId, input)
           text: ``,
           componentType: 'text',
           specialKeys: {
-            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
+            [ORDER_STATUS_KEY]: { type: DYNAMIC, action: VIEW_RECENT_ORDERS },
+            [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART }
           }
         }
       ],
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    let canceledOrder = true
-    if (canceledOrder) {
-      messageBlock.payload[0].text += `Your order with orderId: ${orderId} has been successfully canceled.`
+    let canceledOrder = await EcommerceProvider.cancelAnOrder(orderId)
+    if (canceledOrder && canceledOrder.confirmed) {
+      messageBlock.payload[0].text += `Your order with orderId: ${argument.orderId} has been successfully canceled.`
     } else {
       messageBlock.payload[0].text += `Your order could not be canceled.`
     }
@@ -550,7 +554,7 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
       tempCustomerPayload = contact.commerceCustomerShopify
     }
     if (tempCustomerPayload) {
-      recentOrders = await EcommerceProvider.findCustomerOrders(tempCustomerPayload.id, 9)
+      let recentOrders = await EcommerceProvider.findCustomerOrders(tempCustomerPayload.id, 9)
       recentOrders = recentOrders.orders
       if (recentOrders.length > 0) {
         messageBlock.payload[0].text = 'Select an order by sending the corresponding number for it or enter an order ID:\n'
@@ -643,8 +647,7 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
             [BACK_KEY]: { type: STATIC, blockId: backId },
             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
             'i': { type: DYNAMIC, action: GET_INVOICE, argument: orderId },
-            'o': { type: DYNAMIC, action: VIEW_RECENT_ORDERS },
-            'x': { type: DYNAMIC, action: CANCEL_ORDER, argument: orderId }
+            'o': { type: DYNAMIC, action: VIEW_RECENT_ORDERS }
           }
         }
       ],
@@ -656,7 +659,7 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
       userError = true
       throw new Error('Unable to get order status. Please make sure your order ID is valid and that the order was placed within the last 60 days.')
     }
-
+    messageBlock.payload[0].specialKeys['x'] = { type: DYNAMIC, action: CANCEL_ORDER, argument: { id: orderStatus.id, orderId } }
     if (orderStatus.displayFinancialStatus) {
       messageBlock.payload[0].text += `\n*Payment*: ${orderStatus.displayFinancialStatus}`
     }

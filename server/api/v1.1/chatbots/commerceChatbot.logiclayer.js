@@ -678,7 +678,7 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, contact, 
       messageBlock.payload[0].buttons = [{
         type: 'postback',
         title: 'Cancel Order',
-        payload: JSON.stringify({ type: DYNAMIC, action: CANCEL_ORDER, argument: orderId })
+        payload: JSON.stringify({ type: DYNAMIC, action: CANCEL_ORDER, argument: { id: orderStatus.id, orderId } })
       }]
     }
 
@@ -2687,7 +2687,8 @@ const updatedAddressBlockedMessage = async (chatbot, contact, argument) => {
 
   return messageBlock
 }
-const getCancelOrderBlock = (chatbot, backId, EcommerceProvider, orderId, input) => {
+const getCancelOrderBlock = async (chatbot, backId, EcommerceProvider, argument) => {
+  let orderId = argument.id.split('//')[1].split('/')[2]
   try {
     const messageBlock = {
       module: {
@@ -2722,9 +2723,9 @@ const getCancelOrderBlock = (chatbot, backId, EcommerceProvider, orderId, input)
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    let canceledOrder = true
-    if (canceledOrder) {
-      messageBlock.payload[0].text += `Your order with orderId: ${orderId} has been successfully canceled.`
+    let canceledOrder = await EcommerceProvider.cancelAnOrder(orderId)
+    if (canceledOrder && canceledOrder.confirmed) {
+      messageBlock.payload[0].text += `Your order with orderId: ${argument.orderId} has been successfully canceled.`
     } else {
       messageBlock.payload[0].text += `Your order could not be canceled.`
     }
