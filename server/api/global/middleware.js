@@ -71,7 +71,7 @@ function isApprovedForSMP (page) {
         .then(response => {
           if (response.body.error) {
             // handling "This action was not submitted due to new privacy rules in Europe." error
-            if (response.body.error.code === 10 && response.body.error.subcode === 2018336) {
+            if (response.body.error.code === 10 && response.body.error.error_subcode === 2018336) {
               resolve('rejected')
             } else {
               reject(response.body.error)
