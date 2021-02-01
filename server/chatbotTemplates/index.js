@@ -1,6 +1,7 @@
 const { prepareInvalidResponse } = require('./utility')
 const { getChatbotResponse } = require('./kiboautomation.layer.js')
 const { SPECIALKEYWORDS, transformSpecialKeywords } = require('./specialKeywords')
+const { clearShoppingCart } = require('./commerceAPI.layer')
 
 exports.handleUserInput = function (chatbot, inputData, subscriber, channel) {
   return new Promise(async (resolve, reject) => {
@@ -19,6 +20,10 @@ exports.handleUserInput = function (chatbot, inputData, subscriber, channel) {
         const option = await getOption(inputText, subscriber)
         if (option.validCode) {
           response = await getChatbotResponse(chatbot, option.event, subscriber, option, true)
+          if (option.event === 'cart-clear-success') {
+            subscriber.shoppingCart = []
+            clearShoppingCart(subscriber)
+          }
         } else {
           response = {
             chatbotResponse: await prepareInvalidResponse(chatbot, subscriber, 'You have entered an incorrect option.')

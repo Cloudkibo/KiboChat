@@ -12,14 +12,14 @@ exports.prepareInvalidResponse = function (chatbot, subscriber, message) {
   })
 }
 
-function prepareResponse (chatbot, subscriber, automationResponse) {
+function prepareResponse (chatbot, subscriber, automationResponse, selectedOption) {
   return new Promise((resolve, reject) => {
     let response = []
     let text = ''
     if (automationResponse.options === 'PRODUCTS_NOT_FOUND') {
       text = `No products found!\n\n${prepareText(automationResponse.text, chatbot, subscriber)}`
     } else {
-      text = prepareText(automationResponse.text, chatbot, subscriber)
+      text = prepareText(automationResponse.text, chatbot, subscriber, selectedOption)
       if (automationResponse.options && automationResponse.options.length > 0) {
         text = `${text}\n`
         automationResponse.options.forEach((item, i) => {
@@ -45,10 +45,11 @@ function prepareResponse (chatbot, subscriber, automationResponse) {
   })
 }
 
-function prepareText (text, chatbot, subscriber) {
+function prepareText (text, chatbot, subscriber, selectedOption = {}) {
   text = text.replace('__fullName__', subscriber.name)
   text = text.replace('__chatbotName__', chatbot.storeType)
   text = text.replace('__storeName__', 'CloudKibo Test Store')
+  text = text.replace('__productName__', `*${selectedOption.productName || selectedOption.label}*`)
   return text
 }
 

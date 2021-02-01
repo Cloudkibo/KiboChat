@@ -28,7 +28,7 @@ exports.getChatbotResponse = function (chatbot, userInput, subscriber, selectedO
             }
           }
         }
-        chatbotResponse = await prepareResponse(chatbot, subscriber, automationResponse)
+        chatbotResponse = await prepareResponse(chatbot, subscriber, automationResponse, selectedOption)
       }
       resolve({
         chatbotResponse,
