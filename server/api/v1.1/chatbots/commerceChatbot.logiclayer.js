@@ -44,7 +44,8 @@ const {
   CHECK_ORDERS,
   ASK_ORDER_ID,
   GET_INVOICE,
-  GET_CHECKOUT_INFO
+  GET_CHECKOUT_INFO,
+  VIEW_CATALOG
 } = require('./constants')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/chatbots/commerceChatbot.logiclayer.js'
@@ -134,6 +135,11 @@ exports.getMessageBlocks = (chatbot, storeName) => {
           },
           {
             content_type: 'text',
+            title: 'View catalog',
+            payload: JSON.stringify({ type: DYNAMIC, action: VIEW_CATALOG })
+          },
+          {
+            content_type: 'text',
             title: 'Check order status',
             payload: JSON.stringify({ type: DYNAMIC, action: VIEW_RECENT_ORDERS })
           },
@@ -166,6 +172,58 @@ exports.getMessageBlocks = (chatbot, storeName) => {
   }
   messageBlockDataLayer.createBulkMessageBlocks(messageBlocks)
   return messageBlocks
+}
+
+const getViewCatalogBlock = (chatbot, backId, contact) => {
+  try {
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_commerce_chatbot'
+      },
+      title: 'View Catalog',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: ``,
+          componentType: 'text'
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    if (chatbot.botLinks.catalogUrl) {
+      messageBlock.payload[0].text = `Here is our catalog. Please wait a moment for it to send.`
+      messageBlock.payload.push({
+        componentType: 'file',
+        fileurl: {
+          url: chatbot.botLinks.catalogUrl
+        },
+        fileName: `catalog.pdf`,
+        quickReplies: [
+          {
+            content_type: 'text',
+            title: 'Go Home',
+            payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
+          }
+        ]
+      })
+    } else {
+      messageBlock.payload[0].text = `No catalog currently available.`
+      messageBlock.payload[0].quickReplies = [
+        {
+          content_type: 'text',
+          title: 'Go Home',
+          payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
+        }
+      ]
+    }
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable get talk to agent message block'
+    logger.serverLog(message, `${TAG}: getTalkToAgentBlock`, {}, {chatbot, backId, contact}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to notify customer support agent`)
+  }
 }
 
 const getTalkToAgentBlock = (chatbot, contact) => {
@@ -347,6 +405,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
       }
 
       if (products.nextPageParameters) {
+        console.log('products.nextPageParameters', products.nextPageParameters)
         messageBlock.payload[1].cards.push({
           title: 'View More',
           subtitle: `Click on the "View More" button to view more products`,
@@ -599,6 +658,21 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, contact, 
     }
     if (orderStatus.displayFulfillmentStatus) {
       messageBlock.payload[0].text += `\nDelivery: ${orderStatus.displayFulfillmentStatus}`
+    }
+    if (orderStatus.displayFulfillmentStatus.toLowerCase() === 'fulfilled' && orderStatus.fulfillments) {
+      if (orderStatus.fulfillments[0]) {
+        let trackingDetails = orderStatus.fulfillments[0].trackingInfo && orderStatus.fulfillments[0].trackingInfo[0] ? orderStatus.fulfillments[0].trackingInfo[0] : null
+        if (trackingDetails) {
+          messageBlock.payload[0].text += `\n\n*Tracking Details*`
+          messageBlock.payload[0].text += `\n*Company*: ${trackingDetails.company}`
+          messageBlock.payload[0].text += `\n*Number*: ${trackingDetails.number}`
+          messageBlock.payload[0].buttons = [{
+            type: 'web_url',
+            title: 'Tracking Link',
+            url: trackingDetails.url
+          }]
+        }
+      }
     }
 
     if (orderStatus.lineItems && orderStatus.lineItems.length > 0) {
@@ -1668,7 +1742,7 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
             quickReplies: []
           }
         )
-        messageBlock.payload[0].text = 'Here are your recently placed orders. Select an order to view its status:'
+        messageBlock.payload[0].text = 'Here are your recently placed orders. Select an order to view its status or enter an order ID:'
         for (let i = 0; i < recentOrders.length; i++) {
           const totalPrice = Number(recentOrders[i].totalPriceSet.presentmentMoney.amount)
           const currency = recentOrders[i].totalPriceSet.presentmentMoney.currencyCode
@@ -1687,18 +1761,15 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
           })
         }
       } else {
-        messageBlock.payload[0].text = 'You have not placed any orders within the last 60 days.'
+        messageBlock.payload[0].text = 'You have not placed any orders within the last 60 days. If you have an order ID, you can enter that to view its status.'
       }
     } else {
-      messageBlock.payload[0].text = 'You have not placed any orders yet.'
+      messageBlock.payload[0].text = 'You have not placed any orders yet. If you have an order ID, you can enter that to view its status.'
     }
 
+    messageBlock.payload[messageBlock.payload.length - 1].action = { type: DYNAMIC, action: ORDER_STATUS, input: true }
+
     messageBlock.payload[messageBlock.payload.length - 1].quickReplies.push(
-      {
-        content_type: 'text',
-        title: 'View Specific Order Status',
-        payload: JSON.stringify({ type: DYNAMIC, action: ASK_ORDER_ID })
-      },
       {
         content_type: 'text',
         title: 'Show my Cart',
@@ -3055,6 +3126,10 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
               }
               case GET_INVOICE: {
                 messageBlock = await getInvoiceBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument)
+                break
+              }
+              case VIEW_CATALOG: {
+                messageBlock = await getViewCatalogBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
                 break
               }
             }
