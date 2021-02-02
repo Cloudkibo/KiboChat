@@ -650,13 +650,6 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, contact, 
       companyId: chatbot.companyId
     }
     let orderStatus = await EcommerceProvider.checkOrderStatus(Number(orderId))
-    let attempts = 0
-    const maxAttempts = 10
-    while (!orderStatus && attempts < maxAttempts) {
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      orderStatus = await EcommerceProvider.checkOrderStatus(Number(orderId))
-      attempts++
-    }
     if (!orderStatus) {
       userError = true
       throw new Error('Unable to get order status. Please make sure your order ID is valid and that the order was placed within the last 60 days.')
@@ -2891,6 +2884,13 @@ const getInvoiceBlock = async (chatbot, contact, backId, EcommerceProvider, orde
       companyId: chatbot.companyId
     }
     let orderStatus = await EcommerceProvider.checkOrderStatus(Number(orderId))
+    let attempts = 0
+    const maxAttempts = 10
+    while (!orderStatus && attempts < maxAttempts) {
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      orderStatus = await EcommerceProvider.checkOrderStatus(Number(orderId))
+      attempts++
+    }
     if (!orderStatus) {
       userError = true
       throw new Error('Unable to get order status. Please make sure your order ID is valid and that the order was placed within the last 60 days.')
@@ -3226,7 +3226,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
               case CANCEL_ORDER: {
                 messageBlock = await getCancelOrderBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument, action.input ? input : '')
                 break
-              } 
+              }
             }
             await messageBlockDataLayer.createForMessageBlock(messageBlock)
             return messageBlock
