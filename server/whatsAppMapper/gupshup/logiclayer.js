@@ -34,14 +34,13 @@ exports.prepareSendMessagePayload = (body) => {
     }
   } else {
     let message
+    let url = body.payload.fileurl.url || body.payload.fileurl
     if (componentType === 'sticker') {
-      let url = body.payload.fileurl.url || body.payload.fileurl
       message = JSON.stringify({
         type: 'sticker',
         url: url.split('?')[0]
       })
     } else if (componentType === 'image') {
-      let url = body.payload.fileurl.url || body.payload.fileurl
       message = JSON.stringify({
         type: 'image',
         originalUrl: url,
@@ -51,19 +50,19 @@ exports.prepareSendMessagePayload = (body) => {
     } else if (componentType === 'video' || componentType === 'gif') {
       message = JSON.stringify({
         type: 'video',
-        url: body.payload.fileurl.url || body.payload.fileurl,
+        url: url,
         caption: body.payload.caption
       })
     } else if (componentType === 'file') {
       message = JSON.stringify({
         type: 'file',
-        url: body.payload.fileurl.url || body.payload.fileurl,
+        url: url,
         filename: body.payload.fileName
       })
     } else if (componentType === 'audio') {
       message = JSON.stringify({
         type: 'audio',
-        url: body.payload.fileurl.url || body.payload.fileurl
+        url: url
       })
     }
     MessageObject = MessageObject + `&message=${message}`
@@ -118,11 +117,11 @@ exports.prepareChatbotPayload = (company, contact, payload, options) => {
     let appName = company.whatsApp.appName
     let componentType = payload.componentType
     let MessageObject = `channel=whatsapp&source=${from}&destination=${to}&src.name=${appName}`
-    if (componentType === 'text') {
+    if (componentType === 'text' || componentType === 'card') {
       MessageObject = MessageObject + `&message.type=text&message.text=${payload.text}`
     } else {
       let message
-      let url = payload.fileurl.url
+      let url = payload.fileurl && payload.fileurl.url
       if (componentType === 'image' || payload.mediaType === 'image') {
         message = JSON.stringify({
           type: 'image',
@@ -147,8 +146,6 @@ exports.prepareChatbotPayload = (company, contact, payload, options) => {
           url: url,
           caption: payload.caption
         })
-      } else if (componentType === 'card') {
-        MessageObject = MessageObject + `&message.type=text&message.text=${payload.text}`
       }
       MessageObject = MessageObject + `&message=${message}`
     }
