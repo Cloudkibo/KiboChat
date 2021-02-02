@@ -385,9 +385,9 @@ exports.updateCommerceChatbot = async (req, res) => {
   let updatedChatbot = await datalayer.findOneChatBot({
     _id: req.body.chatbotId
   })
-  if (req.body.botLinks && req.body.botLinks.faqs) {
-    commerceLogicLayer.updateFaqsForStartingBlock(updatedChatbot)
-  }
+  // if (req.body.botLinks && req.body.botLinks.faqs) {
+  //   commerceLogicLayer.updateFaqsForStartingBlock(updatedChatbot)
+  // }
   if (req.body.triggers) {
     msgBlockDataLayer.genericUpdateMessageBlock({ uniqueId: updatedChatbot.startingBlockId }, {
       triggers: req.body.triggers
