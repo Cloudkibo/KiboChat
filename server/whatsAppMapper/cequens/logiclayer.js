@@ -76,7 +76,7 @@ exports.prepareTemplates = () => {
   let templates = [
     {
       name: 'cequens_autoreply',
-      namespace: 'c088281d_2079_43e6_820e_5389ef88806d',
+      id: 'c088281d_2079_43e6_820e_5389ef88806d',
       code: 'en',
       text: 'This is automated message regarding to your Ticket No. {{1}}. We have received your request and will get back to you within 1 working day',
       templateArguments: '{{1}}',

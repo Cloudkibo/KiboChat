@@ -13,8 +13,10 @@ const { kibochat, kiboengage } = require('../../global/constants').serverConstan
 const async = require('async')
 const shopifyDataLayer = require('../shopify/shopify.datalayer')
 const bigCommerceDataLayer = require('../bigcommerce/bigcommerce.datalayer')
+const facebookShopsDataLayer = require('../facebookshops/facebookShops.datalayer')
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
 const EcommerceProvider = require('../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 
 exports.index = function (req, res) {
   callApi(`pages/query`, 'post', { companyId: req.user.companyId, connected: true })
@@ -42,6 +44,7 @@ exports.create = function (req, res) {
   let payload = logiclayer.preparePayload(req.user.companyId, req.user._id, req.body)
   datalayer.createForChatBot(payload)
     .then(chatbot => {
+      updateCompanyUsage(req.user.companyId, 'chatbot_automation', 1)
       _sendToClientUsingSocket(chatbot)
       return sendSuccessResponse(res, 201, chatbot, null)
     })
@@ -385,9 +388,9 @@ exports.updateCommerceChatbot = async (req, res) => {
   let updatedChatbot = await datalayer.findOneChatBot({
     _id: req.body.chatbotId
   })
-  if (req.body.botLinks && req.body.botLinks.faqs) {
-    commerceLogicLayer.updateFaqsForStartingBlock(updatedChatbot)
-  }
+  // if (req.body.botLinks && req.body.botLinks.faqs) {
+  //   commerceLogicLayer.updateFaqsForStartingBlock(updatedChatbot)
+  // }
   if (req.body.triggers) {
     msgBlockDataLayer.genericUpdateMessageBlock({ uniqueId: updatedChatbot.startingBlockId }, {
       triggers: req.body.triggers
@@ -406,6 +409,12 @@ exports.updateCommerceChatbot = async (req, res) => {
       ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
         shopToken: bigCommerceIntegration.shopToken,
         storeHash: bigCommerceIntegration.payload.context
+      })
+    } else if (req.body.storeType === commerceConstants.facebookshop) {
+      const facebookShopsIntegration = await facebookShopsDataLayer.findOneFacebookShop({ companyId: req.user.companyId })
+      ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
+        shopToken: facebookShopsIntegration.shopToken,
+        storeHash: facebookShopsIntegration.payload.context
       })
     }
     if (ecommerceProvider) {
@@ -429,6 +438,12 @@ exports.createCommerceChatbot = async (req, res) => {
       ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
         shopToken: bigCommerceIntegration.shopToken,
         storeHash: bigCommerceIntegration.payload.context
+      })
+    } else if (req.body.storeType === commerceConstants.facebookshop) {
+      const facebookShopsIntegration = await facebookShopsDataLayer.findOneFacebookShop({ companyId: req.user.companyId })
+      ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
+        shopToken: facebookShopsIntegration.shopToken,
+        storeHash: facebookShopsIntegration.payload.context
       })
     }
     if (ecommerceProvider) {
