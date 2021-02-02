@@ -561,7 +561,7 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
       tempCustomerPayload = contact.commerceCustomerShopify
     }
     if (tempCustomerPayload) {
-      let recentOrders = await EcommerceProvider.findCustomerOrders(tempCustomerPayload.id, 9)
+      recentOrders = await EcommerceProvider.findCustomerOrders(tempCustomerPayload.id, 9)
       recentOrders = recentOrders.orders
       if (recentOrders.length > 0) {
         messageBlock.payload[0].text = 'Select an order by sending the corresponding number for it or enter an order ID:\n'
