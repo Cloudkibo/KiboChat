@@ -131,6 +131,7 @@ exports.handleCompleteCheckout = function (req, res) {
     }
     callApi(`whatsAppContacts/update`, 'put', updateData)
     callApi(`subscribers/update`, 'put', updateData)
+    return sendSuccessResponse(res, 200, {status: 'success'})
   } catch (err) {
     const message = err || 'Error processing shopify complete checkout webhook '
     logger.serverLog(message, `${TAG}: exports.handleCompleteCheckout`, req.body, {header: req.header}, 'error')
@@ -138,10 +139,11 @@ exports.handleCompleteCheckout = function (req, res) {
 }
 
 exports.handleAppUninstall = async function (req, res) {
+  console.log('shopify handleAppUninstall')
   const shopUrl = req.header('X-Shopify-Shop-Domain')
   try {
     const shopifyIntegration = await dataLayer.findOneShopifyIntegration({ shopUrl: shopUrl })
-
+    console.log('shopifyIntegration', shopifyIntegration)
     dataLayer.deleteShopifyIntegration({
       shopToken: shopifyIntegration.shopToken,
       shopUrl: shopifyIntegration.shopUrl,
@@ -348,8 +350,9 @@ exports.testRoute = (req, res) => {
         shopToken: shopifyIntegration.shopToken
       })
       // return shopify.fetchProductsInThisCategory(166185566271)
-      // return shopify.findCustomerOrders('1264935993407')
+      // return shopify.findCustomerOrders('4573544054966')
       // return shopify.checkOrderStatus('1125')
+      return shopify.cancelAnOrder('3181202735286')
       // return shopify.createPermalinkForCart({
       // email: 'sojharo@gmail.com',
       // first_name: 'sojharo',
@@ -360,7 +363,7 @@ exports.testRoute = (req, res) => {
       // }])
       // return shopify.searchProducts('Kurti')
       // return shopify.getVariantsOfSelectedProduct('4885559935039')
-      return shopify.searchCustomerUsingEmail('sojharo@gmail.com')
+      // return shopify.searchCustomerUsingEmail('sojharo@live.com')
       // return shopify.createTestOrder(
       //   { id: '3634555748415' },
       //   [{

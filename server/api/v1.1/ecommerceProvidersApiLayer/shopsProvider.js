@@ -21,6 +21,8 @@
 // - /<PRODUCT_CATALOG_ID>//products?filter=Satin&fields=condition,id,name,category
 // filter must be json encoded string
 //
+// permissions to apply for:
+// commerce_account_read_orders, commerce_account_manage_orders, catalog_management, business_management
 
 const needle = require('needle')
 
@@ -52,17 +54,19 @@ exports.fetchCommerceCatalogs = (businessId, credentials) => {
   })
 }
 
-exports.fetchAllProductCategories = (name, credentials) => {
+exports.fetchAllProductCategories = (catalogId, credentials) => {
   const params = initShops(credentials)
   return new Promise(function (resolve, reject) {
-    needle('get', `${API_URL}/cities?access_key=${params}&search=${name}`)
+    const fields = 'categorization_criteria=CATEGORY'
+    needle('get', `${API_URL}/${catalogId}/categories?access_token=${params}&${fields}`)
       .then(result => {
         result = result.body
         let payload = result.data
-        payload = payload.map(item => {
+        payload = payload.map(category => {
           return {
-            categoryName: item.name,
-            categoryId: item.id
+            id: category.destination_uri,
+            name: category.name,
+            image: category.image_url
           }
         })
         resolve(payload)
@@ -143,6 +147,66 @@ exports.searchProducts = (query, catalogId, credentials) => {
             image: product.image_url
           }
         })
+        resolve(payload)
+      })
+      .catch(err => reject(err))
+  })
+}
+
+exports.getOrderStatus = (id, credentials) => {
+  const params = initShops(credentials)
+  return new Promise(function (resolve, reject) {
+    let payload = {}
+    const fields = 'fields=id,order_status,created,channel,shipping_address,buyer_details'
+    needle('get', `${API_URL}/${id}?access_token=${params}&${fields}`)
+      .then(result => {
+        result = result.body
+        payload = {
+          id: result.id,
+          name: result.id,
+          status: result.order_status,
+          createdAt: result.created,
+          channel: result.channel,
+          billingAddress: {
+            name: result.shipping_address.name,
+            address1: result.shipping_address.street1,
+            address2: result.shipping_address.street2,
+            city: result.shipping_address.city,
+            province: result.shipping_address.state,
+            country: result.shipping_address.country
+          },
+          shippingAddress: {
+            name: result.shipping_address.name,
+            address1: result.shipping_address.street1,
+            address2: result.shipping_address.street2,
+            city: result.shipping_address.city,
+            province: result.shipping_address.state,
+            country: result.shipping_address.country
+          },
+          customer: {
+            firstName: result.buyer_details.name,
+            email: result.buyer_details.email
+          },
+          email: result.buyer_details.email
+        }
+        const itemsFields = 'fields=id,product_name,quantity,price_per_unit,product_id'
+        return needle('get', `${API_URL}/${id}/items?access_token=${params}&${itemsFields}`)
+      })
+      .then(async items => {
+        items = items.body.data
+        payload.lineItems = await Promise.all(items.map(async item => {
+          let productDetails = await needle('get', `${API_URL}/${item.product_id}?access_token=${params}`)
+          return {
+            id: item.id,
+            title: item.product_name,
+            name: item.product_name,
+            variant_title: item.product_name,
+            price: item.price_per_unit.amount,
+            currency: item.price_per_unit.currency,
+            quantity: item.quantity,
+            image: productDetails.body.image_url
+          }
+        }))
         resolve(payload)
       })
       .catch(err => reject(err))
