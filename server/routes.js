@@ -69,6 +69,7 @@ module.exports = function (app) {
   app.use('/api/shopify', require('./api/v1.1/shopify'))
   app.use('/api/whatsAppChatbot', require('./api/v1.1/whatsAppChatbot'))
   app.use('/api/adminAlerts', require('./api/v1.1/adminAlerts'))
+  app.use('/api/addOns', require('./api/v1.1/addOns'))
   app.use('/api/whatsAppEvents', require('./api/v1.1/whatsAppEvents'))
   app.use('/api/backdoor', require('./api/v1.1/backdoor'))
   app.use('/api/configure/chatbot', require('./api/v1.1/configureChatbot'))
@@ -76,6 +77,7 @@ module.exports = function (app) {
   app.use('/api/attachment', require('./api/v1.1/attachment'))
   app.use('/api/airlines', require('./api/v1.1/airlinesChatbot'))
   app.use('/api/companyPreferences', require('./api/v1.1/companyPreferences'))
+  app.use('/api/fbshops', require('./api/v1.1/facebookshops'))
   // auth middleware go here if you authenticate on same server
 
   app.get('/invoices/:shopId/:fileName', (req, res) => {
