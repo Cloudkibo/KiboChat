@@ -115,7 +115,7 @@ exports.prepareChatbotPayload = (company, contact, payload, options) => {
       payload.text = payload.text + appendOptions(options)
       MessageObject = MessageObject + `&message.type=text&message.text=${payload.text}`
     } else if (componentType === 'card') {
-      MessageObject = MessageObject + `&message.type=text&message.text=${payload.text}`
+      MessageObject = MessageObject + `&message.type=text&message.text=${payload.url}`
     } else {
       let message
       let url = payload.fileurl && payload.fileurl.url
