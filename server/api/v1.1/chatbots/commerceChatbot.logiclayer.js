@@ -660,35 +660,46 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, contact, 
       userError = true
       throw new Error('Unable to get order status. Please make sure your order ID is valid and that the order was placed within the last 60 days.')
     }
+
+    let isOrderFulFilled = orderStatus.displayFulfillmentStatus.toLowerCase() === 'fulfilled'
+
+    if (!orderStatus.cancelReason) {
+      messageBlock.payload[0].buttons = [{
+        type: 'postback',
+        title: 'Cancel Order',
+        payload: JSON.stringify({ type: DYNAMIC, action: CANCEL_ORDER, argument: { id: orderStatus.id, orderId, isOrderFulFilled } })
+      }]
+    }
+
+    if (orderStatus.cancelReason) {
+      messageBlock.payload[0].text += `\n*Status*: CANCELED`
+    }
     if (orderStatus.displayFinancialStatus) {
       messageBlock.payload[0].text += `\nPayment: ${orderStatus.displayFinancialStatus}`
     }
     if (orderStatus.displayFulfillmentStatus) {
       messageBlock.payload[0].text += `\nDelivery: ${orderStatus.displayFulfillmentStatus}`
     }
-    if (orderStatus.displayFulfillmentStatus.toLowerCase() === 'fulfilled' && orderStatus.fulfillments) {
+    if (isOrderFulFilled && orderStatus.fulfillments) {
       if (orderStatus.fulfillments[0]) {
         let trackingDetails = orderStatus.fulfillments[0].trackingInfo && orderStatus.fulfillments[0].trackingInfo[0] ? orderStatus.fulfillments[0].trackingInfo[0] : null
         if (trackingDetails) {
           messageBlock.payload[0].text += `\n\n*Tracking Details*`
           messageBlock.payload[0].text += `\n*Company*: ${trackingDetails.company}`
           messageBlock.payload[0].text += `\n*Number*: ${trackingDetails.number}`
-          messageBlock.payload[0].buttons = [{
+          let trackingLink = {
             type: 'web_url',
             title: 'Tracking Link',
             url: trackingDetails.url
-          }]
+          }
+          if (messageBlock.payload[0].buttons) {
+            messageBlock.payload[0].buttons.push(trackingLink)
+          } else {
+            messageBlock.payload[0].buttons = [trackingLink]
+          }
         }
       }
     }
-    if (orderStatus.displayFulfillmentStatus.toLowerCase() === 'unfulfilled') {
-      messageBlock.payload[0].buttons = [{
-        type: 'postback',
-        title: 'Cancel Order',
-        payload: JSON.stringify({ type: DYNAMIC, action: CANCEL_ORDER, argument: { id: orderStatus.id, orderId } })
-      }]
-    }
-
     if (orderStatus.lineItems && orderStatus.lineItems.length > 0) {
       const totalOrderPrice = orderStatus.lineItems.reduce((acc, item) => acc + Number(item.price), 0)
       const currency = orderStatus.lineItems[0].currency
@@ -1758,12 +1769,18 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
         )
         messageBlock.payload[0].text = 'Here are your recently placed orders. Select an order to view its status or enter an order ID:'
         for (let i = 0; i < recentOrders.length; i++) {
+          let orderTitle
+          if (!recentOrders[i].cancelReason) {
+            orderTitle = `Order ${recentOrders[i].name}`
+          } else {
+            orderTitle = `(Canceled) Order ${recentOrders[i].name}`
+          }
           const totalPrice = Number(recentOrders[i].totalPriceSet.presentmentMoney.amount)
           const currency = recentOrders[i].totalPriceSet.presentmentMoney.currencyCode
           const totalPriceString = currency === 'USD' ? `$${totalPrice}` : `${totalPrice} ${currency}`
           messageBlock.payload[1].cards.push({
             image_url: recentOrders[i].lineItems[0].image.originalSrc,
-            title: `Order ${recentOrders[i].name}`,
+            title: orderTitle,
             subtitle: `Date/time: ${new Date(recentOrders[i].createdAt).toLocaleString()}\nTotal Price: ${totalPriceString}`,
             buttons: [
               {
@@ -2730,11 +2747,22 @@ const getCancelOrderBlock = async (chatbot, backId, EcommerceProvider, argument)
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    let canceledOrder = await EcommerceProvider.cancelAnOrder(orderId)
-    if (canceledOrder && canceledOrder.confirmed) {
-      messageBlock.payload[0].text += `Your order with orderId: ${argument.orderId} has been successfully canceled.`
+    if (!argument.isOrderFulFilled) {
+      let canceledOrder = await EcommerceProvider.cancelAnOrder(orderId)
+      if (canceledOrder && canceledOrder.confirmed) {
+        messageBlock.payload[0].text += `Your order with orderId: ${argument.orderId} has been successfully canceled.`
+      } else {
+        messageBlock.payload[0].text += `Your order could not be canceled.`
+      }
     } else {
-      messageBlock.payload[0].text += `Your order could not be canceled.`
+      messageBlock.payload[0].text += `Your order cannot be canceled as it has been shipped. For further details please talk to an agent.`
+      messageBlock.payload[0].quickReplies.unshift(
+        {
+          content_type: 'text',
+          title: 'Talk to agent',
+          payload: JSON.stringify({ type: DYNAMIC, action: TALK_TO_AGENT })
+        }
+      )
     }
     return messageBlock
   } catch (err) {
