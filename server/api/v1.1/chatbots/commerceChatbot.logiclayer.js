@@ -46,9 +46,10 @@ const {
   GET_INVOICE,
   GET_CHECKOUT_INFO,
   VIEW_CATALOG,
-  CANCEL_ORDER,
   SHOW_FAQS,
-  GET_FAQ_ANSWER
+  GET_FAQ_ANSWER,
+  RETURN_ORDER,
+  CANCEL_ORDER
 } = require('./constants')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/chatbots/commerceChatbot.logiclayer.js'
@@ -528,6 +529,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
       }
 
       if (products.nextPageParameters) {
+        console.log('products.nextPageParameters', products.nextPageParameters)
         messageBlock.payload[1].cards.push({
           title: 'View More',
           subtitle: `Click on the "View More" button to view more products`,
@@ -568,82 +570,49 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
   }
 }
 
-// const getReturnOrderIdBlock = (chatbot, blockId, messageBlocks) => {
-//   messageBlocks.push({
-//     module: {
-//       id: chatbot._id,
-//       type: 'messenger_commerce_chatbot'
-//     },
-//     title: 'Get Return Product ID',
-//     uniqueId: blockId,
-//     payload: [
-//       {
-//         text: `Please enter your order id`,
-//         componentType: 'text',
-//         action: { type: DYNAMIC, action: RETURN_ORDER, input: true },
-//         quickReplies: [
-//           {
-//             content_type: 'text',
-//             title: 'Show my Cart',
-//             payload: JSON.stringify({ type: DYNAMIC, action: SHOW_MY_CART })
-//           },
-//           {
-//             content_type: 'text',
-//             title: 'Go Home',
-//             payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
-//           }
-//         ]
-//       }
-//     ],
-//     userId: chatbot.userId,
-//     companyId: chatbot.companyId
-//   })
-// }
-
-// const getReturnOrderBlock = async (chatbot, backId, EcommerceProvider, orderId) => {
-//   try {
-//     let messageBlock = {
-//       module: {
-//         id: chatbot._id,
-//         type: 'messenger_commerce_chatbot'
-//       },
-//       title: 'Show My Cart',
-//       uniqueId: '' + new Date().getTime(),
-//       payload: [
-//         {
-//           text: dedent(`Your return request has been made.`),
-//           componentType: 'text',
-//           quickReplies: [
-//             {
-//               content_type: 'text',
-//               title: 'Show my Cart',
-//               payload: JSON.stringify({ type: DYNAMIC, action: SHOW_MY_CART })
-//             },
-//             {
-//               content_type: 'text',
-//               title: 'Go Back',
-//               payload: JSON.stringify({ type: STATIC, blockId: backId })
-//             },
-//             {
-//               content_type: 'text',
-//               title: 'Go Home',
-//               payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
-//             }
-//           ]
-//         }
-//       ],
-//       userId: chatbot.userId,
-//       companyId: chatbot.companyId
-//     }
-//     await EcommerceProvider.returnOrder(orderId)
-
-//     return messageBlock
-//   } catch (err) {
-//     const message = err || 'Unable to return order'
-//     logger.serverLog(message, `${TAG}: exports.getReturnOrderBlock`, {}, {}, 'error')
-//     throw new Error(`${ERROR_INDICATOR}Unable to return order`)
-//   }
-// }
+const getReturnOrderBlock = async (chatbot, backId, EcommerceProvider, orderId) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'messenger_commerce_chatbot'
+      },
+      title: 'Return Order',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: dedent(`Your return request has been made for order #${orderId}.`),
+          componentType: 'text',
+          quickReplies: [
+            {
+              content_type: 'text',
+              title: 'Show my Cart',
+              payload: JSON.stringify({ type: DYNAMIC, action: SHOW_MY_CART })
+            },
+            {
+              content_type: 'text',
+              title: 'Go Back',
+              payload: JSON.stringify({ type: STATIC, blockId: backId })
+            },
+            {
+              content_type: 'text',
+              title: 'Go Home',
+              payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
+            }
+          ]
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    await EcommerceProvider.returnOrder(Number(orderId))
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to return order'
+    logger.serverLog(message, `${TAG}: exports.getReturnOrderBlock`, {}, {}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to return order`)
+  }
+}
 
 const getFaqsBlock = (chatbot, blockId, messageBlocks, backId) => {
   messageBlocks.push({
@@ -794,6 +763,15 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, contact, 
     }
     if (orderStatus.displayFulfillmentStatus) {
       messageBlock.payload[0].text += `\nDelivery: ${orderStatus.displayFulfillmentStatus}`
+      if (orderStatus.displayFulfillmentStatus === 'FULFILLED') {
+        messageBlock.payload[messageBlock.payload.length - 1].quickReplies.unshift(
+          {
+            content_type: 'text',
+            title: 'Request Return',
+            payload: JSON.stringify({ type: DYNAMIC, action: RETURN_ORDER, argument: orderId })
+          }
+        )
+      }
     }
     if (isOrderFulFilled && orderStatus.fulfillments) {
       if (orderStatus.fulfillments[0]) {
@@ -3224,10 +3202,10 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
                 messageBlock = await getCheckoutBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, contact, action.argument)
                 break
               }
-              // case RETURN_ORDER: {
-              //   messageBlock = await getReturnOrderBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : '')
-              //   break
-              // }
+              case RETURN_ORDER: {
+                messageBlock = await getReturnOrderBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument)
+                break
+              }
               case REMOVE_FROM_CART: {
                 messageBlock = await getRemoveFromCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument, action.input ? input : '')
                 break
