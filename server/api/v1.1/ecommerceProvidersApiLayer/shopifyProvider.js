@@ -199,6 +199,7 @@ exports.getOrderStatus = (id, credentials) => {
         node {
           id
           name
+          cancelReason
           billingAddress {
             id
             name
@@ -424,6 +425,7 @@ exports.findCustomerOrders = (customerId, limit, credentials) => {
               node {
                 id
                 name
+                cancelReason
                 createdAt
                 totalPriceSet {
                   presentmentMoney {
