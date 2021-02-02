@@ -2389,7 +2389,7 @@ const getInvoiceBlock = async (chatbot, contact, backId, EcommerceProvider, orde
     }
     let orderStatus = await EcommerceProvider.checkOrderStatus(Number(orderId))
     let attempts = 0
-    const maxAttempts = 5
+    const maxAttempts = 10
     while (!orderStatus && attempts < maxAttempts) {
       await new Promise(resolve => setTimeout(resolve, 1000))
       orderStatus = await EcommerceProvider.checkOrderStatus(Number(orderId))
