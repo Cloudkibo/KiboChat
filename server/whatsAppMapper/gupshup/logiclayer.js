@@ -5,6 +5,7 @@ const fs = require('fs')
 let config = require('../../config/environment')
 const crypto = require('crypto')
 const needle = require('needle')
+const { appendOptions } = require('../logiclayer')
 
 exports.prepareSendMessagePayload = (body) => {
   let route = 'msg'
@@ -117,7 +118,10 @@ exports.prepareChatbotPayload = (company, contact, payload, options) => {
     let appName = company.whatsApp.appName
     let componentType = payload.componentType
     let MessageObject = `channel=whatsapp&source=${from}&destination=${to}&src.name=${appName}`
-    if (componentType === 'text' || componentType === 'card') {
+    if (componentType === 'text') {
+      payload.text = payload.text + appendOptions(options)
+      MessageObject = MessageObject + `&message.type=text&message.text=${payload.text}`
+    } else if (componentType === 'card') {
       MessageObject = MessageObject + `&message.type=text&message.text=${payload.text}`
     } else {
       let message
