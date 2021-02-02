@@ -45,7 +45,8 @@ const {
   ASK_ORDER_ID,
   GET_INVOICE,
   GET_CHECKOUT_INFO,
-  VIEW_CATALOG
+  VIEW_CATALOG,
+  CANCEL_ORDER
 } = require('./constants')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/chatbots/commerceChatbot.logiclayer.js'
@@ -673,6 +674,13 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, contact, 
           }]
         }
       }
+    }
+    if (orderStatus.displayFulfillmentStatus.toLowerCase() === 'unfulfilled') {
+      messageBlock.payload[0].buttons = [{
+        type: 'postback',
+        title: 'Cancel Order',
+        payload: JSON.stringify({ type: DYNAMIC, action: CANCEL_ORDER, argument: { id: orderStatus.id, orderId } })
+      }]
     }
 
     if (orderStatus.lineItems && orderStatus.lineItems.length > 0) {
@@ -2680,7 +2688,55 @@ const updatedAddressBlockedMessage = async (chatbot, contact, argument) => {
 
   return messageBlock
 }
-
+const getCancelOrderBlock = async (chatbot, backId, EcommerceProvider, argument) => {
+  let orderId = argument.id.split('//')[1].split('/')[2]
+  try {
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_commerce_chatbot'
+      },
+      title: 'Cancel Order',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: ``,
+          componentType: 'text',
+          quickReplies: [
+            {
+              content_type: 'text',
+              title: 'View Recent Orders',
+              payload: JSON.stringify({ type: DYNAMIC, action: VIEW_RECENT_ORDERS })
+            },
+            {
+              content_type: 'text',
+              title: 'Show my Cart',
+              payload: JSON.stringify({ type: DYNAMIC, action: SHOW_MY_CART })
+            },
+            {
+              content_type: 'text',
+              title: 'Go Home',
+              payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
+            }
+          ]
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    let canceledOrder = await EcommerceProvider.cancelAnOrder(orderId)
+    if (canceledOrder && canceledOrder.confirmed) {
+      messageBlock.payload[0].text += `Your order with orderId: ${argument.orderId} has been successfully canceled.`
+    } else {
+      messageBlock.payload[0].text += `Your order could not be canceled.`
+    }
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to cancel order'
+    logger.serverLog(message, `${TAG}: getCancelOrderBlock`, {}, {chatbot, backId}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to notify customer support agent`)
+  }
+}
 const getConfirmRemoveItemBlock = async (chatbot, backId, product) => {
   try {
     const priceString = product.currency === 'USD' ? `$${product.price}` : `${product.price} ${product.currency}`
@@ -3132,6 +3188,10 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
                 messageBlock = await getViewCatalogBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
                 break
               }
+              case CANCEL_ORDER: {
+                messageBlock = await getCancelOrderBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument, action.input ? input : '')
+                break
+              } 
             }
             await messageBlockDataLayer.createForMessageBlock(messageBlock)
             return messageBlock
