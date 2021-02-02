@@ -119,10 +119,13 @@ exports.prepareChatbotPayload = (company, contact, payload, options) => {
     let componentType = payload.componentType
     let MessageObject = `channel=whatsapp&source=${from}&destination=${to}&src.name=${appName}`
     if (componentType === 'text') {
+      console.log('options', options)
       payload.text = payload.text + appendOptions(options)
+      console.log('payload.text', payload.text)
       MessageObject = MessageObject + `&message.type=text&message.text=${payload.text}`
+      console.log('MessageObject', MessageObject)
     } else if (componentType === 'card') {
-      MessageObject = MessageObject + `&message.type=text&message.text=${payload.text}`
+      MessageObject = MessageObject + `&message.type=text&message.text=${payload.url}`
     } else {
       let message
       let url = payload.fileurl && payload.fileurl.url
