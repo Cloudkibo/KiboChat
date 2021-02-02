@@ -673,12 +673,13 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, contact, 
 
     if (orderStatus.cancelReason) {
       messageBlock.payload[0].text += `\n*Status*: CANCELED`
-    }
-    if (orderStatus.displayFinancialStatus) {
-      messageBlock.payload[0].text += `\nPayment: ${orderStatus.displayFinancialStatus}`
-    }
-    if (orderStatus.displayFulfillmentStatus) {
-      messageBlock.payload[0].text += `\nDelivery: ${orderStatus.displayFulfillmentStatus}`
+    } else {
+      if (orderStatus.displayFinancialStatus) {
+        messageBlock.payload[0].text += `\nPayment: ${orderStatus.displayFinancialStatus}`
+      }
+      if (orderStatus.displayFulfillmentStatus) {
+        messageBlock.payload[0].text += `\nDelivery: ${orderStatus.displayFulfillmentStatus}`
+      }
     }
     if (isOrderFulFilled && orderStatus.fulfillments) {
       if (orderStatus.fulfillments[0]) {
@@ -773,14 +774,16 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, contact, 
     }
 
     messageBlock.payload[0].text += `\n\nThis order was placed on ${new Date(orderStatus.createdAt).toLocaleString()}`
-
-    messageBlock.payload[messageBlock.payload.length - 1].quickReplies.unshift(
-      {
-        content_type: 'text',
-        title: 'Get PDF Invoice',
-        payload: JSON.stringify({ type: DYNAMIC, action: GET_INVOICE, argument: orderId })
-      }
-    )
+   
+    if (!orderStatus.cancelReason) {
+      messageBlock.payload[messageBlock.payload.length - 1].quickReplies.unshift(
+        {
+          content_type: 'text',
+          title: 'Get PDF Invoice',
+          payload: JSON.stringify({ type: DYNAMIC, action: GET_INVOICE, argument: orderId })
+        }
+      )
+    }
     return messageBlock
   } catch (err) {
     if (!userError) {
