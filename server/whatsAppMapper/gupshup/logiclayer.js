@@ -1,3 +1,4 @@
+const { appendOptions } = require('../logiclayer')
 
 exports.prepareSendMessagePayload = (body) => {
   let route = 'msg'
@@ -111,6 +112,9 @@ exports.prepareChatbotPayload = (company, contact, payload, options) => {
     let componentType = payload.componentType
     let MessageObject = `channel=whatsapp&source=${from}&destination=${to}&src.name=${appName}`
     if (componentType === 'text' || componentType === 'card') {
+      payload.text = payload.text + appendOptions(options)
+      MessageObject = MessageObject + `&message.type=text&message.text=${payload.text}`
+    } else if (componentType === 'card') {
       MessageObject = MessageObject + `&message.type=text&message.text=${payload.text}`
     } else {
       let message
