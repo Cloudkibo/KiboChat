@@ -1,6 +1,7 @@
 const logicLayer = require('./logiclayer')
 const logger = require('../../components/logger')
 const TAG = 'whatsAppMapper/gupshup/gupshup.js'
+const async = require('async')
 const { callApi } = require('../../api/v1/utility')
 const { gupshupApiCaller } = require('../../api/global/gupshupApiCaller')
 
@@ -160,5 +161,54 @@ exports.sendInvitationTemplate = (body) => {
         resolve()
       })
       .catch((err) => reject(err))
+  })
+}
+exports.respondUsingChatbot = ({payload, options, company, subscriber}) => {
+  return new Promise((resolve, reject) => {
+    async.eachSeries(payload, function (item, cb) {
+      logicLayer.prepareChatbotPayload(company, subscriber, item, options)
+        .then(message => {
+          gupshupApiCaller('msg', 'post', company.whatsApp.accessToken, message)
+            .then(response => {
+              let messageId = getMessageId(response, payload)
+              if (messageId) {
+                cb()
+              } else {
+                cb(response.body)
+              }
+            })
+            .catch(error => {
+              cb(error)
+            })
+        })
+        .catch(err => { cb(err) })
+    }, function (err) {
+      if (err) {
+        reject(err)
+      } else {
+        resolve({status: 'success'})
+      }
+    })
+  })
+}
+
+exports.sendTextMessage = ({text, company, subscriber}) => {
+  return new Promise((resolve, reject) => {
+    let from = company.whatsApp.businessNumber.replace(/\D/g, '')
+    let to = subscriber.number.replace(/\D/g, '')
+    let appName = company.whatsApp.appName
+    let MessageObject = `channel=whatsapp&source=${from}&destination=${to}&src.name=${appName}&message.type=text&message.text=${text}`
+    gupshupApiCaller('msg', 'post', company.whatsApp.accessToken, MessageObject)
+      .then(response => {
+        let messageId = getMessageId(response, subscriber)
+        if (messageId) {
+          resolve({status: 'success'})
+        } else {
+          reject(response.body)
+        }
+      })
+      .catch(error => {
+        reject(error)
+      })
   })
 }
