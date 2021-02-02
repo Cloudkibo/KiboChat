@@ -230,20 +230,27 @@ const getCancelOrderBlock = async (chatbot, backId, EcommerceProvider, argument)
           specialKeys: {
             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
             [ORDER_STATUS_KEY]: { type: DYNAMIC, action: VIEW_RECENT_ORDERS },
-            [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART }
+            [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
+            [TALK_TO_AGENT_KEY]: { type: DYNAMIC, action: TALK_TO_AGENT }
           }
         }
       ],
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    let canceledOrder = await EcommerceProvider.cancelAnOrder(orderId)
-    if (canceledOrder && canceledOrder.confirmed) {
-      messageBlock.payload[0].text += `Your order with orderId: ${argument.orderId} has been successfully canceled.`
+    if (!argument.isOrderFulFilled) {
+      let canceledOrder = await EcommerceProvider.cancelAnOrder(orderId)
+      if (canceledOrder && canceledOrder.confirmed) {
+        messageBlock.payload[0].text += `Your order with orderId: ${argument.orderId} has been successfully canceled.`
+      } else {
+        messageBlock.payload[0].text += `Your order could not be canceled.`
+      }
+      messageBlock.payload[0].text += `\n\n${specialKeyText(ORDER_STATUS_KEY)}`
     } else {
-      messageBlock.payload[0].text += `Your order could not be canceled.`
+      messageBlock.payload[0].text += `Your order cannot be canceled as it has been shipped. For further details please talk to an agent.`
+      messageBlock.payload[0].text += `\n\n${specialKeyText(TALK_TO_AGENT_KEY)}`
+      messageBlock.payload[0].text += `\n${specialKeyText(ORDER_STATUS_KEY)}`
     }
-    messageBlock.payload[0].text += `\n\n${specialKeyText(ORDER_STATUS_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(SHOW_CART_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
     return messageBlock
@@ -559,7 +566,12 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
       if (recentOrders.length > 0) {
         messageBlock.payload[0].text = 'Select an order by sending the corresponding number for it or enter an order ID:\n'
         for (let i = 0; i < recentOrders.length; i++) {
-          const orderTitle = `\n${convertToEmoji(i)} Order ${recentOrders[i].name} - ${new Date(recentOrders[i].createdAt).toDateString()} (${recentOrders[i].lineItems[0].name})`
+          let orderTitle
+          if (!recentOrders[i].cancelReason) {
+            orderTitle = `\n${convertToEmoji(i)} Order ${recentOrders[i].name} - ${new Date(recentOrders[i].createdAt).toDateString()} (${recentOrders[i].lineItems[0].name})`
+          } else {
+            orderTitle = `\n${convertToEmoji(i)} (Canceled)Order ${recentOrders[i].name} - ${new Date(recentOrders[i].createdAt).toDateString()} (${recentOrders[i].lineItems[0].name})`
+          }
           messageBlock.payload[0].text += utility.truncate(orderTitle, 55)
           messageBlock.payload[0].menu.push({ type: DYNAMIC, action: ORDER_STATUS, argument: recentOrders[i].name.substr(1) })
         }
@@ -659,14 +671,23 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
       userError = true
       throw new Error('Unable to get order status. Please make sure your order ID is valid and that the order was placed within the last 60 days.')
     }
-    messageBlock.payload[0].specialKeys['x'] = { type: DYNAMIC, action: CANCEL_ORDER, argument: { id: orderStatus.id, orderId } }
+
+    let isOrderFulFilled = orderStatus.displayFulfillmentStatus.toLowerCase() === 'fulfilled'
+    if (!orderStatus.cancelReason) {
+      messageBlock.payload[0].specialKeys['x'] = { type: DYNAMIC, action: CANCEL_ORDER, argument: { id: orderStatus.id, orderId, isOrderFulFilled } }
+    }
+
+    if (orderStatus.cancelReason) {
+      messageBlock.payload[0].text += `\n*Status*: CANCELED`
+    }
+
     if (orderStatus.displayFinancialStatus) {
       messageBlock.payload[0].text += `\n*Payment*: ${orderStatus.displayFinancialStatus}`
     }
     if (orderStatus.displayFulfillmentStatus) {
       messageBlock.payload[0].text += `\n*Delivery*: ${orderStatus.displayFulfillmentStatus}`
     }
-    if (orderStatus.displayFulfillmentStatus.toLowerCase() === 'fulfilled' && orderStatus.fulfillments) {
+    if (isOrderFulFilled && orderStatus.fulfillments) {
       if (orderStatus.fulfillments[0]) {
         let trackingDetails = orderStatus.fulfillments[0].trackingInfo && orderStatus.fulfillments[0].trackingInfo[0] ? orderStatus.fulfillments[0].trackingInfo[0] : null
         if (trackingDetails) {
@@ -725,7 +746,7 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
 
     messageBlock.payload[0].text += `\n\n*I*   Get PDF Invoice`
     messageBlock.payload[0].text += `\n*O*  View Recent Orders`
-    if (orderStatus.displayFulfillmentStatus.toLowerCase() === 'unfulfilled') {
+    if (!orderStatus.cancelReason) {
       messageBlock.payload[0].text += `\n*X*  Cancel Order`
     }
     messageBlock.payload[0].text += `\n${specialKeyText(SHOW_CART_KEY)}`
