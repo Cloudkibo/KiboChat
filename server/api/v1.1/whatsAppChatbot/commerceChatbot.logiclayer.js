@@ -669,7 +669,7 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
           if (!recentOrders[i].cancelReason) {
             orderTitle = `\n${convertToEmoji(i)} Order ${recentOrders[i].name} - ${new Date(recentOrders[i].createdAt).toDateString()} (${recentOrders[i].lineItems[0].name})`
           } else {
-            orderTitle = `\n${convertToEmoji(i)} (Canceled)Order ${recentOrders[i].name} - ${new Date(recentOrders[i].createdAt).toDateString()} (${recentOrders[i].lineItems[0].name})`
+            orderTitle = `\n${convertToEmoji(i)} (Canceled) Order ${recentOrders[i].name} - ${new Date(recentOrders[i].createdAt).toDateString()} (${recentOrders[i].lineItems[0].name})`
           }
           messageBlock.payload[0].text += utility.truncate(orderTitle, 55)
           messageBlock.payload[0].menu.push({ type: DYNAMIC, action: ORDER_STATUS, argument: recentOrders[i].name.substr(1) })
@@ -779,13 +779,13 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
 
     if (orderStatus.cancelReason) {
       messageBlock.payload[0].text += `\n*Status*: CANCELED`
-    }
-
-    if (orderStatus.displayFinancialStatus) {
-      messageBlock.payload[0].text += `\n*Payment*: ${orderStatus.displayFinancialStatus}`
-    }
-    if (orderStatus.displayFulfillmentStatus) {
-      messageBlock.payload[0].text += `\n*Delivery*: ${orderStatus.displayFulfillmentStatus}`
+    } else {
+      if (orderStatus.displayFinancialStatus) {
+        messageBlock.payload[0].text += `\n*Payment*: ${orderStatus.displayFinancialStatus}`
+      }
+      if (orderStatus.displayFulfillmentStatus) {
+        messageBlock.payload[0].text += `\n*Delivery*: ${orderStatus.displayFulfillmentStatus}`
+      }
     }
     if (isOrderFulFilled && orderStatus.fulfillments) {
       if (orderStatus.fulfillments[0]) {
@@ -843,14 +843,11 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     }
 
     messageBlock.payload[0].text += `\n\nThis order was placed on ${new Date(orderStatus.createdAt).toDateString()}`
-
-    messageBlock.payload[0].text += `\n\n*I*   Get PDF Invoice`
-    if (orderStatus.displayFulfillmentStatus && orderStatus.displayFulfillmentStatus === 'FULFILLED') {
-      messageBlock.payload[0].text += `\n*R*  Request Return for this order`
-    }
+    
     messageBlock.payload[0].text += `\n*O*  View Recent Orders`
     if (!orderStatus.cancelReason) {
       messageBlock.payload[0].text += `\n*X*  Cancel Order`
+      messageBlock.payload[0].text += `\n*I*  Get PDF Invoice`
     }
     messageBlock.payload[0].text += `\n${specialKeyText(SHOW_CART_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
