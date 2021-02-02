@@ -396,6 +396,8 @@ exports.sendNumbers = function (req, res) {
                         },
                         function (err, res) {
                           if (err) {
+                            const message = err || 'Error At invite to messenger using phone'
+                            logger.serverLog(message, `${TAG}: exports.sendNumbers`, req.body, {user: req.user}, 'error')
                             return logger.serverLog(TAG,
                               `Error At invite to messenger using phone ${JSON.stringify(
                                 err)}`)
