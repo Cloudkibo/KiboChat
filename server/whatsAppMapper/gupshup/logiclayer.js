@@ -5,7 +5,6 @@ const fs = require('fs')
 let config = require('../../config/environment')
 const crypto = require('crypto')
 const needle = require('needle')
-const { appendOptions } = require('../logiclayer')
 
 exports.prepareSendMessagePayload = (body) => {
   let route = 'msg'
