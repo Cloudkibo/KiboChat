@@ -843,7 +843,6 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     }
 
     messageBlock.payload[0].text += `\n\nThis order was placed on ${new Date(orderStatus.createdAt).toDateString()}`
-    
     messageBlock.payload[0].text += `\n*O*  View Recent Orders`
     if (!orderStatus.cancelReason) {
       messageBlock.payload[0].text += `\n*X*  Cancel Order`

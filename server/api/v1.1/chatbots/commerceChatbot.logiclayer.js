@@ -1099,9 +1099,9 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
     }
     return messageBlock
   } catch (err) {
-    const message = err || 'Unable to select product variants'
-    logger.serverLog(message, `${TAG}: exports.getSelectProductBlock`, {}, {}, 'error')
-    throw new Error(`${ERROR_INDICATOR}Unable to select product`)
+    const message = err || 'Unable to get product variants'
+    logger.serverLog(message, `${TAG}: exports.getProductVariantsBlock`, {}, {}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to get product variants`)
   }
 }
 
