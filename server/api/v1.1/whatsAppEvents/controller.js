@@ -107,7 +107,7 @@ exports.messageReceived = function (req, res) {
                                 nextMessageBlock = await airlinesChatbotLogicLayer.getNextMessageBlock(chatbot, airlinesProvider, contact, data.messageData.text)
                               }
                               if (nextMessageBlock) {
-                                sendWhatsAppMessage(nextMessageBlock, data, number, req, company, contact)
+                                sendWhatsAppMessage(nextMessageBlock, data, number, company, contact)
                                 updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
                                 logicLayer.storeWhatsAppStats(data, chatbot, isNewContact, contact, req)
                               }
@@ -534,7 +534,7 @@ async function temporarySuperBotTestHandling (data, contact, company, number, re
 
       let nextMessageBlock = whatsAppChatbotLogicLayer.getChatbotsListMessageBlock(allChatbots)
       if (nextMessageBlock) {
-        sendWhatsAppMessage(nextMessageBlock, data, number, req, company, contact)
+        sendWhatsAppMessage(nextMessageBlock, data, number, company, contact)
         const updateWhatsAppContactData = {
           lastMessageSentByBot: nextMessageBlock
         }
@@ -585,7 +585,7 @@ async function temporarySuperBotTestHandling (data, contact, company, number, re
               nextMessageBlock = await airlinesChatbotLogicLayer.getNextMessageBlock(chatbot, airlinesProvider, contact, 'hi')
             }
             if (nextMessageBlock) {
-              sendWhatsAppMessage(nextMessageBlock, data, number, req, company, contact)
+              sendWhatsAppMessage(nextMessageBlock, data, number, company, contact)
             }
           }
           if (nextMessageBlock) {
@@ -617,7 +617,7 @@ async function sendInvalidSelectChatbotsResponse (data, contact, company, number
 
   if (nextMessageBlock && allChatbots.length > 0) {
     nextMessageBlock.payload[0].text = `Please enter a number between 0 and ${allChatbots.length - 1}\n\n${nextMessageBlock.payload[0].text}`
-    sendWhatsAppMessage(nextMessageBlock, data, number, req, company, contact)
+    sendWhatsAppMessage(nextMessageBlock, data, number, company, contact)
     updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
   }
 }
@@ -688,7 +688,7 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
               const allChatbots = await getAllChatbots(company)
               nextMessageBlock = whatsAppChatbotLogicLayer.getChatbotsListMessageBlock(allChatbots)
               if (nextMessageBlock) {
-                sendWhatsAppMessage(nextMessageBlock, data, number, req, company, contact)
+                sendWhatsAppMessage(nextMessageBlock, data, number, company, contact)
                 const updateWhatsAppContactData = {
                   lastMessageSentByBot: nextMessageBlock
                 }
@@ -696,7 +696,7 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
                 return
               }
             }
-            sendWhatsAppMessage(nextMessageBlock, data, number, req, company, contact)
+            sendWhatsAppMessage(nextMessageBlock, data, number, company, contact)
             updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
             logicLayer.storeWhatsAppStats(data, chatbot, isNewContact, contact, req)
           }
@@ -724,21 +724,20 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
   }
 }
 
-function sendWhatsAppMessage (nextMessageBlock, data, number, req, company, contact) {
+function sendWhatsAppMessage (nextMessageBlock, data, number, company, contact) {
   record('whatsappChatOutGoing')
   if (nextMessageBlock.payload.length > 1) {
     intervalForEach(nextMessageBlock.payload, async (messagePayload) => {
-      if (company.saveAutomationMessages) {
-        storeChat(company.whatsApp.businessNumber, number, contact, messagePayload, 'convos')
-      }
-      sendWhatsAppMessageLogic(messagePayload, data, number, req)
+      sendWhatsAppMessageLogic(messagePayload, data, number, company, contact)
     }, 1800)
   } else {
-    sendWhatsAppMessageLogic(nextMessageBlock.payload[0], data, number, req, company, contact)
+    sendWhatsAppMessageLogic(nextMessageBlock.payload[0], data, number, company, contact)
   }
 }
 
-function sendWhatsAppMessageLogic (messagePayload, data, number, req, company, contact) {
+exports.sendWhatsAppMessage = sendWhatsAppMessage
+
+function sendWhatsAppMessageLogic (messagePayload, data, number, company, contact) {
   let chatbotResponse = {
     whatsApp: {
       accessToken: data.accessToken,
@@ -749,7 +748,7 @@ function sendWhatsAppMessageLogic (messagePayload, data, number, req, company, c
     payload: messagePayload
   }
 
-  whatsAppMapper.whatsAppMapper(req.body.provider, ActionTypes.SEND_CHAT_MESSAGE, chatbotResponse)
+  whatsAppMapper.whatsAppMapper(company.whatsApp.provider, ActionTypes.SEND_CHAT_MESSAGE, chatbotResponse)
     .then(sent => {
       if (company && company.saveAutomationMessages) {
         storeChat(company.whatsApp.businessNumber, number, contact, messagePayload, 'convos')
@@ -757,6 +756,6 @@ function sendWhatsAppMessageLogic (messagePayload, data, number, req, company, c
     })
     .catch(err => {
       const message = err || 'Failed to send chat message'
-      logger.serverLog(message, `${TAG}: exports.sendWhatsAppMessage`, req.body, {chatbotResponse}, 'error')
+      logger.serverLog(message, `${TAG}: exports.sendWhatsAppMessage`, {}, {chatbotResponse}, 'error')
     })
 }

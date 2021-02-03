@@ -1,3 +1,4 @@
+const { appendOptions } = require('../logiclayer')
 
 var path = require('path')
 var mime = require('mime-types')
