@@ -21,6 +21,8 @@ const { sendSuccessResponse, sendErrorResponse } = require('../../global/respons
 const path = require('path')
 const Shopify = require('shopify-api-node')
 const { callApi } = require('../utility')
+const { sendWhatsAppMessage } = require('../whatsAppEvents/controller')
+const moment = require('moment')
 
 exports.index = function (req, res) {
   const shop = req.body.shop
@@ -112,7 +114,7 @@ function registerWebhooks (shop, token) {
   })
 
   shopify.webhook.create({
-    topic: 'checkouts/create',
+    topic: 'orders/create',
     address: `${config.domain}/api/shopify/complete-checkout`,
     format: 'json'
   }).then((response) => {
@@ -122,15 +124,52 @@ function registerWebhooks (shop, token) {
   })
 }
 
-exports.handleCompleteCheckout = function (req, res) {
+exports.handleCompleteCheckout = async function (req, res) {
   try {
-    const updateData = {
+    const contacts = await callApi(`whatsAppContacts/query`, 'post', {'commerceCustomerShopify.email': req.body.email})
+    for (const contact of contacts) {
+      if (moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15) {
+        const company = await callApi(`companyProfile/query`, 'post', { _id: contact.companyId })
+        const integration = await dataLayer.findOneShopifyIntegration({ companyId: company._id })
+        const messageBlock = {
+          module: {
+            id: company.whatsApp.activeWhatsappBot,
+            type: 'whatsapp_commerce_chatbot'
+          },
+          title: 'Order Confirmation Notfication',
+          uniqueId: '' + new Date().getTime(),
+          payload: [
+            {
+              text: `Hi ${contact.first_name}. Thank you for placing an order at ${integration.shopUrl}.`,
+              componentType: 'text'
+            }
+          ],
+          userId: company.ownerId,
+          companyId: company._id
+        }
+        if (req.body.order_status_url) {
+          messageBlock.payload[0].text += ` You can view full order status at ${req.body.order_status_url}.`
+        }
+        const data = {
+          accessToken: company.whatsApp.accessToken,
+          accountSID: company.whatsApp.accountSID,
+          businessNumber: company.whatsApp.businessNumber
+        }
+        sendWhatsAppMessage(messageBlock, data, contact.number, company, contact)
+      }
+    }
+    const updateDataWhatsApp = {
+      query: {'commerceCustomerShopify.email': req.body.email},
+      newPayload: { shoppingCart: [] },
+      options: {}
+    }
+    const updateDataMessenger = {
       query: {'commerceCustomer.email': req.body.email},
       newPayload: { shoppingCart: [] },
       options: {}
     }
-    callApi(`whatsAppContacts/update`, 'put', updateData)
-    callApi(`subscribers/update`, 'put', updateData)
+    callApi(`whatsAppContacts/update`, 'put', updateDataWhatsApp)
+    callApi(`subscribers/update`, 'put', updateDataMessenger)
     return sendSuccessResponse(res, 200, {status: 'success'})
   } catch (err) {
     const message = err || 'Error processing shopify complete checkout webhook '
