@@ -7,25 +7,27 @@ exports.prepareSendMessagePayload = (body) => {
   let appName = body.whatsApp.appName
   let componentType = body.payload.componentType
   let MessageObject = `channel=whatsapp&source=${from}&destination=${to}&src.name=${appName}`
-  if (componentType === 'text') {
-    if (body.payload.templateName) {
-      let templateArguments = body.payload.templateArguments ? body.payload.templateArguments.split(',') : []
-      let template = JSON.stringify({
-        id: body.payload.templateId,
-        params: templateArguments
-      })
-      route = 'template/msg'
-      MessageObject = MessageObject + `&template=${template}`
-      // let message = JSON.stringify({
-      //   type: 'image',
-      //   image: {
-      //     link: 'https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg'
-      //   }
-      // })
-      // MessageObject = MessageObject + `&message=${message}`
-    } else {
-      MessageObject = MessageObject + `&message.type=text&message.text=${body.payload.text}`
+  if (body.payload.templateName) {
+    let templateArguments = body.payload.templateArguments ? body.payload.templateArguments.split(',') : []
+    let template = JSON.stringify({
+      id: body.payload.templateId,
+      params: templateArguments
+    })
+    route = 'template/msg'
+    MessageObject = MessageObject + `&template=${template}`
+    if (componentType !== 'text') {
+      let type = body.payload.templateType.toLowerCase()
+      let message = {type}
+      message[type] = {
+        link: body.payload.fileurl.url || body.payload.fileurl
+      }
+      if (componentType === 'file') {
+        message[type].filename = body.payload.fileName
+      }
+      MessageObject = MessageObject + `&message=${JSON.stringify(message)}`
     }
+  } else if (componentType === 'text') {
+    MessageObject = MessageObject + `&message.type=text&message.text=${body.payload.text}`
   } else {
     let message
     let url = body.payload.fileurl.url || body.payload.fileurl
@@ -68,7 +70,8 @@ exports.prepareTemplates = (gupshupTemplates) => {
   for (let i = 0; i < gupshupTemplates.length; i++) {
     if (
       (gupshupTemplates[i].status === 'APPROVED' || gupshupTemplates[i].status === 'SANDBOX_REQUESTED') &&
-      gupshupTemplates[i].templateType === 'TEXT') {
+      gupshupTemplates[i].templateType !== 'LOCATION'
+    ) {
       let template = {}
       template.code = gupshupTemplates[i].languageCode
       template.type = gupshupTemplates[i].templateType
@@ -82,13 +85,23 @@ exports.prepareTemplates = (gupshupTemplates) => {
       let regex = template.text.replace('.', '\\.')
       regex = regex.replace(argumentsRegex, '(.*)')
       template.regex = `^${regex}$`
-      if (!template.buttons) {
-        template.buttons = []
-      }
+      template.buttons = getTemplateButtons(template)
       templates.push(template)
     }
   }
   return templates
+}
+
+function getTemplateButtons (template) {
+  let templateButtons = []
+  if (template.vertical.includes('BUTTON')) {
+    let buttons = template.text.split('|')
+    for (let i = 1; i < buttons.length; i++) {
+      let buttonText = buttons[i].replace('[', '').replace(']', '')
+      templateButtons.push({title: buttonText.split(',')[0]})
+    }
+  }
+  return templateButtons
 }
 
 exports.prepareInvitationPayload = (body, number) => {
@@ -102,6 +115,17 @@ exports.prepareInvitationPayload = (body, number) => {
     params: templateArguments
   })
   MessageObject = MessageObject + `&template=${message}`
+  if (body.payload.componentType !== 'text') {
+    let type = body.payload.templateType.toLowerCase()
+    let message = {type}
+    message[type] = {
+      link: body.payload.fileurl.url || body.payload.fileurl
+    }
+    if (body.payload.componentType === 'file') {
+      message[type].filename = body.payload.fileName
+    }
+    MessageObject = MessageObject + `&message=${JSON.stringify(message)}`
+  }
   return MessageObject
 }
 exports.prepareChatbotPayload = (company, contact, payload, options) => {
