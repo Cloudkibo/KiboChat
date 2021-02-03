@@ -183,7 +183,7 @@ exports.prepareChatbotPayload = (company, contact, payload, options) => {
 exports.prepareReceivedMessageData = (body) => {
   let payload = {}
   return new Promise((resolve, reject) => {
-    var media = ['image', 'video', 'audio', 'voice']
+    var media = ['image', 'video', 'audio', 'voice', 'file', 'sticker']
     var isMedia = media.includes(body.type)
     if (isMedia) {
       let ext = mime.extension(body.payload.contentType)
@@ -209,8 +209,11 @@ exports.prepareReceivedMessageData = (body) => {
             resolve(payload)
           } else if (body.type === 'voice') {
             payload = { componentType: 'audio', fileurl: { url: payload.url } }
-          } else if (body.type === 'document') {
+          } else if (body.type === 'file') {
             payload = { componentType: 'file', fileurl: { url: payload.url } }
+            resolve(payload)
+          } else if (body.type === 'sticker') {
+            payload = { componentType: 'sticker', fileurl: { url: payload.url } }
             resolve(payload)
           }
         })
@@ -229,7 +232,7 @@ exports.prepareReceivedMessageData = (body) => {
     } else if (body.type === 'contact' && body.payload.contacts[0]) {
       payload = { componentType: 'contact',
         name: body.payload.contacts[0].name.formatted_name,
-        number: body.contacts[0].phones[0].phone }
+        number: body.payload.contacts[0].phones[0].phone }
       resolve(payload)
     } else if (body.type === 'text' && body.payload.text !== '') {
       payload = { componentType: 'text', text: body.payload.text }

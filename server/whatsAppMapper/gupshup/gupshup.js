@@ -42,12 +42,11 @@ exports.getNormalizedMessageReceivedData = (event) => {
 }
 
 exports.getNormalizedMessageStatusData = (event) => {
-  console.log('Event Received')
   return new Promise((resolve, reject) => {
     try {
       resolve({
-        messageId: event.payload.id,
-        status: event.payload.type
+        messageId: event.payload.gsId,
+        status: event.payload.type === 'read' ? 'seen' : event.payload.type
       })
     } catch (err) {
       reject(err)
