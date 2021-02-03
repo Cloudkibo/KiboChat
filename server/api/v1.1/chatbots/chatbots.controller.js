@@ -431,7 +431,7 @@ exports.createCommerceChatbot = async (req, res) => {
         shopToken: bigCommerceIntegration.shopToken,
         storeHash: bigCommerceIntegration.payload.context
       })
-    } else if (req.body.storeType === commerceConstants.facebookshop) {
+    } else if (req.body.storeType === commerceConstants.shops) {
       const facebookShopsIntegration = await facebookShopsDataLayer.findOneFacebookShop({ companyId: req.user.companyId })
       ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
         shopToken: facebookShopsIntegration.shopToken,
