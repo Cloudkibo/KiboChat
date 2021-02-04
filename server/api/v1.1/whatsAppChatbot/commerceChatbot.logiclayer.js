@@ -53,11 +53,12 @@ const {
   GET_INVOICE,
   GET_CHECKOUT_INFO,
   VIEW_CATALOG,
+  RETURN_ORDER,
   CANCEL_ORDER,
   SHOW_FAQS,
   GET_FAQ_ANSWER
 } = require('./constants')
-const { convertToEmoji, sendTalkToAgentNotification } = require('./whatsAppChatbot.logiclayer')
+const { convertToEmoji, sendNotification } = require('./whatsAppChatbot.logiclayer')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/whatsAppChatbot/commerceChatbot.logiclayer.js'
 const utility = require('../../../components/utility')
@@ -283,7 +284,8 @@ const getTalkToAgentBlock = (chatbot, backId, contact) => {
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    sendTalkToAgentNotification(contact, chatbot.companyId)
+    const message = `${contact.name} requested to talk to a customer support agent`
+    sendNotification(contact, message, chatbot.companyId)
     updateWhatsAppContact({ _id: contact._id }, { chatbotPaused: true }, null, {})
     return messageBlock
   } catch (err) {
@@ -757,7 +759,8 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
             [BACK_KEY]: { type: STATIC, blockId: backId },
             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
             'i': { type: DYNAMIC, action: GET_INVOICE, argument: orderId },
-            'o': { type: DYNAMIC, action: VIEW_RECENT_ORDERS }
+            'o': { type: DYNAMIC, action: VIEW_RECENT_ORDERS },
+            'r': { type: DYNAMIC, action: RETURN_ORDER, argument: orderId }
           }
         }
       ],
@@ -842,6 +845,10 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
 
     messageBlock.payload[0].text += `\n\nThis order was placed on ${new Date(orderStatus.createdAt).toDateString()}`
 
+    messageBlock.payload[0].text += `\n\n*I*   Get PDF Invoice`
+    if (orderStatus.displayFulfillmentStatus && orderStatus.displayFulfillmentStatus === 'FULFILLED') {
+      messageBlock.payload[0].text += `\n*R*  Request Return for this order`
+    }
     messageBlock.payload[0].text += `\n*O*  View Recent Orders`
     if (!orderStatus.cancelReason) {
       messageBlock.payload[0].text += `\n*X*  Cancel Order`
@@ -870,6 +877,40 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     } else {
       throw new Error(`${ERROR_INDICATOR}Unable to get order status.`)
     }
+  }
+}
+
+const getReturnOrderBlock = async (chatbot, contact, backId, EcommerceProvider, orderId) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_commerce_chatbot'
+      },
+      title: 'Return Request',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: dedent(`A return request has been made for order #${orderId}. An agent will contact you shortly.\n
+            ${specialKeyText(BACK_KEY)}
+            ${specialKeyText(HOME_KEY)}`),
+          componentType: 'text',
+          specialKeys: {
+            [BACK_KEY]: { type: STATIC, blockId: backId },
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    const message = `${contact.name} is requesting a return for order #${orderId}.`
+    sendNotification(contact, message, chatbot.companyId)
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to return order'
+    logger.serverLog(message, `${TAG}: exports.getReturnOrderBlock`, {}, {}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to return order. Please make sure your order ID is valid.`)
   }
 }
 
@@ -2998,10 +3039,10 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             messageBlock = await getCheckoutBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, contact, action.argument, action.input ? input : '')
             break
           }
-          // case RETURN_ORDER: {
-          //   messageBlock = await getReturnOrderBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : '')
-          //   break
-          // }
+          case RETURN_ORDER: {
+            messageBlock = await getReturnOrderBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument)
+            break
+          }
           case SHOW_ITEMS_TO_REMOVE: {
             messageBlock = await getShowItemsToRemoveBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
             break
