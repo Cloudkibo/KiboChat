@@ -183,7 +183,7 @@ exports.prepareChatbotPayload = (company, contact, payload, options) => {
 exports.prepareReceivedMessageData = (body) => {
   let payload = {}
   return new Promise((resolve, reject) => {
-    var media = ['image', 'video', 'audio', 'voice', 'file', 'sticker']
+    var media = ['image', 'video', 'audio', 'voice', 'file']
     var isMedia = media.includes(body.type)
     if (isMedia) {
       let ext = mime.extension(body.payload.contentType)
@@ -211,9 +211,6 @@ exports.prepareReceivedMessageData = (body) => {
             payload = { componentType: 'audio', fileurl: { url: payload.url } }
           } else if (body.type === 'file') {
             payload = { componentType: 'file', fileurl: { url: payload.url } }
-            resolve(payload)
-          } else if (body.type === 'sticker') {
-            payload = { componentType: 'sticker', fileurl: { url: payload.url } }
             resolve(payload)
           }
         })
