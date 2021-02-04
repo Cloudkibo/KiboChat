@@ -185,6 +185,7 @@ exports.getOrderStatus = (id, credentials) => {
         node {
           id
           name
+          cancelReason
           billingAddress {
             id
             name
@@ -400,6 +401,7 @@ exports.findCustomerOrders = (customerId, limit, credentials) => {
               node {
                 id
                 name
+                cancelReason
                 createdAt
                 totalPriceSet {
                   presentmentMoney {
@@ -587,12 +589,22 @@ exports.completeCheckout = (cartToken, credentials) => {
   })
 }
 
-exports.cancelAnOrder = (orderId, credentials) => {
+exports.cancelAnOrder = (id, credentials) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
-    shopify.order.cancel(orderId)
-      .then(result => {
-        resolve(result)
+    const params = {
+      reason: 'customer',
+      email: true
+    }
+    shopify.order.cancel(id, params)
+      .then(order => {
+        order = {
+          id: order.id,
+          email: order.email,
+          name: order.name,
+          confirmed: order.confirmed
+        }
+        resolve(order)
       })
       .catch(err => {
         reject(err)
