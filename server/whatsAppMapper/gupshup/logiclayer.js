@@ -1,4 +1,10 @@
 const { appendOptions } = require('../logiclayer')
+var path = require('path')
+var mime = require('mime-types')
+const fs = require('fs')
+let config = require('../../config/environment')
+const crypto = require('crypto')
+const needle = require('needle')
 
 exports.prepareSendMessagePayload = (body) => {
   let route = 'msg'
@@ -7,25 +13,27 @@ exports.prepareSendMessagePayload = (body) => {
   let appName = body.whatsApp.appName
   let componentType = body.payload.componentType
   let MessageObject = `channel=whatsapp&source=${from}&destination=${to}&src.name=${appName}`
-  if (componentType === 'text') {
-    if (body.payload.templateName) {
-      let templateArguments = body.payload.templateArguments ? body.payload.templateArguments.split(',') : []
-      let template = JSON.stringify({
-        id: body.payload.templateId,
-        params: templateArguments
-      })
-      route = 'template/msg'
-      MessageObject = MessageObject + `&template=${template}`
-      // let message = JSON.stringify({
-      //   type: 'image',
-      //   image: {
-      //     link: 'https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg'
-      //   }
-      // })
-      // MessageObject = MessageObject + `&message=${message}`
-    } else {
-      MessageObject = MessageObject + `&message.type=text&message.text=${body.payload.text}`
+  if (body.payload.templateName) {
+    let templateArguments = body.payload.templateArguments ? body.payload.templateArguments.split(',') : []
+    let template = JSON.stringify({
+      id: body.payload.templateId,
+      params: templateArguments
+    })
+    route = 'template/msg'
+    MessageObject = MessageObject + `&template=${template}`
+    if (componentType !== 'text') {
+      let type = body.payload.templateType.toLowerCase()
+      let message = {type}
+      message[type] = {
+        link: body.payload.fileurl.url || body.payload.fileurl
+      }
+      if (componentType === 'file') {
+        message[type].filename = body.payload.fileName
+      }
+      MessageObject = MessageObject + `&message=${JSON.stringify(message)}`
     }
+  } else if (componentType === 'text') {
+    MessageObject = MessageObject + `&message.type=text&message.text=${body.payload.text}`
   } else {
     let message
     let url = body.payload.fileurl.url || body.payload.fileurl
@@ -68,7 +76,8 @@ exports.prepareTemplates = (gupshupTemplates) => {
   for (let i = 0; i < gupshupTemplates.length; i++) {
     if (
       (gupshupTemplates[i].status === 'APPROVED' || gupshupTemplates[i].status === 'SANDBOX_REQUESTED') &&
-      gupshupTemplates[i].templateType === 'TEXT') {
+      gupshupTemplates[i].templateType !== 'LOCATION'
+    ) {
       let template = {}
       template.code = gupshupTemplates[i].languageCode
       template.type = gupshupTemplates[i].templateType
@@ -82,13 +91,23 @@ exports.prepareTemplates = (gupshupTemplates) => {
       let regex = template.text.replace('.', '\\.')
       regex = regex.replace(argumentsRegex, '(.*)')
       template.regex = `^${regex}$`
-      if (!template.buttons) {
-        template.buttons = []
-      }
+      template.buttons = getTemplateButtons(template)
       templates.push(template)
     }
   }
   return templates
+}
+
+function getTemplateButtons (template) {
+  let templateButtons = []
+  if (template.vertical.includes('BUTTON')) {
+    let buttons = template.text.split('|')
+    for (let i = 1; i < buttons.length; i++) {
+      let buttonText = buttons[i].replace('[', '').replace(']', '')
+      templateButtons.push({title: buttonText.split(',')[0]})
+    }
+  }
+  return templateButtons
 }
 
 exports.prepareInvitationPayload = (body, number) => {
@@ -102,6 +121,17 @@ exports.prepareInvitationPayload = (body, number) => {
     params: templateArguments
   })
   MessageObject = MessageObject + `&template=${message}`
+  if (body.payload.componentType !== 'text') {
+    let type = body.payload.templateType.toLowerCase()
+    let message = {type}
+    message[type] = {
+      link: body.payload.fileurl.url || body.payload.fileurl
+    }
+    if (body.payload.componentType === 'file') {
+      message[type].filename = body.payload.fileName
+    }
+    MessageObject = MessageObject + `&message=${JSON.stringify(message)}`
+  }
   return MessageObject
 }
 exports.prepareChatbotPayload = (company, contact, payload, options) => {
@@ -147,5 +177,102 @@ exports.prepareChatbotPayload = (company, contact, payload, options) => {
       MessageObject = MessageObject + `&message=${message}`
     }
     resolve(MessageObject)
+  })
+}
+
+exports.prepareReceivedMessageData = (body) => {
+  let payload = {}
+  return new Promise((resolve, reject) => {
+    var media = ['image', 'video', 'audio', 'voice', 'file']
+    var isMedia = media.includes(body.type)
+    if (isMedia) {
+      let ext = mime.extension(body.payload.contentType)
+      uploadMedia(body.payload.url, body.payload.id + '.' + ext)
+        .then(payload => {
+          if (body.type === 'image') {
+            payload = { componentType: 'image', fileurl: { url: payload.url } }
+            if (body.payload.caption && body.payload.caption !== '') {
+              payload.caption = body.payload.caption
+            }
+            resolve(payload)
+          } else if (body.type === 'video') {
+            payload = { componentType: 'video', fileurl: { url: payload.url } }
+            if (body.payload.caption && body.payload.caption !== '') {
+              payload.caption = body.payload.caption
+            }
+            resolve(payload)
+          } else if (body.type === 'audio') {
+            payload = { componentType: 'audio', fileurl: { url: payload.url } }
+            if (body.payload.caption && body.payload.caption !== '') {
+              payload.caption = body.payload.caption
+            }
+            resolve(payload)
+          } else if (body.type === 'voice') {
+            payload = { componentType: 'audio', fileurl: { url: payload.url } }
+          } else if (body.type === 'file') {
+            payload = { componentType: 'file', fileurl: { url: payload.url } }
+            resolve(payload)
+          }
+        })
+        .catch(err => {
+          reject(err)
+        })
+    } else if (body.type === 'location') {
+      payload = {
+        componentType: 'location',
+        title: 'Pinned Location',
+        payload: {
+          coordinates: { lat: body.payload.latitude, long: body.payload.longitude }
+        }
+      }
+      resolve(payload)
+    } else if (body.type === 'contact' && body.payload.contacts[0]) {
+      payload = { componentType: 'contact',
+        name: body.payload.contacts[0].name.formatted_name,
+        number: body.payload.contacts[0].phones[0].phone }
+      resolve(payload)
+    } else if (body.type === 'text' && body.payload.text !== '') {
+      payload = { componentType: 'text', text: body.payload.text }
+      resolve(payload)
+    } else {
+      resolve(payload)
+    }
+  })
+}
+
+const uploadMedia = function (filePath, fileName) {
+  return new Promise((resolve, reject) => {
+    var today = new Date()
+    var uid = crypto.randomBytes(5).toString('hex')
+    var serverPath = 'f' + uid + '' + today.getFullYear() + '' +
+    (today.getMonth() + 1) + '' + today.getDate()
+    serverPath += '' + today.getHours() + '' + today.getMinutes() + '' +
+    today.getSeconds()
+    let fext = fileName.split('.')
+    serverPath += '.' + fext[fext.length - 1].toLowerCase()
+    let dir = path.resolve(__dirname, '../../../broadcastFiles/')
+    needle.get(filePath, (err, res) => {
+      if (err) {
+        reject(new Error(err))
+      } else {
+        if (res.body) {
+          let blob = res.body
+          fs.writeFile(dir + '/userfiles/' + serverPath, blob, (err) => {
+            if (err) {
+              reject(err)
+            } else {
+              let payload = {
+                id: serverPath,
+                name: fileName,
+                url: `${config.domain}/api/broadcasts/download/${serverPath}`
+              }
+              resolve(payload)
+            }
+          })
+        } else {
+          reject(new Error('Blob not found'))
+        }
+      }
+    })
   })
 }
