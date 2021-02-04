@@ -56,7 +56,9 @@ const {
   RETURN_ORDER,
   CANCEL_ORDER,
   SHOW_FAQS,
-  GET_FAQ_ANSWER
+  GET_FAQ_ANSWER,
+  RETURN_ORDER,
+  CANCEL_ORDER
 } = require('./constants')
 const { convertToEmoji, sendNotification } = require('./whatsAppChatbot.logiclayer')
 const logger = require('../../../components/logger')
@@ -906,6 +908,7 @@ const getReturnOrderBlock = async (chatbot, contact, backId, EcommerceProvider, 
     }
     const message = `${contact.name} is requesting a return for order #${orderId}.`
     sendNotification(contact, message, chatbot.companyId)
+
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to return order'
