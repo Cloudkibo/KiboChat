@@ -769,23 +769,8 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, contact, 
       throw new Error('Unable to get order status. Please make sure your order ID is valid and that the order was placed within the last 60 days.')
     }
     let isOrderFulFilled = orderStatus.displayFulfillmentStatus.toLowerCase() === 'fulfilled'
-    if (orderStatus.displayFinancialStatus) {
-      messageBlock.payload[0].text += `\nPayment: ${orderStatus.displayFinancialStatus}`
-    }
-    if (orderStatus.displayFulfillmentStatus) {
-      messageBlock.payload[0].text += `\nDelivery: ${orderStatus.displayFulfillmentStatus}`
-    }
-    if (isOrderFulFilled) {
-      messageBlock.payload[messageBlock.payload.length - 1].quickReplies.unshift(
-        {
-          content_type: 'text',
-          title: 'Request Return',
-          payload: JSON.stringify({ type: DYNAMIC, action: RETURN_ORDER, argument: orderId })
-        }
-      )
-    }
 
-    if (!orderStatus.cancelReason) {
+    if (!orderStatus.cancelReason && !(orderStatus.displayFinancialStatus && orderStatus.displayFinancialStatus.includes('PAID'))) {
       messageBlock.payload[0].buttons = [{
         type: 'postback',
         title: 'Cancel Order',
@@ -801,6 +786,19 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, contact, 
       }
       if (orderStatus.displayFulfillmentStatus) {
         messageBlock.payload[0].text += `\nDelivery: ${orderStatus.displayFulfillmentStatus}`
+      }
+      if (orderStatus.displayFulfillmentStatus &&
+        orderStatus.displayFulfillmentStatus === 'FULFILLED' &&
+        orderStatus.displayFinancialStatus &&
+        orderStatus.displayFinancialStatus.includes('PAID')
+      ) {
+        messageBlock.payload[messageBlock.payload.length - 1].quickReplies.unshift(
+          {
+            content_type: 'text',
+            title: 'Request Return',
+            payload: JSON.stringify({ type: DYNAMIC, action: RETURN_ORDER, argument: orderId })
+          }
+        )
       }
     }
     if (isOrderFulFilled && orderStatus.fulfillments) {

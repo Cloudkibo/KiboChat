@@ -755,12 +755,10 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
           text: `Here is your order status for Order #${orderId}:\n`,
           componentType: 'text',
           specialKeys: {
-            [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
             [BACK_KEY]: { type: STATIC, blockId: backId },
             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
             'i': { type: DYNAMIC, action: GET_INVOICE, argument: orderId },
-            'o': { type: DYNAMIC, action: VIEW_RECENT_ORDERS },
-            'r': { type: DYNAMIC, action: RETURN_ORDER, argument: orderId }
+            'o': { type: DYNAMIC, action: VIEW_RECENT_ORDERS }
           }
         }
       ],
@@ -846,15 +844,19 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     messageBlock.payload[0].text += `\n\nThis order was placed on ${new Date(orderStatus.createdAt).toDateString()}`
 
     messageBlock.payload[0].text += `\n\n*I*   Get PDF Invoice`
-    if (orderStatus.displayFulfillmentStatus && orderStatus.displayFulfillmentStatus === 'FULFILLED') {
-      messageBlock.payload[0].text += `\n*R*  Request Return for this order`
-    }
     messageBlock.payload[0].text += `\n*O*  View Recent Orders`
-    if (!orderStatus.cancelReason) {
+    if (!orderStatus.cancelReason && !(orderStatus.displayFinancialStatus && orderStatus.displayFinancialStatus.includes('PAID'))) {
       messageBlock.payload[0].text += `\n*X*  Cancel Order`
-      messageBlock.payload[0].text += `\n*I*  Get PDF Invoice`
     }
-    messageBlock.payload[0].text += `\n${specialKeyText(SHOW_CART_KEY)}`
+    if (orderStatus.displayFulfillmentStatus &&
+      orderStatus.displayFulfillmentStatus === 'FULFILLED' &&
+      orderStatus.displayFinancialStatus &&
+      orderStatus.displayFinancialStatus.includes('PAID') &&
+      !orderStatus.cancelReason
+    ) {
+      messageBlock.payload[0].specialKeys['r'] = { type: DYNAMIC, action: RETURN_ORDER, argument: orderId }
+      messageBlock.payload[0].text += `\n*R*  Request Return`
+    }
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
 
