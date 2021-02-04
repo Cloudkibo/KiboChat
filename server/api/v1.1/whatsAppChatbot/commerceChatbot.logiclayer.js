@@ -55,7 +55,7 @@ const {
   VIEW_CATALOG,
   RETURN_ORDER
 } = require('./constants')
-const { convertToEmoji, sendTalkToAgentNotification } = require('./whatsAppChatbot.logiclayer')
+const { convertToEmoji, sendNotification } = require('./whatsAppChatbot.logiclayer')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/whatsAppChatbot/commerceChatbot.logiclayer.js'
 const utility = require('../../../components/utility')
@@ -230,7 +230,8 @@ const getTalkToAgentBlock = (chatbot, backId, contact) => {
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    sendTalkToAgentNotification(contact, chatbot.companyId)
+    const message = `${contact.name} requested to talk to a customer support agent`
+    sendNotification(contact, message, chatbot.companyId)
     updateWhatsAppContact({ _id: contact._id }, { chatbotPaused: true }, null, {})
     return messageBlock
   } catch (err) {
@@ -646,7 +647,7 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
   }
 }
 
-const getReturnOrderBlock = async (chatbot, backId, EcommerceProvider, orderId) => {
+const getReturnOrderBlock = async (chatbot, contact, backId, EcommerceProvider, orderId) => {
   try {
     let messageBlock = {
       module: {
@@ -657,13 +658,11 @@ const getReturnOrderBlock = async (chatbot, backId, EcommerceProvider, orderId) 
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: dedent(`Your return request has been made for order #${orderId}.\n
-            ${specialKeyText(SHOW_CART_KEY)}
+          text: dedent(`A return request has been made for order #${orderId}. An agent will contact you shortly.\n
             ${specialKeyText(BACK_KEY)}
             ${specialKeyText(HOME_KEY)}`),
           componentType: 'text',
           specialKeys: {
-            [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
             [BACK_KEY]: { type: STATIC, blockId: backId },
             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
           }
@@ -672,8 +671,8 @@ const getReturnOrderBlock = async (chatbot, backId, EcommerceProvider, orderId) 
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    await EcommerceProvider.returnOrder(Number(orderId))
-
+    const message = `${contact.name} is requesting a return for order #${orderId}.`
+    sendNotification(contact, message, chatbot.companyId)
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to return order'
@@ -2808,7 +2807,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             break
           }
           case RETURN_ORDER: {
-            messageBlock = await getReturnOrderBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument)
+            messageBlock = await getReturnOrderBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument)
             break
           }
           case SHOW_ITEMS_TO_REMOVE: {
