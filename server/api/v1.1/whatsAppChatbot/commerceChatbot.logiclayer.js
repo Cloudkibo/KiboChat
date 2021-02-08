@@ -295,6 +295,43 @@ const getTalkToAgentBlock = (chatbot, backId, contact) => {
   }
 }
 
+exports.getAbandonedCartReminderBlock = (chatbot, contact, argument) => {
+  try {
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'abandoned_cart_reminder'
+      },
+      title: 'Abandoned Cart Reminder',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Hi ${contact.name},
+          the payment for your order of ${argument.abandonedCart.current_total_price} from ${chatbot.title}
+          is still pending. Click on the link to complete the payment and confirm your 
+          order :point_right:${contact.abandonedCartInfo.abandonedCartInfo}.`,
+          componentType: 'text',
+          specialKeys: {
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
+            [ORDER_STATUS_KEY]: { type: DYNAMIC, action: VIEW_RECENT_ORDERS },
+            [TALK_TO_AGENT_KEY]: { type: DYNAMIC, action: TALK_TO_AGENT }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
+    messageBlock.payload[0].text += `\n${specialKeyText(ORDER_STATUS_KEY)}`
+    messageBlock.payload[0].text += `\n\n${specialKeyText(TALK_TO_AGENT_KEY)}`
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable get talk to agent message block'
+    logger.serverLog(message, `${TAG}: getTalkToAgentBlock`, {}, {chatbot, backId, contact}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to notify customer support agent`)
+  }
+}
+
 const getSearchProductsBlock = async (chatbot, contact) => {
   try {
     const messageBlock = {
