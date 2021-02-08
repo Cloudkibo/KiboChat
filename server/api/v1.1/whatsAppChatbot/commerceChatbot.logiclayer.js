@@ -56,9 +56,7 @@ const {
   RETURN_ORDER,
   CANCEL_ORDER,
   SHOW_FAQS,
-  GET_FAQ_ANSWER,
-  RETURN_ORDER,
-  CANCEL_ORDER
+  GET_FAQ_ANSWER
 } = require('./constants')
 const { convertToEmoji, sendNotification } = require('./whatsAppChatbot.logiclayer')
 const logger = require('../../../components/logger')
