@@ -10,12 +10,11 @@ exports.sendChatMessage = (data) => {
   return new Promise((resolve, reject) => {
     let MessageObject = logicLayer.prepareSendMessagePayload(data)
     cequensApiCaller('messages',
-      data.whatsApp.clientName,
-      data.whatsApp.businessNumber,
       'post',
       data.whatsApp.accessToken,
       MessageObject)
       .then(response => {
+        console.log('response.body', response.body)
         if (response.body.errors) {
           reject(response.body.errors.title)
         } else {
@@ -30,18 +29,87 @@ exports.sendChatMessage = (data) => {
 
 exports.setWebhook = (body) => {
   return new Promise((resolve, reject) => {
-    resolve()
+    async.parallelLimit([
+      function (callback) {
+        cequensApiCaller('webhook',
+          'put',
+          body.accessToken,
+          {url: `https://webhook.cloudkibo.com/webhooks/cequens/${body.businessNumber}`,
+            type: 'status'})
+          .then(response => {
+            console.log('response.body', response.body)
+            if (response.body.data) {
+              callback()
+            } else {
+              callback(response.body)
+            }
+          })
+          .catch(error => {
+            reject(error)
+          })
+      },
+      function (callback) {
+        cequensApiCaller('webhook',
+          'put',
+          body.accessToken,
+          {url: `https://webhook.cloudkibo.com/webhooks/cequens/${body.businessNumber}`,
+            type: 'message'})
+          .then(response => {
+            console.log('response.body', response.body)
+            if (response.body.data) {
+              callback()
+            } else {
+              callback(response.body)
+            }
+          })
+          .catch(error => {
+            reject(error)
+          })
+      }
+    ], 10, function (err, results) {
+      if (err) {
+        reject(err)
+      } else {
+        resolve()
+      }
+    })
   })
 }
 exports.verifyCredentials = (body) => {
   return new Promise((resolve, reject) => {
-    resolve()
+    cequensApiCaller(`credentials/${body.clientName}/${body.businessNumber}`,
+      'get',
+      body.accessToken)
+      .then(response => {
+        console.log('response.body', response.body)
+        if (response.body.errors) {
+          reject(response.body.errors.title)
+        } else {
+          resolve()
+        }
+      })
+      .catch(error => {
+        reject(error)
+      })
   })
 }
 exports.getTemplates = (body) => {
   return new Promise((resolve, reject) => {
-    let templates = logicLayer.prepareTemplates()
-    resolve(templates)
+    cequensApiCaller(`templates`,
+      'get',
+      body.whatsApp.accessToken)
+      .then(response => {
+        console.log('response.body', JSON.stringify(response.body))
+        if (response.body && response.body.data) {
+          let templates = logicLayer.prepareTemplates(response.body.data.commercialTemplates)
+          resolve(templates)
+        } else {
+          reject(response.body)
+        }
+      })
+      .catch(error => {
+        reject(error)
+      })
   })
 }
 exports.sendInvitationTemplate = (body) => {
@@ -51,8 +119,6 @@ exports.sendInvitationTemplate = (body) => {
       requests.push(new Promise((resolve, reject) => {
         setTimeout(() => {
           cequensApiCaller('messages',
-            body.whatsApp.clientName,
-            body.whatsApp.businessNumber,
             'post',
             body.whatsApp.accessToken,
             logicLayer.prepareInvitationPayload(body, body.numbers[j]))
@@ -86,8 +152,6 @@ exports.respondUsingChatbot = ({payload, options, company, subscriber}) => {
       logicLayer.prepareChatbotPayload(company, subscriber, item, options)
         .then(message => {
           cequensApiCaller('messages',
-            company.whatsApp.clientName,
-            company.whatsApp.businessNumber,
             'post',
             company.whatsApp.accessToken,
             message)
@@ -127,8 +191,6 @@ exports.sendTextMessage = ({text, company, subscriber}) => {
       MessageObject.preview_url = true
     }
     cequensApiCaller('messages',
-      company.whatsApp.clientName,
-      company.whatsApp.businessNumber,
       'post',
       company.whatsApp.accessToken,
       MessageObject)
@@ -182,6 +244,18 @@ exports.getNormalizedMessageReceivedData = (event) => {
         .catch(err => {
           reject(err)
         })
+    } catch (err) {
+      reject(err)
+    }
+  })
+}
+exports.getNormalizedMessageStatusData = (event) => {
+  return new Promise((resolve, reject) => {
+    try {
+      resolve({
+        messageId: event.statuses[0].id,
+        status: event.statuses[0].status === 'read' ? 'seen' : event.statuses[0].status
+      })
     } catch (err) {
       reject(err)
     }
