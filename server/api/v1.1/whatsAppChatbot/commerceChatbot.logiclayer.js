@@ -3191,7 +3191,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
         if (chatbot.triggers.includes(input) || moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15) {
           return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
         } else {
-          return invalidInput(chatbot, contact.lastMessageSentByBot, err.message)
+          return invalidInput(chatbot, contact.lastMessageSentByBot, `${ERROR_INDICATOR}You entered an invalid response.`)
         }
       }
     } else if (action.type === STATIC) {
