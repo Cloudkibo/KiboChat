@@ -9,7 +9,6 @@ exports.prepareSendMessagePayload = (body) => {
     recipient_type: 'individual'
   }
   if (body.payload.componentType === 'text') {
-    console.log('templateArguments', body.payload.templateArguments)
     if (body.payload.templateName) {
       let templateArguments = body.payload.templateArguments.split(',')
       MessageObject.type = 'template'
@@ -71,7 +70,6 @@ exports.prepareSendMessagePayload = (body) => {
       link: body.payload.fileurl.url || body.payload.fileurl
     }
   }
-  console.log('MessageObject', JSON.stringify(MessageObject))
   return MessageObject
 }
 exports.prepareTemplates = (cequensTemplates) => {

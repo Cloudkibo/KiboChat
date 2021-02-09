@@ -14,7 +14,6 @@ exports.sendChatMessage = (data) => {
       data.whatsApp.accessToken,
       MessageObject)
       .then(response => {
-        console.log('response.body', response.body)
         if (response.body.errors) {
           reject(response.body.errors.title)
         } else {
@@ -37,7 +36,6 @@ exports.setWebhook = (body) => {
           {url: `https://webhook.cloudkibo.com/webhooks/cequens/${body.businessNumber}`,
             type: 'status'})
           .then(response => {
-            console.log('response.body', response.body)
             if (response.body.data) {
               callback()
             } else {
@@ -55,7 +53,6 @@ exports.setWebhook = (body) => {
           {url: `https://webhook.cloudkibo.com/webhooks/cequens/${body.businessNumber}`,
             type: 'message'})
           .then(response => {
-            console.log('response.body', response.body)
             if (response.body.data) {
               callback()
             } else {
@@ -77,20 +74,21 @@ exports.setWebhook = (body) => {
 }
 exports.verifyCredentials = (body) => {
   return new Promise((resolve, reject) => {
-    cequensApiCaller(`credentials/${body.clientName}/${body.businessNumber}`,
-      'get',
-      body.accessToken)
-      .then(response => {
-        console.log('response.body', response.body)
-        if (response.body.errors) {
-          reject(response.body.errors.title)
-        } else {
-          resolve()
-        }
-      })
-      .catch(error => {
-        reject(error)
-      })
+    resolve()
+    // cequensApiCaller(`credentials/${body.clientName}/${body.businessNumber}`,
+    //   'get',
+    //   body.accessToken)
+    //   .then(response => {
+    //     console.log('response.body', response.body)
+    //     if (response.body.errors) {
+    //       reject(response.body.errors.title)
+    //     } else {
+    //       resolve()
+    //     }
+    //   })
+    //   .catch(error => {
+    //     reject(error)
+    //   })
   })
 }
 exports.getTemplates = (body) => {
@@ -99,7 +97,6 @@ exports.getTemplates = (body) => {
       'get',
       body.whatsApp.accessToken)
       .then(response => {
-        console.log('response.body', JSON.stringify(response.body))
         if (response.body && response.body.data) {
           let templates = logicLayer.prepareTemplates(response.body.data.commercialTemplates)
           resolve(templates)
