@@ -5,6 +5,7 @@
   "main": "server/app.js",
   "scripts": {
     "start": "cross-env DEBUG=project:* NODE_ENV=development nodemon --trace-warnings server/app.js",
+    "start:anisha": "cross-env DEBUG=project:* NODE_ENV=development DOMAIN=https://kibopush-anisha.ngrok.io nodemon --trace-warnings server/app.js",
     "start:sojharo": "cross-env DEBUG=project:* NODE_ENV=development DOMAIN=https://kibopush-sojharo.ngrok.io nodemon --trace-warnings server/app.js",
     "debug": "cross-env DEBUG=express:router:route,express:application,project:* NODE_ENV=development nodemon --trace-sync-io server/app.js",
     "lint": "echo 'Pre-commit checks...' && standard --fix && echo \"No code style errors found.\"",
@@ -79,7 +80,7 @@
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
     "serve-favicon": "^2.5.0",
-    "shopify-api-node": "^3.4.3",
+    "shopify-api-node": "^3.6.3",
     "socket.io": "^2.2.0",
     "socket.io-client": "^2.2.0",
     "socketio-jwt": "^4.5.0",

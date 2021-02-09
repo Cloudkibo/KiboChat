@@ -20,7 +20,20 @@ exports.fetchStoreInfo = (credentials) => {
 }
 
 exports.fetchAllProductCategories = (paginationParams, credentials) => {
+  console.log('inside')
   const shopify = initShopify(credentials)
+  const shopify1 = new Shopify({
+    shopName: credentials.shopUrl,
+    accessToken: credentials.shopToken,
+    apiVersion: '2021-01'
+  })
+  shopify1.checkout.get()
+    .then(result => {
+      console.log('result from checkout ', result)
+    })
+    .catch(err => {
+      console.log('in catch', err)
+    })
   return new Promise(function (resolve, reject) {
     paginationParams = paginationParams || { limit: 9 }
     shopify.customCollection.list(paginationParams)
@@ -657,4 +670,23 @@ function initShopify (credentials) {
     apiVersion: '2019-07'
   })
   return shopify
+}
+
+exports.fetchAbandonedCart = (token, credentials) => {
+  console.log('inside fetchAbandonedCart')
+  const shopify = initShopify(credentials)
+  return new Promise(function (resolve, reject) {
+    if (token) {
+      shopify.checkout.list({ limit: 2 })
+        .then(result => {
+          console.log('result', result)
+          resolve(result)
+        })
+        .catch(err => {
+          reject(err)
+        })
+    } else {
+      throw new Error('Cart Token is required to complete the order')
+    }
+  })
 }
