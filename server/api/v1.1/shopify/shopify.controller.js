@@ -122,9 +122,20 @@ function registerWebhooks (shop, token) {
     const message = err || 'Error Creating Shopify Complete Checkout Webhook'
     logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
   })
+
+  shopify.webhook.create({
+    topic: 'checkouts/create',
+    address: `${config.domain}/api/shopify/checkout-create`,
+    format: 'json'
+  }).then((response) => {
+  }).catch((err) => {
+    const message = err || 'Error Creating Checkout Webhook'
+    logger.serverLog(message, `${TAG}: registerWebhooks`, {shop, token}, {}, 'error')
+  })
 }
 
 exports.handleCompleteCheckout = async function (req, res) {
+  console.log('complete checkout', req.body)
   try {
     const contacts = await callApi(`whatsAppContacts/query`, 'post', {'commerceCustomerShopify.email': req.body.email})
     for (const contact of contacts) {
