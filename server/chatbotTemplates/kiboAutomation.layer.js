@@ -23,9 +23,15 @@ exports.getChatbotResponse = function (chatbot, userInput, subscriber, selectedO
             automationResponse = {...lastMessage, options: 'PRODUCTS_NOT_FOUND', gallery: null}
           } else {
             automationResponse = {...automationResponse, ...response}
-            if (lastMessage && automationResponse.openEndedResponse) {
+            if (lastMessage && lastMessage.event && lastMessage.openEndedResponse && automationResponse.openEndedResponse) {
               automationResponse.event = lastMessage.event
             }
+            if (lastMessage && lastMessage.paymentMethod) {
+              automationResponse.paymentMethod = lastMessage.paymentMethod
+            }
+          }
+          if (response.options === 'FROM_API') {
+            automationResponse.options = []
           }
         }
         chatbotResponse = await prepareResponse(chatbot, subscriber, automationResponse, selectedOption)

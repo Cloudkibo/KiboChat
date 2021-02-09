@@ -1,3 +1,8 @@
+const pdf = require('pdf-creator-node')
+const fs = require('fs')
+const path = require('path')
+const config = require('../config/environment/index')
+
 exports.prepareInvalidResponse = function (chatbot, subscriber, message) {
   return new Promise(async (resolve, reject) => {
     try {
@@ -16,6 +21,7 @@ function prepareResponse (chatbot, subscriber, automationResponse, selectedOptio
   return new Promise((resolve, reject) => {
     let response = []
     let text = ''
+    automationResponse.options = automationResponse.options || []
     if (automationResponse.options === 'PRODUCTS_NOT_FOUND') {
       text = `No products found!\n\n${prepareText(automationResponse.text, chatbot, subscriber)}`
     } else {
@@ -66,5 +72,37 @@ function convertToEmoji (num) {
   return emoji
 }
 
+const generateInvoice = async (storeInfo, order) => {
+  const html = fs.readFileSync(path.join(__dirname, '../chatbots/invoice_template.html'), 'utf8')
+  const options = {
+    format: 'A3',
+    orientation: 'portrait',
+    border: '10mm'
+  }
+  const document = {
+    html: html,
+    data: {
+      shopName: storeInfo.name,
+      orderId: order.id,
+      date: order.date,
+      customer: order.customer,
+      shippingAddress: order.shippingAddress,
+      billingAddress: order.billingAddress,
+      items: order.items,
+      totalPrice: order.totalPrice
+    },
+    path: `./invoices/${storeInfo.id}/order${order.id}.pdf`
+  }
+  await pdf.create(document, options)
+  return {
+    componentType: 'file',
+    fileurl: {
+      url: `${config.domain}/invoices/${storeInfo.id}/order${order.id}.pdf`
+    },
+    fileName: `order${order.id}.pdf`
+  }
+}
+
 exports.prepareResponse = prepareResponse
 exports.convertToEmoji = convertToEmoji
+exports.generateInvoice = generateInvoice
