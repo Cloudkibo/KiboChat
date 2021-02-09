@@ -594,11 +594,10 @@ async function getAllChatbots (company) {
     return {botId: chatbot._id, title, built: 'automated', ...chatbot}
   })
 
-  let sqlChatbots = []
-  // let sqlChatbots = await configureChatbotDatalayer.fetchChatbotRecords({platform: 'whatsApp', companyId: company._id, published: true})
-  // sqlChatbots = sqlChatbots.map(chatbot => {
-  //   return {botId: chatbot.chatbotId, built: 'custom', ...chatbot}
-  // })
+  let sqlChatbots = await configureChatbotDatalayer.fetchChatbotRecords({platform: 'whatsApp', companyId: company._id, published: true})
+  sqlChatbots = sqlChatbots.map(chatbot => {
+    return {botId: chatbot.chatbotId, built: 'custom', ...chatbot}
+  })
 
   const allChatbots = [...sqlChatbots, ...chatbots]
   return allChatbots
