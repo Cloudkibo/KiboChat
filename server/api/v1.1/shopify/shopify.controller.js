@@ -136,6 +136,7 @@ function registerWebhooks (shop, token) {
 
 exports.handleCreateCheckout = async function (req, res) {
   console.log('handleCreateCheckout', JSON.stringify(req.body))
+  return sendSuccessResponse(res, 200, {status: 'success'})
 }
 
 exports.handleCompleteCheckout = async function (req, res) {
