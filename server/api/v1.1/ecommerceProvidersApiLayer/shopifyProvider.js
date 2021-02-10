@@ -700,3 +700,20 @@ function initShopify (credentials) {
   })
   return shopify
 }
+
+exports.fetchAbandonedCart = (token, credentials) => {
+  const shopify = initShopify(credentials)
+  return new Promise(function (resolve, reject) {
+    if (token) {
+      shopify.checkout.get(token)
+        .then(result => {
+          resolve(result)
+        })
+        .catch(err => {
+          reject(err)
+        })
+    } else {
+      throw new Error('token is required to complete to get checkout details')
+    }
+  })
+}

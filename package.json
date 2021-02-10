@@ -5,6 +5,7 @@
   "main": "server/app.js",
   "scripts": {
     "start": "cross-env DEBUG=project:* NODE_ENV=development nodemon --trace-warnings server/app.js",
+    "start:anisha": "cross-env DEBUG=project:* NODE_ENV=development DOMAIN=https://kibopush-anisha.ngrok.io nodemon --trace-warnings server/app.js",
     "start:sojharo": "cross-env DEBUG=project:* NODE_ENV=development DOMAIN=https://kibopush-sojharo.ngrok.io nodemon --trace-warnings server/app.js",
     "debug": "cross-env DEBUG=express:router:route,express:application,project:* NODE_ENV=development nodemon --trace-sync-io server/app.js",
     "lint": "echo 'Pre-commit checks...' && standard --fix && echo \"No code style errors found.\"",

@@ -129,8 +129,8 @@ function registerWebhooks (shop, token) {
     format: 'json'
   }).then((response) => {
   }).catch((err) => {
-    const message = err || 'Error Creating Checkout Webhook'
-    logger.serverLog(message, `${TAG}: registerWebhooks`, {shop, token}, {}, 'error')
+    const message = err || 'Error Creating Shopify Create Checkout Webhook'
+    logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
   })
 }
 
@@ -140,7 +140,7 @@ exports.handleCreateCheckout = async function (req, res) {
 }
 
 exports.handleCompleteCheckout = async function (req, res) {
-  console.log('complete checkout', JSON.stringify(req.body))
+  console.log('handleCompleteCheckout', JSON.stringify(req.body))
   try {
     const contacts = await callApi(`whatsAppContacts/query`, 'post', {'commerceCustomerShopify.email': req.body.email})
     for (const contact of contacts) {
