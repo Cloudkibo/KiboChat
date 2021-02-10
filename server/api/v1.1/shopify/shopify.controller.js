@@ -129,7 +129,7 @@ function registerWebhooks (shop, token) {
     format: 'json'
   }).then((response) => {
   }).catch((err) => {
-    const message = err || 'Error Creating Shopify Complete Checkout Webhook'
+    const message = err || 'Error Creating Shopify Create Checkout Webhook'
     logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
   })
 }
