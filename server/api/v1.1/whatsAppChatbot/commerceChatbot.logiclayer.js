@@ -53,6 +53,7 @@ const {
   GET_INVOICE,
   GET_CHECKOUT_INFO,
   VIEW_CATALOG,
+  CONFIRM_RETURN_ORDER,
   RETURN_ORDER,
   CANCEL_ORDER,
   SHOW_FAQS,
@@ -854,7 +855,7 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
       orderStatus.displayFinancialStatus.includes('PAID') &&
       !orderStatus.cancelReason
     ) {
-      messageBlock.payload[0].specialKeys['r'] = { type: DYNAMIC, action: RETURN_ORDER, argument: orderId }
+      messageBlock.payload[0].specialKeys['r'] = { type: DYNAMIC, action: CONFIRM_RETURN_ORDER, argument: orderId }
       messageBlock.payload[0].text += `\n*R*  Request Return`
     }
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
@@ -882,8 +883,51 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
   }
 }
 
-const getReturnOrderBlock = async (chatbot, contact, backId, EcommerceProvider, orderId) => {
+const getConfirmReturnOrderBlock = async (chatbot, backId, order) => {
   try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_commerce_chatbot'
+      },
+      title: 'Confirm Return Request',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Are you sure you want to return this order?\n\n`,
+          componentType: 'text',
+          specialKeys: {
+            [BACK_KEY]: { type: STATIC, blockId: backId },
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
+            'y': { type: DYNAMIC, action: RETURN_ORDER, argument: order },
+            'n': { type: DYNAMIC, action: ORDER_STATUS, argument: order },
+            'yes': { type: DYNAMIC, action: RETURN_ORDER, argument: order },
+            'no': { type: DYNAMIC, action: ORDER_STATUS, argument: order }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    messageBlock.payload[0].text += dedent(`Please select an option from following:\n
+                                            Send 'Y' for Yes
+                                            Send 'N' for No`)
+
+    messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
+
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to get return order'
+    logger.serverLog(message, `${TAG}: exports.getConfirmReturnOrderBlock`, {}, {}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to return order`)
+  }
+}
+
+const getReturnOrderBlock = async (chatbot, contact, backId, EcommerceProvider, orderId, businessNumber) => {
+  try {
+    const storeInfo = await EcommerceProvider.fetchStoreInfo()
+    let number = businessNumber.replace(/[^0-9]/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')
     let messageBlock = {
       module: {
         id: chatbot._id,
@@ -893,7 +937,7 @@ const getReturnOrderBlock = async (chatbot, contact, backId, EcommerceProvider, 
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: dedent(`A return request has been made for order #${orderId}. An agent will contact you shortly.\n
+          text: dedent(`Dear Valuable Customer,\n\nThank you for contacting ${storeInfo.name}. We have received the 'Return' request of your order #${orderId}. You are requested to please allow us some time, one of our representative will contact you for further details and confirmation.\n\nWarm regards,\n${storeInfo.name} Customer Care\nUAN: ${number}\n
             ${specialKeyText(BACK_KEY)}
             ${specialKeyText(HOME_KEY)}`),
           componentType: 'text',
@@ -2916,7 +2960,7 @@ const getAskUnpauseChatbotBlock = (chatbot, contact) => {
   }
 }
 
-exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input) => {
+exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input, company) => {
   let userError = false
   input = input.toLowerCase()
   if (!contact || !contact.lastMessageSentByBot) {
@@ -3041,8 +3085,12 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             messageBlock = await getCheckoutBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, contact, action.argument, action.input ? input : '')
             break
           }
+          case CONFIRM_RETURN_ORDER: {
+            messageBlock = await getConfirmReturnOrderBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument)
+            break
+          }
           case RETURN_ORDER: {
-            messageBlock = await getReturnOrderBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument)
+            messageBlock = await getReturnOrderBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument, company.whatsApp.businessNumber)
             break
           }
           case SHOW_ITEMS_TO_REMOVE: {
