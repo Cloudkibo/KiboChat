@@ -11,6 +11,7 @@ const config = require('../../../config/environment')
 const async = require('async')
 const { callApi } = require('../utility')
 const intentsDataLayer = require('../intents/datalayer')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 
 exports.index = function (req, res) {
   BotsDataLayer.findAllBotObjectsUsingQuery({ companyId: req.user.companyId })
@@ -93,26 +94,48 @@ const _createBotRecordInDB = (data, callback) => {
 }
 
 exports.create = function (req, res) {
-  let data = {
-    user: req.user,
-    pageId: req.body.pageId,
-    botName: req.body.botName,
-    gcpPojectId: `${req.body.botName}-${req.body.pageId.substring(req.body.pageId.length - 4)}`,
-    dialogFlowAgentId: `${req.body.botName}-${req.body.pageId.substring(req.body.pageId.length - 4)}`
-  }
-  async.series([
-    _createGCPProject.bind(null, data),
-    _createDialogFlowAgent.bind(null, data),
-    _createBotRecordInDB.bind(null, data)
-  ], function (err) {
-    if (err) {
-      const message = err || 'Failed to create bot.'
-      logger.serverLog(message, `${TAG}: exports.create`, req.body, {data}, 'error')
-      sendErrorResponse(res, 500, 'Failed to create bot.')
-    } else {
-      sendSuccessResponse(res, 200, data.botData)
-    }
-  })
+  utility.callApi(`featureUsage/planQuery`, 'post', {planId: req.user.currentPlan})
+    .then(planUsage => {
+      planUsage = planUsage[0]
+      utility.callApi(`featureUsage/companyQuery`, 'post', {companyId: req.user.companyId})
+        .then(companyUsage => {
+          companyUsage = companyUsage[0]
+          if (planUsage.bots !== -1 && companyUsage.bots >= planUsage.bots) {
+            return res.status(500).json({
+              status: 'failed',
+              description: `Your smart replies limit has reached. Please upgrade your plan to create more smart replies.`
+            })
+          } else {
+            let data = {
+              user: req.user,
+              pageId: req.body.pageId,
+              botName: req.body.botName,
+              gcpPojectId: `${req.body.botName}-${req.body.pageId.substring(req.body.pageId.length - 4)}`,
+              dialogFlowAgentId: `${req.body.botName}-${req.body.pageId.substring(req.body.pageId.length - 4)}`
+            }
+            async.series([
+              _createGCPProject.bind(null, data),
+              _createDialogFlowAgent.bind(null, data),
+              _createBotRecordInDB.bind(null, data)
+            ], function (err) {
+              if (err) {
+                const message = err || 'Failed to create bot.'
+                logger.serverLog(message, `${TAG}: exports.create`, req.body, {data}, 'error')
+                sendErrorResponse(res, 500, 'Failed to create bot.')
+              } else {
+                updateCompanyUsage(req.user.companyId, 'bots', 1)
+                sendSuccessResponse(res, 200, data.botData)
+              }
+            })
+          }
+        })
+        .catch(err => {
+          sendErrorResponse(res, 500, `Error fetching company usage ${err}`)
+        })
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, `Error fetching plan usage ${err}`)
+    })
 }
 
 exports.edit = function (req, res) {
@@ -365,12 +388,15 @@ exports.delete = function (req, res) {
             logger.serverLog(message, `${TAG}: exports.delete`, {}, {user: req.user}, 'error')
             sendErrorResponse(res, 500, 'Failed to delete bot.')
           } else {
+            updateCompanyUsage(req.user.companyId, 'bots', -1)
             sendSuccessResponse(res, 200, 'Bot deleted succssfully!')
           }
         })
       }
     })
     .catch(err => {
+      const message = err || 'Error in finding bot object'
+      logger.serverLog(message, `${TAG}: exports.delete`, {}, {user: req.user}, 'error')
       sendErrorResponse(res, 500, 'Incorrect password', `Error in finding bot object ${JSON.stringify(err)}`)
     })
 }

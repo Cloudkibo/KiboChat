@@ -91,6 +91,8 @@ function isApprovedForSMP (page) {
           }
         })
         .catch(err => {
+          const message = err || 'error in fb call'
+          logger.serverLog(message, `${TAG}: exports.isApprovedForSMP`, {}, {page}, 'error')
           reject(err)
         })
     } else {

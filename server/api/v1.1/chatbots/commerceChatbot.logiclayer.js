@@ -46,11 +46,11 @@ const {
   GET_INVOICE,
   GET_CHECKOUT_INFO,
   VIEW_CATALOG,
-  RETURN_ORDER,
-  CONFIRM_RETURN_ORDER,
-  CANCEL_ORDER,
   SHOW_FAQS,
-  GET_FAQ_ANSWER
+  GET_FAQ_ANSWER,
+  RETURN_ORDER,
+  CANCEL_ORDER,
+  CONFIRM_RETURN_ORDER
 } = require('./constants')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/chatbots/commerceChatbot.logiclayer.js'
@@ -555,6 +555,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
       }
 
       if (products.nextPageParameters) {
+        console.log('products.nextPageParameters', products.nextPageParameters)
         messageBlock.payload[1].cards.push({
           title: 'View More',
           subtitle: `Click on the "View More" button to view more products`,
@@ -1209,9 +1210,9 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
     )
     return messageBlock
   } catch (err) {
-    const message = err || 'Unable to select product variants'
-    logger.serverLog(message, `${TAG}: exports.getSelectProductBlock`, {}, {}, 'error')
-    throw new Error(`${ERROR_INDICATOR}Unable to select product`)
+    const message = err || 'Unable to get product variants'
+    logger.serverLog(message, `${TAG}: exports.getProductVariantsBlock`, {}, {}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to get product variants`)
   }
 }
 
