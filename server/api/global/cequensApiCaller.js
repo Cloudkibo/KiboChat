@@ -1,6 +1,6 @@
 const needle = require('needle')
 
-exports.cequensApiCaller = (path, clientName, number, method = 'get', token, data) => {
+exports.cequensApiCaller = (path, method = 'get', token, data) => {
   let options = {
     headers: {
       'content_type': 'application/json',
@@ -10,7 +10,8 @@ exports.cequensApiCaller = (path, clientName, number, method = 'get', token, dat
   }
   return needle(
     method,
-    `https://wabapi.cequens.net/${clientName}/${number}/v1/${path}`,
+    `https://apis.cequens.com/conversation/wab/v1/${path}`,
+    // `https://wabapi.cequens.net/${clientName}/${number}/v1/${path}`,
     data,
     options
   )
