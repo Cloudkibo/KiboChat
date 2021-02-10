@@ -135,11 +135,12 @@ function registerWebhooks (shop, token) {
 }
 
 exports.handleCreateCheckout = async function (req, res) {
-  console.log('handleCreateCheckout', req.body)
+  console.log('handleCreateCheckout', JSON.stringify(req.body))
+  return sendSuccessResponse(res, 200, {status: 'success'})
 }
 
 exports.handleCompleteCheckout = async function (req, res) {
-  console.log('handleCompleteCheckout', req.body)
+  console.log('handleCompleteCheckout', JSON.stringify(req.body))
   try {
     const contacts = await callApi(`whatsAppContacts/query`, 'post', {'commerceCustomerShopify.email': req.body.email})
     for (const contact of contacts) {
