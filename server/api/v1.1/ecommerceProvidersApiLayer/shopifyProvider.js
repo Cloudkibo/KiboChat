@@ -20,6 +20,7 @@ exports.fetchStoreInfo = (credentials) => {
 }
 
 exports.fetchAllProductCategories = (paginationParams, credentials) => {
+  const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
     paginationParams = paginationParams || { limit: 9 }
     shopify.customCollection.list(paginationParams)

@@ -80,7 +80,7 @@
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
     "serve-favicon": "^2.5.0",
-    "shopify-api-node": "^3.6.3",
+    "shopify-api-node": "^3.4.3",
     "socket.io": "^2.2.0",
     "socket.io-client": "^2.2.0",
     "socketio-jwt": "^4.5.0",
