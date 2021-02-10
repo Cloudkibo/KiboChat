@@ -13,7 +13,7 @@ exports.prepareSendMessagePayload = (body) => {
       let templateArguments = body.payload.templateArguments.split(',')
       MessageObject.type = 'template'
       MessageObject['template'] = {
-        namespace: body.payload.templateId,
+        namespace: 'c088281d_2079_43e6_820e_5389ef88806d',
         name: body.payload.templateName,
         language: {
           policy: 'deterministic',
@@ -72,18 +72,39 @@ exports.prepareSendMessagePayload = (body) => {
   }
   return MessageObject
 }
-exports.prepareTemplates = () => {
-  let templates = [
-    {
-      name: 'cequens_autoreply',
-      id: 'c088281d_2079_43e6_820e_5389ef88806d',
-      code: 'en',
-      text: 'This is automated message regarding to your Ticket No. {{1}}. We have received your request and will get back to you within 1 working day',
-      templateArguments: '{{1}}',
-      regex: '^This is automated message regarding to your Ticket No. (.*). We have received your request and will get back to you within 1 working day$',
-      buttons: []
+exports.prepareTemplates = (cequensTemplates) => {
+  let templates = []
+  for (let i = 0; i < cequensTemplates.length; i++) {
+    if (cequensTemplates[i].status === 'APPROVED') {
+      let template = {}
+      template.name = cequensTemplates[i].name
+      let templateComponents = cequensTemplates[i].components
+      template.code = cequensTemplates[i].language
+      template.type = 'text'
+      template.id = cequensTemplates[i].id
+      for (let j = 0; j < templateComponents.length; j++) {
+        if (templateComponents[j].type === 'BODY') {
+          template.text = templateComponents[j].text
+          let argumentsRegex = /{{[0-9]}}/g
+          let templateArguments = template.text.match(argumentsRegex).join(',')
+          template.templateArguments = templateArguments
+          let regex = template.text.replace('.', '\\.')
+          regex = regex.replace(argumentsRegex, '(.*)')
+          template.regex = `^${regex}$`
+        } else if (templateComponents[j].type === 'BUTTONS') {
+          template.buttons = templateComponents[j].buttons.map(button => {
+            return {
+              title: button.text
+            }
+          })
+        }
+      }
+      if (!template.buttons) {
+        template.buttons = []
+      }
+      templates.push(template)
     }
-  ]
+  }
   return templates
 }
 exports.prepareInvitationPayload = (body, number) => {
@@ -93,7 +114,7 @@ exports.prepareInvitationPayload = (body, number) => {
     recipient_type: 'individual',
     type: 'template',
     template: {
-      namespace: body.payload.templateId,
+      namespace: 'c088281d_2079_43e6_820e_5389ef88806d',
       name: body.payload.templateName,
       language: {
         policy: 'deterministic',
@@ -170,7 +191,7 @@ exports.prepareReceivedMessageData = (event, company) => {
   let payload = {}
   return new Promise((resolve, reject) => {
     if (message.type === 'image' || message.type === 'video' || message.type === 'document' || message.type === 'audio' || message.type === 'voice') {
-      cequensApiCaller(`media/` + message[message.type].id, companyWhatsApp.clientName, event.businessNumber.replace('+', ''), 'get', companyWhatsApp.accessToken)
+      cequensApiCaller(`media/` + message[message.type].id, 'get', companyWhatsApp.accessToken)
         .then(response => {
           if (response.body.errors) {
             reject(response.body.errors)
