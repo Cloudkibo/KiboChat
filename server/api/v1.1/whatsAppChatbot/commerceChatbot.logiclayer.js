@@ -57,7 +57,8 @@ const {
   RETURN_ORDER,
   CANCEL_ORDER,
   SHOW_FAQS,
-  GET_FAQ_ANSWER
+  GET_FAQ_ANSWER,
+  CANCEL_ORDER_CONFIRM
 } = require('./constants')
 const { convertToEmoji, sendNotification } = require('./whatsAppChatbot.logiclayer')
 const logger = require('../../../components/logger')
@@ -219,8 +220,10 @@ const getViewCatalogBlock = (chatbot, backId, contact) => {
   }
 }
 
-const getCancelOrderBlock = async (chatbot, backId, EcommerceProvider, argument) => {
+const getCancelOrderBlock = async (chatbot, backId, EcommerceProvider, argument, businessNumber) => {
   let orderId = argument.id.split('//')[1].split('/')[2]
+  const storeInfo = await EcommerceProvider.fetchStoreInfo()
+  let number = businessNumber.replace(/[^0-9]/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')
   try {
     const messageBlock = {
       module: {
@@ -245,11 +248,19 @@ const getCancelOrderBlock = async (chatbot, backId, EcommerceProvider, argument)
       companyId: chatbot.companyId
     }
     if (!argument.isOrderFulFilled) {
-      let canceledOrder = await EcommerceProvider.cancelAnOrder(orderId)
-      if (canceledOrder && canceledOrder.confirmed) {
-        messageBlock.payload[0].text += `Your order with orderId: ${argument.orderId} has been successfully canceled.`
+      let orderStatus = await EcommerceProvider.checkOrderStatus(Number(argument.orderId))
+      let tags = orderStatus.tags
+      tags.push('cancel-request')
+      let response = await EcommerceProvider.updateOrderTag(orderId, tags.join())
+      if (response.status === 'success') {
+        let cancelationMessage = `Dear Valuable Customer, Thank you for contacting ${storeInfo.name}. We have received the cancellation ‘Request’ of your order number: ${argument.orderId}. One of our representative will contact you shortly for further details and confirmation.`
+        cancelationMessage += `\n\nWarm regards`
+        cancelationMessage += `\n${storeInfo.name} Customer Care`
+        cancelationMessage += `\nUAN: ${number}`
+        messageBlock.payload[0].text += cancelationMessage
       } else {
-        messageBlock.payload[0].text += `Your order could not be canceled.`
+        messageBlock.payload[0].text += `Failed to send cancel request for your order.`
+        messageBlock.payload[0].text += `\n\n${specialKeyText(TALK_TO_AGENT_KEY)}`
       }
       messageBlock.payload[0].text += `\n\n${specialKeyText(ORDER_STATUS_KEY)}`
     } else {
@@ -263,6 +274,47 @@ const getCancelOrderBlock = async (chatbot, backId, EcommerceProvider, argument)
   } catch (err) {
     const message = err || 'Unable to cancel order'
     logger.serverLog(message, `${TAG}: getCancelOrderBlock`, {}, {chatbot, backId}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to notify customer support agent`)
+  }
+}
+
+const getCancelOrderConfirmBlock = async (chatbot, backId, argument) => {
+  try {
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_commerce_chatbot'
+      },
+      title: 'Cancel Order Confirm',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Are you sure you want to cancel the order? `,
+          componentType: 'text',
+          specialKeys: {
+            [BACK_KEY]: { type: STATIC, blockId: backId },
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
+            'y': { type: DYNAMIC, action: CANCEL_ORDER, argument },
+            'n': { type: STATIC, blockId: backId },
+            'yes': { type: DYNAMIC, action: CANCEL_ORDER, argument },
+            'no': { type: STATIC, blockId: backId }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+
+    messageBlock.payload[0].text += dedent(`Please select an option from following:\n
+    Send 'Y' for Yes
+    Send 'N' for No`)
+
+    messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to confirm cancel order'
+    logger.serverLog(message, `${TAG}: getCancelOrderConfirmBlock`, {}, {chatbot, backId}, 'error')
     throw new Error(`${ERROR_INDICATOR}Unable to notify customer support agent`)
   }
 }
@@ -774,12 +826,16 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
 
     let isOrderFulFilled = orderStatus.displayFulfillmentStatus.toLowerCase() === 'fulfilled'
     if (!orderStatus.cancelReason) {
-      messageBlock.payload[0].specialKeys['x'] = { type: DYNAMIC, action: CANCEL_ORDER, argument: { id: orderStatus.id, orderId, isOrderFulFilled } }
+      messageBlock.payload[0].specialKeys['x'] = { type: DYNAMIC, action: CANCEL_ORDER_CONFIRM, argument: { id: orderStatus.id, orderId, isOrderFulFilled } }
     }
 
     if (orderStatus.cancelReason) {
       messageBlock.payload[0].text += `\n*Status*: CANCELED`
     } else {
+      if (orderStatus.tags && orderStatus.tags.includes('cancel-request')) {
+        messageBlock.payload[0].text += `\n*Status*: Request Open for Cancelation `
+      }
+      
       if (orderStatus.displayFinancialStatus) {
         messageBlock.payload[0].text += `\n*Payment*: ${orderStatus.displayFinancialStatus}`
       }
@@ -846,7 +902,10 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
 
     messageBlock.payload[0].text += `\n\n*I*   Get PDF Invoice`
     messageBlock.payload[0].text += `\n*O*  View Recent Orders`
-    if (!orderStatus.cancelReason && !(orderStatus.displayFinancialStatus && orderStatus.displayFinancialStatus.includes('PAID'))) {
+
+    if (!orderStatus.cancelReason &&
+      !(orderStatus.displayFinancialStatus && orderStatus.displayFinancialStatus.includes('PAID')) &&
+      !(orderStatus.tags && orderStatus.tags.includes('cancel-request'))) {
       messageBlock.payload[0].text += `\n*X*  Cancel Order`
     }
     if (orderStatus.displayFulfillmentStatus &&
@@ -3219,7 +3278,11 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input,
             break
           }
           case CANCEL_ORDER: {
-            messageBlock = await getCancelOrderBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument, action.input ? input : '')
+            messageBlock = await getCancelOrderBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument, company.whatsApp.businessNumber)
+            break
+          }
+          case CANCEL_ORDER_CONFIRM: {
+            messageBlock = await getCancelOrderConfirmBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument, action.input ? input : '')
             break
           }
           case SHOW_FAQS: {
