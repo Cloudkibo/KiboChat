@@ -908,6 +908,7 @@ const getReturnOrderBlock = async (chatbot, contact, backId, EcommerceProvider, 
     }
     const message = `${contact.name} is requesting a return for order #${orderId}.`
     sendNotification(contact, message, chatbot.companyId)
+
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to return order'
@@ -3188,7 +3189,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
         if (chatbot.triggers.includes(input) || moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15) {
           return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
         } else {
-          return invalidInput(chatbot, contact.lastMessageSentByBot, err.message)
+          return invalidInput(chatbot, contact.lastMessageSentByBot, `${ERROR_INDICATOR}You entered an invalid response.`)
         }
       }
     } else if (action.type === STATIC) {

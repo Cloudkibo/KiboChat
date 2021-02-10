@@ -67,8 +67,8 @@ exports.messageReceived = function (req, res) {
                           }
                           return
                         }
-                        if (!shouldAvoidSendingMessage && data.messageData.componentType === 'text') {
-                          let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ _id: company.whatsApp.activeWhatsappBot })
+                        if (!shouldAvoidSendingMessage && company.whatsApp.activeWhatsappBot && data.messageData.componentType === 'text') {
+                          let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({_id: company.whatsApp.activeWhatsappBot})
                           if (chatbot) {
                             const shouldSend = chatbot.published || chatbot.testSubscribers.includes(contact.number)
                             if (shouldSend) {
@@ -235,6 +235,8 @@ function createContact (data) {
                 }
               })
               .catch(error => {
+                const message = error || 'Failed to map whatsapp contact'
+                logger.serverLog(message, `${TAG}: exports.createContact`, {}, {data}, 'error')
                 reject(error)
               })
           })
@@ -243,6 +245,8 @@ function createContact (data) {
         }
       })
       .catch(error => {
+        const message = error || 'Failed to company profile'
+        logger.serverLog(message, `${TAG}: exports.createContact`, {}, {data}, 'error')
         reject(error)
       })
   })
