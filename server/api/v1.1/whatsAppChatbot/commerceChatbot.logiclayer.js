@@ -56,6 +56,7 @@ const {
   RETURN_ORDER,
   CANCEL_ORDER,
   SHOW_FAQS,
+  SHOW_FAQ_QUESTIONS,
   GET_FAQ_ANSWER
 } = require('./constants')
 const { convertToEmoji, sendNotification } = require('./whatsAppChatbot.logiclayer')
@@ -531,6 +532,60 @@ const getCheckOrdersBlock = (chatbot, contact) => {
   }
 }
 
+const getShowFaqQuestionsBlock = async (chatbot, contact, backId, argument) => {
+  try {
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_commerce_chatbot'
+      },
+      title: 'FAQs',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: ``,
+          componentType: 'text',
+          menu: [],
+          specialKeys: {
+            [TALK_TO_AGENT_KEY]: { type: DYNAMIC, action: TALK_TO_AGENT },
+            [BACK_KEY]: { type: DYNAMIC, action: SHOW_FAQS },
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+
+    if (chatbot.faqs[argument.topicIndex] && chatbot.faqs[argument.topicIndex].questions) {
+      messageBlock.payload[0].text += `*${chatbot.faqs[argument.topicIndex].topic}*\n\nBelow are our most frequently asked questions. Send the corresponding number for the question to receive the answer.\n\n`
+      for (let i = 0; i < chatbot.faqs[argument.topicIndex].questions.length; i++) {
+        const question = chatbot.faqs[argument.topicIndex].questions[i].question
+        messageBlock.payload[0].text += `${convertToEmoji(i)} ${question}`
+        messageBlock.payload[0].menu.push({
+          type: DYNAMIC,
+          action: GET_FAQ_ANSWER,
+          argument: { topicIndex: argument.topicIndex, questionIndex: i }
+        })
+        if (i < chatbot.faqs[argument.topicIndex].questions.length - 1) {
+          messageBlock.payload[0].text += `\n`
+        }
+      }
+    } else {
+      messageBlock.payload[0].text += `Please contact our support agents for any questions you have.`
+    }
+
+    messageBlock.payload[0].text += `\n\n${specialKeyText(TALK_TO_AGENT_KEY)}`
+    messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to get FAQs'
+    logger.serverLog(message, `${TAG}: getShowFaqsBlock`, {}, {chatbot, backId}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to get FAQs`)
+  }
+}
+
 const getShowFaqsBlock = async (chatbot, contact, backId) => {
   try {
     const messageBlock = {
@@ -547,7 +602,7 @@ const getShowFaqsBlock = async (chatbot, contact, backId) => {
           menu: [],
           specialKeys: {
             [TALK_TO_AGENT_KEY]: { type: DYNAMIC, action: TALK_TO_AGENT },
-            [BACK_KEY]: { type: STATIC, blockId: backId },
+            [BACK_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
           }
         }
@@ -557,14 +612,14 @@ const getShowFaqsBlock = async (chatbot, contact, backId) => {
     }
 
     if (chatbot.faqs && chatbot.faqs.length > 0) {
-      messageBlock.payload[0].text += `Below are our most frequently asked questions. Send the corresponding number for the question to receive the answer.\n\n`
+      messageBlock.payload[0].text += `Select an FAQ topic by sending the corresponding number for it:\n\n`
       for (let i = 0; i < chatbot.faqs.length; i++) {
-        const question = chatbot.faqs[i].question
-        messageBlock.payload[0].text += `${convertToEmoji(i)} ${question}`
+        const topic = chatbot.faqs[i].topic
+        messageBlock.payload[0].text += `${convertToEmoji(i)} ${topic}`
         messageBlock.payload[0].menu.push({
           type: DYNAMIC,
-          action: GET_FAQ_ANSWER,
-          argument: { index: i }
+          action: SHOW_FAQ_QUESTIONS,
+          argument: { topicIndex: i }
         })
         if (i < chatbot.faqs.length - 1) {
           messageBlock.payload[0].text += `\n`
@@ -585,7 +640,7 @@ const getShowFaqsBlock = async (chatbot, contact, backId) => {
   }
 }
 
-const getFaqAnswerBlock = async (chatbot, contact, backId, argument) => {
+const getFaqAnswerBlock = async (chatbot, contact, backId, EcommerceProvider, argument) => {
   try {
     const messageBlock = {
       module: {
@@ -601,7 +656,7 @@ const getFaqAnswerBlock = async (chatbot, contact, backId, argument) => {
           menu: [],
           specialKeys: {
             [TALK_TO_AGENT_KEY]: { type: DYNAMIC, action: TALK_TO_AGENT },
-            [BACK_KEY]: { type: STATIC, blockId: backId },
+            [BACK_KEY]: { type: DYNAMIC, action: SHOW_FAQ_QUESTIONS, argument: {topicIndex: argument.topicIndex} },
             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
           }
         }
@@ -609,8 +664,12 @@ const getFaqAnswerBlock = async (chatbot, contact, backId, argument) => {
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    const question = chatbot.faqs[argument.index].question
-    const answer = chatbot.faqs[argument.index].answer
+    const question = chatbot.faqs[argument.topicIndex].questions[argument.questionIndex].question
+    let answer = chatbot.faqs[argument.topicIndex].questions[argument.questionIndex].answer
+    if (answer.includes('{{storeName}}')) {
+      const storeInfo = await EcommerceProvider.fetchStoreInfo()
+      answer = answer.replace(/{{storeName}}/g, storeInfo.name)
+    }
     messageBlock.payload[0].text += `*${question}*`
     messageBlock.payload[0].text += `\n\n${answer}`
 
@@ -2917,6 +2976,7 @@ const getAskUnpauseChatbotBlock = (chatbot, contact) => {
 }
 
 exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input) => {
+  let storeInfo = await EcommerceProvider.fetchStoreInfo()
   let userError = false
   input = input.toLowerCase()
   if (!contact || !contact.lastMessageSentByBot) {
@@ -3173,12 +3233,16 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input)
             messageBlock = await getCancelOrderBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument, action.input ? input : '')
             break
           }
+          case SHOW_FAQ_QUESTIONS: {
+            messageBlock = await getShowFaqQuestionsBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, action.argument)
+            break
+          }
           case SHOW_FAQS: {
             messageBlock = await getShowFaqsBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId)
             break
           }
           case GET_FAQ_ANSWER: {
-            messageBlock = await getFaqAnswerBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, action.argument)
+            messageBlock = await getFaqAnswerBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument)
             break
           }
         }
