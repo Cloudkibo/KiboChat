@@ -270,6 +270,11 @@ module.exports = class EcommerceProvidersApiLayer {
       return shopifyProvider.cancelAnOrder(orderId, this.eCommerceProviderCredentials)
     }
   }
+  updateOrderTag (orderId, tags) {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.updateOrderTag(orderId, tags, this.eCommerceProviderCredentials)
+    }
+  }
 
   cancelAnOrderWithRefund (orderId, amount, currency) {
     if (this.eCommerceProvider === providers.shopify) {
