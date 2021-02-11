@@ -39,7 +39,7 @@ exports.index = function (req, res) {
     res.cookie('state', state)
     res.cookie('installByShopifyStore', shop)
     res.cookie('shopifySetupState', 'startedFromApp')
-    res.cookie('userId', JSON.stringify(req.user._id))
+    res.cookie('userId', req.user._id)
     utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }) // fetch company user
       .then(companyuser => {
         res.cookie('companyId', companyuser.companyId)
