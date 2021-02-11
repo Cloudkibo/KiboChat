@@ -102,7 +102,7 @@ exports.messageReceived = function (req, res) {
                               }
                               let nextMessageBlock = null
                               if (ecommerceProvider) {
-                                nextMessageBlock = await commerceChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text)
+                                nextMessageBlock = await commerceChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text, company)
                               } else if (airlinesProvider) {
                                 nextMessageBlock = await airlinesChatbotLogicLayer.getNextMessageBlock(chatbot, airlinesProvider, contact, data.messageData.text)
                               }
@@ -576,7 +576,7 @@ async function temporarySuperBotTestHandling (data, contact, company, number, re
               })
             }
             if (ecommerceProvider) {
-              nextMessageBlock = await commerceChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, 'hi')
+              nextMessageBlock = await commerceChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, 'hi', company)
             } else if (airlinesProvider) {
               nextMessageBlock = await airlinesChatbotLogicLayer.getNextMessageBlock(chatbot, airlinesProvider, contact, 'hi')
             }
@@ -675,7 +675,7 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
           }
           let nextMessageBlock = null
           if (ecommerceProvider) {
-            nextMessageBlock = await commerceChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text)
+            nextMessageBlock = await commerceChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text, company)
           } else if (airlinesProvider) {
             nextMessageBlock = await airlinesChatbotLogicLayer.getNextMessageBlock(chatbot, airlinesProvider, contact, data.messageData.text)
           }
