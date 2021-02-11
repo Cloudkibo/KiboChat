@@ -295,8 +295,9 @@ const getTalkToAgentBlock = (chatbot, backId, contact) => {
   }
 }
 
-exports.getAbandonedCartReminderBlock = (chatbot, contact, argument) => {
+exports.getAbandonedCartReminderBlock = async (chatbot, contact, EcommerceProvider, abandonedCart) => {
   try {
+    const storeInfo = await EcommerceProvider.fetchStoreInfo()
     const messageBlock = {
       module: {
         id: chatbot._id,
@@ -306,10 +307,7 @@ exports.getAbandonedCartReminderBlock = (chatbot, contact, argument) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Hi ${contact.name},
-          the payment for your order of ${argument.abandonedCart.current_total_price} from ${chatbot.title}
-          is still pending. Click on the link to complete the payment and confirm your 
-          order :point_right:${contact.abandonedCartInfo.abandonedCartInfo}.`,
+          text: `Hi ${contact.name}, the payment for your order of ${abandonedCart.currency} ${abandonedCart.total_price} from ${storeInfo.name} is still pending. Click on the link to complete the payment and confirm your order 👉 ${contact.commerceCustomerShopify.abandonedCartInfo.abandonedCheckoutUrl}.`,
           componentType: 'text',
           specialKeys: {
             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
@@ -321,9 +319,10 @@ exports.getAbandonedCartReminderBlock = (chatbot, contact, argument) => {
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
-    messageBlock.payload[0].text += `\n${specialKeyText(ORDER_STATUS_KEY)}`
     messageBlock.payload[0].text += `\n\n${specialKeyText(TALK_TO_AGENT_KEY)}`
+    messageBlock.payload[0].text += `\n${specialKeyText(ORDER_STATUS_KEY)}`
+    messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
+
     return messageBlock
   } catch (err) {
     const message = err || 'Unable get talk to agent message block'

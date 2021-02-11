@@ -243,6 +243,14 @@ module.exports = class EcommerceProvidersApiLayer {
     }
   }
 
+  fetchAbandonedCart (token) {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.fetchAbandonedCart(token, this.eCommerceProviderCredentials)
+    } else if (this.eCommerceProvider === providers.bigcommerce) {
+      return bigCommerceProvider.fetchAbandonedCart(token, this.eCommerceProviderCredentials)
+    }
+  }
+
   findCustomerOrders (customerId, limit) {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.findCustomerOrders(customerId, limit, this.eCommerceProviderCredentials)

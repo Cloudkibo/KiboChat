@@ -10,9 +10,10 @@ const commerceChatbotLogicLayer = require('../api/v1.1/whatsAppChatbot/commerceC
 const moment = require('moment')
 const { sendWhatsAppMessage, updateWhatsAppContact } = require('../api/v1.1/whatsAppEvents/controller')
 const ABANDONED_ALERT_INTERVAL = 2
+const RECOVERY_ATTEMPTS = 3
 
 exports.runScript = function () {
-  let query = { 'abandonedCartInfo': { $exists: true, $ne: null } }
+  let query = { 'commerceCustomerShopify.abandonedCartInfo': { $exists: true, $ne: null } }
   /* Find all contacts with abandoned carts */
   callApi(`whatsAppContacts/query`, 'post', query)
     .then(contacts => {
@@ -24,29 +25,29 @@ exports.runScript = function () {
           shopUrl: shopifyIntegration.shopUrl,
           shopToken: shopifyIntegration.shopToken
         })
-        let abandonedCart = ecommerceProvider.fetchAbandonedCart(contact.abandonedCartInfo.abandonedCheckoutId)
+        let commerceCustomerShopify = contact.commerceCustomerShopify
+        let abandonedCart = await ecommerceProvider.fetchAbandonedCart(commerceCustomerShopify.abandonedCartInfo.token)
         if (abandonedCart) {
           var now = moment(new Date())
           var abandonedCheckoutCreated = abandonedCart.created_at
           var duration = moment.duration(now.diff(abandonedCheckoutCreated))
           if (duration.asHours() >= ABANDONED_ALERT_INTERVAL) {
-            let args = { contact, abandonedCart }
             const company = await callApi(`companyProfile/query`, 'post', { _id: contact.companyId })
             const data = {
               accessToken: company.whatsApp.accessToken,
               accountSID: company.whatsApp.accountSID,
               businessNumber: company.whatsApp.businessNumber
             }
-            let abandonedCartReminderBlock = await commerceChatbotLogicLayer.getAbandonedCartReminderBlock(chatbot, contact, args)
-            sendWhatsAppMessage(abandonedCartReminderBlock, data, contact.number, company, contact)
+            let abandonedCartReminderBlock = await commerceChatbotLogicLayer.getAbandonedCartReminderBlock(chatbot, contact, ecommerceProvider, abandonedCart)
+            await sendWhatsAppMessage(abandonedCartReminderBlock, data, contact.number, company, contact)
             let updatePayload = { last_activity_time: Date.now(), lastMessageSentByBot: abandonedCartReminderBlock }
             let incrementPayload = {}
-            if (contact.abandonedCartInfo.cartRecoveryAttempts === 2) {
+            if (commerceCustomerShopify.abandonedCartInfo.cartRecoveryAttempts === RECOVERY_ATTEMPTS - 1) {
               unsetAbandonedInfo(contact)
             } else {
-              incrementPayload = {$inc: { 'abandonedCartInfo.cartRecoveryAttempts ': 1 }}
+              incrementPayload = {$inc: { 'commerceCustomerShopify.abandonedCartInfo.cartRecoveryAttempts': 1 }}
             }
-            updateWhatsAppContact(query, updatePayload, incrementPayload, {})
+            updateWhatsAppContact({_id: contact._id}, updatePayload, incrementPayload, {})
             cb()
           }
         }
@@ -56,7 +57,7 @@ exports.runScript = function () {
           return logger.serverLog(message, `${TAG}: exports.runScript`, {}, {err}, 'error')
         } else {
           const message = 'Abandoned reminders sent successfully'
-          return logger.serverLog(message, `${TAG}: exports.runScript`, {}, {err}, 'info')
+          return logger.serverLog(message, `${TAG}: exports.runScript`, {}, {}, 'info')
         }
       })
     })
@@ -69,7 +70,7 @@ exports.runScript = function () {
 function unsetAbandonedInfo (contact) {
   const updateQuery = {
     query: {_id: contact._id},
-    newPayload: { abandonedCartInfo: null },
+    newPayload: { 'commerceCustomerShopify.abandonedCartInfo': null },
     options: {}
   }
   callApi(`whatsAppContacts/update`, 'put', updateQuery)
