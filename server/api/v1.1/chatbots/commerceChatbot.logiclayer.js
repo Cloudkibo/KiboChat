@@ -290,9 +290,8 @@ const getShowFaqQuestionsBlock = async (chatbot, contact, backId, argument) => {
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    let questionsLength = chatbot.faqs[argument.topicIndex].questions.length
-
     if (chatbot.faqs[argument.topicIndex] && chatbot.faqs[argument.topicIndex].questions) {
+      let questionsLength = chatbot.faqs[argument.topicIndex].questions.length
       if (argument.viewMore) {
         let remainingQuestions = questionsLength - argument.questionIndex
         let length = remainingQuestions > 10 ? argument.questionIndex + 9 : questionsLength
@@ -419,7 +418,7 @@ const getFaqAnswerBlock = async (chatbot, contact, backId, EcommerceProvider, ar
             {
               content_type: 'text',
               title: 'Go Back',
-              payload: JSON.stringify({ type: DYNAMIC, action: SHOW_FAQ_QUESTIONS, argument: {topicIndex: argument.topicIndex} })
+              payload: JSON.stringify({ type: STATIC, blockId: backId })
             },
             {
               content_type: 'text',
