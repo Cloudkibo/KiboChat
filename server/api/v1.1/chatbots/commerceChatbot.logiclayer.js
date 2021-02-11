@@ -417,7 +417,7 @@ const getFaqAnswerBlock = async (chatbot, contact, backId, EcommerceProvider, ar
             {
               content_type: 'text',
               title: 'Go Back',
-              payload: JSON.stringify({ type: DYNAMIC, action: SHOW_FAQ_QUESTIONS, argument: {topicIndex: argument.topicIndex} })
+              payload: JSON.stringify({ type: STATIC, blockId: backId })
             },
             {
               content_type: 'text',
