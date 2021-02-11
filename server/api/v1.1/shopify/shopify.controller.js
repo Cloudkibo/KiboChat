@@ -37,12 +37,13 @@ exports.index = function (req, res) {
       '&redirect_uri=' + redirectUri
 
     res.cookie('state', state)
+    res.cookie('installByShopifyStore', shop)
+    res.cookie('shopifySetupState', 'startedFromApp')
     res.cookie('userId', JSON.stringify(req.user._id))
-    res.cookie('pageId', req.body.pageId)
     utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }) // fetch company user
       .then(companyuser => {
-        res.cookie('companyId', JSON.stringify(companyuser.companyId))
-        return res.redirect(installUrl)
+        res.cookie('companyId', companyuser.companyId)
+        return res.json({ installUrl })
       })
       .catch(err => {
         if (err) {
@@ -122,9 +123,25 @@ function registerWebhooks (shop, token) {
     const message = err || 'Error Creating Shopify Complete Checkout Webhook'
     logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
   })
+
+  shopify.webhook.create({
+    topic: 'checkouts/create',
+    address: `${config.domain}/api/shopify/checkout-create`,
+    format: 'json'
+  }).then((response) => {
+  }).catch((err) => {
+    const message = err || 'Error Creating Shopify Create Checkout Webhook'
+    logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
+  })
+}
+
+exports.handleCreateCheckout = async function (req, res) {
+  console.log('handleCreateCheckout', JSON.stringify(req.body))
+  return sendSuccessResponse(res, 200, {status: 'success'})
 }
 
 exports.handleCompleteCheckout = async function (req, res) {
+  console.log('handleCompleteCheckout', JSON.stringify(req.body))
   try {
     const contacts = await callApi(`whatsAppContacts/query`, 'post', {'commerceCustomerShopify.email': req.body.email})
     for (const contact of contacts) {
@@ -178,10 +195,11 @@ exports.handleCompleteCheckout = async function (req, res) {
 }
 
 exports.handleAppUninstall = async function (req, res) {
+  console.log('shopify handleAppUninstall')
   const shopUrl = req.header('X-Shopify-Shop-Domain')
   try {
     const shopifyIntegration = await dataLayer.findOneShopifyIntegration({ shopUrl: shopUrl })
-
+    console.log('shopifyIntegration', shopifyIntegration)
     dataLayer.deleteShopifyIntegration({
       shopToken: shopifyIntegration.shopToken,
       shopUrl: shopifyIntegration.shopUrl,
