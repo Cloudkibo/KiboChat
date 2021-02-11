@@ -42,7 +42,7 @@ exports.index = function (req, res) {
     res.cookie('userId', JSON.stringify(req.user._id))
     utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }) // fetch company user
       .then(companyuser => {
-        res.cookie('companyId', JSON.stringify(companyuser.companyId))
+        res.cookie('companyId', companyuser.companyId)
         return res.json({ installUrl })
       })
       .catch(err => {
