@@ -46,10 +46,11 @@ const {
   GET_INVOICE,
   GET_CHECKOUT_INFO,
   VIEW_CATALOG,
-  RETURN_ORDER,
-  CANCEL_ORDER,
   SHOW_FAQS,
   GET_FAQ_ANSWER,
+  RETURN_ORDER,
+  CANCEL_ORDER,
+  CONFIRM_RETURN_ORDER,
   CANCEL_ORDER_CONFIRM
 } = require('./constants')
 const logger = require('../../../components/logger')
@@ -555,6 +556,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
       }
 
       if (products.nextPageParameters) {
+        console.log('products.nextPageParameters', products.nextPageParameters)
         messageBlock.payload[1].cards.push({
           title: 'View More',
           subtitle: `Click on the "View More" button to view more products`,
@@ -600,8 +602,59 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
   }
 }
 
+const getConfirmReturnOrderBlock = async (chatbot, backId, order) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'messenger_commerce_chatbot'
+      },
+      title: 'Confirm Return Request',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Are you sure you want to return this order?`,
+          componentType: 'text',
+          menu: [],
+          quickReplies: [
+            {
+              content_type: 'text',
+              title: 'Yes',
+              payload: JSON.stringify({ type: DYNAMIC, action: RETURN_ORDER, argument: order })
+            },
+            {
+              content_type: 'text',
+              title: 'No',
+              payload: JSON.stringify({ type: DYNAMIC, action: ORDER_STATUS, argument: order })
+            },
+            {
+              content_type: 'text',
+              title: 'Go Back',
+              payload: JSON.stringify({ type: DYNAMIC, action: ORDER_STATUS, argument: order })
+            },
+            {
+              content_type: 'text',
+              title: 'Go Home',
+              payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
+            }
+          ]
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to remove product(s) from cart'
+    logger.serverLog(message, `${TAG}: exports.getConfirmRemoveItemBlock`, {}, {}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to remove product(s) from cart`)
+  }
+}
+
 const getReturnOrderBlock = async (chatbot, contact, backId, EcommerceProvider, orderId) => {
   try {
+    const storeInfo = await EcommerceProvider.fetchStoreInfo()
     let messageBlock = {
       module: {
         id: chatbot._id,
@@ -611,7 +664,7 @@ const getReturnOrderBlock = async (chatbot, contact, backId, EcommerceProvider, 
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: dedent(`A return request has been made for order #${orderId}. An agent will contact you shortly.`),
+          text: dedent(`Dear Valuable Customer,\n\nThank you for contacting ${storeInfo.name}. We have received the 'Return' request of your order #${orderId}. You are requested to please allow us some time, one of our representative will contact you for further details and confirmation.\n\nWarm regards,\n${storeInfo.name}`),
           componentType: 'text',
           quickReplies: [
             {
@@ -802,7 +855,7 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, contact, 
           {
             content_type: 'text',
             title: 'Request Return',
-            payload: JSON.stringify({ type: DYNAMIC, action: RETURN_ORDER, argument: orderId })
+            payload: JSON.stringify({ type: DYNAMIC, action: CONFIRM_RETURN_ORDER, argument: orderId })
           }
         )
       }
@@ -1163,9 +1216,9 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
     )
     return messageBlock
   } catch (err) {
-    const message = err || 'Unable to select product variants'
-    logger.serverLog(message, `${TAG}: exports.getSelectProductBlock`, {}, {}, 'error')
-    throw new Error(`${ERROR_INDICATOR}Unable to select product`)
+    const message = err || 'Unable to get product variants'
+    logger.serverLog(message, `${TAG}: exports.getProductVariantsBlock`, {}, {}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to get product variants`)
   }
 }
 
@@ -3323,6 +3376,10 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
               }
               case PROCEED_TO_CHECKOUT: {
                 messageBlock = await getCheckoutBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, contact, action.argument)
+                break
+              }
+              case CONFIRM_RETURN_ORDER: {
+                messageBlock = await getConfirmReturnOrderBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument)
                 break
               }
               case RETURN_ORDER: {
