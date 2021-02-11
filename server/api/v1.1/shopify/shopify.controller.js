@@ -43,7 +43,7 @@ exports.index = function (req, res) {
     utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }) // fetch company user
       .then(companyuser => {
         res.cookie('companyId', JSON.stringify(companyuser.companyId))
-        return res.redirect(installUrl)
+        return res.json({ installUrl })
       })
       .catch(err => {
         if (err) {
