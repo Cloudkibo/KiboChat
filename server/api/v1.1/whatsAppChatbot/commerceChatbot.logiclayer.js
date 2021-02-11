@@ -592,7 +592,7 @@ const getShowFaqQuestionsBlock = async (chatbot, contact, backId, argument) => {
         id: chatbot._id,
         type: 'whatsapp_commerce_chatbot'
       },
-      title: 'FAQs',
+      title: 'FAQ Questions',
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
@@ -609,19 +609,60 @@ const getShowFaqQuestionsBlock = async (chatbot, contact, backId, argument) => {
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-
     if (chatbot.faqs[argument.topicIndex] && chatbot.faqs[argument.topicIndex].questions) {
-      messageBlock.payload[0].text += `*${chatbot.faqs[argument.topicIndex].topic}*\n\nBelow are our most frequently asked questions. Send the corresponding number for the question to receive the answer.\n\n`
-      for (let i = 0; i < chatbot.faqs[argument.topicIndex].questions.length; i++) {
-        const question = chatbot.faqs[argument.topicIndex].questions[i].question
-        messageBlock.payload[0].text += `${convertToEmoji(i)} ${question}`
-        messageBlock.payload[0].menu.push({
+      let questionsLength = chatbot.faqs[argument.topicIndex].questions.length
+      if (argument.viewMore) {
+        let remainingQuestions = questionsLength - argument.questionIndex
+        let length = remainingQuestions > 10 ? argument.questionIndex + 9 : questionsLength
+        let index = 0
+        for (let i = argument.questionIndex; i < length; i++) {
+          const question = chatbot.faqs[argument.topicIndex].questions[i].question
+          messageBlock.payload[0].text += `${convertToEmoji(index)} ${question}`
+          messageBlock.payload[0].menu.push({
+            type: DYNAMIC,
+            action: GET_FAQ_ANSWER,
+            argument: { topicIndex: argument.topicIndex, questionIndex: i }
+          })
+          if (i < length - 1) {
+            messageBlock.payload[0].text += `\n`
+          }
+          index += 1
+        }
+        if (remainingQuestions > 10) {
+          messageBlock.payload[0].text += `\n${convertToEmoji(length)} View More Questions`
+          messageBlock.payload[0].menu.push({
+            type: DYNAMIC,
+            action: GET_FAQ_ANSWER,
+            argument: { topicIndex: argument.topicIndex, questionIndex: length, viewMore: true }
+          })
+        }
+        messageBlock.payload[0].specialKeys[BACK_KEY] = {
           type: DYNAMIC,
-          action: GET_FAQ_ANSWER,
-          argument: { topicIndex: argument.topicIndex, questionIndex: i }
-        })
-        if (i < chatbot.faqs[argument.topicIndex].questions.length - 1) {
-          messageBlock.payload[0].text += `\n`
+          action: SHOW_FAQ_QUESTIONS,
+          argument: { topicIndex: argument.topicIndex }
+        }
+      } else {
+        let length = questionsLength <= 10 ? questionsLength : 9
+        messageBlock.payload[0].text += `*${chatbot.faqs[argument.topicIndex].topic}*\n\nBelow are our most frequently asked questions. Send the corresponding number for the question to receive the answer.\n\n`
+        for (let i = 0; i < length; i++) {
+          const question = chatbot.faqs[argument.topicIndex].questions[i].question
+          messageBlock.payload[0].text += `${convertToEmoji(i)} ${question}`
+          messageBlock.payload[0].menu.push({
+            type: DYNAMIC,
+            action: GET_FAQ_ANSWER,
+            argument: { topicIndex: argument.topicIndex, questionIndex: i }
+          })
+          if (i < length - 1) {
+            messageBlock.payload[0].text += `\n`
+          }
+        }
+        if (questionsLength > 10) {
+          messageBlock.payload[0].text += `\n${convertToEmoji(length)} View More Questions`
+          messageBlock.payload[0].menu.push({
+            type: DYNAMIC,
+            action: SHOW_FAQ_QUESTIONS,
+            argument: { topicIndex: argument.topicIndex, questionIndex: length, viewMore: true }
+          })
         }
       }
     } else {
@@ -709,7 +750,7 @@ const getFaqAnswerBlock = async (chatbot, contact, backId, EcommerceProvider, ar
           menu: [],
           specialKeys: {
             [TALK_TO_AGENT_KEY]: { type: DYNAMIC, action: TALK_TO_AGENT },
-            [BACK_KEY]: { type: DYNAMIC, action: SHOW_FAQ_QUESTIONS, argument: {topicIndex: argument.topicIndex} },
+            [BACK_KEY]: { type: STATIC, blockId: backId },
             [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
           }
         }
@@ -1003,6 +1044,8 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
 
 const getConfirmReturnOrderBlock = async (chatbot, backId, order) => {
   try {
+    const storeInfo = await EcommerceProvider.fetchStoreInfo()
+    let number = businessNumber.replace(/[^0-9]/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')
     let messageBlock = {
       module: {
         id: chatbot._id,
@@ -1070,6 +1113,7 @@ const getReturnOrderBlock = async (chatbot, contact, backId, EcommerceProvider, 
     }
     const message = `${contact.name} is requesting a return for order #${orderId}.`
     sendNotification(contact, message, chatbot.companyId)
+
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to return order'
