@@ -2976,7 +2976,6 @@ const getAskUnpauseChatbotBlock = (chatbot, contact) => {
 }
 
 exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input) => {
-  let storeInfo = await EcommerceProvider.fetchStoreInfo()
   let userError = false
   input = input.toLowerCase()
   if (!contact || !contact.lastMessageSentByBot) {
