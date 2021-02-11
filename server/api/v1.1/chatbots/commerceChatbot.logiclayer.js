@@ -293,11 +293,8 @@ const getShowFaqQuestionsBlock = async (chatbot, contact, backId, argument) => {
 
     if (chatbot.faqs[argument.topicIndex] && chatbot.faqs[argument.topicIndex].questions) {
       if (argument.viewMore) {
-        console.log('questionsLength', questionsLength)
-        console.log('argument.questionIndex', argument.questionIndex)
         let remainingQuestions = questionsLength - argument.questionIndex
         let length = remainingQuestions > 10 ? argument.questionIndex + 9 : questionsLength
-        console.log('length', length)
         for (let i = argument.questionIndex; i < length; i++) {
           const question = chatbot.faqs[argument.topicIndex].questions[i].question
           messageBlock.payload[0].text += `${i + 1}. ${question}`
@@ -325,6 +322,15 @@ const getShowFaqQuestionsBlock = async (chatbot, contact, backId, argument) => {
             })
           })
         }
+        messageBlock.payload[0].quickReplies.push({
+          content_type: 'text',
+          title: 'Go Back',
+          payload: JSON.stringify({
+            type: DYNAMIC,
+            action: SHOW_FAQ_QUESTIONS,
+            argument: { topicIndex: argument.topicIndex }
+          })
+        })
       } else {
         let length = questionsLength <= 10 ? questionsLength : 9
 
@@ -356,6 +362,13 @@ const getShowFaqQuestionsBlock = async (chatbot, contact, backId, argument) => {
             })
           })
         }
+        messageBlock.payload[0].quickReplies.push(
+          {
+            content_type: 'text',
+            title: 'Go Back',
+            payload: JSON.stringify({ type: DYNAMIC, action: SHOW_FAQS })
+          }
+        )
       }
     } else {
       messageBlock.payload[0].text += `Please contact our support agents for any questions you have.`
@@ -366,11 +379,6 @@ const getShowFaqQuestionsBlock = async (chatbot, contact, backId, argument) => {
         content_type: 'text',
         title: 'Talk to agent',
         payload: JSON.stringify({ type: DYNAMIC, action: TALK_TO_AGENT })
-      },
-      {
-        content_type: 'text',
-        title: 'Go Back',
-        payload: JSON.stringify({ type: DYNAMIC, action: SHOW_FAQS })
       },
       {
         content_type: 'text',
