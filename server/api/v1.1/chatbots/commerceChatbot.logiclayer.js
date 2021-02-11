@@ -649,7 +649,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
       }
     } else {
       if (argument && argument.categoryId) {
-        products = await EcommerceProvider.fetchProductsInThisCategory(argument.categoryId, argument.paginationParams)
+        products = await EcommerceProvider.fetchProductsInThisCategory(argument.categoryId, argument.paginationParams, chatbot.numberOfProducts)
       } else {
         products = await EcommerceProvider.fetchProducts(argument.paginationParams, chatbot.numberOfProducts)
       }
