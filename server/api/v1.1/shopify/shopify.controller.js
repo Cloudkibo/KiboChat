@@ -39,7 +39,7 @@ exports.index = function (req, res) {
     res.cookie('state', state)
     res.cookie('installByShopifyStore', shop)
     res.cookie('shopifySetupState', 'startedFromApp')
-    res.cookie('userId', JSON.stringify(req.user._id))
+    res.cookie('userId', req.user._id)
     utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }) // fetch company user
       .then(companyuser => {
         res.cookie('companyId', companyuser.companyId)
@@ -405,10 +405,10 @@ exports.testRoute = (req, res) => {
         shopUrl: shopifyIntegration.shopUrl,
         shopToken: shopifyIntegration.shopToken
       })
-      // return shopify.fetchProductsInThisCategory(166185566271)
+      return shopify.fetchProductsInThisCategory(333035969, null, 9)
       // return shopify.findCustomerOrders('4573544054966')
       // return shopify.checkOrderStatus('1125')
-      return shopify.cancelAnOrder('3181202735286')
+      // return shopify.cancelAnOrder('3181202735286')
       // return shopify.createPermalinkForCart({
       // email: 'sojharo@gmail.com',
       // first_name: 'sojharo',

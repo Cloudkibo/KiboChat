@@ -1044,6 +1044,8 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
 
 const getConfirmReturnOrderBlock = async (chatbot, backId, order) => {
   try {
+    const storeInfo = await EcommerceProvider.fetchStoreInfo()
+    let number = businessNumber.replace(/[^0-9]/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')
     let messageBlock = {
       module: {
         id: chatbot._id,
