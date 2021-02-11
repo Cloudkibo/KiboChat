@@ -592,7 +592,7 @@ const getShowFaqQuestionsBlock = async (chatbot, contact, backId, argument) => {
         id: chatbot._id,
         type: 'whatsapp_commerce_chatbot'
       },
-      title: 'FAQs',
+      title: 'FAQ Questions',
       uniqueId: '' + new Date().getTime(),
       payload: [
         {

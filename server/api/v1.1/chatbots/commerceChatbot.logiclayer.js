@@ -47,11 +47,11 @@ const {
   GET_CHECKOUT_INFO,
   VIEW_CATALOG,
   SHOW_FAQS,
+  SHOW_FAQ_QUESTIONS,
   GET_FAQ_ANSWER,
   RETURN_ORDER,
   CONFIRM_RETURN_ORDER,
   CANCEL_ORDER,
-  CONFIRM_RETURN_ORDER,
   CANCEL_ORDER_CONFIRM
 } = require('./constants')
 const logger = require('../../../components/logger')
@@ -227,22 +227,18 @@ const getShowFaqsBlock = async (chatbot, contact, backId) => {
     }
 
     if (chatbot.faqs && chatbot.faqs.length > 0) {
-      messageBlock.payload[0].text += `Below are our most frequently asked questions. Select a question to view its answer.\n\n`
+      messageBlock.payload[0].text += `Please select an FAQ topic:`
       for (let i = 0; i < chatbot.faqs.length; i++) {
-        const question = chatbot.faqs[i].question
-        messageBlock.payload[0].text += `${i + 1}. ${question}`
+        const topic = chatbot.faqs[i].topic
         messageBlock.payload[0].quickReplies.push({
           content_type: 'text',
-          title: `Question ${i + 1}`,
+          title: topic,
           payload: JSON.stringify({
             type: DYNAMIC,
-            action: GET_FAQ_ANSWER,
-            argument: { index: i }
+            action: SHOW_FAQ_QUESTIONS,
+            argument: { topicIndex: i }
           })
         })
-        if (i < chatbot.faqs.length - 1) {
-          messageBlock.payload[0].text += `\n\n`
-        }
       }
     } else {
       messageBlock.payload[0].text += `Please contact our support agents for any questions you have.`
@@ -257,7 +253,7 @@ const getShowFaqsBlock = async (chatbot, contact, backId) => {
       {
         content_type: 'text',
         title: 'Go Back',
-        payload: JSON.stringify({ type: STATIC, blockId: backId })
+        payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
       },
       {
         content_type: 'text',
@@ -274,7 +270,133 @@ const getShowFaqsBlock = async (chatbot, contact, backId) => {
   }
 }
 
-const getFaqAnswerBlock = async (chatbot, contact, backId, argument) => {
+const getShowFaqQuestionsBlock = async (chatbot, contact, backId, argument) => {
+  try {
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'messenger_commerce_chatbot'
+      },
+      title: 'FAQ Questions',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: ``,
+          componentType: 'text',
+          menu: [],
+          quickReplies: []
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    let questionsLength = chatbot.faqs[argument.topicIndex].questions.length
+
+    if (chatbot.faqs[argument.topicIndex] && chatbot.faqs[argument.topicIndex].questions) {
+      if (argument.viewMore) {
+        let remainingQuestions = questionsLength - argument.questionIndex
+        let length = remainingQuestions > 10 ? argument.questionIndex + 9 : questionsLength
+        for (let i = argument.questionIndex; i < length; i++) {
+          const question = chatbot.faqs[argument.topicIndex].questions[i].question
+          messageBlock.payload[0].text += `${i + 1}. ${question}`
+          messageBlock.payload[0].quickReplies.push({
+            content_type: 'text',
+            title: `Question ${i + 1}`,
+            payload: JSON.stringify({
+              type: DYNAMIC,
+              action: GET_FAQ_ANSWER,
+              argument: { topicIndex: argument.topicIndex, questionIndex: i }
+            })
+          })
+          if (i < length - 1) {
+            messageBlock.payload[0].text += `\n\n`
+          }
+        }
+        if (remainingQuestions > 10) {
+          messageBlock.payload[0].quickReplies.push({
+            content_type: 'text',
+            title: `View More Questions`,
+            payload: JSON.stringify({
+              type: DYNAMIC,
+              action: SHOW_FAQ_QUESTIONS,
+              argument: { topicIndex: argument.topicIndex, questionIndex: length, viewMore: true }
+            })
+          })
+        }
+        messageBlock.payload[0].quickReplies.push({
+          content_type: 'text',
+          title: 'Go Back',
+          payload: JSON.stringify({
+            type: DYNAMIC,
+            action: SHOW_FAQ_QUESTIONS,
+            argument: { topicIndex: argument.topicIndex }
+          })
+        })
+      } else {
+        let length = questionsLength <= 10 ? questionsLength : 9
+
+        messageBlock.payload[0].text += `${chatbot.faqs[argument.topicIndex].topic}\n\nBelow are our most frequently asked questions. Select a question to view its answer.\n\n`
+        for (let i = 0; i < length; i++) {
+          const question = chatbot.faqs[argument.topicIndex].questions[i].question
+          messageBlock.payload[0].text += `${i + 1}. ${question}`
+          messageBlock.payload[0].quickReplies.push({
+            content_type: 'text',
+            title: `Question ${i + 1}`,
+            payload: JSON.stringify({
+              type: DYNAMIC,
+              action: GET_FAQ_ANSWER,
+              argument: { topicIndex: argument.topicIndex, questionIndex: i }
+            })
+          })
+          if (i < length - 1) {
+            messageBlock.payload[0].text += `\n\n`
+          }
+        }
+        if (questionsLength > 10) {
+          messageBlock.payload[0].quickReplies.push({
+            content_type: 'text',
+            title: `View More Questions`,
+            payload: JSON.stringify({
+              type: DYNAMIC,
+              action: SHOW_FAQ_QUESTIONS,
+              argument: { topicIndex: argument.topicIndex, questionIndex: length, viewMore: true }
+            })
+          })
+        }
+        messageBlock.payload[0].quickReplies.push(
+          {
+            content_type: 'text',
+            title: 'Go Back',
+            payload: JSON.stringify({ type: DYNAMIC, action: SHOW_FAQS })
+          }
+        )
+      }
+    } else {
+      messageBlock.payload[0].text += `Please contact our support agents for any questions you have.`
+    }
+
+    messageBlock.payload[0].quickReplies.push(
+      {
+        content_type: 'text',
+        title: 'Talk to agent',
+        payload: JSON.stringify({ type: DYNAMIC, action: TALK_TO_AGENT })
+      },
+      {
+        content_type: 'text',
+        title: 'Go Home',
+        payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
+      }
+    )
+
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to get FAQs'
+    logger.serverLog(message, `${TAG}: getShowFaqsBlock`, {}, {chatbot, backId}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to get FAQs`)
+  }
+}
+
+const getFaqAnswerBlock = async (chatbot, contact, backId, EcommerceProvider, argument) => {
   try {
     const messageBlock = {
       module: {
@@ -297,7 +419,7 @@ const getFaqAnswerBlock = async (chatbot, contact, backId, argument) => {
             {
               content_type: 'text',
               title: 'Go Back',
-              payload: JSON.stringify({ type: STATIC, blockId: backId })
+              payload: JSON.stringify({ type: DYNAMIC, action: SHOW_FAQ_QUESTIONS, argument: {topicIndex: argument.topicIndex} })
             },
             {
               content_type: 'text',
@@ -310,8 +432,12 @@ const getFaqAnswerBlock = async (chatbot, contact, backId, argument) => {
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    const question = chatbot.faqs[argument.index].question
-    const answer = chatbot.faqs[argument.index].answer
+    const question = chatbot.faqs[argument.topicIndex].questions[argument.questionIndex].question
+    let answer = chatbot.faqs[argument.topicIndex].questions[argument.questionIndex].answer
+    if (answer.includes('{{storeName}}')) {
+      const storeInfo = await EcommerceProvider.fetchStoreInfo()
+      answer = answer.replace(/{{storeName}}/g, storeInfo.name)
+    }
     messageBlock.payload[0].text += `${question}`
     messageBlock.payload[0].text += `\n\n${answer}`
     return messageBlock
@@ -3511,12 +3637,16 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
                 messageBlock = await getCancelOrderBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument)
                 break
               }
+              case SHOW_FAQ_QUESTIONS: {
+                messageBlock = await getShowFaqQuestionsBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, action.argument)
+                break
+              }
               case SHOW_FAQS: {
                 messageBlock = await getShowFaqsBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId)
                 break
               }
               case GET_FAQ_ANSWER: {
-                messageBlock = await getFaqAnswerBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, action.argument)
+                messageBlock = await getFaqAnswerBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument)
                 break
               }
             }
