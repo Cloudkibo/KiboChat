@@ -780,7 +780,7 @@ const getConfirmReturnOrderBlock = async (chatbot, backId, order) => {
 
 const getReturnOrderBlock = async (chatbot, contact, backId, EcommerceProvider, orderId) => {
   try {
-    const storeInfo = await EcommerceProvider.fetchStoreInfo()
+    let returnOrderMessage = chatbot.returnOrderMessage.replace(/{{orderId}}/g, orderId)
     let messageBlock = {
       module: {
         id: chatbot._id,
@@ -790,7 +790,7 @@ const getReturnOrderBlock = async (chatbot, contact, backId, EcommerceProvider, 
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: dedent(`Dear Valuable Customer,\n\nThank you for contacting ${storeInfo.name}. We have received the 'Return' request of your order #${orderId}. You are requested to please allow us some time, one of our representative will contact you for further details and confirmation.\n\nWarm regards,\n${storeInfo.name}`),
+          text: dedent(`${returnOrderMessage}`),
           componentType: 'text',
           quickReplies: [
             {
@@ -952,7 +952,9 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, contact, 
 
     if (!orderStatus.cancelReason &&
       !(orderStatus.displayFinancialStatus && orderStatus.displayFinancialStatus.includes('PAID')) &&
-      !(orderStatus.tags && orderStatus.tags.includes('cancel-request'))) {
+      !(orderStatus.tags && orderStatus.tags.includes('cancel-request')) &&
+      chatbot.cancelOrder
+    ) {
       messageBlock.payload[0].buttons = [{
         type: 'postback',
         title: 'Cancel Order',
@@ -975,7 +977,8 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, contact, 
       if (orderStatus.displayFulfillmentStatus &&
         orderStatus.displayFulfillmentStatus === 'FULFILLED' &&
         orderStatus.displayFinancialStatus &&
-        orderStatus.displayFinancialStatus.includes('PAID')
+        orderStatus.displayFinancialStatus.includes('PAID') &&
+        chatbot.returnOrder
       ) {
         messageBlock.payload[messageBlock.payload.length - 1].quickReplies.unshift(
           {
@@ -3043,8 +3046,6 @@ const updatedAddressBlockedMessage = async (chatbot, contact, argument) => {
 }
 const getCancelOrderBlock = async (chatbot, backId, EcommerceProvider, argument) => {
   let orderId = argument.id.split('//')[1].split('/')[2]
-  const storeInfo = await EcommerceProvider.fetchStoreInfo()
-  // let number = businessNumber.replace(/[^0-9]/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')
   try {
     const messageBlock = {
       module: {
@@ -3085,10 +3086,7 @@ const getCancelOrderBlock = async (chatbot, backId, EcommerceProvider, argument)
       tags.push('cancel-request')
       let response = await EcommerceProvider.updateOrderTag(orderId, tags.join())
       if (response.status === 'success') {
-        let cancelationMessage = `Dear Valuable Customer, Thank you for contacting ${storeInfo.name}. We have received the cancellation ‘Request’ of your order number: ${argument.orderId}. One of our representative will contact you shortly for further details and confirmation.`
-        cancelationMessage += `\n\nWarm regards`
-        cancelationMessage += `\n${storeInfo.name} Customer Care`
-        // cancelationMessage += `\nUAN: ${number}`
+        let cancelationMessage = chatbot.cancelOrderMessage.replace(/{{orderId}}/g, orderId)
         messageBlock.payload[0].text += cancelationMessage
       } else {
         messageBlock.payload[0].text += `Failed to send cancel request for your order.`

@@ -223,8 +223,6 @@ const getViewCatalogBlock = (chatbot, backId, contact) => {
 
 const getCancelOrderBlock = async (chatbot, backId, EcommerceProvider, argument, businessNumber) => {
   let orderId = argument.id.split('//')[1].split('/')[2]
-  const storeInfo = await EcommerceProvider.fetchStoreInfo()
-  let number = businessNumber.replace(/[^0-9]/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')
   try {
     const messageBlock = {
       module: {
@@ -254,10 +252,7 @@ const getCancelOrderBlock = async (chatbot, backId, EcommerceProvider, argument,
       tags.push('cancel-request')
       let response = await EcommerceProvider.updateOrderTag(orderId, tags.join())
       if (response.status === 'success') {
-        let cancelationMessage = `Dear Valuable Customer, Thank you for contacting ${storeInfo.name}. We have received the cancellation ‘Request’ of your order number: ${argument.orderId}. One of our representative will contact you shortly for further details and confirmation.`
-        cancelationMessage += `\n\nWarm regards`
-        cancelationMessage += `\n${storeInfo.name} Customer Care`
-        cancelationMessage += `\nUAN: ${number}`
+        let cancelationMessage = chatbot.cancelOrderMessage.replace(/{{orderId}}/g, argument.orderId)
         messageBlock.payload[0].text += cancelationMessage
       } else {
         messageBlock.payload[0].text += `Failed to send cancel request for your order.`
@@ -925,7 +920,7 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     }
 
     let isOrderFulFilled = orderStatus.displayFulfillmentStatus.toLowerCase() === 'fulfilled'
-    if (!orderStatus.cancelReason) {
+    if (!orderStatus.cancelReason && chatbot.cancelOrder) {
       messageBlock.payload[0].specialKeys['x'] = { type: DYNAMIC, action: CANCEL_ORDER_CONFIRM, argument: { id: orderStatus.id, orderId, isOrderFulFilled } }
     }
 
@@ -935,7 +930,6 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
       if (orderStatus.tags && orderStatus.tags.includes('cancel-request')) {
         messageBlock.payload[0].text += `\n*Status*: Request Open for Cancelation `
       }
-      
       if (orderStatus.displayFinancialStatus) {
         messageBlock.payload[0].text += `\n*Payment*: ${orderStatus.displayFinancialStatus}`
       }
@@ -1005,14 +999,17 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
 
     if (!orderStatus.cancelReason &&
       !(orderStatus.displayFinancialStatus && orderStatus.displayFinancialStatus.includes('PAID')) &&
-      !(orderStatus.tags && orderStatus.tags.includes('cancel-request'))) {
+      !(orderStatus.tags && orderStatus.tags.includes('cancel-request')) &&
+      chatbot.cancelOrder
+    ) {
       messageBlock.payload[0].text += `\n*X*  Cancel Order`
     }
     if (orderStatus.displayFulfillmentStatus &&
       orderStatus.displayFulfillmentStatus === 'FULFILLED' &&
       orderStatus.displayFinancialStatus &&
       orderStatus.displayFinancialStatus.includes('PAID') &&
-      !orderStatus.cancelReason
+      !orderStatus.cancelReason &&
+      chatbot.returnOrder
     ) {
       messageBlock.payload[0].specialKeys['r'] = { type: DYNAMIC, action: CONFIRM_RETURN_ORDER, argument: orderId }
       messageBlock.payload[0].text += `\n*R*  Request Return`
@@ -1087,8 +1084,7 @@ const getConfirmReturnOrderBlock = async (chatbot, backId, order) => {
 
 const getReturnOrderBlock = async (chatbot, contact, backId, EcommerceProvider, orderId, businessNumber) => {
   try {
-    const storeInfo = await EcommerceProvider.fetchStoreInfo()
-    let number = businessNumber.replace(/[^0-9]/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')
+    let returnOrderMessage = chatbot.returnOrderMessage.replace(/{{orderId}}/g, orderId)
     let messageBlock = {
       module: {
         id: chatbot._id,
@@ -1098,7 +1094,7 @@ const getReturnOrderBlock = async (chatbot, contact, backId, EcommerceProvider, 
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: dedent(`Dear Valuable Customer,\n\nThank you for contacting ${storeInfo.name}. We have received the 'Return' request of your order #${orderId}. You are requested to please allow us some time, one of our representative will contact you for further details and confirmation.\n\nWarm regards,\n${storeInfo.name} Customer Care\nUAN: ${number}\n
+          text: dedent(`${returnOrderMessage}\n
             ${specialKeyText(BACK_KEY)}
             ${specialKeyText(HOME_KEY)}`),
           componentType: 'text',
