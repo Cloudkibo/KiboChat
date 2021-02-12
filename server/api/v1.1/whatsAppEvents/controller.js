@@ -60,7 +60,6 @@ exports.messageReceived = function (req, res) {
                         }
                         const shouldAvoidSendingMessage = await shouldAvoidSendingAutomatedMessage(contact)
                         if (company._id === '5a89ecdaf6b0460c552bf7fe') {
-                          console.log('inside company')
                           // NOTE: This if condition is temporary testing code for
                           // adil. We will remove this in future. It will only run for
                           // our own company. Please don't remove this. - Sojharo
@@ -530,20 +529,41 @@ async function temporarySuperBotTestHandling (data, contact, company, number, re
           let currentMessage = null
           if (!nextMessageBlock) {
             let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ _id: selectedBot.botId })
+            let ecommerceProvider = null
+            let airlinesProvider = null
             if (chatbot.vertical === 'commerce') {
-              const response = await kiboAutomationLayer.getChatbotResponse(chatbot, 'welcome', contact, true)
-              nextMessageBlock = response.chatbotResponse
-              currentMessage = response.automationResponse
+              console.log('chatbot type', chatbot.storeType)
+              if (chatbot.storeType === 'shopify-nlp') {
+                const response = await kiboAutomationLayer.getChatbotResponse(chatbot, 'welcome', contact, undefined, true)
+                nextMessageBlock = response.chatbotResponse
+                currentMessage = response.automationResponse
+              } else if (chatbot.storeType === commerceConstants.shopify) {
+                const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
+                ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
+                  shopUrl: shopifyIntegration.shopUrl,
+                  shopToken: shopifyIntegration.shopToken
+                })
+              } else if (chatbot.storeType === commerceConstants.bigcommerce) {
+                const bigCommerceIntegration = await bigcommerceDataLayer.findOneBigCommerceIntegration({ companyId: chatbot.companyId })
+                ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
+                  shopToken: bigCommerceIntegration.shopToken,
+                  storeHash: bigCommerceIntegration.payload.context
+                })
+              }
             } else if (chatbot.vertical === 'airlines') {
-              const airlinesProvider = new AirlinesProvider(airlinesConstants.amadeus, {
+              airlinesProvider = new AirlinesProvider(airlinesConstants.amadeus, {
                 clientId: config.amadeus.clientId,
                 clientSecret: config.amadeus.clientSecret
               })
+            }
+            if (ecommerceProvider) {
+              nextMessageBlock = await commerceChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, 'hi')
+              currentMessage = nextMessageBlock
+            } else if (airlinesProvider) {
               nextMessageBlock = await airlinesChatbotLogicLayer.getNextMessageBlock(chatbot, airlinesProvider, contact, 'hi')
               currentMessage = nextMessageBlock
             }
             if (nextMessageBlock) {
-              console.log('going to send message')
               sendWhatsAppMessage(nextMessageBlock, data, number, req, company, contact)
             }
           }
@@ -564,7 +584,6 @@ async function temporarySuperBotTestHandling (data, contact, company, number, re
       temporarySuperBotResponseHandling(data, contact, company, number, req, isNewContact)
     }
   } catch (err) {
-    console.log(err)
     const message = err || 'Error in async await calls above'
     logger.serverLog(message, `${TAG}: exports.temporarySuperBotTestHandling`, req.body, {data, contact, company, number, isNewContact}, 'error')
   }
@@ -615,19 +634,39 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
       if (chatbot) {
         const shouldSend = chatbot.published || chatbot.testSubscribers.includes(contact.number)
         if (shouldSend) {
+          let ecommerceProvider = null
+          let airlinesProvider = null
           let nextMessageBlock = null
           let currentMessage = null
           if (chatbot.vertical === 'commerce') {
-            console.log('inside commerce chatbot')
-            const response = await chatbotTemplates.handleUserInput(chatbot, data, contact, 'whatsApp')
-            console.log('response', response)
-            nextMessageBlock = response.chatbotResponse
-            currentMessage = response.automationResponse
+            console.log('chatbot type 1', chatbot.storeTyp)
+            if (chatbot.storeType === 'shopify-nlp') {
+              const response = await chatbotTemplates.handleUserInput(chatbot, data, contact, 'whatsApp')
+              nextMessageBlock = response.chatbotResponse
+              currentMessage = response.automationResponse
+            } else if (chatbot.storeType === commerceConstants.shopify) {
+              const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
+              ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
+                shopUrl: shopifyIntegration.shopUrl,
+                shopToken: shopifyIntegration.shopToken
+              })
+            } else if (chatbot.storeType === commerceConstants.bigcommerce) {
+              const bigCommerceIntegration = await bigcommerceDataLayer.findOneBigCommerceIntegration({ companyId: chatbot.companyId })
+              ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
+                shopToken: bigCommerceIntegration.shopToken,
+                storeHash: bigCommerceIntegration.payload.context
+              })
+            }
           } else if (chatbot.vertical === 'airlines') {
-            const airlinesProvider = new AirlinesProvider(airlinesConstants.amadeus, {
+            airlinesProvider = new AirlinesProvider(airlinesConstants.amadeus, {
               clientId: config.amadeus.clientId,
               clientSecret: config.amadeus.clientSecret
             })
+          }
+          if (ecommerceProvider) {
+            nextMessageBlock = await commerceChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text)
+            currentMessage = nextMessageBlock
+          } else if (airlinesProvider) {
             nextMessageBlock = await airlinesChatbotLogicLayer.getNextMessageBlock(chatbot, airlinesProvider, contact, data.messageData.text)
             currentMessage = nextMessageBlock
           }
@@ -653,7 +692,6 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
       }
     }
   } catch (err) {
-    console.log(err)
     const message = err || 'Error in async await calls above'
     logger.serverLog(message, `${TAG}: exports.temporarySuperBotResponseHandling`, req.body, {data, contact, company, number, isNewContact}, 'error')
   }

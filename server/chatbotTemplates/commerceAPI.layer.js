@@ -123,10 +123,18 @@ exports.callApi = function (automationResponse, selectedOption, chatbot, subscri
 async function initializeProvider (chatbot) {
   return new Promise(async (resolve, reject) => {
     let provider = ''
+    let integration = null
     try {
       switch (chatbot.storeType) {
         case 'shopify':
-          const integration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
+          integration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
+          provider = new EcommerceProvider('shopify', {
+            shopUrl: integration.shopUrl,
+            shopToken: integration.shopToken
+          })
+          break
+        case 'shopify-nlp':
+          integration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
           provider = new EcommerceProvider('shopify', {
             shopUrl: integration.shopUrl,
             shopToken: integration.shopToken
