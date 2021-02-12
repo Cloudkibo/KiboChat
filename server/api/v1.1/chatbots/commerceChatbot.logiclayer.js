@@ -64,6 +64,7 @@ const { sendNotification } = require('./chatbots.logiclayer')
 const pdf = require('pdf-creator-node')
 const fs = require('fs')
 const path = require('path')
+const utility = require('../../../components/utility')
 const config = require('../../../config/environment/index')
 
 // exports.updateFaqsForStartingBlock = async (chatbot) => {
@@ -97,7 +98,7 @@ const config = require('../../../config/environment/index')
 // }
 
 exports.updateStartingBlock = (chatbot, storeName) => {
-  let welcomeMessage = `Hi {{user_first_name}}! Greetings from ${chatbot.storeType} chatbot 🤖😀`
+  let welcomeMessage = `Hi {{user_first_name}}! Greetings from ${storeName} ${chatbot.storeType} chatbot 🤖😀`
   welcomeMessage += `\n\nI am here to guide you on your journey of shopping on ${storeName}.`
   welcomeMessage += `\n\nPlease select an option to let me know what you would like to do?`
   const startingBlock = messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
@@ -109,7 +110,7 @@ exports.getMessageBlocks = (chatbot, storeName) => {
   const messageBlocks = []
   const mainMenuId = '' + new Date().getTime()
   // const faqsId = '' + new Date().getTime() + 500
-  let welcomeMessage = `Hi {{user_first_name}}! Greetings from ${chatbot.storeType} chatbot 🤖😀`
+  let welcomeMessage = `Hi {{user_first_name}}! Greetings from ${storeName} ${chatbot.storeType} chatbot 🤖😀`
   welcomeMessage += `\n\nI am here to guide you on your journey of shopping on ${storeName}.`
   welcomeMessage += `\n\nPlease select an option to let me know what you would like to do?`
   messageBlocks.push({
@@ -995,7 +996,7 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, contact, 
           let trackingLink = {
             type: 'web_url',
             title: 'Tracking Link',
-            url: trackingDetails.url
+            url: trackingDetails.url && trackingDetails.url !== '' ? trackingDetails.url : utility.getTrackingUrl(trackingDetails)
           }
           if (messageBlock.payload[0].buttons) {
             messageBlock.payload[0].buttons.push(trackingLink)

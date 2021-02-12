@@ -44,6 +44,37 @@ exports.isFacebookVideoUrl = (url) => {
   return (regExp.test(url))
 }
 
+exports.getTrackingUrl = (trackingDetails) => {
+  let trackingUrl = ''
+  switch (trackingDetails.company) {
+    case 'TCS': {
+      trackingUrl = 'https://www.tcsexpress.com/Tracking'
+      break
+    }
+    case 'TRAX': {
+      trackingUrl = `https://sonic.pk/tracking?tracking_number=${trackingDetails.number}`
+      break
+    }
+    case 'SWYFT': {
+      trackingUrl = `http://parceltracking.swyftlogistics.com/?${trackingDetails.number}`
+      break
+    }
+    case 'Call Courier': {
+      trackingUrl = `https://callcourier.com.pk/tracking/?tc=${trackingDetails.number}`
+      break
+    }
+    case 'DHL': {
+      trackingUrl = `https://www.dhl.com/en/express/tracking.html?AWB=${trackingDetails.number}&brand=DHL`
+      break
+    }
+    case 'TPL': {
+      trackingUrl = `https://tpltrakker.com/`
+      break
+    }
+  }
+  return trackingUrl
+}
+
 const truncate = (input, size) => input.length > size ? `${input.substring(0, size)}...` : input
 
 exports.validateUrl = validateUrl

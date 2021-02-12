@@ -950,7 +950,7 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
           messageBlock.payload[0].text += `\n\n*Tracking Details*`
           messageBlock.payload[0].text += `\n*Company*: ${trackingDetails.company}`
           messageBlock.payload[0].text += `\n*Number*: ${trackingDetails.number}`
-          messageBlock.payload[0].text += `\n*Url*: ${trackingDetails.url}`
+          messageBlock.payload[0].text += `\n*Url*: ${trackingDetails.url && trackingDetails.url !== '' ? trackingDetails.url : utility.getTrackingUrl(trackingDetails)}`
         }
       }
     }
@@ -1041,7 +1041,6 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
     }
   }
 }
-
 const getConfirmReturnOrderBlock = async (chatbot, backId, order) => {
   try {
     let messageBlock = {
@@ -3051,7 +3050,7 @@ const getWelcomeMessageBlock = async (chatbot, contact, ecommerceProvider) => {
   } else {
     welcomeMessage += `!`
   }
-  welcomeMessage += ` Greetings from ${chatbot.storeType} chatbot 🤖😀`
+  welcomeMessage += ` Greetings from ${storeInfo.name} ${chatbot.storeType} chatbot 🤖😀`
 
   welcomeMessage += `\n\nI am here to guide you on your journey of shopping on ${storeInfo.name}`
   let messageBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
