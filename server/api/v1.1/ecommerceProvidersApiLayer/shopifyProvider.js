@@ -40,11 +40,13 @@ exports.fetchAllProductCategories = (paginationParams, credentials) => {
   })
 }
 
-exports.fetchProductsInThisCategory = (id, paginationParams, credentials) => {
+exports.fetchProductsInThisCategory = (id, paginationParams, numberOfProducts, credentials) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
-    paginationParams = paginationParams || { limit: 9 }
-    paginationParams.collection_id = id
+    paginationParams = paginationParams || { limit: numberOfProducts }
+    if (!paginationParams.page_info) {
+      paginationParams.collection_id = id
+    }
     shopify.product.list(paginationParams)
       .then(products => {
         let nextPageParameters = products.nextPageParameters
@@ -68,10 +70,10 @@ exports.fetchProductsInThisCategory = (id, paginationParams, credentials) => {
   })
 }
 
-exports.fetchProducts = (paginationParams, credentials) => {
+exports.fetchProducts = (paginationParams, numberOfProducts, credentials) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
-    paginationParams = paginationParams || { limit: 9 }
+    paginationParams = paginationParams || { limit: numberOfProducts }
     shopify.product.list(paginationParams)
       .then(products => {
         let nextPageParameters = products.nextPageParameters
@@ -144,10 +146,10 @@ exports.searchProducts = (searchQuery, credentials) => {
   })
 }
 
-exports.getProductVariants = (id, paginationParams, credentials) => {
+exports.getProductVariants = (id, paginationParams, numberOfProducts, credentials) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
-    paginationParams = paginationParams || { limit: 9 }
+    paginationParams = paginationParams || { limit: numberOfProducts }
     shopify.productVariant.list(id, paginationParams)
       .then(async products => {
         let nextPageParameters = products.nextPageParameters
@@ -183,6 +185,7 @@ exports.getOrderStatus = (id, credentials) => {
         node {
           id
           name
+          cancelReason
           billingAddress {
             id
             name
@@ -207,6 +210,7 @@ exports.getOrderStatus = (id, credentials) => {
           }
           displayFinancialStatus
           email
+          tags
           fulfillments {
             id
             trackingInfo {
@@ -386,6 +390,24 @@ exports.createCustomer = (firstName, lastName, email, credentials) => {
   })
 }
 
+exports.updateOrderTag = (orderId, tags, credentials) => {
+  const shopify = initShopify(credentials)
+  const params = {
+    tags
+  }
+  return new Promise(function (resolve, reject) {
+    shopify.order.update(orderId, params)
+      .then(order => {
+        let response = {status: 'success', payload: order}
+        resolve(response)
+      })
+      .catch(err => {
+        let errResponse = {status: 'failed', payload: err}
+        reject(errResponse)
+      })
+  })
+}
+
 exports.findCustomerOrders = (customerId, limit, credentials) => {
   const shopify = initShopify(credentials)
   const query = `{
@@ -393,11 +415,12 @@ exports.findCustomerOrders = (customerId, limit, credentials) => {
       edges {
         node {
           id
-          orders(first: 10) {
+          orders(first: 10, reverse: true) {
             edges {
               node {
                 id
                 name
+                cancelReason
                 createdAt
                 totalPriceSet {
                   presentmentMoney {
@@ -585,12 +608,22 @@ exports.completeCheckout = (cartToken, credentials) => {
   })
 }
 
-exports.cancelAnOrder = (orderId, credentials) => {
+exports.cancelAnOrder = (id, credentials) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
-    shopify.order.cancel(orderId)
-      .then(result => {
-        resolve(result)
+    const params = {
+      reason: 'customer',
+      email: true
+    }
+    shopify.order.cancel(id, params)
+      .then(order => {
+        order = {
+          id: order.id,
+          email: order.email,
+          name: order.name,
+          confirmed: order.confirmed
+        }
+        resolve(order)
       })
       .catch(err => {
         reject(err)

@@ -1,9 +1,5 @@
 var path = require('path')
 const { appendOptions } = require('../logiclayer')
-const fs = require('fs')
-const crypto = require('crypto')
-let config = require('../../config/environment')
-var mime = require('mime-types')
 const { cequensApiCaller } = require('../../api/global/cequensApiCaller')
 const { containsURL } = require('../../api/global/utility')
 
@@ -17,7 +13,7 @@ exports.prepareSendMessagePayload = (body) => {
       let templateArguments = body.payload.templateArguments.split(',')
       MessageObject.type = 'template'
       MessageObject['template'] = {
-        namespace: body.payload.templateNameSpace,
+        namespace: 'c088281d_2079_43e6_820e_5389ef88806d',
         name: body.payload.templateName,
         language: {
           policy: 'deterministic',
@@ -76,18 +72,39 @@ exports.prepareSendMessagePayload = (body) => {
   }
   return MessageObject
 }
-exports.prepareTemplates = () => {
-  let templates = [
-    {
-      name: 'cequens_autoreply',
-      namespace: 'c088281d_2079_43e6_820e_5389ef88806d',
-      code: 'en',
-      text: 'This is automated message regarding to your Ticket No. {{1}}. We have received your request and will get back to you within 1 working day',
-      templateArguments: '{{1}}',
-      regex: '^This is automated message regarding to your Ticket No. (.*). We have received your request and will get back to you within 1 working day$',
-      buttons: []
+exports.prepareTemplates = (cequensTemplates) => {
+  let templates = []
+  for (let i = 0; i < cequensTemplates.length; i++) {
+    if (cequensTemplates[i].status === 'APPROVED') {
+      let template = {}
+      template.name = cequensTemplates[i].name
+      let templateComponents = cequensTemplates[i].components
+      template.code = cequensTemplates[i].language
+      template.type = 'text'
+      template.id = cequensTemplates[i].id
+      for (let j = 0; j < templateComponents.length; j++) {
+        if (templateComponents[j].type === 'BODY') {
+          template.text = templateComponents[j].text
+          let argumentsRegex = /{{[0-9]}}/g
+          let templateArguments = template.text.match(argumentsRegex).join(',')
+          template.templateArguments = templateArguments
+          let regex = template.text.replace('.', '\\.')
+          regex = regex.replace(argumentsRegex, '(.*)')
+          template.regex = `^${regex}$`
+        } else if (templateComponents[j].type === 'BUTTONS') {
+          template.buttons = templateComponents[j].buttons.map(button => {
+            return {
+              title: button.text
+            }
+          })
+        }
+      }
+      if (!template.buttons) {
+        template.buttons = []
+      }
+      templates.push(template)
     }
-  ]
+  }
   return templates
 }
 exports.prepareInvitationPayload = (body, number) => {
@@ -97,7 +114,7 @@ exports.prepareInvitationPayload = (body, number) => {
     recipient_type: 'individual',
     type: 'template',
     template: {
-      namespace: body.payload.templateNameSpace,
+      namespace: 'c088281d_2079_43e6_820e_5389ef88806d',
       name: body.payload.templateName,
       language: {
         policy: 'deterministic',
@@ -174,45 +191,37 @@ exports.prepareReceivedMessageData = (event, company) => {
   let payload = {}
   return new Promise((resolve, reject) => {
     if (message.type === 'image' || message.type === 'video' || message.type === 'document' || message.type === 'audio' || message.type === 'voice') {
-      cequensApiCaller(`media/` + message[message.type].id, companyWhatsApp.clientName, event.businessNumber.replace('+', ''), 'get', companyWhatsApp.accessToken)
+      cequensApiCaller(`media/` + message[message.type].id, 'get', companyWhatsApp.accessToken)
         .then(response => {
           if (response.body.errors) {
             reject(response.body.errors)
           } else {
-            let ext = mime.extension(response.headers['content-type'])
-            uploadMedia(response.body, message[message.type].id + '.' + ext)
-              .then(payload => {
-                let uploadedUrl = payload.url
-                if (message.type === 'image' && message.image) {
-                  payload = { componentType: 'image', fileurl: { url: uploadedUrl } }
-                  if (message.image.caption && message.image.caption !== '') {
-                    payload.caption = message.image.caption
-                  }
-                  resolve(payload)
-                } else if (message.type === 'video' && message.video) {
-                  payload = { componentType: 'video', fileurl: { url: uploadedUrl } }
-                  if (message.video.caption !== '') {
-                    payload.caption = message.video.caption
-                  }
-                  resolve(payload)
-                } else if (message.type === 'document') {
-                  payload = {
-                    componentType: 'file',
-                    fileurl: { url: uploadedUrl },
-                    fileName: message.document.filename
-                  }
-                  resolve(payload)
-                } else if (message.type === 'audio') {
-                  payload = { componentType: 'audio', fileurl: { url: uploadedUrl } }
-                  resolve(payload)
-                } else if (message.type === 'voice') {
-                  payload = { componentType: 'audio', fileurl: { url: uploadedUrl } }
-                  resolve(payload)
-                }
-              })
-              .catch(err => {
-                reject(err)
-              })
+            if (message.type === 'image' && message.image) {
+              payload = { componentType: 'image', fileurl: { url: response.body.url } }
+              if (message.image.caption && message.image.caption !== '') {
+                payload.caption = message.image.caption
+              }
+              resolve(payload)
+            } else if (message.type === 'video' && message.video) {
+              payload = { componentType: 'video', fileurl: { url: response.body.url } }
+              if (message.video.caption !== '') {
+                payload.caption = message.video.caption
+              }
+              resolve(payload)
+            } else if (message.type === 'document') {
+              payload = {
+                componentType: 'file',
+                fileurl: { url: response.body.url },
+                fileName: message.document.filename
+              }
+              resolve(payload)
+            } else if (message.type === 'audio') {
+              payload = { componentType: 'audio', fileurl: { url: response.body.url } }
+              resolve(payload)
+            } else if (message.type === 'voice') {
+              payload = { componentType: 'audio', fileurl: { url: response.body.url } }
+              resolve(payload)
+            }
           }
         })
         .catch(error => {
@@ -237,37 +246,6 @@ exports.prepareReceivedMessageData = (event, company) => {
       resolve(payload)
     } else {
       resolve(payload)
-    }
-  })
-}
-
-const uploadMedia = function (blob, fileName) {
-  return new Promise((resolve, reject) => {
-    var today = new Date()
-    var uid = crypto.randomBytes(5).toString('hex')
-    var serverPath = 'f' + uid + '' + today.getFullYear() + '' +
-    (today.getMonth() + 1) + '' + today.getDate()
-    serverPath += '' + today.getHours() + '' + today.getMinutes() + '' +
-    today.getSeconds()
-    let fext = fileName.split('.')
-    serverPath += '.' + fext[fext.length - 1].toLowerCase()
-    console.log('dir', __dirname)
-    let dir = path.resolve(__dirname, '../../../broadcastFiles/')
-    if (blob) {
-      fs.writeFile(dir + '/userfiles/' + serverPath, blob, (err) => {
-        if (err) {
-          reject(err)
-        } else {
-          let payload = {
-            id: serverPath,
-            name: fileName,
-            url: `${config.domain}/api/broadcasts/download/${serverPath}`
-          }
-          resolve(payload)
-        }
-      })
-    } else {
-      reject(new Error('Blob not found'))
     }
   })
 }

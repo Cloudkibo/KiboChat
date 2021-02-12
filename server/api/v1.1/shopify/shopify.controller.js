@@ -21,6 +21,8 @@ const { sendSuccessResponse, sendErrorResponse } = require('../../global/respons
 const path = require('path')
 const Shopify = require('shopify-api-node')
 const { callApi } = require('../utility')
+const { sendWhatsAppMessage } = require('../whatsAppEvents/controller')
+const moment = require('moment')
 
 exports.index = function (req, res) {
   const shop = req.body.shop
@@ -35,12 +37,13 @@ exports.index = function (req, res) {
       '&redirect_uri=' + redirectUri
 
     res.cookie('state', state)
-    res.cookie('userId', JSON.stringify(req.user._id))
-    res.cookie('pageId', req.body.pageId)
+    res.cookie('installByShopifyStore', shop)
+    res.cookie('shopifySetupState', 'startedFromApp')
+    res.cookie('userId', req.user._id)
     utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }) // fetch company user
       .then(companyuser => {
-        res.cookie('companyId', JSON.stringify(companyuser.companyId))
-        return res.redirect(installUrl)
+        res.cookie('companyId', companyuser.companyId)
+        return res.json({ installUrl })
       })
       .catch(err => {
         if (err) {
@@ -112,7 +115,7 @@ function registerWebhooks (shop, token) {
   })
 
   shopify.webhook.create({
-    topic: 'checkouts/create',
+    topic: 'orders/create',
     address: `${config.domain}/api/shopify/complete-checkout`,
     format: 'json'
   }).then((response) => {
@@ -122,15 +125,53 @@ function registerWebhooks (shop, token) {
   })
 }
 
-exports.handleCompleteCheckout = function (req, res) {
+exports.handleCompleteCheckout = async function (req, res) {
   try {
-    const updateData = {
+    const contacts = await callApi(`whatsAppContacts/query`, 'post', {'commerceCustomerShopify.email': req.body.email})
+    for (const contact of contacts) {
+      if (moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15) {
+        const company = await callApi(`companyProfile/query`, 'post', { _id: contact.companyId })
+        const integration = await dataLayer.findOneShopifyIntegration({ companyId: company._id })
+        const messageBlock = {
+          module: {
+            id: company.whatsApp.activeWhatsappBot,
+            type: 'whatsapp_commerce_chatbot'
+          },
+          title: 'Order Confirmation Notfication',
+          uniqueId: '' + new Date().getTime(),
+          payload: [
+            {
+              text: `Hi ${contact.first_name}. Thank you for placing an order at ${integration.shopUrl}.`,
+              componentType: 'text'
+            }
+          ],
+          userId: company.ownerId,
+          companyId: company._id
+        }
+        if (req.body.order_status_url) {
+          messageBlock.payload[0].text += ` You can view full order status at ${req.body.order_status_url}.`
+        }
+        const data = {
+          accessToken: company.whatsApp.accessToken,
+          accountSID: company.whatsApp.accountSID,
+          businessNumber: company.whatsApp.businessNumber
+        }
+        sendWhatsAppMessage(messageBlock, data, contact.number, company, contact)
+      }
+    }
+    const updateDataWhatsApp = {
+      query: {'commerceCustomerShopify.email': req.body.email},
+      newPayload: { shoppingCart: [] },
+      options: {}
+    }
+    const updateDataMessenger = {
       query: {'commerceCustomer.email': req.body.email},
       newPayload: { shoppingCart: [] },
       options: {}
     }
-    callApi(`whatsAppContacts/update`, 'put', updateData)
-    callApi(`subscribers/update`, 'put', updateData)
+    callApi(`whatsAppContacts/update`, 'put', updateDataWhatsApp)
+    callApi(`subscribers/update`, 'put', updateDataMessenger)
+    return sendSuccessResponse(res, 200, {status: 'success'})
   } catch (err) {
     const message = err || 'Error processing shopify complete checkout webhook '
     logger.serverLog(message, `${TAG}: exports.handleCompleteCheckout`, req.body, {header: req.header}, 'error')
@@ -165,10 +206,11 @@ exports.handleAppUninstall = async function (req, res) {
       })
     })
 
-    const whatsAppChatbots = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({
+    const whatsAppChatbots = await whatsAppChatbotDataLayer.fetchAllWhatsAppChatbots({
       type: 'automated',
       vertical: 'commerce',
-      storeType: 'shopify'
+      storeType: 'shopify',
+      companyId: shopifyIntegration.companyId
     })
 
     whatsAppChatbots.forEach(chatbot => {
@@ -346,9 +388,10 @@ exports.testRoute = (req, res) => {
         shopUrl: shopifyIntegration.shopUrl,
         shopToken: shopifyIntegration.shopToken
       })
-      // return shopify.fetchProductsInThisCategory(166185566271)
-      // return shopify.findCustomerOrders('1264935993407')
+      return shopify.fetchProductsInThisCategory(333035969, null, 9)
+      // return shopify.findCustomerOrders('4573544054966')
       // return shopify.checkOrderStatus('1125')
+      // return shopify.cancelAnOrder('3181202735286')
       // return shopify.createPermalinkForCart({
       // email: 'sojharo@gmail.com',
       // first_name: 'sojharo',
@@ -359,22 +402,22 @@ exports.testRoute = (req, res) => {
       // }])
       // return shopify.searchProducts('Kurti')
       // return shopify.getVariantsOfSelectedProduct('4885559935039')
-      // return shopify.searchCustomerUsingEmail('sojharo@gmail.com')
-      return shopify.createTestOrder(
-        { id: '3634555748415' },
-        [{
-          variant_id: '33276201402431',
-          quantity: 2
-        }],
-        {
-          first_name: 'Sojharo',
-          last_name: 'Mangi',
-          address1: 'C-23 Fariya Apartments',
-          city: 'Karachi',
-          country: 'Pakistan',
-          zip: '71200'
-        }
-      )
+      // return shopify.searchCustomerUsingEmail('sojharo@live.com')
+      // return shopify.createTestOrder(
+      //   { id: '3634555748415' },
+      //   [{
+      //     variant_id: '33276201402431',
+      //     quantity: 2
+      //   }],
+      //   {
+      //     first_name: 'Sojharo',
+      //     last_name: 'Mangi',
+      //     address1: 'C-23 Fariya Apartments',
+      //     city: 'Karachi',
+      //     country: 'Pakistan',
+      //     zip: '71200'
+      //   }
+      // )
     })
     .then(shop => {
       sendSuccessResponse(res, 200, shop)

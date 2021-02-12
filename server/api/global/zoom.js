@@ -60,4 +60,22 @@ exports.refreshAccessToken = (zoomUser) => {
   })
 }
 
+exports.setDefaultFields = (data) => {
+  let defaultZoomConfiguration = {
+    account: data.zoomUserId,
+    topic: data.topic,
+    agenda: data.agenda,
+    invitationMessage: data.invitationMessage
+  }
+  let newPayload = { defaultZoomConfiguration }
+  callApi(`companypreferences/update`, 'post', {query: {companyId: data.companyId}, newPayload: newPayload, options: {}}, 'accounts')
+    .then(updated => {
+      logger.serverLog('Default values updated successfully', `${TAG}: exports.setDefaultFields`, {}, {data, updated}, 'info')
+    })
+    .catch(err => {
+      let message = err || 'Error in setting default zoom configuration'
+      logger.serverLog(message, `${TAG}: exports.setDefaultFields`, {}, {data, err}, 'error')
+    })
+}
+
 exports.zoomApiCaller = zoomApiCaller
