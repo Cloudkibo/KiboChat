@@ -949,7 +949,9 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, contact, 
     }
     let isOrderFulFilled = orderStatus.displayFulfillmentStatus.toLowerCase() === 'fulfilled'
 
-    if (
+    if (!orderStatus.cancelReason &&
+      !(orderStatus.displayFinancialStatus && orderStatus.displayFinancialStatus.includes('PAID')) &&
+      !(orderStatus.tags && orderStatus.tags.includes('cancel-request')) &&
       chatbot.cancelOrder
     ) {
       messageBlock.payload[0].buttons = [{
