@@ -1,4 +1,6 @@
 const Shopify = require('shopify-api-node')
+const logger = require('../../../components/logger')
+const TAG = 'api/ecommerceProvidersApiLayer/bigCommerceProvider.js'
 
 exports.fetchStoreInfo = (credentials) => {
   const shopify = initShopify(credentials)
@@ -14,6 +16,8 @@ exports.fetchStoreInfo = (credentials) => {
         })
       })
       .catch(err => {
+        const message = err || 'Failed to fetch store info'
+        logger.serverLog(message, `${TAG}: exports.fetchStoreInfo`, {}, {credentials}, 'error')
         reject(err)
       })
   })
@@ -35,16 +39,20 @@ exports.fetchAllProductCategories = (paginationParams, credentials) => {
         resolve(collections)
       })
       .catch(err => {
+        const message = err || 'Failed to all product categories'
+        logger.serverLog(message, `${TAG}: exports.fetchAllProductCategories`, {}, {credentials}, 'error')
         reject(err)
       })
   })
 }
 
-exports.fetchProductsInThisCategory = (id, paginationParams, credentials) => {
+exports.fetchProductsInThisCategory = (id, paginationParams, numberOfProducts, credentials) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
-    paginationParams = paginationParams || { limit: 9 }
-    paginationParams.collection_id = id
+    paginationParams = paginationParams || { limit: numberOfProducts }
+    if (!paginationParams.page_info) {
+      paginationParams.collection_id = id
+    }
     shopify.product.list(paginationParams)
       .then(products => {
         let nextPageParameters = products.nextPageParameters
@@ -63,15 +71,17 @@ exports.fetchProductsInThisCategory = (id, paginationParams, credentials) => {
         resolve(products)
       })
       .catch(err => {
+        const message = err || 'Failed to all products in categories'
+        logger.serverLog(message, `${TAG}: exports.fetchProductsInThisCategory`, {}, {id, paginationParams, credentials}, 'error')
         reject(err)
       })
   })
 }
 
-exports.fetchProducts = (paginationParams, credentials) => {
+exports.fetchProducts = (paginationParams, numberOfProducts, credentials) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
-    paginationParams = paginationParams || { limit: 9 }
+    paginationParams = paginationParams || { limit: numberOfProducts }
     shopify.product.list(paginationParams)
       .then(products => {
         let nextPageParameters = products.nextPageParameters
@@ -90,6 +100,8 @@ exports.fetchProducts = (paginationParams, credentials) => {
         resolve(products)
       })
       .catch(err => {
+        const message = err || 'Failed to fetch products'
+        logger.serverLog(message, `${TAG}: exports.fetchProducts`, {}, {credentials}, 'error')
         reject(err)
       })
   })
@@ -139,15 +151,17 @@ exports.searchProducts = (searchQuery, credentials) => {
         resolve(products)
       })
       .catch(err => {
+        const message = err || 'Failed to search products'
+        logger.serverLog(message, `${TAG}: exports.searchProducts`, {}, {searchQuery, credentials}, 'error')
         reject(err)
       })
   })
 }
 
-exports.getProductVariants = (id, paginationParams, credentials) => {
+exports.getProductVariants = (id, paginationParams, numberOfProducts, credentials) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
-    paginationParams = paginationParams || { limit: 9 }
+    paginationParams = paginationParams || { limit: numberOfProducts }
     shopify.productVariant.list(id, paginationParams)
       .then(async products => {
         let nextPageParameters = products.nextPageParameters
@@ -170,6 +184,8 @@ exports.getProductVariants = (id, paginationParams, credentials) => {
         resolve(products)
       })
       .catch(err => {
+        const message = err || 'Failed to product variants'
+        logger.serverLog(message, `${TAG}: exports.getProductVariants`, {}, {id, paginationParams, credentials}, 'error')
         reject(err)
       })
   })
@@ -183,6 +199,7 @@ exports.getOrderStatus = (id, credentials) => {
         node {
           id
           name
+          cancelReason
           billingAddress {
             id
             name
@@ -207,6 +224,7 @@ exports.getOrderStatus = (id, credentials) => {
           }
           displayFinancialStatus
           email
+          tags
           fulfillments {
             id
             trackingInfo {
@@ -292,6 +310,8 @@ exports.getOrderStatus = (id, credentials) => {
         resolve(order)
       })
       .catch(err => {
+        const message = err || 'Failed to get order status'
+        logger.serverLog(message, `${TAG}: exports.getOrderStatus`, {}, {id, credentials}, 'error')
         reject(err)
       })
   })
@@ -316,6 +336,8 @@ exports.getCustomerUsingId = (id, credentials) => {
         resolve(customer)
       })
       .catch(err => {
+        const message = err || 'Failed to get customer using id'
+        logger.serverLog(message, `${TAG}: exports.getCustomerUsingId`, {}, {id, credentials}, 'error')
         reject(err)
       })
   })
@@ -342,6 +364,8 @@ exports.searchCustomerUsingPhone = (phone, credentials) => {
         resolve(customers)
       })
       .catch(err => {
+        const message = err || 'Failed to search customer using phone'
+        logger.serverLog(message, `${TAG}: exports.searchCustomerUsingPhone`, {}, {phone, credentials}, 'error')
         reject(err)
       })
   })
@@ -368,6 +392,8 @@ exports.searchCustomerUsingEmail = (email, credentials) => {
         resolve(customers)
       })
       .catch(err => {
+        const message = err || 'Failed to search customer using email'
+        logger.serverLog(message, `${TAG}: exports.searchCustomerUsingEmail`, {}, {email, credentials}, 'error')
         reject(err)
       })
   })
@@ -381,7 +407,27 @@ exports.createCustomer = (firstName, lastName, email, credentials) => {
         resolve(customer)
       })
       .catch(err => {
+        const message = err || 'Failed to create customer'
+        logger.serverLog(message, `${TAG}: exports.createCustomer`, {}, {firstName, lastName, email, credentials}, 'error')
         reject(err)
+      })
+  })
+}
+
+exports.updateOrderTag = (orderId, tags, credentials) => {
+  const shopify = initShopify(credentials)
+  const params = {
+    tags
+  }
+  return new Promise(function (resolve, reject) {
+    shopify.order.update(orderId, params)
+      .then(order => {
+        let response = {status: 'success', payload: order}
+        resolve(response)
+      })
+      .catch(err => {
+        let errResponse = {status: 'failed', payload: err}
+        reject(errResponse)
       })
   })
 }
@@ -393,11 +439,12 @@ exports.findCustomerOrders = (customerId, limit, credentials) => {
       edges {
         node {
           id
-          orders(first: 10) {
+          orders(first: 10, reverse: true) {
             edges {
               node {
                 id
                 name
+                cancelReason
                 createdAt
                 totalPriceSet {
                   presentmentMoney {
@@ -446,6 +493,8 @@ exports.findCustomerOrders = (customerId, limit, credentials) => {
         resolve(customer)
       })
       .catch(err => {
+        const message = err || 'Failed to find customer order'
+        logger.serverLog(message, `${TAG}: exports.findCustomerOrders`, {}, {customerId, limit, credentials}, 'error')
         reject(err)
       })
   })
@@ -471,6 +520,8 @@ exports.addOrUpdateProductToCart = (customerId, lineItems, cartToken, credential
           resolve(result)
         })
         .catch(err => {
+          const message = err || 'Failed to add to cart'
+          logger.serverLog(message, `${TAG}: exports.addOrUpdateProductToCart`, {}, {customerId, lineItems, cartToken, credentials}, 'error')
           reject(err)
         })
     } else {
@@ -479,6 +530,8 @@ exports.addOrUpdateProductToCart = (customerId, lineItems, cartToken, credential
           resolve(result)
         })
         .catch(err => {
+          const message = err || 'Failed to create cart'
+          logger.serverLog(message, `${TAG}: exports.addOrUpdateProductToCart`, {}, {customerId, lineItems, cartToken, credentials}, 'error')
           reject(err)
         })
     }
@@ -547,6 +600,8 @@ exports.updateBillingAddressOnCart = (billingAddress, cartToken, credentials) =>
         resolve(result)
       })
       .catch(err => {
+        const message = err || 'Failed to update billing address'
+        logger.serverLog(message, `${TAG}: exports.updateBillingAddressOnCart`, {}, {billingAddress, cartToken, credentials}, 'error')
         reject(err)
       })
   })
@@ -562,6 +617,8 @@ exports.updateShippingAddressOnCart = (shippingAddress, cartToken, credentials) 
         resolve(result)
       })
       .catch(err => {
+        const message = err || 'Failed to update shipping address'
+        logger.serverLog(message, `${TAG}: exports.updateShippingAddressOnCart`, {}, {shippingAddress, cartToken, credentials}, 'error')
         reject(err)
       })
   })
@@ -577,6 +634,8 @@ exports.completeCheckout = (cartToken, credentials) => {
           resolve(result)
         })
         .catch(err => {
+          const message = err || 'Failed to complete checkout'
+          logger.serverLog(message, `${TAG}: exports.completeCheckout`, {}, {cartToken, credentials}, 'error')
           reject(err)
         })
     } else {
@@ -585,14 +644,26 @@ exports.completeCheckout = (cartToken, credentials) => {
   })
 }
 
-exports.cancelAnOrder = (orderId, credentials) => {
+exports.cancelAnOrder = (id, credentials) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
-    shopify.order.cancel(orderId)
-      .then(result => {
-        resolve(result)
+    const params = {
+      reason: 'customer',
+      email: true
+    }
+    shopify.order.cancel(id, params)
+      .then(order => {
+        order = {
+          id: order.id,
+          email: order.email,
+          name: order.name,
+          confirmed: order.confirmed
+        }
+        resolve(order)
       })
       .catch(err => {
+        const message = err || 'Failed to cancel an order'
+        logger.serverLog(message, `${TAG}: exports.cancelAnOrder`, {}, {orderId, credentials}, 'error')
         reject(err)
       })
   })
@@ -606,6 +677,8 @@ exports.cancelAnOrderWithRefund = (orderId, refundAmount, currency, credentials)
         resolve(result)
       })
       .catch(err => {
+        const message = err || 'Failed to cancel an order with refund'
+        logger.serverLog(message, `${TAG}: exports.cancelAnOrderWithRefund`, {}, {orderId, refundAmount, currency, credentials}, 'error')
         reject(err)
       })
   })
@@ -631,6 +704,8 @@ exports.viewCart = (id, credentials) => {
         resolve(products)
       })
       .catch(err => {
+        const message = err || 'Failed to view cart'
+        logger.serverLog(message, `${TAG}: exports.viewCart`, {}, {id, credentials}, 'error')
         reject(err)
       })
   })
@@ -643,4 +718,21 @@ function initShopify (credentials) {
     apiVersion: '2019-07'
   })
   return shopify
+}
+
+exports.fetchAbandonedCart = (token, credentials) => {
+  const shopify = initShopify(credentials)
+  return new Promise(function (resolve, reject) {
+    if (token) {
+      shopify.checkout.get(token)
+        .then(result => {
+          resolve(result)
+        })
+        .catch(err => {
+          reject(err)
+        })
+    } else {
+      throw new Error('token is required to complete to get checkout details')
+    }
+  })
 }

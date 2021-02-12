@@ -26,6 +26,7 @@ const configureChatbotDatalayer = require('./../configureChatbot/datalayer')
 const { intervalForEach } = require('./../../../components/utility')
 const kiboAutomationLayer = require('../../../chatbotTemplates/kiboAutomation.layer')
 const chatbotTemplates = require('../../../chatbotTemplates')
+const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 
 exports.messageReceived = function (req, res) {
   res.status(200).json({
@@ -68,8 +69,8 @@ exports.messageReceived = function (req, res) {
                           }
                           return
                         }
-                        if (!shouldAvoidSendingMessage && data.messageData.componentType === 'text') {
-                          let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ _id: company.whatsApp.activeWhatsappBot })
+                        if (!shouldAvoidSendingMessage && company.whatsApp.activeWhatsappBot && data.messageData.componentType === 'text') {
+                          let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({_id: company.whatsApp.activeWhatsappBot})
                           if (chatbot) {
                             const shouldSend = chatbot.published || chatbot.testSubscribers.includes(contact.number)
                             if (shouldSend) {
@@ -77,16 +78,24 @@ exports.messageReceived = function (req, res) {
                               let airlinesProvider = null
                               if (chatbot.storeType === commerceConstants.shopify) {
                                 const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
-                                ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
-                                  shopUrl: shopifyIntegration.shopUrl,
-                                  shopToken: shopifyIntegration.shopToken
-                                })
+                                if (shopifyIntegration) {
+                                  ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
+                                    shopUrl: shopifyIntegration.shopUrl,
+                                    shopToken: shopifyIntegration.shopToken
+                                  })
+                                } else {
+                                  deleteShopifyIntegeration(chatbot.companyId, commerceConstants.shopify)
+                                }
                               } else if (chatbot.storeType === commerceConstants.bigcommerce) {
                                 const bigCommerceIntegration = await bigcommerceDataLayer.findOneBigCommerceIntegration({ companyId: chatbot.companyId })
-                                ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
-                                  shopToken: bigCommerceIntegration.shopToken,
-                                  storeHash: bigCommerceIntegration.payload.context
-                                })
+                                if (bigCommerceIntegration) {
+                                  ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
+                                    shopToken: bigCommerceIntegration.shopToken,
+                                    storeHash: bigCommerceIntegration.payload.context
+                                  })
+                                } else {
+                                  deleteShopifyIntegeration(chatbot.companyId, commerceConstants.bigcommerce)
+                                }
                               } else if (chatbot.vertical === 'airlines') {
                                 airlinesProvider = new AirlinesProvider(airlinesConstants.amadeus, {
                                   clientId: config.amadeus.clientId,
@@ -95,12 +104,12 @@ exports.messageReceived = function (req, res) {
                               }
                               let nextMessageBlock = null
                               if (ecommerceProvider) {
-                                nextMessageBlock = await commerceChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text)
+                                nextMessageBlock = await commerceChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text, company)
                               } else if (airlinesProvider) {
                                 nextMessageBlock = await airlinesChatbotLogicLayer.getNextMessageBlock(chatbot, airlinesProvider, contact, data.messageData.text)
                               }
                               if (nextMessageBlock) {
-                                sendWhatsAppMessage(nextMessageBlock, data, number, req, company, contact)
+                                sendWhatsAppMessage(nextMessageBlock, data, number, company, contact)
                                 updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
                                 logicLayer.storeWhatsAppStats(data, chatbot, isNewContact, contact, req)
                               }
@@ -148,6 +157,24 @@ exports.messageReceived = function (req, res) {
       const message = error || 'Failed to map whatsapp message received data'
       logger.serverLog(message, `${TAG}: exports.messageReceived`, req.body, {user: req.user}, 'error')
     })
+}
+
+async function deleteShopifyIntegeration (companyId, storeType) {
+  const whatsAppChatbots = await whatsAppChatbotDataLayer.fetchAllWhatsAppChatbots({
+    type: 'automated',
+    vertical: 'commerce',
+    storeType: storeType,
+    companyId: companyId
+  })
+
+  whatsAppChatbots.forEach(chatbot => {
+    whatsAppChatbotDataLayer.deleteForChatBot({
+      _id: chatbot._id
+    })
+    messageBlockDataLayer.deleteForMessageBlock({
+      'module.id': chatbot._id
+    })
+  })
 }
 
 function _sendEvent (companyId, contact) {
@@ -210,6 +237,8 @@ function createContact (data) {
                 }
               })
               .catch(error => {
+                const message = error || 'Failed to map whatsapp contact'
+                logger.serverLog(message, `${TAG}: exports.createContact`, {}, {data}, 'error')
                 reject(error)
               })
           })
@@ -218,6 +247,8 @@ function createContact (data) {
         }
       })
       .catch(error => {
+        const message = error || 'Failed to company profile'
+        logger.serverLog(message, `${TAG}: exports.createContact`, {}, {data}, 'error')
         reject(error)
       })
   })
@@ -496,7 +527,7 @@ function updateChatInDB (match, updated, dataToSend) {
 async function temporarySuperBotTestHandling (data, contact, company, number, req, isNewContact) {
   try {
     if (
-      (data.messageData.text.toLowerCase() === 'select') ||
+      (data.messageData.componentType === 'text' && data.messageData.text.toLowerCase() === 'select') ||
       (!contact.activeChatbotId &&
         !(contact.lastMessageSentByBot &&
           contact.lastMessageSentByBot.module &&
@@ -505,7 +536,7 @@ async function temporarySuperBotTestHandling (data, contact, company, number, re
 
       let nextMessageBlock = whatsAppChatbotLogicLayer.getChatbotsListMessageBlock(allChatbots)
       if (nextMessageBlock) {
-        sendWhatsAppMessage(nextMessageBlock, data, number, req, company, contact)
+        sendWhatsAppMessage(nextMessageBlock, data, number, company, contact)
         const updateWhatsAppContactData = {
           lastMessageSentByBot: nextMessageBlock
         }
@@ -557,14 +588,14 @@ async function temporarySuperBotTestHandling (data, contact, company, number, re
               })
             }
             if (ecommerceProvider) {
-              nextMessageBlock = await commerceChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, 'hi')
+              nextMessageBlock = await commerceChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, 'hi', company)
               currentMessage = nextMessageBlock
             } else if (airlinesProvider) {
               nextMessageBlock = await airlinesChatbotLogicLayer.getNextMessageBlock(chatbot, airlinesProvider, contact, 'hi')
               currentMessage = nextMessageBlock
             }
             if (nextMessageBlock) {
-              sendWhatsAppMessage(nextMessageBlock, data, number, req, company, contact)
+              sendWhatsAppMessage(nextMessageBlock, data, number, company, contact)
             }
           }
           if (nextMessageBlock) {
@@ -596,7 +627,7 @@ async function sendInvalidSelectChatbotsResponse (data, contact, company, number
 
   if (nextMessageBlock && allChatbots.length > 0) {
     nextMessageBlock.payload[0].text = `Please enter a number between 0 and ${allChatbots.length - 1}\n\n${nextMessageBlock.payload[0].text}`
-    sendWhatsAppMessage(nextMessageBlock, data, number, req, company, contact)
+    sendWhatsAppMessage(nextMessageBlock, data, number, company, contact)
     updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
   }
 }
@@ -664,7 +695,7 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
             })
           }
           if (ecommerceProvider) {
-            nextMessageBlock = await commerceChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text)
+            nextMessageBlock = await commerceChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text, company)
             currentMessage = nextMessageBlock
           } else if (airlinesProvider) {
             nextMessageBlock = await airlinesChatbotLogicLayer.getNextMessageBlock(chatbot, airlinesProvider, contact, data.messageData.text)
@@ -676,7 +707,7 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
               const allChatbots = await getAllChatbots(company)
               nextMessageBlock = whatsAppChatbotLogicLayer.getChatbotsListMessageBlock(allChatbots)
               if (nextMessageBlock) {
-                sendWhatsAppMessage(nextMessageBlock, data, number, req, company, contact)
+                sendWhatsAppMessage(nextMessageBlock, data, number, company, contact)
                 const updateWhatsAppContactData = {
                   lastMessageSentByBot: nextMessageBlock
                 }
@@ -684,7 +715,7 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
                 return
               }
             }
-            sendWhatsAppMessage(nextMessageBlock, data, number, req, company, contact)
+            sendWhatsAppMessage(nextMessageBlock, data, number, company, contact)
             if (currentMessage) updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: currentMessage }, null, {})
             logicLayer.storeWhatsAppStats(data, chatbot, isNewContact, contact, req)
           }
@@ -712,21 +743,20 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
   }
 }
 
-function sendWhatsAppMessage (nextMessageBlock, data, number, req, company, contact) {
+function sendWhatsAppMessage (nextMessageBlock, data, number, company, contact) {
   record('whatsappChatOutGoing')
   if (nextMessageBlock.payload.length > 1) {
     intervalForEach(nextMessageBlock.payload, async (messagePayload) => {
-      if (company.saveAutomationMessages) {
-        storeChat(company.whatsApp.businessNumber, number, contact, messagePayload, 'convos')
-      }
-      sendWhatsAppMessageLogic(messagePayload, data, number, req)
+      sendWhatsAppMessageLogic(messagePayload, data, number, company, contact)
     }, 1800)
   } else {
-    sendWhatsAppMessageLogic(nextMessageBlock.payload[0], data, number, req, company, contact)
+    sendWhatsAppMessageLogic(nextMessageBlock.payload[0], data, number, company, contact)
   }
 }
 
-function sendWhatsAppMessageLogic (messagePayload, data, number, req, company, contact) {
+exports.sendWhatsAppMessage = sendWhatsAppMessage
+
+function sendWhatsAppMessageLogic (messagePayload, data, number, company, contact) {
   let chatbotResponse = {
     whatsApp: {
       accessToken: data.accessToken,
@@ -737,7 +767,7 @@ function sendWhatsAppMessageLogic (messagePayload, data, number, req, company, c
     payload: messagePayload
   }
 
-  whatsAppMapper.whatsAppMapper(req.body.provider, ActionTypes.SEND_CHAT_MESSAGE, chatbotResponse)
+  whatsAppMapper.whatsAppMapper(company.whatsApp.provider, ActionTypes.SEND_CHAT_MESSAGE, chatbotResponse)
     .then(sent => {
       if (company && company.saveAutomationMessages) {
         storeChat(company.whatsApp.businessNumber, number, contact, messagePayload, 'convos')
@@ -745,7 +775,7 @@ function sendWhatsAppMessageLogic (messagePayload, data, number, req, company, c
     })
     .catch(err => {
       const message = err || 'Failed to send chat message'
-      logger.serverLog(message, `${TAG}: exports.sendWhatsAppMessage`, req.body, {chatbotResponse}, 'error')
+      logger.serverLog(message, `${TAG}: exports.sendWhatsAppMessage`, {}, {chatbotResponse}, 'error')
     })
 }
 

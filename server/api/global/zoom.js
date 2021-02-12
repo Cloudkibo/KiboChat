@@ -25,6 +25,8 @@ const zoomApiCaller = (method, path, data, auth, qs) => {
       options,
       (err, response) => {
         if (err) {
+          const message = err || 'error in zoom api'
+          logger.serverLog(message, `${TAG}: exports.zoomApiCaller`, {}, {method, path, data}, 'error')
           reject(err)
         } else {
           resolve(response.body)
@@ -58,6 +60,24 @@ exports.refreshAccessToken = (zoomUser) => {
         reject(err)
       })
   })
+}
+
+exports.setDefaultFields = (data) => {
+  let defaultZoomConfiguration = {
+    account: data.zoomUserId,
+    topic: data.topic,
+    agenda: data.agenda,
+    invitationMessage: data.invitationMessage
+  }
+  let newPayload = { defaultZoomConfiguration }
+  callApi(`companypreferences/update`, 'post', {query: {companyId: data.companyId}, newPayload: newPayload, options: {}}, 'accounts')
+    .then(updated => {
+      logger.serverLog('Default values updated successfully', `${TAG}: exports.setDefaultFields`, {}, {data, updated}, 'info')
+    })
+    .catch(err => {
+      let message = err || 'Error in setting default zoom configuration'
+      logger.serverLog(message, `${TAG}: exports.setDefaultFields`, {}, {data, err}, 'error')
+    })
 }
 
 exports.zoomApiCaller = zoomApiCaller

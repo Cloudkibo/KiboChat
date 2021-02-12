@@ -3,10 +3,9 @@ const { sendNotifications } = require('../../global/sendNotification')
 const logger = require('../../../components/logger')
 const TAG = '/api/v1/whatsAppChatbot/whatsAppChatbot.logiclayer.js'
 
-exports.sendTalkToAgentNotification = async (subscriber, companyId) => {
+exports.sendNotification = async (subscriber, message, companyId) => {
   try {
     let title = 'Customer Support Agent Request'
-    let message = `${subscriber.firstName} requested to talk to a customer support agent`
     let newPayload = {
       action: 'chat_messenger',
       subscriber
