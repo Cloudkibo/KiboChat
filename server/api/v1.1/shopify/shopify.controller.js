@@ -134,40 +134,71 @@ function registerWebhooks (shop, token) {
   })
 }
 
-exports.handleCreateCheckout = async function (req, res) {
-  console.log('handleCreateCheckout', JSON.stringify(req.body))
-  try {
+function getContact (companyId, number) {
+  return new Promise((resolve, reject) => {
     let query = {
+      companyId: companyId,
       $or: [
-        {'commerceCustomerShopify.phone': req.body.phone},
-        {'commerceCustomerShopify.phone': req.body.phone.replace(/\D/g, '')}
+        {number: number},
+        {number: number.replace(/\D/g, '')}
+      ]
+    }
+    callApi(`whatsAppContacts/query`, 'post', query)
+    .then(contacts => {
+      if (contacts.length > 0) {
+        resolve(contacts[0])
+      } else {
+        
+      }
+    })
+    .catch((err) => {
+      reject(err)
+    })
+  })
+}
+
+exports.handleCreateCheckout = async function (req, res) {
+  try {
+    let shopName = req.body.abandoned_checkout_url.split('//')[1]
+    shopName = shopName.split('/')[0]
+    // shopName = shopName.replace('https://', '')
+    console.log('shopName', shopName)
+    const integration = await dataLayer.findOneShopifyIntegration({ shopUrl: shopName })
+    console.log('integration', integration)
+    let query = {
+      companyId: integration.companyId,
+      $or: [
+        {number: req.body.phone},
+        {number: req.body.phone.replace(/\D/g, '')}
       ]
     }
     const contacts = await callApi(`whatsAppContacts/query`, 'post', query)
-    for (const contact of contacts) {
-        const integration = await dataLayer.findOneShopifyIntegration({ companyId: contact.companyId })
-        if (integration) {
-          const updateDataWhatsApp = {
-            query: {_id: contact._id},
-            newPayload: { shoppingCart: [] },
-            options: {}
-          }
-        }
-    }
-    const updateDataWhatsApp = {
-      query: {'commerceCustomerShopify.email': req.body.email},
-      newPayload: { shoppingCart: [] },
-      options: {}
-    }
-    const updateDataMessenger = {
-      query: {'commerceCustomer.email': req.body.email},
-      newPayload: { shoppingCart: [] },
-      options: {}
-    }
-    callApi(`whatsAppContacts/update`, 'put', updateDataWhatsApp)
-    callApi(`subscribers/update`, 'put', updateDataMessenger)
+    let contact = contacts[0]
+    // for (const contact of contacts) {
+    //     const integration = await dataLayer.findOneShopifyIntegration({ companyId: contact.companyId })
+    //     if (integration) {
+    //       const updateDataWhatsApp = {
+    //         query: {_id: contact._id},
+    //         newPayload: { shoppingCart: [] },
+    //         options: {}
+    //       }
+    //     }
+    // }
+    // const updateDataWhatsApp = {
+    //   query: {'commerceCustomerShopify.email': req.body.email},
+    //   newPayload: { shoppingCart: [] },
+    //   options: {}
+    // }
+    // const updateDataMessenger = {
+    //   query: {'commerceCustomer.email': req.body.email},
+    //   newPayload: { shoppingCart: [] },
+    //   options: {}
+    // }
+    // callApi(`whatsAppContacts/update`, 'put', updateDataWhatsApp)
+    // callApi(`subscribers/update`, 'put', updateDataMessenger)
     return sendSuccessResponse(res, 200, {status: 'success'})
   } catch (err) {
+    console.log('err', err)
     const message = err || 'Error processing shopify create checkout webhook '
     logger.serverLog(message, `${TAG}: exports.handleCreateCheckout`, req.body, {header: req.header}, 'error')
   }
