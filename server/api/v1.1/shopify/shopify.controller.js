@@ -136,7 +136,41 @@ function registerWebhooks (shop, token) {
 
 exports.handleCreateCheckout = async function (req, res) {
   console.log('handleCreateCheckout', JSON.stringify(req.body))
-  return sendSuccessResponse(res, 200, {status: 'success'})
+  try {
+    let query = {
+      $or: [
+        {'commerceCustomerShopify.phone': req.body.phone},
+        {'commerceCustomerShopify.phone': req.body.phone.replace(/\D/g, '')}
+      ]
+    }
+    const contacts = await callApi(`whatsAppContacts/query`, 'post', query)
+    for (const contact of contacts) {
+        const integration = await dataLayer.findOneShopifyIntegration({ companyId: contact.companyId })
+        if (integration) {
+          const updateDataWhatsApp = {
+            query: {_id: contact._id},
+            newPayload: { shoppingCart: [] },
+            options: {}
+          }
+        }
+    }
+    const updateDataWhatsApp = {
+      query: {'commerceCustomerShopify.email': req.body.email},
+      newPayload: { shoppingCart: [] },
+      options: {}
+    }
+    const updateDataMessenger = {
+      query: {'commerceCustomer.email': req.body.email},
+      newPayload: { shoppingCart: [] },
+      options: {}
+    }
+    callApi(`whatsAppContacts/update`, 'put', updateDataWhatsApp)
+    callApi(`subscribers/update`, 'put', updateDataMessenger)
+    return sendSuccessResponse(res, 200, {status: 'success'})
+  } catch (err) {
+    const message = err || 'Error processing shopify create checkout webhook '
+    logger.serverLog(message, `${TAG}: exports.handleCreateCheckout`, req.body, {header: req.header}, 'error')
+  }
 }
 
 exports.handleCompleteCheckout = async function (req, res) {
