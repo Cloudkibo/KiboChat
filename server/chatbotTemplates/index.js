@@ -1,5 +1,5 @@
 const { prepareInvalidResponse } = require('./utility')
-const { getChatbotResponse } = require('./kiboautomation.layer.js')
+const { getChatbotResponse } = require('./kiboAutomation.layer.js')
 const { SPECIALKEYWORDS, transformSpecialKeywords } = require('./specialKeywords')
 const {
   clearShoppingCart,
