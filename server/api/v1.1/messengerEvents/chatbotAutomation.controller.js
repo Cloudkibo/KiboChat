@@ -41,6 +41,7 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
                           saveLiveChatMessage(page, subscriber, item)
                           senderAction(req.sender.id, 'typing_off', page.accessToken)
                         }, 1500)
+                        updateSubscriber({ _id: subscriber._id }, { lastMessageSentByBot: messageBlock }, null, {})
                         updateBotLifeStatsForBlock(messageBlock, true)
                         updateBotPeriodicStatsForBlock(chatbot, true)
                         updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, messageBlock)
@@ -731,6 +732,7 @@ const isTriggerMessage = (event, page) => {
       })
   })
 }
+
 exports.updateBotPeriodicStatsForBlock = updateBotPeriodicStatsForBlock
 exports.updateBotLifeStatsForBlock = updateBotLifeStatsForBlock
 exports.sendResponse = sendResponse
