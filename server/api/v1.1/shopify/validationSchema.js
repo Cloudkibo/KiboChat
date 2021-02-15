@@ -85,3 +85,32 @@ exports.checkoutInfoSchema = {
     }
   }
 }
+exports.checkoutCreatePayload = {
+  type: 'object',
+  properties: {
+    id: {
+      type: 'number',
+      required: true
+    },
+    token: {
+      type: 'string',
+      required: true
+    },
+    cart_token: {
+      type: 'string',
+      required: true
+    },
+    phone: {
+      type: 'string',
+      required: true
+    },
+    abandoned_checkout_url: {
+      type: 'string',
+      required: true
+    },
+    customer: {
+      type: 'object',
+      required: true
+    }
+  }
+}

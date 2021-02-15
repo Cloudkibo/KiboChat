@@ -135,15 +135,79 @@ function registerWebhooks (shop, token) {
   })
 }
 
+function getContact (companyId, number, customer) {
+  return new Promise((resolve, reject) => {
+    let query = {
+      companyId: companyId,
+      $or: [
+        {number: number},
+        {number: number.replace(/\D/g, '')}
+      ]
+    }
+    callApi(`whatsAppContacts/query`, 'post', query)
+      .then(contacts => {
+        if (contacts.length > 0) {
+          resolve(contacts[0])
+        } else {
+          callApi(`whatsAppContacts`, 'post', {
+            name: customer.first_name + ' ' + customer.last_name,
+            number: number,
+            companyId: companyId
+          }, 'accounts')
+            .then(contact => {
+              resolve(contact)
+            })
+        }
+      })
+      .catch((err) => {
+        reject(err)
+      })
+  })
+}
+
 exports.handleCreateCheckout = async function (req, res) {
   console.log('handleCreateCheckout', JSON.stringify(req.body))
-  return sendSuccessResponse(res, 200, {status: 'success'})
+  sendSuccessResponse(res, 200, {status: 'success'})
+  try {
+    if (req.body.customer.accepts_marketing) {
+      let shopName = req.body.abandoned_checkout_url.split('//')[1]
+      shopName = shopName.split('/')[0]
+      const integration = await dataLayer.findOneShopifyIntegration({ shopUrl: shopName })
+      const contact = await getContact(integration.companyId, req.body.phone, req.body.customer)
+      let commerceCustomerShopify = req.body.customer
+      commerceCustomerShopify.abandonedCartInfo = {
+        cartRecoveryAttempts: 0,
+        abandonedCheckoutUrl: req.body.abandoned_checkout_url,
+        abandonedCheckoutId: req.body.id,
+        token: req.body.token
+      }
+      const updateData = {
+        query: {_id: contact._id},
+        newPayload: { commerceCustomerShopify: commerceCustomerShopify },
+        options: {}
+      }
+      callApi(`whatsAppContacts/update`, 'put', updateData)
+    }
+  } catch (err) {
+    const message = err || 'Error processing shopify create checkout webhook '
+    logger.serverLog(message, `${TAG}: exports.handleCreateCheckout`, req.body, {header: req.header}, 'error')
+  }
 }
 
 exports.handleCompleteCheckout = async function (req, res) {
   console.log('handleCompleteCheckout', JSON.stringify(req.body))
+  sendSuccessResponse(res, 200, {status: 'success'})
   try {
-    if (req.body.email) {
+    if (req.body.email || req.body.phone) {
+      let query = {
+        $or: []
+      }
+      if (req.body.phone) {
+        query.$or.push({number: req.body.phone})
+        query.$or.push({number: req.body.phone.replace(/\D/g, '')})
+      } else {
+        query.$or.push({'commerceCustomerShopify.email': req.body.email})
+      }
       const contacts = await callApi(`whatsAppContacts/query`, 'post', {'commerceCustomerShopify.email': req.body.email})
       for (const contact of contacts) {
         if (moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15) {
@@ -177,8 +241,8 @@ exports.handleCompleteCheckout = async function (req, res) {
         }
       }
       const updateDataWhatsApp = {
-        query: {'commerceCustomerShopify.email': req.body.email},
-        newPayload: { shoppingCart: [] },
+        query: query,
+        newPayload: { shoppingCart: [], 'commerceCustomerShopify.abandonedCartInfo': null },
         options: {}
       }
       const updateDataMessenger = {
@@ -188,10 +252,6 @@ exports.handleCompleteCheckout = async function (req, res) {
       }
       callApi(`whatsAppContacts/update`, 'put', updateDataWhatsApp)
       callApi(`subscribers/update`, 'put', updateDataMessenger)
-      return sendSuccessResponse(res, 200, {status: 'success'})
-    } else {
-      let message = 'Email not found.'
-      logger.serverLog(message, `${TAG}: exports.handleCompleteCheckout`, req.body, {header: req.header}, 'debug')
     }
   } catch (err) {
     const message = err || 'Error processing shopify complete checkout webhook '
@@ -445,7 +505,6 @@ exports.testRoute = (req, res) => {
       sendSuccessResponse(res, 200, shop)
     })
     .catch(err => {
-      console.log(err)
       sendErrorResponse(res, 500, `Failed to fetch subscribers
       ${JSON.stringify(err)}`)
     })
