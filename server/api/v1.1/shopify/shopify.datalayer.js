@@ -10,7 +10,6 @@ exports.findOneShopifyIntegration = (match) => {
     purpose: 'findOne',
     match: match
   }
-  console.log('query', query)
   return callApi(`shopify/query`, 'post', query, accounts)
 }
 
