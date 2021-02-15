@@ -37,13 +37,12 @@ exports.index = function (req, res) {
       '&redirect_uri=' + redirectUri
 
     res.cookie('state', state)
-    res.cookie('installByShopifyStore', shop)
-    res.cookie('shopifySetupState', 'startedFromApp')
-    res.cookie('userId', req.user._id)
+    res.cookie('userId', JSON.stringify(req.user._id))
+    res.cookie('pageId', req.body.pageId)
     utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }) // fetch company user
       .then(companyuser => {
-        res.cookie('companyId', companyuser.companyId)
-        return res.json({ installUrl })
+        res.cookie('companyId', JSON.stringify(companyuser.companyId))
+        return res.redirect(installUrl)
       })
       .catch(err => {
         if (err) {
@@ -135,7 +134,7 @@ function registerWebhooks (shop, token) {
   })
 }
 
-function getContact (companyId, number) {
+function getContact (companyId, number, customer) {
   return new Promise((resolve, reject) => {
     let query = {
       companyId: companyId,
@@ -145,61 +144,50 @@ function getContact (companyId, number) {
       ]
     }
     callApi(`whatsAppContacts/query`, 'post', query)
-    .then(contacts => {
-      if (contacts.length > 0) {
-        resolve(contacts[0])
-      } else {
-        
-      }
-    })
-    .catch((err) => {
-      reject(err)
-    })
+      .then(contacts => {
+        if (contacts.length > 0) {
+          resolve(contacts[0])
+        } else {
+          callApi(`whatsAppContacts`, 'post', {
+            name: customer.first_name + ' ' + customer.last_name,
+            number: number,
+            companyId: companyId
+          }, 'accounts')
+            .then(contact => {
+              resolve(contact)
+            })
+        }
+      })
+      .catch((err) => {
+        reject(err)
+      })
   })
 }
 
 exports.handleCreateCheckout = async function (req, res) {
+  console.log('handleCreateCheckout', JSON.stringify(req.body))
   try {
-    let shopName = req.body.abandoned_checkout_url.split('//')[1]
-    shopName = shopName.split('/')[0]
-    // shopName = shopName.replace('https://', '')
-    console.log('shopName', shopName)
-    const integration = await dataLayer.findOneShopifyIntegration({ shopUrl: shopName })
-    console.log('integration', integration)
-    let query = {
-      companyId: integration.companyId,
-      $or: [
-        {number: req.body.phone},
-        {number: req.body.phone.replace(/\D/g, '')}
-      ]
+    if (req.body.customer.accepts_marketing) {
+      let shopName = req.body.abandoned_checkout_url.split('//')[1]
+      shopName = shopName.split('/')[0]
+      const integration = await dataLayer.findOneShopifyIntegration({ shopUrl: shopName })
+      const contact = await getContact(integration.companyId, req.body.phone, req.body.customer)
+      let commerceCustomerShopify = req.body.customer
+      commerceCustomerShopify.abandonedCartInfo = {
+        cartRecoveryAttempts: 0,
+        abandonedCheckoutUrl: req.body.abandoned_checkout_url,
+        abandonedCheckoutId: req.body.id,
+        token: req.body.token
+      }
+      const updateData = {
+        query: {_id: contact._id},
+        newPayload: { commerceCustomerShopify: commerceCustomerShopify },
+        options: {}
+      }
+      callApi(`whatsAppContacts/update`, 'put', updateData)
     }
-    const contacts = await callApi(`whatsAppContacts/query`, 'post', query)
-    let contact = contacts[0]
-    // for (const contact of contacts) {
-    //     const integration = await dataLayer.findOneShopifyIntegration({ companyId: contact.companyId })
-    //     if (integration) {
-    //       const updateDataWhatsApp = {
-    //         query: {_id: contact._id},
-    //         newPayload: { shoppingCart: [] },
-    //         options: {}
-    //       }
-    //     }
-    // }
-    // const updateDataWhatsApp = {
-    //   query: {'commerceCustomerShopify.email': req.body.email},
-    //   newPayload: { shoppingCart: [] },
-    //   options: {}
-    // }
-    // const updateDataMessenger = {
-    //   query: {'commerceCustomer.email': req.body.email},
-    //   newPayload: { shoppingCart: [] },
-    //   options: {}
-    // }
-    // callApi(`whatsAppContacts/update`, 'put', updateDataWhatsApp)
-    // callApi(`subscribers/update`, 'put', updateDataMessenger)
     return sendSuccessResponse(res, 200, {status: 'success'})
   } catch (err) {
-    console.log('err', err)
     const message = err || 'Error processing shopify create checkout webhook '
     logger.serverLog(message, `${TAG}: exports.handleCreateCheckout`, req.body, {header: req.header}, 'error')
   }
@@ -208,7 +196,16 @@ exports.handleCreateCheckout = async function (req, res) {
 exports.handleCompleteCheckout = async function (req, res) {
   console.log('handleCompleteCheckout', JSON.stringify(req.body))
   try {
-    if (req.body.email) {
+    if (req.body.email || req.body.phone) {
+      let query = {
+        $or: []
+      }
+      if (req.body.phone) {
+        query.$or.push({number: req.body.phone})
+        query.$or.push({number: req.body.phone.replace(/\D/g, '')})
+      } else {
+        query.$or.push({'commerceCustomerShopify.email': req.body.email})
+      }
       const contacts = await callApi(`whatsAppContacts/query`, 'post', {'commerceCustomerShopify.email': req.body.email})
       for (const contact of contacts) {
         if (moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15) {
@@ -219,7 +216,7 @@ exports.handleCompleteCheckout = async function (req, res) {
               id: company.whatsApp.activeWhatsappBot,
               type: 'whatsapp_commerce_chatbot'
             },
-            title: 'Order Confirmation Notification',
+            title: 'Order Confirmation Notfication',
             uniqueId: '' + new Date().getTime(),
             payload: [
               {
@@ -242,8 +239,8 @@ exports.handleCompleteCheckout = async function (req, res) {
         }
       }
       const updateDataWhatsApp = {
-        query: {'commerceCustomerShopify.email': req.body.email},
-        newPayload: { shoppingCart: [] },
+        query: query,
+        newPayload: { shoppingCart: [], 'commerceCustomerShopify.abandonedCartInfo': null },
         options: {}
       }
       const updateDataMessenger = {
@@ -253,11 +250,8 @@ exports.handleCompleteCheckout = async function (req, res) {
       }
       callApi(`whatsAppContacts/update`, 'put', updateDataWhatsApp)
       callApi(`subscribers/update`, 'put', updateDataMessenger)
-      return sendSuccessResponse(res, 200, {status: 'success'})
-    } else {
-      let message = 'Email not found.'
-      logger.serverLog(message, `${TAG}: exports.handleCompleteCheckout`, req.body, {header: req.header}, 'debug')
     }
+    return sendSuccessResponse(res, 200, {status: 'success'})
   } catch (err) {
     const message = err || 'Error processing shopify complete checkout webhook '
     logger.serverLog(message, `${TAG}: exports.handleCompleteCheckout`, req.body, {header: req.header}, 'error')
@@ -474,10 +468,10 @@ exports.testRoute = (req, res) => {
         shopUrl: shopifyIntegration.shopUrl,
         shopToken: shopifyIntegration.shopToken
       })
-      return shopify.fetchProductsInThisCategory(333035969, null, 9)
+      // return shopify.fetchProductsInThisCategory(166185566271)
       // return shopify.findCustomerOrders('4573544054966')
       // return shopify.checkOrderStatus('1125')
-      // return shopify.cancelAnOrder('3181202735286')
+      return shopify.cancelAnOrder('3181202735286')
       // return shopify.createPermalinkForCart({
       // email: 'sojharo@gmail.com',
       // first_name: 'sojharo',
@@ -509,7 +503,6 @@ exports.testRoute = (req, res) => {
       sendSuccessResponse(res, 200, shop)
     })
     .catch(err => {
-      console.log(err)
       sendErrorResponse(res, 500, `Failed to fetch subscribers
       ${JSON.stringify(err)}`)
     })
