@@ -216,7 +216,7 @@ exports.handleCompleteCheckout = async function (req, res) {
               id: company.whatsApp.activeWhatsappBot,
               type: 'whatsapp_commerce_chatbot'
             },
-            title: 'Order Confirmation Notfication',
+            title: 'Order Confirmation Notification',
             uniqueId: '' + new Date().getTime(),
             payload: [
               {
