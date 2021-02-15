@@ -15,6 +15,7 @@ exports.getCount = (req, status, company) => {
       pageId: 1,
       isSubscribed: 1,
       status: 1,
+      chatbotPaused: 1,
       pendingResponse: 1,
       unreadCount: 1} },
     { $match: {

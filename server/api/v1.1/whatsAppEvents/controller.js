@@ -291,24 +291,29 @@ function storeChat (from, to, contact, messageData, format) {
 
 function shouldAvoidSendingAutomatedMessage (contact) {
   return new Promise((resolve, reject) => {
-    callApi(`companyprofile/query`, 'post', { _id: contact.companyId })
-      .then(company => {
-        if (company.automated_options === 'MIX_CHAT' && contact.agent_activity_time) {
-          const currentDate = new Date()
-          const agentTime = new Date(contact.agent_activity_time)
-          const diffInMinutes = Math.abs(currentDate - agentTime) / 1000 / 60
-          if (diffInMinutes > 30) {
-            resolve(false)
-          } else {
-            resolve(true)
+    let avoidSending = false
+    if (!contact.chatbotPaused) {
+      resolve(avoidSending)
+    } else {
+      callApi(`companyprofile/query`, 'post', { _id: contact.companyId })
+        .then(company => {
+          if (company.automated_options === 'MIX_CHAT' && contact.agent_activity_time) {
+            const currentDate = new Date()
+            const agentTime = new Date(contact.agent_activity_time)
+            const diffInMinutes = Math.abs(currentDate - agentTime) / 1000 / 60
+            if (diffInMinutes < 30) {
+              avoidSending = true
+            }
           }
-        } else {
-          resolve(false)
-        }
-      })
-      .catch(err => {
-        reject(err)
-      })
+          if (!avoidSending) {
+            updateWhatsAppContact({ _id: contact._id }, {chatbotPaused: false}, null, {})
+          }
+          resolve(avoidSending)
+        })
+        .catch(err => {
+          reject(err)
+        })
+    }
   })
 }
 
@@ -389,8 +394,10 @@ function _sendNotification (subscriber, payload, companyId) {
 }
 
 function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
+  console.log('updateWhatsAppContact')
   callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
     .then(updated => {
+      console.log('updated', updated)
     })
     .catch(error => {
       const message = error || 'Failed to update contact'
