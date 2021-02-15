@@ -46,30 +46,33 @@ exports.isFacebookVideoUrl = (url) => {
 
 exports.getTrackingUrl = (trackingDetails) => {
   let trackingUrl = ''
-  switch (trackingDetails.company) {
-    case 'TCS': {
+  switch (trackingDetails.company.toLowerCase()) {
+    case 'tcs': {
       trackingUrl = 'https://www.tcsexpress.com/Tracking'
       break
     }
-    case 'TRAX': {
+    case 'trax': {
       trackingUrl = `https://sonic.pk/tracking?tracking_number=${trackingDetails.number}`
       break
     }
-    case 'SWYFT': {
+    case 'swyft': {
       trackingUrl = `http://parceltracking.swyftlogistics.com/?${trackingDetails.number}`
       break
     }
-    case 'Call Courier': {
+    case 'call courier': {
       trackingUrl = `https://callcourier.com.pk/tracking/?tc=${trackingDetails.number}`
       break
     }
-    case 'DHL': {
+    case 'dhl': {
       trackingUrl = `https://www.dhl.com/en/express/tracking.html?AWB=${trackingDetails.number}&brand=DHL`
       break
     }
-    case 'TPL': {
+    case 'tpl': {
       trackingUrl = `https://tpltrakker.com/`
       break
+    }
+    default: {
+      trackingUrl = ''
     }
   }
   return trackingUrl
