@@ -355,7 +355,7 @@ const getSearchProductsBlock = async (chatbot, contact) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Please enter the name of the product you wish to search for:\n`,
+          text: `Please enter the name or SKU code of the product you wish to search for:\n`,
           componentType: 'text',
           action: { type: DYNAMIC, action: DISCOVER_PRODUCTS, input: true }
         }
@@ -403,9 +403,9 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
       products = await EcommerceProvider.searchProducts(input)
 
       if (products.length > 0) {
-        messageBlock.payload[0].text = `These products were found for "${input}". Please select a product by sending the corresponding number for it or enter another product name to search again:\n`
+        messageBlock.payload[0].text = `These products were found for "${input}". Please select a product by sending the corresponding number for it or enter another product name or SKU code to search again:\n`
       } else {
-        messageBlock.payload[0].text = `No products found that match "${input}".\n\nEnter another product name to search again:`
+        messageBlock.payload[0].text = `No products found that match "${input}".\n\nEnter another product name or SKU code to search again:`
       }
 
       messageBlock.payload[0].action = { type: DYNAMIC, action: DISCOVER_PRODUCTS, input: true }
