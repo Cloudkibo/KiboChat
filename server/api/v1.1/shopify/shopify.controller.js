@@ -166,6 +166,7 @@ function getContact (companyId, number, customer) {
 
 exports.handleCreateCheckout = async function (req, res) {
   console.log('handleCreateCheckout', JSON.stringify(req.body))
+  sendSuccessResponse(res, 200, {status: 'success'})
   try {
     if (req.body.customer.accepts_marketing) {
       let shopName = req.body.abandoned_checkout_url.split('//')[1]
@@ -186,7 +187,6 @@ exports.handleCreateCheckout = async function (req, res) {
       }
       callApi(`whatsAppContacts/update`, 'put', updateData)
     }
-    return sendSuccessResponse(res, 200, {status: 'success'})
   } catch (err) {
     const message = err || 'Error processing shopify create checkout webhook '
     logger.serverLog(message, `${TAG}: exports.handleCreateCheckout`, req.body, {header: req.header}, 'error')
@@ -195,6 +195,7 @@ exports.handleCreateCheckout = async function (req, res) {
 
 exports.handleCompleteCheckout = async function (req, res) {
   console.log('handleCompleteCheckout', JSON.stringify(req.body))
+  sendSuccessResponse(res, 200, {status: 'success'})
   try {
     if (req.body.email || req.body.phone) {
       let query = {
@@ -251,7 +252,6 @@ exports.handleCompleteCheckout = async function (req, res) {
       callApi(`whatsAppContacts/update`, 'put', updateDataWhatsApp)
       callApi(`subscribers/update`, 'put', updateDataMessenger)
     }
-    return sendSuccessResponse(res, 200, {status: 'success'})
   } catch (err) {
     const message = err || 'Error processing shopify complete checkout webhook '
     logger.serverLog(message, `${TAG}: exports.handleCompleteCheckout`, req.body, {header: req.header}, 'error')
