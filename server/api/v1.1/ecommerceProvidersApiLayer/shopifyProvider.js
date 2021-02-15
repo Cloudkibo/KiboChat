@@ -210,6 +210,7 @@ exports.getOrderStatus = (id, credentials) => {
           }
           displayFinancialStatus
           email
+          tags
           fulfillments {
             id
             trackingInfo {
@@ -385,6 +386,24 @@ exports.createCustomer = (firstName, lastName, email, credentials) => {
       })
       .catch(err => {
         reject(err)
+      })
+  })
+}
+
+exports.updateOrderTag = (orderId, tags, credentials) => {
+  const shopify = initShopify(credentials)
+  const params = {
+    tags
+  }
+  return new Promise(function (resolve, reject) {
+    shopify.order.update(orderId, params)
+      .then(order => {
+        let response = {status: 'success', payload: order}
+        resolve(response)
+      })
+      .catch(err => {
+        let errResponse = {status: 'failed', payload: err}
+        reject(errResponse)
       })
   })
 }
