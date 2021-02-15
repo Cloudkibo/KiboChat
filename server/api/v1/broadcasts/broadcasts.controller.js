@@ -107,12 +107,15 @@ exports.deleteButton = function (req, res) {
     })
 }
 exports.uploadRecording = function (req, res) {
+  console.log('in uploadRecording')
+  console.log('req.files', req.files)
+  console.log('req.files.file', req.files.file)
   const today = new Date()
   const uid = crypto.randomBytes(5).toString('hex')
   const fext = req.files.file.name.split('.')
   const serverPath = `f${uid}${today.getFullYear()}${today.getMonth() + 1}${today.getDate()}${today.getHours()}${today.getMinutes()}${today.getSeconds()}.${fext[fext.length - 1].toLowerCase()}`
   const dir = path.resolve(__dirname, '../../../../broadcastFiles/')
-
+  console.log('req.files.file', req.files.file)
   if (req.files.file.size === 0) {
     return res.status(400).json({
       status: 'failed',

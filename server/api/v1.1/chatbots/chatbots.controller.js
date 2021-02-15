@@ -16,6 +16,7 @@ const bigCommerceDataLayer = require('../bigcommerce/bigcommerce.datalayer')
 const facebookShopsDataLayer = require('../facebookshops/facebookShops.datalayer')
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
 const EcommerceProvider = require('../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 
 exports.index = function (req, res) {
   callApi(`pages/query`, 'post', { companyId: req.user.companyId, connected: true })
@@ -43,6 +44,7 @@ exports.create = function (req, res) {
   let payload = logiclayer.preparePayload(req.user.companyId, req.user._id, req.body)
   datalayer.createForChatBot(payload)
     .then(chatbot => {
+      updateCompanyUsage(req.user.companyId, 'chatbot_automation', 1)
       _sendToClientUsingSocket(chatbot)
       return sendSuccessResponse(res, 201, chatbot, null)
     })
@@ -407,6 +409,12 @@ exports.updateCommerceChatbot = async (req, res) => {
       ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
         shopToken: bigCommerceIntegration.shopToken,
         storeHash: bigCommerceIntegration.payload.context
+      })
+    } else if (req.body.storeType === commerceConstants.shops) {
+      const facebookShopsIntegration = await facebookShopsDataLayer.findOneFacebookShop({ companyId: req.user.companyId })
+      ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
+        shopToken: facebookShopsIntegration.shopToken,
+        storeHash: facebookShopsIntegration.payload.context
       })
     }
     if (ecommerceProvider) {
