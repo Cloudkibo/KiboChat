@@ -401,6 +401,7 @@ function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options)
       logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { query, bodyForUpdate, bodyForIncrement, options }, 'error')
     })
 }
+exports.updateWhatsAppContact = updateWhatsAppContact
 
 exports.messageStatus = function (req, res) {
   res.status(200).json({
