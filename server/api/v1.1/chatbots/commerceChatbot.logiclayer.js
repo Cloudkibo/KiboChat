@@ -98,7 +98,7 @@ const config = require('../../../config/environment/index')
 // }
 
 exports.updateStartingBlock = (chatbot, storeName) => {
-  let welcomeMessage = `Hi {{user_first_name}}! Greetings from ${storeName} ${chatbot.storeType} chatbot 🤖😀`
+  let welcomeMessage = `Hi {{user_first_name}}! Greetings from ${storeName} chatbot 🤖😀`
   welcomeMessage += `\n\nI am here to guide you on your journey of shopping on ${storeName}.`
   welcomeMessage += `\n\nPlease select an option to let me know what you would like to do?`
   const startingBlock = messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
@@ -110,7 +110,7 @@ exports.getMessageBlocks = (chatbot, storeName) => {
   const messageBlocks = []
   const mainMenuId = '' + new Date().getTime()
   // const faqsId = '' + new Date().getTime() + 500
-  let welcomeMessage = `Hi {{user_first_name}}! Greetings from ${storeName} ${chatbot.storeType} chatbot 🤖😀`
+  let welcomeMessage = `Hi {{user_first_name}}! Greetings from ${storeName} chatbot 🤖😀`
   welcomeMessage += `\n\nI am here to guide you on your journey of shopping on ${storeName}.`
   welcomeMessage += `\n\nPlease select an option to let me know what you would like to do?`
   messageBlocks.push({
@@ -145,11 +145,6 @@ exports.getMessageBlocks = (chatbot, storeName) => {
             content_type: 'text',
             title: 'View catalog',
             payload: JSON.stringify({ type: DYNAMIC, action: VIEW_CATALOG })
-          },
-          {
-            content_type: 'text',
-            title: 'Check order status',
-            payload: JSON.stringify({ type: DYNAMIC, action: VIEW_RECENT_ORDERS })
           }
         ]
       }
@@ -163,7 +158,7 @@ exports.getMessageBlocks = (chatbot, storeName) => {
       {
         content_type: 'text',
         title: 'Check order status',
-        payload: JSON.stringify({ type: DYNAMIC, action: ASK_ORDER_ID })
+        payload: JSON.stringify({ type: DYNAMIC, action: VIEW_RECENT_ORDERS })
       },
       {
         content_type: 'text',
