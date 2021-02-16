@@ -24,7 +24,7 @@ const { record } = require('../../global/messageStatistics')
 const chatbotResponder = require('../../../chatbotResponder')
 const configureChatbotDatalayer = require('./../configureChatbot/datalayer')
 const { intervalForEach } = require('./../../../components/utility')
-const kiboAutomationLayer = require('../../../chatbotTemplates/kiboAutomation.layer')
+const whatsAppAutomationLogic = require('../../../chatbotTemplates/whatsApp/automationLogic')
 const chatbotTemplates = require('../../../chatbotTemplates')
 const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 
@@ -566,7 +566,7 @@ async function temporarySuperBotTestHandling (data, contact, company, number, re
             if (chatbot.vertical === 'commerce') {
               console.log('chatbot type', chatbot.storeType)
               if (chatbot.storeType === 'shopify-nlp') {
-                const response = await kiboAutomationLayer.getChatbotResponse(chatbot, 'welcome', contact, undefined, true)
+                const response = await whatsAppAutomationLogic.getChatbotResponse(chatbot, 'welcome', contact, undefined, true)
                 nextMessageBlock = response.chatbotResponse
                 currentMessage = response.automationResponse
               } else if (chatbot.storeType === commerceConstants.shopify) {
