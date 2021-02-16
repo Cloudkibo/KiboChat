@@ -13,6 +13,7 @@ const ABANDONED_ALERT_INTERVAL = 2
 const RECOVERY_ATTEMPTS = 3
 
 exports.runScript = function () {
+  console.log('Run script abandoned shopify')
   let query = { 'commerceCustomerShopify.abandonedCartInfo': { $exists: true, $ne: null } }
   /* Find all contacts with abandoned carts */
   callApi(`whatsAppContacts/query`, 'post', query)
@@ -56,6 +57,7 @@ exports.runScript = function () {
           const message = err || 'error in sending abandoned reminders'
           return logger.serverLog(message, `${TAG}: exports.runScript`, {}, {err}, 'error')
         } else {
+          console.log('Abandoned reminders sent successfully')
           const message = 'Abandoned reminders sent successfully'
           return logger.serverLog(message, `${TAG}: exports.runScript`, {}, {}, 'info')
         }
