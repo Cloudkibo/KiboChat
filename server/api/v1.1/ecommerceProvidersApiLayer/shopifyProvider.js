@@ -673,7 +673,7 @@ function initShopify (credentials) {
   const shopify = new Shopify({
     shopName: credentials.shopUrl,
     accessToken: credentials.shopToken,
-    apiVersion: '2021-01'
+    apiVersion: '2019-07'
   })
   return shopify
 }
