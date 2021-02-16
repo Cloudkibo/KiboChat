@@ -2100,7 +2100,7 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
             quickReplies: []
           }
         )
-        messageBlock.payload[0].text = 'Here are your recently placed orders. Select an order to view its status or enter an order ID:'
+        messageBlock.payload[0].text = getProfileIds().includes(chatbot.companyId) ? prepareText(chatbot.companyId, 'ASK_ORDER_ID') : 'Here are your recently placed orders. Select an order to view its status or enter an order ID:'
         for (let i = 0; i < recentOrders.length; i++) {
           let orderTitle
           if (!recentOrders[i].cancelReason) {
@@ -2125,10 +2125,10 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
           })
         }
       } else {
-        messageBlock.payload[0].text = 'You have not placed any orders within the last 60 days. If you have an order ID, you can enter that to view its status.'
+        messageBlock.payload[0].text = getProfileIds().includes(chatbot.companyId) ? prepareText(chatbot.companyId, 'ASK_ORDER_ID') : 'You have not placed any orders within the last 60 days. If you have an order ID, you can enter that to view its status.'
       }
     } else {
-      messageBlock.payload[0].text = 'You have not placed any orders yet. If you have an order ID, you can enter that to view its status.'
+      messageBlock.payload[0].text = getProfileIds().includes(chatbot.companyId) ? prepareText(chatbot.companyId, 'ASK_ORDER_ID') : 'You have not placed any orders yet. If you have an order ID, you can enter that to view its status.'
     }
 
     messageBlock.payload[messageBlock.payload.length - 1].action = { type: DYNAMIC, action: ORDER_STATUS, input: true }
