@@ -59,7 +59,7 @@ exports.messageReceived = function (req, res) {
                           _sendEvent(company._id, contact)
                           pushSessionPendingAlertInStack(company, contact, 'whatsApp')
                         }
-                        const shouldAvoidSendingMessage = await shouldAvoidSendingAutomatedMessage(contact)
+                        const shouldAvoidSendingMessage = await shouldAvoidSendingAutomatedMessage(contact, company, data)
                         if (company._id === '5a89ecdaf6b0460c552bf7fe') {
                           // NOTE: This if condition is temporary testing code for
                           // adil. We will remove this in future. It will only run for
@@ -69,49 +69,55 @@ exports.messageReceived = function (req, res) {
                           }
                           return
                         }
-                        if (!shouldAvoidSendingMessage && company.whatsApp.activeWhatsappBot && data.messageData.componentType === 'text') {
-                          let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({_id: company.whatsApp.activeWhatsappBot})
-                          if (chatbot) {
-                            const shouldSend = chatbot.published || chatbot.testSubscribers.includes(contact.number)
-                            if (shouldSend) {
-                              let ecommerceProvider = null
-                              let airlinesProvider = null
-                              if (chatbot.storeType === commerceConstants.shopify) {
-                                const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
-                                if (shopifyIntegration) {
-                                  ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
-                                    shopUrl: shopifyIntegration.shopUrl,
-                                    shopToken: shopifyIntegration.shopToken
+                        if (company.whatsApp.activeWhatsappBot && data.messageData.componentType === 'text') {
+                          if (shouldAvoidSendingMessage) {
+                            let allowUserUnPause = await commerceChatbotLogicLayer.allowUserUnpauseChatbot(contact)
+                            sendWhatsAppMessage(allowUserUnPause, data, number, company, contact)
+                            updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: allowUserUnPause }, null, {})
+                          } else {
+                            let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({_id: company.whatsApp.activeWhatsappBot})
+                            if (chatbot) {
+                              const shouldSend = chatbot.published || chatbot.testSubscribers.includes(contact.number)
+                              if (shouldSend) {
+                                let ecommerceProvider = null
+                                let airlinesProvider = null
+                                if (chatbot.storeType === commerceConstants.shopify) {
+                                  const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
+                                  if (shopifyIntegration) {
+                                    ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
+                                      shopUrl: shopifyIntegration.shopUrl,
+                                      shopToken: shopifyIntegration.shopToken
+                                    })
+                                  } else {
+                                    deleteShopifyIntegeration(chatbot.companyId, commerceConstants.shopify)
+                                  }
+                                } else if (chatbot.storeType === commerceConstants.bigcommerce) {
+                                  const bigCommerceIntegration = await bigcommerceDataLayer.findOneBigCommerceIntegration({ companyId: chatbot.companyId })
+                                  if (bigCommerceIntegration) {
+                                    ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
+                                      shopToken: bigCommerceIntegration.shopToken,
+                                      storeHash: bigCommerceIntegration.payload.context
+                                    })
+                                  } else {
+                                    deleteShopifyIntegeration(chatbot.companyId, commerceConstants.bigcommerce)
+                                  }
+                                } else if (chatbot.vertical === 'airlines') {
+                                  airlinesProvider = new AirlinesProvider(airlinesConstants.amadeus, {
+                                    clientId: config.amadeus.clientId,
+                                    clientSecret: config.amadeus.clientSecret
                                   })
-                                } else {
-                                  deleteShopifyIntegeration(chatbot.companyId, commerceConstants.shopify)
                                 }
-                              } else if (chatbot.storeType === commerceConstants.bigcommerce) {
-                                const bigCommerceIntegration = await bigcommerceDataLayer.findOneBigCommerceIntegration({ companyId: chatbot.companyId })
-                                if (bigCommerceIntegration) {
-                                  ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
-                                    shopToken: bigCommerceIntegration.shopToken,
-                                    storeHash: bigCommerceIntegration.payload.context
-                                  })
-                                } else {
-                                  deleteShopifyIntegeration(chatbot.companyId, commerceConstants.bigcommerce)
+                                let nextMessageBlock = null
+                                if (ecommerceProvider) {
+                                  nextMessageBlock = await commerceChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text, company)
+                                } else if (airlinesProvider) {
+                                  nextMessageBlock = await airlinesChatbotLogicLayer.getNextMessageBlock(chatbot, airlinesProvider, contact, data.messageData.text)
                                 }
-                              } else if (chatbot.vertical === 'airlines') {
-                                airlinesProvider = new AirlinesProvider(airlinesConstants.amadeus, {
-                                  clientId: config.amadeus.clientId,
-                                  clientSecret: config.amadeus.clientSecret
-                                })
-                              }
-                              let nextMessageBlock = null
-                              if (ecommerceProvider) {
-                                nextMessageBlock = await commerceChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text, company)
-                              } else if (airlinesProvider) {
-                                nextMessageBlock = await airlinesChatbotLogicLayer.getNextMessageBlock(chatbot, airlinesProvider, contact, data.messageData.text)
-                              }
-                              if (nextMessageBlock) {
-                                sendWhatsAppMessage(nextMessageBlock, data, number, company, contact)
-                                updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
-                                logicLayer.storeWhatsAppStats(data, chatbot, isNewContact, contact, req)
+                                if (nextMessageBlock) {
+                                  sendWhatsAppMessage(nextMessageBlock, data, number, company, contact)
+                                  updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
+                                  logicLayer.storeWhatsAppStats(data, chatbot, isNewContact, contact, req)
+                                }
                               }
                             }
                           }
@@ -289,30 +295,32 @@ function storeChat (from, to, contact, messageData, format) {
     })
 }
 
-function shouldAvoidSendingAutomatedMessage (contact) {
-  return new Promise((resolve, reject) => {
+function shouldAvoidSendingAutomatedMessage (contact, company, data) {
+  let talkToAgentBlocks = ['ask unpause chatbot', 'talk to agent']
+  return new Promise(async (resolve, reject) => {
     let avoidSending = false
     if (!contact.chatbotPaused) {
       resolve(avoidSending)
     } else {
-      callApi(`companyprofile/query`, 'post', { _id: contact.companyId })
-        .then(company => {
-          if (company.automated_options === 'MIX_CHAT' && contact.agent_activity_time) {
-            const currentDate = new Date()
-            const agentTime = new Date(contact.agent_activity_time)
-            const diffInMinutes = Math.abs(currentDate - agentTime) / 1000 / 60
-            if (diffInMinutes < 30) {
-              avoidSending = true
-            }
+      if (data.messageData && data.messageData.text.toLowerCase() === 'unpause') {
+        updateWhatsAppContact({ _id: contact._id }, {chatbotPaused: false}, null, {})
+        resolve(avoidSending)
+      } else if (contact.lastMessageSentByBot && talkToAgentBlocks.includes(contact.lastMessageSentByBot.title.toLowerCase())) {
+        resolve(avoidSending)
+      } else {
+        if (company.automated_options === 'MIX_CHAT' && contact.agent_activity_time) {
+          const currentDate = new Date()
+          const agentTime = new Date(contact.agent_activity_time)
+          const diffInMinutes = Math.abs(currentDate - agentTime) / 1000 / 60
+          if (diffInMinutes < 30) {
+            avoidSending = true
           }
-          if (!avoidSending) {
-            updateWhatsAppContact({ _id: contact._id }, {chatbotPaused: false}, null, {})
-          }
-          resolve(avoidSending)
-        })
-        .catch(err => {
-          reject(err)
-        })
+        }
+        if (!avoidSending) {
+          updateWhatsAppContact({ _id: contact._id }, {chatbotPaused: false}, null, {})
+        }
+        resolve(avoidSending)
+      }
     }
   })
 }
@@ -393,11 +401,9 @@ function _sendNotification (subscriber, payload, companyId) {
     })
 }
 
-function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
-  console.log('updateWhatsAppContact')
+async function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
   callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
     .then(updated => {
-      console.log('updated', updated)
     })
     .catch(error => {
       const message = error || 'Failed to update contact'

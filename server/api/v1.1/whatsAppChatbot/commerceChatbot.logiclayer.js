@@ -3114,6 +3114,30 @@ const getAskUnpauseChatbotBlock = (chatbot, contact) => {
   }
 }
 
+exports.allowUserUnpauseChatbot = (contact) => {
+  try {
+    const messageBlock = {
+      module: {
+        type: 'automated_message'
+      },
+      title: 'Allow Unpause Chatbot',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Do you want to unpause the chatbot or continue conversation with customer agent support?`,
+          componentType: 'text'
+        }
+      ]
+    }
+    messageBlock.payload[0].text += `\n\nSend 'unpause', to unpause the chatbot`
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to allow for unpause chatbot'
+    logger.serverLog(message, `${TAG}: allowUnpauseChatbotBlock`, {}, {contact}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to allow for unpause chatbot`)
+  }
+}
+
 exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input, company) => {
   let userError = false
   input = input.toLowerCase()
@@ -3121,6 +3145,9 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input,
     return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
   } else {
     let action = null
+    if (input === 'unpause') {
+      return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
+    }
     let lastMessageSentByBot = contact.lastMessageSentByBot.payload[0]
     // sometimes the message with menu and special keys may appear last
     // in payload array due to request by sir to show menu as last message
