@@ -59,6 +59,7 @@ const TAG = 'api/v1️.1/chatbots/commerceChatbot.logiclayer.js'
 const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 const { callApi } = require('../utility')
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
+const {getProfileIds, prepareText} = require('../ecommerceProfiles/index')
 const moment = require('moment')
 const { sendNotification } = require('./chatbots.logiclayer')
 const pdf = require('pdf-creator-node')
@@ -462,7 +463,7 @@ const getViewCatalogBlock = (chatbot, backId, contact) => {
       companyId: chatbot.companyId
     }
     if (chatbot.botLinks.catalogUrl) {
-      messageBlock.payload[0].text = `Here is our catalog. Please wait a moment for it to send.`
+      messageBlock.payload[0].text = getProfileIds().includes(chatbot.companyId) ? prepareText(chatbot.companyId, 'VIEW_CATALOG') : `Here is our catalog. Please wait a moment for it to send.`
       messageBlock.payload.push({
         componentType: 'file',
         fileurl: {
@@ -507,7 +508,7 @@ const getTalkToAgentBlock = (chatbot, contact) => {
       payload: [
         {
           componentType: 'text',
-          text: dedent(`Our support agents have been notified and will get back to you shortly`)
+          text: dedent(getProfileIds().includes(chatbot.companyId) ? prepareText(chatbot.companyId, 'TALK_TO_AGENT') : 'Our support agents have been notified and will get back to you shortly')
         }
       ],
       userId: chatbot.userId,
@@ -535,7 +536,7 @@ const getSearchProductsBlock = async (chatbot, contact) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Please enter the name or SKU code of the product you wish to search for:`,
+          text: getProfileIds().includes(chatbot.companyId) ? prepareText(chatbot.companyId, 'SEARCH_PRODUCTS') : 'Please enter the name or SKU code of the product you wish to search for:',
           componentType: 'text',
           action: { type: DYNAMIC, action: DISCOVER_PRODUCTS, input: true },
           quickReplies: [
@@ -647,12 +648,16 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
       if (argument && argument.categoryId) {
         products = await EcommerceProvider.fetchProductsInThisCategory(argument.categoryId, argument.paginationParams, chatbot.numberOfProducts)
       } else {
-        products = await EcommerceProvider.fetchProducts(argument.paginationParams, chatbot.numberOfProducts)
+        if (getProfileIds().includes(chatbot.companyId)) {
+          products = []
+        } else {
+          products = await EcommerceProvider.fetchProducts(argument.paginationParams, chatbot.numberOfProducts)
+        }
       }
       if (products.length > 0) {
         messageBlock.payload[0].text = `Please select a product:`
       } else {
-        messageBlock.payload[0].text = `No products were found using discover.`
+        messageBlock.payload[0].text = getProfileIds().includes(chatbot.companyId) ? prepareText(chatbot.companyId, 'ON_SALE') : `No products were found using discover.`
       }
     }
 
@@ -861,7 +866,7 @@ const getOrderIdBlock = (chatbot, contact, backId) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Please enter your order ID`,
+          text: getProfileIds().includes(chatbot.companyId) ? prepareText(chatbot.companyId, 'ASK_ORDER_ID') : `Please enter your order ID`,
           componentType: 'text',
           action: { type: DYNAMIC, action: ORDER_STATUS, input: true },
           quickReplies: [
@@ -1112,7 +1117,7 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider, arg
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Please select a category:`,
+          text: getProfileIds().includes(chatbot.companyId) ? prepareText(chatbot.companyId, 'PRODUCT_CATEGORIES') : 'Please select a category:',
           componentType: 'text',
           menu: [],
           quickReplies: []
