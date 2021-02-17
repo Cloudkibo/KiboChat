@@ -98,6 +98,7 @@ exports.prepareTemplates = (flockSendTemplates) => {
       let templateComponents = flockSendTemplates[i].localizations[0].components
       for (let j = 0; j < templateComponents.length; j++) {
         if (templateComponents[j].type === 'BODY') {
+          template.type = 'TEXT'
           template.text = templateComponents[j].text
           let argumentsRegex = /{{[0-9]}}/g
           let templateArguments = template.text.match(argumentsRegex).join(',')

@@ -344,6 +344,42 @@ const getTalkToAgentBlock = (chatbot, backId, contact) => {
   }
 }
 
+exports.getAbandonedCartReminderBlock = async (chatbot, contact, EcommerceProvider, abandonedCart) => {
+  try {
+    const storeInfo = await EcommerceProvider.fetchStoreInfo()
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'abandoned_cart_reminder'
+      },
+      title: 'Abandoned Cart Reminder',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Hi ${contact.name}, the payment for your order of ${abandonedCart.currency} ${abandonedCart.total_price} from ${storeInfo.name} is still pending. Click on the link to complete the payment and confirm your order 👉 ${contact.commerceCustomerShopify.abandonedCartInfo.abandonedCheckoutUrl}.`,
+          componentType: 'text',
+          specialKeys: {
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
+            [ORDER_STATUS_KEY]: { type: DYNAMIC, action: VIEW_RECENT_ORDERS },
+            [TALK_TO_AGENT_KEY]: { type: DYNAMIC, action: TALK_TO_AGENT }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    messageBlock.payload[0].text += `\n\n${specialKeyText(TALK_TO_AGENT_KEY)}`
+    messageBlock.payload[0].text += `\n${specialKeyText(ORDER_STATUS_KEY)}`
+    messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
+
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable get talk to agent message block'
+    logger.serverLog(message, `${TAG}: getTalkToAgentBlock`, {}, {chatbot, backId, contact}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to notify customer support agent`)
+  }
+}
+
 const getSearchProductsBlock = async (chatbot, contact) => {
   try {
     const messageBlock = {
@@ -1040,6 +1076,8 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
 }
 const getConfirmReturnOrderBlock = async (chatbot, backId, order) => {
   try {
+    const storeInfo = await EcommerceProvider.fetchStoreInfo()
+    let number = businessNumber.replace(/[^0-9]/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')
     let messageBlock = {
       module: {
         id: chatbot._id,
@@ -1106,6 +1144,7 @@ const getReturnOrderBlock = async (chatbot, contact, backId, EcommerceProvider, 
     }
     const message = `${contact.name} is requesting a return for order #${orderId}.`
     sendNotification(contact, message, chatbot.companyId)
+
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to return order'

@@ -92,6 +92,7 @@ exports.prepareTemplates = (gupshupTemplates) => {
       regex = regex.replace(argumentsRegex, '(.*)')
       template.regex = `^${regex}$`
       template.buttons = getTemplateButtons(template)
+      template.text = gupshupTemplates[i].data.split(' |')[0]
       templates.push(template)
     }
   }
