@@ -20,10 +20,9 @@ exports.runScript = function () {
     .then(contacts => {
       if (contacts.length === 0) return
       async.each(contacts, async function (contact, cb) {
-        console.log('contact', contact)
         let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ companyId: contact.companyId, published: true })
-        console.log('chatbot', chatbot)
         const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: contact.companyId })
+        console.log('shopifyIntegration', shopifyIntegration)
         let ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
           shopUrl: shopifyIntegration.shopUrl,
           shopToken: shopifyIntegration.shopToken
