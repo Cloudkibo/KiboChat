@@ -143,8 +143,10 @@ function getContact (companyId, number, customer) {
         {number: number.replace(/\D/g, '')}
       ]
     }
+    console.log('query', query)
     callApi(`whatsAppContacts/query`, 'post', query)
       .then(contacts => {
+        console.log('contacts', contacts)
         if (contacts.length > 0) {
           resolve(contacts[0])
         } else {
@@ -167,8 +169,9 @@ function getContact (companyId, number, customer) {
 exports.handleCreateCheckout = async function (req, res) {
   console.log('handleCreateCheckout', JSON.stringify(req.body))
   sendSuccessResponse(res, 200, {status: 'success'})
-  try {
-    if (req.body.customer.accepts_marketing) {
+  if (req.body.customer && req.body.customer.accepts_marketing &&
+    req.body.token && req.body.abandoned_checkout_url && req.body.phone && req.body.id) {
+    try {
       let shopName = req.body.abandoned_checkout_url.split('//')[1]
       shopName = shopName.split('/')[0]
       const integration = await dataLayer.findOneShopifyIntegration({ shopUrl: shopName })
@@ -186,11 +189,59 @@ exports.handleCreateCheckout = async function (req, res) {
         options: {}
       }
       callApi(`whatsAppContacts/update`, 'put', updateData)
+      const company = await callApi(`companyProfile/query`, 'post', { _id: contact.companyId })
+      const ecommerceProvider = new EcommerceProviders(commerceConstants.shopify, {
+        shopUrl: integration.shopUrl,
+        shopToken: integration.shopToken
+      })
+      const storeInfo = await ecommerceProvider.fetchStoreInfo()
+      console.log('storeInfo', storeInfo)
+      const messageBlock = {
+        module: {
+          id: company.whatsApp.activeWhatsappBot,
+          type: 'whatsapp_commerce_chatbot'
+        },
+        title: 'Opt-in Notification',
+        uniqueId: '' + new Date().getTime(),
+        payload: getOptInReceivePayload(storeInfo.name, company),
+        userId: company.ownerId,
+        companyId: company._id
+      }
+      console.log('messageBlock', messageBlock)
+      const data = {
+        accessToken: company.whatsApp.accessToken,
+        accountSID: company.whatsApp.accountSID,
+        businessNumber: company.whatsApp.businessNumber
+      }
+      console.log('sendWhatsAppMessage', data)
+      sendWhatsAppMessage(messageBlock, data, contact.number, company, contact)
+    } catch (err) {
+      const message = err || 'Error processing shopify create checkout webhook '
+      logger.serverLog(message, `${TAG}: exports.handleCreateCheckout`, req.body, {header: req.header}, 'error')
     }
-  } catch (err) {
-    const message = err || 'Error processing shopify create checkout webhook '
-    logger.serverLog(message, `${TAG}: exports.handleCreateCheckout`, req.body, {header: req.header}, 'error')
   }
+}
+
+function getOptInReceivePayload (storeName, company) {
+  let payload = []
+  if (company.whatsApp.provider === 'flockSend') {
+    payload = [
+      {
+        text: `Thank you for opting-in from ${storeName}. Now you will receive your order updates, exclusive offers and news on WhatsApp.`,
+        componentType: 'text',
+        templateArguments: storeName,
+        templateName: 'optin_receive'
+      }
+    ]
+  } else {
+    payload = [
+      {
+        text: `Thank you for opting-in from ${storeName}. Now you will receive your order updates, exclusive offers and news on WhatsApp.`,
+        componentType: 'text'
+      }
+    ]
+  }
+  return payload
 }
 
 exports.handleCompleteCheckout = async function (req, res) {

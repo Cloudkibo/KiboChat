@@ -10,8 +10,6 @@ const router = express.Router()
 const auth = require('../../../auth/auth.service')
 const controller = require('./shopify.controller')
 // const webhook = require('./webhook.controller')
-const validate = require('express-jsonschema').validate
-const validationSchema = require('./validationSchema')
 
 router.post('/',
   auth.isAuthenticated(),
@@ -31,7 +29,6 @@ router.post('/complete-checkout',
   controller.handleCompleteCheckout)
 
 router.post('/checkout-create',
-  validate({body: validationSchema.checkoutCreatePayload}),
   controller.handleCreateCheckout)
 
 router.get('/fetchStore',
