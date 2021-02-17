@@ -37,12 +37,13 @@ exports.index = function (req, res) {
       '&redirect_uri=' + redirectUri
 
     res.cookie('state', state)
-    res.cookie('userId', JSON.stringify(req.user._id))
-    res.cookie('pageId', req.body.pageId)
+    res.cookie('installByShopifyStore', shop)
+    res.cookie('shopifySetupState', 'startedFromApp')
+    res.cookie('userId', req.user._id)
     utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }) // fetch company user
       .then(companyuser => {
-        res.cookie('companyId', JSON.stringify(companyuser.companyId))
-        return res.redirect(installUrl)
+        res.cookie('companyId', companyuser.companyId)
+        return res.json({ installUrl })
       })
       .catch(err => {
         if (err) {
@@ -310,10 +311,11 @@ exports.handleCompleteCheckout = async function (req, res) {
 }
 
 exports.handleAppUninstall = async function (req, res) {
+  console.log('shopify handleAppUninstall')
   const shopUrl = req.header('X-Shopify-Shop-Domain')
   try {
     const shopifyIntegration = await dataLayer.findOneShopifyIntegration({ shopUrl: shopUrl })
-
+    console.log('shopifyIntegration', shopifyIntegration)
     dataLayer.deleteShopifyIntegration({
       shopToken: shopifyIntegration.shopToken,
       shopUrl: shopifyIntegration.shopUrl,
@@ -519,10 +521,10 @@ exports.testRoute = (req, res) => {
         shopUrl: shopifyIntegration.shopUrl,
         shopToken: shopifyIntegration.shopToken
       })
-      // return shopify.fetchProductsInThisCategory(166185566271)
+      return shopify.fetchProductsInThisCategory(333035969, null, 9)
       // return shopify.findCustomerOrders('4573544054966')
       // return shopify.checkOrderStatus('1125')
-      return shopify.cancelAnOrder('3181202735286')
+      // return shopify.cancelAnOrder('3181202735286')
       // return shopify.createPermalinkForCart({
       // email: 'sojharo@gmail.com',
       // first_name: 'sojharo',
