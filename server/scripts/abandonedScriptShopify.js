@@ -20,45 +20,40 @@ exports.runScript = function () {
     .then(contacts => {
       if (contacts.length === 0) return
       async.each(contacts, async function (contact, cb) {
-        console.log('contact', contact)
         let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ companyId: contact.companyId, published: true })
-        console.log('chatbot', chatbot)
         const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: contact.companyId })
-        console.log('shopifyIntegration', shopifyIntegration)
-        let ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
-          shopUrl: shopifyIntegration.shopUrl,
-          shopToken: shopifyIntegration.shopToken
-        })
-        let commerceCustomerShopify = contact.commerceCustomerShopify
-        console.log('commerceCustomerShopify', commerceCustomerShopify)
-        let abandonedCart = await ecommerceProvider.fetchAbandonedCart(commerceCustomerShopify.abandonedCartInfo.token)
-        console.log('abandonedCart', abandonedCart)
-        if (abandonedCart) {
-          var now = moment(new Date())
-          var abandonedCheckoutCreated = abandonedCart.created_at
-          var duration = moment.duration(now.diff(abandonedCheckoutCreated))
-          console.log('duration', duration)
-          if (duration.asHours() >= ABANDONED_ALERT_INTERVAL) {
-            const company = await callApi(`companyProfile/query`, 'post', { _id: contact.companyId })
-            const data = {
-              accessToken: company.whatsApp.accessToken,
-              accountSID: company.whatsApp.accountSID,
-              businessNumber: company.whatsApp.businessNumber
+        if (shopifyIntegration) {
+          let ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
+            shopUrl: shopifyIntegration.shopUrl,
+            shopToken: shopifyIntegration.shopToken
+          })
+          let commerceCustomerShopify = contact.commerceCustomerShopify
+          let abandonedCart = await ecommerceProvider.fetchAbandonedCart(commerceCustomerShopify.abandonedCartInfo.token)
+          if (abandonedCart) {
+            var now = moment(new Date())
+            var abandonedCheckoutCreated = abandonedCart.created_at
+            var duration = moment.duration(now.diff(abandonedCheckoutCreated))
+            if (duration.asHours() >= ABANDONED_ALERT_INTERVAL) {
+              const company = await callApi(`companyProfile/query`, 'post', { _id: contact.companyId })
+              const data = {
+                accessToken: company.whatsApp.accessToken,
+                accountSID: company.whatsApp.accountSID,
+                businessNumber: company.whatsApp.businessNumber
+              }
+              let abandonedCartReminderBlock = await commerceChatbotLogicLayer.getAbandonedCartReminderBlock(chatbot, contact, ecommerceProvider, abandonedCart)
+              await sendWhatsAppMessage(abandonedCartReminderBlock, data, contact.number, company, contact)
+              let updatePayload = { last_activity_time: Date.now(), lastMessageSentByBot: abandonedCartReminderBlock }
+              let incrementPayload = {}
+              if (commerceCustomerShopify.abandonedCartInfo.cartRecoveryAttempts === RECOVERY_ATTEMPTS - 1) {
+                unsetAbandonedInfo(contact)
+              } else {
+                incrementPayload = {$inc: { 'commerceCustomerShopify.abandonedCartInfo.cartRecoveryAttempts': 1 }}
+              }
+              updateWhatsAppContact({_id: contact._id}, updatePayload, incrementPayload, {})
             }
-            let abandonedCartReminderBlock = await commerceChatbotLogicLayer.getAbandonedCartReminderBlock(chatbot, contact, ecommerceProvider, abandonedCart)
-            console.log('abandonedCartReminderBlock', abandonedCartReminderBlock)
-            await sendWhatsAppMessage(abandonedCartReminderBlock, data, contact.number, company, contact)
-            let updatePayload = { last_activity_time: Date.now(), lastMessageSentByBot: abandonedCartReminderBlock }
-            let incrementPayload = {}
-            if (commerceCustomerShopify.abandonedCartInfo.cartRecoveryAttempts === RECOVERY_ATTEMPTS - 1) {
-              unsetAbandonedInfo(contact)
-            } else {
-              incrementPayload = {$inc: { 'commerceCustomerShopify.abandonedCartInfo.cartRecoveryAttempts': 1 }}
-            }
-            updateWhatsAppContact({_id: contact._id}, updatePayload, incrementPayload, {})
-            cb()
           }
         }
+        cb()
       }, function (err) {
         if (err) {
           const message = err || 'error in sending abandoned reminders'
