@@ -395,6 +395,7 @@ function _sendNotification (subscriber, payload, companyId) {
 function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
   callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
     .then(updated => {
+      console.log('updated', updated)
     })
     .catch(error => {
       const message = error || 'Failed to update contact'
