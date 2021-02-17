@@ -189,28 +189,30 @@ exports.handleCreateCheckout = async function (req, res) {
       }
       callApi(`whatsAppContacts/update`, 'put', updateData)
       const company = await callApi(`companyProfile/query`, 'post', { _id: contact.companyId })
-      const ecommerceProvider = new EcommerceProviders(commerceConstants.shopify, {
-        shopUrl: integration.shopUrl,
-        shopToken: integration.shopToken
-      })
-      const storeInfo = await ecommerceProvider.fetchStoreInfo()
-      const messageBlock = {
-        module: {
-          id: company.whatsApp.activeWhatsappBot,
-          type: 'whatsapp_commerce_chatbot'
-        },
-        title: 'Opt-in Notification',
-        uniqueId: '' + new Date().getTime(),
-        payload: getOptInReceivePayload(storeInfo.name, company),
-        userId: company.ownerId,
-        companyId: company._id
+      if (company.whatsApp) {
+        const ecommerceProvider = new EcommerceProviders(commerceConstants.shopify, {
+          shopUrl: integration.shopUrl,
+          shopToken: integration.shopToken
+        })
+        const storeInfo = await ecommerceProvider.fetchStoreInfo()
+        const messageBlock = {
+          module: {
+            id: company.whatsApp.activeWhatsappBot,
+            type: 'whatsapp_commerce_chatbot'
+          },
+          title: 'Opt-in Notification',
+          uniqueId: '' + new Date().getTime(),
+          payload: getOptInReceivePayload(storeInfo.name, company),
+          userId: company.ownerId,
+          companyId: company._id
+        }
+        const data = {
+          accessToken: company.whatsApp.accessToken,
+          accountSID: company.whatsApp.accountSID,
+          businessNumber: company.whatsApp.businessNumber
+        }
+        sendWhatsAppMessage(messageBlock, data, contact.number, company, contact)
       }
-      const data = {
-        accessToken: company.whatsApp.accessToken,
-        accountSID: company.whatsApp.accountSID,
-        businessNumber: company.whatsApp.businessNumber
-      }
-      sendWhatsAppMessage(messageBlock, data, contact.number, company, contact)
     } catch (err) {
       const message = err || 'Error processing shopify create checkout webhook '
       logger.serverLog(message, `${TAG}: exports.handleCreateCheckout`, req.body, {header: req.header}, 'error')
