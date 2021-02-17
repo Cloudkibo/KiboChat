@@ -724,6 +724,7 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
       }
     }
   } catch (err) {
+    console.log(err)
     const message = err || 'Error in async await calls above'
     logger.serverLog(message, `${TAG}: exports.temporarySuperBotResponseHandling`, req.body, {data, contact, company, number, isNewContact}, 'error')
   }

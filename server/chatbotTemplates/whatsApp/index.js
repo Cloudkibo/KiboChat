@@ -49,6 +49,7 @@ exports.handleWhatsAppInput = function (chatbot, inputData, subscriber) {
       }
       resolve(response)
     } catch (err) {
+      console.log('error at whatsApp index', err)
       reject(err)
     }
   })
