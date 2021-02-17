@@ -50,10 +50,10 @@ exports.runScript = function () {
                 incrementPayload = {$inc: { 'commerceCustomerShopify.abandonedCartInfo.cartRecoveryAttempts': 1 }}
               }
               updateWhatsAppContact({_id: contact._id}, updatePayload, incrementPayload, {})
+              cb()
             }
           }
         }
-        cb()
       }, function (err) {
         if (err) {
           const message = err || 'error in sending abandoned reminders'
