@@ -103,6 +103,9 @@ exports.callApi = function (automationResponse, selectedOption, chatbot, subscri
         case 'FETCH_ORDER':
           response = await fetchOrder(Provider, automationResponse, selectedOption)
           break
+        case 'VIEW_CATALOG':
+          response = await viewCatalog(automationResponse, chatbot)
+          break
         default:
           storeInfo = await Provider.fetchStoreInfo()
           if (selectedOption.event === 'set-cart') {
@@ -841,6 +844,21 @@ function fetchOrder (Provider, automationResponse, selectedOption) {
       resolve({...automationResponse, text, gallery})
     } catch (err) { reject(err) }
   })
+}
+
+function viewCatalog (automationResponse, chatbot) {
+  if (chatbot.botLinks.catalogUrl) {
+    automationResponse.payload = {
+      componentType: 'file',
+      fileurl: {
+        url: chatbot.botLinks.catalogUrl
+      },
+      fileName: `catalog.pdf`
+    }
+  } else {
+    automationResponse = 'No catalog currently available!'
+  }
+  return automationResponse
 }
 
 function updateSubscriber (path, data) {

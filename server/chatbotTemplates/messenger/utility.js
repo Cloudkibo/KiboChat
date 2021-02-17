@@ -53,6 +53,8 @@ function prepareResponse (chatbot, subscriber, automationResponse, selectedOptio
         componentType: 'gallery',
         cards
       })
+    } else if (automationResponse.payload && automationResponse.payload.componentType) {
+      response.push(automationResponse.payload)
     } else if (Array.isArray(automationResponse.options) && automationResponse.options.length > 0) {
       automationResponse.options.forEach((item, i) => {
         quickReplies.push({
