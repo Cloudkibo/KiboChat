@@ -6,7 +6,9 @@ const config = require('./config/environment/index')
 
 const cron = require('node-cron')
 const NotificationsScript = require('./scripts/notificationsScript.js')
+const AbandonedScriptShopify = require('./scripts/abandonedScriptShopify.js')
 const WhatsappScript = require('./scripts/whatsappDeleteDataScript.js')
+const { slaDashboardScript } = require('./scripts/slaDashboard')
 
 const app = express()
 const httpApp = express()
@@ -21,6 +23,7 @@ const appObj = (config.env === 'production' || config.env === 'staging') ? app :
   }).install()
   appObj.use(Raven.requestHandler())
 } */
+
 if (config.env === 'production' || config.env === 'staging') {
   Sentry.init({
     dsn: 'https://6c7958e0570f455381d6f17122fbd117@o132281.ingest.sentry.io/292307',
@@ -32,7 +35,10 @@ if (config.env === 'production' || config.env === 'staging') {
 }
 
 cron.schedule('*/5 * * * *', NotificationsScript.runLiveChatNotificationScript)
+cron.schedule('* *  * * *', AbandonedScriptShopify.runScript)
 cron.schedule('0 13 * * *', WhatsappScript.runWhatspdeleteScript) //  daily 6 pm pakistan time
+cron.schedule('0 0 * * *', slaDashboardScript)
+
 require('./config/express')(appObj)
 require('./config/setup')(app, httpApp, config)
 require('./routes')(appObj)
