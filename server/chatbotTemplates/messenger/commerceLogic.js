@@ -171,11 +171,11 @@ async function getResponse (items, storeInfo, automationResponse, selectedOption
           gallery = items.map((item, i) => {
             return {
               title: item.name,
-              subtitle: `Price: ${item.price} ${storeInfo.currency}`,
+              subtitle: `Price: ${item.price} ${storeInfo.currency}${item.stock ? `\nStock available: ${item.stock}` : ''}`,
               image: item.image,
               price: item.price,
               stock: item.inventory_quantity,
-              productName: item.productName,
+              productName: item.name || item.productName,
               event: automationResponse.event,
               id: item.id
             }
@@ -240,16 +240,17 @@ function getProductVariants (Provider, automationResponse, selectedOption, chatb
       if (productVariants.length === 1) {
         automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation(automationResponse.event, chatbot, subscriber, true)
         selectedOption.stock = productVariants[0].inventory_quantity
-        selectedOption.productName = selectedOption.label
+        selectedOption.productName = `${productVariants[0].name} ${selectedOption.productName}`
         selectedOption.id = productVariants[0].id
         response = getPurchaseResponse(automationResponse, storeInfo, selectedOption, subscriber)
       } else {
         productVariants = productVariants.map((item) => {
-          const price = item.price || selectedOption.price
           return {
             ...item,
-            name: `${item.name} (price: ${price} ${storeInfo.currency})`,
-            productName: `${item.name} ${selectedOption.label}`
+            price: item.price || selectedOption.price,
+            name: `${item.name} ${selectedOption.productName}`,
+            productName: `${item.name} ${selectedOption.productName}`,
+            buttonTitle: 'Add to cart'
           }
         })
         response = await getResponse(productVariants, storeInfo, automationResponse, selectedOption, true)
@@ -273,9 +274,14 @@ function getPurchaseResponse (automationResponse, storeInfo, selectedOption, sub
     }
   }
   const gallery = [{
-    title: selectedOption.label,
-    subtitle: `${selectedOption.label}\nPrice: ${selectedOption.price} ${storeInfo.currency}`,
-    image: selectedOption.image
+    title: selectedOption.productName || selectedOption.label,
+    subtitle: `Price: ${selectedOption.price} ${storeInfo.currency}${selectedOption.stock ? `\nStock available: ${selectedOption.stock}` : ''}`,
+    image: selectedOption.image,
+    price: selectedOption.price,
+    stock: selectedOption.stock,
+    productName: selectedOption.name || selectedOption.productName,
+    event: automationResponse.event,
+    id: selectedOption.id
   }]
 
   if (automationResponse.event === 'cart-update-success') {

@@ -18,6 +18,9 @@ exports.handleMessengerInput = function (chatbot, event, subscriber) {
         case 'quick_reply':
           response = await getChatbotResponse(chatbot, inputData.selectedOption.event, subscriber, inputData.selectedOption, true)
           break
+        case 'postback':
+          response = await getChatbotResponse(chatbot, inputData.selectedOption.event, subscriber, inputData.selectedOption, true)
+          break
         default:
       }
       resolve(response)
@@ -30,7 +33,14 @@ exports.handleMessengerInput = function (chatbot, event, subscriber) {
 
 function processEvent (event) {
   let data = {}
-  if (event.message && event.message.quick_reply) {
+  if (event.postback && event.postback.payload) {
+    data = {
+      type: 'postback',
+      selectedOption: {
+        ...JSON.parse(event.postback.payload)
+      }
+    }
+  } else if (event.message && event.message.quick_reply) {
     const quickReply = event.message.quick_reply
     data = {
       type: 'quick_reply',

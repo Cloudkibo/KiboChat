@@ -40,11 +40,13 @@ function prepareResponse (chatbot, subscriber, automationResponse, selectedOptio
             title: 'Select Product',
             type: 'postback',
             payload: JSON.stringify({
+              type: 'DYNAMIC',
               price: item.price,
-              stock: item.inventory_quantity,
+              stock: item.stock,
               productName: item.productName,
               event: item.event,
-              id: item.id
+              id: item.id,
+              image: item.image
             })
           }]
         }
