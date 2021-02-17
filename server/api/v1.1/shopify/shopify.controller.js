@@ -143,10 +143,8 @@ function getContact (companyId, number, customer) {
         {number: number.replace(/\D/g, '')}
       ]
     }
-    console.log('query', query)
     callApi(`whatsAppContacts/query`, 'post', query)
       .then(contacts => {
-        console.log('contacts', contacts)
         if (contacts.length > 0) {
           resolve(contacts[0])
         } else {
@@ -195,7 +193,6 @@ exports.handleCreateCheckout = async function (req, res) {
         shopToken: integration.shopToken
       })
       const storeInfo = await ecommerceProvider.fetchStoreInfo()
-      console.log('storeInfo', storeInfo)
       const messageBlock = {
         module: {
           id: company.whatsApp.activeWhatsappBot,
@@ -207,13 +204,11 @@ exports.handleCreateCheckout = async function (req, res) {
         userId: company.ownerId,
         companyId: company._id
       }
-      console.log('messageBlock', messageBlock)
       const data = {
         accessToken: company.whatsApp.accessToken,
         accountSID: company.whatsApp.accountSID,
         businessNumber: company.whatsApp.businessNumber
       }
-      console.log('sendWhatsAppMessage', data)
       sendWhatsAppMessage(messageBlock, data, contact.number, company, contact)
     } catch (err) {
       const message = err || 'Error processing shopify create checkout webhook '
