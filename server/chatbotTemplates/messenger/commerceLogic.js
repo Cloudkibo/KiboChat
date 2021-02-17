@@ -13,6 +13,7 @@ exports.callApi = function (automationResponse, selectedOption, chatbot, subscri
     try {
       selectedOption = selectedOption || {}
       const Provider = await initializeProvider(chatbot)
+      const numberOfProducts = chatbot.numberOfProducts > 9 ? 9 : chatbot.numberOfProducts
       let response = {}
       let items = []
       let storeInfo = {}
@@ -23,12 +24,12 @@ exports.callApi = function (automationResponse, selectedOption, chatbot, subscri
           break
         case 'CATEGORY_PRODUCTS':
           storeInfo = await Provider.fetchStoreInfo()
-          items = await Provider.fetchProductsInThisCategory(selectedOption.id, automationResponse.nextPage, 9)
+          items = await Provider.fetchProductsInThisCategory(selectedOption.id, automationResponse.nextPage, numberOfProducts)
           response = await getResponse(items, storeInfo, automationResponse, selectedOption, true)
           break
         case 'PRODUCTS_ONSALE':
           storeInfo = await Provider.fetchStoreInfo()
-          items = await Provider.fetchProducts(automationResponse.nextPage, 9)
+          items = await Provider.fetchProducts(automationResponse.nextPage, numberOfProducts)
           response = await getResponse(items, storeInfo, automationResponse, null, true)
           break
         case 'SEARCH_PRODUCTS':
@@ -233,8 +234,9 @@ function getProductVariants (Provider, automationResponse, selectedOption, chatb
   return new Promise(async (resolve, reject) => {
     try {
       let response = null
+      const numberOfProducts = chatbot.numberOfProducts > 9 ? 9 : chatbot.numberOfProducts
       const storeInfo = await Provider.fetchStoreInfo()
-      let productVariants = await Provider.getVariantsOfSelectedProduct(selectedOption.id)
+      let productVariants = await Provider.getVariantsOfSelectedProduct(selectedOption.id, numberOfProducts)
       if (productVariants.length === 1) {
         automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation(automationResponse.event, chatbot, subscriber, true)
         selectedOption.stock = productVariants[0].inventory_quantity

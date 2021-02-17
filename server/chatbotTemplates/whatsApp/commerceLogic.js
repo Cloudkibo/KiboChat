@@ -23,12 +23,12 @@ exports.callApi = function (automationResponse, selectedOption, chatbot, subscri
           break
         case 'CATEGORY_PRODUCTS':
           storeInfo = await Provider.fetchStoreInfo()
-          items = await Provider.fetchProductsInThisCategory(selectedOption.id, automationResponse.nextPage, 9)
+          items = await Provider.fetchProductsInThisCategory(selectedOption.id, automationResponse.nextPage, chatbot.numberOfProducts)
           response = await getResponse(items, storeInfo, automationResponse, selectedOption, true)
           break
         case 'PRODUCTS_ONSALE':
           storeInfo = await Provider.fetchStoreInfo()
-          items = await Provider.fetchProducts(automationResponse.nextPage, 9)
+          items = await Provider.fetchProducts(automationResponse.nextPage, chatbot.numberOfProducts)
           response = await getResponse(items, storeInfo, automationResponse, null, true)
           break
         case 'SEARCH_PRODUCTS':
@@ -220,7 +220,7 @@ function getProductVariants (Provider, automationResponse, selectedOption, chatb
     try {
       let response = null
       const storeInfo = await Provider.fetchStoreInfo()
-      let productVariants = await Provider.getVariantsOfSelectedProduct(selectedOption.id)
+      let productVariants = await Provider.getVariantsOfSelectedProduct(selectedOption.id, chatbot.numberOfProducts)
       if (productVariants.length === 1) {
         automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation(automationResponse.event, chatbot, subscriber, true)
         selectedOption.stock = productVariants[0].inventory_quantity
