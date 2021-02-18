@@ -344,7 +344,29 @@ const getTalkToAgentBlock = (chatbot, backId, contact) => {
   }
 }
 
-exports.getAbandonedCartReminderBlock = async (chatbot, contact, EcommerceProvider, abandonedCart) => {
+function getAbandonedCartReminderPayload (contact, company, abandonedCart, storeInfo) {
+  let payload = []
+  if (company.whatsApp.provider === 'flockSend') {
+    payload = [
+      {
+        text: `Hi ${contact.name}, the payment for your order of ${abandonedCart.currency} ${abandonedCart.total_price} from ${storeInfo.name} is still pending. Click on the link to complete the payment and confirm your order 👉 ${contact.commerceCustomerShopify.abandonedCartInfo.abandonedCheckoutUrl}.`,
+        componentType: 'text',
+        templateArguments: `${contact.name},${abandonedCart.currency} ${abandonedCart.total_price},${storeInfo.name},${contact.commerceCustomerShopify.abandonedCartInfo.abandonedCheckoutUrl}`,
+        templateName: 'abandoned_cart_reminder'
+      }
+    ]
+  } else {
+    payload = [
+      {
+        text: `Hi ${contact.name}, the payment for your order of ${abandonedCart.currency} ${abandonedCart.total_price} from ${storeInfo.name} is still pending. Click on the link to complete the payment and confirm your order 👉 ${contact.commerceCustomerShopify.abandonedCartInfo.abandonedCheckoutUrl}.`,
+        componentType: 'text'
+      }
+    ]
+  }
+  return payload
+}
+
+exports.getAbandonedCartReminderBlock = async (chatbot, contact, EcommerceProvider, abandonedCart, company) => {
   try {
     const storeInfo = await EcommerceProvider.fetchStoreInfo()
     const messageBlock = {
@@ -354,19 +376,14 @@ exports.getAbandonedCartReminderBlock = async (chatbot, contact, EcommerceProvid
       },
       title: 'Abandoned Cart Reminder',
       uniqueId: '' + new Date().getTime(),
-      payload: [
-        {
-          text: `Hi ${contact.name}, the payment for your order of ${abandonedCart.currency} ${abandonedCart.total_price} from ${storeInfo.name} is still pending. Click on the link to complete the payment and confirm your order 👉 ${contact.commerceCustomerShopify.abandonedCartInfo.abandonedCheckoutUrl}.`,
-          componentType: 'text',
-          specialKeys: {
-            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
-            [ORDER_STATUS_KEY]: { type: DYNAMIC, action: VIEW_RECENT_ORDERS },
-            [TALK_TO_AGENT_KEY]: { type: DYNAMIC, action: TALK_TO_AGENT }
-          }
-        }
-      ],
+      payload: getAbandonedCartReminderPayload(contact, company, abandonedCart, storeInfo),
       userId: chatbot.userId,
       companyId: chatbot.companyId
+    }
+    messageBlock.payload[0].specialKeys = {
+      [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
+      [ORDER_STATUS_KEY]: { type: DYNAMIC, action: VIEW_RECENT_ORDERS },
+      [TALK_TO_AGENT_KEY]: { type: DYNAMIC, action: TALK_TO_AGENT }
     }
     messageBlock.payload[0].text += `\n\n${specialKeyText(TALK_TO_AGENT_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(ORDER_STATUS_KEY)}`
