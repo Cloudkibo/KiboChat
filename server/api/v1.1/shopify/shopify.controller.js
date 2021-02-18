@@ -169,6 +169,7 @@ function getContact (companyId, number, customer) {
 }
 
 exports.handleCreateCheckout = async function (req, res) {
+  console.log('handleCreateCheckout', JSON.stringify(req.body))
   try {
     logger.serverLog('handleCreateCheckout', `${TAG}: exports.handleCompleteCheckout`, req.body, {header: req.header})
     sendSuccessResponse(res, 200, {status: 'success'})
@@ -247,7 +248,7 @@ function getOptInReceivePayload (storeName, company) {
 
 exports.handleCompleteCheckout = async function (req, res) {
   try {
-    logger.serverLog('handleCompleteCheckout', `${TAG}: exports.handleCompleteCheckout`, req.body, {header: req.header})
+    console.log('handleCompleteCheckout', JSON.stringify(req.body))
     sendSuccessResponse(res, 200, {status: 'success'})
     if (req.body.email || req.body.phone) {
       let query = {
