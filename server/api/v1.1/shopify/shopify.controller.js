@@ -210,6 +210,7 @@ exports.handleCreateCheckout = async function (req, res) {
           accountSID: company.whatsApp.accountSID,
           businessNumber: company.whatsApp.businessNumber
         }
+        console.log('messageBlock', messageBlock)
         sendWhatsAppMessage(messageBlock, data, contact.number, company, contact)
       }
     } catch (err) {
