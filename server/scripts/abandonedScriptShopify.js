@@ -22,33 +22,28 @@ exports.runScript = function () {
       async.each(contacts, async function (contact, cb) {
         try {
           let company = await callApi(`companyProfile/query`, 'post', { _id: contact.companyId })
-          console.log('Company', company.whatsApp)
           if (company && company.whatsApp) {
             let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ _id: company.whatsApp.activeWhatsappBot })
-            console.log('chatbot', chatbot)
             let shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: contact.companyId })
             if (shopifyIntegration) {
               let ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
                 shopUrl: shopifyIntegration.shopUrl,
                 shopToken: shopifyIntegration.shopToken
               })
-              console.log('shopifyIntegration', shopifyIntegration)
               let commerceCustomerShopify = contact.commerceCustomerShopify
               let abandonedCart = await ecommerceProvider.fetchAbandonedCart(commerceCustomerShopify.abandonedCartInfo.token)
-              console.log('abandonedCart', abandonedCart)
               if (abandonedCart) {
                 var now = moment(new Date())
                 var abandonedCheckoutCreated = abandonedCart.created_at
                 var duration = moment.duration(now.diff(abandonedCheckoutCreated))
-                if (duration.asMinutes >= ABANDONED_ALERT_INTERVAL) {
+                console.log('duration', duration.asMinutes())
+                if (duration.asMinutes() >= ABANDONED_ALERT_INTERVAL) {
                   let data = {
                     accessToken: company.whatsApp.accessToken,
                     accountSID: company.whatsApp.accountSID,
                     businessNumber: company.whatsApp.businessNumber
                   }
-                  console.log('data', data)
                   let abandonedCartReminderBlock = await commerceChatbotLogicLayer.getAbandonedCartReminderBlock(chatbot, contact, ecommerceProvider, abandonedCart, company)
-                  console.log('abandonedCartReminderBlock', abandonedCartReminderBlock)
                   await sendWhatsAppMessage(abandonedCartReminderBlock, data, contact.number, company, contact)
                   let updatePayload = { last_activity_time: Date.now(), lastMessageSentByBot: abandonedCartReminderBlock }
                   let incrementPayload = {}
