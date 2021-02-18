@@ -517,10 +517,10 @@ exports.testRoute = (req, res) => {
         shopUrl: shopifyIntegration.shopUrl,
         shopToken: shopifyIntegration.shopToken
       })
-      // return shopify.fetchProductsInThisCategory(166185566271)
+      return shopify.fetchProductsInThisCategory(166185566271)
       // return shopify.findCustomerOrders('4573544054966')
       // return shopify.checkOrderStatus('1125')
-      return shopify.cancelAnOrder('3181202735286')
+      // return shopify.cancelAnOrder('3181202735286')
       // return shopify.createPermalinkForCart({
       // email: 'sojharo@gmail.com',
       // first_name: 'sojharo',
