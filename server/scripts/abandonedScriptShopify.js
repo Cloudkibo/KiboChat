@@ -73,7 +73,7 @@ exports.runScript = function () {
     })
     .catch(error => {
       const message = error || 'Failed to fetch whatsapp contacts'
-      return logger.serverLog(message, `${TAG}: exports.runScript`, {}, {}, 'error')
+      return logger.serverLog(message, `${TAG}: exports.runScript`, {}, {error}, 'error')
     })
 }
 
