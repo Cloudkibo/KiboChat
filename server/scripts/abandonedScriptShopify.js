@@ -8,11 +8,11 @@ const commerceConstants = require('../api/v1.1/ecommerceProvidersApiLayer/consta
 const commerceChatbotLogicLayer = require('../api/v1.1/whatsAppChatbot/commerceChatbot.logiclayer')
 const moment = require('moment')
 const { sendWhatsAppMessage, updateWhatsAppContact } = require('../api/v1.1/whatsAppEvents/controller')
-const ABANDONED_ALERT_INTERVAL = 1
+const ABANDONED_ALERT_INTERVAL = 2
 const RECOVERY_ATTEMPTS = 3
 
 exports.runScript = function () {
-  console.log('Run script abandoned shopify')
+  //console.log('Run script abandoned shopify')
   let query = { 'commerceCustomerShopify.abandonedCartInfo': { $exists: true, $ne: null } }
   /* Find all contacts with abandoned carts */
   callApi(`whatsAppContacts/query`, 'post', query)
@@ -35,8 +35,7 @@ exports.runScript = function () {
                 var now = moment(new Date())
                 var abandonedCheckoutCreated = abandonedCart.created_at
                 var duration = moment.duration(now.diff(abandonedCheckoutCreated))
-                console.log('duration', duration.asMinutes())
-                if (duration.asMinutes() >= ABANDONED_ALERT_INTERVAL) {
+                if (duration.asHours() >= ABANDONED_ALERT_INTERVAL) {
                   let data = {
                     accessToken: company.whatsApp.accessToken,
                     accountSID: company.whatsApp.accountSID,
@@ -52,7 +51,6 @@ exports.runScript = function () {
                     incrementPayload = {$inc: { 'commerceCustomerShopify.abandonedCartInfo.cartRecoveryAttempts': 1 }}
                   }
                   updateWhatsAppContact({_id: contact._id}, updatePayload, incrementPayload, {})
-                  console.log('Contact Updated', updatePayload)
                 }
               }
             }
