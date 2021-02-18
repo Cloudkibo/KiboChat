@@ -37,12 +37,13 @@ exports.index = function (req, res) {
       '&redirect_uri=' + redirectUri
 
     res.cookie('state', state)
-    res.cookie('userId', JSON.stringify(req.user._id))
-    res.cookie('pageId', req.body.pageId)
+    res.cookie('installByShopifyStore', shop)
+    res.cookie('shopifySetupState', 'startedFromApp')
+    res.cookie('userId', req.user._id)
     utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }) // fetch company user
       .then(companyuser => {
-        res.cookie('companyId', JSON.stringify(companyuser.companyId))
-        return res.redirect(installUrl)
+        res.cookie('companyId', companyuser.companyId)
+        return res.json({ installUrl })
       })
       .catch(err => {
         if (err) {
@@ -165,7 +166,7 @@ function getContact (companyId, number, customer) {
 }
 
 exports.handleCreateCheckout = async function (req, res) {
-  console.log('handleCreateCheckout', JSON.stringify(req.body))
+  logger.serverLog('handleCreateCheckout', `${TAG}: exports.handleCompleteCheckout`, req.body, {header: req.header}, 'error')
   sendSuccessResponse(res, 200, {status: 'success'})
   if (req.body.customer && req.body.customer.accepts_marketing &&
     req.body.token && req.body.abandoned_checkout_url && req.body.phone && req.body.id) {
@@ -210,7 +211,6 @@ exports.handleCreateCheckout = async function (req, res) {
           accountSID: company.whatsApp.accountSID,
           businessNumber: company.whatsApp.businessNumber
         }
-        console.log('messageBlock', messageBlock)
         sendWhatsAppMessage(messageBlock, data, contact.number, company, contact)
       }
     } catch (err) {
@@ -243,7 +243,7 @@ function getOptInReceivePayload (storeName, company) {
 }
 
 exports.handleCompleteCheckout = async function (req, res) {
-  console.log('handleCompleteCheckout', JSON.stringify(req.body))
+  logger.serverLog('handleCompleteCheckout', `${TAG}: exports.handleCompleteCheckout`, req.body, {header: req.header}, 'error')
   sendSuccessResponse(res, 200, {status: 'success'})
   try {
     if (req.body.email || req.body.phone) {
