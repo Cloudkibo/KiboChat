@@ -20,8 +20,9 @@ exports.runScript = function () {
     .then(contacts => {
       if (contacts.length === 0) return
       async.each(contacts, async function (contact, cb) {
-        let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ companyId: contact.companyId, published: true })
-        const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: contact.companyId })
+        let company = await callApi(`companyProfile/query`, 'post', { _id: contact.companyId })
+        let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ _id: company.whatsApp.activeWhatsappBot })
+        let shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: contact.companyId })
         if (shopifyIntegration) {
           let ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
             shopUrl: shopifyIntegration.shopUrl,
@@ -34,8 +35,7 @@ exports.runScript = function () {
             var abandonedCheckoutCreated = abandonedCart.created_at
             var duration = moment.duration(now.diff(abandonedCheckoutCreated))
             if (duration.asHours() >= ABANDONED_ALERT_INTERVAL) {
-              const company = await callApi(`companyProfile/query`, 'post', { _id: contact.companyId })
-              const data = {
+              let data = {
                 accessToken: company.whatsApp.accessToken,
                 accountSID: company.whatsApp.accountSID,
                 businessNumber: company.whatsApp.businessNumber
