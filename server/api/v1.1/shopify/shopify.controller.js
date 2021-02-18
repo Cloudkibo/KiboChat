@@ -157,6 +157,9 @@ function getContact (companyId, number, customer) {
             .then(contact => {
               resolve(contact)
             })
+            .catch((err) => {
+              reject(err)
+            })
         }
       })
       .catch((err) => {
@@ -167,10 +170,11 @@ function getContact (companyId, number, customer) {
 
 exports.handleCreateCheckout = async function (req, res) {
   console.log('handleCreateCheckout', JSON.stringify(req.body))
-  sendSuccessResponse(res, 200, {status: 'success'})
-  if (req.body.customer && req.body.customer.accepts_marketing &&
+  try {
+    logger.serverLog('handleCreateCheckout', `${TAG}: exports.handleCompleteCheckout`, req.body, {header: req.header})
+    sendSuccessResponse(res, 200, {status: 'success'})
+    if (req.body.customer && req.body.customer.accepts_marketing &&
     req.body.token && req.body.abandoned_checkout_url && req.body.phone && req.body.id) {
-    try {
       let shopName = req.body.abandoned_checkout_url.split('//')[1]
       shopName = shopName.split('/')[0]
       const integration = await dataLayer.findOneShopifyIntegration({ shopUrl: shopName })
@@ -213,10 +217,10 @@ exports.handleCreateCheckout = async function (req, res) {
         }
         sendWhatsAppMessage(messageBlock, data, contact.number, company, contact)
       }
-    } catch (err) {
-      const message = err || 'Error processing shopify create checkout webhook '
-      logger.serverLog(message, `${TAG}: exports.handleCreateCheckout`, req.body, {header: req.header}, 'error')
     }
+  } catch (err) {
+    const message = err || 'Error processing shopify create checkout webhook '
+    logger.serverLog(message, `${TAG}: exports.handleCreateCheckout`, req.body, {header: req.header}, 'error')
   }
 }
 
@@ -243,9 +247,9 @@ function getOptInReceivePayload (storeName, company) {
 }
 
 exports.handleCompleteCheckout = async function (req, res) {
-  console.log('handleCompleteCheckout', JSON.stringify(req.body))
-  sendSuccessResponse(res, 200, {status: 'success'})
   try {
+    console.log('handleCompleteCheckout', JSON.stringify(req.body))
+    sendSuccessResponse(res, 200, {status: 'success'})
     if (req.body.email || req.body.phone) {
       let query = {
         $or: []
