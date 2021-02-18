@@ -23,7 +23,7 @@ exports.runScript = function () {
         try {
           let company = await callApi(`companyProfile/query`, 'post', { _id: contact.companyId })
           console.log('Company', company.whatsApp)
-          if (company) {
+          if (company && company.whatsApp) {
             let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ _id: company.whatsApp.activeWhatsappBot })
             console.log('chatbot', chatbot)
             let shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: contact.companyId })
