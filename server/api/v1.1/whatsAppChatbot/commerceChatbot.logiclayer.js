@@ -391,9 +391,8 @@ exports.getAbandonedCartReminderBlock = async (chatbot, contact, EcommerceProvid
 
     return messageBlock
   } catch (err) {
-    const message = err || 'Unable get talk to agent message block'
-    logger.serverLog(message, `${TAG}: getTalkToAgentBlock`, {}, {chatbot, backId, contact}, 'error')
-    throw new Error(`${ERROR_INDICATOR}Unable to notify customer support agent`)
+    const message = err || 'Unable get talk fetch reminder block'
+    return logger.serverLog(message, `${TAG}: getAbandonedCartReminderBlock`, {}, {chatbot, contact}, 'error')
   }
 }
 
