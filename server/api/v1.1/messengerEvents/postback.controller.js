@@ -20,15 +20,17 @@ exports.index = async (req, res) => {
     if (page) {
       const subscribers = await utility.callApi('subscribers/query', 'post', { senderId: subscriberId, pageId: page._id })
       const subscriber = subscribers[0]
-      chatbotAutomation.handleCommerceChatbot(messengerPayload, page, subscriber)
-      if (logicLayer.isJsonString(messengerPayload.postback.payload)) {
-        let manualChatbotPayload = JSON.parse(messengerPayload.postback.payload)
-        if (manualChatbotPayload && manualChatbotPayload.action === '_chatbot') {
-          console.log('handleChatBotNextMessage')
-          chatbotAutomation.handleChatBotNextMessage(messengerPayload, page, subscriber, manualChatbotPayload.blockUniqueId, manualChatbotPayload.parentBlockTitle)
+      if (subscriber) {
+        chatbotAutomation.handleCommerceChatbot(messengerPayload, page, subscriber)
+        if (logicLayer.isJsonString(messengerPayload.postback.payload)) {
+          let manualChatbotPayload = JSON.parse(messengerPayload.postback.payload)
+          if (manualChatbotPayload && manualChatbotPayload.action === '_chatbot') {
+            console.log('handleChatBotNextMessage')
+            chatbotAutomation.handleChatBotNextMessage(messengerPayload, page, subscriber, manualChatbotPayload.blockUniqueId, manualChatbotPayload.parentBlockTitle)
+          }
         }
+        saveLiveChat(page, subscriber, {...messengerPayload, message: {text: messengerPayload.postback.title}})
       }
-      saveLiveChat(page, subscriber, {...messengerPayload, message: {text: messengerPayload.postback.title}})
     }
   } catch (err) {
     const message = err || 'error in postback'

@@ -344,6 +344,58 @@ const getTalkToAgentBlock = (chatbot, backId, contact) => {
   }
 }
 
+function getAbandonedCartReminderPayload (contact, company, abandonedCart, storeInfo) {
+  let payload = []
+  if (company.whatsApp.provider === 'flockSend') {
+    payload = [
+      {
+        text: `Hi ${contact.name}, the payment for your order of ${abandonedCart.currency} ${abandonedCart.total_price} from ${storeInfo.name} is still pending. Click on the link to complete the payment and confirm your order 👉 ${contact.commerceCustomerShopify.abandonedCartInfo.abandonedCheckoutUrl}.`,
+        componentType: 'text',
+        templateArguments: `${contact.name},${abandonedCart.currency} ${abandonedCart.total_price},${storeInfo.name},${contact.commerceCustomerShopify.abandonedCartInfo.abandonedCheckoutUrl}`,
+        templateName: 'abandoned_cart_reminder'
+      }
+    ]
+  } else {
+    payload = [
+      {
+        text: `Hi ${contact.name}, the payment for your order of ${abandonedCart.currency} ${abandonedCart.total_price} from ${storeInfo.name} is still pending. Click on the link to complete the payment and confirm your order 👉 ${contact.commerceCustomerShopify.abandonedCartInfo.abandonedCheckoutUrl}.`,
+        componentType: 'text'
+      }
+    ]
+  }
+  return payload
+}
+
+exports.getAbandonedCartReminderBlock = async (chatbot, contact, EcommerceProvider, abandonedCart, company) => {
+  try {
+    const storeInfo = await EcommerceProvider.fetchStoreInfo()
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'abandoned_cart_reminder'
+      },
+      title: 'Abandoned Cart Reminder',
+      uniqueId: '' + new Date().getTime(),
+      payload: getAbandonedCartReminderPayload(contact, company, abandonedCart, storeInfo),
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    messageBlock.payload[0].specialKeys = {
+      [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
+      [ORDER_STATUS_KEY]: { type: DYNAMIC, action: VIEW_RECENT_ORDERS },
+      [TALK_TO_AGENT_KEY]: { type: DYNAMIC, action: TALK_TO_AGENT }
+    }
+    messageBlock.payload[0].text += `\n\n${specialKeyText(TALK_TO_AGENT_KEY)}`
+    messageBlock.payload[0].text += `\n${specialKeyText(ORDER_STATUS_KEY)}`
+    messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
+
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable get talk fetch reminder block'
+    return logger.serverLog(message, `${TAG}: getAbandonedCartReminderBlock`, {}, {chatbot, contact}, 'error')
+  }
+}
+
 const getSearchProductsBlock = async (chatbot, contact) => {
   try {
     const messageBlock = {
@@ -355,7 +407,7 @@ const getSearchProductsBlock = async (chatbot, contact) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Please enter the name of the product you wish to search for:\n`,
+          text: `Please enter the name or SKU code of the product you wish to search for:\n`,
           componentType: 'text',
           action: { type: DYNAMIC, action: DISCOVER_PRODUCTS, input: true }
         }
@@ -403,9 +455,9 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
       products = await EcommerceProvider.searchProducts(input)
 
       if (products.length > 0) {
-        messageBlock.payload[0].text = `These products were found for "${input}". Please select a product by sending the corresponding number for it or enter another product name to search again:\n`
+        messageBlock.payload[0].text = `These products were found for "${input}". Please select a product by sending the corresponding number for it or enter another product name or SKU code to search again:\n`
       } else {
-        messageBlock.payload[0].text = `No products found that match "${input}".\n\nEnter another product name to search again:`
+        messageBlock.payload[0].text = `No products found that match "${input}".\n\nEnter another product name or SKU code to search again:`
       }
 
       messageBlock.payload[0].action = { type: DYNAMIC, action: DISCOVER_PRODUCTS, input: true }
@@ -1040,6 +1092,8 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
 }
 const getConfirmReturnOrderBlock = async (chatbot, backId, order) => {
   try {
+    const storeInfo = await EcommerceProvider.fetchStoreInfo()
+    let number = businessNumber.replace(/[^0-9]/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')
     let messageBlock = {
       module: {
         id: chatbot._id,
@@ -1106,6 +1160,7 @@ const getReturnOrderBlock = async (chatbot, contact, backId, EcommerceProvider, 
     }
     const message = `${contact.name} is requesting a return for order #${orderId}.`
     sendNotification(contact, message, chatbot.companyId)
+
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to return order'

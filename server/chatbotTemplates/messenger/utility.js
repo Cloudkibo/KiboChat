@@ -1,7 +1,7 @@
 const pdf = require('pdf-creator-node')
 const fs = require('fs')
 const path = require('path')
-const config = require('../config/environment/index')
+const config = require('../../config/environment/index')
 
 exports.prepareInvalidResponse = function (chatbot, subscriber, message) {
   return new Promise(async (resolve, reject) => {
@@ -21,55 +21,81 @@ function prepareResponse (chatbot, subscriber, automationResponse, selectedOptio
   return new Promise((resolve, reject) => {
     let response = []
     let text = ''
+    let quickReplies = []
     automationResponse.options = automationResponse.options || []
     if (automationResponse.options === 'PRODUCTS_NOT_FOUND') {
       text = `No products found!\n\n${prepareText(automationResponse.text, chatbot, subscriber)}`
     } else {
       text = prepareText(automationResponse.text, chatbot, subscriber, selectedOption)
-      if (automationResponse.options && automationResponse.options.length > 0) {
-        text = `${text}\n`
-        automationResponse.options.forEach((item, i) => {
-          text = `${text}\n${convertToEmoji(item.code)} ${item.label}`
-        })
-      }
-    }
-    if (automationResponse.otherOptions && automationResponse.otherOptions.length > 0) {
-      text = `${text}\n`
-      automationResponse.otherOptions.forEach((item, i) => {
-        text = `${text}\n*${item.code.toUpperCase()}* ${item.label}`
-      })
     }
     response.push({ text, componentType: 'text' })
 
     if (automationResponse.gallery && automationResponse.gallery.length > 0) {
-      automationResponse.gallery.forEach((item, i) => {
-        response.unshift({ componentType: 'image', caption: item.subtitle, fileurl: item.image })
+      let cards = automationResponse.gallery.map(item => {
+        return {
+          image_url: item.image,
+          title: item.title,
+          subtitle: item.subtitle,
+          buttons: [{
+            title: 'Select Product',
+            type: 'postback',
+            payload: JSON.stringify({
+              price: item.price,
+              stock: item.inventory_quantity,
+              productName: item.productName,
+              event: item.event,
+              id: item.id
+            })
+          }]
+        }
+      })
+      response.push({
+        componentType: 'gallery',
+        cards
+      })
+    } else if (automationResponse.payload && automationResponse.payload.componentType) {
+      response.push(automationResponse.payload)
+    } else if (Array.isArray(automationResponse.options) && automationResponse.options.length > 0) {
+      automationResponse.options.forEach((item, i) => {
+        quickReplies.push({
+          content_type: 'text',
+          title: item.label,
+          payload: JSON.stringify({
+            event: item.event,
+            id: item.id,
+            nextPage: item.nextPage,
+            API: item.API
+          })
+        })
       })
     }
+
+    if (automationResponse.otherOptions && automationResponse.otherOptions.length > 0) {
+      automationResponse.otherOptions.forEach((item, i) => {
+        quickReplies.push({
+          content_type: 'text',
+          title: item.label,
+          payload: JSON.stringify({
+            event: item.event
+          })
+        })
+      })
+    }
+
+    response[response.length - 1].quickReplies = quickReplies
+
+    console.log('final payload', response)
 
     resolve({payload: response})
   })
 }
 
 function prepareText (text, chatbot, subscriber, selectedOption = {}) {
-  text = text.replace('__fullName__', subscriber.name)
+  text = text.replace('__fullName__', subscriber.fullName)
   text = text.replace('__chatbotName__', chatbot.storeType)
   text = text.replace('__storeName__', 'CloudKibo Test Store')
   text = text.replace('__productName__', `*${selectedOption.productName || selectedOption.label}*`)
   return text
-}
-
-function convertToEmoji (num) {
-  let stringNum = num + ''
-  const numbers = ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣']
-  let emoji = ''
-  for (let i = 0; i < stringNum.length; i++) {
-    emoji += numbers[parseInt(stringNum.charAt(i))]
-  }
-  if (!emoji || emoji === 'undefined') {
-    emoji = `*${num}*`
-  }
-  return emoji
 }
 
 const generateInvoice = async (storeInfo, order) => {
@@ -104,5 +130,4 @@ const generateInvoice = async (storeInfo, order) => {
 }
 
 exports.prepareResponse = prepareResponse
-exports.convertToEmoji = convertToEmoji
 exports.generateInvoice = generateInvoice

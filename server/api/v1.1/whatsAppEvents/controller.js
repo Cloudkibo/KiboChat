@@ -24,7 +24,7 @@ const { record } = require('../../global/messageStatistics')
 const chatbotResponder = require('../../../chatbotResponder')
 const configureChatbotDatalayer = require('./../configureChatbot/datalayer')
 const { intervalForEach } = require('./../../../components/utility')
-const kiboAutomationLayer = require('../../../chatbotTemplates/kiboAutomation.layer')
+const whatsAppAutomationLogic = require('../../../chatbotTemplates/whatsApp/automationLogic')
 const chatbotTemplates = require('../../../chatbotTemplates')
 const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 
@@ -237,6 +237,8 @@ function createContact (data) {
                 }
               })
               .catch(error => {
+                const message = error || 'Failed to map whatsapp contact'
+                logger.serverLog(message, `${TAG}: exports.createContact`, {}, {data}, 'error')
                 reject(error)
               })
           })
@@ -245,6 +247,8 @@ function createContact (data) {
         }
       })
       .catch(error => {
+        const message = error || 'Failed to company profile'
+        logger.serverLog(message, `${TAG}: exports.createContact`, {}, {data}, 'error')
         reject(error)
       })
   })
@@ -397,6 +401,7 @@ function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options)
       logger.serverLog(message, `${TAG}: exports._sendNotification`, {}, { query, bodyForUpdate, bodyForIncrement, options }, 'error')
     })
 }
+exports.updateWhatsAppContact = updateWhatsAppContact
 
 exports.messageStatus = function (req, res) {
   res.status(200).json({
@@ -559,8 +564,9 @@ async function temporarySuperBotTestHandling (data, contact, company, number, re
             let ecommerceProvider = null
             let airlinesProvider = null
             if (chatbot.vertical === 'commerce') {
+              console.log('chatbot type', chatbot.storeType)
               if (chatbot.storeType === 'shopify-nlp') {
-                const response = await kiboAutomationLayer.getChatbotResponse(chatbot, 'welcome', contact, undefined, true)
+                const response = await whatsAppAutomationLogic.getChatbotResponse(chatbot, 'welcome', contact, undefined, true)
                 nextMessageBlock = response.chatbotResponse
                 currentMessage = response.automationResponse
               } else if (chatbot.storeType === commerceConstants.shopify) {
@@ -665,6 +671,7 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
           let nextMessageBlock = null
           let currentMessage = null
           if (chatbot.vertical === 'commerce') {
+            console.log('chatbot type 1', chatbot.storeTyp)
             if (chatbot.storeType === 'shopify-nlp') {
               const response = await chatbotTemplates.handleUserInput(chatbot, data, contact, 'whatsApp')
               nextMessageBlock = response.chatbotResponse

@@ -1,12 +1,12 @@
-const shopifyDataLayer = require('../api/v1.1/shopify/shopify.datalayer')
-const bigcommerceDataLayer = require('../api/v1.1/bigcommerce/bigcommerce.datalayer')
-const EcommerceProvider = require('../api/v1.1/ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
-const logger = require('../components/logger')
-const TAG = '/chatbotTemplates/commerceAPI.layer.js'
+const shopifyDataLayer = require('../../api/v1.1/shopify/shopify.datalayer')
+const bigcommerceDataLayer = require('../../api/v1.1/bigcommerce/bigcommerce.datalayer')
+const EcommerceProvider = require('../../api/v1.1/ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
+const logger = require('../../components/logger')
+const TAG = '/chatbotTemplates/whatsApp/commerceLogic.js'
 
 const { convertToEmoji, generateInvoice } = require('./utility')
-const { callApi } = require('../api/v1.1/utility')
-const { truncate } = require('../components/utility')
+const { callApi } = require('../../api/v1.1/utility')
+const { truncate } = require('../../components/utility')
 
 exports.callApi = function (automationResponse, selectedOption, chatbot, subscriber) {
   return new Promise(async (resolve, reject) => {
@@ -23,12 +23,12 @@ exports.callApi = function (automationResponse, selectedOption, chatbot, subscri
           break
         case 'CATEGORY_PRODUCTS':
           storeInfo = await Provider.fetchStoreInfo()
-          items = await Provider.fetchProductsInThisCategory(selectedOption.id, automationResponse.nextPage)
+          items = await Provider.fetchProductsInThisCategory(selectedOption.id, automationResponse.nextPage, chatbot.numberOfProducts)
           response = await getResponse(items, storeInfo, automationResponse, selectedOption, true)
           break
         case 'PRODUCTS_ONSALE':
           storeInfo = await Provider.fetchStoreInfo()
-          items = await Provider.fetchProducts(automationResponse.nextPage)
+          items = await Provider.fetchProducts(automationResponse.nextPage, chatbot.numberOfProducts)
           response = await getResponse(items, storeInfo, automationResponse, null, true)
           break
         case 'SEARCH_PRODUCTS':
@@ -57,7 +57,7 @@ exports.callApi = function (automationResponse, selectedOption, chatbot, subscri
           })
           if (items.length === 1) {
             storeInfo = await Provider.fetchStoreInfo()
-            automationResponse = await require('./kiboautomation.layer.js').callKiboAutomation(automationResponse.event, chatbot, subscriber, true)
+            automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation(automationResponse.event, chatbot, subscriber, true)
             automationResponse.options = automationResponse.options || []
             selectedOption = {
               label: items[0].name,
@@ -102,6 +102,9 @@ exports.callApi = function (automationResponse, selectedOption, chatbot, subscri
           break
         case 'FETCH_ORDER':
           response = await fetchOrder(Provider, automationResponse, selectedOption)
+          break
+        case 'VIEW_CATALOG':
+          response = await viewCatalog(automationResponse, chatbot)
           break
         default:
           storeInfo = await Provider.fetchStoreInfo()
@@ -217,9 +220,9 @@ function getProductVariants (Provider, automationResponse, selectedOption, chatb
     try {
       let response = null
       const storeInfo = await Provider.fetchStoreInfo()
-      let productVariants = await Provider.getVariantsOfSelectedProduct(selectedOption.id)
+      let productVariants = await Provider.getVariantsOfSelectedProduct(selectedOption.id, chatbot.numberOfProducts)
       if (productVariants.length === 1) {
-        automationResponse = await require('./kiboautomation.layer.js').callKiboAutomation(automationResponse.event, chatbot, subscriber, true)
+        automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation(automationResponse.event, chatbot, subscriber, true)
         selectedOption.stock = productVariants[0].inventory_quantity
         selectedOption.productName = selectedOption.label
         selectedOption.id = productVariants[0].id
@@ -420,21 +423,21 @@ function getCheckoutInfo (automationResponse, selectedOption, subscriber, chatbo
       const paymentMethod = getSelectedPaymentMethod(subscriber, selectedOption)
       if (paymentMethod === 'cod') {
         if (customer && customer.email && completeAddress(customer.defaultAddress)) {
-          automationResponse = await require('./kiboautomation.layer.js').callKiboAutomation('checkout-info-show', chatbot, subscriber, true)
+          automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation('checkout-info-show', chatbot, subscriber, true)
           automationResponse = showCheckoutInfo(automationResponse, 'cod', customer)
         } else if (customer && customer.email) {
-          automationResponse = await require('./kiboautomation.layer.js').callKiboAutomation('ask-address', chatbot, subscriber, true)
+          automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation('ask-address', chatbot, subscriber, true)
           automationResponse = getValidateResponse(automationResponse, 'address')
         } else {
-          automationResponse = await require('./kiboautomation.layer.js').callKiboAutomation('ask-email', chatbot, subscriber, true)
+          automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation('ask-email', chatbot, subscriber, true)
           automationResponse = getValidateResponse(automationResponse, 'email')
         }
       } else {
         if (customer && customer.email) {
-          automationResponse = await require('./kiboautomation.layer.js').callKiboAutomation('checkout-info-show', chatbot, subscriber, true)
+          automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation('checkout-info-show', chatbot, subscriber, true)
           automationResponse = showCheckoutInfo(automationResponse, 'epayment', customer)
         } else {
-          automationResponse = await require('./kiboautomation.layer.js').callKiboAutomation('ask-email', chatbot, subscriber, true)
+          automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation('ask-email', chatbot, subscriber, true)
           automationResponse = getValidateResponse(automationResponse, 'email')
         }
       }
@@ -841,6 +844,21 @@ function fetchOrder (Provider, automationResponse, selectedOption) {
       resolve({...automationResponse, text, gallery})
     } catch (err) { reject(err) }
   })
+}
+
+function viewCatalog (automationResponse, chatbot) {
+  if (chatbot.botLinks.catalogUrl) {
+    automationResponse.payload = {
+      componentType: 'file',
+      fileurl: {
+        url: chatbot.botLinks.catalogUrl
+      },
+      fileName: `catalog.pdf`
+    }
+  } else {
+    automationResponse = 'No catalog currently available!'
+  }
+  return automationResponse
 }
 
 function updateSubscriber (path, data) {
