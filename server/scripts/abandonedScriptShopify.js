@@ -64,11 +64,11 @@ exports.runScript = function () {
       }))
         .then(result => {
           let message = 'Script Run Successfully'
-          logger.serverLog(message, `${TAG}: exports.runScript`, {}, {}, 'info')
+          logger.serverLog(message, `${TAG}: exports.runScript`, {}, {contacts}, 'info')
         })
         .catch(err => {
           let message = err || 'Error while running script'
-          logger.serverLog(message, `${TAG}: exports.runScript`, {}, {}, 'error')
+          logger.serverLog(message, `${TAG}: exports.runScript`, {}, {err, contacts}, 'error')
         })
     })
     .catch(error => {
