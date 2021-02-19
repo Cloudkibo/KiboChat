@@ -1,12 +1,15 @@
-const shopifyDataLayer = require('../../api/v1.1/shopify/shopify.datalayer')
-const bigcommerceDataLayer = require('../../api/v1.1/bigcommerce/bigcommerce.datalayer')
-const EcommerceProvider = require('../../api/v1.1/ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
-const logger = require('../../components/logger')
-const TAG = '/chatbotTemplates/messenger/commerceLogic.js'
-
 const { generateInvoice } = require('./utility')
-const { callApi } = require('../../api/v1.1/utility')
 const { truncate } = require('../../components/utility')
+const {
+  setShoppingCart,
+  updateSubscriber,
+  getCustomerInfo,
+  getSelectedPaymentMethod,
+  completeAddress,
+  showCheckoutInfo,
+  getValidateResponse,
+  initializeProvider
+} = require('../logiclayer')
 
 exports.callApi = function (automationResponse, selectedOption, chatbot, subscriber) {
   return new Promise(async (resolve, reject) => {
@@ -42,36 +45,7 @@ exports.callApi = function (automationResponse, selectedOption, chatbot, subscri
           break
         case 'VIEW_CART':
           storeInfo = await Provider.fetchStoreInfo()
-          if (selectedOption.event === 'cart-remove-success') {
-            subscriber.shoppingCart = await removeShoppingCartItem(subscriber, selectedOption)
-          }
           response = await showCart(automationResponse, storeInfo, selectedOption, subscriber)
-          break
-        case 'CART_OPTIONS':
-          items = subscriber.shoppingCart || []
-          items = items.map((item) => {
-            return {
-              ...item,
-              name: item.product,
-              id: item.product_id
-            }
-          })
-          if (items.length === 1) {
-            storeInfo = await Provider.fetchStoreInfo()
-            automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation(automationResponse.event, chatbot, subscriber, true)
-            automationResponse.options = automationResponse.options || []
-            selectedOption = {
-              label: items[0].name,
-              price: items[0].price,
-              image: items[0].image,
-              event: automationResponse.event,
-              id: items[0].id,
-              stock: items[0].inventory_quantity
-            }
-            response = await getPurchaseResponse(automationResponse, storeInfo, selectedOption, subscriber)
-          } else {
-            response = await getResponse(items, null, automationResponse, null, false)
-          }
           break
         case 'GET_CHECKOUT_INFO':
           response = getCheckoutInfo(automationResponse, selectedOption, subscriber, chatbot)
@@ -110,7 +84,7 @@ exports.callApi = function (automationResponse, selectedOption, chatbot, subscri
         default:
           storeInfo = await Provider.fetchStoreInfo()
           if (selectedOption.event === 'set-cart') {
-            subscriber.shoppingCart = await setShoppingCart(subscriber, selectedOption, storeInfo)
+            subscriber.shoppingCart = await setShoppingCart(subscriber, selectedOption, storeInfo, 'messenger')
             response = await showCart(automationResponse, storeInfo, selectedOption, subscriber)
           } else {
             automationResponse.options = automationResponse.options || []
@@ -118,42 +92,6 @@ exports.callApi = function (automationResponse, selectedOption, chatbot, subscri
           }
       }
       resolve(response)
-    } catch (err) {
-      reject(err)
-    }
-  })
-}
-
-async function initializeProvider (chatbot) {
-  return new Promise(async (resolve, reject) => {
-    let provider = ''
-    let integration = null
-    try {
-      switch (chatbot.storeType) {
-        case 'shopify':
-          integration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
-          provider = new EcommerceProvider('shopify', {
-            shopUrl: integration.shopUrl,
-            shopToken: integration.shopToken
-          })
-          break
-        case 'shopify-nlp':
-          integration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
-          provider = new EcommerceProvider('shopify', {
-            shopUrl: integration.shopUrl,
-            shopToken: integration.shopToken
-          })
-          break
-        case 'bigcommerce':
-          provider = await bigcommerceDataLayer.findOneBigCommerceIntegration({ companyId: chatbot.companyId })
-          provider = new EcommerceProvider('bigcommerce', {
-            shopToken: integration.shopToken,
-            storeHash: integration.payload.context
-          })
-          break
-        default:
-      }
-      resolve(provider)
     } catch (err) {
       reject(err)
     }
@@ -173,11 +111,17 @@ async function getResponse (items, storeInfo, automationResponse, selectedOption
               title: item.name,
               subtitle: `Price: ${item.price} ${storeInfo.currency}${item.stock ? `\nStock available: ${item.stock}` : ''}`,
               image: item.image,
-              price: item.price,
-              stock: item.inventory_quantity,
-              productName: item.name || item.productName,
-              event: automationResponse.event,
-              id: item.id
+              buttons: [{
+                title: item.buttonTitle || 'Select Product',
+                payload: {
+                  price: item.price,
+                  stock: item.inventory_quantity || item.stock,
+                  productName: item.name || item.productName,
+                  event: automationResponse.event,
+                  id: item.id,
+                  image: item.image
+                }
+              }]
             }
           })
 
@@ -188,13 +132,12 @@ async function getResponse (items, storeInfo, automationResponse, selectedOption
               subtitle: `Click on the "View More" button to view more products`,
               buttons: [{
                 title: 'View More',
-                type: 'postback',
-                payload: JSON.stringify({
+                payload: {
                   event: '__viewmore',
                   id: selectedOption ? selectedOption.id : '',
                   nextPage: items.nextPageParameters,
                   API: automationResponse.API
-                })
+                }
               }]
             })
           }
@@ -237,25 +180,19 @@ function getProductVariants (Provider, automationResponse, selectedOption, chatb
       const numberOfProducts = chatbot.numberOfProducts > 9 ? 9 : chatbot.numberOfProducts
       const storeInfo = await Provider.fetchStoreInfo()
       let productVariants = await Provider.getVariantsOfSelectedProduct(selectedOption.id, numberOfProducts)
-      if (productVariants.length === 1) {
-        automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation(automationResponse.event, chatbot, subscriber, true)
-        selectedOption.stock = productVariants[0].inventory_quantity
-        selectedOption.productName = `${productVariants[0].name} ${selectedOption.productName}`
-        selectedOption.id = productVariants[0].id
-        response = getPurchaseResponse(automationResponse, storeInfo, selectedOption, subscriber)
-      } else {
-        productVariants = productVariants.map((item) => {
-          return {
-            ...item,
-            price: item.price || selectedOption.price,
-            name: `${item.name} ${selectedOption.productName}`,
-            productName: `${item.name} ${selectedOption.productName}`,
-            buttonTitle: 'Add to cart'
-          }
-        })
-        response = await getResponse(productVariants, storeInfo, automationResponse, selectedOption, true)
-        response.text = prepareText(automationResponse.text, selectedOption, storeInfo, subscriber)
-      }
+      productVariants = productVariants.map((item) => {
+        return {
+          ...item,
+          price: item.price || selectedOption.price,
+          stock: item.inventory_quantity || selectedOption.stock,
+          name: `${item.name} ${selectedOption.productName}`,
+          productName: `${item.name} ${selectedOption.productName}`,
+          buttonTitle: 'Add to cart'
+        }
+      })
+      automationResponse.event = 'set-cart'
+      response = await getResponse(productVariants, storeInfo, automationResponse, selectedOption, true)
+      response.text = prepareText(automationResponse.text, selectedOption, storeInfo, subscriber)
       resolve(response)
     } catch (err) {
       reject(err)
@@ -269,19 +206,14 @@ function getPurchaseResponse (automationResponse, storeInfo, selectedOption, sub
   if (confirmIndex >= 0) {
     automationResponse.options[confirmIndex] = {
       ...selectedOption,
-      ...automationResponse.options[confirmIndex],
-      productName: selectedOption.productName || selectedOption.label
+      ...automationResponse.options[confirmIndex]
     }
   }
   const gallery = [{
     title: selectedOption.productName || selectedOption.label,
-    subtitle: `Price: ${selectedOption.price} ${storeInfo.currency}${selectedOption.stock ? `\nStock available: ${selectedOption.stock}` : ''}`,
+    subtitle: `Price: ${selectedOption.price} ${storeInfo.currency}\nQuantity: ${selectedOption.quantity}`,
     image: selectedOption.image,
-    price: selectedOption.price,
-    stock: selectedOption.stock,
-    productName: selectedOption.name || selectedOption.productName,
-    event: automationResponse.event,
-    id: selectedOption.id
+    buttons: []
   }]
 
   if (automationResponse.event === 'cart-update-success') {
@@ -293,6 +225,9 @@ function getPurchaseResponse (automationResponse, storeInfo, selectedOption, sub
       max: selectedOption.stock
     }
   }
+  if (selectedOption.event === 'cart-remove-confirmation') {
+    automationResponse.otherOptions = [...automationResponse.options, ...automationResponse.otherOptions]
+  }
   return {...automationResponse, gallery}
 }
 
@@ -302,13 +237,43 @@ function showCart (automationResponse, storeInfo, selectedOption, subscriber) {
   const cart = subscriber.shoppingCart || []
   if (cart.length > 0) {
     automationResponse.text = prepareText(automationResponse.text, selectedOption, storeInfo, subscriber)
+    let total = 0
     cart.forEach((item, i) => {
+      total = Number((Number(item.quantity) * Number(item.price)).toFixed(2))
       gallery.push({
         title: item.product,
-        subtitle: `${item.product}\nPrice: ${item.price} ${storeInfo.currency}`,
-        image: item.image
+        subtitle: `Price: ${item.price} ${storeInfo.currency}\nQuantity: ${item.quantity}\nTotal Price: ${total} ${storeInfo.currency}`,
+        image: item.image,
+        buttons: [
+          {
+            title: 'Update Quantity',
+            payload: {
+              price: item.price,
+              stock: item.inventory_quantity,
+              productName: item.product,
+              event: 'cart-update-quantity-ask',
+              id: item.product_id,
+              image: item.image,
+              quantity: item.quantity
+            }
+          },
+          {
+            title: 'Remove',
+            payload: {
+              price: item.price,
+              stock: item.inventory_quantity,
+              productName: item.product,
+              event: 'cart-remove-confirmation',
+              id: item.product_id,
+              image: item.image,
+              quantity: item.quantity
+            }
+          }
+        ]
       })
     })
+    automationResponse.otherOptions.unshift({label: 'Clear cart', event: 'cart-clear'})
+    automationResponse.otherOptions.unshift({label: 'Proceed to Checkout', event: 'payment-methods'})
   } else {
     automationResponse.text = 'You have no items in your cart.'
     gallery = null
@@ -333,109 +298,12 @@ function getCartInfo (cart) {
     text = 'Here is your cart:'
     cart.forEach((item, i) => {
       total = total + Number((Number(item.quantity) * Number(item.price)).toFixed(2))
-      text = `${text}\n\n*Item*: ${item.product}`
-      text = `${text}\n*Quantity*: ${item.quantity}`
-      text = `${text}\n*Price*: ${item.price} ${item.currency}`
     })
     text = `${text}\n\n*Total Price*: ${total} ${cart[0].currency}`
   } else {
     text = 'You have no items in your cart'
   }
   return text
-}
-
-function setShoppingCart (subscriber, selectedOption, storeInfo) {
-  return new Promise((resolve, reject) => {
-    let cart = subscriber.shoppingCart || []
-    const itemIndex = cart.findIndex((item) => item.product_id === selectedOption.id)
-    if (itemIndex >= 0) {
-      const quantity = Number(cart[itemIndex].quantity) + Number(selectedOption.quantity || 1)
-      cart[itemIndex] = {
-        ...cart[itemIndex],
-        quantity,
-        price: Number(cart[itemIndex].price) * quantity
-      }
-    } else {
-      cart.push({
-        product_id: selectedOption.id,
-        quantity: selectedOption.quantity || 1,
-        product: selectedOption.productName,
-        inventory_quantity: selectedOption.stock,
-        price: Number(selectedOption.price) * Number(selectedOption.quantity || 1),
-        currency: storeInfo.currency,
-        image: selectedOption.image
-      })
-    }
-
-    let commerceCustomer = subscriber.commerceCustomer
-    if (commerceCustomer) commerceCustomer.cartId = null
-    updateSubscriber(
-      'whatsAppContacts/update',
-      {
-        query: {_id: subscriber._id},
-        newPayload: {shoppingCart: cart, commerceCustomer},
-        options: {}
-      }
-    )
-
-    resolve(cart)
-  })
-}
-
-function clearShoppingCart (subscriber) {
-  let commerceCustomer = subscriber.commerceCustomer
-  if (commerceCustomer) commerceCustomer.cartId = null
-  updateSubscriber(
-    'whatsAppContacts/update',
-    {
-      query: {_id: subscriber._id},
-      newPayload: {shoppingCart: [], commerceCustomer},
-      options: {}
-    }
-  )
-}
-
-function updateShoppingCartItem (subscriber, quantity) {
-  const lastMessage = subscriber.lastMessageSentByBot
-  let cart = subscriber.shoppingCart || []
-  const index = cart.findIndex((item) => item.product_id === lastMessage.selectedProduct)
-  if (index >= 0) {
-    cart[index].quantity = quantity
-  }
-  let commerceCustomer = subscriber.commerceCustomer
-  if (commerceCustomer) commerceCustomer.cartId = null
-  updateSubscriber(
-    'whatsAppContacts/update',
-    {
-      query: {_id: subscriber._id},
-      newPayload: {shoppingCart: cart, commerceCustomer},
-      options: {}
-    }
-  )
-}
-
-function removeShoppingCartItem (subscriber, selectedOption) {
-  return new Promise((resolve, reject) => {
-    let cart = subscriber.shoppingCart || []
-
-    const index = cart.findIndex((item) => item.product_id === selectedOption.id)
-    if (index >= 0) {
-      cart.splice(index, 1)
-    }
-
-    let commerceCustomer = subscriber.commerceCustomer
-    if (commerceCustomer) commerceCustomer.cartId = null
-    updateSubscriber(
-      'whatsAppContacts/update',
-      {
-        query: {_id: subscriber._id},
-        newPayload: {shoppingCart: cart, commerceCustomer},
-        options: {}
-      }
-    )
-
-    resolve(cart)
-  })
 }
 
 function getCheckoutInfo (automationResponse, selectedOption, subscriber, chatbot) {
@@ -468,116 +336,6 @@ function getCheckoutInfo (automationResponse, selectedOption, subscriber, chatbo
   })
 }
 
-function completeAddress (address) {
-  if (address && address.address1 && address.city && address.zip && address.country) {
-    return true
-  } else {
-    return false
-  }
-}
-
-function getCustomerInfo (subscriber, chatbot) {
-  let customer = subscriber.commerceCustomer
-  if (chatbot.storeType === 'shopify') {
-    customer = subscriber.commerceCustomerShopify
-  }
-  return customer
-}
-
-function getSelectedPaymentMethod (subscriber, selectedOption) {
-  let paymentMethod = selectedOption.paymentMethod
-  if (!paymentMethod) {
-    const lastMessage = subscriber.lastMessageSentByBot
-    paymentMethod = lastMessage.paymentMethod
-  }
-  return paymentMethod
-}
-
-function showCheckoutInfo (automationResponse, paymentMethod, customer) {
-  const address = customer.defaultAddress
-  automationResponse.text = automationResponse.text.replace('__checkoutInfo__', () => {
-    let text = `*Email*: ${customer.email}`
-    if (paymentMethod === 'cod') {
-      text = `${text}\n\n*Address*: ${address.address1}, ${address.city} ${address.zip}, ${address.country}`
-    }
-    return text
-  })
-  if (paymentMethod === 'epayment') {
-    automationResponse.options = automationResponse.options.filter((item) => item.event !== 'ask-address')
-  }
-  return automationResponse
-}
-
-function getValidateResponse (automationResponse, type) {
-  automationResponse.options = []
-  automationResponse.validateUserInput = true
-  switch (type) {
-    case 'email':
-      automationResponse.validationCriteria = { type: 'email' }
-      break
-    case 'address':
-      automationResponse.validationCriteria = { type: 'address' }
-      break
-    case 'city':
-      automationResponse.validationCriteria = { type: 'city' }
-      break
-    case 'zip':
-      automationResponse.validationCriteria = { type: 'zip' }
-      break
-    case 'country':
-      automationResponse.validationCriteria = { type: 'country' }
-      break
-    default:
-  }
-  return automationResponse
-}
-
-async function processCustomerEmail (email, subscriber, chatbot) {
-  const Provider = await initializeProvider(chatbot)
-  const names = subscriber.name.split(' ')
-  let firstName = names[0]
-  let lastName = names[1] ? names[1] : names[0]
-  let customer = await Provider.searchCustomerUsingEmail(email)
-  if (customer.length === 0) {
-    customer = await Provider.createCustomer(firstName, lastName, email)
-  } else {
-    customer = customer[0]
-  }
-  customer.provider = chatbot.storeType
-
-  let updatePayload = {}
-  if (chatbot.storeType === 'shopify') {
-    updatePayload.commerceCustomerShopify = customer
-  } else {
-    updatePayload.commerceCustomer = customer
-  }
-  updateSubscriber(
-    'whatsAppContacts/update',
-    {
-      query: {_id: subscriber._id},
-      newPayload: updatePayload,
-      options: {}
-    }
-  )
-}
-
-function processCustomerAddress (subscriber, chatbot, key, value) {
-  let customer = null
-  if (chatbot.storeType === 'shopify') {
-    customer = subscriber.commerceCustomerShopify
-    customer.defaultAddress = customer.defaultAddress || {}
-    customer.defaultAddress[key] = value
-    updateSubscriber(
-      'whatsAppContacts/update',
-      {
-        query: {_id: subscriber._id},
-        newPayload: {commerceCustomerShopify: customer},
-        options: {}
-      }
-    )
-  }
-}
-
 function proceedToCheckout (Provider, automationResponse, selectedOption, subscriber, chatbot) {
   return new Promise(async (resolve, reject) => {
     try {
@@ -591,7 +349,7 @@ function proceedToCheckout (Provider, automationResponse, selectedOption, subscr
       let text = ''
       let gallery = null
       if (paymentMethod === 'cod') {
-        if (chatbot.storeType === 'shopify') {
+        if (['shopify', 'shopify-nlp'].includes(chatbot.storeType)) {
           const cart = shoppingCart.map((item) => {
             return {
               variant_id: item.variant_id + '',
@@ -650,7 +408,7 @@ function proceedToCheckout (Provider, automationResponse, selectedOption, subscr
       } else if (paymentMethod === 'epayment') {
         let checkoutLink = ''
         text = `Here is your checkout link:`
-        if (chatbot.storeType === 'shopify') {
+        if (['shopify', 'shopify-nlp'].includes(chatbot.storeType)) {
           checkoutLink = await Provider.createPermalinkForCart(customer, shoppingCart)
         } else if (chatbot.storeType === 'bigcommerce') {
           const bigcommerceCart = await Provider.createCart(customer.id, shoppingCart)
@@ -668,13 +426,13 @@ function proceedToCheckout (Provider, automationResponse, selectedOption, subscr
       automationResponse.text = text
 
       let updatePayload = { shoppingCart: [] }
-      if (chatbot.storeType === 'shopify') {
+      if (['shopify', 'shopify-nlp'].includes(chatbot.storeType)) {
         updatePayload.commerceCustomerShopify = customer
       } else {
         updatePayload.commerceCustomer = customer
       }
       updateSubscriber(
-        'whatsAppContacts/update',
+        'subscribers/update',
         {
           query: {_id: subscriber._id},
           newPayload: updatePayload,
@@ -882,18 +640,3 @@ function viewCatalog (automationResponse, chatbot) {
   }
   return automationResponse
 }
-
-function updateSubscriber (path, data) {
-  callApi(path, 'put', data)
-    .then(updated => {
-    })
-    .catch(error => {
-      const message = error || 'Failed to update contact'
-      logger.serverLog(message, `${TAG}: updateSubscriber`, {}, {path, data}, 'error')
-    })
-}
-
-exports.clearShoppingCart = clearShoppingCart
-exports.updateShoppingCartItem = updateShoppingCartItem
-exports.processCustomerEmail = processCustomerEmail
-exports.processCustomerAddress = processCustomerAddress

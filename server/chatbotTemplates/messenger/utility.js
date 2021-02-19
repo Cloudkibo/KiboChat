@@ -8,7 +8,6 @@ exports.prepareInvalidResponse = function (chatbot, subscriber, message) {
     try {
       let lastMessage = subscriber.lastMessageSentByBot
       lastMessage.text = `${message}\n\n${lastMessage.text}`
-      delete lastMessage.gallery
       const response = await prepareResponse(chatbot, subscriber, lastMessage)
       resolve(response)
     } catch (err) {
@@ -32,23 +31,18 @@ function prepareResponse (chatbot, subscriber, automationResponse, selectedOptio
 
     if (automationResponse.gallery && automationResponse.gallery.length > 0) {
       let cards = automationResponse.gallery.map(item => {
+        const buttons = item.buttons.map(button => {
+          return {
+            title: button.title,
+            type: 'postback',
+            payload: JSON.stringify({type: 'DYNAMIC', ...button.payload})
+          }
+        })
         return {
           image_url: item.image,
           title: item.title,
           subtitle: item.subtitle,
-          buttons: [{
-            title: 'Select Product',
-            type: 'postback',
-            payload: JSON.stringify({
-              type: 'DYNAMIC',
-              price: item.price,
-              stock: item.stock,
-              productName: item.productName,
-              event: item.event,
-              id: item.id,
-              image: item.image
-            })
-          }]
+          buttons
         }
       })
       response.push({
@@ -66,7 +60,8 @@ function prepareResponse (chatbot, subscriber, automationResponse, selectedOptio
             event: item.event,
             id: item.id,
             nextPage: item.nextPage,
-            API: item.API
+            API: item.API,
+            paymentMethod: item.paymentMethod
           })
         })
       })
@@ -78,7 +73,12 @@ function prepareResponse (chatbot, subscriber, automationResponse, selectedOptio
           content_type: 'text',
           title: item.label,
           payload: JSON.stringify({
-            event: item.event
+            event: item.event,
+            productName: item.productName,
+            id: item.id,
+            price: item.price,
+            stock: item.stock,
+            quantity: item.quantity
           })
         })
       })
@@ -93,7 +93,7 @@ function prepareResponse (chatbot, subscriber, automationResponse, selectedOptio
 }
 
 function prepareText (text, chatbot, subscriber, selectedOption = {}) {
-  text = text.replace('__fullName__', subscriber.fullName)
+  text = text.replace('__fullName__', subscriber.firstName)
   text = text.replace('__chatbotName__', chatbot.storeType)
   text = text.replace('__storeName__', 'CloudKibo Test Store')
   text = text.replace('__productName__', `*${selectedOption.productName || selectedOption.label}*`)
