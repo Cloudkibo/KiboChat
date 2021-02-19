@@ -403,6 +403,8 @@ function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options)
 }
 exports.updateWhatsAppContact = updateWhatsAppContact
 
+exports.updateWhatsAppContact = updateWhatsAppContact
+
 exports.messageStatus = function (req, res) {
   res.status(200).json({
     status: 'success',

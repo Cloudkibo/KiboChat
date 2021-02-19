@@ -8,6 +8,7 @@ const cron = require('node-cron')
 const NotificationsScript = require('./scripts/notificationsScript.js')
 const AbandonedScriptShopify = require('./scripts/abandonedScriptShopify.js')
 const WhatsappScript = require('./scripts/whatsappDeleteDataScript.js')
+const AbandonedScriptShopify = require('./scripts/abandonedScriptShopify.js')
 const { slaDashboardScript } = require('./scripts/slaDashboard')
 
 const app = express()
