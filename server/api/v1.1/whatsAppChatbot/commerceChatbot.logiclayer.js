@@ -2072,7 +2072,7 @@ const getCheckoutInfoBlock = async (chatbot, contact, backId, argument, userInpu
   }
 }
 
-const getEmailOtpBlock = async (chatbot, contact, backId, argument, userInput) => {
+const getEmailOtpBlock = async (chatbot, contact, EcommerceProvider, backId, argument, userInput) => {
   let userError = false
   try {
     let messageBlock = null
@@ -2083,13 +2083,15 @@ const getEmailOtpBlock = async (chatbot, contact, backId, argument, userInput) =
         userError = true
         throw new Error('Invalid Email. Please input a valid email address.')
       }
+      const storeInfo = await EcommerceProvider.fetchStoreInfo()
       // generating the OTP
       callApi(`email_verification_otps/`, 'post', {
         companyId: contact.companyId,
         platform: 'whatsapp',
         commercePlatform: 'shopify',
         phone: contact.number,
-        emailAddress: userInput
+        emailAddress: userInput,
+        storeName: storeInfo.name
       })
         .then(created => {
         })
@@ -3400,7 +3402,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input,
             break
           }
           case GET_EMAIL_OTP: {
-            messageBlock = await getEmailOtpBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, action.argument, action.input ? input : '')
+            messageBlock = await getEmailOtpBlock(chatbot, contact, EcommerceProvider, contact.lastMessageSentByBot.uniqueId, action.argument, action.input ? input : '')
             break
           }
           case GET_VERIFY_OTP: {
