@@ -23,4 +23,10 @@ router.get('/checkFacebookPermissions',
   attachBuyerInfo(),
   controller.checkFacebookPermissions)
 
+router.get('/fetchBusinessAccounts',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
+  attachBuyerInfo(),
+  controller.fetchBusinessAccounts)
+
 module.exports = router

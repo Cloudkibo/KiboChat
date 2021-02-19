@@ -38,3 +38,18 @@ exports.checkFacebookPermissions = async (req, res) => {
   const permissions = await logiclayer.checkFacebookPermissions(facebookInfo)
   sendSuccessResponse(res, 200, {permissionsGiven: permissions})
 }
+
+exports.fetchBusinessAccounts = async (req, res) => {
+  let facebookInfo = req.user.facebookInfo
+  if (req.user.role !== 'buyer') {
+    facebookInfo = req.user.buyerInfo.facebookInfo
+  }
+  const shops = new EcommerceProviders(commerceConstants.shops, {
+    shopUrl: facebookInfo.fbId,
+    shopToken: facebookInfo.fbToken // shopifyIntegration.shopToken
+  })
+
+  const businesses = await shops.fetchBusinessAccounts()
+
+  sendSuccessResponse(res, 200, { businesses })
+}
