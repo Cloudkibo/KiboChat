@@ -2047,7 +2047,6 @@ const getCheckoutInfoBlock = async (chatbot, contact, backId, argument, userInpu
             action: {
               type: DYNAMIC,
               action: GET_EMAIL_OTP,
-              // action: address || argument.paymentMethod !== 'cod' ? GET_CHECKOUT_INFO : ASK_ADDRESS,
               argument: {...argument, newEmail: true},
               input: true
             },
