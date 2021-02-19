@@ -2006,8 +2006,8 @@ const getCheckoutInfoBlock = async (chatbot, contact, backId, argument, userInpu
             text: ``,
             componentType: 'text',
             menu: [
-              yesAction,
-              { type: DYNAMIC, action: GET_CHECKOUT_INFO, argument: {...argument, newEmail: true} }
+              yesAction
+              // { type: DYNAMIC, action: GET_CHECKOUT_INFO, argument: {...argument, newEmail: true} }
             ],
             specialKeys: {
               [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
@@ -2028,7 +2028,7 @@ const getCheckoutInfoBlock = async (chatbot, contact, backId, argument, userInpu
         )
       }
       messageBlock.payload[0].text += `\n\n${convertToEmoji(0)} Yes, Proceed to checkout`
-      messageBlock.payload[0].text += `\n${convertToEmoji(1)} No, update email`
+      // messageBlock.payload[0].text += `\n${convertToEmoji(1)} No, update email`
       if (address && argument.paymentMethod === 'cod') {
         messageBlock.payload[0].text += `\n${convertToEmoji(2)} No, update address`
       }
@@ -2092,13 +2092,13 @@ const getEmailOtpBlock = async (chatbot, contact, backId, argument, userInput) =
         platform: 'whatsapp',
         commercePlatform: 'shopify',
         phone: contact.number,
-        emailAddress: newEmailInput
+        emailAddress: userInput
       })
         .then(created => {
         })
         .catch(error => {
-          const message = error || 'Failed to update contact'
-          logger.serverLog(message, `${TAG}: exports.updateWhatsAppContact`, {}, {}, 'error')
+          const message = error || 'Failed to create otp for customer'
+          logger.serverLog(message, `${TAG}: exports.getEmailOtpBlock`, {}, {}, 'error')
         })
       argument.newEmail = userInput
     }
@@ -2134,7 +2134,7 @@ const getEmailOtpBlock = async (chatbot, contact, backId, argument, userInput) =
   } catch (err) {
     if (!userError) {
       const message = err || 'Unable to input otp for email verification'
-      logger.serverLog(message, `${TAG}: exports.getEmailOtpBlock`, {}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.getEmailOtpBlock`, {contact}, {}, 'error')
       throw new Error(`${ERROR_INDICATOR}Unable to input otp for email verification`)
     } else {
       throw new Error(`${ERROR_INDICATOR}${err.message}`)
@@ -2194,9 +2194,9 @@ const getVerifyOtpBlock = async (chatbot, contact, backId, argument, userInput) 
     return messageBlock
   } catch (err) {
     if (!userError) {
-      const message = err || 'Unable to input otp for email verification'
-      logger.serverLog(message, `${TAG}: exports.getEmailOtpBlock`, {}, {}, 'error')
-      throw new Error(`${ERROR_INDICATOR}Unable to input otp for email verification`)
+      const message = err || 'Unable to verify otp for email verification'
+      logger.serverLog(message, `${TAG}: exports.getVerifyOtpBlock`, {contact}, {}, 'error')
+      throw new Error(`${ERROR_INDICATOR}Unable to verify otp for email verification`)
     } else {
       throw new Error(`${ERROR_INDICATOR}${err.message}`)
     }
