@@ -4,9 +4,10 @@ const { SPECIALKEYWORDS, transformSpecialKeywords } = require('./specialKeywords
 const {
   clearShoppingCart,
   updateShoppingCartItem,
+  removeShoppingCartItem,
   processCustomerEmail,
   processCustomerAddress
-} = require('./commerceLogic')
+} = require('../logiclayer')
 
 exports.handleWhatsAppInput = function (chatbot, inputData, subscriber) {
   return new Promise(async (resolve, reject) => {
@@ -31,7 +32,10 @@ exports.handleWhatsAppInput = function (chatbot, inputData, subscriber) {
           response = await getChatbotResponse(chatbot, option.event, subscriber, option, true)
           if (option.event === 'cart-clear-success') {
             subscriber.shoppingCart = []
-            clearShoppingCart(subscriber)
+            clearShoppingCart(subscriber, 'whatsApp')
+          }
+          if (option.event === 'cart-remove-success') {
+            removeShoppingCartItem(subscriber, option, 'whatsApp')
           }
         } else if (lastMessage && lastMessage.openEndedResponse) {
           response = await processOpendEndedResponse(lastMessage, inputText, subscriber, chatbot)
@@ -123,7 +127,7 @@ function validateUserInput (userInput, subscriber, chatbot) {
           image: cartItem.image
         }
       }
-      updateShoppingCartItem(subscriber, userInput)
+      updateShoppingCartItem(subscriber, userInput, 'whatsApp')
       result = {validInput: true, option}
     }
   } else if (criteria.type === 'email') {
@@ -131,24 +135,24 @@ function validateUserInput (userInput, subscriber, chatbot) {
     if (!emailRegex.test(userInput)) {
       result = {validInput: false, message: 'Invalid email given. Please enter a valid email address.'}
     } else {
-      processCustomerEmail(userInput, subscriber, chatbot)
+      processCustomerEmail(userInput, subscriber, chatbot, 'whatsApp')
       result = {validInput: true, option: {userInput}}
     }
   } else if (criteria.type === 'address') {
-    processCustomerAddress(subscriber, chatbot, 'address1', userInput)
+    processCustomerAddress(subscriber, chatbot, 'address1', userInput, 'whatsApp')
     result = {validInput: true, option: {userInput}}
   } else if (criteria.type === 'city') {
-    processCustomerAddress(subscriber, chatbot, 'city', userInput)
+    processCustomerAddress(subscriber, chatbot, 'city', userInput, 'whatsApp')
     result = {validInput: true, option: {userInput}}
   } else if (criteria.type === 'zip') {
     if (!userInput) {
       result = {validInput: false, message: 'Invalid zip code given. Please enter a valid zip code.'}
     } else {
-      processCustomerAddress(subscriber, chatbot, 'zip', userInput)
+      processCustomerAddress(subscriber, chatbot, 'zip', userInput, 'whatsApp')
       result = {validInput: true, option: {userInput}}
     }
   } else if (criteria.type === 'country') {
-    processCustomerAddress(subscriber, chatbot, 'country', userInput)
+    processCustomerAddress(subscriber, chatbot, 'country', userInput, 'whatsApp')
     result = {validInput: true, option: {userInput}}
   }
   return result
