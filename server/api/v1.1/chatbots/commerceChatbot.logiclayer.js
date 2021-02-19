@@ -1804,12 +1804,12 @@ const getCheckoutInfoBlock = async (chatbot, contact, backId, argument, userInpu
                 content_type: 'text',
                 title: 'Yes, proceed to checkout',
                 payload: JSON.stringify(yesAction)
-              },
-              {
-                content_type: 'text',
-                title: 'No, update email',
-                payload: JSON.stringify({ type: DYNAMIC, action: GET_CHECKOUT_INFO, argument: {...argument, newEmail: true} })
               }
+              // {
+              //   content_type: 'text',
+              //   title: 'No, update email',
+              //   payload: JSON.stringify({ type: DYNAMIC, action: GET_CHECKOUT_INFO, argument: {...argument, newEmail: true} })
+              // }
             ]
           }
         ],
