@@ -2158,7 +2158,7 @@ const getVerifyOtpBlock = async (chatbot, contact, backId, argument, userInput) 
         emailAddress: argument.newEmail,
         otp: otpInput
       })
-      if (otpRecord.payload !== 'otp matched') {
+      if (otpRecord !== 'otp matched') {
         userError = true
         throw new Error('OTP is invalid or expired.')
       }
@@ -2197,7 +2197,7 @@ const getVerifyOtpBlock = async (chatbot, contact, backId, argument, userInput) 
   } catch (err) {
     if (!userError) {
       const message = err || 'Unable to verify otp for email verification'
-      logger.serverLog(message, `${TAG}: exports.getVerifyOtpBlock`, {contact}, {}, 'error')
+      logger.serverLog(message, `${TAG}: exports.getVerifyOtpBlock`, {contact}, {}, 'info')
       throw new Error(`${ERROR_INDICATOR}Unable to verify otp for email verification`)
     } else {
       throw new Error(`${ERROR_INDICATOR}${err.message}`)
