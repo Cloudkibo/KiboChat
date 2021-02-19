@@ -2030,7 +2030,7 @@ const getCheckoutInfoBlock = async (chatbot, contact, backId, argument, userInpu
       messageBlock.payload[0].text += `\n\n${convertToEmoji(0)} Yes, Proceed to checkout`
       // messageBlock.payload[0].text += `\n${convertToEmoji(1)} No, update email`
       if (address && argument.paymentMethod === 'cod') {
-        messageBlock.payload[0].text += `\n${convertToEmoji(2)} No, update address`
+        messageBlock.payload[0].text += `\n${convertToEmoji(1)} No, update address`
       }
     } else {
       messageBlock = {
@@ -2162,6 +2162,7 @@ const getVerifyOtpBlock = async (chatbot, contact, backId, argument, userInput) 
         userError = true
         throw new Error('OTP is invalid or expired.')
       }
+      await updateWhatsAppContact({ _id: contact._id }, {emailVerified: true}, null, {})
     }
     messageBlock = {
       module: {
