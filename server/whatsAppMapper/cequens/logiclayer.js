@@ -80,7 +80,7 @@ exports.prepareTemplates = (cequensTemplates) => {
       template.name = cequensTemplates[i].name
       let templateComponents = cequensTemplates[i].components
       template.code = cequensTemplates[i].language
-      template.type = 'text'
+      template.type = 'TEXT'
       template.id = cequensTemplates[i].id
       for (let j = 0; j < templateComponents.length; j++) {
         if (templateComponents[j].type === 'BODY') {
