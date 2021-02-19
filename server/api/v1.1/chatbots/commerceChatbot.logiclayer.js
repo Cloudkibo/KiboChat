@@ -1846,7 +1846,7 @@ const getCheckoutInfoBlock = async (chatbot, contact, backId, argument, userInpu
           {
             text: `Please enter your email: `,
             componentType: 'text',
-            action: { type: DYNAMIC, action: GET_EMAIL_OTP, argument: {...argument}, input: true },
+            action: { type: DYNAMIC, action: GET_EMAIL_OTP, argument: {...argument, newEmail: true}, input: true },
             quickReplies: [
               {
                 content_type: 'text',
