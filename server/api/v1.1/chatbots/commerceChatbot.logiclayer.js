@@ -1977,8 +1977,12 @@ const getVerifyOtpBlock = async (chatbot, contact, backId, argument, userInput) 
         {
           text: `Email address is verified successfully`,
           componentType: 'text',
-          action: { type: DYNAMIC, action: argument.address ? GET_CHECKOUT_INFO : ASK_ADDRESS, argument: {...argument} },
           quickReplies: [
+            {
+              content_type: 'text',
+              title: 'Yes, proceed to checkout',
+              payload: JSON.stringify({ type: DYNAMIC, action: argument.address ? GET_CHECKOUT_INFO : ASK_ADDRESS, argument: {...argument} })
+            },
             {
               content_type: 'text',
               title: 'Go Back',
