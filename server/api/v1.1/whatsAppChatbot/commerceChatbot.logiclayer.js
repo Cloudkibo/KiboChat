@@ -1958,7 +1958,7 @@ function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options)
     })
 }
 
-const getCheckoutInfoBlock = async (chatbot, contact, backId, argument, userInput) => {
+const getCheckoutInfoBlock = async (chatbot, contact, EcommerceProvider, backId, argument, userInput) => {
   let userError = false
   try {
     let messageBlock = null
@@ -1991,6 +1991,9 @@ const getCheckoutInfoBlock = async (chatbot, contact, backId, argument, userInpu
       if (argument.updatingAddress) {
         argument.updatingAddress = false
       }
+      if (!contact.emailVerified) {
+        return getEmailOtpBlock(chatbot, contact, EcommerceProvider, backId, {...argument, newEmail: true}, argument.newEmail ? argument.newEmail : tempCustomerPayload.email)
+      }
       messageBlock = {
         module: {
           id: chatbot._id,
@@ -2004,7 +2007,6 @@ const getCheckoutInfoBlock = async (chatbot, contact, backId, argument, userInpu
             componentType: 'text',
             menu: [
               yesAction
-              // { type: DYNAMIC, action: GET_CHECKOUT_INFO, argument: {...argument, newEmail: true} }
             ],
             specialKeys: {
               [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
@@ -2093,6 +2095,7 @@ const getEmailOtpBlock = async (chatbot, contact, EcommerceProvider, backId, arg
         storeName: storeInfo.name
       })
         .then(created => {
+          logger.serverLog('otp created and sent'`${TAG}: exports.getEmailOtpBlock`, { created }, {}, 'info')
         })
         .catch(error => {
           const message = error || 'Failed to create otp for customer'
@@ -2158,7 +2161,7 @@ const getVerifyOtpBlock = async (chatbot, contact, backId, argument, userInput) 
         userError = true
         throw new Error('OTP is invalid or expired.')
       }
-      await updateWhatsAppContact({ _id: contact._id }, {emailVerified: true}, null, {})
+      updateWhatsAppContact({ _id: contact._id }, {emailVerified: true}, null, {})
     }
     messageBlock = {
       module: {
@@ -3398,7 +3401,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input,
             break
           }
           case GET_CHECKOUT_INFO: {
-            messageBlock = await getCheckoutInfoBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, action.argument, action.input ? input : '')
+            messageBlock = await getCheckoutInfoBlock(chatbot, contact, EcommerceProvider, contact.lastMessageSentByBot.uniqueId, action.argument, action.input ? input : '')
             break
           }
           case GET_EMAIL_OTP: {
