@@ -505,7 +505,7 @@ const getTalkToAgentBlock = (chatbot, contact) => {
         id: chatbot._id,
         type: 'whatsapp_commerce_chatbot'
       },
-      title: 'FAQs',
+      title: 'Talk To Agent',
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
@@ -2197,6 +2197,36 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
   }
 }
 
+exports.allowUserUnpauseChatbot = (contact) => {
+  try {
+    const messageBlock = {
+      module: {
+        type: 'automated_message'
+      },
+      title: 'Allow Unpause Chatbot',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Do you want to unpause the chatbot or continue conversation with customer agent support?`,
+          componentType: 'text',
+          buttons: [
+            {
+              type: 'postback',
+              title: 'Unpause Chatbot',
+              payload: JSON.stringify({ type: STATIC, action: UNPAUSE_CHATBOT })
+            }
+          ]
+        }
+      ]
+    }
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to allow for unpause chatbot'
+    logger.serverLog(message, `${TAG}: allowUnpauseChatbotBlock`, {}, {contact}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to allow for unpause chatbot`)
+  }
+}
+
 const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider) => {
   try {
     let messageBlock = {
@@ -3360,7 +3390,7 @@ const getAskUnpauseChatbotBlock = (chatbot, contact) => {
         id: chatbot._id,
         type: 'messenger_commerce_chatbot'
       },
-      title: 'Checkout Link',
+      title: 'Ask Unpause Chatbot',
       uniqueId: '' + new Date().getTime(),
       payload: [
         {

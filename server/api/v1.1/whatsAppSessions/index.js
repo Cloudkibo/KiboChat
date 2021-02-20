@@ -30,6 +30,12 @@ router.post('/changeStatus',
   validate({body: validationSchema.changeStatusPayload}),
   controller.changeStatus)
 
+router.post('/updatePauseChatbot',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
+  validate({body: validationSchema.updatePauseChatbotPayload}),
+  controller.updatePauseChatbot)
+
 router.post('/updatePendingResponse',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer('write'),

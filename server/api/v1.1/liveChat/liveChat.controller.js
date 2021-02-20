@@ -123,7 +123,8 @@ exports.create = function (req, res) {
           $set: {
             last_activity_time: Date.now(),
             agent_activity_time: Date.now(),
-            pendingResponse: false
+            pendingResponse: false,
+            chatbotPaused: true
           },
           $unset: {pendingAt: 1}
         },
