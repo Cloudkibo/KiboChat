@@ -2,7 +2,6 @@ const logicLayer = require('./subscribers.logiclayer')
 const utility = require('../utility')
 const logger = require('../../../components/logger')
 const TAG = 'api/v2/subscribers/subscribers.controller.js'
-const util = require('util')
 const needle = require('needle')
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
 
@@ -123,34 +122,26 @@ exports.allLocales = function (req, res) {
 
 const getAllSubscribers = function (subscribers, count, req, res) {
   var dt = new Date()
-  var utcDate = dt.toUTCString()
   dt = new Date()
-  utcDate = dt.toUTCString()
   let subscriberIds = logicLayer.getSubscriberIds(subscribers)
   utility.callApi(`tags/query`, 'post', { companyId: req.user.companyId })
     .then(tags => {
       dt = new Date()
-      utcDate = dt.toUTCString()
-
       let tagIds = tags.map((t) => t._id)
       utility.callApi(`tags_subscriber/query`, 'post', { subscriberId: { $in: subscriberIds }, tagId: {$in: tagIds} })
         .then(tagSubscribers => {
           dt = new Date()
-          utcDate = dt.toUTCString()
           let subscribersPayload = logicLayer.getSusbscribersPayload(subscribers, tagSubscribers, tagIds, req.body.filter_criteria.tag_value)
           // start append custom Fields
           utility.callApi('custom_fields/query', 'post', { purpose: 'findAll', match: { $or: [{companyId: req.user.companyId}, {default: true}] } })
             .then(customFields => {
               dt = new Date()
-              utcDate = dt.toUTCString()
               let customFieldIds = customFields.map((cf) => cf._id)
               utility.callApi('custom_field_subscribers/query', 'post', {purpose: 'findAll', match: {subscriberId: {$in: subscriberIds}, customFieldId: {$in: customFieldIds}}})
                 .then(customFieldSubscribers => {
                   dt = new Date()
-                  utcDate = dt.toUTCString()
                   let finalPayload = logicLayer.getFinalPayload(subscribersPayload, customFields, customFieldSubscribers)
                   dt = new Date()
-                  utcDate = dt.toUTCString()
                   sendSuccessResponse(res, 200, {subscribers: finalPayload, count: count.length > 0 ? count[0].count : 0})
                 })
                 .catch(error => {
@@ -180,7 +171,6 @@ const getAllSubscribers = function (subscribers, count, req, res) {
 }
 exports.getAll = function (req, res) {
   var dt = new Date()
-  var utcDate = dt.toUTCString()
   let tagIDs = []
   let tagValue = []
   if (req.body.filter_criteria.tag_value) {
@@ -188,7 +178,6 @@ exports.getAll = function (req, res) {
     utility.callApi(`tags/query`, 'post', { companyId: req.user.companyId, tag: { $in: tagValue } })
       .then(tags => {
         dt = new Date()
-        utcDate = dt.toUTCString()
         tagIDs = tags.map((tag) => tag._id)
         let criterias = logicLayer.getCriteriasTags(req, tagIDs)
         utility.callApi(`tags_subscriber/aggregate`, 'post', criterias.countCriteria) // fetch subscribers count
@@ -219,13 +208,10 @@ exports.getAll = function (req, res) {
       })
   } else {
     dt = new Date()
-    utcDate = dt.toUTCString()
     let criterias = logicLayer.getCriterias(req, tagIDs)
     utility.callApi(`subscribers/aggregate`, 'post', criterias.countCriteria) // fetch subscribers count
       .then(count => {
         dt = new Date()
-        utcDate = dt.toUTCString()
-
         utility.callApi(`subscribers/aggregate`, 'post', criterias.fetchCriteria) // fetch subscribers
           .then(subscribers => {
             getAllSubscribers(subscribers, count, req, res)

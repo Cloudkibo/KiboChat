@@ -12,7 +12,7 @@ const ABANDONED_ALERT_INTERVAL = 2
 const RECOVERY_ATTEMPTS = 3
 
 exports.runScript = function () {
-  //console.log('Run script abandoned shopify')
+  // console.log('Run script abandoned shopify')
   let query = { 'commerceCustomerShopify.abandonedCartInfo': { $exists: true, $ne: null } }
   /* Find all contacts with abandoned carts */
   callApi(`whatsAppContacts/query`, 'post', query)

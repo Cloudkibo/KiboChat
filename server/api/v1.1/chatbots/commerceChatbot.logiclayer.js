@@ -1761,7 +1761,7 @@ const updateSubscriber = (query, newPayload, options) => {
   })
 }
 
-const getCheckoutInfoBlock = async (chatbot, contact, backId, argument, userInput) => {
+const getCheckoutInfoBlock = async (chatbot, contact, EcommerceProvider, backId, argument, userInput) => {
   let userError = false
   try {
     let messageBlock = null
@@ -1781,6 +1781,9 @@ const getCheckoutInfoBlock = async (chatbot, contact, backId, argument, userInpu
       if (argument.updatingZip) {
         argument.updatingZip = false
       }
+      if (!contact.emailVerified) {
+        return getEmailOtpBlock(chatbot, contact, EcommerceProvider, backId, {...argument, newEmail: true}, argument.newEmail ? argument.newEmail : contact.commerceCustomer.email)
+      }
       messageBlock = {
         module: {
           id: chatbot._id,
@@ -1798,11 +1801,6 @@ const getCheckoutInfoBlock = async (chatbot, contact, backId, argument, userInpu
                 title: 'Yes, proceed to checkout',
                 payload: JSON.stringify(yesAction)
               }
-              // {
-              //   content_type: 'text',
-              //   title: 'No, update email',
-              //   payload: JSON.stringify({ type: DYNAMIC, action: GET_CHECKOUT_INFO, argument: {...argument, newEmail: true} })
-              // }
             ]
           }
         ],
@@ -3649,7 +3647,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
                 break
               }
               case GET_CHECKOUT_INFO: {
-                messageBlock = await getCheckoutInfoBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, action.argument, action.input ? input : '')
+                messageBlock = await getCheckoutInfoBlock(chatbot, contact, EcommerceProvider, contact.lastMessageSentByBot.uniqueId, action.argument, action.input ? input : '')
                 break
               }
               case GET_CHECKOUT_EMAIL: {

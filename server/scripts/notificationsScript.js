@@ -114,7 +114,7 @@ function generateAdminMobileNotification (alert, users) {
   } else if (alert.payload.platform === 'whatsApp') {
     sendMobileNotificationForWhatsapp(alert, users, notificationMessage, name)
   } else if (alert.payload.platform === 'sms') {
-      // Write to logic to send SMS Push Notification 
+    // Write to logic to send SMS Push Notification
   // The SMS Platform is Yet not implemented
     // sendMobileNotificationForSms(alert, users, notificationMessage, name)
   }
