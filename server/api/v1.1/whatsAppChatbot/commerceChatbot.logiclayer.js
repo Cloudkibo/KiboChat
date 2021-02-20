@@ -2098,7 +2098,7 @@ const getEmailOtpBlock = async (chatbot, contact, EcommerceProvider, backId, arg
         storeName: storeInfo.name
       })
         .then(created => {
-          logger.serverLog('otp created and sent'`${TAG}: exports.getEmailOtpBlock`, { created }, {}, 'info')
+          logger.serverLog('otp created and sent', `${TAG}: exports.getEmailOtpBlock`, { created }, {}, 'info')
         })
         .catch(error => {
           const message = error || 'Failed to create otp for customer'
