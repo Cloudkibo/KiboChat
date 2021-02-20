@@ -47,7 +47,7 @@ exports.messageReceived = function (req, res) {
             ]
             callApi(`companyprofile/aggregate`, 'post', query)
               .then(companies => {
-                console.log('companies', company])
+                console.log('companies', company)
                 companies.forEach((company) => {
                   callApi(`whatsAppContacts/query`, 'post', { number: number, companyId: company._id })
                     .then(async (contact) => {
