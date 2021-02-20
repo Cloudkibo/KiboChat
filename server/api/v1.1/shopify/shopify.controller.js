@@ -247,8 +247,6 @@ function getOptInReceivePayload (storeName, company) {
 }
 
 exports.handleCompleteCheckout = async function (req, res) {
-  console.log('handleCompleteCheckout', JSON.stringify(req.body))
-  sendSuccessResponse(res, 200, {status: 'success'})
   try {
     console.log('handleCompleteCheckout', JSON.stringify(req.body))
     sendSuccessResponse(res, 200, {status: 'success'})
