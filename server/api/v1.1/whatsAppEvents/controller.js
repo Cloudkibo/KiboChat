@@ -34,8 +34,10 @@ exports.messageReceived = function (req, res) {
     description: `received the payload`
   })
   record('whatsappChatInComing')
+  console.log('req', req)
   whatsAppMapper.handleInboundMessageReceived(req.body.provider, req.body.event)
     .then(data => {
+      console.log('data', data)
       createContact(data)
         .then((isNewContact) => {
           let number = `+${data.userData.number}`
@@ -45,10 +47,12 @@ exports.messageReceived = function (req, res) {
             ]
             callApi(`companyprofile/aggregate`, 'post', query)
               .then(companies => {
+                console.log('companies', company])
                 companies.forEach((company) => {
                   callApi(`whatsAppContacts/query`, 'post', { number: number, companyId: company._id })
                     .then(async (contact) => {
                       try {
+                        console.log('Contact', contact[0])
                         contact = contact[0]
                         if (contact && contact.isSubscribed) {
                           storeChat(number, company.whatsApp.businessNumber, contact, data.messageData, 'whatsApp')
