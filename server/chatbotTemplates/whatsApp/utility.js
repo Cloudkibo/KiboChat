@@ -43,7 +43,7 @@ function prepareResponse (chatbot, subscriber, automationResponse, selectedOptio
 
     if (automationResponse.gallery && automationResponse.gallery.length > 0) {
       automationResponse.gallery.forEach((item, i) => {
-        response.unshift({ componentType: 'image', caption: item.subtitle, fileurl: item.image })
+        response.push({ componentType: 'image', caption: item.subtitle, fileurl: item.image })
       })
     } else if (automationResponse.payload && automationResponse.payload.componentType) {
       response.push(automationResponse.payload)

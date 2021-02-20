@@ -59,7 +59,9 @@ const {
   SHOW_FAQS,
   SHOW_FAQ_QUESTIONS,
   GET_FAQ_ANSWER,
-  CANCEL_ORDER_CONFIRM
+  CANCEL_ORDER_CONFIRM,
+  GET_EMAIL_OTP,
+  GET_VERIFY_OTP
 } = require('./constants')
 const { convertToEmoji, sendNotification } = require('./whatsAppChatbot.logiclayer')
 const logger = require('../../../components/logger')
@@ -344,7 +346,29 @@ const getTalkToAgentBlock = (chatbot, backId, contact) => {
   }
 }
 
-exports.getAbandonedCartReminderBlock = async (chatbot, contact, EcommerceProvider, abandonedCart) => {
+function getAbandonedCartReminderPayload (contact, company, abandonedCart, storeInfo) {
+  let payload = []
+  if (company.whatsApp.provider === 'flockSend') {
+    payload = [
+      {
+        text: `Hi ${contact.name}, the payment for your order of ${abandonedCart.currency} ${abandonedCart.total_price} from ${storeInfo.name} is still pending. Click on the link to complete the payment and confirm your order 👉 ${contact.commerceCustomerShopify.abandonedCartInfo.abandonedCheckoutUrl}.`,
+        componentType: 'text',
+        templateArguments: `${contact.name},${abandonedCart.currency} ${abandonedCart.total_price},${storeInfo.name},${contact.commerceCustomerShopify.abandonedCartInfo.abandonedCheckoutUrl}`,
+        templateName: 'abandoned_cart_reminder'
+      }
+    ]
+  } else {
+    payload = [
+      {
+        text: `Hi ${contact.name}, the payment for your order of ${abandonedCart.currency} ${abandonedCart.total_price} from ${storeInfo.name} is still pending. Click on the link to complete the payment and confirm your order 👉 ${contact.commerceCustomerShopify.abandonedCartInfo.abandonedCheckoutUrl}.`,
+        componentType: 'text'
+      }
+    ]
+  }
+  return payload
+}
+
+exports.getAbandonedCartReminderBlock = async (chatbot, contact, EcommerceProvider, abandonedCart, company) => {
   try {
     const storeInfo = await EcommerceProvider.fetchStoreInfo()
     const messageBlock = {
@@ -354,19 +378,14 @@ exports.getAbandonedCartReminderBlock = async (chatbot, contact, EcommerceProvid
       },
       title: 'Abandoned Cart Reminder',
       uniqueId: '' + new Date().getTime(),
-      payload: [
-        {
-          text: `Hi ${contact.name}, the payment for your order of ${abandonedCart.currency} ${abandonedCart.total_price} from ${storeInfo.name} is still pending. Click on the link to complete the payment and confirm your order 👉 ${contact.commerceCustomerShopify.abandonedCartInfo.abandonedCheckoutUrl}.`,
-          componentType: 'text',
-          specialKeys: {
-            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
-            [ORDER_STATUS_KEY]: { type: DYNAMIC, action: VIEW_RECENT_ORDERS },
-            [TALK_TO_AGENT_KEY]: { type: DYNAMIC, action: TALK_TO_AGENT }
-          }
-        }
-      ],
+      payload: getAbandonedCartReminderPayload(contact, company, abandonedCart, storeInfo),
       userId: chatbot.userId,
       companyId: chatbot.companyId
+    }
+    messageBlock.payload[0].specialKeys = {
+      [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
+      [ORDER_STATUS_KEY]: { type: DYNAMIC, action: VIEW_RECENT_ORDERS },
+      [TALK_TO_AGENT_KEY]: { type: DYNAMIC, action: TALK_TO_AGENT }
     }
     messageBlock.payload[0].text += `\n\n${specialKeyText(TALK_TO_AGENT_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(ORDER_STATUS_KEY)}`
@@ -374,9 +393,8 @@ exports.getAbandonedCartReminderBlock = async (chatbot, contact, EcommerceProvid
 
     return messageBlock
   } catch (err) {
-    const message = err || 'Unable get talk to agent message block'
-    logger.serverLog(message, `${TAG}: getTalkToAgentBlock`, {}, {chatbot, backId, contact}, 'error')
-    throw new Error(`${ERROR_INDICATOR}Unable to notify customer support agent`)
+    const message = err || 'Unable get talk fetch reminder block'
+    return logger.serverLog(message, `${TAG}: getAbandonedCartReminderBlock`, {}, {chatbot, contact}, 'error')
   }
 }
 
@@ -1947,21 +1965,10 @@ const getCheckoutInfoBlock = async (chatbot, contact, backId, argument, userInpu
   let userError = false
   try {
     let messageBlock = null
-    let newEmailInput = userInput && argument.newEmail
     if (userInput && argument.updatingZip) {
       argument.address.zip = userInput
-      newEmailInput = false
-    } else if (argument.updatingAddress) {
-      newEmailInput = false
     }
-    if (newEmailInput) {
-      const emailRegex = /\S+@\S+\.\S+/
-      if (!emailRegex.test(userInput)) {
-        userError = true
-        throw new Error('Invalid Email. Please input a valid email address.')
-      }
-      argument.newEmail = userInput
-    }
+
     // this is workaround to store both bigcommerce and shopify
     // customer information in contacts table so that during
     // demo we can easily switch between commerce providers.
@@ -1999,8 +2006,8 @@ const getCheckoutInfoBlock = async (chatbot, contact, backId, argument, userInpu
             text: ``,
             componentType: 'text',
             menu: [
-              yesAction,
-              { type: DYNAMIC, action: GET_CHECKOUT_INFO, argument: {...argument, newEmail: true} }
+              yesAction
+              // { type: DYNAMIC, action: GET_CHECKOUT_INFO, argument: {...argument, newEmail: true} }
             ],
             specialKeys: {
               [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
@@ -2021,9 +2028,9 @@ const getCheckoutInfoBlock = async (chatbot, contact, backId, argument, userInpu
         )
       }
       messageBlock.payload[0].text += `\n\n${convertToEmoji(0)} Yes, Proceed to checkout`
-      messageBlock.payload[0].text += `\n${convertToEmoji(1)} No, update email`
+      // messageBlock.payload[0].text += `\n${convertToEmoji(1)} No, update email`
       if (address && argument.paymentMethod === 'cod') {
-        messageBlock.payload[0].text += `\n${convertToEmoji(2)} No, update address`
+        messageBlock.payload[0].text += `\n${convertToEmoji(1)} No, update address`
       }
     } else {
       messageBlock = {
@@ -2039,7 +2046,7 @@ const getCheckoutInfoBlock = async (chatbot, contact, backId, argument, userInpu
             componentType: 'text',
             action: {
               type: DYNAMIC,
-              action: address || argument.paymentMethod !== 'cod' ? GET_CHECKOUT_INFO : ASK_ADDRESS,
+              action: GET_EMAIL_OTP,
               argument: {...argument, newEmail: true},
               input: true
             },
@@ -2061,6 +2068,137 @@ const getCheckoutInfoBlock = async (chatbot, contact, backId, argument, userInpu
       const message = err || 'Unable to checkout'
       logger.serverLog(message, `${TAG}: exports.getCheckoutEmailBlock`, {}, {}, 'error')
       throw new Error(`${ERROR_INDICATOR}Unable to show checkout`)
+    } else {
+      throw new Error(`${ERROR_INDICATOR}${err.message}`)
+    }
+  }
+}
+
+const getEmailOtpBlock = async (chatbot, contact, EcommerceProvider, backId, argument, userInput) => {
+  let userError = false
+  try {
+    let messageBlock = null
+    let newEmailInput = userInput && argument.newEmail
+    if (newEmailInput) {
+      const emailRegex = /\S+@\S+\.\S+/
+      if (!emailRegex.test(userInput)) {
+        userError = true
+        throw new Error('Invalid Email. Please input a valid email address.')
+      }
+      const storeInfo = await EcommerceProvider.fetchStoreInfo()
+      // generating the OTP
+      callApi(`email_verification_otps/`, 'post', {
+        companyId: contact.companyId,
+        platform: 'whatsapp',
+        commercePlatform: 'shopify',
+        phone: contact.number,
+        emailAddress: userInput,
+        storeName: storeInfo.name
+      })
+        .then(created => {
+        })
+        .catch(error => {
+          const message = error || 'Failed to create otp for customer'
+          logger.serverLog(message, `${TAG}: exports.getEmailOtpBlock`, {}, {}, 'error')
+        })
+      argument.newEmail = userInput
+    }
+    messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'messenger_commerce_chatbot'
+      },
+      title: 'Checkout Email OTP',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `In order to verify your email address, please enter the OTP which is sent to your email address: `,
+          componentType: 'text',
+          action: {
+            type: DYNAMIC,
+            action: GET_VERIFY_OTP,
+            argument: {...argument},
+            input: true
+          },
+          specialKeys: {
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
+            [BACK_KEY]: { type: STATIC, blockId: backId }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
+    return messageBlock
+  } catch (err) {
+    if (!userError) {
+      const message = err || 'Unable to input otp for email verification'
+      logger.serverLog(message, `${TAG}: exports.getEmailOtpBlock`, {contact}, {}, 'error')
+      throw new Error(`${ERROR_INDICATOR}Unable to input otp for email verification`)
+    } else {
+      throw new Error(`${ERROR_INDICATOR}${err.message}`)
+    }
+  }
+}
+
+const getVerifyOtpBlock = async (chatbot, contact, backId, argument, userInput) => {
+  let userError = false
+  try {
+    let messageBlock = null
+    let otpInput = userInput
+    if (otpInput) {
+      let otpRecord = await callApi('email_verification_otps/verify', 'post', {
+        companyId: contact.companyId,
+        platform: 'whatsapp',
+        commercePlatform: 'shopify',
+        phone: contact.number,
+        emailAddress: argument.newEmail,
+        otp: otpInput
+      })
+      if (otpRecord !== 'otp matched') {
+        userError = true
+        throw new Error('OTP is invalid or expired.')
+      }
+      await updateWhatsAppContact({ _id: contact._id }, {emailVerified: true}, null, {})
+    }
+    messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'messenger_commerce_chatbot'
+      },
+      title: 'Verify Email OTP',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Email address is verified successfully`,
+          componentType: 'text',
+          menu: [
+            {
+              type: DYNAMIC,
+              action: argument.address || argument.paymentMethod !== 'cod' ? GET_CHECKOUT_INFO : ASK_ADDRESS,
+              argument: { ...argument }
+            }
+          ],
+          specialKeys: {
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
+            [BACK_KEY]: { type: STATIC, blockId: backId }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    messageBlock.payload[0].text += `\n\n${convertToEmoji(0)} Proceed to checkout`
+    messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
+    return messageBlock
+  } catch (err) {
+    if (!userError) {
+      const message = err || 'Unable to verify otp for email verification'
+      logger.serverLog(message, `${TAG}: exports.getVerifyOtpBlock`, {contact}, {}, 'info')
+      throw new Error(`${ERROR_INDICATOR}Unable to verify otp for email verification`)
     } else {
       throw new Error(`${ERROR_INDICATOR}${err.message}`)
     }
@@ -2411,7 +2549,7 @@ const getCheckoutZipCodeBlock = async (chatbot, contact, argument, userInput) =>
         id: chatbot._id,
         type: 'whatsapp_commerce_chatbot'
       },
-      title: 'Checkout Email',
+      title: 'Checkout Zip Code',
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
@@ -3291,6 +3429,14 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input,
           }
           case GET_CHECKOUT_INFO: {
             messageBlock = await getCheckoutInfoBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, action.argument, action.input ? input : '')
+            break
+          }
+          case GET_EMAIL_OTP: {
+            messageBlock = await getEmailOtpBlock(chatbot, contact, EcommerceProvider, contact.lastMessageSentByBot.uniqueId, action.argument, action.input ? input : '')
+            break
+          }
+          case GET_VERIFY_OTP: {
+            messageBlock = await getVerifyOtpBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, action.argument, action.input ? input : '')
             break
           }
           case GET_CHECKOUT_EMAIL: {

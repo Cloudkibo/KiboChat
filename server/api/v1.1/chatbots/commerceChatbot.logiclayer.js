@@ -52,7 +52,9 @@ const {
   RETURN_ORDER,
   CONFIRM_RETURN_ORDER,
   CANCEL_ORDER,
-  CANCEL_ORDER_CONFIRM
+  CANCEL_ORDER_CONFIRM,
+  GET_EMAIL_OTP,
+  GET_VERIFY_OTP
 } = require('./constants')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/chatbots/commerceChatbot.logiclayer.js'
@@ -1763,10 +1765,8 @@ const getCheckoutInfoBlock = async (chatbot, contact, backId, argument, userInpu
   let userError = false
   try {
     let messageBlock = null
-    let newEmailInput = userInput && argument.newEmail
     if (userInput && argument.updatingZip) {
       argument.address.zip = userInput
-      newEmailInput = false
     }
     const address = argument.address ? argument.address : contact.commerceCustomer ? contact.commerceCustomer.defaultAddress : null
     let yesAction = null
@@ -1777,15 +1777,7 @@ const getCheckoutInfoBlock = async (chatbot, contact, backId, argument, userInpu
     } else {
       yesAction = { type: DYNAMIC, action: PROCEED_TO_CHECKOUT, argument: {...argument} }
     }
-    if (newEmailInput || argument.updatingZip || (!argument.newEmail && contact.commerceCustomer && contact.commerceCustomer.email)) {
-      if (newEmailInput) {
-        const emailRegex = /\S+@\S+\.\S+/
-        if (!emailRegex.test(userInput)) {
-          userError = true
-          throw new Error('Invalid Email. Please input a valid email address.')
-        }
-        argument.newEmail = userInput
-      }
+    if (argument.updatingZip || (!argument.newEmail && contact.commerceCustomer && contact.commerceCustomer.email)) {
       if (argument.updatingZip) {
         argument.updatingZip = false
       }
@@ -1805,12 +1797,12 @@ const getCheckoutInfoBlock = async (chatbot, contact, backId, argument, userInpu
                 content_type: 'text',
                 title: 'Yes, proceed to checkout',
                 payload: JSON.stringify(yesAction)
-              },
-              {
-                content_type: 'text',
-                title: 'No, update email',
-                payload: JSON.stringify({ type: DYNAMIC, action: GET_CHECKOUT_INFO, argument: {...argument, newEmail: true} })
               }
+              // {
+              //   content_type: 'text',
+              //   title: 'No, update email',
+              //   payload: JSON.stringify({ type: DYNAMIC, action: GET_CHECKOUT_INFO, argument: {...argument, newEmail: true} })
+              // }
             ]
           }
         ],
@@ -1854,7 +1846,7 @@ const getCheckoutInfoBlock = async (chatbot, contact, backId, argument, userInpu
           {
             text: `Please enter your email: `,
             componentType: 'text',
-            action: { type: DYNAMIC, action: address ? GET_CHECKOUT_INFO : ASK_ADDRESS, argument: {...argument}, input: true },
+            action: { type: DYNAMIC, action: GET_EMAIL_OTP, argument: {...argument, newEmail: true}, input: true },
             quickReplies: [
               {
                 content_type: 'text',
@@ -1879,6 +1871,141 @@ const getCheckoutInfoBlock = async (chatbot, contact, backId, argument, userInpu
       const message = err || 'Unable to checkout'
       logger.serverLog(message, `${TAG}: exports.getCheckoutEmailBlock`, {}, {}, 'error')
       throw new Error(`${ERROR_INDICATOR}Unable to show checkout`)
+    } else {
+      throw new Error(`${ERROR_INDICATOR}${err.message}`)
+    }
+  }
+}
+
+const getEmailOtpBlock = async (chatbot, contact, EcommerceProvider, backId, argument, userInput) => {
+  let userError = false
+  try {
+    let messageBlock = null
+    let newEmailInput = userInput && argument.newEmail
+    if (newEmailInput) {
+      const emailRegex = /\S+@\S+\.\S+/
+      if (!emailRegex.test(userInput)) {
+        userError = true
+        throw new Error('Invalid Email. Please input a valid email address.')
+      }
+      const storeInfo = await EcommerceProvider.fetchStoreInfo()
+      // generating the OTP
+      callApi(`email_verification_otps/`, 'post', {
+        companyId: contact.companyId,
+        platform: 'messenger',
+        commercePlatform: 'shopify',
+        subscriberId: contact._id,
+        emailAddress: userInput,
+        storeName: storeInfo.name
+      })
+        .then(created => {
+        })
+        .catch(error => {
+          const message = error || 'Failed to create otp for customer'
+          logger.serverLog(message, `${TAG}: exports.getEmailOtpBlock`, {}, {}, 'error')
+        })
+      argument.newEmail = userInput
+    }
+    messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'messenger_commerce_chatbot'
+      },
+      title: 'Checkout Email OTP',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `In order to verify your email address, please enter the OTP which is sent to your email address: `,
+          componentType: 'text',
+          action: { type: DYNAMIC, action: GET_VERIFY_OTP, argument: {...argument}, input: true },
+          quickReplies: [
+            {
+              content_type: 'text',
+              title: 'Go Back',
+              payload: JSON.stringify({ type: STATIC, blockId: backId })
+            },
+            {
+              content_type: 'text',
+              title: 'Go Home',
+              payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
+            }
+          ]
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    return messageBlock
+  } catch (err) {
+    if (!userError) {
+      const message = err || 'Unable to input otp for email verification'
+      logger.serverLog(message, `${TAG}: exports.getEmailOtpBlock`, {contact}, {}, 'error')
+      throw new Error(`${ERROR_INDICATOR}Unable to input otp for email verification`)
+    } else {
+      throw new Error(`${ERROR_INDICATOR}${err.message}`)
+    }
+  }
+}
+
+const getVerifyOtpBlock = async (chatbot, contact, backId, argument, userInput) => {
+  let userError = false
+  try {
+    let messageBlock = null
+    let otpInput = userInput
+    if (otpInput) {
+      let otpRecord = await callApi('email_verification_otps/verify', 'post', {
+        companyId: contact.companyId,
+        platform: 'messenger',
+        commercePlatform: 'shopify',
+        subscriberId: contact._id,
+        emailAddress: argument.newEmail,
+        otp: otpInput
+      })
+      if (otpRecord !== 'otp matched') {
+        userError = true
+        throw new Error('OTP is invalid or expired.')
+      }
+      await updateSubscriber({ _id: contact._id }, { emailVerified: true }, null, {})
+    }
+    messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'messenger_commerce_chatbot'
+      },
+      title: 'Verify Email OTP',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Email address is verified successfully`,
+          componentType: 'text',
+          quickReplies: [
+            {
+              content_type: 'text',
+              title: 'Yes, proceed to checkout',
+              payload: JSON.stringify({ type: DYNAMIC, action: argument.address ? GET_CHECKOUT_INFO : ASK_ADDRESS, argument: {...argument} })
+            },
+            {
+              content_type: 'text',
+              title: 'Go Back',
+              payload: JSON.stringify({ type: STATIC, blockId: backId })
+            },
+            {
+              content_type: 'text',
+              title: 'Go Home',
+              payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
+            }
+          ]
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    return messageBlock
+  } catch (err) {
+    if (!userError) {
+      const message = err || 'Unable to verify otp for email verification'
+      logger.serverLog(message, `${TAG}: exports.getVerifyOtpBlock`, {contact}, {}, 'info')
+      throw new Error(`${ERROR_INDICATOR}Unable to verify otp for email verification`)
     } else {
       throw new Error(`${ERROR_INDICATOR}${err.message}`)
     }
@@ -3527,6 +3654,14 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
               }
               case GET_CHECKOUT_EMAIL: {
                 messageBlock = await getCheckoutEmailBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, action.argument)
+                break
+              }
+              case GET_EMAIL_OTP: {
+                messageBlock = await getEmailOtpBlock(chatbot, contact, EcommerceProvider, contact.lastMessageSentByBot.uniqueId, action.argument, action.input ? input : '')
+                break
+              }
+              case GET_VERIFY_OTP: {
+                messageBlock = await getVerifyOtpBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId, action.argument, action.input ? input : '')
                 break
               }
               case PROCEED_TO_CHECKOUT: {
