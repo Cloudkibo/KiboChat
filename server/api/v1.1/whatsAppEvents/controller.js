@@ -34,10 +34,8 @@ exports.messageReceived = function (req, res) {
     description: `received the payload`
   })
   record('whatsappChatInComing')
-  console.log('req.body', req)
   whatsAppMapper.handleInboundMessageReceived(req.body.provider, req.body.event)
     .then(data => {
-      console.log('data', data)
       createContact(data)
         .then((isNewContact) => {
           let number = `+${data.userData.number}`
@@ -47,12 +45,10 @@ exports.messageReceived = function (req, res) {
             ]
             callApi(`companyprofile/aggregate`, 'post', query)
               .then(companies => {
-                console.log('companies', companies)
                 companies.forEach((company) => {
                   callApi(`whatsAppContacts/query`, 'post', { number: number, companyId: company._id })
                     .then(async (contact) => {
                       try {
-                        console.log('Contact', contact[0])
                         contact = contact[0]
                         if (contact && contact.isSubscribed) {
                           storeChat(number, company.whatsApp.businessNumber, contact, data.messageData, 'whatsApp')
@@ -73,8 +69,6 @@ exports.messageReceived = function (req, res) {
                           }
                           return
                         }
-                        console.log('Company.whatsApp', company.whatsApp.activeWhatsappBot)
-                        console.log('shouldAvoidSendingMessage', shouldAvoidSendingMessage)
                         if (company.whatsApp.activeWhatsappBot && data.messageData.componentType === 'text') {
                           if (shouldAvoidSendingMessage) {
                             let allowUserUnPause = await commerceChatbotLogicLayer.allowUserUnpauseChatbot(contact)
@@ -584,7 +578,6 @@ async function temporarySuperBotTestHandling (data, contact, company, number, re
             let ecommerceProvider = null
             let airlinesProvider = null
             if (chatbot.vertical === 'commerce') {
-              console.log('chatbot type', chatbot.storeType)
               if (chatbot.storeType === 'shopify-nlp') {
                 const response = await whatsAppAutomationLogic.getChatbotResponse(chatbot, 'welcome', contact, undefined, true)
                 nextMessageBlock = response.chatbotResponse
@@ -691,7 +684,6 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
           let nextMessageBlock = null
           let currentMessage = null
           if (chatbot.vertical === 'commerce') {
-            console.log('chatbot type 1', chatbot.storeTyp)
             if (chatbot.storeType === 'shopify-nlp') {
               const response = await chatbotTemplates.handleUserInput(chatbot, data, contact, 'whatsApp')
               nextMessageBlock = response.chatbotResponse
