@@ -69,6 +69,8 @@ exports.messageReceived = function (req, res) {
                           }
                           return
                         }
+                        console.log('Company.whatsApp', company.whatsApp.activeWhatsappBot)
+                        console.log('shouldAvoidSendingMessage', shouldAvoidSendingMessage)
                         if (company.whatsApp.activeWhatsappBot && data.messageData.componentType === 'text') {
                           if (shouldAvoidSendingMessage) {
                             let allowUserUnPause = await commerceChatbotLogicLayer.allowUserUnpauseChatbot(contact)
