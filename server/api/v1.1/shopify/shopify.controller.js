@@ -250,7 +250,7 @@ exports.handleCompleteCheckout = async function (req, res) {
     logger.serverLog('handleCompleteCheckout', `${TAG}: exports.handleCompleteCheckout`, req.body, {header: req.header})
     sendSuccessResponse(res, 200, {status: 'success'})
     if (req.body.email || req.body.phone) {
-      const shopUrl = req.headers['X-Shopify-Shop-Domain']
+      const shopUrl = req.headers['x-shopify-shop-domain']
       const shopifyIntegrations = await dataLayer.findShopifyIntegrations({ shopUrl })
       for (const shopifyIntegration of shopifyIntegrations) {
         let query = {
