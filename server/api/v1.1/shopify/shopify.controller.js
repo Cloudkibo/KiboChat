@@ -250,7 +250,7 @@ exports.handleCompleteCheckout = async function (req, res) {
     logger.serverLog('handleCompleteCheckout', `${TAG}: exports.handleCompleteCheckout`, req.body, {header: req.header})
     sendSuccessResponse(res, 200, {status: 'success'})
     if (req.body.email || req.body.phone) {
-      const shopUrl = req.header['X-Shopify-Shop-Domain']
+      const shopUrl = req.headers['X-Shopify-Shop-Domain']
       const shopifyIntegrations = await dataLayer.findShopifyIntegrations({ shopUrl })
       for (const shopifyIntegration of shopifyIntegrations) {
         let query = {
@@ -262,7 +262,7 @@ exports.handleCompleteCheckout = async function (req, res) {
         } else {
           query.$or.push({'commerceCustomerShopify.email': req.body.email})
         }
-        const contacts = await callApi(`whatsAppContacts/query`, 'post', {'commerceCustomerShopify.email': req.body.email, companyId: shopifyIntegration.companyId})
+        const contacts = await callApi(`whatsAppContacts/query`, 'post', query)
         for (const contact of contacts) {
           if (moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15) {
             const company = await callApi(`companyProfile/query`, 'post', { _id: contact.companyId })
