@@ -266,7 +266,6 @@ exports.handleCompleteCheckout = async function (req, res) {
         for (const contact of contacts) {
           if (moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15) {
             const company = await callApi(`companyProfile/query`, 'post', { _id: contact.companyId })
-            const integration = await dataLayer.findOneShopifyIntegration({ companyId: company._id })
             const messageBlock = {
               module: {
                 id: company.whatsApp.activeWhatsappBot,
@@ -276,7 +275,7 @@ exports.handleCompleteCheckout = async function (req, res) {
               uniqueId: '' + new Date().getTime(),
               payload: [
                 {
-                  text: `Hi ${contact.first_name}. Thank you for placing an order at ${integration.shopUrl}.`,
+                  text: `Hi ${contact.first_name ? contact.first_name : ''}\n Thank you for placing an order at ${shopUrl}.\n\n This is your order number: ${req.body.name.slice(1)}`,
                   componentType: 'text'
                 }
               ],
@@ -284,7 +283,7 @@ exports.handleCompleteCheckout = async function (req, res) {
               companyId: company._id
             }
             if (req.body.order_status_url) {
-              messageBlock.payload[0].text += ` You can view full order status at ${req.body.order_status_url}.`
+              messageBlock.payload[0].text += `\n\n You can view full order status at ${req.body.order_status_url}.`
             }
             const data = {
               accessToken: company.whatsApp.accessToken,
