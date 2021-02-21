@@ -284,7 +284,7 @@ exports.handleCompleteCheckout = async function (req, res) {
               companyId: company._id
             }
             if (req.body.order_status_url) {
-              messageBlock.payload[0].text += `\n\n You can view full order status at ${req.body.order_status_url}.`
+              messageBlock.payload[0].text += `\n\n **H** Home.`
             }
             const data = {
               accessToken: company.whatsApp.accessToken,
