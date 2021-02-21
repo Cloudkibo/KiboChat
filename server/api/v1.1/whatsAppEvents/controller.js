@@ -524,6 +524,7 @@ function updateChatInDB (match, updated, dataToSend) {
 // above - Sojharo
 async function temporarySuperBotTestHandling (data, contact, company, number, req, isNewContact) {
   try {
+    // case when user is selecting the chatbot
     if (
       (data.messageData.componentType === 'text' && data.messageData.text.toLowerCase() === 'select') ||
       (!contact.activeChatbotId &&
@@ -547,6 +548,7 @@ async function temporarySuperBotTestHandling (data, contact, company, number, re
         updateWhatsAppContact({ _id: contact._id }, updateWhatsAppContactData, null, {})
       }
     } else if (contact.lastMessageSentByBot && contact.lastMessageSentByBot.module && contact.lastMessageSentByBot.module.id === 'sojharo-s-chatbot-custom-id') {
+      // case when user has selected the chatbot and we are informing his about selection
       const menuInput = parseInt(data.messageData.text)
       const lastMessageSentByBot = contact.lastMessageSentByBot.payload[0]
 
