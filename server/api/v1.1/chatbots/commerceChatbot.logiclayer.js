@@ -172,7 +172,7 @@ exports.getMessageBlocks = (chatbot, storeName) => {
       {
         content_type: 'text',
         title: 'Check order status',
-        payload: JSON.stringify({ type: DYNAMIC, action: VIEW_RECENT_ORDERS })
+        payload: JSON.stringify({ type: DYNAMIC, action: ASK_ORDER_ID })
       }
     )
   }
@@ -638,7 +638,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
     let products = []
     let storeInfo = await EcommerceProvider.fetchStoreInfo()
     if (input) {
-      products = await EcommerceProvider.searchProducts(input)
+      products = await EcommerceProvider.searchProducts(input, chatbot.catalogId)
       if (products.length > 0) {
         messageBlock.payload[0].text = `Following products were found for "${input}".\n\nPlease select a product or enter another product name or SKU code to search again:`
       } else {
@@ -651,7 +651,9 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
         if (getProfileIds().includes(chatbot.companyId)) {
           products = []
         } else {
-          products = await EcommerceProvider.fetchProducts(argument.paginationParams, chatbot.numberOfProducts)
+          products = await EcommerceProvider.fetchProducts(
+            chatbot.storeType === 'shops' ? chatbot.catalogId : argument.paginationParams,
+            chatbot.numberOfProducts)
         }
       }
       if (products.length > 0) {
@@ -669,7 +671,7 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
       })
       for (let i = 0; i < products.length; i++) {
         let product = products[i]
-        let priceString = storeInfo.currency === 'USD' ? `$${product.price}` : `${product.price} ${storeInfo.currency}`
+        let priceString = storeInfo ? storeInfo.currency === 'USD' ? `$${product.price}` : `${product.price} ${storeInfo.currency}` : product.price
         messageBlock.payload[1].cards.push({
           image_url: product.image,
           title: product.name,
@@ -1126,7 +1128,7 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider, arg
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    let productCategories = await EcommerceProvider.fetchAllProductCategories(argument.paginationParams)
+    let productCategories = await EcommerceProvider.fetchAllProductCategories(chatbot.storeType === 'shops' ? chatbot.catalogId : argument.paginationParams)
     for (let i = 0; i < productCategories.length; i++) {
       let category = productCategories[i]
       messageBlock.payload[0].quickReplies.push({
