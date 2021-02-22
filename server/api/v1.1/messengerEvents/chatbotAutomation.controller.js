@@ -20,7 +20,7 @@ const chatbotTemplates = require('../../../chatbotTemplates')
 
 exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
   record('messengerChatInComing')
-  shouldAvoidSendingAutomatedMessage(subscriber)
+  shouldAvoidSendingAutomatedMessage(subscriber, req)
     .then(shouldAvoid => {
       if (!shouldAvoid) {
         chatbotDataLayer.findOneChatBot({ pageId: page._id, published: true })
