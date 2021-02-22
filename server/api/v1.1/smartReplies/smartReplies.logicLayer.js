@@ -152,6 +152,8 @@ const deleteVideo = (data) => {
   return new Promise((resolve, reject) => {
     fs.unlink(data.serverPath, (error) => {
       if (error) {
+        const message = error || 'Failed to delete video'
+        logger.serverLog(message, `${TAG}: exports.deleteVideo`, {}, {data}, 'error')
         reject(util.inspect(error))
       } else {
         resolve('Deleted successfully!')
@@ -169,10 +171,14 @@ const fetchPage = (botId, authToken) => {
             resolve(page)
           })
           .catch(err => {
+            const message = err || 'Failed to fetch page'
+            logger.serverLog(message, `${TAG}: exports.fetchPage`, {}, {botId}, 'error')
             reject(util.inspect(err))
           })
       })
       .catch(err => {
+        const message = err || 'Failed to fetch bot'
+        logger.serverLog(message, `${TAG}: exports.fetchPage`, {}, {botId}, 'error')
         reject(util.inspect(err))
       })
   })

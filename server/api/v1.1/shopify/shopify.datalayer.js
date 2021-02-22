@@ -13,6 +13,14 @@ exports.findOneShopifyIntegration = (match) => {
   return callApi(`shopify/query`, 'post', query, accounts)
 }
 
+exports.findShopifyIntegrations = (match) => {
+  let query = {
+    purpose: 'findAll',
+    match: match
+  }
+  return callApi(`shopify/query`, 'post', query, accounts)
+}
+
 exports.deleteShopifyIntegration = (queryObject) => {
   let query = {
     purpose: 'deleteOne',
