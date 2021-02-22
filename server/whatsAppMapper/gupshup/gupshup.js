@@ -17,6 +17,7 @@ exports.getNormalizedMessageReceivedData = (event) => {
             logicLayer.prepareReceivedMessageData(payload, company)
               .then(payload => {
                 resolve({
+                  businessNumber: company.whatsApp.businessNumber,
                   accessToken: company.whatsApp.accessToken,
                   userData: {
                     number: sender.phone,
