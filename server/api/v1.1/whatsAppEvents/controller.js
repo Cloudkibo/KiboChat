@@ -759,7 +759,8 @@ function sendWhatsAppMessageLogic (messagePayload, data, number, company, contac
     whatsApp: {
       accessToken: data.accessToken,
       accountSID: data.accountSID,
-      businessNumber: data.businessNumber
+      businessNumber: data.businessNumber,
+      appName: data.appName
     },
     recipientNumber: number,
     payload: messagePayload

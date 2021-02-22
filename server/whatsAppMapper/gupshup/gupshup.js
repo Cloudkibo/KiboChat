@@ -18,6 +18,7 @@ exports.getNormalizedMessageReceivedData = (event) => {
               .then(payload => {
                 resolve({
                   businessNumber: company.whatsApp.businessNumber,
+                  appName: company.whatsApp.appName,
                   accessToken: company.whatsApp.accessToken,
                   userData: {
                     number: sender.phone,
