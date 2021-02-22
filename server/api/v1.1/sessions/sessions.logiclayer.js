@@ -62,6 +62,7 @@ exports.getSessions = (req, status, company) => {
       pendingResponse: 1,
       waitingForUserInput: 1,
       messagesCount: 1,
+      chatbotPaused: 1,
       unreadCount: 1} },
     { $sort: {last_activity_time: req.body.filter_criteria.sort_value} },
     { $match: {
