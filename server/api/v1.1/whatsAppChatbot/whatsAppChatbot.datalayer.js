@@ -18,7 +18,8 @@ exports.createWhatsAppChatbot = (req) => {
         cancelOrder: req.body.cancelOrder,
         cancelOrderMessage: req.body.cancelOrderMessage,
         returnOrder: req.body.returnOrder,
-        returnOrderMessage: req.body.returnOrderMessage
+        returnOrderMessage: req.body.returnOrderMessage,
+        triggers: req.body.triggers
       }, kibochat)
       resolve(createdChatbot)
     } catch (err) {

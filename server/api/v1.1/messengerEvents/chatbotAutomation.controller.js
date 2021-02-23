@@ -675,26 +675,40 @@ function saveTesterInfoForLater (pageId, subscriberId, chatBot) {
     })
 }
 
-function shouldAvoidSendingAutomatedMessage (subscriber) {
+function shouldAvoidSendingAutomatedMessage (subscriber, event) {
   return new Promise((resolve, reject) => {
-    callApi(`companyprofile/query`, 'post', { _id: subscriber.companyId })
-      .then(company => {
-        if (company.automated_options === 'MIX_CHAT' && subscriber.agent_activity_time) {
-          const currentDate = new Date()
-          const agentTime = new Date(subscriber.agent_activity_time)
-          const diffInMinutes = Math.abs(currentDate - agentTime) / 1000 / 60
-          if (diffInMinutes > 30) {
-            resolve(false)
-          } else {
-            resolve(true)
-          }
-        } else {
-          resolve(false)
-        }
-      })
-      .catch(err => {
-        reject(err)
-      })
+    let talkToAgentBlocks = ['ask unpause chatbot', 'talk to agent']
+    let payload = event.postback && event.postback.payload ? JSON.parse(event.postback.payload) : null
+    let avoidSending = false
+    if (!subscriber.chatbotPaused) {
+      resolve(avoidSending)
+    } else {
+      if (subscriber.lastMessageSentByBot && talkToAgentBlocks.includes(subscriber.lastMessageSentByBot.title.toLowerCase())) {
+        resolve(avoidSending)
+      } else if (payload && payload.action === 'UNPAUSE_CHATBOT') {
+        resolve(avoidSending)
+      } else {
+        callApi(`companyprofile/query`, 'post', { _id: subscriber.companyId })
+          .then(company => {
+            if (company.automated_options === 'MIX_CHAT' && subscriber.agent_activity_time) {
+              const currentDate = new Date()
+              const agentTime = new Date(subscriber.agent_activity_time)
+              const diffInMinutes = Math.abs(currentDate - agentTime) / 1000 / 60
+              if (diffInMinutes < 30) {
+                avoidSending = true
+              }
+            }
+            if (!avoidSending) {
+              updateSubscriber({ _id: subscriber._id }, {chatbotPaused: false}, {})
+              subscriber.chatbotPaused = false
+            }
+            resolve(avoidSending)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      }
+    }
   })
 }
 

@@ -41,7 +41,7 @@ exports.messageReceived = function (req, res) {
           let number = `+${data.userData.number}`
           if (data.messageData.constructor === Object && Object.keys(data.messageData).length > 0) {
             let query = [
-              { $match: { 'whatsApp.accessToken': data.accessToken } }
+              { $match: { 'whatsApp.accessToken': data.accessToken, 'whatsApp.connected': true } }
             ]
             callApi(`companyprofile/aggregate`, 'post', query)
               .then(companies => {
@@ -69,49 +69,63 @@ exports.messageReceived = function (req, res) {
                           }
                           return
                         }
-                        if (!shouldAvoidSendingMessage && company.whatsApp.activeWhatsappBot && data.messageData.componentType === 'text') {
+                        if (company.whatsApp && company.whatsApp.activeWhatsappBot) {
                           let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({_id: company.whatsApp.activeWhatsappBot})
-                          if (chatbot) {
-                            const shouldSend = chatbot.published || chatbot.testSubscribers.includes(contact.number)
-                            if (shouldSend) {
-                              let ecommerceProvider = null
-                              let airlinesProvider = null
-                              if (chatbot.storeType === commerceConstants.shopify) {
-                                const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
-                                if (shopifyIntegration) {
-                                  ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
-                                    shopUrl: shopifyIntegration.shopUrl,
-                                    shopToken: shopifyIntegration.shopToken
-                                  })
-                                } else {
-                                  deleteShopifyIntegeration(chatbot.companyId, commerceConstants.shopify)
-                                }
-                              } else if (chatbot.storeType === commerceConstants.bigcommerce) {
-                                const bigCommerceIntegration = await bigcommerceDataLayer.findOneBigCommerceIntegration({ companyId: chatbot.companyId })
-                                if (bigCommerceIntegration) {
-                                  ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
-                                    shopToken: bigCommerceIntegration.shopToken,
-                                    storeHash: bigCommerceIntegration.payload.context
-                                  })
-                                } else {
-                                  deleteShopifyIntegeration(chatbot.companyId, commerceConstants.bigcommerce)
-                                }
-                              } else if (chatbot.vertical === 'airlines') {
-                                airlinesProvider = new AirlinesProvider(airlinesConstants.amadeus, {
-                                  clientId: config.amadeus.clientId,
-                                  clientSecret: config.amadeus.clientSecret
-                                })
+                          if (chatbot && data.messageData.componentType === 'text') {
+                            if (shouldAvoidSendingMessage) {
+                              if (chatbot.triggers.includes(data.messageData.text.toLowerCase())) {
+                                let allowUserUnPause = await commerceChatbotLogicLayer.allowUserUnpauseChatbot(contact)
+                                sendWhatsAppMessage(allowUserUnPause, data, number, company, contact)
+                                updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: allowUserUnPause }, null, {})
                               }
-                              let nextMessageBlock = null
-                              if (ecommerceProvider) {
-                                nextMessageBlock = await commerceChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text, company)
-                              } else if (airlinesProvider) {
-                                nextMessageBlock = await airlinesChatbotLogicLayer.getNextMessageBlock(chatbot, airlinesProvider, contact, data.messageData.text)
-                              }
-                              if (nextMessageBlock) {
-                                sendWhatsAppMessage(nextMessageBlock, data, number, company, contact)
-                                updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
-                                logicLayer.storeWhatsAppStats(data, chatbot, isNewContact, contact, req)
+                            } else {
+                              const shouldSend = chatbot.published || chatbot.testSubscribers.includes(contact.number)
+                              if (shouldSend) {
+                                let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({_id: company.whatsApp.activeWhatsappBot})
+                                if (chatbot) {
+                                  const shouldSend = chatbot.published || chatbot.testSubscribers.includes(contact.number)
+                                  if (shouldSend) {
+                                    let ecommerceProvider = null
+                                    let airlinesProvider = null
+                                    if (chatbot.storeType === commerceConstants.shopify) {
+                                      const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
+                                      if (shopifyIntegration) {
+                                        ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
+                                          shopUrl: shopifyIntegration.shopUrl,
+                                          shopToken: shopifyIntegration.shopToken
+                                        })
+                                      } else {
+                                        deleteShopifyIntegeration(chatbot.companyId, commerceConstants.shopify)
+                                      }
+                                    } else if (chatbot.storeType === commerceConstants.bigcommerce) {
+                                      const bigCommerceIntegration = await bigcommerceDataLayer.findOneBigCommerceIntegration({ companyId: chatbot.companyId })
+                                      if (bigCommerceIntegration) {
+                                        ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
+                                          shopToken: bigCommerceIntegration.shopToken,
+                                          storeHash: bigCommerceIntegration.payload.context
+                                        })
+                                      } else {
+                                        deleteShopifyIntegeration(chatbot.companyId, commerceConstants.bigcommerce)
+                                      }
+                                    } else if (chatbot.vertical === 'airlines') {
+                                      airlinesProvider = new AirlinesProvider(airlinesConstants.amadeus, {
+                                        clientId: config.amadeus.clientId,
+                                        clientSecret: config.amadeus.clientSecret
+                                      })
+                                    }
+                                    let nextMessageBlock = null
+                                    if (ecommerceProvider) {
+                                      nextMessageBlock = await commerceChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, contact, data.messageData.text, company)
+                                    } else if (airlinesProvider) {
+                                      nextMessageBlock = await airlinesChatbotLogicLayer.getNextMessageBlock(chatbot, airlinesProvider, contact, data.messageData.text)
+                                    }
+                                    if (nextMessageBlock) {
+                                      sendWhatsAppMessage(nextMessageBlock, data, number, company, contact)
+                                      updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: nextMessageBlock }, null, {})
+                                      logicLayer.storeWhatsAppStats(data, chatbot, isNewContact, contact, req)
+                                    }
+                                  }
+                                }
                               }
                             }
                           }
@@ -289,10 +303,18 @@ function storeChat (from, to, contact, messageData, format) {
     })
 }
 
-function shouldAvoidSendingAutomatedMessage (contact) {
-  return new Promise((resolve, reject) => {
-    callApi(`companyprofile/query`, 'post', { _id: contact.companyId })
-      .then(company => {
+function shouldAvoidSendingAutomatedMessage (contact, company, data) {
+  let talkToAgentBlocks = ['ask unpause chatbot', 'talk to agent']
+  return new Promise(async (resolve, reject) => {
+    let avoidSending = false
+    if (!contact.chatbotPaused) {
+      resolve(avoidSending)
+    } else {
+      if (data.messageData && data.messageData.text.toLowerCase() === 'unpause') {
+        resolve(avoidSending)
+      } else if (contact.lastMessageSentByBot && talkToAgentBlocks.includes(contact.lastMessageSentByBot.title.toLowerCase())) {
+        resolve(avoidSending)
+      } else {
         if (company.automated_options === 'MIX_CHAT' && contact.agent_activity_time) {
           const currentDate = new Date()
           const agentTime = new Date(contact.agent_activity_time)
@@ -305,10 +327,13 @@ function shouldAvoidSendingAutomatedMessage (contact) {
         } else {
           resolve(false)
         }
-      })
-      .catch(err => {
-        reject(err)
-      })
+        if (!avoidSending) {
+          updateWhatsAppContact({ _id: contact._id }, {chatbotPaused: false}, null, {})
+          contact.chatbotPaused = false
+        }
+        resolve(avoidSending)
+      }
+    }
   })
 }
 
