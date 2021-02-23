@@ -73,9 +73,11 @@ exports.messageReceived = function (req, res) {
                           let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({_id: company.whatsApp.activeWhatsappBot})
                           if (chatbot && data.messageData.componentType === 'text') {
                             if (shouldAvoidSendingMessage) {
-                              let allowUserUnPause = await commerceChatbotLogicLayer.allowUserUnpauseChatbot(contact)
-                              sendWhatsAppMessage(allowUserUnPause, data, number, company, contact)
-                              updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: allowUserUnPause }, null, {})
+                              if (chatbot.triggers.includes(data.messageData.text.toLowerCase())) {
+                                let allowUserUnPause = await commerceChatbotLogicLayer.allowUserUnpauseChatbot(contact)
+                                sendWhatsAppMessage(allowUserUnPause, data, number, company, contact)
+                                updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: allowUserUnPause }, null, {})
+                              }
                             } else {
                               const shouldSend = chatbot.published || chatbot.testSubscribers.includes(contact.number)
                               if (shouldSend) {
