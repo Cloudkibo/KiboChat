@@ -179,7 +179,6 @@ function getContact (companyId, number, customer) {
 }
 
 exports.handleCreateCheckout = async function (req, res) {
-  console.log('handleCreateCheckout', JSON.stringify(req.body))
   try {
     console.log('handleCreateCheckout', JSON.stringify(req.body))
     sendSuccessResponse(res, 200, {status: 'success'})
