@@ -35,7 +35,11 @@ exports.fetchBusinessAccounts = (credentials) => {
     needle('get', `${API_URL}/me/businesses?access_token=${params}&${fields}`)
       .then(result => {
         result = result.body
-        resolve(result)
+        if (result.error) {
+          reject(result.error.message || result.error)
+        } else {
+          resolve(result)
+        }
       })
       .catch(err => reject(err))
   })
@@ -48,7 +52,11 @@ exports.fetchCommerceCatalogs = (businessId, credentials) => {
     needle('get', `${API_URL}/${businessId}/owned_product_catalogs?access_token=${params}&${fields}`)
       .then(result => {
         result = result.body
-        resolve(result)
+        if (result.error) {
+          reject(result.error.message || result.error)
+        } else {
+          resolve(result)
+        }
       })
       .catch(err => reject(err))
   })
@@ -57,19 +65,25 @@ exports.fetchCommerceCatalogs = (businessId, credentials) => {
 exports.fetchAllProductCategories = (catalogId, credentials) => {
   const params = initShops(credentials)
   return new Promise(function (resolve, reject) {
+    console.log('catalogId', catalogId)
     const fields = 'categorization_criteria=CATEGORY'
     needle('get', `${API_URL}/${catalogId}/categories?access_token=${params}&${fields}`)
       .then(result => {
+        console.log('result.body', result.body)
         result = result.body
-        let payload = result.data
-        payload = payload.map(category => {
-          return {
-            id: category.destination_uri,
-            name: category.name,
-            image: category.image_url
-          }
-        })
-        resolve(payload)
+        if (result.error) {
+          reject(result.error.message || result.error)
+        } else {
+          let payload = result.data
+          payload = payload.map(category => {
+            return {
+              id: category.destination_uri,
+              name: category.name,
+              image: category.image_url
+            }
+          })
+          resolve(payload)
+        }
       })
       .catch(err => reject(err))
   })
@@ -81,22 +95,26 @@ exports.fetchProductsInThisCategory = (category, credentials) => {
     needle('get', `${API_URL}/${category}?access_key=${params}&search`)
       .then(result => {
         result = result.body
-        let payload = result.data
-        payload = payload.map(item => {
-          return {
-            id: item.id,
-            brand: item.brand,
-            category: item.category,
-            condition: item.condition,
-            currency: item.currency,
-            description: item.description,
-            gender: item.gender,
-            image: item.image_url,
-            name: item.name,
-            inventory: item.inventory
-          }
-        })
-        resolve(payload)
+        if (result.error) {
+          reject(result.error.message || result.error)
+        } else {
+          let payload = result.data
+          payload = payload.map(item => {
+            return {
+              id: item.id,
+              brand: item.brand,
+              category: item.category,
+              condition: item.condition,
+              currency: item.currency,
+              description: item.description,
+              gender: item.gender,
+              image: item.image_url,
+              name: item.name,
+              inventory: item.inventory
+            }
+          })
+          resolve(payload)
+        }
       })
       .catch(err => reject(err))
   })
@@ -109,19 +127,23 @@ exports.fetchProducts = (query, credentials) => {
     needle('get', `${API_URL}/${query}/products?access_token=${params}&${fields}`)
       .then(result => {
         result = result.body
-        let payload = result.data
-        payload = payload.map(product => {
-          return {
-            id: product.id,
-            name: product.name,
-            product_type: product.product_type,
-            vendor: product.brand,
-            price: product.price,
-            currency: product.currency,
-            image: product.image_url
-          }
-        })
-        resolve(payload)
+        if (result.error) {
+          reject(result.error.message || result.error)
+        } else {
+          let payload = result.data
+          payload = payload.map(product => {
+            return {
+              id: product.id,
+              name: product.name,
+              product_type: product.product_type,
+              vendor: product.brand,
+              price: product.price,
+              currency: product.currency,
+              image: product.image_url
+            }
+          })
+          resolve(payload)
+        }
       })
       .catch(err => reject(err))
   })
@@ -135,19 +157,23 @@ exports.searchProducts = (query, catalogId, credentials) => {
     needle('get', `${API_URL}/${catalogId}/products?access_token=${params}&${filter}&${fields}`)
       .then(result => {
         result = result.body
-        let payload = result.data
-        payload = payload.map(product => {
-          return {
-            id: product.id,
-            name: product.name,
-            product_type: product.product_type,
-            vendor: product.brand,
-            price: product.price,
-            currency: product.currency,
-            image: product.image_url
-          }
-        })
-        resolve(payload)
+        if (result.error) {
+          reject(result.error.message || result.error)
+        } else {
+          let payload = result.data
+          payload = payload.map(product => {
+            return {
+              id: product.id,
+              name: product.name,
+              product_type: product.product_type,
+              vendor: product.brand,
+              price: product.price,
+              currency: product.currency,
+              image: product.image_url
+            }
+          })
+          resolve(payload)
+        }
       })
       .catch(err => reject(err))
   })
