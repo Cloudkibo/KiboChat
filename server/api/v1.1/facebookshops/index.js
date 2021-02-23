@@ -29,4 +29,10 @@ router.get('/fetchBusinessAccounts',
   attachBuyerInfo(),
   controller.fetchBusinessAccounts)
 
+router.get('/fetchCatalogs/:businessId',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
+  attachBuyerInfo(),
+  controller.fetchCatalogs)
+
 module.exports = router
