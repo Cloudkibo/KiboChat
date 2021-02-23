@@ -133,6 +133,16 @@ function registerWebhooks (shop, token) {
     const message = err || 'Error Creating Shopify Create Checkout Webhook'
     logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
   })
+
+  shopify.webhook.create({
+    topic: 'checkouts/update',
+    address: `${config.domain}/api/shopify/checkout-create`,
+    format: 'json'
+  }).then((response) => {
+  }).catch((err) => {
+    const message = err || 'Error Creating Shopify update Checkout Webhook'
+    logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
+  })
 }
 
 function getContact (companyId, number, customer) {
