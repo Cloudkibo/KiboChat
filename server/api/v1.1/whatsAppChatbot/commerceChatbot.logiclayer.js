@@ -1094,6 +1094,8 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
 }
 const getConfirmReturnOrderBlock = async (chatbot, backId, order) => {
   try {
+    const storeInfo = await EcommerceProvider.fetchStoreInfo()
+    let number = businessNumber.replace(/[^0-9]/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')
     let messageBlock = {
       module: {
         id: chatbot._id,
@@ -1160,6 +1162,7 @@ const getReturnOrderBlock = async (chatbot, contact, backId, EcommerceProvider, 
     }
     const message = `${contact.name} is requesting a return for order #${orderId}.`
     sendNotification(contact, message, chatbot.companyId)
+
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to return order'
@@ -3291,6 +3294,30 @@ const getAskUnpauseChatbotBlock = (chatbot, contact) => {
   }
 }
 
+exports.allowUserUnpauseChatbot = (contact) => {
+  try {
+    const messageBlock = {
+      module: {
+        type: 'automated_message'
+      },
+      title: 'Allow Unpause Chatbot',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Do you want to unpause the chatbot or continue conversation with customer agent support?`,
+          componentType: 'text'
+        }
+      ]
+    }
+    messageBlock.payload[0].text += `\n\nSend 'unpause', to unpause the chatbot`
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to allow for unpause chatbot'
+    logger.serverLog(message, `${TAG}: allowUnpauseChatbotBlock`, {}, {contact}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to allow for unpause chatbot`)
+  }
+}
+
 exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input, company) => {
   let userError = false
   input = input.toLowerCase()
@@ -3298,6 +3325,9 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input,
     return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
   } else {
     let action = null
+    if (input === 'unpause') {
+      return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
+    }
     let lastMessageSentByBot = contact.lastMessageSentByBot.payload[0]
     // sometimes the message with menu and special keys may appear last
     // in payload array due to request by sir to show menu as last message
