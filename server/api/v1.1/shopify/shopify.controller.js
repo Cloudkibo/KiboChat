@@ -186,46 +186,50 @@ exports.handleCreateCheckout = async function (req, res) {
     if (req.body.customer && req.body.customer.accepts_marketing &&
     req.body.token && req.body.abandoned_checkout_url && req.body.phone && req.body.id) {
       let shopName = req.body.abandoned_checkout_url.split('//')[1]
-      shopName = shopName.split('/')[0]
-      const integration = await dataLayer.findOneShopifyIntegration({ shopUrl: shopName })
-      const contact = await getContact(integration.companyId, req.body.phone, req.body.customer)
-      let commerceCustomerShopify = req.body.customer
-      commerceCustomerShopify.abandonedCartInfo = {
-        cartRecoveryAttempts: 0,
-        abandonedCheckoutUrl: req.body.abandoned_checkout_url,
-        abandonedCheckoutId: req.body.id,
-        token: req.body.token
-      }
-      const updateData = {
-        query: {_id: contact._id},
-        newPayload: { commerceCustomerShopify: commerceCustomerShopify },
-        options: {}
-      }
-      callApi(`whatsAppContacts/update`, 'put', updateData)
-      const company = await callApi(`companyProfile/query`, 'post', { _id: contact.companyId })
-      if (company.whatsApp) {
-        const ecommerceProvider = new EcommerceProviders(commerceConstants.shopify, {
-          shopUrl: integration.shopUrl,
-          shopToken: integration.shopToken
-        })
-        const storeInfo = await ecommerceProvider.fetchStoreInfo()
-        const messageBlock = {
-          module: {
-            id: company.whatsApp.activeWhatsappBot,
-            type: 'whatsapp_commerce_chatbot'
-          },
-          title: 'Opt-in Notification',
-          uniqueId: '' + new Date().getTime(),
-          payload: getOptInReceivePayload(storeInfo.name, company),
-          userId: company.ownerId,
-          companyId: company._id
+      shopName = shopName.split('.com')[0]
+      console.log('shopName', shopName)
+      const integration = await dataLayer.findOneShopifyIntegration({ shopUrl: { $regex: '.*' + shopName + '.*', $options: 'i' } })
+      console.log('integration', integration)
+      if (integration) {
+        const contact = await getContact(integration.companyId, req.body.phone, req.body.customer)
+        let commerceCustomerShopify = req.body.customer
+        commerceCustomerShopify.abandonedCartInfo = {
+          cartRecoveryAttempts: 0,
+          abandonedCheckoutUrl: req.body.abandoned_checkout_url,
+          abandonedCheckoutId: req.body.id,
+          token: req.body.token
         }
-        const data = {
-          accessToken: company.whatsApp.accessToken,
-          accountSID: company.whatsApp.accountSID,
-          businessNumber: company.whatsApp.businessNumber
+        const updateData = {
+          query: {_id: contact._id},
+          newPayload: { commerceCustomerShopify: commerceCustomerShopify },
+          options: {}
         }
-        sendWhatsAppMessage(messageBlock, data, contact.number, company, contact)
+        callApi(`whatsAppContacts/update`, 'put', updateData)
+        const company = await callApi(`companyProfile/query`, 'post', { _id: contact.companyId })
+        if (company.whatsApp) {
+          const ecommerceProvider = new EcommerceProviders(commerceConstants.shopify, {
+            shopUrl: integration.shopUrl,
+            shopToken: integration.shopToken
+          })
+          const storeInfo = await ecommerceProvider.fetchStoreInfo()
+          const messageBlock = {
+            module: {
+              id: company.whatsApp.activeWhatsappBot,
+              type: 'whatsapp_commerce_chatbot'
+            },
+            title: 'Opt-in Notification',
+            uniqueId: '' + new Date().getTime(),
+            payload: getOptInReceivePayload(storeInfo.name, company),
+            userId: company.ownerId,
+            companyId: company._id
+          }
+          const data = {
+            accessToken: company.whatsApp.accessToken,
+            accountSID: company.whatsApp.accountSID,
+            businessNumber: company.whatsApp.businessNumber
+          }
+          sendWhatsAppMessage(messageBlock, data, contact.number, company, contact)
+        }
       }
     }
   } catch (err) {
