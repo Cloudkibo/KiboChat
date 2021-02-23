@@ -678,11 +678,16 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
           image_url: product.image,
           title: product.name,
           subtitle: `Price: ${priceString}`,
-          buttons: [{
+          buttons: chatbot.storeType === 'shops' ? [{
             title: 'Select Product',
-            type: 'postback',
-            payload: JSON.stringify({ type: DYNAMIC, action: PRODUCT_VARIANTS, argument: { product } })
+            type: 'web_url',
+            url: `https://www.facebook.com/commerce/products/${product.id}`
           }]
+            : [{
+              title: 'Select Product',
+              type: 'postback',
+              payload: JSON.stringify({ type: DYNAMIC, action: PRODUCT_VARIANTS, argument: { product } })
+            }]
         })
       }
 
