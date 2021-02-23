@@ -133,6 +133,16 @@ function registerWebhooks (shop, token) {
     const message = err || 'Error Creating Shopify Create Checkout Webhook'
     logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
   })
+
+  shopify.webhook.create({
+    topic: 'checkouts/update',
+    address: `${config.domain}/api/shopify/checkout-create`,
+    format: 'json'
+  }).then((response) => {
+  }).catch((err) => {
+    const message = err || 'Error Creating Shopify update Checkout Webhook'
+    logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
+  })
 }
 
 function getContact (companyId, number, customer) {
@@ -170,7 +180,7 @@ function getContact (companyId, number, customer) {
 
 exports.handleCreateCheckout = async function (req, res) {
   try {
-    logger.serverLog('handleCreateCheckout', `${TAG}: exports.handleCompleteCheckout`, req.body, {header: req.header})
+    logger.serverLog('handleCreateCheckout', `${TAG}: exports.handleCreateCheckout`, req.body, {header: req.header})
     sendSuccessResponse(res, 200, {status: 'success'})
     if (req.body.customer && req.body.customer.accepts_marketing &&
     req.body.token && req.body.abandoned_checkout_url && req.body.phone && req.body.id) {
@@ -317,7 +327,6 @@ exports.handleAppUninstall = async function (req, res) {
   const shopUrl = req.header('X-Shopify-Shop-Domain')
   try {
     const shopifyIntegration = await dataLayer.findOneShopifyIntegration({ shopUrl: shopUrl })
-
     dataLayer.deleteShopifyIntegration({
       shopToken: shopifyIntegration.shopToken,
       shopUrl: shopifyIntegration.shopUrl,
