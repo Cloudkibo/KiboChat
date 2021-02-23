@@ -187,9 +187,7 @@ exports.handleCreateCheckout = async function (req, res) {
     req.body.token && req.body.abandoned_checkout_url && req.body.phone && req.body.id) {
       let shopName = req.body.abandoned_checkout_url.split('//')[1]
       shopName = shopName.split('.com')[0]
-      console.log('shopName', shopName)
       const integration = await dataLayer.findOneShopifyIntegration({ shopUrl: { $regex: '.*' + shopName + '.*', $options: 'i' } })
-      console.log('integration', integration)
       if (integration) {
         const contact = await getContact(integration.companyId, req.body.phone, req.body.customer)
         let commerceCustomerShopify = req.body.customer
@@ -329,11 +327,9 @@ exports.handleCompleteCheckout = async function (req, res) {
 }
 
 exports.handleAppUninstall = async function (req, res) {
-  console.log('shopify handleAppUninstall')
   const shopUrl = req.header('X-Shopify-Shop-Domain')
   try {
     const shopifyIntegration = await dataLayer.findOneShopifyIntegration({ shopUrl: shopUrl })
-    console.log('shopifyIntegration', shopifyIntegration)
     dataLayer.deleteShopifyIntegration({
       shopToken: shopifyIntegration.shopToken,
       shopUrl: shopifyIntegration.shopUrl,
