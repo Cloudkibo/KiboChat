@@ -180,7 +180,7 @@ function getContact (companyId, number, customer) {
 
 exports.handleCreateCheckout = async function (req, res) {
   try {
-    console.log('handleCreateCheckout', JSON.stringify(req.body))
+    logger.serverLog('handleCreateCheckout', `${TAG}: exports.handleCreateCheckout`, req.body, {header: req.header})
     sendSuccessResponse(res, 200, {status: 'success'})
     if (req.body.customer && req.body.customer.accepts_marketing &&
     req.body.token && req.body.abandoned_checkout_url && req.body.phone && req.body.id) {
@@ -262,7 +262,7 @@ function getOptInReceivePayload (storeName, company) {
 
 exports.handleCompleteCheckout = async function (req, res) {
   try {
-    console.log('handleCompleteCheckout', JSON.stringify(req.body))
+    logger.serverLog('handleCompleteCheckout', `${TAG}: exports.handleCompleteCheckout`, req.body, {header: req.header})
     sendSuccessResponse(res, 200, {status: 'success'})
     if (req.body.email || req.body.phone) {
       const shopUrl = req.headers['x-shopify-shop-domain']
