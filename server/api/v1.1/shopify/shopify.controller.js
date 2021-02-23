@@ -179,6 +179,7 @@ function getContact (companyId, number, customer) {
 }
 
 exports.handleCreateCheckout = async function (req, res) {
+  console.log('handleCreateCheckout', JSON.stringify(req.body))
   try {
     console.log('handleCreateCheckout', JSON.stringify(req.body))
     sendSuccessResponse(res, 200, {status: 'success'})
@@ -329,6 +330,7 @@ exports.handleCompleteCheckout = async function (req, res) {
 }
 
 exports.handleAppUninstall = async function (req, res) {
+  console.log('shopify handleAppUninstall')
   const shopUrl = req.header('X-Shopify-Shop-Domain')
   try {
     const shopifyIntegration = await dataLayer.findOneShopifyIntegration({ shopUrl: shopUrl })
