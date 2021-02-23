@@ -133,6 +133,16 @@ function registerWebhooks (shop, token) {
     const message = err || 'Error Creating Shopify Create Checkout Webhook'
     logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
   })
+
+  shopify.webhook.create({
+    topic: 'checkouts/update',
+    address: `${config.domain}/api/shopify/checkout-create`,
+    format: 'json'
+  }).then((response) => {
+  }).catch((err) => {
+    const message = err || 'Error Creating Shopify update Checkout Webhook'
+    logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
+  })
 }
 
 function getContact (companyId, number, customer) {
@@ -169,6 +179,7 @@ function getContact (companyId, number, customer) {
 }
 
 exports.handleCreateCheckout = async function (req, res) {
+  console.log('handleCreateCheckout', JSON.stringify(req.body))
   try {
     logger.serverLog('handleCreateCheckout', `${TAG}: exports.handleCompleteCheckout`, req.body, {header: req.header})
     sendSuccessResponse(res, 200, {status: 'success'})
@@ -247,7 +258,7 @@ function getOptInReceivePayload (storeName, company) {
 
 exports.handleCompleteCheckout = async function (req, res) {
   try {
-    logger.serverLog('handleCompleteCheckout', `${TAG}: exports.handleCompleteCheckout`, req.body, {header: req.header})
+    console.log('handleCompleteCheckout', JSON.stringify(req.body))
     sendSuccessResponse(res, 200, {status: 'success'})
     if (req.body.email || req.body.phone) {
       const shopUrl = req.headers['x-shopify-shop-domain']
@@ -314,10 +325,11 @@ exports.handleCompleteCheckout = async function (req, res) {
 }
 
 exports.handleAppUninstall = async function (req, res) {
+  console.log('shopify handleAppUninstall')
   const shopUrl = req.header('X-Shopify-Shop-Domain')
   try {
     const shopifyIntegration = await dataLayer.findOneShopifyIntegration({ shopUrl: shopUrl })
-
+    console.log('shopifyIntegration', shopifyIntegration)
     dataLayer.deleteShopifyIntegration({
       shopToken: shopifyIntegration.shopToken,
       shopUrl: shopifyIntegration.shopUrl,
