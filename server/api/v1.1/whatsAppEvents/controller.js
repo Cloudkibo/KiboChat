@@ -59,7 +59,7 @@ exports.messageReceived = function (req, res) {
                           _sendEvent(company._id, contact)
                           pushSessionPendingAlertInStack(company, contact, 'whatsApp')
                         }
-                        const shouldAvoidSendingMessage = await shouldAvoidSendingAutomatedMessage(contact)
+                        const shouldAvoidSendingMessage = await shouldAvoidSendingAutomatedMessage(contact, company, data)
                         if (company._id === '5a89ecdaf6b0460c552bf7fe') {
                           // NOTE: This if condition is temporary testing code for
                           // adil. We will remove this in future. It will only run for
@@ -251,6 +251,8 @@ function createContact (data) {
                 }
               })
               .catch(error => {
+                const message = error || 'Failed to map whatsapp contact'
+                logger.serverLog(message, `${TAG}: exports.createContact`, {}, {data}, 'error')
                 reject(error)
               })
           })
@@ -259,6 +261,8 @@ function createContact (data) {
         }
       })
       .catch(error => {
+        const message = error || 'Failed to company profile'
+        logger.serverLog(message, `${TAG}: exports.createContact`, {}, {data}, 'error')
         reject(error)
       })
   })
@@ -319,13 +323,9 @@ function shouldAvoidSendingAutomatedMessage (contact, company, data) {
           const currentDate = new Date()
           const agentTime = new Date(contact.agent_activity_time)
           const diffInMinutes = Math.abs(currentDate - agentTime) / 1000 / 60
-          if (diffInMinutes > 30) {
-            resolve(false)
-          } else {
-            resolve(true)
+          if (diffInMinutes < 30) {
+            avoidSending = true
           }
-        } else {
-          resolve(false)
         }
         if (!avoidSending) {
           updateWhatsAppContact({ _id: contact._id }, {chatbotPaused: false}, null, {})
@@ -413,7 +413,7 @@ function _sendNotification (subscriber, payload, companyId) {
     })
 }
 
-function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
+async function updateWhatsAppContact (query, bodyForUpdate, bodyForIncrement, options) {
   callApi(`whatsAppContacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
     .then(updated => {
     })
