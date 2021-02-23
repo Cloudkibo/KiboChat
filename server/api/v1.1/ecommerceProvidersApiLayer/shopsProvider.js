@@ -65,11 +65,9 @@ exports.fetchCommerceCatalogs = (businessId, credentials) => {
 exports.fetchAllProductCategories = (catalogId, credentials) => {
   const params = initShops(credentials)
   return new Promise(function (resolve, reject) {
-    console.log('catalogId', catalogId)
     const fields = 'categorization_criteria=CATEGORY'
-    needle('get', `${API_URL}/${catalogId}/categories?access_token=${params}&${fields}`)
+    needle('get', `${API_URL}/${catalogId}/product_sets?access_token=${params}&${fields}`)
       .then(result => {
-        console.log('result.body', result.body)
         result = result.body
         if (result.error) {
           reject(result.error.message || result.error)
@@ -77,7 +75,7 @@ exports.fetchAllProductCategories = (catalogId, credentials) => {
           let payload = result.data
           payload = payload.map(category => {
             return {
-              id: category.destination_uri,
+              id: category.id,
               name: category.name,
               image: category.image_url
             }
@@ -92,13 +90,14 @@ exports.fetchAllProductCategories = (catalogId, credentials) => {
 exports.fetchProductsInThisCategory = (category, credentials) => {
   const params = initShops(credentials)
   return new Promise(function (resolve, reject) {
-    needle('get', `${API_URL}/${category}?access_key=${params}&search`)
+    const fields = 'fields=products{id,name,fb_product_category,currency,image_url,price,product_type,brand}'
+    needle('get', `${API_URL}/${category}?${fields}&access_token=${params}`)
       .then(result => {
         result = result.body
         if (result.error) {
           reject(result.error.message || result.error)
         } else {
-          let payload = result.data
+          let payload = result.products && result.products.data ? result.products.data : []
           payload = payload.map(item => {
             return {
               id: item.id,
@@ -116,7 +115,9 @@ exports.fetchProductsInThisCategory = (category, credentials) => {
           resolve(payload)
         }
       })
-      .catch(err => reject(err))
+      .catch(err => {
+        reject(err)
+      })
   })
 }
 

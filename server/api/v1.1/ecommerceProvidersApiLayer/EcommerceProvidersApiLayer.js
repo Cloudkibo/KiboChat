@@ -104,6 +104,8 @@ module.exports = class EcommerceProvidersApiLayer {
       return shopifyProvider.fetchProductsInThisCategory(id, paginationParams, numberOfProducts, this.eCommerceProviderCredentials)
     } else if (this.eCommerceProvider === providers.bigcommerce) {
       return bigCommerceProvider.fetchProductsInThisCategory(id, numberOfProducts, this.eCommerceProviderCredentials)
+    } else if (this.eCommerceProvider === providers.shops) {
+      return shopsProvider.fetchProductsInThisCategory(id, this.eCommerceProviderCredentials)
     }
   }
 
