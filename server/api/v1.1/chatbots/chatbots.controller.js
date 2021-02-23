@@ -13,7 +13,6 @@ const { kibochat, kiboengage } = require('../../global/constants').serverConstan
 const async = require('async')
 const shopifyDataLayer = require('../shopify/shopify.datalayer')
 const bigCommerceDataLayer = require('../bigcommerce/bigcommerce.datalayer')
-const facebookShopsDataLayer = require('../facebookshops/facebookShops.datalayer')
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
 const EcommerceProvider = require('../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
 const { updateCompanyUsage } = require('../../global/billingPricing')
@@ -411,15 +410,24 @@ exports.updateCommerceChatbot = async (req, res) => {
         storeHash: bigCommerceIntegration.payload.context
       })
     } else if (req.body.storeType === commerceConstants.shops) {
-      const facebookShopsIntegration = await facebookShopsDataLayer.findOneFacebookShop({ companyId: req.user.companyId })
-      ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
-        shopToken: facebookShopsIntegration.shopToken,
-        storeHash: facebookShopsIntegration.payload.context
+      let facebookInfo = req.user.facebookInfo
+      if (req.user.role !== 'buyer') {
+        facebookInfo = req.user.buyerInfo.facebookInfo
+      }
+      ecommerceProvider = new EcommerceProvider(commerceConstants.shops, {
+        shopUrl: facebookInfo.fbId,
+        shopToken: facebookInfo.fbToken // shopifyIntegration.shopToken
       })
     }
     if (ecommerceProvider) {
-      let storeInfo = await ecommerceProvider.fetchStoreInfo()
-      commerceLogicLayer.updateStartingBlock(updatedChatbot, storeInfo.name)
+      let storeName = ''
+      if (req.body.storeType === commerceConstants.shops) {
+        storeName = req.body.storeName
+      } else {
+        let storeInfo = await ecommerceProvider.fetchStoreInfo()
+        storeName = storeInfo.name
+      }
+      commerceLogicLayer.updateStartingBlock(updatedChatbot, storeName)
     }
   }
 }
@@ -440,14 +448,23 @@ exports.createCommerceChatbot = async (req, res) => {
         storeHash: bigCommerceIntegration.payload.context
       })
     } else if (req.body.storeType === commerceConstants.shops) {
-      const facebookShopsIntegration = await facebookShopsDataLayer.findOneFacebookShop({ companyId: req.user.companyId })
-      ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
-        shopToken: facebookShopsIntegration.shopToken,
-        storeHash: facebookShopsIntegration.payload.context
+      let facebookInfo = req.user.facebookInfo
+      if (req.user.role !== 'buyer') {
+        facebookInfo = req.user.buyerInfo.facebookInfo
+      }
+      ecommerceProvider = new EcommerceProvider(commerceConstants.shops, {
+        shopUrl: facebookInfo.fbId,
+        shopToken: facebookInfo.fbToken // shopifyIntegration.shopToken
       })
     }
     if (ecommerceProvider) {
-      let storeInfo = await ecommerceProvider.fetchStoreInfo()
+      let storeName = ''
+      if (req.body.storeType === commerceConstants.shops) {
+        storeName = req.body.storeName
+      } else {
+        let storeInfo = await ecommerceProvider.fetchStoreInfo()
+        storeName = storeInfo.name
+      }
       let chatbot = await datalayer.createForChatBot({
         pageId: req.body.pageId,
         companyId: req.user.companyId,
@@ -455,9 +472,11 @@ exports.createCommerceChatbot = async (req, res) => {
         type: 'automated',
         vertical: 'commerce',
         botLinks: req.body.botLinks,
-        storeType: req.body.storeType
+        storeType: req.body.storeType,
+        businessId: req.body.businessId,
+        catalogId: req.body.catalogId
       })
-      let messageBlocks = commerceLogicLayer.getMessageBlocks(chatbot, storeInfo.name)
+      let messageBlocks = commerceLogicLayer.getMessageBlocks(chatbot, storeName)
       await datalayer.genericUpdateChatBot({ companyId: req.user.companyId, pageId: req.body.pageId, type: 'automated' }, {
         startingBlockId: messageBlocks[0].uniqueId
       })

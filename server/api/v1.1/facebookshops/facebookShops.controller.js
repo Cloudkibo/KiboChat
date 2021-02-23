@@ -50,6 +50,19 @@ exports.fetchBusinessAccounts = async (req, res) => {
   })
 
   const businesses = await shops.fetchBusinessAccounts()
+  sendSuccessResponse(res, 200, businesses.data)
+}
 
-  sendSuccessResponse(res, 200, { businesses })
+exports.fetchCatalogs = async (req, res) => {
+  let facebookInfo = req.user.facebookInfo
+  if (req.user.role !== 'buyer') {
+    facebookInfo = req.user.buyerInfo.facebookInfo
+  }
+  const shops = new EcommerceProviders(commerceConstants.shops, {
+    shopUrl: facebookInfo.fbId,
+    shopToken: facebookInfo.fbToken // shopifyIntegration.shopToken
+  })
+
+  const result = await shops.fetchCommerceCatalogs(req.params.businessId)
+  sendSuccessResponse(res, 200, result.data)
 }

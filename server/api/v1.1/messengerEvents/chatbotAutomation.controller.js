@@ -150,6 +150,14 @@ exports.handleCommerceChatbot = (event, page, subscriber) => {
                   storeHash: bigCommerceIntegration.payload.context
                 })
               }
+            } else if (chatbot.storeType === commerceConstants.shops) {
+              const user = await getOwner(subscriber.companyId)
+              if (user) {
+                ecommerceProvider = new EcommerceProvider(commerceConstants.shops, {
+                  shopUrl: user.facebookInfo.fbId,
+                  shopToken: user.facebookInfo.fbToken
+                })
+              }
             }
             if (ecommerceProvider) {
               nextMessageBlock = await shopifyChatbotLogicLayer.getNextMessageBlock(chatbot, ecommerceProvider, subscriber, event)
@@ -213,7 +221,23 @@ exports.handleCommerceChatbot = (event, page, subscriber) => {
       return logger.serverLog(message, `${TAG}: exports.handleCommerceChatbot`, {}, {event, page, subscriber}, 'error')
     })
 }
-
+function getOwner (companyId) {
+  return new Promise((resolve, reject) => {
+    callApi(`companyprofile/query`, 'post', { _id: companyId })
+      .then(company => {
+        callApi('user/query', 'post', {_id: company.ownerId})
+          .then(user => {
+            resolve(user[0])
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
+}
 exports.handleTriggerMessage = (req, page, subscriber) => {
   record('messengerChatInComing')
   shouldAvoidSendingAutomatedMessage(subscriber, req)
