@@ -6,6 +6,8 @@ exports.checkFacebookPermissions = async function (facebookInfo) {
   try {
     let catalogPermissionGiven = false
     let businessPermissionGiven = false
+    let readOrderPermissionGiven = false
+    let manageOrderPermissionGiven = false
     let query = `${facebookInfo.fbId}/permissions?access_token=${facebookInfo.fbToken}`
     let permissions = await facebookApiCaller('v6.0', query, 'get')
     permissions = permissions.body.data
@@ -20,8 +22,18 @@ exports.checkFacebookPermissions = async function (facebookInfo) {
           businessPermissionGiven = true
         }
       }
+      if (permissions[i].permission === 'commerce_account_read_orders') {
+        if (permissions[i].status === 'granted') {
+          readOrderPermissionGiven = true
+        }
+      }
+      if (permissions[i].permission === 'commerce_account_manage_orders') {
+        if (permissions[i].status === 'granted') {
+          manageOrderPermissionGiven = true
+        }
+      }
     }
-    return (catalogPermissionGiven && businessPermissionGiven)
+    return (catalogPermissionGiven && businessPermissionGiven && readOrderPermissionGiven && manageOrderPermissionGiven)
   } catch (err) {
     const message = err || 'Internal Server Error'
     logger.serverLog(message, `${TAG}: exports.checkFacebookPermissions`, facebookInfo, {}, 'error')
