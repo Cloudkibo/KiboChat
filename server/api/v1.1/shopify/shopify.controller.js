@@ -187,6 +187,7 @@ exports.handleCreateCheckout = async function (req, res) {
       let shopName = req.body.abandoned_checkout_url.split('//')[1]
       shopName = shopName.split('.com')[0]
       const integrations = await dataLayer.findShopifyIntegrations({ shopUrl: { $regex: '.*' + shopName + '.*', $options: 'i' } })
+      console.log('integrations', integrations)
       if (integrations && integrations.length > 0) {
         for (let i = 0; i < integrations.length; i++) {
           let integration = integrations[i]
@@ -210,7 +211,9 @@ exports.handleCreateCheckout = async function (req, res) {
               shopUrl: integration.shopUrl,
               shopToken: integration.shopToken
             })
+            console.log('ecommerceProvider', ecommerceProvider)
             const storeInfo = await ecommerceProvider.fetchStoreInfo()
+            console.log('storeInfo', storeInfo)
             const messageBlock = {
               module: {
                 id: company.whatsApp.activeWhatsappBot,
