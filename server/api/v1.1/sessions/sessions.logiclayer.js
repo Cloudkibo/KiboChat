@@ -50,6 +50,7 @@ exports.getSessions = (req, status, company) => {
       isSubscribed: 1,
       disabledByPlan: 1,
       status: 1,
+      chatbotPaused: 1,
       last_activity_time: 1,
       _id: 1,
       profilePic: 1,
