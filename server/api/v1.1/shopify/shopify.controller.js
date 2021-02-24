@@ -193,7 +193,7 @@ exports.handleCreateCheckout = async function (req, res) {
           const company = await callApi(`companyProfile/query`, 'post', { _id: integration.companyId })
           if (company.whatsApp) {
             const contact = await getContact(integration.companyId, req.body.phone, req.body.customer)
-            let commerceCustomerShopify = req.body.customer
+            let commerceCustomerShopify = contact.commerceCustomerShopify ? contact.commerceCustomerShopify : req.body.customer
             commerceCustomerShopify.abandonedCheckoutMessageSent = true
             commerceCustomerShopify.abandonedCartInfo = {
               cartRecoveryAttempts: 0,
