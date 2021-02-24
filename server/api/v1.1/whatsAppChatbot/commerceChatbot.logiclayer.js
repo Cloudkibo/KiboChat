@@ -3328,9 +3328,6 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input,
     return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
   } else {
     let action = null
-    if (input === 'unpause') {
-      return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
-    }
     let lastMessageSentByBot = contact.lastMessageSentByBot.payload[0]
     // sometimes the message with menu and special keys may appear last
     // in payload array due to request by sir to show menu as last message
