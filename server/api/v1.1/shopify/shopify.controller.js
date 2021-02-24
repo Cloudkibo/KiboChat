@@ -190,47 +190,51 @@ exports.handleCreateCheckout = async function (req, res) {
       console.log('integrations', integrations)
       if (integrations && integrations.length > 0) {
         for (let i = 0; i < integrations.length; i++) {
-          let integration = integrations[i]
-          const company = await callApi(`companyProfile/query`, 'post', { _id: integration.companyId })
-          if (company.whatsApp) {
-            const contact = await getContact(integration.companyId, req.body.phone, req.body.customer)
-            let commerceCustomerShopify = req.body.customer
-            commerceCustomerShopify.abandonedCartInfo = {
-              cartRecoveryAttempts: 0,
-              abandonedCheckoutUrl: req.body.abandoned_checkout_url,
-              abandonedCheckoutId: req.body.id,
-              token: req.body.token
+          try {
+            let integration = integrations[i]
+            const company = await callApi(`companyProfile/query`, 'post', { _id: integration.companyId })
+            if (company.whatsApp) {
+              const contact = await getContact(integration.companyId, req.body.phone, req.body.customer)
+              let commerceCustomerShopify = req.body.customer
+              commerceCustomerShopify.abandonedCartInfo = {
+                cartRecoveryAttempts: 0,
+                abandonedCheckoutUrl: req.body.abandoned_checkout_url,
+                abandonedCheckoutId: req.body.id,
+                token: req.body.token
+              }
+              const updateData = {
+                query: {_id: contact._id},
+                newPayload: { commerceCustomerShopify: commerceCustomerShopify },
+                options: {}
+              }
+              callApi(`whatsAppContacts/update`, 'put', updateData)
+              const ecommerceProvider = new EcommerceProviders(commerceConstants.shopify, {
+                shopUrl: integration.shopUrl,
+                shopToken: integration.shopToken
+              })
+              console.log('ecommerceProvider', ecommerceProvider)
+              const storeInfo = await ecommerceProvider.fetchStoreInfo()
+              console.log('storeInfo', storeInfo)
+              const messageBlock = {
+                module: {
+                  id: company.whatsApp.activeWhatsappBot,
+                  type: 'whatsapp_commerce_chatbot'
+                },
+                title: 'Opt-in Notification',
+                uniqueId: '' + new Date().getTime(),
+                payload: getOptInReceivePayload(storeInfo.name, company),
+                userId: company.ownerId,
+                companyId: company._id
+              }
+              const data = {
+                accessToken: company.whatsApp.accessToken,
+                accountSID: company.whatsApp.accountSID,
+                businessNumber: company.whatsApp.businessNumber
+              }
+              sendWhatsAppMessage(messageBlock, data, contact.number, company, contact)
             }
-            const updateData = {
-              query: {_id: contact._id},
-              newPayload: { commerceCustomerShopify: commerceCustomerShopify },
-              options: {}
-            }
-            callApi(`whatsAppContacts/update`, 'put', updateData)
-            const ecommerceProvider = new EcommerceProviders(commerceConstants.shopify, {
-              shopUrl: integration.shopUrl,
-              shopToken: integration.shopToken
-            })
-            console.log('ecommerceProvider', ecommerceProvider)
-            const storeInfo = await ecommerceProvider.fetchStoreInfo()
-            console.log('storeInfo', storeInfo)
-            const messageBlock = {
-              module: {
-                id: company.whatsApp.activeWhatsappBot,
-                type: 'whatsapp_commerce_chatbot'
-              },
-              title: 'Opt-in Notification',
-              uniqueId: '' + new Date().getTime(),
-              payload: getOptInReceivePayload(storeInfo.name, company),
-              userId: company.ownerId,
-              companyId: company._id
-            }
-            const data = {
-              accessToken: company.whatsApp.accessToken,
-              accountSID: company.whatsApp.accountSID,
-              businessNumber: company.whatsApp.businessNumber
-            }
-            sendWhatsAppMessage(messageBlock, data, contact.number, company, contact)
+          } catch (err) {
+            i++
           }
         }
       }
