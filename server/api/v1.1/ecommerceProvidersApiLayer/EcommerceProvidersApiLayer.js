@@ -62,14 +62,14 @@ module.exports = class EcommerceProvidersApiLayer {
     }
   }
 
-  fetchAllProductCategories (paginationParams) {
+  fetchAllProductCategories (paginationParams, catalogId) {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.fetchAllProductCategories(paginationParams, this.eCommerceProviderCredentials)
     } else if (this.eCommerceProvider === providers.bigcommerce) {
       return bigCommerceProvider.fetchAllProductCategories(this.eCommerceProviderCredentials)
     } else if (this.eCommerceProvider === providers.shops) {
       // NOTE: send the catalog id as string in paginationParams,
-      return shopsProvider.fetchAllProductCategories(paginationParams, this.eCommerceProviderCredentials)
+      return shopsProvider.fetchAllProductCategories(paginationParams, catalogId, this.eCommerceProviderCredentials)
     }
   }
 

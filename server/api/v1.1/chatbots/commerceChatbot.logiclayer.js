@@ -1135,7 +1135,10 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider, arg
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    let productCategories = await EcommerceProvider.fetchAllProductCategories(chatbot.storeType === 'shops' ? chatbot.catalogId : argument.paginationParams)
+    let productCategories = await EcommerceProvider.fetchAllProductCategories(
+      argument.paginationParams,
+      chatbot.catalogId
+    )
     for (let i = 0; i < productCategories.length; i++) {
       let category = productCategories[i]
       messageBlock.payload[0].quickReplies.push({
