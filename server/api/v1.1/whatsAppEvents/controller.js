@@ -41,7 +41,7 @@ exports.messageReceived = function (req, res) {
           let number = `+${data.userData.number}`
           if (data.messageData.constructor === Object && Object.keys(data.messageData).length > 0) {
             let query = [
-              { $match: { 'whatsApp.accessToken': data.accessToken } }
+              { $match: { 'whatsApp.accessToken': data.accessToken, 'whatsApp.connected': true } }
             ]
             callApi(`companyprofile/aggregate`, 'post', query)
               .then(companies => {
