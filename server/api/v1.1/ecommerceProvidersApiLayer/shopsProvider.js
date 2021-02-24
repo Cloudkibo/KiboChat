@@ -65,7 +65,7 @@ exports.fetchCommerceCatalogs = (businessId, credentials) => {
 exports.fetchAllProductCategories = (paginationParams, catalogId, credentials) => {
   const params = initShops(credentials)
   return new Promise(function (resolve, reject) {
-    let fields = 'limit=11'
+    let fields = `limit=11&`
     if (paginationParams) {
       fields = fields + `&after=${paginationParams}`
     }
@@ -168,8 +168,8 @@ exports.searchProducts = (query, catalogId, credentials) => {
   const params = initShops(credentials)
   return new Promise(function (resolve, reject) {
     const fields = 'fields=id,name,fb_product_category,currency,image_url,price,product_type,brand,retailer_product_group_id&limit=9'
-    const filter = `filter=${JSON.stringify({name: { i_contains: query }})}`
-    needle('get', `${API_URL}/${catalogId}/products?access_token=${params}&${filter}&${fields}`)
+    const filterQuery = `filter=${encodeURIComponent(JSON.stringify({name: { i_contains: query }}))}`
+    needle('get', `${API_URL}/${catalogId}/products?access_token=${params}&${fields}&${filterQuery}`)
       .then(result => {
         result = result.body
         if (result.error) {
