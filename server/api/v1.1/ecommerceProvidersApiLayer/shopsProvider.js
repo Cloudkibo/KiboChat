@@ -62,10 +62,13 @@ exports.fetchCommerceCatalogs = (businessId, credentials) => {
   })
 }
 
-exports.fetchAllProductCategories = (catalogId, credentials) => {
+exports.fetchAllProductCategories = (paginationParams, catalogId, credentials) => {
   const params = initShops(credentials)
   return new Promise(function (resolve, reject) {
-    const fields = 'categorization_criteria=CATEGORY'
+    let fields = 'limit=9'
+    if (paginationParams) {
+      fields = fields + `&after=${paginationParams}`
+    }
     needle('get', `${API_URL}/${catalogId}/product_sets?access_token=${params}&${fields}`)
       .then(result => {
         result = result.body
@@ -80,6 +83,9 @@ exports.fetchAllProductCategories = (catalogId, credentials) => {
               image: category.image_url
             }
           })
+          if (result.paging && result.paging.next && result.paging.cursors && result.paging.cursors.after) {
+            payload.nextPageParameters = result.paging.cursors.after
+          }
           resolve(payload)
         }
       })
