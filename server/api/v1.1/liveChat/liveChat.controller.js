@@ -121,7 +121,8 @@ exports.create = function (req, res) {
         newPayload: {
           last_activity_time: Date.now(),
           agent_activity_time: Date.now(),
-          pendingResponse: false
+          pendingResponse: false,
+          chatbotPaused: true
         },
         options: {}
       }

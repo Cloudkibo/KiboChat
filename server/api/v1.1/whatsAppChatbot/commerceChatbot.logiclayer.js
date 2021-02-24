@@ -3291,6 +3291,33 @@ const getAskUnpauseChatbotBlock = (chatbot, contact) => {
   }
 }
 
+exports.allowUserUnpauseChatbot = (contact) => {
+  try {
+    const messageBlock = {
+      module: {
+        type: 'automated_message'
+      },
+      title: 'Allow Unpause Chatbot',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Do you want to unpause the chatbot or continue conversation with customer agent support?`,
+          componentType: 'text',
+          specialKeys: {
+            'unpause': { type: DYNAMIC, action: UNPAUSE_CHATBOT }
+          }
+        }
+      ]
+    }
+    messageBlock.payload[0].text += `\n\nSend 'unpause', to unpause the chatbot`
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to allow for unpause chatbot'
+    logger.serverLog(message, `${TAG}: allowUnpauseChatbotBlock`, {}, {contact}, 'error')
+    throw new Error(`${ERROR_INDICATOR}Unable to allow for unpause chatbot`)
+  }
+}
+
 exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input, company) => {
   let userError = false
   input = input.toLowerCase()
