@@ -206,28 +206,30 @@ exports.handleCreateCheckout = async function (req, res) {
               options: {}
             }
             callApi(`whatsAppContacts/update`, 'put', updateData)
-            const ecommerceProvider = new EcommerceProviders(commerceConstants.shopify, {
-              shopUrl: integration.shopUrl,
-              shopToken: integration.shopToken
-            })
-            const storeInfo = await ecommerceProvider.fetchStoreInfo()
-            const messageBlock = {
-              module: {
-                id: company.whatsApp.activeWhatsappBot,
-                type: 'whatsapp_commerce_chatbot'
-              },
-              title: 'Opt-in Notification',
-              uniqueId: '' + new Date().getTime(),
-              payload: getOptInReceivePayload(storeInfo.name, company),
-              userId: company.ownerId,
-              companyId: company._id
+            if (!(contact.commerceCustomerShopify && contact.commerceCustomerShopify.abandonedCartInfo)) {
+              const ecommerceProvider = new EcommerceProviders(commerceConstants.shopify, {
+                shopUrl: integration.shopUrl,
+                shopToken: integration.shopToken
+              })
+              const storeInfo = await ecommerceProvider.fetchStoreInfo()
+              const messageBlock = {
+                module: {
+                  id: company.whatsApp.activeWhatsappBot,
+                  type: 'whatsapp_commerce_chatbot'
+                },
+                title: 'Opt-in Notification',
+                uniqueId: '' + new Date().getTime(),
+                payload: getOptInReceivePayload(storeInfo.name, company),
+                userId: company.ownerId,
+                companyId: company._id
+              }
+              const data = {
+                accessToken: company.whatsApp.accessToken,
+                accountSID: company.whatsApp.accountSID,
+                businessNumber: company.whatsApp.businessNumber
+              }
+              sendWhatsAppMessage(messageBlock, data, contact.number, company, contact)
             }
-            const data = {
-              accessToken: company.whatsApp.accessToken,
-              accountSID: company.whatsApp.accountSID,
-              businessNumber: company.whatsApp.businessNumber
-            }
-            sendWhatsAppMessage(messageBlock, data, contact.number, company, contact)
           }
         }
       }
@@ -311,7 +313,7 @@ exports.handleCompleteCheckout = async function (req, res) {
         const updateDataWhatsApp = {
           query: query,
           newPayload: { shoppingCart: [], 'commerceCustomerShopify.abandonedCartInfo': null },
-          options: {}
+          options: {multi: true}
         }
         const updateDataMessenger = {
           query: {'commerceCustomer.email': req.body.email},
