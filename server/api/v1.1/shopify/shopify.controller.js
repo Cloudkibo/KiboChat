@@ -194,6 +194,7 @@ exports.handleCreateCheckout = async function (req, res) {
           if (company.whatsApp) {
             const contact = await getContact(integration.companyId, req.body.phone, req.body.customer)
             let commerceCustomerShopify = req.body.customer
+            commerceCustomerShopify.abandonedCheckoutMessageSent = true
             commerceCustomerShopify.abandonedCartInfo = {
               cartRecoveryAttempts: 0,
               abandonedCheckoutUrl: req.body.abandoned_checkout_url,
@@ -206,7 +207,7 @@ exports.handleCreateCheckout = async function (req, res) {
               options: {}
             }
             callApi(`whatsAppContacts/update`, 'put', updateData)
-            if (!(contact.commerceCustomerShopify && contact.commerceCustomerShopify.abandonedCartInfo)) {
+            if (!(contact.commerceCustomerShopify && contact.commerceCustomerShopify.abandonedCheckoutMessageSent)) {
               const ecommerceProvider = new EcommerceProviders(commerceConstants.shopify, {
                 shopUrl: integration.shopUrl,
                 shopToken: integration.shopToken
