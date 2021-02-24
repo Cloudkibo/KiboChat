@@ -260,6 +260,25 @@ exports.processCustomerAddress = function (subscriber, chatbot, key, value, chan
   }
 }
 
+exports.findFaqTopics = function (automationResponse, chatbot) {
+  let options = []
+  if (chatbot.faqs && chatbot.faqs.length > 0) {
+    for (let i = 0; i < chatbot.faqs.length; i++) {
+      const topic = chatbot.faqs[i].topic
+      options[i] = {
+        code: `${i}`,
+        label: topic,
+        event: automationResponse.event,
+        id: topic
+      }
+    }
+    automationResponse.options = options
+  } else {
+    automationResponse.text += `Please contact our support agents for any questions you have.`
+  }
+  return automationResponse
+}
+
 function updateSubscriber (path, data) {
   callApi(path, 'put', data)
     .then(updated => {

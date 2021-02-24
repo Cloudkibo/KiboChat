@@ -9,7 +9,6 @@ exports.callKiboAutomation = function (userInput, chatbot, subscriber, isEvent) 
         subscriberId: subscriber._id,
         type: isEvent ? 'event' : 'text'
       }
-      console.log('data', data)
       const automationResponse = await callApi('getChatbotResponse', 'post', data, 'kiboautomation')
       resolve(automationResponse)
     } catch (err) {

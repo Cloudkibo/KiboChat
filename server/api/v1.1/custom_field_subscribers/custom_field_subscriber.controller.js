@@ -3,8 +3,6 @@
 const callApi = require('../utility')
 const logger = require('../../../components/logger')
 const TAG = 'api/custom_field_subscriber/custom_field_subscriber.controller.js'
-const customField = '/api/v1.1/custom_field_subscribers/custom_field_subscriber.controller.js'
-const util = require('util')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 
 exports.setCustomFieldValue = function (req, res) {
