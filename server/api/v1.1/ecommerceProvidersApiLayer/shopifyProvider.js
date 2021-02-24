@@ -2,11 +2,9 @@ const Shopify = require('shopify-api-node')
 
 exports.fetchStoreInfo = (credentials) => {
   const shopify = initShopify(credentials)
-  console.log('shopify', shopify)
   return new Promise(function (resolve, reject) {
     shopify.shop.get()
       .then(shop => {
-        console.log('shop', shop)
         resolve({
           id: shop.id,
           name: shop.name,
@@ -16,7 +14,6 @@ exports.fetchStoreInfo = (credentials) => {
         })
       })
       .catch(err => {
-        console.log('err', err)
         reject(err)
       })
   })
