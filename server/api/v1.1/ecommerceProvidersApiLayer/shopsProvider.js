@@ -65,7 +65,7 @@ exports.fetchCommerceCatalogs = (businessId, credentials) => {
 exports.fetchAllProductCategories = (paginationParams, catalogId, credentials) => {
   const params = initShops(credentials)
   return new Promise(function (resolve, reject) {
-    let fields = 'limit=9'
+    let fields = 'limit=11'
     if (paginationParams) {
       fields = fields + `&after=${paginationParams}`
     }
@@ -76,6 +76,7 @@ exports.fetchAllProductCategories = (paginationParams, catalogId, credentials) =
           reject(result.error.message || result.error)
         } else {
           let payload = result.data
+          payload = payload.filter(category => !category.name.includes('DO NOT MODIFY'))
           payload = payload.map(category => {
             return {
               id: category.id,
@@ -93,10 +94,10 @@ exports.fetchAllProductCategories = (paginationParams, catalogId, credentials) =
   })
 }
 
-exports.fetchProductsInThisCategory = (category, credentials) => {
+exports.fetchProductsInThisCategory = (category, numberOfProducts, credentials) => {
   const params = initShops(credentials)
   return new Promise(function (resolve, reject) {
-    const fields = 'fields=products{id,name,fb_product_category,currency,image_url,price,product_type,brand}'
+    const fields = `fields=products.limit(${numberOfProducts}){id,name,fb_product_category,currency,image_url,price,product_type,brand,retailer_product_group_id}`
     needle('get', `${API_URL}/${category}?${fields}&access_token=${params}`)
       .then(result => {
         result = result.body
@@ -104,6 +105,8 @@ exports.fetchProductsInThisCategory = (category, credentials) => {
           reject(result.error.message || result.error)
         } else {
           let payload = result.products && result.products.data ? result.products.data : []
+          payload = [...new Map(payload.map(item =>
+            [item['retailer_product_group_id'], item])).values()]
           payload = payload.map(item => {
             return {
               id: item.id,
@@ -115,7 +118,10 @@ exports.fetchProductsInThisCategory = (category, credentials) => {
               gender: item.gender,
               image: item.image_url,
               name: item.name,
-              inventory: item.inventory
+              inventory: item.inventory,
+              product_type: item.product_type,
+              vendor: item.brand,
+              price: item.price
             }
           })
           resolve(payload)
@@ -127,10 +133,10 @@ exports.fetchProductsInThisCategory = (category, credentials) => {
   })
 }
 
-exports.fetchProducts = (query, credentials) => {
+exports.fetchProducts = (query, numberOfProducts, credentials) => {
   const params = initShops(credentials)
   return new Promise(function (resolve, reject) {
-    const fields = 'fields=id,name,fb_product_category,currency,image_url,price,product_type,brand'
+    const fields = `fields=id,name,fb_product_category,currency,image_url,price,product_type,brand,retailer_product_group_id&limit=${numberOfProducts}`
     needle('get', `${API_URL}/${query}/products?access_token=${params}&${fields}`)
       .then(result => {
         result = result.body
@@ -138,6 +144,8 @@ exports.fetchProducts = (query, credentials) => {
           reject(result.error.message || result.error)
         } else {
           let payload = result.data
+          payload = [...new Map(payload.map(item =>
+            [item['retailer_product_group_id'], item])).values()]
           payload = payload.map(product => {
             return {
               id: product.id,
@@ -159,7 +167,7 @@ exports.fetchProducts = (query, credentials) => {
 exports.searchProducts = (query, catalogId, credentials) => {
   const params = initShops(credentials)
   return new Promise(function (resolve, reject) {
-    const fields = 'fields=id,name,fb_product_category,currency,image_url,price,product_type,brand'
+    const fields = 'fields=id,name,fb_product_category,currency,image_url,price,product_type,brand,retailer_product_group_id&limit=9'
     const filter = `filter=${JSON.stringify({name: { i_contains: query }})}`
     needle('get', `${API_URL}/${catalogId}/products?access_token=${params}&${filter}&${fields}`)
       .then(result => {
@@ -168,6 +176,8 @@ exports.searchProducts = (query, catalogId, credentials) => {
           reject(result.error.message || result.error)
         } else {
           let payload = result.data
+          payload = [...new Map(payload.map(item =>
+            [item['retailer_product_group_id'], item])).values()]
           payload = payload.map(product => {
             return {
               id: product.id,
