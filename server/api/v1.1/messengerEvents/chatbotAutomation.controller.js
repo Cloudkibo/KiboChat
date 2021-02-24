@@ -743,6 +743,7 @@ function shouldAvoidSendingAutomatedMessage (subscriber, event) {
             }
             if (!avoidSending) {
               updateSubscriber({ _id: subscriber._id }, {chatbotPaused: false}, {})
+              subscriber.chatbotPaused = false
             }
             resolve(avoidSending)
           })

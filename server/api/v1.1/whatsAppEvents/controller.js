@@ -69,14 +69,16 @@ exports.messageReceived = function (req, res) {
                           }
                           return
                         }
-                        if (company.whatsApp.activeWhatsappBot && data.messageData.componentType === 'text') {
-                          if (shouldAvoidSendingMessage) {
-                            let allowUserUnPause = await commerceChatbotLogicLayer.allowUserUnpauseChatbot(contact)
-                            sendWhatsAppMessage(allowUserUnPause, data, number, company, contact)
-                            updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: allowUserUnPause }, null, {})
-                          } else {
-                            let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({_id: company.whatsApp.activeWhatsappBot})
-                            if (chatbot) {
+                        if (company.whatsApp && company.whatsApp.activeWhatsappBot) {
+                          let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({_id: company.whatsApp.activeWhatsappBot})
+                          if (chatbot && data.messageData.componentType === 'text') {
+                            if (shouldAvoidSendingMessage) {
+                              if (chatbot.triggers.includes(data.messageData.text.toLowerCase())) {
+                                let allowUserUnPause = await commerceChatbotLogicLayer.allowUserUnpauseChatbot(contact)
+                                sendWhatsAppMessage(allowUserUnPause, data, number, company, contact)
+                                updateWhatsAppContact({ _id: contact._id }, { lastMessageSentByBot: allowUserUnPause }, null, {})
+                              }
+                            } else {
                               const shouldSend = chatbot.published || chatbot.testSubscribers.includes(contact.number)
                               if (shouldSend) {
                                 let ecommerceProvider = null
@@ -307,7 +309,6 @@ function shouldAvoidSendingAutomatedMessage (contact, company, data) {
       resolve(avoidSending)
     } else {
       if (data.messageData && data.messageData.text.toLowerCase() === 'unpause') {
-        updateWhatsAppContact({ _id: contact._id }, {chatbotPaused: false}, null, {})
         resolve(avoidSending)
       } else if (contact.lastMessageSentByBot && talkToAgentBlocks.includes(contact.lastMessageSentByBot.title.toLowerCase())) {
         resolve(avoidSending)
@@ -322,6 +323,7 @@ function shouldAvoidSendingAutomatedMessage (contact, company, data) {
         }
         if (!avoidSending) {
           updateWhatsAppContact({ _id: contact._id }, {chatbotPaused: false}, null, {})
+          contact.chatbotPaused = false
         }
         resolve(avoidSending)
       }

@@ -3305,7 +3305,10 @@ exports.allowUserUnpauseChatbot = (contact) => {
       payload: [
         {
           text: `Do you want to unpause the chatbot or continue conversation with customer agent support?`,
-          componentType: 'text'
+          componentType: 'text',
+          specialKeys: {
+            'unpause': { type: DYNAMIC, action: UNPAUSE_CHATBOT }
+          }
         }
       ]
     }
