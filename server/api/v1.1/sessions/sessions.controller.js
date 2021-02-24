@@ -594,6 +594,18 @@ exports.genericFind = function (req, res) {
     })
 }
 
+exports.updatePauseChatbot = function (req, res) {
+  callApi('subscribers/update', 'put', { query: { _id: req.body.subscriberId }, newPayload: { chatbotPaused: req.body.chatbotPaused }, options: {} })
+    .then(updated => {
+      sendSuccessResponse(res, 200, 'Chatbot has been paused successfully')
+    })
+    .catch(err => {
+      const message = err || 'error updating chatbot pause'
+      logger.serverLog(message, `${TAG}: exports.updatePauseChatbot`, req.body, {user: req.user}, 'error')
+      sendErrorResponse(res, 500, err)
+    })
+}
+
 function pushUnresolveAlert (companyId, subscriberId) {
   callApi('subscribers/query', 'post', { _id: subscriberId })
     .then(subscriber => {
