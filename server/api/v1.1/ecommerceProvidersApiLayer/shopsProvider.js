@@ -194,53 +194,61 @@ exports.getOrderStatus = (id, credentials) => {
     needle('get', `${API_URL}/${id}?access_token=${params}&${fields}`)
       .then(result => {
         result = result.body
-        payload = {
-          id: result.id,
-          name: result.id,
-          status: result.order_status,
-          createdAt: result.created,
-          channel: result.channel,
-          billingAddress: {
-            name: result.shipping_address.name,
-            address1: result.shipping_address.street1,
-            address2: result.shipping_address.street2,
-            city: result.shipping_address.city,
-            province: result.shipping_address.state,
-            country: result.shipping_address.country
-          },
-          shippingAddress: {
-            name: result.shipping_address.name,
-            address1: result.shipping_address.street1,
-            address2: result.shipping_address.street2,
-            city: result.shipping_address.city,
-            province: result.shipping_address.state,
-            country: result.shipping_address.country
-          },
-          customer: {
-            firstName: result.buyer_details.name,
+        if (result.error) {
+          reject(result.error.message || result.error)
+        } else {
+          payload = {
+            id: result.id,
+            name: result.id,
+            status: result.order_status,
+            createdAt: result.created,
+            channel: result.channel,
+            billingAddress: {
+              name: result.shipping_address.name,
+              address1: result.shipping_address.street1,
+              address2: result.shipping_address.street2,
+              city: result.shipping_address.city,
+              province: result.shipping_address.state,
+              country: result.shipping_address.country
+            },
+            shippingAddress: {
+              name: result.shipping_address.name,
+              address1: result.shipping_address.street1,
+              address2: result.shipping_address.street2,
+              city: result.shipping_address.city,
+              province: result.shipping_address.state,
+              country: result.shipping_address.country
+            },
+            customer: {
+              firstName: result.buyer_details.name,
+              email: result.buyer_details.email
+            },
             email: result.buyer_details.email
-          },
-          email: result.buyer_details.email
+          }
+          const itemsFields = 'fields=id,product_name,quantity,price_per_unit,product_id'
+          return needle('get', `${API_URL}/${id}/items?access_token=${params}&${itemsFields}`)
         }
-        const itemsFields = 'fields=id,product_name,quantity,price_per_unit,product_id'
-        return needle('get', `${API_URL}/${id}/items?access_token=${params}&${itemsFields}`)
       })
       .then(async items => {
-        items = items.body.data
-        payload.lineItems = await Promise.all(items.map(async item => {
-          let productDetails = await needle('get', `${API_URL}/${item.product_id}?access_token=${params}`)
-          return {
-            id: item.id,
-            title: item.product_name,
-            name: item.product_name,
-            variant_title: item.product_name,
-            price: item.price_per_unit.amount,
-            currency: item.price_per_unit.currency,
-            quantity: item.quantity,
-            image: productDetails.body.image_url
-          }
-        }))
-        resolve(payload)
+        if (items.body.error) {
+          reject(items.body.error.message || items.body.error)
+        } else {
+          items = items.body.data
+          payload.lineItems = await Promise.all(items.map(async item => {
+            let productDetails = await needle('get', `${API_URL}/${item.product_id}?access_token=${params}`)
+            return {
+              id: item.id,
+              title: item.product_name,
+              name: item.product_name,
+              variant_title: item.product_name,
+              price: item.price_per_unit.amount,
+              currency: item.price_per_unit.currency,
+              quantity: item.quantity,
+              image: productDetails.body.image_url
+            }
+          }))
+          resolve(payload)
+        }
       })
       .catch(err => reject(err))
   })

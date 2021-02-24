@@ -23,7 +23,7 @@ router.get('/callback', passport.authenticate('facebook', {
 
 router.get('/reauth/shops', passport.authenticate('facebook', {
   authType: 'rerequest',
-  scope: ['business_management', 'catalog_management'],
+  scope: ['business_management', 'catalog_management', 'commerce_account_read_orders', 'commerce_account_manage_orders'],
   failureRedirect: '/',
   session: false
 }))
