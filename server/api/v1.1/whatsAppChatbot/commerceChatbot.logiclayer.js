@@ -373,19 +373,21 @@ exports.getAbandonedCartReminderBlock = async (chatbot, contact, EcommerceProvid
     const storeInfo = await EcommerceProvider.fetchStoreInfo()
     const messageBlock = {
       module: {
-        id: chatbot._id,
+        id: company.whatsApp.activeWhatsappBot,
         type: 'abandoned_cart_reminder'
       },
       title: 'Abandoned Cart Reminder',
       uniqueId: '' + new Date().getTime(),
       payload: getAbandonedCartReminderPayload(contact, company, abandonedCart, storeInfo),
-      userId: chatbot.userId,
-      companyId: chatbot.companyId
+      userId: company.ownerId,
+      companyId: company._id
     }
-    messageBlock.payload[0].specialKeys = {
-      [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
-      [ORDER_STATUS_KEY]: { type: DYNAMIC, action: VIEW_RECENT_ORDERS },
-      [TALK_TO_AGENT_KEY]: { type: DYNAMIC, action: TALK_TO_AGENT }
+    if (chatbot) {
+      messageBlock.payload[0].specialKeys = {
+        [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
+        [ORDER_STATUS_KEY]: { type: DYNAMIC, action: VIEW_RECENT_ORDERS },
+        [TALK_TO_AGENT_KEY]: { type: DYNAMIC, action: TALK_TO_AGENT }
+      }
     }
     messageBlock.payload[0].text += `\n\n${specialKeyText(TALK_TO_AGENT_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(ORDER_STATUS_KEY)}`
@@ -1094,6 +1096,8 @@ const getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) 
 }
 const getConfirmReturnOrderBlock = async (chatbot, backId, order) => {
   try {
+    const storeInfo = await EcommerceProvider.fetchStoreInfo()
+    let number = businessNumber.replace(/[^0-9]/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')
     let messageBlock = {
       module: {
         id: chatbot._id,
@@ -1160,6 +1164,7 @@ const getReturnOrderBlock = async (chatbot, contact, backId, EcommerceProvider, 
     }
     const message = `${contact.name} is requesting a return for order #${orderId}.`
     sendNotification(contact, message, chatbot.companyId)
+
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to return order'
