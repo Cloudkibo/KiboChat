@@ -721,7 +721,7 @@ function saveTesterInfoForLater (pageId, subscriberId, chatBot) {
 function shouldAvoidSendingAutomatedMessage (subscriber, event) {
   return new Promise((resolve, reject) => {
     let talkToAgentBlocks = ['ask unpause chatbot', 'talk to agent']
-    let payload = event.postback && event.postback.payload ? JSON.parse(event.postback.payload) : null
+    let payload = event.postback && event.postback.payload && logicLayer.isJsonString(event.postback.payload) ? JSON.parse(event.postback.payload) : null
     let avoidSending = false
     if (!subscriber.chatbotPaused) {
       resolve(avoidSending)
