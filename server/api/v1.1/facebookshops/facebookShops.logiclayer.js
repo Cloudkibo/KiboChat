@@ -33,7 +33,11 @@ exports.checkFacebookPermissions = async function (facebookInfo) {
         }
       }
     }
-    return (catalogPermissionGiven && businessPermissionGiven && readOrderPermissionGiven && manageOrderPermissionGiven)
+    // Note: comment out this line in future when FB opens these permissinos from closed beta.
+    // These are are for checking order status on Facebook Shops
+    // - Sojharo
+    // return (catalogPermissionGiven && businessPermissionGiven && readOrderPermissionGiven && manageOrderPermissionGiven)
+    return (catalogPermissionGiven && businessPermissionGiven)
   } catch (err) {
     const message = err || 'Internal Server Error'
     logger.serverLog(message, `${TAG}: exports.checkFacebookPermissions`, facebookInfo, {}, 'error')
