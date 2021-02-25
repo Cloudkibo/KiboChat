@@ -373,19 +373,21 @@ exports.getAbandonedCartReminderBlock = async (chatbot, contact, EcommerceProvid
     const storeInfo = await EcommerceProvider.fetchStoreInfo()
     const messageBlock = {
       module: {
-        id: chatbot._id,
+        id: company.whatsApp.activeWhatsappBot,
         type: 'abandoned_cart_reminder'
       },
       title: 'Abandoned Cart Reminder',
       uniqueId: '' + new Date().getTime(),
       payload: getAbandonedCartReminderPayload(contact, company, abandonedCart, storeInfo),
-      userId: chatbot.userId,
-      companyId: chatbot.companyId
+      userId: company.ownerId,
+      companyId: company._id
     }
-    messageBlock.payload[0].specialKeys = {
-      [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
-      [ORDER_STATUS_KEY]: { type: DYNAMIC, action: VIEW_RECENT_ORDERS },
-      [TALK_TO_AGENT_KEY]: { type: DYNAMIC, action: TALK_TO_AGENT }
+    if (chatbot) {
+      messageBlock.payload[0].specialKeys = {
+        [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
+        [ORDER_STATUS_KEY]: { type: DYNAMIC, action: VIEW_RECENT_ORDERS },
+        [TALK_TO_AGENT_KEY]: { type: DYNAMIC, action: TALK_TO_AGENT }
+      }
     }
     messageBlock.payload[0].text += `\n\n${specialKeyText(TALK_TO_AGENT_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(ORDER_STATUS_KEY)}`
