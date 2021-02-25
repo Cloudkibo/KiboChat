@@ -5,7 +5,7 @@ const { containsURL } = require('../../api/global/utility')
 
 exports.prepareSendMessagePayload = (body) => {
   let MessageObject = {
-    to: '+12',
+    to: body.recipientNumber.replace(/\D/g, ''),
     recipient_type: 'individual'
   }
   if (body.payload.componentType === 'text') {
