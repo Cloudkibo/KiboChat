@@ -3604,7 +3604,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
       } catch (err) {
         if (!userError) {
           const message = err || 'Invalid user input'
-          logger.serverLog(message, `${TAG}: exports.getNextMessageBlock`, {}, {chatbot, EcommerceProvider, contact, event}, 'error')
+          logger.serverLog(message, `${TAG}: exports.getNextMessageBlock`, {}, { contact, event, chatbot: chatbot._id, EcommerceProvider }, 'error')
         }
         if (startingBlock.triggers.includes(input) || (moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15)) {
           return startingBlock
@@ -3840,6 +3840,6 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
     }
   } catch (err) {
     const message = err || 'nextMessageBlock error'
-    logger.serverLog(message, `${TAG}: exports.getNextMessageBlock`, {}, {chatbot, EcommerceProvider, contact, event}, 'error')
+    logger.serverLog(message, `${TAG}: exports.getNextMessageBlock`, {}, { contact, event, chatbot: chatbot._id, EcommerceProvider }, 'error')
   }
 }
