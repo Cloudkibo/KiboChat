@@ -464,14 +464,14 @@ const getViewCatalogBlock = (chatbot, backId, contact) => {
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    if (chatbot.botLinks.catalogUrl) {
+    if (chatbot.catalog && chatbot.catalog.url) {
       messageBlock.payload[0].text = getProfileIds().includes(chatbot.companyId) ? prepareText(chatbot.companyId, 'VIEW_CATALOG') : `Here is our catalog. Please wait a moment for it to send.`
       messageBlock.payload.push({
         componentType: 'file',
         fileurl: {
-          url: chatbot.botLinks.catalogUrl
+          url: chatbot.catalog.url
         },
-        fileName: `catalog.pdf`,
+        fileName: chatbot.catalog.name,
         quickReplies: [
           {
             content_type: 'text',
