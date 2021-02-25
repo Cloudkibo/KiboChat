@@ -22,6 +22,8 @@ const path = require('path')
 const Shopify = require('shopify-api-node')
 const { callApi } = require('../utility')
 const { sendWhatsAppMessage } = require('../whatsAppEvents/controller')
+const { messengerLogicLayer } = require('../messengerEvents/logiclayer')
+const { facebookApiCaller } = require('./../../global/facebookApiCaller')
 const moment = require('moment')
 
 exports.index = function (req, res) {
@@ -316,12 +318,54 @@ exports.handleCompleteCheckout = async function (req, res) {
           newPayload: { shoppingCart: [], 'commerceCustomerShopify.abandonedCartInfo': null },
           options: {multi: true}
         }
+        callApi(`whatsAppContacts/update`, 'put', updateDataWhatsApp)
+
+        const subscribers = await callApi(`subscribers/query`, 'post', query)
+        for (const subscriber of subscribers) {
+          if (moment().diff(moment(subscriber.lastMessagedAt), 'minutes') >= 15) {
+            const company = await callApi(`companyProfile/query`, 'post', { _id: subscriber.companyId })
+            const messageBlock = {
+              module: {
+                id: company.whatsApp.activeWhatsappBot,
+                type: 'messenger_commerce_chatbot'
+              },
+              title: 'Order Confirmation Notification',
+              uniqueId: '' + new Date().getTime(),
+              payload: [
+                {
+                  text: `Hi ${subscriber.firstName} ${subscriber.lastName}\n Thank you for placing an order at ${shopUrl}.\n\n This is your order number: ${req.body.name.slice(1)}`,
+                  componentType: 'text'
+                }
+              ],
+              userId: company.ownerId,
+              companyId: company._id
+            }
+            if (req.body.order_status_url) {
+              messageBlock.payload[0].buttons = [{
+                title: 'Status Page',
+                type: 'web_url',
+                url: req.body.order_status_url
+              }]
+            }
+            const pages = await callApi('pages/query', 'post', { _id: subscriber.pageId, connected: true })
+            const page = pages[0]
+            messageBlock.payload.forEach(item => {
+              let finalPayload = messengerLogicLayer.prepareSendAPIPayload(subscriber.senderId, item, subscriber.firstName, subscriber.lastName, true)
+              facebookApiCaller('v3.2', `me/messages?access_token=${page.accessToken}`, 'post', finalPayload)
+                .then(response => {
+                })
+                .catch(error => {
+                  const message = error || 'error in sending message'
+                  return logger.serverLog(message, `${TAG}: exports.sendResponse`, {}, {messageBlock, body: req.body}, 'error')
+                })
+            })
+          }
+        }
         const updateDataMessenger = {
-          query: {'commerceCustomer.email': req.body.email},
+          query: {'commerceCustomer.email': req.body.email, companyId: shopifyIntegration.companyId},
           newPayload: { shoppingCart: [] },
           options: {}
         }
-        callApi(`whatsAppContacts/update`, 'put', updateDataWhatsApp)
         callApi(`subscribers/update`, 'put', updateDataMessenger)
       }
     }
