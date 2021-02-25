@@ -27,7 +27,7 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
           .then(async chatbot => {
             try {
               if (chatbot) {
-                let unpausePayload = req.postback && req.postback.payload ? JSON.parse(req.postback.payload) : null
+                let unpausePayload = req.postback && req.postback.payload && logicLayer.isJsonString(req.postback.payload) ? JSON.parse(req.postback.payload) : null
                 if ((req.postback && req.postback.payload && req.postback.payload === '<GET_STARTED_PAYLOAD>') || unpausePayload.action === 'UNPAUSE_CHATBOT') {
                   let nextMessageBlock = null
                   let currentMessage = null
