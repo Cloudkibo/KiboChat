@@ -23,7 +23,11 @@ router.get('/callback', passport.authenticate('facebook', {
 
 router.get('/reauth/shops', passport.authenticate('facebook', {
   authType: 'rerequest',
-  scope: ['business_management', 'catalog_management', 'commerce_account_read_orders', 'commerce_account_manage_orders'],
+  // Note: comment out this line in future when FB opens these permissinos from closed beta.
+  // These are are for checking order status on Facebook Shops
+  // - Sojharo
+  // scope: ['business_management', 'catalog_management', 'commerce_account_read_orders', 'commerce_account_manage_orders'],
+  scope: ['business_management', 'catalog_management'],
   failureRedirect: '/',
   session: false
 }))
