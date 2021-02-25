@@ -82,7 +82,7 @@ module.exports = class EcommerceProvidersApiLayer {
       // NOTE: send the catalog id as string in paginationParams,
       // pagination is not supported on this endpoint from fb for now.
       // see this link for updates: https://developers.facebook.com/docs/marketing-api/reference/product-catalog/products
-      return shopsProvider.fetchProducts(paginationParams, this.eCommerceProviderCredentials)
+      return shopsProvider.fetchProducts(paginationParams, numberOfProducts, this.eCommerceProviderCredentials)
     }
   }
 
@@ -105,7 +105,7 @@ module.exports = class EcommerceProvidersApiLayer {
     } else if (this.eCommerceProvider === providers.bigcommerce) {
       return bigCommerceProvider.fetchProductsInThisCategory(id, numberOfProducts, this.eCommerceProviderCredentials)
     } else if (this.eCommerceProvider === providers.shops) {
-      return shopsProvider.fetchProductsInThisCategory(id, this.eCommerceProviderCredentials)
+      return shopsProvider.fetchProductsInThisCategory(id, numberOfProducts, this.eCommerceProviderCredentials)
     }
   }
 
