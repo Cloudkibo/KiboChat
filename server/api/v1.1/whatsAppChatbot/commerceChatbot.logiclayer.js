@@ -202,14 +202,14 @@ const getViewCatalogBlock = (chatbot, backId, contact) => {
       companyId: chatbot.companyId
     }
 
-    if (chatbot.botLinks.catalogUrl) {
+    if (chatbot.catalog && chatbot.catalog.url) {
       messageBlock.payload[0].text += `Here is our catalog. Please wait a moment for it to send.`
       messageBlock.payload.push({
         componentType: 'file',
         fileurl: {
-          url: chatbot.botLinks.catalogUrl
+          url: chatbot.catalog.url
         },
-        fileName: `catalog.pdf`
+        fileName: chatbot.catalog.name
       })
     } else {
       messageBlock.payload[0].text += `No catalog currently available.`
