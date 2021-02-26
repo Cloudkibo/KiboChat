@@ -195,20 +195,6 @@ exports.handleCreateCheckout = async function (req, res) {
           const company = await callApi(`companyProfile/query`, 'post', { _id: integration.companyId })
           if (company.whatsApp) {
             const contact = await getContact(integration.companyId, req.body.phone, req.body.customer)
-            let commerceCustomerShopify = contact.commerceCustomerShopify ? contact.commerceCustomerShopify : req.body.customer
-            commerceCustomerShopify.abandonedCheckoutMessageSent = true
-            commerceCustomerShopify.abandonedCartInfo = {
-              cartRecoveryAttempts: contact.commerceCustomerShopify && contact.commerceCustomerShopify.abandonedCartInfo ? contact.commerceCustomerShopify.abandonedCartInfo.cartRecoveryAttempts : 0,
-              abandonedCheckoutUrl: req.body.abandoned_checkout_url,
-              abandonedCheckoutId: req.body.id,
-              token: req.body.token
-            }
-            const updateData = {
-              query: {_id: contact._id},
-              newPayload: { commerceCustomerShopify: commerceCustomerShopify },
-              options: {}
-            }
-            callApi(`whatsAppContacts/update`, 'put', updateData)
             if (!(contact.commerceCustomerShopify && contact.commerceCustomerShopify.abandonedCheckoutMessageSent)) {
               const ecommerceProvider = new EcommerceProviders(commerceConstants.shopify, {
                 shopUrl: integration.shopUrl,
@@ -233,6 +219,20 @@ exports.handleCreateCheckout = async function (req, res) {
               }
               sendWhatsAppMessage(messageBlock, data, contact.number, company, contact)
             }
+            let commerceCustomerShopify = contact.commerceCustomerShopify ? contact.commerceCustomerShopify : req.body.customer
+            commerceCustomerShopify.abandonedCheckoutMessageSent = true
+            commerceCustomerShopify.abandonedCartInfo = {
+              cartRecoveryAttempts: contact.commerceCustomerShopify && contact.commerceCustomerShopify.abandonedCartInfo ? contact.commerceCustomerShopify.abandonedCartInfo.cartRecoveryAttempts : 0,
+              abandonedCheckoutUrl: req.body.abandoned_checkout_url,
+              abandonedCheckoutId: req.body.id,
+              token: req.body.token
+            }
+            const updateData = {
+              query: {_id: contact._id},
+              newPayload: { commerceCustomerShopify: commerceCustomerShopify },
+              options: {}
+            }
+            callApi(`whatsAppContacts/update`, 'put', updateData)
           }
         }
       }
