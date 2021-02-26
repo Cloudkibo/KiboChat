@@ -794,7 +794,7 @@ function sendWhatsAppMessageLogic (messagePayload, data, number, company, contac
     .catch(err => {
       const message = err || 'Failed to send chat message'
       logger.serverLog(message, `${TAG}: exports.sendWhatsAppMessage`, {}, {chatbotResponse},
-        err.includes('Invalid Or Expired Session') ? 'info' : 'error')
+        message && message.includes('Invalid Or Expired Session') ? 'info' : 'error')
     })
 }
 
