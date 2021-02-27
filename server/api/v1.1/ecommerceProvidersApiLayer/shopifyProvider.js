@@ -694,3 +694,50 @@ exports.fetchAbandonedCart = (token, credentials) => {
     }
   })
 }
+
+exports.fetchOrders = (limit, paginationParams, credentials) => {
+  const shopify = initShopify(credentials)
+  return new Promise(function (resolve, reject) {
+    paginationParams = paginationParams || { limit: limit, status: 'any' }
+    shopify.order.list(paginationParams)
+      .then(orders => {
+        let nextPageParameters = orders.nextPageParameters
+        orders = orders.map(order => {
+          let orderStatusUrl = order.order_status_url.split('.com')
+          return {
+            orderNumber: order.order_number,
+            createdAt: order.created_at,
+            customerName: getCustomerName(order),
+            totalPrice: order.total_price,
+            currency: order.currency,
+            financialStatus: order.financial_status,
+            fulfillmentStatus: order.fulfillment_status,
+            orderUrl: `${orderStatusUrl[0]}.com/admin/orders/${order.id}`,
+            customerNumber: order.phone ? order.phone : order.customer ? order.customer.phone : null,
+            tags: order.tags
+          }
+        })
+        if (nextPageParameters) {
+          orders.nextPageParameters = nextPageParameters
+        }
+        resolve(orders)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
+function getCustomerName (order) {
+  let name = ''
+  if (order.customer) {
+    name = order.customer.first_name + ' ' + order.customer.last_name
+  } else if (order.shipping_address && order.shipping_address.name) {
+    name = order.shipping_address.name
+  } else if (order.billing_address && order.billing_address.name) {
+    name = order.billing_address.name
+  } else {
+    name = 'No Customer'
+  }
+  return name
+}

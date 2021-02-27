@@ -50,6 +50,11 @@ router.get('/testRoute',
   auth.isSuperUserActingAsCustomer(),
   controller.testRoute) // this id will be userid
 
+router.post('/fetchOrders',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
+  controller.fetchOrders)
+
 // router.post('/checkout-create',
 //   webhook.handleCheckout) // this id will be userid
 //
