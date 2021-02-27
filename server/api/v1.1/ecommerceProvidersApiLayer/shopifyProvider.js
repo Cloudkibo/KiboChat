@@ -729,15 +729,13 @@ exports.fetchOrders = (limit, paginationParams, credentials) => {
 }
 
 function getCustomerName (order) {
-  let name = ''
+  let name = 'No Customer'
   if (order.customer) {
     name = order.customer.first_name + ' ' + order.customer.last_name
   } else if (order.shipping_address && order.shipping_address.name) {
     name = order.shipping_address.name
   } else if (order.billing_address && order.billing_address.name) {
     name = order.billing_address.name
-  } else {
-    name = 'No Customer'
   }
   return name
 }
