@@ -5,8 +5,11 @@ const async = require('async')
 exports.sendChatMessage = (data) => {
   return new Promise((resolve, reject) => {
     let { route, MessageObject } = logicLayer.prepareSendMessagePayload(data)
+    console.log('MessageObject', MessageObject)
+    console.log('route', route)
     flockSendApiCaller(`connect/official/v2/${route}`, 'post', MessageObject)
       .then(response => {
+        console.log('response.body', response.body)
         let parsed = JSON.parse(response.body)
         if (parsed.code !== 200) {
           reject(parsed.message)
@@ -197,4 +200,8 @@ exports.sendTextMessage = ({text, company, subscriber}) => {
         reject(error)
       })
   })
+}
+
+exports.getCommerceTemplates = (body) => {
+  return (logicLayer.prepareCommerceTemplates(body))
 }

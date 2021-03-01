@@ -92,6 +92,7 @@ exports.prepareReceivedMessageData = (event) => {
 exports.prepareTemplates = (flockSendTemplates) => {
   let templates = []
   for (let i = 0; i < flockSendTemplates.length; i++) {
+    console.log('flockSendTemplates[0]', flockSendTemplates[0])
     if (flockSendTemplates[i].localizations[0].status === 'APPROVED') {
       let template = {}
       template.name = flockSendTemplates[i].templateName
@@ -165,4 +166,41 @@ exports.prepareChatbotPayload = (company, contact, payload, options) => {
     }
     resolve({message, route})
   })
+}
+exports.prepareCommerceTemplates = (body) => {
+  let templates = {
+    ORDER_CONFIRMATION: {
+      english: {
+        name: 'order_confirmation',
+        regex: '^Hi *(.*), thank you for your purchase of *(.*)* from *(.*)*. Your order is getting ready and we will notify you when it has been shipped. You can view your order here 👉 (Order ID *(.*)*) (.*)\n_Chat with customer support at: https://wa.me/(.*)_$',
+        templateArguments: '{{customer_name}},{{order_value}},{{shop_name}},{{order_ID}},{{order_status_url}},{{support_number}}',
+        text: 'Hi *{{customer_name}}*, thank you for your purchase of *{{order_value}}* from *{{shop_name}}*. Your order is getting ready and we will notify you when it has been shipped. You can view your order here 👉 (Order ID *{{order_ID}}*) {{order_status_url}}\n_Chat with customer support at: https://wa.me/{{support_number}}_',
+        type: 'TEXT',
+        code: 'en'
+      },
+      urdu: {},
+      arabic: {}
+    },
+    ORDER_SHIPMENT: {
+      english: {
+        name: 'order_shipment',
+        regex: '^Hi (.*), your order from (.*) has been shipped and is on its way. Track your shipment using this link (.*) (.*)\n_Chat with customer support at: (.*)_$',
+        templateArguments: '{{customer_name}},{{shop_name}},{{tracking_ID}},{{tracking_url}},{{supportNumber}}',
+        text: 'Hi {{customer_name}}, your order from {{shop_name}} has been shipped and is on its way. Track your shipment using this link {{tracking_ID}} {{tracking_url}}\n_Chat with customer support at: {{support_number}}_',
+        type: 'TEXT',
+        code: 'en'
+      },
+      urdu: {},
+      arabic: {}
+    },
+    ABANDONED_CART_RECOVERY: {},
+    COD_ORDER_CONFIRMATION: {}
+  }
+  if (body.type && body.language) {
+    return templates[body.type][body.language]
+  } else if (body.type) {
+    return templates[body.type]
+  } else {
+    return templates
+  }
 }
