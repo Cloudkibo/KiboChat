@@ -789,6 +789,4 @@ const isTriggerMessage = (event, page) => {
 exports.updateBotPeriodicStatsForBlock = updateBotPeriodicStatsForBlock
 exports.updateBotLifeStatsForBlock = updateBotLifeStatsForBlock
 exports.sendResponse = sendResponse
-exports.isTriggerMessage = 
-  
-  
+exports.isTriggerMessage = isTriggerMessage
