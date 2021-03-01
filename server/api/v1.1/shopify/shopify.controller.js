@@ -294,7 +294,7 @@ exports.handleCompleteCheckout = async function (req, res) {
     sendSuccessResponse(res, 200, {status: 'success'})
     if (req.body.email || req.body.phone) {
       const shopUrl = req.headers['x-shopify-shop-domain']
-      let shopifyIntegrations = await dataLayer.findShopifyIntegrations({ shopUrl })
+      const shopifyIntegrations = await dataLayer.findShopifyIntegrations({ shopUrl })
       for (const shopifyIntegration of shopifyIntegrations) {
         let query = {
           $or: [], companyId: shopifyIntegration.companyId
