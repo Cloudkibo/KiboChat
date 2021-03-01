@@ -183,9 +183,9 @@ exports.prepareCommerceTemplates = (body) => {
     ORDER_SHIPMENT: {
       english: {
         name: 'order_shipment',
-        regex: '^Hi (.*), your order from (.*) has been shipped and is on its way. Track your shipment using this link (.*) (.*)\n_Chat with customer support at: (.*)_$',
-        templateArguments: '{{customer_name}},{{shop_name}},{{tracking_ID}},{{tracking_url}},{{supportNumber}}',
-        text: 'Hi {{customer_name}}, your order from {{shop_name}} has been shipped and is on its way. Track your shipment using this link {{tracking_ID}} {{tracking_url}}\n_Chat with customer support at: {{support_number}}_',
+        regex: '^Hi *(.*)*, your order from *(.*)* has been shipped and is on its way. Track your shipment using this link 🚚 (tracking ID *(.*)*) (.*)\n_Chat with customer support at: https://wa.me/(.*)_$',
+        templateArguments: '{{customer_name}},{{shop_name}},{{tracking_ID}},{{tracking_url}},{{support_number}}',
+        text: 'Hi *{{customer_name}}*, your order from *{{shop_name}}* has been shipped and is on its way. Track your shipment using this link 🚚 (tracking ID *{{tracking_ID}}*) {{tracking_url}}\n_Chat with customer support at: https://wa.me/{{support_number}}_',
         type: 'TEXT',
         code: 'en'
       },
