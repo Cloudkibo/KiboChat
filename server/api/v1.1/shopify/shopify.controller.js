@@ -294,7 +294,7 @@ exports.handleCompleteCheckout = async function (req, res) {
     sendSuccessResponse(res, 200, {status: 'success'})
     if (req.body.email || req.body.phone) {
       const shopUrl = req.headers['x-shopify-shop-domain']
-      let shopifyIntegrations = await dataLayer.findShopifyIntegrations({ shopUrl })
+      const shopifyIntegrations = await dataLayer.findShopifyIntegrations({ shopUrl })
       for (const shopifyIntegration of shopifyIntegrations) {
         let query = {
           $or: [], companyId: shopifyIntegration.companyId
@@ -395,9 +395,37 @@ exports.handleFulfillment = async function (req, res) {
   try {
     console.log('handleFulfillment', JSON.stringify(req.body))
     sendSuccessResponse(res, 200, {status: 'success'})
+    if (req.body.fulfillments && req.body.fulfillments.length > 0) {
+      let fulfillment = req.body.fulfillments[0]
+      if (fulfillment.tracking_url && fulfillment.tracking_number && req.body.phone) {
+        const shopUrl = req.headers['x-shopify-shop-domain']
+        let shopifyIntegrations = await dataLayer.findShopifyIntegrations({ shopUrl })
+        shopifyIntegrations = [shopifyIntegrations[0]]
+        for (const shopifyIntegration of shopifyIntegrations) {
+          if (shopifyIntegration.orderShipment && shopifyIntegration.orderShipment.enabled) {
+            let query = {
+              $or: [{number: req.body.phone}, {number: req.body.phone.replace(/\D/g, '')}],
+              companyId: shopifyIntegration.companyId
+            }
+            const contacts = await callApi(`whatsAppContacts/query`, 'post', query)
+            for (const contact of contacts) {
+              const ecommerceProvider = new EcommerceProviders(commerceConstants.shopify, {
+                shopUrl: shopifyIntegration.shopUrl,
+                shopToken: shopifyIntegration.shopToken
+              })
+              const storeInfo = await ecommerceProvider.fetchStoreInfo()
+              let preparedMessage = logicLayer.getOrderShipmentMessage(contact, shopifyIntegration, fulfillment, storeInfo.name)
+              if (preparedMessage.provider) {
+                whatsAppMapper(preparedMessage.provider, ActionTypes.SEND_CHAT_MESSAGE, preparedMessage)
+              }
+            }
+          }
+        }
+      }
+    }
   } catch (err) {
-    const message = err || 'Error processing shopify create checkout webhook '
-    logger.serverLog(message, `${TAG}: exports.handleCreateCheckout`, req.body, {header: req.header}, 'error')
+    const message = err || 'Error processing shopify fulfillment webhook'
+    logger.serverLog(message, `${TAG}: exports.handleFulfillment`, req.body, {header: req.header}, 'error')
   }
 }
 

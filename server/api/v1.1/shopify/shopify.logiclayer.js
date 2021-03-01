@@ -11,7 +11,7 @@ exports.getOrderConfirmationMessage = (contact, shopifyIntegration, company, bod
       superWhatsAppAccount.provider,
       ActionTypes.GET_COMMERCE_TEMPLATES,
       {type: 'ORDER_CONFIRMATION', language: shopifyIntegration.orderConfirmation.language})
-    let replacedValues = replaceTemplateArguments(templateMessage.text, contact.name, body, shopifyIntegration.orderConfirmation.supportNumber, shopName)
+    let replacedValues = prepareOrderConfirmationMessage(templateMessage.text, contact.name, body, shopifyIntegration.orderConfirmation.supportNumber, shopName)
     let payload = {
       text: replacedValues.text,
       componentType: 'text',
@@ -62,13 +62,47 @@ exports.getOrderConfirmationMessage = (contact, shopifyIntegration, company, bod
   return preparedMessage
 }
 
-function replaceTemplateArguments (text, contactName, body, supportNumber, shopName) {
+function prepareOrderConfirmationMessage (text, contactName, body, supportNumber, shopName) {
   let templateArguments = `${contactName},${body.currency} ${body.total_line_items_price},${shopName},${body.name},${body.order_status_url},${supportNumber}`
   text = text.replace(/{{customer_name}}/g, contactName)
   text = text.replace(/{{order_value}}/g, body.currency + ' ' + body.total_line_items_price)
   text = text.replace(/{{shop_name}}/g, shopName)
   text = text.replace(/{{order_ID}}/g, body.name)
   text = text.replace(/{{order_status_url}}/g, body.order_status_url)
+  text = text.replace(/{{support_number}}/g, supportNumber)
+  return {
+    text: text,
+    templateArguments: templateArguments
+  }
+}
+exports.getOrderShipmentMessage = (contact, shopifyIntegration, fulfillment, shopName) => {
+  let superWhatsAppAccount = getSuperWhatsAppAccount()
+  let templateMessage = whatsAppMapper(
+    superWhatsAppAccount.provider,
+    ActionTypes.GET_COMMERCE_TEMPLATES,
+    {type: 'ORDER_SHIPMENT', language: shopifyIntegration.orderShipment.language})
+  let replacedValues = prepareOrderShipmentMessage(templateMessage.text, contact.name, fulfillment, shopifyIntegration.orderShipment.supportNumber, shopName)
+  let payload = {
+    text: replacedValues.text,
+    componentType: 'text',
+    templateArguments: replacedValues.templateArguments,
+    templateName: templateMessage.name,
+    code: templateMessage.code
+  }
+  let preparedMessage = {
+    provider: superWhatsAppAccount.provider,
+    payload: payload,
+    whatsApp: superWhatsAppAccount,
+    recipientNumber: contact.number
+  }
+  return preparedMessage
+}
+function prepareOrderShipmentMessage (text, contactName, fulfillment, supportNumber, shopName) {
+  let templateArguments = `${contactName},${shopName},${fulfillment.tracking_number},${fulfillment.tracking_url},${supportNumber}`
+  text = text.replace(/{{customer_name}}/g, contactName)
+  text = text.replace(/{{shop_name}}/g, shopName)
+  text = text.replace(/{{tracking_ID}}/g, fulfillment.tracking_number)
+  text = text.replace(/{{tracking_url}}/g, fulfillment.tracking_url)
   text = text.replace(/{{support_number}}/g, supportNumber)
   return {
     text: text,
