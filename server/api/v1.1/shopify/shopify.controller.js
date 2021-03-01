@@ -130,6 +130,16 @@ function registerWebhooks (shop, token) {
   })
 
   shopify.webhook.create({
+    topic: 'orders/updated',
+    address: `${config.domain}/api/shopify/fulfillment`,
+    format: 'json'
+  }).then((response) => {
+  }).catch((err) => {
+    const message = err || 'Error Creating Shopify Create Order Webhook'
+    logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
+  })
+
+  shopify.webhook.create({
     topic: 'checkouts/create',
     address: `${config.domain}/api/shopify/checkout-create`,
     format: 'json'
