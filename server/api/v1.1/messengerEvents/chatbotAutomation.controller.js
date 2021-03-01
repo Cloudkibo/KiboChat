@@ -762,7 +762,7 @@ const isTriggerMessage = (event, page) => {
           if (userText !== '') {
             messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
               .then(messageBlock => {
-                if (messageBlock.triggers.includes(userText)) {
+                if (messageBlock && messageBlock.triggers && messageBlock.triggers.includes(userText)) {
                   resolve(true)
                 } else {
                   resolve(false)
