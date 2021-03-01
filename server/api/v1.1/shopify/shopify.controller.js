@@ -393,7 +393,7 @@ async function sendOnWhatsApp (shopUrl, query, body, shopifyIntegration) {
 
 exports.handleFulfillment = async function (req, res) {
   try {
-    console.log('handleFulfillment', req.body)
+    console.log('handleFulfillment', JSON.stringify(req.body))
     sendSuccessResponse(res, 200, {status: 'success'})
   } catch (err) {
     const message = err || 'Error processing shopify create checkout webhook '
