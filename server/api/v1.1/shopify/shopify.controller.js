@@ -624,3 +624,21 @@ exports.testRoute = (req, res) => {
       ${JSON.stringify(err)}`)
     })
 }
+exports.fetchOrders = async (req, res) => {
+  try {
+    const shopifyIntegration = await dataLayer.findOneShopifyIntegration({ companyId: req.user.companyId })
+    if (shopifyIntegration) {
+      const shopify = new EcommerceProviders(commerceConstants.shopify, {
+        shopUrl: shopifyIntegration.shopUrl,
+        shopToken: shopifyIntegration.shopToken
+      })
+      const orders = await shopify.fetchOrders(req.body.limit, req.body.nextPageParameters)
+      sendSuccessResponse(res, 200, {orders: orders, nextPageParameters: orders.nextPageParameters})
+    } else {
+      sendErrorResponse(res, 500, `No Shopify Integration found`)
+    }
+  } catch (err) {
+    const message = err || 'Error fetching orders'
+    logger.serverLog(message, `${TAG}: exports.fetchOrders`, req.body, {}, 'error')
+  }
+}
