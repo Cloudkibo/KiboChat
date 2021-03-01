@@ -33,6 +33,8 @@ function callAction (action, data, provider) {
       return provider.sendTextMessage(data)
     case ActionTypes.CHECK_TWILLO_VERSION:
       return provider.checkTwillioVersion(data)
+    case ActionTypes.GET_COMMERCE_TEMPLATES:
+      return provider.getCommerceTemplates(data)
     default: break
   }
 }
