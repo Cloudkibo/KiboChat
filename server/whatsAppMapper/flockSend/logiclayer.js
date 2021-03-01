@@ -92,7 +92,6 @@ exports.prepareReceivedMessageData = (event) => {
 exports.prepareTemplates = (flockSendTemplates) => {
   let templates = []
   for (let i = 0; i < flockSendTemplates.length; i++) {
-    console.log('flockSendTemplates[0]', flockSendTemplates[0])
     if (flockSendTemplates[i].localizations[0].status === 'APPROVED') {
       let template = {}
       template.name = flockSendTemplates[i].templateName

@@ -63,7 +63,6 @@ exports.getOrderConfirmationMessage = (contact, shopifyIntegration, company, bod
 }
 
 function replaceTemplateArguments (text, contactName, body, supportNumber, shopName) {
-  console.log('supportNumber', supportNumber)
   let templateArguments = `${contactName},${body.currency} ${body.total_line_items_price},${shopName},${body.name},${body.order_status_url},${supportNumber}`
   text = text.replace(/{{customer_name}}/g, contactName)
   text = text.replace(/{{order_value}}/g, body.currency + ' ' + body.total_line_items_price)

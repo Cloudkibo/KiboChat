@@ -295,8 +295,6 @@ exports.handleCompleteCheckout = async function (req, res) {
     if (req.body.email || req.body.phone) {
       const shopUrl = req.headers['x-shopify-shop-domain']
       let shopifyIntegrations = await dataLayer.findShopifyIntegrations({ shopUrl })
-      shopifyIntegrations = [shopifyIntegrations[0]]
-      console.log('shopify integrations', shopifyIntegrations)
       for (const shopifyIntegration of shopifyIntegrations) {
         let query = {
           $or: [], companyId: shopifyIntegration.companyId
@@ -377,7 +375,6 @@ async function sendOnWhatsApp (shopUrl, query, body, shopifyIntegration) {
     })
     const storeInfo = await ecommerceProvider.fetchStoreInfo()
     let preparedMessage = logicLayer.getOrderConfirmationMessage(contact, shopifyIntegration, company, body, shopUrl, storeInfo.name)
-    console.log('preparedMessage', preparedMessage)
     if (preparedMessage.type) {
       if (preparedMessage.type === 'superNumber') {
         whatsAppMapper(preparedMessage.provider, ActionTypes.SEND_CHAT_MESSAGE, preparedMessage)
