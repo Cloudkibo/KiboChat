@@ -274,7 +274,8 @@ function getOptInReceivePayload (storeName, company) {
         text: `Thank you for opting-in from ${storeName}. Now you will receive your order updates, exclusive offers and news on WhatsApp.`,
         componentType: 'text',
         templateArguments: storeName,
-        templateName: 'optin_receive'
+        templateName: 'optin_receive',
+        templateCode: 'en'
       }
     ]
   } else {
