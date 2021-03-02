@@ -3169,48 +3169,6 @@ const getNewCheckoutZipCodeBlock =
     }
   }
 
-const updatedAddressBlockedMessage = async (chatbot, contact, argument) => {
-  let messageBlock = {
-    module: {
-      id: chatbot._id,
-      type: 'messenger_commerce_chatbot'
-    },
-    title: 'Is this new address confirmed?',
-    uniqueId: '' + new Date().getTime(),
-    payload: [
-      {
-        text: 'Thank you for updating address details.',
-        componentType: 'text',
-        quickReplies: [
-          {
-            content_type: 'text',
-            title: 'Yes, update address',
-            payload: JSON.stringify({ type: DYNAMIC, action: UPDATE_ADDRESS_BLOCK, argument })
-          },
-          {
-            content_type: 'text',
-            title: 'No, continue to checkout',
-            payload: JSON.stringify({ type: DYNAMIC, action: PROCEED_TO_CHECKOUT, argument })
-          },
-          {
-            content_type: 'text',
-            title: 'Go Home',
-            payload: JSON.stringify({ type: STATIC, blockId: chatbot.startingBlockId })
-          }
-        ]
-      }
-    ],
-    userId: chatbot.userId,
-    companyId: chatbot.companyId
-  }
-
-  const address = argument.address
-  messageBlock.payload[0].text += `\n\nYour new address is ${address.address1}, ${address.city} ${address.zip}, ${address.country}\n\n`
-
-  messageBlock.payload[0].text += `Do you want to update this address before continue with the checkout`
-
-  return messageBlock
-}
 const getCancelOrderBlock = async (chatbot, backId, EcommerceProvider, argument) => {
   let orderId = argument.id.split('//')[1].split('/')[2]
   try {
