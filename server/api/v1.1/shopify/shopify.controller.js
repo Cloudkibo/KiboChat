@@ -195,20 +195,6 @@ exports.handleCreateCheckout = async function (req, res) {
           const company = await callApi(`companyProfile/query`, 'post', { _id: integration.companyId })
           if (company.whatsApp) {
             const contact = await getContact(integration.companyId, req.body.phone, req.body.customer)
-            let commerceCustomerShopify = contact.commerceCustomerShopify ? contact.commerceCustomerShopify : req.body.customer
-            commerceCustomerShopify.abandonedCheckoutMessageSent = true
-            commerceCustomerShopify.abandonedCartInfo = {
-              cartRecoveryAttempts: contact.commerceCustomerShopify && contact.commerceCustomerShopify.abandonedCartInfo ? contact.commerceCustomerShopify.abandonedCartInfo.cartRecoveryAttempts : 0,
-              abandonedCheckoutUrl: req.body.abandoned_checkout_url,
-              abandonedCheckoutId: req.body.id,
-              token: req.body.token
-            }
-            const updateData = {
-              query: {_id: contact._id},
-              newPayload: { commerceCustomerShopify: commerceCustomerShopify },
-              options: {}
-            }
-            callApi(`whatsAppContacts/update`, 'put', updateData)
             if (!(contact.commerceCustomerShopify && contact.commerceCustomerShopify.abandonedCheckoutMessageSent)) {
               const ecommerceProvider = new EcommerceProviders(commerceConstants.shopify, {
                 shopUrl: integration.shopUrl,
@@ -233,6 +219,20 @@ exports.handleCreateCheckout = async function (req, res) {
               }
               sendWhatsAppMessage(messageBlock, data, contact.number, company, contact)
             }
+            let commerceCustomerShopify = contact.commerceCustomerShopify ? contact.commerceCustomerShopify : req.body.customer
+            commerceCustomerShopify.abandonedCheckoutMessageSent = true
+            commerceCustomerShopify.abandonedCartInfo = {
+              cartRecoveryAttempts: contact.commerceCustomerShopify && contact.commerceCustomerShopify.abandonedCartInfo ? contact.commerceCustomerShopify.abandonedCartInfo.cartRecoveryAttempts : 0,
+              abandonedCheckoutUrl: req.body.abandoned_checkout_url,
+              abandonedCheckoutId: req.body.id,
+              token: req.body.token
+            }
+            const updateData = {
+              query: {_id: contact._id},
+              newPayload: { commerceCustomerShopify: commerceCustomerShopify },
+              options: {}
+            }
+            callApi(`whatsAppContacts/update`, 'put', updateData)
           }
         }
       }
@@ -622,4 +622,22 @@ exports.testRoute = (req, res) => {
       sendErrorResponse(res, 500, `Failed to fetch subscribers
       ${JSON.stringify(err)}`)
     })
+}
+exports.fetchOrders = async (req, res) => {
+  try {
+    const shopifyIntegration = await dataLayer.findOneShopifyIntegration({ companyId: req.user.companyId })
+    if (shopifyIntegration) {
+      const shopify = new EcommerceProviders(commerceConstants.shopify, {
+        shopUrl: shopifyIntegration.shopUrl,
+        shopToken: shopifyIntegration.shopToken
+      })
+      const orders = await shopify.fetchOrders(req.body.limit, req.body.nextPageParameters)
+      sendSuccessResponse(res, 200, {orders: orders, nextPageParameters: orders.nextPageParameters})
+    } else {
+      sendErrorResponse(res, 500, `No Shopify Integration found`)
+    }
+  } catch (err) {
+    const message = err || 'Error fetching orders'
+    logger.serverLog(message, `${TAG}: exports.fetchOrders`, req.body, {}, 'error')
+  }
 }

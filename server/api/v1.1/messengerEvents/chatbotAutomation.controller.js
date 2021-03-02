@@ -27,7 +27,7 @@ exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
           .then(async chatbot => {
             try {
               if (chatbot) {
-                let unpausePayload = req.postback && req.postback.payload ? JSON.parse(req.postback.payload) : null
+                let unpausePayload = req.postback && req.postback.payload && logicLayer.isJsonString(req.postback.payload) ? JSON.parse(req.postback.payload) : null
                 if ((req.postback && req.postback.payload && req.postback.payload === '<GET_STARTED_PAYLOAD>') || unpausePayload.action === 'UNPAUSE_CHATBOT') {
                   let nextMessageBlock = null
                   let currentMessage = null
@@ -704,7 +704,7 @@ function saveTesterInfoForLater (pageId, subscriberId, chatBot) {
 function shouldAvoidSendingAutomatedMessage (subscriber, event) {
   return new Promise((resolve, reject) => {
     let talkToAgentBlocks = ['ask unpause chatbot', 'talk to agent']
-    let payload = event.postback && event.postback.payload ? JSON.parse(event.postback.payload) : null
+    let payload = event.postback && event.postback.payload && logicLayer.isJsonString(event.postback.payload) ? JSON.parse(event.postback.payload) : null
     let avoidSending = false
     if (!subscriber.chatbotPaused) {
       resolve(avoidSending)
@@ -762,7 +762,7 @@ const isTriggerMessage = (event, page) => {
           if (userText !== '') {
             messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
               .then(messageBlock => {
-                if (messageBlock.triggers.includes(userText)) {
+                if (messageBlock && messageBlock.triggers && messageBlock.triggers.includes(userText)) {
                   resolve(true)
                 } else {
                   resolve(false)
