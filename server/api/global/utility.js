@@ -59,6 +59,14 @@ const containsURL = function (text) {
   return text.match(urlRegex)
 }
 
+exports.getSuperWhatsAppAccount = () => {
+  return {
+    provider: 'flockSend',
+    accessToken: '5ef497d3f5ced46d5016a442',
+    businessNumber: '+14256266670'
+  }
+}
+
 exports.openGraphScrapper = openGraphScrapper
 exports.getTimeDiffInMinutes = getTimeDiffInMinutes
 exports.isEmail = isEmail

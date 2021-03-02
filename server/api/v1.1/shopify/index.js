@@ -31,6 +31,9 @@ router.post('/complete-checkout',
 router.post('/checkout-create',
   controller.handleCreateCheckout)
 
+router.post('/fulfillment',
+  controller.handleFulfillment)
+
 router.get('/fetchStore',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer(),

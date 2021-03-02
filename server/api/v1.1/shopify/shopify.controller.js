@@ -11,6 +11,7 @@ const crypto = require('crypto')
 const request = require('request-promise')
 const TAG = 'api/shopify/shopify.controller.js'
 const utility = require('../utility')
+const logicLayer = require('./shopify.logiclayer')
 const dataLayer = require('./shopify.datalayer')
 const messengerChatbotDataLayer = require('../chatbots/chatbots.datalayer')
 const whatsAppChatbotDataLayer = require('../whatsAppChatbot/whatsAppChatbot.datalayer')
@@ -24,6 +25,8 @@ const { callApi } = require('../utility')
 const { sendWhatsAppMessage } = require('../whatsAppEvents/controller')
 const { messengerLogicLayer } = require('../messengerEvents/logiclayer')
 const { facebookApiCaller } = require('./../../global/facebookApiCaller')
+const {ActionTypes} = require('../../../whatsAppMapper/constants')
+const { whatsAppMapper } = require('../../../whatsAppMapper/whatsAppMapper')
 const moment = require('moment')
 
 exports.index = function (req, res) {
@@ -143,6 +146,26 @@ function registerWebhooks (shop, token) {
   }).then((response) => {
   }).catch((err) => {
     const message = err || 'Error Creating Shopify update Checkout Webhook'
+    logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
+  })
+
+  shopify.webhook.create({
+    topic: 'fulfillments/update',
+    address: `${config.domain}/api/shopify/fulfillment`,
+    format: 'json'
+  }).then((response) => {
+  }).catch((err) => {
+    const message = err || 'Error Creating Shopify update fulfillment Webhook'
+    logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
+  })
+
+  shopify.webhook.create({
+    topic: 'fulfillments/create',
+    address: `${config.domain}/api/shopify/fulfillment`,
+    format: 'json'
+  }).then((response) => {
+  }).catch((err) => {
+    const message = err || 'Error Creating Shopify create fulfillment Webhook'
     logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
   })
 }
@@ -282,96 +305,127 @@ exports.handleCompleteCheckout = async function (req, res) {
         } else {
           query.$or.push({'commerceCustomerShopify.email': req.body.email})
         }
-        const contacts = await callApi(`whatsAppContacts/query`, 'post', query)
-        for (const contact of contacts) {
-          if (moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15) {
-            const company = await callApi(`companyProfile/query`, 'post', { _id: contact.companyId })
-            const messageBlock = {
-              module: {
-                id: company.whatsApp.activeWhatsappBot,
-                type: 'whatsapp_commerce_chatbot'
-              },
-              title: 'Order Confirmation Notification',
-              uniqueId: '' + new Date().getTime(),
-              payload: [
-                {
-                  text: `Hi ${contact.first_name ? contact.first_name : ''}\n Thank you for placing an order at ${shopUrl}.\n\n This is your order number: ${req.body.name.slice(1)}`,
-                  componentType: 'text'
-                }
-              ],
-              userId: company.ownerId,
-              companyId: company._id
-            }
-            if (req.body.order_status_url) {
-              messageBlock.payload[0].text += `\n\n **H** Home.`
-            }
-            const data = {
-              accessToken: company.whatsApp.accessToken,
-              accountSID: company.whatsApp.accountSID,
-              businessNumber: company.whatsApp.businessNumber
-            }
-            sendWhatsAppMessage(messageBlock, data, contact.number, company, contact)
-          }
-        }
-        const updateDataWhatsApp = {
-          query: query,
-          newPayload: { shoppingCart: [], 'commerceCustomerShopify.abandonedCartInfo': null },
-          options: {multi: true}
-        }
-        callApi(`whatsAppContacts/update`, 'put', updateDataWhatsApp)
-
-        const subscribers = await callApi(`subscribers/query`, 'post', query)
-        for (const subscriber of subscribers) {
-          if (moment().diff(moment(subscriber.lastMessagedAt), 'minutes') >= 15) {
-            const company = await callApi(`companyProfile/query`, 'post', { _id: subscriber.companyId })
-            const messageBlock = {
-              module: {
-                id: company.whatsApp.activeWhatsappBot,
-                type: 'messenger_commerce_chatbot'
-              },
-              title: 'Order Confirmation Notification',
-              uniqueId: '' + new Date().getTime(),
-              payload: [
-                {
-                  text: `Hi ${subscriber.firstName} ${subscriber.lastName}\n Thank you for placing an order at ${shopUrl}.\n\n This is your order number: ${req.body.name.slice(1)}`,
-                  componentType: 'text'
-                }
-              ],
-              userId: company.ownerId,
-              companyId: company._id
-            }
-            if (req.body.order_status_url) {
-              messageBlock.payload[0].buttons = [{
-                title: 'Status Page',
-                type: 'web_url',
-                url: req.body.order_status_url
-              }]
-            }
-            const pages = await callApi('pages/query', 'post', { _id: subscriber.pageId, connected: true })
-            const page = pages[0]
-            messageBlock.payload.forEach(item => {
-              let finalPayload = messengerLogicLayer.prepareSendAPIPayload(subscriber.senderId, item, subscriber.firstName, subscriber.lastName, true)
-              facebookApiCaller('v3.2', `me/messages?access_token=${page.accessToken}`, 'post', finalPayload)
-                .then(response => {
-                })
-                .catch(error => {
-                  const message = error || 'error in sending message'
-                  return logger.serverLog(message, `${TAG}: exports.sendResponse`, {}, {messageBlock, body: req.body}, 'error')
-                })
-            })
-          }
-        }
-        const updateDataMessenger = {
-          query: {'commerceCustomer.email': req.body.email, companyId: shopifyIntegration.companyId},
-          newPayload: { shoppingCart: [] },
-          options: {}
-        }
-        callApi(`subscribers/update`, 'put', updateDataMessenger)
+        sendOnWhatsApp(shopUrl, query, req.body, shopifyIntegration)
+        sendOnMessenger(shopUrl, query, req.body, shopifyIntegration)
       }
     }
   } catch (err) {
     const message = err || 'Error processing shopify complete checkout webhook '
     logger.serverLog(message, `${TAG}: exports.handleCompleteCheckout`, req.body, {header: req.header}, 'error')
+  }
+}
+
+async function sendOnMessenger (shopUrl, query, body, shopifyIntegration) {
+  const subscribers = await callApi(`subscribers/query`, 'post', query)
+  for (const subscriber of subscribers) {
+    if (moment().diff(moment(subscriber.lastMessagedAt), 'minutes') >= 15) {
+      const company = await callApi(`companyProfile/query`, 'post', { _id: subscriber.companyId })
+      const messageBlock = {
+        module: {
+          id: company.whatsApp.activeWhatsappBot,
+          type: 'messenger_commerce_chatbot'
+        },
+        title: 'Order Confirmation Notification',
+        uniqueId: '' + new Date().getTime(),
+        payload: [
+          {
+            text: `Hi ${subscriber.firstName} ${subscriber.lastName}\n Thank you for placing an order at ${shopUrl}.\n\n This is your order number: ${body.name.slice(1)}`,
+            componentType: 'text'
+          }
+        ],
+        userId: company.ownerId,
+        companyId: company._id
+      }
+      if (body.order_status_url) {
+        messageBlock.payload[0].buttons = [{
+          title: 'Status Page',
+          type: 'web_url',
+          url: body.order_status_url
+        }]
+      }
+      const pages = await callApi('pages/query', 'post', { _id: subscriber.pageId, connected: true })
+      const page = pages[0]
+      messageBlock.payload.forEach(item => {
+        let finalPayload = messengerLogicLayer.prepareSendAPIPayload(subscriber.senderId, item, subscriber.firstName, subscriber.lastName, true)
+        facebookApiCaller('v3.2', `me/messages?access_token=${page.accessToken}`, 'post', finalPayload)
+          .then(response => {
+          })
+          .catch(error => {
+            const message = error || 'error in sending message'
+            return logger.serverLog(message, `${TAG}: exports.sendResponse`, {}, {messageBlock, body: body}, 'error')
+          })
+      })
+    }
+  }
+  const updateDataMessenger = {
+    query: {'commerceCustomer.email': body.email, companyId: shopifyIntegration.companyId},
+    newPayload: { shoppingCart: [] },
+    options: {}
+  }
+  callApi(`subscribers/update`, 'put', updateDataMessenger)
+}
+
+async function sendOnWhatsApp (shopUrl, query, body, shopifyIntegration) {
+  const contacts = await callApi(`whatsAppContacts/query`, 'post', query)
+  for (const contact of contacts) {
+    const company = await callApi(`companyProfile/query`, 'post', { _id: contact.companyId })
+    const ecommerceProvider = new EcommerceProviders(commerceConstants.shopify, {
+      shopUrl: shopifyIntegration.shopUrl,
+      shopToken: shopifyIntegration.shopToken
+    })
+    const storeInfo = await ecommerceProvider.fetchStoreInfo()
+    let preparedMessage = logicLayer.getOrderConfirmationMessage(contact, shopifyIntegration, company, body, shopUrl, storeInfo.name)
+    if (preparedMessage.type) {
+      if (preparedMessage.type === 'superNumber') {
+        whatsAppMapper(preparedMessage.provider, ActionTypes.SEND_CHAT_MESSAGE, preparedMessage)
+      } else {
+        sendWhatsAppMessage(preparedMessage.payload, preparedMessage.credentials, contact.number, company, contact)
+      }
+    }
+  }
+  const updateDataWhatsApp = {
+    query: query,
+    newPayload: { shoppingCart: [], 'commerceCustomerShopify.abandonedCartInfo': null },
+    options: {multi: true}
+  }
+  callApi(`whatsAppContacts/update`, 'put', updateDataWhatsApp)
+}
+
+exports.handleFulfillment = async function (req, res) {
+  try {
+    console.log('handleFulfillment', JSON.stringify(req.body))
+    sendSuccessResponse(res, 200, {status: 'success'})
+    if (req.body.fulfillments && req.body.fulfillments.length > 0) {
+      let fulfillment = req.body.fulfillments[0]
+      if (fulfillment.tracking_url && fulfillment.tracking_number && req.body.phone) {
+        const shopUrl = req.headers['x-shopify-shop-domain']
+        let shopifyIntegrations = await dataLayer.findShopifyIntegrations({ shopUrl })
+        shopifyIntegrations = [shopifyIntegrations[0]]
+        for (const shopifyIntegration of shopifyIntegrations) {
+          if (shopifyIntegration.orderShipment && shopifyIntegration.orderShipment.enabled) {
+            let query = {
+              $or: [{number: req.body.phone}, {number: req.body.phone.replace(/\D/g, '')}],
+              companyId: shopifyIntegration.companyId
+            }
+            const contacts = await callApi(`whatsAppContacts/query`, 'post', query)
+            for (const contact of contacts) {
+              const ecommerceProvider = new EcommerceProviders(commerceConstants.shopify, {
+                shopUrl: shopifyIntegration.shopUrl,
+                shopToken: shopifyIntegration.shopToken
+              })
+              const storeInfo = await ecommerceProvider.fetchStoreInfo()
+              let preparedMessage = logicLayer.getOrderShipmentMessage(contact, shopifyIntegration, fulfillment, storeInfo.name)
+              if (preparedMessage.provider) {
+                whatsAppMapper(preparedMessage.provider, ActionTypes.SEND_CHAT_MESSAGE, preparedMessage)
+              }
+            }
+          }
+        }
+      }
+    }
+  } catch (err) {
+    const message = err || 'Error processing shopify fulfillment webhook'
+    logger.serverLog(message, `${TAG}: exports.handleFulfillment`, req.body, {header: req.header}, 'error')
   }
 }
 
