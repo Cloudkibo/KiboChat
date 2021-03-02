@@ -12,7 +12,7 @@ exports.prepareSendMessagePayload = (body) => {
     if (body.payload.templateName) {
       MessageObject.template_name = body.payload.templateName
       MessageObject.template_argument = body.payload.templateArguments
-      MessageObject.language = 'en'
+      MessageObject.language = body.payload.templateCode
       route = 'hsm'
     } else {
       MessageObject.message = body.payload.text
@@ -95,6 +95,7 @@ exports.prepareTemplates = (flockSendTemplates) => {
     if (flockSendTemplates[i].localizations[0].status === 'APPROVED') {
       let template = {}
       template.name = flockSendTemplates[i].templateName
+      template.code = flockSendTemplates[i].localizations[0].language
       let templateComponents = flockSendTemplates[i].localizations[0].components
       for (let j = 0; j < templateComponents.length; j++) {
         if (templateComponents[j].type === 'BODY') {
@@ -131,7 +132,7 @@ exports.prepareInvitationPayload = (data) => {
     number_details: JSON.stringify(contactNumbers),
     template_name: data.payload.templateName,
     template_argument: data.payload.templateArguments,
-    language: 'en'
+    language: data.payload.templateCode
   }
   return MessageObject
 }
@@ -171,7 +172,6 @@ exports.prepareCommerceTemplates = (body) => {
     ORDER_CONFIRMATION: {
       english: {
         name: 'order_confirmation',
-        regex: '^Hi *(.*), thank you for your purchase of *(.*)* from *(.*)*. Your order is getting ready and we will notify you when it has been shipped. You can view your order here 👉 (Order ID *(.*)*) (.*)\n_Chat with customer support at: https://wa.me/(.*)_$',
         templateArguments: '{{customer_name}},{{order_value}},{{shop_name}},{{order_ID}},{{order_status_url}},{{support_number}}',
         text: 'Hi *{{customer_name}}*, thank you for your purchase of *{{order_value}}* from *{{shop_name}}*. Your order is getting ready and we will notify you when it has been shipped. You can view your order here 👉 (Order ID *{{order_ID}}*) {{order_status_url}}\n_Chat with customer support at: https://wa.me/{{support_number}}_',
         type: 'TEXT',
@@ -183,7 +183,6 @@ exports.prepareCommerceTemplates = (body) => {
     ORDER_SHIPMENT: {
       english: {
         name: 'order_shipment',
-        regex: '^Hi *(.*)*, your order from *(.*)* has been shipped and is on its way. Track your shipment using this link 🚚 (tracking ID *(.*)*) (.*)\n_Chat with customer support at: https://wa.me/(.*)_$',
         templateArguments: '{{customer_name}},{{shop_name}},{{tracking_ID}},{{tracking_url}},{{support_number}}',
         text: 'Hi *{{customer_name}}*, your order from *{{shop_name}}* has been shipped and is on its way. Track your shipment using this link 🚚 (tracking ID *{{tracking_ID}}*) {{tracking_url}}\n_Chat with customer support at: https://wa.me/{{support_number}}_',
         type: 'TEXT',
@@ -192,8 +191,28 @@ exports.prepareCommerceTemplates = (body) => {
       urdu: {},
       arabic: {}
     },
-    ABANDONED_CART_RECOVERY: {},
-    COD_ORDER_CONFIRMATION: {}
+    ABANDONED_CART_RECOVERY: {
+      english: {
+        name: 'cart_recovery',
+        templateArguments: '{{customer_name}},{{order_value}},{{shop_name}},{{checkout_url}},{{support_number}}',
+        text: 'Hi *{{customer_name}}*, the payment for your order of *{{order_value}}* from *{{shop_name}}* is still pending. Click on the link to complete the payment and confirm your order 👉 {{checkout_url}}.\n_Chat with customer support at: https://wa.me/{{support_number}}_',
+        type: 'TEXT',
+        code: 'en'
+      },
+      urdu: {},
+      arabic: {}
+    },
+    COD_ORDER_CONFIRMATION: {
+      english: {
+        name: 'cod_order_confirmation',
+        templateArguments: '{{customer_name}},{{order_value}},{{shop_name}},{{cod_confirmation_page_url}},{{support_number}}',
+        text: 'Hi *{{customer_name}}*, thank you for placing an order of {{order_value}} from *{{shop_name}}*.\n\nSince you paid using Cash on Delivery (COD) option, we need a confirmation from you before we process your order and ship it.\n\n*Click on this link to confirm your order* 👉 {{cod_confirmation_page_url}}\n\n_Chat with customer support at: https://wa.me/{{support_number}}_',
+        type: 'TEXT',
+        code: 'en'
+      },
+      urdu: {},
+      arabic: {}
+    }
   }
   if (body.type && body.language) {
     return templates[body.type][body.language]
