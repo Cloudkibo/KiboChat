@@ -28,3 +28,13 @@ exports.deleteShopifyIntegration = (queryObject) => {
   }
   return callApi(`shopify`, 'delete', query, accounts)
 }
+
+exports.update = (purpose, queryObject, updated) => {
+  let query = {
+    purpose: purpose,
+    match: queryObject,
+    updated: updated
+  }
+  return callApi(`shopify`, 'put', query, accounts)
+}
+
