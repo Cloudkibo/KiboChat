@@ -274,7 +274,8 @@ function getOptInReceivePayload (storeName, company) {
         text: `Thank you for opting-in from ${storeName}. Now you will receive your order updates, exclusive offers and news on WhatsApp.`,
         componentType: 'text',
         templateArguments: storeName,
-        templateName: 'optin_receive'
+        templateName: 'optin_receive',
+        templateCode: 'en'
       }
     ]
   } else {
@@ -400,7 +401,6 @@ exports.handleFulfillment = async function (req, res) {
       if (fulfillment.tracking_url && fulfillment.tracking_number && req.body.phone) {
         const shopUrl = req.headers['x-shopify-shop-domain']
         let shopifyIntegrations = await dataLayer.findShopifyIntegrations({ shopUrl })
-        shopifyIntegrations = [shopifyIntegrations[0]]
         for (const shopifyIntegration of shopifyIntegrations) {
           if (shopifyIntegration.orderShipment && shopifyIntegration.orderShipment.enabled) {
             let query = {
