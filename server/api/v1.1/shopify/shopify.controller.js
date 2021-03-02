@@ -641,3 +641,17 @@ exports.fetchOrders = async (req, res) => {
     logger.serverLog(message, `${TAG}: exports.fetchOrders`, req.body, {}, 'error')
   }
 }
+
+exports.update = async (req, res) => {
+  try {
+    const updatedRecord = await dataLayer.update(req.body.purpose, req.body.query, req.body.updated)
+    if (updatedRecord) {
+      sendSuccessResponse(res, 200, 'Changes updated successfully')
+    } else {
+      sendErrorResponse(res, 500, `Unble to update changes`)
+    }
+  } catch (err) {
+    const message = err || 'Error fetching orders'
+    logger.serverLog(message, `${TAG}: exports.fetchOrders`, req.body, {}, 'error')
+  }
+}

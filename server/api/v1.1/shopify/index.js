@@ -55,6 +55,11 @@ router.post('/fetchOrders',
   auth.isSuperUserActingAsCustomer(),
   controller.fetchOrders)
 
+router.post('/update',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
+  controller.update)
+
 // router.post('/checkout-create',
 //   webhook.handleCheckout) // this id will be userid
 //
