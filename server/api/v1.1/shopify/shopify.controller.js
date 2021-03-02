@@ -393,7 +393,6 @@ async function sendOnWhatsApp (shopUrl, query, body, shopifyIntegration) {
 
 exports.handleFulfillment = async function (req, res) {
   try {
-    logger.serverLog('handleFulfillment', `${TAG}: exports.handleFulfillment`, req.body, {header: req.header})
     console.log('handleFulfillment', JSON.stringify(req.body))
     sendSuccessResponse(res, 200, {status: 'success'})
     if (req.body.fulfillments && req.body.fulfillments.length > 0) {
