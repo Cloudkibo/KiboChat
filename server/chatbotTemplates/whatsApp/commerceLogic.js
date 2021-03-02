@@ -611,13 +611,13 @@ function fetchOrder (Provider, automationResponse, selectedOption) {
 }
 
 function viewCatalog (automationResponse, chatbot) {
-  if (chatbot.botLinks.catalogUrl) {
+  if (chatbot.catalog && chatbot.catalog.url) {
     automationResponse.payload = {
       componentType: 'file',
       fileurl: {
-        url: chatbot.botLinks.catalogUrl
+        url: chatbot.catalog.url
       },
-      fileName: `catalog.pdf`
+      fileName: chatbot.catalog.name
     }
   } else {
     automationResponse = 'No catalog currently available!'

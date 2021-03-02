@@ -473,6 +473,7 @@ exports.createCommerceChatbot = async (req, res) => {
         storeType: req.body.storeType,
         businessId: req.body.businessId,
         catalogId: req.body.catalogId,
+        catalog: req.body.catalog,
         storeName: req.body.storeName
       })
       let messageBlocks = commerceLogicLayer.getMessageBlocks(chatbot, storeName)
