@@ -8,7 +8,8 @@ const {
   completeAddress,
   showCheckoutInfo,
   getValidateResponse,
-  initializeProvider
+  initializeProvider,
+  findFaqTopics
 } = require('../logiclayer')
 
 exports.callApi = function (automationResponse, selectedOption, chatbot, subscriber) {
@@ -105,6 +106,9 @@ exports.callApi = function (automationResponse, selectedOption, chatbot, subscri
           break
         case 'VIEW_CATALOG':
           response = await viewCatalog(automationResponse, chatbot)
+          break
+        case 'GET_SHOW_FAQ_TOPICS':
+          response = findFaqTopics(automationResponse, chatbot)
           break
         default:
           storeInfo = await Provider.fetchStoreInfo()
