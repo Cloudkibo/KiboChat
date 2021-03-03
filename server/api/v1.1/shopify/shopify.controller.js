@@ -593,28 +593,37 @@ exports.callback = function (req, res) {
     res.status(400).send('Required parameters missing')
   }
 }
-
-exports.fetchStore = (req, res) => {
-  dataLayer.findOneShopifyIntegration({ companyId: req.user.companyId })
-    .then(shopifyIntegration => {
-      if (shopifyIntegration) {
-        const shopify = new EcommerceProviders(commerceConstants.shopify, {
-          shopUrl: shopifyIntegration.shopUrl,
-          shopToken: shopifyIntegration.shopToken
-        })
-        return shopify.fetchStoreInfo()
-      } else {
-        return null
+exports.fetchStore = async (req, res) => {
+  try {
+    const shopifyIntegration = await dataLayer.findOneShopifyIntegration({ companyId: req.user.companyId })
+    if (shopifyIntegration) {
+      const shopify = new EcommerceProviders(commerceConstants.shopify, {
+        shopUrl: shopifyIntegration.shopUrl,
+        shopToken: shopifyIntegration.shopToken
+      })
+      const storeInfo = await shopify.fetchStoreInfo()
+      let payload = {
+        currency: storeInfo.currency,
+        domain: storeInfo.domain,
+        id: storeInfo.id,
+        name: storeInfo.name,
+        storeType: storeInfo.storeType,
+        type: storeInfo.type,
+        abandonedCart: shopifyIntegration.abandonedCart,
+        COD: shopifyIntegration.COD,
+        orderConfirmation: shopifyIntegration.orderConfirmation,
+        orderShipment: shopifyIntegration.orderShipment,
+        _id: shopifyIntegration._id
       }
-    })
-    .then(shop => {
-      sendSuccessResponse(res, 200, shop)
-    })
-    .catch(err => {
-      const message = err || 'Failed to fetch shop info'
-      logger.serverLog(message, `${TAG}: exports.fetchStore`, {}, { user: req.user }, 'error')
-      sendErrorResponse(res, 500, `Failed to fetch shop info ${JSON.stringify(err)}`)
-    })
+      sendSuccessResponse(res, 200, payload)
+    } else {
+      sendErrorResponse(res, 500, 'No shopify Integration found')
+    }
+  } catch (err) {
+    const message = err || 'Failed to fetch shop info'
+    logger.serverLog(message, `${TAG}: exports.fetchStore`, {}, { user: req.user }, 'error')
+    sendErrorResponse(res, 500, `Failed to fetch shop info ${JSON.stringify(err)}`)
+  }
 }
 
 exports.eraseCustomerData = (req, res) => {

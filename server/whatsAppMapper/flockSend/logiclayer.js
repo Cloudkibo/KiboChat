@@ -173,7 +173,7 @@ exports.prepareCommerceTemplates = (body) => {
       english: {
         name: 'order_confirmation',
         templateArguments: '{{customer_name}},{{order_value}},{{shop_name}},{{order_ID}},{{order_status_url}},{{support_number}}',
-        text: 'Hi *{{customer_name}}*, thank you for your purchase of *{{order_value}}* from *{{shop_name}}*. Your order is getting ready and we will notify you when it has been shipped. You can view your order here 👉 (Order ID *{{order_ID}}*) {{order_status_url}}\n_Chat with customer support at: https://wa.me/{{support_number}}_',
+        text: 'Hi {{customer_name}},\nThank you for your purchase of {{order_value}} from {{shop_name}}. Your order is getting ready and we will notify you when it has been shipped. You can view your order here 👉 (Order ID {{order_ID}}) {{order_status_url}}\n\nChat with customer support at: https://wa.me/{{support_number}}',
         type: 'TEXT',
         code: 'en'
       },
@@ -184,7 +184,7 @@ exports.prepareCommerceTemplates = (body) => {
       english: {
         name: 'order_shipment',
         templateArguments: '{{customer_name}},{{shop_name}},{{tracking_ID}},{{tracking_url}},{{support_number}}',
-        text: 'Hi *{{customer_name}}*, your order from *{{shop_name}}* has been shipped and is on its way. Track your shipment using this link 🚚 (tracking ID *{{tracking_ID}}*) {{tracking_url}}\n_Chat with customer support at: https://wa.me/{{support_number}}_',
+        text: 'Hi {{customer_name}}\n,Your order from {{shop_name}} has been shipped and is on its way. Track your shipment using this link 🚚 (tracking ID {{tracking_ID}}) {{tracking_url}}\n\nChat with customer support at: https://wa.me/{{support_number}}',
         type: 'TEXT',
         code: 'en'
       },
@@ -195,18 +195,30 @@ exports.prepareCommerceTemplates = (body) => {
       english: {
         name: 'cart_recovery',
         templateArguments: '{{customer_name}},{{order_value}},{{shop_name}},{{checkout_url}},{{support_number}}',
-        text: 'Hi *{{customer_name}}*, the payment for your order of *{{order_value}}* from *{{shop_name}}* is still pending. Click on the link to complete the payment and confirm your order 👉 {{checkout_url}}.\n_Chat with customer support at: https://wa.me/{{support_number}}_',
+        text: 'Hi {{customer_name}}, \nThe payment for your order of {{order_value}} from {{shop_name}} is still pending. Click on the link to complete the payment and confirm your order 👉 {{checkout_url}}.\n\nChat with customer support at: {{support_number}}',
         type: 'TEXT',
         code: 'en'
       },
-      urdu: {},
-      arabic: {}
+      urdu: {
+        name: 'cart_recovery',
+        templateArguments: '{{customer_name}},{{order_value}},{{shop_name}},{{checkout_url}},{{support_number}}',
+        text: 'السلام_عليكم {{customer_name}}،\n{{shop_name}} سے آپ کے{{order_value}}  کے آرڈر کی ادائیگی ابھی باقی ہے۔ ادائیگی مکمل کرنے اور اپنے آرڈر کی تصدیق کے لئےاس لنک پر کلک کریں  👈 {{checkout_url}}.\n\nکسٹمر سپورٹ کے ساتھ اس لنک پر رابطہ کریں: {{https://wa.me/{{support_number',
+        type: 'TEXT',
+        code: 'ur'
+      },
+      arabic: {
+        name: 'cart_recovery',
+        templateArguments: '{{customer_name}},{{order_value}},{{shop_name}},{{checkout_url}},{{support_number}}',
+        text: 'مرحبًا{{customer_name}}،\nالدفع الخاص بطلبك بقيمة {{order_value}} من {{shop_name}} لا يزال معلقًا. انقر على الرابط لإكمال الدفع وتأكيد طلبك  👈 {{checkout_url}}.\n\nالدردشة مع دعم العملاء على: {{https://wa.me/{{support_number',
+        type: 'TEXT',
+        code: 'ar'
+      }
     },
     COD_ORDER_CONFIRMATION: {
       english: {
         name: 'cod_order_confirmation',
         templateArguments: '{{customer_name}},{{order_value}},{{shop_name}},{{cod_confirmation_page_url}},{{support_number}}',
-        text: 'Hi *{{customer_name}}*, thank you for placing an order of {{order_value}} from *{{shop_name}}*.\n\nSince you paid using Cash on Delivery (COD) option, we need a confirmation from you before we process your order and ship it.\n\n*Click on this link to confirm your order* 👉 {{cod_confirmation_page_url}}\n\n_Chat with customer support at: https://wa.me/{{support_number}}_',
+        text: 'Hi {{customer_name}},\nThank you for placing an order of {{order_value}} from {{shop_name}}.\n\nSince you paid using Cash on Delivery (COD) option, we need a confirmation from you before we process your order and ship it.\n\nClick on this link to confirm your order 👉 {{cod_confirmation_page_url}}\n\nChat with customer support at: https://wa.me/{{support_number}}',
         type: 'TEXT',
         code: 'en'
       },
