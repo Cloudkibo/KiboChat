@@ -1,15 +1,18 @@
-const { convertToEmoji, generateInvoice } = require('./utility')
+const { convertToEmoji } = require('./utility')
 const { truncate } = require('../../components/utility')
 const {
   setShoppingCart,
-  updateSubscriber,
   getCustomerInfo,
   getSelectedPaymentMethod,
   completeAddress,
   showCheckoutInfo,
   getValidateResponse,
   initializeProvider,
-  findFaqTopics
+  findFaqTopics,
+  proceedToCheckout,
+  getPdfInvoice,
+  viewCatalog,
+  cancelOrder
 } = require('../logiclayer')
 
 exports.callApi = function (automationResponse, selectedOption, chatbot, subscriber) {
@@ -92,7 +95,7 @@ exports.callApi = function (automationResponse, selectedOption, chatbot, subscri
           response = getValidateResponse(automationResponse, 'country')
           break
         case 'CHECKOUT':
-          response = await proceedToCheckout(Provider, automationResponse, selectedOption, subscriber, chatbot)
+          response = await proceedToCheckout(Provider, automationResponse, selectedOption, subscriber, chatbot, 'whatsApp')
           break
         case 'GET_PDF_INVOICE':
           storeInfo = await Provider.fetchStoreInfo()
@@ -102,13 +105,16 @@ exports.callApi = function (automationResponse, selectedOption, chatbot, subscri
           response = await getRecentOrders(Provider, automationResponse, subscriber, chatbot)
           break
         case 'FETCH_ORDER':
-          response = await fetchOrder(Provider, automationResponse, selectedOption)
+          response = await fetchOrder(Provider, automationResponse, selectedOption, chatbot)
           break
         case 'VIEW_CATALOG':
           response = await viewCatalog(automationResponse, chatbot)
           break
         case 'GET_SHOW_FAQ_TOPICS':
           response = findFaqTopics(automationResponse, chatbot)
+          break
+        case 'CANCEL_ORDER':
+          response = await cancelOrder(Provider, automationResponse, selectedOption)
           break
         default:
           storeInfo = await Provider.fetchStoreInfo()
@@ -216,7 +222,7 @@ function getProductVariants (Provider, automationResponse, selectedOption, chatb
 
 function getPurchaseResponse (automationResponse, storeInfo, selectedOption, subscriber) {
   automationResponse.text = prepareText(automationResponse.text, selectedOption, storeInfo, subscriber)
-  let confirmIndex = automationResponse.options.findIndex((item) => item.code.toLowerCase() === 'y' && ['set-cart', 'cart-remove-success'].includes(item.event))
+  let confirmIndex = automationResponse.options.findIndex((item) => item.code.toLowerCase() === 'y' && ['set-cart', 'cart-remove-success', 'cancel-order'].includes(item.event))
   if (confirmIndex >= 0) {
     automationResponse.options[confirmIndex] = {
       ...selectedOption,
@@ -224,11 +230,14 @@ function getPurchaseResponse (automationResponse, storeInfo, selectedOption, sub
       productName: selectedOption.productName || selectedOption.label
     }
   }
-  const gallery = [{
-    title: selectedOption.label,
-    subtitle: `${selectedOption.label}\nPrice: ${selectedOption.price} ${storeInfo.currency}`,
-    image: selectedOption.image
-  }]
+  let gallery = null
+  if (!['cancel-order-confirmation'].includes(selectedOption.event)) {
+    gallery = [{
+      title: selectedOption.label,
+      subtitle: `${selectedOption.label}\nPrice: ${selectedOption.price} ${storeInfo.currency}`,
+      image: selectedOption.image
+    }]
+  }
 
   if (automationResponse.event === 'cart-update-success') {
     automationResponse.selectedProduct = selectedOption.id
@@ -320,186 +329,6 @@ function getCheckoutInfo (automationResponse, selectedOption, subscriber, chatbo
   })
 }
 
-function proceedToCheckout (Provider, automationResponse, selectedOption, subscriber, chatbot) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const customer = getCustomerInfo(subscriber, chatbot)
-      const address = customer.defaultAddress
-      const paymentMethod = getSelectedPaymentMethod(subscriber, selectedOption)
-      let shoppingCart = subscriber.shoppingCart
-      shoppingCart = shoppingCart.map((item) => {
-        return {...item, variant_id: item.product_id}
-      })
-      let text = ''
-      let gallery = null
-      if (paymentMethod === 'cod') {
-        if (['shopify', 'shopify-nlp'].includes(chatbot.storeType)) {
-          const cart = shoppingCart.map((item) => {
-            return {
-              variant_id: item.variant_id + '',
-              quantity: item.quantity
-            }
-          })
-          const order = await Provider.createTestOrder(
-            {id: customer.id + ''},
-            cart,
-            {
-              first_name: customer.first_name,
-              last_name: customer.last_name,
-              ...address
-            }
-          )
-          if (order) {
-            const storeInfo = await Provider.fetchStoreInfo()
-            const orderId = order.name.replace('#', '')
-            customer.lastOrder = orderId
-
-            text = `Thank you for shopping at ${storeInfo.name}. We have received your order. Please note the order number given below to track your order:\n\n`
-            text = `${text}*${orderId}*\n\n`
-            text = `${text}Here is your complete order:`
-
-            let total = 0
-            shoppingCart.forEach((item, i) => {
-              total = total + Number((Number(item.quantity) * Number(item.price)).toFixed(2))
-              text = `${text}\n\n*Item*: ${item.product}`
-              text = `${text}\n*Quantity*: ${item.quantity}`
-              text = `${text}\n*Price*: ${item.price} ${item.currency}`
-            })
-            text = `${text}\n\n*Total Price*: ${total} ${shoppingCart[0].currency}`
-            text = `${text}\n\n*Address*: ${address.address1}, ${address.city} ${address.zip}, ${address.country}`
-
-            gallery = []
-            shoppingCart.forEach((item, i) => {
-              gallery.push({
-                title: item.product,
-                subtitle: `${item.product}\nPrice: ${item.price} ${storeInfo.currency}`,
-                image: item.image
-              })
-            })
-
-            automationResponse.otherOptions.unshift({
-              event: 'pdf-invoice',
-              label: 'Get pdf invoice',
-              code: 'I'
-            })
-          } else {
-            text = 'Unable to proceed to checkout. Please try again later.'
-            reject(new Error('Unable to create shopify test order'))
-          }
-        } else {
-          text = `Cash on delivery is currently not supported for this store`
-        }
-      } else if (paymentMethod === 'epayment') {
-        let checkoutLink = ''
-        text = `Here is your checkout link:`
-        if (['shopify', 'shopify-nlp'].includes(chatbot.storeType)) {
-          checkoutLink = await Provider.createPermalinkForCart(customer, shoppingCart)
-        } else if (chatbot.storeType === 'bigcommerce') {
-          const bigcommerceCart = await Provider.createCart(customer.id, shoppingCart)
-          checkoutLink = await Provider.createPermalinkForCartBigCommerce(bigcommerceCart.id)
-          checkoutLink = checkoutLink.data.cart_url
-        }
-
-        if (checkoutLink) {
-          text = `${text}\n\n${checkoutLink} `
-        } else {
-          text = 'Unable to proceed to checkout. Please try again later.'
-          reject(new Error('Unable to generate checkout link'))
-        }
-      }
-      automationResponse.text = text
-
-      let updatePayload = { shoppingCart: [] }
-      if (['shopify', 'shopify-nlp'].includes(chatbot.storeType)) {
-        updatePayload.commerceCustomerShopify = customer
-      } else {
-        updatePayload.commerceCustomer = customer
-      }
-      updateSubscriber(
-        'whatsAppContacts/update',
-        {
-          query: {_id: subscriber._id},
-          newPayload: updatePayload,
-          options: {}
-        }
-      )
-
-      resolve({...automationResponse, gallery})
-    } catch (err) { reject(err) }
-  })
-}
-
-function getPdfInvoice (Provider, storeInfo, automationResponse, subscriber) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const orderId = subscriber.commerceCustomerShopify.lastOrder
-      let orderStatus = await Provider.checkOrderStatus(Number(orderId))
-
-      let attempts = 0
-      const maxAttempts = 10
-      while (!orderStatus && attempts < maxAttempts) {
-        await new Promise(resolve => setTimeout(resolve, 1000))
-        orderStatus = await Provider.checkOrderStatus(Number(orderId))
-        attempts++
-      }
-
-      let text = ''
-      if (!orderStatus) {
-        text = 'Unable to generate pdf invoice. Please try again later.'
-        reject(new Error('Unable to check the order status.'))
-      } else {
-        text = `Here is your pdf invoice for ${orderId}:`
-      }
-
-      let shoppingCart = []
-      let totalOrderPriceString = ''
-      if (orderStatus.lineItems && orderStatus.lineItems.length > 0) {
-        const totalOrderPrice = orderStatus.lineItems.reduce((acc, item) => acc + Number(item.price), 0)
-        const currency = orderStatus.lineItems[0].currency
-        totalOrderPriceString = currency === 'USD' ? `$${totalOrderPrice}` : `${totalOrderPrice} ${currency}`
-        for (let i = 0; i < orderStatus.lineItems.length; i++) {
-          let product = orderStatus.lineItems[i]
-          const individualPrice = Number(product.price) / Number(product.quantity)
-          const priceString = currency === 'USD' ? `$${individualPrice}` : `${individualPrice} ${currency}`
-          const totalPriceString = currency === 'USD' ? `$${product.price}` : `${product.price} ${currency}`
-          shoppingCart.push({
-            image_url: product.image.originalSrc,
-            name: product.name,
-            price: priceString,
-            quantity: product.quantity,
-            totalPrice: totalPriceString
-          })
-        }
-      }
-
-      let shippingAddress = null
-      let billingAddress = null
-      if (orderStatus.shippingAddress) {
-        shippingAddress = orderStatus.shippingAddress
-      } else if (subscriber.commerceCustomerShopify && subscriber.commerceCustomerShopify.defaultAddress) {
-        shippingAddress = subscriber.commerceCustomerShopify.defaultAddress
-      }
-
-      if (orderStatus.billingAddress) {
-        billingAddress = orderStatus.billingAddress
-      }
-
-      automationResponse.text = text
-      automationResponse.pdfInvoice = await generateInvoice(storeInfo, {
-        id: orderId,
-        date: new Date(orderStatus.createdAt).toLocaleString(),
-        customer: orderStatus.customer,
-        shippingAddress,
-        billingAddress,
-        items: shoppingCart,
-        totalPrice: totalOrderPriceString
-      })
-
-      resolve(automationResponse)
-    } catch (err) { reject(err) }
-  })
-}
-
 function getRecentOrders (Provider, automationResponse, subscriber, chatbot) {
   return new Promise(async (resolve, reject) => {
     try {
@@ -514,7 +343,7 @@ function getRecentOrders (Provider, automationResponse, subscriber, chatbot) {
           options = orders.map((item, i) => {
             return {
               code: `${i}`,
-              label: truncate(`Order ${item.name} - ${new Date(item.createdAt).toDateString()} (${item.lineItems[0].name})`, 55),
+              label: truncate(`${item.cancelReason ? '(Canceled) ' : ''}Order ${item.name} - ${new Date(item.createdAt).toDateString()} (${item.lineItems[0].name})`, 55),
               event: automationResponse.event,
               id: item.name.substr(1)
             }
@@ -523,7 +352,7 @@ function getRecentOrders (Provider, automationResponse, subscriber, chatbot) {
           gallery = orders.map((item, i) => {
             const firstProduct = item.lineItems[0]
             return {
-              title: `Order ${item.name}`,
+              title: `${item.cancelReason ? '(Canceled) ' : ''}Order ${item.name}`,
               subtitle: `${firstProduct.name}\nQuantity: ${firstProduct.quantity}\nOrder number: ${item.name}`,
               image: firstProduct.image.originalSrc
             }
@@ -539,7 +368,7 @@ function getRecentOrders (Provider, automationResponse, subscriber, chatbot) {
   })
 }
 
-function fetchOrder (Provider, automationResponse, selectedOption) {
+function fetchOrder (Provider, automationResponse, selectedOption, chatbot) {
   return new Promise(async (resolve, reject) => {
     try {
       const orderId = selectedOption.id || selectedOption.userInput
@@ -551,6 +380,27 @@ function fetchOrder (Provider, automationResponse, selectedOption) {
         reject(new Error('Unable to fetch the order status.'))
       }
 
+      const isOrderFulFilled = orderStatus.displayFulfillmentStatus.toLowerCase() === 'fulfilled'
+      if (!orderStatus.cancelReason &&
+        !(orderStatus.displayFinancialStatus && orderStatus.displayFinancialStatus.includes('PAID')) &&
+        !(orderStatus.tags && orderStatus.tags.includes('cancel-request')) &&
+        chatbot.cancelOrder
+      ) {
+        automationResponse.otherOptions.unshift({
+          code: 'X',
+          label: 'Cancel Order',
+          id: orderStatus.id,
+          event: 'cancel-order-confirmation',
+          isOrderFulFilled
+        })
+      }
+
+      if (orderStatus.cancelReason) {
+        text = `${text}\n*Status*: CANCELED`
+      } else if (orderStatus.tags && orderStatus.tags.includes('cancel-request')) {
+        text = `${text}\n*Status*: Request Open for Cancelation `
+      }
+
       if (orderStatus.displayFinancialStatus) {
         text = `${text}\n*Payment*: ${orderStatus.displayFinancialStatus}`
       }
@@ -558,7 +408,6 @@ function fetchOrder (Provider, automationResponse, selectedOption) {
         text = `${text}\n*Delivery*: ${orderStatus.displayFulfillmentStatus}`
       }
 
-      const isOrderFulFilled = orderStatus.displayFulfillmentStatus.toLowerCase() === 'fulfilled'
       if (isOrderFulFilled && orderStatus.fulfillments) {
         if (orderStatus.fulfillments[0]) {
           let trackingDetails = orderStatus.fulfillments[0].trackingInfo && orderStatus.fulfillments[0].trackingInfo[0] ? orderStatus.fulfillments[0].trackingInfo[0] : null
@@ -566,7 +415,7 @@ function fetchOrder (Provider, automationResponse, selectedOption) {
             text = `${text}\n\n*Tracking Details*:\n`
             text = `${text}\n*Company*: ${trackingDetails.company}`
             text = `${text}\n*Number*: ${trackingDetails.number}`
-            text += `${text}\n*Url*: ${trackingDetails.url}`
+            text = `${text}\n*Url*: ${trackingDetails.url}`
           }
         }
       }
@@ -608,19 +457,4 @@ function fetchOrder (Provider, automationResponse, selectedOption) {
       resolve({...automationResponse, text, gallery})
     } catch (err) { reject(err) }
   })
-}
-
-function viewCatalog (automationResponse, chatbot) {
-  if (chatbot.catalog && chatbot.catalog.url) {
-    automationResponse.payload = {
-      componentType: 'file',
-      fileurl: {
-        url: chatbot.catalog.url
-      },
-      fileName: chatbot.catalog.name
-    }
-  } else {
-    automationResponse = 'No catalog currently available!'
-  }
-  return automationResponse
 }
