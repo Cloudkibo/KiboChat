@@ -324,21 +324,21 @@ function getCheckoutInfo (automationResponse, selectedOption, subscriber, chatbo
       const paymentMethod = getSelectedPaymentMethod(subscriber, selectedOption)
       if (paymentMethod === 'cod') {
         if (customer && customer.email && completeAddress(customer.defaultAddress)) {
-          automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation('checkout-info-show', chatbot, subscriber, true)
+          automationResponse = await require('../kiboAutomation.layer.js').callKiboAutomation('checkout-info-show', chatbot, subscriber, true)
           automationResponse = showCheckoutInfo(automationResponse, 'cod', customer)
         } else if (customer && customer.email) {
-          automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation('ask-address', chatbot, subscriber, true)
+          automationResponse = await require('../kiboAutomation.layer.js').callKiboAutomation('ask-address', chatbot, subscriber, true)
           automationResponse = getValidateResponse(automationResponse, 'address')
         } else {
-          automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation('ask-email', chatbot, subscriber, true)
+          automationResponse = await require('../kiboAutomation.layer.js').callKiboAutomation('ask-email', chatbot, subscriber, true)
           automationResponse = getValidateResponse(automationResponse, 'email')
         }
       } else {
         if (customer && customer.email) {
-          automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation('checkout-info-show', chatbot, subscriber, true)
+          automationResponse = await require('../kiboAutomation.layer.js').callKiboAutomation('checkout-info-show', chatbot, subscriber, true)
           automationResponse = showCheckoutInfo(automationResponse, 'epayment', customer)
         } else {
-          automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation('ask-email', chatbot, subscriber, true)
+          automationResponse = await require('../kiboAutomation.layer.js').callKiboAutomation('ask-email', chatbot, subscriber, true)
           automationResponse = getValidateResponse(automationResponse, 'email')
         }
       }

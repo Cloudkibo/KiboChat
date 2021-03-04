@@ -62,7 +62,7 @@ exports.callApi = function (automationResponse, selectedOption, chatbot, subscri
           })
           if (items.length === 1) {
             storeInfo = await Provider.fetchStoreInfo()
-            automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation(automationResponse.event, chatbot, subscriber, true)
+            automationResponse = await require('../kiboAutomation.layer.js').callKiboAutomation(automationResponse.event, chatbot, subscriber, true)
             automationResponse.options = automationResponse.options || []
             selectedOption = {
               label: items[0].name,
@@ -200,7 +200,7 @@ function getProductVariants (Provider, automationResponse, selectedOption, chatb
       const storeInfo = await Provider.fetchStoreInfo()
       let productVariants = await Provider.getVariantsOfSelectedProduct(selectedOption.id, chatbot.numberOfProducts)
       if (productVariants.length === 1) {
-        automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation(automationResponse.event, chatbot, subscriber, true)
+        automationResponse = await require('../kiboAutomation.layer.js').callKiboAutomation(automationResponse.event, chatbot, subscriber, true)
         selectedOption.stock = productVariants[0].inventory_quantity
         selectedOption.productName = selectedOption.label
         selectedOption.id = productVariants[0].id
@@ -310,21 +310,21 @@ function getCheckoutInfo (automationResponse, selectedOption, subscriber, chatbo
       const paymentMethod = getSelectedPaymentMethod(subscriber, selectedOption)
       if (paymentMethod === 'cod') {
         if (customer && customer.email && completeAddress(customer.defaultAddress)) {
-          automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation('checkout-info-show', chatbot, subscriber, true)
+          automationResponse = await require('../kiboAutomation.layer.js').callKiboAutomation('checkout-info-show', chatbot, subscriber, true)
           automationResponse = showCheckoutInfo(automationResponse, 'cod', customer)
         } else if (customer && customer.email) {
-          automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation('ask-address', chatbot, subscriber, true)
+          automationResponse = await require('../kiboAutomation.layer.js').callKiboAutomation('ask-address', chatbot, subscriber, true)
           automationResponse = getValidateResponse(automationResponse, 'address')
         } else {
-          automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation('ask-email', chatbot, subscriber, true)
+          automationResponse = await require('../kiboAutomation.layer.js').callKiboAutomation('ask-email', chatbot, subscriber, true)
           automationResponse = getValidateResponse(automationResponse, 'email')
         }
       } else {
         if (customer && customer.email) {
-          automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation('checkout-info-show', chatbot, subscriber, true)
+          automationResponse = await require('../kiboAutomation.layer.js').callKiboAutomation('checkout-info-show', chatbot, subscriber, true)
           automationResponse = showCheckoutInfo(automationResponse, 'epayment', customer)
         } else {
-          automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation('ask-email', chatbot, subscriber, true)
+          automationResponse = await require('../kiboAutomation.layer.js').callKiboAutomation('ask-email', chatbot, subscriber, true)
           automationResponse = getValidateResponse(automationResponse, 'email')
         }
       }
