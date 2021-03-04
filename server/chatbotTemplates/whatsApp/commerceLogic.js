@@ -414,7 +414,7 @@ function fetchOrder (Provider, automationResponse, selectedOption, chatbot) {
       if (orderStatus.cancelReason) {
         text = `${text}\n*Status*: CANCELED`
       } else if (orderStatus.tags && orderStatus.tags.includes('cancel-request')) {
-        text = `${text}\n*Status*: Request Open for Cancelation `
+        text = `${text}\n*Status*: Request Open for Cancellation `
       }
 
       if (orderStatus.displayFinancialStatus) {
