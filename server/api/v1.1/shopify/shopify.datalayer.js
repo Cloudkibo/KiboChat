@@ -37,4 +37,3 @@ exports.update = (purpose, queryObject, updated) => {
   }
   return callApi(`shopify`, 'put', query, accounts)
 }
-
