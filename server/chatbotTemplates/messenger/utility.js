@@ -24,7 +24,14 @@ function prepareResponse (chatbot, subscriber, automationResponse, selectedOptio
     }
 
     if (automationResponse.textButtons && automationResponse.textButtons.length > 0) {
-      response.push({ text, componentType: 'text', buttons: automationResponse.textButtons })
+      const buttons = automationResponse.textButtons.map(item => {
+        return {
+          title: item.title,
+          type: 'postback',
+          payload: JSON.stringify({type: 'DYNAMIC', ...item.payload})
+        }
+      })
+      response.push({ text, componentType: 'text', buttons })
     } else {
       response.push({ text, componentType: 'text' })
     }
@@ -64,7 +71,9 @@ function prepareResponse (chatbot, subscriber, automationResponse, selectedOptio
             id: item.id,
             nextPage: item.nextPage,
             API: item.API,
-            paymentMethod: item.paymentMethod
+            paymentMethod: item.paymentMethod,
+            orderId: item.orderId,
+            isOrderFulFilled: item.isOrderFulFilled
           })
         })
       })
