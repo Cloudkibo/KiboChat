@@ -29,9 +29,7 @@ exports.sendManualMessage = async (req, res) => {
         {number: req.body.number.replace(/\D/g, '')}
       ]
     }
-    console.log('query', query)
     let contact = await callApi(`whatsAppContacts/query`, 'post', query)
-    console.log('contact', contact)
     if (contact.length > 0 && contact[0].marketing_optin) {
       contact = contact[0]
       const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: req.user.companyId })
@@ -42,14 +40,12 @@ exports.sendManualMessage = async (req, res) => {
         })
         const storeInfo = await shopify.fetchStoreInfo()
         let message = logicLayer.prepareManualMessage(req.body.templateName, req.body.template, contact, storeInfo.name, req.body.supportNumber, req.body.order)
-        console.log('message', message)
         whatsAppMapper(message.provider, ActionTypes.SEND_CHAT_MESSAGE, message)
         sendSuccessResponse(res, 200, 'Message sent successfully')
       } else {
         sendErrorResponse(res, 500, null, 'No Shopify Integration found')
       }
     } else {
-      console.log('in else')
       sendErrorResponse(res, 500, null, 'This customer has not opted-in.')
     }
   } catch (err) {
