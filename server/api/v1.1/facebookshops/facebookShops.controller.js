@@ -13,12 +13,12 @@ exports.testRoute = (req, res) => {
     .then(shopifyIntegration => {
       const shops = new EcommerceProviders(commerceConstants.shops, {
         shopUrl: shopifyIntegration.shopUrl,
-        shopToken: 'EAACQ9dMxl7QBACfTMZAyZBU3FELcMhgsxH33XgMEXIa57RU5lCpGGDhs7huXRlqngkK9ZBRq0yM9o3nXjXB0gkjXBE6zdJ3FTYI3bJJLGWcL79XJqIANABFucZBbBPLts9jYtHngQSSeVQ6gi3rZBFD5KAnjkjvqEmnXbA995eDFC4yN3ueihfWmI9irmfK9uB8oPkmhQ05xSl2ZBL92NERsdRlOvzSVOb4FGPJvTZBtWRRL6xJAZCKBJc7kkBKJ1x8ZD'// shopifyIntegration.shopToken
+        shopToken: 'EAACQ9dMxl7QBANsrpTZAyBiJr9M8PKnQqDEA2ZBPXOe6ZCOYqDk41o1hWZBm2EJTEyl1fq5ZCP0MhO6VQyGwzf2k2b49XC4DnV1WllpWJWyGvsZADli9uQBHm0lEbfTSzFTQCSLKlfjt4b2BZCR7k6a41Ol3W2uOYibgnI51ZApSuHKJxf0if32e3qlpBXDI4VLx8eAotK7sbddKPZCPDSLrm'// shopifyIntegration.shopToken
       })
       // return shops.fetchBusinessAccounts()
       // return shops.fetchCommerceCatalogs('2457078727940351')
-      // return shops.fetchProducts('1201032280277610')
-      return shops.searchProducts('kameez', '1201032280277610')
+      return shops.fetchProducts('1201032280277610')
+      // return shops.searchProducts('kameez', '1201032280277610')
     })
     .then(shop => {
       sendSuccessResponse(res, 200, shop)
