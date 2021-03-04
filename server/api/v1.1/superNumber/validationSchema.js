@@ -23,3 +23,42 @@ exports.sendManualMessagePayload = {
     'supportNumber'
   ]
 }
+
+exports.createPayload = {
+  '$schema': 'http://json-schema.org/draft-04/schema#',
+  'type': 'object',
+  'properties': {
+    'companyId': {
+      'type': 'string'
+    },
+    'abandonedCart': {
+      'type': 'object'
+    },
+    'orderCRM': {
+      'type': 'object'
+    },
+    'cashOnDelivery': {
+      'type': 'object'
+    }
+  },
+  'required': [
+    'companyId'
+  ]
+}
+
+exports.updatePayload =
+{
+  '$schema': 'http://json-schema.org/draft-04/schema#',
+  'type': 'object',
+  'properties': {
+    'abandonedCart': {
+      'type': 'object'
+    },
+    'orderCRM': {
+      'type': 'object'
+    },
+    'cashOnDelivery': {
+      'type': 'object'
+    }
+  }
+}
