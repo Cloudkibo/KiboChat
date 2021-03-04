@@ -528,7 +528,7 @@ function getSelectedPaymentMethod (subscriber, selectedOption) {
 }
 
 async function generateInvoice (storeInfo, order) {
-  const html = fs.readFileSync(path.join(__dirname, '../chatbots/invoice_template.html'), 'utf8')
+  const html = fs.readFileSync(path.join(__dirname, '/invoice_template.html'), 'utf8')
   const options = {
     format: 'A3',
     orientation: 'portrait',
