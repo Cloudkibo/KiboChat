@@ -475,17 +475,20 @@ exports.viewCatalog = function (automationResponse, chatbot) {
   return automationResponse
 }
 
-exports.cancelOrder = function (Provider, automationResponse, selectedOption) {
+exports.cancelOrder = function (Provider, automationResponse, selectedOption, chatbot) {
   return new Promise(async (resolve, reject) => {
     try {
-      let text = automationResponse.text
+      let text = chatbot.cancelOrderMessage || ''
+      let { orderId, id } = selectedOption
+      id = id.split('//')[1].split('/')[2]
       if (!selectedOption.isOrderFulFilled) {
-        const orderStatus = await Provider.checkOrderStatus(Number(selectedOption.id))
+        const orderStatus = await Provider.checkOrderStatus(Number(orderId))
         let tags = orderStatus.tags || []
         tags.push('cancel-request')
-        const cancelResponse = await Provider.updateOrderTag(selectedOption.id, tags.join())
+        const cancelResponse = await Provider.updateOrderTag(id, tags.join())
         if (cancelResponse.status === 'success') {
-          text = text.replace('__orderId__', selectedOption.id)
+          text = text.replace('__orderId__', orderId)
+          text = text.replace('{{orderId}}', orderId)
         } else {
           text = `Failed to send cancel request for your order. For further details please talk to an agent.`
           automationResponse.otherOptions = [{
