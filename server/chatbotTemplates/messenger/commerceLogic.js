@@ -11,6 +11,7 @@ const {
   viewCatalog,
   cancelOrder
 } = require('../logiclayer')
+const { sendNotification } = require('../../api/v1.1/chatbots/chatbots.logiclayer')
 
 exports.callApi = function (automationResponse, selectedOption, chatbot, subscriber) {
   return new Promise(async (resolve, reject) => {
@@ -83,7 +84,10 @@ exports.callApi = function (automationResponse, selectedOption, chatbot, subscri
           response = await viewCatalog(automationResponse, chatbot)
           break
         case 'CANCEL_ORDER':
-          response = await cancelOrder(Provider, automationResponse, selectedOption)
+          response = await cancelOrder(Provider, automationResponse, selectedOption, chatbot)
+          break
+        case 'RETURN_ORDER':
+          response = await returnOrder(automationResponse, selectedOption, chatbot, subscriber)
           break
         default:
           storeInfo = await Provider.fetchStoreInfo()
@@ -206,7 +210,7 @@ function getProductVariants (Provider, automationResponse, selectedOption, chatb
 
 function getPurchaseResponse (automationResponse, storeInfo, selectedOption, subscriber) {
   automationResponse.text = prepareText(automationResponse.text, selectedOption, storeInfo, subscriber)
-  let confirmIndex = automationResponse.options.findIndex((item) => item.code.toLowerCase() === 'y' && ['set-cart', 'cart-remove-success', 'cancel-order'].includes(item.event))
+  let confirmIndex = automationResponse.options.findIndex((item) => item.code.toLowerCase() === 'y' && ['set-cart', 'cart-remove-success', 'cancel-order', 'return-order'].includes(item.event))
   if (confirmIndex >= 0) {
     automationResponse.options[confirmIndex] = {
       ...selectedOption,
@@ -214,7 +218,7 @@ function getPurchaseResponse (automationResponse, storeInfo, selectedOption, sub
     }
   }
   let gallery = null
-  if (!['cancel-order-confirmation'].includes(selectedOption.event)) {
+  if (!['cancel-order-confirmation', 'return-order-confirmation'].includes(selectedOption.event)) {
     gallery = [{
       title: selectedOption.productName || selectedOption.label,
       subtitle: `Price: ${selectedOption.price} ${storeInfo.currency}\nQuantity: ${selectedOption.quantity}`,
@@ -232,7 +236,7 @@ function getPurchaseResponse (automationResponse, storeInfo, selectedOption, sub
       max: selectedOption.stock
     }
   }
-  if (['cart-remove-confirmation', 'cancel-order-confirmation'].includes(selectedOption.event)) {
+  if (['cart-remove-confirmation'].includes(selectedOption.event)) {
     automationResponse.otherOptions = [...automationResponse.options, ...automationResponse.otherOptions]
   }
   return {...automationResponse, gallery}
@@ -404,7 +408,21 @@ function fetchOrder (Provider, automationResponse, selectedOption, chatbot) {
           title: 'Cancel Order',
           payload: {
             id: orderStatus.id,
+            orderId,
             event: 'cancel-order-confirmation',
+            isOrderFulFilled
+          }
+        }]
+      } else if (isOrderFulFilled && orderStatus.displayFinancialStatus &&
+        orderStatus.displayFinancialStatus.includes('PAID') && chatbot.returnOrder
+      ) {
+        textButtons = [{
+          type: 'postback',
+          title: 'Request Return',
+          payload: {
+            id: orderStatus.id,
+            orderId,
+            event: 'return-order-confirmation',
             isOrderFulFilled
           }
         }]
@@ -472,4 +490,17 @@ function fetchOrder (Provider, automationResponse, selectedOption, chatbot) {
       resolve({...automationResponse, text, gallery, textButtons})
     } catch (err) { reject(err) }
   })
+}
+
+function returnOrder (automationResponse, selectedOption, chatbot, subscriber) {
+  let text = chatbot.returnOrderMessage || ''
+  let { orderId } = selectedOption
+  text = text.replace('__orderId__', orderId)
+  text = text.replace('{{orderId}}', orderId)
+
+  const firstName = subscriber.firstName
+  const message = `${firstName} is requesting a return for order #${orderId}.`
+  sendNotification(subscriber, message, chatbot.companyId)
+
+  return {...automationResponse, text}
 }
