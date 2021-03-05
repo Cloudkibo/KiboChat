@@ -8,9 +8,6 @@ exports.createPayload = {
   '$schema': 'http://json-schema.org/draft-04/schema#',
   'type': 'object',
   'properties': {
-    'companyId': {
-      'type': 'string'
-    },
     'abandonedCart': {
       'type': 'object'
     },
@@ -20,10 +17,7 @@ exports.createPayload = {
     'cashOnDelivery': {
       'type': 'object'
     }
-  },
-  'required': [
-    'companyId'
-  ]
+  }
 }
 
 exports.updatePayload =
