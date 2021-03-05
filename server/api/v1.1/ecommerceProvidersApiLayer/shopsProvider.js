@@ -107,6 +107,7 @@ exports.fetchProductsInThisCategory = (category, numberOfProducts, credentials) 
           reject(result.error.message || result.error)
         } else {
           let payload = result.products && result.products.data ? result.products.data : []
+          payload = payload.filter(item => item.image_url)
           payload = [...new Map(payload.map(item =>
             [item['retailer_product_group_id'], item])).values()]
           console.log('payload', payload)
@@ -150,6 +151,7 @@ exports.fetchProducts = (query, numberOfProducts, credentials) => {
           reject(result.error.message || result.error)
         } else {
           let payload = result.data
+          payload = payload.filter(item => item.image_url)
           payload = [...new Map(payload.map(item =>
             [item['retailer_product_group_id'], item])).values()]
           payload = payload.map(product => {
@@ -182,6 +184,7 @@ exports.searchProducts = (query, catalogId, credentials) => {
           reject(result.error.message || result.error)
         } else {
           let payload = result.data
+          payload = payload.filter(item => item.image_url)
           payload = [...new Map(payload.map(item =>
             [item['retailer_product_group_id'], item])).values()]
           payload = payload.map(product => {

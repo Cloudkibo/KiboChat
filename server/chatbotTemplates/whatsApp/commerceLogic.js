@@ -14,6 +14,7 @@ const {
   viewCatalog,
   cancelOrder
 } = require('../logiclayer')
+const { sendNotification } = require('../../api/v1.1/whatsAppChatbot/whatsAppChatbot.logiclayer')
 
 exports.callApi = function (automationResponse, selectedOption, chatbot, subscriber) {
   return new Promise(async (resolve, reject) => {
@@ -61,7 +62,7 @@ exports.callApi = function (automationResponse, selectedOption, chatbot, subscri
           })
           if (items.length === 1) {
             storeInfo = await Provider.fetchStoreInfo()
-            automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation(automationResponse.event, chatbot, subscriber, true)
+            automationResponse = await require('../kiboAutomation.layer.js').callKiboAutomation(automationResponse.event, chatbot, subscriber, true)
             automationResponse.options = automationResponse.options || []
             selectedOption = {
               label: items[0].name,
@@ -114,7 +115,10 @@ exports.callApi = function (automationResponse, selectedOption, chatbot, subscri
           response = findFaqTopics(automationResponse, chatbot)
           break
         case 'CANCEL_ORDER':
-          response = await cancelOrder(Provider, automationResponse, selectedOption)
+          response = await cancelOrder(Provider, automationResponse, selectedOption, chatbot)
+          break
+        case 'RETURN_ORDER':
+          response = await returnOrder(automationResponse, selectedOption, chatbot, subscriber)
           break
         default:
           storeInfo = await Provider.fetchStoreInfo()
@@ -196,7 +200,7 @@ function getProductVariants (Provider, automationResponse, selectedOption, chatb
       const storeInfo = await Provider.fetchStoreInfo()
       let productVariants = await Provider.getVariantsOfSelectedProduct(selectedOption.id, chatbot.numberOfProducts)
       if (productVariants.length === 1) {
-        automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation(automationResponse.event, chatbot, subscriber, true)
+        automationResponse = await require('../kiboAutomation.layer.js').callKiboAutomation(automationResponse.event, chatbot, subscriber, true)
         selectedOption.stock = productVariants[0].inventory_quantity
         selectedOption.productName = selectedOption.label
         selectedOption.id = productVariants[0].id
@@ -222,7 +226,7 @@ function getProductVariants (Provider, automationResponse, selectedOption, chatb
 
 function getPurchaseResponse (automationResponse, storeInfo, selectedOption, subscriber) {
   automationResponse.text = prepareText(automationResponse.text, selectedOption, storeInfo, subscriber)
-  let confirmIndex = automationResponse.options.findIndex((item) => item.code.toLowerCase() === 'y' && ['set-cart', 'cart-remove-success', 'cancel-order'].includes(item.event))
+  let confirmIndex = automationResponse.options.findIndex((item) => item.code.toLowerCase() === 'y' && ['set-cart', 'cart-remove-success', 'cancel-order', 'return-order'].includes(item.event))
   if (confirmIndex >= 0) {
     automationResponse.options[confirmIndex] = {
       ...selectedOption,
@@ -231,7 +235,7 @@ function getPurchaseResponse (automationResponse, storeInfo, selectedOption, sub
     }
   }
   let gallery = null
-  if (!['cancel-order-confirmation'].includes(selectedOption.event)) {
+  if (!['cancel-order-confirmation', 'return-order-confirmation'].includes(selectedOption.event)) {
     gallery = [{
       title: selectedOption.label,
       subtitle: `${selectedOption.label}\nPrice: ${selectedOption.price} ${storeInfo.currency}`,
@@ -306,21 +310,21 @@ function getCheckoutInfo (automationResponse, selectedOption, subscriber, chatbo
       const paymentMethod = getSelectedPaymentMethod(subscriber, selectedOption)
       if (paymentMethod === 'cod') {
         if (customer && customer.email && completeAddress(customer.defaultAddress)) {
-          automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation('checkout-info-show', chatbot, subscriber, true)
+          automationResponse = await require('../kiboAutomation.layer.js').callKiboAutomation('checkout-info-show', chatbot, subscriber, true)
           automationResponse = showCheckoutInfo(automationResponse, 'cod', customer)
         } else if (customer && customer.email) {
-          automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation('ask-address', chatbot, subscriber, true)
+          automationResponse = await require('../kiboAutomation.layer.js').callKiboAutomation('ask-address', chatbot, subscriber, true)
           automationResponse = getValidateResponse(automationResponse, 'address')
         } else {
-          automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation('ask-email', chatbot, subscriber, true)
+          automationResponse = await require('../kiboAutomation.layer.js').callKiboAutomation('ask-email', chatbot, subscriber, true)
           automationResponse = getValidateResponse(automationResponse, 'email')
         }
       } else {
         if (customer && customer.email) {
-          automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation('checkout-info-show', chatbot, subscriber, true)
+          automationResponse = await require('../kiboAutomation.layer.js').callKiboAutomation('checkout-info-show', chatbot, subscriber, true)
           automationResponse = showCheckoutInfo(automationResponse, 'epayment', customer)
         } else {
-          automationResponse = await require('../kiboautomation.layer.js').callKiboAutomation('ask-email', chatbot, subscriber, true)
+          automationResponse = await require('../kiboAutomation.layer.js').callKiboAutomation('ask-email', chatbot, subscriber, true)
           automationResponse = getValidateResponse(automationResponse, 'email')
         }
       }
@@ -390,7 +394,19 @@ function fetchOrder (Provider, automationResponse, selectedOption, chatbot) {
           code: 'X',
           label: 'Cancel Order',
           id: orderStatus.id,
+          orderId,
           event: 'cancel-order-confirmation',
+          isOrderFulFilled
+        })
+      } else if (isOrderFulFilled && orderStatus.displayFinancialStatus &&
+        orderStatus.displayFinancialStatus.includes('PAID') && chatbot.returnOrder
+      ) {
+        automationResponse.otherOptions.unshift({
+          code: 'R',
+          label: 'Request Return',
+          id: orderStatus.id,
+          orderId,
+          event: 'return-order-confirmation',
           isOrderFulFilled
         })
       }
@@ -398,7 +414,7 @@ function fetchOrder (Provider, automationResponse, selectedOption, chatbot) {
       if (orderStatus.cancelReason) {
         text = `${text}\n*Status*: CANCELED`
       } else if (orderStatus.tags && orderStatus.tags.includes('cancel-request')) {
-        text = `${text}\n*Status*: Request Open for Cancelation `
+        text = `${text}\n*Status*: Request Open for Cancellation `
       }
 
       if (orderStatus.displayFinancialStatus) {
@@ -457,4 +473,18 @@ function fetchOrder (Provider, automationResponse, selectedOption, chatbot) {
       resolve({...automationResponse, text, gallery})
     } catch (err) { reject(err) }
   })
+}
+
+function returnOrder (automationResponse, selectedOption, chatbot, subscriber) {
+  let text = chatbot.returnOrderMessage || ''
+  let { orderId } = selectedOption
+  text = text.replace('__orderId__', orderId)
+  text = text.replace('{{orderId}}', orderId)
+
+  const names = subscriber.name.split(' ')
+  const firstName = names[0]
+  const message = `${firstName} is requesting a return for order #${orderId}.`
+  sendNotification(subscriber, message, chatbot.companyId)
+
+  return {...automationResponse, text}
 }

@@ -704,7 +704,7 @@ exports.fetchOrders = (limit, paginationParams, credentials) => {
         let nextPageParameters = orders.nextPageParameters
         orders = orders.map(order => {
           let orderStatusUrl = order.order_status_url.split('.com')
-          return {
+          let payload = {
             orderNumber: order.order_number,
             createdAt: order.created_at,
             customerName: getCustomerName(order),
@@ -712,10 +712,13 @@ exports.fetchOrders = (limit, paginationParams, credentials) => {
             currency: order.currency,
             financialStatus: order.financial_status,
             fulfillmentStatus: order.fulfillment_status,
-            orderUrl: `${orderStatusUrl[0]}.com/admin/orders/${order.id}`,
+            orderAdminUrl: `${orderStatusUrl[0]}.com/admin/orders/${order.id}`,
+            orderStatusUrl: order.order_status_url,
             customerNumber: order.phone ? order.phone : order.customer ? order.customer.phone : null,
             tags: order.tags
           }
+          payload = getTrackingDetails(payload, order.fulfillments)
+          return payload
         })
         if (nextPageParameters) {
           orders.nextPageParameters = nextPageParameters
@@ -738,4 +741,16 @@ function getCustomerName (order) {
     name = order.billing_address.name
   }
   return name
+}
+
+function getTrackingDetails (payload, fulfillments) {
+  if (fulfillments.length > 0) {
+    for (let i = 0; i < fulfillments.length; i++) {
+      if (fulfillments[i].tracking_number && fulfillments[i].tracking_url) {
+        payload.trackingId = fulfillments[i].tracking_number
+        payload.trackingUrl = fulfillments[i].tracking_url
+      }
+    }
+  }
+  return payload
 }
