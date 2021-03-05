@@ -6,6 +6,8 @@ const {
   showCheckoutInfo,
   getValidateResponse,
   initializeProvider,
+  findFaqTopics,
+  findFaqQuestionAnswer,
   proceedToCheckout,
   getPdfInvoice,
   viewCatalog,
@@ -82,6 +84,15 @@ exports.callApi = function (automationResponse, selectedOption, chatbot, subscri
           break
         case 'VIEW_CATALOG':
           response = await viewCatalog(automationResponse, chatbot)
+          break
+        case 'GET_SHOW_FAQ_TOPICS':
+          response = findFaqTopics(automationResponse, chatbot)
+          break
+        case 'GET_FAQ_TOPIC-QUESTIONS':
+          response = findFaqTopicQuestions(automationResponse, selectedOption, chatbot)
+          break
+        case 'GET_FAQ_QUESTION_ANSWER':
+          response = findFaqQuestionAnswer(automationResponse, selectedOption, chatbot)
           break
         case 'CANCEL_ORDER':
           response = await cancelOrder(Provider, automationResponse, selectedOption, chatbot)
@@ -503,4 +514,56 @@ function returnOrder (automationResponse, selectedOption, chatbot, subscriber) {
   sendNotification(subscriber, message, chatbot.companyId)
 
   return {...automationResponse, text}
+}
+
+function findFaqTopicQuestions (automationResponse, selectedOption, chatbot) {
+  let options = []
+  if (chatbot.faqs[selectedOption.id] && chatbot.faqs[selectedOption.id].questions) {
+    let questionsLength = chatbot.faqs[selectedOption.id].questions.length
+    if (selectedOption.viewMore) { // check this
+      let remainingQuestions = questionsLength - selectedOption.questionIndex
+      let length = remainingQuestions > 10 ? selectedOption.questionIndex + 9 : questionsLength
+      for (let i = selectedOption.questionIndex; i < length; i++) {
+        const question = chatbot.faqs[selectedOption.id].questions[i].question
+        options[i] = {
+          code: `${i}`,
+          label: question,
+          event: automationResponse.event,
+          id: question
+        }
+      }
+      if (remainingQuestions > 10) {
+        options[length] = {
+          code: `${length}`,
+          label: 'View More Questions',
+          event: automationResponse.event,
+          id: 'View More Questions'
+        }
+      }
+    } else {
+      automationResponse.text = `*${selectedOption.label}*\n\n${automationResponse.text}`
+      let length = questionsLength <= 10 ? questionsLength : 9
+      for (let i = 0; i < length; i++) {
+        const question = chatbot.faqs[selectedOption.id].questions[i].question
+        options[i] = {
+          code: `${i}`,
+          label: question,
+          event: automationResponse.event,
+          id: selectedOption.code
+        }
+      }
+      if (questionsLength > 10) {
+        options[length] = {
+          code: `${length}`,
+          label: 'View More Questions',
+          event: automationResponse.event,
+          id: 'View More Questions'
+        }
+      }
+    }
+    automationResponse.options = options
+  } else {
+    automationResponse.text += `Please contact our support agents for any questions you have.`
+  }
+  return automationResponse
 }
