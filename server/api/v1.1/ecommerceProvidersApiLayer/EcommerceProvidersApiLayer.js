@@ -259,6 +259,12 @@ module.exports = class EcommerceProvidersApiLayer {
     }
   }
 
+  fetchOrdersCount () {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.fetchOrdersCount(this.eCommerceProviderCredentials)
+    }
+  }
+
   findCustomerOrders (customerId, limit) {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.findCustomerOrders(customerId, limit, this.eCommerceProviderCredentials)

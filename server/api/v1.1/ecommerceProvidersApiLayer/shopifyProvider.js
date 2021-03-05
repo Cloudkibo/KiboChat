@@ -695,6 +695,19 @@ exports.fetchAbandonedCart = (token, credentials) => {
   })
 }
 
+exports.fetchOrdersCount = (credentials) => {
+  const shopify = initShopify(credentials)
+  return new Promise(function (resolve, reject) {
+    shopify.order.count({status: 'any'})
+      .then(orders => {
+        resolve(orders)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
 exports.fetchOrders = (limit, paginationParams, credentials) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {

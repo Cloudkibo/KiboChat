@@ -694,8 +694,9 @@ exports.fetchOrders = async (req, res) => {
         shopUrl: shopifyIntegration.shopUrl,
         shopToken: shopifyIntegration.shopToken
       })
+      const count = await shopify.fetchOrdersCount()
       const orders = await shopify.fetchOrders(req.body.limit, req.body.nextPageParameters)
-      sendSuccessResponse(res, 200, {orders: orders, nextPageParameters: orders.nextPageParameters})
+      sendSuccessResponse(res, 200, {orders: orders, nextPageParameters: orders.nextPageParameters, count: count})
     } else {
       sendErrorResponse(res, 500, `No Shopify Integration found`)
     }
