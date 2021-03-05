@@ -169,15 +169,16 @@ exports.getMessageBlocks = (chatbot, storeName) => {
         payload: JSON.stringify({ type: DYNAMIC, action: SHOW_MY_CART })
       }
     )
-  } else {
-    messageBlocks[0].payload[0].quickReplies.push(
-      {
-        content_type: 'text',
-        title: 'Check order status',
-        payload: JSON.stringify({ type: DYNAMIC, action: ASK_ORDER_ID })
-      }
-    )
   }
+  // else {
+  //   messageBlocks[0].payload[0].quickReplies.push(
+  //     {
+  //       content_type: 'text',
+  //       title: 'Check order status',
+  //       payload: JSON.stringify({ type: DYNAMIC, action: ASK_ORDER_ID })
+  //     }
+  //   )
+  // }
 
   messageBlocks[0].payload[0].quickReplies.push(
     {
@@ -529,7 +530,7 @@ const getTalkToAgentBlock = (chatbot, contact) => {
 
 const getSearchProductsBlock = async (chatbot, contact) => {
   try {
-    let skuCode = chatbot.storeType === 'shops' ? '' : 'or SKU code'
+    let skuCode = chatbot.storeType === 'shops' ? '' : 'or SKU code '
     const messageBlock = {
       module: {
         id: chatbot._id,
@@ -539,7 +540,7 @@ const getSearchProductsBlock = async (chatbot, contact) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: getProfileIds().includes(chatbot.companyId) ? prepareText(chatbot.companyId, 'SEARCH_PRODUCTS') : `Please enter the name ${skuCode} of the product you wish to search for:`,
+          text: getProfileIds().includes(chatbot.companyId) ? prepareText(chatbot.companyId, 'SEARCH_PRODUCTS') : `Please enter the name ${skuCode}of the product you wish to search for:`,
           componentType: 'text',
           action: { type: DYNAMIC, action: DISCOVER_PRODUCTS, input: true },
           quickReplies: [
@@ -642,11 +643,11 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
     let storeInfo = await EcommerceProvider.fetchStoreInfo()
     if (input) {
       products = await EcommerceProvider.searchProducts(input, chatbot.catalogId)
-      let skuCode = chatbot.storeType === 'shops' ? '' : 'or SKU code'
+      let skuCode = chatbot.storeType === 'shops' ? '' : 'or SKU code '
       if (products.length > 0) {
-        messageBlock.payload[0].text = `Following products were found for "${input}".\n\nPlease select a product or enter another product name ${skuCode} to search again:`
+        messageBlock.payload[0].text = `Following products were found for "${input}".\n\nPlease select a product or enter another product name ${skuCode}to search again:`
       } else {
-        messageBlock.payload[0].text = `No products found that match "${input}".\n\nEnter another product name ${skuCode} to search again:`
+        messageBlock.payload[0].text = `No products found that match "${input}".\n\nEnter another product name ${skuCode}to search again:`
       }
     } else {
       if (argument && argument.categoryId) {
@@ -663,7 +664,9 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
       if (products.length > 0) {
         messageBlock.payload[0].text = `Please select a product:`
       } else {
-        messageBlock.payload[0].text = getProfileIds().includes(chatbot.companyId) ? prepareText(chatbot.companyId, 'ON_SALE') : `No products were found using discover.`
+        messageBlock.payload[0].text =
+          getProfileIds().includes(chatbot.companyId) ? prepareText(chatbot.companyId, 'ON_SALE')
+            : argument && argument.categoryId ? 'There are no products in the selected category' : 'There are no products on sale'
       }
     }
 

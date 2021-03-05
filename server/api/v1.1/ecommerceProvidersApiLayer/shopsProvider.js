@@ -95,11 +95,13 @@ exports.fetchAllProductCategories = (paginationParams, catalogId, credentials) =
 }
 
 exports.fetchProductsInThisCategory = (category, numberOfProducts, credentials) => {
+  console.log('number of products', numberOfProducts)
   const params = initShops(credentials)
   return new Promise(function (resolve, reject) {
     const fields = `fields=products.limit(${numberOfProducts}){id,name,fb_product_category,currency,image_url,price,product_type,brand,retailer_product_group_id}`
     needle('get', `${API_URL}/${category}?${fields}&access_token=${params}`)
       .then(result => {
+        console.log('result.body', JSON.stringify(result.body.products.data))
         result = result.body
         if (result.error) {
           reject(result.error.message || result.error)
@@ -107,7 +109,9 @@ exports.fetchProductsInThisCategory = (category, numberOfProducts, credentials) 
           let payload = result.products && result.products.data ? result.products.data : []
           payload = [...new Map(payload.map(item =>
             [item['retailer_product_group_id'], item])).values()]
+          console.log('payload', payload)
           payload = payload.map(item => {
+            console.log('item', item)
             return {
               id: item.id,
               brand: item.brand,
@@ -124,6 +128,7 @@ exports.fetchProductsInThisCategory = (category, numberOfProducts, credentials) 
               price: item.price
             }
           })
+          console.log('final payload', payload)
           resolve(payload)
         }
       })
@@ -134,6 +139,7 @@ exports.fetchProductsInThisCategory = (category, numberOfProducts, credentials) 
 }
 
 exports.fetchProducts = (query, numberOfProducts, credentials) => {
+  console.log('numberOfProducts', numberOfProducts)
   const params = initShops(credentials)
   return new Promise(function (resolve, reject) {
     const fields = `fields=id,name,fb_product_category,currency,image_url,price,product_type,brand,retailer_product_group_id&limit=${numberOfProducts}`
