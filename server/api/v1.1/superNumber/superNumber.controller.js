@@ -77,7 +77,7 @@ exports.create = function (req, res) {
   }
   dataLayer.create(payload)
     .then(createdObj => {
-      sendSuccessResponse(res, 200, 'SuperNumberPreferences object created succssfully')
+      sendSuccessResponse(res, 200, createdObj)
     })
     .catch(err => {
       const message = err || 'Error occured while creating SuperNumberPreferences object'
