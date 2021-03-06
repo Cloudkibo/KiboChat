@@ -706,6 +706,29 @@ exports.fetchOrders = async (req, res) => {
   }
 }
 
+exports.fetchCheckouts = async (req, res) => {
+  try {
+    const shopifyIntegration = await dataLayer.findOneShopifyIntegration({ companyId: req.user.companyId })
+    if (shopifyIntegration) {
+      const shopify = new EcommerceProviders(commerceConstants.shopify, {
+        shopUrl: shopifyIntegration.shopUrl,
+        shopToken: shopifyIntegration.shopToken
+      })
+      console.log('shopifyIntegration', shopifyIntegration)
+      const count = await shopify.fetchCheckoutsCount()
+      console.log('count', count)
+      const checkouts = await shopify.fetchCheckouts(req.body.limit, req.body.nextPageParameters)
+      sendSuccessResponse(res, 200, {checkouts, nextPageParameters: checkouts.nextPageParameters, count: count})
+    } else {
+      sendErrorResponse(res, 500, `No Shopify Integration found`)
+    }
+  } catch (err) {
+    const message = err || 'Error fetching checkouts'
+    logger.serverLog(message, `${TAG}: exports.fetchCheckouts`, req.body, {}, 'error')
+  }
+}
+
+
 exports.update = async (req, res) => {
   try {
     const updatedRecord = await dataLayer.update(req.body.purpose, req.body.query, req.body.updated)

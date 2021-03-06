@@ -695,6 +695,53 @@ exports.fetchAbandonedCart = (token, credentials) => {
   })
 }
 
+exports.fetchCheckoutsCount = (credentials) => {
+  const shopify = initShopify(credentials)
+  return new Promise(function (resolve, reject) {
+    shopify.checkout.count({status: 'any'})
+      .then(count => {
+        resolve(count)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
+exports.fetchCheckouts = (limit, paginationParams, credentials) => {
+  const shopify = initShopify(credentials)
+  return new Promise(function (resolve, reject) {
+    paginationParams = paginationParams || { limit: limit, status: 'any' }
+    shopify.checkout.list(paginationParams)
+      .then(checkouts => {
+        let nextPageParameters = checkouts.nextPageParameters
+        checkouts = checkouts.map(checkout => {
+          let payload = {
+            checkoutId: checkout.id,
+            token: checkout.token,
+            cart_token: checkout.cart_token,
+            customerName: getCustomerName(checkout),
+            totalPrice: checkout.total_price,
+            currency: checkout.currency,
+            created_at: checkout.created_at,
+            updated_at: checkout.updated_at,
+            abandoned_checkout_url: checkout.abandoned_checkout_url,
+            customerNumber: checkout.phone ? checkout.phone : checkout.customer ? checkout.customer.phone : null,
+            tags: checkout.tags
+          }
+          return payload
+        })
+        if (nextPageParameters) {
+          checkouts.nextPageParameters = nextPageParameters
+        }
+        resolve(checkouts)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
 exports.fetchOrdersCount = (credentials) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
