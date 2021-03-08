@@ -37,7 +37,12 @@ router.post('/fulfillment',
 router.get('/fetchStore',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer(),
-  controller.fetchStore) // this id will be userid
+  controller.fetchStore)
+
+router.post('/fetchCheckouts',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
+  controller.fetchCheckouts)
 
 router.post('/gdpr/erasecustomer',
   controller.eraseCustomerData) // this id will be userid
