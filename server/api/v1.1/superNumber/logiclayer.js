@@ -21,17 +21,17 @@ function getTemplateArguments (templateName, templateCode, customerName, shopNam
   let templateArguments = ''
   if (templateName === 'ORDER_CONFIRMATION') {
     if (templateCode === 'ur') {
-      templateArguments = `${customerName},${shopName},${order.currency} ${order.totalPrice},#${order.orderNumber},${order.orderStatusUrl},https:///wa.me/${supportNumber}`
+      templateArguments = `${customerName},${shopName},${order.currency} ${order.totalPrice},#${order.orderNumber},${order.orderStatusUrl},https://wa.me/${supportNumber}`
     } else {
-      templateArguments = `${customerName},${order.currency} ${order.totalPrice},${shopName},#${order.orderNumber},${order.orderStatusUrl},https:///wa.me/${supportNumber}`
+      templateArguments = `${customerName},${order.currency} ${order.totalPrice},${shopName},#${order.orderNumber},${order.orderStatusUrl},https://wa.me/${supportNumber}`
     }
   } else if (templateName === 'ORDER_SHIPMENT') {
-    templateArguments = `${customerName},${shopName},${order.trackingId},${order.trackingUrl},https:///wa.me/${supportNumber}`
+    templateArguments = `${customerName},${shopName},${order.trackingId},${order.trackingUrl},https://wa.me/${supportNumber}`
   } else if (templateName === 'ABANDONED_CART_RECOVERY' && checkout) {
     if (templateCode === 'ur') {
-      templateArguments = `${customerName},${shopName},${order.currency} ${order.totalPrice},${checkout.abandoned_checkout_url}, https:///wa.me/${supportNumber}`
+      templateArguments = `${customerName},${shopName},${order.currency} ${order.totalPrice},${checkout.abandoned_checkout_url}, https://wa.me/${supportNumber}`
     } else {
-      templateArguments = `${customerName},${order.currency} ${order.totalPrice},${shopName},${checkout.abandoned_checkout_url}, https:///wa.me/${supportNumber}`
+      templateArguments = `${customerName},${order.currency} ${order.totalPrice},${shopName},${checkout.abandoned_checkout_url}, https://wa.me/${supportNumber}`
     }
   }
   return templateArguments
