@@ -27,6 +27,7 @@ const { messengerLogicLayer } = require('../messengerEvents/logiclayer')
 const { facebookApiCaller } = require('./../../global/facebookApiCaller')
 const {ActionTypes} = require('../../../whatsAppMapper/constants')
 const { whatsAppMapper } = require('../../../whatsAppMapper/whatsAppMapper')
+const superNumberDataLayer = require('../superNumber/datalayer')
 const moment = require('moment')
 
 exports.index = function (req, res) {
@@ -187,7 +188,8 @@ function getContact (companyId, number, customer) {
           callApi(`whatsAppContacts`, 'post', {
             name: customer.first_name + ' ' + customer.last_name,
             number: number,
-            companyId: companyId
+            companyId: companyId,
+            marketing_optin: customer.accepts_marketing
           }, 'accounts')
             .then(contact => {
               resolve(contact)
@@ -207,57 +209,40 @@ exports.handleCreateCheckout = async function (req, res) {
   try {
     console.log('handleCreateCheckout', JSON.stringify(req.body))
     sendSuccessResponse(res, 200, {status: 'success'})
-    if (req.body.customer && req.body.customer.accepts_marketing &&
-    req.body.token && req.body.abandoned_checkout_url && req.body.phone && req.body.id) {
-      let shopName = req.body.abandoned_checkout_url.split('//')[1]
-      shopName = shopName.split('.com')[0]
-      const integrations = await dataLayer.findShopifyIntegrations({ shopUrl: { $regex: '.*' + shopName + '.*', $options: 'i' } })
-      if (integrations && integrations.length > 0) {
-        for (let i = 0; i < integrations.length; i++) {
-          let integration = integrations[i]
-          const company = await callApi(`companyProfile/query`, 'post', { _id: integration.companyId })
-          if (company.whatsApp) {
-            const contact = await getContact(integration.companyId, req.body.phone, req.body.customer)
-            if (!(contact.commerceCustomerShopify && contact.commerceCustomerShopify.abandonedCheckoutMessageSent)) {
-              const ecommerceProvider = new EcommerceProviders(commerceConstants.shopify, {
-                shopUrl: integration.shopUrl,
-                shopToken: integration.shopToken
-              })
-              const storeInfo = await ecommerceProvider.fetchStoreInfo()
-              const messageBlock = {
-                module: {
-                  id: company.whatsApp.activeWhatsappBot,
-                  type: 'whatsapp_commerce_chatbot'
-                },
-                title: 'Opt-in Notification',
-                uniqueId: '' + new Date().getTime(),
-                payload: getOptInReceivePayload(storeInfo.name, company),
-                userId: company.ownerId,
-                companyId: company._id
-              }
-              const data = {
-                accessToken: company.whatsApp.accessToken,
-                accountSID: company.whatsApp.accountSID,
-                businessNumber: company.whatsApp.businessNumber
-              }
-              sendWhatsAppMessage(messageBlock, data, contact.number, company, contact)
-            }
-            let commerceCustomerShopify = contact.commerceCustomerShopify ? contact.commerceCustomerShopify : req.body.customer
-            commerceCustomerShopify.abandonedCheckoutMessageSent = true
-            commerceCustomerShopify.abandonedCartInfo = {
-              cartRecoveryAttempts: contact.commerceCustomerShopify && contact.commerceCustomerShopify.abandonedCartInfo ? contact.commerceCustomerShopify.abandonedCartInfo.cartRecoveryAttempts : 0,
-              abandonedCheckoutUrl: req.body.abandoned_checkout_url,
-              abandonedCheckoutId: req.body.id,
-              token: req.body.token
-            }
-            const updateData = {
-              query: {_id: contact._id},
-              newPayload: { commerceCustomerShopify: commerceCustomerShopify },
-              options: {}
-            }
-            callApi(`whatsAppContacts/update`, 'put', updateData)
-          }
+    if (req.body.customer && req.body.phone) {
+      const shopUrl = req.headers['x-shopify-shop-domain']
+      const shopifyIntegrations = await dataLayer.findShopifyIntegrations({ shopUrl })
+      for (const integration of shopifyIntegrations) {
+        const contact = await getContact(integration.companyId, req.body.phone, req.body.customer)
+        let updateData = {
+          marketing_optin: req.body.customer.accepts_marketing
         }
+        if (req.body.customer.accepts_marketing && req.body.token && req.body.abandoned_checkout_url && req.body.id) {
+          if (!(contact.commerceCustomerShopify && contact.commerceCustomerShopify.abandonedCheckoutMessageSent)) {
+            const ecommerceProvider = new EcommerceProviders(commerceConstants.shopify, {
+              shopUrl: integration.shopUrl,
+              shopToken: integration.shopToken
+            })
+            const storeInfo = await ecommerceProvider.fetchStoreInfo()
+            let preparedMessage = logicLayer.getOptInMessage(storeInfo.name, contact)
+            whatsAppMapper(preparedMessage.provider, ActionTypes.SEND_CHAT_MESSAGE, preparedMessage)
+          }
+          let commerceCustomerShopify = contact.commerceCustomerShopify ? contact.commerceCustomerShopify : req.body.customer
+          commerceCustomerShopify.abandonedCheckoutMessageSent = true
+          commerceCustomerShopify.abandonedCartInfo = {
+            cartRecoveryAttempts: contact.commerceCustomerShopify && contact.commerceCustomerShopify.abandonedCartInfo ? contact.commerceCustomerShopify.abandonedCartInfo.cartRecoveryAttempts : 0,
+            abandonedCheckoutUrl: req.body.abandoned_checkout_url,
+            abandonedCheckoutId: req.body.id,
+            token: req.body.token
+          }
+          updateData['commerceCustomerShopify'] = commerceCustomerShopify
+        }
+        const updatePayload = {
+          query: {_id: contact._id},
+          newPayload: updateData,
+          options: {}
+        }
+        callApi(`whatsAppContacts/update`, 'put', updatePayload)
       }
     }
   } catch (err) {
@@ -266,48 +251,23 @@ exports.handleCreateCheckout = async function (req, res) {
   }
 }
 
-function getOptInReceivePayload (storeName, company) {
-  let payload = []
-  if (company.whatsApp.provider === 'flockSend') {
-    payload = [
-      {
-        text: `Thank you for opting-in from ${storeName}. Now you will receive your order updates, exclusive offers and news on WhatsApp.`,
-        componentType: 'text',
-        templateArguments: storeName,
-        templateName: 'optin_receive',
-        templateCode: 'en'
-      }
-    ]
-  } else {
-    payload = [
-      {
-        text: `Thank you for opting-in from ${storeName}. Now you will receive your order updates, exclusive offers and news on WhatsApp.`,
-        componentType: 'text'
-      }
-    ]
-  }
-  return payload
-}
-
 exports.handleCompleteCheckout = async function (req, res) {
   try {
     console.log('handleCompleteCheckout', JSON.stringify(req.body))
     sendSuccessResponse(res, 200, {status: 'success'})
-    if (req.body.email || req.body.phone) {
+    if (req.body.customer && req.body.phone) {
       const shopUrl = req.headers['x-shopify-shop-domain']
       const shopifyIntegrations = await dataLayer.findShopifyIntegrations({ shopUrl })
       for (const shopifyIntegration of shopifyIntegrations) {
-        let query = {
-          $or: [], companyId: shopifyIntegration.companyId
-        }
         if (req.body.phone) {
-          query.$or.push({number: req.body.phone})
-          query.$or.push({number: req.body.phone.replace(/\D/g, '')})
-        } else {
-          query.$or.push({'commerceCustomerShopify.email': req.body.email})
+          const contact = await getContact(shopifyIntegration.companyId, req.body.phone, req.body.customer)
+          sendOnWhatsApp(shopUrl, contact, req.body, shopifyIntegration)
         }
-        sendOnWhatsApp(shopUrl, query, req.body, shopifyIntegration)
-        sendOnMessenger(shopUrl, query, req.body, shopifyIntegration)
+        if (req.body.email) {
+          sendOnMessenger(shopUrl,
+            {'commerceCustomerShopify.email': req.body.email, companyId: shopifyIntegration.companyId},
+            req.body, shopifyIntegration)
+        }
       }
     }
   } catch (err) {
@@ -366,16 +326,16 @@ async function sendOnMessenger (shopUrl, query, body, shopifyIntegration) {
   callApi(`subscribers/update`, 'put', updateDataMessenger)
 }
 
-async function sendOnWhatsApp (shopUrl, query, body, shopifyIntegration) {
-  const contacts = await callApi(`whatsAppContacts/query`, 'post', query)
-  for (const contact of contacts) {
+async function sendOnWhatsApp (shopUrl, contact, body, shopifyIntegration) {
+  if (body.customer.accepts_marketing) {
     const company = await callApi(`companyProfile/query`, 'post', { _id: contact.companyId })
+    const superNumberPreferences = await superNumberDataLayer.findOne({companyId: shopifyIntegration.companyId})
     const ecommerceProvider = new EcommerceProviders(commerceConstants.shopify, {
       shopUrl: shopifyIntegration.shopUrl,
       shopToken: shopifyIntegration.shopToken
     })
     const storeInfo = await ecommerceProvider.fetchStoreInfo()
-    let preparedMessage = logicLayer.getOrderConfirmationMessage(contact, shopifyIntegration, company, body, shopUrl, storeInfo.name)
+    let preparedMessage = logicLayer.getOrderConfirmationMessage(contact, superNumberPreferences, company, body, shopUrl, storeInfo.name)
     if (preparedMessage.type) {
       if (preparedMessage.type === 'superNumber') {
         whatsAppMapper(preparedMessage.provider, ActionTypes.SEND_CHAT_MESSAGE, preparedMessage)
@@ -383,10 +343,15 @@ async function sendOnWhatsApp (shopUrl, query, body, shopifyIntegration) {
         sendWhatsAppMessage(preparedMessage.payload, preparedMessage.credentials, contact.number, company, contact)
       }
     }
+    if (superNumberPreferences && superNumberPreferences.cashOnDelivery &&
+      superNumberPreferences.cashOnDelivery.enabled && body.payment_gateway_names &&
+      body.payment_gateway_names[0] && body.payment_gateway_names[0].includes('COD')) {
+      ecommerceProvider.updateOrderTag(body.id, superNumberPreferences.cashOnDelivery.cod_tags.no_response_tag)
+    }
   }
   const updateDataWhatsApp = {
-    query: query,
-    newPayload: { shoppingCart: [], 'commerceCustomerShopify.abandonedCartInfo': null },
+    query: {_id: contact._id},
+    newPayload: { shoppingCart: [], 'commerceCustomerShopify.abandonedCartInfo': null, marketing_optin: body.customer.marketing_optin },
     options: {multi: true}
   }
   callApi(`whatsAppContacts/update`, 'put', updateDataWhatsApp)
@@ -394,7 +359,7 @@ async function sendOnWhatsApp (shopUrl, query, body, shopifyIntegration) {
 
 exports.handleFulfillment = async function (req, res) {
   try {
-    console.log('handleFulfillment', JSON.stringify(req.body))
+    logger.serverLog('handleFulfillment', `${TAG}: exports.handleFulfillment`, req.body, {header: req.header})
     sendSuccessResponse(res, 200, {status: 'success'})
     if (req.body.fulfillments && req.body.fulfillments.length > 0) {
       let fulfillment = req.body.fulfillments[0]
@@ -715,9 +680,7 @@ exports.fetchCheckouts = async (req, res) => {
         shopUrl: shopifyIntegration.shopUrl,
         shopToken: shopifyIntegration.shopToken
       })
-      console.log('shopifyIntegration', shopifyIntegration)
       const count = await shopify.fetchCheckoutsCount()
-      console.log('count', count)
       const checkouts = await shopify.fetchCheckouts(req.body.limit, req.body.nextPageParameters)
       sendSuccessResponse(res, 200, {checkouts, nextPageParameters: checkouts.nextPageParameters, count: count})
     } else {
@@ -728,7 +691,6 @@ exports.fetchCheckouts = async (req, res) => {
     logger.serverLog(message, `${TAG}: exports.fetchCheckouts`, req.body, {}, 'error')
   }
 }
-
 
 exports.update = async (req, res) => {
   try {
