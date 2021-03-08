@@ -25,7 +25,6 @@ exports.runScript = function () {
         try {
           let company = await callApi(`companyProfile/query`, 'post', { _id: contact.companyId })
           if (company) {
-            let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ _id: company.whatsApp.activeWhatsappBot })
             let shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: contact.companyId })
             if (shopifyIntegration) {
               let ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
@@ -51,6 +50,7 @@ exports.runScript = function () {
                     abandonedCartReminderBlock = await getAbandonedCartMessage(superNumberPreferences, ecommerceProvider, contact, abandonedCart)
                     whatsAppMapper(abandonedCartReminderBlock.provider, ActionTypes.SEND_CHAT_MESSAGE, abandonedCartReminderBlock)
                   } else if (company.whatsApp) {
+                    let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ _id: company.whatsApp.activeWhatsappBot })
                     abandonedCartReminderBlock = await commerceChatbotLogicLayer.getAbandonedCartReminderBlock(chatbot, contact, ecommerceProvider, abandonedCart, company)
                     await sendWhatsAppMessage(abandonedCartReminderBlock, data, contact.number, company, contact)
                     updatePayload = { last_activity_time: Date.now(), lastMessageSentByBot: abandonedCartReminderBlock }
