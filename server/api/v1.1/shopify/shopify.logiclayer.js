@@ -56,7 +56,6 @@ exports.getOrderConfirmationMessage = (contact, superNumberPreferences, company,
       type: 'superNumber',
       provider: superWhatsAppAccount.provider,
       payload: {
-        text: 'hi',
         componentType: 'text',
         templateArguments: replacedValues,
         templateName: templateMessage.name,
