@@ -255,7 +255,7 @@ exports.handleCompleteCheckout = async function (req, res) {
   try {
     logger.serverLog('handleCompleteCheckout', `${TAG}: exports.handleCompleteCheckout`, req.body, {header: req.header})
     sendSuccessResponse(res, 200, {status: 'success'})
-    if (req.body.customer && req.body.phone) {
+    if (req.body.customer) {
       const shopUrl = req.headers['x-shopify-shop-domain']
       const shopifyIntegrations = await dataLayer.findShopifyIntegrations({ shopUrl })
       for (const shopifyIntegration of shopifyIntegrations) {
@@ -351,7 +351,7 @@ async function sendOnWhatsApp (shopUrl, contact, body, shopifyIntegration) {
   }
   const updateDataWhatsApp = {
     query: {_id: contact._id},
-    newPayload: { shoppingCart: [], 'commerceCustomerShopify.abandonedCartInfo': null, marketing_optin: body.customer.marketing_optin },
+    newPayload: { shoppingCart: [], 'commerceCustomerShopify.abandonedCartInfo': null, marketing_optin: body.customer.accepts_marketing },
     options: {multi: true}
   }
   callApi(`whatsAppContacts/update`, 'put', updateDataWhatsApp)
@@ -361,34 +361,41 @@ exports.handleFulfillment = async function (req, res) {
   try {
     logger.serverLog('handleFulfillment', `${TAG}: exports.handleFulfillment`, req.body, {header: req.header})
     sendSuccessResponse(res, 200, {status: 'success'})
-    if (req.body.fulfillments && req.body.fulfillments.length > 0) {
-      let fulfillment = req.body.fulfillments[0]
-      if (fulfillment.tracking_url && fulfillment.tracking_number && req.body.phone) {
-        const shopUrl = req.headers['x-shopify-shop-domain']
-        let shopifyIntegrations = await dataLayer.findShopifyIntegrations({ shopUrl })
-        for (const shopifyIntegration of shopifyIntegrations) {
-          if (shopifyIntegration.orderShipment && shopifyIntegration.orderShipment.enabled) {
-            let query = {
-              $or: [{number: req.body.phone}, {number: req.body.phone.replace(/\D/g, '')}],
-              companyId: shopifyIntegration.companyId
-            }
-            const contacts = await callApi(`whatsAppContacts/query`, 'post', query)
-            for (const contact of contacts) {
+    if (req.body.customer && req.body.phone) {
+      const shopUrl = req.headers['x-shopify-shop-domain']
+      let shopifyIntegrations = await dataLayer.findShopifyIntegrations({ shopUrl })
+      for (const shopifyIntegration of shopifyIntegrations) {
+        const contact = await getContact(shopifyIntegration.companyId, req.body.phone, req.body.customer)
+        if (req.body.customer.accepts_marketing && req.body.fulfillments && req.body.fulfillments.length > 0) {
+          let fulfillment = req.body.fulfillments[0]
+          if (fulfillment.tracking_url && fulfillment.tracking_number) {
+            const superNumberPreferences = await superNumberDataLayer.findOne({companyId: shopifyIntegration.companyId})
+            console.log('superNumberPreferences', superNumberPreferences)
+            if (superNumberPreferences && superNumberPreferences.orderCRM &&
+            superNumberPreferences.orderCRM && superNumberPreferences.orderCRM.shipmentEnabled) {
+              console.log('inside')
               const ecommerceProvider = new EcommerceProviders(commerceConstants.shopify, {
                 shopUrl: shopifyIntegration.shopUrl,
                 shopToken: shopifyIntegration.shopToken
               })
               const storeInfo = await ecommerceProvider.fetchStoreInfo()
-              let preparedMessage = logicLayer.getOrderShipmentMessage(contact, shopifyIntegration, fulfillment, storeInfo.name)
+              let preparedMessage = logicLayer.getOrderShipmentMessage(contact, superNumberPreferences, fulfillment, storeInfo.name)
               if (preparedMessage.provider) {
                 whatsAppMapper(preparedMessage.provider, ActionTypes.SEND_CHAT_MESSAGE, preparedMessage)
               }
             }
           }
         }
+        const updateDataWhatsApp = {
+          query: {_id: contact._id},
+          newPayload: {marketing_optin: req.body.customer.accepts_marketing},
+          options: {multi: true}
+        }
+        callApi(`whatsAppContacts/update`, 'put', updateDataWhatsApp)
       }
     }
   } catch (err) {
+    console.log('err', err)
     const message = err || 'Error processing shopify fulfillment webhook'
     logger.serverLog(message, `${TAG}: exports.handleFulfillment`, req.body, {header: req.header}, 'error')
   }
