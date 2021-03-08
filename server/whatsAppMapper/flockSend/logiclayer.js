@@ -241,13 +241,25 @@ exports.prepareCommerceTemplates = (body) => {
     COD_ORDER_CONFIRMATION: {
       english: {
         name: 'cod_order_confirmation',
-        templateArguments: '{{customer_name}},{{order_value}},{{shop_name}},{{cod_confirmation_page_url}},{{support_number}}',
-        text: 'Hi {{customer_name}},\nThank you for placing an order of {{order_value}} from {{shop_name}}.\n\nSince you paid using Cash on Delivery (COD) option, we need a confirmation from you before we process your order and ship it.\n\nClick on this link to confirm your order 👉 {{cod_confirmation_page_url}}\n\nChat with customer support at: https://wa.me/{{support_number}}',
+        templateArguments: '{{customer_name}},{{order_value}},{{shop_name}},{{cod_confirmation_page_url}},{{support_link}}',
+        text: 'Hi *{{cutomer_name}}*, \nThank you for placing an order of *{{order_value}}* from *{{shop_name}}* Since you have chosen Cash on Delivery (COD) option as payment method, we need confirmation from you before we process your order and ship it. Click on this link to confirm your order 👉 \n{{cod_confirmation_page_url}}.\n\n_Chat with customer support at: {{support_link}}_',
         type: 'TEXT',
         code: 'en'
       },
-      urdu: {},
-      arabic: {}
+      urdu: {
+        name: 'cod_order_confirmation',
+        templateArguments: '{{customer_name}},{{shop_name}},{{order_value}},{{cod_confirmation_page_url}},{{support_link}}',
+        text: 'السلام_عليكم *{{customer_name}}*,\n*{{shop_name}}* سے *{{order_value}}*  کی خریداری کے لئے آپ کا شکریہ۔  چونکہ آپ نے ادائیگی کے لیے  کیش آن ڈیلیوری (سی او ڈی) آپشن  کا انتخاب  کیا ہے لہذا  ہمیں آپ کے آرڈر کو آگے بڑھانے سے پہلے,  آپ  سے تصدیق کرنے کی ضرورت  ہے. اپنے آرڈر  کی تصدیق کے لئے اس لنک پر کلک کریں 👈{{cod_order_confirmation_page_url}}\n\nکسٹمر سپورٹ سے  رابطے کے لیے اس لنک پر جائیں: _ {{support_link}}_',
+        type: 'TEXT',
+        code: 'ur'
+      },
+      arabic: {
+        name: 'cod_order_confirmation',
+        templateArguments: '{{first_name}},{{order_value}},{{shop_name}},{{cod_confirmation_page_url}},{{support_number}}',
+        text: 'مرحبا *{{first_name}}*,\nنشكرك على طلبك *{{order_value}}*  من *{{shop_name}}*  نظرا لانك دفعت باستخدام خيار الدفع عند الاستلام،فنحن بحاجة إلى تأكيدك قبل معالجة طلبك وشحنه. *ادخل على الرابط لتأكيد طلبك* 👈 {{cod_confirmation_page_url}}.\n\n الدردشة مع دعم العملاء على: _{{support_link}}_',
+        type: 'TEXT',
+        code: 'ar'
+      }
     }
   }
   if (body.type && body.language) {
