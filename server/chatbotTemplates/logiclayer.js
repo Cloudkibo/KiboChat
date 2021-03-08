@@ -322,7 +322,8 @@ exports.findFaqQuestionAnswer = async function (automationResponse, selectedOpti
   const question = chatbot.faqs[selectedOption.id].questions[selectedOption.code].question
   let answer = chatbot.faqs[selectedOption.id].questions[selectedOption.code].answer
   if (answer.includes('{{storeName}}')) {
-    const storeInfo = await EcommerceProvider.fetchStoreInfo()
+    const Provider = await initializeProvider(chatbot)
+    const storeInfo = await Provider.fetchStoreInfo()
     answer = answer.replace(/{{storeName}}/g, storeInfo.name)
   }
   automationResponse.text = `*${question}*`

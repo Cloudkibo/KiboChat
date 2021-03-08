@@ -7,7 +7,6 @@ const {
   getValidateResponse,
   initializeProvider,
   findFaqTopics,
-  findFaqQuestionAnswer,
   proceedToCheckout,
   getPdfInvoice,
   viewCatalog,
@@ -520,17 +519,19 @@ function findFaqTopicQuestions (automationResponse, selectedOption, chatbot) {
   let options = []
   if (chatbot.faqs[selectedOption.id] && chatbot.faqs[selectedOption.id].questions) {
     let questionsLength = chatbot.faqs[selectedOption.id].questions.length
-    if (selectedOption.viewMore) { // check this
+    if (selectedOption.viewMore) {
       let remainingQuestions = questionsLength - selectedOption.questionIndex
       let length = remainingQuestions > 10 ? selectedOption.questionIndex + 9 : questionsLength
+      automationResponse.text = ``
       for (let i = selectedOption.questionIndex; i < length; i++) {
         const question = chatbot.faqs[selectedOption.id].questions[i].question
         options[i] = {
           code: `${i}`,
-          label: question,
+          label: `Question ${i + 1}`,
           event: automationResponse.event,
-          id: question
+          id: selectedOption.id
         }
+        automationResponse.text += `Question ${i + 1}: ${question}\n\n`
       }
       if (remainingQuestions > 10) {
         options[length] = {
@@ -541,16 +542,17 @@ function findFaqTopicQuestions (automationResponse, selectedOption, chatbot) {
         }
       }
     } else {
-      automationResponse.text = `*${selectedOption.label}*\n\n${automationResponse.text}`
+      automationResponse.text = `*${selectedOption.label}*\n\n${automationResponse.text}\n\n`
       let length = questionsLength <= 10 ? questionsLength : 9
       for (let i = 0; i < length; i++) {
         const question = chatbot.faqs[selectedOption.id].questions[i].question
         options[i] = {
           code: `${i}`,
-          label: question,
+          label: `Question ${i + 1}`,
           event: automationResponse.event,
-          id: selectedOption.code
+          id: selectedOption.id
         }
+        automationResponse.text += `Question ${i + 1}: ${question}\n\n`
       }
       if (questionsLength > 10) {
         options[length] = {
@@ -565,5 +567,19 @@ function findFaqTopicQuestions (automationResponse, selectedOption, chatbot) {
   } else {
     automationResponse.text += `Please contact our support agents for any questions you have.`
   }
+  return automationResponse
+}
+
+async function findFaqQuestionAnswer (automationResponse, selectedOption, chatbot) {
+  const questionIndex = parseInt((selectedOption.label.split(' ')[1])) - 1
+  const question = chatbot.faqs[selectedOption.id].questions[questionIndex].question
+  let answer = chatbot.faqs[selectedOption.id].questions[questionIndex].answer
+  if (answer.includes('{{storeName}}')) {
+    const Provider = await initializeProvider(chatbot)
+    const storeInfo = await Provider.fetchStoreInfo()
+    answer = answer.replace(/{{storeName}}/g, storeInfo.name)
+  }
+  automationResponse.text = `${question}`
+  automationResponse.text += `\n\n${answer}`
   return automationResponse
 }
