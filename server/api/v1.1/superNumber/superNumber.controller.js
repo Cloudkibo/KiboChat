@@ -39,7 +39,7 @@ exports.sendManualMessage = async (req, res) => {
           shopToken: shopifyIntegration.shopToken
         })
         const storeInfo = await shopify.fetchStoreInfo()
-        let message = logicLayer.prepareManualMessage(req.body.templateName, req.body.template, contact, storeInfo.name, req.body.supportNumber, req.body.order)
+        let message = logicLayer.prepareManualMessage(req.body.templateName, req.body.template, contact, storeInfo.name, req.body.supportNumber, req.body.order, req.body.checkout)
         whatsAppMapper(message.provider, ActionTypes.SEND_CHAT_MESSAGE, message)
         sendSuccessResponse(res, 200, 'Message sent successfully')
       } else {

@@ -265,6 +265,18 @@ module.exports = class EcommerceProvidersApiLayer {
     }
   }
 
+  fetchCheckoutsCount () {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.fetchCheckoutsCount(this.eCommerceProviderCredentials)
+    }
+  }
+
+  fetchCheckouts (limit, paginationParams) {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.fetchCheckouts(limit, paginationParams, this.eCommerceProviderCredentials)
+    }
+  }
+
   findCustomerOrders (customerId, limit) {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.findCustomerOrders(customerId, limit, this.eCommerceProviderCredentials)
