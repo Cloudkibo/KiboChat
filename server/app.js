@@ -31,7 +31,6 @@ if (config.env === 'production' || config.env === 'staging') {
     sendDefaultPii: true
   })
 }
-
 cron.schedule('*/5 * * * *', NotificationsScript.runLiveChatNotificationScript)
 cron.schedule('0 */2 * * *', AbandonedScriptShopify.runScript)
 cron.schedule('0 13 * * *', WhatsappScript.runWhatspdeleteScript) //  daily 6 pm pakistan time

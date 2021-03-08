@@ -3,49 +3,69 @@ const { getSuperWhatsAppAccount } = require('../../global/utility')
 const {whatsAppMapper} = require('../../../whatsAppMapper/whatsAppMapper')
 const {ActionTypes} = require('../../../whatsAppMapper/constants')
 
-exports.getOrderConfirmationMessage = (contact, shopifyIntegration, company, body, shopUrl, shopName) => {
+exports.getOptInMessage = (shopName, contact) => {
+  let superWhatsAppAccount = getSuperWhatsAppAccount()
+  let templateMessage = whatsAppMapper(
+    superWhatsAppAccount.provider,
+    ActionTypes.GET_COMMERCE_TEMPLATES,
+    {type: 'OPT_IN', language: 'english'})
+  let preparedMessage = {
+    type: 'superNumber',
+    provider: superWhatsAppAccount.provider,
+    payload: {
+      componentType: 'text',
+      templateArguments: shopName,
+      templateName: templateMessage.name,
+      templateCode: templateMessage.code
+    },
+    whatsApp: superWhatsAppAccount,
+    recipientNumber: contact.number
+  }
+  return preparedMessage
+}
+
+exports.getOrderConfirmationMessage = (contact, superNumberPreferences, company, body, shopUrl, shopName) => {
   let preparedMessage = {}
   let superWhatsAppAccount = getSuperWhatsAppAccount()
-  if (shopifyIntegration.COD && shopifyIntegration.COD.enabled && body.payment_gateway_names &&
+  if (superNumberPreferences && superNumberPreferences.cashOnDelivery && superNumberPreferences.cashOnDelivery.enabled && body.payment_gateway_names &&
     body.payment_gateway_names[0] && body.payment_gateway_names[0].includes('COD')) {
     let templateMessage = whatsAppMapper(
       superWhatsAppAccount.provider,
       ActionTypes.GET_COMMERCE_TEMPLATES,
-      {type: 'COD_ORDER_CONFIRMATION', language: shopifyIntegration.COD.language})
-    let replacedValues = prepareCODOrderConfirmationMessage(templateMessage.text, contact.name, body, shopifyIntegration.orderConfirmation.supportNumber, shopName)
+      {type: 'COD_ORDER_CONFIRMATION', language: superNumberPreferences.cashOnDelivery.language})
+    let replacedValues = prepareCODOrderConfirmationMessage(superNumberPreferences.cashOnDelivery.language, contact, body, superNumberPreferences.cashOnDelivery.supportNumber, shopName)
     preparedMessage = {
       type: 'superNumber',
       provider: superWhatsAppAccount.provider,
       payload: {
-        text: replacedValues.text,
         componentType: 'text',
-        templateArguments: replacedValues.templateArguments,
+        templateArguments: replacedValues,
         templateName: templateMessage.name,
         templateCode: templateMessage.code
       },
       whatsApp: superWhatsAppAccount,
       recipientNumber: contact.number
     }
-  } else if (shopifyIntegration.orderConfirmation && shopifyIntegration.orderConfirmation.enabled) {
+  } else if (superNumberPreferences && superNumberPreferences.orderCRM && superNumberPreferences.orderCRM.confirmationEnabled) {
     let templateMessage = whatsAppMapper(
       superWhatsAppAccount.provider,
       ActionTypes.GET_COMMERCE_TEMPLATES,
-      {type: 'ORDER_CONFIRMATION', language: shopifyIntegration.orderConfirmation.language})
-    let replacedValues = prepareOrderConfirmationMessage(templateMessage.text, contact.name, body, shopifyIntegration.orderConfirmation.supportNumber, shopName)
+      {type: 'ORDER_CONFIRMATION', language: superNumberPreferences.orderCRM.language})
+    let replacedValues = prepareOrderConfirmationMessage(templateMessage.text, contact.name, body, superNumberPreferences.orderCRM.supportNumber, shopName)
     preparedMessage = {
       type: 'superNumber',
       provider: superWhatsAppAccount.provider,
       payload: {
-        text: replacedValues.text,
+        text: 'hi',
         componentType: 'text',
-        templateArguments: replacedValues.templateArguments,
+        templateArguments: replacedValues,
         templateName: templateMessage.name,
         templateCode: templateMessage.code
       },
       whatsApp: superWhatsAppAccount,
       recipientNumber: contact.number
     }
-  } else {
+  } else if (company.whatsApp) {
     if (moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15) {
       const messageBlock = {
         module: {
@@ -80,31 +100,24 @@ exports.getOrderConfirmationMessage = (contact, shopifyIntegration, company, bod
   return preparedMessage
 }
 
-function prepareCODOrderConfirmationMessage (text, contactName, body, supportNumber, shopName) {
-  let templateArguments = `${contactName},${body.currency} ${body.total_line_items_price},${shopName},${body.name}, ,${supportNumber}`
-  text = text.replace(/{{customer_name}}/g, contactName)
-  text = text.replace(/{{order_value}}/g, body.currency + ' ' + body.total_line_items_price)
-  text = text.replace(/{{shop_name}}/g, shopName)
-  text = text.replace(/{{cod_confirmation_page_url}}/g, '')
-  text = text.replace(/{{support_number}}/g, supportNumber)
-  return {
-    text: text,
-    templateArguments: templateArguments
+function prepareCODOrderConfirmationMessage (language, contact, body, supportNumber, shopName) {
+  let templateArguments = ''
+  if (language === 'urdu') {
+    templateArguments = `${contact.name},${shopName},${body.currency} ${body.total_line_items_price},https://kibochat.cloudkibo.com/cod/${contact._id}/${body.order_number},https://wa.me/${supportNumber}`
+  } else {
+    templateArguments = `${contact.name},${body.currency} ${body.total_line_items_price},${shopName},https://kibochat.cloudkibo.com/cod/${contact._id}/${body.order_number},https://wa.me/${supportNumber}`
   }
+  return templateArguments
 }
 
-function prepareOrderConfirmationMessage (text, contactName, body, supportNumber, shopName) {
-  let templateArguments = `${contactName},${body.currency} ${body.total_line_items_price},${shopName},${body.name},${body.order_status_url},${supportNumber}`
-  text = text.replace(/{{customer_name}}/g, contactName)
-  text = text.replace(/{{order_value}}/g, body.currency + ' ' + body.total_line_items_price)
-  text = text.replace(/{{shop_name}}/g, shopName)
-  text = text.replace(/{{order_ID}}/g, body.name)
-  text = text.replace(/{{order_status_url}}/g, body.order_status_url)
-  text = text.replace(/{{support_number}}/g, supportNumber)
-  return {
-    text: text,
-    templateArguments: templateArguments
+function prepareOrderConfirmationMessage (language, contactName, body, supportNumber, shopName) {
+  let templateArguments = ''
+  if (language === 'urdu') {
+    templateArguments = `${contactName},${shopName},${body.name},${body.order_status_url},https://wa.me/${supportNumber}`
+  } else {
+    templateArguments = `${contactName},${body.currency} ${body.total_line_items_price},${shopName},${body.name},${body.order_status_url},https://wa.me/${supportNumber}`
   }
+  return templateArguments
 }
 exports.getOrderShipmentMessage = (contact, shopifyIntegration, fulfillment, shopName) => {
   let superWhatsAppAccount = getSuperWhatsAppAccount()

@@ -11,6 +11,7 @@ const commerceConstants = require('../api/v1.1/ecommerceProvidersApiLayer/consta
 const commerceChatbotLogicLayer = require('../api/v1.1/whatsAppChatbot/commerceChatbot.logiclayer')
 const moment = require('moment')
 const { sendWhatsAppMessage, updateWhatsAppContact } = require('../api/v1.1/whatsAppEvents/controller')
+const superNumberDataLayer = require('../api/v1.1/superNumber/datalayer')
 const ABANDONED_ALERT_INTERVAL = 2
 const RECOVERY_ATTEMPTS = 3
 
@@ -23,7 +24,7 @@ exports.runScript = function () {
       Promise.all(contacts.map(async (contact) => {
         try {
           let company = await callApi(`companyProfile/query`, 'post', { _id: contact.companyId })
-          if (company && company.whatsApp) {
+          if (company) {
             let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ _id: company.whatsApp.activeWhatsappBot })
             let shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: contact.companyId })
             if (shopifyIntegration) {
@@ -45,10 +46,11 @@ exports.runScript = function () {
                   }
                   let abandonedCartReminderBlock = {}
                   let updatePayload = {}
-                  if (shopifyIntegration.abandonedCart && shopifyIntegration.abandonedCart.enabled) {
-                    abandonedCartReminderBlock = await getAbandonedCartMessage(shopifyIntegration, ecommerceProvider, contact, abandonedCart)
+                  const superNumberPreferences = await superNumberDataLayer.findOne({ companyId: company._id })
+                  if (superNumberPreferences && superNumberPreferences.abandonedCart && superNumberPreferences.abandonedCart.enabled) {
+                    abandonedCartReminderBlock = await getAbandonedCartMessage(superNumberPreferences, ecommerceProvider, contact, abandonedCart)
                     whatsAppMapper(abandonedCartReminderBlock.provider, ActionTypes.SEND_CHAT_MESSAGE, abandonedCartReminderBlock)
-                  } else {
+                  } else if (company.whatsApp) {
                     abandonedCartReminderBlock = await commerceChatbotLogicLayer.getAbandonedCartReminderBlock(chatbot, contact, ecommerceProvider, abandonedCart, company)
                     await sendWhatsAppMessage(abandonedCartReminderBlock, data, contact.number, company, contact)
                     updatePayload = { last_activity_time: Date.now(), lastMessageSentByBot: abandonedCartReminderBlock }
@@ -59,9 +61,7 @@ exports.runScript = function () {
                   } else {
                     incrementPayload = {$inc: { 'commerceCustomerShopify.abandonedCartInfo.cartRecoveryAttempts': 1 }}
                   }
-                  if (Object.keys(updatePayload).length > 0) {
-                    updateWhatsAppContact({_id: contact._id}, updatePayload, incrementPayload, {})
-                  }
+                  updateWhatsAppContact({_id: contact._id}, updatePayload, incrementPayload, {})
                 }
               }
             }
@@ -103,21 +103,20 @@ function unsetAbandonedInfo (contact) {
     })
 }
 
-async function getAbandonedCartMessage (shopifyIntegration, ecommerceProvider, contact, abandonedCart) {
+async function getAbandonedCartMessage (superNumberPreferences, ecommerceProvider, contact, abandonedCart) {
   const storeInfo = await ecommerceProvider.fetchStoreInfo()
   let superWhatsAppAccount = getSuperWhatsAppAccount()
   let templateMessage = whatsAppMapper(
     superWhatsAppAccount.provider,
     ActionTypes.GET_COMMERCE_TEMPLATES,
-    {type: 'ABANDONED_CART_RECOVERY', language: shopifyIntegration.abandonedCart.language})
-  let replacedValues = prepareAbandonedCartMessage(templateMessage.text, contact, abandonedCart, shopifyIntegration.abandonedCart.supportNumber, storeInfo.name)
+    {type: 'ABANDONED_CART_RECOVERY', language: superNumberPreferences.abandonedCart.language})
+  let replacedValues = prepareAbandonedCartMessage(contact, abandonedCart, superNumberPreferences.abandonedCart.supportNumber, storeInfo.name)
   let preparedMessage = {
     type: 'superNumber',
     provider: superWhatsAppAccount.provider,
     payload: {
-      text: replacedValues.text,
       componentType: 'text',
-      templateArguments: replacedValues.templateArguments,
+      templateArguments: replacedValues,
       templateName: templateMessage.name,
       templateCode: templateMessage.code
     },
@@ -126,15 +125,12 @@ async function getAbandonedCartMessage (shopifyIntegration, ecommerceProvider, c
   }
   return preparedMessage
 }
-function prepareAbandonedCartMessage (text, contact, abandonedCart, supportNumber, shopName) {
-  let templateArguments = `${contact.name},${abandonedCart.currency} ${abandonedCart.total_price},${shopName},${contact.commerceCustomerShopify.abandonedCartInfo.abandonedCheckoutUrl},${supportNumber}`
-  text = text.replace(/{{customer_name}}/g, contact.name)
-  text = text.replace(/{{order_value}}/g, abandonedCart.currency + ' ' + abandonedCart.total_price)
-  text = text.replace(/{{shop_name}}/g, shopName)
-  text = text.replace(/{{checkout_url}}/g, contact.commerceCustomerShopify.abandonedCartInfo.abandonedCheckoutUrl)
-  text = text.replace(/{{support_number}}/g, supportNumber)
-  return {
-    text: text,
-    templateArguments: templateArguments
+function prepareAbandonedCartMessage (contact, abandonedCart, supportNumber, shopName) {
+  let templateArguments = ''
+  if (abandonedCart.language === 'urdu') {
+    templateArguments = `${contact.name},${shopName},${abandonedCart.currency} ${abandonedCart.total_price},${contact.commerceCustomerShopify.abandonedCartInfo.abandonedCheckoutUrl},https://wa.me/${supportNumber}`
+  } else {
+    templateArguments = `${contact.name},${abandonedCart.currency} ${abandonedCart.total_price},${shopName},${contact.commerceCustomerShopify.abandonedCartInfo.abandonedCheckoutUrl},https://wa.me/${supportNumber}`
   }
+  return templateArguments
 }
