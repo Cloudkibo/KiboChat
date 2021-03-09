@@ -207,7 +207,7 @@ function getContact (companyId, number, customer) {
 
 exports.handleCreateCheckout = async function (req, res) {
   try {
-    logger.serverLog('handleCreateCheckout', `${TAG}: exports.handleCreateCheckout`, req.body, {header: req.header})
+    console.log('handleCreateCheckout', JSON.stringify(req.body))
     sendSuccessResponse(res, 200, {status: 'success'})
     if (req.body.customer && req.body.phone) {
       const shopUrl = req.headers['x-shopify-shop-domain']
@@ -253,7 +253,7 @@ exports.handleCreateCheckout = async function (req, res) {
 
 exports.handleCompleteCheckout = async function (req, res) {
   try {
-    logger.serverLog('handleCompleteCheckout', `${TAG}: exports.handleCompleteCheckout`, req.body, {header: req.header})
+    console.log('handleCompleteCheckout', JSON.stringify(req.body))
     sendSuccessResponse(res, 200, {status: 'success'})
     if (req.body.customer) {
       const shopUrl = req.headers['x-shopify-shop-domain']
@@ -399,6 +399,7 @@ exports.handleFulfillment = async function (req, res) {
 }
 
 exports.handleAppUninstall = async function (req, res) {
+  console.log('shopify handleAppUninstall')
   const shopUrl = req.header('X-Shopify-Shop-Domain')
   try {
     const shopifyIntegration = await dataLayer.findOneShopifyIntegration({ shopUrl: shopUrl })

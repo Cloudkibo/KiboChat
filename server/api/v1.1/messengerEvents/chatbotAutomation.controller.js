@@ -324,6 +324,7 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
 }
 
 exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId, parentBlockTitle) => {
+  console.log('in handleChatbotNextMessage')
   record('messengerChatInComing')
   shouldAvoidSendingAutomatedMessage(subscriber, req)
     .then(shouldAvoid => {
