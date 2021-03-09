@@ -28,6 +28,7 @@ const { facebookApiCaller } = require('./../../global/facebookApiCaller')
 const {ActionTypes} = require('../../../whatsAppMapper/constants')
 const { whatsAppMapper } = require('../../../whatsAppMapper/whatsAppMapper')
 const superNumberDataLayer = require('../superNumber/datalayer')
+const codPagesDataLayer = require('../superNumber/codpages.datalayer')
 const moment = require('moment')
 
 exports.index = function (req, res) {
@@ -347,10 +348,22 @@ async function sendOnWhatsApp (shopUrl, contact, body, shopifyIntegration) {
         sendWhatsAppMessage(preparedMessage.payload, preparedMessage.credentials, contact.number, company, contact)
       }
     }
-    if (superNumberPreferences && superNumberPreferences.cashOnDelivery &&
-      superNumberPreferences.cashOnDelivery.enabled && body.payment_gateway_names &&
-      body.payment_gateway_names[0] && body.payment_gateway_names[0].includes('COD')) {
+    if (superNumberPreferences &&
+      superNumberPreferences.cashOnDelivery &&
+      superNumberPreferences.cashOnDelivery.enabled &&
+      body.payment_gateway_names &&
+      body.payment_gateway_names[0] &&
+      body.payment_gateway_names[0].includes('COD')) {
       ecommerceProvider.updateOrderTag(body.id, superNumberPreferences.cashOnDelivery.cod_tags.no_response_tag)
+
+      const codPayload = {
+        companyId: contact.companyId,
+        contactId: contact._id,
+        order: body.order_number,
+        storeType: 'shopify', // shopify
+        storeName: storeInfo.name
+      }
+      await codPagesDataLayer.create(codPayload)
     }
   }
   const updateDataWhatsApp = {
