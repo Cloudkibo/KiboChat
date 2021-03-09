@@ -141,6 +141,6 @@ exports.getOrderShipmentMessage = (contact, superNumberPreferences, fulfillment,
   return preparedMessage
 }
 function prepareOrderShipmentMessage (language, contactName, fulfillment, supportNumber, shopName) {
-  let templateArguments = `${contactName},${shopName},${fulfillment.tracking_number},${fulfillment.tracking_url},${supportNumber}`
+  let templateArguments = `${contactName},${shopName},${fulfillment.tracking_number},${fulfillment.tracking_url},https://wa.me/${supportNumber}`
   return templateArguments
 }

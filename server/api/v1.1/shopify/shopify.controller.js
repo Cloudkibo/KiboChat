@@ -370,10 +370,8 @@ exports.handleFulfillment = async function (req, res) {
           let fulfillment = req.body.fulfillments[0]
           if (fulfillment.tracking_url && fulfillment.tracking_number) {
             const superNumberPreferences = await superNumberDataLayer.findOne({companyId: shopifyIntegration.companyId})
-            console.log('superNumberPreferences', superNumberPreferences)
             if (superNumberPreferences && superNumberPreferences.orderCRM &&
             superNumberPreferences.orderCRM && superNumberPreferences.orderCRM.shipmentEnabled) {
-              console.log('inside')
               const ecommerceProvider = new EcommerceProviders(commerceConstants.shopify, {
                 shopUrl: shopifyIntegration.shopUrl,
                 shopToken: shopifyIntegration.shopToken
@@ -395,7 +393,6 @@ exports.handleFulfillment = async function (req, res) {
       }
     }
   } catch (err) {
-    console.log('err', err)
     const message = err || 'Error processing shopify fulfillment webhook'
     logger.serverLog(message, `${TAG}: exports.handleFulfillment`, req.body, {header: req.header}, 'error')
   }
