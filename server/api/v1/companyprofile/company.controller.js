@@ -802,3 +802,20 @@ exports.getWhatsAppMessageTemplates = function (req, res) {
       sendErrorResponse(res, 500, error, 'Error retrieving templates')
     })
 }
+exports.setBusinessHours = function (req, res) {
+  let updated = {
+    businessHours: {
+      opening: req.body.opening,
+      closing: req.body.closing
+    }
+  }
+  utility.callApi(`companyprofile/update`, 'put', {query: {_id: req.user.companyId}, newPayload: updated, options: {}})
+    .then(data => {
+      sendSuccessResponse(res, 200, undefined, 'saved successfully')
+    })
+    .catch(err => {
+      const message = err || 'Failed to set business hours'
+      logger.serverLog(message, `${TAG}: exports.setBusinessHours`, req.body, {user: req.user}, 'error')
+      sendErrorResponse(res, 500, err, 'Failed to set business hours')
+    })
+}

@@ -5,8 +5,9 @@ const Sentry = require('@sentry/node')
 const config = require('./config/environment/index')
 
 const cron = require('node-cron')
-const NotificationsScript = require('./scripts/notificationsScript.js')
 const AbandonedScriptShopify = require('./scripts/abandonedScriptShopify.js')
+const NotificationsScript = require('./scripts/messageAlerts/notificationsScript.js')
+const SessionTimeOutScript = require('./scripts/messageAlerts/sessionTimeOutScript.js')
 const WhatsappScript = require('./scripts/whatsappDeleteDataScript.js')
 const { slaDashboardScript } = require('./scripts/slaDashboard')
 
@@ -34,8 +35,9 @@ if (config.env === 'production' || config.env === 'staging') {
   })
 }
 
-cron.schedule('*/5 * * * *', NotificationsScript.runLiveChatNotificationScript)
-cron.schedule('0 */2 * * *', AbandonedScriptShopify.runScript) //runs after every 2 hours
+cron.schedule('* * * * *', NotificationsScript.runLiveChatNotificationScript)
+cron.schedule('0 */2 * * *', AbandonedScriptShopify.runScript) // runs after every 2 hours
+cron.schedule('*/30 * * * *', SessionTimeOutScript.runSessionTimeOutScript)
 cron.schedule('0 13 * * *', WhatsappScript.runWhatspdeleteScript) //  daily 6 pm pakistan time
 cron.schedule('0 0 * * *', slaDashboardScript)
 
