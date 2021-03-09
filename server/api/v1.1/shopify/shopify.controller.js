@@ -361,35 +361,33 @@ exports.handleFulfillment = async function (req, res) {
   try {
     logger.serverLog('handleFulfillment', `${TAG}: exports.handleFulfillment`, req.body, {header: req.header})
     sendSuccessResponse(res, 200, {status: 'success'})
-    if (req.body.customer && req.body.phone) {
+    if (req.body.name) {
       const shopUrl = req.headers['x-shopify-shop-domain']
       let shopifyIntegrations = await dataLayer.findShopifyIntegrations({ shopUrl })
       for (const shopifyIntegration of shopifyIntegrations) {
-        const contact = await getContact(shopifyIntegration.companyId, req.body.phone, req.body.customer)
-        if (req.body.customer.accepts_marketing && req.body.fulfillments && req.body.fulfillments.length > 0) {
-          let fulfillment = req.body.fulfillments[0]
-          if (fulfillment.tracking_url && fulfillment.tracking_number) {
+        const ecommerceProvider = new EcommerceProviders(commerceConstants.shopify, {
+          shopUrl: shopifyIntegration.shopUrl,
+          shopToken: shopifyIntegration.shopToken
+        })
+        let orderName = req.body.name.split('.')[0]
+        orderName = orderName.split('#')[1]
+        const order = await ecommerceProvider.checkOrderStatus(orderName)
+        const customer = order.customer
+        if (customer.phone) {
+          const contact = await getContact(shopifyIntegration.companyId, customer.phone,
+            {first_name: customer.firstName ? customer.firstName : customer.phone, last_name: customer.last_name, accepts_marketing: true})
+          if (contact.marketing_optin && req.body.tracking_url && req.body.tracking_number) {
             const superNumberPreferences = await superNumberDataLayer.findOne({companyId: shopifyIntegration.companyId})
             if (superNumberPreferences && superNumberPreferences.orderCRM &&
             superNumberPreferences.orderCRM && superNumberPreferences.orderCRM.shipmentEnabled) {
-              const ecommerceProvider = new EcommerceProviders(commerceConstants.shopify, {
-                shopUrl: shopifyIntegration.shopUrl,
-                shopToken: shopifyIntegration.shopToken
-              })
               const storeInfo = await ecommerceProvider.fetchStoreInfo()
-              let preparedMessage = logicLayer.getOrderShipmentMessage(contact, superNumberPreferences, fulfillment, storeInfo.name)
+              let preparedMessage = logicLayer.getOrderShipmentMessage(contact, superNumberPreferences, req.body, storeInfo.name)
               if (preparedMessage.provider) {
                 whatsAppMapper(preparedMessage.provider, ActionTypes.SEND_CHAT_MESSAGE, preparedMessage)
               }
             }
           }
         }
-        const updateDataWhatsApp = {
-          query: {_id: contact._id},
-          newPayload: {marketing_optin: req.body.customer.accepts_marketing},
-          options: {multi: true}
-        }
-        callApi(`whatsAppContacts/update`, 'put', updateDataWhatsApp)
       }
     }
   } catch (err) {
