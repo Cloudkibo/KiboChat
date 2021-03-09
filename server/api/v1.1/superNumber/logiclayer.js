@@ -1,8 +1,8 @@
 const { getSuperWhatsAppAccount } = require('../../global/utility')
 
-exports.prepareManualMessage = (templateName, template, contact, storeName, supportNumber, order) => {
+exports.prepareManualMessage = (templateName, template, contact, storeName, supportNumber, order, checkout) => {
   let superWhatsAppAccount = getSuperWhatsAppAccount()
-  let templateArguments = getTemplateArguments(templateName, template.code, contact.name, storeName, supportNumber, order)
+  let templateArguments = getTemplateArguments(templateName, template.code, contact.name, storeName, supportNumber, order, checkout)
   return {
     provider: superWhatsAppAccount.provider,
     payload: {
