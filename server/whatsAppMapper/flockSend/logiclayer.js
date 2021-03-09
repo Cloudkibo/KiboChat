@@ -189,14 +189,14 @@ exports.prepareCommerceTemplates = (body) => {
       urdu: {
         name: 'order_confirmation_template_urdu',
         templateArguments: '{{customer_name}},{{order_value}},{{shop_name}},{{order_ID}},{{order_status_url}},{{support_number}}',
-        text: 'السلام_عليكم {{customer_name}}،\n\n{{shop_name}} سے {{order_value}}  کی خریداری کے لئے آپ کا شکریہ۔ آپ کا آرڈر تیار ہو رہا ہے اور جب یہ بھیج دیا جائےگا تو ہم آپ کو مطلع کریں گے۔ آپ اپنا آرڈر یہاں دیکھ سکتے ہیں  👈 {{order_id}} {{order_status_url}}\n\nکسٹمر سپورٹ کے ساتھ اس لنک پر رابطہ کریں: {{https://wa.me/{{support_number',
+        text: 'السلام_عليكم {{customer_name}}،\n\n{{shop_name}} سے {{order_value}}  کی خریداری کے لئے آپ کا شکریہ۔ آپ کا آرڈر تیار ہو رہا ہے اور جب یہ بھیج دیا جائےگا تو ہم آپ کو مطلع کریں گے۔ آپ اپنا آرڈر یہاں دیکھ سکتے ہیں  👈 {{order_status_url}} {{order_id}} \n\nکسٹمر سپورٹ کے ساتھ اس لنک پر رابطہ کریں: {{https://wa.me/{{support_number',
         type: 'TEXT',
         code: 'ur'
       },
       arabic: {
         name: 'order_confirmation_template_arabic',
         templateArguments: '{{customer_name}},{{order_value}},{{shop_name}},{{order_ID}},{{order_status_url}},{{support_number}}',
-        text: 'مرحبا {{customer_name}}،\n\nشكرا على شرائك بقيمة {{order_value}} من {{shop_name}}. يتم تجهيز طلبك حالياً وسنقوم بإعلامك عند شحنه. يمكنك عرض طلبك هنا  👈 {{order_id}} {{order_status_url}}.\n\nالدردشة مع دعم العملاء على: {{https://wa.me/{{support_number',
+        text: 'مرحبا {{customer_name}}،\n\nشكرا على شرائك بقيمة {{order_value}} من {{shop_name}}. يتم تجهيز طلبك حالياً وسنقوم بإعلامك عند شحنه. يمكنك عرض طلبك هنا  👈 {{order_status_url}} {{order_id}}.\n\nالدردشة مع دعم العملاء على: {{https://wa.me/{{support_number',
         type: 'TEXT',
         code: 'ar'
       }
@@ -205,21 +205,21 @@ exports.prepareCommerceTemplates = (body) => {
       english: {
         name: 'order_shipment_template',
         templateArguments: '{{customer_name}},{{shop_name}},{{tracking_ID}},{{tracking_url}},{{support_number}}',
-        text: 'Hi {{customer_name}},\nYour order from {{shop_name}} has been shipped and is on its way. Track your shipment using this link 🚚 (tracking ID {{tracking_ID}}) {{tracking_url}}\n\nChat with customer support at: https://wa.me/{{support_number}}',
+        text: 'Hi {{customer_name}},\n\nYour order from {{shop_name}} has been shipped and is on its way.\n\nTrack your shipment using this link 🚚 (tracking ID {{tracking_ID}}) {{tracking_url}}\n\nChat with customer support at: https://wa.me/{{support_number}}',
         type: 'TEXT',
         code: 'en'
       },
       urdu: {
         name: 'order_shipment_template_urdu',
         templateArguments: '{{customer_name}},{{shop_name}},{{tracking_ID}},{{tracking_url}},{{support_number}}',
-        text: 'السلام_عليكم {{customer_name}}،\n{{shop_name}} سے آپ کا آرڈر بھیج دیا گیا ہے اور وہ اپنے راستے میں ہے. ۔ اس لنک کو استعمال کرکے اپنی شپمنٹ کو ٹریک کریں۔ 🚚 {{tracking_ID}} {{tracking_url}}\n\nکسٹمر سپورٹ کے ساتھ اس لنک پر رابطہ کریں: {{https://wa.me/{{support_number',
+        text: 'السلام_عليكم {{customer_name}}،\n\n{{shop_name}} سے آپ کا آرڈر بھیج دیا گیا ہے اور وہ اپنے راستے میں ہے. ۔ اس لنک کو استعمال کرکے اپنی شپمنٹ کو ٹریک کریں۔ 🚚 {{tracking_url}} {{tracking_ID}}\n\nکسٹمر سپورٹ کے ساتھ اس لنک پر رابطہ کریں: {{https://wa.me/{{support_number',
         type: 'TEXT',
         code: 'ur'
       },
       arabic: {
         name: 'order_shipment_template_arabic',
         templateArguments: '{{customer_name}},{{shop_name}},{{tracking_ID}},{{tracking_url}},{{support_number}}',
-        text: 'مرحبا {{first_name}},\nتم شحن طلبك من متجر {{shop_name}} وهو في الطريق إليك. تتبع شحنتك باستخدام هذا الرابط 🚚 {{tracking_ID}} {{tracking_url}}\n\nالدردشة مع دعم العملاء على: {{https://wa.me/{{support_number',
+        text: 'مرحبا {{first_name}},\n\nتم شحن طلبك من متجر {{shop_name}} وهو في الطريق إليك. تتبع شحنتك باستخدام هذا الرابط 🚚 {{tracking_url}} {{tracking_ID}}\n\nالدردشة مع دعم العملاء على: {{https://wa.me/{{support_number',
         type: 'TEXT',
         code: 'ar'
       }

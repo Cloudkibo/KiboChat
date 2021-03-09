@@ -118,17 +118,16 @@ function prepareOrderConfirmationMessage (language, contactName, body, supportNu
   }
   return templateArguments
 }
-exports.getOrderShipmentMessage = (contact, shopifyIntegration, fulfillment, shopName) => {
+exports.getOrderShipmentMessage = (contact, superNumberPreferences, fulfillment, shopName) => {
   let superWhatsAppAccount = getSuperWhatsAppAccount()
   let templateMessage = whatsAppMapper(
     superWhatsAppAccount.provider,
     ActionTypes.GET_COMMERCE_TEMPLATES,
-    {type: 'ORDER_SHIPMENT', language: shopifyIntegration.orderShipment.language})
-  let replacedValues = prepareOrderShipmentMessage(templateMessage.text, contact.name, fulfillment, shopifyIntegration.orderShipment.supportNumber, shopName)
+    {type: 'ORDER_SHIPMENT', language: superNumberPreferences.orderCRM.language})
+  let replacedValues = prepareOrderShipmentMessage(superNumberPreferences.orderCRM.language, contact.name, fulfillment, superNumberPreferences.orderCRM.supportNumber, shopName)
   let payload = {
-    text: replacedValues.text,
     componentType: 'text',
-    templateArguments: replacedValues.templateArguments,
+    templateArguments: replacedValues,
     templateName: templateMessage.name,
     templateCode: templateMessage.code
   }
@@ -140,15 +139,7 @@ exports.getOrderShipmentMessage = (contact, shopifyIntegration, fulfillment, sho
   }
   return preparedMessage
 }
-function prepareOrderShipmentMessage (text, contactName, fulfillment, supportNumber, shopName) {
-  let templateArguments = `${contactName},${shopName},${fulfillment.tracking_number},${fulfillment.tracking_url},${supportNumber}`
-  text = text.replace(/{{customer_name}}/g, contactName)
-  text = text.replace(/{{shop_name}}/g, shopName)
-  text = text.replace(/{{tracking_ID}}/g, fulfillment.tracking_number)
-  text = text.replace(/{{tracking_url}}/g, fulfillment.tracking_url)
-  text = text.replace(/{{support_number}}/g, supportNumber)
-  return {
-    text: text,
-    templateArguments: templateArguments
-  }
+function prepareOrderShipmentMessage (language, contactName, fulfillment, supportNumber, shopName) {
+  let templateArguments = `${contactName},${shopName},${fulfillment.tracking_number},${fulfillment.tracking_url},https://wa.me/${supportNumber}`
+  return templateArguments
 }

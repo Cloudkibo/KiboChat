@@ -38,11 +38,6 @@ exports.runScript = function () {
                 var abandonedCheckoutCreated = abandonedCart.created_at
                 var duration = moment.duration(now.diff(abandonedCheckoutCreated))
                 if (duration.asHours() >= ABANDONED_ALERT_INTERVAL) {
-                  let data = {
-                    accessToken: company.whatsApp.accessToken,
-                    accountSID: company.whatsApp.accountSID,
-                    businessNumber: company.whatsApp.businessNumber
-                  }
                   let abandonedCartReminderBlock = {}
                   let updatePayload = {}
                   const superNumberPreferences = await superNumberDataLayer.findOne({ companyId: company._id })
@@ -50,6 +45,11 @@ exports.runScript = function () {
                     abandonedCartReminderBlock = await getAbandonedCartMessage(superNumberPreferences, ecommerceProvider, contact, abandonedCart)
                     whatsAppMapper(abandonedCartReminderBlock.provider, ActionTypes.SEND_CHAT_MESSAGE, abandonedCartReminderBlock)
                   } else if (company.whatsApp) {
+                    let data = {
+                      accessToken: company.whatsApp.accessToken,
+                      accountSID: company.whatsApp.accountSID,
+                      businessNumber: company.whatsApp.businessNumber
+                    }
                     let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ _id: company.whatsApp.activeWhatsappBot })
                     abandonedCartReminderBlock = await commerceChatbotLogicLayer.getAbandonedCartReminderBlock(chatbot, contact, ecommerceProvider, abandonedCart, company)
                     await sendWhatsAppMessage(abandonedCartReminderBlock, data, contact.number, company, contact)
