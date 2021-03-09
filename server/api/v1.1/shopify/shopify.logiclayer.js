@@ -137,7 +137,6 @@ exports.getOrderShipmentMessage = (contact, superNumberPreferences, fulfillment,
     whatsApp: superWhatsAppAccount,
     recipientNumber: contact.number
   }
-  console.log('preparedMessage', preparedMessage)
   return preparedMessage
 }
 function prepareOrderShipmentMessage (language, contactName, fulfillment, supportNumber, shopName) {
