@@ -156,6 +156,7 @@ function registerWebhooks (shop, token) {
     format: 'json'
   }).then((response) => {
   }).catch((err) => {
+    logger.serverLog('in catch2', `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
     const message = err || 'Error Creating Shopify update fulfillment Webhook'
     logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
   })
@@ -166,6 +167,7 @@ function registerWebhooks (shop, token) {
     format: 'json'
   }).then((response) => {
   }).catch((err) => {
+    logger.serverLog('in catch1', `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
     const message = err || 'Error Creating Shopify create fulfillment Webhook'
     logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
   })
