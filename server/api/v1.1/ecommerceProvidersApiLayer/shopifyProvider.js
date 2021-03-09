@@ -758,6 +758,7 @@ exports.fetchCheckouts = (limit, paginationParams, credentials) => {
       .then(checkouts => {
         let nextPageParameters = checkouts.nextPageParameters
         checkouts = checkouts.map(checkout => {
+          let url = checkout.abandoned_checkout_url.split('.com')
           let payload = {
             checkoutId: checkout.id,
             token: checkout.token,
@@ -768,6 +769,7 @@ exports.fetchCheckouts = (limit, paginationParams, credentials) => {
             created_at: checkout.created_at,
             updated_at: checkout.updated_at,
             abandoned_checkout_url: checkout.abandoned_checkout_url,
+            checkout_admin_url: `${url[0]}.com/admin/orders/${checkout.id}`,
             customerNumber: checkout.phone ? checkout.phone : checkout.customer ? checkout.customer.phone : null,
             tags: checkout.tags
           }
