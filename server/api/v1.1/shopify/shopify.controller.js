@@ -32,7 +32,7 @@ const moment = require('moment')
 
 exports.index = function (req, res) {
   const shop = req.body.shop
-  const scopes = 'read_customers, write_customers, read_checkouts, write_checkouts, write_orders, write_products, read_themes, write_themes, read_script_tags, write_script_tags'
+  const scopes = 'read_customers, write_customers, read_checkouts, write_checkouts, write_orders, write_products, read_themes, write_themes, read_script_tags, write_script_tags, read_fulfillments, write_fulfillments'
   if (shop) {
     const state = nonce()
     const redirectUri = config.domain + '/api/shopify/callback'
