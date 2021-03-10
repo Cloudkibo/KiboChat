@@ -38,4 +38,10 @@ router.post('/delete',
   auth.isSuperUserActingAsCustomer('write'),
   controller.delete)
 
+router.post('/fetchSummarisedAnalytics',
+  validate({body: validationSchema.summarisedPayload}),
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
+  controller.fetchSummarisedAnalytics)
+
 module.exports = router
