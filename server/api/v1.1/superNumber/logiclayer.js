@@ -36,3 +36,39 @@ function getTemplateArguments (templateName, templateCode, customerName, shopNam
   }
   return templateArguments
 }
+exports.summarisedAnalyticsQuery = (body, companyId, type, automated) => {
+  let startDate = new Date(body.startDate)
+  startDate.setHours(0)
+  startDate.setMinutes(0)
+  startDate.setSeconds(0)
+  let endDate = new Date(body.endDate)
+  endDate.setDate(endDate.getDate() + 1)
+  endDate.setHours(0)
+  endDate.setMinutes(0)
+  endDate.setSeconds(0)
+  let groupQuery
+  let matchQuery
+  if (type === 'contacts') {
+    matchQuery = {
+      companyId: companyId,
+      datetime: {$gte: startDate, $lt: endDate}
+    }
+    groupQuery = {
+      _id: null,
+      count: {$sum: 1}
+    }
+  } else {
+    matchQuery = {
+      companyId: companyId,
+      datetime: {$gte: startDate, $lt: endDate},
+      automatedMessage: automated
+    }
+    groupQuery = {
+      _id: null,
+      count: {$sum: '$messagesSent'}
+    }
+  }
+  return {
+    matchQuery, groupQuery
+  }
+}

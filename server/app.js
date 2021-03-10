@@ -7,6 +7,7 @@ const config = require('./config/environment/index')
 const cron = require('node-cron')
 const NotificationsScript = require('./scripts/notificationsScript.js')
 const WhatsappScript = require('./scripts/whatsappDeleteDataScript.js')
+const { slaDashboardScript } = require('./scripts/slaDashboard')
 const AbandonedScriptShopify = require('./scripts/abandonedScriptShopify.js')
 
 const app = express()
@@ -35,6 +36,8 @@ if (config.env === 'production' || config.env === 'staging') {
 cron.schedule('*/5 * * * *', NotificationsScript.runLiveChatNotificationScript)
 cron.schedule('0 */2 * * *', AbandonedScriptShopify.runScript)
 cron.schedule('0 13 * * *', WhatsappScript.runWhatspdeleteScript) //  daily 6 pm pakistan time
+cron.schedule('0 0 * * *', slaDashboardScript)
+
 require('./config/express')(appObj)
 require('./config/setup')(app, httpApp, config)
 require('./routes')(appObj)

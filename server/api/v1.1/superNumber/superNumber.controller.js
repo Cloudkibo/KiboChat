@@ -10,6 +10,8 @@ const logicLayer = require('./logiclayer')
 const logger = require('../../../components/logger')
 const TAG = 'api/superNumberPreferences/superNumberPreferences.controller.js'
 const dataLayer = require('../superNumber/datalayer')
+const analyicsDataLayer = require('./superNumberAnalytics.datalayer')
+const async = require('async')
 
 exports.fetchTemplates = async (req, res) => {
   let superWhatsAppAccount = getSuperWhatsAppAccount()
@@ -109,4 +111,54 @@ exports.delete = function (req, res) {
       logger.serverLog(message, `${TAG}: exports.delete`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, 'Failed to delete SuperNumberPreferences.')
     })
+}
+
+exports.fetchSummarisedAnalytics = function (req, res) {
+  async.parallelLimit([
+    function (callback) {
+      let {matchQuery, groupQuery} = logicLayer.summarisedAnalyticsQuery(req.body, req.user.companyId, 'contacts')
+      callApi(`whatsAppContacts/aggregate`, 'post',
+        [{$match: matchQuery}, {$group: groupQuery}])
+        .then(contacts => {
+          callback(null, contacts)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      let {matchQuery, groupQuery} = logicLayer.summarisedAnalyticsQuery(req.body, req.user.companyId, 'analytics', true)
+      analyicsDataLayer.aggregate(matchQuery, groupQuery)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      let {matchQuery, groupQuery} = logicLayer.summarisedAnalyticsQuery(req.body, req.user.companyId, 'analytics', false)
+      analyicsDataLayer.aggregate(matchQuery, groupQuery)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    }
+  ], 10, function (err, results) {
+    if (err) {
+      const message = err || 'Error in fetching summarised analytics'
+      logger.serverLog(message, `${TAG}: exports.fetchSummarisedAnalytics`, req.body, {user: req.user}, 'error')
+      return res.status(500).json({status: 'failed', payload: err})
+    } else {
+      let contacts = results[0]
+      let automated = results[1]
+      let manual = results[2]
+      contacts = contacts.length > 0 ? contacts[0].count : 0
+      manual = manual.length > 0 ? manual[0].count : 0
+      automated = automated.length > 0 ? automated[0].count : 0
+      sendSuccessResponse(res, 200, {contacts, automated, manual})
+    }
+  })
 }

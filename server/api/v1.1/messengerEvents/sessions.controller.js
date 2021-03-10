@@ -521,9 +521,12 @@ const _prepareSubscriberUpdatePayload = (event, subscriber, company) => {
       $set: {
         last_activity_time: Date.now(),
         pendingResponse: true,
-        lastMessagedAt: Date.now(),
-        status: subscriber.status === 'resolved' ? 'new' : subscriber.status
+        pendingAt: new Date(),
+        lastMessagedAt: Date.now()
       }
+    }
+    if (subscriber.status === 'resolved') {
+      updated['$set'] = {...updated.$set, status: 'new', openedAt: new Date()}
     }
   }
   return updated
