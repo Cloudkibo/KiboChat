@@ -29,9 +29,9 @@ function getTemplateArguments (templateName, templateCode, customerName, shopNam
     templateArguments = `${customerName},${shopName},${order.trackingId},${order.trackingUrl},https://wa.me/${supportNumber}`
   } else if (templateName === 'ABANDONED_CART_RECOVERY' && checkout) {
     if (templateCode === 'ur') {
-      templateArguments = `${customerName},${shopName},${order.currency} ${order.totalPrice},${checkout.abandoned_checkout_url}, https://wa.me/${supportNumber}`
+      templateArguments = `${customerName},${shopName},${checkout.currency} ${checkout.totalPrice},${checkout.abandoned_checkout_url}, https://wa.me/${supportNumber}`
     } else {
-      templateArguments = `${customerName},${order.currency} ${order.totalPrice},${shopName},${checkout.abandoned_checkout_url}, https://wa.me/${supportNumber}`
+      templateArguments = `${customerName},${checkout.currency} ${checkout.totalPrice},${shopName},${checkout.abandoned_checkout_url}, https://wa.me/${supportNumber}`
     }
   }
   return templateArguments

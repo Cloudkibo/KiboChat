@@ -727,7 +727,7 @@ exports.fetchCheckouts = (limit, paginationParams, credentials) => {
             created_at: checkout.created_at,
             updated_at: checkout.updated_at,
             abandoned_checkout_url: checkout.abandoned_checkout_url,
-            checkout_admin_url: `${url[0]}.com/admin/orders/${checkout.id}`,
+            checkout_admin_url: `${url[0]}.com/admin/checkouts/${checkout.id}`,
             customerNumber: checkout.phone ? checkout.phone : checkout.customer ? checkout.customer.phone : null,
             tags: checkout.tags
           }

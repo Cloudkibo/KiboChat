@@ -228,7 +228,7 @@ exports.prepareCommerceTemplates = (body) => {
       english: {
         name: 'abandoned_cart_reminder_1',
         templateArguments: '{{customer_name}},{{order_value}},{{shop_name}},{{checkout_url}},{{support_number}}',
-        text: 'Hi {{customer_name}},\n\nThe payment for your order of {{order_value}} from {{shop_name}} is still pending. Click on the link to complete the payment and confirm your order 👉 {{checkout_url}}.\n\nChat with customer support at:  https://wa.me/{{support_number}}',
+        text: 'Hi {{customer_name}},\n\nThe payment for your order of {{order_value}} from {{shop_name}} is still pending. Click on the link to complete the payment and confirm your order 👉 {{checkout_url}}.\n\nChat with customer support at: https://wa.me/{{support_number}}',
         type: 'TEXT',
         code: 'en'
       },
