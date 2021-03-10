@@ -4,6 +4,7 @@ const auth = require('../../../auth/auth.service')
 const validate = require('express-jsonschema').validate
 const validationSchema = require('./validationSchema')
 const controller = require('./superNumber.controller')
+const codController = require('./codpages.controller')
 
 router.post('/fetchTemplates',
   auth.isAuthenticated(),
@@ -37,5 +38,11 @@ router.post('/delete',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer('write'),
   controller.delete)
+
+router.post('/addConfirmTag',
+  codController.addConfirmTag)
+
+router.post('/addCancelledTag',
+  codController.addCancelledTag)
 
 module.exports = router

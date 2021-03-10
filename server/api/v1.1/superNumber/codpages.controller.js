@@ -3,7 +3,7 @@ const shopifyDataLayer = require('./../shopify/shopify.datalayer')
 const commerceConstants = require('./../ecommerceProvidersApiLayer/constants')
 const EcommerceProviders = require('./../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
 const logger = require('../../../components/logger')
-const TAG = 'api/superNumberPreferences/superNumberPreferences.controller.js'
+const TAG = 'api/superNumber/codpages.controller.js'
 const dataLayer = require('../superNumber/datalayer')
 
 exports.addConfirmTag = async (req, res) => {
@@ -28,6 +28,7 @@ exports.addConfirmTag = async (req, res) => {
   } catch (err) {
     const message = err || 'Error processing for adding confirm tag to order'
     logger.serverLog(message, `${TAG}: exports.addConfirmTag`, req.body, {header: req.header}, 'error')
+    sendErrorResponse(res, 501, { done: false }, 'Internal Server Error')
   }
 }
 
@@ -53,5 +54,6 @@ exports.addCancelledTag = async (req, res) => {
   } catch (err) {
     const message = err || 'Error processing for adding confirm tag to order'
     logger.serverLog(message, `${TAG}: exports.addConfirmTag`, req.body, {header: req.header}, 'error')
+    sendErrorResponse(res, 501, { done: false }, 'Internal Server Error')
   }
 }

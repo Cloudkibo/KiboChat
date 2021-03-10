@@ -78,6 +78,7 @@ module.exports = function (app) {
   app.use('/api/companyPreferences', require('./api/v1.1/companyPreferences'))
   app.use('/api/fbshops', require('./api/v1.1/facebookshops'))
   app.use('/api/supernumber', require('./api/v1.1/superNumber'))
+  app.use('/cod', require('./api/v1.1/superNumber/codLinks'))
   // auth middleware go here if you authenticate on same server
 
   app.get('/invoices/:shopId/:fileName', (req, res) => {
