@@ -56,3 +56,20 @@ exports.updatePayload =
     }
   }
 }
+exports.summarisedPayload =
+{
+  '$schema': 'http://json-schema.org/draft-04/schema#',
+  'type': 'object',
+  'properties': {
+    'startDate': {
+      'type': 'string'
+    },
+    'endDate': {
+      'type': 'string'
+    }
+  },
+  'required': [
+    'startDate',
+    'endDate'
+  ]
+}
