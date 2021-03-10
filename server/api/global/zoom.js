@@ -25,6 +25,8 @@ const zoomApiCaller = (method, path, data, auth, qs) => {
       options,
       (err, response) => {
         if (err) {
+          const message = err || 'error in zoom api'
+          logger.serverLog(message, `${TAG}: exports.zoomApiCaller`, {}, {method, path, data}, 'error')
           reject(err)
         } else {
           resolve(response.body)

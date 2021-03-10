@@ -45,4 +45,10 @@ router.post('/addConfirmTag',
 router.post('/addCancelledTag',
   codController.addCancelledTag)
 
+router.post('/fetchSummarisedAnalytics',
+  validate({body: validationSchema.summarisedPayload}),
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
+  controller.fetchSummarisedAnalytics)
+
 module.exports = router
