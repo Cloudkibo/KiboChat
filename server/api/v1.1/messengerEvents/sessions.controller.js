@@ -10,9 +10,10 @@ const logicLayer = require('./logiclayer')
 const { captureUserEmailAndPhone, unSetAwaitingUserInfoPayload } = require('./capturePhoneEmail.logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
 const { record } = require('../../global/messageStatistics')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 const { sendNotifications } = require('../../global/sendNotification')
 const { sendWebhook } = require('../../global/sendWebhook')
-
+const { handleMessageAlertsSubscription } = require('../messageAlerts/utility')
 const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('../../global/messageAlerts')
 const { handleTriggerMessage, handleCommerceChatbot, isTriggerMessage } = require('./chatbotAutomation.controller')
 
@@ -67,7 +68,9 @@ exports.index = function (req, res) {
                   })
                 }
                 if (req.body.pushPendingSessionInfo && JSON.stringify(req.body.pushPendingSessionInfo) === 'true') {
-                  pushSessionPendingAlertInStack(company, subscriber, 'messenger')
+                  let subscriberEvent = JSON.parse(JSON.stringify(subscriber))
+                  subscriberEvent.pageId = page
+                  pushSessionPendingAlertInStack(company, subscriberEvent, 'messenger')
                 }
                 if (!event.message.is_echo && subscriber.awaitingQuickReplyPayload && subscriber.awaitingQuickReplyPayload.action) {
                   isTriggerMessage(event, page)
@@ -98,7 +101,9 @@ exports.index = function (req, res) {
                           }
                         }
                         if (!event.message.is_echo) {
-                          pushUnresolveAlertInStack(company, subscriber, 'messenger')
+                          let subscriberEvent = JSON.parse(JSON.stringify(subscriber))
+                          subscriberEvent.pageId = page
+                          pushUnresolveAlertInStack(company, subscriberEvent, 'messenger')
                         }
                       }
                     }
@@ -144,6 +149,7 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
   ) {
     LiveChatDataLayer.createFbMessageObject(chatPayload)
       .then(chat => {
+        updateCompanyUsage(page.companyId, 'chat_messages', 1)
         if (!event.message.is_echo) {
           setTimeout(() => {
             utility.callApi('subscribers/query', 'post', { _id: subscriber._id })
@@ -166,7 +172,7 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
                 })
               })
           }, 500)
-          sendautomatedmsg(event, page)
+          sendautomatedmsg(event, page, subscriber)
         } else {
           require('./../../../config/socketio').sendMessageToClient({
             room_id: page.companyId,
@@ -298,7 +304,7 @@ function saveNotifications (subscriber, companyUsers, page) {
   })
 }
 
-function sendautomatedmsg (req, page) {
+function sendautomatedmsg (req, page, subscriber) {
   if (req.message && req.message.text) {
     let index = -3
     if (req.message.text.toLowerCase() === 'stop' ||
@@ -308,6 +314,12 @@ function sendautomatedmsg (req, page) {
     if (req.message.text.toLowerCase() === 'start' ||
       req.message.text.toLowerCase() === 'subscribe') {
       index = -111
+    }
+    if (req.message.text.toLowerCase() === 'notify-me') {
+      handleMessageAlertsSubscription('messenger', 'subscribe', subscriber, page)
+    }
+    if (req.message.text.toLowerCase() === 'cancel-notify') {
+      handleMessageAlertsSubscription('messenger', 'unsubscribe', subscriber, page)
     }
 
     // user query matched with keywords, send response
@@ -521,9 +533,12 @@ const _prepareSubscriberUpdatePayload = (event, subscriber, company) => {
       $set: {
         last_activity_time: Date.now(),
         pendingResponse: true,
-        lastMessagedAt: Date.now(),
-        status: subscriber.status === 'resolved' ? 'new' : subscriber.status
+        pendingAt: new Date(),
+        lastMessagedAt: Date.now()
       }
+    }
+    if (subscriber.status === 'resolved') {
+      updated['$set'] = {...updated.$set, status: 'new', openedAt: new Date()}
     }
   }
   return updated
