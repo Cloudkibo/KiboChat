@@ -14,20 +14,23 @@ router.get('/install', // handle installing of app from bigcommerce app store
   controller.install)
 
 router.get('/load',
-  controller.load) // this id will be userid
+  controller.load)
+
+router.post('/complete-checkout',
+  controller.handleCompleteCheckout)
 
 router.get('/uninstall',
-  controller.uninstall) // this id will be userid
+  controller.uninstall)
 
 router.get('/redirect',
   controller.redirect)
 
 router.get('/fetchStore',
   auth.isAuthenticated(),
-  controller.fetchStore) // this id will be userid
+  controller.fetchStore)
 
 router.get('/testRoute',
   auth.isAuthenticated(),
-  controller.testRoute) // this id will be userid
+  controller.testRoute)
 
 module.exports = router

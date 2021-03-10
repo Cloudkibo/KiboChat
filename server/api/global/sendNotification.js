@@ -1,10 +1,9 @@
 const { Expo } = require('expo-server-sdk')
 const logger = require('../../components/logger')
-const util = require('util')
 const utility = require('../v1.1/utility')
 const TAG = 'api/global/sendNotification.js'
 
-const sendMobileNotifications = (expoListToken, title, bodyMessage, data, user) => {
+const sendMobileNotifications = (expoListToken, title, bodyMessage, data, user, maxSendCount) => {
   let expo = new Expo()
   expoListToken = expoListToken.filter(expoToken => {
     if (Expo.isExpoPushToken(expoToken)) {
@@ -61,7 +60,10 @@ const sendMobileNotifications = (expoListToken, title, bodyMessage, data, user) 
         }
       } catch (error) {
         const message = error || 'Error while sending notification'
-        if (message && message.code !== 'PUSH_TOO_MANY_EXPERIENCE_IDS') {
+        if (maxSendCount > 0 && message && (!message.code || message.code === 504 || message.code === 502)) {
+          logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, {expoListToken, title, bodyMessage, data, user}, 'info')
+          sendMobileNotifications(expoListToken, title, bodyMessage, data, user, maxSendCount - 1)
+        } else if (message && message.code !== 'PUSH_TOO_MANY_EXPERIENCE_IDS') {
           return logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, {expoListToken, title, bodyMessage, data, user}, 'error')
         }
       }
@@ -76,7 +78,7 @@ function sendNotifications (title, body, payload, companyUsers) {
       if (!body) {
         body = 'Sent an Attachment'
       }
-      sendMobileNotifications(expoListToken, title, body, payload, companyUsers[i].userId)
+      sendMobileNotifications(expoListToken, title, body, payload, companyUsers[i].userId, 3)
     }
   }
 }

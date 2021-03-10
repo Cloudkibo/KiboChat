@@ -31,6 +31,14 @@ exports.index = function (req, res) {
     })
 }
 
+function isAlreadyExistCustomField (err, customFieldName) {
+  if (err && err === `${customFieldName} custom field already exists`) {
+    return true
+  } else {
+    return false
+  }
+}
+
 exports.create = function (req, res) {
   callApi.callApi('companyUser/query', 'post', { domain_email: req.user.domain_email })
     .then(companyUser => {
@@ -58,8 +66,11 @@ exports.create = function (req, res) {
           sendSuccessResponse(res, 200, newCustomField)
         })
         .catch(err => {
-          const message = err || 'Internal Server Error in custom fields'
-          logger.serverLog(message, `${TAG}: exports.index`, req.body, {user: req.user}, 'error')
+          let userError = isAlreadyExistCustomField(err, req.body.name)
+          if (!userError) {
+            const message = err || 'Internal Server Error in custom fields'
+            logger.serverLog(message, `${TAG}: exports.index`, req.body, {user: req.user}, 'error')
+          }
           sendErrorResponse(res, 500, '', err)
         })
     })
@@ -96,8 +107,11 @@ exports.update = function (req, res) {
           sendSuccessResponse(res, 200, updated)
         })
         .catch(err => {
-          const message = err || 'Internal Server Error in updating custom fields'
-          logger.serverLog(message, `${TAG}: exports.update`, req.body, {user: req.user}, 'error')
+          let userError = isAlreadyExistCustomField(err, req.body.updated.name)
+          if (!userError) {
+            const message = err || 'Internal Server Error in updating custom fields'
+            logger.serverLog(message, `${TAG}: exports.update`, req.body, {user: req.user}, 'error')
+          }
           sendErrorResponse(res, 500, '', err)
         })
     })

@@ -4,12 +4,12 @@ By separating it from controller, we are separating the concerns.
 Thus we can use it from other non express callers like cron etc
 */
 
-exports.getTeamPayload = function (req, companyUser) {
+exports.getTeamPayload = function (req, companyId) {
   let teamPayload = {
     name: req.body.name,
     description: req.body.description,
     created_by: req.user._id,
-    companyId: companyUser.companyId,
+    companyId: companyId,
     platform: req.body.platform
   }
   if (req.body.teamPages && req.body.pageIds) {
@@ -19,20 +19,20 @@ exports.getTeamPayload = function (req, companyUser) {
   return teamPayload
 }
 
-exports.getTeamAgentsPayload = function (team, companyUser, agentId) {
+exports.getTeamAgentsPayload = function (team, companyId, agentId) {
   let teamAgentsPayload = {
     teamId: team._id,
-    companyId: companyUser.companyId,
+    companyId: companyId,
     agentId: agentId
   }
   return teamAgentsPayload
 }
 
-exports.getTeamPagesPayload = function (team, companyUser, pageId) {
+exports.getTeamPagesPayload = function (team, companyId, pageId) {
   let teamPagesPayload = {
     teamId: team._id,
     pageId: pageId,
-    companyId: companyUser.companyId
+    companyId: companyId
   }
   return teamPagesPayload
 }

@@ -1,7 +1,6 @@
 const http = require('http')
 const https = require('https')
 const fs = require('fs')
-const logger = require('./../components/logger')
 const TAG = 'config/setup.js'
 
 module.exports = function (app, httpapp, config) {

@@ -8,6 +8,7 @@ const utility = require('./../../../components/utility')
 const ogs = require('open-graph-scraper')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1.1/messageBlock/messageBlock.controller.js'
+const {openGraphScrapper} = require('../../global/utility')
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
 
 exports.create = function (req, res) {
@@ -41,32 +42,39 @@ exports.attachment = function (req, res) {
     if (req.body.isYoutubePlayable) {
       needle('post', `${config.accountsDomain}/downloadYouTubeVideo`, req.body)
         .then(data => {
+          console.log('data', data.body)
           data = data.body
-          if (data.payload && data.payload === 'ERR_LIMIT_REACHED') {
-            fetchMetaData(req, res)
+          if (data.status !== 'failed') {
+            if (data.payload && data.payload === 'ERR_LIMIT_REACHED') {
+              fetchMetaData(req, res)
+            } else {
+              console.log('data.payload.fileurl', data.payload.fileurl)
+              let payload = data.payload.fileurl
+              payload.pages = [req.body.pageId]
+              payload.componentType = 'video'
+              needle('post', `${config.accountsDomain}/uploadTemplate`, payload, {open_timeout: 0})
+                .then(dataFinal => {
+                  if (dataFinal.body.status === 'failed') {
+                    fetchMetaData(req, res)
+                  } else {
+                    return sendSuccessResponse(res, 200, dataFinal.body.payload, 'Fetched youtube video')
+                  }
+                })
+                .catch(error => {
+                  const message = error || 'Failed to upload youtube video to facebook.'
+                  logger.serverLog(message, `${TAG}: exports.attachment`, req.body, {user: req.user}, 'error')
+                  return sendErrorResponse(res, 500, error.body, 'Failed to upload youtube video to facebook. Check with admin.')
+                })
+            }
           } else {
-            let payload = data.payload.fileurl
-            payload.pages = [req.body.pageId]
-            payload.deleteLater = true
-            payload.componentType = 'video'
-            needle('post', `${config.accountsDomain}/uploadTemplate`, payload)
-              .then(dataFinal => {
-                if (dataFinal.body.status === 'failed') {
-                  fetchMetaData(req, res)
-                } else {
-                  return sendSuccessResponse(res, 200, dataFinal.body.payload, 'Fetched youtube video')
-                }
-              })
-              .catch(error => {
-                const message = error || 'Failed to upload youtube video to facebook.'
-                logger.serverLog(message, `${TAG}: exports.attachment`, req.body, {user: req.user}, 'error')
-                return sendErrorResponse(res, 500, error.body, 'Failed to upload youtube video to facebook. Check with admin.')
-              })
+            return sendErrorResponse(res, 500, data, 'Failed to work on the attachment. Please contact admin.')
           }
         })
         .catch(error => {
           const message = error || 'Failed to work on the attachment'
-          logger.serverLog(message, `${TAG}: exports.attachment`, req.body, {user: req.user}, 'error')
+          if (message !== 'Unable to process video link. Please try again.') {
+            logger.serverLog(message, `${TAG}: exports.attachment`, req.body, {user: req.user}, 'error')
+          }
           return sendErrorResponse(res, 500, error.body, 'Failed to work on the attachment. Please contact admin.')
         })
     } else {
@@ -98,15 +106,18 @@ exports.attachment = function (req, res) {
 
 function fetchMetaData (req, res) {
   let url = req.body.url
-  let options = { url }
-  ogs(options, (error, results) => {
-    if (error) {
-      const message = error || 'Failed to fetch youtube video url meta data.'
-      logger.serverLog(message, `${TAG}: exports.fetchMetaData`, req.body, {user: req.user}, 'error')
-      return sendErrorResponse(res, 500, error, 'Failed to fetch youtube video url meta data.')
-    }
-    return sendSuccessResponse(res, 200, results.data, 'Fetched youtube video')
-  })
+  openGraphScrapper(url)
+    .then(results => {
+      return sendSuccessResponse(res, 200, results, 'Fetched youtube video')
+    }).catch(err => {
+      if (err !== 'Must scrape an HTML page') {
+        const message = err || 'Failed to fetch url meta Deta.'
+        logger.serverLog(message, `${TAG}: exports.fetchMetaData`, req.body, {user: req.user}, 'error')
+        return sendErrorResponse(res, 500, err, 'Failed to fetch url meta data.')
+      } else {
+        return sendErrorResponse(res, 500, err, 'invalid or private url.')
+      }
+    })
 }
 function _sendToClientUsingSocket (body) {
   require('../../../config/socketio').sendMessageToClient({

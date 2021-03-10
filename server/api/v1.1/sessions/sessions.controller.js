@@ -136,6 +136,16 @@ exports.markread = function (req, res) {
         logger.serverLog(message, `${TAG}: exports.markread`, {}, {user: req.user, params: req.params}, 'error')
         sendErrorResponse(res, 500, err)
       } else {
+        require('./../../../config/socketio').sendMessageToClient({
+          room_id: req.user.companyId,
+          body: {
+            action: 'mark_read',
+            payload: {
+              session_id: req.params.id,
+              read_count: results[1].nModified
+            }
+          }
+        })
         sendSuccessResponse(res, 200, 'Chat has been marked read successfully!')
       }
     })
@@ -145,7 +155,7 @@ exports.markread = function (req, res) {
 }
 
 function markreadLocal (req, callback) {
-  let updateData = logicLayer.getUpdateData('updateAll', { subscriber_id: req.params.id }, { status: 'seen' }, false, true)
+  let updateData = logicLayer.getUpdateData('updateAll', { subscriber_id: req.params.id, format: 'facebook' }, { status: 'seen' }, false, true)
   callApi('subscribers/update', 'put', { query: { _id: req.params.id }, newPayload: { unreadCount: 0 }, options: {} }, 'accounts', req.headers.authorization)
     .then(subscriber => {
       callApi('livechat', 'put', updateData, 'kibochat')
@@ -199,7 +209,6 @@ exports.show = function (req, res) {
       function (callback) {
         callApi(`subscribers/${req.params.id}`, 'get', {}, 'accounts', req.headers.authorization)
           .then(subscriber => {
-            console.log('subscriber', subscriber)
             callback(null, subscriber)
           })
           .catch(err => {
@@ -289,7 +298,6 @@ function _sendNotification (subscriberId, status, companyId, userName) {
         let lastMessageData = logicLayer.getQueryData('', 'aggregate', { company_id: companyId }, undefined, undefined, undefined, { _id: subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' } })
         callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
           .then(gotLastMessage => {
-            console.log('data in assignAgent', gotLastMessage)
             subscriber.lastPayload = gotLastMessage[0].payload
             subscriber.lastRepliedBy = gotLastMessage[0].replied_by
             subscriber.lastDateTime = gotLastMessage[0].datetime
@@ -482,7 +490,6 @@ exports.assignTeam = function (req, res) {
                 let lastMessageData = logicLayer.getQueryData('', 'aggregate', { company_id: req.user.companyId }, undefined, undefined, undefined, { _id: req.body.subscriberId, payload: { $last: '$payload' }, replied_by: { $last: '$replied_by' }, datetime: { $last: '$datetime' } })
                 callApi(`livechat/query`, 'post', lastMessageData, 'kibochat')
                   .then(gotLastMessage => {
-                    console.log('data in assignAgent', gotLastMessage)
                     subscriber.lastPayload = gotLastMessage[0].payload
                     subscriber.lastRepliedBy = gotLastMessage[0].replied_by
                     subscriber.lastDateTime = gotLastMessage[0].datetime
@@ -606,6 +613,18 @@ exports.genericFind = function (req, res) {
       const message = error || 'Failed to fetch sessions'
       logger.serverLog(message, `${TAG}: exports.genericFind`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, `Failed to fetch sessions ${JSON.stringify(error)}`)
+    })
+}
+
+exports.updatePauseChatbot = function (req, res) {
+  callApi('subscribers/update', 'put', { query: { _id: req.body.subscriberId }, newPayload: { chatbotPaused: req.body.chatbotPaused }, options: {} })
+    .then(updated => {
+      sendSuccessResponse(res, 200, 'Chatbot has been paused successfully')
+    })
+    .catch(err => {
+      const message = err || 'error updating chatbot pause'
+      logger.serverLog(message, `${TAG}: exports.updatePauseChatbot`, req.body, {user: req.user}, 'error')
+      sendErrorResponse(res, 500, err)
     })
 }
 

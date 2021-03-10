@@ -122,7 +122,8 @@ exports.create = function (req, res) {
           $set: {
             last_activity_time: Date.now(),
             agent_activity_time: Date.now(),
-            pendingResponse: false
+            pendingResponse: false,
+            chatbotPaused: true
           },
           $unset: {pendingAt: 1}
         },
@@ -203,6 +204,9 @@ exports.create = function (req, res) {
                     let message = (res.body.error && res.body.error.message) || 'Error while sending message in live chat'
                     logger.serverLog(message, TAG, req.body, {messageData: messageData, subscriber: subscriber}, severity)
                   } else {
+                    if (req.body.payload && req.body.payload.quickReplies) {
+                      logicLayer.setSubscriberPayloadInfo(subscriber, req.body.payload)
+                    }
                     callback(null, subscriber)
                   }
                 })
@@ -247,9 +251,11 @@ exports.create = function (req, res) {
                 // TODO This is crashing when agent has a bot and sending an attahment from livechat
                 botId = bot._id
                 let arr = bot.blockedSubscribers
-                arr.push(subscriber._id)
-                let updateBotData = logicLayer.getUpdateData('updateOne', {_id: botId}, {blockedSubscribers: arr})
-                return callApi(`smart_replies`, 'put', updateBotData, '', 'kibochat')
+                if (arr) {
+                  arr.push(subscriber._id)
+                  let updateBotData = logicLayer.getUpdateData('updateOne', {_id: botId}, {blockedSubscribers: arr})
+                  return callApi(`smart_replies`, 'put', updateBotData, '', 'kibochat')
+                }
               }
             })
             .then(result => {

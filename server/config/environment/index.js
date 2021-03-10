@@ -50,7 +50,12 @@ const all = {
     app_secret: process.env.BIGCOMMERCE_SECRET || 'ee31988bcd4facf96a23f5d79aa3848fc5fab62c4ae31fb35125bc98ecb23949'
   },
   aviationKey: process.env.AVIATION_KEY || '73777d3f32d28cde6c37c177572283b6',
-  openWeatherMapApi: process.env.WEATHER_KEY || '3334c233797078b7ca8a05154e545293'
+  openWeatherMapApi: process.env.WEATHER_KEY || '3334c233797078b7ca8a05154e545293',
+  amadeus: {
+    clientId: process.env.AMADEUS_CLIENT_ID || 'KYhArZE25YzQZcwFknz3Zj9AQntxwdFl',
+    clientSecret: process.env.AMADEUS_SECRET || 'n6SsqjZ6cfcPbXgS'
+  },
+  openExchangeRateKey: '2fd5951a2cb045c2bdda9ed3e209cc2f'
 }
 
 module.exports = _.merge(

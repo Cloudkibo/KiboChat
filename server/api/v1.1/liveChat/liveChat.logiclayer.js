@@ -2,6 +2,10 @@
 const fs = require('fs')
 const path = require('path')
 const broadcastUtlity = require('../../v1/broadcasts/broadcasts.utility')
+const logger = require('../../../components/logger')
+const { callApi } = require('../utility')
+const TAG = '/api/v1/liveChat/liveChat.logicLayer.js'
+
 exports.getQueryData = (type, purpose, match, skip, sort, limit) => {
   if (type === 'count') {
     return {
@@ -73,13 +77,47 @@ exports.prepareSendAPIPayload = (subscriberId, body, fname, lname, isResponse) =
       text = text.replace(
         '{{user_last_name}}', lname)
     }
+    let message = {
+      'text': text,
+      'metadata': 'SENT_FROM_KIBOPUSH'
+    }
+    if (body.quickReplies) {
+      let skipAllowed = false
+      let messengerQuickReplies = []
+      for (let qr of body.quickReplies) {
+        if (qr.query) {
+          if (qr.query === 'email') {
+            messengerQuickReplies.push({
+              'content_type': 'user_email'
+            })
+          }
+          if (qr.query === 'phone') {
+            messengerQuickReplies.push({
+              'content_type': 'user_phone_number'
+            })
+          }
+          if (qr.skipAllowed && qr.skipAllowed.isSkip) {
+            skipAllowed = true
+          }
+        }
+      }
+      if (skipAllowed) {
+        messengerQuickReplies.push({
+          'content_type': 'text',
+          'title': 'Skip',
+          'payload': JSON.stringify(
+            {
+              option: 'captureEmailPhoneSkip'
+            }
+          )
+        })
+      }
+      message['quick_replies'] = messengerQuickReplies
+    }
     payload = {
       'messaging_type': messageType,
       'recipient': subscriberId,
-      'message': JSON.stringify({
-        'text': text,
-        'metadata': 'SENT_FROM_KIBOPUSH'
-      })
+      'message': JSON.stringify(message)
     }
     return payload
   } else if (body.componentType === 'text' && body.buttons) {
@@ -246,4 +284,44 @@ exports.webhookPost = (needle, webhook, req, res) => {
         }
       })
   }
+}
+
+exports.setSubscriberPayloadInfo = (subscriber, payload, blockInfo) => {
+  let awaitingQuickReplyPayload = {}
+  let action = []
+  console.log('Payload', payload)
+  for (let qr of payload.quickReplies) {
+    let quickReply = {}
+    if (qr.query) {
+      if (qr.query === 'email') {
+        quickReply.query = 'email'
+      }
+      if (qr.query === 'phone') {
+        quickReply.query = 'phone'
+      }
+      quickReply.skipAllowed = qr.skipAllowed
+      quickReply.keyboardInputAllowed = qr.keyboardInputAllowed
+      if (qr.blockId) {
+        quickReply.blockId = qr.blockId
+      }
+      action.push(quickReply)
+    }
+  }
+  if (blockInfo) {
+    awaitingQuickReplyPayload.chatBotId = blockInfo.chatBotId
+    awaitingQuickReplyPayload.messageBlockId = blockInfo.messageBlockId
+    awaitingQuickReplyPayload.messageBlockTitle = blockInfo.messageBlockTitle
+  }
+  awaitingQuickReplyPayload.action = action
+  var updated = {$set: {awaitingQuickReplyPayload}}
+
+  callApi('subscribers/update', 'put', {query: {_id: subscriber._id}, newPayload: updated, options: {multi: true}}, 'accounts')
+    .then(updatedSubscriber => {
+      console.log('updatedSubscriber', JSON.stringify(updatedSubscriber))
+      logger.serverLog('Subscriber payload info has been set', `${TAG}: exports._setSubscriberPayloadInfo`, {}, {payload, subscriber, updatedSubscriber}, 'debug')
+    })
+    .catch(err => {
+      const message = err || 'Failed to set subscriber payload info'
+      logger.serverLog(message, `${TAG}: exports._setSubscriberPayloadInfo`, {}, {payload, subscriber, err}, 'error')
+    })
 }

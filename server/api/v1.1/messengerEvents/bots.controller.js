@@ -87,40 +87,42 @@ exports.respondUsingBot = (page, subscriber, text) => {
           .then(waitingSubscriber => {
             if (waitingSubscriber) {
             } else {
-              let dialogflowData = {
-                queryInput: {
-                  text: {
-                    languageCode: 'en',
-                    text: text.length > 256 ? text.substring(0, 256) : text
+              if (text) {
+                let dialogflowData = {
+                  queryInput: {
+                    text: {
+                      languageCode: 'en',
+                      text: text.length > 256 ? text.substring(0, 256) : text
+                    }
                   }
                 }
+                callGoogleApi(
+                  `https://dialogflow.googleapis.com/v2/projects/${bot.gcpPojectId.toLowerCase()}/agent/sessions/${subscriber._id}:detectIntent`,
+                  'POST',
+                  dialogflowData
+                )
+                  .then(result => {
+                    let path = result.data.queryResult.intent.name.split('/')
+                    let intentId = path[path.length - 1]
+                    intentsDL.findOneIntent({dialogflowIntentId: intentId})
+                      .then(intent => {
+                        if (intent) {
+                          intent.answer.push(_talkToHumanPayload(bot, intent, text))
+                          _handleIntentFound(bot, intent.answer, subscriber, page)
+                        } else {
+                          _handleIntentNotFound(bot, text)
+                        }
+                      })
+                      .catch(err => {
+                        const message = err || 'error in responding using bot'
+                        logger.serverLog(message, `${TAG}: exports.respondUsingBot`, {}, {page, subscriber, text}, 'error')
+                      })
+                  })
+                  .catch(err => {
+                    const message = err || 'error in responding using bot'
+                    logger.serverLog(message, `${TAG}: exports.respondUsingBot`, {}, {page, subscriber, text}, 'error')
+                  })
               }
-              callGoogleApi(
-                `https://dialogflow.googleapis.com/v2/projects/${bot.gcpPojectId.toLowerCase()}/agent/sessions/${subscriber._id}:detectIntent`,
-                'POST',
-                dialogflowData
-              )
-                .then(result => {
-                  let path = result.data.queryResult.intent.name.split('/')
-                  let intentId = path[path.length - 1]
-                  intentsDL.findOneIntent({dialogflowIntentId: intentId})
-                    .then(intent => {
-                      if (intent) {
-                        intent.answer.push(_talkToHumanPayload(bot, intent, text))
-                        _handleIntentFound(bot, intent.answer, subscriber, page)
-                      } else {
-                        _handleIntentNotFound(bot, text)
-                      }
-                    })
-                    .catch(err => {
-                      const message = err || 'error in responding using bot'
-                      logger.serverLog(message, `${TAG}: exports.respondUsingBot`, {}, {page, subscriber, text}, 'error')
-                    })
-                })
-                .catch(err => {
-                  const message = err || 'error in responding using bot'
-                  logger.serverLog(message, `${TAG}: exports.respondUsingBot`, {}, {page, subscriber, text}, 'error')
-                })
             }
           })
           .catch(err => {

@@ -1,5 +1,6 @@
 const providers = require('./constants.js')
 const aviationProvider = require('./aviationProvider.js')
+const amadeusProvider = require('./amadeusProvider.js')
 const util = require('./util')
 
 module.exports = class AirlineProvidersApiLayer {
@@ -17,12 +18,24 @@ module.exports = class AirlineProvidersApiLayer {
       } else {
         throw new Error('Aviation API credentials require "access_key"')
       }
+    } else if (provider === providers.amadeus) {
+      if (
+        credentials &&
+        credentials.hasOwnProperty('clientId') &&
+        credentials.hasOwnProperty('clientSecret')
+      ) {
+        return true
+      } else {
+        throw new Error('Amadeus credentials require "clientId" and "clientSecret" parameters')
+      }
     }
   }
 
   fetchAirlines () {
     if (this.airlineProvider === providers.aviation) {
       return aviationProvider.fetchAirlines(this.airlineProviderCredentials)
+    } else if (this.airlineProvider === providers.amadeus) {
+      return amadeusProvider.fetchAirlines(this.airlineProviderCredentials)
     }
   }
 
@@ -31,6 +44,8 @@ module.exports = class AirlineProvidersApiLayer {
       return util.findCityInfo(cityName)[0]
       // will use the following line when we have paid plan on aviation api
       // return aviationProvider.fetchCityInfo(cityName, this.airlineProviderCredentials)
+    } else if (this.airlineProvider === providers.amadeus) {
+      return amadeusProvider.fetchCityInfo(cityName, this.airlineProviderCredentials)
     }
   }
 
@@ -39,18 +54,24 @@ module.exports = class AirlineProvidersApiLayer {
       return util.findAirportInfo(airportName)[0]
       // will use the following line when we have paid plan on aviation api
       // return aviationProvider.fetchAirportInfo(airportName, this.airlineProviderCredentials)
+    } else if (this.airlineProvider === providers.amadeus) {
+      return amadeusProvider.fetchAirportInfo(airportName, this.airlineProviderCredentials)
     }
   }
 
-  fetchFlights (depCity, arrCity, depTime, airlineName) {
+  fetchFlights (depCity, arrCity, depTime, airlineName, flightNumber) {
     if (this.airlineProvider === providers.aviation) {
       return aviationProvider.fetchFlights(depCity, arrCity, depTime, airlineName, this.airlineProviderCredentials)
+    } else if (this.airlineProvider === providers.amadeus) {
+      return amadeusProvider.fetchFlights(depCity, arrCity, depTime, airlineName, flightNumber, this.airlineProviderCredentials)
     }
   }
 
-  fetchFlightByNumber (flightNumber) {
+  fetchFlightByNumber (flightNumber, airlineCode, depTime) {
     if (this.airlineProvider === providers.aviation) {
       return aviationProvider.fetchFlightByNumber(flightNumber, this.airlineProviderCredentials)
+    } else if (this.airlineProvider === providers.amadeus) {
+      return amadeusProvider.fetchFlightByNumber(flightNumber, airlineCode, depTime, this.airlineProviderCredentials)
     }
   }
 }

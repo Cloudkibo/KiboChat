@@ -30,10 +30,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse, me
         'metadata': metadata
       }
     }
-    if (body.quickReplies && body.quickReplies.length > 0) {
-      payload.message.quick_replies = body.quickReplies
-    }
-    payload.message = JSON.stringify(payload.message)
+    payload.message = JSON.stringify(getQuickReplies(body, payload))
     return payload
   } else if (body.componentType === 'text' && body.buttons) {
     if (body.text.includes('{{user_full_name}}') || body.text.includes('[Username]')) {
@@ -65,10 +62,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse, me
         'metadata': metadata
       }
     }
-    if (body.quickReplies && body.quickReplies.length > 0) {
-      payload.message.quick_replies = body.quickReplies
-    }
-    payload.message = JSON.stringify(payload.message)
+    payload.message = JSON.stringify(getQuickReplies(body, payload))
   } else if (body.componentType === 'media') {
     let mediaElement = {
       'media_type': body.mediaType,
@@ -89,10 +83,10 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse, me
         mediaElement.buttons.push(tempButton)
       }
     }
-    if (body.fileurl.attachment_id) {
+    if (body.fileurl && body.fileurl.attachment_id) {
       mediaElement.attachment_id = body.fileurl.attachment_id
     }
-    if (body.fileurl.facebookUrl) {
+    if (body.fileurl && body.fileurl.facebookUrl) {
       mediaElement.url = body.fileurl.facebookUrl
     }
     payload = {
@@ -113,10 +107,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse, me
         'metadata': metadata
       }
     }
-    if (body.quickReplies && body.quickReplies.length > 0) {
-      payload.message.quick_replies = body.quickReplies
-    }
-    payload.message = JSON.stringify(payload.message)
+    payload.message = JSON.stringify(getQuickReplies(body, payload))
   } else if (['image', 'audio', 'file', 'video'].indexOf(
     body.componentType) > -1) {
     if (body.fileurl && body.fileurl.attachment_id) {
@@ -148,10 +139,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse, me
       }),
       'message': message
     }
-    if (body.quickReplies && body.quickReplies.length > 0) {
-      payload.message.quick_replies = body.quickReplies
-    }
-    payload.message = JSON.stringify(payload.message)
+    payload.message = JSON.stringify(getQuickReplies(body, payload))
     // todo test this one. we are not removing as we need to keep it for live chat
     // if (!isForLiveChat) deleteFile(body.fileurl)
   } else if (['gif', 'sticker', 'thumbsUp'].indexOf(
@@ -219,11 +207,8 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse, me
         url: body.url
       }]
     }
-    if (body.quickReplies && body.quickReplies.length > 0) {
-      payload.message.quick_replies = body.quickReplies
-    }
     payload.message.metadata = metadata
-    payload.message = JSON.stringify(payload.message)
+    payload.message = JSON.stringify(getQuickReplies(body, payload))
   } else if (body.componentType === 'gallery') {
     var galleryCards = []
     if (body.cards && body.cards.length > 0) {
@@ -258,10 +243,7 @@ function prepareSendAPIPayload (subscriberId, body, fname, lname, isResponse, me
         'metadata': metadata
       }
     }
-    if (body.quickReplies && body.quickReplies.length > 0) {
-      payload.message.quick_replies = body.quickReplies
-    }
-    payload.message = JSON.stringify(payload.message)
+    payload.message = JSON.stringify(getQuickReplies(body, payload))
   } else if (body.componentType === 'list') {
     payload = {
       'messaging_type': messageType,
@@ -408,6 +390,67 @@ function isJsonString (str) {
   return true
 }
 
+function checkCaptureUserEmailPhone (body) {
+  let isCaptureUserEmailPhone = false
+  if (body.quickReplies && body.quickReplies.length > 0) {
+    for (let qr of body.quickReplies) {
+      if (qr.query) {
+        if (qr.query === 'email' || qr.query === 'phone') {
+          isCaptureUserEmailPhone = true
+          break
+        }
+      }
+    }
+  }
+  return isCaptureUserEmailPhone
+}
+
+function getQuickReplies (body, payload) {
+  if (body.quickReplies && body.quickReplies.length > 0) {
+    let chatbotQuickReplies = []
+    let skipAllowed = false
+    let skipBlock = {}
+    for (let qr of body.quickReplies) {
+      if (qr.query) {
+        if (qr.query === 'email') {
+          chatbotQuickReplies.push({
+            'content_type': 'user_email'
+          })
+        }
+        if (qr.query === 'phone') {
+          chatbotQuickReplies.push({
+            'content_type': 'user_phone_number'
+          })
+        }
+        if (qr.skipAllowed && qr.skipAllowed.isSkip) {
+          skipAllowed = true
+          skipBlock.blockId = qr.skipAllowed.blockId
+          skipBlock.messageBlockTitle = qr.skipAllowed.messageBlockTitle
+        }
+      } else {
+        chatbotQuickReplies.push(qr)
+      }
+    }
+    if (skipAllowed) {
+      chatbotQuickReplies.push({
+        'content_type': 'text',
+        'title': 'Skip',
+        'payload': JSON.stringify(
+          {
+            option: 'captureEmailPhoneSkip',
+            blockId: skipBlock.blockId,
+            messageBlockTitle: skipBlock.messageBlockTitle
+
+          }
+        )
+      })
+    }
+    payload.message.quick_replies = chatbotQuickReplies
+  }
+  return payload.message
+}
+
+exports.checkCaptureUserEmailPhone = checkCaptureUserEmailPhone
 exports.prepareSendAPIPayload = prepareSendAPIPayload
 exports.prepareLiveChatPayload = prepareLiveChatPayload
 exports.isJsonString = isJsonString

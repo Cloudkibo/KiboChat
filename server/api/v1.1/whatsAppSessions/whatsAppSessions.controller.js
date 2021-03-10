@@ -113,9 +113,19 @@ exports.markread = function (req, res) {
   if (req.params.id) {
     callApi('whatsAppContacts/update', 'put', {query: {_id: req.params.id}, newPayload: {unreadCount: 0}, options: {}}, 'accounts', req.headers.authorization)
       .then(subscriber => {
-        let updateData = logicLayer.getUpdateData('updateAll', {contactId: req.params.id, format: 'twilio'}, {status: 'seen', seenDateTime: Date.now}, false, true)
+        let updateData = logicLayer.getUpdateData('updateAll', {contactId: req.params.id, format: 'whatsApp'}, {status: 'seen', seenDateTime: Date.now}, false, true)
         callApi('whatsAppChat', 'put', updateData, 'kibochat')
           .then(updated => {
+            require('./../../../config/socketio').sendMessageToClient({
+              room_id: req.user.companyId,
+              body: {
+                action: 'mark_read_whatsapp',
+                payload: {
+                  session_id: req.params.id,
+                  read_count: updated.nModified
+                }
+              }
+            })
             sendSuccessResponse(res, 200, 'Chat has been marked read successfully!')
           })
           .catch(err => {
@@ -269,6 +279,22 @@ exports.updatePendingResponse = function (req, res) {
     .catch(err => {
       const message = err || 'Unable to whatsapp contact update'
       logger.serverLog(message, `${TAG}: exports.updatePendingResponse`, req.body, {user: req.user}, 'error')
+      sendErrorResponse(res, 500, err)
+    })
+}
+
+exports.updatePauseChatbot = function (req, res) {
+  callApi('whatsAppContacts/update', 'put', {
+    query: {_id: req.body.subscriberId},
+    newPayload: {chatbotPaused: req.body.chatbotPaused},
+    options: {}
+  })
+    .then(updated => {
+      sendSuccessResponse(res, 200, 'chatbot paused value changes successfully')
+    })
+    .catch(err => {
+      const message = err || 'Unable to whatsapp contact update'
+      logger.serverLog(message, `${TAG}: exports.updatePauseChatbot`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err)
     })
 }

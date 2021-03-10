@@ -304,8 +304,12 @@ const _checkTwilioVersion = (data, next) => {
   if (data.body.provider === 'twilio') {
     whatsAppMapper(data.body.provider, ActionTypes.CHECK_TWILLO_VERSION, data.body)
       .then(response => {
-        if (response.body.type === 'Trial' && !data.isSuperUser) {
+        let businessNumbers = response.businessNumbers
+        response = response.twilioVersionResponse
+        if (response.body.type === 'Trial' && !data.body.sandBoxCode) {
           next(new Error('This is a trial account. Please connect a paid version of Twilio account.'))
+        } else if (response.body.type === 'full' && !businessNumbers.includes(data.body.businessNumber)) {
+          next(new Error('Please add correct whatsapp business number'))
         } else {
           next(null, data)
         }
@@ -377,7 +381,11 @@ exports.updatePlatformWhatsApp = function (req, res) {
           _setWebhook.bind(null, data)
         ], function (err) {
           if (err) {
-            if (err.message && (err.message.includes('trial account') || err.message.includes('invalid Flock send access token') || err.message.includes('Twilio account not found'))) {
+            if (err.message && (err.message.includes('trial account') ||
+            err.message.includes('invalid Flock send access token') ||
+            err.message.includes('Twilio account not found') ||
+            err.message.includes('incorrect credentials')
+            )) {
             } else {
               const message = err || 'error in async series call'
               logger.serverLog(message, `${TAG}: exports.updatePlatformWhatsApp`, req.body, { user: req.user }, 'error')

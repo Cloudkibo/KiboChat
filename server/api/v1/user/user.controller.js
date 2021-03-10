@@ -1,10 +1,8 @@
 const utility = require('../utility')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1/user/user.controller.js'
-const util = require('util')
 const cookie = require('cookie')
 const config = require('./../../../config/environment/index')
-const { sendOpAlert } = require('../../global/operationalAlert')
 const { facebookApiCaller } = require('../../global/facebookApiCaller')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const shopifyDataLayer = require('../../v1.1/shopify/shopify.datalayer.js')

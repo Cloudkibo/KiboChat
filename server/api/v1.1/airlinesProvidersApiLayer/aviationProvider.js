@@ -88,8 +88,8 @@ exports.fetchAirportInfo = (name, credentials) => {
 exports.fetchFlights = (depIata, arrIata, depTime, airlineName, credentials) => {
   const params = initAviation(credentials)
   depTime = new Date(depTime)
-  depTime = `${depTime.getFullYear()}-${(depTime.getMonth()+1)}-${depTime.getDate()}`
-  let query = `dep_iata=${depIata}&arr_iata=${arrIata}&flight_status=scheduled`//&flight_date=${depTime}`
+  depTime = `${depTime.getFullYear()}-${(depTime.getMonth() + 1)}-${depTime.getDate()}`
+  let query = `dep_iata=${depIata}&arr_iata=${arrIata}&flight_status=scheduled`// &flight_date=${depTime}`
   if (airlineName) {
     query += `&airline_name=${airlineName}`
   }
@@ -106,30 +106,13 @@ exports.fetchFlights = (depIata, arrIata, depTime, airlineName, credentials) => 
               'airport': item.departure.airport,
               'timezone': item.departure.timezone,
               'iata': item.departure.iata,
-              'icao': item.departure.icao,
-              'terminal': item.departure.terminal,
-              'gate': item.departure.gate,
-              'delay': item.departure.delay,
-              'scheduled': item.departure.scheduled,
-              'estimated': item.departure.estimated,
-              'actual': item.departure.actual,
-              'estimated_runway': item.departure.estimated_runway,
-              'actual_runway': item.departure.actual_runway
+              'scheduled': item.departure.scheduled
             },
             'arrival': {
               'airport': item.arrival.airport,
               'timezone': item.arrival.timezone,
               'iata': item.arrival.iata,
-              'icao': item.arrival.icao,
-              'terminal': item.arrival.terminal,
-              'gate': item.arrival.gate,
-              'baggage': item.arrival.baggage,
-              'delay': item.arrival.delay,
-              'scheduled': item.arrival.scheduled,
-              'estimated': item.arrival.estimated,
-              'actual': item.arrival.actual,
-              'estimated_runway': item.arrival.estimated_runway,
-              'actual_runway': item.arrival.actual_runway
+              'scheduled': item.arrival.scheduled
             },
             'airline': {
               'name': item.airline.name,
@@ -138,9 +121,7 @@ exports.fetchFlights = (depIata, arrIata, depTime, airlineName, credentials) => 
             },
             'flight': {
               'number': item.flight.number,
-              'iata': item.flight.iata,
-              'icao': item.flight.icao,
-              'codeshared': item.flight.codeshared
+              'iata': item.flight.iata
             }
             // 'aircraft': {
             //   'registration': item.aircraft.registration,

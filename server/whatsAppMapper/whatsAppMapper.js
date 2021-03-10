@@ -1,9 +1,14 @@
 const flockSend = require('../whatsAppMapper/flockSend/flockSend')
 const twilio = require('../whatsAppMapper/twilio/twilio')
+const cequens = require('../whatsAppMapper/cequens/cequens')
+const gupshup = require('../whatsAppMapper/gupshup/gupshup')
+
 const { ActionTypes } = require('./constants')
 const providers = [
   { key: 'flockSend', value: flockSend },
-  { key: 'twilio', value: twilio }
+  { key: 'twilio', value: twilio },
+  { key: 'cequens', value: cequens },
+  { key: 'gupshup', value: gupshup }
 ]
 
 exports.whatsAppMapper = (provider, action, data) => {
@@ -29,6 +34,8 @@ function callAction (action, data, provider) {
       return provider.sendTextMessage(data)
     case ActionTypes.CHECK_TWILLO_VERSION:
       return provider.checkTwillioVersion(data)
+    case ActionTypes.GET_COMMERCE_TEMPLATES:
+      return provider.getCommerceTemplates(data)
     default: break
   }
 }

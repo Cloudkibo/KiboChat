@@ -7,27 +7,38 @@ let config = require('./../../../config/environment')
 let request = require('request')
 const crypto = require('crypto')
 const utility = require('../utility')
-const ogs = require('open-graph-scraper')
+const { openGraphScrapper } = require('../../global/utility')
+
+const isHtmlPageError = (err) => {
+  if (err === 'Must scrape an HTML page') {
+    return true
+  } else {
+    return false
+  }
+}
 
 exports.urlMetaData = (req, res) => {
   let url = req.body.url
+  if (url.includes('kiboengage.cloudkibo.com') || url.includes('kibochat.cloudkibo.com')) {
+    url = 'https://kibopush.com'
+  }
   if (url) {
-    let options = {url}
-    ogs(options, (error, results) => {
-      if (!error) {
+    openGraphScrapper(url)
+      .then(meta => {
         return res.status(200).json({
           status: 'success',
-          payload: results.data
+          payload: meta
         })
-      } else {
-        const message = error || 'error in fetching url meta data'
-        logger.serverLog(message, `${TAG}: exports.urlMetaData`, req.body, {user: req.user}, 'error')
+      }).catch(err => {
+        if (!isHtmlPageError(err)) {
+          const message = err || 'Error from open graph'
+          logger.serverLog(message, `${TAG}: urlMetaData`, req.body, {}, 'error')
+        }
         return res.status(500).json({
           status: 'failed',
-          description: `Failed to retrieve url ${results.error}`
+          description: `Failed to retrieve url ${err}`
         })
-      }
-    })
+      })
   } else {
     res.status(400).json({
       status: 'failed',
@@ -242,12 +253,19 @@ exports.upload = function (req, res) {
 
 exports.download = function (req, res) {
   let dir = path.resolve(__dirname, '../../../../broadcastFiles/userfiles')
-  try {
-    res.sendfile(req.params.id, {root: dir})
-  } catch (err) {
-    const message = err || 'Inside download file error'
-    logger.serverLog(message, `${TAG}: exports.download`, {}, {params: req.params}, 'error')
-    res.status(404)
-      .json({status: 'success', payload: 'Not Found ' + JSON.stringify(err)})
+  if (fs.existsSync(dir + '/' + req.params.id)) {
+    try {
+      res.sendfile(req.params.id, {root: dir})
+    } catch (err) {
+      const message = err || 'Inside download file error'
+      logger.serverLog(message, `${TAG}: exports.download`, {}, {params: req.params}, 'error')
+      res.status(404)
+        .json({status: 'success', payload: 'Not Found ' + JSON.stringify(err)})
+    }
+  } else {
+    return res.status(500).json({
+      status: 'failed',
+      description: 'File not found'
+    })
   }
 }

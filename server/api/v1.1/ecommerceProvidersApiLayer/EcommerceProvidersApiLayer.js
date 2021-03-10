@@ -1,6 +1,7 @@
 const providers = require('./constants.js')
 const shopifyProvider = require('./shopifyProvider.js')
 const bigCommerceProvider = require('./bigCommerceProvider.js')
+const shopsProvider = require('./shopsProvider.js')
 
 module.exports = class EcommerceProvidersApiLayer {
   constructor (eCommerceProvider, eCommerceProviderCredentials) {
@@ -11,7 +12,7 @@ module.exports = class EcommerceProvidersApiLayer {
 
   verifyParams (provider, credentials) {
     if (!provider || (typeof provider !== 'string')) throw new Error('First parameter "provider" is must')
-    if (provider === providers.shopify) {
+    if (provider === providers.shopify || provider === providers.shops) {
       if (
         credentials &&
         credentials.hasOwnProperty('shopUrl') &&
@@ -37,6 +38,22 @@ module.exports = class EcommerceProvidersApiLayer {
     }
   }
 
+  fetchBusinessAccounts () {
+    if (this.eCommerceProvider === providers.shops) {
+      return shopsProvider.fetchBusinessAccounts(this.eCommerceProviderCredentials)
+    } else {
+      throw new Error('This function is not implemented for this shop type')
+    }
+  }
+
+  fetchCommerceCatalogs (businessId) {
+    if (this.eCommerceProvider === providers.shops) {
+      return shopsProvider.fetchCommerceCatalogs(businessId, this.eCommerceProviderCredentials)
+    } else {
+      throw new Error('This function is not implemented for this shop type')
+    }
+  }
+
   fetchStoreInfo () {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.fetchStoreInfo(this.eCommerceProviderCredentials)
@@ -45,43 +62,58 @@ module.exports = class EcommerceProvidersApiLayer {
     }
   }
 
-  fetchAllProductCategories (paginationParams) {
+  fetchAllProductCategories (paginationParams, catalogId) {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.fetchAllProductCategories(paginationParams, this.eCommerceProviderCredentials)
     } else if (this.eCommerceProvider === providers.bigcommerce) {
       return bigCommerceProvider.fetchAllProductCategories(this.eCommerceProviderCredentials)
+    } else if (this.eCommerceProvider === providers.shops) {
+      // NOTE: send the catalog id as string in paginationParams,
+      return shopsProvider.fetchAllProductCategories(paginationParams, catalogId, this.eCommerceProviderCredentials)
     }
   }
 
-  fetchProducts (paginationParams) {
+  fetchProducts (paginationParams, numberOfProducts) {
     if (this.eCommerceProvider === providers.shopify) {
-      return shopifyProvider.fetchProducts(paginationParams, this.eCommerceProviderCredentials)
+      return shopifyProvider.fetchProducts(paginationParams, numberOfProducts, this.eCommerceProviderCredentials)
     } else if (this.eCommerceProvider === providers.bigcommerce) {
-      return bigCommerceProvider.fetchProducts(this.eCommerceProviderCredentials)
+      return bigCommerceProvider.fetchProducts(numberOfProducts, this.eCommerceProviderCredentials)
+    } else if (this.eCommerceProvider === providers.shops) {
+      // NOTE: send the catalog id as string in paginationParams,
+      // pagination is not supported on this endpoint from fb for now.
+      // see this link for updates: https://developers.facebook.com/docs/marketing-api/reference/product-catalog/products
+      return shopsProvider.fetchProducts(paginationParams, numberOfProducts, this.eCommerceProviderCredentials)
     }
   }
 
-  searchProducts (query) {
+  searchProducts (query, catalogId) {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.searchProducts(query, this.eCommerceProviderCredentials)
     } else if (this.eCommerceProvider === providers.bigcommerce) {
       return bigCommerceProvider.searchProducts(query, this.eCommerceProviderCredentials)
+    } else if (this.eCommerceProvider === providers.shops) {
+      // NOTE: send the catalog id as string
+      // pagination is not supported on this endpoint from fb for now.
+      // see this link for updates: https://developers.facebook.com/docs/marketing-api/reference/product-catalog/products
+      return shopsProvider.searchProducts(query, catalogId, this.eCommerceProviderCredentials)
     }
   }
 
-  fetchProductsInThisCategory (id, paginationParams) {
+  fetchProductsInThisCategory (id, paginationParams, numberOfProducts) {
     if (this.eCommerceProvider === providers.shopify) {
-      return shopifyProvider.fetchProductsInThisCategory(id, paginationParams, this.eCommerceProviderCredentials)
+      return shopifyProvider.fetchProductsInThisCategory(id, paginationParams, numberOfProducts, this.eCommerceProviderCredentials)
     } else if (this.eCommerceProvider === providers.bigcommerce) {
-      return bigCommerceProvider.fetchProductsInThisCategory(id, this.eCommerceProviderCredentials)
+      return bigCommerceProvider.fetchProductsInThisCategory(id, numberOfProducts, this.eCommerceProviderCredentials)
+    } else if (this.eCommerceProvider === providers.shops) {
+      return shopsProvider.fetchProductsInThisCategory(id, numberOfProducts, this.eCommerceProviderCredentials)
     }
   }
 
-  getVariantsOfSelectedProduct (id, paginationParams) {
+  getVariantsOfSelectedProduct (id, paginationParams, numberOfProducts) {
     if (this.eCommerceProvider === providers.shopify) {
-      return shopifyProvider.getProductVariants(id, paginationParams, this.eCommerceProviderCredentials)
+      return shopifyProvider.getProductVariants(id, paginationParams, numberOfProducts, this.eCommerceProviderCredentials)
     } else if (this.eCommerceProvider === providers.bigcommerce) {
-      return bigCommerceProvider.getProductVariants(id, this.eCommerceProviderCredentials)
+      return bigCommerceProvider.getProductVariants(id, numberOfProducts, this.eCommerceProviderCredentials)
     }
   }
 
@@ -129,6 +161,7 @@ module.exports = class EcommerceProvidersApiLayer {
     }
     if (this.eCommerceProvider === providers.shopify) {
       // TODO Implement when we apply for Sales API on shopify
+      throw new Error('create cart is not implemented for shopify')
     } else if (this.eCommerceProvider === providers.bigcommerce) {
       return bigCommerceProvider.createCart(customerId, lineItems, this.eCommerceProviderCredentials)
     }
@@ -137,6 +170,7 @@ module.exports = class EcommerceProvidersApiLayer {
   viewCart (cartId) {
     if (this.eCommerceProvider === providers.shopify) {
       // TODO Implement when we apply for Sales API on shopify
+      throw new Error('view cart is not implemented for shopify')
     } else if (this.eCommerceProvider === providers.bigcommerce) {
       return bigCommerceProvider.viewCart(cartId, this.eCommerceProviderCredentials)
     }
@@ -145,6 +179,7 @@ module.exports = class EcommerceProvidersApiLayer {
   updateCart (cartId, itemId, productId, quantity) {
     if (this.eCommerceProvider === providers.shopify) {
       // TODO Implement when we apply for Sales API on shopify
+      throw new Error('update cart is not implemented for shopify')
     } else if (this.eCommerceProvider === providers.bigcommerce) {
       return bigCommerceProvider.updateCart(cartId, itemId, productId, quantity, this.eCommerceProviderCredentials)
     }
@@ -153,8 +188,18 @@ module.exports = class EcommerceProvidersApiLayer {
   createOrder (cartId) {
     if (this.eCommerceProvider === providers.shopify) {
       // TODO Implement when we apply for Sales API on shopify
+      throw new Error('create order is not implemented for shopify')
     } else if (this.eCommerceProvider === providers.bigcommerce) {
       return bigCommerceProvider.createOrder(cartId, this.eCommerceProviderCredentials)
+    }
+  }
+
+  createTestOrder (customer, lineItems, address) {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.createTestOrder(customer, lineItems, address, this.eCommerceProviderCredentials)
+    } else if (this.eCommerceProvider === providers.bigcommerce) {
+      // TODO Implement when we apply for Sales API on BigCommerce
+      throw new Error('create test order is not implemented for bigcommerce')
     }
   }
 
@@ -163,6 +208,8 @@ module.exports = class EcommerceProvidersApiLayer {
       return shopifyProvider.getOrderStatus(id, this.eCommerceProviderCredentials)
     } else if (this.eCommerceProvider === providers.bigcommerce) {
       return bigCommerceProvider.getOrderStatus(id, this.eCommerceProviderCredentials)
+    } else if (this.eCommerceProvider === providers.shops) {
+      return shopsProvider.getOrderStatus(id, this.eCommerceProviderCredentials)
     }
   }
 
@@ -198,6 +245,38 @@ module.exports = class EcommerceProvidersApiLayer {
     }
   }
 
+  fetchAbandonedCart (token) {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.fetchAbandonedCart(token, this.eCommerceProviderCredentials)
+    } else if (this.eCommerceProvider === providers.bigcommerce) {
+      return bigCommerceProvider.fetchAbandonedCart(token, this.eCommerceProviderCredentials)
+    }
+  }
+
+  fetchOrders (limit, paginationParams) {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.fetchOrders(limit, paginationParams, this.eCommerceProviderCredentials)
+    }
+  }
+
+  fetchOrdersCount () {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.fetchOrdersCount(this.eCommerceProviderCredentials)
+    }
+  }
+
+  fetchCheckoutsCount () {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.fetchCheckoutsCount(this.eCommerceProviderCredentials)
+    }
+  }
+
+  fetchCheckouts (limit, paginationParams) {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.fetchCheckouts(limit, paginationParams, this.eCommerceProviderCredentials)
+    }
+  }
+
   findCustomerOrders (customerId, limit) {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.findCustomerOrders(customerId, limit, this.eCommerceProviderCredentials)
@@ -215,6 +294,11 @@ module.exports = class EcommerceProvidersApiLayer {
   cancelAnOrder (orderId) {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.cancelAnOrder(orderId, this.eCommerceProviderCredentials)
+    }
+  }
+  updateOrderTag (orderId, tags) {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.updateOrderTag(orderId, tags, this.eCommerceProviderCredentials)
     }
   }
 

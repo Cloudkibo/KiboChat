@@ -37,10 +37,10 @@ exports.fetchAllProductCategories = (credentials) => {
   })
 }
 
-exports.fetchProductsInThisCategory = (id, credentials) => {
+exports.fetchProductsInThisCategory = (id, numberOfProducts, credentials) => {
   const bigCommerce = initBigCommerce(credentials)
   return new Promise(function (resolve, reject) {
-    bigCommerce.get('/catalog/products?limit=10&categories:in=' + id)
+    bigCommerce.get(`/catalog/products?limit=${numberOfProducts}&categories:in=` + id)
       .then(async data => {
         data = data.data
         data = await Promise.all(data.map(async item => {
@@ -62,10 +62,10 @@ exports.fetchProductsInThisCategory = (id, credentials) => {
   })
 }
 
-exports.fetchProducts = (credentials) => {
+exports.fetchProducts = (numberOfProducts, credentials) => {
   const bigCommerce = initBigCommerce(credentials)
   return new Promise(function (resolve, reject) {
-    bigCommerce.get('/catalog/products?limit=10')
+    bigCommerce.get(`/catalog/products?limit=${numberOfProducts}`)
       .then(async data => {
         data = data.data
         data = await Promise.all(data.map(async item => {
@@ -113,7 +113,7 @@ exports.searchProducts = (searchQuery, credentials) => {
   })
 }
 
-exports.getProductVariants = (id, credentials) => {
+exports.getProductVariants = (id, numberOfProducts, credentials) => {
   const bigCommerce = initBigCommerce(credentials)
   const nameReducer = (accumulator, current) => `${accumulator} ${current.label}`
   return new Promise(function (resolve, reject) {
@@ -268,7 +268,7 @@ exports.findCustomerOrders = (customerId, limit, credentials) => {
             return { id: item.id,
               name: '#' + item.id
             }
-          })
+          }).reverse()
         } else {
           result.orders = []
         }

@@ -35,6 +35,7 @@ module.exports = {
   DBLAYER_URL_KIBOENGAGE: `${process.env.DB_LAYER_IP_KIBOENGAGE}/api/v1`,
   ACCOUNTS_URL: 'https://accounts.cloudkibo.com/api/v1',
   KIBOENGAGE_URL: 'https://kiboengage.cloudkibo.com/api',
+  KIBOAUTOMATION_URL: 'https://kiboautomation.cloudkibo.com/api',
   kibodash: `${process.env.KIBODASH}/api/v1`,
   accountsDomain: 'https://accounts.cloudkibo.com',
   COVIS: 'http://209.97.155.81/api',

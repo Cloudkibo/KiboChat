@@ -2,7 +2,7 @@ const logger = require('../../../components/logger')
 const TAG = '/api/v1/zoomIntegration/zoomIntegration.controller.js'
 const { callApi } = require('../utility')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
-const { zoomApiCaller, refreshAccessToken } = require('../../global/zoom')
+const { zoomApiCaller, refreshAccessToken, setDefaultFields } = require('../../global/zoom')
 const logicLayer = require('./logicLayer')
 const { saveNotification } = require('../../global/notifications')
 const { sendNotifications } = require('../../global/sendNotification')
@@ -35,6 +35,9 @@ exports.createMeeting = function (req, res) {
       if (!zoomUser) {
         sendErrorResponse(res, 500, undefined, 'Fatal error: zoom not integrated.')
       } else {
+        if (req.body.setDefaultValues) {
+          setDefaultFields(data)
+        }
         refreshAccessToken(zoomUser)
           .then(accessToken => {
             const meetingBody = {

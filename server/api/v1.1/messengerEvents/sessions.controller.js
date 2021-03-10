@@ -7,13 +7,14 @@ const needle = require('needle')
 // const moment = require('moment')
 const sessionLogicLayer = require('../sessions/sessions.logiclayer')
 const logicLayer = require('./logiclayer')
+const { captureUserEmailAndPhone, unSetAwaitingUserInfoPayload } = require('./capturePhoneEmail.logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
 const { record } = require('../../global/messageStatistics')
 const { sendNotifications } = require('../../global/sendNotification')
 const { sendWebhook } = require('../../global/sendWebhook')
 
 const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('../../global/messageAlerts')
-const { handleTriggerMessage, handleCommerceChatbot } = require('./chatbotAutomation.controller')
+const { handleTriggerMessage, handleCommerceChatbot, isTriggerMessage } = require('./chatbotAutomation.controller')
 
 exports.index = function (req, res) {
   // logger.serverLog(TAG, `payload received in page ${JSON.stringify(req.body.page)}`, 'debug')
@@ -53,18 +54,37 @@ exports.index = function (req, res) {
             if (!(company.automated_options === 'DISABLE_CHAT')) {
               if (subscriber.unSubscribedBy !== 'agent') {
                 if (newSubscriber) {
+                  let subscriberEvent = JSON.parse(JSON.stringify(subscriber))
+                  subscriberEvent.pageId = page
                   require('./../../../config/socketio').sendMessageToClient({
                     room_id: page.companyId,
                     body: {
                       action: 'Messenger_new_subscriber',
                       payload: {
-                        subscriber: subscriber
+                        subscriber: subscriberEvent
                       }
                     }
                   })
                 }
                 if (req.body.pushPendingSessionInfo && JSON.stringify(req.body.pushPendingSessionInfo) === 'true') {
-                  pushSessionPendingAlertInStack(company, subscriber)
+                  pushSessionPendingAlertInStack(company, subscriber, 'messenger')
+                }
+                if (!event.message.is_echo && subscriber.awaitingQuickReplyPayload && subscriber.awaitingQuickReplyPayload.action) {
+                  isTriggerMessage(event, page)
+                    .then(isTrigger => {
+                      if (!isTrigger) {
+                        var query = subscriber.awaitingQuickReplyPayload.action.find((ac) => { return ac.query === 'email' || ac.query === 'phone' })
+                        if (query.keyboardInputAllowed) {
+                          captureUserEmailAndPhone(event, subscriber, page)
+                        }
+                      } else {
+                        unSetAwaitingUserInfoPayload(subscriber)
+                      }
+                    })
+                    .catch(err => {
+                      const message = err || 'Failed to check trigger message'
+                      return logger.serverLog(message, `${TAG}: exports.index`, req.body, {}, 'error')
+                    })
                 }
                 utility.callApi('subscribers/update', 'put', { query: { _id: subscriber._id }, newPayload: _prepareSubscriberUpdatePayload(event, subscriber, company), options: {} })
                   .then(updated => {
@@ -78,7 +98,7 @@ exports.index = function (req, res) {
                           }
                         }
                         if (!event.message.is_echo) {
-                          pushUnresolveAlertInStack(company, subscriber)
+                          pushUnresolveAlertInStack(company, subscriber, 'messenger')
                         }
                       }
                     }
@@ -99,7 +119,7 @@ exports.index = function (req, res) {
 }
 
 function saveLiveChat (page, subscriber, event, chatPayload) {
-  // record('messengerChatInComing')
+  record('messengerChatInComing')
   if (subscriber && !event.message.is_echo) {
     botController.respondUsingBot(page, subscriber, event.message.text)
   }
@@ -346,6 +366,15 @@ function sendautomatedmsg (req, page) {
                 }
                 utility.callApi(`subscribers/update`, 'put', { query: { senderId: req.sender.id }, newPayload: { isSubscribed: true }, options: {} })
                   .then(updated => {
+                    require('./../../../config/socketio').sendMessageToClient({
+                      room_id: page.companyId,
+                      body: {
+                        action: 'Messenger_subscribe_subscriber',
+                        payload: {
+                          subscriber_id: subscribers[0]._id
+                        }
+                      }
+                    })
                     logger.serverLog('Subscriber isSubscribed Updated', `${TAG}: exports.sendautomatedmsg`, {}, {req: JSON.stringify(req)}, 'debug')
                   })
                   .catch(error => {
@@ -482,6 +511,8 @@ const _prepareSubscriberUpdatePayload = (event, subscriber, company) => {
     if (company.saveAutomationMessages) {
       if (['SENT_FROM_KIBOPUSH', 'SENT_FROM_CHATBOT'].indexOf(event.message.metadata) === -1) {
         updated = { $inc: { messagesCount: 1 }, $set: {unreadCount: 0, last_activity_time: Date.now()} }
+      } else {
+        updated = { $inc: { messagesCount: 1 }, $set: {last_activity_time: Date.now()} }
       }
     }
   } else if (event.message) {

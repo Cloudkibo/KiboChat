@@ -50,9 +50,9 @@ exports.prepareChat = (from, to, contact, body) => {
     getMetaData(MessageObject).then(result => {
       resolve(MessageObject)
     })
-    .cath(err => {
-      reject(err)
-    })
+      .cath(err => {
+        reject(err)
+      })
   })
 }
 function getmetaurl (text) {

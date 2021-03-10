@@ -41,7 +41,7 @@ exports.receiveSMS = function (req, res) {
   // map response to template and call lab work api
   callApi('twilio/receiveMessage', 'post', req.body, 'COVIS')
     .then(result => {})
-    .catch(err => { 
+    .catch(err => {
       const message = err || 'error at receiving message'
       logger.serverLog(message, `${TAG}: exports.receiveSMS`, req.body, {}, 'error')
     })
@@ -59,6 +59,8 @@ exports.verifyNumber = function (req, res) {
             sendSuccessResponse(res, 200, null, 'Number is valid')
           })
           .catch(err => {
+            const message = err || 'An unexpected error occurred. Please try again later'
+            logger.serverLog(message, `${TAG}: exports.verifyNumber`, req.body, {user: req.user}, 'info')
             sendErrorResponse(res, 403, null, 'Please enter a valid number of format E.164')
           })
       } else {

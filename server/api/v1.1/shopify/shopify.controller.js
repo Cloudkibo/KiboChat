@@ -11,6 +11,7 @@ const crypto = require('crypto')
 const request = require('request-promise')
 const TAG = 'api/shopify/shopify.controller.js'
 const utility = require('../utility')
+const logicLayer = require('./shopify.logiclayer')
 const dataLayer = require('./shopify.datalayer')
 const messengerChatbotDataLayer = require('../chatbots/chatbots.datalayer')
 const whatsAppChatbotDataLayer = require('../whatsAppChatbot/whatsAppChatbot.datalayer')
@@ -20,10 +21,19 @@ const commerceConstants = require('./../ecommerceProvidersApiLayer/constants')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const path = require('path')
 const Shopify = require('shopify-api-node')
+const { callApi } = require('../utility')
+const { sendWhatsAppMessage } = require('../whatsAppEvents/controller')
+const { messengerLogicLayer } = require('../messengerEvents/logiclayer')
+const { facebookApiCaller } = require('./../../global/facebookApiCaller')
+const {ActionTypes} = require('../../../whatsAppMapper/constants')
+const { whatsAppMapper } = require('../../../whatsAppMapper/whatsAppMapper')
+const superNumberDataLayer = require('../superNumber/datalayer')
+const codPagesDataLayer = require('../superNumber/codpages.datalayer')
+const moment = require('moment')
 
 exports.index = function (req, res) {
   const shop = req.body.shop
-  const scopes = 'read_customers, write_customers, read_checkouts, write_checkouts, write_orders, write_products, read_themes, write_themes, read_script_tags, write_script_tags'
+  const scopes = 'read_customers, write_customers, read_checkouts, write_checkouts, write_orders, write_products, read_themes, write_themes, read_script_tags, write_script_tags, read_fulfillments, write_fulfillments'
   if (shop) {
     const state = nonce()
     const redirectUri = config.domain + '/api/shopify/callback'
@@ -34,12 +44,13 @@ exports.index = function (req, res) {
       '&redirect_uri=' + redirectUri
 
     res.cookie('state', state)
-    res.cookie('userId', JSON.stringify(req.user._id))
-    res.cookie('pageId', req.body.pageId)
+    res.cookie('installByShopifyStore', shop)
+    res.cookie('shopifySetupState', 'startedFromApp')
+    res.cookie('userId', req.user._id)
     utility.callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email }) // fetch company user
       .then(companyuser => {
-        res.cookie('companyId', JSON.stringify(companyuser.companyId))
-        return res.redirect(installUrl)
+        res.cookie('companyId', companyuser.companyId)
+        return res.json({ installUrl })
       })
       .catch(err => {
         if (err) {
@@ -109,13 +120,299 @@ function registerWebhooks (shop, token) {
     const message = err || 'Error Creating App Uninstall Webhook'
     logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
   })
+
+  shopify.webhook.create({
+    topic: 'orders/create',
+    address: `${config.domain}/api/shopify/complete-checkout`,
+    format: 'json'
+  }).then((response) => {
+  }).catch((err) => {
+    const message = err || 'Error Creating Shopify Create Order Webhook'
+    logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
+  })
+
+  shopify.webhook.create({
+    topic: 'checkouts/create',
+    address: `${config.domain}/api/shopify/checkout-create`,
+    format: 'json'
+  }).then((response) => {
+  }).catch((err) => {
+    const message = err || 'Error Creating Shopify Create Checkout Webhook'
+    logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
+  })
+
+  shopify.webhook.create({
+    topic: 'checkouts/update',
+    address: `${config.domain}/api/shopify/checkout-create`,
+    format: 'json'
+  }).then((response) => {
+  }).catch((err) => {
+    const message = err || 'Error Creating Shopify update Checkout Webhook'
+    logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
+  })
+
+  shopify.webhook.create({
+    topic: 'fulfillments/update',
+    address: `${config.domain}/api/shopify/fulfillment`,
+    format: 'json'
+  }).then((response) => {
+  }).catch((err) => {
+    const message = err || 'Error Creating Shopify update fulfillment Webhook'
+    logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
+  })
+
+  shopify.webhook.create({
+    topic: 'fulfillments/create',
+    address: `${config.domain}/api/shopify/fulfillment`,
+    format: 'json'
+  }).then((response) => {
+  }).catch((err) => {
+    const message = err || 'Error Creating Shopify create fulfillment Webhook'
+    logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
+  })
+}
+
+function getContact (companyId, number, customer) {
+  return new Promise((resolve, reject) => {
+    let query = {
+      companyId: companyId,
+      $or: [
+        {number: number},
+        {number: number.replace(/\D/g, '')}
+      ]
+    }
+    callApi(`whatsAppContacts/query`, 'post', query)
+      .then(contacts => {
+        if (contacts.length > 0) {
+          resolve(contacts[0])
+        } else {
+          callApi(`whatsAppContacts`, 'post', {
+            name: customer.first_name + ' ' + customer.last_name,
+            number: number,
+            companyId: companyId,
+            marketing_optin: customer.accepts_marketing
+          }, 'accounts')
+            .then(contact => {
+              resolve(contact)
+            })
+            .catch((err) => {
+              reject(err)
+            })
+        }
+      })
+      .catch((err) => {
+        reject(err)
+      })
+  })
+}
+
+exports.handleCreateCheckout = async function (req, res) {
+  try {
+    logger.serverLog('handleCreateCheckout', `${TAG}: exports.handleCreateCheckout`, req.body, {header: req.header})
+    sendSuccessResponse(res, 200, {status: 'success'})
+    if (req.body.customer && req.body.phone) {
+      const shopUrl = req.headers['x-shopify-shop-domain']
+      const shopifyIntegrations = await dataLayer.findShopifyIntegrations({ shopUrl })
+      for (const integration of shopifyIntegrations) {
+        const contact = await getContact(integration.companyId, req.body.phone, req.body.customer)
+        let updateData = {
+          marketing_optin: req.body.customer.accepts_marketing
+        }
+        if (req.body.customer.accepts_marketing && req.body.token && req.body.abandoned_checkout_url && req.body.id) {
+          if (!(contact.commerceCustomerShopify && contact.commerceCustomerShopify.abandonedCheckoutMessageSent)) {
+            const ecommerceProvider = new EcommerceProviders(commerceConstants.shopify, {
+              shopUrl: integration.shopUrl,
+              shopToken: integration.shopToken
+            })
+            const storeInfo = await ecommerceProvider.fetchStoreInfo()
+            let preparedMessage = logicLayer.getOptInMessage(storeInfo.name, contact)
+            whatsAppMapper(preparedMessage.provider, ActionTypes.SEND_CHAT_MESSAGE, preparedMessage)
+          }
+          let commerceCustomerShopify = contact.commerceCustomerShopify ? contact.commerceCustomerShopify : req.body.customer
+          commerceCustomerShopify.abandonedCheckoutMessageSent = true
+          commerceCustomerShopify.abandonedCartInfo = {
+            cartRecoveryAttempts: contact.commerceCustomerShopify && contact.commerceCustomerShopify.abandonedCartInfo ? contact.commerceCustomerShopify.abandonedCartInfo.cartRecoveryAttempts : 0,
+            abandonedCheckoutUrl: req.body.abandoned_checkout_url,
+            abandonedCheckoutId: req.body.id,
+            token: req.body.token
+          }
+          updateData['commerceCustomerShopify'] = commerceCustomerShopify
+        }
+        const updatePayload = {
+          query: {_id: contact._id},
+          newPayload: updateData,
+          options: {}
+        }
+        callApi(`whatsAppContacts/update`, 'put', updatePayload)
+      }
+    }
+  } catch (err) {
+    const message = err || 'Error processing shopify create checkout webhook '
+    logger.serverLog(message, `${TAG}: exports.handleCreateCheckout`, req.body, {header: req.header}, 'error')
+  }
+}
+
+exports.handleCompleteCheckout = async function (req, res) {
+  try {
+    logger.serverLog('handleCompleteCheckout', `${TAG}: exports.handleCompleteCheckout`, req.body, {header: req.header})
+    sendSuccessResponse(res, 200, {status: 'success'})
+    if (req.body.customer) {
+      const shopUrl = req.headers['x-shopify-shop-domain']
+      const shopifyIntegrations = await dataLayer.findShopifyIntegrations({ shopUrl })
+      for (const shopifyIntegration of shopifyIntegrations) {
+        if (req.body.phone) {
+          const contact = await getContact(shopifyIntegration.companyId, req.body.phone, req.body.customer)
+          sendOnWhatsApp(shopUrl, contact, req.body, shopifyIntegration)
+        }
+        if (req.body.email) {
+          sendOnMessenger(shopUrl,
+            {'commerceCustomerShopify.email': req.body.email, companyId: shopifyIntegration.companyId},
+            req.body, shopifyIntegration)
+        }
+      }
+    }
+  } catch (err) {
+    const message = err || 'Error processing shopify complete checkout webhook '
+    logger.serverLog(message, `${TAG}: exports.handleCompleteCheckout`, req.body, {header: req.header}, 'error')
+  }
+}
+
+async function sendOnMessenger (shopUrl, query, body, shopifyIntegration) {
+  const subscribers = await callApi(`subscribers/query`, 'post', query)
+  for (const subscriber of subscribers) {
+    if (moment().diff(moment(subscriber.lastMessagedAt), 'minutes') >= 15) {
+      const company = await callApi(`companyProfile/query`, 'post', { _id: subscriber.companyId })
+      const messageBlock = {
+        module: {
+          id: company.whatsApp.activeWhatsappBot,
+          type: 'messenger_commerce_chatbot'
+        },
+        title: 'Order Confirmation Notification',
+        uniqueId: '' + new Date().getTime(),
+        payload: [
+          {
+            text: `Hi ${subscriber.firstName} ${subscriber.lastName}\n Thank you for placing an order at ${shopUrl}.\n\n This is your order number: ${body.name.slice(1)}`,
+            componentType: 'text'
+          }
+        ],
+        userId: company.ownerId,
+        companyId: company._id
+      }
+      if (body.order_status_url) {
+        messageBlock.payload[0].buttons = [{
+          title: 'Status Page',
+          type: 'web_url',
+          url: body.order_status_url
+        }]
+      }
+      const pages = await callApi('pages/query', 'post', { _id: subscriber.pageId, connected: true })
+      const page = pages[0]
+      messageBlock.payload.forEach(item => {
+        let finalPayload = messengerLogicLayer.prepareSendAPIPayload(subscriber.senderId, item, subscriber.firstName, subscriber.lastName, true)
+        facebookApiCaller('v3.2', `me/messages?access_token=${page.accessToken}`, 'post', finalPayload)
+          .then(response => {
+          })
+          .catch(error => {
+            const message = error || 'error in sending message'
+            return logger.serverLog(message, `${TAG}: exports.sendResponse`, {}, {messageBlock, body: body}, 'error')
+          })
+      })
+    }
+  }
+  const updateDataMessenger = {
+    query: {'commerceCustomer.email': body.email, companyId: shopifyIntegration.companyId},
+    newPayload: { shoppingCart: [] },
+    options: {}
+  }
+  callApi(`subscribers/update`, 'put', updateDataMessenger)
+}
+
+async function sendOnWhatsApp (shopUrl, contact, body, shopifyIntegration) {
+  if (body.customer.accepts_marketing) {
+    const company = await callApi(`companyProfile/query`, 'post', { _id: contact.companyId })
+    const superNumberPreferences = await superNumberDataLayer.findOne({companyId: shopifyIntegration.companyId})
+    const ecommerceProvider = new EcommerceProviders(commerceConstants.shopify, {
+      shopUrl: shopifyIntegration.shopUrl,
+      shopToken: shopifyIntegration.shopToken
+    })
+    const storeInfo = await ecommerceProvider.fetchStoreInfo()
+    let preparedMessage = logicLayer.getOrderConfirmationMessage(contact, superNumberPreferences, company, body, shopUrl, storeInfo.name)
+    if (preparedMessage.type) {
+      if (preparedMessage.type === 'superNumber') {
+        whatsAppMapper(preparedMessage.provider, ActionTypes.SEND_CHAT_MESSAGE, preparedMessage)
+      } else {
+        sendWhatsAppMessage(preparedMessage.payload, preparedMessage.credentials, contact.number, company, contact)
+      }
+    }
+    if (superNumberPreferences &&
+      superNumberPreferences.cashOnDelivery &&
+      superNumberPreferences.cashOnDelivery.enabled &&
+      body.payment_gateway_names &&
+      body.payment_gateway_names[0] &&
+      body.payment_gateway_names[0].includes('COD')) {
+      ecommerceProvider.updateOrderTag(body.id, superNumberPreferences.cashOnDelivery.cod_tags.no_response_tag)
+
+      const codPayload = {
+        companyId: contact.companyId,
+        contactId: contact._id,
+        order: body.order_number,
+        storeType: 'shopify', // shopify
+        storeName: storeInfo.name
+      }
+      await codPagesDataLayer.create(codPayload)
+    }
+  }
+  const updateDataWhatsApp = {
+    query: {_id: contact._id},
+    newPayload: { shoppingCart: [], 'commerceCustomerShopify.abandonedCartInfo': null, marketing_optin: body.customer.accepts_marketing },
+    options: {multi: true}
+  }
+  callApi(`whatsAppContacts/update`, 'put', updateDataWhatsApp)
+}
+
+exports.handleFulfillment = async function (req, res) {
+  try {
+    logger.serverLog('handleFulfillment', `${TAG}: exports.handleFulfillment`, req.body, {header: req.header})
+    sendSuccessResponse(res, 200, {status: 'success'})
+    if (req.body.name) {
+      const shopUrl = req.headers['x-shopify-shop-domain']
+      let shopifyIntegrations = await dataLayer.findShopifyIntegrations({ shopUrl })
+      for (const shopifyIntegration of shopifyIntegrations) {
+        const ecommerceProvider = new EcommerceProviders(commerceConstants.shopify, {
+          shopUrl: shopifyIntegration.shopUrl,
+          shopToken: shopifyIntegration.shopToken
+        })
+        let orderName = req.body.name.split('.')[0]
+        orderName = orderName.split('#')[1]
+        const order = await ecommerceProvider.checkOrderStatus(orderName)
+        const customer = order.customer
+        if (customer.phone) {
+          const contact = await getContact(shopifyIntegration.companyId, customer.phone,
+            {first_name: customer.firstName ? customer.firstName : customer.phone, last_name: customer.last_name, accepts_marketing: true})
+          if (contact.marketing_optin && req.body.tracking_url && req.body.tracking_number) {
+            const superNumberPreferences = await superNumberDataLayer.findOne({companyId: shopifyIntegration.companyId})
+            if (superNumberPreferences && superNumberPreferences.orderCRM &&
+            superNumberPreferences.orderCRM && superNumberPreferences.orderCRM.shipmentEnabled) {
+              const storeInfo = await ecommerceProvider.fetchStoreInfo()
+              let preparedMessage = logicLayer.getOrderShipmentMessage(contact, superNumberPreferences, req.body, storeInfo.name)
+              if (preparedMessage.provider) {
+                whatsAppMapper(preparedMessage.provider, ActionTypes.SEND_CHAT_MESSAGE, preparedMessage)
+              }
+            }
+          }
+        }
+      }
+    }
+  } catch (err) {
+    const message = err || 'Error processing shopify fulfillment webhook'
+    logger.serverLog(message, `${TAG}: exports.handleFulfillment`, req.body, {header: req.header}, 'error')
+  }
 }
 
 exports.handleAppUninstall = async function (req, res) {
   const shopUrl = req.header('X-Shopify-Shop-Domain')
   try {
     const shopifyIntegration = await dataLayer.findOneShopifyIntegration({ shopUrl: shopUrl })
-
     dataLayer.deleteShopifyIntegration({
       shopToken: shopifyIntegration.shopToken,
       shopUrl: shopifyIntegration.shopUrl,
@@ -139,10 +436,11 @@ exports.handleAppUninstall = async function (req, res) {
       })
     })
 
-    const whatsAppChatbots = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({
+    const whatsAppChatbots = await whatsAppChatbotDataLayer.fetchAllWhatsAppChatbots({
       type: 'automated',
       vertical: 'commerce',
-      storeType: 'shopify'
+      storeType: 'shopify',
+      companyId: shopifyIntegration.companyId
     })
 
     whatsAppChatbots.forEach(chatbot => {
@@ -274,28 +572,37 @@ exports.callback = function (req, res) {
     res.status(400).send('Required parameters missing')
   }
 }
-
-exports.fetchStore = (req, res) => {
-  dataLayer.findOneShopifyIntegration({ companyId: req.user.companyId })
-    .then(shopifyIntegration => {
-      if (shopifyIntegration) {
-        const shopify = new EcommerceProviders(commerceConstants.shopify, {
-          shopUrl: shopifyIntegration.shopUrl,
-          shopToken: shopifyIntegration.shopToken
-        })
-        return shopify.fetchStoreInfo()
-      } else {
-        return null
+exports.fetchStore = async (req, res) => {
+  try {
+    const shopifyIntegration = await dataLayer.findOneShopifyIntegration({ companyId: req.user.companyId })
+    if (shopifyIntegration) {
+      const shopify = new EcommerceProviders(commerceConstants.shopify, {
+        shopUrl: shopifyIntegration.shopUrl,
+        shopToken: shopifyIntegration.shopToken
+      })
+      const storeInfo = await shopify.fetchStoreInfo()
+      let payload = {
+        currency: storeInfo.currency,
+        domain: storeInfo.domain,
+        id: storeInfo.id,
+        name: storeInfo.name,
+        storeType: storeInfo.storeType,
+        type: storeInfo.type,
+        abandonedCart: shopifyIntegration.abandonedCart,
+        COD: shopifyIntegration.COD,
+        orderConfirmation: shopifyIntegration.orderConfirmation,
+        orderShipment: shopifyIntegration.orderShipment,
+        _id: shopifyIntegration._id
       }
-    })
-    .then(shop => {
-      sendSuccessResponse(res, 200, shop)
-    })
-    .catch(err => {
-      const message = err || 'Failed to fetch shop info'
-      logger.serverLog(message, `${TAG}: exports.fetchStore`, {}, { user: req.user }, 'error')
-      sendErrorResponse(res, 500, `Failed to fetch shop info ${JSON.stringify(err)}`)
-    })
+      sendSuccessResponse(res, 200, payload)
+    } else {
+      sendErrorResponse(res, 500, 'No shopify Integration found')
+    }
+  } catch (err) {
+    const message = err || 'Failed to fetch shop info'
+    logger.serverLog(message, `${TAG}: exports.fetchStore`, {}, { user: req.user }, 'error')
+    sendErrorResponse(res, 500, `Failed to fetch shop info ${JSON.stringify(err)}`)
+  }
 }
 
 exports.eraseCustomerData = (req, res) => {
@@ -320,9 +627,10 @@ exports.testRoute = (req, res) => {
         shopUrl: shopifyIntegration.shopUrl,
         shopToken: shopifyIntegration.shopToken
       })
-      return shopify.fetchProductsInThisCategory(166185566271)
-      // return shopify.findCustomerOrders('3367449755711')
-      // return shopify.checkOrderStatus('1037')
+      return shopify.fetchProductsInThisCategory(333035969, null, 9)
+      // return shopify.findCustomerOrders('4573544054966')
+      // return shopify.checkOrderStatus('1125')
+      // return shopify.cancelAnOrder('3181202735286')
       // return shopify.createPermalinkForCart({
       // email: 'sojharo@gmail.com',
       // first_name: 'sojharo',
@@ -331,13 +639,83 @@ exports.testRoute = (req, res) => {
       // variant_id: 32734085808191,
       // quantity: 1
       // }])
+      // return shopify.searchProducts('Kurti')
+      // return shopify.getVariantsOfSelectedProduct('4885559935039')
+      // return shopify.searchCustomerUsingEmail('sojharo@live.com')
+      // return shopify.createTestOrder(
+      //   { id: '3634555748415' },
+      //   [{
+      //     variant_id: '33276201402431',
+      //     quantity: 2
+      //   }],
+      //   {
+      //     first_name: 'Sojharo',
+      //     last_name: 'Mangi',
+      //     address1: 'C-23 Fariya Apartments',
+      //     city: 'Karachi',
+      //     country: 'Pakistan',
+      //     zip: '71200'
+      //   }
+      // )
     })
     .then(shop => {
       sendSuccessResponse(res, 200, shop)
     })
     .catch(err => {
-      console.log(err)
       sendErrorResponse(res, 500, `Failed to fetch subscribers
       ${JSON.stringify(err)}`)
     })
+}
+exports.fetchOrders = async (req, res) => {
+  try {
+    const shopifyIntegration = await dataLayer.findOneShopifyIntegration({ companyId: req.user.companyId })
+    if (shopifyIntegration) {
+      const shopify = new EcommerceProviders(commerceConstants.shopify, {
+        shopUrl: shopifyIntegration.shopUrl,
+        shopToken: shopifyIntegration.shopToken
+      })
+      const count = await shopify.fetchOrdersCount()
+      const orders = await shopify.fetchOrders(req.body.limit, req.body.nextPageParameters)
+      sendSuccessResponse(res, 200, {orders: orders, nextPageParameters: orders.nextPageParameters, count: count})
+    } else {
+      sendErrorResponse(res, 500, `No Shopify Integration found`)
+    }
+  } catch (err) {
+    const message = err || 'Error fetching orders'
+    logger.serverLog(message, `${TAG}: exports.fetchOrders`, req.body, {}, 'error')
+  }
+}
+
+exports.fetchCheckouts = async (req, res) => {
+  try {
+    const shopifyIntegration = await dataLayer.findOneShopifyIntegration({ companyId: req.user.companyId })
+    if (shopifyIntegration) {
+      const shopify = new EcommerceProviders(commerceConstants.shopify, {
+        shopUrl: shopifyIntegration.shopUrl,
+        shopToken: shopifyIntegration.shopToken
+      })
+      const count = await shopify.fetchCheckoutsCount()
+      const checkouts = await shopify.fetchCheckouts(req.body.limit, req.body.nextPageParameters)
+      sendSuccessResponse(res, 200, {checkouts, nextPageParameters: checkouts.nextPageParameters, count: count})
+    } else {
+      sendErrorResponse(res, 500, `No Shopify Integration found`)
+    }
+  } catch (err) {
+    const message = err || 'Error fetching checkouts'
+    logger.serverLog(message, `${TAG}: exports.fetchCheckouts`, req.body, {}, 'error')
+  }
+}
+
+exports.update = async (req, res) => {
+  try {
+    const updatedRecord = await dataLayer.update(req.body.purpose, req.body.query, req.body.updated)
+    if (updatedRecord) {
+      sendSuccessResponse(res, 200, 'Changes updated successfully')
+    } else {
+      sendErrorResponse(res, 500, `Unble to update changes`)
+    }
+  } catch (err) {
+    const message = err || 'Error fetching orders'
+    logger.serverLog(message, `${TAG}: exports.fetchOrders`, req.body, {}, 'error')
+  }
 }

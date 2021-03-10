@@ -1,3 +1,49 @@
+const { callApi } = require('../utility')
+const { sendNotifications } = require('../../global/sendNotification')
+const logger = require('../../../components/logger')
+const TAG = '/api/v1/whatsAppChatbot/whatsAppChatbot.logiclayer.js'
+
+exports.sendNotification = async (contact, message, companyId) => {
+  try {
+    let title = 'Customer Support Agent Request'
+    let newPayload = {
+      action: 'chat_whatsapp',
+      subscriber: contact
+    }
+    const companyUsers = await callApi(`companyUser/queryAll`, 'post', { companyId: companyId }, 'accounts')
+    sendNotifications(title, message, newPayload, companyUsers)
+    saveNotifications(contact, message, companyUsers)
+  } catch (err) {
+    const message = err || 'Failed to send talk to agent notification'
+    logger.serverLog(message, `${TAG}: exports.sendTalkToAgentNotification`, {}, { contact, companyId }, 'error')
+  }
+}
+
+function saveNotifications (contact, message, companyUsers) {
+  try {
+    companyUsers.forEach(async (companyUser, index) => {
+      let notificationsData = {
+        message: message,
+        category: { type: 'new_message', id: contact._id },
+        agentId: companyUser.userId._id,
+        companyId: companyUser.companyId,
+        platform: 'whatsApp'
+      }
+      await callApi(`notifications`, 'post', notificationsData, 'kibochat')
+      require('./../../../config/socketio').sendMessageToClient({
+        room_id: companyUser.companyId,
+        body: {
+          action: 'new_notification',
+          payload: notificationsData
+        }
+      })
+    })
+  } catch (err) {
+    const message = err || 'Failed to save talk to agent notification'
+    logger.serverLog(message, `${TAG}: saveNotifications`, {}, { contact, message, companyUsers }, 'error')
+  }
+}
+
 exports.criteriaForPeriodicBotStats = (chatbotId, days) => {
   let matchAggregate = {
     chatbotId: chatbotId,

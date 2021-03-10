@@ -75,7 +75,14 @@ module.exports = function (app) {
   app.use('/api/bigcommerce', require('./api/v1.1/bigcommerce'))
   app.use('/api/attachment', require('./api/v1.1/attachment'))
   app.use('/api/airlines', require('./api/v1.1/airlinesChatbot'))
+  app.use('/api/companyPreferences', require('./api/v1.1/companyPreferences'))
+  app.use('/api/fbshops', require('./api/v1.1/facebookshops'))
+  app.use('/api/supernumber', require('./api/v1.1/superNumber'))
   // auth middleware go here if you authenticate on same server
+
+  app.get('/invoices/:shopId/:fileName', (req, res) => {
+    res.sendFile(path.join(config.root, `./invoices/${req.params.shopId}/${req.params.fileName}`))
+  })
 
   app.get('/', (req, res) => {
     res.cookie('environment', config.env,
