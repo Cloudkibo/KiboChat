@@ -342,7 +342,15 @@ exports.changeStatus = function (req, res) {
     status: req.body.status
   }
   _sendNotification(req.body._id, req.body.status, req.user.companyId, req.user.name)
-  callApi('subscribers/update', 'put', { query: { _id: req.body._id }, newPayload: { status: req.body.status }, options: {} })
+  let updatedPayload = {
+    status: req.body.status
+  }
+  if (req.body.status === 'new') {
+    updatedPayload['openedAt'] = new Date()
+  } else {
+    updatedPayload['resolvedAt'] = new Date()
+  }
+  callApi('subscribers/update', 'put', { query: { _id: req.body._id }, newPayload: updatedPayload, options: {} })
     .then(updated => {
       if (req.body.status === 'resolved') {
         deleteUnresolvedSessionFromStack(req.body._id)
@@ -405,7 +413,7 @@ exports.assignAgent = function (req, res) {
         'put',
         {
           query: { _id: req.body.subscriberId },
-          newPayload: { assigned_to: assignedTo, is_assigned: req.body.isAssigned },
+          newPayload: { assigned_to: assignedTo, is_assigned: req.body.isAssigned, assignedAt: new Date() },
           options: {}
         }
       )
@@ -505,7 +513,7 @@ exports.assignTeam = function (req, res) {
         'put',
         {
           query: { _id: req.body.subscriberId },
-          newPayload: { assigned_to: assignedTo, is_assigned: req.body.isAssigned },
+          newPayload: { assigned_to: assignedTo, is_assigned: req.body.isAssigned, assignedAt: new Date() },
           options: {}
         }
       )
@@ -554,9 +562,23 @@ exports.assignTeam = function (req, res) {
 }
 
 exports.updatePendingResponse = function (req, res) {
+  let updated = {}
+  if (req.body.pendingResponse) {
+    updated = {
+      $set: {
+        pendingResponse: req.body.pendingResponse,
+        pendingAt: new Date()
+      }
+    }
+  } else {
+    updated = {
+      $set: {pendingResponse: req.body.pendingResponse},
+      $unset: {pendingAt: 1}
+    }
+  }
   callApi('subscribers/update', 'put', {
     query: { _id: req.body.id },
-    newPayload: { pendingResponse: req.body.pendingResponse },
+    newPayload: updated,
     options: {}
   })
     .then(updated => {
