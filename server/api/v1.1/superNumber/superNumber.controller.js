@@ -49,7 +49,6 @@ exports.sendManualMessage = async (req, res) => {
       sendErrorResponse(res, 500, null, 'This customer has not opted-in.')
     }
   } catch (err) {
-    console.log('err', err)
     const message = err || 'Internal server error'
     logger.serverLog(message, `${TAG}: exports.sendManualMessage`, req.body, {user: req.user}, 'error')
     sendErrorResponse(res, 500, null, 'Failed to send message')
