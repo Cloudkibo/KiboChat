@@ -43,7 +43,8 @@ exports.renderHtml = (storeName, order, storeType, companyId, contactId) => {
         storeType: "${storeType}",
         order: "${order}",
         contactId: "${contactId}",
-        companyId: "${companyId}"
+        companyId: "${companyId}",
+        storeName: "${storeName}"
       })
       .done((data) => {
         $("#alertBox").html(\`
@@ -71,7 +72,8 @@ exports.renderHtml = (storeName, order, storeType, companyId, contactId) => {
         storeType: "${storeType}",
         order: "${order}",
         contactId: "${contactId}",
-        companyId: "${companyId}"
+        companyId: "${companyId}",
+        storeName: "${storeName}"
       })
       .done((data) => {
         $("#alertBox").html(\`

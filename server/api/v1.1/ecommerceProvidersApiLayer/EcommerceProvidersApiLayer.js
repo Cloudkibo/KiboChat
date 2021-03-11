@@ -213,6 +213,12 @@ module.exports = class EcommerceProvidersApiLayer {
     }
   }
 
+  checkOrderStatusByRest (id) {
+    if (this.eCommerceProvider === providers.shopify) {
+      return shopifyProvider.getOrderStatusByRest(id, this.eCommerceProviderCredentials)
+    }
+  }
+
   fetchCustomerUsingId (id) {
     if (this.eCommerceProvider === providers.shopify) {
       return shopifyProvider.getCustomerUsingId(id, this.eCommerceProviderCredentials)
