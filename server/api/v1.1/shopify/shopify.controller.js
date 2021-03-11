@@ -31,6 +31,7 @@ const superNumberDataLayer = require('../superNumber/datalayer')
 const codPagesDataLayer = require('../superNumber/codpages.datalayer')
 const { saveAnalytics } = require('../superNumber/utility')
 const moment = require('moment')
+const { getContact } = require('./../utility/miscApiCalls.controller')
 
 exports.index = function (req, res) {
   const shop = req.body.shop
@@ -174,40 +175,6 @@ function registerWebhooks (shop, token) {
     console.log('in catch4', err)
     const message = err || 'Error Creating Shopify create fulfillment Webhook'
     logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
-  })
-}
-
-function getContact (companyId, number, customer) {
-  return new Promise((resolve, reject) => {
-    let query = {
-      companyId: companyId,
-      $or: [
-        {number: number},
-        {number: number.replace(/\D/g, '')}
-      ]
-    }
-    callApi(`whatsAppContacts/query`, 'post', query)
-      .then(contacts => {
-        if (contacts.length > 0) {
-          resolve(contacts[0])
-        } else {
-          callApi(`whatsAppContacts`, 'post', {
-            name: customer.first_name + ' ' + customer.last_name,
-            number: number,
-            companyId: companyId,
-            marketing_optin: customer.accepts_marketing
-          }, 'accounts')
-            .then(contact => {
-              resolve(contact)
-            })
-            .catch((err) => {
-              reject(err)
-            })
-        }
-      })
-      .catch((err) => {
-        reject(err)
-      })
   })
 }
 
@@ -635,9 +602,9 @@ exports.testRoute = (req, res) => {
         shopUrl: shopifyIntegration.shopUrl,
         shopToken: shopifyIntegration.shopToken
       })
-      return shopify.fetchProductsInThisCategory(333035969, null, 9)
+      // return shopify.fetchProductsInThisCategory(333035969, null, 9)
       // return shopify.findCustomerOrders('4573544054966')
-      // return shopify.checkOrderStatus('1125')
+      return shopify.checkOrderStatusByRest('3202529689782')
       // return shopify.cancelAnOrder('3181202735286')
       // return shopify.createPermalinkForCart({
       // email: 'sojharo@gmail.com',
@@ -670,6 +637,7 @@ exports.testRoute = (req, res) => {
       sendSuccessResponse(res, 200, shop)
     })
     .catch(err => {
+      console.log(err)
       sendErrorResponse(res, 500, `Failed to fetch subscribers
       ${JSON.stringify(err)}`)
     })
