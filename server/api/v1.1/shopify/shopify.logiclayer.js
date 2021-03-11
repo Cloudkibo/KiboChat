@@ -118,6 +118,7 @@ function prepareOrderConfirmationMessage (language, contactName, body, supportNu
   }
   return templateArguments
 }
+
 exports.getOrderShipmentMessage = (contact, superNumberPreferences, fulfillment, shopName) => {
   let superWhatsAppAccount = getSuperWhatsAppAccount()
   let templateMessage = whatsAppMapper(
@@ -143,3 +144,5 @@ function prepareOrderShipmentMessage (language, contactName, fulfillment, suppor
   let templateArguments = `${contactName},${shopName},${fulfillment.tracking_number},${fulfillment.tracking_url},https://wa.me/${supportNumber}`
   return templateArguments
 }
+
+exports.prepareOrderConfirmationMessage = prepareOrderConfirmationMessage
