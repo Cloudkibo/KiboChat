@@ -1,6 +1,6 @@
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const shopifyDataLayer = require('./../shopify/shopify.datalayer')
-const shopifyLogicLayer = require('./../shopify/shopify.logicLayer')
+const shopifyLogicLayer = require('./../shopify/shopify.logiclayer')
 const { whatsAppMapper } = require('../../../whatsAppMapper/whatsAppMapper')
 const { getSuperWhatsAppAccount } = require('../../global/utility')
 const commerceConstants = require('./../ecommerceProvidersApiLayer/constants')
