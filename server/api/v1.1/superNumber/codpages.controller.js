@@ -5,6 +5,7 @@ const EcommerceProviders = require('./../ecommerceProvidersApiLayer/EcommercePro
 const logger = require('../../../components/logger')
 const TAG = 'api/superNumber/codpages.controller.js'
 const dataLayer = require('../superNumber/codpages.datalayer')
+const superNumberDataLayer = require('../superNumber/datalayer')
 
 exports.addConfirmTag = async (req, res) => {
   try {
@@ -12,7 +13,7 @@ exports.addConfirmTag = async (req, res) => {
       const shopifyIntegrations = await shopifyDataLayer.findShopifyIntegrations({
         companyId: req.body.companyId
       })
-      const superNumberPreferences = await dataLayer.findOne({companyId: req.body.companyId})
+      const superNumberPreferences = await superNumberDataLayer.findOne({companyId: req.body.companyId})
       for (const shopifyIntegration of shopifyIntegrations) {
         const ecommerceProvider = new EcommerceProviders(commerceConstants.shopify, {
           shopUrl: shopifyIntegration.shopUrl,
@@ -39,7 +40,7 @@ exports.addCancelledTag = async (req, res) => {
       const shopifyIntegrations = await shopifyDataLayer.findShopifyIntegrations({
         companyId: req.body.companyId
       })
-      const superNumberPreferences = await dataLayer.findOne({companyId: req.body.companyId})
+      const superNumberPreferences = await superNumberDataLayer.findOne({companyId: req.body.companyId})
       for (const shopifyIntegration of shopifyIntegrations) {
         const ecommerceProvider = new EcommerceProviders(commerceConstants.shopify, {
           shopUrl: shopifyIntegration.shopUrl,
