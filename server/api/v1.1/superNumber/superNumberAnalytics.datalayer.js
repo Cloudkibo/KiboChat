@@ -79,11 +79,12 @@ exports.deleteOne = function (query) {
     'kibochat'
   )
 }
-exports.aggregate = (match, group, lookup, limit, sort, skip) => {
+exports.aggregate = (match, group, project, lookup, limit, sort, skip) => {
   let query = {
     purpose: 'aggregate',
     match: match
   }
+  if (project) query.project = project
   if (group) query.group = group
   if (lookup) query.lookup = lookup
   if (limit) query.limit = limit
