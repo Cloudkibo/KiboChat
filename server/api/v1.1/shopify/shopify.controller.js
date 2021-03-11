@@ -355,7 +355,7 @@ async function sendOnWhatsApp (shopUrl, contact, body, shopifyIntegration) {
       const codPayload = {
         companyId: contact.companyId,
         contactId: contact._id,
-        order: body.order_number,
+        order: '' + body.order_number,
         storeType: 'shopify', // shopify
         storeName: storeInfo.name
       }
