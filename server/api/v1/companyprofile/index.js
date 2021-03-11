@@ -9,6 +9,8 @@ const { attachProviderInfo } = require('../../middleware/whatsApp.middleware')
 router.get('/members',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer(),
+  auth.doesPlanPermitsThisAction('team_members_management'),
+  auth.isUserAllowedToPerformThisAction('view_members'),
   controller.members)
 
 router.get('/getAutomatedOptions',
@@ -16,10 +18,31 @@ router.get('/getAutomatedOptions',
   auth.isSuperUserActingAsCustomer(),
   controller.getAutomatedOptions)
 
+router.get('/switchToBasicPlan',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
+  controller.switchToBasicPlan)
+
 router.post('/invite',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer('write'),
+  auth.doesPlanPermitsThisAction('invite_members'),
+  auth.isUserAllowedToPerformThisAction('invite_members'),
   controller.invite)
+
+router.get('/getKeys',
+  auth.isAuthenticated(),
+  controller.getKeys)
+
+router.post('/setCard',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
+  controller.setCard)
+
+router.post('/updatePlan',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
+  controller.updatePlan)
 
 router.post('/updateAutomatedOptions',
   auth.isAuthenticated(),
@@ -30,6 +53,8 @@ router.post('/updateAutomatedOptions',
 router.post('/updateRole',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer('write'),
+  auth.doesPlanPermitsThisAction('team_members_management'),
+  auth.isUserAllowedToPerformThisAction('update_role'),
   controller.updateRole)
 
 router.post('/updatePlatform',
@@ -59,11 +84,15 @@ router.post('/fetchValidCallerIds',
 router.get('/getAdvancedSettings',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer(),
+  auth.doesPlanPermitsThisAction('advanced_settings'),
+  auth.isUserAllowedToPerformThisAction('manage_advanced_settings'),
   controller.getAdvancedSettings)
 
 router.post('/updateAdvancedSettings',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer('write'),
+  auth.doesPlanPermitsThisAction('advanced_settings'),
+  auth.isUserAllowedToPerformThisAction('manage_advanced_settings'),
   controller.updateAdvancedSettings)
 
 router.post('/deleteWhatsAppInfo',
@@ -89,5 +118,11 @@ router.get('/getWhatsAppMessageTemplates',
   auth.isSuperUserActingAsCustomer(),
   attachProviderInfo(),
   controller.getWhatsAppMessageTemplates)
+
+router.post('/setBusinessHours',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
+  validate({body: validationSchema.setBusinessHoursPayload}),
+  controller.setBusinessHours)
 
 module.exports = router
