@@ -14,5 +14,6 @@ require('./local/passport').setup(apiCaller, config)
 router.use('/facebook', require('./facebook'))
 router.use('/local', require('./local'))
 router.use('/zoom', require('./zoom'))
+router.use('/dialogflow', require('./dialogflow'))
 
 module.exports = router

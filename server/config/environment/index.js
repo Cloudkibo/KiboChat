@@ -55,7 +55,9 @@ const all = {
     clientId: process.env.AMADEUS_CLIENT_ID || 'KYhArZE25YzQZcwFknz3Zj9AQntxwdFl',
     clientSecret: process.env.AMADEUS_SECRET || 'n6SsqjZ6cfcPbXgS'
   },
-  openExchangeRateKey: '2fd5951a2cb045c2bdda9ed3e209cc2f'
+  openExchangeRateKey: '2fd5951a2cb045c2bdda9ed3e209cc2f',
+  DIALOGFLOW_OAUTH_KEYS: process.env.DIALOGFLOW_OAUTH_KEYS || '/home/cloudkibo-faizan/Drive/CloudKibo/GCPCredentials/dialogflow-oauth-keys',
+  DIALOGFLOW_OAUTH_REDIRECT_URI: process.env.DIALOGFLOW_OAUTH_REDIRECT_URI || 'https://kibochat.ngrok.io/auth/dialogflow/callback'
 }
 
 module.exports = _.merge(
