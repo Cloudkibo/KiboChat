@@ -29,6 +29,7 @@ const {ActionTypes} = require('../../../whatsAppMapper/constants')
 const { whatsAppMapper } = require('../../../whatsAppMapper/whatsAppMapper')
 const superNumberDataLayer = require('../superNumber/datalayer')
 const codPagesDataLayer = require('../superNumber/codpages.datalayer')
+const { saveAnalytics } = require('../superNumber/utility')
 const moment = require('moment')
 
 exports.index = function (req, res) {
@@ -339,7 +340,8 @@ async function sendOnWhatsApp (shopUrl, contact, body, shopifyIntegration) {
     let preparedMessage = logicLayer.getOrderConfirmationMessage(contact, superNumberPreferences, company, body, shopUrl, storeInfo.name)
     if (preparedMessage.type) {
       if (preparedMessage.type === 'superNumber') {
-        whatsAppMapper(preparedMessage.provider, ActionTypes.SEND_CHAT_MESSAGE, preparedMessage)
+        await whatsAppMapper(preparedMessage.provider, ActionTypes.SEND_CHAT_MESSAGE, preparedMessage)
+        saveAnalytics(shopifyIntegration.companyId, true, preparedMessage.payload.templateName.includes('cod') ? 'COD_ORDER_CONFIRMATION' : 'ORDER_CONFIRMATION')
       } else {
         sendWhatsAppMessage(preparedMessage.payload, preparedMessage.credentials, contact.number, company, contact)
       }
@@ -396,7 +398,8 @@ exports.handleFulfillment = async function (req, res) {
               const storeInfo = await ecommerceProvider.fetchStoreInfo()
               let preparedMessage = logicLayer.getOrderShipmentMessage(contact, superNumberPreferences, req.body, storeInfo.name)
               if (preparedMessage.provider) {
-                whatsAppMapper(preparedMessage.provider, ActionTypes.SEND_CHAT_MESSAGE, preparedMessage)
+                await whatsAppMapper(preparedMessage.provider, ActionTypes.SEND_CHAT_MESSAGE, preparedMessage)
+                saveAnalytics(shopifyIntegration.companyId, true, 'ORDER_SHIPMENT')
               }
             }
           }

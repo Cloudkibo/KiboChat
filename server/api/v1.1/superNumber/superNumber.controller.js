@@ -10,7 +10,8 @@ const logicLayer = require('./logiclayer')
 const logger = require('../../../components/logger')
 const TAG = 'api/superNumberPreferences/superNumberPreferences.controller.js'
 const dataLayer = require('../superNumber/datalayer')
-const analyicsDataLayer = require('./superNumberAnalytics.datalayer')
+const analyticsDataLayer = require('./superNumberAnalytics.datalayer')
+const { saveAnalytics } = require('./utility')
 const async = require('async')
 
 exports.fetchTemplates = async (req, res) => {
@@ -42,7 +43,8 @@ exports.sendManualMessage = async (req, res) => {
         })
         const storeInfo = await shopify.fetchStoreInfo()
         let message = logicLayer.prepareManualMessage(req.body.templateName, req.body.template, contact, storeInfo.name, req.body.supportNumber, req.body.order, req.body.checkout)
-        whatsAppMapper(message.provider, ActionTypes.SEND_CHAT_MESSAGE, message)
+        await whatsAppMapper(message.provider, ActionTypes.SEND_CHAT_MESSAGE, message)
+        saveAnalytics(req.user.companyId, false, req.body.templateName)
         sendSuccessResponse(res, 200, 'Message sent successfully')
       } else {
         sendErrorResponse(res, 500, null, 'No Shopify Integration found')
@@ -128,7 +130,7 @@ exports.fetchSummarisedAnalytics = function (req, res) {
     },
     function (callback) {
       let {matchQuery, groupQuery} = logicLayer.summarisedAnalyticsQuery(req.body, req.user.companyId, 'analytics', true)
-      analyicsDataLayer.aggregate(matchQuery, groupQuery)
+      analyticsDataLayer.aggregate(matchQuery, groupQuery)
         .then(result => {
           callback(null, result)
         })
@@ -138,7 +140,7 @@ exports.fetchSummarisedAnalytics = function (req, res) {
     },
     function (callback) {
       let {matchQuery, groupQuery} = logicLayer.summarisedAnalyticsQuery(req.body, req.user.companyId, 'analytics', false)
-      analyicsDataLayer.aggregate(matchQuery, groupQuery)
+      analyticsDataLayer.aggregate(matchQuery, groupQuery)
         .then(result => {
           callback(null, result)
         })
@@ -159,6 +161,58 @@ exports.fetchSummarisedAnalytics = function (req, res) {
       manual = manual.length > 0 ? manual[0].count : 0
       automated = automated.length > 0 ? automated[0].count : 0
       sendSuccessResponse(res, 200, {contacts, automated, manual})
+    }
+  })
+}
+exports.fetchDetailedAnalytics = function (req, res) {
+  async.parallelLimit([
+    function (callback) {
+      let {matchQuery, groupQuery} = logicLayer.detailedAnalyticsQuery(req.body, req.user.companyId, req.body.automated, 'ORDER_CONFIRMATION')
+      analyticsDataLayer.aggregate(matchQuery, groupQuery)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      let {matchQuery, groupQuery} = logicLayer.detailedAnalyticsQuery(req.body, req.user.companyId, req.body.automated, 'ORDER_SHIPMENT')
+      analyticsDataLayer.aggregate(matchQuery, groupQuery)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      let {matchQuery, groupQuery} = logicLayer.detailedAnalyticsQuery(req.body, req.user.companyId, req.body.automated, 'ABANDONED_CART_RECOVERY')
+      analyticsDataLayer.aggregate(matchQuery, groupQuery)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      let {matchQuery, groupQuery} = logicLayer.detailedAnalyticsQuery(req.body, req.user.companyId, req.body.automated, 'COD_ORDER_CONFIRMATION')
+      analyticsDataLayer.aggregate(matchQuery, groupQuery)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    }
+  ], 10, function (err, results) {
+    if (err) {
+      const message = err || 'Error in fetching detailed analytics'
+      logger.serverLog(message, `${TAG}: exports.fetchDetailedAnalytics`, req.body, {user: req.user}, 'error')
+      return res.status(500).json({status: 'failed', payload: err})
+    } else {
+      sendSuccessResponse(res, 200, logicLayer.prepareDetailedAnalyticsData(results))
     }
   })
 }

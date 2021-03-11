@@ -73,3 +73,24 @@ exports.summarisedPayload =
     'endDate'
   ]
 }
+exports.detailedPayload =
+{
+  '$schema': 'http://json-schema.org/draft-04/schema#',
+  'type': 'object',
+  'properties': {
+    'startDate': {
+      'type': 'string'
+    },
+    'endDate': {
+      'type': 'string'
+    },
+    'automated': {
+      'type': 'bool'
+    }
+  },
+  'required': [
+    'startDate',
+    'endDate',
+    'automated'
+  ]
+}
