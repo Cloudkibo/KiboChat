@@ -11,7 +11,7 @@ const dataLayer = require('../superNumber/codpages.datalayer')
 const { ActionTypes } = require('../../../whatsAppMapper/constants')
 const superNumberDataLayer = require('../superNumber/datalayer')
 const { saveAnalytics } = require('../superNumber/utility')
-const { getContact } = require('./../utility/miscApiCalls.controller')
+const { getContactById } = require('./../utility/miscApiCalls.controller')
 
 exports.addConfirmTag = async (req, res) => {
   try {
@@ -30,7 +30,7 @@ exports.addConfirmTag = async (req, res) => {
 
         const order = await ecommerceProvider.checkOrderStatus(req.body.order)
 
-        const contact = await getContact(req.body.companyId, req.body.contactId)
+        const contact = await getContactById(req.body.companyId, req.body.contactId)
         const restOrderPayload = await ecommerceProvider.checkOrderStatusByRest(order.id.split('/')[4])
         sendConfirmationMessage(superNumberPreferences, req.body.storeName, contact, restOrderPayload, shopifyIntegration)
 
