@@ -14,7 +14,7 @@ router.get('/:contactId/:order', (req, res) => {
   })
     .then(data => {
       if (data) {
-        res.send(mainHtml.renderHtml('sojharo', '2314', 'shopify', '324242342'))// data.storeName, data.order, data.storeType, data.companyId))
+        res.send(mainHtml.renderHtml(data.storeName, data.order, data.storeType, data.companyId))
       } else {
         res.sendFile(path.join(__dirname, '/404.html'))
       }
