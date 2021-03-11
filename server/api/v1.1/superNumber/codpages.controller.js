@@ -4,7 +4,7 @@ const commerceConstants = require('./../ecommerceProvidersApiLayer/constants')
 const EcommerceProviders = require('./../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
 const logger = require('../../../components/logger')
 const TAG = 'api/superNumber/codpages.controller.js'
-const dataLayer = require('../superNumber/datalayer')
+const dataLayer = require('../superNumber/codpages.datalayer')
 
 exports.addConfirmTag = async (req, res) => {
   try {
@@ -58,4 +58,8 @@ exports.addCancelledTag = async (req, res) => {
     logger.serverLog(message, `${TAG}: exports.addConfirmTag`, req.body, {header: req.header}, 'error')
     sendErrorResponse(res, 501, { done: false }, 'Internal Server Error')
   }
+}
+
+function sendConfirmationMessage (superNumberPreferences, companyId) {
+  let preparedMessage = logicLayer.getOrderConfirmationMessage(contact, superNumberPreferences, company, body, shopUrl, storeInfo.name)
 }
