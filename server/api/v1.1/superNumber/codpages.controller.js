@@ -18,7 +18,8 @@ exports.addConfirmTag = async (req, res) => {
           shopUrl: shopifyIntegration.shopUrl,
           shopToken: shopifyIntegration.shopToken
         })
-        await ecommerceProvider.updateOrderTag('#' + req.body.order, superNumberPreferences.cashOnDelivery.cod_tags.confirmed_tag)
+        const order = await ecommerceProvider.checkOrderStatus(req.body.order)
+        await ecommerceProvider.updateOrderTag(order.id, superNumberPreferences.cashOnDelivery.cod_tags.confirmed_tag)
       }
       await dataLayer.deleteOne({ order: req.body.order, companyId: req.body.companyId })
       sendSuccessResponse(res, 200, { done: true }, 'updated the order')
@@ -44,7 +45,8 @@ exports.addCancelledTag = async (req, res) => {
           shopUrl: shopifyIntegration.shopUrl,
           shopToken: shopifyIntegration.shopToken
         })
-        await ecommerceProvider.updateOrderTag('#' + req.body.order, superNumberPreferences.cashOnDelivery.cod_tags.cancelled_tag)
+        const order = await ecommerceProvider.checkOrderStatus(req.body.order)
+        await ecommerceProvider.updateOrderTag(order.id, superNumberPreferences.cashOnDelivery.cod_tags.cancelled_tag)
       }
       await dataLayer.deleteOne({ order: req.body.order, companyId: req.body.companyId })
       sendSuccessResponse(res, 200, { done: true }, 'updated the order')

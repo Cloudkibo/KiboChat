@@ -1,4 +1,4 @@
-exports.renderHtml = (storeName, order, storeType, companyId) => {
+exports.renderHtml = (storeName, order, storeType, companyId, contactId) => {
   return `
 <!DOCTYPE html>
 <html lang="en">
@@ -40,6 +40,7 @@ exports.renderHtml = (storeName, order, storeType, companyId) => {
       {
         storeType: "${storeType}",
         order: "${order}",
+        contactId: "${contactId}",
         companyId: "${companyId}"
       })
       .done((data) => {
@@ -65,6 +66,7 @@ exports.renderHtml = (storeName, order, storeType, companyId) => {
       {
         storeType: "${storeType}",
         order: "${order}",
+        contactId: "${contactId}",
         companyId: "${companyId}"
       })
       .done((data) => {
