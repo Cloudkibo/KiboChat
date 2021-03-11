@@ -22,9 +22,11 @@ exports.renderHtml = (storeName, order, storeType, companyId, contactId) => {
       <p>This is to confirm your order number ${order} as the order is cash on delivery. You can confirm the order now or cancel it if you made it accidentally.</p>
       <br><br>
 
-      <button id="confirm" type="button" class="btn btn-primary">Confirm</button>
-      <button id="cancel" type="button" class="btn btn-danger">Cancel</button>
-      <br><br>
+      <div id="btns">
+        <button id="confirm" type="button" class="btn btn-primary">Confirm</button>
+        <button id="cancel" type="button" class="btn btn-danger">Cancel</button>
+        <br><br>
+      </div>
 
       <div id="alertBox" class="container"></div>
       
@@ -50,6 +52,7 @@ exports.renderHtml = (storeName, order, storeType, companyId, contactId) => {
           Order is confirmed successfully.
           </div>
         \`)
+        $("#btns").hide()
       })
       .fail((xhr, status, error) => {
         $("#alertBox").html(\`
@@ -58,6 +61,7 @@ exports.renderHtml = (storeName, order, storeType, companyId, contactId) => {
           Some error occurred. Please contact the store owner.
           </div>
         \`)
+        $("#btns").hide()
       })
     }
     
@@ -76,6 +80,7 @@ exports.renderHtml = (storeName, order, storeType, companyId, contactId) => {
           Order is cancelled successfully.
           </div>
         \`)
+        $("#btns").hide()
       })
       .fail((xhr, status, error) => {
         $("#alertBox").html(\`
@@ -84,6 +89,7 @@ exports.renderHtml = (storeName, order, storeType, companyId, contactId) => {
           Some error occurred. Please contact the store owner.
           </div>
         \`)
+        $("#btns").hide()
       })
     }
   </script>
