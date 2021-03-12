@@ -204,6 +204,19 @@ exports.getOrderStatusByRest = (id, credentials) => {
   })
 }
 
+exports.getOrderStatusByRest = (id, credentials) => {
+  const shopify = initShopify(credentials)
+  return new Promise(function (resolve, reject) {
+    shopify.order.get(id)
+      .then(order => {
+        resolve(order)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
 exports.getOrderStatus = (id, credentials) => {
   const shopify = initShopify(credentials)
   const query = `{
