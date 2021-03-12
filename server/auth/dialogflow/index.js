@@ -28,7 +28,7 @@ router.get('/callback', async (req, res) => {
       if (integrations.length > 0) {
         callApi('integrations/update', 'put', {query: {_id: integrations[0]._id}, newPayload: {enabled: true}, options: {}})
           .then(upated => {
-            res.redirect('/alreadyConnected')
+            res.redirect('/successMessage')
           })
           .catch(err => {
             const message = err || 'Failed to save dialogflow integration'
