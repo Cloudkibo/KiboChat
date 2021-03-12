@@ -99,7 +99,12 @@ exports.detailedAnalyticsQuery = (body, companyId, automated, type) => {
   }
 }
 exports.prepareDetailedAnalyticsData = (results) => {
-  let graphDatas = []
+  let graphDatas = {
+    confirmation: {},
+    shipment: {},
+    abandoned: {},
+    cod: {}
+  }
   let confirmationCount = 0
   let shipmentCount = 0
   let abandonedCount = 0
@@ -109,25 +114,25 @@ exports.prepareDetailedAnalyticsData = (results) => {
   let abandoned = results[2]
   let cod = results[3]
   if (confirmation.length > 0) {
-    graphDatas.push({confirmation})
+    graphDatas.confirmation = confirmation
     confirmationCount = confirmation.reduce(function (a, b) {
       return a + b['count']
     }, 0)
   }
   if (shipment.length > 0) {
-    graphDatas.push({shipment})
+    graphDatas.shipment = shipment
     shipmentCount = shipment.reduce(function (a, b) {
       return a + b['count']
     }, 0)
   }
   if (abandoned.length > 0) {
-    graphDatas.push({abandoned})
+    graphDatas.abandoned = abandoned
     abandonedCount = abandoned.reduce(function (a, b) {
       return a + b['count']
     }, 0)
   }
   if (cod.length > 0) {
-    graphDatas.push({cod})
+    graphDatas.cod = cod
     codCount = cod.reduce(function (a, b) {
       return a + b['count']
     }, 0)
