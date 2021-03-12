@@ -25,7 +25,6 @@ router.get('/callback', async (req, res) => {
     const companyUser = await callApi(`companyUser/query`, 'post', { userId })
     if (companyUser) {
       const integrations = await callApi(`integrations/query`, 'post', { companyId: companyUser.companyId, integrationName: 'DIALOGFLOW' })
-      console.log('integrations', integrations)
       if (integrations.length > 0) {
         callApi('integrations/update', 'put', {query: {_id: integrations[0]._id}, newPayload: {enabled: true}, options: {}})
           .then(upated => {
