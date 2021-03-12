@@ -25,8 +25,17 @@ router.get('/callback', async (req, res) => {
     const companyUser = await callApi(`companyUser/query`, 'post', { userId })
     if (companyUser) {
       const integrations = await callApi(`integrations/query`, 'post', { companyId: companyUser.companyId, integrationName: 'DIALOGFLOW' })
+      console.log('integrations', integrations)
       if (integrations.length > 0) {
-        res.redirect('alreadyConnected')
+        callApi('integrations/update', 'put', {query: {_id: integrations[0]._id}, newPayload: {enabled: true}, options: {}})
+          .then(upated => {
+            res.redirect('/alreadyConnected')
+          })
+          .catch(err => {
+            const message = err || 'Failed to save dialogflow integration'
+            logger.serverLog(message, `${TAG}: /callback`, {}, {}, 'error')
+            res.redirect('/ErrorMessage')
+          })
       } else {
         const payload = {
           companyId: companyUser.companyId,
