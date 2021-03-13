@@ -69,6 +69,11 @@ router.post('/updatePlatformWhatsApp',
   validate({body: validationSchema.updatePlatformWhatsApp}),
   controller.updatePlatformWhatsApp)
 
+router.get('/setWhatsappSuperNumberPlan',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
+  controller.setWhatsappSuperNumberPlan)
+
 router.post('/disconnect',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer('write'),

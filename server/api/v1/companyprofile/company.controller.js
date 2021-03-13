@@ -430,6 +430,18 @@ exports.updatePlatformWhatsApp = function (req, res) {
       sendErrorResponse(res, 500, `Failed to fetch company ${err}`)
     })
 }
+
+exports.setWhatsappSuperNumberPlan = async function (req, res) {
+  try {
+    const result = await utility.callApi('companyprofile/setWhatsappSuperNumberPlan', 'get', null, 'accounts', req.headers.authorization)
+    sendSuccessResponse(res, 200, result)
+  } catch (err) {
+    const message = err || 'error in setting whatsapp super number plan'
+    logger.serverLog(message, `${TAG}: exports.setWhatsappSuperNumberPlan`, {}, {user: req.user}, 'error')
+    sendErrorResponse(res, 500, err)
+  }
+}
+
 exports.disconnect = function (req, res) {
   utility.callApi(`companyprofile/query`, 'post', {ownerId: req.user._id})
     .then(company => {
