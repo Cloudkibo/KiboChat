@@ -8,8 +8,8 @@ var router = express.Router()
 const auth = require('../../../auth/auth.service')
 
 router.get('/agents',
-  // auth.isAuthenticated(),
-  // auth.isSuperUserActingAsCustomer(),
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
   controller.fetchAgents)
 
 module.exports = router
