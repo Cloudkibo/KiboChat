@@ -79,6 +79,7 @@ module.exports = function (app) {
   app.use('/api/fbshops', require('./api/v1.1/facebookshops'))
   app.use('/api/supernumber', require('./api/v1.1/superNumber'))
   app.use('/cod', require('./api/v1.1/superNumber/codLinks'))
+  app.use('/api/dialogflow', require('./api/v1.1/dialogflow'))
   app.use('/api/messageAlerts', require('./api/v1.1/messageAlerts'))
   // auth middleware go here if you authenticate on same server
 
