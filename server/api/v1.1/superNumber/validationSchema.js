@@ -94,3 +94,31 @@ exports.detailedPayload =
     'automated'
   ]
 }
+exports.messageLogsPayload = {
+  'type': 'object',
+  'properties': {
+    'last_id': {
+      'type': 'string'
+    },
+    'number_of_records': {
+      'type': 'integer'
+    },
+    'first_page': {
+      'type': 'string'
+    },
+    'requested_page': {
+      'type': 'number'
+    },
+    'current_page': {
+      'type': 'number'
+    },
+    'automatedMessage': {
+      'type': 'bool'
+    }
+  },
+  'required': [
+    'number_of_records',
+    'first_page',
+    'automatedMessage'
+  ]
+}

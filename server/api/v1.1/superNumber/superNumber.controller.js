@@ -11,6 +11,7 @@ const logger = require('../../../components/logger')
 const TAG = 'api/superNumberPreferences/superNumberPreferences.controller.js'
 const dataLayer = require('../superNumber/datalayer')
 const analyticsDataLayer = require('./superNumberAnalytics.datalayer')
+const messageLogsDataLayer = require('./superNumberMessageLogs.datalayer')
 const { saveAnalytics } = require('./utility')
 const async = require('async')
 
@@ -213,6 +214,40 @@ exports.fetchDetailedAnalytics = function (req, res) {
       return res.status(500).json({status: 'failed', payload: err})
     } else {
       sendSuccessResponse(res, 200, logicLayer.prepareDetailedAnalyticsData(results))
+    }
+  })
+}
+exports.fetchMessageLogs = function (req, res) {
+  let {fetchCriteria, countCriteria} = logicLayer.getMessageLogsCriterias(req.body, req.user.companyId)
+  async.parallelLimit([
+    function (callback) {
+      messageLogsDataLayer.aggregate(countCriteria[0].$match, countCriteria[1].$group)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      messageLogsDataLayer.aggregate(fetchCriteria[0].$match, null, null, null,
+        fetchCriteria[3].$limit, fetchCriteria[1].$sort, fetchCriteria[2].$skip)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    }
+  ], 10, function (err, results) {
+    if (err) {
+      const message = err || 'Error in fetching message logs'
+      logger.serverLog(message, `${TAG}: exports.fetchMessageLogs`, req.body, {user: req.user}, 'error')
+      return res.status(500).json({status: 'failed', payload: err})
+    } else {
+      let count = results[0]
+      let messageLogs = results[1]
+      sendSuccessResponse(res, 200, {count: count.length > 0 ? count[0].count : 0, messageLogs})
     }
   })
 }
