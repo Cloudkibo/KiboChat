@@ -57,4 +57,10 @@ router.post('/fetchDetailedAnalytics',
   auth.isSuperUserActingAsCustomer(),
   controller.fetchDetailedAnalytics)
 
+router.post('/fetchMessageLogs',
+  validate({body: validationSchema.messageLogsPayload}),
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
+  controller.fetchMessageLogs)
+
 module.exports = router
