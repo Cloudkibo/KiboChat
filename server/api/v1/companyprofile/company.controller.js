@@ -434,10 +434,15 @@ exports.updatePlatformWhatsApp = function (req, res) {
 exports.setWhatsappSuperNumberPlan = async function (req, res) {
   try {
     const result = await utility.callApi('companyprofile/setWhatsappSuperNumberPlan', 'get', null, 'accounts', req.headers.authorization)
+
+    await utility.callApi(`user/update`, 'post', {query: {_id: req.user._id}, newPayload: {$set: {platform: 'whatsApp'}}})
+
     sendSuccessResponse(res, 200, result)
   } catch (err) {
     const message = err || 'error in setting whatsapp super number plan'
+
     logger.serverLog(message, `${TAG}: exports.setWhatsappSuperNumberPlan`, {}, {user: req.user}, 'error')
+
     sendErrorResponse(res, 500, err)
   }
 }
