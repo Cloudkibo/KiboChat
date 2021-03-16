@@ -97,7 +97,7 @@ exports.fetchAllProductCategories = (paginationParams, catalogId, credentials) =
 exports.fetchProductsInThisCategory = (category, numberOfProducts, credentials) => {
   const params = initShops(credentials)
   return new Promise(function (resolve, reject) {
-    const fields = `fields=products.limit(${numberOfProducts}){id,name,fb_product_category,currency,image_url,price,product_type,brand,retailer_product_group_id}`
+    const fields = `fields=products{id,name,fb_product_category,currency,image_url,price,product_type,brand,retailer_product_group_id}`
     needle('get', `${API_URL}/${category}?${fields}&access_token=${params}`)
       .then(result => {
         result = result.body
@@ -108,6 +108,7 @@ exports.fetchProductsInThisCategory = (category, numberOfProducts, credentials) 
           payload = payload.filter(item => item.image_url)
           payload = [...new Map(payload.map(item =>
             [item['retailer_product_group_id'], item])).values()]
+          payload = payload.splice(0, numberOfProducts)
           payload = payload.map(item => {
             return {
               id: item.id,
@@ -137,7 +138,7 @@ exports.fetchProductsInThisCategory = (category, numberOfProducts, credentials) 
 exports.fetchProducts = (query, numberOfProducts, credentials) => {
   const params = initShops(credentials)
   return new Promise(function (resolve, reject) {
-    const fields = `fields=id,name,fb_product_category,currency,image_url,price,product_type,brand,retailer_product_group_id&limit=${numberOfProducts}`
+    const fields = `fields=id,name,fb_product_category,currency,image_url,price,product_type,brand,retailer_product_group_id`
     needle('get', `${API_URL}/${query}/products?access_token=${params}&${fields}`)
       .then(result => {
         result = result.body
@@ -148,6 +149,7 @@ exports.fetchProducts = (query, numberOfProducts, credentials) => {
           payload = payload.filter(item => item.image_url)
           payload = [...new Map(payload.map(item =>
             [item['retailer_product_group_id'], item])).values()]
+          payload = payload.splice(0, numberOfProducts)
           payload = payload.map(product => {
             return {
               id: product.id,
