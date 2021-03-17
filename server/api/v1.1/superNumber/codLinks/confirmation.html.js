@@ -40,7 +40,7 @@ exports.renderHtml = (storeName, order, storeType, companyId, contactId, orderPa
 <script>
     document.getElementById("confirm").onclick = confirmBtn;
     document.getElementById("cancel").onclick = cancelBtn;
-    let orderPayload = JSON.parse("${JSON.stringify(orderPayload)}")
+    let orderPayload = JSON.parse('${JSON.stringify(orderPayload)}')
     function confirmBtn(elm) {
       $.post("/api/supernumber/addConfirmTag",
       {
