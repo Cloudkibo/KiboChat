@@ -12,7 +12,7 @@ const commerceChatbotLogicLayer = require('../api/v1.1/whatsAppChatbot/commerceC
 const moment = require('moment')
 const { sendWhatsAppMessage, updateWhatsAppContact } = require('../api/v1.1/whatsAppEvents/controller')
 const superNumberDataLayer = require('../api/v1.1/superNumber/datalayer')
-const { saveAnalytics } = require('../api/v1.1/superNumber/utility')
+const { saveAnalytics, saveMessageLogs } = require('../api/v1.1/superNumber/utility')
 
 const ABANDONED_ALERT_INTERVAL = 2
 const RECOVERY_ATTEMPTS = 3
@@ -47,6 +47,14 @@ exports.runScript = function () {
                     abandonedCartReminderBlock = await getAbandonedCartMessage(superNumberPreferences, ecommerceProvider, contact, abandonedCart)
                     await whatsAppMapper(abandonedCartReminderBlock.provider, ActionTypes.SEND_CHAT_MESSAGE, abandonedCartReminderBlock)
                     saveAnalytics(superNumberPreferences.companyId, true, 'ABANDONED_CART_RECOVERY')
+                    let url = commerceCustomerShopify.abandonedCartInfo.abandonedCheckoutUrl.split('.com')[0]
+                    saveMessageLogs(contact, {
+                      id: commerceCustomerShopify.abandonedCartInfo.abandonedCheckoutId,
+                      url: `${url}.com/admin/checkouts/${commerceCustomerShopify.abandonedCartInfo.abandonedCheckoutId}`,
+                      amount: abandonedCart.total_price,
+                      currency: abandonedCart.currency,
+                      status: 'not-recovered'
+                    }, true, 'ABANDONED_CART_RECOVERY')
                   } else if (company.whatsApp) {
                     let data = {
                       accessToken: company.whatsApp.accessToken,

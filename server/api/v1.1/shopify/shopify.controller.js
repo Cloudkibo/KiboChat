@@ -175,6 +175,7 @@ function registerWebhooks (shop, token) {
 }
 
 exports.handleCreateCheckout = async function (req, res) {
+  console.log('req.body.id', typeof req.body.id)
   try {
     logger.serverLog('handleCreateCheckout', `${TAG}: exports.handleCreateCheckout`, req.body, {header: req.header})
     sendSuccessResponse(res, 200, {status: 'success'})
@@ -201,7 +202,7 @@ exports.handleCreateCheckout = async function (req, res) {
           commerceCustomerShopify.abandonedCartInfo = {
             cartRecoveryAttempts: contact.commerceCustomerShopify && contact.commerceCustomerShopify.abandonedCartInfo ? contact.commerceCustomerShopify.abandonedCartInfo.cartRecoveryAttempts : 0,
             abandonedCheckoutUrl: req.body.abandoned_checkout_url,
-            abandonedCheckoutId: req.body.id,
+            abandonedCheckoutId: typeof req.body.id === 'number' ? req.body.id.toString() : req.body.id,
             token: req.body.token
           }
           updateData['commerceCustomerShopify'] = commerceCustomerShopify
