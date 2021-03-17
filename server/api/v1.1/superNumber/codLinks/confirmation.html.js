@@ -40,7 +40,7 @@ exports.renderHtml = (storeName, order, storeType, companyId, contactId, orderPa
 <script>
     document.getElementById("confirm").onclick = confirmBtn;
     document.getElementById("cancel").onclick = cancelBtn;
-    const orderPayload = ${orderPayload}
+    const orderPayload = JSON.parse("${orderPayload}")
     function confirmBtn(elm) {
       $.post("/api/supernumber/addConfirmTag",
       {
@@ -101,8 +101,8 @@ exports.renderHtml = (storeName, order, storeType, companyId, contactId, orderPa
 
     let sum = 0
     let currency = ''
-    for(let i=0; i<order.lineItems.length; i++) {
-      const { title, quantity, price, currency} = order.lineItems[i]
+    for(let i=0; i<orderPayload.lineItems.length; i++) {
+      const { title, quantity, price, currency} = orderPayload.lineItems[i]
 
       $('#items').append('<li><b>Item: </b>'+ title +' <b>Quantity: </b>'+ quantity +' <b>Price: </b>'+ currency +' '+ price +'</li>')
 
