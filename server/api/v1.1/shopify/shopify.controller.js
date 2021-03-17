@@ -175,7 +175,6 @@ function registerWebhooks (shop, token) {
 }
 
 exports.handleCreateCheckout = async function (req, res) {
-  console.log('req.body.id', typeof req.body.id)
   try {
     logger.serverLog('handleCreateCheckout', `${TAG}: exports.handleCreateCheckout`, req.body, {header: req.header})
     sendSuccessResponse(res, 200, {status: 'success'})
