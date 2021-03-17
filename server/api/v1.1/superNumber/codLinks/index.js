@@ -19,7 +19,7 @@ router.get('/:contactId/:order', (req, res) => {
     .then(async data => {
       if (data) {
         const shopifyIntegrations = await shopifyDataLayer.findShopifyIntegrations({
-          companyId: req.body.companyId
+          companyId: data.companyId
         })
 
         const ecommerceProvider = new EcommerceProviders(commerceConstants.shopify, {
