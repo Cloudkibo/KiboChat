@@ -27,7 +27,7 @@ router.get('/:contactId/:order', (req, res) => {
           shopToken: shopifyIntegrations[0].shopToken
         })
 
-        const foundOrder = await ecommerceProvider.checkOrderStatus(req.body.order)
+        const foundOrder = await ecommerceProvider.checkOrderStatus(order)
 
         res.send(mainHtml.renderHtml(data.storeName, data.order, data.storeType, data.companyId, contactId, foundOrder))
       } else {
