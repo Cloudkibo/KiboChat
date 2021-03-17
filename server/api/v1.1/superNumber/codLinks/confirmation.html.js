@@ -1,4 +1,4 @@
-exports.renderHtml = (storeName, order, storeType, companyId, contactId) => {
+exports.renderHtml = (storeName, order, storeType, companyId, contactId, orderPayload) => {
   return `
 <!DOCTYPE html>
 <html lang="en">
@@ -20,6 +20,9 @@ exports.renderHtml = (storeName, order, storeType, companyId, contactId) => {
       <hr>
       <h2>Your order on ${storeName}</h2>
       <p>This is to confirm your order number ${order} as the order is cash on delivery. You can confirm the order now or cancel it if you made it accidentally.</p>
+      <br>
+      <ol id="items">
+      </ol>
       <br><br>
 
       <div id="btns">
@@ -37,6 +40,7 @@ exports.renderHtml = (storeName, order, storeType, companyId, contactId) => {
 <script>
     document.getElementById("confirm").onclick = confirmBtn;
     document.getElementById("cancel").onclick = cancelBtn;
+    const orderPayload = ${orderPayload}
     function confirmBtn(elm) {
       $.post("/api/supernumber/addConfirmTag",
       {
@@ -94,6 +98,18 @@ exports.renderHtml = (storeName, order, storeType, companyId, contactId) => {
         $("#btns").hide()
       })
     }
+
+    let sum = 0
+    let currency = ''
+    for(let i=0; i<order.lineItems.length; i++) {
+      const { title, quantity, price, currency} = order.lineItems[i]
+
+      $('#items').append('<li><b>Item: </b>'+ title +' <b>Quantity: </b>'+ quantity +' <b>Price: </b>'+ currency +' '+ price +'</li>')
+
+      sum += price
+      currency = currency
+    }
+    $('#items').after('<br>', '<p><b>Total Price: </b>'+ currency +' '+ sum +'</p>')
   </script>
 
 </body>
