@@ -100,16 +100,16 @@ exports.renderHtml = (storeName, order, storeType, companyId, contactId, orderPa
     }
 
     let sum = 0
-    let currency = ''
+    let currencyName = ''
     for(let i=0; i<orderPayload.lineItems.length; i++) {
       const { name, quantity, price, currency} = orderPayload.lineItems[i]
 
       $('#items').append('<li><b>Item: </b>'+ name +' <b>Quantity: </b>'+ quantity +' <b>Price: </b>'+ currency +' '+ price +'</li>')
 
       sum += price
-      currency = currency
+      currencyName = currency
     }
-    $('#items').after('<br>', '<p><b>Total Price: </b>'+ currency +' '+ sum +'</p>')
+    $('#items').after('<br>', '<p><b>Total Price: </b>'+ currencyName +' '+ sum +'</p>')
   </script>
 
 </body>
