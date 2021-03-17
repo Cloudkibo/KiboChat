@@ -205,7 +205,7 @@ exports.handleCreateCheckout = async function (req, res) {
           commerceCustomerShopify.abandonedCartInfo = {
             cartRecoveryAttempts: contact.commerceCustomerShopify && contact.commerceCustomerShopify.abandonedCartInfo ? contact.commerceCustomerShopify.abandonedCartInfo.cartRecoveryAttempts : 0,
             abandonedCheckoutUrl: req.body.abandoned_checkout_url,
-            abandonedCheckoutId: req.body.id,
+            abandonedCheckoutId: typeof req.body.id === 'number' ? req.body.id.toString() : req.body.id,
             token: req.body.token
           }
           updateData['commerceCustomerShopify'] = commerceCustomerShopify

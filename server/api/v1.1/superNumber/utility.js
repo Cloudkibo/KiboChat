@@ -1,4 +1,5 @@
 const analyticsDataLayer = require('./superNumberAnalytics.datalayer')
+const messageLogsDataLayer = require('./superNumberMessageLogs.datalayer')
 
 exports.saveAnalytics = async function (companyId, automatedMessage, messageType) {
   let matchQuery = {
@@ -29,4 +30,26 @@ exports.saveAnalytics = async function (companyId, automatedMessage, messageType
       messagesSent: 1
     })
   }
+}
+exports.saveMessageLogs = async function (contact, payload, automatedMessage, messageType) {
+  let matchQuery = {
+    companyId: contact.companyId,
+    customerNumber: contact.number,
+    messageType,
+    automatedMessage
+  }
+  let data = {
+    automatedMessage,
+    messageType,
+    companyId: contact.companyId,
+    customerName: contact.name,
+    customerNumber: contact.number,
+    id: payload.id,
+    url: payload.url,
+    amount: payload.amount,
+    currency: payload.currency,
+    status: payload.status,
+    datetime: new Date()
+  }
+  messageLogsDataLayer.update('updateOne', matchQuery, data, {upsert: true})
 }
