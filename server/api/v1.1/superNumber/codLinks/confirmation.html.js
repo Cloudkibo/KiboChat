@@ -21,8 +21,8 @@ exports.renderHtml = (storeName, order, storeType, companyId, contactId, orderPa
       <h2>Your order on ${storeName}</h2>
       <p>This is to confirm your order number ${order} as the order is cash on delivery. You can confirm the order now or cancel it if you made it accidentally.</p>
       <br>
-      <ol id="items">
-      </ol>
+      <div id="items">
+      </div>
       <br><br>
 
       <div id="btns">
@@ -104,7 +104,7 @@ exports.renderHtml = (storeName, order, storeType, companyId, contactId, orderPa
     for(let i=0; i<orderPayload.lineItems.length; i++) {
       const { name, quantity, price, currency} = orderPayload.lineItems[i]
 
-      $('#items').append('<li><b>Item: </b>'+ name +' <b>Quantity: </b>'+ quantity +' <b>Price: </b>'+ currency +' '+ price +'</li>')
+      $('#items').append('<div><b>Item: </b>'+ name +'<br><b>Quantity: </b>'+ quantity +'<br><b>Price: </b>'+ currency +' '+ price +'</div><br><br>')
 
       sum += price
       currencyName = currency
