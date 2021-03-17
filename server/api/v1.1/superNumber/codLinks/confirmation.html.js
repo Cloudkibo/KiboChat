@@ -109,7 +109,7 @@ exports.renderHtml = (storeName, order, storeType, companyId, contactId, orderPa
       sum += price
       currencyName = currency
     }
-    $('#items').after('<br>', '<p><b>Total Price: </b>'+ currencyName +' '+ sum +'</p>')
+    $('#items').after('<p><b>Total Price: </b>'+ currencyName +' '+ sum +'</p>')
   </script>
 
 </body>
