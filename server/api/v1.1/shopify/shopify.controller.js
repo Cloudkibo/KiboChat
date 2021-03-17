@@ -29,7 +29,7 @@ const {ActionTypes} = require('../../../whatsAppMapper/constants')
 const { whatsAppMapper } = require('../../../whatsAppMapper/whatsAppMapper')
 const superNumberDataLayer = require('../superNumber/datalayer')
 const codPagesDataLayer = require('../superNumber/codpages.datalayer')
-const { saveAnalytics } = require('../superNumber/utility')
+const { saveAnalytics, saveMessageLogs } = require('../superNumber/utility')
 const moment = require('moment')
 const { getContact } = require('./../utility/miscApiCalls.controller')
 
@@ -312,6 +312,15 @@ async function sendOnWhatsApp (shopUrl, contact, body, shopifyIntegration) {
     if (preparedMessage.type) {
       if (preparedMessage.type === 'superNumber') {
         await whatsAppMapper(preparedMessage.provider, ActionTypes.SEND_CHAT_MESSAGE, preparedMessage)
+        saveAnalytics(shopifyIntegration.companyId, true, preparedMessage.payload.templateName.includes('cod') ? 'COD_ORDER_CONFIRMATION' : 'ORDER_CONFIRMATION')
+        let url = body.order_status_url.split('.com')[0]
+        saveMessageLogs(contact, {
+          id: body.order_number,
+          url: `${url}.com/admin/orders/${body.id}`,
+          amount: body.total_price,
+          currency: body.currency},
+        true,
+        preparedMessage.payload.templateName.includes('cod') ? 'COD_ORDER_CONFIRMATION' : 'ORDER_CONFIRMATION')
         saveAnalytics(shopifyIntegration.companyId, true, preparedMessage.payload.templateName.includes('cod') ? 'COD_ORDER_CONFIRMATION' : 'ORDER_CONFIRMATION')
       } else {
         sendWhatsAppMessage(preparedMessage.payload, preparedMessage.credentials, contact.number, company, contact)
