@@ -315,10 +315,12 @@ async function sendOnWhatsApp (shopUrl, contact, body, shopifyIntegration) {
         saveAnalytics(shopifyIntegration.companyId, true, preparedMessage.payload.templateName.includes('cod') ? 'COD_ORDER_CONFIRMATION' : 'ORDER_CONFIRMATION')
         let url = body.order_status_url.split('.com')[0]
         saveMessageLogs(contact, {
-          id: body.order_number,
+          id: body.order_number.toString(),
           url: `${url}.com/admin/orders/${body.id}`,
           amount: body.total_price,
-          currency: body.currency},
+          currency: body.currency,
+          status: 'no-response'
+        },
         true,
         preparedMessage.payload.templateName.includes('cod') ? 'COD_ORDER_CONFIRMATION' : 'ORDER_CONFIRMATION')
       } else {
