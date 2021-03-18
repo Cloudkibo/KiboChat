@@ -78,7 +78,8 @@ exports.create = function (req, res) {
     abandonedCart: req.body.abandonedCart,
     orderConfirmation: req.body.orderConfirmation,
     orderShipment: req.body.orderShipment,
-    cashOnDelivery: req.body.cashOnDelivery
+    cashOnDelivery: req.body.cashOnDelivery,
+    optin_widget: req.body.optin_widget
   }
   dataLayer.create(payload)
     .then(createdObj => {
