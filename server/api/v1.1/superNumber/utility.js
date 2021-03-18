@@ -36,7 +36,8 @@ exports.saveMessageLogs = async function (contact, payload, automatedMessage, me
     companyId: contact.companyId,
     customerNumber: contact.number,
     messageType,
-    automatedMessage
+    automatedMessage,
+    id: payload.id
   }
   let data = {
     automatedMessage,
@@ -48,8 +49,12 @@ exports.saveMessageLogs = async function (contact, payload, automatedMessage, me
     url: payload.url,
     amount: payload.amount,
     currency: payload.currency,
-    status: payload.status,
-    datetime: new Date()
+    status: payload.status
   }
-  messageLogsDataLayer.update('updateOne', matchQuery, data, {upsert: true})
+  const messageLog = await messageLogsDataLayer.findOne(matchQuery)
+  if (messageLog) {
+    messageLogsDataLayer.update('updateOne', {_id: messageLog._id}, data)
+  } else {
+    messageLogsDataLayer.create(data)
+  }
 }
