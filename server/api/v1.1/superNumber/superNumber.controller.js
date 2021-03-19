@@ -14,6 +14,7 @@ const analyticsDataLayer = require('./superNumberAnalytics.datalayer')
 const messageLogsDataLayer = require('./superNumberMessageLogs.datalayer')
 const { saveAnalytics } = require('./utility')
 const async = require('async')
+const { getContact } = require('./../utility/miscApiCalls.controller')
 
 exports.fetchTemplates = async (req, res) => {
   let superWhatsAppAccount = getSuperWhatsAppAccount()
@@ -78,7 +79,8 @@ exports.create = function (req, res) {
     abandonedCart: req.body.abandonedCart,
     orderConfirmation: req.body.orderConfirmation,
     orderShipment: req.body.orderShipment,
-    cashOnDelivery: req.body.cashOnDelivery
+    cashOnDelivery: req.body.cashOnDelivery,
+    optin_widget: req.body.optin_widget
   }
   dataLayer.create(payload)
     .then(createdObj => {
@@ -250,4 +252,15 @@ exports.fetchMessageLogs = function (req, res) {
       sendSuccessResponse(res, 200, {count: count.length > 0 ? count[0].count : 0, messageLogs})
     }
   })
+}
+exports.storeOptinNumberFromWidget = async (req, res) => {
+  try {
+    const contact = await getContact(req.body.companyId, req.body.contactNumber,
+      {first_name: req.body.name ? req.body.name : req.body.contactNumber, accepts_marketing: true})
+    sendSuccessResponse(res, 200, contact)
+  } catch (err) {
+    const message = err || 'Internal server error'
+    logger.serverLog(message, `${TAG}: exports.storeOptinNumberFromWidget`, req.body, {user: req.user}, 'error')
+    sendErrorResponse(res, 500, null, 'Failed to store optin number from widget')
+  }
 }
