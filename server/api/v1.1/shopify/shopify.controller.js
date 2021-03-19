@@ -381,6 +381,16 @@ exports.handleFulfillment = async function (req, res) {
               if (preparedMessage.provider) {
                 await whatsAppMapper(preparedMessage.provider, ActionTypes.SEND_CHAT_MESSAGE, preparedMessage)
                 saveAnalytics(shopifyIntegration.companyId, true, 'ORDER_SHIPMENT')
+                let url = req.body.order_status_url.split('.com')[0]
+                saveMessageLogs(contact, {
+                  id: req.body.order_number.toString(),
+                  url: `${url}.com/admin/orders/${req.body.id}`,
+                  amount: req.body.total_price,
+                  currency: req.body.currency,
+                  status: 'no-response'
+                },
+                true,
+                'ORDER_SHIPMENT')
               }
             }
           }
