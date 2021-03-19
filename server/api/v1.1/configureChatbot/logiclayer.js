@@ -6,6 +6,7 @@ exports.preparePayload = function (user, body) {
     platform: user.platform,
     title: body.title,
     startingBlockId: body.startingBlockId,
+    dialogFlowAgentId: body.dialogFlowAgentId,
     published: false
   }
   return payload
