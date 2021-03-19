@@ -63,4 +63,9 @@ router.post('/fetchMessageLogs',
   auth.isSuperUserActingAsCustomer(),
   controller.fetchMessageLogs)
 
+router.post('/storeOptinNumberFromWidget',
+  validate({body: validationSchema.storeOptinNumberFromWidget}),
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
+  controller.storeOptinNumberFromWidget)
 module.exports = router
