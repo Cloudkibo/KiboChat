@@ -16,7 +16,6 @@ const dataLayer = require('./shopify.datalayer')
 const messengerChatbotDataLayer = require('../chatbots/chatbots.datalayer')
 const whatsAppChatbotDataLayer = require('../whatsAppChatbot/whatsAppChatbot.datalayer')
 const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
-const messageLogsDataLayer = require('./../superNumber/superNumberMessageLogs.datalayer')
 const EcommerceProviders = require('./../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
 const commerceConstants = require('./../ecommerceProvidersApiLayer/constants')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
@@ -320,7 +319,17 @@ async function sendOnWhatsApp (shopUrl, contact, body, shopifyIntegration) {
         },
         true,
         preparedMessage.payload.templateName.includes('cod') ? 'COD_ORDER_CONFIRMATION' : 'ORDER_CONFIRMATION')
-        messageLogsDataLayer.update('updateOne', {customerNumber: contact.number, id: body.order.checkout_id, messageType: 'ABANDONED_CART_RECOVERY'}, {status: 'recovered'})
+        if (body.checkout_id) {
+          saveMessageLogs(contact, {
+            id: body.checkout_id.toString(),
+            url: `${url}.com/admin/orders/${body.id}`,
+            amount: body.total_price,
+            currency: body.currency,
+            status: 'recovered'
+          },
+          true,
+          'ABANDONED_CART_RECOVERY')
+        }
       } else {
         sendWhatsAppMessage(preparedMessage.payload, preparedMessage.credentials, contact.number, company, contact)
       }
@@ -382,7 +391,7 @@ exports.handleFulfillment = async function (req, res) {
                 saveAnalytics(shopifyIntegration.companyId, true, 'ORDER_SHIPMENT')
                 let url = restOrderPayload.order_status_url.split('.com')[0]
                 saveMessageLogs(contact, {
-                  id: restOrderPayload.order_number,
+                  id: restOrderPayload.order_number.toString(),
                   url: `${url}.com/admin/orders/${restOrderPayload.id}`,
                   amount: restOrderPayload.total_price,
                   currency: restOrderPayload.currency,
