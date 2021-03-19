@@ -16,6 +16,7 @@ const dataLayer = require('./shopify.datalayer')
 const messengerChatbotDataLayer = require('../chatbots/chatbots.datalayer')
 const whatsAppChatbotDataLayer = require('../whatsAppChatbot/whatsAppChatbot.datalayer')
 const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
+const messageLogsDataLayer = require('./../superNumber/superNumberMessageLogs.datalayer')
 const EcommerceProviders = require('./../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
 const commerceConstants = require('./../ecommerceProvidersApiLayer/constants')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
@@ -319,6 +320,7 @@ async function sendOnWhatsApp (shopUrl, contact, body, shopifyIntegration) {
         },
         true,
         preparedMessage.payload.templateName.includes('cod') ? 'COD_ORDER_CONFIRMATION' : 'ORDER_CONFIRMATION')
+        messageLogsDataLayer.update('updateOne', {customerNumber: contact.number, id: body.order.checkout_id, messageType: 'ABANDONED_CART_RECOVERY'}, {status: 'recovered'})
       } else {
         sendWhatsAppMessage(preparedMessage.payload, preparedMessage.credentials, contact.number, company, contact)
       }
@@ -364,6 +366,7 @@ exports.handleFulfillment = async function (req, res) {
         let orderName = req.body.name.split('.')[0]
         orderName = orderName.split('#')[1]
         const order = await ecommerceProvider.checkOrderStatus(orderName)
+        const restOrderPayload = await ecommerceProvider.checkOrderStatusByRest(order.id.split('/')[4])
         const customer = order.customer
         if (customer.phone) {
           const contact = await getContact(shopifyIntegration.companyId, customer.phone,
@@ -377,13 +380,13 @@ exports.handleFulfillment = async function (req, res) {
               if (preparedMessage.provider) {
                 await whatsAppMapper(preparedMessage.provider, ActionTypes.SEND_CHAT_MESSAGE, preparedMessage)
                 saveAnalytics(shopifyIntegration.companyId, true, 'ORDER_SHIPMENT')
-                let url = req.body.order_status_url.split('.com')[0]
+                let url = restOrderPayload.order_status_url.split('.com')[0]
                 saveMessageLogs(contact, {
-                  id: req.body.order_number.toString(),
-                  url: `${url}.com/admin/orders/${req.body.id}`,
-                  amount: req.body.total_price,
-                  currency: req.body.currency,
-                  status: 'no-response'
+                  id: restOrderPayload.order_number,
+                  url: `${url}.com/admin/orders/${restOrderPayload.id}`,
+                  amount: restOrderPayload.total_price,
+                  currency: restOrderPayload.currency,
+                  status: 'confirmed'
                 },
                 true,
                 'ORDER_SHIPMENT')
