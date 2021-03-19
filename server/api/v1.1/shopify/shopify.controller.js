@@ -108,6 +108,17 @@ exports.install = function (req, res) {
   res.redirect(installUrl)
 }
 
+const registerScript = function (shopDomain, accessToken, params) {
+  const shopify = new Shopify({ shopName: shopDomain, accessToken: accessToken })
+  shopify.scriptTag.create(params).then(
+    response => {},
+    err => {
+      const message = err || 'Error creating script'
+      logger.serverLog(message, `${TAG}: registerScript`, {shopDomain, accessToken, params}, {}, 'error')
+    }
+  )
+}
+
 function registerWebhooks (shop, token) {
   const shopify = new Shopify({
     shopName: shop,
@@ -503,6 +514,10 @@ exports.callback = function (req, res) {
                 res.redirect('/alreadyConnected')
               } else {
                 registerWebhooks(shop, accessToken)
+                registerScript(shop, accessToken, {
+                  event: 'onload',
+                  src: config.domain + '/api/shopify/serveScript'
+                })
                 dataLayer.createShopifyIntegration(shopifyPayload)
                   .then(savedStore => {
                     res.cookie('shopifySetupState', 'completedUsingAuth')
@@ -687,6 +702,24 @@ exports.update = async (req, res) => {
     }
   } catch (err) {
     const message = err || 'Error fetching orders'
-    logger.serverLog(message, `${TAG}: exports.fetchOrders`, req.body, {}, 'error')
+    logger.serverLog(message, `${TAG}: exports.update`, req.body, {}, 'error')
   }
+}
+
+exports.serveScript = async (req, res) => {
+  try {
+    const shopUrl = req.query.shop
+    let shopifyIntegrations = await dataLayer.findShopifyIntegrations({ shopUrl })
+    const mainScriptUrl = config.domain + '/api/shopify/mainScript'
+    res.set('Content-Type', 'text/javascript')
+    res.send(require('./rootScript').renderJS(mainScriptUrl, shopifyIntegrations[0].companyId, shopifyIntegrations[0]._id))
+  } catch (err) {
+    const message = err || 'Error fetching orders'
+    logger.serverLog(message, `${TAG}: exports.serveScript`, {query: req.query}, {}, 'error')
+  }
+}
+
+exports.serverMainScript = (req, res) => {
+  res.set('Content-Type', 'text/javascript')
+  res.sendFile(path.resolve(__dirname, 'script', 'mainScripts.js'))
 }

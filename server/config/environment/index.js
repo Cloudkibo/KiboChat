@@ -40,9 +40,9 @@ const all = {
   },
   SENDGRID_API_KEY: process.env.SENDGRID_API_KEY || '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',
   shopify: {
-    app_key: process.env.SHOPIFY_KEY || 'test_api_key',
+    app_key: process.env.SHOPIFY_KEY || '10128033d2dc6948f383edf548c2aa87',
     app_host: 'https://kibochat.cloudkibo.com',
-    app_secret: process.env.SHOPIFY_SECRET || 'test_api_secret'
+    app_secret: process.env.SHOPIFY_SECRET || 'f41a001b86c700915c9cedc52b955d35'
   },
   bigcommerce: {
     client_id: process.env.BIGCOMMERCE_CLIENT_ID || '5bsotbk9bdq3wwiejhc6y014h1p2tje',
