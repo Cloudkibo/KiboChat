@@ -382,7 +382,7 @@ exports.handleFulfillment = async function (req, res) {
                 saveAnalytics(shopifyIntegration.companyId, true, 'ORDER_SHIPMENT')
                 let url = restOrderPayload.order_status_url.split('.com')[0]
                 saveMessageLogs(contact, {
-                  id: restOrderPayload.order_number,
+                  id: restOrderPayload.order_number.toString(),
                   url: `${url}.com/admin/orders/${restOrderPayload.id}`,
                   amount: restOrderPayload.total_price,
                   currency: restOrderPayload.currency,
