@@ -35,7 +35,7 @@ exports.addConfirmTag = async (req, res) => {
         await ecommerceProvider.updateOrderTag(order.id.split('/')[4], superNumberPreferences.cashOnDelivery.cod_tags.confirmed_tag)
         let url = restOrderPayload.order_status_url.split('.com')[0]
         saveMessageLogs(contact, {
-          id: restOrderPayload.order_number,
+          id: restOrderPayload.order_number.toString(),
           url: `${url}.com/admin/orders/${restOrderPayload.id}`,
           amount: restOrderPayload.total_price,
           currency: restOrderPayload.currency,
@@ -117,6 +117,16 @@ async function sendConfirmationMessage (superNumberPreferences, shopName, contac
     whatsApp: superWhatsAppAccount,
     recipientNumber: contact.number
   }
+  let url = order.order_status_url.split('.com')[0]
+  saveMessageLogs(contact, {
+    id: order.order_number.toString(),
+    url: `${url}.com/admin/orders/${order.id}`,
+    amount: order.total_price,
+    currency: order.currency,
+    status: 'confirmed'
+  },
+  true,
+  'ORDER_CONFIRMATION')
   await whatsAppMapper(preparedMessage.provider, ActionTypes.SEND_CHAT_MESSAGE, preparedMessage)
   saveAnalytics(shopifyIntegration.companyId, true, preparedMessage.payload.templateName.includes('cod') ? 'COD_ORDER_CONFIRMATION' : 'ORDER_CONFIRMATION')
 }
