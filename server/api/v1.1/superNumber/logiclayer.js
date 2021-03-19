@@ -154,7 +154,7 @@ exports.getMessageLogsCriterias = function (body, companyId) {
     automatedMessage: body.automatedMessage
   }
   if (body.messageType.$or) {
-    findCriteria['$or'] = body.$or
+    findCriteria['$or'] = body.messageType.$or
   } else {
     findCriteria['messageType'] = body.messageType
   }
