@@ -320,7 +320,9 @@ async function sendOnWhatsApp (shopUrl, contact, body, shopifyIntegration) {
         },
         true,
         preparedMessage.payload.templateName.includes('cod') ? 'COD_ORDER_CONFIRMATION' : 'ORDER_CONFIRMATION')
-        messageLogsDataLayer.update('updateOne', {customerNumber: contact.number, id: body.order.checkout_id, messageType: 'ABANDONED_CART_RECOVERY'}, {status: 'recovered'})
+        if (body.checkout_id) {
+          messageLogsDataLayer.update('updateOne', {customerNumber: contact.number, id: body.checkout_id, messageType: 'ABANDONED_CART_RECOVERY'}, {status: 'recovered'})
+        }
       } else {
         sendWhatsAppMessage(preparedMessage.payload, preparedMessage.credentials, contact.number, company, contact)
       }
