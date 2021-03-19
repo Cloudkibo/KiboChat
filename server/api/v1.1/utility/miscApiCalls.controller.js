@@ -14,8 +14,9 @@ function getContact (companyId, number, customer) {
         if (contacts.length > 0) {
           resolve(contacts[0])
         } else {
+          let name = getContactName(customer.first_name, customer.last_name, number)
           callApi(`whatsAppContacts`, 'post', {
-            name: customer.first_name + ' ' + customer.last_name,
+            name: name,
             number: number,
             companyId: companyId,
             marketing_optin: customer.accepts_marketing
@@ -32,6 +33,18 @@ function getContact (companyId, number, customer) {
         reject(err)
       })
   })
+}
+
+function getContactName (firstName, lastName, number) {
+  let name = ''
+  if (firstName && lastName) {
+    name = firstName + ' ' + lastName
+  } else if (firstName) {
+    name = firstName
+  } else {
+    name = number
+  }
+  return name
 }
 
 function getContactById (companyId, contactId) {
