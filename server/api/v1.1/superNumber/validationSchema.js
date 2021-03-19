@@ -122,3 +122,21 @@ exports.messageLogsPayload = {
     'automatedMessage'
   ]
 }
+exports.storeOptinNumberFromWidget = {
+  'type': 'object',
+  'properties': {
+    'companyId': {
+      'type': 'string'
+    },
+    'name': {
+      'type': 'string'
+    },
+    'contactNumber': {
+      'type': 'string'
+    }
+  },
+  'required': [
+    'companyId',
+    'contactNumber'
+  ]
+}
