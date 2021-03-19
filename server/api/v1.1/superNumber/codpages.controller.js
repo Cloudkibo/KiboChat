@@ -118,6 +118,7 @@ async function sendConfirmationMessage (superNumberPreferences, shopName, contac
     recipientNumber: contact.number
   }
   let url = order.order_status_url.split('.com')[0]
+  await whatsAppMapper(preparedMessage.provider, ActionTypes.SEND_CHAT_MESSAGE, preparedMessage)
   saveMessageLogs(contact, {
     id: order.order_number.toString(),
     url: `${url}.com/admin/orders/${order.id}`,
@@ -127,6 +128,5 @@ async function sendConfirmationMessage (superNumberPreferences, shopName, contac
   },
   true,
   'ORDER_CONFIRMATION')
-  await whatsAppMapper(preparedMessage.provider, ActionTypes.SEND_CHAT_MESSAGE, preparedMessage)
   saveAnalytics(shopifyIntegration.companyId, true, preparedMessage.payload.templateName.includes('cod') ? 'COD_ORDER_CONFIRMATION' : 'ORDER_CONFIRMATION')
 }
