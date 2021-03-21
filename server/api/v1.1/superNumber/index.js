@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const cors = require('cors')
 const auth = require('../../../auth/auth.service')
 const validate = require('express-jsonschema').validate
 const validationSchema = require('./validationSchema')
@@ -64,8 +65,12 @@ router.post('/fetchMessageLogs',
   controller.fetchMessageLogs)
 
 router.post('/storeOptinNumberFromWidget',
+  cors(),
   validate({body: validationSchema.storeOptinNumberFromWidget}),
-  auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer('write'),
   controller.storeOptinNumberFromWidget)
+
+router.post('/fetchWidgetInfo',
+  cors(),
+  controller.fetchWidgetInfo)
+
 module.exports = router

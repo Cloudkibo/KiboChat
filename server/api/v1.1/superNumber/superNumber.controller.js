@@ -264,3 +264,22 @@ exports.storeOptinNumberFromWidget = async (req, res) => {
     sendErrorResponse(res, 500, null, 'Failed to store optin number from widget')
   }
 }
+
+exports.fetchWidgetInfo = async (req, res) => {
+  try {
+    const shopifyIntegrations = await shopifyDataLayer.findShopifyIntegrations({
+      companyId: req.body.companyId, _id: req.body.shopifyId
+    })
+
+    if (shopifyIntegrations.length < 1) {
+      sendErrorResponse(res, 500, null, 'It seems your shopify store is not connected to KiboPush properly. Please contact KiboPush Support.')
+    } else {
+      const superNumberPreferences = await dataLayer.findOne({companyId: req.body.companyId})
+      sendSuccessResponse(res, 200, superNumberPreferences)
+    }
+  } catch (err) {
+    const message = err || 'Internal server error'
+    logger.serverLog(message, `${TAG}: exports.storeOptinNumberFromWidget`, req.body, {user: req.user}, 'error')
+    sendErrorResponse(res, 500, null, 'Failed to store optin number from widget')
+  }
+}

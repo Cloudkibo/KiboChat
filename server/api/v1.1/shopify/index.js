@@ -9,7 +9,6 @@ const express = require('express')
 const router = express.Router()
 const auth = require('../../../auth/auth.service')
 const controller = require('./shopify.controller')
-const config = require('./../../../config/environment/index')
 // const webhook = require('./webhook.controller')
 
 router.post('/',
