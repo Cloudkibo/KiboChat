@@ -750,7 +750,7 @@ exports.serveScript = async (req, res) => {
     let shopifyIntegrations = await dataLayer.findShopifyIntegrations({ shopUrl })
     const mainScriptUrl = config.domain + '/api/shopify/mainScript'
     res.set('Content-Type', 'text/javascript')
-    res.send(require('./rootScript').renderJS(mainScriptUrl, shopifyIntegrations[0].companyId, shopifyIntegrations[0]._id))
+    res.send(require('./rootScript').renderJS(mainScriptUrl, shopifyIntegrations[0].companyId, shopifyIntegrations[0]._id, config.domain))
   } catch (err) {
     const message = err || 'Error fetching orders'
     logger.serverLog(message, `${TAG}: exports.serveScript`, {query: req.query}, {}, 'error')
