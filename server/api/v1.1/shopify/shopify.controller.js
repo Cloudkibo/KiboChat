@@ -759,5 +759,5 @@ exports.serveScript = async (req, res) => {
 
 exports.serverMainScript = (req, res) => {
   res.set('Content-Type', 'text/javascript')
-  res.sendFile(path.resolve(__dirname, 'script', 'mainScripts.js'))
+  res.sendFile(path.resolve(__dirname, 'script/dist', 'kibo_shopify.build.js'))
 }
