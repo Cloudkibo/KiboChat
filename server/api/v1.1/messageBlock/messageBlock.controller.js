@@ -10,31 +10,49 @@ const logger = require('../../../components/logger')
 const TAG = 'api/v1.1/messageBlock/messageBlock.controller.js'
 const {openGraphScrapper} = require('../../global/utility')
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
+const { getDialogFlowClient } = require('../../global/dialogflow')
 
-exports.create = function (req, res) {
-  let payload = logiclayer.preparePayload(req.user.companyId, req.user._id, req.body)
-  datalayer.genericUpdateMessageBlock({ uniqueId: req.body.uniqueId }, payload, { upsert: true })
-    .then(messageBlock => {
-      _sendToClientUsingSocket(messageBlock)
-      updateUrlForClickCount(payload)
-      if (req.body.updateStartingBlockId) {
-        let updatePayload = {}
-        if (messageBlock.upserted) updatePayload.startingBlockId = messageBlock.upserted[0]._id
-        chatbotDataLayer.genericUpdateChatBot(
-          { _id: req.body.chatbotId }, updatePayload)
-          .then(updated => {})
-          .catch(error => {
-            const message = error || 'error in chatbot update for triggers'
-            logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
-          })
+exports.create = async function (req, res) {
+  try {
+    const chatbot = await chatbotDataLayer.findOneChatBot({_id: req.body.chatbotId})
+    let payload = logiclayer.preparePayload(req.user.companyId, req.user._id, req.body)
+    if (chatbot && chatbot.dialogFlowAgentId) {
+      const messageBlock = await datalayer.findOneMessageBlock({uniqueId: req.body.uniqueId})
+      if (!messageBlock) {
+        const dialogflow = await getDialogFlowClient(req.user.companyId)
+        const intentBody = logiclayer.prepareIntentPayload(req.body)
+        const result = await dialogflow.projects.agent.intents.create({ parent: `${chatbot.dialogFlowAgentId}/agent`, requestBody: intentBody})
+        payload.dialogFlowIntentId = result.data.name
       }
-      return sendSuccessResponse(res, 201, messageBlock, 'Created or updated successfully')
-    })
-    .catch(error => {
-      const message = error || 'Failed to create the message block'
-      logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
-      return sendErrorResponse(res, 500, error, 'Failed to create the message block.')
-    })
+    }
+    datalayer.genericUpdateMessageBlock({ uniqueId: req.body.uniqueId }, payload, { upsert: true })
+      .then(messageBlock => {
+        _sendToClientUsingSocket(messageBlock)
+        updateUrlForClickCount(payload)
+        if (req.body.updateStartingBlockId) {
+          let updatePayload = {}
+          if (messageBlock.upserted) updatePayload.startingBlockId = messageBlock.upserted[0]._id
+          chatbotDataLayer.genericUpdateChatBot(
+            { _id: req.body.chatbotId }, updatePayload)
+            .then(updated => {})
+            .catch(error => {
+              const message = error || 'error in chatbot update for triggers'
+              logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
+            })
+        }
+        return sendSuccessResponse(res, 201, messageBlock, 'Created or updated successfully')
+      })
+      .catch(error => {
+        const message = error || 'Failed to create the message block'
+        logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
+        return sendErrorResponse(res, 500, error, 'Failed to create the message block.')
+      })
+  } catch (err) {
+    console.log(err)
+    const message = err || 'Failed to create the message block'
+    logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
+    return sendErrorResponse(res, 500, err, 'Failed to create the message block.')
+  }
 }
 
 exports.attachment = function (req, res) {
