@@ -6,6 +6,7 @@
 
 const Optin = require('./optin')
 const Share = require('./share')
+const Chat = require('./chat')
 
 const kiboCompanyId = window.__kibocompany__
 const kiboDomain = window.__kibodomain__
@@ -30,6 +31,9 @@ HttpForBasicSetup.onreadystatechange = function (e) {
     }
     if (kiboBasicSetup.share_button.enabled) {
       Share.initShareButtonWidget(kiboBasicSetup)
+    }
+    if (kiboBasicSetup.chat_widget.enabled) {
+      Chat.initChatButtonWidget(kiboBasicSetup)
     }
   }
 }

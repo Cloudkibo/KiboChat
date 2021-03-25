@@ -113,6 +113,8 @@ function buildOut () {
    */
 
   if (typeof this.options.content === 'string') {
+    // using this for html content as well, see comment
+    // in else block to understand more
     content = this.options.content
   } else {
     // not doing this right now, will do when opera mini
