@@ -7,13 +7,20 @@ const TAG = 'auth/dialogflow/index.js'
 const { callApi } = require('../../api/v1.1/utility')
 
 const router = express.Router()
-const keys = require(config.DIALOGFLOW_OAUTH_KEYS)
+let keys 
+let oAuth2Client
 
-const oAuth2Client = new google.auth.OAuth2(
-  keys.web.client_id,
-  keys.web.client_secret,
-  config.DIALOGFLOW_OAUTH_REDIRECT_URI
-)
+try {
+  keys = require(config.DIALOGFLOW_OAUTH_KEYS)
+
+  oAuth2Client = new google.auth.OAuth2(
+    keys.web.client_id,
+    keys.web.client_secret,
+    config.DIALOGFLOW_OAUTH_REDIRECT_URI
+  )
+} catch (err) {
+  console.log(err) // please leave this log. It will only be logged in development environment
+}
 
 router.get('/callback', async (req, res) => {
   try {

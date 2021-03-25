@@ -43,7 +43,6 @@ module.exports = {
   zoomClientId: 'sVqps8gkQOeR91ls8j9ZIA',
   zoomClientSecret: 'ztyfVthdSe09OtTMO3Nl1dEtZXVdwVTN',
   zoomRedirectUri: 'https://kibopush-zoom.ngrok.io/auth/zoom/callback',
-  papertrail_log_levels: '',
-  DIALOGFLOW_OAUTH_KEYS: process.env.DIALOGFLOW_OAUTH_KEYS || '/Users/sojharo/RestructureWork/GCPCredentials/dialogflow-oauth-keys',
-  DIALOGFLOW_OAUTH_REDIRECT_URI: process.env.DIALOGFLOW_OAUTH_REDIRECT_URI || 'https://kibochat.ngrok.io/auth/dialogflow/callback'
+  papertrail_log_levels: ''
+  // PLEASE DON'T DEFINE DIALOGFLOW OAUTH VARIABLES HERE. THEY ARE ALREADY DEFINED IN INDEX.JS
 }
