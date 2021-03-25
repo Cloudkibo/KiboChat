@@ -44,4 +44,5 @@ module.exports = {
   zoomClientSecret: 'ztyfVthdSe09OtTMO3Nl1dEtZXVdwVTN',
   zoomRedirectUri: 'https://kibopush-zoom.ngrok.io/auth/zoom/callback',
   papertrail_log_levels: ''
+  // PLEASE DON'T DEFINE DIALOGFLOW OAUTH VARIABLES HERE. THEY ARE ALREADY DEFINED IN INDEX.JS
 }
