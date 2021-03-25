@@ -112,6 +112,13 @@ exports.handleBlock = function (req, res) {
         try {
           const block = records[0]
           const payload = logiclayer.prepareBlockPayload(req.user, req.body)
+          const chatbots = await datalayer.fetchChatbotRecords({companyId: req.user.companyId, platform: req.user.platform})
+          if (chatbots.length > 0 && chatbots[0].dialogFlowAgentId && (!block || !block.dialogFlowIntentId)) {
+            const dialogflow = await getDialogFlowClient(req.user.companyId)
+            const intentBody = prepareIntentPayload(req.body)
+            const result = await dialogflow.projects.agent.intents.create({ parent: `${chatbots[0].dialogFlowAgentId}/agent`, requestBody: intentBody})
+            payload.dialogFlowIntentId = result.data.name
+          }
           if (block) {
             datalayer.updateChatbotBlockRecord({uniqueId: req.body.uniqueId}, payload)
               .then(created => {
@@ -123,13 +130,6 @@ exports.handleBlock = function (req, res) {
                 return sendErrorResponse(res, 500, error, 'Failed to create chatbot.')
               })
           } else {
-            const chatbots = await datalayer.fetchChatbotRecords({companyId: req.user.companyId, platform: req.user.platform})
-            if (chatbots.length > 0 && chatbots[0].dialogFlowAgentId) {
-              const dialogflow = await getDialogFlowClient(req.user.companyId)
-              const intentBody = prepareIntentPayload(req.body)
-              const result = await dialogflow.projects.agent.intents.create({ parent: `${chatbots[0].dialogFlowAgentId}/agent`, requestBody: intentBody})
-              payload.dialogFlowIntentId = result.data.name
-            }
             datalayer.createChatbotBlockRecord(payload)
               .then(created => {
                 return sendSuccessResponse(res, 201, created, 'Chatbot block created successfully!')
