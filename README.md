@@ -52,7 +52,10 @@ Please run following build command whenever you do any change in Shopify plugin 
 
     npm run build
 
-This will build the final shopify script that is being served to Shopify.
+This will build the final shopify script that is being served to Shopify. In order to run the above script on production server, first install the webpack on production server. (This is done one time only when setting up new production droplet):
+
+    npm install -g webpack
+    npm install -g webpack-cli
 
 When working in development mode, instead of doing `npm run build` each time you make change, just run the following command to start the file watcher of webpack.
 
