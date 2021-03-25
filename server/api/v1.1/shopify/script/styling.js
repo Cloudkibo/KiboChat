@@ -108,6 +108,7 @@ exports.kiboOptinModalStyle = `
   {
       background: #c0392b;
   }
+
   /* Default Animation */
 
   .kibo-optin-overlay.fade-and-drop
@@ -286,8 +287,140 @@ exports.kiboShareButtonStyle = function (iconClr, btnTxtClr, bgStyle, bg1, bg2) 
     ? ''
     : 'background-image: linear-gradient(' + bg1 + ', ' + bg2 + ');'}
   }
+
   .kiboshare-btn-mail:hover {
     background-color: #dab10d;
+  }
+  `
+}
+
+exports.kiboChatButtonStyle = function (iconClr, btnTxtClr, bgStyle, bg1, bg2, wHeight, wEdge) {
+  return `
+  @import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
+
+  a {
+    text-decoration: none;
+  }
+
+  .kibochat-btns-container {
+    overflow: hidden;
+    position: fixed;
+    font-size: 0;
+    bottom: ${wHeight}px;
+    width: 100%;
+    height: 36px;
+    z-index: 111;
+  }
+
+  .kibochat-btns-left {
+    left: ${wEdge}px;
+  }
+
+  .kibochat-btns-right{
+    text-align: right;
+    right: ${wEdge}px;
+  }
+
+  .social-kibochat-btns {
+    display: inline-block;
+    overflow: hidden;
+  }
+  .social-kibochat-btns .kibochat-btn {
+    float: left;
+    margin: 0 5px;
+    padding: 8px 16px;
+    border-radius: 3px;
+    color: ${btnTxtClr};
+    font-size: 18px;
+    line-height: 18px;
+    vertical-align: middle;
+    -moz-transition: background 0.2s ease-in-out;
+    -o-transition: background 0.2s ease-in-out;
+    -webkit-transition: background 0.2s ease-in-out;
+    transition: background 0.2s ease-in-out;
+  }
+
+  .social-kibochat-btns .kibochat-btn i {
+    margin-right: 5px;
+    display: inline-block;
+    font-size: 18px;
+    color: ${iconClr};
+    vertical-align: middle;
+  }
+
+  .kibochat-btn {
+    background-color: #95a5a6;
+  }
+  .kibochat-btn:hover {
+    background-color: #798d8f;
+  }
+
+  .kiboshare-btn-mail {
+    background-color: ${bg1};
+    ${bgStyle === 'single'
+    ? ''
+    : 'background-image: linear-gradient(' + bg1 + ', ' + bg2 + ');'}
+  }
+
+  .kibochat-btn-mail:hover {
+    background-color: #dab10d;
+  }
+
+  /* Call out styling */
+  .kibo-call-out {
+    visibility: hidden;
+    position: fixed;
+    z-index: 112;
+    color: #000;
+    bottom: calc(${wHeight}px + 50px);
+    padding: 12px;
+    width: 250px;
+    font-size: 14px;
+    border: solid;
+    border-radius: 4px;
+    border-width: 1px;
+    border-color: #737270;
+    background: #fcfaf5;
+    box-shadow: 4px 4px 4px 1px rgba(102, 100, 96, .2);
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .kibo-call-out-left {
+    left: ${wEdge}px;
+  }
+
+  .kibo-call-out-right {
+    text-align: right;
+    right: ${wEdge}px;
+  }
+
+  /* for testing purpose to show call out */
+  /* .social-kibochat-btn:hover + .kibo-call-out {
+    visibility: visible;
+    opacity: 1;
+  } */
+
+  .kibo-call-out-close {
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 12px;
+
+    position: absolute;
+    top: -12px;
+    right: -12px;
+
+    padding: 5px 7px 7px;
+
+    cursor: pointer;
+
+    color: #000;
+    border: 1;
+    border-radius: 50%;
+    outline: none;
+    background: #fff;
   }
   `
 }

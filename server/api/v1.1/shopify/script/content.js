@@ -86,5 +86,23 @@ exports.kiboContent = {
       </div>
     </div>
     `
+  },
+  chatButton: function (btnText, position, txtMessage, callOutMessage) {
+    const pageUrl = window.location.href
+    let url = 'https://wa.me/?text=hi'
+
+    return `
+    <div class='kibochat-btns-container kibochat-btns-${position}'>
+      <div class='social-kibochat-btns'>
+        <a class='kibochat-btn kibochat-btn-mail' href='${url}' rel='nofollow' target='_blank'>
+          <i class='ion-social-whatsapp'></i>
+          ${btnText}
+        </a>
+      </div>
+      <span class="kibo-call-out kibo-call-out-right">${callOutMessage}
+        <button class='kibo-call-out-close'>x</button>
+      </span>
+    </div>
+    `
   }
 }
