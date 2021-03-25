@@ -754,7 +754,7 @@ exports.serveScript = async (req, res) => {
       if (superNumber) {
         res.set('Content-Type', 'text/javascript')
         res.send(require('./rootScript')
-          .renderJS(mainScriptUrl, shopifyIntegrations.companyId, shopifyIntegrations._id, config.domain))
+          .renderJS(mainScriptUrl, shopifyIntegration.companyId, shopifyIntegration._id, config.domain))
         break
       }
     }
