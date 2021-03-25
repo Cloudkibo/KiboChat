@@ -11,6 +11,7 @@ const TAG = 'api/v1.1/messageBlock/messageBlock.controller.js'
 const {openGraphScrapper} = require('../../global/utility')
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
 const { getDialogFlowClient } = require('../../global/dialogflow')
+const async = require('async')
 
 exports.create = async function (req, res) {
   try {
@@ -48,10 +49,13 @@ exports.create = async function (req, res) {
         return sendErrorResponse(res, 500, error, 'Failed to create the message block.')
       })
   } catch (err) {
-    console.log(err)
+    let errorMessage = 'Failed to create the message block.'
+    if (err && err.errors && err.errors[0]) {
+      errorMessage = err.errors[0].message
+    }
     const message = err || 'Failed to create the message block'
     logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
-    return sendErrorResponse(res, 500, err, 'Failed to create the message block.')
+    return sendErrorResponse(res, 500, err, errorMessage)
   }
 }
 
@@ -149,16 +153,55 @@ function _sendToClientUsingSocket (body) {
   })
 }
 
-exports.delete = function (req, res) {
-  datalayer.deleteForMessageBlock({ _id: { $in: req.body.ids } })
-    .then(messageBlock => {
-      return res.status(201).json({ status: 'success', payload: messageBlock })
-    })
-    .catch(error => {
-      const message = error || 'Failed to delete messageBlock'
-      logger.serverLog(message, `${TAG}: exports.delete`, req.body, {user: req.user}, 'error')
-      return res.status(500).json({ status: 'failed', payload: `Failed to delete messageBlock ${error}` })
-    })
+exports.delete = async function (req, res) {
+  try {
+    const blocks = await datalayer.findAllMessageBlock({ _id: { $in: req.body.ids } })
+    if (blocks & blocks.length > 0) {
+      datalayer.deleteForMessageBlock({ _id: { $in: req.body.ids } })
+        .then(messageBlock => {
+          async.each(blocks, async function (block, cb) {
+            if (block.dialogFlowIntentId) {
+              const dialogflow = await getDialogFlowClient(req.user.companyId)
+              const result = await dialogflow.projects.agent.intents.delete({ name: block.dialogFlowIntentId })
+              if (result) {
+                cb()
+              } else {
+                cb(new Error('Failed to delete message block'))
+              }
+            } else {
+              cb()
+            }
+          }, function (err) {
+            if (err) {
+              let errorMessage = 'Failed to delete message block'
+              if (err && err.errors && err.errors[0]) {
+                errorMessage = err.errors[0].message
+              }
+              const message = error || 'Failed to delete messageBlock'
+              logger.serverLog(message, `${TAG}: exports.delete`, req.body, {user: req.user}, 'error')
+              return res.status(500).json({ status: 'failed', description: errorMessage })
+            } else {
+              return res.status(201).json({ status: 'success', payload: messageBlock })
+            }
+          })
+        })
+        .catch(error => {
+          const message = error || 'Failed to delete messageBlock'
+          logger.serverLog(message, `${TAG}: exports.delete`, req.body, {user: req.user}, 'error')
+          return res.status(500).json({ status: 'failed', payload: `Failed to delete messageBlock ${error}` })
+        })
+    } else {
+      return res.status(403).json({status: 'failed', description: 'Block(s) do not exist'})
+    }
+  } catch (err) {
+    let errorMessage = 'Failed to delete message block'
+    if (err && err.errors && err.errors[0]) {
+      errorMessage = err.errors[0].message
+    }
+    const message = error || 'Failed to delete messageBlock'
+    logger.serverLog(message, `${TAG}: exports.delete`, req.body, {user: req.user}, 'error')
+    return res.status(500).json({ status: 'failed', description: errorMessage })
+  }
 }
 
 exports.scriptChatbotBlocks = function (req, res) {
