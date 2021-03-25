@@ -112,7 +112,7 @@ exports.handleBlock = function (req, res) {
         try {
           const block = records[0]
           const payload = logiclayer.prepareBlockPayload(req.user, req.body)
-          const chatbots = await datalayer.fetchChatbotRecords({companyId: req.user.companyId, platform: req.user.platform})
+          const chatbots = await datalayer.fetchChatbotRecords({chatbotId: req.body.chatbotId})
           if (chatbots.length > 0 && chatbots[0].dialogFlowAgentId && (!block || !block.dialogFlowIntentId)) {
             const dialogflow = await getDialogFlowClient(req.user.companyId)
             const intentBody = prepareIntentPayload(req.body)
