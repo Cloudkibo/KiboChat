@@ -18,7 +18,7 @@ exports.create = async function (req, res) {
     let payload = logiclayer.preparePayload(req.user.companyId, req.user._id, req.body)
     if (chatbot && chatbot.dialogFlowAgentId) {
       const messageBlock = await datalayer.findOneMessageBlock({uniqueId: req.body.uniqueId})
-      if (!messageBlock) {
+      if (!messageBlock || !messageBlock.dialogFlowIntentId) {
         const dialogflow = await getDialogFlowClient(req.user.companyId)
         const intentBody = logiclayer.prepareIntentPayload(req.body)
         const result = await dialogflow.projects.agent.intents.create({ parent: `${chatbot.dialogFlowAgentId}/agent`, requestBody: intentBody})
