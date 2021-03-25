@@ -749,15 +749,14 @@ exports.serveScript = async (req, res) => {
     const shopUrl = req.query.shop
     let shopifyIntegrations = await dataLayer.findShopifyIntegrations({ shopUrl })
     const mainScriptUrl = config.domain + '/api/shopify/mainScript'
-    for (let shopifyIntegration in shopifyIntegrations) {
+    shopifyIntegrations.forEach(async (shopifyIntegration) => {
       const superNumber = await superNumberDataLayer.findOne({ companyId: shopifyIntegration.companyId })
       if (superNumber) {
         res.set('Content-Type', 'text/javascript')
         res.send(require('./rootScript')
           .renderJS(mainScriptUrl, shopifyIntegration.companyId, shopifyIntegration._id, config.domain))
-        break
       }
-    }
+    })
   } catch (err) {
     const message = err || 'Error fetching orders'
     logger.serverLog(message, `${TAG}: exports.serveScript`, {query: req.query}, {}, 'error')
