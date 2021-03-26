@@ -359,7 +359,7 @@ exports.kiboChatButtonStyle = function (iconClr, btnTxtClr, bgStyle, bg1, bg2, w
     background-color: ${bg1};
     ${bgStyle === 'single'
     ? ''
-    : 'background-image: linear-gradient(' + bg1 + ', ' + bg2 + ');'}
+    : 'background-image: linear-gradient(90deg, ' + bg1 + ', ' + bg2 + ');'}
   }
 
   .kibochat-btn-mail:hover {
