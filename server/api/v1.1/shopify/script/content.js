@@ -7,8 +7,6 @@
  * - Sojharo
  */
 
-const { fixedEncodeURIComponent } = require('./utils')
-
 exports.kiboContent = {
   optinWidget: {
     english: `
@@ -67,19 +65,10 @@ exports.kiboContent = {
     `
   },
   shareButton: function (btnText, position, txtMessage) {
-    const pageUrl = window.location.href
-    let url = ''
-
-    if (txtMessage) {
-      url = 'https://wa.me/?text=' + fixedEncodeURIComponent('' + pageUrl + '\n\n' + txtMessage)
-    } else {
-      url = 'https://wa.me/?text=' + fixedEncodeURIComponent('' + pageUrl)
-    }
-
     return `
     <div class='kiboshare-btns-container kiboshare-btns-${position}'>
       <div class='social-kiboshare-btns'>
-        <a class='kiboshare-btn kiboshare-btn-mail' href='${url}' rel='nofollow' target='_blank'>
+        <a id='kiboShareBtn' class='kiboshare-btn kiboshare-btn-mail' rel='nofollow' target='_blank'>
           <i class='ion-social-whatsapp'></i>
           ${btnText}
         </a>
@@ -87,22 +76,66 @@ exports.kiboContent = {
     </div>
     `
   },
-  chatButton: function (btnText, position, txtMessage, callOutMessage) {
-    const pageUrl = window.location.href
-    let url = 'https://wa.me/?text=hi'
-
+  chatButton: function (btnText, position) {
     return `
     <div class='kibochat-btns-container kibochat-btns-${position}'>
       <div class='social-kibochat-btns'>
-        <a class='kibochat-btn kibochat-btn-mail' href='${url}' rel='nofollow' target='_blank'>
+        <a id='kiboChatBtn' class='kibochat-btn kibochat-btn-mail' rel='nofollow' target='_blank'>
           <i class='ion-social-whatsapp'></i>
           ${btnText}
         </a>
       </div>
-      <span class="kibo-call-out kibo-call-out-right">${callOutMessage}
-        <button class='kibo-call-out-close'>x</button>
+    </div>
+    `
+  },
+  chatPopup: function (callOutMessage, position) {
+    return `
+    <span class="kibo-call-out kibo-call-out-${position}">${callOutMessage}
+      <button class='kibo-call-out-close'>x</button>
+    </span>
+    `
+  },
+  chatWidget: function (position, titleText, helpText, offlineMsg) {
+    return `
+    <div class='kibochat-widget-wrapper kibochat-widget-wrapper-${position}'>
+    <div class='kibochat-widget-header'>
+      <button class='kibochat-widget-close'>x</button>
+      <div class='kibochat-widget-header-title'>
+        ${titleText}
+      </div>
+      <div class='kibochat-widget-header-desc'>
+        ${helpText}
+      </div>
+    </div>
+    <ul class='kibochat-agent-list'>
+      <li class='kibochat-agent-item'>
+        <div class='kibochat-agent-item-content'>
+          <h4>Sojharo Mangi</h4>
+          <p>Customer Support</p>
+        </div>
+      </li>
+      <li class='kibochat-agent-item'>
+        <div class='kibochat-agent-item-content'>
+          <h4>Ansa Sojharo</h4>
+          <p>Sales Manager</p>
+        </div>
+      </li>
+      <li class='kibochat-agent-item'>
+        <div class='kibochat-agent-item-content'>
+          <h4>Imran Shoukat</h4>
+          <p>Customer Support</p>
+        </div>
+      </li>
+    </ul>
+    <div class='kibochat-widget-footer'>
+      <span style='vertical-align: middle;'>
+        Powered by 
+        <span style='color: #2EB840;'>
+          KiboPush
+        </span>
       </span>
     </div>
+  </div>
     `
   }
 }
