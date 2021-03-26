@@ -19,11 +19,16 @@ exports.create = async function (req, res) {
     let payload = logiclayer.preparePayload(req.user.companyId, req.user._id, req.body)
     if (chatbot && chatbot.dialogFlowAgentId) {
       const messageBlock = await datalayer.findOneMessageBlock({uniqueId: req.body.uniqueId})
+      const dialogflow = await getDialogFlowClient(req.user.companyId)
+      const intentBody = logiclayer.prepareIntentPayload(req.body)
       if (!messageBlock || !messageBlock.dialogFlowIntentId) {
-        const dialogflow = await getDialogFlowClient(req.user.companyId)
-        const intentBody = logiclayer.prepareIntentPayload(req.body)
-        const result = await dialogflow.projects.agent.intents.create({ parent: `${chatbot.dialogFlowAgentId}/agent`, requestBody: intentBody})
+        const result = await dialogflow.projects.agent.intents.create({ parent: `${chatbot.dialogFlowAgentId}/agent`, requestBody: intentBody })
         payload.dialogFlowIntentId = result.data.name
+      } else if (messageBlock.dialogFlowIntentId) {
+        await dialogflow.projects.agent.intents.patch({
+          name: messageBlock.dialogFlowIntentId,
+          requestBody: intentBody
+        })
       }
     }
     datalayer.genericUpdateMessageBlock({ uniqueId: req.body.uniqueId }, payload, { upsert: true })
