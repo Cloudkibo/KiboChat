@@ -7,7 +7,7 @@ const TAG = 'auth/dialogflow/index.js'
 const { callApi } = require('../../api/v1.1/utility')
 
 const router = express.Router()
-let keys 
+let keys
 let oAuth2Client
 
 try {

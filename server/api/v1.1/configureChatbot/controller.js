@@ -108,54 +108,54 @@ exports.update = function (req, res) {
 }
 
 exports.handleBlock = function (req, res) {
-    datalayer.fetchChatbotBlockRecords({uniqueId: req.body.uniqueId})
-      .then(async records => {
-        try {
-          const block = records[0]
-          const payload = logiclayer.prepareBlockPayload(req.user, req.body)
-          const chatbots = await datalayer.fetchChatbotRecords({chatbotId: req.body.chatbotId})
-          if (chatbots.length > 0 && chatbots[0].dialogFlowAgentId && (!block || !block.dialogFlowIntentId)) {
-            const dialogflow = await getDialogFlowClient(req.user.companyId)
-            const intentBody = prepareIntentPayload(req.body)
-            const result = await dialogflow.projects.agent.intents.create({ parent: `${chatbots[0].dialogFlowAgentId}/agent`, requestBody: intentBody})
-            payload.dialogFlowIntentId = result.data.name
-          }
-          if (block) {
-            datalayer.updateChatbotBlockRecord({uniqueId: req.body.uniqueId}, payload)
-              .then(created => {
-                return sendSuccessResponse(res, 200, created, 'Chatbot created successfully!')
-              })
-              .catch(error => {
-                const message = error || 'Failed to create chatbot.'
-                logger.serverLog(message, `${TAG}: exports.handleBlock`, req.body, {user: req.user, block}, 'error')
-                return sendErrorResponse(res, 500, error, 'Failed to create chatbot.')
-              })
-          } else {
-            datalayer.createChatbotBlockRecord(payload)
-              .then(created => {
-                return sendSuccessResponse(res, 201, created, 'Chatbot block created successfully!')
-              })
-              .catch(error => {
-                const message = error || 'Failed to create chatbot.'
-                logger.serverLog(message, `${TAG}: exports.handleBlock`, req.body, {user: req.user}, 'error')
-                return sendErrorResponse(res, 500, error, 'Failed to create chatbot block')
-              })
-          }
-        } catch (err) {
-          let errorMessage = 'Failed to save changes.'
-          if (err && err.errors && err.errors[0]) {
-            errorMessage = err.errors[0].message
-          }
-          const message = err || 'Failed to save changes.'
-          logger.serverLog(message, `${TAG}: exports.handleBlock`, req.body, {user: req.user}, 'error')
-          return sendErrorResponse(res, 500, err, errorMessage)
+  datalayer.fetchChatbotBlockRecords({uniqueId: req.body.uniqueId})
+    .then(async records => {
+      try {
+        const block = records[0]
+        const payload = logiclayer.prepareBlockPayload(req.user, req.body)
+        const chatbots = await datalayer.fetchChatbotRecords({chatbotId: req.body.chatbotId})
+        if (chatbots.length > 0 && chatbots[0].dialogFlowAgentId && (!block || !block.dialogFlowIntentId)) {
+          const dialogflow = await getDialogFlowClient(req.user.companyId)
+          const intentBody = prepareIntentPayload(req.body)
+          const result = await dialogflow.projects.agent.intents.create({ parent: `${chatbots[0].dialogFlowAgentId}/agent`, requestBody: intentBody})
+          payload.dialogFlowIntentId = result.data.name
         }
-      })
-      .catch(error => {
-        const message = error || 'Failed to fetch chatbot records.'
+        if (block) {
+          datalayer.updateChatbotBlockRecord({uniqueId: req.body.uniqueId}, payload)
+            .then(created => {
+              return sendSuccessResponse(res, 200, created, 'Chatbot created successfully!')
+            })
+            .catch(error => {
+              const message = error || 'Failed to create chatbot.'
+              logger.serverLog(message, `${TAG}: exports.handleBlock`, req.body, {user: req.user, block}, 'error')
+              return sendErrorResponse(res, 500, error, 'Failed to create chatbot.')
+            })
+        } else {
+          datalayer.createChatbotBlockRecord(payload)
+            .then(created => {
+              return sendSuccessResponse(res, 201, created, 'Chatbot block created successfully!')
+            })
+            .catch(error => {
+              const message = error || 'Failed to create chatbot.'
+              logger.serverLog(message, `${TAG}: exports.handleBlock`, req.body, {user: req.user}, 'error')
+              return sendErrorResponse(res, 500, error, 'Failed to create chatbot block')
+            })
+        }
+      } catch (err) {
+        let errorMessage = 'Failed to save changes.'
+        if (err && err.errors && err.errors[0]) {
+          errorMessage = err.errors[0].message
+        }
+        const message = err || 'Failed to save changes.'
         logger.serverLog(message, `${TAG}: exports.handleBlock`, req.body, {user: req.user}, 'error')
-        return sendErrorResponse(res, 500, error, 'Failed to fetch chatbot records')
-      })
+        return sendErrorResponse(res, 500, err, errorMessage)
+      }
+    })
+    .catch(error => {
+      const message = error || 'Failed to fetch chatbot records.'
+      logger.serverLog(message, `${TAG}: exports.handleBlock`, req.body, {user: req.user}, 'error')
+      return sendErrorResponse(res, 500, error, 'Failed to fetch chatbot records')
+    })
 }
 
 exports.deleteBlock = async function (req, res) {

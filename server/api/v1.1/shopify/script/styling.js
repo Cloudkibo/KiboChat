@@ -219,8 +219,9 @@ exports.kiboOptinModalStyle = `
 exports.kiboShareButtonStyle = function (iconClr, btnTxtClr, bgStyle, bg1, bg2) {
   return `
   @import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
-  a {
+  a.kiboshare-btn.kiboshare-btn-mail {
     text-decoration: none;
+    cursor: pointer;
   }
   
   .kiboshare-btns-container {
@@ -298,8 +299,9 @@ exports.kiboChatButtonStyle = function (iconClr, btnTxtClr, bgStyle, bg1, bg2, w
   return `
   @import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
 
-  a {
+  a.kibochat-btn.kibochat-btn-mail {
     text-decoration: none;
+    cursor: pointer;
   }
 
   .kibochat-btns-container {
@@ -310,6 +312,8 @@ exports.kiboChatButtonStyle = function (iconClr, btnTxtClr, bgStyle, bg1, bg2, w
     width: 100%;
     height: 36px;
     z-index: 111;
+    visibility: visible;
+    display: block;
   }
 
   .kibochat-btns-left {
@@ -365,7 +369,11 @@ exports.kiboChatButtonStyle = function (iconClr, btnTxtClr, bgStyle, bg1, bg2, w
   .kibochat-btn-mail:hover {
     background-color: #dab10d;
   }
+  `
+}
 
+exports.kiboChatPopupStyle = function (wHeight, wEdge) {
+  return `
   /* Call out styling */
   .kibo-call-out {
     visibility: hidden;
@@ -385,6 +393,7 @@ exports.kiboChatButtonStyle = function (iconClr, btnTxtClr, bgStyle, bg1, bg2, w
     /* Fade in tooltip */
     opacity: 0;
     transition: opacity 0.3s;
+    display: none;
   }
 
   .kibo-call-out-left {
@@ -421,6 +430,140 @@ exports.kiboChatButtonStyle = function (iconClr, btnTxtClr, bgStyle, bg1, bg2, w
     border-radius: 50%;
     outline: none;
     background: #fff;
+  }
+  `
+}
+
+exports.kiboChatWidgetStyle = function (headClr, descClr, bgStyle, bg1, bg2, wHeight, wEdge) {
+  return `
+  .kibochat-widget-wrapper {
+    visibility: hidden;
+    z-index: 9999;
+    position: fixed;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgb(0 0 0 / 30%);
+    width: 350px;
+    /*   margin: 50px auto; */
+    font-family: inherit;
+    font-size: 14px;
+    bottom: ${wHeight}px;
+    display: block;
+    border-radius: 8px;
+  }
+  
+  .kibochat-widget-wrapper-left {
+    left: ${wEdge}px;
+  }
+  
+  .kibochat-widget-wrapper-right {
+    right: ${wEdge}px;
+  }
+  
+  .kibochat-widget-header {
+    padding: 24px;
+    text-align: center;
+    color: #fff;
+    background-color: ${bg1};
+    ${bgStyle === 'single'
+    ? ''
+    : 'background-image: linear-gradient(110.56deg, ' + bg1 + ', ' + bg2 + ');'}
+  }
+  
+  .kibochat-widget-close {
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 12px;
+  
+    position: absolute;
+    top: 12px;
+    right: 12px;
+  
+    padding: 5px 7px 7px;
+  
+    cursor: pointer;
+  
+    color: grey;
+    border: 0;
+    border-radius: 50%;
+    outline: none;
+    background: none;
+  }
+  
+  .kibochat-widget-header-title {
+    font-family: inherit;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 100%;
+    text-align: left;
+    color: ${headClr};
+  }
+  
+  .kibochat-widget-header-desc {
+    margin-top: 12px;
+    font-family: inherit;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 100%;
+    text-align: left;
+    color: ${descClr};
+  }
+  
+  .kibochat-agent-list {
+    background: #fff;
+    border-radius: 2px;
+    list-style: none;
+    padding: 0;
+    height: 400px;
+    overflow-y: auto;
+  }
+  
+  .kibochat-agent-item {
+    display: flex;
+    margin: 8px;
+    overflow: hidden;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  .kibochat-agent-item:last-child {
+    border-bottom: none;
+  }
+  .kibochat-agent-item-content {
+    margin-left: 20px;
+  }
+  .kibochat-agent-item-content h4, .list-item-content p {
+    margin: 0;
+  }
+  .kibochat-agent-item-content h4 {
+    margin-top: 10px;
+    font-size: 18px;
+  }
+  .kibochat-agent-item-content p {
+    margin-top: 5px;
+    color: #aaa;
+  }
+  
+  .kibochat-widget-footer {
+    position: absolute;
+    bottom: 0px;
+    text-align: center;
+    font-family: 'Lato', Open Sans, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    color: #999999;
+    width: 100%;
+    height: 20px;
+    background: #FAFAFA;
+    vertical-align: middle;
+    cursor: pointer;
+    z-index: 100;
+    box-shadow: 0px 0px 8px rgb(0 0 0 / 8%);
+    border-radius: 0px 0px 4px 4px;
   }
   `
 }

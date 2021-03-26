@@ -16,10 +16,10 @@ exports.preparePayload = function (companyId, userId, body) {
 
 exports.prepareIntentPayload = function (body) {
   let payload = {
-   displayName: body.title,
-   trainingPhrases: []
+    displayName: body.title,
+    trainingPhrases: []
   }
-  if (body.triggers && body.triggers.length > 0){
+  if (body.triggers && body.triggers.length > 0) {
     body.triggers.forEach(item => {
       payload.trainingPhrases.push({
         'type': 'TYPE_UNSPECIFIED',
