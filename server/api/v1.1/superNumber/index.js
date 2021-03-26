@@ -85,4 +85,10 @@ router.post('/fetchAbandonedCartAnalytics',
   auth.isSuperUserActingAsCustomer(),
   controller.fetchAbandonedCartAnalytics)
 
+router.post('/fetchWidgetAnalytics',
+  validate({body: validationSchema.widgetAnalyticsPayload}),
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
+  controller.fetchWidgetAnalytics)
+
 module.exports = router
