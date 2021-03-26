@@ -355,7 +355,7 @@ exports.kiboChatButtonStyle = function (iconClr, btnTxtClr, bgStyle, bg1, bg2, w
     background-color: #798d8f;
   }
 
-  .kiboshare-btn-mail {
+  .kibochat-btn-mail {
     background-color: ${bg1};
     ${bgStyle === 'single'
     ? ''
