@@ -192,3 +192,34 @@ exports.getMessageLogsCriterias = function (body, companyId) {
   }
   return { countCriteria: countCriteria, fetchCriteria: finalCriteria }
 }
+exports.CODAnalyticsQuery = (body, companyId, messageType, status) => {
+  let startDate = new Date(body.startDate)
+  startDate.setHours(0)
+  startDate.setMinutes(0)
+  startDate.setSeconds(0)
+  let endDate = new Date(body.endDate)
+  endDate.setDate(endDate.getDate() + 1)
+  endDate.setHours(0)
+  endDate.setMinutes(0)
+  endDate.setSeconds(0)
+  let groupQuery
+  let matchQuery
+  matchQuery = {
+    companyId: companyId,
+    datetime: {$gte: startDate, $lt: endDate},
+    automatedMessage: true,
+    messageType: messageType
+  }
+  if (status) {
+    matchQuery.status = status
+  }
+  groupQuery = {
+    _id: null,
+    currency: { $first: '$currency' },
+    amount: { $sum: '$amount' },
+    count: { $sum: 1 }
+  }
+  return {
+    matchQuery, groupQuery
+  }
+}
