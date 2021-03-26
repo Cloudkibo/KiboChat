@@ -140,3 +140,24 @@ exports.storeOptinNumberFromWidget = {
     'contactNumber'
   ]
 }
+exports.widgetAnalyticsPayload =
+{
+  '$schema': 'http://json-schema.org/draft-04/schema#',
+  'type': 'object',
+  'properties': {
+    'widgetType': {
+      'type': 'string'
+    },
+    'startDate': {
+      'type': 'string'
+    },
+    'endDate': {
+      'type': 'string'
+    }
+  },
+  'required': [
+    'widgetType',
+    'startDate',
+    'endDate'
+  ]
+}

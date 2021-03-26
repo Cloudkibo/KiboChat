@@ -11,6 +11,7 @@ const logger = require('../../../components/logger')
 const TAG = 'api/superNumberPreferences/superNumberPreferences.controller.js'
 const dataLayer = require('../superNumber/datalayer')
 const analyticsDataLayer = require('./superNumberAnalytics.datalayer')
+const widgetAnalyticsDataLayer = require('./superNumberWidgetAnalytics.datalayer')
 const messageLogsDataLayer = require('./superNumberMessageLogs.datalayer')
 const { saveAnalytics } = require('./utility')
 const async = require('async')
@@ -389,4 +390,48 @@ exports.fetchAbandonedCartAnalytics = async function (req, res) {
   } else {
     sendErrorResponse(res, 500, null, 'No Shopify Integration found')
   }
+}
+exports.fetchWidgetAnalytics = function (req, res) {
+  async.parallelLimit([
+    function (callback) {
+      let {matchQuery, groupQuery} = logicLayer.widgetAnalyticsQuery(req.body, req.user.companyId, 'date')
+      widgetAnalyticsDataLayer.aggregate(matchQuery, groupQuery)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      let {matchQuery, groupQuery} = logicLayer.widgetAnalyticsQuery(req.body, req.user.companyId, 'page')
+      widgetAnalyticsDataLayer.aggregate(matchQuery, groupQuery)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    }
+  ], 10, function (err, results) {
+    if (err) {
+      const message = err || 'Error in fetching widget analytics'
+      logger.serverLog(message, `${TAG}: exports.fetchWidgetAnalytics`, req.body, {user: req.user}, 'error')
+      return res.status(500).json({status: 'failed', payload: err})
+    } else {
+      let graphDatas = results[0]
+      let clicksCount = 0
+      if (graphDatas.length > 0) {
+        clicksCount = graphDatas.reduce(function (a, b) {
+          return a + b['count']
+        }, 0)
+      }
+      let payload = {
+        graphDatas,
+        clicksCount,
+        pageData: results[1]
+      }
+      sendSuccessResponse(res, 200, payload)
+    }
+  })
 }
