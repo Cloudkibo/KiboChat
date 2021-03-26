@@ -162,6 +162,7 @@ function buildOut () {
   // Append DocumentFragment to body
   document.body.appendChild(docFrag)
 
+  // Append external style given by user
   if (this.options.styling) {
     var style = document.createElement('style')
     style.type = 'text/css'
@@ -169,6 +170,8 @@ function buildOut () {
     document.getElementsByTagName('head')[0].appendChild(style)
   }
 
+  // if external events are defined by user, attach the given handlers to
+  // their respective objects, here we are only allowing one event and handler
   if (this.options.customEventObjectId && this.options.customEventHandler) {
     const customEventObject = document.getElementById(this.options.customEventObjectId)
 
