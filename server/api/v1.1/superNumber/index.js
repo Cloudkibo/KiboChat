@@ -73,4 +73,22 @@ router.post('/fetchWidgetInfo',
   cors(),
   controller.fetchWidgetInfo)
 
+router.post('/fetchCODAnalytics',
+  validate({body: validationSchema.summarisedPayload}),
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
+  controller.fetchCODAnalytics)
+
+router.post('/fetchAbandonedCartAnalytics',
+  validate({body: validationSchema.summarisedPayload}),
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
+  controller.fetchAbandonedCartAnalytics)
+
+router.post('/fetchWidgetAnalytics',
+  validate({body: validationSchema.widgetAnalyticsPayload}),
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
+  controller.fetchWidgetAnalytics)
+
 module.exports = router

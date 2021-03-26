@@ -11,6 +11,7 @@ const logger = require('../../../components/logger')
 const TAG = 'api/superNumberPreferences/superNumberPreferences.controller.js'
 const dataLayer = require('../superNumber/datalayer')
 const analyticsDataLayer = require('./superNumberAnalytics.datalayer')
+const widgetAnalyticsDataLayer = require('./superNumberWidgetAnalytics.datalayer')
 const messageLogsDataLayer = require('./superNumberMessageLogs.datalayer')
 const { saveAnalytics } = require('./utility')
 const async = require('async')
@@ -282,4 +283,155 @@ exports.fetchWidgetInfo = async (req, res) => {
     logger.serverLog(message, `${TAG}: exports.storeOptinNumberFromWidget`, req.body, {user: req.user}, 'error')
     sendErrorResponse(res, 500, null, 'Failed to store optin number from widget')
   }
+}
+exports.fetchCODAnalytics = function (req, res) {
+  async.parallelLimit([
+    function (callback) {
+      let {matchQuery, groupQuery} = logicLayer.CODAnalyticsQuery(req.body, req.user.companyId, 'COD_ORDER_CONFIRMATION')
+      messageLogsDataLayer.aggregate(matchQuery, groupQuery)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      let {matchQuery, groupQuery} = logicLayer.CODAnalyticsQuery(req.body, req.user.companyId, 'COD_ORDER_CONFIRMATION', 'confirmed')
+      messageLogsDataLayer.aggregate(matchQuery, groupQuery)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      let {matchQuery, groupQuery} = logicLayer.CODAnalyticsQuery(req.body, req.user.companyId, 'COD_ORDER_CONFIRMATION', 'no-response')
+      messageLogsDataLayer.aggregate(matchQuery, groupQuery)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      let {matchQuery, groupQuery} = logicLayer.CODAnalyticsQuery(req.body, req.user.companyId, 'COD_ORDER_CONFIRMATION', 'cancelled')
+      messageLogsDataLayer.aggregate(matchQuery, groupQuery)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    }
+  ], 10, function (err, results) {
+    if (err) {
+      const message = err || 'Error in fetching cod analytics'
+      logger.serverLog(message, `${TAG}: exports.fetchCODAnalytics`, req.body, {user: req.user}, 'error')
+      return res.status(500).json({status: 'failed', payload: err})
+    } else {
+      let payload = {
+        ordersPlaced: results[0].length > 0 ? results[0][0].count : 0,
+        confirmed: results[1].length > 0 ? results[1][0].count : 0,
+        noResponse: results[2].length > 0 ? results[2][0].count : 0,
+        cancelled: results[3].length > 0 ? results[3][0].count : 0,
+        messagesSent: results[0].length > 0 ? results[0][0].count : 0
+      }
+      sendSuccessResponse(res, 200, payload)
+    }
+  })
+}
+exports.fetchAbandonedCartAnalytics = async function (req, res) {
+  const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: req.user.companyId })
+  if (shopifyIntegration) {
+    const shopify = new EcommerceProviders(commerceConstants.shopify, {
+      shopUrl: shopifyIntegration.shopUrl,
+      shopToken: shopifyIntegration.shopToken
+    })
+    const storeInfo = await shopify.fetchStoreInfo()
+    async.parallelLimit([
+      function (callback) {
+        let {matchQuery, groupQuery} = logicLayer.CODAnalyticsQuery(req.body, req.user.companyId, 'ABANDONED_CART_RECOVERY')
+        messageLogsDataLayer.aggregate(matchQuery, groupQuery)
+          .then(result => {
+            callback(null, result)
+          })
+          .catch(err => {
+            callback(err)
+          })
+      },
+      function (callback) {
+        let {matchQuery, groupQuery} = logicLayer.CODAnalyticsQuery(req.body, req.user.companyId, 'ABANDONED_CART_RECOVERY', 'recovered')
+        messageLogsDataLayer.aggregate(matchQuery, groupQuery)
+          .then(result => {
+            callback(null, result)
+          })
+          .catch(err => {
+            callback(err)
+          })
+      }
+    ], 10, function (err, results) {
+      if (err) {
+        const message = err || 'Error in fetching abandoned cart analytics'
+        logger.serverLog(message, `${TAG}: exports.fetchAbandonedCartAnalytics`, req.body, {user: req.user}, 'error')
+        return res.status(500).json({status: 'failed', payload: err})
+      } else {
+        let payload = {
+          cartsRecovered: results[1].length > 0 ? results[1][0].count : 0,
+          currency: storeInfo.currency,
+          orderValueRecovered: results[1].length > 0 ? results[1][0].amount : 0,
+          recoveryRate: results[1].length > 0 ? ((results[1][0].count / results[0][0].count) * 100).toFixed(2) : 0
+        }
+        sendSuccessResponse(res, 200, payload)
+      }
+    })
+  } else {
+    sendErrorResponse(res, 500, null, 'No Shopify Integration found')
+  }
+}
+exports.fetchWidgetAnalytics = function (req, res) {
+  async.parallelLimit([
+    function (callback) {
+      let {matchQuery, groupQuery} = logicLayer.widgetAnalyticsQuery(req.body, req.user.companyId, 'date')
+      widgetAnalyticsDataLayer.aggregate(matchQuery, groupQuery)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      let {matchQuery, groupQuery} = logicLayer.widgetAnalyticsQuery(req.body, req.user.companyId, 'page')
+      widgetAnalyticsDataLayer.aggregate(matchQuery, groupQuery)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    }
+  ], 10, function (err, results) {
+    if (err) {
+      const message = err || 'Error in fetching widget analytics'
+      logger.serverLog(message, `${TAG}: exports.fetchWidgetAnalytics`, req.body, {user: req.user}, 'error')
+      return res.status(500).json({status: 'failed', payload: err})
+    } else {
+      let graphDatas = results[0]
+      let clicksCount = 0
+      if (graphDatas.length > 0) {
+        clicksCount = graphDatas.reduce(function (a, b) {
+          return a + b['count']
+        }, 0)
+      }
+      let payload = {
+        graphDatas,
+        clicksCount,
+        pageData: results[1]
+      }
+      sendSuccessResponse(res, 200, payload)
+    }
+  })
 }

@@ -114,11 +114,18 @@ exports.handleBlock = function (req, res) {
         const block = records[0]
         const payload = logiclayer.prepareBlockPayload(req.user, req.body)
         const chatbots = await datalayer.fetchChatbotRecords({chatbotId: req.body.chatbotId})
-        if (chatbots.length > 0 && chatbots[0].dialogFlowAgentId && (!block || !block.dialogFlowIntentId)) {
+        if (chatbots.length > 0 && chatbots[0].dialogFlowAgentId) {
           const dialogflow = await getDialogFlowClient(req.user.companyId)
           const intentBody = prepareIntentPayload(req.body)
-          const result = await dialogflow.projects.agent.intents.create({ parent: `${chatbots[0].dialogFlowAgentId}/agent`, requestBody: intentBody})
-          payload.dialogFlowIntentId = result.data.name
+          if (!block || !block.dialogFlowIntentId) {
+            const result = await dialogflow.projects.agent.intents.create({ parent: `${chatbots[0].dialogFlowAgentId}/agent`, requestBody: intentBody })
+            payload.dialogFlowIntentId = result.data.name
+          } else if (block.dialogFlowIntentId) {
+            await dialogflow.projects.agent.intents.patch({
+              name: block.dialogFlowIntentId,
+              requestBody: intentBody
+            })
+          }
         }
         if (block) {
           datalayer.updateChatbotBlockRecord({uniqueId: req.body.uniqueId}, payload)
