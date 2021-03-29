@@ -42,7 +42,7 @@ KiboButton.prototype.build = function () {
    * to force the browser to recalc and recognize the elements
    * that we just added. This is so that CSS animation has a start point
    */
-  window.getComputedStyle(this.kibobutton).height
+  window.getComputedStyle(this.kibobutton)
 }
 
 KiboButton.prototype.showButton = function () {
@@ -57,14 +57,14 @@ KiboButton.prototype.hideButton = function () {
 
 KiboButton.prototype.showPopup = function () {
   setTimeout(() => {
-    this.kibobutton.style.display = 'block'
+    this.popup.style.display = 'block'
     this.popup.style.visibility = 'visible'
     this.popup.style.opacity = 1
   }, (this.options.popupDelay * 1000))
 }
 
 KiboButton.prototype.hidePopup = function () {
-  this.kibobutton.style.display = 'none'
+  this.popup.style.display = 'none'
   this.popup.style.visibility = 'hidden'
   this.popup.style.opacity = 0
 }

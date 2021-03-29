@@ -1,3 +1,13 @@
+const weekday = [
+  'sunday',
+  'monday',
+  'tuesday',
+  'wednesday',
+  'thursday',
+  'friday',
+  'saturday'
+]
+
 function isMobileBrowser () {
   return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
 }
@@ -98,6 +108,89 @@ function setCookie (cname, cvalue, exdays) {
   document.cookie = cname + '=' + cvalue + ';' + expires + ';'
 }
 
+function _converToOtherTimeZone (timezoneOffset) {
+  // current location's date time
+  const localDate = new Date()
+
+  // current location's time in milliseconds
+  const localTime = localDate.getTime()
+
+  // obtain local UTC offset and convert to milliseconds
+  const localOffset = localDate.getTimezoneOffset() * 60 * 1000
+
+  // obtain the current utc time
+  const utc = localTime + localOffset
+
+  // obtain destination utc offset in miliseconds
+  const destOffSet = parseFloat(timezoneOffset.replace(':', '.'))
+
+  // obtain destination utc time
+  const destUtcTime = utc + (3600000 * destOffSet)
+
+  // get new date with destination with store's local time
+  const destDate = new Date(destUtcTime)
+
+  return destDate
+}
+
+function getStoresLocalTime (storesLocalTimeZone) {
+  // obtain destination (store's) utc offset in miliseconds
+  const destOffSet = storesLocalTimeZone.split(' ')[0].substring(4, 10)
+
+  const destDate = _converToOtherTimeZone(destOffSet)
+
+  const storesTimePayload = {
+    day: weekday[destDate.getDay()],
+    hours: destDate.getHours(),
+    minutes: destDate.getMinutes()
+  }
+
+  return storesTimePayload
+}
+
+function isSupportOpen (currentTime, supportSchedule) {
+  const dayObj = supportSchedule[currentTime.day]
+
+  const startHour = parseInt(dayObj.startTime.split(':')[0])
+  const endHour = parseInt(dayObj.endTime.split(':')[0])
+
+  const startMinute = parseInt(dayObj.startTime.split(':')[1])
+  const endMinute = parseInt(dayObj.endTime.split(':')[1])
+
+  const currentHour = currentTime.hours
+  const currentMinute = currentTime.minutes
+
+  if (startHour === endHour) {
+    if (currentMinute >= startMinute && currentMinute < endMinute) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  if (currentHour === startHour) {
+    if (currentMinute >= startMinute) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  if (currentHour === endHour) {
+    if (currentMinute <= endMinute) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  if (currentHour > startHour && currentHour < endHour) {
+    return true
+  }
+
+  return false
+}
+
 exports.isMobileBrowser = isMobileBrowser
 exports.fixedEncodeURIComponent = fixedEncodeURIComponent
 exports.shouldShowOnGivenDevice = shouldShowOnGivenDevice
@@ -108,3 +201,5 @@ exports.getEdgeBasedOnDevice = getEdgeBasedOnDevice
 exports.getCurrentPage = getCurrentPage
 exports.cookieExists = cookieExists
 exports.setCookie = setCookie
+exports.getStoresLocalTime = getStoresLocalTime
+exports.isSupportOpen = isSupportOpen
