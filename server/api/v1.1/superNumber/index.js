@@ -91,4 +91,8 @@ router.post('/fetchWidgetAnalytics',
   auth.isSuperUserActingAsCustomer(),
   controller.fetchWidgetAnalytics)
 
+router.post('/storeWidgetButtonClick',
+  validate({body: validationSchema.widgetButtonClickPayload}),
+  controller.storeWidgetButtonClick)
+
 module.exports = router

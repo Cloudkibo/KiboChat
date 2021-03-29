@@ -435,3 +435,40 @@ exports.fetchWidgetAnalytics = function (req, res) {
     }
   })
 }
+exports.storeWidgetButtonClick = async function (req, res) {
+  try {
+    let matchQuery = {
+      year: new Date().getFullYear(),
+      month: new Date().getMonth() + 1,
+      day: new Date().getDate(),
+      companyId: req.body.companyId,
+      widgetType: req.body.widgetType,
+      pageUrl: req.body.pageUrl
+    }
+    let project = {
+      'year': {'$year': '$datetime'},
+      'month': {'$month': '$datetime'},
+      'day': {'$dayOfMonth': '$datetime'},
+      companyId: 1,
+      widgetType: 1,
+      pageUrl: 1,
+      _id: 1
+    }
+    const analytics = await widgetAnalyticsDataLayer.aggregate(matchQuery, null, project)
+    if (analytics.length > 0) {
+      await widgetAnalyticsDataLayer.update('updateOne', {_id: analytics[0]._id}, { $inc: { 'clickCounts': 1 } })
+    } else {
+      await widgetAnalyticsDataLayer.create({
+        companyId: req.body.companyId,
+        widgetType: req.body.widgetType,
+        pageUrl: req.body.pageUrl,
+        clickCounts: 1
+      })
+    }
+    sendSuccessResponse(res, 200, 'Saved successfully')
+  } catch (err) {
+    const message = err || 'Internal server error'
+    logger.serverLog(message, `${TAG}: exports.storeWidgetButtonClick`, req.body, {user: req.user}, 'error')
+    sendErrorResponse(res, 500, null, 'Failed to storeWidgetButtonClick')
+  }
+}
