@@ -1,4 +1,4 @@
-const KiboButton = require('./widgets/KiboButton').KiboButton
+const KiboChat = require('./widgets/KiboChat').KiboChat
 const utils = require('./utils')
 
 // Import content for the widget body
@@ -12,69 +12,86 @@ const kiboChatWidgetStyle = require('./styling').kiboChatWidgetStyle
 function initChatButtonWidget ({chat_widget: chatWidget, ...kiboBasicSetup}) {
   console.log('chatWidget', chatWidget)
   console.log('kiboBasicSetup', kiboBasicSetup)
+
+  if (utils.shouldShowOnGivenDevice(chatWidget) &&
+  shouldShowOnThisPage(chatWidget)) {
+    const buttonConfiguration = getChatButtonConfigs(chatWidget)
+
+    // store's local time in required payload format
+    const storeTime = utils.getStoresLocalTime(kiboBasicSetup.storeInfo.timezone)
+
+    const chatWidgetComponent = showChatWidget(chatWidget, buttonConfiguration, storeTime)
+
+    showCallOut(chatWidget, chatWidgetComponent)
+  }
+}
+
+function showChatWidget (chatWidget, buttonConfiguration, storeTime) {
   const widgetPosition = utils.getPositionBasedOnDevice(chatWidget)
   const widgetHeight = utils.getHeightBasedOnDevice(chatWidget)
   const widgetEdge = utils.getEdgeBasedOnDevice(chatWidget)
 
-  if (utils.shouldShowOnGivenDevice(chatWidget) &&
-  shouldShowOnThisPage(chatWidget)) {
-    // Main button content
-    const content = kiboContent.chatButton(chatWidget.textMessage.btnText,
-      widgetPosition)
+  const storeOpen = utils.isSupportOpen(storeTime, chatWidget.onOffHours)
 
-    // Main button styling
-    const styling = kiboChatButtonStyle(
-      chatWidget.btnDesign.iconColor,
-      chatWidget.btnDesign.btnTextColor,
-      chatWidget.btnDesign.backgroundColorStyle,
-      chatWidget.btnDesign.backgroundColor1,
-      chatWidget.btnDesign.backgroundColor2,
-      widgetHeight,
-      widgetEdge
-    )
+  const agents = (chatWidget.greetingsWidget.randomAgentsOrder)
+    ? randomizeAgentsOrder(chatWidget.agents)
+    : chatWidget.agents
 
-    // Main button content
-    const popupContent = kiboContent.chatPopup(chatWidget.callOutCard.cardText,
-      widgetPosition)
+  const content = kiboContent.chatWidget(widgetPosition, chatWidget.greetingsWidget.titleText,
+    chatWidget.greetingsWidget.helpText,
+    chatWidget.greetingsWidget.offlineStoreMsg,
+    agents, storeOpen)
 
-    // Button popup (callout) styling
-    const popupStyling = kiboChatPopupStyle(widgetHeight, widgetEdge)
+  const styling = kiboChatWidgetStyle(
+    chatWidget.greetingsWidget.headingColor,
+    chatWidget.greetingsWidget.descriptionColor,
+    chatWidget.greetingsWidget.backgroundColorStyle,
+    chatWidget.greetingsWidget.backgroundColor1,
+    chatWidget.greetingsWidget.backgroundColor2,
+    widgetHeight,
+    widgetEdge
+  )
 
-    // Deail after which call out should display over button
-    const popupDelay = chatWidget.callOutCard.cardDelay
+  const eventObjects = [
+    {
+      eventName: 'click',
+      emitterId: 'kibochat-widget-close-btn',
+      handlerFunc: function (e) {
+        e.preventDefault()
 
-    const eventObjects = [
-      {
-        eventName: 'click',
-        emitterId: 'kiboChatBtn',
-        handlerFunc: function (e) {
-          e.preventDefault()
-
-          // TODO When analytics endpoint is done
-          // add the logic to increase click count
-          // on server side, when this is clicked
-          this.hideButton()
-          this.hidePopup()
-          kiboChatWidget.showButton()
-        }
+        // TODO When analytics endpoint is done
+        // add the logic to increase click count
+        // on server side, when this is clicked
+        this.hideWidget()
       }
-    ]
+    }
+  ]
 
-    let kiboButton = new KiboButton({
-      content,
-      styling,
-      hasPopup: true,
-      popupContent,
-      popupStyling,
-      popupDelay,
-      eventObjects
-    })
+  const agentItemsEvent = {
+    eventName: 'click',
+    emitterClass: '.kibochat-agent-item',
+    handlerFunc: function (agentElem, e) {
+      e.preventDefault()
 
-    showCallOut(chatWidget, kiboButton)
-    const kiboChatWidget = showChatWidget(chatWidget)
+      const whatsappNumber = agentElem.dataset.whatsappNumber
+      const includePageUrl = chatWidget.textMessage.includePageURL
+      const customerMsg = chatWidget.textMessage.message
 
-    kiboButton.build()
+      window.open(formulateWhatsAppUrl(whatsappNumber, customerMsg, includePageUrl))
+    }
   }
+
+  const kiboChatWidget = new KiboChat({
+    content,
+    styling,
+    eventObjects,
+    buttonConfiguration,
+    agentItemsEvent
+  })
+
+  kiboChatWidget.build()
+
+  return kiboChatWidget
 }
 
 function shouldShowOnThisPage (chatWidget) {
@@ -91,42 +108,75 @@ function shouldShowOnThisPage (chatWidget) {
   return utils.shouldShowOnThisPage(chatWidget)
 }
 
-function showCallOut (chatWidget, kiboButton) {
+function showCallOut (chatWidget, kiboChatWidget) {
   if (chatWidget.callOutCard.enabled) {
     if (!utils.cookieExists('kiboCallOutSeen')) {
-      kiboButton.showPopup()
+      kiboChatWidget.showCallOut()
       utils.setCookie('kiboCallOutSeen', true, 1)
     }
   }
 }
 
-function showChatWidget (chatWidget) {
+function getChatButtonConfigs (chatWidget) {
   const widgetPosition = utils.getPositionBasedOnDevice(chatWidget)
   const widgetHeight = utils.getHeightBasedOnDevice(chatWidget)
   const widgetEdge = utils.getEdgeBasedOnDevice(chatWidget)
 
-  const content = kiboContent.chatWidget(widgetPosition, chatWidget.greetingsWidget.titleText,
-    chatWidget.greetingsWidget.helpText,
-    chatWidget.greetingsWidget.offlineStoreMsg)
+  // Main button content
+  const content = kiboContent.chatButton(chatWidget.textMessage.btnText,
+    widgetPosition)
 
-  const styling = kiboChatWidgetStyle(
-    chatWidget.greetingsWidget.headingColor,
-    chatWidget.greetingsWidget.descriptionColor,
-    chatWidget.greetingsWidget.backgroundColorStyle,
-    chatWidget.greetingsWidget.backgroundColor1,
-    chatWidget.greetingsWidget.backgroundColor2,
+  // Main button styling
+  const styling = kiboChatButtonStyle(
+    chatWidget.btnDesign.iconColor,
+    chatWidget.btnDesign.btnTextColor,
+    chatWidget.btnDesign.backgroundColorStyle,
+    chatWidget.btnDesign.backgroundColor1,
+    chatWidget.btnDesign.backgroundColor2,
     widgetHeight,
     widgetEdge
   )
 
-  let kiboButton = new KiboButton({
-    content,
-    styling
-  })
+  // Main button content
+  const popupContent = kiboContent.chatPopup(chatWidget.callOutCard.cardText,
+    widgetPosition)
 
-  kiboButton.build()
+  // Button popup (callout) styling
+  const popupStyling = kiboChatPopupStyle(widgetHeight, widgetEdge)
 
-  return kiboButton
+  // Deail after which call out should display over button
+  const popupDelay = chatWidget.callOutCard.cardDelay
+
+  const kiboButtonConfigurations = {
+    btnContent: content,
+    btnStyling: styling,
+    callOutContent: popupContent,
+    callOutStyling: popupStyling,
+    callOutDelay: popupDelay,
+    emitterId: 'kiboChatBtn'
+  }
+
+  return kiboButtonConfigurations
+}
+
+function formulateWhatsAppUrl (number, txtMessage, includePageUrl) {
+  const pageUrl = window.location.href
+  let url = ''
+
+  if (includePageUrl) {
+    url = 'https://wa.me/' + number + '?text=' + utils.fixedEncodeURIComponent('' + pageUrl + '\n\n' + txtMessage)
+  } else {
+    url = 'https://wa.me/' + number + '?text=' + utils.fixedEncodeURIComponent('' + txtMessage)
+  }
+
+  return url
+}
+
+function randomizeAgentsOrder (agents) {
+  const tempAgents = [...agents]
+  tempAgents
+    .sort(() => Math.random() - 0.5)
+  return tempAgents
 }
 
 exports.initChatButtonWidget = initChatButtonWidget
