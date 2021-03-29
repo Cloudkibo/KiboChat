@@ -272,10 +272,20 @@ exports.fetchWidgetInfo = async (req, res) => {
       companyId: req.body.companyId, _id: req.body.shopifyId
     })
 
+    const shopify = new EcommerceProviders(commerceConstants.shopify, {
+      shopUrl: shopifyIntegrations[0].shopUrl,
+      shopToken: shopifyIntegrations[0].shopToken
+    })
+
+    const storeInfo = await shopify.fetchStoreInfo()
+
     if (shopifyIntegrations.length < 1) {
       sendErrorResponse(res, 500, null, 'It seems your shopify store is not connected to KiboPush properly. Please contact KiboPush Support.')
     } else {
       const superNumberPreferences = await dataLayer.findOne({companyId: req.body.companyId})
+
+      superNumberPreferences.storeInfo = storeInfo
+
       sendSuccessResponse(res, 200, superNumberPreferences)
     }
   } catch (err) {
