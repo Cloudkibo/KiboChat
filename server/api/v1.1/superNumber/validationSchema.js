@@ -161,3 +161,24 @@ exports.widgetAnalyticsPayload =
     'endDate'
   ]
 }
+exports.widgetButtonClickPayload =
+{
+  '$schema': 'http://json-schema.org/draft-04/schema#',
+  'type': 'object',
+  'properties': {
+    'widgetType': {
+      'type': 'string'
+    },
+    'pageUrl': {
+      'type': 'string'
+    },
+    'companyId': {
+      'type': 'string'
+    }
+  },
+  'required': [
+    'widgetType',
+    'pageUrl',
+    'companyId'
+  ]
+}
