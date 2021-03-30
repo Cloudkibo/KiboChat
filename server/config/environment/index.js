@@ -40,9 +40,9 @@ const all = {
   },
   SENDGRID_API_KEY: process.env.SENDGRID_API_KEY || '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',
   shopify: {
-    app_key: process.env.SHOPIFY_KEY || 'test_api_key',
+    app_key: process.env.SHOPIFY_KEY || 'shopify-api-key',
     app_host: 'https://kibochat.cloudkibo.com',
-    app_secret: process.env.SHOPIFY_SECRET || 'test_api_secret'
+    app_secret: process.env.SHOPIFY_SECRET || 'shopify-secret'
   },
   bigcommerce: {
     client_id: process.env.BIGCOMMERCE_CLIENT_ID || '5bsotbk9bdq3wwiejhc6y014h1p2tje',
@@ -56,7 +56,7 @@ const all = {
     clientSecret: process.env.AMADEUS_SECRET || 'n6SsqjZ6cfcPbXgS'
   },
   openExchangeRateKey: '2fd5951a2cb045c2bdda9ed3e209cc2f',
-  DIALOGFLOW_OAUTH_KEYS: process.env.DIALOGFLOW_OAUTH_KEYS || '/home/cloudkibo-faizan/Drive/CloudKibo/GCPCredentials/dialogflow-oauth-keys',
+  DIALOGFLOW_OAUTH_KEYS: process.env.DIALOGFLOW_OAUTH_KEYS || '/Users/imranshoukat/CloudKibo/GCPCredentials/dialogflow-oauth-keys',
   DIALOGFLOW_OAUTH_REDIRECT_URI: process.env.DIALOGFLOW_OAUTH_REDIRECT_URI || 'https://kibochat.ngrok.io/auth/dialogflow/callback'
 }
 

@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const cors = require('cors')
 const auth = require('../../../auth/auth.service')
 const validate = require('express-jsonschema').validate
 const validationSchema = require('./validationSchema')
@@ -62,5 +63,36 @@ router.post('/fetchMessageLogs',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer(),
   controller.fetchMessageLogs)
+
+router.post('/storeOptinNumberFromWidget',
+  cors(),
+  validate({body: validationSchema.storeOptinNumberFromWidget}),
+  controller.storeOptinNumberFromWidget)
+
+router.post('/fetchWidgetInfo',
+  cors(),
+  controller.fetchWidgetInfo)
+
+router.post('/fetchCODAnalytics',
+  validate({body: validationSchema.summarisedPayload}),
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
+  controller.fetchCODAnalytics)
+
+router.post('/fetchAbandonedCartAnalytics',
+  validate({body: validationSchema.summarisedPayload}),
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
+  controller.fetchAbandonedCartAnalytics)
+
+router.post('/fetchWidgetAnalytics',
+  validate({body: validationSchema.widgetAnalyticsPayload}),
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
+  controller.fetchWidgetAnalytics)
+
+router.post('/storeWidgetButtonClick',
+  validate({body: validationSchema.widgetButtonClickPayload}),
+  controller.storeWidgetButtonClick)
 
 module.exports = router

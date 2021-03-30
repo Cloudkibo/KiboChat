@@ -17,6 +17,7 @@ const { callApi } = require('../utility')
 const { record } = require('../../global/messageStatistics')
 const { sendWebhook } = require('../../global/sendWebhook')
 const chatbotTemplates = require('../../../chatbotTemplates')
+const { getDialogFlowClient } = require('../../global/dialogflow')
 const { pushTalkToAgentAlertInStack } = require('../../global/messageAlerts')
 
 exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
@@ -269,40 +270,74 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
                   'module.id': chatbot._id,
                   triggers: userText
                 })
-                  .then(messageBlock => {
-                    if (messageBlock) {
-                      let blockInfo = {
-                        chatBotId: chatbot._id,
-                        messageBlockId: messageBlock._id,
-                        messageBlockTitle: messageBlock.title
+                  .then(async messageBlock => {
+                    try {
+                      let blockFound = false
+                      if (messageBlock) {
+                        blockFound = true
+                      } else if (chatbot.dialogFlowAgentId) {
+                        const dialogflow = await getDialogFlowClient(chatbot.companyId)
+                        const result = await dialogflow.projects.agent.sessions.detectIntent({
+                          session: `${chatbot.dialogFlowAgentId}/agent/sessions/${subscriber._id}`,
+                          requestBody: {
+                            queryInput: {
+                              text: {
+                                languageCode: 'en',
+                                text: userText.length > 256 ? userText.substring(0, 256) : userText
+                              }
+                            }
+                          }
+                        })
+                        if (
+                          result.data && result.data.queryResult &&
+                          result.data.queryResult.intentDetectionConfidence >= 0.8 &&
+                          result.data.queryResult.intent
+                        ) {
+                          const intentId = result.data.queryResult.intent.name
+                          const block = await messageBlockDataLayer.findOneMessageBlock({dialogFlowIntentId: intentId})
+                          if (block) {
+                            messageBlock = block
+                            blockFound = true
+                          }
+                        }
                       }
-                      senderAction(req.sender.id, 'typing_on', page.accessToken)
-                      intervalForEach(messageBlock.payload, (item) => {
-                        sendResponse(req.sender.id, item, subscriber, page.accessToken, blockInfo)
-                        saveLiveChatMessage(page, subscriber, item)
-                        senderAction(req.sender.id, 'typing_off', page.accessToken)
-                      }, 1500)
-                      if (!isSendingToTester) {
-                        updateBotLifeStats(chatbot, false)
-                        updateBotPeriodicStats(chatbot, false)
-                        updateBotLifeStatsForBlock(messageBlock, true)
-                        updateBotPeriodicStatsForBlock(chatbot, true)
-                        updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, messageBlock)
+                      if (blockFound) {
+                        let blockInfo = {
+                          chatBotId: chatbot._id,
+                          messageBlockId: messageBlock._id,
+                          messageBlockTitle: messageBlock.title
+                        }
+                        senderAction(req.sender.id, 'typing_on', page.accessToken)
+                        intervalForEach(messageBlock.payload, (item) => {
+                          sendResponse(req.sender.id, item, subscriber, page.accessToken, blockInfo)
+                          saveLiveChatMessage(page, subscriber, item)
+                          senderAction(req.sender.id, 'typing_off', page.accessToken)
+                        }, 1500)
+                        if (!isSendingToTester) {
+                          updateBotLifeStats(chatbot, false)
+                          updateBotPeriodicStats(chatbot, false)
+                          updateBotLifeStatsForBlock(messageBlock, true)
+                          updateBotPeriodicStatsForBlock(chatbot, true)
+                          updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, messageBlock)
+                        }
+                        let subscriberLastMessageAt = moment(subscriber.lastMessagedAt)
+                        let dateNow = moment()
+                        if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1 && !isSendingToTester) {
+                          updateBotPeriodicStatsForReturning(chatbot)
+                        }
+                        // new subscriber stats logic starts
+                        let subscriberCreatedAt = moment(subscriber.datetime)
+                        if (dateNow.diff(subscriberCreatedAt, 'seconds') <= 10 && !isSendingToTester) {
+                          updateBotLifeStats(chatbot, true)
+                          updateBotPeriodicStats(chatbot, true)
+                        }
+                        // new subscriber stats logic ends
+                      } else if (chatbot.fallbackReplyEnabled) {
+                        sendFallbackReply(req.sender.id, page, chatbot.fallbackReply, subscriber)
                       }
-                      let subscriberLastMessageAt = moment(subscriber.lastMessagedAt)
-                      let dateNow = moment()
-                      if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1 && !isSendingToTester) {
-                        updateBotPeriodicStatsForReturning(chatbot)
-                      }
-                      // new subscriber stats logic starts
-                      let subscriberCreatedAt = moment(subscriber.datetime)
-                      if (dateNow.diff(subscriberCreatedAt, 'seconds') <= 10 && !isSendingToTester) {
-                        updateBotLifeStats(chatbot, true)
-                        updateBotPeriodicStats(chatbot, true)
-                      }
-                      // new subscriber stats logic ends
-                    } else if (chatbot.fallbackReplyEnabled) {
-                      sendFallbackReply(req.sender.id, page, chatbot.fallbackReply, subscriber)
+                    } catch (err) {
+                      const message = err || 'Failed to process text for chatbot reply'
+                      logger.serverLog(message, `${TAG}: exports.handleTriggerMessage`, {chatbot}, {req, page, subscriber}, 'error')
                     }
                   })
                   .catch(error => {

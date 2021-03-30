@@ -42,6 +42,7 @@ client/public/js/bundle.js.map
 client/public/dist/
 client/index.html
 server/api/backdoor/my-file.csv
+server/api/v1.1/shopify/script/dist/
 
 # Typescript v1 declaration files
 typings/

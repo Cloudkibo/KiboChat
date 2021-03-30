@@ -77,6 +77,8 @@ module.exports = function (app) {
   app.use('/api/airlines', require('./api/v1.1/airlinesChatbot'))
   app.use('/api/companyPreferences', require('./api/v1.1/companyPreferences'))
   app.use('/api/fbshops', require('./api/v1.1/facebookshops'))
+  app.options('/api/supernumber/fetchWidgetInfo', require('cors')())
+  app.options('/api/supernumber/storeOptinNumberFromWidget', require('cors')())
   app.use('/api/supernumber', require('./api/v1.1/superNumber'))
   app.use('/cod', require('./api/v1.1/superNumber/codLinks'))
   app.use('/api/dialogflow', require('./api/v1.1/dialogflow'))

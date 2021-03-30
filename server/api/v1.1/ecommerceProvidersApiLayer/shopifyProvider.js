@@ -12,6 +12,7 @@ exports.fetchStoreInfo = (credentials) => {
           name: shop.name,
           domain: shop.domain,
           currency: shop.currency,
+          timezone: shop.timezone,
           type: 'shopify'
         })
       })

@@ -16,6 +16,7 @@ const dataLayer = require('./shopify.datalayer')
 const messengerChatbotDataLayer = require('../chatbots/chatbots.datalayer')
 const whatsAppChatbotDataLayer = require('../whatsAppChatbot/whatsAppChatbot.datalayer')
 const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
+const messageLogsDataLayer = require('./../superNumber/superNumberMessageLogs.datalayer')
 const EcommerceProviders = require('./../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
 const commerceConstants = require('./../ecommerceProvidersApiLayer/constants')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
@@ -106,6 +107,17 @@ exports.install = function (req, res) {
   res.cookie('installByShopifyStore', shop)
   res.cookie('shopifySetupState', 'startedFromApp')
   res.redirect(installUrl)
+}
+
+const registerScript = function (shopDomain, accessToken, params) {
+  const shopify = new Shopify({ shopName: shopDomain, accessToken: accessToken })
+  shopify.scriptTag.create(params).then(
+    response => {},
+    err => {
+      const message = err || 'Error creating script'
+      logger.serverLog(message, `${TAG}: registerScript`, {shopDomain, accessToken, params}, {}, 'error')
+    }
+  )
 }
 
 function registerWebhooks (shop, token) {
@@ -315,13 +327,25 @@ async function sendOnWhatsApp (shopUrl, contact, body, shopifyIntegration) {
         saveAnalytics(shopifyIntegration.companyId, true, preparedMessage.payload.templateName.includes('cod') ? 'COD_ORDER_CONFIRMATION' : 'ORDER_CONFIRMATION')
         let url = body.order_status_url.split('.com')[0]
         saveMessageLogs(contact, {
-          id: body.order_number,
+          id: body.order_number.toString(),
           url: `${url}.com/admin/orders/${body.id}`,
           amount: body.total_price,
-          currency: body.currency},
+          currency: body.currency,
+          status: 'no-response'
+        },
         true,
         preparedMessage.payload.templateName.includes('cod') ? 'COD_ORDER_CONFIRMATION' : 'ORDER_CONFIRMATION')
-        saveAnalytics(shopifyIntegration.companyId, true, preparedMessage.payload.templateName.includes('cod') ? 'COD_ORDER_CONFIRMATION' : 'ORDER_CONFIRMATION')
+        if (body.checkout_id) {
+          saveMessageLogs(contact, {
+            id: body.checkout_id.toString(),
+            url: `${url}.com/admin/orders/${body.id}`,
+            amount: body.total_price,
+            currency: body.currency,
+            status: 'recovered'
+          },
+          true,
+          'ABANDONED_CART_RECOVERY')
+        }
       } else {
         sendWhatsAppMessage(preparedMessage.payload, preparedMessage.credentials, contact.number, company, contact)
       }
@@ -367,6 +391,7 @@ exports.handleFulfillment = async function (req, res) {
         let orderName = req.body.name.split('.')[0]
         orderName = orderName.split('#')[1]
         const order = await ecommerceProvider.checkOrderStatus(orderName)
+        const restOrderPayload = await ecommerceProvider.checkOrderStatusByRest(order.id.split('/')[4])
         const customer = order.customer
         if (customer.phone) {
           const contact = await getContact(shopifyIntegration.companyId, customer.phone,
@@ -380,6 +405,16 @@ exports.handleFulfillment = async function (req, res) {
               if (preparedMessage.provider) {
                 await whatsAppMapper(preparedMessage.provider, ActionTypes.SEND_CHAT_MESSAGE, preparedMessage)
                 saveAnalytics(shopifyIntegration.companyId, true, 'ORDER_SHIPMENT')
+                let url = restOrderPayload.order_status_url.split('.com')[0]
+                saveMessageLogs(contact, {
+                  id: restOrderPayload.order_number.toString(),
+                  url: `${url}.com/admin/orders/${restOrderPayload.id}`,
+                  amount: restOrderPayload.total_price,
+                  currency: restOrderPayload.currency,
+                  status: 'confirmed'
+                },
+                true,
+                'ORDER_SHIPMENT')
               }
             }
           }
@@ -517,6 +552,10 @@ exports.callback = function (req, res) {
                 res.redirect('/alreadyConnected')
               } else {
                 registerWebhooks(shop, accessToken)
+                registerScript(shop, accessToken, {
+                  event: 'onload',
+                  src: config.domain + '/api/shopify/serveScript'
+                })
                 dataLayer.createShopifyIntegration(shopifyPayload)
                   .then(savedStore => {
                     res.cookie('shopifySetupState', 'completedUsingAuth')
@@ -701,6 +740,30 @@ exports.update = async (req, res) => {
     }
   } catch (err) {
     const message = err || 'Error fetching orders'
-    logger.serverLog(message, `${TAG}: exports.fetchOrders`, req.body, {}, 'error')
+    logger.serverLog(message, `${TAG}: exports.update`, req.body, {}, 'error')
   }
+}
+
+exports.serveScript = async (req, res) => {
+  try {
+    const shopUrl = req.query.shop
+    let shopifyIntegrations = await dataLayer.findShopifyIntegrations({ shopUrl })
+    const mainScriptUrl = config.domain + '/api/shopify/mainScript'
+    shopifyIntegrations.forEach(async (shopifyIntegration) => {
+      const superNumber = await superNumberDataLayer.findOne({ companyId: shopifyIntegration.companyId })
+      if (superNumber) {
+        res.set('Content-Type', 'text/javascript')
+        res.send(require('./rootScript')
+          .renderJS(mainScriptUrl, shopifyIntegration.companyId, shopifyIntegration._id, config.domain))
+      }
+    })
+  } catch (err) {
+    const message = err || 'Error fetching orders'
+    logger.serverLog(message, `${TAG}: exports.serveScript`, {query: req.query}, {}, 'error')
+  }
+}
+
+exports.serverMainScript = (req, res) => {
+  res.set('Content-Type', 'text/javascript')
+  res.sendFile(path.resolve(__dirname, 'script/dist', 'kibo_shopify.build.js'))
 }
