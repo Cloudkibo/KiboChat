@@ -42,13 +42,11 @@ function showChatWidget (chatWidget, buttonConfiguration, storeLocalTime) {
     .greetingsWidget.offlineStoreMsg.replace('<start time>', startEndTime.startTime)
     .replace('<end time>', startEndTime.endTime)
 
-  const agents = (chatWidget.greetingsWidget.randomAgentsOrder)
-    ? randomizeAgentsOrder(chatWidget.agents)
-    : chatWidget.agents
+  const agents = filterAvailableAgents(chatWidget, storeLocalTime)
 
   const content = kiboContent.chatWidget(widgetPosition, chatWidget.greetingsWidget.titleText,
     chatWidget.greetingsWidget.helpText,
-    offlineStoreMsg, agents, storeOpen)
+    offlineStoreMsg, chatWidget.greetingsWidget.offlineAgentMsg, agents, storeOpen)
 
   const styling = kiboChatWidgetStyle(
     chatWidget.greetingsWidget.headingColor,
@@ -66,10 +64,6 @@ function showChatWidget (chatWidget, buttonConfiguration, storeLocalTime) {
       emitterId: 'kibochat-widget-close-btn',
       handlerFunc: function (e) {
         e.preventDefault()
-
-        // TODO When analytics endpoint is done
-        // add the logic to increase click count
-        // on server side, when this is clicked
         this.hideWidget()
       }
     }
@@ -185,6 +179,23 @@ function randomizeAgentsOrder (agents) {
   tempAgents
     .sort(() => Math.random() - 0.5)
   return tempAgents
+}
+
+function filterAvailableAgents (chatWidget, storeLocalTime) {
+  const agents = (chatWidget.greetingsWidget.randomAgentsOrder)
+    ? randomizeAgentsOrder(chatWidget.agents)
+    : chatWidget.agents
+
+  const availableAgents = []
+
+  for (let i = 0; i < agents.length; i++) {
+    if (agents[i].enabled &&
+      utils.isSupportOpen(storeLocalTime, agents[i].onlineHours)) {
+      availableAgents.push(agents[i])
+    }
+  }
+
+  return availableAgents
 }
 
 exports.initChatButtonWidget = initChatButtonWidget

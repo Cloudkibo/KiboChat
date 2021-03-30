@@ -191,6 +191,28 @@ function isSupportOpen (currentTime, supportSchedule) {
   return false
 }
 
+function storeClickCount (widgetType) {
+  const kiboCompanyId = window.__kibocompany__
+  const kiboDomain = window.__kibodomain__
+
+  const clickCountUrl = `${kiboDomain}/api/superNumber/storeWidgetButtonClick`
+  const pageUrl = window.location.href
+
+  // Going to fetch basic super number preferences of merchant from server
+  const HttpForURLClick = new XMLHttpRequest()
+  HttpForURLClick.open('POST', clickCountUrl)
+  HttpForURLClick.setRequestHeader('Content-Type', 'application/json')
+  HttpForURLClick.send(JSON.stringify({
+    companyId: kiboCompanyId, pageUrl, widgetType
+  }))
+
+  HttpForURLClick.onreadystatechange = function (e) {
+    if (this.readyState === 4 && this.status === 200) {
+      // TODO any state management work in future
+    }
+  }
+}
+
 exports.isMobileBrowser = isMobileBrowser
 exports.fixedEncodeURIComponent = fixedEncodeURIComponent
 exports.shouldShowOnGivenDevice = shouldShowOnGivenDevice
@@ -203,3 +225,4 @@ exports.cookieExists = cookieExists
 exports.setCookie = setCookie
 exports.getStoresLocalTime = getStoresLocalTime
 exports.isSupportOpen = isSupportOpen
+exports.storeClickCount = storeClickCount

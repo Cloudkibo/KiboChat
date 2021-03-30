@@ -31,9 +31,7 @@ function initShareButtonWidget ({share_button: shareButton, ...kiboBasicSetup}) 
         handlerFunc: function (e) {
           e.preventDefault()
 
-          // TODO When analytics endpoint is done
-          // add the logic to increase click count
-          // on server side, when this is clicked
+          utils.storeClickCount('share')
 
           window.open(formulateWhatsAppUrl(shareButton.textMessage.message))
         }

@@ -92,6 +92,7 @@ router.post('/fetchWidgetAnalytics',
   controller.fetchWidgetAnalytics)
 
 router.post('/storeWidgetButtonClick',
+  cors(),
   validate({body: validationSchema.widgetButtonClickPayload}),
   controller.storeWidgetButtonClick)
 
