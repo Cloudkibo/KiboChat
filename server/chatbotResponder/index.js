@@ -5,6 +5,7 @@ const { smsMapper } = require('../smsMapper')
 const { whatsAppMapper } = require('../whatsAppMapper/whatsAppMapper')
 const { ActionTypes } = require('../smsMapper/constants')
 const { callApi } = require('../api/v1.1/utility')
+const { getDialogFlowClient } = require('../api/global/dialogflow')
 const { pushTalkToAgentAlertInStack } = require('../api/global/messageAlerts')
 
 exports.respondUsingChatbot = (platform, provider, company, message, contact, isForTest) => {
@@ -28,10 +29,39 @@ exports.respondUsingChatbot = (platform, provider, company, message, contact, is
               value: userText
             }
           })
-            .then(blocks => {
+            .then(async blocks => {
               let block = blocks[0]
+              let blockFound = false
               if (block) {
-              // trigger matched
+                blockFound = true
+              } else if (chatbot.dialogFlowAgentId) {
+                const dialogflow = await getDialogFlowClient(chatbot.companyId)
+                const result = await dialogflow.projects.agent.sessions.detectIntent({
+                  session: `${chatbot.dialogFlowAgentId}/agent/sessions/${contact._id}`,
+                  requestBody: {
+                    queryInput: {
+                      text: {
+                        languageCode: 'en',
+                        text: userText.length > 256 ? userText.substring(0, 256) : userText
+                      }
+                    }
+                  }
+                })
+                if (
+                  result.data && result.data.queryResult &&
+                  result.data.queryResult.intentDetectionConfidence >= 0.8 &&
+                  result.data.queryResult.intent
+                ) {
+                  const intentId = result.data.queryResult.intent.name
+                  const blocks = await _fetchChatbotBlocks({dialogFlowIntentId: intentId})
+                  if (blocks.length > 0) {
+                    block = blocks[0]
+                    blockFound = true
+                  }
+                }
+              }
+              if (blockFound) {
+                // trigger matched
                 _respond(platform, provider, company, contact, block)
                 pushTalkToAgentAlertInStack(company, contact, platform, chatbot.title)
                 resolve(block)

@@ -68,6 +68,12 @@ router.post('/update',
   auth.isSuperUserActingAsCustomer(),
   controller.update)
 
+router.get('/serveScript',
+  controller.serveScript)
+
+router.get('/mainScript',
+  controller.serverMainScript)
+
 // router.post('/checkout-create',
 //   webhook.handleCheckout) // this id will be userid
 //
@@ -82,10 +88,7 @@ router.post('/update',
 //
 // router.post('/theme-publish',
 //   webhook.handleThemePublish) // this id will be userid
-//
-// router.get('/serveScript',
-//   webhook.serveScript) // this id will be userid
-//
+
 // router.get('/clickCount',
 //   webhook.clickCount) // this id will be userid
 //
