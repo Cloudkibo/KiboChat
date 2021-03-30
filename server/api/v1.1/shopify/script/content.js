@@ -95,7 +95,7 @@ exports.kiboContent = {
     </span>
     `
   },
-  chatWidget: function (position, titleText, helpText, offlineMsg, agents, storeOpen) {
+  chatWidget: function (position, titleText, helpText, offlineMsg, offlineAgentMsg, agents, storeOpen) {
     const firstPart = `
     <div class='kibochat-widget-wrapper kibochat-widget-wrapper-${position}'>
     <div class='kibochat-widget-header'>
@@ -104,7 +104,7 @@ exports.kiboContent = {
         ${titleText}
       </div>
       <div class='kibochat-widget-header-desc'>
-        ${storeOpen ? helpText : offlineMsg}
+        ${helpText}
       </div>
     </div>
     <ul class='kibochat-agent-list'>
@@ -113,16 +113,22 @@ exports.kiboContent = {
     let middlePart = ''
 
     if (storeOpen) {
-      for (let i = 0; i < agents.length; i++) {
-        middlePart += `
-        <li data-whatsapp-number='${agents[i].whatsappNumber}' class='kibochat-agent-item'>
-          <div class='kibochat-agent-item-content'>
-            <h4>${agents[i].agentName}</h4>
-            <p>${agents[i].agentRole}</p>
-          </div>
-        </li>
-        `
+      if (agents.length > 0) {
+        for (let i = 0; i < agents.length; i++) {
+          middlePart += `
+          <li data-whatsapp-number='${agents[i].whatsappNumber}' class='kibochat-agent-item'>
+            <div class='kibochat-agent-item-content'>
+              <h4>${agents[i].agentName}</h4>
+              <p>${agents[i].agentRole}</p>
+            </div>
+          </li>
+          `
+        }
+      } else {
+        middlePart += `<h4 style='padding: 25px;'>${offlineAgentMsg}</h4>`
       }
+    } else {
+      middlePart += `<h4 style='padding: 25px;'>${offlineMsg}</h4>`
     }
 
     const lastPart = `
@@ -139,47 +145,5 @@ exports.kiboContent = {
     `
 
     return `${firstPart} ${middlePart} ${lastPart}`
-
-  //   return `
-  //   <div class='kibochat-widget-wrapper kibochat-widget-wrapper-${position}'>
-  //   <div class='kibochat-widget-header'>
-  //     <button id='kibochat-widget-close-btn' class='kibochat-widget-close'>x</button>
-  //     <div class='kibochat-widget-header-title'>
-  //       ${titleText}
-  //     </div>
-  //     <div class='kibochat-widget-header-desc'>
-  //       ${helpText}
-  //     </div>
-  //   </div>
-  //   <ul class='kibochat-agent-list'>
-  //     <!--<li class='kibochat-agent-item'>
-  //       <div class='kibochat-agent-item-content'>
-  //         <h4>Sojharo Mangi</h4>
-  //         <p>Customer Support</p>
-  //       </div>
-  //     </li>
-  //     <li class='kibochat-agent-item'>
-  //       <div class='kibochat-agent-item-content'>
-  //         <h4>Ansa Sojharo</h4>
-  //         <p>Sales Manager</p>
-  //       </div>
-  //     </li>
-  //     <li class='kibochat-agent-item'>
-  //       <div class='kibochat-agent-item-content'>
-  //         <h4>Imran Shoukat</h4>
-  //         <p>Customer Support</p>
-  //       </div>
-  //     </li>-->
-  //   </ul>
-  //   <div class='kibochat-widget-footer'>
-  //     <span style='vertical-align: middle;'>
-  //       Powered by
-  //       <span style='color: #2EB840;'>
-  //         KiboPush
-  //       </span>
-  //     </span>
-  //   </div>
-  // </div>
-  //   `
   }
 }
