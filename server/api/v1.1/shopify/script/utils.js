@@ -91,6 +91,9 @@ function getCurrentPage () {
   } else if (pathname.split('/').length === 3 &&
   pathname.includes('pages')) {
     return 'urlsEndinginPages'
+  } else if (pathname.split('/').length === 3 &&
+  pathname.includes('products')) {
+    return 'productPages'
   }
   return undefined
 }
