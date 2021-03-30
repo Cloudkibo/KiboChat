@@ -112,15 +112,17 @@ exports.kiboContent = {
 
     let middlePart = ''
 
-    for (let i = 0; i < agents.length; i++) {
-      middlePart += `
-      <li data-whatsapp-number='${agents[i].whatsappNumber}' class='kibochat-agent-item'>
-        <div class='kibochat-agent-item-content'>
-          <h4>${agents[i].agentName}</h4>
-          <p>${agents[i].agentRole}</p>
-        </div>
-      </li>
-      `
+    if (storeOpen) {
+      for (let i = 0; i < agents.length; i++) {
+        middlePart += `
+        <li data-whatsapp-number='${agents[i].whatsappNumber}' class='kibochat-agent-item'>
+          <div class='kibochat-agent-item-content'>
+            <h4>${agents[i].agentName}</h4>
+            <p>${agents[i].agentRole}</p>
+          </div>
+        </li>
+        `
+      }
     }
 
     const lastPart = `

@@ -26,12 +26,21 @@ function initChatButtonWidget ({chat_widget: chatWidget, ...kiboBasicSetup}) {
   }
 }
 
-function showChatWidget (chatWidget, buttonConfiguration, storeTime) {
+function showChatWidget (chatWidget, buttonConfiguration, storeLocalTime) {
   const widgetPosition = utils.getPositionBasedOnDevice(chatWidget)
   const widgetHeight = utils.getHeightBasedOnDevice(chatWidget)
   const widgetEdge = utils.getEdgeBasedOnDevice(chatWidget)
 
-  const storeOpen = utils.isSupportOpen(storeTime, chatWidget.onOffHours)
+  const storeOpen = utils.isSupportOpen(storeLocalTime, chatWidget.onOffHours)
+
+  const startEndTime = {
+    startTime: chatWidget.onOffHours[storeLocalTime.day].startTime,
+    endTime: chatWidget.onOffHours[storeLocalTime.day].endTime
+  }
+
+  let offlineStoreMsg = chatWidget
+    .greetingsWidget.offlineStoreMsg.replace('<start time>', startEndTime.startTime)
+    .replace('<end time>', startEndTime.endTime)
 
   const agents = (chatWidget.greetingsWidget.randomAgentsOrder)
     ? randomizeAgentsOrder(chatWidget.agents)
@@ -39,8 +48,7 @@ function showChatWidget (chatWidget, buttonConfiguration, storeTime) {
 
   const content = kiboContent.chatWidget(widgetPosition, chatWidget.greetingsWidget.titleText,
     chatWidget.greetingsWidget.helpText,
-    chatWidget.greetingsWidget.offlineStoreMsg,
-    agents, storeOpen)
+    offlineStoreMsg, agents, storeOpen)
 
   const styling = kiboChatWidgetStyle(
     chatWidget.greetingsWidget.headingColor,
