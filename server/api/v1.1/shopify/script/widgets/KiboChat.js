@@ -1,4 +1,5 @@
 const KiboButton = require('./KiboButton').KiboButton
+const utils = require('./../utils')
 /**
  * CHAT PLUGIN TEMPLATE
  *
@@ -171,9 +172,8 @@ function buildOutButton () {
       handlerFunc: function (e) {
         e.preventDefault()
 
-        // TODO When analytics endpoint is done
-        // add the logic to increase click count
-        // on server side, when this is clicked
+        utils.storeClickCount('chat')
+
         this.hideButton()
         this.hidePopup()
         _.showWidget()
@@ -192,7 +192,6 @@ function buildOutButton () {
   })
 
   this.chatButton = kiboButton
-  // showCallOut(chatWidget, kiboButton)
 
   this.chatButton.build()
 }
