@@ -7,6 +7,8 @@
     "start": "cross-env DEBUG=project:* NODE_ENV=development nodemon --trace-warnings server/app.js",
     "start:anisha": "cross-env DEBUG=project:* NODE_ENV=development DOMAIN=https://kibopush-anisha.ngrok.io nodemon --trace-warnings server/app.js",
     "start:sojharo": "cross-env DEBUG=project:* NODE_ENV=development DOMAIN=https://kibopush-sojharo.ngrok.io nodemon --trace-warnings server/app.js",
+    "start:shopify:watch": "NODE_ENV=development webpack --watch",
+    "build": "NODE_ENV=production webpack",
     "debug": "cross-env DEBUG=express:router:route,express:application,project:* NODE_ENV=development nodemon --trace-sync-io server/app.js",
     "lint": "echo 'Pre-commit checks...' && standard --fix && echo \"No code style errors found.\"",
     "test": "cross-env DEBUG=kibochat:* NODE_ENV=testing jest  --coverage",
@@ -98,7 +100,9 @@
     "nodemon": "^1.18.3",
     "pre-commit": "^1.2.2",
     "standard": "^11.0.1",
-    "supertest": "^4.0.2"
+    "supertest": "^4.0.2",
+    "webpack": "^5.27.1",
+    "webpack-cli": "^4.5.0"
   },
   "nodemonConfig": {
     "ignore": [

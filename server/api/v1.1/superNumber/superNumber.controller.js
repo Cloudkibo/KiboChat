@@ -11,9 +11,11 @@ const logger = require('../../../components/logger')
 const TAG = 'api/superNumberPreferences/superNumberPreferences.controller.js'
 const dataLayer = require('../superNumber/datalayer')
 const analyticsDataLayer = require('./superNumberAnalytics.datalayer')
+const widgetAnalyticsDataLayer = require('./superNumberWidgetAnalytics.datalayer')
 const messageLogsDataLayer = require('./superNumberMessageLogs.datalayer')
 const { saveAnalytics } = require('./utility')
 const async = require('async')
+const { getContact } = require('./../utility/miscApiCalls.controller')
 
 exports.fetchTemplates = async (req, res) => {
   let superWhatsAppAccount = getSuperWhatsAppAccount()
@@ -78,7 +80,8 @@ exports.create = function (req, res) {
     abandonedCart: req.body.abandonedCart,
     orderConfirmation: req.body.orderConfirmation,
     orderShipment: req.body.orderShipment,
-    cashOnDelivery: req.body.cashOnDelivery
+    cashOnDelivery: req.body.cashOnDelivery,
+    optin_widget: req.body.optin_widget
   }
   dataLayer.create(payload)
     .then(createdObj => {
@@ -250,4 +253,232 @@ exports.fetchMessageLogs = function (req, res) {
       sendSuccessResponse(res, 200, {count: count.length > 0 ? count[0].count : 0, messageLogs})
     }
   })
+}
+exports.storeOptinNumberFromWidget = async (req, res) => {
+  try {
+    const contact = await getContact(req.body.companyId, req.body.contactNumber,
+      {first_name: req.body.name ? req.body.name : req.body.contactNumber, accepts_marketing: true})
+    sendSuccessResponse(res, 200, contact)
+  } catch (err) {
+    const message = err || 'Internal server error'
+    logger.serverLog(message, `${TAG}: exports.storeOptinNumberFromWidget`, req.body, {user: req.user}, 'error')
+    sendErrorResponse(res, 500, null, 'Failed to store optin number from widget')
+  }
+}
+
+exports.fetchWidgetInfo = async (req, res) => {
+  try {
+    const shopifyIntegrations = await shopifyDataLayer.findShopifyIntegrations({
+      companyId: req.body.companyId, _id: req.body.shopifyId
+    })
+
+    const shopify = new EcommerceProviders(commerceConstants.shopify, {
+      shopUrl: shopifyIntegrations[0].shopUrl,
+      shopToken: shopifyIntegrations[0].shopToken
+    })
+
+    const storeInfo = await shopify.fetchStoreInfo()
+
+    if (shopifyIntegrations.length < 1) {
+      sendErrorResponse(res, 500, null, 'It seems your shopify store is not connected to KiboPush properly. Please contact KiboPush Support.')
+    } else {
+      const superNumberPreferences = await dataLayer.findOne({companyId: req.body.companyId})
+
+      superNumberPreferences.storeInfo = storeInfo
+
+      sendSuccessResponse(res, 200, superNumberPreferences)
+    }
+  } catch (err) {
+    const message = err || 'Internal server error'
+    logger.serverLog(message, `${TAG}: exports.storeOptinNumberFromWidget`, req.body, {user: req.user}, 'error')
+    sendErrorResponse(res, 500, null, 'Failed to store optin number from widget')
+  }
+}
+exports.fetchCODAnalytics = function (req, res) {
+  async.parallelLimit([
+    function (callback) {
+      let {matchQuery, groupQuery} = logicLayer.CODAnalyticsQuery(req.body, req.user.companyId, 'COD_ORDER_CONFIRMATION')
+      messageLogsDataLayer.aggregate(matchQuery, groupQuery)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      let {matchQuery, groupQuery} = logicLayer.CODAnalyticsQuery(req.body, req.user.companyId, 'COD_ORDER_CONFIRMATION', 'confirmed')
+      messageLogsDataLayer.aggregate(matchQuery, groupQuery)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      let {matchQuery, groupQuery} = logicLayer.CODAnalyticsQuery(req.body, req.user.companyId, 'COD_ORDER_CONFIRMATION', 'no-response')
+      messageLogsDataLayer.aggregate(matchQuery, groupQuery)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      let {matchQuery, groupQuery} = logicLayer.CODAnalyticsQuery(req.body, req.user.companyId, 'COD_ORDER_CONFIRMATION', 'cancelled')
+      messageLogsDataLayer.aggregate(matchQuery, groupQuery)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    }
+  ], 10, function (err, results) {
+    if (err) {
+      const message = err || 'Error in fetching cod analytics'
+      logger.serverLog(message, `${TAG}: exports.fetchCODAnalytics`, req.body, {user: req.user}, 'error')
+      return res.status(500).json({status: 'failed', payload: err})
+    } else {
+      let payload = {
+        ordersPlaced: results[0].length > 0 ? results[0][0].count : 0,
+        confirmed: results[1].length > 0 ? results[1][0].count : 0,
+        noResponse: results[2].length > 0 ? results[2][0].count : 0,
+        cancelled: results[3].length > 0 ? results[3][0].count : 0,
+        messagesSent: results[0].length > 0 ? results[0][0].count : 0
+      }
+      sendSuccessResponse(res, 200, payload)
+    }
+  })
+}
+exports.fetchAbandonedCartAnalytics = async function (req, res) {
+  const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: req.user.companyId })
+  if (shopifyIntegration) {
+    const shopify = new EcommerceProviders(commerceConstants.shopify, {
+      shopUrl: shopifyIntegration.shopUrl,
+      shopToken: shopifyIntegration.shopToken
+    })
+    const storeInfo = await shopify.fetchStoreInfo()
+    async.parallelLimit([
+      function (callback) {
+        let {matchQuery, groupQuery} = logicLayer.CODAnalyticsQuery(req.body, req.user.companyId, 'ABANDONED_CART_RECOVERY')
+        messageLogsDataLayer.aggregate(matchQuery, groupQuery)
+          .then(result => {
+            callback(null, result)
+          })
+          .catch(err => {
+            callback(err)
+          })
+      },
+      function (callback) {
+        let {matchQuery, groupQuery} = logicLayer.CODAnalyticsQuery(req.body, req.user.companyId, 'ABANDONED_CART_RECOVERY', 'recovered')
+        messageLogsDataLayer.aggregate(matchQuery, groupQuery)
+          .then(result => {
+            callback(null, result)
+          })
+          .catch(err => {
+            callback(err)
+          })
+      }
+    ], 10, function (err, results) {
+      if (err) {
+        const message = err || 'Error in fetching abandoned cart analytics'
+        logger.serverLog(message, `${TAG}: exports.fetchAbandonedCartAnalytics`, req.body, {user: req.user}, 'error')
+        return res.status(500).json({status: 'failed', payload: err})
+      } else {
+        let payload = {
+          cartsRecovered: results[1].length > 0 ? results[1][0].count : 0,
+          currency: storeInfo.currency,
+          orderValueRecovered: results[1].length > 0 ? results[1][0].amount : 0,
+          recoveryRate: results[1].length > 0 ? ((results[1][0].count / results[0][0].count) * 100).toFixed(2) : 0
+        }
+        sendSuccessResponse(res, 200, payload)
+      }
+    })
+  } else {
+    sendErrorResponse(res, 500, null, 'No Shopify Integration found')
+  }
+}
+exports.fetchWidgetAnalytics = function (req, res) {
+  async.parallelLimit([
+    function (callback) {
+      let {matchQuery, groupQuery} = logicLayer.widgetAnalyticsQuery(req.body, req.user.companyId, 'date')
+      widgetAnalyticsDataLayer.aggregate(matchQuery, groupQuery)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      let {matchQuery, groupQuery} = logicLayer.widgetAnalyticsQuery(req.body, req.user.companyId, 'page')
+      widgetAnalyticsDataLayer.aggregate(matchQuery, groupQuery)
+        .then(result => {
+          callback(null, result)
+        })
+        .catch(err => {
+          callback(err)
+        })
+    }
+  ], 10, function (err, results) {
+    if (err) {
+      const message = err || 'Error in fetching widget analytics'
+      logger.serverLog(message, `${TAG}: exports.fetchWidgetAnalytics`, req.body, {user: req.user}, 'error')
+      return res.status(500).json({status: 'failed', payload: err})
+    } else {
+      let graphDatas = results[0]
+      let clicksCount = 0
+      if (graphDatas.length > 0) {
+        clicksCount = graphDatas.reduce(function (a, b) {
+          return a + b['count']
+        }, 0)
+      }
+      let payload = {
+        graphDatas,
+        clicksCount,
+        pageData: results[1]
+      }
+      sendSuccessResponse(res, 200, payload)
+    }
+  })
+}
+exports.storeWidgetButtonClick = async function (req, res) {
+  try {
+    let matchQuery = {
+      year: new Date().getFullYear(),
+      month: new Date().getMonth() + 1,
+      day: new Date().getDate(),
+      companyId: req.body.companyId,
+      widgetType: req.body.widgetType,
+      pageUrl: req.body.pageUrl
+    }
+    let project = {
+      'year': {'$year': '$datetime'},
+      'month': {'$month': '$datetime'},
+      'day': {'$dayOfMonth': '$datetime'},
+      companyId: 1,
+      widgetType: 1,
+      pageUrl: 1,
+      _id: 1
+    }
+    const analytics = await widgetAnalyticsDataLayer.aggregate(matchQuery, null, project)
+    if (analytics.length > 0) {
+      await widgetAnalyticsDataLayer.update('updateOne', {_id: analytics[0]._id}, { $inc: { 'clickCounts': 1 } })
+    } else {
+      await widgetAnalyticsDataLayer.create({
+        companyId: req.body.companyId,
+        widgetType: req.body.widgetType,
+        pageUrl: req.body.pageUrl,
+        clickCounts: 1
+      })
+    }
+    sendSuccessResponse(res, 200, 'Saved successfully')
+  } catch (err) {
+    const message = err || 'Internal server error'
+    logger.serverLog(message, `${TAG}: exports.storeWidgetButtonClick`, req.body, {user: req.user}, 'error')
+    sendErrorResponse(res, 500, null, 'Failed to storeWidgetButtonClick')
+  }
 }

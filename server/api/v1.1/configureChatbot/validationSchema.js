@@ -20,6 +20,9 @@ exports.updateChatbotPayload = {
     },
     published: {
       type: 'boolean'
+    },
+    dialogFlowAgentId: {
+      type: 'string'
     }
   }
 }

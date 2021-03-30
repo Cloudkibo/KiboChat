@@ -122,3 +122,63 @@ exports.messageLogsPayload = {
     'automatedMessage'
   ]
 }
+exports.storeOptinNumberFromWidget = {
+  'type': 'object',
+  'properties': {
+    'companyId': {
+      'type': 'string'
+    },
+    'name': {
+      'type': 'string'
+    },
+    'contactNumber': {
+      'type': 'string'
+    }
+  },
+  'required': [
+    'companyId',
+    'contactNumber'
+  ]
+}
+exports.widgetAnalyticsPayload =
+{
+  '$schema': 'http://json-schema.org/draft-04/schema#',
+  'type': 'object',
+  'properties': {
+    'widgetType': {
+      'type': 'string'
+    },
+    'startDate': {
+      'type': 'string'
+    },
+    'endDate': {
+      'type': 'string'
+    }
+  },
+  'required': [
+    'widgetType',
+    'startDate',
+    'endDate'
+  ]
+}
+exports.widgetButtonClickPayload =
+{
+  '$schema': 'http://json-schema.org/draft-04/schema#',
+  'type': 'object',
+  'properties': {
+    'widgetType': {
+      'type': 'string'
+    },
+    'pageUrl': {
+      'type': 'string'
+    },
+    'companyId': {
+      'type': 'string'
+    }
+  },
+  'required': [
+    'widgetType',
+    'pageUrl',
+    'companyId'
+  ]
+}
