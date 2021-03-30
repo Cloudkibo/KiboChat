@@ -66,6 +66,14 @@ function showChatWidget (chatWidget, buttonConfiguration, storeLocalTime) {
         e.preventDefault()
         this.hideWidget()
       }
+    },
+    {
+      eventName: 'click',
+      emitterId: 'kibochat-widget-footer',
+      handlerFunc: function (e) {
+        e.preventDefault()
+        window.open('https://kibopush.com')
+      }
     }
   ]
 

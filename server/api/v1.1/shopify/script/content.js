@@ -133,7 +133,7 @@ exports.kiboContent = {
 
     const lastPart = `
     </ul>
-    <div class='kibochat-widget-footer'>
+    <div id='kibochat-widget-footer' class='kibochat-widget-footer'>
       <span style='vertical-align: middle;'>
         Powered by 
         <span style='color: #2EB840;'>
