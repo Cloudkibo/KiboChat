@@ -168,10 +168,17 @@ exports.widgetButtonClickPayload =
   'properties': {
     'widgetType': {
       'type': 'string'
+    },
+    'pageUrl': {
+      'type': 'string'
+    },
+    'companyId': {
+      'type': 'string'
     }
   },
   'required': [
     'widgetType',
-    'pageUrl'
+    'pageUrl',
+    'companyId'
   ]
 }

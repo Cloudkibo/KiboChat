@@ -1,4 +1,6 @@
 const Shopify = require('shopify-api-node')
+const logger = require('../../../components/logger')
+const TAG = 'api/ecommerceProvidersApiLayer/bigCommerceProvider.js'
 
 exports.fetchStoreInfo = (credentials) => {
   const shopify = initShopify(credentials)
@@ -15,6 +17,8 @@ exports.fetchStoreInfo = (credentials) => {
         })
       })
       .catch(err => {
+        const message = err || 'Failed to fetch store info'
+        logger.serverLog(message, `${TAG}: exports.fetchStoreInfo`, {}, {credentials}, 'error')
         reject(err)
       })
   })
@@ -36,6 +40,8 @@ exports.fetchAllProductCategories = (paginationParams, credentials) => {
         resolve(collections)
       })
       .catch(err => {
+        const message = err || 'Failed to all product categories'
+        logger.serverLog(message, `${TAG}: exports.fetchAllProductCategories`, {}, {credentials}, 'error')
         reject(err)
       })
   })
@@ -66,6 +72,8 @@ exports.fetchProductsInThisCategory = (id, paginationParams, numberOfProducts, c
         resolve(products)
       })
       .catch(err => {
+        const message = err || 'Failed to all products in categories'
+        logger.serverLog(message, `${TAG}: exports.fetchProductsInThisCategory`, {}, {id, paginationParams, credentials}, 'error')
         reject(err)
       })
   })
@@ -93,6 +101,8 @@ exports.fetchProducts = (paginationParams, numberOfProducts, credentials) => {
         resolve(products)
       })
       .catch(err => {
+        const message = err || 'Failed to fetch products'
+        logger.serverLog(message, `${TAG}: exports.fetchProducts`, {}, {credentials}, 'error')
         reject(err)
       })
   })
@@ -142,6 +152,8 @@ exports.searchProducts = (searchQuery, credentials) => {
         resolve(products)
       })
       .catch(err => {
+        const message = err || 'Failed to search products'
+        logger.serverLog(message, `${TAG}: exports.searchProducts`, {}, {searchQuery, credentials}, 'error')
         reject(err)
       })
   })
@@ -171,6 +183,21 @@ exports.getProductVariants = (id, paginationParams, numberOfProducts, credential
           products.nextPageParameters = nextPageParameters
         }
         resolve(products)
+      })
+      .catch(err => {
+        const message = err || 'Failed to product variants'
+        logger.serverLog(message, `${TAG}: exports.getProductVariants`, {}, {id, paginationParams, credentials}, 'error')
+        reject(err)
+      })
+  })
+}
+
+exports.getOrderStatusByRest = (id, credentials) => {
+  const shopify = initShopify(credentials)
+  return new Promise(function (resolve, reject) {
+    shopify.order.get(id)
+      .then(order => {
+        resolve(order)
       })
       .catch(err => {
         reject(err)
@@ -310,6 +337,8 @@ exports.getOrderStatus = (id, credentials) => {
         resolve(order)
       })
       .catch(err => {
+        const message = err || 'Failed to get order status'
+        logger.serverLog(message, `${TAG}: exports.getOrderStatus`, {}, {id, credentials}, 'error')
         reject(err)
       })
   })
@@ -334,6 +363,8 @@ exports.getCustomerUsingId = (id, credentials) => {
         resolve(customer)
       })
       .catch(err => {
+        const message = err || 'Failed to get customer using id'
+        logger.serverLog(message, `${TAG}: exports.getCustomerUsingId`, {}, {id, credentials}, 'error')
         reject(err)
       })
   })
@@ -360,6 +391,8 @@ exports.searchCustomerUsingPhone = (phone, credentials) => {
         resolve(customers)
       })
       .catch(err => {
+        const message = err || 'Failed to search customer using phone'
+        logger.serverLog(message, `${TAG}: exports.searchCustomerUsingPhone`, {}, {phone, credentials}, 'error')
         reject(err)
       })
   })
@@ -386,6 +419,8 @@ exports.searchCustomerUsingEmail = (email, credentials) => {
         resolve(customers)
       })
       .catch(err => {
+        const message = err || 'Failed to search customer using email'
+        logger.serverLog(message, `${TAG}: exports.searchCustomerUsingEmail`, {}, {email, credentials}, 'error')
         reject(err)
       })
   })
@@ -399,6 +434,8 @@ exports.createCustomer = (firstName, lastName, email, credentials) => {
         resolve(customer)
       })
       .catch(err => {
+        const message = err || 'Failed to create customer'
+        logger.serverLog(message, `${TAG}: exports.createCustomer`, {}, {firstName, lastName, email, credentials}, 'error')
         reject(err)
       })
   })
@@ -483,6 +520,8 @@ exports.findCustomerOrders = (customerId, limit, credentials) => {
         resolve(customer)
       })
       .catch(err => {
+        const message = err || 'Failed to find customer order'
+        logger.serverLog(message, `${TAG}: exports.findCustomerOrders`, {}, {customerId, limit, credentials}, 'error')
         reject(err)
       })
   })
@@ -508,6 +547,8 @@ exports.addOrUpdateProductToCart = (customerId, lineItems, cartToken, credential
           resolve(result)
         })
         .catch(err => {
+          const message = err || 'Failed to add to cart'
+          logger.serverLog(message, `${TAG}: exports.addOrUpdateProductToCart`, {}, {customerId, lineItems, cartToken, credentials}, 'error')
           reject(err)
         })
     } else {
@@ -516,6 +557,8 @@ exports.addOrUpdateProductToCart = (customerId, lineItems, cartToken, credential
           resolve(result)
         })
         .catch(err => {
+          const message = err || 'Failed to create cart'
+          logger.serverLog(message, `${TAG}: exports.addOrUpdateProductToCart`, {}, {customerId, lineItems, cartToken, credentials}, 'error')
           reject(err)
         })
     }
@@ -584,6 +627,8 @@ exports.updateBillingAddressOnCart = (billingAddress, cartToken, credentials) =>
         resolve(result)
       })
       .catch(err => {
+        const message = err || 'Failed to update billing address'
+        logger.serverLog(message, `${TAG}: exports.updateBillingAddressOnCart`, {}, {billingAddress, cartToken, credentials}, 'error')
         reject(err)
       })
   })
@@ -599,6 +644,8 @@ exports.updateShippingAddressOnCart = (shippingAddress, cartToken, credentials) 
         resolve(result)
       })
       .catch(err => {
+        const message = err || 'Failed to update shipping address'
+        logger.serverLog(message, `${TAG}: exports.updateShippingAddressOnCart`, {}, {shippingAddress, cartToken, credentials}, 'error')
         reject(err)
       })
   })
@@ -614,6 +661,8 @@ exports.completeCheckout = (cartToken, credentials) => {
           resolve(result)
         })
         .catch(err => {
+          const message = err || 'Failed to complete checkout'
+          logger.serverLog(message, `${TAG}: exports.completeCheckout`, {}, {cartToken, credentials}, 'error')
           reject(err)
         })
     } else {
@@ -640,6 +689,8 @@ exports.cancelAnOrder = (id, credentials) => {
         resolve(order)
       })
       .catch(err => {
+        const message = err || 'Failed to cancel an order'
+        logger.serverLog(message, `${TAG}: exports.cancelAnOrder`, {}, {orderId, credentials}, 'error')
         reject(err)
       })
   })
@@ -653,6 +704,8 @@ exports.cancelAnOrderWithRefund = (orderId, refundAmount, currency, credentials)
         resolve(result)
       })
       .catch(err => {
+        const message = err || 'Failed to cancel an order with refund'
+        logger.serverLog(message, `${TAG}: exports.cancelAnOrderWithRefund`, {}, {orderId, refundAmount, currency, credentials}, 'error')
         reject(err)
       })
   })
@@ -678,6 +731,8 @@ exports.viewCart = (id, credentials) => {
         resolve(products)
       })
       .catch(err => {
+        const message = err || 'Failed to view cart'
+        logger.serverLog(message, `${TAG}: exports.viewCart`, {}, {id, credentials}, 'error')
         reject(err)
       })
   })
