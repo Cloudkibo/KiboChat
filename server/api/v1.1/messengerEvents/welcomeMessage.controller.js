@@ -12,8 +12,6 @@ exports.index = function (req, res) {
   let page = req.body.page
   let subscriber = req.body.subscriber
   let event = req.body.entry[0].messaging[0]
-  console.log('page got', page)
-  console.log('subscriber got', subscriber)
   if (subscriber) {
     // It must be us testing by clicking getting started
     // after removing conversation history on messenger.
