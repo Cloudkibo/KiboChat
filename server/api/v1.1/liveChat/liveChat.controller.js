@@ -143,6 +143,7 @@ exports.create = function (req, res) {
     function (callback) {
       callApi(`subscribers/${req.body.subscriber_id}`, 'get', {}, 'accounts', req.headers.authorization)
         .then(subscriber => {
+          console.log('subscriber', subscriber)
           let subscriberSenderId = JSON.stringify({
             'id': subscriber.senderId
           })
@@ -154,9 +155,11 @@ exports.create = function (req, res) {
           callApi(`companyprofile/getAutomatedOptions`, 'get', {}, 'accounts', req.headers.authorization)
             .then(payload => {
               if (payload.showAgentName) {
+                console.log('in if', payload)
                 if (req.body.payload.componentType === 'text') {
                   req.body.payload.text = `${req.body.replied_by.name} sent:\r\n` + req.body.payload.text
                 } else {
+                  console.log('in else', payload)
                   request(
                     {
                       'method': 'POST',
@@ -181,6 +184,7 @@ exports.create = function (req, res) {
                 subscriber.lastName,
                 true
               )
+              console.log('messageData', JSON.stringify(messageData))
               record('messengerChatOutGoing')
               request(
                 {
