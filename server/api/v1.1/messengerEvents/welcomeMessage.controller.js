@@ -2,6 +2,7 @@ const chatbotAutomation = require('./chatbotAutomation.controller')
 const utility = require('../utility')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1/messengerEvents/welcomeMessage.controller'
+const { pushSessionPendingAlertInStack, pushUnresolveAlertInStack } = require('../../global/messageAlerts')
 
 exports.index = function (req, res) {
   res.status(200).json({
@@ -11,12 +12,17 @@ exports.index = function (req, res) {
   let page = req.body.page
   let subscriber = req.body.subscriber
   let event = req.body.entry[0].messaging[0]
+  console.log('page got', page)
+  console.log('subscriber got', subscriber)
   if (subscriber) {
     // It must be us testing by clicking getting started
     // after removing conversation history on messenger.
     // Don't do anything here. This is not logic for handling
     // new subscriber. It is just us clicking getting started
     // again and again
+    let subscriberEvent = JSON.parse(JSON.stringify(subscriber))
+    subscriberEvent.pageId = page
+    pushUnresolveAlertInStack({_id: subscriber.companyId}, subscriberEvent, 'messenger')
     chatbotAutomation.handleChatBotWelcomeMessage(event, page, subscriber)
   } else {
     const sender = req.body.entry[0].messaging[0].sender.id
@@ -30,6 +36,10 @@ exports.index = function (req, res) {
               if (subscriberFound.length > 0) {
                 subscriber = subscriberFound[0]
                 subscriber.isNewSubscriber = true
+                let subscriberEvent = JSON.parse(JSON.stringify(subscriber))
+                subscriberEvent.pageId = page
+                pushSessionPendingAlertInStack({_id: subscriber.companyId}, subscriberEvent, 'messenger')
+                pushUnresolveAlertInStack({_id: subscriber.companyId}, subscriberEvent, 'messenger')
                 chatbotAutomation.handleChatBotWelcomeMessage(event, page, subscriber)
               }
             }).catch(error => {
