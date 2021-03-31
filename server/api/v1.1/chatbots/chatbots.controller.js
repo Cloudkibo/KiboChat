@@ -15,6 +15,7 @@ const shopifyDataLayer = require('../shopify/shopify.datalayer')
 const bigCommerceDataLayer = require('../bigcommerce/bigcommerce.datalayer')
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
 const EcommerceProvider = require('../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 
 exports.index = function (req, res) {
   callApi(`pages/query`, 'post', { companyId: req.user.companyId, connected: true })
@@ -42,6 +43,7 @@ exports.create = function (req, res) {
   let payload = logiclayer.preparePayload(req.user.companyId, req.user._id, req.body)
   datalayer.createForChatBot(payload)
     .then(chatbot => {
+      updateCompanyUsage(req.user.companyId, 'chatbot_automation', 1)
       _sendToClientUsingSocket(chatbot)
       return sendSuccessResponse(res, 201, chatbot, null)
     })
@@ -59,6 +61,9 @@ exports.update = function (req, res) {
     fallbackReplyEnabled: req.body.fallbackReplyEnabled,
     isYoutubePlayable: req.body.isYoutubePlayable,
     builderPreference: req.body.builderPreference
+  }
+  if (req.body.dialogFlowAgentId) {
+    dataToUpdate.dialogFlowAgentId = req.body.dialogFlowAgentId
   }
   datalayer.genericUpdateChatBot({ _id: req.body.chatbotId }, dataToUpdate)
     .then(chatbotUpdated => {
@@ -385,9 +390,9 @@ exports.updateCommerceChatbot = async (req, res) => {
   let updatedChatbot = await datalayer.findOneChatBot({
     _id: req.body.chatbotId
   })
-  if (req.body.botLinks && req.body.botLinks.faqs) {
-    commerceLogicLayer.updateFaqsForStartingBlock(updatedChatbot)
-  }
+  // if (req.body.botLinks && req.body.botLinks.faqs) {
+  //   commerceLogicLayer.updateFaqsForStartingBlock(updatedChatbot)
+  // }
   if (req.body.triggers) {
     msgBlockDataLayer.genericUpdateMessageBlock({ uniqueId: updatedChatbot.startingBlockId }, {
       triggers: req.body.triggers
@@ -407,10 +412,25 @@ exports.updateCommerceChatbot = async (req, res) => {
         shopToken: bigCommerceIntegration.shopToken,
         storeHash: bigCommerceIntegration.payload.context
       })
+    } else if (req.body.storeType === commerceConstants.shops) {
+      let facebookInfo = req.user.facebookInfo
+      if (req.user.role !== 'buyer') {
+        facebookInfo = req.user.buyerInfo.facebookInfo
+      }
+      ecommerceProvider = new EcommerceProvider(commerceConstants.shops, {
+        shopUrl: facebookInfo.fbId,
+        shopToken: facebookInfo.fbToken // shopifyIntegration.shopToken
+      })
     }
     if (ecommerceProvider) {
-      let storeInfo = await ecommerceProvider.fetchStoreInfo()
-      commerceLogicLayer.updateStartingBlock(updatedChatbot, storeInfo.name)
+      let storeName = ''
+      if (req.body.storeType === commerceConstants.shops) {
+        storeName = req.body.storeName
+      } else {
+        let storeInfo = await ecommerceProvider.fetchStoreInfo()
+        storeName = storeInfo.name
+      }
+      commerceLogicLayer.updateStartingBlock(updatedChatbot, storeName)
     }
   }
 }
@@ -430,9 +450,24 @@ exports.createCommerceChatbot = async (req, res) => {
         shopToken: bigCommerceIntegration.shopToken,
         storeHash: bigCommerceIntegration.payload.context
       })
+    } else if (req.body.storeType === commerceConstants.shops) {
+      let facebookInfo = req.user.facebookInfo
+      if (req.user.role !== 'buyer') {
+        facebookInfo = req.user.buyerInfo.facebookInfo
+      }
+      ecommerceProvider = new EcommerceProvider(commerceConstants.shops, {
+        shopUrl: facebookInfo.fbId,
+        shopToken: facebookInfo.fbToken // shopifyIntegration.shopToken
+      })
     }
     if (ecommerceProvider) {
-      let storeInfo = await ecommerceProvider.fetchStoreInfo()
+      let storeName = ''
+      if (req.body.storeType === commerceConstants.shops) {
+        storeName = req.body.storeName
+      } else {
+        let storeInfo = await ecommerceProvider.fetchStoreInfo()
+        storeName = storeInfo.name
+      }
       let chatbot = await datalayer.createForChatBot({
         pageId: req.body.pageId,
         companyId: req.user.companyId,
@@ -440,9 +475,13 @@ exports.createCommerceChatbot = async (req, res) => {
         type: 'automated',
         vertical: 'commerce',
         botLinks: req.body.botLinks,
-        storeType: req.body.storeType
+        storeType: req.body.storeType,
+        businessId: req.body.businessId,
+        catalogId: req.body.catalogId,
+        catalog: req.body.catalog,
+        storeName: req.body.storeName
       })
-      let messageBlocks = commerceLogicLayer.getMessageBlocks(chatbot, storeInfo.name)
+      let messageBlocks = commerceLogicLayer.getMessageBlocks(chatbot, storeName)
       await datalayer.genericUpdateChatBot({ companyId: req.user.companyId, pageId: req.body.pageId, type: 'automated' }, {
         startingBlockId: messageBlocks[0].uniqueId
       })

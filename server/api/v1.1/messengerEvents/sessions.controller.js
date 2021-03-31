@@ -10,6 +10,7 @@ const logicLayer = require('./logiclayer')
 const { captureUserEmailAndPhone, unSetAwaitingUserInfoPayload } = require('./capturePhoneEmail.logiclayer')
 const notificationsUtility = require('../notifications/notifications.utility')
 const { record } = require('../../global/messageStatistics')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 const { sendNotifications } = require('../../global/sendNotification')
 const { sendWebhook } = require('../../global/sendWebhook')
 const { handleMessageAlertsSubscription } = require('../messageAlerts/utility')
@@ -123,7 +124,7 @@ exports.index = function (req, res) {
 }
 
 function saveLiveChat (page, subscriber, event, chatPayload) {
-  // record('messengerChatInComing')
+  record('messengerChatInComing')
   if (subscriber && !event.message.is_echo) {
     botController.respondUsingBot(page, subscriber, event.message.text)
   }
@@ -148,6 +149,7 @@ function saveChatInDb (page, chatPayload, subscriber, event) {
   ) {
     LiveChatDataLayer.createFbMessageObject(chatPayload)
       .then(chat => {
+        updateCompanyUsage(page.companyId, 'chat_messages', 1)
         if (!event.message.is_echo) {
           setTimeout(() => {
             utility.callApi('subscribers/query', 'post', { _id: subscriber._id })
@@ -531,9 +533,12 @@ const _prepareSubscriberUpdatePayload = (event, subscriber, company) => {
       $set: {
         last_activity_time: Date.now(),
         pendingResponse: true,
-        lastMessagedAt: Date.now(),
-        status: subscriber.status === 'resolved' ? 'new' : subscriber.status
+        pendingAt: new Date(),
+        lastMessagedAt: Date.now()
       }
+    }
+    if (subscriber.status === 'resolved') {
+      updated['$set'] = {...updated.$set, status: 'new', openedAt: new Date()}
     }
   }
   return updated

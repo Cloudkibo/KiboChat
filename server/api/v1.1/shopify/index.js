@@ -25,10 +25,24 @@ router.get('/callback',
 router.post('/app-uninstall',
   controller.handleAppUninstall) // this id will be userid
 
+router.post('/complete-checkout',
+  controller.handleCompleteCheckout)
+
+router.post('/checkout-create',
+  controller.handleCreateCheckout)
+
+router.post('/fulfillment',
+  controller.handleFulfillment)
+
 router.get('/fetchStore',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer(),
-  controller.fetchStore) // this id will be userid
+  controller.fetchStore)
+
+router.post('/fetchCheckouts',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
+  controller.fetchCheckouts)
 
 router.post('/gdpr/erasecustomer',
   controller.eraseCustomerData) // this id will be userid
@@ -44,6 +58,22 @@ router.get('/testRoute',
   auth.isSuperUserActingAsCustomer(),
   controller.testRoute) // this id will be userid
 
+router.post('/fetchOrders',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
+  controller.fetchOrders)
+
+router.post('/update',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
+  controller.update)
+
+router.get('/serveScript',
+  controller.serveScript)
+
+router.get('/mainScript',
+  controller.serverMainScript)
+
 // router.post('/checkout-create',
 //   webhook.handleCheckout) // this id will be userid
 //
@@ -58,10 +88,7 @@ router.get('/testRoute',
 //
 // router.post('/theme-publish',
 //   webhook.handleThemePublish) // this id will be userid
-//
-// router.get('/serveScript',
-//   webhook.serveScript) // this id will be userid
-//
+
 // router.get('/clickCount',
 //   webhook.clickCount) // this id will be userid
 //

@@ -5,8 +5,6 @@
 const compose = require('composable-middleware')
 const config = require('../../../config/environment')
 const async = require('async')
-const logger = require('../../../components/logger')
-const TAG = 'twilio/middleware.js'
 
 function validateNumbers () {
   return compose()

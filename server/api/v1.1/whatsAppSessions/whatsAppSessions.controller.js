@@ -283,6 +283,22 @@ exports.updatePendingResponse = function (req, res) {
     })
 }
 
+exports.updatePauseChatbot = function (req, res) {
+  callApi('whatsAppContacts/update', 'put', {
+    query: {_id: req.body.subscriberId},
+    newPayload: {chatbotPaused: req.body.chatbotPaused},
+    options: {}
+  })
+    .then(updated => {
+      sendSuccessResponse(res, 200, 'chatbot paused value changes successfully')
+    })
+    .catch(err => {
+      const message = err || 'Unable to whatsapp contact update'
+      logger.serverLog(message, `${TAG}: exports.updatePauseChatbot`, req.body, {user: req.user}, 'error')
+      sendErrorResponse(res, 500, err)
+    })
+}
+
 function _sendNotification (title, body, subscriber, companyUsers, lastMessageData) {
   callApi(`whatsAppChat/query`, 'post', lastMessageData, 'kibochat')
     .then(gotLastMessage => {

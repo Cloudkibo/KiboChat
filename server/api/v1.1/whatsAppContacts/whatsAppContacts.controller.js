@@ -208,9 +208,14 @@ exports.sendMessage = function (req, res) {
       _sendTemplateMessage.bind(null, data)
     ], function (err) {
       if (err) {
-        const message = err || 'Failed to send invitation template'
-        logger.serverLog(message, `${TAG}: exports.sendMessage`, req.body, { user: req.user }, 'error')
-        sendErrorResponse(res, 500, '', err)
+        let severity = 'error'
+        let message = err || 'Failed to send invitation template'
+        if (err.code === 20003) {
+          severity = 'info'
+          message = 'Permission Denied from Twilio. You lack permission to the resource and method you requested.'
+        }
+        logger.serverLog(message, `${TAG}: exports.sendMessage`, req.body, { user: req.user }, severity)
+        sendErrorResponse(res, 500, err, message)
       } else {
         sendSuccessResponse(res, 200, 'Message Sent Successfully')
       }

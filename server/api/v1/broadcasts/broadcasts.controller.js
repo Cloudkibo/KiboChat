@@ -107,12 +107,15 @@ exports.deleteButton = function (req, res) {
     })
 }
 exports.uploadRecording = function (req, res) {
+  console.log('in uploadRecording')
+  console.log('req.files', req.files)
+  console.log('req.files.file', req.files.file)
   const today = new Date()
   const uid = crypto.randomBytes(5).toString('hex')
   const fext = req.files.file.name.split('.')
   const serverPath = `f${uid}${today.getFullYear()}${today.getMonth() + 1}${today.getDate()}${today.getHours()}${today.getMinutes()}${today.getSeconds()}.${fext[fext.length - 1].toLowerCase()}`
   const dir = path.resolve(__dirname, '../../../../broadcastFiles/')
-
+  console.log('req.files.file', req.files.file)
   if (req.files.file.size === 0) {
     return res.status(400).json({
       status: 'failed',
@@ -253,12 +256,19 @@ exports.upload = function (req, res) {
 
 exports.download = function (req, res) {
   let dir = path.resolve(__dirname, '../../../../broadcastFiles/userfiles')
-  try {
-    res.sendfile(req.params.id, {root: dir})
-  } catch (err) {
-    const message = err || 'Inside download file error'
-    logger.serverLog(message, `${TAG}: exports.download`, {}, {params: req.params}, 'error')
-    res.status(404)
-      .json({status: 'success', payload: 'Not Found ' + JSON.stringify(err)})
+  if (fs.existsSync(dir + '/' + req.params.id)) {
+    try {
+      res.sendfile(req.params.id, {root: dir})
+    } catch (err) {
+      const message = err || 'Inside download file error'
+      logger.serverLog(message, `${TAG}: exports.download`, {}, {params: req.params}, 'error')
+      res.status(404)
+        .json({status: 'success', payload: 'Not Found ' + JSON.stringify(err)})
+    }
+  } else {
+    return res.status(500).json({
+      status: 'failed',
+      description: 'File not found'
+    })
   }
 }

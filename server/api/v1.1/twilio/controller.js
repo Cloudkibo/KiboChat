@@ -59,6 +59,8 @@ exports.verifyNumber = function (req, res) {
             sendSuccessResponse(res, 200, null, 'Number is valid')
           })
           .catch(err => {
+            const message = err || 'An unexpected error occurred. Please try again later'
+            logger.serverLog(message, `${TAG}: exports.verifyNumber`, req.body, {user: req.user}, 'info')
             sendErrorResponse(res, 403, null, 'Please enter a valid number of format E.164')
           })
       } else {

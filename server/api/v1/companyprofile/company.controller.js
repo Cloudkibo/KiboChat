@@ -61,6 +61,16 @@ exports.getAdvancedSettings = function (req, res) {
     })
 }
 
+exports.switchToBasicPlan = function (req, res) {
+  utility.callApi(`companyprofile/switchToBasicPlan`, 'get', {}, 'accounts', req.headers.authorization)
+    .then(updatedProfile => {
+      sendSuccessResponse(res, 200, updatedProfile)
+    })
+    .catch(err => {
+      sendErrorResponse(res, 500, `Failed to update company profile ${err}`)
+    })
+}
+
 exports.updateAdvancedSettings = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
     .then(companyUser => {
@@ -93,15 +103,40 @@ const _isUserError = (err, req) => {
 }
 
 exports.invite = function (req, res) {
-  utility.callApi('companyprofile/invite', 'post', {email: req.body.email, name: req.body.name, role: req.body.role}, 'accounts', req.headers.authorization)
-    .then((result) => {
-      sendSuccessResponse(res, 200, result)
+  utility.callApi(`featureUsage/planQuery`, 'post', {planId: req.user.currentPlan})
+    .then(planUsage => {
+      planUsage = planUsage[0]
+      utility.callApi(`featureUsage/companyQuery`, 'post', {companyId: req.user.companyId})
+        .then(companyUsage => {
+          companyUsage = companyUsage[0]
+          if (planUsage.members !== -1 && companyUsage.members >= planUsage.members) {
+            return res.status(500).json({
+              status: 'failed',
+              description: `Your members limit has reached. Please upgrade your plan to invite more members.`
+            })
+          } else {
+            utility.callApi('companyprofile/invite', 'post', {email: req.body.email, name: req.body.name, role: req.body.role}, 'accounts', req.headers.authorization)
+              .then((result) => {
+                sendSuccessResponse(res, 200, result)
+              })
+              .catch((err) => {
+                if (!_isUserError(err, req)) {
+                  const message = err || 'error from invite company profile'
+                  logger.serverLog(message, `${TAG}: exports.invite`, req.body, {user: req.user}, 'error')
+                }
+                sendErrorResponse(res, 500, err)
+              })
+          }
+        })
+        .catch(error => {
+          const message = error || 'error from company usage for feature'
+          logger.serverLog(message, `${TAG}: exports.invite`, req.body, {user: req.user}, 'error')
+          sendErrorResponse(res, 500, `Failed to company usage ${JSON.stringify(error)}`)
+        })
     })
     .catch((err) => {
-      if (!_isUserError(err, req)) {
-        const message = err || 'result from invite endpoint accounts'
-        logger.serverLog(message, `${TAG}: exports.invite`, req.body, {user: req.user}, 'error')
-      }
+      const message = err || 'result from invite endpoint accounts'
+      logger.serverLog(message, `${TAG}: exports.invite`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err)
     })
 }
@@ -122,8 +157,6 @@ exports.updateAutomatedOptions = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
     .then(companyUser => {
       if (!companyUser) {
-        const message = 'The user account does not belong to any company. Please contact support'
-        logger.serverLog(message, `${TAG}: exports.updateAutomatedOptions`, req.body, {user: req.user}, 'error')
         sendErrorResponse(res, 404, '', 'The user account does not belong to any company. Please contact support')
       }
 
@@ -154,8 +187,6 @@ exports.updatePlatform = function (req, res) {
   utility.callApi(`companyUser/query`, 'post', {domain_email: req.user.domain_email}) // fetch company user
     .then(companyUser => {
       if (!companyUser) {
-        const message = 'The user account does not belong to any company. Please contact support'
-        logger.serverLog(message, `${TAG}: exports.updatePlatform`, req.body, {user: req.user}, 'error')
         sendErrorResponse(res, 404, '', 'The user account does not belong to any company. Please contact support')
       }
       needle.get(
@@ -252,8 +283,6 @@ const _updateCompanyProfile = (data, next) => {
       next(null, updatedProfile)
     })
     .catch(err => {
-      const message = err || 'error in updating company'
-      logger.serverLog(message, `${TAG}: exports._updateCompanyProfile`, {}, { data }, 'error')
       next(err)
     })
   // } else {
@@ -270,8 +299,6 @@ const _updateUser = (data, next) => {
           next(null, data)
         })
         .catch(err => {
-          const message = err || 'error in updating user'
-          logger.serverLog(message, `${TAG}: exports._updateUser`, {}, { data }, 'error')
           next(err)
         })
     }).catch(err => {
@@ -285,8 +312,6 @@ const _setWebhook = (data, next) => {
       next(null, data)
     })
     .catch(error => {
-      const message = error || 'error in whatsapp mapper'
-      logger.serverLog(message, `${TAG}: exports._setWebhook`, {}, { data }, 'error')
       next(error)
     })
 }
@@ -304,8 +329,12 @@ const _checkTwilioVersion = (data, next) => {
   if (data.body.provider === 'twilio') {
     whatsAppMapper(data.body.provider, ActionTypes.CHECK_TWILLO_VERSION, data.body)
       .then(response => {
-        if (response.body.type === 'Trial' && !data.isSuperUser) {
+        let businessNumbers = response.businessNumbers
+        response = response.twilioVersionResponse
+        if (response.body.type === 'Trial' && !data.body.sandBoxCode) {
           next(new Error('This is a trial account. Please connect a paid version of Twilio account.'))
+        } else if (response.body.type === 'full' && !businessNumbers.includes(data.body.businessNumber)) {
+          next(new Error('Please add correct whatsapp business number'))
         } else {
           next(null, data)
         }
@@ -377,7 +406,11 @@ exports.updatePlatformWhatsApp = function (req, res) {
           _setWebhook.bind(null, data)
         ], function (err) {
           if (err) {
-            if (err.message && (err.message.includes('trial account') || err.message.includes('invalid Flock send access token') || err.message.includes('Twilio account not found'))) {
+            if (err.message && (err.message.includes('trial account') ||
+            err.message.includes('invalid Flock send access token') ||
+            err.message.includes('Twilio account not found') ||
+            err.message.includes('incorrect credentials')
+            )) {
             } else {
               const message = err || 'error in async series call'
               logger.serverLog(message, `${TAG}: exports.updatePlatformWhatsApp`, req.body, { user: req.user }, 'error')
@@ -397,6 +430,23 @@ exports.updatePlatformWhatsApp = function (req, res) {
       sendErrorResponse(res, 500, `Failed to fetch company ${err}`)
     })
 }
+
+exports.setWhatsappSuperNumberPlan = async function (req, res) {
+  try {
+    const result = await utility.callApi('companyprofile/setWhatsappSuperNumberPlan', 'get', null, 'accounts', req.headers.authorization)
+
+    await utility.callApi(`user/update`, 'post', {query: {_id: req.user._id}, newPayload: {$set: {platform: 'whatsApp'}}})
+
+    sendSuccessResponse(res, 200, result)
+  } catch (err) {
+    const message = err || 'error in setting whatsapp super number plan'
+
+    logger.serverLog(message, `${TAG}: exports.setWhatsappSuperNumberPlan`, {}, {user: req.user}, 'error')
+
+    sendErrorResponse(res, 500, err)
+  }
+}
+
 exports.disconnect = function (req, res) {
   utility.callApi(`companyprofile/query`, 'post', {ownerId: req.user._id})
     .then(company => {
@@ -476,6 +526,54 @@ exports.fetchValidCallerIds = function (req, res) {
       sendErrorResponse(res, 500, `Failed to fetch valid caller Ids ${JSON.stringify(error)}`)
     })
 }
+
+exports.getKeys = function (req, res) {
+  utility.callApi('companyprofile/getKeys', 'get', {}, 'accounts', req.headers.authorization)
+    .then((result) => {
+      res.status(200).json({status: 'success', captchaKey: result.captchaKey, stripeKey: result.stripeKey})
+    })
+    .catch((err) => {
+      const message = err || 'error in getting keys in companyprofile'
+      logger.serverLog(message, `${TAG}: exports.getKeys`, req.body, {user: req.user}, 'error')
+      sendErrorResponse(res, 500, err)
+    })
+}
+
+exports.setCard = function (req, res) {
+  utility.callApi('companyprofile/setCard', 'post', req.body, 'accounts', req.headers.authorization)
+    .then((result) => {
+      sendSuccessResponse(res, 200, result)
+    })
+    .catch((err) => {
+      const message = err || 'error in setting card in companyprofile'
+      logger.serverLog(message, `${TAG}: exports.setCard`, req.body, {user: req.user}, 'error')
+      sendErrorResponse(res, 500, err)
+    })
+}
+
+exports.updatePlan = function (req, res) {
+  utility.callApi('companyprofile/updatePlan', 'post', req.body, 'accounts', req.headers.authorization)
+    .then((result) => {
+      sendSuccessResponse(res, 200, result)
+    })
+    .catch((err) => {
+      const message = err || 'error in updating plan in companyprofile'
+      logger.serverLog(message, `${TAG}: exports.updatePlan`, req.body, {user: req.user}, 'error')
+      sendErrorResponse(res, 500, '', err)
+    })
+}
+
+exports.updateRole = function (req, res) {
+  utility.callApi('companyprofile/updateRole', 'post', {role: req.body.role, domain_email: req.body.domain_email}, 'accounts', req.headers.authorization)
+    .then((result) => {
+      res.status(200).json({status: 'success', payload: result})
+    })
+    .catch((err) => {
+      const message = err || 'error in updating role in companyprofile'
+      logger.serverLog(message, `${TAG}: exports.updateRole`, req.body, {user: req.user}, 'error')
+      res.status(500).json({status: 'failed', payload: `${JSON.stringify(err)}`})
+    })
+}
 exports.deleteWhatsAppInfo = function (req, res) {
   utility.callApi('user/authenticatePassword', 'post', {email: req.user.email, password: req.body.password})
     .then(authenticated => {
@@ -500,8 +598,6 @@ exports.deleteWhatsAppInfo = function (req, res) {
                   callback(null, data)
                 })
                 .catch(err => {
-                  const message = err || 'Failed to update company profile'
-                  logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, req.body, {user: req.user}, 'error')
                   callback(err)
                 })
             },
@@ -515,8 +611,6 @@ exports.deleteWhatsAppInfo = function (req, res) {
                       callback(null)
                     })
                     .catch(err => {
-                      const message = err || 'Failed to update user profile'
-                      logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, req.body, {user: req.user}, 'error')
                       callback(err)
                     })
                 }).catch(err => {
@@ -531,8 +625,6 @@ exports.deleteWhatsAppInfo = function (req, res) {
                     callback(null, data)
                   })
                   .catch(err => {
-                    const message = err || 'whatsapp contact delete many'
-                    logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, req.body, {user: req.user}, 'error')
                     callback(err)
                   })
               } else {
@@ -550,8 +642,6 @@ exports.deleteWhatsAppInfo = function (req, res) {
                     callback(null, data)
                   })
                   .catch(err => {
-                    const message = err || 'whatsapp broadcast delete error'
-                    logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, req.body, {user: req.user}, 'error')
                     callback(err)
                   })
               } else {
@@ -569,8 +659,6 @@ exports.deleteWhatsAppInfo = function (req, res) {
                     callback(null, data)
                   })
                   .catch(err => {
-                    const message = err || 'whatsapp broadcast messages delete error'
-                    logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, req.body, {user: req.user}, 'error')
                     callback(err)
                   })
               } else {
@@ -589,8 +677,6 @@ exports.deleteWhatsAppInfo = function (req, res) {
                     callback(null, data)
                   })
                   .catch(err => {
-                    const message = err || 'whatsapp chat messages delete error'
-                    logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, req.body, {user: req.user}, 'error')
                     callback(err)
                   })
               } else {
@@ -619,7 +705,7 @@ exports.deleteWhatsAppInfo = function (req, res) {
     .catch((err) => {
       const message = err || 'failed to authenticate user'
       if (message !== 'Incorrect password') {
-        logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, req.body, req.user, 'error')
+        logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, req.body, {user: req.user}, 'error')
       }
       sendErrorResponse(res, 500, err)
     })

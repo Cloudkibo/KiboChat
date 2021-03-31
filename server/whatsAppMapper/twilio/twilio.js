@@ -44,8 +44,22 @@ exports.checkTwillioVersion = (body) => {
   return new Promise((resolve, reject) => {
     needle('get', `https://${body.accountSID}:${body.accessToken}@api.twilio.com/2010-04-01/Accounts/${body.accountSID}.json`)
       .then(resp => {
+        let data = {
+          twilioVersionResponse: null,
+          businessNumbers: []
+        }
         if (resp.statusCode === 200) {
-          resolve(resp)
+          data.twilioVersionResponse = resp
+          if (resp.body.type === 'Trial') {
+            resolve(data)
+          } else {
+            needle('get', `https://${body.accountSID}:${body.accessToken}@api.twilio.com/2010-04-01/Accounts/${body.accountSID}/IncomingPhoneNumbers.json`)
+              .then(businessNumbersInfo => {
+                let businessNumbers = businessNumbersInfo.body.incoming_phone_numbers.map(numberInfo => numberInfo.phone_number)
+                data.businessNumbers = businessNumbers
+                resolve(data)
+              })
+          }
         } else {
           reject(Error('Error in finding twilio version'))
         }
@@ -155,7 +169,7 @@ exports.sendTextMessage = ({text, company, subscriber}) => {
     const client = twilioClient(company)
     client.messages.create({
       body: text,
-      from: `whatsapp:${company.businessNumber}`,
+      from: `whatsapp:${company.whatsApp.businessNumber}`,
       to: `whatsapp:${subscriber.number}`
     })
       .then(res => {

@@ -1,10 +1,8 @@
 const utility = require('../utility')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1/user/user.controller.js'
-const util = require('util')
 const cookie = require('cookie')
 const config = require('./../../../config/environment/index')
-const { sendOpAlert } = require('../../global/operationalAlert')
 const { facebookApiCaller } = require('../../global/facebookApiCaller')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const shopifyDataLayer = require('../../v1.1/shopify/shopify.datalayer.js')
@@ -347,6 +345,32 @@ exports.updatePlatform = function (req, res) {
       logger.serverLog(message, `${TAG}: exports.updatePlatform`, {}, {user: req.user}, 'error')
       res.status(500).json({ status: 'failed', payload: err })
     })
+}
+
+exports.logout = function (req, res) {
+  utility.callApi(`users/receivelogout`, 'get', {}, 'kiboengage', req.headers.authorization)
+    .then(response => {
+      return res.status(200).json({
+        status: 'success',
+        payload: 'send response successfully!'
+      })
+    }).catch(err => {
+      console.log('error', err)
+      res.status(500).json({status: 'failed', payload: `failed to sendLogoutEvent ${err}`})
+    })
+}
+
+exports.receivelogout = function (req, res) {
+  require('../../../config/socketio').sendMessageToClient({
+    room_id: req.user.companyId,
+    body: {
+      action: 'logout'
+    }
+  })
+  return res.status(200).json({
+    status: 'success',
+    payload: 'recieved logout event!'
+  })
 }
 
 function saveShopifyIntegration (shop, shopToken, userId, companyId) {

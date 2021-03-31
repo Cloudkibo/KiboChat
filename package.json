@@ -5,7 +5,10 @@
   "main": "server/app.js",
   "scripts": {
     "start": "cross-env DEBUG=project:* NODE_ENV=development nodemon --trace-warnings server/app.js",
+    "start:anisha": "cross-env DEBUG=project:* NODE_ENV=development DOMAIN=https://kibopush-anisha.ngrok.io nodemon --trace-warnings server/app.js",
     "start:sojharo": "cross-env DEBUG=project:* NODE_ENV=development DOMAIN=https://kibopush-sojharo.ngrok.io nodemon --trace-warnings server/app.js",
+    "start:shopify:watch": "NODE_ENV=development webpack --watch",
+    "build": "NODE_ENV=production webpack",
     "debug": "cross-env DEBUG=express:router:route,express:application,project:* NODE_ENV=development nodemon --trace-sync-io server/app.js",
     "lint": "echo 'Pre-commit checks...' && standard --fix && echo \"No code style errors found.\"",
     "test": "cross-env DEBUG=kibochat:* NODE_ENV=testing jest  --coverage",
@@ -51,6 +54,7 @@
     "ffmpeg": "0.0.4",
     "form-data": "^2.3.2",
     "google-auth-library": "^5.5.1",
+    "googleapis": "^67.1.1",
     "helmet": "^3.13.0",
     "isomorphic-fetch": "^2.2.1",
     "json2csv": "^4.5.4",
@@ -58,6 +62,7 @@
     "jsonwebtoken": "^8.3.0",
     "lodash": "^4.17.10",
     "method-override": "^3.0.0",
+    "mime-types": "^2.1.28",
     "moment": "^2.26.0",
     "morgan": "^1.9.0",
     "multer": "^1.3.1",
@@ -71,6 +76,7 @@
     "passport-facebook": "^2.1.1",
     "passport-facebook-extension": "0.0.7",
     "passport-local": "^1.0.0",
+    "pdf-creator-node": "^1.4.2",
     "pug": "^2.0.3",
     "raven": "^2.6.4",
     "redis": "^2.8.0",
@@ -94,7 +100,9 @@
     "nodemon": "^1.18.3",
     "pre-commit": "^1.2.2",
     "standard": "^11.0.1",
-    "supertest": "^4.0.2"
+    "supertest": "^4.0.2",
+    "webpack": "^5.27.1",
+    "webpack-cli": "^4.5.0"
   },
   "nodemonConfig": {
     "ignore": [
