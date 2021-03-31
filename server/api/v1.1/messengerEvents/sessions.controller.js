@@ -25,6 +25,7 @@ exports.index = function (req, res) {
     status: 'success',
     description: `received the payload`
   })
+  console.log('req.body', JSON.stringify(req.body))
   let page = req.body.page
   let subscriber = req.body.subscriber
   let event = req.body.event
