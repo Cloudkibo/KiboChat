@@ -95,46 +95,41 @@ const _unsetChatbotContext = (companyId, platform) => {
     })
 }
 
-exports.update = async function (req, res) {
-  try {
-    const published = req.body.published
-    if (req.body.vertical && req.body.vertical === 'ecommerce') {
-      if (published) {
-        const chatbot = await smsChatbotdataLayer.findOne(
-          {companyId: req.user.companyId, vertical: req.body.vertical, published, _id: {$ne: req.body.chatbotId}})
-        if (chatbot) {
-          return sendErrorResponse(res, 500, null, `A chatbot is already published. You can not publish more than one chatbot.`)
+exports.update = function (req, res) {
+  const published = req.body.published
+  if (published) {
+    _unsetChatbotContext(req.user.companyId, req.user.platform)
+    datalayer.fetchChatbotRecords({companyId: req.user.companyId, platform: req.user.platform, published})
+      .then(records => {
+        if (records.length > 0) {
+          return sendErrorResponse(res, 500, null, `On ${req.user.platform} platform, a chabot is already published. You can not publish more than one chatbot.`)
         } else {
-          let newPayload = req.body
-          delete newPayload.chatbotId
-          const updated = await smsChatbotdataLayer.update('updateOne', {_id: req.body.chatbotId}, newPayload)
-          return sendSuccessResponse(res, 200, updated, 'Chatbot updated successfully!')
+          datalayer.updateChatbotRecord({chatbotId: req.body.chatbotId}, {...req.body})
+            .then(created => {
+              return sendSuccessResponse(res, 200, created, 'Chatbot updated successfully!')
+            })
+            .catch(error => {
+              const message = error || 'Failed to update chatbot.'
+              logger.serverLog(message, `${TAG}: exports.update`, req.body, {user: req.user, records}, 'error')
+              return sendErrorResponse(res, 500, error, 'Failed to update chatbot.')
+            })
         }
-      } else {
-        let newPayload = req.body
-        delete newPayload.chatbotId
-        const updated = await smsChatbotdataLayer.update('updateOne', {_id: req.body.chatbotId}, newPayload)
-        return sendSuccessResponse(res, 200, updated, 'Chatbot updated successfully!')
-      }
-    } else {
-      if (published) {
-        _unsetChatbotContext(req.user.companyId, req.user.platform)
-        const chatbots = await datalayer.fetchChatbotRecords({companyId: req.user.companyId, platform: req.user.platform, published})
-        if (chatbots.length > 0) {
-          return sendErrorResponse(res, 500, null, `On ${req.user.platform} platform, a chatbot is already published. You can not publish more than one chatbot.`)
-        } else {
-          const updated = await datalayer.updateChatbotRecord({chatbotId: req.body.chatbotId}, {...req.body})
-          return sendSuccessResponse(res, 200, updated, 'Chatbot updated successfully!')
-        }
-      } else {
-        const updated = await datalayer.updateChatbotRecord({chatbotId: req.body.chatbotId}, {...req.body})
-        return sendSuccessResponse(res, 200, updated, 'Chatbot updated successfully!')
-      }
-    }
-  } catch (error) {
-    const message = error || 'Failed to update chatbot.'
-    logger.serverLog(message, `${TAG}: exports.update`, req.body, {user: req.user}, 'error')
-    return sendErrorResponse(res, 500, error, 'Failed to update chatbot.')
+      })
+      .catch(error => {
+        const message = error || 'Failed to update chatbot.'
+        logger.serverLog(message, `${TAG}: exports.update`, req.body, {user: req.user}, 'error')
+        return sendErrorResponse(res, 500, error, 'Failed to update chatbot.')
+      })
+  } else {
+    datalayer.updateChatbotRecord({chatbotId: req.body.chatbotId}, {...req.body})
+      .then(created => {
+        return sendSuccessResponse(res, 200, created, 'Chatbot updated successfully!')
+      })
+      .catch(error => {
+        const message = error || 'Failed to update chatbot.'
+        logger.serverLog(message, `${TAG}: exports.update`, req.body, {user: req.user}, 'error')
+        return sendErrorResponse(res, 500, error, 'Failed to update chatbot.')
+      })
   }
 }
 
