@@ -1,5 +1,6 @@
 const logiclayer = require('./logiclayer')
 const datalayer = require('./datalayer')
+const smsChatbotdataLayer = require('./smsChatbot.datalayer')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1.1/chatbots/chatbots.controller.js'
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
@@ -8,17 +9,21 @@ const { getDialogFlowClient } = require('../../global/dialogflow')
 const { prepareIntentPayload } = require('../messageBlock/messageBlock.logiclayer')
 const async = require('async')
 
-exports.create = function (req, res) {
-  const payload = logiclayer.preparePayload(req.user, req.body)
-  datalayer.createChatbotRecord(payload)
-    .then(created => {
-      return sendSuccessResponse(res, 201, created, 'Chatbot created successfully!')
-    })
-    .catch(error => {
-      const message = error || 'Failed to create chatbot.'
-      logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
-      return sendErrorResponse(res, 500, error, 'Failed to create chatbot.')
-    })
+exports.create = async function (req, res) {
+  try {
+    const payload = logiclayer.preparePayload(req.user, req.body)
+    let created
+    if (req.body.vertical && req.body.vertical === 'ecommerce') {
+      created = await smsChatbotdataLayer.create(payload)
+    } else {
+      created = await datalayer.createChatbotRecord(payload)
+    }
+    return sendSuccessResponse(res, 201, created, 'Chatbot created successfully!')
+  } catch (error) {
+    const message = error || 'Failed to create chatbot.'
+    logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
+    return sendErrorResponse(res, 500, error, 'Failed to create chatbot.')
+  }
 }
 
 exports.index = function (req, res) {
@@ -69,41 +74,46 @@ const _unsetChatbotContext = (companyId, platform) => {
     })
 }
 
-exports.update = function (req, res) {
-  const published = req.body.published
-  if (published) {
-    _unsetChatbotContext(req.user.companyId, req.user.platform)
-    datalayer.fetchChatbotRecords({companyId: req.user.companyId, platform: req.user.platform, published})
-      .then(records => {
-        if (records.length > 0) {
-          return sendErrorResponse(res, 500, null, `On ${req.user.platform} platform, a chabot is already published. You can not publish more than one chatbot.`)
+exports.update = async function (req, res) {
+  try {
+    const published = req.body.published
+    if (req.body.vertical && req.body.vertical === 'ecommerce') {
+      if (published) {
+        const chatbot = await smsChatbotdataLayer.findOne(
+          {companyId: req.user.companyId, vertical: req.body.vertical, published, _id: {$ne: req.body.chatbotId}})
+        if (chatbot) {
+          return sendErrorResponse(res, 500, null, `A chatbot is already published. You can not publish more than one chatbot.`)
         } else {
-          datalayer.updateChatbotRecord({chatbotId: req.body.chatbotId}, {...req.body})
-            .then(created => {
-              return sendSuccessResponse(res, 200, created, 'Chatbot updated successfully!')
-            })
-            .catch(error => {
-              const message = error || 'Failed to update chatbot.'
-              logger.serverLog(message, `${TAG}: exports.update`, req.body, {user: req.user, records}, 'error')
-              return sendErrorResponse(res, 500, error, 'Failed to update chatbot.')
-            })
+          let newPayload = req.body
+          delete newPayload.chatbotId
+          const updated = await smsChatbotdataLayer.update('updateOne', {_id: req.body.chatbotId}, newPayload)
+          return sendSuccessResponse(res, 200, updated, 'Chatbot updated successfully!')
         }
-      })
-      .catch(error => {
-        const message = error || 'Failed to update chatbot.'
-        logger.serverLog(message, `${TAG}: exports.update`, req.body, {user: req.user}, 'error')
-        return sendErrorResponse(res, 500, error, 'Failed to update chatbot.')
-      })
-  } else {
-    datalayer.updateChatbotRecord({chatbotId: req.body.chatbotId}, {...req.body})
-      .then(created => {
-        return sendSuccessResponse(res, 200, created, 'Chatbot updated successfully!')
-      })
-      .catch(error => {
-        const message = error || 'Failed to update chatbot.'
-        logger.serverLog(message, `${TAG}: exports.update`, req.body, {user: req.user}, 'error')
-        return sendErrorResponse(res, 500, error, 'Failed to update chatbot.')
-      })
+      } else {
+        let newPayload = req.body
+        delete newPayload.chatbotId
+        const updated = await smsChatbotdataLayer.update('updateOne', {_id: req.body.chatbotId}, newPayload)
+        return sendSuccessResponse(res, 200, updated, 'Chatbot updated successfully!')
+      }
+    } else {
+      if (published) {
+        _unsetChatbotContext(req.user.companyId, req.user.platform)
+        const chatbots = await datalayer.fetchChatbotRecords({companyId: req.user.companyId, platform: req.user.platform, published})
+        if (chatbots.length > 0) {
+          return sendErrorResponse(res, 500, null, `On ${req.user.platform} platform, a chatbot is already published. You can not publish more than one chatbot.`)
+        } else {
+          const updated = await datalayer.updateChatbotRecord({chatbotId: req.body.chatbotId}, {...req.body})
+          return sendSuccessResponse(res, 200, updated, 'Chatbot updated successfully!')
+        }
+      } else {
+        const updated = await datalayer.updateChatbotRecord({chatbotId: req.body.chatbotId}, {...req.body})
+        return sendSuccessResponse(res, 200, updated, 'Chatbot updated successfully!')
+      }
+    }
+  } catch (error) {
+    const message = error || 'Failed to update chatbot.'
+    logger.serverLog(message, `${TAG}: exports.update`, req.body, {user: req.user}, 'error')
+    return sendErrorResponse(res, 500, error, 'Failed to update chatbot.')
   }
 }
 
