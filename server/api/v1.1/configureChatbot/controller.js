@@ -52,7 +52,7 @@ exports.index = function (req, res) {
       logger.serverLog(message, `${TAG}: exports.index`, req.body, {user: req.user}, 'error')
       return res.status(500).json({status: 'failed', payload: err})
     } else {
-      return sendSuccessResponse(res, 200, results[0].concat(results[1])
+      return sendSuccessResponse(res, 200, results[0].concat(results[1]))
     }
   })
 }
