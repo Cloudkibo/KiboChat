@@ -29,6 +29,15 @@ exports.create = async function (req, res) {
 exports.index = function (req, res) {
   async.parallelLimit([
     function (callback) {
+      datalayer.fetchChatbotRecords({companyId: req.user.companyId, platform: req.user.platform})
+        .then(records => {
+          callback(null, records)
+        })
+        .catch(error => {
+          callback(error)
+        })
+    },
+    function (callback) {
       smsChatbotdataLayer.findAll({companyId: req.user.companyId})
         .then(records => {
           callback(null, records)
