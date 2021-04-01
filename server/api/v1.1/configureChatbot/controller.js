@@ -27,15 +27,28 @@ exports.create = async function (req, res) {
 }
 
 exports.index = function (req, res) {
-  datalayer.fetchChatbotRecords({companyId: req.user.companyId, platform: req.user.platform})
-    .then(records => {
-      return sendSuccessResponse(res, 200, records)
-    })
-    .catch(error => {
-      const message = error || 'Failed to fetch chatbot.'
-      logger.serverLog(message, `${TAG}: exports.index`, {}, {user: req.user}, 'error')
-      return sendErrorResponse(res, 500, error, 'Failed to fetch chatbots.')
-    })
+  async.parallelLimit([
+    function (callback) {
+      smsChatbotdataLayer.findAll({companyId: req.user.companyId})
+        .then(records => {
+          callback(null, records)
+        })
+        .catch(error => {
+          callback(error)
+        })
+    }
+  ], 10, function (err, results) {
+    if (err) {
+      const message = err || 'Error in fetching chatbots'
+      logger.serverLog(message, `${TAG}: exports.index`, req.body, {user: req.user}, 'error')
+      return res.status(500).json({status: 'failed', payload: err})
+    } else {
+      let payload = []
+      payload.push(results[0])
+      payload.push(results[1])
+      return sendSuccessResponse(res, 200, payload)
+    }
+  })
 }
 
 exports.details = function (req, res) {
