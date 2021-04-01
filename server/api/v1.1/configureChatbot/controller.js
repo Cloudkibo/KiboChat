@@ -13,7 +13,7 @@ exports.create = async function (req, res) {
   try {
     const payload = logiclayer.preparePayload(req.user, req.body)
     let created
-    if (req.body.vertical && req.body.vertical === 'ecommerce') {
+    if (req.user.platform === 'sms' && req.body.vertical && req.body.vertical === 'ecommerce') {
       created = await smsChatbotdataLayer.create(payload)
     } else {
       created = await datalayer.createChatbotRecord(payload)
@@ -52,10 +52,7 @@ exports.index = function (req, res) {
       logger.serverLog(message, `${TAG}: exports.index`, req.body, {user: req.user}, 'error')
       return res.status(500).json({status: 'failed', payload: err})
     } else {
-      let payload = []
-      payload.push(results[0])
-      payload.push(results[1])
-      return sendSuccessResponse(res, 200, payload)
+      return sendSuccessResponse(res, 200, results[0].concat(results[1])
     }
   })
 }
