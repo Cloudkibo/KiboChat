@@ -138,6 +138,29 @@ exports.update = async function (req, res) {
   }
 }
 
+exports.updateEcommerceChatbot = async function (req, res) {
+  try {
+    const published = req.body.published
+    if (published) {
+      const chatbot = await smsChatbotdataLayer.findOne(
+        {companyId: req.user.companyId, vertical: req.body.vertical, published, _id: {$ne: req.params.id}})
+      if (chatbot) {
+        return sendErrorResponse(res, 500, null, `A chatbot is already published. You can not publish more than one chatbot.`)
+      } else {
+        const updated = await smsChatbotdataLayer.update('updateOne', {_id: req.params.id}, req.body)
+        return sendSuccessResponse(res, 200, updated, 'Chatbot updated successfully!')
+      }
+    } else {
+      const updated = await smsChatbotdataLayer.update('updateOne', {_id: req.params.id}, req.body)
+      return sendSuccessResponse(res, 200, updated, 'Chatbot updated successfully!')
+    }
+  } catch (error) {
+    const message = error || 'Failed to update chatbot.'
+    logger.serverLog(message, `${TAG}: exports.update`, req.body, {user: req.user}, 'error')
+    return sendErrorResponse(res, 500, error, 'Failed to update chatbot.')
+  }
+}
+
 exports.handleBlock = function (req, res) {
   datalayer.fetchChatbotBlockRecords({uniqueId: req.body.uniqueId})
     .then(async records => {

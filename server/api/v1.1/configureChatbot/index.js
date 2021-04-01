@@ -28,6 +28,12 @@ router.put('/',
   validate({ body: validationSchema.updateChatbotPayload }),
   controller.update)
 
+router.put('/:id',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
+  validate({ body: validationSchema.updateEcommerceChatbotPayload }),
+  controller.updateEcommerceChatbot)
+
 router.post('/block',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer('write'),
