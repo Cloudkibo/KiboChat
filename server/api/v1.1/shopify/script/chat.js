@@ -10,9 +10,6 @@ const kiboChatPopupStyle = require('./styling').kiboChatPopupStyle
 const kiboChatWidgetStyle = require('./styling').kiboChatWidgetStyle
 
 function initChatButtonWidget ({chat_widget: chatWidget, ...kiboBasicSetup}) {
-  console.log('chatWidget', chatWidget)
-  console.log('kiboBasicSetup', kiboBasicSetup)
-
   if (utils.shouldShowOnGivenDevice(chatWidget) &&
   shouldShowOnThisPage(chatWidget)) {
     const buttonConfiguration = getChatButtonConfigs(chatWidget)

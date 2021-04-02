@@ -36,7 +36,7 @@ exports.kiboOptinModalStyle = `
   {
       position: fixed;
       z-index: 9999;
-      top: 50%;
+      top: 20%;
       left: 50%;
   
       opacity: 0;
@@ -584,6 +584,41 @@ exports.kiboChatWidgetStyle = function (headClr, descClr, bgStyle, bg1, bg2, wHe
     z-index: 100;
     box-shadow: 0px 0px 8px rgb(0 0 0 / 8%);
     border-radius: 0px 0px 4px 4px;
+  }
+  `
+}
+
+exports.thankYouPageOptinStyle = function () {
+  return `
+  .kiboButtonIn {
+    width: 300px;
+    position: relative;
+  }
+  
+  #kiboWhatsappInput {
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    outline: none;
+    height: 30px;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 5px;
+  }
+  
+  #kiboWhatsappOptinBtn {
+    position: absolute;
+    top: 0;
+    border-radius: 5px;
+    right: 1px;
+    z-index: 2;
+    border: none;
+    top: 1px;
+    height: 30px;
+    cursor: pointer;
+    color: white;
+    background-color: #1e90ff;
+    transform: translateX(2px);
   }
   `
 }
