@@ -83,7 +83,7 @@ function buildOut () {
   docFrag.appendChild(this.kibosection)
 
   // Getting reference to sibbling element
-  const siblingElement = document.querySelector(`.${this.option.siblingClass}`)
+  const siblingElement = document.querySelector(`.${this.options.siblingClass}`)
 
   // Insert the new node after the sibling node
   siblingElement.after(docFrag)
