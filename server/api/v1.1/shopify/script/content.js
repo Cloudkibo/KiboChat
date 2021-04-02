@@ -145,5 +145,23 @@ exports.kiboContent = {
     `
 
     return `${firstPart} ${middlePart} ${lastPart}`
-  }
+  },
+  thankYouPageOptin: `
+  <div class="content-box">
+    <div class="content-box__row text-container">
+      <h2 class="heading-2 os-step__title">
+        WhatsApp Notifications
+      </h2>
+      <div class="os-step__special-description">
+        <p class="os-step__description">
+          Receive shipping and delivery updates via WhatsApp
+        </p>
+        <div class="kiboButtonIn os-step__description">
+          <input id="kiboWhatsappInput" type="text" placeholder="+9233...">
+          <button id="kiboWhatsappOptinBtn">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  `
 }
