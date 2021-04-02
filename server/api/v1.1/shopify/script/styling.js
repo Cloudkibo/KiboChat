@@ -34,7 +34,7 @@ exports.kiboOptinModalStyle = `
   
   .kibo-optin-modal
   {
-      position: absolute;
+      position: fixed;
       z-index: 9999;
       top: 50%;
       left: 50%;
@@ -441,22 +441,36 @@ exports.kiboChatWidgetStyle = function (headClr, descClr, bgStyle, bg1, bg2, wHe
     z-index: 9999;
     position: fixed;
     overflow: hidden;
-    box-shadow: 0 0 30px rgb(0 0 0 / 30%);
-    width: 350px;
-    /*   margin: 50px auto; */
+    width: 100vw;
     font-family: inherit;
     font-size: 14px;
-    bottom: ${wHeight}px;
-    display: block;
-    border-radius: 8px;
+    bottom: 0px;
+    display: none;
+  }
+
+  @media screen and (max-width: 425px) {
+    .kibochat-widget-wrapper {
+      top: 0px;
+      left: 0px;
+      right: 0px;
+    }
   }
   
-  .kibochat-widget-wrapper-left {
-    left: ${wEdge}px;
-  }
-  
-  .kibochat-widget-wrapper-right {
-    right: ${wEdge}px;
+  @media only screen and (min-width: 426px) {
+    .kibochat-widget-wrapper {
+      box-shadow: 0 0 30px rgb(0 0 0 / 30%);
+      width: 350px;
+      bottom: ${wHeight}px;
+      border-radius: 8px;
+    }
+
+    .kibochat-widget-wrapper-left {
+      left: ${wEdge}px;
+    }
+    
+    .kibochat-widget-wrapper-right {
+      right: ${wEdge}px;
+    }
   }
   
   .kibochat-widget-header {
@@ -516,8 +530,14 @@ exports.kiboChatWidgetStyle = function (headClr, descClr, bgStyle, bg1, bg2, wHe
     border-radius: 2px;
     list-style: none;
     padding: 0;
-    height: 400px;
+    height: calc(100vh - 20px);
     overflow-y: auto;
+  }
+
+  @media screen and (min-width: 426px) {
+    .kibochat-agent-list {
+      height: 400px;
+    }
   }
   
   .kibochat-agent-item {

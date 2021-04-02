@@ -27,6 +27,28 @@ exports.updateChatbotPayload = {
   }
 }
 
+exports.updateEcommerceChatbotPayload = {
+  type: 'object',
+  properties: {
+    catalog: {
+      type: 'object'
+    },
+    triggers: {
+      type: 'array',
+      required: true
+    },
+    published: {
+      type: 'boolean'
+    },
+    numberOfProducts: {
+      type: 'number'
+    },
+    testSubscribers: {
+      type: 'array'
+    }
+  }
+}
+
 exports.createChatbotBlockPayload = {
   type: 'object',
   properties: {
