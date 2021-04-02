@@ -108,6 +108,9 @@ function setupThankYouOptin () {
         const inputField = this.kibosection.querySelector('#kiboWhatsappInput')
         const number = inputField.value
 
+        // Getting reference of this for http request callback
+        const _ = this
+
         const HttpForOptinSubmission = new XMLHttpRequest()
         HttpForOptinSubmission.open('POST', urlForSubmission)
         HttpForOptinSubmission.setRequestHeader('Content-Type', 'application/json')
@@ -120,8 +123,8 @@ function setupThankYouOptin () {
             const respBody = JSON.parse(HttpForOptinSubmission.responseText)
             utils.setCookie('kiboOptinReceived', true, 1)
             utils.setCookie('kiboOptinId', respBody.payload._id, 1)
-            this.kibosection.style.display = 'none'
-            this.kibosection.style.visibility = 'hidden'
+            _.style.display = 'none'
+            _.style.visibility = 'hidden'
             console.log('Done and sent thank you optin')
           }
         }
