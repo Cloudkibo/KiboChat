@@ -119,7 +119,12 @@
     "globals": [
       "expect",
       "describe",
-      "test"
+      "test",
+      "XMLHttpRequest",
+      "Node",
+      "Element",
+      "CharacterData",
+      "DocumentType"
     ]
   }
 }
