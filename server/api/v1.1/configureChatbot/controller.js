@@ -38,13 +38,17 @@ exports.index = function (req, res) {
         })
     },
     function (callback) {
-      smsChatbotdataLayer.findAll({companyId: req.user.companyId})
-        .then(records => {
-          callback(null, records)
-        })
-        .catch(error => {
-          callback(error)
-        })
+      if (req.user.platform === 'sms') {
+        smsChatbotdataLayer.findAll({companyId: req.user.companyId})
+          .then(records => {
+            callback(null, records)
+          })
+          .catch(error => {
+            callback(error)
+          })
+      } else {
+        callback(null, [])
+      }
     }
   ], 10, function (err, results) {
     if (err) {
