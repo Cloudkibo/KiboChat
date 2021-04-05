@@ -123,8 +123,8 @@ function setupThankYouOptin () {
             const respBody = JSON.parse(HttpForOptinSubmission.responseText)
             utils.setCookie('kiboOptinReceived', true, 1)
             utils.setCookie('kiboOptinId', respBody.payload._id, 1)
-            _.style.display = 'none'
-            _.style.visibility = 'hidden'
+            _.kibosection.style.display = 'none'
+            _.kibosection.style.visibility = 'hidden'
             console.log('Done and sent thank you optin')
           }
         }
