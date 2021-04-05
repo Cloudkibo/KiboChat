@@ -598,6 +598,7 @@ exports.thankYouPageOptinStyle = function () {
   #kiboWhatsappInput {
     margin: 0px;
     padding: 0px;
+    padding-left: 15px;
     width: 100%;
     outline: none;
     height: 30px;
@@ -610,7 +611,9 @@ exports.thankYouPageOptinStyle = function () {
     position: absolute;
     top: 0;
     border-radius: 5px;
-    right: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    right: -15px;
     z-index: 2;
     border: none;
     top: 1px;
