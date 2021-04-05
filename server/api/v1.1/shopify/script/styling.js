@@ -613,7 +613,7 @@ exports.thankYouPageOptinStyle = function () {
     border-radius: 5px;
     padding-right: 15px;
     padding-left: 15px;
-    right: 1px;
+    right: -15px;
     z-index: 2;
     border: none;
     top: 1px;
