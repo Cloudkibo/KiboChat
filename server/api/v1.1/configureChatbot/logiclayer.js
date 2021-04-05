@@ -1,13 +1,18 @@
 exports.preparePayload = function (user, body) {
-  const payload = {
+  let payload = {
     companyId: user.companyId,
     userId: user._id,
-    chatbotId: `cb-${new Date().getTime()}`,
-    platform: user.platform,
     title: body.title,
-    startingBlockId: body.startingBlockId,
-    dialogFlowAgentId: body.dialogFlowAgentId,
     published: false
+  }
+  if (body.vertical && body.vertical === 'ecommerce') {
+    payload.vertical = body.vertical
+    payload.integration = body.integration
+  } else {
+    payload.chatbotId = `cb-${new Date().getTime()}`
+    payload.platform = user.platform
+    payload.startingBlockId = body.startingBlockId
+    payload.dialogFlowAgentId = body.dialogFlowAgentId
   }
   return payload
 }
