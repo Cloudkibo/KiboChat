@@ -52,7 +52,7 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
   const input = message.toLowerCase()
   if (!contact || !contact.lastMessageSentByBot) {
     // TODO, in separate task
-    return commerceChatbotLogicLayer.getWelcomeMessageBlock(chatbot, contact, ecommerceProvider)
+    return commerceBotLogicLayer.getWelcomeMessageBlock(chatbot, contact, ecommerceProvider)
   } else {
     let action = null
     let lastMessageSentByBot = contact.lastMessageSentByBot.payload[0]
@@ -95,8 +95,8 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
         const message = err || 'Invalid user input'
         logger.serverLog(message, `${TAG}: exports.getNextMessageBlock`, chatbot, {}, 'error')
       }
-      if (chatbot.triggers.includes(input) || (moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15 && chatbot.companyId !== '5a89ecdaf6b0460c552bf7fe')) {
-        return commerceBotLogicLayer.getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
+      if (chatbot.triggers.includes(input)) {
+        return commerceBotLogicLayer.getWelcomeMessageBlock(chatbot, contact, ecommerceProvider)
       } else {
         return commerceBotLogicLayer.invalidInput(chatbot, contact.lastMessageSentByBot, `${constants.ERROR_INDICATOR}You entered an invalid response.`)
       }
@@ -106,35 +106,35 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
         let messageBlock = null
         switch (action.action) {
           case constants.SHOW_MAIN_MENU: {
-            messageBlock = await commerceChatbotLogicLayer.getWelcomeMessageBlock(chatbot, contact)
+            messageBlock = await commerceBotLogicLayer.getWelcomeMessageBlock(chatbot, contact, ecommerceProvider)
             break
           }
           case constants.ADD_TO_CART: {
-            messageBlock = await commerceChatbotLogicLayer.getAddToCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument, action.input ? input : '')
+            messageBlock = await commerceBotLogicLayer.getAddToCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument, action.input ? input : '')
             break
           }
           case constants.SHOW_MY_CART: {
-            messageBlock = await commerceChatbotLogicLayer.getShowMyCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
+            messageBlock = await commerceBotLogicLayer.getShowMyCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
             break
           }
           case constants.SHOW_ITEMS_TO_REMOVE: {
-            messageBlock = await commerceChatbotLogicLayer.getShowItemsToRemoveBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
+            messageBlock = await commerceBotLogicLayer.getShowItemsToRemoveBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
             break
           }
           case constants.REMOVE_FROM_CART: {
-            messageBlock = await commerceChatbotLogicLayer.getRemoveFromCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument)
+            messageBlock = await commerceBotLogicLayer.getRemoveFromCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument)
             break
           }
           case constants.CONFIRM_TO_REMOVE_CART_ITEM: {
-            messageBlock = await commerceChatbotLogicLayer.getConfirmRemoveItemBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument)
+            messageBlock = await commerceBotLogicLayer.getConfirmRemoveItemBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument)
             break
           }
           case constants.CONFIRM_CLEAR_CART: {
-            messageBlock = await commerceChatbotLogicLayer.confirmClearCart(chatbot, contact)
+            messageBlock = await commerceBotLogicLayer.confirmClearCart(chatbot, contact)
             break
           }
           case constants.CLEAR_CART: {
-            messageBlock = await commerceChatbotLogicLayer.clearCart(chatbot, contact)
+            messageBlock = await commerceBotLogicLayer.clearCart(chatbot, contact)
             break
           }
         }
@@ -142,9 +142,9 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
         return messageBlock
       } catch (err) {
         if (chatbot.triggers.includes(input)) {
-          return commerceChatbotLogicLayer.getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
+          return commerceBotLogicLayer.getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
         } else {
-          return commerceChatbotLogicLayer.invalidInput(chatbot, contact.lastMessageSentByBot, `${constants.ERROR_INDICATOR}You entered an invalid response.`)
+          return commerceBotLogicLayer.invalidInput(chatbot, contact.lastMessageSentByBot, `${constants.ERROR_INDICATOR}You entered an invalid response.`)
         }
       }
     }

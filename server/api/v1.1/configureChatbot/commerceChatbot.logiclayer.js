@@ -7,8 +7,6 @@ const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/configureChatbot/commerceChatbot.logiclayer.js'
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
 const botUtils = require('./commerceChatbot.utils')
-const logger = require('../../../components/logger')
-const TAG = 'api/v1️.1/configureChatbot/commerceChatbot.logiclayer.js'
 
 exports.getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, argument, userInput) => {
   let userError = false
@@ -28,7 +26,7 @@ exports.getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, a
           text: ``,
           componentType: 'text',
           specialKeys: {
-            [constants.HOME_KEY]: { type: constants.STATIC, blockId: chatbot.startingBlockId }
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
           }
         }
       ],
