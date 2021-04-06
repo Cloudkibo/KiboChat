@@ -142,6 +142,7 @@ function setCookie (cname, cvalue, exdays) {
 function readCookie (name) {
   return document.cookie.split(';')
     .find(item => item.trim().includes(`${name}=`))
+    .split('=')[1]
 }
 
 function _converToOtherTimeZone (timezoneOffset) {
