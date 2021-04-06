@@ -28,6 +28,9 @@ router.post('/app-uninstall',
 router.post('/complete-checkout',
   controller.handleCompleteCheckout)
 
+router.post('/newOrderFromWidget',
+  controller.newOrderFromWidget)
+
 router.post('/checkout-create',
   controller.handleCreateCheckout)
 
