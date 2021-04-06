@@ -3,7 +3,6 @@ const { convertToEmoji } = require('../whatsAppChatbot/whatsAppChatbot.logiclaye
 const dedent = require('dedent-js')
 const { updateContact } = require('./commerceChatbot.controller')
 const logger = require('../../../components/logger')
-const { SHOW_MAIN_MENU } = require('../whatsAppChatbot/constants')
 const TAG = 'api/v1️.1/configureChatbot/commerceChatbot.logiclayer.js'
 
 function specialKeyText (key) {
