@@ -82,8 +82,7 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
         logger.serverLog(message, `${TAG}: exports.getNextMessageBlock`, chatbot, {}, 'error')
       }
       if (chatbot.triggers.includes(input) || (moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15 && chatbot.companyId !== '5a89ecdaf6b0460c552bf7fe')) {
-        // TODO, in separate task
-        // return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
+        return commerceBotLogicLayer.getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
       } else {
         return commerceBotLogicLayer.invalidInput(chatbot, contact.lastMessageSentByBot, `${constants.ERROR_INDICATOR}You entered an invalid response.`)
       }
