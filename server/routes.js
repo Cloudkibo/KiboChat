@@ -68,7 +68,7 @@ module.exports = function (app) {
   app.use('/api/flockSendEvents', require('./api/v1.1/flockSendEvents'))
   app.use('/api/shopify', require('./api/v1.1/shopify'))
   app.use('/api/whatsAppChatbot', require('./api/v1.1/whatsAppChatbot'))
-  app.use('/api/adminAlerts', require('./api/v1.1/adminAlerts'))
+  app.use('/api/addOns', require('./api/v1.1/addOns'))
   app.use('/api/whatsAppEvents', require('./api/v1.1/whatsAppEvents'))
   app.use('/api/backdoor', require('./api/v1.1/backdoor'))
   app.use('/api/configure/chatbot', require('./api/v1.1/configureChatbot'))
@@ -83,6 +83,7 @@ module.exports = function (app) {
   app.use('/api/supernumber', require('./api/v1.1/superNumber'))
   app.use('/cod', require('./api/v1.1/superNumber/codLinks'))
   app.use('/api/dialogflow', require('./api/v1.1/dialogflow'))
+  app.use('/api/messageAlerts', require('./api/v1.1/messageAlerts'))
   // auth middleware go here if you authenticate on same server
 
   app.get('/invoices/:shopId/:fileName', (req, res) => {
