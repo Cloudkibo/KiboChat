@@ -1,6 +1,5 @@
 const logger = require('../../../components/logger')
 const TAG = 'api/custom_field/custom_field.controller.js'
-const CUSTOMFIELD = 'api/custom_field/custom_field.controller.js'
 const callApi = require('../utility')
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
 
