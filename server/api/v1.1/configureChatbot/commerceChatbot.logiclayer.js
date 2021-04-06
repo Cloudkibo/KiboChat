@@ -350,7 +350,7 @@ exports.getShowItemsToRemoveBlock = (chatbot, backId, contact) => {
           specialKeys: {
             [constants.SHOW_CART_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MY_CART },
             [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
-            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: SHOW_MAIN_MENU }
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
           }
         }
       ],
