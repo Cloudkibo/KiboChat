@@ -9,6 +9,7 @@ const express = require('express')
 const router = express.Router()
 const auth = require('../../../auth/auth.service')
 const controller = require('./shopify.controller')
+const cors = require('cors')
 // const webhook = require('./webhook.controller')
 
 router.post('/',
@@ -29,6 +30,7 @@ router.post('/complete-checkout',
   controller.handleCompleteCheckout)
 
 router.post('/newOrderFromWidget',
+  cors(),
   controller.newOrderFromWidget)
 
 router.post('/checkout-create',
