@@ -40,7 +40,6 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
   let userError = false
   const input = message.toLowerCase()
   if (!contact || !contact.lastMessageSentByBot) {
-    // TODO, in separate task
     return commerceBotLogicLayer.getWelcomeMessageBlock(chatbot, contact, ecommerceProvider)
   } else {
     let action = null
@@ -104,6 +103,14 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
           }
           case constants.FETCH_PRODUCTS: {
             messageBlock = await commerceBotLogicLayer.getProductsInCategoryBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument)
+            break
+          }
+          case constants.PRODUCT_VARIANTS: {
+            messageBlock = await commerceBotLogicLayer.getProductVariantsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, EcommerceProvider, action.argument)
+            break
+          }
+          case constants.DISCOVER_PRODUCTS: {
+            messageBlock = await commerceBotLogicLayer.getDiscoverProductsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : '', action.argument ? action.argument : {})
             break
           }
           case constants.ADD_TO_CART: {
