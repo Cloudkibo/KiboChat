@@ -9,6 +9,7 @@ const chatbotResponder = require('../../../chatbotResponder')
 const logicLayer = require('./logiclayer')
 const { kiboengage } = require('../../global/constants').serverConstants
 const { isPhoneNumber } = require('../../global/utility.js')
+const commerceChatbot = require('../configureChatbot/commerceChatbot.controller')
 
 exports.index = function (req, res) {
   res.status(200).json({
@@ -96,6 +97,7 @@ function _handleMessageFromContact (contact, body, company, user) {
         })
         saveBroadcastResponse(contact, MessageObject)
         chatbotResponder.respondUsingChatbot('sms', 'twilio', {...company, number: body.To}, body.Body, contact)
+        commerceChatbot.handleCommerceChatbot({...company, number: body.To}, body.Body, contact)
         _sendNotification(contact, contact.companyId)
         updateContact(contact)
       })
