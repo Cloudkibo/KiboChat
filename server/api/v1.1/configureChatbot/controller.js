@@ -222,7 +222,7 @@ exports.deleteBlock = async function (req, res) {
   try {
     const blocks = await datalayer.fetchChatbotRecords({uniqueId: req.body.ids})
     if (blocks && blocks.length > 0) {
-      dataldayer.deleteChatbotBlocks({uniqueId: req.body.ids})
+      datalayer.deleteChatbotBlocks({uniqueId: req.body.ids})
         .then(deleted => {
           async.each(blocks, async function (block, cb) {
             if (block.dialogFlowIntentId) {
@@ -242,7 +242,7 @@ exports.deleteBlock = async function (req, res) {
               if (err && err.errors && err.errors[0]) {
                 errorMessage = err.errors[0].message
               }
-              const message = error || 'Failed to delete messageBlock'
+              const message = err || 'Failed to delete messageBlock'
               logger.serverLog(message, `${TAG}: exports.delete`, req.body, {user: req.user}, 'error')
               return res.status(500).json({ status: 'failed', description: errorMessage })
             } else {
@@ -263,8 +263,8 @@ exports.deleteBlock = async function (req, res) {
     if (err && err.errors && err.errors[0]) {
       errorMessage = err.errors[0].message
     }
-    const message = error || 'Failed to delete message block.'
+    const message = err || 'Failed to delete message block.'
     logger.serverLog(message, `${TAG}: exports.deleteBlock`, req.body, {user: req.user}, 'error')
-    return sendErrorResponse(res, 500, error, errorMessage)
+    return sendErrorResponse(res, 500, err, errorMessage)
   }
 }
