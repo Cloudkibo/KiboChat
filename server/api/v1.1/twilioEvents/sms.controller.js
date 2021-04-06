@@ -19,47 +19,49 @@ exports.index = function (req, res) {
 
   smsMapper('twilio', ActionTypes.GET_COMPANY, req.body)
     .then(company => {
-      callApi(`user/query`, 'post', {_id: company.ownerId})
-        .then(user => {
-          callApi(`contacts/query`, 'post', {number: req.body.From, companyId: company._id})
-            .then(contact => {
-              if (contact[0]) {
-                contact = contact[0]
-                pushUnresolveAlertInStack(company, contact, 'sms')
-                _handleMessageFromContact(contact, req.body, company, user)
-              } else {
-                if (isPhoneNumber(req.body.From)) {
-                  let data = {
-                    name: req.body.From,
-                    number: req.body.From,
-                    companyId: company._id
-                  }
-                  let payload = logicLayer.preparePayload(data)
-                  callApi(`contacts`, 'post', payload)
-                    .then(savedContact => {
-                      let contact = savedContact
-                      pushUnresolveAlertInStack(company, contact, 'sms')
-                      pushSessionPendingAlertInStack(company, contact, 'sms')
-                      _handleMessageFromContact(contact, req.body, company, user)
-                    })
-                    .catch(error => {
-                      const message = error || 'Failed to save contact'
-                      return logger.serverLog(message, `${TAG}: exports._saveContacts`, {}, {data}, 'error')
-                    })
+      if (company) {
+        callApi(`user/query`, 'post', {_id: company.ownerId})
+          .then(user => {
+            callApi(`contacts/query`, 'post', {number: req.body.From, companyId: company._id})
+              .then(contact => {
+                if (contact[0]) {
+                  contact = contact[0]
+                  pushUnresolveAlertInStack(company, contact, 'sms')
+                  _handleMessageFromContact(contact, req.body, company, user)
                 } else {
-                  return logger.serverLog('Invalid phone number', `${TAG}: exports._saveContacts`, {}, { body: req.body }, 'error')
+                  if (isPhoneNumber(req.body.From)) {
+                    let data = {
+                      name: req.body.From,
+                      number: req.body.From,
+                      companyId: company._id
+                    }
+                    let payload = logicLayer.preparePayload(data)
+                    callApi(`contacts`, 'post', payload)
+                      .then(savedContact => {
+                        let contact = savedContact
+                        pushUnresolveAlertInStack(company, contact, 'sms')
+                        pushSessionPendingAlertInStack(company, contact, 'sms')
+                        _handleMessageFromContact(contact, req.body, company, user)
+                      })
+                      .catch(error => {
+                        const message = error || 'Failed to save contact'
+                        return logger.serverLog(message, `${TAG}: exports._saveContacts`, {}, {data}, 'error')
+                      })
+                  } else {
+                    return logger.serverLog('Invalid phone number', `${TAG}: exports._saveContacts`, {}, { body: req.body }, 'error')
+                  }
                 }
-              }
-            })
-            .catch(error => {
-              const message = error || 'Failed to fetch contact'
-              logger.serverLog(message, `${TAG}: exports.index`, req.body, { user }, 'error')
-            })
-        })
-        .catch(error => {
-          const message = error || 'Failed to fetch user'
-          logger.serverLog(message, `${TAG}: exports.index`, req.body, {company}, 'error')
-        })
+              })
+              .catch(error => {
+                const message = error || 'Failed to fetch contact'
+                logger.serverLog(message, `${TAG}: exports.index`, req.body, { user }, 'error')
+              })
+          })
+          .catch(error => {
+            const message = error || 'Failed to fetch user'
+            logger.serverLog(message, `${TAG}: exports.index`, req.body, {company}, 'error')
+          })
+      }
     })
     .catch(error => {
       const message = error || 'Failed to get company'
