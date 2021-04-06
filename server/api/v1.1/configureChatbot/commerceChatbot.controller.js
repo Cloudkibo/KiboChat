@@ -5,7 +5,7 @@ const shopifyDataLayer = require('../shopify/shopify.datalayer')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/configureChatbot/commerceChatbot.logiclayer.js'
 const constants = require('../whatsAppChatbot/constants')
-const messageBlocks = require('./commerceChatbot.logiclayer')
+const commerceChatbotLogicLayer = require('./commerceChatbot.logiclayer')
 
 exports.handleCommerceChatbot = async function (company, message, contact) {
   const chatbot = await smsChatbotDataLayer.findOne({
@@ -37,7 +37,7 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
   const input = message.toLowerCase()
   if (!contact || !contact.lastMessageSentByBot) {
     // TODO, in separate task
-    return messageBlocks.getWelcomeMessageBlock(chatbot, contact, ecommerceProvider)
+    return commerceChatbotLogicLayer.getWelcomeMessageBlock(chatbot, contact, ecommerceProvider)
   } else {
     let action = null
     let lastMessageSentByBot = contact.lastMessageSentByBot.payload[0]
@@ -81,9 +81,9 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
         logger.serverLog(message, `${TAG}: exports.getNextMessageBlock`, chatbot, {}, 'error')
       }
       if (chatbot.triggers.includes(input.toLowerCase())) {
-        return messageBlocks.getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
+        return commerceChatbotLogicLayer.getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
       } else {
-        return messageBlocks.invalidInput(chatbot, contact.lastMessageSentByBot, `${constants.ERROR_INDICATOR}You entered an invalid response.`)
+        return commerceChatbotLogicLayer.invalidInput(chatbot, contact.lastMessageSentByBot, `${constants.ERROR_INDICATOR}You entered an invalid response.`)
       }
     }
   }
