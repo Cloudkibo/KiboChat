@@ -129,7 +129,7 @@ exports.kiboOptinModalStyle = `
 
   .kibo-optin-modal.fade-and-drop.kibo-optin-open
   {
-      top: 50%;
+      top: 20%;
 
       -webkit-transition: 500ms top 500ms ease;
         -moz-transition: 500ms top 500ms ease;
@@ -613,7 +613,7 @@ exports.thankYouPageOptinStyle = function () {
     border-radius: 5px;
     padding-right: 15px;
     padding-left: 15px;
-    right: -15px;
+    right: -14.2px;
     z-index: 2;
     border: none;
     top: 1px;

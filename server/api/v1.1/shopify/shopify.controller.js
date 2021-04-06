@@ -31,7 +31,7 @@ const superNumberDataLayer = require('../superNumber/datalayer')
 const codPagesDataLayer = require('../superNumber/codpages.datalayer')
 const { saveAnalytics, saveMessageLogs } = require('../superNumber/utility')
 const moment = require('moment')
-const { getContact } = require('./../utility/miscApiCalls.controller')
+const { getContact, getContactById } = require('./../utility/miscApiCalls.controller')
 
 exports.index = function (req, res) {
   const shop = req.body.shop
@@ -249,6 +249,33 @@ exports.handleCompleteCheckout = async function (req, res) {
             req.body, shopifyIntegration)
         }
       }
+    }
+  } catch (err) {
+    const message = err || 'Error processing shopify complete checkout webhook '
+    logger.serverLog(message, `${TAG}: exports.handleCompleteCheckout`, req.body, {header: req.header}, 'error')
+  }
+}
+
+exports.newOrderFromWidget = async function (req, res) {
+  try {
+    logger.serverLog('newOrderFromWidget', `${TAG}: exports.newOrderFromWidget`, req.body, {header: req.header})
+    sendSuccessResponse(res, 200, {status: 'success'})
+
+    const shopifyIntegrations = await dataLayer.findShopifyIntegrations({ companyId: req.body.companyId })
+
+    for (const shopifyIntegration of shopifyIntegrations) {
+      const ecommerceProvider = new EcommerceProviders(commerceConstants.shopify, {
+        shopUrl: shopifyIntegration.shopUrl,
+        shopToken: shopifyIntegration.shopToken
+      })
+
+      const orderName = req.body.orderId.split('#')[1]
+
+      const order = await ecommerceProvider.checkOrderStatus(orderName)
+      const restOrderPayload = await ecommerceProvider.checkOrderStatusByRest(order.id.split('/')[4])
+
+      const contact = await getContactById(req.body.compayid, req.body.contactId)
+      sendOnWhatsApp(shopifyIntegration.shopUrl, contact, restOrderPayload, shopifyIntegration)
     }
   } catch (err) {
     const message = err || 'Error processing shopify complete checkout webhook '
