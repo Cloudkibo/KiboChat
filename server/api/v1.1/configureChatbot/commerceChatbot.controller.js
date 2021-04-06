@@ -117,22 +117,26 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
             messageBlock = await commerceChatbotLogicLayer.getShowMyCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
             break
           }
-          // case constants.REMOVE_FROM_CART: {
-          //   messageBlock = await commerceChatbotLogicLayer.getRemoveFromCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument)
-          //   break
-          // }
-          // case constants.CONFIRM_TO_REMOVE_CART_ITEM: {
-          //   messageBlock = await commerceChatbotLogicLayer.getConfirmRemoveItemBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument)
-          //   break
-          // }
-          // case constants.CONFIRM_CLEAR_CART: {
-          //   messageBlock = await commerceChatbotLogicLayer.confirmClearCart(chatbot, contact)
-          //   break
-          // }
-          // case constants.CLEAR_CART: {
-          //   messageBlock = await commerceChatbotLogicLayer.clearCart(chatbot, contact)
-          //   break
-          // }
+          case constants.SHOW_ITEMS_TO_REMOVE: {
+            messageBlock = await commerceChatbotLogicLayer.getShowItemsToRemoveBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
+            break
+          }
+          case constants.REMOVE_FROM_CART: {
+            messageBlock = await commerceChatbotLogicLayer.getRemoveFromCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument)
+            break
+          }
+          case constants.CONFIRM_TO_REMOVE_CART_ITEM: {
+            messageBlock = await commerceChatbotLogicLayer.getConfirmRemoveItemBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument)
+            break
+          }
+          case constants.CONFIRM_CLEAR_CART: {
+            messageBlock = await commerceChatbotLogicLayer.confirmClearCart(chatbot, contact)
+            break
+          }
+          case constants.CLEAR_CART: {
+            messageBlock = await commerceChatbotLogicLayer.clearCart(chatbot, contact)
+            break
+          }
         }
         // await messageBlockDataLayer.createForMessageBlock(messageBlock)
         return messageBlock

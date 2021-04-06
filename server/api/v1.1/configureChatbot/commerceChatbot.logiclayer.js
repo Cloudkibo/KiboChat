@@ -394,4 +394,183 @@ exports.getAddToCartBlock = async (chatbot, backId, contact, {product, quantity}
   }
 }
 
+exports.confirmClearCart = (chatbot, contact) => {
+  let messageBlock = {
+    module: {
+      id: chatbot._id,
+      type: 'sms_commerce_chatbot'
+    },
+    title: 'Are you sure you want empty your cart?',
+    uniqueId: '' + new Date().getTime(),
+    payload: [
+      {
+        text: dedent(`Are you sure you want to empty your cart? Please select an option by sending the corresponding number for it:\n
+                                            Send 'Y' for Yes
+                                            Send 'N' for No`),
+        componentType: 'text',
+        menu: [],
+        specialKeys: {
+          [constants.HOME_KEY]: {type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU},
+          'y': { type: constants.DYNAMIC, action: constants.CLEAR_CART },
+          'n': { type: constants.DYNAMIC, action: constants.SHOW_MY_CART },
+          'yes': { type: constants.DYNAMIC, action: constants.CLEAR_CART },
+          'no': { type: constants.DYNAMIC, action: constants.SHOW_MY_CART }
+
+        }
+      }
+    ],
+    userId: chatbot.userId,
+    companyId: chatbot.companyId
+  }
+
+  messageBlock.payload[0].text += `\n\n${specialKeyText(constants.HOME_KEY)}`
+  return messageBlock
+}
+
+exports.clearCart = async (chatbot, contact) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'sms_commerce_chatbot'
+      },
+      title: 'Your cart has been successfully cleared',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: dedent(`Your cart is now empty.\n
+  ${specialKeyText(constants.HOME_KEY)} `),
+          componentType: 'text',
+          specialKeys: {
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    let shoppingCart = []
+    if (contact.commerceCustomer) {
+      contact.commerceCustomer.cartId = null
+    }
+    updateContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to clear cart'
+    logger.serverLog(message, `${TAG}: exports.clearCart`, {}, {}, 'error')
+    throw new Error(`${constants.ERROR_INDICATOR}Unable to clear cart`)
+  }
+}
+
+exports.getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo) => {
+  const shoppingCart = contact.shoppingCart.filter((item, index) => index !== productInfo.productIndex)
+  contact.shoppingCart = shoppingCart
+  if (contact.commerceCustomer) {
+    contact.commerceCustomer.cartId = null
+  }
+  await updateContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
+  const text = `${productInfo.product} has been successfully removed from your cart.`
+  return getShowMyCartBlock(chatbot, backId, contact, text)
+}
+
+exports.getConfirmRemoveItemBlock = async (chatbot, backId, product) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'sms_commerce_chatbot'
+      },
+      title: 'Quantity to Remove',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Are you sure you want to remove ${product.product}?\n\nYou currently have ${product.quantity} in your cart.\n\n(price: ${product.price} ${product.currency})\n\n`,
+          componentType: 'text',
+          specialKeys: {
+            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU },
+            'y': { type: constants.DYNAMIC, action: constants.REMOVE_FROM_CART, argument: product },
+            'n': { type: constants.DYNAMIC, action: constants.SHOW_ITEMS_TO_REMOVE },
+            'yes': { type: constants.DYNAMIC, action: constants.REMOVE_FROM_CART, argument: product },
+            'no': { type: constants.DYNAMIC, action: constants.SHOW_ITEMS_TO_REMOVE }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    messageBlock.payload[0].text += dedent(`Please select an option from following:\n
+                                            Send 'Y' for Yes
+                                            Send 'N' for No`)
+
+    messageBlock.payload[0].text += `\n\n${specialKeyText(constants.BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${specialKeyText(constants.HOME_KEY)}`
+
+    if (product.image) {
+      messageBlock.payload.unshift({
+        componentType: 'image',
+        fileurl: product.image,
+        caption: `${product.product}\nPrice: ${product.price} ${product.currency}\nQuantity: ${product.quantity}`
+      })
+    }
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to remove product(s) from cart'
+    logger.serverLog(message, `${TAG}: exports.getConfirmRemoveItemBlock`, {}, {}, 'error')
+    throw new Error(`${constants.ERROR_INDICATOR}Unable to remove product(s) from cart`)
+  }
+}
+
+exports.getShowItemsToRemoveBlock = (chatbot, backId, contact) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'sms_commerce_chatbot'
+      },
+      title: 'Select Item to Remove',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Please select an item to remove from your cart: \n`,
+          componentType: 'text',
+          menu: [],
+          specialKeys: {
+            [constants.SHOW_CART_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MY_CART },
+            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+
+    let shoppingCart = contact.shoppingCart
+    for (let i = 0; i < shoppingCart.length; i++) {
+      let product = shoppingCart[i]
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${product.product} `
+      messageBlock.payload[0].menu.push({ type: constants.DYNAMIC, action: constants.CONFIRM_TO_REMOVE_CART_ITEM, argument: { ...product, productIndex: i } })
+    }
+    messageBlock.payload[0].text += `\n\n${specialKeyText(constants.SHOW_CART_KEY)} `
+    messageBlock.payload[0].text += `\n${specialKeyText(constants.BACK_KEY)} `
+    messageBlock.payload[0].text += `\n${specialKeyText(constants.HOME_KEY)} `
+    for (let i = shoppingCart.length - 1; i >= 0; i--) {
+      let product = shoppingCart[i]
+      if (product.image) {
+        messageBlock.payload.unshift({
+          componentType: 'image',
+          fileurl: product.image,
+          caption: `${convertToEmoji(i)} ${product.product}\nPrice: ${product.price} ${product.currency}`
+        })
+      }
+    }
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to show items from cart'
+    logger.serverLog(message, `${TAG}: exports.getShowItemsToRemoveBlock`, {}, {}, 'error')
+    throw new Error(`${constants.ERROR_INDICATOR}Unable to show items from cart`)
+  }
+}
+
 exports.getShowMyCartBlock = getShowMyCartBlock
