@@ -6,8 +6,7 @@ const commerceBotLogicLayer = require('./commerceChatbot.logiclayer')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/configureChatbot/commerceChatbot.controller.js'
 const constants = require('../whatsAppChatbot/constants')
-const { callApi } = require('../utility')
-const moment = require('moment')
+const botUtils = require('./commerceChatbot.utils')
 
 exports.handleCommerceChatbot = async function (company, message, contact) {
   const chatbot = await smsChatbotDataLayer.findOne({
@@ -29,22 +28,12 @@ exports.handleCommerceChatbot = async function (company, message, contact) {
   }
   if (nextMessageBlock) {
     sendTextMessage(nextMessageBlock, contact, company._id)
-    updateContact({ _id: contact._id }, {lastMessageSentByBot: nextMessageBlock}, null, {})
+    botUtils.updateSmsContact({ _id: contact._id }, {lastMessageSentByBot: nextMessageBlock}, null, {})
   }
 }
 
 function sendTextMessage (nextMessageBlock, contact, companyId) {
 
-}
-
-async function updateContact (query, bodyForUpdate, bodyForIncrement, options) {
-  callApi(`contacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
-    .then(updated => {
-    })
-    .catch(error => {
-      const message = error || 'Failed to update contact'
-      logger.serverLog(message, `${TAG}: exports.updateContact`, {}, { query, bodyForUpdate, bodyForIncrement, options }, 'error')
-    })
 }
 
 async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message, company) {
@@ -109,6 +98,14 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
             messageBlock = await commerceBotLogicLayer.getWelcomeMessageBlock(chatbot, contact, ecommerceProvider)
             break
           }
+          case constants.PRODUCT_CATEGORIES: {
+            messageBlock = await commerceBotLogicLayer.getProductCategoriesBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument ? action.argument : {})
+            break
+          }
+          case constants.FETCH_PRODUCTS: {
+            messageBlock = await commerceBotLogicLayer.getProductsInCategoryBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument)
+            break
+          }
           case constants.ADD_TO_CART: {
             messageBlock = await commerceBotLogicLayer.getAddToCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument, action.input ? input : '')
             break
@@ -150,4 +147,3 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
     }
   }
 }
-exports.updateContact = updateContact
