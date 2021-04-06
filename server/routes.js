@@ -66,6 +66,7 @@ module.exports = function (app) {
   app.use('/api/zoom', require('./api/v1.1/zoomIntegration'))
   app.use('/api/zoomEvents', require('./api/v1.1/zoomEvents'))
   app.use('/api/flockSendEvents', require('./api/v1.1/flockSendEvents'))
+  app.options('/api/shopify/newOrderFromWidget', require('cors')())
   app.use('/api/shopify', require('./api/v1.1/shopify'))
   app.use('/api/whatsAppChatbot', require('./api/v1.1/whatsAppChatbot'))
   app.use('/api/addOns', require('./api/v1.1/addOns'))
