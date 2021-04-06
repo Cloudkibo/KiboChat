@@ -6,6 +6,7 @@ const commerceBotLogicLayer = require('./commerceChatbot.logiclayer')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/configureChatbot/commerceChatbot.controller.js'
 const constants = require('../whatsAppChatbot/constants')
+const { callApi } = require('../utility')
 const moment = require('moment')
 
 exports.handleCommerceChatbot = async function (company, message, contact) {
@@ -26,11 +27,24 @@ exports.handleCommerceChatbot = async function (company, message, contact) {
   if (ecommerceProvider) {
     nextMessageBlock = await getNextMessageBlock(chatbot, ecommerceProvider, contact, message, company)
   }
-  sendTextMessage(nextMessageBlock, contact, company._id)
+  if (nextMessageBlock) {
+    sendTextMessage(nextMessageBlock, contact, company._id)
+    updateContact({ _id: contact._id }, {lastMessageSentByBot: nextMessageBlock}, null, {})
+  }
 }
 
 function sendTextMessage (nextMessageBlock, contact, companyId) {
 
+}
+
+async function updateContact (query, bodyForUpdate, bodyForIncrement, options) {
+  callApi(`contacts/update`, 'put', { query: query, newPayload: { ...bodyForIncrement, ...bodyForUpdate }, options: options })
+    .then(updated => {
+    })
+    .catch(error => {
+      const message = error || 'Failed to update contact'
+      logger.serverLog(message, `${TAG}: exports.updateContact`, {}, { query, bodyForUpdate, bodyForIncrement, options }, 'error')
+    })
 }
 
 async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message, company) {
@@ -56,7 +70,7 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
         action = lastMessageSentByBot.specialKeys[input]
       } else if (input === 'home' && lastMessageSentByBot.specialKeys[constants.HOME_KEY]) {
         action = lastMessageSentByBot.specialKeys[constants.HOME_KEY]
-      } else if (input === 'back' && lastMessageSentByBot.specialKeys[BACK_KEY]) {
+      } else if (input === 'back' && lastMessageSentByBot.specialKeys[constants.BACK_KEY]) {
         action = lastMessageSentByBot.specialKeys[constants.BACK_KEY]
       } else if (lastMessageSentByBot.menu) {
         let menuInput = parseInt(input)
@@ -87,5 +101,49 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
         return commerceBotLogicLayer.invalidInput(chatbot, contact.lastMessageSentByBot, `${constants.ERROR_INDICATOR}You entered an invalid response.`)
       }
     }
+    if (action.type === constants.DYNAMIC) {
+      try {
+        let messageBlock = null
+        switch (action.action) {
+          case constants.SHOW_MAIN_MENU: {
+            messageBlock = await commerceChatbotLogicLayer.getWelcomeMessageBlock(chatbot, contact)
+            break
+          }
+          case constants.ADD_TO_CART: {
+            messageBlock = await commerceChatbotLogicLayer.getAddToCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument, action.input ? input : '')
+            break
+          }
+          case constants.SHOW_MY_CART: {
+            messageBlock = await commerceChatbotLogicLayer.getShowMyCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
+            break
+          }
+          // case constants.REMOVE_FROM_CART: {
+          //   messageBlock = await commerceChatbotLogicLayer.getRemoveFromCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument)
+          //   break
+          // }
+          // case constants.CONFIRM_TO_REMOVE_CART_ITEM: {
+          //   messageBlock = await commerceChatbotLogicLayer.getConfirmRemoveItemBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument)
+          //   break
+          // }
+          // case constants.CONFIRM_CLEAR_CART: {
+          //   messageBlock = await commerceChatbotLogicLayer.confirmClearCart(chatbot, contact)
+          //   break
+          // }
+          // case constants.CLEAR_CART: {
+          //   messageBlock = await commerceChatbotLogicLayer.clearCart(chatbot, contact)
+          //   break
+          // }
+        }
+        // await messageBlockDataLayer.createForMessageBlock(messageBlock)
+        return messageBlock
+      } catch (err) {
+        if (chatbot.triggers.includes(input)) {
+          return commerceChatbotLogicLayer.getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
+        } else {
+          return commerceChatbotLogicLayer.invalidInput(chatbot, contact.lastMessageSentByBot, `${constants.ERROR_INDICATOR}You entered an invalid response.`)
+        }
+      }
+    }
   }
 }
+exports.updateContact = updateContact

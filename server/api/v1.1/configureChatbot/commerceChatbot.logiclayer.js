@@ -1,5 +1,10 @@
 const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 const constants = require('../whatsAppChatbot/constants')
+const { convertToEmoji } = require('../whatsAppChatbot/whatsAppChatbot.logiclayer')
+const dedent = require('dedent-js')
+const { updateContact } = require('./commerceChatbot.controller')
+const logger = require('../../../components/logger')
+const TAG = 'api/v1️.1/configureChatbot/commerceChatbot.logiclayer.js'
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
 const botUtils = require('./commerceChatbot.utils')
 const logger = require('../../../components/logger')
@@ -251,3 +256,142 @@ exports.getWelcomeMessageBlock = async (chatbot, contact, ecommerceProvider) => 
   }
   return messageBlock
 }
+const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'sms_commerce_chatbot'
+      },
+      title: 'Show My Cart',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: optionalText ? `${optionalText}\n\n` : '',
+          componentType: 'text',
+          menu: [],
+          specialKeys: {
+            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+
+    let shoppingCart = contact.shoppingCart
+    if (!shoppingCart || shoppingCart.length === 0) {
+      messageBlock.payload[0].text += `You have no items in your cart`
+    } else {
+      messageBlock.payload[0].text += `Here is your cart:\n`
+      let totalPrice = 0
+      let currency = ''
+      for (let i = 0; i < shoppingCart.length; i++) {
+        let product = shoppingCart[i]
+
+        currency = product.currency
+
+        let price = product.quantity * product.price
+        price = Number(price.toFixed(2))
+        totalPrice += price
+
+        messageBlock.payload[0].text += `\n*Item*: ${product.product}`
+        messageBlock.payload[0].text += `\n*Quantity*: ${product.quantity}`
+        messageBlock.payload[0].text += `\n*Price*: ${price} ${currency}`
+
+        if (i + 1 < shoppingCart.length) {
+          messageBlock.payload[0].text += `\n`
+        }
+      }
+      messageBlock.payload[0].text += `\n\n*Total price*: ${totalPrice} ${currency}\n\n`
+      messageBlock.payload[0].menu.push(
+        { type: constants.DYNAMIC, action: constants.SHOW_ITEMS_TO_REMOVE },
+        { type: constants.DYNAMIC, action: constants.SHOW_ITEMS_TO_UPDATE },
+        { type: constants.DYNAMIC, action: constants.CONFIRM_CLEAR_CART },
+        { type: constants.DYNAMIC, action: constants.ASK_PAYMENT_METHOD })
+      messageBlock.payload[0].text += dedent(`Please select an option by sending the corresponding number for it:\n
+                                            ${botUtils.convertToEmoji(0)} Remove an item
+                                            ${botUtils.convertToEmoji(1)} Update quantity for an item
+                                            ${botUtils.convertToEmoji(2)} Clear cart
+                                            ${botUtils.convertToEmoji(3)} Proceed to Checkout`)
+
+      // adding images of cart items to message
+      for (let i = 0; i < shoppingCart.length; i++) {
+        let product = shoppingCart[i]
+        if (product.image) {
+          let currency = product.currency
+          let price = product.quantity * product.price
+          price = Number(price.toFixed(2))
+          messageBlock.payload.unshift({
+            componentType: 'image',
+            fileurl: product.image,
+            caption: `${product.product}\nQuantity: ${product.quantity}\nPrice: ${price} ${currency}`
+          })
+        }
+      }
+    }
+    messageBlock.payload[0].text += `\n\n${specialKeyText(constants.BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${specialKeyText(constants.HOME_KEY)}`
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to show cart'
+    logger.serverLog(message, `${TAG}: exports.getShowMyCartBlock`, {}, {}, 'error')
+    throw new Error(`${constants.ERROR_INDICATOR}Unable to show cart`)
+  }
+}
+exports.getAddToCartBlock = async (chatbot, backId, contact, {product, quantity}) => {
+  let userError = false
+  try {
+    quantity = Number(quantity)
+    if (!Number.isInteger(quantity) || quantity < 0) {
+      userError = true
+      throw new Error(`${constants.ERROR_INDICATOR}Invalid quantity given.`)
+    }
+    let shoppingCart = contact.shoppingCart ? contact.shoppingCart : []
+    let existingProductIndex = shoppingCart.findIndex((item) => item.variant_id === product.variant_id)
+    if (existingProductIndex > -1) {
+      let previousQuantity = shoppingCart[existingProductIndex].quantity
+      if ((previousQuantity + quantity) > product.inventory_quantity) {
+        userError = true
+        throw new Error(`${constants.ERROR_INDICATOR}You can not add any more of this product. Your cart already contains ${previousQuantity}, which is the maximum stock currently available.`)
+      }
+      shoppingCart[existingProductIndex].quantity += quantity
+    } else {
+      if (quantity > product.inventory_quantity) {
+        userError = true
+        throw new Error(`${constants.ERROR_INDICATOR}Your requested quantity exceeds the stock available (${product.inventory_quantity}). Please enter a quantity less than ${product.inventory_quantity}.`)
+      }
+      if (quantity > 0) {
+        shoppingCart.push({
+          variant_id: product.variant_id,
+          product_id: product.product_id,
+          quantity,
+          product: product.product,
+          inventory_quantity: product.inventory_quantity,
+          price: Number(product.price),
+          currency: product.currency,
+          image: product.image
+        })
+      }
+    }
+    if (contact.commerceCustomer) {
+      contact.commerceCustomer.cartId = null
+    }
+    updateContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
+    let text = `${quantity} ${product.product}${quantity !== 1 ? 's have' : ' has'} been succesfully added to your cart.`
+    return getShowMyCartBlock(chatbot, backId, contact, text)
+  } catch (err) {
+    if (!userError) {
+      const message = err || 'Unable to add to cart'
+      logger.serverLog(message, `${TAG}: exports.getAddToCartBlock`, chatbot, {}, 'error')
+    }
+    if (err.message) {
+      throw new Error(`${constants.ERROR_INDICATOR}${err.message}`)
+    } else {
+      throw new Error(`${constants.ERROR_INDICATOR}Unable to add to cart`)
+    }
+  }
+}
+
+exports.getShowMyCartBlock = getShowMyCartBlock
