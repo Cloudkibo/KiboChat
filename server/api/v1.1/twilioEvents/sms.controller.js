@@ -53,20 +53,17 @@ exports.index = function (req, res) {
                 }
               })
               .catch(error => {
-                console.log('error', error)
                 const message = error || 'Failed to fetch contact'
                 logger.serverLog(message, `${TAG}: exports.index`, req.body, { user }, 'error')
               })
           })
           .catch(error => {
-            console.log('error', error)
             const message = error || 'Failed to fetch user'
             logger.serverLog(message, `${TAG}: exports.index`, req.body, {company}, 'error')
           })
       }
     })
     .catch(error => {
-      console.log('error', error)
       const message = error || 'Failed to get company'
       logger.serverLog(message, `${TAG}: exports.index`, req.body, {}, 'error')
     })
@@ -107,7 +104,6 @@ function _handleMessageFromContact (contact, body, company, user) {
         updateContact(contact)
       })
       .catch(error => {
-        console.log('error', error)
         const message = error || 'Failed to create sms'
         logger.serverLog(message, `${TAG}: exports.index`, body, {MessageObject}, 'error')
       })
