@@ -2,9 +2,11 @@ const smsChatbotDataLayer = require('./smsChatbot.datalayer')
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
 const EcommerceProvider = require('../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
 const shopifyDataLayer = require('../shopify/shopify.datalayer')
+const commerceBotLogicLayer = require('./commerceChatbot.logiclayer')
 const logger = require('../../../components/logger')
-const TAG = 'api/v1️.1/configureChatbot/commerceChatbot.logiclayer.js'
+const TAG = 'api/v1️.1/configureChatbot/commerceChatbot.controller.js'
 const constants = require('../whatsAppChatbot/constants')
+const moment = require('moment')
 
 exports.handleCommerceChatbot = async function (company, message, contact) {
   const chatbot = await smsChatbotDataLayer.findOne({
@@ -75,15 +77,16 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
         throw new Error(`${constants.ERROR_INDICATOR}Invalid User Input`)
       }
     } catch (err) {
-      // if (!userError) {
-      //   const message = err || 'Invalid user input'
-      //   logger.serverLog(message, `${TAG}: exports.getNextMessageBlock`, chatbot, {}, 'error')
-      // }
-      // if (chatbot.triggers.includes(input) || (moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15 && chatbot.companyId !== '5a89ecdaf6b0460c552bf7fe')) {
-      //   return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
-      // } else {
-      //   return invalidInput(chatbot, contact.lastMessageSentByBot, `${ERROR_INDICATOR}You entered an invalid response.`)
-      // }
+      if (!userError) {
+        const message = err || 'Invalid user input'
+        logger.serverLog(message, `${TAG}: exports.getNextMessageBlock`, chatbot, {}, 'error')
+      }
+      if (chatbot.triggers.includes(input) || (moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15 && chatbot.companyId !== '5a89ecdaf6b0460c552bf7fe')) {
+        // TODO, in separate task
+        // return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
+      } else {
+        return commerceBotLogicLayer.invalidInput(chatbot, contact.lastMessageSentByBot, `${constants.ERROR_INDICATOR}You entered an invalid response.`)
+      }
     }
   }
 }
