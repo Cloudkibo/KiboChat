@@ -38,7 +38,7 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
   const input = message.toLowerCase()
   if (!contact || !contact.lastMessageSentByBot) {
     // TODO, in separate task
-    // return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
+    return commerceChatbotLogicLayer.getWelcomeMessageBlock(chatbot, contact, ecommerceProvider)
   } else {
     let action = null
     let lastMessageSentByBot = contact.lastMessageSentByBot.payload[0]
