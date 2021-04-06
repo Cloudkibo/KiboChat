@@ -8,23 +8,6 @@ const TAG = 'api/v1️.1/configureChatbot/commerceChatbot.logiclayer.js'
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
 const botUtils = require('./commerceChatbot.utils')
 
-function specialKeyText (key) {
-  switch (key) {
-    case constants.TALK_TO_AGENT_KEY:
-      return `*${key.toUpperCase()}*  Talk to a customer support agent`
-    case constants.FAQS_KEY:
-      return `*${key.toUpperCase()}*  View FAQs`
-    case constants.SHOW_CART_KEY:
-      return `*${key.toUpperCase()}*  View your cart`
-    case constants.ORDER_STATUS_KEY:
-      return `*${key.toUpperCase()}*  Check order status`
-    case constants.BACK_KEY:
-      return `*${key.toUpperCase()}*  Go back`
-    case constants.HOME_KEY:
-      return `*${key.toUpperCase()}*  Go home`
-  }
-}
-
 exports.getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, argument, userInput) => {
   let userError = false
   try {
@@ -326,10 +309,10 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
         { type: constants.DYNAMIC, action: constants.CONFIRM_CLEAR_CART },
         { type: constants.DYNAMIC, action: constants.ASK_PAYMENT_METHOD })
       messageBlock.payload[0].text += dedent(`Please select an option by sending the corresponding number for it:\n
-                                            ${convertToEmoji(0)} Remove an item
-                                            ${convertToEmoji(1)} Update quantity for an item
-                                            ${convertToEmoji(2)} Clear cart
-                                            ${convertToEmoji(3)} Proceed to Checkout`)
+                                            ${botUtils.convertToEmoji(0)} Remove an item
+                                            ${botUtils.convertToEmoji(1)} Update quantity for an item
+                                            ${botUtils.convertToEmoji(2)} Clear cart
+                                            ${botUtils.convertToEmoji(3)} Proceed to Checkout`)
 
       // adding images of cart items to message
       for (let i = 0; i < shoppingCart.length; i++) {

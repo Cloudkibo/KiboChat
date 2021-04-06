@@ -7,6 +7,7 @@ const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/configureChatbot/commerceChatbot.controller.js'
 const constants = require('../whatsAppChatbot/constants')
 const { callApi } = require('../utility')
+const moment = require('moment')
 
 exports.handleCommerceChatbot = async function (company, message, contact) {
   const chatbot = await smsChatbotDataLayer.findOne({
