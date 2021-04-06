@@ -2,28 +2,10 @@ const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 const constants = require('../whatsAppChatbot/constants')
 const { convertToEmoji } = require('../whatsAppChatbot/whatsAppChatbot.logiclayer')
 const dedent = require('dedent-js')
-const { updateContact } = require('./commerceChatbot.controller')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/configureChatbot/commerceChatbot.logiclayer.js'
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
 const botUtils = require('./commerceChatbot.utils')
-
-function specialKeyText (key) {
-  switch (key) {
-    case constants.TALK_TO_AGENT_KEY:
-      return `*${key.toUpperCase()}*  Talk to a customer support agent`
-    case constants.FAQS_KEY:
-      return `*${key.toUpperCase()}*  View FAQs`
-    case constants.SHOW_CART_KEY:
-      return `*${key.toUpperCase()}*  View your cart`
-    case constants.ORDER_STATUS_KEY:
-      return `*${key.toUpperCase()}*  Check order status`
-    case constants.BACK_KEY:
-      return `*${key.toUpperCase()}*  Go back`
-    case constants.HOME_KEY:
-      return `*${key.toUpperCase()}*  Go home`
-  }
-}
 
 exports.getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, argument, userInput) => {
   let userError = false
@@ -346,8 +328,8 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
         }
       }
     }
-    messageBlock.payload[0].text += `\n\n${specialKeyText(constants.BACK_KEY)}`
-    messageBlock.payload[0].text += `\n${specialKeyText(constants.HOME_KEY)}`
+    messageBlock.payload[0].text += `\n\n${botUtils.specialKeyText(constants.BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)}`
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to show cart'
@@ -393,7 +375,7 @@ exports.getAddToCartBlock = async (chatbot, backId, contact, {product, quantity}
     if (contact.commerceCustomer) {
       contact.commerceCustomer.cartId = null
     }
-    updateContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
+    botUtils.updateSmsContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
     let text = `${quantity} ${product.product}${quantity !== 1 ? 's have' : ' has'} been succesfully added to your cart.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
@@ -438,7 +420,7 @@ exports.confirmClearCart = (chatbot, contact) => {
     companyId: chatbot.companyId
   }
 
-  messageBlock.payload[0].text += `\n\n${specialKeyText(constants.HOME_KEY)}`
+  messageBlock.payload[0].text += `\n\n${botUtils.specialKeyText(constants.HOME_KEY)}`
   return messageBlock
 }
 
@@ -454,7 +436,7 @@ exports.clearCart = async (chatbot, contact) => {
       payload: [
         {
           text: dedent(`Your cart is now empty.\n
-  ${specialKeyText(constants.HOME_KEY)} `),
+  ${botUtils.specialKeyText(constants.HOME_KEY)} `),
           componentType: 'text',
           specialKeys: {
             [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
@@ -468,7 +450,7 @@ exports.clearCart = async (chatbot, contact) => {
     if (contact.commerceCustomer) {
       contact.commerceCustomer.cartId = null
     }
-    updateContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
+    botUtils.updateSmsContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to clear cart'
@@ -483,7 +465,7 @@ exports.getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo) =
   if (contact.commerceCustomer) {
     contact.commerceCustomer.cartId = null
   }
-  await updateContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
+  await botUtils.updateSmsContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
   const text = `${productInfo.product} has been successfully removed from your cart.`
   return getShowMyCartBlock(chatbot, backId, contact, text)
 }
@@ -518,8 +500,8 @@ exports.getConfirmRemoveItemBlock = async (chatbot, backId, product) => {
                                             Send 'Y' for Yes
                                             Send 'N' for No`)
 
-    messageBlock.payload[0].text += `\n\n${specialKeyText(constants.BACK_KEY)}`
-    messageBlock.payload[0].text += `\n${specialKeyText(constants.HOME_KEY)}`
+    messageBlock.payload[0].text += `\n\n${botUtils.specialKeyText(constants.BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)}`
 
     if (product.image) {
       messageBlock.payload.unshift({
@@ -567,9 +549,9 @@ exports.getShowItemsToRemoveBlock = (chatbot, backId, contact) => {
       messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${product.product} `
       messageBlock.payload[0].menu.push({ type: constants.DYNAMIC, action: constants.CONFIRM_TO_REMOVE_CART_ITEM, argument: { ...product, productIndex: i } })
     }
-    messageBlock.payload[0].text += `\n\n${specialKeyText(constants.SHOW_CART_KEY)} `
-    messageBlock.payload[0].text += `\n${specialKeyText(constants.BACK_KEY)} `
-    messageBlock.payload[0].text += `\n${specialKeyText(constants.HOME_KEY)} `
+    messageBlock.payload[0].text += `\n\n${botUtils.specialKeyText(constants.SHOW_CART_KEY)} `
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.BACK_KEY)} `
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)} `
     for (let i = shoppingCart.length - 1; i >= 0; i--) {
       let product = shoppingCart[i]
       if (product.image) {
@@ -585,6 +567,115 @@ exports.getShowItemsToRemoveBlock = (chatbot, backId, contact) => {
     const message = err || 'Unable to show items from cart'
     logger.serverLog(message, `${TAG}: exports.getShowItemsToRemoveBlock`, {}, {}, 'error')
     throw new Error(`${constants.ERROR_INDICATOR}Unable to show items from cart`)
+  }
+}
+
+exports.getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider, argument) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_commerce_chatbot'
+      },
+      title: 'Product Categories',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Please select a category by sending the corresponding number for it:\n`,
+          componentType: 'text',
+          menu: [],
+          specialKeys: {
+            [constants.SHOW_CART_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MY_CART },
+            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.HOME_KEY]: { type: constants.STATIC, blockId: chatbot.startingBlockId }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    let productCategories = await EcommerceProvider.fetchAllProductCategories(argument.paginationParams)
+    for (let i = 0; i < productCategories.length; i++) {
+      let category = productCategories[i]
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${category.name}`
+      messageBlock.payload[0].menu.push({
+        type: constants.DYNAMIC, action: constants.FETCH_PRODUCTS, argument: {categoryId: category.id}
+      })
+    }
+    if (productCategories.nextPageParameters) {
+      messageBlock.payload[0].text += `\n${convertToEmoji(productCategories.length)} View More`
+      messageBlock.payload[0].menu.push({
+        type: constants.DYNAMIC, action: constants.PRODUCT_CATEGORIES, argument: {paginationParams: productCategories.nextPageParameters}
+      })
+    }
+    messageBlock.payload[0].text += `\n\n${botUtils.specialKeyText(constants.SHOW_CART_KEY)}`
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)}`
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to get product categories'
+    logger.serverLog(message, `${TAG}: exports.getProductCategoriesBlock`, {}, {}, 'error')
+    throw new Error(`${constants.ERROR_INDICATOR}Unable to get product categories`)
+  }
+}
+
+exports.getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, argument) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_commerce_chatbot'
+      },
+      title: 'Products in Category',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Please select a product by sending the corresponding number for it:\n`,
+          componentType: 'text',
+          menu: [],
+          specialKeys: {
+            [constants.SHOW_CART_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MY_CART },
+            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.HOME_KEY]: { type: constants.STATIC, blockId: chatbot.startingBlockId }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    const storeInfo = await EcommerceProvider.fetchStoreInfo()
+    let products = await EcommerceProvider.fetchProductsInThisCategory(argument.categoryId, argument.paginationParams, chatbot.numberOfProducts)
+    for (let i = 0; i < products.length; i++) {
+      let product = products[i]
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${product.name}`
+      messageBlock.payload[0].menu.push({
+        type: constants.DYNAMIC, action: constants.PRODUCT_VARIANTS, argument: {product}
+      })
+    }
+    if (products.nextPageParameters) {
+      messageBlock.payload[0].text += `\n${convertToEmoji(products.length)} View More`
+      messageBlock.payload[0].menu.push({
+        type: constants.DYNAMIC, action: constants.FETCH_PRODUCTS, argument: {categoryId: argument.categoryId, paginationParams: products.nextPageParameters}
+      })
+    }
+    messageBlock.payload[0].text += `\n\n${botUtils.specialKeyText(constants.SHOW_CART_KEY)}`
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)}`
+    for (let i = products.length - 1; i >= 0; i--) {
+      let product = products[i]
+      if (product.image) {
+        messageBlock.payload.unshift({
+          componentType: 'image',
+          fileurl: product.image,
+          caption: `${convertToEmoji(i)} ${product.name}\nPrice: ${product.price} ${storeInfo.currency}`
+        })
+      }
+    }
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to get products in category'
+    logger.serverLog(message, `${TAG}: exports.getProductsInCategoryBlock`, {}, {}, 'error')
+    throw new Error(`${constants.ERROR_INDICATOR}Unable to get products in this category`)
   }
 }
 
