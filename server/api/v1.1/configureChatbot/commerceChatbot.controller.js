@@ -44,6 +44,13 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
   } else {
     let action = null
     let lastMessageSentByBot = contact.lastMessageSentByBot.payload[0]
+    for (let i = 0; i < contact.lastMessageSentByBot.payload.length; i++) {
+      const payload = contact.lastMessageSentByBot.payload[i]
+      if (payload.specialKeys || payload.menu || payload.action) {
+        lastMessageSentByBot = payload
+        break
+      }
+    }
     try {
       if (contact.chatbotPaused) {
         if (lastMessageSentByBot.specialKeys && lastMessageSentByBot.specialKeys[input]) {
@@ -111,6 +118,10 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
           }
           case constants.DISCOVER_PRODUCTS: {
             messageBlock = await commerceBotLogicLayer.getDiscoverProductsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, ecommerceProvider, action.input ? input : '', action.argument ? action.argument : {})
+            break
+          }
+          case constants.SELECT_PRODUCT: {
+            messageBlock = await commerceBotLogicLayer.getSelectProductBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument)
             break
           }
           case constants.ADD_TO_CART: {

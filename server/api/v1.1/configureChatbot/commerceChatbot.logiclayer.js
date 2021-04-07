@@ -888,6 +888,92 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
   }
 }
 
+exports.getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, input, argument) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'sms_commerce_chatbot'
+      },
+      title: 'Discover Products',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: ``,
+          componentType: 'text',
+          menu: [],
+          specialKeys: {
+            [constants.SHOW_CART_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MY_CART },
+            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+
+    let products = []
+    const storeInfo = await EcommerceProvider.fetchStoreInfo()
+
+    if (input) {
+      products = await EcommerceProvider.searchProducts(input)
+
+      if (products.length > 0) {
+        messageBlock.payload[0].text = `These products were found for "${input}". Please select a product by sending the corresponding number for it or enter another product name or SKU code to search again:\n`
+      } else {
+        messageBlock.payload[0].text = `No products found that match "${input}".\n\nEnter another product name or SKU code to search again:`
+      }
+
+      messageBlock.payload[0].action = { type: constants.DYNAMIC, action: constants.DISCOVER_PRODUCTS, input: true }
+    } else {
+      products = await EcommerceProvider.fetchProducts(argument.paginationParams, chatbot.numberOfProducts)
+
+      if (products.length > 0) {
+        messageBlock.payload[0].text = `Please select a product by sending the corresponding number for it:\n`
+      } else {
+        messageBlock.payload[0].text = `No products were found using discover.`
+      }
+    }
+
+    for (let i = 0; i < products.length; i++) {
+      let product = products[i]
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${product.name}`
+      messageBlock.payload[0].menu.push({
+        type: constants.DYNAMIC, action: constants.PRODUCT_VARIANTS, argument: {product}
+      })
+    }
+
+    if (products.nextPageParameters) {
+      messageBlock.payload[0].text += `\n${convertToEmoji(products.length)} View More`
+      messageBlock.payload[0].menu.push({
+        type: constants.DYNAMIC, action: constants.DISCOVER_PRODUCTS, argument: {paginationParams: products.nextPageParameters}
+      })
+    }
+
+    messageBlock.payload[0].text += `\n\n${botUtils.specialKeyText(constants.SHOW_CART_KEY)}`
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)}`
+
+    for (let i = products.length - 1; i >= 0; i--) {
+      let product = products[i]
+      if (product.image) {
+        messageBlock.payload.unshift({
+          componentType: 'image',
+          fileurl: product.image,
+          caption: `${convertToEmoji(i)} ${product.name}\nPrice: ${product.price} ${storeInfo.currency}`
+        })
+      }
+    }
+
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to discover products'
+    logger.serverLog(message, `${TAG}: exports.getDiscoverProductsBlock`, {}, {}, 'error')
+    throw new Error(`${constants.ERROR_INDICATOR}Unable to discover products`)
+  }
+}
+
 exports.getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider) => {
   try {
     let messageBlock = {
@@ -969,3 +1055,4 @@ exports.getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvide
 }
 
 exports.getShowMyCartBlock = getShowMyCartBlock
+exports.getSelectProductBlock = getSelectProductBlock
