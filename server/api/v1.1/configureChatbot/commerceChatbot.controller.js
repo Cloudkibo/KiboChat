@@ -142,7 +142,7 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
             break
           }
           case constants.VIEW_RECENT_ORDERS: {
-            messageBlock = await commerceBotLogicLayer.getRecentOrdersBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, EcommerceProvider)
+            messageBlock = await commerceBotLogicLayer.getRecentOrdersBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, ecommerceProvider)
             break
           }
         }
