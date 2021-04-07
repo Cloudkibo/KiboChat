@@ -613,7 +613,6 @@ exports.getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvide
     if (chatbot.integration === commerceConstants.shopify) {
       tempCustomerPayload = contact.commerceCustomerShopify
     }
-    console.log('tempCustomerPayload', tempCustomerPayload)
     if (tempCustomerPayload) {
       recentOrders = await EcommerceProvider.findCustomerOrders(tempCustomerPayload.id, 9)
       recentOrders = recentOrders.orders

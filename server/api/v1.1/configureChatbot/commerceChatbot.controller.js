@@ -26,7 +26,6 @@ exports.handleCommerceChatbot = async function (company, message, contact) {
   if (ecommerceProvider) {
     nextMessageBlock = await getNextMessageBlock(chatbot, ecommerceProvider, contact, message, company)
   }
-  console.log('nextMessageBlock', JSON.stringify(nextMessageBlock))
   if (nextMessageBlock) {
     sendTextMessage(nextMessageBlock, contact, company._id)
     botUtils.updateSmsContact({ _id: contact._id }, {lastMessageSentByBot: nextMessageBlock}, null, {})
@@ -92,7 +91,6 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
     }
     if (action.type === constants.DYNAMIC) {
       try {
-        console.log('action', action)
         let messageBlock = null
         switch (action.action) {
           case constants.SHOW_MAIN_MENU: {
