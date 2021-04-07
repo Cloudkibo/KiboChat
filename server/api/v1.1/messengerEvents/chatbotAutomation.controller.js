@@ -16,6 +16,7 @@ const EcommerceProvider = require('../ecommerceProvidersApiLayer/EcommerceProvid
 const { callApi } = require('../utility')
 const { record } = require('../../global/messageStatistics')
 const { sendWebhook } = require('../../global/sendWebhook')
+const { pushTalkToAgentAlertInStack } = require('../../global/messageAlerts')
 const chatbotTemplates = require('../../../chatbotTemplates')
 const { getDialogFlowClient } = require('../../global/dialogflow')
 
@@ -358,7 +359,7 @@ exports.handleTriggerMessage = (req, page, subscriber) => {
     })
 }
 
-exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId, parentBlockTitle) => {
+exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId, parentBlockTitle, payloadAction) => {
   record('messengerChatInComing')
   shouldAvoidSendingAutomatedMessage(subscriber, req)
     .then(shouldAvoid => {
@@ -382,6 +383,9 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId, parentBlock
                 shouldSend = true
               }
               if (shouldSend) {
+                if (payloadAction === 'talk_to_agent') {
+                  handleTalkToAgent(page, subscriber)
+                }
                 sendWebhook('CHATBOT_OPTION_SELECTED', 'facebook', {
                   psid: subscriber.senderId,
                   pageId: page.pageId,
@@ -390,36 +394,38 @@ exports.handleChatBotNextMessage = (req, page, subscriber, uniqueId, parentBlock
                   chatbotTitle: page.pageName,
                   timestamp: Date.now()
                 }, page)
-                messageBlockDataLayer.findOneMessageBlock({ uniqueId: uniqueId.toString() })
-                  .then(messageBlock => {
-                    if (messageBlock) {
-                      let blockInfo = {
-                        chatBotId: chatbot._id,
-                        messageBlockId: messageBlock._id,
-                        messageBlockTitle: messageBlock.title
+                if (uniqueId) {
+                  messageBlockDataLayer.findOneMessageBlock({ uniqueId: uniqueId.toString() })
+                    .then(messageBlock => {
+                      if (messageBlock) {
+                        let blockInfo = {
+                          chatBotId: chatbot._id,
+                          messageBlockId: messageBlock._id,
+                          messageBlockTitle: messageBlock.title
+                        }
+                        senderAction(req.sender.id, 'typing_on', page.accessToken)
+                        intervalForEach(messageBlock.payload, (item) => {
+                          sendResponse(req.sender.id, item, subscriber, page.accessToken, blockInfo)
+                          saveLiveChatMessage(page, subscriber, item)
+                          senderAction(req.sender.id, 'typing_off', page.accessToken)
+                        }, 1500)
+                        if (!isSendingToTester) {
+                          updateBotLifeStatsForBlock(messageBlock, true)
+                          updateBotPeriodicStatsForBlock(chatbot, true)
+                          updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, messageBlock)
+                        }
+                        let subscriberLastMessageAt = moment(subscriber.lastMessagedAt)
+                        let dateNow = moment()
+                        if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1 && !isSendingToTester) {
+                          updateBotPeriodicStatsForReturning(chatbot)
+                        }
                       }
-                      senderAction(req.sender.id, 'typing_on', page.accessToken)
-                      intervalForEach(messageBlock.payload, (item) => {
-                        sendResponse(req.sender.id, item, subscriber, page.accessToken, blockInfo)
-                        saveLiveChatMessage(page, subscriber, item)
-                        senderAction(req.sender.id, 'typing_off', page.accessToken)
-                      }, 1500)
-                      if (!isSendingToTester) {
-                        updateBotLifeStatsForBlock(messageBlock, true)
-                        updateBotPeriodicStatsForBlock(chatbot, true)
-                        updateBotSubscribersAnalyticsForSQL(chatbot._id, chatbot.companyId, subscriber, messageBlock)
-                      }
-                      let subscriberLastMessageAt = moment(subscriber.lastMessagedAt)
-                      let dateNow = moment()
-                      if (dateNow.diff(subscriberLastMessageAt, 'days') >= 1 && !isSendingToTester) {
-                        updateBotPeriodicStatsForReturning(chatbot)
-                      }
-                    }
-                  })
-                  .catch(error => {
-                    const message = error || 'error in fetching message block'
-                    return logger.serverLog(message, `${TAG}: exports.handleChatBotNextMessage`, {}, {req, page, subscriber, uniqueId, parentBlockTitle}, 'error')
-                  })
+                    })
+                    .catch(error => {
+                      const message = error || 'error in fetching message block'
+                      return logger.serverLog(message, `${TAG}: exports.handleChatBotNextMessage`, {}, {req, page, subscriber, uniqueId, parentBlockTitle}, 'error')
+                    })
+                }
               }
             }
           })
@@ -835,6 +841,23 @@ const isTriggerMessage = (event, page) => {
         reject(err)
       })
   })
+}
+
+function handleTalkToAgent (page, subscriber) {
+  pushTalkToAgentAlertInStack({_id: subscriber.companyId}, subscriber, 'messenger', page.pageName)
+  facebookApiCaller('v6.0', `me/messages?access_token=${page.accessToken}`, 'post', {
+    messaging_type: 'RESPONSE',
+    recipient: JSON.stringify({ id: subscriber.senderId }),
+    message: {
+      text: 'Our support agents have been notified and someone will get back to you soon.',
+      'metadata': 'This is a meta data'
+    }
+  }).then(result => {
+  })
+    .catch(err => {
+      const message = err || 'error in sending action'
+      return logger.serverLog(message, `${TAG}: sendTalkToAgentResponse`, {}, {page, subscriber}, 'error')
+    })
 }
 
 exports.updateBotPeriodicStatsForBlock = updateBotPeriodicStatsForBlock

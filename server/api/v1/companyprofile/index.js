@@ -95,4 +95,10 @@ router.get('/getWhatsAppMessageTemplates',
   attachProviderInfo(),
   controller.getWhatsAppMessageTemplates)
 
+router.post('/setBusinessHours',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
+  validate({body: validationSchema.setBusinessHoursPayload}),
+  controller.setBusinessHours)
+
 module.exports = router
