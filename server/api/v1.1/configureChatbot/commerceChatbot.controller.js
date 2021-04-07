@@ -136,6 +136,18 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
             messageBlock = await commerceBotLogicLayer.getShowMyCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
             break
           }
+          case constants.SHOW_ITEMS_TO_UPDATE: {
+            messageBlock = await commerceBotLogicLayer.getShowItemsToUpdateBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
+            break
+          }
+          case constants.QUANTITY_TO_UPDATE: {
+            messageBlock = await commerceBotLogicLayer.getQuantityToUpdateBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument)
+            break
+          }
+          case constants.UPDATE_CART: {
+            messageBlock = await commerceBotLogicLayer.getUpdateCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument, action.input ? input : '')
+            break
+          }
           case constants.SHOW_ITEMS_TO_REMOVE: {
             messageBlock = await commerceBotLogicLayer.getShowItemsToRemoveBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
             break
@@ -179,7 +191,7 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
         if (chatbot.triggers.includes(input)) {
           return commerceBotLogicLayer.getWelcomeMessageBlock(chatbot, contact, ecommerceProvider)
         } else {
-          return commerceBotLogicLayer.invalidInput(chatbot, contact.lastMessageSentByBot, err.message ? err.message : `${constants.ERROR_INDICATOR}You entered an invalid response.`)
+          return commerceBotLogicLayer.invalidInput(chatbot, contact.lastMessageSentByBot, `${constants.ERROR_INDICATOR}${err && err.message ? err.message : 'You entered an invalid response.'}`)
         }
       }
     }
