@@ -19,6 +19,7 @@ const { sendWebhook } = require('../../global/sendWebhook')
 const { pushTalkToAgentAlertInStack } = require('../../global/messageAlerts')
 const chatbotTemplates = require('../../../chatbotTemplates')
 const { getDialogFlowClient } = require('../../global/dialogflow')
+const { pushTalkToAgentAlertInStack } = require('../../global/messageAlerts')
 
 exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
   record('messengerChatInComing')
@@ -859,7 +860,6 @@ function handleTalkToAgent (page, subscriber) {
       return logger.serverLog(message, `${TAG}: sendTalkToAgentResponse`, {}, {page, subscriber}, 'error')
     })
 }
-
 exports.updateBotPeriodicStatsForBlock = updateBotPeriodicStatsForBlock
 exports.updateBotLifeStatsForBlock = updateBotLifeStatsForBlock
 exports.sendResponse = sendResponse

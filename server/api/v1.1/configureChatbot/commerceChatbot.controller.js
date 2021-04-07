@@ -122,6 +122,10 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
             messageBlock = await commerceBotLogicLayer.getProductVariantsBlock(chatbot, contact, ecommerceProvider, action.argument)
             break
           }
+          case constants.SEARCH_PRODUCTS: {
+            messageBlock = await commerceBotLogicLayer.getSearchProductsBlock(chatbot, contact)
+            break
+          }
           case constants.DISCOVER_PRODUCTS: {
             messageBlock = await commerceBotLogicLayer.getDiscoverProductsBlock(chatbot, ecommerceProvider, action.input ? input : '', action.argument ? action.argument : {})
             break
@@ -184,6 +188,18 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
           }
           case constants.ASK_ORDER_ID: {
             messageBlock = await commerceBotLogicLayer.getOrderIdBlock(chatbot, contact)
+            break
+          }
+          case constants.CHECK_ORDERS: {
+            messageBlock = await commerceBotLogicLayer.getCheckOrdersBlock(chatbot, contact)
+            break
+          }
+          case constants.ORDER_STATUS: {
+            messageBlock = await commerceBotLogicLayer.getOrderStatusBlock(chatbot, contact.lastMessageSentByBot.uniqueId, ecommerceProvider, action.input ? input : action.argument)
+            break
+          }
+          case constants.ASK_ORDER_ID: {
+            messageBlock = await commerceBotLogicLayer.getOrderIdBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId)
             break
           }
           case constants.CHECK_ORDERS: {
