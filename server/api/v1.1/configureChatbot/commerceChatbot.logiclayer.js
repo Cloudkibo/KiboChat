@@ -208,7 +208,6 @@ exports.invalidInput = async (chatbot, messageBlock, errMessage) => {
 
   // removing the images so that they won't repeat in error message
   messageBlock.payload = messageBlock.payload.filter(item => item.componentType === 'text')
-
   return messageBlock
 }
 exports.getWelcomeMessageBlock = async (chatbot, contact, ecommerceProvider) => {
@@ -1054,5 +1053,166 @@ exports.getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvide
   }
 }
 
+exports.getShowItemsToUpdateBlock = (chatbot, backId, contact) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'sms_commerce_chatbot'
+      },
+      title: 'Select Item to Remove',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Please select an item in your cart for which you want to update the quantity: \n`,
+          componentType: 'text',
+          menu: [],
+          specialKeys: {
+            [constants.SHOW_CART_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MY_CART },
+            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+
+    let shoppingCart = contact.shoppingCart
+
+    if (shoppingCart.length === 1) {
+      let product = shoppingCart[0]
+      return getQuantityToUpdateBlock(chatbot, backId, { ...product, productIndex: 0 })
+    }
+
+    for (let i = 0; i < shoppingCart.length; i++) {
+      let product = shoppingCart[i]
+
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${product.product} `
+
+      messageBlock.payload[0].menu.push({ type: constants.DYNAMIC, action: constants.QUANTITY_TO_UPDATE, argument: { ...product, productIndex: i } })
+    }
+
+    messageBlock.payload[0].text += `\n\n${botUtils.specialKeyText(constants.SHOW_CART_KEY)} `
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.BACK_KEY)} `
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)} `
+
+    for (let i = shoppingCart.length - 1; i >= 0; i--) {
+      let product = shoppingCart[i]
+      if (product.image) {
+        messageBlock.payload.unshift({
+          componentType: 'image',
+          fileurl: product.image,
+          caption: `${convertToEmoji(i)} ${product.product}\nPrice: ${product.price} ${product.currency}`
+        })
+      }
+    }
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to show items from cart'
+    logger.serverLog(message, `${TAG}: exports.getShowItemsToUpdateBlock`, {}, {}, 'error')
+    throw new Error(`${constants.ERROR_INDICATOR}Unable to show items from cart`)
+  }
+}
+
+const getQuantityToUpdateBlock = async (chatbot, backId, product) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'sms_commerce_chatbot'
+      },
+      title: 'Quantity to Update',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `What quantity would you like to set for ${product.product}?\n\nYou currently have ${product.quantity} in your cart.\n\n(price: ${product.price} ${product.currency}) (stock available: ${product.inventory_quantity})`,
+          componentType: 'text',
+          action: { type: constants.DYNAMIC, action: constants.UPDATE_CART, argument: product, input: true },
+          specialKeys: {
+            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU },
+            'p': { type: constants.DYNAMIC, action: constants.ASK_PAYMENT_METHOD }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+
+    messageBlock.payload[0].text += `\n\n${botUtils.specialKeyText(constants.BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)}`
+    messageBlock.payload[0].text += `\n*P*  Proceed to Checkout`
+
+    if (product.image) {
+      messageBlock.payload.unshift({
+        componentType: 'image',
+        fileurl: product.image,
+        caption: `${product.product}\nQuantity: ${product.quantity}\nPrice: ${product.price} ${product.currency}`
+      })
+    }
+
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to update product(s) in cart'
+    logger.serverLog(message, `${TAG}: exports.getQuantityToUpdateBlock`, {}, {}, 'error')
+    throw new Error(`${constants.ERROR_INDICATOR}Unable to update product(s) in cart`)
+  }
+}
+
+exports.getUpdateCartBlock = async (chatbot, backId, contact, product, quantity) => {
+  let userError = false
+  try {
+    quantity = Number(quantity)
+    if (!Number.isInteger(quantity) || quantity < 0) {
+      userError = true
+      throw new Error(`${constants.ERROR_INDICATOR}Invalid quantity given.`)
+    }
+    if (quantity > product.inventory_quantity) {
+      userError = true
+      throw new Error(`${constants.ERROR_INDICATOR}Your requested quantity exceeds the stock available (${product.inventory_quantity}). Please enter a quantity less than ${product.inventory_quantity}.`)
+    }
+    let shoppingCart = contact.shoppingCart ? contact.shoppingCart : []
+    let existingProductIndex = shoppingCart.findIndex((item) => item.variant_id === product.variant_id)
+    if (existingProductIndex > -1) {
+      if (quantity === 0) {
+        shoppingCart.splice(existingProductIndex, 1)
+      } else {
+        shoppingCart[existingProductIndex].quantity = quantity
+      }
+    } else if (quantity > 0) {
+      shoppingCart.push({
+        variant_id: product.variant_id,
+        product_id: product.product_id,
+        quantity,
+        product: product.product,
+        inventory_quantity: product.inventory_quantity,
+        price: Number(product.price),
+        currency: product.currency,
+        image: product.image
+      })
+    }
+    if (contact.commerceCustomer) {
+      contact.commerceCustomer.cartId = null
+    }
+    botUtils.updateSmsContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
+    let text = `${product.product} quantity has been updated to ${quantity}.`
+    if (quantity === 0) {
+      text = `${product.product} has been removed from cart.`
+    }
+    return getShowMyCartBlock(chatbot, backId, contact, text)
+  } catch (err) {
+    if (!userError) {
+      const message = err || 'Unable to update cart'
+      logger.serverLog(message, `${TAG}: exports.getUpdateCartBlock`, chatbot, {}, 'error')
+    } if (err.message) {
+      throw new Error(`${constants.ERROR_INDICATOR}${err.message}`)
+    } else {
+      throw new Error(`${constants.ERROR_INDICATOR}Unable to update cart`)
+    }
+  }
+}
+
 exports.getShowMyCartBlock = getShowMyCartBlock
 exports.getSelectProductBlock = getSelectProductBlock
+exports.getQuantityToUpdateBlock = getQuantityToUpdateBlock
