@@ -16,6 +16,7 @@ const EcommerceProvider = require('../ecommerceProvidersApiLayer/EcommerceProvid
 const { callApi } = require('../utility')
 const { record } = require('../../global/messageStatistics')
 const { sendWebhook } = require('../../global/sendWebhook')
+const { pushTalkToAgentAlertInStack } = require('../../global/messageAlerts')
 const chatbotTemplates = require('../../../chatbotTemplates')
 const { getDialogFlowClient } = require('../../global/dialogflow')
 const { pushTalkToAgentAlertInStack } = require('../../global/messageAlerts')
@@ -842,6 +843,7 @@ const isTriggerMessage = (event, page) => {
       })
   })
 }
+
 function handleTalkToAgent (page, subscriber) {
   pushTalkToAgentAlertInStack({_id: subscriber.companyId}, subscriber, 'messenger', page.pageName)
   facebookApiCaller('v6.0', `me/messages?access_token=${page.accessToken}`, 'post', {

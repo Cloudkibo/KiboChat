@@ -6,6 +6,7 @@ const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/configureChatbot/commerceChatbot.logiclayer.js'
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
 const botUtils = require('./commerceChatbot.utils')
+const utility = require('../../../components/utility')
 
 exports.getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, argument, userInput) => {
   let userError = false
@@ -222,8 +223,14 @@ exports.getWelcomeMessageBlock = async (chatbot, contact, ecommerceProvider) => 
   welcomeMessage += ` Greetings from ${storeInfo.name} ${chatbot.integration} chatbot 🤖😀`
 
   welcomeMessage += `\n\nI am here to guide you on your journey of shopping on ${storeInfo.name}\n\n`
-  welcomeMessage += 'Please select an option to let me know what you would like to do? (i.e. send “1” to View products on sale):\n\n0️⃣ Browse all categories\n1️⃣ View products on sale\n2️⃣ Search for a product\n3️⃣ View Catalog\n\n*O*  Check order status\n*C*  View your cart\n*T*  Talk to a customer support agent'
-
+  welcomeMessage += dedent(`Please select an option to let me know what you would like to do? (i.e. send “1” to View products on sale):\n
+  ${convertToEmoji(0)} Browse all categories
+  ${convertToEmoji(1)} View products on sale
+  ${convertToEmoji(2)} Search for a product
+  ${convertToEmoji(3)} View Catalog`)
+  welcomeMessage += `\n\n${botUtils.specialKeyText(constants.ORDER_STATUS_KEY)}`
+  welcomeMessage += `\n${botUtils.specialKeyText(constants.SHOW_CART_KEY)}`
+  welcomeMessage += `\n${botUtils.specialKeyText(constants.TALK_TO_AGENT_KEY)}`
   const messageBlock = {
     module: {
       id: chatbot._id,
@@ -587,7 +594,7 @@ exports.getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider, a
           specialKeys: {
             [constants.SHOW_CART_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MY_CART },
             [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
-            [constants.HOME_KEY]: { type: constants.STATIC, blockId: chatbot.startingBlockId }
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
           }
         }
       ],
@@ -636,7 +643,7 @@ exports.getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, 
           specialKeys: {
             [constants.SHOW_CART_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MY_CART },
             [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
-            [constants.HOME_KEY]: { type: constants.STATIC, blockId: chatbot.startingBlockId }
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
           }
         }
       ],
@@ -696,7 +703,7 @@ exports.getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, 
           specialKeys: {
             [constants.SHOW_CART_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MY_CART },
             [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
-            [constants.HOME_KEY]: { type: constants.STATIC, blockId: chatbot.startingBlockId }
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
           }
         }
       ],
@@ -757,7 +764,7 @@ exports.getProductVariantsBlock = async (chatbot, backId, contact, EcommerceProv
           specialKeys: {
             [constants.SHOW_CART_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MY_CART },
             [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
-            [constants.HOME_KEY]: { type: constants.STATIC, blockId: chatbot.startingBlockId }
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
           }
         }
       ],
@@ -839,7 +846,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
           specialKeys: {
             [constants.SHOW_CART_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MY_CART },
             [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
-            [constants.HOME_KEY]: { type: constants.STATIC, blockId: chatbot.startingBlockId },
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU },
             'y': { type: constants.DYNAMIC, action: constants.ADD_TO_CART, argument: {product, quantity: 1} },
             'n': { type: constants.STATIC, blockId: chatbot.startingBlockId },
             'yes': { type: constants.DYNAMIC,
@@ -878,6 +885,86 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
     logger.serverLog(message, `${TAG}: exports.getSelectProductBlock`, {}, {}, 'error')
     logger.serverLog(TAG, `Unable to select product ${err}`, 'error')
     throw new Error(`${constants.ERROR_INDICATOR}Unable to select product`)
+  }
+}
+
+exports.getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'sms_commerce_chatbot'
+      },
+      title: 'Recent Orders',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: ``,
+          componentType: 'text',
+          menu: [],
+          action: { type: constants.DYNAMIC, action: constants.ORDER_STATUS, input: true },
+          specialKeys: {
+            [constants.SHOW_CART_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MY_CART },
+            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    let recentOrders = []
+    // this is workaround to store both bigcommerce and shopify
+    // customer information in contacts table so that during
+    // demo we can easily switch between commerce providers.
+    // Here we are checking which store the chatbot belongs to
+    // and getting the customer payload for that store - Sojharo
+    let tempCustomerPayload = contact.commerceCustomer
+    if (chatbot.integration === commerceConstants.shopify) {
+      tempCustomerPayload = contact.commerceCustomerShopify
+    }
+    if (tempCustomerPayload) {
+      recentOrders = await EcommerceProvider.findCustomerOrders(tempCustomerPayload.id, 9)
+      recentOrders = recentOrders.orders
+      if (recentOrders.length > 0) {
+        messageBlock.payload[0].text = 'Select an order by sending the corresponding number for it or enter an order ID:\n'
+        for (let i = 0; i < recentOrders.length; i++) {
+          let orderTitle
+          if (!recentOrders[i].cancelReason) {
+            orderTitle = `\n${convertToEmoji(i)} Order ${recentOrders[i].name} - ${new Date(recentOrders[i].createdAt).toDateString()} (${recentOrders[i].lineItems[0].name})`
+          } else {
+            orderTitle = `\n${convertToEmoji(i)} (Canceled) Order ${recentOrders[i].name} - ${new Date(recentOrders[i].createdAt).toDateString()} (${recentOrders[i].lineItems[0].name})`
+          }
+          messageBlock.payload[0].text += utility.truncate(orderTitle, 55)
+          messageBlock.payload[0].menu.push({ type: constants.DYNAMIC, action: constants.ORDER_STATUS, argument: recentOrders[i].name.substr(1) })
+        }
+      } else {
+        messageBlock.payload[0].text = 'You have not placed any orders within the last 60 days. If you have an order ID, you can enter that to view its status.'
+      }
+    } else {
+      messageBlock.payload[0].text = 'You have not placed any orders here yet. If you have an order ID, you can enter that to view its status.'
+    }
+
+    messageBlock.payload[0].text += `\n\n${botUtils.specialKeyText(constants.SHOW_CART_KEY)}`
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)}`
+
+    for (let i = 0; i < recentOrders.length; i++) {
+      const lineItem = recentOrders[i].lineItems[0]
+      if (lineItem.image) {
+        messageBlock.payload.unshift({
+          componentType: 'image',
+          fileurl: lineItem.image.originalSrc,
+          caption: `${lineItem.name}\nQuantity: ${lineItem.quantity}\nOrder number: ${recentOrders[i].name}`
+        })
+      }
+    }
+
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to get recent orders'
+    logger.serverLog(message, `${TAG}: exports.getRecentOrdersBlock`, {}, {}, 'error')
+    throw new Error(`${constants.ERROR_INDICATOR}Unable to get recent orders.`)
   }
 }
 

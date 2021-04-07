@@ -76,6 +76,7 @@ module.exports = function (app) {
   app.use('/api/bigcommerce', require('./api/v1.1/bigcommerce'))
   app.use('/api/attachment', require('./api/v1.1/attachment'))
   app.use('/api/airlines', require('./api/v1.1/airlinesChatbot'))
+  app.use('/api/messageAlerts', require('./api/v1.1/messageAlerts'))
   app.use('/api/companyPreferences', require('./api/v1.1/companyPreferences'))
   app.use('/api/fbshops', require('./api/v1.1/facebookshops'))
   app.options('/api/supernumber/fetchWidgetInfo', require('cors')())
