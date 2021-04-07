@@ -12,6 +12,7 @@ const { thankYouPageOptinStyle } = require('./styling')
 const kiboCompanyId = window.__kibocompany__
 const kiboDomain = window.__kibodomain__
 const urlForSubmission = `${kiboDomain}/api/supernumber/storeOptinNumberFromWidget`
+const urlForOrderNotification = `${kiboDomain}/api/shopify/newOrderFromWidget`
 
 function initOptinWidget ({optin_widget: optinWidget, ...kiboBasicSetup}) {
   if (!utils.cookieExists('kiboOptinReceived')) {
@@ -31,6 +32,8 @@ function initOptinWidget ({optin_widget: optinWidget, ...kiboBasicSetup}) {
       utils.getCurrentPage() === 'thankyouPage') {
       setupThankYouOptin()
     }
+  } else if (utils.getCurrentPage() === 'thankyouPage') {
+    setupOrderConfirmationFlow(optinWidget)
   }
 }
 
@@ -125,6 +128,7 @@ function setupThankYouOptin () {
             utils.setCookie('kiboOptinId', respBody.payload._id, 1)
             _.kibosection.style.display = 'none'
             _.kibosection.style.visibility = 'hidden'
+            setupOrderConfirmationFlow()
             console.log('Done and sent thank you optin')
           }
         }
@@ -139,6 +143,27 @@ function setupThankYouOptin () {
     eventObjects
   })
   kiboSection.build()
+}
+
+function setupOrderConfirmationFlow () {
+  const orderNumber = document.querySelector('[class="os-order-number"]').innerHTML.trim().split(' ')[1]
+
+  if (utils.cookieExists('kiboOptinId')) {
+    const HttpForOptinSubmission = new XMLHttpRequest()
+    HttpForOptinSubmission.open('POST', urlForOrderNotification)
+    HttpForOptinSubmission.setRequestHeader('Content-Type', 'application/json')
+    HttpForOptinSubmission.send(JSON.stringify({
+      companyId: kiboCompanyId,
+      contactId: utils.readCookie('kiboOptinId'),
+      orderId: orderNumber
+    }))
+
+    HttpForOptinSubmission.onreadystatechange = function (e) {
+      if (this.readyState === 4 && this.status === 200) {
+        console.log('order notification sent')
+      }
+    }
+  }
 }
 
 // utils related to this module only

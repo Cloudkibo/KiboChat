@@ -182,7 +182,7 @@ exports.delete = async function (req, res) {
               if (err && err.errors && err.errors[0]) {
                 errorMessage = err.errors[0].message
               }
-              const message = error || 'Failed to delete messageBlock'
+              const message = err || 'Failed to delete messageBlock'
               logger.serverLog(message, `${TAG}: exports.delete`, req.body, {user: req.user}, 'error')
               return res.status(500).json({ status: 'failed', description: errorMessage })
             } else {
@@ -203,7 +203,7 @@ exports.delete = async function (req, res) {
     if (err && err.errors && err.errors[0]) {
       errorMessage = err.errors[0].message
     }
-    const message = error || 'Failed to delete messageBlock'
+    const message = err || 'Failed to delete messageBlock'
     logger.serverLog(message, `${TAG}: exports.delete`, req.body, {user: req.user}, 'error')
     return res.status(500).json({ status: 'failed', description: errorMessage })
   }

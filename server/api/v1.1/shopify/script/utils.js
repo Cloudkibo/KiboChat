@@ -136,7 +136,13 @@ function setCookie (cname, cvalue, exdays) {
   var d = new Date()
   d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000))
   var expires = 'expires=' + d.toUTCString()
-  document.cookie = cname + '=' + cvalue + ';' + expires + ';'
+  document.cookie = cname + '=' + cvalue + ';' + expires + '; path=/'
+}
+
+function readCookie (name) {
+  return document.cookie.split(';')
+    .find(item => item.trim().includes(`${name}=`))
+    .split('=')[1]
 }
 
 function _converToOtherTimeZone (timezoneOffset) {
@@ -254,6 +260,7 @@ exports.getEdgeBasedOnDevice = getEdgeBasedOnDevice
 exports.getCurrentPage = getCurrentPage
 exports.cookieExists = cookieExists
 exports.setCookie = setCookie
+exports.readCookie = readCookie
 exports.getStoresLocalTime = getStoresLocalTime
 exports.isSupportOpen = isSupportOpen
 exports.storeClickCount = storeClickCount
