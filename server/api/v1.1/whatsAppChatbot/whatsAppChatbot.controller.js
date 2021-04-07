@@ -64,13 +64,13 @@ exports.update = async (req, res) => {
   try {
     let updatedChatbot = await dataLayer.updateWhatsAppChatbot(req.body.query, req.body.updated)
     sendSuccessResponse(res, 200, updatedChatbot, 'WhatsApp chatbot updated successfully')
-    if (req.body.botLinks && req.body.botLinks.faqs) {
-      if (updatedChatbot.vertical === 'commerce') {
-        commerceChatbotLogicLayer.updateFaqsForStartingBlock(updatedChatbot)
-      } else if (this.updatedChatbot.vertical === 'airlines') {
-        airlinesChatbotLogicLayer.updateFaqsForStartingBlock(updatedChatbot)
-      }
-    }
+    // if (req.body.botLinks && req.body.botLinks.faqs) {
+    //   if (updatedChatbot.vertical === 'commerce') {
+    //     commerceChatbotLogicLayer.updateFaqsForStartingBlock(updatedChatbot)
+    //   } else if (this.updatedChatbot.vertical === 'airlines') {
+    //     airlinesChatbotLogicLayer.updateFaqsForStartingBlock(updatedChatbot)
+    //   }
+    // }
   } catch (err) {
     const message = err || 'Failed to update WhatsApp chatbot'
     logger.serverLog(message, `${TAG}: exports.update`, req.body, { user: req.user }, 'error')

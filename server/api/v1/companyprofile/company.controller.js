@@ -304,8 +304,12 @@ const _checkTwilioVersion = (data, next) => {
   if (data.body.provider === 'twilio') {
     whatsAppMapper(data.body.provider, ActionTypes.CHECK_TWILLO_VERSION, data.body)
       .then(response => {
-        if (response.body.type === 'Trial' && !data.isSuperUser) {
+        let businessNumbers = response.businessNumbers
+        response = response.twilioVersionResponse
+        if (response.body.type === 'Trial' && !data.body.sandBoxCode) {
           next(new Error('This is a trial account. Please connect a paid version of Twilio account.'))
+        } else if (response.body.type === 'full' && !businessNumbers.includes(data.body.businessNumber)) {
+          next(new Error('Please add correct whatsapp business number'))
         } else {
           next(null, data)
         }
@@ -377,7 +381,11 @@ exports.updatePlatformWhatsApp = function (req, res) {
           _setWebhook.bind(null, data)
         ], function (err) {
           if (err) {
-            if (err.message && (err.message.includes('trial account') || err.message.includes('invalid Flock send access token') || err.message.includes('Twilio account not found'))) {
+            if (err.message && (err.message.includes('trial account') ||
+            err.message.includes('invalid Flock send access token') ||
+            err.message.includes('Twilio account not found') ||
+            err.message.includes('incorrect credentials')
+            )) {
             } else {
               const message = err || 'error in async series call'
               logger.serverLog(message, `${TAG}: exports.updatePlatformWhatsApp`, req.body, { user: req.user }, 'error')
@@ -397,6 +405,23 @@ exports.updatePlatformWhatsApp = function (req, res) {
       sendErrorResponse(res, 500, `Failed to fetch company ${err}`)
     })
 }
+
+exports.setWhatsappSuperNumberPlan = async function (req, res) {
+  try {
+    const result = await utility.callApi('companyprofile/setWhatsappSuperNumberPlan', 'get', null, 'accounts', req.headers.authorization)
+
+    await utility.callApi(`user/update`, 'post', {query: {_id: req.user._id}, newPayload: {$set: {platform: 'whatsApp'}}})
+
+    sendSuccessResponse(res, 200, result)
+  } catch (err) {
+    const message = err || 'error in setting whatsapp super number plan'
+
+    logger.serverLog(message, `${TAG}: exports.setWhatsappSuperNumberPlan`, {}, {user: req.user}, 'error')
+
+    sendErrorResponse(res, 500, err)
+  }
+}
+
 exports.disconnect = function (req, res) {
   utility.callApi(`companyprofile/query`, 'post', {ownerId: req.user._id})
     .then(company => {

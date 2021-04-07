@@ -123,7 +123,7 @@ exports.index = function (req, res) {
 }
 
 function saveLiveChat (page, subscriber, event, chatPayload) {
-  // record('messengerChatInComing')
+  record('messengerChatInComing')
   if (subscriber && !event.message.is_echo) {
     botController.respondUsingBot(page, subscriber, event.message.text)
   }
@@ -531,9 +531,12 @@ const _prepareSubscriberUpdatePayload = (event, subscriber, company) => {
       $set: {
         last_activity_time: Date.now(),
         pendingResponse: true,
-        lastMessagedAt: Date.now(),
-        status: subscriber.status === 'resolved' ? 'new' : subscriber.status
+        pendingAt: new Date(),
+        lastMessagedAt: Date.now()
       }
+    }
+    if (subscriber.status === 'resolved') {
+      updated['$set'] = {...updated.$set, status: 'new', openedAt: new Date()}
     }
   }
   return updated

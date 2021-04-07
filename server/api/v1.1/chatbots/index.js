@@ -5,6 +5,7 @@ const validate = require('express-jsonschema').validate
 
 const controller = require('./chatbots.controller')
 const validationSchema = require('./validationSchema')
+const attachBuyerInfo = require('./../../global/middleware').attachBuyerInfo
 
 router.post('/',
   auth.isAuthenticated(),
@@ -16,12 +17,14 @@ router.post('/commerceChatbot',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer('write'),
   validate({ body: validationSchema.createCommercePayload }),
+  attachBuyerInfo(),
   controller.createCommerceChatbot)
 
 router.put('/commerceChatbot',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer('write'),
   validate({ body: validationSchema.updatePayload }),
+  attachBuyerInfo(),
   controller.updateCommerceChatbot)
 
 router.get('/commerceChatbotTriggers/:chatbotId',

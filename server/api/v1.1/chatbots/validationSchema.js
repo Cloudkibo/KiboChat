@@ -37,6 +37,9 @@ exports.updatePayload = {
     },
     fallbackReplyEnabled: {
       type: 'boolean'
+    },
+    dialogFlowAgentId: {
+      type: 'string'
     }
   }
 }

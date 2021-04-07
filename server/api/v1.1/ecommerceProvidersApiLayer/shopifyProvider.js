@@ -10,6 +10,7 @@ exports.fetchStoreInfo = (credentials) => {
           name: shop.name,
           domain: shop.domain,
           currency: shop.currency,
+          timezone: shop.timezone,
           type: 'shopify'
         })
       })
@@ -40,11 +41,13 @@ exports.fetchAllProductCategories = (paginationParams, credentials) => {
   })
 }
 
-exports.fetchProductsInThisCategory = (id, paginationParams, credentials) => {
+exports.fetchProductsInThisCategory = (id, paginationParams, numberOfProducts, credentials) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
-    paginationParams = paginationParams || { limit: 9 }
-    paginationParams.collection_id = id
+    paginationParams = paginationParams || { limit: numberOfProducts }
+    if (!paginationParams.page_info) {
+      paginationParams.collection_id = id
+    }
     shopify.product.list(paginationParams)
       .then(products => {
         let nextPageParameters = products.nextPageParameters
@@ -68,10 +71,10 @@ exports.fetchProductsInThisCategory = (id, paginationParams, credentials) => {
   })
 }
 
-exports.fetchProducts = (paginationParams, credentials) => {
+exports.fetchProducts = (paginationParams, numberOfProducts, credentials) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
-    paginationParams = paginationParams || { limit: 9 }
+    paginationParams = paginationParams || { limit: numberOfProducts }
     shopify.product.list(paginationParams)
       .then(products => {
         let nextPageParameters = products.nextPageParameters
@@ -144,10 +147,10 @@ exports.searchProducts = (searchQuery, credentials) => {
   })
 }
 
-exports.getProductVariants = (id, paginationParams, credentials) => {
+exports.getProductVariants = (id, paginationParams, numberOfProducts, credentials) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
-    paginationParams = paginationParams || { limit: 9 }
+    paginationParams = paginationParams || { limit: numberOfProducts }
     shopify.productVariant.list(id, paginationParams)
       .then(async products => {
         let nextPageParameters = products.nextPageParameters
@@ -160,7 +163,7 @@ exports.getProductVariants = (id, paginationParams, credentials) => {
           }
           if (product.image_id) {
             let image = await shopify.productImage.get(product.product_id, product.image_id)
-            variantPayload.image_url = image.src
+            variantPayload.image = image.src
           }
           return variantPayload
         }))
@@ -168,6 +171,19 @@ exports.getProductVariants = (id, paginationParams, credentials) => {
           products.nextPageParameters = nextPageParameters
         }
         resolve(products)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
+exports.getOrderStatusByRest = (id, credentials) => {
+  const shopify = initShopify(credentials)
+  return new Promise(function (resolve, reject) {
+    shopify.order.get(id)
+      .then(order => {
+        resolve(order)
       })
       .catch(err => {
         reject(err)
@@ -183,6 +199,7 @@ exports.getOrderStatus = (id, credentials) => {
         node {
           id
           name
+          cancelReason
           billingAddress {
             id
             name
@@ -207,6 +224,7 @@ exports.getOrderStatus = (id, credentials) => {
           }
           displayFinancialStatus
           email
+          tags
           fulfillments {
             id
             trackingInfo {
@@ -245,6 +263,12 @@ exports.getOrderStatus = (id, credentials) => {
                   id
                 }
                 name
+                originalTotalSet {
+                  presentmentMoney {
+                    amount
+                    currencyCode
+                  }
+                }
               }
             }
           }
@@ -277,7 +301,9 @@ exports.getOrderStatus = (id, credentials) => {
               variant_title: lineItem.node.variant_title,
               vendor: lineItem.node.vendor,
               product: lineItem.node.product,
-              name: lineItem.node.name
+              name: lineItem.node.name,
+              price: lineItem.node.originalTotalSet.presentmentMoney.amount,
+              currency: lineItem.node.originalTotalSet.presentmentMoney.currencyCode
             }
           })
         }
@@ -378,6 +404,24 @@ exports.createCustomer = (firstName, lastName, email, credentials) => {
   })
 }
 
+exports.updateOrderTag = (orderId, tags, credentials) => {
+  const shopify = initShopify(credentials)
+  const params = {
+    tags
+  }
+  return new Promise(function (resolve, reject) {
+    shopify.order.update(orderId, params)
+      .then(order => {
+        let response = {status: 'success', payload: order}
+        resolve(response)
+      })
+      .catch(err => {
+        let errResponse = {status: 'failed', payload: err}
+        reject(errResponse)
+      })
+  })
+}
+
 exports.findCustomerOrders = (customerId, limit, credentials) => {
   const shopify = initShopify(credentials)
   const query = `{
@@ -385,11 +429,19 @@ exports.findCustomerOrders = (customerId, limit, credentials) => {
       edges {
         node {
           id
-          orders(first: 10) {
+          orders(first: 10, reverse: true) {
             edges {
               node {
                 id
                 name
+                cancelReason
+                createdAt
+                totalPriceSet {
+                  presentmentMoney {
+                    amount
+                    currencyCode
+                  }
+                }
                 lineItems(first: 1) {
                   edges {
                     node {
@@ -398,6 +450,12 @@ exports.findCustomerOrders = (customerId, limit, credentials) => {
                       quantity
                       image {
                         originalSrc
+                      }
+                      originalTotalSet {
+                        presentmentMoney {
+                          amount
+                          currencyCode
+                        }
                       }
                     }
                   }
@@ -486,12 +544,13 @@ exports.createPermalinkForCart = (customer, lineItems, credentials) => {
   return permaLink
 }
 
-exports.createTestOrder = (customer, lineItems, credentials) => {
+exports.createTestOrder = (customer, lineItems, address, credentials) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
     shopify.order.create({
-      financial_status: 'partially_paid', // 'pending',
+      financial_status: 'pending',
       line_items: lineItems,
+      send_receipt: true,
       customer: {
         id: customer.id
       },
@@ -501,7 +560,10 @@ exports.createTestOrder = (customer, lineItems, credentials) => {
           status: 'success',
           amount: 1.0
         }
-      ]
+      ],
+      billing_address: address,
+      shipping_address: address,
+      inventory_behaviour: 'decrement_obeying_policy'
     })
       .then(order => {
         resolve(order)
@@ -560,12 +622,22 @@ exports.completeCheckout = (cartToken, credentials) => {
   })
 }
 
-exports.cancelAnOrder = (orderId, credentials) => {
+exports.cancelAnOrder = (id, credentials) => {
   const shopify = initShopify(credentials)
   return new Promise(function (resolve, reject) {
-    shopify.order.cancel(orderId)
-      .then(result => {
-        resolve(result)
+    const params = {
+      reason: 'customer',
+      email: true
+    }
+    shopify.order.cancel(id, params)
+      .then(order => {
+        order = {
+          id: order.id,
+          email: order.email,
+          name: order.name,
+          confirmed: order.confirmed
+        }
+        resolve(order)
       })
       .catch(err => {
         reject(err)
@@ -618,4 +690,143 @@ function initShopify (credentials) {
     apiVersion: '2019-07'
   })
   return shopify
+}
+
+exports.fetchAbandonedCart = (token, credentials) => {
+  const shopify = initShopify(credentials)
+  return new Promise(function (resolve, reject) {
+    if (token) {
+      shopify.checkout.get(token)
+        .then(result => {
+          resolve(result)
+        })
+        .catch(err => {
+          reject(err)
+        })
+    } else {
+      throw new Error('token is required to complete to get checkout details')
+    }
+  })
+}
+
+exports.fetchCheckoutsCount = (credentials) => {
+  const shopify = initShopify(credentials)
+  return new Promise(function (resolve, reject) {
+    shopify.checkout.count({status: 'any'})
+      .then(count => {
+        resolve(count)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
+exports.fetchCheckouts = (limit, paginationParams, credentials) => {
+  const shopify = initShopify(credentials)
+  return new Promise(function (resolve, reject) {
+    paginationParams = paginationParams || { limit: limit, status: 'any' }
+    shopify.checkout.list(paginationParams)
+      .then(checkouts => {
+        let nextPageParameters = checkouts.nextPageParameters
+        checkouts = checkouts.map(checkout => {
+          let url = checkout.abandoned_checkout_url.split('.com')
+          let payload = {
+            checkoutId: checkout.id,
+            token: checkout.token,
+            cart_token: checkout.cart_token,
+            customerName: getCustomerName(checkout),
+            totalPrice: checkout.total_price,
+            currency: checkout.currency,
+            created_at: checkout.created_at,
+            updated_at: checkout.updated_at,
+            abandoned_checkout_url: checkout.abandoned_checkout_url,
+            checkout_admin_url: `${url[0]}.com/admin/checkouts/${checkout.id}`,
+            customerNumber: checkout.phone ? checkout.phone : checkout.customer ? checkout.customer.phone : null,
+            tags: checkout.tags
+          }
+          return payload
+        })
+        if (nextPageParameters) {
+          checkouts.nextPageParameters = nextPageParameters
+        }
+        resolve(checkouts)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
+exports.fetchOrdersCount = (credentials) => {
+  const shopify = initShopify(credentials)
+  return new Promise(function (resolve, reject) {
+    shopify.order.count({status: 'any'})
+      .then(orders => {
+        resolve(orders)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
+exports.fetchOrders = (limit, paginationParams, credentials) => {
+  const shopify = initShopify(credentials)
+  return new Promise(function (resolve, reject) {
+    paginationParams = paginationParams || { limit: limit, status: 'any' }
+    shopify.order.list(paginationParams)
+      .then(orders => {
+        let nextPageParameters = orders.nextPageParameters
+        orders = orders.map(order => {
+          let orderStatusUrl = order.order_status_url.split('.com')
+          let payload = {
+            orderNumber: order.order_number,
+            createdAt: order.created_at,
+            customerName: getCustomerName(order),
+            totalPrice: order.total_price,
+            currency: order.currency,
+            financialStatus: order.financial_status,
+            fulfillmentStatus: order.fulfillment_status,
+            orderAdminUrl: `${orderStatusUrl[0]}.com/admin/orders/${order.id}`,
+            orderStatusUrl: order.order_status_url,
+            customerNumber: order.phone ? order.phone : order.customer ? order.customer.phone : null,
+            tags: order.tags
+          }
+          payload = getTrackingDetails(payload, order.fulfillments)
+          return payload
+        })
+        if (nextPageParameters) {
+          orders.nextPageParameters = nextPageParameters
+        }
+        resolve(orders)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
+function getCustomerName (order) {
+  let name = 'No Customer'
+  if (order.customer) {
+    name = order.customer.first_name + ' ' + order.customer.last_name
+  } else if (order.shipping_address && order.shipping_address.name) {
+    name = order.shipping_address.name
+  } else if (order.billing_address && order.billing_address.name) {
+    name = order.billing_address.name
+  }
+  return name
+}
+
+function getTrackingDetails (payload, fulfillments) {
+  if (fulfillments.length > 0) {
+    for (let i = 0; i < fulfillments.length; i++) {
+      if (fulfillments[i].tracking_number && fulfillments[i].tracking_url) {
+        payload.trackingId = fulfillments[i].tracking_number
+        payload.trackingUrl = fulfillments[i].tracking_url
+      }
+    }
+  }
+  return payload
 }

@@ -43,3 +43,22 @@ We need to set the following variables: (Just copy paste and then change the val
 Now, run the following command to install dependencies:
 
     npm install
+
+#### Shopify Super Number Plugins
+
+Shopify Super Number plugin code is built using webpack. It has been written in ES6 modules so a bundler like webpack will bundle them into one single file that we can send to shopify as a script file.
+
+Please run following build command whenever you do any change in Shopify plugin files in directory `server/api/v1.1/shopify/script`
+
+    npm run build
+
+This will build the final shopify script that is being served to Shopify. In order to run the above script on production server, first install the webpack on production server. (This is done one time only when setting up new production droplet):
+
+    npm install -g webpack
+    npm install -g webpack-cli
+
+When working in development mode, instead of doing `npm run build` each time you make change, just run the following command to start the file watcher of webpack.
+
+    npm run start:shopify:watch
+
+This will keep building automatically based on your changes in widget script files.

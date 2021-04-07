@@ -54,6 +54,14 @@ exports.index = function (req, res) {
   }
 }
 
+const isUnverfiedTwilioNumber = function (err) {
+  if (err && err.message && err.message.includes('unverified numbers')) {
+    return true
+  } else {
+    return false
+  }
+}
+
 exports.create = function (req, res) {
   callApi(`companyUser/query`, 'post', { domain_email: req.user.domain_email, populate: 'companyId' })
     .then(companyUser => {
@@ -124,10 +132,14 @@ exports.create = function (req, res) {
             }
           })
         })
-        .catch(error => {
-          const message = error || 'Failed to send twilio message'
-          logger.serverLog(message, `${TAG}: exports.create`, req.body, {params: req.params, user: req.user}, 'error')
-          sendErrorResponse(res, 500, `Failed to send message ${JSON.stringify(error)}`)
+        .catch(err => {
+          const message = err || 'Failed to send twilio message'
+          if (!isUnverfiedTwilioNumber(err)) {
+            logger.serverLog(message, `${TAG}: exports.create`, req.body, {params: req.params, user: req.user}, 'error')
+            sendErrorResponse(res, 500, `Failed to send message ${JSON.stringify(err)}`)
+          } else {
+            sendErrorResponse(res, 500, 'Please verify your number on Twilio Trail account before sending messages.')
+          }
         })
     })
     .catch(error => {

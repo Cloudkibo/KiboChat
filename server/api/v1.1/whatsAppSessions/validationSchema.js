@@ -115,3 +115,19 @@ exports.changeStatusPayload = {
     'status'
   ]
 }
+
+exports.updatePauseChatbotPayload = {
+  'type': 'object',
+  'properties': {
+    'subscriberId': {
+      'type': 'string'
+    },
+    'chatbotPaused': {
+      'type': 'boolean'
+    }
+  },
+  'required': [
+    'subscriberId',
+    'chatbotPaused'
+  ]
+}

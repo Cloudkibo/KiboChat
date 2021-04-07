@@ -36,6 +36,7 @@ module.exports = {
   DBLAYER_URL_KIBOENGAGE: `http://localhost:3031/api/v1`,
   ACCOUNTS_URL: 'http://localhost:3024/api/v1',
   KIBOENGAGE_URL: 'http://localhost:3021/api',
+  KIBOAUTOMATION_URL: 'http://localhost:3050/api',
   kibodash: `http://localhost:5050/api/v1`,
   accountsDomain: 'http://localhost:3024',
   COVIS: 'http://localhost:8080/api',
@@ -43,4 +44,5 @@ module.exports = {
   zoomClientSecret: 'ztyfVthdSe09OtTMO3Nl1dEtZXVdwVTN',
   zoomRedirectUri: 'https://kibopush-zoom.ngrok.io/auth/zoom/callback',
   papertrail_log_levels: ''
+  // PLEASE DON'T DEFINE DIALOGFLOW OAUTH VARIABLES HERE. THEY ARE ALREADY DEFINED IN INDEX.JS
 }

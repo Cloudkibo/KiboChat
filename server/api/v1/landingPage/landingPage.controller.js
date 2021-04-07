@@ -123,21 +123,11 @@ exports.create = function (req, res) {
 }
 
 exports.delete = function (req, res) {
-  utility.callApi(`landingPage/query`, 'post', {_id: req.params.id})
+  utility.callApi(`landingPage/query`, 'post', {_id: req.params.id, companyId: req.user.companyId})
     .then(landingPages => {
       let landingPage = landingPages[0]
       utility.callApi(`landingPage/landingPageState/${landingPage.initialState}`, 'delete', {})
         .then(result => {
-          if (landingPage.submittedState && landingPage.submittedState.state) {
-            utility.callApi(`landingPage/landingPageState/${landingPage.submittedState.state}`, 'delete', {})
-              .then(result => {
-              })
-              .catch(error => {
-                const message = error || 'error in create landing page'
-                logger.serverLog(message, `${TAG}: exports.create`, req.body, { user: req.user }, 'error')
-                return res.status(500).json({status: 'failed', payload: `Failed to delete landingPageState ${JSON.stringify(error)}`})
-              })
-          }
           utility.callApi(`landingPage/${req.params.id}`, 'delete', {})
             .then(result => {
               return res.status(200).json({status: 'success', payload: result})

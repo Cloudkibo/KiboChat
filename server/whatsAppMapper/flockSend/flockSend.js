@@ -198,3 +198,7 @@ exports.sendTextMessage = ({text, company, subscriber}) => {
       })
   })
 }
+
+exports.getCommerceTemplates = (body) => {
+  return (logicLayer.prepareCommerceTemplates(body))
+}

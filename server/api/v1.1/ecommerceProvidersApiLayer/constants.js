@@ -1,5 +1,6 @@
 module.exports = {
   shopify: 'shopify',
   bigcommerce: 'bigcommerce',
-  woocommerce: 'woocommerce'
+  woocommerce: 'woocommerce',
+  shops: 'shops'
 }

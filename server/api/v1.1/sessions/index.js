@@ -75,6 +75,12 @@ router.post('/updatePendingResponse',
   validate({body: validationSchema.updatePendingResponsePayload}),
   controller.updatePendingResponse)
 
+router.post('/updatePauseChatbot',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
+  validate({body: validationSchema.updatePauseChatbotPayload}),
+  controller.updatePauseChatbot)
+
 router.post('/query',
   controller.genericFind)
 
