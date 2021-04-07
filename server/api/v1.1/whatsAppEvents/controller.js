@@ -80,12 +80,6 @@ exports.messageReceived = function (req, res) {
                         if (company.whatsApp && company.whatsApp.activeWhatsappBot) {
                           let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({_id: company.whatsApp.activeWhatsappBot})
                           if (chatbot && data.messageData.componentType === 'text') {
-                            if (data.messageData.text.toLowerCase() === 'notify-me') {
-                              require('../messageAlerts/utility').handleMessageAlertsSubscription('whatsApp', 'subscribe', contact, data, req.body.provider)
-                            }
-                            if (data.messageData.text.toLowerCase() === 'cancel-notify') {
-                              require('../messageAlerts/utility').handleMessageAlertsSubscription('whatsApp', 'unsubscribe', contact, data, req.body.provider)
-                            }
                             if (shouldAvoidSendingMessage) {
                               if (chatbot.triggers.includes(data.messageData.text.toLowerCase())) {
                                 let allowUserUnPause = await commerceChatbotLogicLayer.allowUserUnpauseChatbot(contact)
