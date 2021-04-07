@@ -1054,5 +1054,333 @@ exports.getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvide
   }
 }
 
+exports.getSearchProductsBlock = async (chatbot, contact) => {
+  try {
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'sms_commerce_chatbot'
+      },
+      title: 'Search Products',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Please enter the name or SKU code of the product you wish to search for:\n`,
+          componentType: 'text',
+          action: { type: constants.DYNAMIC, action: constants.DISCOVER_PRODUCTS, input: true }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable get search for products message block'
+    logger.serverLog(message, `${TAG}: getSearchProductsBlock`, {}, {chatbot, contact}, 'error')
+    throw new Error(`${constants.ERROR_INDICATOR}Unable get search for products message block`)
+  }
+}
+
+exports.getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, input, argument) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'sms_commerce_chatbot'
+      },
+      title: 'Discover Products',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: ``,
+          componentType: 'text',
+          menu: [],
+          specialKeys: {
+            [constants.SHOW_CART_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MY_CART },
+            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+
+    let products = []
+    const storeInfo = await EcommerceProvider.fetchStoreInfo()
+
+    if (input) {
+      products = await EcommerceProvider.searchProducts(input)
+
+      if (products.length > 0) {
+        messageBlock.payload[0].text = `These products were found for "${input}". Please select a product by sending the corresponding number for it or enter another product name or SKU code to search again:\n`
+      } else {
+        messageBlock.payload[0].text = `No products found that match "${input}".\n\nEnter another product name or SKU code to search again:`
+      }
+
+      messageBlock.payload[0].action = { type: constants.DYNAMIC, action: constants.DISCOVER_PRODUCTS, input: true }
+    } else {
+      products = await EcommerceProvider.fetchProducts(argument.paginationParams, chatbot.numberOfProducts)
+
+      if (products.length > 0) {
+        messageBlock.payload[0].text = `Please select a product by sending the corresponding number for it:\n`
+      } else {
+        messageBlock.payload[0].text = `No products were found using discover.`
+      }
+    }
+
+    for (let i = 0; i < products.length; i++) {
+      let product = products[i]
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${product.name}`
+      messageBlock.payload[0].menu.push({
+        type: constants.DYNAMIC, action: constants.PRODUCT_VARIANTS, argument: {product}
+      })
+    }
+
+    if (products.nextPageParameters) {
+      messageBlock.payload[0].text += `\n${convertToEmoji(products.length)} View More`
+      messageBlock.payload[0].menu.push({
+        type: constants.DYNAMIC, action: constants.DISCOVER_PRODUCTS, argument: {paginationParams: products.nextPageParameters}
+      })
+    }
+
+    messageBlock.payload[0].text += `\n\n${botUtils.specialKeyText(constants.SHOW_CART_KEY)}`
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)}`
+
+    // for (let i = products.length - 1; i >= 0; i--) {
+    //   let product = products[i]
+    //   if (product.image) {
+    //     messageBlock.payload.unshift({
+    //       componentType: 'image',
+    //       fileurl: product.image,
+    //       caption: `${convertToEmoji(i)} ${product.name}\nPrice: ${product.price} ${storeInfo.currency}`
+    //     })
+    //   }
+    // }
+
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to discover products'
+    logger.serverLog(message, `${TAG}: exports.getDiscoverProductsBlock`, {}, {}, 'error')
+    throw new Error(`${constants.ERROR_INDICATOR}Unable to discover products`)
+  }
+}
+
+exports.getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) => {
+  let userError = false
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'sms_commerce_chatbot'
+      },
+      title: 'Order Status',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Here is your order status for Order #${orderId}:\n`,
+          componentType: 'text',
+          specialKeys: {
+            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU },
+            'i': { type: constants.DYNAMIC, action: constants.GET_INVOICE, argument: orderId },
+            'o': { type: constants.DYNAMIC, action: constants.VIEW_RECENT_ORDERS }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    let orderStatus = await EcommerceProvider.checkOrderStatus(Number(orderId))
+    if (!orderStatus) {
+      userError = true
+      throw new Error('Unable to get order status. Please make sure your order ID is valid and that the order was placed within the last 60 days.')
+    }
+
+    let isOrderFulFilled = orderStatus.displayFulfillmentStatus.toLowerCase() === 'fulfilled'
+    if (!orderStatus.cancelReason && chatbot.cancelOrder) {
+      messageBlock.payload[0].specialKeys['x'] = { type: constants.DYNAMIC, action: constants.CANCEL_ORDER_CONFIRM, argument: { id: orderStatus.id, orderId, isOrderFulFilled } }
+    }
+
+    if (orderStatus.cancelReason) {
+      messageBlock.payload[0].text += `\n*Status*: CANCELED`
+    } else {
+      if (orderStatus.tags && orderStatus.tags.includes('cancel-request')) {
+        messageBlock.payload[0].text += `\n*Status*: Request Open for Cancelation `
+      }
+      if (orderStatus.displayFinancialStatus) {
+        messageBlock.payload[0].text += `\n*Payment*: ${orderStatus.displayFinancialStatus}`
+      }
+      if (orderStatus.displayFulfillmentStatus) {
+        messageBlock.payload[0].text += `\n*Delivery*: ${orderStatus.displayFulfillmentStatus}`
+      }
+    }
+    if (isOrderFulFilled && orderStatus.fulfillments) {
+      if (orderStatus.fulfillments[0]) {
+        let trackingDetails = orderStatus.fulfillments[0].trackingInfo && orderStatus.fulfillments[0].trackingInfo[0] ? orderStatus.fulfillments[0].trackingInfo[0] : null
+        if (trackingDetails) {
+          messageBlock.payload[0].text += `\n\n*Tracking Details*`
+          messageBlock.payload[0].text += `\n*Company*: ${trackingDetails.company}`
+          messageBlock.payload[0].text += `\n*Number*: ${trackingDetails.number}`
+          messageBlock.payload[0].text += `\n*Url*: ${trackingDetails.url && trackingDetails.url !== '' ? trackingDetails.url : utility.getTrackingUrl(trackingDetails)}`
+        }
+      }
+    }
+    if (orderStatus.lineItems) {
+      for (let i = 0; i < orderStatus.lineItems.length; i++) {
+        let product = orderStatus.lineItems[i]
+        if (i === 0) {
+          messageBlock.payload[0].text += `\n`
+        }
+        messageBlock.payload[0].text += `\n*Item*: ${product.name}`
+        messageBlock.payload[0].text += `\n*Quantity*: ${product.quantity}`
+        if (i + 1 < orderStatus.lineItems.length) {
+          messageBlock.payload[0].text += `\n`
+        }
+      }
+    }
+
+    let tempAddressBlock = null
+    if (orderStatus.shippingAddress) {
+      tempAddressBlock = orderStatus.shippingAddress
+    } else if (orderStatus.billingAddress) {
+      tempAddressBlock = orderStatus.billingAddress
+    }
+
+    messageBlock.payload[0].text += `\n\n*Shipping Address*: ${tempAddressBlock.address1}`
+    if (tempAddressBlock.address2) {
+      messageBlock.payload[0].text += `, ${tempAddressBlock.address2}`
+    }
+    if (tempAddressBlock.city) {
+      messageBlock.payload[0].text += `, ${tempAddressBlock.city}`
+    }
+    if (tempAddressBlock.province) {
+      messageBlock.payload[0].text += `, ${tempAddressBlock.province}`
+    }
+    if (tempAddressBlock.country) {
+      messageBlock.payload[0].text += `, ${tempAddressBlock.country}`
+    }
+
+    messageBlock.payload[0].text += `\n\nThis order was placed on ${new Date(orderStatus.createdAt).toDateString()}`
+
+    messageBlock.payload[0].text += `\n\n*I*   Get PDF Invoice`
+    messageBlock.payload[0].text += `\n*O*  View Recent Orders`
+
+    if (!orderStatus.cancelReason &&
+      !(orderStatus.displayFinancialStatus && orderStatus.displayFinancialStatus.includes('PAID')) &&
+      !(orderStatus.tags && orderStatus.tags.includes('cancel-request')) &&
+      chatbot.cancelOrder
+    ) {
+      messageBlock.payload[0].text += `\n*X*  Cancel Order`
+    }
+    if (orderStatus.displayFulfillmentStatus &&
+      orderStatus.displayFulfillmentStatus === 'FULFILLED' &&
+      orderStatus.displayFinancialStatus &&
+      orderStatus.displayFinancialStatus.includes('PAID') &&
+      !orderStatus.cancelReason &&
+      chatbot.returnOrder
+    ) {
+      messageBlock.payload[0].specialKeys['r'] = { type: constants.DYNAMIC, action: constants.CONFIRM_RETURN_ORDER, argument: orderId }
+      messageBlock.payload[0].text += `\n*R*  Request Return`
+    }
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)}`
+
+    for (let i = 0; i < orderStatus.lineItems.length; i++) {
+      let product = orderStatus.lineItems[i]
+      messageBlock.payload.unshift({
+        componentType: 'image',
+        fileurl: product.image.originalSrc,
+        caption: `${product.name}\nQuantity: ${product.quantity}`
+      })
+    }
+    return messageBlock
+  } catch (err) {
+    if (!userError) {
+      const message = err || 'Unable to get order status'
+      logger.serverLog(message, `${TAG}: exports.getOrderStatusBlock`, {}, {}, 'error')
+    }
+    if (err && err.message) {
+      throw new Error(`${constants.ERROR_INDICATOR}${err.message}`)
+    } else {
+      throw new Error(`${constants.ERROR_INDICATOR}Unable to get order status.`)
+    }
+  }
+}
+
+exports.getOrderIdBlock = (chatbot, contact, backId) => {
+  try {
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'sms_commerce_chatbot'
+      },
+      title: 'Get Order ID',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Please enter your order ID`,
+          componentType: 'text',
+          action: { type: constants.DYNAMIC, action: constants.ORDER_STATUS, input: true },
+          specialKeys: {
+            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU },
+            'o': { type: constants.DYNAMIC, action: constants.VIEW_RECENT_ORDERS }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    messageBlock.payload[0].text += `\n\n*O*  View Recent Orders`
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)}`
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable get search for products message block'
+    logger.serverLog(message, `${TAG}: getSearchProductsBlock`, {}, {chatbot, contact}, 'error')
+    throw new Error(`${constants.ERROR_INDICATOR}Unable to notify customer support agent`)
+  }
+}
+
+exports.getCheckOrdersBlock = (chatbot, contact) => {
+  try {
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'sms_commerce_chatbot'
+      },
+      title: 'Check Orders',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: dedent(`Please select an option by sending the corresponding number for it:\n
+                      ${convertToEmoji(0)} View recently placed orders
+                      ${convertToEmoji(1)} Check order status for a specific order id\n
+                      ${botUtils.specialKeyText(constants.SHOW_CART_KEY)}
+                      ${botUtils.specialKeyText(constants.HOME_KEY)}`),
+          componentType: 'text',
+          menu: [
+            { type: constants.DYNAMIC, action: constants.VIEW_RECENT_ORDERS },
+            { type: constants.DYNAMIC, action: constants.ASK_ORDER_ID }
+          ],
+          specialKeys: {
+            [constants.SHOW_CART_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MY_CART },
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable get check orders message block'
+    logger.serverLog(message, `${TAG}: getCheckOrdersBlock`, {}, {chatbot, contact}, 'error')
+    throw new Error(`${constants.ERROR_INDICATOR}Unable get check orders message block`)
+  }
+}
+
 exports.getShowMyCartBlock = getShowMyCartBlock
 exports.getSelectProductBlock = getSelectProductBlock
