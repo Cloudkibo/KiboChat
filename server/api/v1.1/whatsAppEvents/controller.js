@@ -59,6 +59,14 @@ exports.messageReceived = function (req, res) {
                           _sendEvent(company._id, contact)
                           pushSessionPendingAlertInStack(company, contact, 'whatsApp')
                         }
+                        if (data.messageData.componentType === 'text') {
+                          if (data.messageData.text.toLowerCase() === 'notify-me') {
+                            require('../messageAlerts/utility').handleMessageAlertsSubscription('whatsApp', 'subscribe', contact, data, req.body.provider)
+                          }
+                          if (data.messageData.text.toLowerCase() === 'cancel-notify') {
+                            require('../messageAlerts/utility').handleMessageAlertsSubscription('whatsApp', 'unsubscribe', contact, data, req.body.provider)
+                          }
+                        }
                         const shouldAvoidSendingMessage = await shouldAvoidSendingAutomatedMessage(contact, company, data)
                         if (company._id === '5a89ecdaf6b0460c552bf7fe') {
                           // NOTE: This if condition is temporary testing code for
@@ -805,4 +813,3 @@ function sendWhatsAppMessageLogic (messagePayload, data, number, company, contac
 }
 
 exports.storeChat = storeChat
-exports.sendWhatsAppMessage = sendWhatsAppMessage
