@@ -8,23 +8,6 @@ const TAG = 'api/v1️.1/configureChatbot/commerceChatbot.logiclayer.js'
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
 const botUtils = require('./commerceChatbot.utils')
 
-function specialKeyText (key) {
-  switch (key) {
-    case constants.TALK_TO_AGENT_KEY:
-      return `*${key.toUpperCase()}*  Talk to a customer support agent`
-    case constants.FAQS_KEY:
-      return `*${key.toUpperCase()}*  View FAQs`
-    case constants.SHOW_CART_KEY:
-      return `*${key.toUpperCase()}*  View your cart`
-    case constants.ORDER_STATUS_KEY:
-      return `*${key.toUpperCase()}*  Check order status`
-    case constants.BACK_KEY:
-      return `*${key.toUpperCase()}*  Go back`
-    case constants.HOME_KEY:
-      return `*${key.toUpperCase()}*  Go home`
-  }
-}
-
 exports.getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, argument, userInput) => {
   let userError = false
   try {
@@ -240,8 +223,14 @@ exports.getWelcomeMessageBlock = async (chatbot, contact, ecommerceProvider) => 
   welcomeMessage += ` Greetings from ${storeInfo.name} ${chatbot.integration} chatbot 🤖😀`
 
   welcomeMessage += `\n\nI am here to guide you on your journey of shopping on ${storeInfo.name}\n\n`
-  welcomeMessage += 'Please select an option to let me know what you would like to do? (i.e. send “1” to View products on sale):\n\n0️⃣ Browse all categories\n1️⃣ View products on sale\n2️⃣ Search for a product\n3️⃣ View Catalog\n\n*O*  Check order status\n*C*  View your cart\n*T*  Talk to a customer support agent'
-
+  welcomeMessage += dedent(`Please select an option to let me know what you would like to do? (i.e. send “1” to View products on sale):\n
+  ${convertToEmoji(0)} Browse all categories
+  ${convertToEmoji(1)} View products on sale
+  ${convertToEmoji(2)} Search for a product
+  ${convertToEmoji(3)} View Catalog`)
+  welcomeMessage += `\n\n${botUtils.specialKeyText(constants.ORDER_STATUS_KEY)}`
+  welcomeMessage += `\n${botUtils.specialKeyText(constants.SHOW_CART_KEY)}`
+  welcomeMessage += `\n${botUtils.specialKeyText(constants.TALK_TO_AGENT_KEY)}`
   const messageBlock = {
     module: {
       id: chatbot._id,
@@ -346,8 +335,8 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
         }
       }
     }
-    messageBlock.payload[0].text += `\n\n${specialKeyText(constants.BACK_KEY)}`
-    messageBlock.payload[0].text += `\n${specialKeyText(constants.HOME_KEY)}`
+    messageBlock.payload[0].text += `\n\n${botUtils.specialKeyText(constants.BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)}`
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to show cart'
@@ -438,7 +427,7 @@ exports.confirmClearCart = (chatbot, contact) => {
     companyId: chatbot.companyId
   }
 
-  messageBlock.payload[0].text += `\n\n${specialKeyText(constants.HOME_KEY)}`
+  messageBlock.payload[0].text += `\n\n${botUtils.specialKeyText(constants.HOME_KEY)}`
   return messageBlock
 }
 
@@ -454,7 +443,7 @@ exports.clearCart = async (chatbot, contact) => {
       payload: [
         {
           text: dedent(`Your cart is now empty.\n
-  ${specialKeyText(constants.HOME_KEY)} `),
+  ${botUtils.specialKeyText(constants.HOME_KEY)} `),
           componentType: 'text',
           specialKeys: {
             [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
@@ -518,8 +507,8 @@ exports.getConfirmRemoveItemBlock = async (chatbot, backId, product) => {
                                             Send 'Y' for Yes
                                             Send 'N' for No`)
 
-    messageBlock.payload[0].text += `\n\n${specialKeyText(constants.BACK_KEY)}`
-    messageBlock.payload[0].text += `\n${specialKeyText(constants.HOME_KEY)}`
+    messageBlock.payload[0].text += `\n\n${botUtils.specialKeyText(constants.BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)}`
 
     if (product.image) {
       messageBlock.payload.unshift({
@@ -567,9 +556,9 @@ exports.getShowItemsToRemoveBlock = (chatbot, backId, contact) => {
       messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${product.product} `
       messageBlock.payload[0].menu.push({ type: constants.DYNAMIC, action: constants.CONFIRM_TO_REMOVE_CART_ITEM, argument: { ...product, productIndex: i } })
     }
-    messageBlock.payload[0].text += `\n\n${specialKeyText(constants.SHOW_CART_KEY)} `
-    messageBlock.payload[0].text += `\n${specialKeyText(constants.BACK_KEY)} `
-    messageBlock.payload[0].text += `\n${specialKeyText(constants.HOME_KEY)} `
+    messageBlock.payload[0].text += `\n\n${botUtils.specialKeyText(constants.SHOW_CART_KEY)} `
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.BACK_KEY)} `
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)} `
     for (let i = shoppingCart.length - 1; i >= 0; i--) {
       let product = shoppingCart[i]
       if (product.image) {

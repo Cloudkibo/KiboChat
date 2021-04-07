@@ -26,6 +26,7 @@ exports.handleCommerceChatbot = async function (company, message, contact) {
   if (ecommerceProvider) {
     nextMessageBlock = await getNextMessageBlock(chatbot, ecommerceProvider, contact, message, company)
   }
+  console.log('nextMessageBlock', nextMessageBlock)
   if (nextMessageBlock) {
     sendTextMessage(nextMessageBlock, contact, company._id)
     updateContact({ _id: contact._id }, {lastMessageSentByBot: nextMessageBlock}, null, {})
