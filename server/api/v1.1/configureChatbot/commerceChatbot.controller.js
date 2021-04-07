@@ -109,6 +109,10 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
             messageBlock = await commerceBotLogicLayer.getProductVariantsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, ecommerceProvider, action.argument)
             break
           }
+          case constants.SEARCH_PRODUCTS: {
+            messageBlock = await commerceBotLogicLayer.getSearchProductsBlock(chatbot, contact)
+            break
+          }
           case constants.DISCOVER_PRODUCTS: {
             messageBlock = await commerceBotLogicLayer.getDiscoverProductsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, ecommerceProvider, action.input ? input : '', action.argument ? action.argument : {})
             break
@@ -142,7 +146,19 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
             break
           }
           case constants.VIEW_RECENT_ORDERS: {
-            messageBlock = await commerceBotLogicLayer.getRecentOrdersBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, EcommerceProvider)
+            messageBlock = await commerceBotLogicLayer.getRecentOrdersBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, ecommerceProvider)
+            break
+          }
+          case constants.ORDER_STATUS: {
+            messageBlock = await commerceBotLogicLayer.getOrderStatusBlock(chatbot, contact.lastMessageSentByBot.uniqueId, ecommerceProvider, action.input ? input : action.argument)
+            break
+          }
+          case constants.ASK_ORDER_ID: {
+            messageBlock = await commerceBotLogicLayer.getOrderIdBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId)
+            break
+          }
+          case constants.CHECK_ORDERS: {
+            messageBlock = await commerceBotLogicLayer.getCheckOrdersBlock(chatbot, contact)
             break
           }
         }
@@ -152,7 +168,7 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
         if (chatbot.triggers.includes(input)) {
           return commerceBotLogicLayer.getWelcomeMessageBlock(chatbot, contact, ecommerceProvider)
         } else {
-          return commerceBotLogicLayer.invalidInput(chatbot, contact.lastMessageSentByBot, `${constants.ERROR_INDICATOR}You entered an invalid response.`)
+          return commerceBotLogicLayer.invalidInput(chatbot, contact.lastMessageSentByBot, err.message ? err.message : `${constants.ERROR_INDICATOR}You entered an invalid response.`)
         }
       }
     }
