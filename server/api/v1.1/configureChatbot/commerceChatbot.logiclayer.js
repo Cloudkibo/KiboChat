@@ -316,10 +316,10 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
         { type: constants.DYNAMIC, action: constants.CONFIRM_CLEAR_CART },
         { type: constants.DYNAMIC, action: constants.ASK_PAYMENT_METHOD })
       messageBlock.payload[0].text += dedent(`Please select an option by sending the corresponding number for it:\n
-                                            ${convertToEmoji(0)} Remove an item
-                                            ${convertToEmoji(1)} Update quantity for an item
-                                            ${convertToEmoji(2)} Clear cart
-                                            ${convertToEmoji(3)} Proceed to Checkout`)
+                                            ${botUtils.convertToEmoji(0)} Remove an item
+                                            ${botUtils.convertToEmoji(1)} Update quantity for an item
+                                            ${botUtils.convertToEmoji(2)} Clear cart
+                                            ${botUtils.convertToEmoji(3)} Proceed to Checkout`)
 
       // adding images of cart items to message
       for (let i = 0; i < shoppingCart.length; i++) {
