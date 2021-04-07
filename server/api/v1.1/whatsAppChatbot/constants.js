@@ -7,6 +7,7 @@ module.exports = {
   BACK_KEY: 'b',
   SHOW_CART_KEY: 'c',
   HOME_KEY: 'h',
+  GO_BACK: 'GO_BACK',
   SHOW_MAIN_MENU: 'SHOW_MAIN_MENU',
   TALK_TO_AGENT_KEY: 't',
   ERROR_INDICATOR: '\u200B',

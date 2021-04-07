@@ -28,7 +28,9 @@ exports.handleCommerceChatbot = async function (company, message, contact) {
   }
   if (nextMessageBlock) {
     sendTextMessage(nextMessageBlock, contact, company._id)
-    botUtils.updateSmsContact({ _id: contact._id }, {lastMessageSentByBot: nextMessageBlock}, null, {})
+    botUtils.updateSmsContact({ _id: contact._id },
+      {lastMessageSentByBot: nextMessageBlock, backMessageByBot: contact.lastMessageSentByBot},
+      null, {})
   }
 }
 
@@ -100,20 +102,24 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
       try {
         let messageBlock = null
         switch (action.action) {
+          case constants.GO_BACK: {
+            messageBlock = contact.backMessageByBot
+            break
+          }
           case constants.SHOW_MAIN_MENU: {
             messageBlock = await commerceBotLogicLayer.getWelcomeMessageBlock(chatbot, contact, ecommerceProvider)
             break
           }
           case constants.PRODUCT_CATEGORIES: {
-            messageBlock = await commerceBotLogicLayer.getProductCategoriesBlock(chatbot, contact.lastMessageSentByBot.uniqueId, ecommerceProvider, action.argument ? action.argument : {})
+            messageBlock = await commerceBotLogicLayer.getProductCategoriesBlock(chatbot, ecommerceProvider, action.argument ? action.argument : {})
             break
           }
           case constants.FETCH_PRODUCTS: {
-            messageBlock = await commerceBotLogicLayer.getProductsInCategoryBlock(chatbot, contact.lastMessageSentByBot.uniqueId, ecommerceProvider, action.argument)
+            messageBlock = await commerceBotLogicLayer.getProductsInCategoryBlock(chatbot, ecommerceProvider, action.argument)
             break
           }
           case constants.PRODUCT_VARIANTS: {
-            messageBlock = await commerceBotLogicLayer.getProductVariantsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, ecommerceProvider, action.argument)
+            messageBlock = await commerceBotLogicLayer.getProductVariantsBlock(chatbot, contact, ecommerceProvider, action.argument)
             break
           }
           case constants.SEARCH_PRODUCTS: {
@@ -121,43 +127,43 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
             break
           }
           case constants.DISCOVER_PRODUCTS: {
-            messageBlock = await commerceBotLogicLayer.getDiscoverProductsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, ecommerceProvider, action.input ? input : '', action.argument ? action.argument : {})
+            messageBlock = await commerceBotLogicLayer.getDiscoverProductsBlock(chatbot, ecommerceProvider, action.input ? input : '', action.argument ? action.argument : {})
             break
           }
           case constants.SELECT_PRODUCT: {
-            messageBlock = await commerceBotLogicLayer.getSelectProductBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument)
+            messageBlock = await commerceBotLogicLayer.getSelectProductBlock(chatbot, action.argument)
             break
           }
           case constants.ADD_TO_CART: {
-            messageBlock = await commerceBotLogicLayer.getAddToCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument, action.input ? input : '')
+            messageBlock = await commerceBotLogicLayer.getAddToCartBlock(chatbot, contact, action.argument, action.input ? input : '')
             break
           }
           case constants.SHOW_MY_CART: {
-            messageBlock = await commerceBotLogicLayer.getShowMyCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
+            messageBlock = await commerceBotLogicLayer.getShowMyCartBlock(chatbot, contact)
             break
           }
           case constants.SHOW_ITEMS_TO_UPDATE: {
-            messageBlock = await commerceBotLogicLayer.getShowItemsToUpdateBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
+            messageBlock = await commerceBotLogicLayer.getShowItemsToUpdateBlock(chatbot, contact)
             break
           }
           case constants.QUANTITY_TO_UPDATE: {
-            messageBlock = await commerceBotLogicLayer.getQuantityToUpdateBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument)
+            messageBlock = await commerceBotLogicLayer.getQuantityToUpdateBlock(chatbot, action.argument)
             break
           }
           case constants.UPDATE_CART: {
-            messageBlock = await commerceBotLogicLayer.getUpdateCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument, action.input ? input : '')
+            messageBlock = await commerceBotLogicLayer.getUpdateCartBlock(chatbot, contact, action.argument, action.input ? input : '')
             break
           }
           case constants.SHOW_ITEMS_TO_REMOVE: {
-            messageBlock = await commerceBotLogicLayer.getShowItemsToRemoveBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact)
+            messageBlock = await commerceBotLogicLayer.getShowItemsToRemoveBlock(chatbot, contact)
             break
           }
           case constants.REMOVE_FROM_CART: {
-            messageBlock = await commerceBotLogicLayer.getRemoveFromCartBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, action.argument)
+            messageBlock = await commerceBotLogicLayer.getRemoveFromCartBlock(chatbot, contact, action.argument)
             break
           }
           case constants.CONFIRM_TO_REMOVE_CART_ITEM: {
-            messageBlock = await commerceBotLogicLayer.getConfirmRemoveItemBlock(chatbot, contact.lastMessageSentByBot.uniqueId, action.argument)
+            messageBlock = await commerceBotLogicLayer.getConfirmRemoveItemBlock(chatbot, action.argument)
             break
           }
           case constants.CONFIRM_CLEAR_CART: {
@@ -169,7 +175,23 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
             break
           }
           case constants.VIEW_RECENT_ORDERS: {
-            messageBlock = await commerceBotLogicLayer.getRecentOrdersBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, ecommerceProvider)
+            messageBlock = await commerceBotLogicLayer.getRecentOrdersBlock(chatbot, contact, ecommerceProvider)
+            break
+          }
+          case constants.ORDER_STATUS: {
+            messageBlock = await commerceBotLogicLayer.getOrderStatusBlock(chatbot, ecommerceProvider, action.input ? input : action.argument)
+            break
+          }
+          case constants.PROCEED_TO_CHECKOUT: {
+            messageBlock = await commerceBotLogicLayer.getCheckoutBlock(chatbot, ecommerceProvider, contact, action.argument, action.input ? input : '')
+            break
+          }
+          case constants.ASK_ORDER_ID: {
+            messageBlock = await commerceBotLogicLayer.getOrderIdBlock(chatbot, contact)
+            break
+          }
+          case constants.CHECK_ORDERS: {
+            messageBlock = await commerceBotLogicLayer.getCheckOrdersBlock(chatbot, contact)
             break
           }
           case constants.ORDER_STATUS: {
