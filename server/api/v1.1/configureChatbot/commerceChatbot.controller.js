@@ -26,7 +26,7 @@ exports.handleCommerceChatbot = async function (company, message, contact) {
   if (ecommerceProvider) {
     nextMessageBlock = await getNextMessageBlock(chatbot, ecommerceProvider, contact, message, company)
   }
-  console.log('nextMessageBlock', nextMessageBlock)
+  console.log('nextMessageBlock', JSON.stringify(nextMessageBlock))
   if (nextMessageBlock) {
     sendTextMessage(nextMessageBlock, contact, company._id)
     botUtils.updateSmsContact({ _id: contact._id }, {lastMessageSentByBot: nextMessageBlock}, null, {})
@@ -92,6 +92,7 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
     }
     if (action.type === constants.DYNAMIC) {
       try {
+        console.log('action', action)
         let messageBlock = null
         switch (action.action) {
           case constants.SHOW_MAIN_MENU: {
@@ -99,19 +100,19 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
             break
           }
           case constants.PRODUCT_CATEGORIES: {
-            messageBlock = await commerceBotLogicLayer.getProductCategoriesBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument ? action.argument : {})
+            messageBlock = await commerceBotLogicLayer.getProductCategoriesBlock(chatbot, contact.lastMessageSentByBot.uniqueId, ecommerceProvider, action.argument ? action.argument : {})
             break
           }
           case constants.FETCH_PRODUCTS: {
-            messageBlock = await commerceBotLogicLayer.getProductsInCategoryBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.argument)
+            messageBlock = await commerceBotLogicLayer.getProductsInCategoryBlock(chatbot, contact.lastMessageSentByBot.uniqueId, ecommerceProvider, action.argument)
             break
           }
           case constants.PRODUCT_VARIANTS: {
-            messageBlock = await commerceBotLogicLayer.getProductVariantsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, EcommerceProvider, action.argument)
+            messageBlock = await commerceBotLogicLayer.getProductVariantsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, ecommerceProvider, action.argument)
             break
           }
           case constants.DISCOVER_PRODUCTS: {
-            messageBlock = await commerceBotLogicLayer.getDiscoverProductsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, EcommerceProvider, action.input ? input : '', action.argument ? action.argument : {})
+            messageBlock = await commerceBotLogicLayer.getDiscoverProductsBlock(chatbot, contact.lastMessageSentByBot.uniqueId, ecommerceProvider, action.input ? input : '', action.argument ? action.argument : {})
             break
           }
           case constants.ADD_TO_CART: {
@@ -142,12 +143,16 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
             messageBlock = await commerceBotLogicLayer.clearCart(chatbot, contact)
             break
           }
+          case constants.VIEW_RECENT_ORDERS: {
+            messageBlock = await commerceBotLogicLayer.getRecentOrdersBlock(chatbot, contact.lastMessageSentByBot.uniqueId, contact, EcommerceProvider)
+            break
+          }
         }
         // await messageBlockDataLayer.createForMessageBlock(messageBlock)
         return messageBlock
       } catch (err) {
         if (chatbot.triggers.includes(input)) {
-          return commerceBotLogicLayer.getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
+          return commerceBotLogicLayer.getWelcomeMessageBlock(chatbot, contact, ecommerceProvider)
         } else {
           return commerceBotLogicLayer.invalidInput(chatbot, contact.lastMessageSentByBot, `${constants.ERROR_INDICATOR}You entered an invalid response.`)
         }
