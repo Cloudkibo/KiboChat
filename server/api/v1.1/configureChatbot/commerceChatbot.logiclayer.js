@@ -2,7 +2,6 @@ const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 const constants = require('../whatsAppChatbot/constants')
 const { convertToEmoji } = require('../whatsAppChatbot/whatsAppChatbot.logiclayer')
 const dedent = require('dedent-js')
-const { updateContact } = require('./commerceChatbot.controller')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/configureChatbot/commerceChatbot.logiclayer.js'
 const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
@@ -383,7 +382,7 @@ exports.getAddToCartBlock = async (chatbot, backId, contact, {product, quantity}
     if (contact.commerceCustomer) {
       contact.commerceCustomer.cartId = null
     }
-    updateContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
+    botUtils.updateSmsContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
     let text = `${quantity} ${product.product}${quantity !== 1 ? 's have' : ' has'} been succesfully added to your cart.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
@@ -458,7 +457,7 @@ exports.clearCart = async (chatbot, contact) => {
     if (contact.commerceCustomer) {
       contact.commerceCustomer.cartId = null
     }
-    updateContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
+    botUtils.updateSmsContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to clear cart'
@@ -473,7 +472,7 @@ exports.getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo) =
   if (contact.commerceCustomer) {
     contact.commerceCustomer.cartId = null
   }
-  await updateContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
+  await botUtils.updateSmsContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
   const text = `${productInfo.product} has been successfully removed from your cart.`
   return getShowMyCartBlock(chatbot, backId, contact, text)
 }
@@ -575,6 +574,317 @@ exports.getShowItemsToRemoveBlock = (chatbot, backId, contact) => {
     const message = err || 'Unable to show items from cart'
     logger.serverLog(message, `${TAG}: exports.getShowItemsToRemoveBlock`, {}, {}, 'error')
     throw new Error(`${constants.ERROR_INDICATOR}Unable to show items from cart`)
+  }
+}
+
+exports.getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider, argument) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'sms_commerce_chatbot'
+      },
+      title: 'Product Categories',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Please select a category by sending the corresponding number for it:\n`,
+          componentType: 'text',
+          menu: [],
+          specialKeys: {
+            [constants.SHOW_CART_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MY_CART },
+            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    let productCategories = await EcommerceProvider.fetchAllProductCategories(argument.paginationParams)
+    for (let i = 0; i < productCategories.length; i++) {
+      let category = productCategories[i]
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${category.name}`
+      messageBlock.payload[0].menu.push({
+        type: constants.DYNAMIC, action: constants.FETCH_PRODUCTS, argument: {categoryId: category.id}
+      })
+    }
+    if (productCategories.nextPageParameters) {
+      messageBlock.payload[0].text += `\n${convertToEmoji(productCategories.length)} View More`
+      messageBlock.payload[0].menu.push({
+        type: constants.DYNAMIC, action: constants.PRODUCT_CATEGORIES, argument: {paginationParams: productCategories.nextPageParameters}
+      })
+    }
+    messageBlock.payload[0].text += `\n\n${botUtils.specialKeyText(constants.SHOW_CART_KEY)}`
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)}`
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to get product categories'
+    logger.serverLog(message, `${TAG}: exports.getProductCategoriesBlock`, {}, {}, 'error')
+    throw new Error(`${constants.ERROR_INDICATOR}Unable to get product categories`)
+  }
+}
+
+exports.getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, argument) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'sms_commerce_chatbot'
+      },
+      title: 'Products in Category',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Please select a product by sending the corresponding number for it:\n`,
+          componentType: 'text',
+          menu: [],
+          specialKeys: {
+            [constants.SHOW_CART_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MY_CART },
+            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    const storeInfo = await EcommerceProvider.fetchStoreInfo()
+    let products = await EcommerceProvider.fetchProductsInThisCategory(argument.categoryId, argument.paginationParams, chatbot.numberOfProducts)
+    for (let i = 0; i < products.length; i++) {
+      let product = products[i]
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${product.name}`
+      messageBlock.payload[0].menu.push({
+        type: constants.DYNAMIC, action: constants.PRODUCT_VARIANTS, argument: {product}
+      })
+    }
+    if (products.nextPageParameters) {
+      messageBlock.payload[0].text += `\n${convertToEmoji(products.length)} View More`
+      messageBlock.payload[0].menu.push({
+        type: constants.DYNAMIC, action: constants.FETCH_PRODUCTS, argument: {categoryId: argument.categoryId, paginationParams: products.nextPageParameters}
+      })
+    }
+    messageBlock.payload[0].text += `\n\n${botUtils.specialKeyText(constants.SHOW_CART_KEY)}`
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)}`
+    for (let i = products.length - 1; i >= 0; i--) {
+      let product = products[i]
+      if (product.image) {
+        messageBlock.payload.unshift({
+          componentType: 'image',
+          fileurl: product.image,
+          caption: `${convertToEmoji(i)} ${product.name}\nPrice: ${product.price} ${storeInfo.currency}`
+        })
+      }
+    }
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to get products in category'
+    logger.serverLog(message, `${TAG}: exports.getProductsInCategoryBlock`, {}, {}, 'error')
+    throw new Error(`${constants.ERROR_INDICATOR}Unable to get products in this category`)
+  }
+}
+
+exports.getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, argument) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'sms_commerce_chatbot'
+      },
+      title: 'Products in Category',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Please select a product by sending the corresponding number for it:\n`,
+          componentType: 'text',
+          menu: [],
+          specialKeys: {
+            [constants.SHOW_CART_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MY_CART },
+            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    const storeInfo = await EcommerceProvider.fetchStoreInfo()
+    let products = await EcommerceProvider.fetchProductsInThisCategory(argument.categoryId, argument.paginationParams, chatbot.numberOfProducts)
+    for (let i = 0; i < products.length; i++) {
+      let product = products[i]
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${product.name}`
+      messageBlock.payload[0].menu.push({
+        type: constants.DYNAMIC, action: constants.PRODUCT_VARIANTS, argument: {product}
+      })
+    }
+    if (products.nextPageParameters) {
+      messageBlock.payload[0].text += `\n${convertToEmoji(products.length)} View More`
+      messageBlock.payload[0].menu.push({
+        type: constants.DYNAMIC, action: constants.FETCH_PRODUCTS, argument: {categoryId: argument.categoryId, paginationParams: products.nextPageParameters}
+      })
+    }
+    messageBlock.payload[0].text += `\n\n${botUtils.specialKeyText(constants.SHOW_CART_KEY)}`
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)}`
+    for (let i = products.length - 1; i >= 0; i--) {
+      let product = products[i]
+      if (product.image) {
+        messageBlock.payload.unshift({
+          componentType: 'image',
+          fileurl: product.image,
+          caption: `${convertToEmoji(i)} ${product.name}\nPrice: ${product.price} ${storeInfo.currency}`
+        })
+      }
+    }
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to get products in category'
+    logger.serverLog(message, `${TAG}: exports.getProductsInCategoryBlock`, {}, {}, 'error')
+    throw new Error(`${constants.ERROR_INDICATOR}Unable to get products in this category`)
+  }
+}
+
+exports.getProductVariantsBlock = async (chatbot, backId, contact, EcommerceProvider, argument) => {
+  try {
+    const product = argument.product
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'sms_commerce_chatbot'
+      },
+      title: 'Product Variants',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Please select from following *${product.name}* options by sending the corresponding number for it:\n`,
+          componentType: 'text',
+          menu: [],
+          specialKeys: {
+            [constants.SHOW_CART_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MY_CART },
+            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    let productVariants = await EcommerceProvider.getVariantsOfSelectedProduct(product.id, chatbot.numberOfProducts)
+    let storeInfo = await EcommerceProvider.fetchStoreInfo()
+    if (productVariants.length === 1) {
+      const productVariant = productVariants[0]
+      messageBlock = await getSelectProductBlock(chatbot, backId, {
+        variant_id: productVariant.id,
+        product_id: productVariant.product_id,
+        product: `${productVariant.name} ${product.name}`,
+        price: productVariant.price ? productVariant.price : product.price,
+        inventory_quantity: productVariant.inventory_quantity,
+        currency: storeInfo.currency,
+        image: productVariant.image ? productVariant.image : product.image
+      })
+      return messageBlock
+    }
+    for (let i = 0; i < productVariants.length; i++) {
+      let productVariant = productVariants[i]
+      messageBlock.payload[0].text += `\n${convertToEmoji(i)} ${productVariant.name} (price: ${productVariant.price ? productVariant.price : product.price} ${storeInfo.currency})`
+      messageBlock.payload[0].menu.push({
+        type: constants.DYNAMIC,
+        action: constants.SELECT_PRODUCT,
+        argument: {
+          variant_id: productVariant.id,
+          product_id: productVariant.product_id,
+          product: `${productVariant.name} ${product.name}`,
+          price: productVariant.price ? productVariant.price : product.price,
+          inventory_quantity: productVariant.inventory_quantity,
+          currency: storeInfo.currency,
+          image: productVariant.image ? productVariant.image : product.image
+        }
+      })
+    }
+    if (productVariants.nextPageParameters) {
+      messageBlock.payload[0].text += `\n${convertToEmoji(productVariants.length)} View More`
+      messageBlock.payload[0].menu.push({
+        type: constants.DYNAMIC, action: constants.PRODUCT_CATEGORIES, argument: {product, paginationParams: productVariants.nextPageParameters}
+      })
+    }
+    messageBlock.payload[0].text += `\n\n${botUtils.specialKeyText(constants.SHOW_CART_KEY)}`
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)}`
+    for (let i = productVariants.length - 1; i >= 0; i--) {
+      let productVariant = productVariants[i]
+      if (productVariant.image) {
+        messageBlock.payload.unshift({
+          componentType: 'image',
+          fileurl: productVariant.image,
+          caption: `${convertToEmoji(i)} ${productVariant.name} ${product.name}\nPrice: ${productVariant.price ? productVariant.price : product.price} ${storeInfo.currency}`
+        })
+      }
+    }
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to get product variants'
+    logger.serverLog(message, `${TAG}: exports.getProductVariantsBlock`, {}, {}, 'error')
+    throw new Error(`${constants.ERROR_INDICATOR}Unable to get product variants`)
+  }
+}
+
+const getSelectProductBlock = async (chatbot, backId, product) => {
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'sms_commerce_chatbot'
+      },
+      title: 'Select Product',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Do you want to purchase this product?\n\n${product.product} (price: ${product.price} ${product.currency}) (stock available: ${product.inventory_quantity}).`,
+          componentType: 'text',
+          specialKeys: {
+            [constants.SHOW_CART_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MY_CART },
+            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU },
+            'y': { type: constants.DYNAMIC, action: constants.ADD_TO_CART, argument: {product, quantity: 1} },
+            'n': { type: constants.STATIC, blockId: chatbot.startingBlockId },
+            'yes': { type: constants.DYNAMIC,
+              action: constants.ADD_TO_CART,
+              argument: {product, quantity: 1},
+              'no': { type: constants.STATIC, blockId: chatbot.startingBlockId }
+            }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+
+    if (product.inventory_quantity > 0) {
+      messageBlock.payload[0].text += `\n\nSend 'Y' for Yes\nSend 'N' for No\n`
+    } else {
+      messageBlock.payload[0].text += `\nThis product is currently out of stock. Please check again later.\n`
+    }
+
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.SHOW_CART_KEY)}\n${botUtils.specialKeyText(constants.BACK_KEY)}\n${botUtils.specialKeyText(constants.HOME_KEY)}`
+
+    // TODO: Will do this when we know if our API supports images or not.
+
+    // if (product.image) {
+    //   messageBlock.payload.unshift({
+    //     componentType: 'image',
+    //     fileurl: product.image,
+    //     caption: `${product.product}\nPrice: ${product.price} ${product.currency}`
+    //   })
+    // }
+
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to select product'
+    logger.serverLog(message, `${TAG}: exports.getSelectProductBlock`, {}, {}, 'error')
+    logger.serverLog(TAG, `Unable to select product ${err}`, 'error')
+    throw new Error(`${constants.ERROR_INDICATOR}Unable to select product`)
   }
 }
 
