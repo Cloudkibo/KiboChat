@@ -1019,6 +1019,7 @@ exports.getSearchProductsBlock = async (chatbot, contact) => {
     throw new Error(`${constants.ERROR_INDICATOR}Unable get search for products message block`)
   }
 }
+
 exports.getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) => {
   let userError = false
   try {
