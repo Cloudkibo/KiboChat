@@ -8,7 +8,7 @@ const commerceConstants = require('../ecommerceProvidersApiLayer/constants')
 const botUtils = require('./commerceChatbot.utils')
 const utility = require('../../../components/utility')
 
-exports.getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, argument, userInput) => {
+exports.getCheckoutBlock = async (chatbot, EcommerceProvider, contact, argument, userInput) => {
   let userError = false
   try {
     if (userInput && argument.address && !argument.address.zip) {
@@ -259,7 +259,7 @@ exports.getWelcomeMessageBlock = async (chatbot, contact, ecommerceProvider) => 
   }
   return messageBlock
 }
-const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
+const getShowMyCartBlock = async (chatbot, contact, optionalText) => {
   try {
     let messageBlock = {
       module: {
@@ -274,7 +274,7 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
           componentType: 'text',
           menu: [],
           specialKeys: {
-            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.BACK_KEY]: { type: constants.DYNAMIC, action: constants.GO_BACK },
             [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
           }
         }
@@ -343,7 +343,7 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
     throw new Error(`${constants.ERROR_INDICATOR}Unable to show cart`)
   }
 }
-exports.getAddToCartBlock = async (chatbot, backId, contact, {product, quantity}) => {
+exports.getAddToCartBlock = async (chatbot, contact, {product, quantity}) => {
   let userError = false
   try {
     quantity = Number(quantity)
@@ -383,7 +383,7 @@ exports.getAddToCartBlock = async (chatbot, backId, contact, {product, quantity}
     }
     botUtils.updateSmsContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
     let text = `${quantity} ${product.product}${quantity !== 1 ? 's have' : ' has'} been succesfully added to your cart.`
-    return getShowMyCartBlock(chatbot, backId, contact, text)
+    return getShowMyCartBlock(chatbot, contact, text)
   } catch (err) {
     if (!userError) {
       const message = err || 'Unable to add to cart'
@@ -465,7 +465,7 @@ exports.clearCart = async (chatbot, contact) => {
   }
 }
 
-exports.getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo) => {
+exports.getRemoveFromCartBlock = async (chatbot, contact, productInfo) => {
   const shoppingCart = contact.shoppingCart.filter((item, index) => index !== productInfo.productIndex)
   contact.shoppingCart = shoppingCart
   if (contact.commerceCustomer) {
@@ -473,10 +473,10 @@ exports.getRemoveFromCartBlock = async (chatbot, backId, contact, productInfo) =
   }
   await botUtils.updateSmsContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
   const text = `${productInfo.product} has been successfully removed from your cart.`
-  return getShowMyCartBlock(chatbot, backId, contact, text)
+  return getShowMyCartBlock(chatbot, contact, text)
 }
 
-exports.getConfirmRemoveItemBlock = async (chatbot, backId, product) => {
+exports.getConfirmRemoveItemBlock = async (chatbot, product) => {
   try {
     let messageBlock = {
       module: {
@@ -490,7 +490,7 @@ exports.getConfirmRemoveItemBlock = async (chatbot, backId, product) => {
           text: `Are you sure you want to remove ${product.product}?\n\nYou currently have ${product.quantity} in your cart.\n\n(price: ${product.price} ${product.currency})\n\n`,
           componentType: 'text',
           specialKeys: {
-            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.BACK_KEY]: { type: constants.DYNAMIC, action: constants.GO_BACK },
             [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU },
             'y': { type: constants.DYNAMIC, action: constants.REMOVE_FROM_CART, argument: product },
             'n': { type: constants.DYNAMIC, action: constants.SHOW_ITEMS_TO_REMOVE },
@@ -524,7 +524,7 @@ exports.getConfirmRemoveItemBlock = async (chatbot, backId, product) => {
   }
 }
 
-exports.getShowItemsToRemoveBlock = (chatbot, backId, contact) => {
+exports.getShowItemsToRemoveBlock = (chatbot, contact) => {
   try {
     let messageBlock = {
       module: {
@@ -540,7 +540,7 @@ exports.getShowItemsToRemoveBlock = (chatbot, backId, contact) => {
           menu: [],
           specialKeys: {
             [constants.SHOW_CART_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MY_CART },
-            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.BACK_KEY]: { type: constants.DYNAMIC, action: constants.GO_BACK },
             [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
           }
         }
@@ -576,7 +576,7 @@ exports.getShowItemsToRemoveBlock = (chatbot, backId, contact) => {
   }
 }
 
-exports.getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider, argument) => {
+exports.getProductCategoriesBlock = async (chatbot, EcommerceProvider, argument) => {
   try {
     let messageBlock = {
       module: {
@@ -592,7 +592,7 @@ exports.getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider, a
           menu: [],
           specialKeys: {
             [constants.SHOW_CART_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MY_CART },
-            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.BACK_KEY]: { type: constants.DYNAMIC, action: constants.GO_BACK },
             [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
           }
         }
@@ -625,7 +625,7 @@ exports.getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider, a
   }
 }
 
-exports.getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, argument) => {
+exports.getProductsInCategoryBlock = async (chatbot, EcommerceProvider, argument) => {
   try {
     let messageBlock = {
       module: {
@@ -641,7 +641,7 @@ exports.getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, 
           menu: [],
           specialKeys: {
             [constants.SHOW_CART_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MY_CART },
-            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.BACK_KEY]: { type: constants.DYNAMIC, action: constants.GO_BACK },
             [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
           }
         }
@@ -685,7 +685,7 @@ exports.getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, 
   }
 }
 
-exports.getProductVariantsBlock = async (chatbot, backId, contact, EcommerceProvider, argument) => {
+exports.getProductVariantsBlock = async (chatbot, contact, EcommerceProvider, argument) => {
   try {
     const product = argument.product
     let messageBlock = {
@@ -702,7 +702,7 @@ exports.getProductVariantsBlock = async (chatbot, backId, contact, EcommerceProv
           menu: [],
           specialKeys: {
             [constants.SHOW_CART_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MY_CART },
-            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.BACK_KEY]: { type: constants.DYNAMIC, action: constants.GO_BACK },
             [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
           }
         }
@@ -714,7 +714,7 @@ exports.getProductVariantsBlock = async (chatbot, backId, contact, EcommerceProv
     let storeInfo = await EcommerceProvider.fetchStoreInfo()
     if (productVariants.length === 1) {
       const productVariant = productVariants[0]
-      messageBlock = await getSelectProductBlock(chatbot, backId, {
+      messageBlock = await getSelectProductBlock(chatbot, {
         variant_id: productVariant.id,
         product_id: productVariant.product_id,
         product: `${productVariant.name} ${product.name}`,
@@ -769,7 +769,7 @@ exports.getProductVariantsBlock = async (chatbot, backId, contact, EcommerceProv
   }
 }
 
-const getSelectProductBlock = async (chatbot, backId, product) => {
+const getSelectProductBlock = async (chatbot, product) => {
   try {
     let messageBlock = {
       module: {
@@ -784,14 +784,14 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
           componentType: 'text',
           specialKeys: {
             [constants.SHOW_CART_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MY_CART },
-            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.BACK_KEY]: { type: constants.DYNAMIC, action: constants.GO_BACK },
             [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU },
             'y': { type: constants.DYNAMIC, action: constants.ADD_TO_CART, argument: {product, quantity: 1} },
-            'n': { type: constants.STATIC, blockId: chatbot.startingBlockId },
+            'n': { type: constants.DYNAMIC, action: constants.GO_BACK },
             'yes': { type: constants.DYNAMIC,
               action: constants.ADD_TO_CART,
               argument: {product, quantity: 1},
-              'no': { type: constants.STATIC, blockId: chatbot.startingBlockId }
+              'no': { type: constants.DYNAMIC, action: constants.GO_BACK }
             }
           }
         }
@@ -827,7 +827,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
   }
 }
 
-exports.getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, input, argument) => {
+exports.getDiscoverProductsBlock = async (chatbot, EcommerceProvider, input, argument) => {
   try {
     let messageBlock = {
       module: {
@@ -843,7 +843,7 @@ exports.getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, in
           menu: [],
           specialKeys: {
             [constants.SHOW_CART_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MY_CART },
-            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.BACK_KEY]: { type: constants.DYNAMIC, action: constants.GO_BACK },
             [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
           }
         }
@@ -913,7 +913,7 @@ exports.getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, in
   }
 }
 
-exports.getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider) => {
+exports.getRecentOrdersBlock = async (chatbot, contact, EcommerceProvider) => {
   try {
     let messageBlock = {
       module: {
@@ -930,7 +930,7 @@ exports.getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvide
           action: { type: constants.DYNAMIC, action: constants.ORDER_STATUS, input: true },
           specialKeys: {
             [constants.SHOW_CART_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MY_CART },
-            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.BACK_KEY]: { type: constants.DYNAMIC, action: constants.GO_BACK },
             [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
           }
         }
@@ -1019,7 +1019,7 @@ exports.getSearchProductsBlock = async (chatbot, contact) => {
     throw new Error(`${constants.ERROR_INDICATOR}Unable get search for products message block`)
   }
 }
-exports.getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId) => {
+exports.getOrderStatusBlock = async (chatbot, EcommerceProvider, orderId) => {
   let userError = false
   try {
     let messageBlock = {
@@ -1034,7 +1034,7 @@ exports.getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId
           text: `Here is your order status for Order #${orderId}:\n`,
           componentType: 'text',
           specialKeys: {
-            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.BACK_KEY]: { type: constants.DYNAMIC, action: constants.GO_BACK },
             [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU },
             'i': { type: constants.DYNAMIC, action: constants.GET_INVOICE, argument: orderId },
             'o': { type: constants.DYNAMIC, action: constants.VIEW_RECENT_ORDERS }
@@ -1161,7 +1161,7 @@ exports.getOrderStatusBlock = async (chatbot, backId, EcommerceProvider, orderId
   }
 }
 
-exports.getOrderIdBlock = (chatbot, contact, backId) => {
+exports.getOrderIdBlock = (chatbot, contact) => {
   try {
     const messageBlock = {
       module: {
@@ -1176,7 +1176,7 @@ exports.getOrderIdBlock = (chatbot, contact, backId) => {
           componentType: 'text',
           action: { type: constants.DYNAMIC, action: constants.ORDER_STATUS, input: true },
           specialKeys: {
-            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.BACK_KEY]: { type: constants.DYNAMIC, action: constants.GO_BACK },
             [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU },
             'o': { type: constants.DYNAMIC, action: constants.VIEW_RECENT_ORDERS }
           }
@@ -1233,7 +1233,7 @@ exports.getCheckOrdersBlock = (chatbot, contact) => {
     throw new Error(`${constants.ERROR_INDICATOR}Unable get check orders message block`)
   }
 }
-exports.getShowItemsToUpdateBlock = (chatbot, backId, contact) => {
+exports.getShowItemsToUpdateBlock = (chatbot, contact) => {
   try {
     let messageBlock = {
       module: {
@@ -1249,7 +1249,7 @@ exports.getShowItemsToUpdateBlock = (chatbot, backId, contact) => {
           menu: [],
           specialKeys: {
             [constants.SHOW_CART_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MY_CART },
-            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.BACK_KEY]: { type: constants.DYNAMIC, action: constants.GO_BACK },
             [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
           }
         }
@@ -1262,7 +1262,7 @@ exports.getShowItemsToUpdateBlock = (chatbot, backId, contact) => {
 
     if (shoppingCart.length === 1) {
       let product = shoppingCart[0]
-      return getQuantityToUpdateBlock(chatbot, backId, { ...product, productIndex: 0 })
+      return getQuantityToUpdateBlock(chatbot, { ...product, productIndex: 0 })
     }
 
     for (let i = 0; i < shoppingCart.length; i++) {
@@ -1295,7 +1295,7 @@ exports.getShowItemsToUpdateBlock = (chatbot, backId, contact) => {
   }
 }
 
-const getQuantityToUpdateBlock = async (chatbot, backId, product) => {
+const getQuantityToUpdateBlock = async (chatbot, product) => {
   try {
     let messageBlock = {
       module: {
@@ -1310,7 +1310,7 @@ const getQuantityToUpdateBlock = async (chatbot, backId, product) => {
           componentType: 'text',
           action: { type: constants.DYNAMIC, action: constants.UPDATE_CART, argument: product, input: true },
           specialKeys: {
-            [constants.BACK_KEY]: { type: constants.STATIC, blockId: backId },
+            [constants.BACK_KEY]: { type: constants.DYNAMIC, action: constants.GO_BACK },
             [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU },
             'p': { type: constants.DYNAMIC, action: constants.ASK_PAYMENT_METHOD }
           }
@@ -1340,7 +1340,7 @@ const getQuantityToUpdateBlock = async (chatbot, backId, product) => {
   }
 }
 
-exports.getUpdateCartBlock = async (chatbot, backId, contact, product, quantity) => {
+exports.getUpdateCartBlock = async (chatbot, contact, product, quantity) => {
   let userError = false
   try {
     quantity = Number(quantity)
@@ -1380,7 +1380,7 @@ exports.getUpdateCartBlock = async (chatbot, backId, contact, product, quantity)
     if (quantity === 0) {
       text = `${product.product} has been removed from cart.`
     }
-    return getShowMyCartBlock(chatbot, backId, contact, text)
+    return getShowMyCartBlock(chatbot, contact, text)
   } catch (err) {
     if (!userError) {
       const message = err || 'Unable to update cart'
