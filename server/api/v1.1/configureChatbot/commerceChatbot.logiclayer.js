@@ -1,6 +1,6 @@
 const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 const constants = require('../whatsAppChatbot/constants')
-const { convertToEmoji } = require('../whatsAppChatbot/whatsAppChatbot.logiclayer')
+const { convertToEmoji, sendNotification } = require('../whatsAppChatbot/whatsAppChatbot.logiclayer')
 const dedent = require('dedent-js')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/configureChatbot/commerceChatbot.logiclayer.js'
@@ -809,15 +809,13 @@ const getSelectProductBlock = async (chatbot, product) => {
 
     messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.SHOW_CART_KEY)}\n${botUtils.specialKeyText(constants.BACK_KEY)}\n${botUtils.specialKeyText(constants.HOME_KEY)}`
 
-    // TODO: Will do this when we know if our API supports images or not.
-
-    // if (product.image) {
-    //   messageBlock.payload.unshift({
-    //     componentType: 'image',
-    //     fileurl: product.image,
-    //     caption: `${product.product}\nPrice: ${product.price} ${product.currency}`
-    //   })
-    // }
+    if (product.image) {
+      messageBlock.payload.unshift({
+        componentType: 'image',
+        fileurl: product.image,
+        caption: `${product.product}\nPrice: ${product.price} ${product.currency}`
+      })
+    }
 
     return messageBlock
   } catch (err) {
@@ -2233,6 +2231,35 @@ exports.getAskPaymentMethodBlock = async (chatbot, contact, newEmail) => {
     } else {
       throw new Error(`${constants.ERROR_INDICATOR}Unable to select payment method`)
     }
+  }
+}
+
+exports.getTalkToAgentBlock = (chatbot, contact) => {
+  try {
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'sms_commerce_chatbot'
+      },
+      title: 'Talk to Agent',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Our support agents have been notified and will get back to you shortly.`,
+          componentType: 'text'
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    const message = `${contact.name} requested to talk to a customer support agent`
+    sendNotification(contact, message, chatbot.companyId)
+    botUtils.updateSmsContact({ _id: contact._id }, { chatbotPaused: true }, null, {})
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable get talk to agent message block'
+    logger.serverLog(message, `${TAG}: getTalkToAgentBlock`, {}, {chatbot, contact}, 'error')
+    throw new Error(`${constants.ERROR_INDICATOR}Unable to notify customer support agent`)
   }
 }
 

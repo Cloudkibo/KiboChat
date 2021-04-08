@@ -7,6 +7,9 @@ const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/configureChatbot/commerceChatbot.controller.js'
 const constants = require('../whatsAppChatbot/constants')
 const botUtils = require('./commerceChatbot.utils')
+const { smsMapper } = require('./../../../smsMapper')
+const { ActionTypes } = require('./../../../smsMapper/constants')
+const { intervalForEach } = require('./../../../components/utility')
 
 exports.handleCommerceChatbot = async function (company, message, contact) {
   const chatbot = await smsChatbotDataLayer.findOne({
@@ -27,15 +30,30 @@ exports.handleCommerceChatbot = async function (company, message, contact) {
     nextMessageBlock = await getNextMessageBlock(chatbot, ecommerceProvider, contact, message, company)
   }
   if (nextMessageBlock) {
-    sendTextMessage(nextMessageBlock, contact, company._id)
+    sendTextMessage(nextMessageBlock, contact, company)
     botUtils.updateSmsContact({ _id: contact._id },
       {lastMessageSentByBot: nextMessageBlock, backMessageByBot: contact.lastMessageSentByBot},
       null, {})
   }
 }
 
-function sendTextMessage (nextMessageBlock, contact, companyId) {
-
+function sendTextMessage (nextMessageBlock, contact, company) {
+  intervalForEach(nextMessageBlock.payload, (msgPayload) => {
+    if (msgPayload.componentType === 'text') {
+      smsMapper('twilio', ActionTypes.SEND_TEXT_MESSAGE, {
+        text: msgPayload.text,
+        subscriber: contact,
+        company
+      })
+    } else if (msgPayload.componentType === 'image') {
+      smsMapper('twilio', ActionTypes.SEND_MEDIA_MESSAGE, {
+        text: msgPayload.caption,
+        mediaUrl: [msgPayload.fileurl],
+        subscriber: contact,
+        company
+      })
+    }
+  }, 1000)
 }
 
 async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message, company) {
@@ -268,6 +286,10 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
           }
           case constants.ASK_PAYMENT_METHOD: {
             messageBlock = await commerceBotLogicLayer.getAskPaymentMethodBlock(chatbot, contact, action.input ? input : '')
+            break
+          }
+          case constants.TALK_TO_AGENT: {
+            messageBlock = await commerceBotLogicLayer.getTalkToAgentBlock(chatbot, contact)
             break
           }
         }

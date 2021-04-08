@@ -51,6 +51,24 @@ exports.sendTextMessage = ({text, company, subscriber}) => {
   })
 }
 
+exports.sendMediaMessage = ({text, mediaUrl, company, subscriber}) => {
+  return new Promise((resolve, reject) => {
+    const client = twilioClient(company)
+    client.messages.create({
+      body: text,
+      mediaUrl,
+      from: company.number,
+      to: subscriber.number
+    })
+      .then(res => {
+        resolve({status: 'success'})
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
 function twilioClient (company) {
   const accountSid = company.twilio.accountSID
   const authToken = company.twilio.authToken
