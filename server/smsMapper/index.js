@@ -18,6 +18,8 @@ function callAction (action, data, provider) {
       return provider.respondUsingChatbot(data)
     case ActionTypes.SEND_TEXT_MESSAGE:
       return provider.sendTextMessage(data)
+    case ActionTypes.SEND_MEDIA_MESSAGE:
+      return provider.sendMediaMessage(data)
     default:
   }
 }
