@@ -194,20 +194,83 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
             messageBlock = await commerceBotLogicLayer.getCheckOrdersBlock(chatbot, contact)
             break
           }
-          case constants.ORDER_STATUS: {
-            messageBlock = await commerceBotLogicLayer.getOrderStatusBlock(chatbot, contact.lastMessageSentByBot.uniqueId, ecommerceProvider, action.input ? input : action.argument)
+          case constants.GET_CHECKOUT_INFO: {
+            messageBlock = await commerceBotLogicLayer.getCheckoutInfoBlock(chatbot, contact, ecommerceProvider, action.argument, action.input ? input : '')
             break
           }
-          case constants.ASK_ORDER_ID: {
-            messageBlock = await commerceBotLogicLayer.getOrderIdBlock(chatbot, contact, contact.lastMessageSentByBot.uniqueId)
+          case constants.GET_EMAIL_OTP: {
+            messageBlock = await commerceBotLogicLayer.getEmailOtpBlock(chatbot, contact, ecommerceProvider, action.argument, action.input ? input : '')
             break
           }
-          case constants.CHECK_ORDERS: {
-            messageBlock = await commerceBotLogicLayer.getCheckOrdersBlock(chatbot, contact)
+          case constants.GET_VERIFY_OTP: {
+            messageBlock = await commerceBotLogicLayer.getVerifyOtpBlock(chatbot, contact, action.argument, action.input ? input : '')
+            break
+          }
+          case constants.ASK_ADDRESS: {
+            messageBlock = await commerceBotLogicLayer.getAskAddressBlock(chatbot, contact, action.argument, action.input ? input : '')
+            break
+          }
+          case constants.GET_CHECKOUT_STREET_ADDRESS: {
+            messageBlock = await commerceBotLogicLayer.getCheckoutStreetAddressBlock(chatbot, contact, action.argument)
+            break
+          }
+          case constants.GET_CHECKOUT_CITY: {
+            messageBlock = await commerceBotLogicLayer.getCheckoutCityBlock(chatbot, contact, action.argument, action.input ? input : '')
+            break
+          }
+          case constants.GET_CHECKOUT_COUNTRY: {
+            messageBlock = await commerceBotLogicLayer.getCheckoutCountryBlock(chatbot, contact, action.argument, action.input ? input : '')
+            break
+          }
+          case constants.GET_CHECKOUT_ZIP_CODE: {
+            messageBlock = await commerceBotLogicLayer.getCheckoutZipCodeBlock(chatbot, contact, action.argument, action.input ? input : '')
+            break
+          }
+          case constants.CONFIRM_COMPLETE_ADDRESS: {
+            messageBlock = await commerceBotLogicLayer.confirmCompleteAddress(chatbot, contact, action.argument, action.input ? input : '')
+            break
+          }
+          case constants.UPDATE_ADDRESS_BLOCK: {
+            messageBlock = await commerceBotLogicLayer.updateAddressBlock(chatbot, contact, action.argument)
+            break
+          }
+          case constants.UPDATE_CHECKOUT_STREET_ADDRESS: {
+            messageBlock = await commerceBotLogicLayer.updateCheckoutStreetAddressBlock(chatbot, contact, action.argument)
+            break
+          }
+          case constants.UPDATE_CHECKOUT_CITY: {
+            messageBlock = await commerceBotLogicLayer.updateCheckoutCityBlock(chatbot, contact, action.argument)
+            break
+          }
+          case constants.UPDATE_CHECKOUT_COUNTRY: {
+            messageBlock = await commerceBotLogicLayer.updateCheckoutCountryBlock(chatbot, contact, action.argument)
+            break
+          }
+          case constants.UPDATE_CHECKOUT_ZIP_CODE: {
+            messageBlock = await commerceBotLogicLayer.updateCheckoutZipCodeBlock(chatbot, contact, action.argument, action.input ? input : '')
+            break
+          }
+          case constants.GET_NEW_CHECKOUT_STREET_ADDRESS: {
+            messageBlock = await commerceBotLogicLayer.getNewCheckoutStreetAddressBlock(chatbot, contact, action.argument, action.input ? input : '')
+            break
+          }
+          case constants.GET_NEW_CHECKOUT_CITY: {
+            messageBlock = await commerceBotLogicLayer.getNewCheckoutCityBlock(chatbot, contact, action.argument, action.input ? input : '')
+            break
+          }
+          case constants.GET_NEW_CHECKOUT_COUNTRY: {
+            messageBlock = await commerceBotLogicLayer.getNewCheckoutCountryBlock(chatbot, contact, action.argument, action.input ? input : '')
+            break
+          }
+          case constants.GET_NEW_CHECKOUT_ZIP_CODE: {
+            messageBlock = await commerceBotLogicLayer.getNewCheckoutZipCodeBlock(chatbot, contact, action.argument, action.input ? input : '')
+            break
+          }
+          case constants.ASK_PAYMENT_METHOD: {
+            messageBlock = await commerceBotLogicLayer.getAskPaymentMethodBlock(chatbot, contact, action.input ? input : '')
             break
           }
         }
-        // await messageBlockDataLayer.createForMessageBlock(messageBlock)
         return messageBlock
       } catch (err) {
         if (chatbot.triggers.includes(input)) {

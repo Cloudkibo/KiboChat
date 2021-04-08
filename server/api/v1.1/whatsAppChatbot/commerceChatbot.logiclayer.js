@@ -1511,7 +1511,7 @@ const getAddToCartBlock = async (chatbot, backId, contact, {product, quantity}) 
       contact.commerceCustomer.cartId = null
     }
     updateWhatsAppContact({ _id: contact._id }, { shoppingCart, commerceCustomer: contact.commerceCustomer }, null, {})
-    let text = `${quantity} ${product.product}${quantity !== 1 ? 's have' : ' has'} been succesfully added to your cart.`
+    let text = `${quantity} ${product.product}${quantity !== 1 ? 's have' : ' has'} been successfully added to your cart.`
     return getShowMyCartBlock(chatbot, backId, contact, text)
   } catch (err) {
     if (!userError) {
@@ -2207,6 +2207,8 @@ const getVerifyOtpBlock = async (chatbot, contact, backId, argument, userInput) 
   }
 }
 
+// NOTE: We are not using it. We won't allow customers to
+// change email address to avoid data conflicts
 const getCheckoutEmailBlock = async (chatbot, contact, newEmail) => {
   try {
     let messageBlock = null
