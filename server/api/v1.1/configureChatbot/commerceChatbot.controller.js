@@ -53,7 +53,7 @@ function sendTextMessage (nextMessageBlock, contact, company) {
         company
       })
     }
-  }, 1000)
+  }, 1500)
 }
 
 async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message, company) {
@@ -291,6 +291,13 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
           case constants.TALK_TO_AGENT: {
             messageBlock = await commerceBotLogicLayer.getTalkToAgentBlock(chatbot, contact)
             break
+          }
+          case constants.ASK_UNPAUSE_CHATBOT: {
+            messageBlock = await commerceBotLogicLayer.getAskUnpauseChatbotBlock(chatbot, contact)
+            break
+          }
+          case constants.UNPAUSE_CHATBOT: {
+            return commerceBotLogicLayer.getWelcomeMessageBlock(chatbot, contact, ecommerceProvider)
           }
         }
         return messageBlock

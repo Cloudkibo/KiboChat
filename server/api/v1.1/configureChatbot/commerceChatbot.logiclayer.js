@@ -2264,6 +2264,40 @@ exports.getTalkToAgentBlock = (chatbot, contact) => {
   }
 }
 
+exports.getAskUnpauseChatbotBlock = (chatbot, contact) => {
+  try {
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_commerce_chatbot'
+      },
+      title: 'Ask Unpause Chatbot',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Do you want to unpause the chatbot and cancel the customer support agent request?`,
+          componentType: 'text',
+          specialKeys: {
+            'y': { type: constants.DYNAMIC, action: constants.UNPAUSE_CHATBOT },
+            'yes': { type: constants.DYNAMIC, action: constants.UNPAUSE_CHATBOT },
+            'n': { type: constants.DYNAMIC, action: constants.TALK_TO_AGENT },
+            'no': { type: constants.DYNAMIC, action: constants.TALK_TO_AGENT }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    messageBlock.payload[0].text += `\n\nSend 'Y' for Yes, unpause the chatbot`
+    messageBlock.payload[0].text += `\nSend 'N' for No, wait for agent`
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to request for unpause chatbot'
+    logger.serverLog(message, `${TAG}: getAskUnpauseChatbotBlock`, {}, {chatbot, contact}, 'error')
+    throw new Error(`${constants.ERROR_INDICATOR}Unable to request for unpause chatbot`)
+  }
+}
+
 exports.getShowMyCartBlock = getShowMyCartBlock
 exports.getSelectProductBlock = getSelectProductBlock
 exports.getQuantityToUpdateBlock = getQuantityToUpdateBlock
