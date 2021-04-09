@@ -221,7 +221,7 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
             break
           }
           case constants.GET_VERIFY_OTP: {
-            messageBlock = await commerceBotLogicLayer.getVerifyOtpBlock(chatbot, contact, action.argument, action.input ? input : '')
+            messageBlock = await commerceBotLogicLayer.getVerifyOtpBlock(chatbot, contact, action.argument, action.input ? input : '', ecommerceProvider)
             break
           }
           case constants.ASK_ADDRESS: {
@@ -297,6 +297,7 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
             break
           }
           case constants.UNPAUSE_CHATBOT: {
+            await botUtils.updateSmsContact({ _id: contact._id }, { chatbotPaused: false }, null, {})
             return commerceBotLogicLayer.getWelcomeMessageBlock(chatbot, contact, ecommerceProvider)
           }
         }

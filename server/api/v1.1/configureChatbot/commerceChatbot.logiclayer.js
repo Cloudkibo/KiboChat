@@ -1579,7 +1579,7 @@ const getEmailOtpBlock = async (chatbot, contact, EcommerceProvider, argument, u
   }
 }
 
-exports.getVerifyOtpBlock = async (chatbot, contact, argument, userInput) => {
+exports.getVerifyOtpBlock = async (chatbot, contact, argument, userInput, EcommerceProvider) => {
   let userError = false
   try {
     let messageBlock = null
@@ -1626,9 +1626,38 @@ exports.getVerifyOtpBlock = async (chatbot, contact, argument, userInput) => {
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
+
     messageBlock.payload[0].text += `\n\n${convertToEmoji(0)} Proceed to checkout`
     messageBlock.payload[0].text += `\n\n${botUtils.specialKeyText(constants.BACK_KEY)}`
     messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)}`
+
+    let commerceCustomer = null
+
+    if (argument.newEmail) {
+      commerceCustomer = await EcommerceProvider.searchCustomerUsingEmail(argument.newEmail)
+      if (commerceCustomer.length === 0) {
+        const names = contact.name.split(' ')
+        const firstName = names[0]
+        const lastName = names[1] ? names[1] : names[0]
+
+        commerceCustomer = await EcommerceProvider.createCustomer(firstName, lastName, argument.newEmail)
+      } else {
+        commerceCustomer = commerceCustomer[0]
+      }
+      commerceCustomer.provider = chatbot.integration
+    }
+
+    let updatePayload = {
+      shoppingCart: []
+    }
+    if (chatbot.integration === commerceConstants.shopify) {
+      updatePayload.commerceCustomerShopify = commerceCustomer
+    } else {
+      updatePayload.commerceCustomer = commerceCustomer
+    }
+
+    botUtils.updateSmsContact({ _id: contact._id }, updatePayload, null, {})
+
     return messageBlock
   } catch (err) {
     if (!userError) {
