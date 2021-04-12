@@ -1579,7 +1579,7 @@ const getEmailOtpBlock = async (chatbot, contact, EcommerceProvider, argument, u
   }
 }
 
-exports.getVerifyOtpBlock = async (chatbot, contact, argument, userInput) => {
+exports.getVerifyOtpBlock = async (chatbot, contact, argument, userInput, EcommerceProvider) => {
   let userError = false
   try {
     let messageBlock = null
@@ -1626,9 +1626,38 @@ exports.getVerifyOtpBlock = async (chatbot, contact, argument, userInput) => {
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
+
     messageBlock.payload[0].text += `\n\n${convertToEmoji(0)} Proceed to checkout`
     messageBlock.payload[0].text += `\n\n${botUtils.specialKeyText(constants.BACK_KEY)}`
     messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)}`
+
+    let commerceCustomer = null
+
+    if (argument.newEmail) {
+      commerceCustomer = await EcommerceProvider.searchCustomerUsingEmail(argument.newEmail)
+      if (commerceCustomer.length === 0) {
+        const names = contact.name.split(' ')
+        const firstName = names[0]
+        const lastName = names[1] ? names[1] : names[0]
+
+        commerceCustomer = await EcommerceProvider.createCustomer(firstName, lastName, argument.newEmail)
+      } else {
+        commerceCustomer = commerceCustomer[0]
+      }
+      commerceCustomer.provider = chatbot.integration
+    }
+
+    let updatePayload = {
+      shoppingCart: []
+    }
+    if (chatbot.integration === commerceConstants.shopify) {
+      updatePayload.commerceCustomerShopify = commerceCustomer
+    } else {
+      updatePayload.commerceCustomer = commerceCustomer
+    }
+
+    botUtils.updateSmsContact({ _id: contact._id }, updatePayload, null, {})
+
     return messageBlock
   } catch (err) {
     if (!userError) {
@@ -2261,6 +2290,40 @@ exports.getTalkToAgentBlock = (chatbot, contact) => {
     const message = err || 'Unable get talk to agent message block'
     logger.serverLog(message, `${TAG}: getTalkToAgentBlock`, {}, {chatbot, contact}, 'error')
     throw new Error(`${constants.ERROR_INDICATOR}Unable to notify customer support agent`)
+  }
+}
+
+exports.getAskUnpauseChatbotBlock = (chatbot, contact) => {
+  try {
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'whatsapp_commerce_chatbot'
+      },
+      title: 'Ask Unpause Chatbot',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Do you want to unpause the chatbot and cancel the customer support agent request?`,
+          componentType: 'text',
+          specialKeys: {
+            'y': { type: constants.DYNAMIC, action: constants.UNPAUSE_CHATBOT },
+            'yes': { type: constants.DYNAMIC, action: constants.UNPAUSE_CHATBOT },
+            'n': { type: constants.DYNAMIC, action: constants.TALK_TO_AGENT },
+            'no': { type: constants.DYNAMIC, action: constants.TALK_TO_AGENT }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    messageBlock.payload[0].text += `\n\nSend 'Y' for Yes, unpause the chatbot`
+    messageBlock.payload[0].text += `\nSend 'N' for No, wait for agent`
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable to request for unpause chatbot'
+    logger.serverLog(message, `${TAG}: getAskUnpauseChatbotBlock`, {}, {chatbot, contact}, 'error')
+    throw new Error(`${constants.ERROR_INDICATOR}Unable to request for unpause chatbot`)
   }
 }
 
