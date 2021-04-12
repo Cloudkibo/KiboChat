@@ -16,16 +16,16 @@ exports.updateSmsContact = (query, bodyForUpdate, bodyForIncrement, options) => 
 exports.specialKeyText = (key) => {
   switch (key) {
     case constants.TALK_TO_AGENT_KEY:
-      return `*${key.toUpperCase()}*  Talk to a customer support agent`
+      return `${key.toUpperCase()}  Talk to a customer support agent`
     case constants.FAQS_KEY:
-      return `*${key.toUpperCase()}*  View FAQs`
+      return `${key.toUpperCase()}  View FAQs`
     case constants.SHOW_CART_KEY:
-      return `*${key.toUpperCase()}*  View your cart`
+      return `${key.toUpperCase()}  View your cart`
     case constants.ORDER_STATUS_KEY:
-      return `*${key.toUpperCase()}*  Check order status`
+      return `${key.toUpperCase()}  Check order status`
     case constants.BACK_KEY:
-      return `*${key.toUpperCase()}*  Go back`
+      return `${key.toUpperCase()}  Go back`
     case constants.HOME_KEY:
-      return `*${key.toUpperCase()}*  Go home`
+      return `${key.toUpperCase()}  Go home`
   }
 }

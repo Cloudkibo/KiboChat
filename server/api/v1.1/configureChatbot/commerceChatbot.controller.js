@@ -19,21 +19,23 @@ exports.handleCommerceChatbot = async function (company, message, contact) {
   })
   let ecommerceProvider = null
   let nextMessageBlock = null
-  if (chatbot.integration === commerceConstants.shopify) {
-    const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
-    ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
-      shopUrl: shopifyIntegration.shopUrl,
-      shopToken: shopifyIntegration.shopToken
-    })
-  }
-  if (ecommerceProvider) {
-    nextMessageBlock = await getNextMessageBlock(chatbot, ecommerceProvider, contact, message, company)
-  }
-  if (nextMessageBlock) {
-    sendTextMessage(nextMessageBlock, contact, company)
-    botUtils.updateSmsContact({ _id: contact._id },
-      {lastMessageSentByBot: nextMessageBlock, backMessageByBot: contact.lastMessageSentByBot},
-      null, {})
+  if (chatbot) {
+    if (chatbot.integration === commerceConstants.shopify) {
+      const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
+      ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
+        shopUrl: shopifyIntegration.shopUrl,
+        shopToken: shopifyIntegration.shopToken
+      })
+    }
+    if (ecommerceProvider) {
+      nextMessageBlock = await getNextMessageBlock(chatbot, ecommerceProvider, contact, message, company)
+    }
+    if (nextMessageBlock) {
+      sendTextMessage(nextMessageBlock, contact, company)
+      botUtils.updateSmsContact({ _id: contact._id },
+        {lastMessageSentByBot: nextMessageBlock, backMessageByBot: contact.lastMessageSentByBot},
+        null, {})
+    }
   }
 }
 

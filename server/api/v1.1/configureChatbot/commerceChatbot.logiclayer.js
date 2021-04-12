@@ -97,7 +97,7 @@ exports.getCheckoutBlock = async (chatbot, EcommerceProvider, contact, argument,
           let storeInfo = await EcommerceProvider.fetchStoreInfo()
           const orderId = order.name.replace('#', '')
           messageBlock.payload[0].text += `Thank you for shopping at ${storeInfo.name}. We have received your order. Please note the order number given below to track your order:\n\n`
-          messageBlock.payload[0].text += `*${orderId}*\n\n`
+          messageBlock.payload[0].text += `${orderId}\n\n`
           messageBlock.payload[0].text += `Here is your complete order:\n`
 
           let totalPrice = 0
@@ -111,21 +111,21 @@ exports.getCheckoutBlock = async (chatbot, EcommerceProvider, contact, argument,
             price = Number(price.toFixed(2))
             totalPrice += price
 
-            messageBlock.payload[0].text += `\n*Item*: ${product.product}`
-            messageBlock.payload[0].text += `\n*Quantity*: ${product.quantity}`
-            messageBlock.payload[0].text += `\n*Price*: ${price} ${currency}`
+            messageBlock.payload[0].text += `\nItem: ${product.product}`
+            messageBlock.payload[0].text += `\nQuantity: ${product.quantity}`
+            messageBlock.payload[0].text += `\nPrice: ${price} ${currency}`
 
             if (i + 1 < shoppingCart.length) {
               messageBlock.payload[0].text += `\n`
             }
           }
 
-          messageBlock.payload[0].text += `\n\n*Total price*: ${totalPrice} ${currency}\n\n`
+          messageBlock.payload[0].text += `\n\nTotal price: ${totalPrice} ${currency}\n\n`
 
           const address = argument.address
-          messageBlock.payload[0].text += `*Address*: ${address.address1}, ${address.city} ${address.zip}, ${address.country}`
+          messageBlock.payload[0].text += `Address: ${address.address1}, ${address.city} ${address.zip}, ${address.country}`
 
-          messageBlock.payload[0].text += `\n\n*I*  Get PDF Invoice`
+          messageBlock.payload[0].text += `\n\nI  Get PDF Invoice`
           messageBlock.payload[0].specialKeys['i'] = { type: constants.DYNAMIC, action: constants.GET_INVOICE, argument: orderId }
         } else {
           throw new Error()
@@ -300,15 +300,15 @@ const getShowMyCartBlock = async (chatbot, contact, optionalText) => {
         price = Number(price.toFixed(2))
         totalPrice += price
 
-        messageBlock.payload[0].text += `\n*Item*: ${product.product}`
-        messageBlock.payload[0].text += `\n*Quantity*: ${product.quantity}`
-        messageBlock.payload[0].text += `\n*Price*: ${price} ${currency}`
+        messageBlock.payload[0].text += `\nItem: ${product.product}`
+        messageBlock.payload[0].text += `\nQuantity: ${product.quantity}`
+        messageBlock.payload[0].text += `\nPrice: ${price} ${currency}`
 
         if (i + 1 < shoppingCart.length) {
           messageBlock.payload[0].text += `\n`
         }
       }
-      messageBlock.payload[0].text += `\n\n*Total price*: ${totalPrice} ${currency}\n\n`
+      messageBlock.payload[0].text += `\n\nTotal price: ${totalPrice} ${currency}\n\n`
       messageBlock.payload[0].menu.push(
         { type: constants.DYNAMIC, action: constants.SHOW_ITEMS_TO_REMOVE },
         { type: constants.DYNAMIC, action: constants.SHOW_ITEMS_TO_UPDATE },
@@ -335,8 +335,9 @@ const getShowMyCartBlock = async (chatbot, contact, optionalText) => {
         }
       }
     }
-    messageBlock.payload[0].text += `\n\n${botUtils.specialKeyText(constants.BACK_KEY)}`
-    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)}`
+    let textBlockIndex = messageBlock.payload.findIndex(b => b.componentType === 'text')
+    messageBlock.payload[textBlockIndex].text += `\n\n${botUtils.specialKeyText(constants.BACK_KEY)}`
+    messageBlock.payload[textBlockIndex].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)}`
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to show cart'
@@ -698,7 +699,7 @@ exports.getProductVariantsBlock = async (chatbot, contact, EcommerceProvider, ar
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Please select from following *${product.name}* options by sending the corresponding number for it:\n`,
+          text: `Please select from following ${product.name} options by sending the corresponding number for it:\n`,
           componentType: 'text',
           menu: [],
           specialKeys: {
@@ -1056,26 +1057,26 @@ exports.getOrderStatusBlock = async (chatbot, EcommerceProvider, orderId) => {
     }
 
     if (orderStatus.cancelReason) {
-      messageBlock.payload[0].text += `\n*Status*: CANCELED`
+      messageBlock.payload[0].text += `\nStatus: CANCELED`
     } else {
       if (orderStatus.tags && orderStatus.tags.includes('cancel-request')) {
-        messageBlock.payload[0].text += `\n*Status*: Request Open for Cancelation `
+        messageBlock.payload[0].text += `\nStatus: Request Open for Cancelation `
       }
       if (orderStatus.displayFinancialStatus) {
-        messageBlock.payload[0].text += `\n*Payment*: ${orderStatus.displayFinancialStatus}`
+        messageBlock.payload[0].text += `\nPayment: ${orderStatus.displayFinancialStatus}`
       }
       if (orderStatus.displayFulfillmentStatus) {
-        messageBlock.payload[0].text += `\n*Delivery*: ${orderStatus.displayFulfillmentStatus}`
+        messageBlock.payload[0].text += `\nDelivery: ${orderStatus.displayFulfillmentStatus}`
       }
     }
     if (isOrderFulFilled && orderStatus.fulfillments) {
       if (orderStatus.fulfillments[0]) {
         let trackingDetails = orderStatus.fulfillments[0].trackingInfo && orderStatus.fulfillments[0].trackingInfo[0] ? orderStatus.fulfillments[0].trackingInfo[0] : null
         if (trackingDetails) {
-          messageBlock.payload[0].text += `\n\n*Tracking Details*`
-          messageBlock.payload[0].text += `\n*Company*: ${trackingDetails.company}`
-          messageBlock.payload[0].text += `\n*Number*: ${trackingDetails.number}`
-          messageBlock.payload[0].text += `\n*Url*: ${trackingDetails.url && trackingDetails.url !== '' ? trackingDetails.url : utility.getTrackingUrl(trackingDetails)}`
+          messageBlock.payload[0].text += `\n\nTracking Details`
+          messageBlock.payload[0].text += `\nCompany: ${trackingDetails.company}`
+          messageBlock.payload[0].text += `\nNumber: ${trackingDetails.number}`
+          messageBlock.payload[0].text += `\nUrl: ${trackingDetails.url && trackingDetails.url !== '' ? trackingDetails.url : utility.getTrackingUrl(trackingDetails)}`
         }
       }
     }
@@ -1085,8 +1086,8 @@ exports.getOrderStatusBlock = async (chatbot, EcommerceProvider, orderId) => {
         if (i === 0) {
           messageBlock.payload[0].text += `\n`
         }
-        messageBlock.payload[0].text += `\n*Item*: ${product.name}`
-        messageBlock.payload[0].text += `\n*Quantity*: ${product.quantity}`
+        messageBlock.payload[0].text += `\nItem: ${product.name}`
+        messageBlock.payload[0].text += `\nQuantity: ${product.quantity}`
         if (i + 1 < orderStatus.lineItems.length) {
           messageBlock.payload[0].text += `\n`
         }
@@ -1100,7 +1101,7 @@ exports.getOrderStatusBlock = async (chatbot, EcommerceProvider, orderId) => {
       tempAddressBlock = orderStatus.billingAddress
     }
 
-    messageBlock.payload[0].text += `\n\n*Shipping Address*: ${tempAddressBlock.address1}`
+    messageBlock.payload[0].text += `\n\nShipping Address: ${tempAddressBlock.address1}`
     if (tempAddressBlock.address2) {
       messageBlock.payload[0].text += `, ${tempAddressBlock.address2}`
     }
@@ -1116,15 +1117,15 @@ exports.getOrderStatusBlock = async (chatbot, EcommerceProvider, orderId) => {
 
     messageBlock.payload[0].text += `\n\nThis order was placed on ${new Date(orderStatus.createdAt).toDateString()}`
 
-    messageBlock.payload[0].text += `\n\n*I*   Get PDF Invoice`
-    messageBlock.payload[0].text += `\n*O*  View Recent Orders`
+    messageBlock.payload[0].text += `\n\nI   Get PDF Invoice`
+    messageBlock.payload[0].text += `\nO  View Recent Orders`
 
     if (!orderStatus.cancelReason &&
       !(orderStatus.displayFinancialStatus && orderStatus.displayFinancialStatus.includes('PAID')) &&
       !(orderStatus.tags && orderStatus.tags.includes('cancel-request')) &&
       chatbot.cancelOrder
     ) {
-      messageBlock.payload[0].text += `\n*X*  Cancel Order`
+      messageBlock.payload[0].text += `\nX  Cancel Order`
     }
     if (orderStatus.displayFulfillmentStatus &&
       orderStatus.displayFulfillmentStatus === 'FULFILLED' &&
@@ -1134,7 +1135,7 @@ exports.getOrderStatusBlock = async (chatbot, EcommerceProvider, orderId) => {
       chatbot.returnOrder
     ) {
       messageBlock.payload[0].specialKeys['r'] = { type: constants.DYNAMIC, action: constants.CONFIRM_RETURN_ORDER, argument: orderId }
-      messageBlock.payload[0].text += `\n*R*  Request Return`
+      messageBlock.payload[0].text += `\nR  Request Return`
     }
     messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.BACK_KEY)}`
     messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)}`
@@ -1185,7 +1186,7 @@ exports.getOrderIdBlock = (chatbot, contact) => {
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    messageBlock.payload[0].text += `\n\n*O*  View Recent Orders`
+    messageBlock.payload[0].text += `\n\nO  View Recent Orders`
     messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.BACK_KEY)}`
     messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)}`
     return messageBlock
@@ -1322,7 +1323,7 @@ const getQuantityToUpdateBlock = async (chatbot, product) => {
 
     messageBlock.payload[0].text += `\n\n${botUtils.specialKeyText(constants.BACK_KEY)}`
     messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)}`
-    messageBlock.payload[0].text += `\n*P*  Proceed to Checkout`
+    messageBlock.payload[0].text += `\nP  Proceed to Checkout`
 
     if (product.image) {
       messageBlock.payload.unshift({
