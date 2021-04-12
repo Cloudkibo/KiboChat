@@ -36,29 +36,47 @@ function handleSubscription (platform, subscriptionType, subscriber, data, provi
 
 function handleSubscribe (subscription, platform, subscriber, data, provider) {
   if (!subscription) {
-    let payload = logicLayer.getCreateSubscriptionPayload(platform, subscriber)
-    utility.callApi(`alerts/subscriptions`, 'post', payload, 'kibochat')
-      .then(subscriptionCreated => {
-        require('../../../config/socketio').sendMessageToClient({
-          room_id: subscriber.companyId,
-          body: {
-            action: platform === 'whatsApp' ? 'whatsApp_messageAlert_subscription' : 'messenger_messageAlert_subscription',
-            payload: {
-              type: 'subscribed',
-              subscription: subscriptionCreated
-            }
-          }
-        })
-        let message = `You have been subscribed successfully to receive alerts on ${platform}. If you want to unsubscribe, please send "cancel-notify"`
-        if (platform === 'whatsApp') {
-          sendResponseWhatsApp(data, subscriber, provider, message)
-        } else {
-          sendResponseMessenger(subscriber, data, message)
+    let query = {
+      purpose: 'findAll',
+      match: {
+        companyId: subscriber.companyId,
+        alertChannel: platform,
+        platform: platform
+      },
+      group: { _id: null, count: { $sum: 1 } }
+    }
+    utility.callApi(`alerts/subscriptions/query`, 'post', query, 'kibochat')
+      .then(subscriptions => {
+        if (subscriptions.length < 5) {
+          let payload = logicLayer.getCreateSubscriptionPayload(platform, subscriber)
+          utility.callApi(`alerts/subscriptions`, 'post', payload, 'kibochat')
+            .then(subscriptionCreated => {
+              require('../../../config/socketio').sendMessageToClient({
+                room_id: subscriber.companyId,
+                body: {
+                  action: platform === 'whatsApp' ? 'whatsApp_messageAlert_subscription' : 'messenger_messageAlert_subscription',
+                  payload: {
+                    type: 'subscribed',
+                    subscription: subscriptionCreated
+                  }
+                }
+              })
+              let message = `You have been subscribed successfully to receive alerts on ${platform}. If you want to unsubscribe, please send "cancel-notify"`
+              if (platform === 'whatsApp') {
+                sendResponseWhatsApp(data, subscriber, provider, message)
+              } else {
+                sendResponseMessenger(subscriber, data, message)
+              }
+            })
+            .catch(error => {
+              const message = error || 'error in creating subscription'
+              logger.serverLog(message, `${TAG}: handleSubscribe`, {data}, {subscription, platform, subscriber, provider}, 'error')
+            })
         }
       })
       .catch(error => {
-        const message = error || 'error in creating subscription'
-        logger.serverLog(message, `${TAG}: handleSubscribe`, {data}, {subscription, platform, subscriber, provider}, 'error')
+        const message = error || 'error in fetching subscriptions'
+        logger.serverLog(message, `${TAG}: exports.handleMessageAlertsSubscription`, {subscriber}, {platform, subscription, subscriber, data, provider}, 'error')
       })
   } else {
     let message = 'You are already subscribed. If you want to unsubscribe, please send "cancel-notify"'
