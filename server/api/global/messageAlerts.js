@@ -33,7 +33,6 @@ function pushUnresolveAlertInStack (company, subscriber, platform) {
                 }
                 utility.callApi(`alerts/subscriptions/query`, 'post', query, 'kibochat')
                   .then(subscriptions => {
-                    console.log('subscriptions', subscriptions)
                     if (!subscriptions) {
                       let record = preparePayload(subscriber, company, platform, 'unresolved_session')
                       utility.callApi(`cronStack`, 'post', record, 'kibochat')
