@@ -22,13 +22,31 @@ function pushUnresolveAlertInStack (company, subscriber, platform) {
           utility.callApi(`cronStack/query`, 'post', findSession, 'kibochat')
             .then(result => {
               if (!result) {
-                let record = preparePayload(subscriber, company, platform, 'unresolved_session')
-                utility.callApi(`cronStack`, 'post', record, 'kibochat')
-                  .then(savedRecord => {
+                let query = {
+                  purpose: 'findOne',
+                  match: {
+                    companyId: subscriber.companyId,
+                    alertChannel: platform,
+                    platform: platform,
+                    channelId: platform === 'messenger' ? subscriber.senderId : subscriber.number
+                  }
+                }
+                utility.callApi(`alerts/subscriptions/query`, 'post', query, 'kibochat')
+                  .then(subscriptions => {
+                    if (!subscriptions) {
+                      let record = preparePayload(subscriber, company, platform, 'unresolved_session')
+                      utility.callApi(`cronStack`, 'post', record, 'kibochat')
+                        .then(savedRecord => {
+                        })
+                        .catch(err => {
+                          const message = err || 'Unable to save session info in cronStack'
+                          logger.serverLog(message, `${TAG}: exports.pushUnresolveAlertInStack`, {}, {company, subscriber, platform}, 'error')
+                        })
+                    }
                   })
-                  .catch(err => {
-                    const message = err || 'Unable to save session info in cronStack'
-                    logger.serverLog(message, `${TAG}: exports.pushUnresolveAlertInStack`, {}, {company, subscriber, platform}, 'error')
+                  .catch(error => {
+                    const message = error || 'error in fetching subscriptions'
+                    logger.serverLog(message, `${TAG}: exports.handleMessageAlertsSubscription`, {subscriber}, {platform, subscriber}, 'error')
                   })
               }
             })

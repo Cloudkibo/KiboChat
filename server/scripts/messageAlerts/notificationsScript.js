@@ -210,11 +210,11 @@ function _sendAlerts (cronStack, messageAlert, companyProfile, cb) {
   let name = cronStack.payload.subscriber.name
   let notificationMessage = ''
   if (cronStack.payload.type === 'unresolved_session') {
-    notificationMessage = `Subscriber ${name} session is unresolved and sitting in an open sessions queue for the last ${messageAlert.interval} hour(s).`
+    notificationMessage = `Your {{platform}} subscriber ${name} session is unresolved and sitting in an open sessions queue for the last ${messageAlert.interval} hour(s).`
   } else if (cronStack.payload.type === 'pending_session') {
-    notificationMessage = `Subscriber ${name} session is in pending state for the last ${messageAlert.interval} minute(s) and they are waiting for an agent to respond to them.`
+    notificationMessage = `Your {{platform}} subscriber ${name} session is in pending state for the last ${messageAlert.interval} minute(s) and they are waiting for an agent to respond to them.`
   } else if (cronStack.payload.type === 'talk_to_agent') {
-    notificationMessage = `Subscriber ${name} has selected the "Talk to agent" option from ${cronStack.payload.chatbotName} chatbot and they are waiting for an agent to respond to them.`
+    notificationMessage = `Your {{platform}} subscriber ${name} has selected the "Talk to agent" option from ${cronStack.payload.chatbotName} chatbot and they are waiting for an agent to respond to them.`
   }
   utility.callApi(`alerts/subscriptions/query`, 'post', query, 'kibochat')
     .then(subscriptions => {
@@ -259,9 +259,10 @@ function _sendAlerts (cronStack, messageAlert, companyProfile, cb) {
 function _sendInAppNotification (data, next) {
   if (data.notificationSubscriptions.length > 0) {
     async.each(data.notificationSubscriptions, function (subscription, callback) {
+      const notificationMessage = data.notificationMessage.replace(/{{platform}}/g, subscription.platform.charAt(0).toUpperCase() + subscription.platform.slice(1))
       let notification = {
         companyId: data.messageAlert.companyId,
-        message: data.notificationMessage,
+        message: notificationMessage,
         agentId: subscription.channelId,
         category: {type: 'message_alert', id: data.cronStack.payload.subscriber._id},
         platform: data.messageAlert.platform
@@ -313,11 +314,12 @@ function _sendInAppNotification (data, next) {
 function _sendOnMessenger (data, next) {
   if (data.messengerSubscriptions.length > 0) {
     async.each(data.messengerSubscriptions, function (subscription, callback) {
+      const notificationMessage = data.notificationMessage.replace(/{{platform}}/g, subscription.platform.charAt(0).toUpperCase() + subscription.platform.slice(1))
       facebookApiCaller('v6.0', `me/messages?access_token=${data.cronStack.payload.page.accessToken}`, 'post', {
         messaging_type: 'RESPONSE',
         recipient: JSON.stringify({ id: subscription.channelId }),
         message: {
-          text: data.notificationMessage,
+          text: notificationMessage,
           'metadata': 'This is a meta data'
         }
       }).then(response => {
@@ -346,6 +348,7 @@ function _sendOnMessenger (data, next) {
 function _sendOnWhatsApp (data, next) {
   if (data.whatsAppSubscriptions.length > 0) {
     async.each(data.whatsAppSubscriptions, function (subscription, callback) {
+      const notificationMessage = data.notificationMessage.replace(/{{platform}}/g, subscription.platform.charAt(0).toUpperCase() + subscription.platform.slice(1))
       let response = {
         whatsApp: {
           accessToken: data.companyProfile.whatsApp.accessToken,
@@ -353,7 +356,7 @@ function _sendOnWhatsApp (data, next) {
           businessNumber: data.companyProfile.whatsApp.businessNumber
         },
         recipientNumber: subscription.channelId,
-        payload: { componentType: 'text', text: data.notificationMessage }
+        payload: { componentType: 'text', text: notificationMessage }
       }
       whatsAppMapper.whatsAppMapper(data.companyProfile.whatsApp.provider, ActionTypes.SEND_CHAT_MESSAGE, response)
         .then(sent => {
@@ -393,7 +396,8 @@ function _sendEmail (data, next) {
         from: 'support@cloudkibo.com',
         subject: 'KiboPush: Message Alert'
       }
-      msg.html = getEmailBody(data.notificationMessage, subscription.userName)
+      const notificationMessage = data.notificationMessage.replace(/{{platform}}/g, subscription.platform.charAt(0).toUpperCase() + subscription.platform.slice(1))
+      msg.html = getEmailBody(notificationMessage, subscription.userName)
       sgMail.send(msg)
         .then(response => {
           callback()
@@ -419,13 +423,14 @@ function _sendWebhook (data) {
       .then(webhooks => {
         let webhook = webhooks[0]
         if (webhook && webhook.optIn['NOTIFICATION_ALERTS']) {
+          const notificationMessage = data.notificationMessage.replace(/{{platform}}/g, data.cronStack.payload.platform.charAt(0).toUpperCase() + data.cronStack.payload.platform.slice(1))
           var webhookPayload = {
             type: 'NOTIFICATION_ALERT',
             platform: 'facebook',
             payload: {
               psid: data.cronStack.payload.subscriber.senderId,
               pageId: data.cronStack.payload.page.pageId,
-              message: data.notificationMessage,
+              message: notificationMessage,
               timestamp: Date.now()
             }
           }

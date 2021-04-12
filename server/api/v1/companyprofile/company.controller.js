@@ -762,7 +762,8 @@ exports.setBusinessHours = function (req, res) {
   let updated = {
     businessHours: {
       opening: req.body.opening,
-      closing: req.body.closing
+      closing: req.body.closing,
+      timezone: req.body.timezone
     }
   }
   utility.callApi(`companyprofile/update`, 'put', {query: {_id: req.user.companyId}, newPayload: updated, options: {}})
