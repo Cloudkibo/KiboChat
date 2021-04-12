@@ -149,6 +149,10 @@ exports.setBusinessHoursPayload = {
     closing: {
       type: 'string',
       required: true
+    },
+    timezone: {
+      type: 'string',
+      required: true
     }
   }
 }
