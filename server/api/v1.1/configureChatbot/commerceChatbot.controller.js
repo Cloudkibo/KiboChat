@@ -14,27 +14,28 @@ const { intervalForEach } = require('./../../../components/utility')
 exports.handleCommerceChatbot = async function (company, message, contact) {
   const chatbot = await smsChatbotDataLayer.findOne({
     companyId: company._id,
-    vertical: 'ecommerce',
-    published: true
+    vertical: 'ecommerce'
   })
   let ecommerceProvider = null
   let nextMessageBlock = null
   if (chatbot) {
-    if (chatbot.integration === commerceConstants.shopify) {
-      const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
-      ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
-        shopUrl: shopifyIntegration.shopUrl,
-        shopToken: shopifyIntegration.shopToken
-      })
-    }
-    if (ecommerceProvider) {
-      nextMessageBlock = await getNextMessageBlock(chatbot, ecommerceProvider, contact, message, company)
-    }
-    if (nextMessageBlock) {
-      sendTextMessage(nextMessageBlock, contact, company)
-      botUtils.updateSmsContact({ _id: contact._id },
-        {lastMessageSentByBot: nextMessageBlock, backMessageByBot: contact.lastMessageSentByBot},
-        null, {})
+    if (chatbot.published || chatbot.testSubscribers.includes(contact.number)) {
+      if (chatbot.integration === commerceConstants.shopify) {
+        const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
+        ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
+          shopUrl: shopifyIntegration.shopUrl,
+          shopToken: shopifyIntegration.shopToken
+        })
+      }
+      if (ecommerceProvider) {
+        nextMessageBlock = await getNextMessageBlock(chatbot, ecommerceProvider, contact, message, company)
+      }
+      if (nextMessageBlock) {
+        sendTextMessage(nextMessageBlock, contact, company)
+        botUtils.updateSmsContact({ _id: contact._id },
+          {lastMessageSentByBot: nextMessageBlock, backMessageByBot: contact.lastMessageSentByBot},
+          null, {})
+      }
     }
   }
 }
@@ -54,6 +55,16 @@ function sendTextMessage (nextMessageBlock, contact, company) {
         subscriber: contact,
         company
       })
+    } else if (msgPayload.componentType === 'file') {
+      smsMapper('twilio', ActionTypes.SEND_MEDIA_MESSAGE, {
+        text: msgPayload.fileName,
+        mediaUrl: [msgPayload.fileurl.url],
+        subscriber: contact,
+        company
+      })
+    }
+    if (company && company.saveAutomationMessages) {
+      botUtils.storeChat(company.number, contact.number, contact, msgPayload, 'convos')
     }
   }, 1500)
 }
@@ -301,6 +312,14 @@ async function getNextMessageBlock (chatbot, ecommerceProvider, contact, message
           case constants.UNPAUSE_CHATBOT: {
             await botUtils.updateSmsContact({ _id: contact._id }, { chatbotPaused: false }, null, {})
             return commerceBotLogicLayer.getWelcomeMessageBlock(chatbot, contact, ecommerceProvider)
+          }
+          case constants.VIEW_CATALOG: {
+            messageBlock = await commerceBotLogicLayer.getViewCatalogBlock(chatbot, contact)
+            break
+          }
+          case constants.GET_INVOICE: {
+            messageBlock = await commerceBotLogicLayer.getInvoiceBlock(chatbot, contact, ecommerceProvider, action.argument)
+            break
           }
         }
         return messageBlock
