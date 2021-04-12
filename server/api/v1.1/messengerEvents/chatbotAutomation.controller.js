@@ -19,7 +19,6 @@ const { sendWebhook } = require('../../global/sendWebhook')
 const { pushTalkToAgentAlertInStack } = require('../../global/messageAlerts')
 const chatbotTemplates = require('../../../chatbotTemplates')
 const { getDialogFlowClient } = require('../../global/dialogflow')
-const { pushTalkToAgentAlertInStack } = require('../../global/messageAlerts')
 
 exports.handleChatBotWelcomeMessage = (req, page, subscriber) => {
   record('messengerChatInComing')

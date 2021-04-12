@@ -46,7 +46,7 @@ function pushUnresolveAlertInStack (company, subscriber, platform) {
                   })
                   .catch(error => {
                     const message = error || 'error in fetching subscriptions'
-                    logger.serverLog(message, `${TAG}: exports.handleMessageAlertsSubscription`, {subscriber}, {platform, subscription, subscriber, data, provider}, 'error')
+                    logger.serverLog(message, `${TAG}: exports.handleMessageAlertsSubscription`, {subscriber}, {platform, subscriber}, 'error')
                   })
               }
             })

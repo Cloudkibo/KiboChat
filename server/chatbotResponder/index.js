@@ -7,7 +7,6 @@ const { ActionTypes } = require('../smsMapper/constants')
 const { callApi } = require('../api/v1.1/utility')
 const { pushTalkToAgentAlertInStack } = require('../api/global/messageAlerts')
 const { getDialogFlowClient } = require('../api/global/dialogflow')
-const { pushTalkToAgentAlertInStack } = require('../api/global/messageAlerts')
 
 exports.respondUsingChatbot = (platform, provider, company, message, contact, isForTest) => {
   return new Promise((resolve, reject) => {
