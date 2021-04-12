@@ -2366,7 +2366,7 @@ exports.getViewCatalogBlock = (chatbot, contact) => {
     messageBlock.payload[0].text += `\n\n${botUtils.specialKeyText(constants.HOME_KEY)}`
     return messageBlock
   } catch (err) {
-    const message = err || 'Unable get talk to agent message block'
+    const message = err || 'Unable get catalog message block'
     logger.serverLog(message, `${TAG}: getViewCatalogBlock`, {}, {chatbot, contact}, 'error')
     throw new Error(`${constants.ERROR_INDICATOR}Unable to notify customer support agent`)
   }
