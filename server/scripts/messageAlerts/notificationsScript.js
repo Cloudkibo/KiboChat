@@ -7,6 +7,7 @@ const { ActionTypes } = require('../../whatsAppMapper/constants')
 const whatsAppMapper = require('../../whatsAppMapper/whatsAppMapper')
 const { storeChat } = require('../../api/v1.1/whatsAppEvents/controller')
 const { facebookApiCaller } = require('../../api/global/facebookApiCaller')
+const { convertTimeZone } = require('../../api/global/utility')
 const config = require('../../config/environment/index')
 const sgMail = require('@sendgrid/mail')
 const needle = require('needle')
@@ -97,6 +98,7 @@ function pendingSession (findAdminAlerts) {
                     .then(companyProfile => {
                       if (messageAlert.promptCriteria === 'outside_bussiness_hours' && companyProfile.businessHours) {
                         let dt = new Date()
+                        dt = convertTimeZone(dt, companyProfile.businessHours.timezone)
                         let s = companyProfile.businessHours.opening.split(':')
                         let dt1 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(),
                           parseInt(s[0]), parseInt(s[1]), 0)
@@ -151,7 +153,7 @@ function talkToAgent (findAdminAlerts) {
         async.each(cronStacks, function (cronStack, cb) {
           let query = {
             purpose: 'findOne',
-            match: {companyId: cronStack.payload.companyId, platform: cronStack.payload.platform, type: 'pending_session'}
+            match: {companyId: cronStack.payload.companyId, platform: cronStack.payload.platform, type: 'talk_to_agent'}
           }
           utility.callApi(`alerts/query`, 'post', query, 'kibochat')
             .then(messageAlert => {
@@ -160,6 +162,7 @@ function talkToAgent (findAdminAlerts) {
                   .then(companyProfile => {
                     if (messageAlert.promptCriteria === 'outside_bussiness_hours' && companyProfile.businessHours) {
                       let dt = new Date()
+                      dt = convertTimeZone(dt, companyProfile.businessHours.timezone)
                       let s = companyProfile.businessHours.opening.split(':')
                       let dt1 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(),
                         parseInt(s[0]), parseInt(s[1]), 0)
