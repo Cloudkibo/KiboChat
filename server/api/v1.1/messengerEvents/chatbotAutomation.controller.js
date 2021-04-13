@@ -859,7 +859,6 @@ function handleTalkToAgent (page, subscriber) {
       return logger.serverLog(message, `${TAG}: sendTalkToAgentResponse`, {}, {page, subscriber}, 'error')
     })
 }
-
 exports.updateBotPeriodicStatsForBlock = updateBotPeriodicStatsForBlock
 exports.updateBotLifeStatsForBlock = updateBotLifeStatsForBlock
 exports.sendResponse = sendResponse

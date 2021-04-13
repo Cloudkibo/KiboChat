@@ -67,6 +67,10 @@ exports.getSuperWhatsAppAccount = () => {
   }
 }
 
+exports.convertTimeZone = (date, tzString) => {
+  return new Date((typeof date === 'string' ? new Date(date) : date).toLocaleString('en-US', {timeZone: tzString}))
+}
+
 exports.openGraphScrapper = openGraphScrapper
 exports.getTimeDiffInMinutes = getTimeDiffInMinutes
 exports.isEmail = isEmail
