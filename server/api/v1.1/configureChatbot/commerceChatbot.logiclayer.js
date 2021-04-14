@@ -1,6 +1,7 @@
 const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
 const constants = require('../whatsAppChatbot/constants')
 const { convertToEmoji, sendNotification } = require('../whatsAppChatbot/whatsAppChatbot.logiclayer')
+const { generateInvoice } = require('../whatsAppChatbot/commerceChatbot.logiclayer')
 const dedent = require('dedent-js')
 const logger = require('../../../components/logger')
 const TAG = 'api/v1️.1/configureChatbot/commerceChatbot.logiclayer.js'
@@ -97,7 +98,7 @@ exports.getCheckoutBlock = async (chatbot, EcommerceProvider, contact, argument,
           let storeInfo = await EcommerceProvider.fetchStoreInfo()
           const orderId = order.name.replace('#', '')
           messageBlock.payload[0].text += `Thank you for shopping at ${storeInfo.name}. We have received your order. Please note the order number given below to track your order:\n\n`
-          messageBlock.payload[0].text += `*${orderId}*\n\n`
+          messageBlock.payload[0].text += `${orderId}\n\n`
           messageBlock.payload[0].text += `Here is your complete order:\n`
 
           let totalPrice = 0
@@ -111,21 +112,21 @@ exports.getCheckoutBlock = async (chatbot, EcommerceProvider, contact, argument,
             price = Number(price.toFixed(2))
             totalPrice += price
 
-            messageBlock.payload[0].text += `\n*Item*: ${product.product}`
-            messageBlock.payload[0].text += `\n*Quantity*: ${product.quantity}`
-            messageBlock.payload[0].text += `\n*Price*: ${price} ${currency}`
+            messageBlock.payload[0].text += `\nItem: ${product.product}`
+            messageBlock.payload[0].text += `\nQuantity: ${product.quantity}`
+            messageBlock.payload[0].text += `\nPrice: ${price} ${currency}`
 
             if (i + 1 < shoppingCart.length) {
               messageBlock.payload[0].text += `\n`
             }
           }
 
-          messageBlock.payload[0].text += `\n\n*Total price*: ${totalPrice} ${currency}\n\n`
+          messageBlock.payload[0].text += `\n\nTotal price: ${totalPrice} ${currency}\n\n`
 
           const address = argument.address
-          messageBlock.payload[0].text += `*Address*: ${address.address1}, ${address.city} ${address.zip}, ${address.country}`
+          messageBlock.payload[0].text += `Address: ${address.address1}, ${address.city} ${address.zip}, ${address.country}`
 
-          messageBlock.payload[0].text += `\n\n*I*  Get PDF Invoice`
+          messageBlock.payload[0].text += `\n\nI  Get PDF Invoice`
           messageBlock.payload[0].specialKeys['i'] = { type: constants.DYNAMIC, action: constants.GET_INVOICE, argument: orderId }
         } else {
           throw new Error()
@@ -300,15 +301,15 @@ const getShowMyCartBlock = async (chatbot, contact, optionalText) => {
         price = Number(price.toFixed(2))
         totalPrice += price
 
-        messageBlock.payload[0].text += `\n*Item*: ${product.product}`
-        messageBlock.payload[0].text += `\n*Quantity*: ${product.quantity}`
-        messageBlock.payload[0].text += `\n*Price*: ${price} ${currency}`
+        messageBlock.payload[0].text += `\nItem: ${product.product}`
+        messageBlock.payload[0].text += `\nQuantity: ${product.quantity}`
+        messageBlock.payload[0].text += `\nPrice: ${price} ${currency}`
 
         if (i + 1 < shoppingCart.length) {
           messageBlock.payload[0].text += `\n`
         }
       }
-      messageBlock.payload[0].text += `\n\n*Total price*: ${totalPrice} ${currency}\n\n`
+      messageBlock.payload[0].text += `\n\nTotal price: ${totalPrice} ${currency}\n\n`
       messageBlock.payload[0].menu.push(
         { type: constants.DYNAMIC, action: constants.SHOW_ITEMS_TO_REMOVE },
         { type: constants.DYNAMIC, action: constants.SHOW_ITEMS_TO_UPDATE },
@@ -335,8 +336,9 @@ const getShowMyCartBlock = async (chatbot, contact, optionalText) => {
         }
       }
     }
-    messageBlock.payload[0].text += `\n\n${botUtils.specialKeyText(constants.BACK_KEY)}`
-    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)}`
+    let textBlockIndex = messageBlock.payload.findIndex(b => b.componentType === 'text')
+    messageBlock.payload[textBlockIndex].text += `\n\n${botUtils.specialKeyText(constants.BACK_KEY)}`
+    messageBlock.payload[textBlockIndex].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)}`
     return messageBlock
   } catch (err) {
     const message = err || 'Unable to show cart'
@@ -698,7 +700,7 @@ exports.getProductVariantsBlock = async (chatbot, contact, EcommerceProvider, ar
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Please select from following *${product.name}* options by sending the corresponding number for it:\n`,
+          text: `Please select from following "${product.name}" options by sending the corresponding number for it:\n`,
           componentType: 'text',
           menu: [],
           specialKeys: {
@@ -1056,26 +1058,26 @@ exports.getOrderStatusBlock = async (chatbot, EcommerceProvider, orderId) => {
     }
 
     if (orderStatus.cancelReason) {
-      messageBlock.payload[0].text += `\n*Status*: CANCELED`
+      messageBlock.payload[0].text += `\nStatus: CANCELED`
     } else {
       if (orderStatus.tags && orderStatus.tags.includes('cancel-request')) {
-        messageBlock.payload[0].text += `\n*Status*: Request Open for Cancelation `
+        messageBlock.payload[0].text += `\nStatus: Request Open for Cancelation `
       }
       if (orderStatus.displayFinancialStatus) {
-        messageBlock.payload[0].text += `\n*Payment*: ${orderStatus.displayFinancialStatus}`
+        messageBlock.payload[0].text += `\nPayment: ${orderStatus.displayFinancialStatus}`
       }
       if (orderStatus.displayFulfillmentStatus) {
-        messageBlock.payload[0].text += `\n*Delivery*: ${orderStatus.displayFulfillmentStatus}`
+        messageBlock.payload[0].text += `\nDelivery: ${orderStatus.displayFulfillmentStatus}`
       }
     }
     if (isOrderFulFilled && orderStatus.fulfillments) {
       if (orderStatus.fulfillments[0]) {
         let trackingDetails = orderStatus.fulfillments[0].trackingInfo && orderStatus.fulfillments[0].trackingInfo[0] ? orderStatus.fulfillments[0].trackingInfo[0] : null
         if (trackingDetails) {
-          messageBlock.payload[0].text += `\n\n*Tracking Details*`
-          messageBlock.payload[0].text += `\n*Company*: ${trackingDetails.company}`
-          messageBlock.payload[0].text += `\n*Number*: ${trackingDetails.number}`
-          messageBlock.payload[0].text += `\n*Url*: ${trackingDetails.url && trackingDetails.url !== '' ? trackingDetails.url : utility.getTrackingUrl(trackingDetails)}`
+          messageBlock.payload[0].text += `\n\nTracking Details`
+          messageBlock.payload[0].text += `\nCompany: ${trackingDetails.company}`
+          messageBlock.payload[0].text += `\nNumber: ${trackingDetails.number}`
+          messageBlock.payload[0].text += `\nUrl: ${trackingDetails.url && trackingDetails.url !== '' ? trackingDetails.url : utility.getTrackingUrl(trackingDetails)}`
         }
       }
     }
@@ -1085,8 +1087,8 @@ exports.getOrderStatusBlock = async (chatbot, EcommerceProvider, orderId) => {
         if (i === 0) {
           messageBlock.payload[0].text += `\n`
         }
-        messageBlock.payload[0].text += `\n*Item*: ${product.name}`
-        messageBlock.payload[0].text += `\n*Quantity*: ${product.quantity}`
+        messageBlock.payload[0].text += `\nItem: ${product.name}`
+        messageBlock.payload[0].text += `\nQuantity: ${product.quantity}`
         if (i + 1 < orderStatus.lineItems.length) {
           messageBlock.payload[0].text += `\n`
         }
@@ -1100,7 +1102,7 @@ exports.getOrderStatusBlock = async (chatbot, EcommerceProvider, orderId) => {
       tempAddressBlock = orderStatus.billingAddress
     }
 
-    messageBlock.payload[0].text += `\n\n*Shipping Address*: ${tempAddressBlock.address1}`
+    messageBlock.payload[0].text += `\n\nShipping Address: ${tempAddressBlock.address1}`
     if (tempAddressBlock.address2) {
       messageBlock.payload[0].text += `, ${tempAddressBlock.address2}`
     }
@@ -1116,15 +1118,15 @@ exports.getOrderStatusBlock = async (chatbot, EcommerceProvider, orderId) => {
 
     messageBlock.payload[0].text += `\n\nThis order was placed on ${new Date(orderStatus.createdAt).toDateString()}`
 
-    messageBlock.payload[0].text += `\n\n*I*   Get PDF Invoice`
-    messageBlock.payload[0].text += `\n*O*  View Recent Orders`
+    messageBlock.payload[0].text += `\n\nI   Get PDF Invoice`
+    messageBlock.payload[0].text += `\nO  View Recent Orders`
 
     if (!orderStatus.cancelReason &&
       !(orderStatus.displayFinancialStatus && orderStatus.displayFinancialStatus.includes('PAID')) &&
       !(orderStatus.tags && orderStatus.tags.includes('cancel-request')) &&
       chatbot.cancelOrder
     ) {
-      messageBlock.payload[0].text += `\n*X*  Cancel Order`
+      messageBlock.payload[0].text += `\nX  Cancel Order`
     }
     if (orderStatus.displayFulfillmentStatus &&
       orderStatus.displayFulfillmentStatus === 'FULFILLED' &&
@@ -1134,7 +1136,7 @@ exports.getOrderStatusBlock = async (chatbot, EcommerceProvider, orderId) => {
       chatbot.returnOrder
     ) {
       messageBlock.payload[0].specialKeys['r'] = { type: constants.DYNAMIC, action: constants.CONFIRM_RETURN_ORDER, argument: orderId }
-      messageBlock.payload[0].text += `\n*R*  Request Return`
+      messageBlock.payload[0].text += `\nR  Request Return`
     }
     messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.BACK_KEY)}`
     messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)}`
@@ -1185,7 +1187,7 @@ exports.getOrderIdBlock = (chatbot, contact) => {
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    messageBlock.payload[0].text += `\n\n*O*  View Recent Orders`
+    messageBlock.payload[0].text += `\n\nO  View Recent Orders`
     messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.BACK_KEY)}`
     messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)}`
     return messageBlock
@@ -1322,7 +1324,7 @@ const getQuantityToUpdateBlock = async (chatbot, product) => {
 
     messageBlock.payload[0].text += `\n\n${botUtils.specialKeyText(constants.BACK_KEY)}`
     messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)}`
-    messageBlock.payload[0].text += `\n*P*  Proceed to Checkout`
+    messageBlock.payload[0].text += `\nP  Proceed to Checkout`
 
     if (product.image) {
       messageBlock.payload.unshift({
@@ -1788,7 +1790,7 @@ exports.getCheckoutStreetAddressBlock = async (chatbot, contact, argument) => {
             }
           },
           specialKeys: {
-            [constants.HOME_KEY]: { type: constants.STATIC, blockId: chatbot.startingBlockId }
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
           }
         }
       ],
@@ -1828,7 +1830,7 @@ exports.getCheckoutCityBlock = async (chatbot, contact, argument, userInput) => 
             }
           },
           specialKeys: {
-            [constants.HOME_KEY]: { type: constants.STATIC, blockId: chatbot.startingBlockId }
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
           }
         }
       ],
@@ -1869,7 +1871,7 @@ exports.getCheckoutCountryBlock = async (chatbot, contact, argument, userInput) 
             }
           },
           specialKeys: {
-            [constants.HOME_KEY]: { type: constants.STATIC, blockId: chatbot.startingBlockId }
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
           }
         }
       ],
@@ -1911,7 +1913,7 @@ exports.getCheckoutZipCodeBlock = async (chatbot, contact, argument, userInput) 
             }
           },
           specialKeys: {
-            [constants.HOME_KEY]: { type: constants.STATIC, blockId: chatbot.startingBlockId }
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
           }
         }
       ],
@@ -1944,7 +1946,7 @@ exports.confirmCompleteAddress = (chatbot, contact, argument, userInput) => {
         componentType: 'text',
         menu: [],
         specialKeys: {
-          [constants.HOME_KEY]: { type: constants.STATIC, blockId: chatbot.startingBlockId },
+          [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU },
           'y': { type: constants.DYNAMIC, action: constants.PROCEED_TO_CHECKOUT, argument },
           'n': { type: constants.DYNAMIC, action: constants.UPDATE_ADDRESS_BLOCK, argument },
           'yes': { type: constants.DYNAMIC, action: constants.PROCEED_TO_CHECKOUT, argument },
@@ -1981,7 +1983,7 @@ exports.updateAddressBlock = (chatbot, contact, argument) => {
         componentType: 'text',
         menu: [],
         specialKeys: {
-          [constants.HOME_KEY]: { type: constants.STATIC, blockId: chatbot.startingBlockId }
+          [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
         }
       }
     ],
@@ -2025,7 +2027,7 @@ exports.updateCheckoutStreetAddressBlock = async (chatbot, contact, argument) =>
             argument
           },
           specialKeys: {
-            [constants.HOME_KEY]: { type: constants.STATIC, blockId: chatbot.startingBlockId }
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
           }
         }
       ],
@@ -2060,7 +2062,7 @@ exports.updateCheckoutCityBlock = async (chatbot, contact, argument) => {
             argument
           },
           specialKeys: {
-            [constants.HOME_KEY]: { type: constants.STATIC, blockId: chatbot.startingBlockId }
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
           }
         }
       ],
@@ -2095,7 +2097,7 @@ exports.updateCheckoutCountryBlock = async (chatbot, contact, argument) => {
             argument
           },
           specialKeys: {
-            [constants.HOME_KEY]: { type: constants.STATIC, blockId: chatbot.startingBlockId }
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
           }
         }
       ],
@@ -2130,7 +2132,7 @@ exports.updateCheckoutZipCodeBlock = async (chatbot, contact, argument) => {
             argument
           },
           specialKeys: {
-            [constants.HOME_KEY]: { type: constants.STATIC, blockId: chatbot.startingBlockId }
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
           }
         }
       ],
@@ -2323,6 +2325,150 @@ exports.getAskUnpauseChatbotBlock = (chatbot, contact) => {
     const message = err || 'Unable to request for unpause chatbot'
     logger.serverLog(message, `${TAG}: getAskUnpauseChatbotBlock`, {}, {chatbot, contact}, 'error')
     throw new Error(`${constants.ERROR_INDICATOR}Unable to request for unpause chatbot`)
+  }
+}
+
+exports.getViewCatalogBlock = (chatbot, contact) => {
+  try {
+    const messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'sms_commerce_chatbot'
+      },
+      title: 'View Catalog',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: ``,
+          componentType: 'text',
+          specialKeys: {
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU },
+            [constants.ORDER_STATUS_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+
+    if (chatbot.catalog && chatbot.catalog.url) {
+      messageBlock.payload[0].text += `Here is our catalog. Please wait a moment for it to send.`
+      messageBlock.payload.push({
+        componentType: 'file',
+        fileurl: {
+          url: chatbot.catalog.url
+        },
+        fileName: chatbot.catalog.name
+      })
+    } else {
+      messageBlock.payload[0].text += `No catalog currently available.`
+    }
+    messageBlock.payload[0].text += `\n\n${botUtils.specialKeyText(constants.HOME_KEY)}`
+    return messageBlock
+  } catch (err) {
+    const message = err || 'Unable get catalog message block'
+    logger.serverLog(message, `${TAG}: getViewCatalogBlock`, {}, {chatbot, contact}, 'error')
+    throw new Error(`${constants.ERROR_INDICATOR}Unable to notify customer support agent`)
+  }
+}
+
+exports.getInvoiceBlock = async (chatbot, contact, EcommerceProvider, orderId) => {
+  let userError = false
+  try {
+    let messageBlock = {
+      module: {
+        id: chatbot._id,
+        type: 'sms_commerce_chatbot'
+      },
+      title: 'Order Invoice',
+      uniqueId: '' + new Date().getTime(),
+      payload: [
+        {
+          text: `Here is your invoice for order #${orderId}:`,
+          componentType: 'text',
+          specialKeys: {
+            [constants.HOME_KEY]: { type: constants.DYNAMIC, action: constants.SHOW_MAIN_MENU },
+            [constants.BACK_KEY]: { type: constants.DYNAMIC, action: constants.GO_BACK }
+          }
+        }
+      ],
+      userId: chatbot.userId,
+      companyId: chatbot.companyId
+    }
+    let orderStatus = await EcommerceProvider.checkOrderStatus(Number(orderId))
+    let attempts = 0
+    const maxAttempts = 10
+    while (!orderStatus && attempts < maxAttempts) {
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      orderStatus = await EcommerceProvider.checkOrderStatus(Number(orderId))
+      attempts++
+    }
+
+    if (!orderStatus) {
+      userError = true
+      throw new Error('Unable to get order status. Please make sure your order ID is valid and that the order was placed within the last 60 days.')
+    }
+
+    let shoppingCart = []
+    let totalOrderPriceString = ''
+    if (orderStatus.lineItems && orderStatus.lineItems.length > 0) {
+      const totalOrderPrice = orderStatus.lineItems.reduce((acc, item) => acc + Number(item.price), 0)
+      const currency = orderStatus.lineItems[0].currency
+      totalOrderPriceString = currency === 'USD' ? `$${totalOrderPrice}` : `${totalOrderPrice} ${currency}`
+      for (let i = 0; i < orderStatus.lineItems.length; i++) {
+        let product = orderStatus.lineItems[i]
+        const individualPrice = Number(product.price) / Number(product.quantity)
+        const priceString = currency === 'USD' ? `$${individualPrice}` : `${individualPrice} ${currency}`
+        const totalPriceString = currency === 'USD' ? `$${product.price}` : `${product.price} ${currency}`
+        shoppingCart.push({
+          image_url: product.image.originalSrc,
+          name: product.name,
+          price: priceString,
+          quantity: product.quantity,
+          totalPrice: totalPriceString
+        })
+      }
+    }
+
+    let shippingAddress = null
+    let billingAddress = null
+    if (orderStatus.shippingAddress) {
+      shippingAddress = orderStatus.shippingAddress
+    } else if (contact.commerceCustomer && contact.commerceCustomer.defaultAddress) {
+      shippingAddress = contact.commerceCustomer.defaultAddress
+    }
+
+    if (orderStatus.billingAddress) {
+      billingAddress = orderStatus.billingAddress
+    }
+
+    const storeInfo = await EcommerceProvider.fetchStoreInfo()
+
+    const invoiceComponent = await generateInvoice(
+      storeInfo,
+      orderId,
+      new Date(orderStatus.createdAt).toLocaleString(),
+      orderStatus.customer,
+      shippingAddress,
+      billingAddress,
+      shoppingCart,
+      totalOrderPriceString
+    )
+    messageBlock.payload[0].text += `\n\n${botUtils.specialKeyText(constants.BACK_KEY)}`
+    messageBlock.payload[0].text += `\n${botUtils.specialKeyText(constants.HOME_KEY)}`
+    messageBlock.payload.push(invoiceComponent)
+
+    return messageBlock
+  } catch (err) {
+    if (!userError) {
+      const message = err || 'Unable to get order status'
+      logger.serverLog(message, `${TAG}: getInvoiceBlock`, {}, {}, 'error')
+    }
+    if (err && err.message) {
+      throw new Error(`${constants.ERROR_INDICATOR}${err.message}`)
+    } else {
+      throw new Error(`${constants.ERROR_INDICATOR}Unable to get order status.`)
+    }
   }
 }
 
