@@ -3625,3 +3625,4 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input,
     }
   }
 }
+exports.generateInvoice = generateInvoice
