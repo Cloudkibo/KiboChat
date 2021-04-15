@@ -68,7 +68,7 @@ exports.messageReceived = function (req, res) {
                           }
                         }
                         const shouldAvoidSendingMessage = await shouldAvoidSendingAutomatedMessage(contact, company, data)
-                        if (company._id === '5a89ecdaf6b0460c552bf7fe') {
+                        if (company._id === '5aa10cdf46b4591f60e6b50c') {
                           // NOTE: This if condition is temporary testing code for
                           // adil. We will remove this in future. It will only run for
                           // our own company. Please don't remove this. - Sojharo
@@ -559,7 +559,6 @@ async function temporarySuperBotTestHandling (data, contact, company, number, re
           contact.lastMessageSentByBot.module &&
           contact.lastMessageSentByBot.module.id === 'sojharo-s-chatbot-custom-id'))) {
       const allChatbots = await getAllChatbots(company)
-
       let nextMessageBlock = whatsAppChatbotLogicLayer.getChatbotsListMessageBlock(allChatbots)
       if (nextMessageBlock) {
         sendWhatsAppMessage(nextMessageBlock, data, number, company, contact)
@@ -578,7 +577,6 @@ async function temporarySuperBotTestHandling (data, contact, company, number, re
       // case when user has selected the chatbot and we are informing his about selection
       const menuInput = parseInt(data.messageData.text)
       const lastMessageSentByBot = contact.lastMessageSentByBot.payload[0]
-
       if (!isNaN(menuInput)) {
         const selectedBot = lastMessageSentByBot.menu[menuInput]
         if (selectedBot) {
@@ -669,7 +667,6 @@ async function getAllChatbots (company) {
     }
     return {botId: chatbot._id, title, built: 'automated', ...chatbot}
   })
-
   let sqlChatbots = await configureChatbotDatalayer.fetchChatbotRecords({platform: 'whatsApp', companyId: company._id, published: true})
   sqlChatbots = sqlChatbots.map(chatbot => {
     return {botId: chatbot.chatbotId, built: 'custom', ...chatbot}
@@ -686,7 +683,7 @@ async function getAllChatbots (company) {
 // above - Sojharo
 async function temporarySuperBotResponseHandling (data, contact, company, number, req, isNewContact) {
   try {
-    if (data.messageData.componentType === 'text' && contact.activeChatbotBuilt === 'automated') {
+    if ((data.messageData.componentType === 'text' || data.messageData.componentType === 'audio') && contact.activeChatbotBuilt === 'automated') {
       let chatbot = await whatsAppChatbotDataLayer.fetchWhatsAppChatbot({ _id: contact.activeChatbotId })
       if (chatbot) {
         const shouldSend = chatbot.published || chatbot.testSubscribers.includes(contact.number)
@@ -700,20 +697,22 @@ async function temporarySuperBotResponseHandling (data, contact, company, number
               const response = await chatbotTemplates.handleUserInput(chatbot, data, contact, 'whatsApp')
               nextMessageBlock = response.chatbotResponse
               currentMessage = response.automationResponse
-            } else if (chatbot.storeType === commerceConstants.shopify) {
-              const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
-              ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
-                shopUrl: shopifyIntegration.shopUrl,
-                shopToken: shopifyIntegration.shopToken
-              })
-            } else if (chatbot.storeType === commerceConstants.bigcommerce) {
-              const bigCommerceIntegration = await bigcommerceDataLayer.findOneBigCommerceIntegration({ companyId: chatbot.companyId })
-              ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
-                shopToken: bigCommerceIntegration.shopToken,
-                storeHash: bigCommerceIntegration.payload.context
-              })
+            } else if (data.messageData.componentType === 'text') {
+              if (chatbot.storeType === commerceConstants.shopify) {
+                const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
+                ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
+                  shopUrl: shopifyIntegration.shopUrl,
+                  shopToken: shopifyIntegration.shopToken
+                })
+              } else if (chatbot.storeType === commerceConstants.bigcommerce) {
+                const bigCommerceIntegration = await bigcommerceDataLayer.findOneBigCommerceIntegration({ companyId: chatbot.companyId })
+                ecommerceProvider = new EcommerceProvider(commerceConstants.bigcommerce, {
+                  shopToken: bigCommerceIntegration.shopToken,
+                  storeHash: bigCommerceIntegration.payload.context
+                })
+              }
             }
-          } else if (chatbot.vertical === 'airlines') {
+          } else if (chatbot.vertical === 'airlines' && data.messageData.componentType === 'text') {
             airlinesProvider = new AirlinesProvider(airlinesConstants.amadeus, {
               clientId: config.amadeus.clientId,
               clientSecret: config.amadeus.clientSecret
