@@ -24,6 +24,8 @@ function callAction (action, data, provider) {
       return provider.sendMediaMessage(data)
     case ActionTypes.FETCH_AVAILABLE_NUMBERS:
       return provider.fetchAvailableNumbers(data)
+    case ActionTypes.CREATE_ORDER:
+      return provider.createOrder(data)
     default:
   }
 }

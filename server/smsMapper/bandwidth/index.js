@@ -89,6 +89,28 @@ exports.fetchAvailableNumbers = ({company, query}) => {
   })
 }
 
+exports.createOrder = ({company, body}) => {
+  return new Promise(async (resolve, reject) => {
+    numbers.Client.globalOptions.accountId = company.sms.accountId
+    numbers.Client.globalOptions.userName = company.sms.username
+    numbers.Client.globalOptions.password = company.sms.password
+    let order = {
+      name: body.orderName,
+      siteId: body.siteId,
+      existingTelephoneNumberOrderType: {
+        telephoneNumberList: body.numbers
+      }
+    }
+    numbers.Order.create(order, function (err, res) {
+      if (err) {
+        reject(err)
+      } else {
+        resolve()
+      }
+    })
+  })
+}
+
 function bandwidthClient (company) {
   const client = new Client({
     basicAuthUserName: company.sms.username,
