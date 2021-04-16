@@ -261,6 +261,7 @@ exports.getWelcomeMessageBlock = async (chatbot, contact, ecommerceProvider) => 
   }
   return messageBlock
 }
+
 const getShowMyCartBlock = async (chatbot, contact, optionalText) => {
   try {
     let messageBlock = {
