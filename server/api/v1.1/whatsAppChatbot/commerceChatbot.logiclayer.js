@@ -1578,13 +1578,18 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText) => {
       messageBlock.payload[0].menu.push(
         { type: DYNAMIC, action: SHOW_ITEMS_TO_REMOVE },
         { type: DYNAMIC, action: SHOW_ITEMS_TO_UPDATE },
-        { type: DYNAMIC, action: CONFIRM_CLEAR_CART },
-        { type: DYNAMIC, action: ASK_PAYMENT_METHOD })
+        { type: DYNAMIC, action: CONFIRM_CLEAR_CART })
       messageBlock.payload[0].text += dedent(`Please select an option by sending the corresponding number for it:\n
                                             ${convertToEmoji(0)} Remove an item
                                             ${convertToEmoji(1)} Update quantity for an item
-                                            ${convertToEmoji(2)} Clear cart
-                                            ${convertToEmoji(3)} Proceed to Checkout`)
+                                            ${convertToEmoji(2)} Clear cart`)
+    }
+
+    if (chatbot.enabledFeatures.commerceBotFeatures.preSales.createOrder) {
+      messageBlock.payload[0].text += `\n${convertToEmoji(3)} Proceed to Checkout`
+      messageBlock.payload[0].menu.push(
+        { type: DYNAMIC, action: ASK_PAYMENT_METHOD }
+      )
     }
     messageBlock.payload[0].text += `\n\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
@@ -3220,6 +3225,26 @@ const getCheckoutBlock = async (chatbot, backId, EcommerceProvider, contact, arg
 
 const getWelcomeMessageBlock = async (chatbot, contact, ecommerceProvider) => {
   let storeInfo = await ecommerceProvider.fetchStoreInfo()
+
+  const messageBlock = {
+    module: {
+      id: chatbot._id,
+      type: 'whatsapp_commerce_chatbot'
+    },
+    title: 'Main Menu',
+    uniqueId: '' + new Date().getTime(),
+    payload: [
+      {
+        text: null,
+        componentType: 'text',
+        menu: [],
+        specialKeys: {}
+      }
+    ],
+    userId: chatbot.userId,
+    companyId: chatbot.companyId
+  }
+
   let welcomeMessage = 'Hi'
 
   if (contact.name && contact.name !== contact.number) {
@@ -3227,16 +3252,79 @@ const getWelcomeMessageBlock = async (chatbot, contact, ecommerceProvider) => {
   } else {
     welcomeMessage += `!`
   }
+
   welcomeMessage += ` Greetings from ${storeInfo.name} ${chatbot.storeType} chatbot 🤖😀`
 
   welcomeMessage += `\n\nI am here to guide you on your journey of shopping on ${storeInfo.name}`
-  let messageBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
-  if (messageBlock) {
-    messageBlock.payload[0].text = `${welcomeMessage}\n\n` + messageBlock.payload[0].text
-    return messageBlock
-  } else {
-    return null
+
+  welcomeMessage += `Please select an option to let me know what you would like to do? (i.e. send "1" to select option listed as 1)\n`
+
+  let indexCounter = 0
+  if (chatbot.enabledFeatures.commerceBotFeatures.preSales.browseCategories) {
+    welcomeMessage += `\n${convertToEmoji(indexCounter)} Browse all categories`
+    messageBlock.payload[0].menu.push({
+      'type': 'DYNAMIC', 'action': PRODUCT_CATEGORIES
+    })
+    indexCounter++
   }
+
+  if (chatbot.enabledFeatures.commerceBotFeatures.preSales.discoverProducts) {
+    welcomeMessage += `\n${convertToEmoji(indexCounter)} View Products on sale`
+    messageBlock.payload[0].menu.push({
+      'type': 'DYNAMIC', 'action': DISCOVER_PRODUCTS
+    })
+    indexCounter++
+  }
+
+  if (chatbot.enabledFeatures.commerceBotFeatures.preSales.searchProducts) {
+    welcomeMessage += `\n${convertToEmoji(indexCounter)} Search for a product`
+    messageBlock.payload[0].menu.push({
+      'type': 'DYNAMIC', 'action': SEARCH_PRODUCTS
+    })
+    indexCounter++
+  }
+
+  if (chatbot.enabledFeatures.commerceBotFeatures.generalFeatures.catalogPdf) {
+    welcomeMessage += `\n${convertToEmoji(indexCounter)} View Catalog`
+    messageBlock.payload[0].menu.push({
+      'type': 'DYNAMIC', 'action': VIEW_CATALOG
+    })
+    indexCounter++
+  }
+
+  welcomeMessage = `\n`
+
+  if (chatbot.enabledFeatures.commerceBotFeatures.postSales.checkOrderStatus) {
+    welcomeMessage += `\n${specialKeyText(ORDER_STATUS_KEY)}`
+    messageBlock.payload[0].specialKeys.push({
+      [ORDER_STATUS_KEY]: { type: DYNAMIC, action: VIEW_RECENT_ORDERS }
+    })
+  }
+
+  if (chatbot.enabledFeatures.commerceBotFeatures.preSales.manageShoppingCart) {
+    welcomeMessage += `\n${specialKeyText(SHOW_CART_KEY)}`
+    messageBlock.payload[0].specialKeys.push({
+      [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART }
+    })
+  }
+
+  if (chatbot.enabledFeatures.commerceBotFeatures.generalFeatures.faqs) {
+    welcomeMessage += `\n${specialKeyText(FAQS_KEY)}`
+    messageBlock.payload[0].specialKeys.push({
+      [FAQS_KEY]: { type: DYNAMIC, action: SHOW_FAQS }
+    })
+  }
+
+  if (chatbot.enabledFeatures.commerceBotFeatures.generalFeatures.talkToAgent) {
+    welcomeMessage += `\n${specialKeyText(TALK_TO_AGENT_KEY)}`
+    messageBlock.payload[0].specialKeys.push({
+      [TALK_TO_AGENT_KEY]: { type: DYNAMIC, action: TALK_TO_AGENT }
+    })
+  }
+
+  messageBlock.payload[0].text = welcomeMessage
+
+  return messageBlock
 }
 
 const invalidInput = async (chatbot, messageBlock, errMessage) => {
