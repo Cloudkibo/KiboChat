@@ -101,4 +101,9 @@ router.post('/setBusinessHours',
   validate({body: validationSchema.setBusinessHoursPayload}),
   controller.setBusinessHours)
 
+router.post('/fetchAvailableNumbers',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
+  controller.fetchAvailableNumbers)
+
 module.exports = router
