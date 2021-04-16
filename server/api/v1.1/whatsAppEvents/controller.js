@@ -318,7 +318,7 @@ function shouldAvoidSendingAutomatedMessage (contact, company, data) {
     } else {
       if (data.messageData && data.messageData.text.toLowerCase() === 'unpause') {
         resolve(avoidSending)
-      } else if (contact.lastMessageSentByBot && talkToAgentBlocks.includes(contact.lastMessageSentByBot.title.toLowerCase())) {
+      } else if (contact.lastMessageSentByBot && talkToAgentBlocks.includes(contact.lastMessageSentByBot.title && contact.lastMessageSentByBot.title.toLowerCase())) {
         resolve(avoidSending)
       } else {
         if (company.automated_options === 'MIX_CHAT' && contact.agent_activity_time) {

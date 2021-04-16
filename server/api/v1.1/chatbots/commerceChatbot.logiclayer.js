@@ -1568,13 +1568,17 @@ const getShowMyCartBlock = async (chatbot, backId, contact, optionalText, showBu
             content_type: 'text',
             title: 'Clear cart',
             payload: JSON.stringify({ type: DYNAMIC, action: CONFIRM_CLEAR_CART })
-          },
-          {
-            content_type: 'text',
-            title: 'Proceed to Checkout',
-            payload: JSON.stringify({ type: DYNAMIC, action: ASK_PAYMENT_METHOD })
           }
         )
+        if (chatbot.enabledFeatures.commerceBotFeatures.preSales.createOrder) {
+          messageBlock.payload[messageBlock.payload.length - 1].quickReplies.push(
+            {
+              content_type: 'text',
+              title: 'Proceed to Checkout',
+              payload: JSON.stringify({ type: DYNAMIC, action: ASK_PAYMENT_METHOD })
+            }
+          )
+        }
       }
     }
     messageBlock.payload[messageBlock.payload.length - 1].quickReplies.push(
@@ -3530,6 +3534,59 @@ const generateInvoice = async (storeInfo, orderId, date, customer, shippingAddre
   }
 }
 
+function filterEnabledFeatures (quickReplies, chatbot) {
+  let tempQuickReplies = quickReplies
+
+  if (!chatbot.enabledFeatures.commerceBotFeatures.generalFeatures.talkToAgent) {
+    tempQuickReplies = tempQuickReplies.filter(item => {
+      return JSON.parse(item.payload).action !== TALK_TO_AGENT
+    })
+  }
+
+  if (!chatbot.enabledFeatures.commerceBotFeatures.generalFeatures.faqs) {
+    tempQuickReplies = tempQuickReplies.filter(item => {
+      return JSON.parse(item.payload).action !== SHOW_FAQS
+    })
+  }
+
+  if (!chatbot.enabledFeatures.commerceBotFeatures.generalFeatures.catalogPdf) {
+    tempQuickReplies = tempQuickReplies.filter(item => {
+      return JSON.parse(item.payload).action !== VIEW_CATALOG
+    })
+  }
+
+  if (!chatbot.enabledFeatures.commerceBotFeatures.postSales.checkOrderStatus) {
+    tempQuickReplies = tempQuickReplies.filter(item => {
+      return JSON.parse(item.payload).action !== VIEW_RECENT_ORDERS
+    })
+  }
+
+  if (!chatbot.enabledFeatures.commerceBotFeatures.preSales.discoverProducts) {
+    tempQuickReplies = tempQuickReplies.filter(item => {
+      return JSON.parse(item.payload).action !== DISCOVER_PRODUCTS
+    })
+  }
+
+  if (!chatbot.enabledFeatures.commerceBotFeatures.preSales.browseCategories) {
+    tempQuickReplies = tempQuickReplies.filter(item => {
+      return JSON.parse(item.payload).action !== PRODUCT_CATEGORIES
+    })
+  }
+
+  if (!chatbot.enabledFeatures.commerceBotFeatures.preSales.searchProducts) {
+    tempQuickReplies = tempQuickReplies.filter(item => {
+      return JSON.parse(item.payload).action !== SEARCH_PRODUCTS
+    })
+  }
+
+  if (!chatbot.enabledFeatures.commerceBotFeatures.preSales.manageShoppingCart) {
+    tempQuickReplies = tempQuickReplies.filter(item => {
+      return JSON.parse(item.payload).action !== SHOW_MY_CART
+    })
+  }
+  return tempQuickReplies
+}
+
 exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event) => {
   let userError = false
   try {
@@ -3537,6 +3594,8 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
     const input = (userMessage && userMessage.text) ? userMessage.text.toLowerCase() : null
     let startingBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: chatbot.startingBlockId })
     if (!contact || !contact.lastMessageSentByBot) {
+      const tempQuickReplies = filterEnabledFeatures(startingBlock.payload[0].quickReplies, chatbot)
+      startingBlock.payload[0].quickReplies = tempQuickReplies
       return startingBlock
     } else {
       let action = null
@@ -3558,6 +3617,8 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
         } else if (lastMessageSentByBot.action) {
           action = lastMessageSentByBot.action
         } else if (startingBlock.triggers.includes(input)) {
+          const tempQuickReplies = filterEnabledFeatures(startingBlock.payload[0].quickReplies, chatbot)
+          startingBlock.payload[0].quickReplies = tempQuickReplies
           return startingBlock
         } else {
           userError = true
@@ -3569,6 +3630,8 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
           logger.serverLog(message, `${TAG}: exports.getNextMessageBlock`, {},  { contact, event, chatbot: chatbot._id, EcommerceProvider }, 'error')
         }
         if (startingBlock.triggers.includes(input) || (moment().diff(moment(contact.lastMessagedAt), 'minutes') >= 15)) {
+          const tempQuickReplies = filterEnabledFeatures(startingBlock.payload[0].quickReplies, chatbot)
+          startingBlock.payload[0].quickReplies = tempQuickReplies
           return startingBlock
         } else {
           return invalidInput(chatbot, contact.lastMessageSentByBot, `${ERROR_INDICATOR}You entered an invalid response.`)
@@ -3585,6 +3648,8 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
               }
               case UNPAUSE_CHATBOT: {
                 updateSubscriber({ _id: contact._id }, { chatbotPaused: false }, null, {})
+                const tempQuickReplies = filterEnabledFeatures(startingBlock.payload[0].quickReplies, chatbot)
+                startingBlock.payload[0].quickReplies = tempQuickReplies
                 return startingBlock
               }
               case TALK_TO_AGENT: {
@@ -3788,6 +3853,8 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
             return messageBlock
           } catch (err) {
             if (startingBlock.triggers.includes(input)) {
+              const tempQuickReplies = filterEnabledFeatures(startingBlock.payload[0].quickReplies, chatbot)
+              startingBlock.payload[0].quickReplies = tempQuickReplies
               return startingBlock
             } else {
               return invalidInput(chatbot, contact.lastMessageSentByBot, err.message)
