@@ -1,8 +1,10 @@
 const twilio = require('./twilio')
+const bandwidth = require('./bandwidth')
 const { ActionTypes } = require('./constants')
 
 const providers = [
-  { key: 'twilio', value: twilio }
+  { key: 'twilio', value: twilio },
+  { key: 'bandwidth', value: bandwidth }
 ]
 
 exports.smsMapper = (provider, action, data) => {
@@ -20,6 +22,8 @@ function callAction (action, data, provider) {
       return provider.sendTextMessage(data)
     case ActionTypes.SEND_MEDIA_MESSAGE:
       return provider.sendMediaMessage(data)
+    case ActionTypes.FETCH_AVAILABLE_NUMBERS:
+      return provider.fetchAvailableNumbers(data)
     default:
   }
 }
