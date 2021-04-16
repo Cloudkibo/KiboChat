@@ -1241,30 +1241,39 @@ const getProductVariantsBlock = async (chatbot, backId, contact, EcommerceProvid
           if (chatbot.storeType === 'shops') {
             messageBlock.payload[1].cards[i].buttons = [{
               type: 'web_url',
-              title: 'Add to Cart',
+              title: 'View',
               url: productVariant.url
             }]
           } else {
-            messageBlock.payload[1].cards[i].buttons = [{
-              title: 'Add to Cart',
-              type: 'postback',
-              payload: JSON.stringify({
-                type: DYNAMIC,
-                action: ADD_TO_CART,
-                argument: {
-                  product: {
-                    variant_id: productVariant.id,
-                    product_id: productVariant.product_id,
-                    product: `${productVariant.name} ${product.name}`,
-                    price: productVariant.price ? productVariant.price : product.price,
-                    inventory_quantity: productVariant.inventory_quantity,
-                    currency: storeInfo.currency,
-                    image: productVariant.image ? productVariant.image : product.image
-                  },
-                  quantity: 1
-                }
-              })
-            }]
+            if (chatbot.enabledFeatures.commerceBotFeatures.preSales.manageShoppingCart) {
+              messageBlock.payload[1].cards[i].buttons = [{
+                title: 'Add to Cart',
+                type: 'postback',
+                payload: JSON.stringify({
+                  type: DYNAMIC,
+                  action: ADD_TO_CART,
+                  argument: {
+                    product: {
+                      variant_id: productVariant.id,
+                      product_id: productVariant.product_id,
+                      product: `${productVariant.name} ${product.name}`,
+                      price: productVariant.price ? productVariant.price : product.price,
+                      inventory_quantity: productVariant.inventory_quantity,
+                      currency: storeInfo.currency,
+                      image: productVariant.image ? productVariant.image : product.image
+                    },
+                    quantity: 1
+                  }
+                })
+              }]
+            } else {
+              messageBlock.payload[0].text = 'Please see the variants of this product.'
+              messageBlock.payload[1].cards[i].buttons = [{
+                type: 'web_url',
+                title: 'View Image',
+                url: productVariant.image
+              }]
+            }
           }
           messageBlock.payload[1].cards[i].subtitle += `\nStock Available: ${productVariant.inventory_quantity}`
         } else {
@@ -3861,7 +3870,13 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, event)
             }
           }
         } else if (action.type === STATIC) {
-          return messageBlockDataLayer.findOneMessageBlock({ uniqueId: action.blockId })
+          const tempPayloadBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: action.blockId })
+          if (tempPayloadBlock.title === 'Main Menu') {
+            const tempQuickReplies = filterEnabledFeatures(tempPayloadBlock.payload[0].quickReplies, chatbot)
+            tempPayloadBlock.payload[0].quickReplies = tempQuickReplies
+            return tempPayloadBlock
+          }
+          return tempPayloadBlock
         }
       } else {
         return null

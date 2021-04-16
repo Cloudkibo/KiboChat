@@ -3299,30 +3299,22 @@ const getWelcomeMessageBlock = async (chatbot, contact, ecommerceProvider) => {
 
   if (chatbot.enabledFeatures.commerceBotFeatures.postSales.checkOrderStatus) {
     welcomeMessage += `\n${specialKeyText(ORDER_STATUS_KEY)}`
-    messageBlock.payload[0].specialKeys.push({
-      [ORDER_STATUS_KEY]: { type: DYNAMIC, action: VIEW_RECENT_ORDERS }
-    })
+    messageBlock.payload[0].specialKeys[ORDER_STATUS_KEY] = { type: DYNAMIC, action: VIEW_RECENT_ORDERS }
   }
 
   if (chatbot.enabledFeatures.commerceBotFeatures.preSales.manageShoppingCart) {
     welcomeMessage += `\n${specialKeyText(SHOW_CART_KEY)}`
-    messageBlock.payload[0].specialKeys.push({
-      [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART }
-    })
+    messageBlock.payload[0].specialKeys[SHOW_CART_KEY] = { type: DYNAMIC, action: SHOW_MY_CART }
   }
 
   if (chatbot.enabledFeatures.commerceBotFeatures.generalFeatures.faqs) {
     welcomeMessage += `\n${specialKeyText(FAQS_KEY)}`
-    messageBlock.payload[0].specialKeys.push({
-      [FAQS_KEY]: { type: DYNAMIC, action: SHOW_FAQS }
-    })
+    messageBlock.payload[0].specialKeys[FAQS_KEY] = { type: DYNAMIC, action: SHOW_FAQS }
   }
 
   if (chatbot.enabledFeatures.commerceBotFeatures.generalFeatures.talkToAgent) {
     welcomeMessage += `\n${specialKeyText(TALK_TO_AGENT_KEY)}`
-    messageBlock.payload[0].specialKeys.push({
-      [TALK_TO_AGENT_KEY]: { type: DYNAMIC, action: TALK_TO_AGENT }
-    })
+    messageBlock.payload[0].specialKeys[TALK_TO_AGENT_KEY] = { type: DYNAMIC, action: TALK_TO_AGENT }
   }
 
   messageBlock.payload[0].text = welcomeMessage
