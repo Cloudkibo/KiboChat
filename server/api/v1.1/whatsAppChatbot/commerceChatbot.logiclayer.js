@@ -3292,7 +3292,7 @@ const getWelcomeMessageBlock = async (chatbot, contact, ecommerceProvider) => {
     indexCounter++
   }
 
-  welcomeMessage = `\n`
+  welcomeMessage += `\n`
 
   if (chatbot.enabledFeatures.commerceBotFeatures.postSales.checkOrderStatus) {
     welcomeMessage += `\n${specialKeyText(ORDER_STATUS_KEY)}`
