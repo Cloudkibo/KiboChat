@@ -1426,7 +1426,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
       companyId: chatbot.companyId
     }
 
-    if (chatbot.enabledFeatures.commerceBotFeatures.preSales.manageShoppingCart) {
+    if (!chatbot.enabledFeatures.commerceBotFeatures.preSales.manageShoppingCart) {
       messageBlock.payload[0].text += `\nCart is disabled on this store.\n`
     } else if (product.inventory_quantity > 0) {
       messageBlock.payload[0].text += `\n\nSend 'Y' for Yes\nSend 'N' for No\n`
@@ -1434,7 +1434,10 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
       messageBlock.payload[0].text += `\nThis product is currently out of stock. Please check again later.\n`
     }
 
-    messageBlock.payload[0].text += `\n${specialKeyText(SHOW_CART_KEY)}\n${specialKeyText(BACK_KEY)}\n${specialKeyText(HOME_KEY)}`
+    if (chatbot.enabledFeatures.commerceBotFeatures.preSales.manageShoppingCart) {
+      messageBlock.payload[0].text += `\n${specialKeyText(SHOW_CART_KEY)}`
+    }
+    messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}\n${specialKeyText(HOME_KEY)}`
 
     if (product.image) {
       messageBlock.payload.unshift({
