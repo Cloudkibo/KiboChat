@@ -193,8 +193,7 @@ const getViewCatalogBlock = (chatbot, backId, contact) => {
           text: ``,
           componentType: 'text',
           specialKeys: {
-            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId },
-            [ORDER_STATUS_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
+            [HOME_KEY]: { type: STATIC, blockId: chatbot.startingBlockId }
           }
         }
       ],
@@ -258,15 +257,25 @@ const getCancelOrderBlock = async (chatbot, backId, EcommerceProvider, argument,
         messageBlock.payload[0].text += cancelationMessage
       } else {
         messageBlock.payload[0].text += `Failed to send cancel request for your order.`
-        messageBlock.payload[0].text += `\n\n${specialKeyText(TALK_TO_AGENT_KEY)}`
+        if (chatbot.enabledFeatures.commerceBotFeatures.generalFeatures.talkToAgent) {
+          messageBlock.payload[0].text += `\n\n${specialKeyText(TALK_TO_AGENT_KEY)}`
+        }
       }
-      messageBlock.payload[0].text += `\n\n${specialKeyText(ORDER_STATUS_KEY)}`
+      if (chatbot.enabledFeatures.commerceBotFeatures.postSales.checkOrderStatus) {
+        messageBlock.payload[0].text += `\n\n${specialKeyText(ORDER_STATUS_KEY)}`
+      }
     } else {
       messageBlock.payload[0].text += `Your order cannot be canceled as it has been shipped. For further details please talk to an agent.`
-      messageBlock.payload[0].text += `\n\n${specialKeyText(TALK_TO_AGENT_KEY)}`
-      messageBlock.payload[0].text += `\n${specialKeyText(ORDER_STATUS_KEY)}`
+      if (chatbot.enabledFeatures.commerceBotFeatures.generalFeatures.talkToAgent) {
+        messageBlock.payload[0].text += `\n\n${specialKeyText(TALK_TO_AGENT_KEY)}`
+      }
+      if (chatbot.enabledFeatures.commerceBotFeatures.postSales.checkOrderStatus) {
+        messageBlock.payload[0].text += `\n${specialKeyText(ORDER_STATUS_KEY)}`
+      }
     }
-    messageBlock.payload[0].text += `\n${specialKeyText(SHOW_CART_KEY)}`
+    if (chatbot.enabledFeatures.commerceBotFeatures.preSales.manageShoppingCart) {
+      messageBlock.payload[0].text += `\n${specialKeyText(SHOW_CART_KEY)}`
+    }
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
     return messageBlock
   } catch (err) {
@@ -490,7 +499,9 @@ const getDiscoverProductsBlock = async (chatbot, backId, EcommerceProvider, inpu
       })
     }
 
-    messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
+    if (chatbot.enabledFeatures.commerceBotFeatures.preSales.manageShoppingCart) {
+      messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
+    }
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
 
@@ -609,11 +620,7 @@ const getCheckOrdersBlock = (chatbot, contact) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: dedent(`Please select an option by sending the corresponding number for it:\n
-                      ${convertToEmoji(0)} View recently placed orders
-                      ${convertToEmoji(1)} Check order status for a specific order id\n
-                      ${specialKeyText(SHOW_CART_KEY)}
-                      ${specialKeyText(HOME_KEY)}`),
+          text: dedent(`Please select an option by sending the corresponding number for it:\n`),
           componentType: 'text',
           menu: [
             { type: DYNAMIC, action: VIEW_RECENT_ORDERS },
@@ -628,6 +635,12 @@ const getCheckOrdersBlock = (chatbot, contact) => {
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
+    messageBlock.payload[0].text += `${convertToEmoji(0)} View recently placed orders`
+    messageBlock.payload[0].text += `${convertToEmoji(1)} Check order status for a specific order id\n`
+    if (chatbot.enabledFeatures.commerceBotFeatures.preSales.manageShoppingCart) {
+      messageBlock.payload[0].text += `${specialKeyText(SHOW_CART_KEY)}`
+    }
+    messageBlock.payload[0].text += `${specialKeyText(HOME_KEY)}`
     return messageBlock
   } catch (err) {
     const message = err || 'Unable get check orders message block'
@@ -720,7 +733,9 @@ const getShowFaqQuestionsBlock = async (chatbot, contact, backId, argument) => {
       messageBlock.payload[0].text += `Please contact our support agents for any questions you have.`
     }
 
-    messageBlock.payload[0].text += `\n\n${specialKeyText(TALK_TO_AGENT_KEY)}`
+    if (chatbot.enabledFeatures.commerceBotFeatures.generalFeatures.talkToAgent) {
+      messageBlock.payload[0].text += `\n\n${specialKeyText(TALK_TO_AGENT_KEY)}`
+    }
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
     return messageBlock
@@ -774,7 +789,9 @@ const getShowFaqsBlock = async (chatbot, contact, backId) => {
       messageBlock.payload[0].text += `Please contact our support agents for any questions you have.`
     }
 
-    messageBlock.payload[0].text += `\n\n${specialKeyText(TALK_TO_AGENT_KEY)}`
+    if (chatbot.enabledFeatures.commerceBotFeatures.generalFeatures.talkToAgent) {
+      messageBlock.payload[0].text += `\n\n${specialKeyText(TALK_TO_AGENT_KEY)}`
+    }
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
     return messageBlock
@@ -818,7 +835,9 @@ const getFaqAnswerBlock = async (chatbot, contact, backId, EcommerceProvider, ar
     messageBlock.payload[0].text += `*${question}*`
     messageBlock.payload[0].text += `\n\n${answer}`
 
-    messageBlock.payload[0].text += `\n\n${specialKeyText(TALK_TO_AGENT_KEY)}`
+    if (chatbot.enabledFeatures.commerceBotFeatures.generalFeatures.talkToAgent) {
+      messageBlock.payload[0].text += `\n\n${specialKeyText(TALK_TO_AGENT_KEY)}`
+    }
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
     return messageBlock
@@ -886,7 +905,9 @@ const getRecentOrdersBlock = async (chatbot, backId, contact, EcommerceProvider)
       messageBlock.payload[0].text = 'You have not placed any orders here yet. If you have an order ID, you can enter that to view its status.'
     }
 
-    messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
+    if (chatbot.enabledFeatures.commerceBotFeatures.preSales.manageShoppingCart) {
+      messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
+    }
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
 
@@ -933,7 +954,9 @@ const getOrderIdBlock = (chatbot, contact, backId) => {
       userId: chatbot.userId,
       companyId: chatbot.companyId
     }
-    messageBlock.payload[0].text += `\n\n*O*  View Recent Orders`
+    if (chatbot.enabledFeatures.commerceBotFeatures.postSales.checkOrderStatus) {
+      messageBlock.payload[0].text += `\n\n*O*  View Recent Orders`
+    }
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
     return messageBlock
@@ -1211,7 +1234,9 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider, arg
         type: DYNAMIC, action: PRODUCT_CATEGORIES, argument: {paginationParams: productCategories.nextPageParameters}
       })
     }
-    messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
+    if (chatbot.enabledFeatures.commerceBotFeatures.preSales.manageShoppingCart) {
+      messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
+    }
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
     return messageBlock
@@ -1261,7 +1286,9 @@ const getProductsInCategoryBlock = async (chatbot, backId, EcommerceProvider, ar
         type: DYNAMIC, action: FETCH_PRODUCTS, argument: {categoryId: argument.categoryId, paginationParams: products.nextPageParameters}
       })
     }
-    messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
+    if (chatbot.enabledFeatures.commerceBotFeatures.preSales.manageShoppingCart) {
+      messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
+    }
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
     for (let i = products.length - 1; i >= 0; i--) {
@@ -1345,7 +1372,9 @@ const getProductVariantsBlock = async (chatbot, backId, contact, EcommerceProvid
         type: DYNAMIC, action: PRODUCT_CATEGORIES, argument: {product, paginationParams: productVariants.nextPageParameters}
       })
     }
-    messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
+    if (chatbot.enabledFeatures.commerceBotFeatures.preSales.manageShoppingCart) {
+      messageBlock.payload[0].text += `\n\n${specialKeyText(SHOW_CART_KEY)}`
+    }
     messageBlock.payload[0].text += `\n${specialKeyText(BACK_KEY)}`
     messageBlock.payload[0].text += `\n${specialKeyText(HOME_KEY)}`
     for (let i = productVariants.length - 1; i >= 0; i--) {
@@ -1397,7 +1426,9 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
       companyId: chatbot.companyId
     }
 
-    if (product.inventory_quantity > 0) {
+    if (chatbot.enabledFeatures.commerceBotFeatures.preSales.manageShoppingCart) {
+      messageBlock.payload[0].text += `\nCart is disabled on this store.\n`
+    } else if (product.inventory_quantity > 0) {
       messageBlock.payload[0].text += `\n\nSend 'Y' for Yes\nSend 'N' for No\n`
     } else {
       messageBlock.payload[0].text += `\nThis product is currently out of stock. Please check again later.\n`
@@ -2027,19 +2058,23 @@ const getCheckoutInfoBlock = async (chatbot, contact, EcommerceProvider, backId,
         userId: chatbot.userId,
         companyId: chatbot.companyId
       }
-      messageBlock.payload[0].text += `Would you like to use the current information for checkout?`
-      messageBlock.payload[0].text += `\n\nEmail: ${argument.newEmail ? argument.newEmail : tempCustomerPayload.email}`
+      if (chatbot.enabledFeatures.commerceBotFeatures.preSales.createOrder) {
+        messageBlock.payload[0].text += `Would you like to use the current information for checkout?`
+        messageBlock.payload[0].text += `\n\nEmail: ${argument.newEmail ? argument.newEmail : tempCustomerPayload.email}`
 
-      if (address && argument.paymentMethod === 'cod') {
-        messageBlock.payload[0].text += `\n\nAddress: ${address.address1}, ${address.city} ${address.zip}, ${address.country}`
-        messageBlock.payload[0].menu.push(
-          { type: DYNAMIC, action: UPDATE_ADDRESS_BLOCK, argument: {...argument, address} }
-        )
-      }
-      messageBlock.payload[0].text += `\n\n${convertToEmoji(0)} Yes, Proceed to checkout`
-      // messageBlock.payload[0].text += `\n${convertToEmoji(1)} No, update email`
-      if (address && argument.paymentMethod === 'cod') {
-        messageBlock.payload[0].text += `\n${convertToEmoji(1)} No, update address`
+        if (address && argument.paymentMethod === 'cod') {
+          messageBlock.payload[0].text += `\n\nAddress: ${address.address1}, ${address.city} ${address.zip}, ${address.country}`
+          messageBlock.payload[0].menu.push(
+            { type: DYNAMIC, action: UPDATE_ADDRESS_BLOCK, argument: {...argument, address} }
+          )
+        }
+        messageBlock.payload[0].text += `\n\n${convertToEmoji(0)} Yes, Proceed to checkout`
+        // messageBlock.payload[0].text += `\n${convertToEmoji(1)} No, update email`
+        if (address && argument.paymentMethod === 'cod') {
+          messageBlock.payload[0].text += `\n${convertToEmoji(1)} No, update address`
+        }
+      } else {
+        messageBlock.payload[0].text += `Sorry, creating order is disabled on this store channel. Please visist website`
       }
     } else {
       messageBlock = {
@@ -3701,7 +3736,11 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input,
         }
       }
     } else if (action.type === STATIC) {
-      return messageBlockDataLayer.findOneMessageBlock({ uniqueId: action.blockId })
+      const tempPayloadBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: action.blockId })
+      if (tempPayloadBlock.title === 'Main Menu') {
+        return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
+      }
+      return tempPayloadBlock
     }
   }
 }
