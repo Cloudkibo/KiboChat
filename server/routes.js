@@ -69,6 +69,7 @@ module.exports = function (app) {
   app.options('/api/shopify/newOrderFromWidget', require('cors')())
   app.use('/api/shopify', require('./api/v1.1/shopify'))
   app.use('/api/whatsAppChatbot', require('./api/v1.1/whatsAppChatbot'))
+  app.use('/api/addOns', require('./api/v1.1/addOns'))
   app.use('/api/whatsAppEvents', require('./api/v1.1/whatsAppEvents'))
   app.use('/api/backdoor', require('./api/v1.1/backdoor'))
   app.use('/api/configure/chatbot', require('./api/v1.1/configureChatbot'))
@@ -85,6 +86,7 @@ module.exports = function (app) {
   app.use('/cod', require('./api/v1.1/superNumber/codLinks'))
   app.use('/api/dialogflow', require('./api/v1.1/dialogflow'))
   app.use('/api/plans', require('./api/v1.1/plans'))
+  app.use('/api/featureUsage', require('./api/v1.1/featureUsage'))
   // auth middleware go here if you authenticate on same server
 
   app.get('/invoices/:shopId/:fileName', (req, res) => {

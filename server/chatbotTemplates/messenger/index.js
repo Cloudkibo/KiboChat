@@ -12,7 +12,6 @@ exports.handleMessengerInput = function (chatbot, event, subscriber) {
   return new Promise(async (resolve, reject) => {
     try {
       let response
-      console.log('inputData', event)
       const lastMessage = subscriber.lastMessageSentByBot
       const inputData = processEvent(event)
       switch (inputData.type) {
@@ -39,11 +38,13 @@ exports.handleMessengerInput = function (chatbot, event, subscriber) {
         case 'postback':
           response = await getChatbotResponse(chatbot, inputData.selectedOption.event, subscriber, inputData.selectedOption, true)
           break
+        case 'audio':
+          response = await getChatbotResponse(chatbot, inputData.url, subscriber, undefined, undefined, 'audio')
+          break
         default:
       }
       resolve(response)
     } catch (err) {
-      console.log(err)
       reject(err)
     }
   })
@@ -71,6 +72,11 @@ function processEvent (event) {
     data = {
       type: 'text',
       text: event.message.text.toLowerCase()
+    }
+  } else if (event.message.attachments && event.message.attachments[0]) {
+    data = {
+      type: 'audio',
+      url: event.message.attachments[0].payload.url
     }
   }
   return data

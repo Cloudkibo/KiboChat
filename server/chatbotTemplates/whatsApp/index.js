@@ -11,44 +11,47 @@ const {
 
 exports.handleWhatsAppInput = function (chatbot, inputData, subscriber) {
   return new Promise(async (resolve, reject) => {
+    let response
     try {
-      let inputText = inputData.messageData.text.toLowerCase()
-      const lastMessage = subscriber.lastMessageSentByBot
-      let isCode = false
-      let response
-
-      if (SPECIALKEYWORDS.includes(inputText)) {
-        inputText = transformSpecialKeywords(inputText)
-      }
-
-      if (!isNaN(parseInt(inputText)) || (inputText.length === 1)) isCode = true
-
-      if (isCode) {
-        const option = await getOption(inputText, subscriber)
-        if (['cod', 'epayment'].includes(option.paymentMethod)) {
-          subscriber.lastMessageSentByBot.paymentMethod = option.paymentMethod
-        }
-        if (option.validCode) {
-          response = await getChatbotResponse(chatbot, option.event, subscriber, option, true)
-          if (option.event === 'cart-clear-success') {
-            subscriber.shoppingCart = []
-            clearShoppingCart(subscriber, 'whatsApp')
-          }
-          if (option.event === 'cart-remove-success') {
-            removeShoppingCartItem(subscriber, option, 'whatsApp')
-          }
-        } else if (lastMessage && lastMessage.openEndedResponse) {
-          response = await processOpendEndedResponse(lastMessage, inputText, subscriber, chatbot)
-        } else {
-          response = {
-            chatbotResponse: await prepareInvalidResponse(chatbot, subscriber, 'You have entered an incorrect option.')
-          }
-        }
+      if (inputData.messageData.componentType === 'audio') {
+        response = await getChatbotResponse(chatbot, inputData.messageData.fileurl.url || inputData.messageData.fileurl, subscriber, undefined, undefined, 'audio')
       } else {
-        if (lastMessage && lastMessage.openEndedResponse) {
-          response = await processOpendEndedResponse(lastMessage, inputText, subscriber, chatbot)
+        let inputText = inputData.messageData.text.toLowerCase()
+        const lastMessage = subscriber.lastMessageSentByBot
+        let isCode = false
+        if (SPECIALKEYWORDS.includes(inputText)) {
+          inputText = transformSpecialKeywords(inputText)
+        }
+
+        if (!isNaN(parseInt(inputText)) || (inputText.length === 1)) isCode = true
+
+        if (isCode) {
+          const option = await getOption(inputText, subscriber)
+          if (['cod', 'epayment'].includes(option.paymentMethod)) {
+            subscriber.lastMessageSentByBot.paymentMethod = option.paymentMethod
+          }
+          if (option.validCode) {
+            response = await getChatbotResponse(chatbot, option.event, subscriber, option, true)
+            if (option.event === 'cart-clear-success') {
+              subscriber.shoppingCart = []
+              clearShoppingCart(subscriber, 'whatsApp')
+            }
+            if (option.event === 'cart-remove-success') {
+              removeShoppingCartItem(subscriber, option, 'whatsApp')
+            }
+          } else if (lastMessage && lastMessage.openEndedResponse) {
+            response = await processOpendEndedResponse(lastMessage, inputText, subscriber, chatbot)
+          } else {
+            response = {
+              chatbotResponse: await prepareInvalidResponse(chatbot, subscriber, 'You have entered an incorrect option.')
+            }
+          }
         } else {
-          response = await getChatbotResponse(chatbot, inputText, subscriber)
+          if (lastMessage && lastMessage.openEndedResponse) {
+            response = await processOpendEndedResponse(lastMessage, inputText, subscriber, chatbot)
+          } else {
+            response = await getChatbotResponse(chatbot, inputText, subscriber)
+          }
         }
       }
       resolve(response)

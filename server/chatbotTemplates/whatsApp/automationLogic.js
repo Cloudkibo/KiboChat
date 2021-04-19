@@ -2,7 +2,7 @@ const commerceLogic = require('./commerceLogic')
 const { prepareResponse, prepareInvalidResponse } = require('./utility')
 const { callKiboAutomation } = require('../kiboAutomation.layer')
 
-exports.getChatbotResponse = function (chatbot, userInput, subscriber, selectedOption, isEvent) {
+exports.getChatbotResponse = function (chatbot, userInput, subscriber, selectedOption, isEvent, inputType = 'text') {
   return new Promise(async (resolve, reject) => {
     try {
       let chatbotResponse = ''
@@ -10,7 +10,7 @@ exports.getChatbotResponse = function (chatbot, userInput, subscriber, selectedO
       if (userInput === '__viewmore') {
         automationResponse = prepareViewMoreResponse(subscriber)
       } else {
-        automationResponse = await callKiboAutomation(userInput, chatbot, subscriber, isEvent)
+        automationResponse = await callKiboAutomation(userInput, chatbot, subscriber, isEvent, inputType)
       }
       if (automationResponse.responseType === 'fallback') {
         chatbotResponse = await prepareInvalidResponse(chatbot, subscriber, automationResponse.text)
