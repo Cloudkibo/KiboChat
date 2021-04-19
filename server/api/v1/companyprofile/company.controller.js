@@ -809,36 +809,3 @@ exports.setBusinessHours = function (req, res) {
       sendErrorResponse(res, 500, err, 'Failed to set business hours')
     })
 }
-exports.fetchUsage = function (req, res) {
-  async.parallelLimit([
-    function (callback) {
-      utility.callApi(`featureUsage/planQuery`, 'post', {planId: req.user.currentPlan})
-        .then(planUsage => {
-          callback(null, planUsage)
-        })
-        .catch((err) => {
-          callback(err)
-        })
-    },
-    function (callback) {
-      utility.callApi(`featureUsage/companyQuery`, 'post', {companyId: req.user.companyId})
-        .then(companyUsage => {
-          callback(null, companyUsage)
-        })
-        .catch((err) => {
-          callback(err)
-        })
-    }
-  ], 10, function (err, results) {
-    if (err) {
-      const message = err || 'Failed to fetchUsage'
-      logger.serverLog(message, `${TAG}: exports.fetchUsage`, req.body, req.user, 'error')
-      sendErrorResponse(res, 500, `Failed to fetch usage ${err}`)
-    } else {
-      sendSuccessResponse(res, 200, {
-        planUsage: results[0][0],
-        companyUsage: results[1][0]
-      })
-    }
-  })
-}
