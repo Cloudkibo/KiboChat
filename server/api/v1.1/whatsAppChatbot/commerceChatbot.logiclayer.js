@@ -1228,6 +1228,7 @@ const getProductCategoriesBlock = async (chatbot, backId, EcommerceProvider, arg
         type: DYNAMIC, action: FETCH_PRODUCTS, argument: {categoryId: category.id}
       })
     }
+    messageBlock.payload[0].text += `\n`
     if (productCategories.nextPageParameters) {
       messageBlock.payload[0].text += `\n${convertToEmoji(productCategories.length)} View More`
       messageBlock.payload[0].menu.push({
@@ -1406,7 +1407,7 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
       uniqueId: '' + new Date().getTime(),
       payload: [
         {
-          text: `Do you want to purchase this product?\n\n${product.product} (price: ${product.price} ${product.currency}) (stock available: ${product.inventory_quantity}).`,
+          text: ``,
           componentType: 'text',
           specialKeys: {
             [SHOW_CART_KEY]: { type: DYNAMIC, action: SHOW_MY_CART },
@@ -1426,7 +1427,10 @@ const getSelectProductBlock = async (chatbot, backId, product) => {
       companyId: chatbot.companyId
     }
 
+    messageBlock.payload[0].text = `Do you want to purchase this product?\n\n${product.product} (price: ${product.price} ${product.currency}) (stock available: ${product.inventory_quantity}).`
+
     if (!chatbot.enabledFeatures.commerceBotFeatures.preSales.manageShoppingCart) {
+    messageBlock.payload[0].text = `Here is the requested product information.\n\n${product.product} (price: ${product.price} ${product.currency}) (stock available: ${product.inventory_quantity}).`
       messageBlock.payload[0].text += `\nCart is disabled on this store.\n`
     } else if (product.inventory_quantity > 0) {
       messageBlock.payload[0].text += `\n\nSend 'Y' for Yes\nSend 'N' for No\n`
@@ -3740,7 +3744,7 @@ exports.getNextMessageBlock = async (chatbot, EcommerceProvider, contact, input,
       }
     } else if (action.type === STATIC) {
       const tempPayloadBlock = await messageBlockDataLayer.findOneMessageBlock({ uniqueId: action.blockId })
-      if (tempPayloadBlock.title === 'Main Menu') {
+      if (tempPayloadBlock && tempPayloadBlock.title === 'Main Menu') {
         return getWelcomeMessageBlock(chatbot, contact, EcommerceProvider)
       }
       return tempPayloadBlock
