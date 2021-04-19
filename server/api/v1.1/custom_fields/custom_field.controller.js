@@ -2,6 +2,7 @@ const logger = require('../../../components/logger')
 const TAG = 'api/custom_field/custom_field.controller.js'
 const callApi = require('../utility')
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
+const { updateCompanyUsage } = require('../../global/billingPricing')
 
 exports.index = function (req, res) {
   callApi.callApi('companyuser/query', 'post', { domain_email: req.user.domain_email })
@@ -39,30 +40,44 @@ function isAlreadyExistCustomField (err, customFieldName) {
 }
 
 exports.create = function (req, res) {
-  callApi.callApi('companyUser/query', 'post', { domain_email: req.user.domain_email })
-    .then(companyUser => {
-      if (!companyUser) {
-        sendErrorResponse(res, 404, '', 'The user account does not belong to any company. Please contact support')
-      }
-      let customFieldPayload = {
-        name: req.body.name,
-        type: req.body.type,
-        description: req.body.description,
-        companyId: companyUser.companyId,
-        createdBy: req.user._id
-      }
-      callApi.callApi('custom_fields/', 'post', customFieldPayload)
-        .then(newCustomField => {
-          require('./../../../config/socketio').sendMessageToClient({
-            room_id: companyUser.companyId,
-            body: {
-              action: 'new_custom_field',
-              payload: {
-                newCustomField
-              }
+  callApi.callApi(`featureUsage/planQuery`, 'post', {planId: req.user.currentPlan})
+    .then(planUsage => {
+      planUsage = planUsage[0]
+      callApi.callApi(`featureUsage/companyQuery`, 'post', {companyId: req.user.companyId})
+        .then(companyUsage => {
+          companyUsage = companyUsage[0]
+          if (planUsage.custom_fields !== -1 && companyUsage.custom_fields >= planUsage.custom_fields) {
+            return res.status(500).json({
+              status: 'failed',
+              description: `Your custom fields limit has reached. Please upgrade your plan to create more custom fields.`
+            })
+          } else {
+            let customFieldPayload = {
+              name: req.body.name,
+              type: req.body.type,
+              description: req.body.description,
+              companyId: req.user.companyId,
+              createdBy: req.user._id
             }
-          })
-          sendSuccessResponse(res, 200, newCustomField)
+            callApi.callApi('custom_fields/', 'post', customFieldPayload)
+              .then(newCustomField => {
+                updateCompanyUsage(req.user.companyId, 'custom_fields', 1)
+                logger.serverLog(CUSTOMFIELD, `created custom fields ${JSON.stringify(newCustomField)}`)
+                require('./../../../config/socketio').sendMessageToClient({
+                  room_id: req.user.companyId,
+                  body: {
+                    action: 'new_custom_field',
+                    payload: {
+                      newCustomField
+                    }
+                  }
+                })
+                sendSuccessResponse(res, 200, newCustomField)
+              })
+              .catch(err => {
+                sendErrorResponse(res, 500, '', err)
+              })
+          }
         })
         .catch(err => {
           let userError = isAlreadyExistCustomField(err, req.body.name)
@@ -129,6 +144,7 @@ exports.delete = function (req, res) {
           .then(() => {
             callApi.callApi('custom_fields/', 'delete', { purpose: 'deleteOne', match: { _id: req.body.customFieldId } })
               .then(fieldPayload => {
+                updateCompanyUsage(req.user.companyId, 'custom_fields', -1)
                 require('./../../../config/socketio').sendMessageToClient({
                   room_id: req.user.companyId,
                   body: {

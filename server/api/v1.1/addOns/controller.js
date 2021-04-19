@@ -16,6 +16,7 @@ exports.create = function (req, res) {
       sendErrorResponse(res, 500, 'Error occured while creating add on')
     })
 }
+
 exports.index = function (req, res) {
   logger.serverLog(TAG, 'create endpoint of addOns is hit', 'debug')
   callApi(`addOns/query`, 'post', {purpose: 'findAll', match: {platform: req.user.platform}}, 'accounts', req.headers.authorization)
