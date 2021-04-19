@@ -503,6 +503,39 @@ exports.fetchValidCallerIds = function (req, res) {
       sendErrorResponse(res, 500, `Failed to fetch valid caller Ids ${JSON.stringify(error)}`)
     })
 }
+exports.updatePlan = function (req, res) {
+  async.parallelLimit([
+    function (callback) {
+      utility.callApi(`companyprofile/update`, 'put', {query: {_id: req.user.companyId}, newPayload: req.body, options: {}})
+        .then(data => {
+          callback()
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      utility.callApi('featureUsage/updateCompany', 'put',
+        {query: {companyId: req.user.companyId, platform: req.user.platform},
+          newPayload: req.body,
+          options: {upsert: true}})
+        .then(result => {
+          callback()
+        })
+        .catch(err => {
+          callback(err)
+        })
+    }
+  ], 10, function (err, results) {
+    if (err) {
+      const message = err || 'Failed to update company profile'
+      logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, req.body, {user: req.user}, 'error')
+      sendErrorResponse(res, 500, err, 'Failed to update plan/billing info')
+    } else {
+      sendSuccessResponse(res, 200, 'Updated successfully')
+    }
+  })
+}
 exports.deleteWhatsAppInfo = function (req, res) {
   utility.callApi('user/authenticatePassword', 'post', {email: req.user.email, password: req.body.password})
     .then(authenticated => {
