@@ -85,7 +85,8 @@ module.exports = function (app) {
   app.use('/api/supernumber', require('./api/v1.1/superNumber'))
   app.use('/cod', require('./api/v1.1/superNumber/codLinks'))
   app.use('/api/dialogflow', require('./api/v1.1/dialogflow'))
-  app.use('/api/messageAlerts', require('./api/v1.1/messageAlerts'))
+  app.use('/api/plans', require('./api/v1.1/plans'))
+  app.use('/api/featureUsage', require('./api/v1.1/featureUsage'))
   // auth middleware go here if you authenticate on same server
 
   app.get('/invoices/:shopId/:fileName', (req, res) => {

@@ -86,6 +86,11 @@ router.post('/fetchValidCallerIds',
   validate({body: validationSchema.fetchValidCallerIds}),
   controller.fetchValidCallerIds)
 
+router.post('/updatePlan',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
+  controller.updatePlan)
+
 router.get('/getAdvancedSettings',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer(),
@@ -129,5 +134,10 @@ router.post('/setBusinessHours',
   auth.isSuperUserActingAsCustomer('write'),
   validate({body: validationSchema.setBusinessHoursPayload}),
   controller.setBusinessHours)
+
+router.post('/fetchAvailableNumbers',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
+  controller.fetchAvailableNumbers)
 
 module.exports = router

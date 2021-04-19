@@ -1,9 +1,3 @@
-/*
-This file will contain the validation schemas.
-By separating it from controller, we are cleaning the code.
-Now the middleware will automatically send error response if the payload fails
-*/
-
 exports.createPayload = {
   'type': 'object',
   'properties': {
@@ -26,7 +20,6 @@ exports.createPayload = {
   'required': [
     'feature',
     'description',
-    'price',
     'price',
     'currency',
     'permissions'

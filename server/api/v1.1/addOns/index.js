@@ -12,8 +12,13 @@ const validationSchema = require('./validationSchema')
 
 router.post('/',
   auth.isAuthenticated(),
-  auth.isAuthorizedSuperUser(),
+  auth.isSuperUserActingAsCustomer('write'),
   validate({ body: validationSchema.createPayload }),
   controller.create)
+
+router.get('/',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
+  controller.index)
 
 module.exports = router
