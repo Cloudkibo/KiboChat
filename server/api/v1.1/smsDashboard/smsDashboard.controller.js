@@ -2,6 +2,7 @@ const utility = require('../utility')
 const LogicLayer = require('./smsDashboard.logiclayer')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const logger = require('../../../components/logger')
+const { callApi } = require('../../v1/utility')
 const TAG = '/api/v1.1/smsDashboard/smsDashboard.controller.js'
 
 exports.index = function (req, res) {
@@ -114,5 +115,46 @@ exports.sentSeen = function (req, res) {
       const message = err || 'Error in getting subscribers'
       logger.serverLog(message, `${TAG}: exports.sentSeen`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, '', `Error in getting subscribers ${JSON.stringify(err)}`)
+    })
+}
+
+exports.getDashboardData = function (req, res) {
+  const days = req.params.days
+  const companyId = req.user.companyId
+  const endDate = new Date()
+  const startDate = new Date(endDate.getTime() - (days * 24 * 60 * 60 * 1000))
+  console.log(startDate)
+
+  const contactsQuery = callApi('contacts/aggregate', 'post', LogicLayer.getDashboardDataCriteria('contacts', startDate, endDate, companyId))
+  const messagesSentQuery = callApi('smsChat/query', 'post', LogicLayer.getDashboardDataCriteria('messagesSent', startDate, endDate, companyId), 'kibochat')
+  const messagesReceivedQuery = callApi('smsChat/query', 'post', LogicLayer.getDashboardDataCriteria('messagesReceived', startDate, endDate, companyId), 'kibochat')
+
+  Promise.all([contactsQuery, messagesSentQuery, messagesReceivedQuery])
+    .then(result => {
+      const contacts = result[0].length > 0 ? result[0].map((item) => {
+        return {
+          contacts: item.count,
+          date: `${item._id.day}-${item._id.month}-${item._id.year}`
+        }
+      }) : []
+      const messagesSent = result[1].length > 0 ? result[1].map((item) => {
+        return {
+          messagesSent: item.count,
+          date: `${item._id.day}-${item._id.month}-${item._id.year}`
+        }
+      }) : []
+      const messagesReceived = result[2].length > 0 ? result[2].map((item) => {
+        return {
+          messagesReceived: item.count,
+          date: `${item._id.day}-${item._id.month}-${item._id.year}`
+        }
+      }) : []
+      const data = LogicLayer.transformData(contacts, messagesSent, messagesReceived)
+      sendSuccessResponse(res, 200, data)
+    })
+    .catch(err => {
+      const message = err || 'Error in getting sms dashboard data'
+      logger.serverLog(message, `${TAG}: exports.getDashboardDate`, {days, startDate, endDate}, {user: req.user}, 'error')
+      sendErrorResponse(res, 500, '', `Error in sms dashboard data ${JSON.stringify(err)}`)
     })
 }
