@@ -2,7 +2,7 @@ const utility = require('../utility')
 const LogicLayer = require('./smsDashboard.logiclayer')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const logger = require('../../../components/logger')
-const { callApi } = require('../../v1/utility')
+const { callApi } = require('../../v1.1/utility')
 const TAG = '/api/v1.1/smsDashboard/smsDashboard.controller.js'
 
 exports.index = function (req, res) {
