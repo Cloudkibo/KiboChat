@@ -259,7 +259,7 @@ const _updateCompanyProfile = (data, next) => {
     query: {_id: data.companyId},
     newPayload: {
       whatsApp: newPayload,
-      planId: data.purchasedPlans['whatsApp'] ? data.purchasedPlans['sms'] : data.purchasedPlans['general']},
+      planId: data.purchasedPlans['whatsApp'] ? data.purchasedPlans['whatsApp'] : data.purchasedPlans['general']},
     options: {}})
     .then(updatedProfile => {
       next(null, updatedProfile)
