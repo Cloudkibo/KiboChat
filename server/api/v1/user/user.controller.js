@@ -334,7 +334,6 @@ exports.disconnectFacebook = function (req, res) {
     })
 }
 exports.updatePlatform = function (req, res) {
-  console.log('req.user', JSON.stringify(req.user))
   async.parallelLimit([
     function (callback) {
       utility.callApi(`companyprofile/update`, 'put', {
