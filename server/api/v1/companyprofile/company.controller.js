@@ -175,7 +175,13 @@ exports.updatePlatform = function (req, res) {
             client.incomingPhoneNumbers
               .list().then((incomingPhoneNumbers) => {
                 if (incomingPhoneNumbers && incomingPhoneNumbers.length > 0) {
-                  utility.callApi(`companyprofile/update`, 'put', {query: {_id: companyUser.companyId}, newPayload: {twilio: {accountSID: req.body.twilio.accountSID, authToken: req.body.twilio.authToken}}, options: {}})
+                  utility.callApi(`companyprofile/update`, 'put', {
+                    query: {_id: companyUser.companyId},
+                    newPayload: {
+                      twilio: {accountSID: req.body.twilio.accountSID, authToken: req.body.twilio.authToken},
+                      planId: req.user.purchasedPlans['sms'] ? req.user.purchasedPlans['sms'] : req.user.purchasedPlans['general']
+                    },
+                    options: {}})
                     .then(updatedProfile => {
                       _updateUserPlatform(req, res)
                     })
@@ -249,7 +255,12 @@ const _updateCompanyProfile = (data, next) => {
   // if (!data.body.changeWhatsAppFlockSend) {
   let newPayload = data.body
   if (data.body.platform) delete newPayload.platform
-  utility.callApi(`companyprofile/update`, 'put', {query: {_id: data.companyId}, newPayload: {whatsApp: newPayload}, options: {}})
+  utility.callApi(`companyprofile/update`, 'put', {
+    query: {_id: data.companyId},
+    newPayload: {
+      whatsApp: newPayload,
+      planId: data.purchasedPlans['whatsApp'] ? data.purchasedPlans['whatsApp'] : data.purchasedPlans['general']},
+    options: {}})
     .then(updatedProfile => {
       next(null, updatedProfile)
     })
@@ -374,7 +385,7 @@ exports.updatePlatformWhatsApp = function (req, res) {
   utility.callApi(`companyprofile/aggregate`, 'post', query) // fetch company user
     .then(companyprofile => {
       if (!companyprofile[0] || req.body.businessNumber === '+14155238886') {
-        let data = {body: req.body, companyId: req.user.companyId, userId: req.user._id, isSuperUser: req.user.isSuperUser}
+        let data = {body: req.body, companyId: req.user.companyId, userId: req.user._id, isSuperUser: req.user.isSuperUser, purchasedPlans: req.user.purchasedPlans}
         async.series([
           _verifyCredentials.bind(null, data),
           _checkTwilioVersion.bind(null, data),
