@@ -21,4 +21,14 @@ router.get('/',
   auth.isSuperUserActingAsCustomer(),
   controller.index)
 
+router.get('/:id/purchase',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
+  controller.purchaseAddOn)
+
+router.get('/company',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
+  controller.companyAddOns)
+
 module.exports = router

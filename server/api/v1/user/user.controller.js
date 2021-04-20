@@ -7,6 +7,7 @@ const { facebookApiCaller } = require('../../global/facebookApiCaller')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const shopifyDataLayer = require('../../v1.1/shopify/shopify.datalayer.js')
 const bigCommerceDataLayer = require('../../v1.1/bigcommerce/bigcommerce.datalayer.js')
+const async = require('async')
 
 exports.index = function (req, res) {
   utility.callApi(`user`, 'get', {}, 'accounts', req.headers.authorization)
@@ -333,18 +334,37 @@ exports.disconnectFacebook = function (req, res) {
     })
 }
 exports.updatePlatform = function (req, res) {
-  utility.callApi('user/update', 'post', { query: { _id: req.user._id }, newPayload: { platform: req.body.platform }, options: {} })
-    .then(updated => {
-      return res.status(200).json({
-        status: 'success',
-        payload: 'Updated Successfully!'
-      })
-    })
-    .catch(err => {
-      const message = err || 'error in updating user'
-      logger.serverLog(message, `${TAG}: exports.updatePlatform`, {}, {user: req.user}, 'error')
-      res.status(500).json({ status: 'failed', payload: err })
-    })
+  async.parallelLimit([
+    function (callback) {
+      utility.callApi(`companyprofile/update`, 'put', {
+        query: {_id: req.user.companyId},
+        newPayload: {planId: req.user.purchasedPlans[req.body.platform] ? req.user.purchasedPlans[req.body.platform] : req.user.purchasedPlans['general']},
+        options: {}})
+        .then(updatedProfile => {
+          callback()
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      utility.callApi('user/update', 'post', { query: { _id: req.user._id }, newPayload: { platform: req.body.platform }, options: {} })
+        .then(updated => {
+          callback()
+        })
+        .catch(err => {
+          callback(err)
+        })
+    }
+  ], 10, function (err, results) {
+    if (err) {
+      const message = err || 'Failed to update platform'
+      logger.serverLog(message, `${TAG}: exports.updatePlatform`, req.body, {user: req.user}, 'error')
+      sendErrorResponse(res, 500, err, 'Failed to update platform')
+    } else {
+      sendSuccessResponse(res, 200, 'Updated successfully')
+    }
+  })
 }
 
 exports.logout = function (req, res) {
