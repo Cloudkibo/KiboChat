@@ -68,8 +68,8 @@ exports.create = function (req, res) {
       if (!companyUser) {
         sendErrorResponse(res, 500, '', 'The user account does not belong to any company. Please contact support')
       }
-      let accountSid = companyUser.companyId.twilio.accountSID
-      let authToken = companyUser.companyId.twilio.authToken
+      let accountSid = companyUser.companyId.sms.accountSID
+      let authToken = companyUser.companyId.sms.authToken
       let client = require('twilio')(accountSid, authToken)
       record('smsChatOutGoing')
       client.messages

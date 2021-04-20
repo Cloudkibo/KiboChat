@@ -302,7 +302,7 @@ exports.disconnectFacebook = function (req, res) {
   utility.callApi(`companyProfile/query`, 'post', { ownerId: req.user._id })
     .then(companyProfile => {
       let updated = { connectFacebook: false }
-      if (companyProfile.twilio) {
+      if (companyProfile.sms) {
         updated.platform = 'sms'
       } else if (companyProfile.whatsApp && !(companyProfile.whatsApp.connected === false)) {
         updated.platform = 'whatsApp'
