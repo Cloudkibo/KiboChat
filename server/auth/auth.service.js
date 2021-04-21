@@ -274,6 +274,17 @@ const _updateUserPlatform = (req, res, userid) => {
               return companyUser.userId._id
             }
           })
+          apiCaller.callApi(`companyProfile/update`, 'put', {
+            query: {_id: companyProfile._id},
+            newPayload: {
+              planId: companyProfile.purchasedPlans['messenger'] ? companyProfile.purchasedPlans['messenger'] : companyProfile.purchasedPlans['general']},
+            options: {}})
+            .then(updatedProfile => {
+            })
+            .catch(err => {
+              const message = err || 'Internal server error'
+              logger.serverLog(message, `${TAG}: _updateUserPlatform`, req.body, {user: req.user}, 'error')
+            })
           apiCaller.callApi(`user/update`, 'post', {query: {_id: {$in: userIds}}, newPayload: { $set: {platform: 'messenger'} }, options: {multi: true}})
             .then(updatedProfile => {
             })

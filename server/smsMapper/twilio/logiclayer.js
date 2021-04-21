@@ -33,3 +33,5 @@ const _convertToEmoji = (num) => {
   }
   return emoji
 }
+
+exports._appendOptions = _appendOptions

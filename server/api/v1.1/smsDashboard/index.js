@@ -18,4 +18,9 @@ router.post('/sentSeen',
   auth.isSuperUserActingAsCustomer(),
   controller.sentSeen)
 
+router.get('/stats/:days',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer(),
+  controller.getDashboardData)
+
 module.exports = router

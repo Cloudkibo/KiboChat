@@ -10,7 +10,7 @@ exports.getPlatformForSms = function (company, user) {
 exports.getPlatformForWhatsApp = function (company, user) {
   if (user.connectFacebook) {
     return 'messenger'
-  } else if (company.twilio) {
+  } else if (company.sms) {
     return 'sms'
   } else {
     return ''

@@ -1,8 +1,6 @@
 const logger = require('../../../components/logger')
 const TAG = 'api/companyprofile/company.controller.js'
 const utility = require('../utility')
-const needle = require('needle')
-const config = require('../../../config/environment/index')
 const logicLayer = require('./company.logiclayer.js')
 const { sendErrorResponse, sendSuccessResponse } = require('../../global/response')
 const async = require('async')
@@ -245,7 +243,6 @@ exports.updatePlatform = function (req, res) {
       sendErrorResponse(res, 500, `Failed to company user ${JSON.stringify(error)}`)
     })
 }
-
 const _updateUserPlatform = (req, res) => {
   utility.callApi(`companyUser/queryAll`, 'post', {companyId: req.user.companyId}, 'accounts')
     .then(companyUsers => {
@@ -264,6 +261,39 @@ const _updateUserPlatform = (req, res) => {
       logger.serverLog(message, `${TAG}: exports._updateUserPlatform`, req.body, { user: req.user }, 'error')
       sendErrorResponse(res, 500, '', err)
     })
+}
+
+exports.connectSMS = async function (req, res) {
+  try {
+    req.body.businessNumber = req.body.businessNumber.replace(/[- )(]/g, '')
+    let query = [
+      {$match: {_id: {$ne: req.user.companyId}, 'sms.businessNumber': req.body.businessNumber, 'sms.provider': req.body.provider}},
+      {$lookup: {from: 'users', localField: 'ownerId', foreignField: '_id', as: 'user'}},
+      {'$unwind': '$user'}
+    ]
+    const companyprofile = await utility.callApi(`companyprofile/aggregate`, 'post', query) // fetch company user
+    if (!companyprofile[0]) {
+      await smsMapper(req.body.provider, smsActionTypes.ActionTypes.VERIFY_CREDENTIALS, req.body)
+      await smsMapper(req.body.provider, smsActionTypes.ActionTypes.SET_WEBHOOK, req.body)
+      await utility.callApi(`companyprofile/update`, 'put', {
+        query: {_id: req.user.companyId},
+        newPayload: {
+          sms: req.body,
+          planId: req.user.purchasedPlans['sms'] ? req.user.purchasedPlans['sms'] : req.user.purchasedPlans['general']
+        },
+        options: {}})
+      const companyUsers = await utility.callApi(`companyUser/queryAll`, 'post', {companyId: req.user.companyId}, 'accounts')
+      let userIds = companyUsers.map(companyUser => companyUser.userId._id)
+      await utility.callApi(`user/update`, 'post', {query: {_id: {$in: userIds}}, newPayload: { $set: {platform: 'sms'} }, options: {multi: true}})
+      sendSuccessResponse(res, 200, 'saved succesfully')
+    } else {
+      sendErrorResponse(res, 500, '', `This number is already connected by ${companyprofile[0].user.email}. Please contact them.`)
+    }
+  } catch (err) {
+    const message = err || 'Failed to connect sms'
+    logger.serverLog(message, `${TAG}: exports.connectSMS`, req.body, { user: req.user }, 'error')
+    sendErrorResponse(res, 500, `Failed to connect sms ${err}`)
+  }
 }
 const _updateCompanyProfile = (data, next) => {
   // if (!data.body.changeWhatsAppTwilio) {
@@ -363,44 +393,6 @@ const _checkTwilioVersion = (data, next) => {
 }
 
 exports.updatePlatformWhatsApp = function (req, res) {
-  // let query = {
-  //   _id: req.user.companyId,
-  //   'twilioWhatsApp.accountSID': req.body.accountSID,
-  //   'twilioWhatsApp.authToken': req.body.authToken,
-  //   'twilioWhatsApp.sandboxNumber': req.body.sandboxNumber.split(' ').join(''),
-  //   'twilioWhatsApp.sandboxCode': req.body.sandboxCode
-  // }
-  // utility.callApi(`companyprofile/query`, 'post', query) // fetch company user
-  //   .then(companyprofile => {
-  //     if (!companyprofile) {
-  //       needle.get(
-  //         `https://${req.body.accountSID}:${req.body.authToken}@api.twilio.com/2010-04-01/Accounts`,
-  //         (err, resp) => {
-  //           if (err) {
-  //             sendErrorResponse(res, 401, 'unable to authenticate twilio account')
-  //           } else if (resp.statusCode === 200) {
-  //             let data = {body: req.body, companyId: req.user.companyId, userId: req.user._id}
-  //             async.series([
-  //               _updateCompanyProfile.bind(null, data),
-  //               _updateUser.bind(null, data)
-  //             ], function (err) {
-  //               if (err) {
-  //                 sendErrorResponse(res, 500, '', err)
-  //               } else {
-  //                 sendSuccessResponse(res, 200, {description: 'updated successfully', showModal: req.body.changeWhatsAppTwilio})
-  //               }
-  //             })
-  //           } else {
-  //             sendErrorResponse(res, 404, 'Twilio account not found. Please enter correct details')
-  //           }
-  //         })
-  //     } else {
-  //       sendSuccessResponse(res, 200, {description: 'updated successfully'})
-  //     }
-  //   })
-  //   .catch(error => {
-  //     sendErrorResponse(res, 500, `Failed to fetch company user ${error}`)
-  //   })
   req.body.businessNumber = req.body.businessNumber.replace(/[- )(]/g, '')
   let query = [
     {$match: {_id: {$ne: req.user.companyId}, 'whatsApp.businessNumber': req.body.businessNumber}},
@@ -564,18 +556,6 @@ exports.setCard = function (req, res) {
     })
 }
 
-exports.updatePlan = function (req, res) {
-  utility.callApi('companyprofile/updatePlan', 'post', req.body, 'accounts', req.headers.authorization)
-    .then((result) => {
-      sendSuccessResponse(res, 200, result)
-    })
-    .catch((err) => {
-      const message = err || 'error in updating plan in companyprofile'
-      logger.serverLog(message, `${TAG}: exports.updatePlan`, req.body, {user: req.user}, 'error')
-      sendErrorResponse(res, 500, '', err)
-    })
-}
-
 exports.updateRole = function (req, res) {
   utility.callApi('companyprofile/updateRole', 'post', {role: req.body.role, domain_email: req.body.domain_email}, 'accounts', req.headers.authorization)
     .then((result) => {
@@ -586,6 +566,39 @@ exports.updateRole = function (req, res) {
       logger.serverLog(message, `${TAG}: exports.updateRole`, req.body, {user: req.user}, 'error')
       res.status(500).json({status: 'failed', payload: `${JSON.stringify(err)}`})
     })
+
+exports.updatePlan = function (req, res) {
+  async.parallelLimit([
+    function (callback) {
+      utility.callApi(`companyprofile/update`, 'put', {query: {_id: req.user.companyId}, newPayload: req.body, options: {}})
+        .then(data => {
+          callback()
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      utility.callApi('featureUsage/updateCompany', 'put',
+        {query: {companyId: req.user.companyId, platform: req.user.platform},
+          newPayload: req.body,
+          options: {upsert: true}})
+        .then(result => {
+          callback()
+        })
+        .catch(err => {
+          callback(err)
+        })
+    }
+  ], 10, function (err, results) {
+    if (err) {
+      const message = err || 'Failed to update company profile'
+      logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, req.body, {user: req.user}, 'error')
+      sendErrorResponse(res, 500, err, 'Failed to update plan/billing info')
+    } else {
+      sendSuccessResponse(res, 200, 'Updated successfully')
+    }
+  })
 }
 exports.deleteWhatsAppInfo = function (req, res) {
   utility.callApi('user/authenticatePassword', 'post', {email: req.user.email, password: req.body.password})
