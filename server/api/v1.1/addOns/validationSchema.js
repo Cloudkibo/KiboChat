@@ -8,7 +8,7 @@ exports.createPayload = {
       'type': 'string'
     },
     'price': {
-      'type': 'String'
+      'type': 'number'
     },
     'currency': {
       'type': 'string'

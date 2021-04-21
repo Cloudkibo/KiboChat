@@ -127,7 +127,7 @@ exports.respondUsingChatbot = (platform, provider, company, message, contact, is
                           })
                           .catch(err => {
                             const message = err || 'error in chat bot response'
-                            logger.serverLog(message, `${TAG}: exports.respondUsingChatbot`, {}, {}, 'error')
+                            logger.serverLog(message, `${TAG}: exports.respondUsingChatbot`, {}, {platform, provider, company, message, contact}, 'error')
                             reject(err)
                           })
                       }
@@ -150,7 +150,7 @@ exports.respondUsingChatbot = (platform, provider, company, message, contact, is
       })
       .catch(err => {
         const message = err || 'error in chat bot response'
-        logger.serverLog(message, `${TAG}: exports.respondUsingChatbot`, {}, {}, 'error')
+        logger.serverLog(message, `${TAG}: exports.respondUsingChatbot`, {}, {platform, provider, company, message, contact}, 'error')
         reject(err)
       })
   })
