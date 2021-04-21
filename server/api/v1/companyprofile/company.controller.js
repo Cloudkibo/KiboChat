@@ -566,6 +566,7 @@ exports.updateRole = function (req, res) {
       logger.serverLog(message, `${TAG}: exports.updateRole`, req.body, {user: req.user}, 'error')
       res.status(500).json({status: 'failed', payload: `${JSON.stringify(err)}`})
     })
+}
 
 exports.updatePlan = function (req, res) {
   async.parallelLimit([
