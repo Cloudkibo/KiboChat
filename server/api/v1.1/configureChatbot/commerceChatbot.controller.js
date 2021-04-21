@@ -10,6 +10,7 @@ const botUtils = require('./commerceChatbot.utils')
 const { smsMapper } = require('./../../../smsMapper')
 const { ActionTypes } = require('./../../../smsMapper/constants')
 const { intervalForEach } = require('./../../../components/utility')
+const { incrementCompanyUsageMessage, fetchUsages } = require('../utility/miscApiCalls.controller')
 
 exports.handleCommerceChatbot = async function (company, message, contact) {
   const chatbot = await smsChatbotDataLayer.findOne({
@@ -20,21 +21,25 @@ exports.handleCommerceChatbot = async function (company, message, contact) {
   let nextMessageBlock = null
   if (chatbot) {
     if (chatbot.published || chatbot.testSubscribers.includes(contact.number)) {
-      if (chatbot.integration === commerceConstants.shopify) {
-        const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
-        ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
-          shopUrl: shopifyIntegration.shopUrl,
-          shopToken: shopifyIntegration.shopToken
-        })
-      }
-      if (ecommerceProvider) {
-        nextMessageBlock = await getNextMessageBlock(chatbot, ecommerceProvider, contact, message, company)
-      }
-      if (nextMessageBlock) {
-        sendTextMessage(nextMessageBlock, contact, company)
-        botUtils.updateSmsContact({ _id: contact._id },
-          {lastMessageSentByBot: nextMessageBlock, backMessageByBot: contact.lastMessageSentByBot},
-          null, {})
+      const {companyUsage, planUsage} = await fetchUsages(company._id, company.purchasedPlans['sms'], 'sms', company.sms)
+      if (companyUsage.messages < planUsage.messages) {
+        if (chatbot.integration === commerceConstants.shopify) {
+          const shopifyIntegration = await shopifyDataLayer.findOneShopifyIntegration({ companyId: chatbot.companyId })
+          ecommerceProvider = new EcommerceProvider(commerceConstants.shopify, {
+            shopUrl: shopifyIntegration.shopUrl,
+            shopToken: shopifyIntegration.shopToken
+          })
+        }
+        if (ecommerceProvider) {
+          nextMessageBlock = await getNextMessageBlock(chatbot, ecommerceProvider, contact, message, company)
+        }
+        if (nextMessageBlock) {
+          sendTextMessage(nextMessageBlock, contact, company)
+          botUtils.updateSmsContact({ _id: contact._id },
+            {lastMessageSentByBot: nextMessageBlock, backMessageByBot: contact.lastMessageSentByBot},
+            null, {})
+          incrementCompanyUsageMessage(company._id, 'sms', nextMessageBlock.payload.length)
+        }
       }
     }
   }
