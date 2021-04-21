@@ -557,6 +557,18 @@ exports.setCard = function (req, res) {
     })
 }
 
+exports.updatePlan = function (req, res) {
+  utility.callApi('companyprofile/updatePlan', 'post', req.body, 'accounts', req.headers.authorization)
+    .then((result) => {
+      sendSuccessResponse(res, 200, result)
+    })
+    .catch((err) => {
+      const message = err || 'error in updating plan in companyprofile'
+      logger.serverLog(message, `${TAG}: exports.updatePlan`, req.body, {user: req.user}, 'error')
+      sendErrorResponse(res, 500, '', err)
+    })
+}
+
 exports.updateRole = function (req, res) {
   utility.callApi('companyprofile/updateRole', 'post', {role: req.body.role, domain_email: req.body.domain_email}, 'accounts', req.headers.authorization)
     .then((result) => {
@@ -567,40 +579,6 @@ exports.updateRole = function (req, res) {
       logger.serverLog(message, `${TAG}: exports.updateRole`, req.body, {user: req.user}, 'error')
       res.status(500).json({status: 'failed', payload: `${JSON.stringify(err)}`})
     })
-}
-
-exports.updatePlan = function (req, res) {
-  async.parallelLimit([
-    function (callback) {
-      utility.callApi(`companyprofile/update`, 'put', {query: {_id: req.user.companyId}, newPayload: req.body, options: {}})
-        .then(data => {
-          callback()
-        })
-        .catch(err => {
-          callback(err)
-        })
-    },
-    function (callback) {
-      utility.callApi('featureUsage/updateCompany', 'put',
-        {query: {companyId: req.user.companyId, platform: req.user.platform},
-          newPayload: req.body,
-          options: {upsert: true}})
-        .then(result => {
-          callback()
-        })
-        .catch(err => {
-          callback(err)
-        })
-    }
-  ], 10, function (err, results) {
-    if (err) {
-      const message = err || 'Failed to update company profile'
-      logger.serverLog(message, `${TAG}: exports.deleteWhatsAppInfo`, req.body, {user: req.user}, 'error')
-      sendErrorResponse(res, 500, err, 'Failed to update plan/billing info')
-    } else {
-      sendSuccessResponse(res, 200, 'Updated successfully')
-    }
-  })
 }
 exports.deleteWhatsAppInfo = function (req, res) {
   utility.callApi('user/authenticatePassword', 'post', {email: req.user.email, password: req.body.password})

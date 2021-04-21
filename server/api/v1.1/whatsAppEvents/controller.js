@@ -806,4 +806,3 @@ function sendWhatsAppMessageLogic (messagePayload, data, number, company, contac
 }
 
 exports.storeChat = storeChat
-exports.sendWhatsAppMessage = sendWhatsAppMessage
