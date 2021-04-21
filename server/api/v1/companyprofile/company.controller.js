@@ -285,6 +285,7 @@ exports.connectSMS = async function (req, res) {
       const companyUsers = await utility.callApi(`companyUser/queryAll`, 'post', {companyId: req.user.companyId}, 'accounts')
       let userIds = companyUsers.map(companyUser => companyUser.userId._id)
       await utility.callApi(`user/update`, 'post', {query: {_id: {$in: userIds}}, newPayload: { $set: {platform: 'sms'} }, options: {multi: true}})
+      logicLayer.sendInHouseEmail(req.user, req.body)
       sendSuccessResponse(res, 200, 'saved succesfully')
     } else {
       sendErrorResponse(res, 500, '', `This number is already connected by ${companyprofile[0].user.email}. Please contact them.`)
