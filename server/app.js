@@ -10,6 +10,7 @@ const SessionTimeOutScript = require('./scripts/messageAlerts/sessionTimeOutScri
 const WhatsappScript = require('./scripts/whatsappDeleteDataScript.js')
 const { slaDashboardScript } = require('./scripts/slaDashboard')
 const AbandonedScriptShopify = require('./scripts/abandonedScriptShopify.js')
+const { resetUsage } = require('./scripts/billingPricing/resetUsage.js')
 
 const app = express()
 const httpApp = express()
@@ -39,6 +40,7 @@ cron.schedule('*/30 * * * *', SessionTimeOutScript.runSessionTimeOutScript)
 cron.schedule('0 */2 * * *', AbandonedScriptShopify.runScript)
 cron.schedule('0 13 * * *', WhatsappScript.runWhatspdeleteScript) //  daily 6 pm pakistan time
 cron.schedule('0 0 * * *', slaDashboardScript)
+cron.schedule('0 0 1 * *', resetUsage)
 
 require('./config/express')(appObj)
 require('./config/setup')(app, httpApp, config)
