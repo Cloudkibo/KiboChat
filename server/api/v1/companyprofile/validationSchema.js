@@ -16,17 +16,17 @@ exports.invitePayload = {
     }
   }
 }
-exports.updatePlatformPayload = {
+exports.connectSMS = {
   'type': 'object',
   'properties': {
     twilio: {
       type: 'object',
       properties: {
-        accountSID: {
+        provider: {
           type: 'string',
           required: true
         },
-        authToken: {
+        businessNumber: {
           type: 'string',
           required: true
         }
