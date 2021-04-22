@@ -107,10 +107,10 @@ exports.createOrder = ({company, body}) => {
     numbers.Client.globalOptions.userName = company.sms.username
     numbers.Client.globalOptions.password = company.sms.password
     let order = {
-      name: body.orderName,
+      name: company._id,
       siteId: body.siteId,
       existingTelephoneNumberOrderType: {
-        telephoneNumberList: body.numbers
+        telephoneNumberList: [body.number]
       }
     }
     numbers.Order.create(order, function (err, res) {
