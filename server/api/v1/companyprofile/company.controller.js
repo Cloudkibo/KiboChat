@@ -195,6 +195,8 @@ exports.connectSMS = async function (req, res) {
     if (!companyprofile[0]) {
       await smsMapper(req.body.provider, smsActionTypes.ActionTypes.VERIFY_CREDENTIALS, req.body)
       await smsMapper(req.body.provider, smsActionTypes.ActionTypes.SET_WEBHOOK, req.body)
+      req.body['accountStatus'] = 'pending'
+      req.body['accountType'] = 'user'
       await utility.callApi(`companyprofile/update`, 'put', {
         query: {_id: req.user.companyId},
         newPayload: {
