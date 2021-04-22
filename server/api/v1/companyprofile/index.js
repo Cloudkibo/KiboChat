@@ -135,7 +135,7 @@ router.post('/setBusinessHours',
   validate({body: validationSchema.setBusinessHoursPayload}),
   controller.setBusinessHours)
 
-router.post('/fetchAvailableNumbers',
+router.get('/fetchAvailableNumbers',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer(),
   controller.fetchAvailableNumbers)

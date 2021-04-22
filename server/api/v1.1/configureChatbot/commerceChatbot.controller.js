@@ -48,20 +48,20 @@ exports.handleCommerceChatbot = async function (company, message, contact) {
 function sendTextMessage (nextMessageBlock, contact, company) {
   intervalForEach(nextMessageBlock.payload, (msgPayload) => {
     if (msgPayload.componentType === 'text') {
-      smsMapper('twilio', ActionTypes.SEND_TEXT_MESSAGE, {
+      smsMapper(company.sms.provider, ActionTypes.SEND_TEXT_MESSAGE, {
         text: msgPayload.text,
         subscriber: contact,
         company
       })
     } else if (msgPayload.componentType === 'image') {
-      smsMapper('twilio', ActionTypes.SEND_MEDIA_MESSAGE, {
+      smsMapper(company.sms.provider, ActionTypes.SEND_MEDIA_MESSAGE, {
         text: msgPayload.caption,
         mediaUrl: [msgPayload.fileurl],
         subscriber: contact,
         company
       })
     } else if (msgPayload.componentType === 'file') {
-      smsMapper('twilio', ActionTypes.SEND_MEDIA_MESSAGE, {
+      smsMapper(company.sms.provider, ActionTypes.SEND_MEDIA_MESSAGE, {
         text: msgPayload.fileName,
         mediaUrl: [msgPayload.fileurl.url],
         subscriber: contact,
