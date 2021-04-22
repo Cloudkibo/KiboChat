@@ -88,7 +88,7 @@ exports.sendTextMessage = ({text, company, subscriber}) => {
     const client = twilioClient(company)
     client.messages.create({
       body: text,
-      from: company.number,
+      from: company.sms.businessNumber,
       to: subscriber.number
     })
       .then(res => {

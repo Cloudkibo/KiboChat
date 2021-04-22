@@ -195,6 +195,8 @@ exports.connectSMS = async function (req, res) {
     if (!companyprofile[0]) {
       await smsMapper(req.body.provider, smsActionTypes.ActionTypes.VERIFY_CREDENTIALS, req.body)
       await smsMapper(req.body.provider, smsActionTypes.ActionTypes.SET_WEBHOOK, req.body)
+      req.body['accountStatus'] = 'pending'
+      req.body['accountType'] = 'user'
       await utility.callApi(`companyprofile/update`, 'put', {
         query: {_id: req.user.companyId},
         newPayload: {
@@ -786,26 +788,12 @@ exports.setBusinessHours = function (req, res) {
     })
 }
 exports.fetchAvailableNumbers = function (req, res) {
-  utility.callApi(`companyProfile/query`, 'post', { _id: req.user.companyId })
-    .then(companyProfile => {
-      if (companyProfile && companyProfile.sms) {
-        smsMapper(companyProfile.sms.provider, smsActionTypes.ActionTypes.FETCH_AVAILABLE_NUMBERS, {
-          company: companyProfile,
-          query: req.body})
-          .then(numbers => {
-            sendSuccessResponse(res, 200, numbers)
-          })
-          .catch(err => {
-            const message = err || 'Failed to fetch numbers'
-            logger.serverLog(message, `${TAG}: exports.fetchAvailableNumbers`, req.body, {user: req.user}, 'error')
-            sendErrorResponse(res, 500, err, 'Failed to fetch available numbers')
-          })
-      } else {
-        sendErrorResponse(res, 500, '', 'SMS platform not connected')
-      }
+  smsMapper('bandwidth', smsActionTypes.ActionTypes.FETCH_AVAILABLE_NUMBERS, {query: req.body})
+    .then(numbers => {
+      sendSuccessResponse(res, 200, numbers)
     })
     .catch(err => {
-      const message = err || 'Failed to fetch company'
+      const message = err || 'Failed to fetch numbers'
       logger.serverLog(message, `${TAG}: exports.fetchAvailableNumbers`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err, 'Failed to fetch available numbers')
     })

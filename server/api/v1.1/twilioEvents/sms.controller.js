@@ -17,7 +17,7 @@ exports.index = function (req, res) {
     description: `received the payload`
   })
 
-  smsMapper('twilio', ActionTypes.GET_COMPANY, req.body)
+  smsMapper(req.body.provider, ActionTypes.GET_COMPANY, req.body)
     .then(company => {
       if (company) {
         callApi(`user/query`, 'post', {_id: company.ownerId})
@@ -98,7 +98,7 @@ function _handleMessageFromContact (contact, body, company, user) {
           }
         })
         saveBroadcastResponse(contact, MessageObject)
-        chatbotResponder.respondUsingChatbot('sms', 'twilio', {...company, number: body.To}, body.Body, contact)
+        chatbotResponder.respondUsingChatbot('sms', company.sms.provider, {...company, number: body.To}, body.Body, contact)
         commerceChatbot.handleCommerceChatbot({...company, number: body.To}, body.Body, contact)
         _sendNotification(contact, contact.companyId)
         updateContact(contact)

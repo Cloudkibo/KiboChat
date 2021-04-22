@@ -2,7 +2,7 @@ const { _appendOptions } = require('../twilio/logiclayer')
 
 exports.prepareChatbotPayload = (company, subscriber, data, options) => {
   let message = {
-    applicationId: company.sms.appId,
+    applicationId: data.appId,
     to: [subscriber.number],
     from: company.sms.businessNumber
   }

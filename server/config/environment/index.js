@@ -39,6 +39,12 @@ const all = {
     password: process.env.SENDGRID_PASSWORD
   },
   SENDGRID_API_KEY: process.env.SENDGRID_API_KEY || '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',
+  sms: {
+    username: process.env.BANDWIDTH_USERNAME,
+    password: process.env.BANDWIDTH_PASSWORD,
+    appId: process.env.BANDWIDTH_APPID,
+    accountId: process.env.BANDWIDTH_ACCOUNTID
+  },
   shopify: {
     app_key: process.env.SHOPIFY_KEY || 'shopify-api-key',
     app_host: 'https://kibochat.cloudkibo.com',
