@@ -92,11 +92,9 @@ exports.sendTextMessage = ({text, company, subscriber}) => {
       to: subscriber.number
     })
       .then(res => {
-        console.log('res', res)
         resolve({status: 'success'})
       })
       .catch(err => {
-        console.log('err', err)
         reject(err)
       })
   })
