@@ -118,20 +118,52 @@ exports.createOrder = ({company, body}) => {
     numbers.Client.globalOptions.accountId = data.accountId
     numbers.Client.globalOptions.userName = data.username
     numbers.Client.globalOptions.password = data.password
-    let order = {
-      name: company._id,
-      siteId: body.siteId,
-      existingTelephoneNumberOrderType: {
-        telephoneNumberList: [body.number]
+    let subscription = {
+      orderType: 'orders',
+      callbackSubscription: {
+        URL: `${config.api_urls['webhook']}/webhooks/bandwidth`,
+        expiry: 3153600000
       }
     }
-    numbers.Order.create(order, function (err, res) {
+    numbers.Subscription.create(subscription, function (err, res) {
       if (err) {
         reject(err)
       } else {
-        resolve()
+        let order = {
+          name: company._id,
+          customerOrderId: company._id,
+          siteId: body.siteId,
+          existingTelephoneNumberOrderType: {
+            telephoneNumberList: [body.number]
+          }
+        }
+        numbers.Order.create(order, function (err, res) {
+          if (err) {
+            reject(err)
+          } else {
+            resolve()
+          }
+        })
       }
     })
+  })
+}
+
+exports.portNumber = (body) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let data = config.sms
+      const client = new numbers.Client(data.accountId, data.username, data.password)
+      const res = await numbers.LnpChecker.check(client, body.businessNumber)
+      if (res.portableNumbers && res.portableNumbers.tn === body.businessNumber) {
+        await numbers.PortIn.create(client, logiclayer.preparePortinPayload(body))
+        resolve()
+      } else {
+        reject(Error('Given Business number cannot be ported'))
+      }
+    } catch (err) {
+      reject(err)
+    }
   })
 }
 

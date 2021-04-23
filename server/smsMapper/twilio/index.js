@@ -118,6 +118,24 @@ exports.sendMediaMessage = ({text, mediaUrl, company, subscriber}) => {
   })
 }
 
+exports.createOrder = ({company, body}) => {
+  return new Promise(async (resolve, reject) => {
+    resolve()
+  })
+}
+
+exports.fetchAvailableNumbers = ({query}) => {
+  return new Promise(async (resolve, reject) => {
+    resolve([])
+  })
+}
+
+exports.portNumber = (body) => {
+  return new Promise(async (resolve, reject) => {
+    resolve()
+  })
+}
+
 function twilioClient (company) {
   const accountSid = company.sms.accountSID
   const authToken = company.sms.authToken
