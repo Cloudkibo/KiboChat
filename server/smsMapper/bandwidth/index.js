@@ -6,8 +6,14 @@ const async = require('async')
 let config = require('../../config/environment')
 
 exports.verifyCredentials = (body) => {
-  return new Promise((resolve, reject) => {
-    resolve()
+  return new Promise(async (resolve, reject) => {
+    try {
+      const client = new numbers.Client(body.accountId, body.username, body.password)
+      await numbers.Account.get(client)
+      resolve()
+    } catch (err) {
+      reject(err)
+    }
   })
 }
 
