@@ -63,6 +63,12 @@ router.post('/connectSMS',
   validate({body: validationSchema.connectSMS}),
   controller.connectSMS)
 
+router.post('/configureSMS',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
+  validate({body: validationSchema.configureSMS}),
+  controller.configureSMS)
+
 router.post('/updatePlatformWhatsApp',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer('write'),
@@ -85,11 +91,6 @@ router.post('/fetchValidCallerIds',
   auth.isSuperUserActingAsCustomer('write'),
   validate({body: validationSchema.fetchValidCallerIds}),
   controller.fetchValidCallerIds)
-
-router.post('/updatePlan',
-  auth.isAuthenticated(),
-  auth.isSuperUserActingAsCustomer('write'),
-  controller.updatePlan)
 
 router.get('/getAdvancedSettings',
   auth.isAuthenticated(),

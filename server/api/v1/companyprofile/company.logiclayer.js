@@ -49,3 +49,32 @@ exports.sendInHouseEmail = function (user, body) {
       logger.serverLog(message, `${TAG}: exports.sendInHouseEmail`, {}, {}, 'error')
     })
 }
+
+exports.prepareSmsConfigurationPayload = function (body, company) {
+  let data = {}
+  data.purchasedPlans = company.purchasedPlans || {}
+  data.purchasedPlans[body.platform] = body.planId
+  data.planId = body.planId
+  if (body.numberDetails) {
+    data.sms = {
+      provider: 'bandwidth',
+      accountStatus: 'pending',
+      accountType: 'cloudkibo',
+      businessNumber: body.number
+    }
+  }
+  return data
+}
+
+exports.prepareCompanyUsagePayload = function (company, body) {
+  let data = {
+    companyId: company._id,
+    platform: body.platform,
+    broadcasts: 0,
+    sessions: 0,
+    chat_messages: 0,
+    subscribers: 0,
+    messages: 0
+  }
+  return data
+}
