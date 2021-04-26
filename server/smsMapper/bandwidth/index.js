@@ -25,7 +25,7 @@ exports.setWebhook = (body) => {
 
 exports.getCompany = (body) => {
   return new Promise((resolve, reject) => {
-    callApi(`companyprofile/query`, 'post', {'sms.accountId': body.AccountSid})
+    callApi(`companyprofile/query`, 'post', {'sms.appId': body.message.applicationId})
       .then(company => { resolve(company) })
       .catch(err => { reject(err) })
   })
