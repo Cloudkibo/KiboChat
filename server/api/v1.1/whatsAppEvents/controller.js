@@ -68,7 +68,7 @@ exports.messageReceived = function (req, res) {
                           }
                         }
                         const shouldAvoidSendingMessage = await shouldAvoidSendingAutomatedMessage(contact, company, data)
-                        if (company._id === '5aa10cdf46b4591f60e6b50c') {
+                        if (company._id === '5a89ecdaf6b0460c552bf7fe') {
                           // NOTE: This if condition is temporary testing code for
                           // adil. We will remove this in future. It will only run for
                           // our own company. Please don't remove this. - Sojharo
@@ -318,7 +318,7 @@ function shouldAvoidSendingAutomatedMessage (contact, company, data) {
     } else {
       if (data.messageData && data.messageData.text.toLowerCase() === 'unpause') {
         resolve(avoidSending)
-      } else if (contact.lastMessageSentByBot && talkToAgentBlocks.includes(contact.lastMessageSentByBot.title.toLowerCase())) {
+      } else if (contact.lastMessageSentByBot && talkToAgentBlocks.includes(contact.lastMessageSentByBot.title && contact.lastMessageSentByBot.title.toLowerCase())) {
         resolve(avoidSending)
       } else {
         if (company.automated_options === 'MIX_CHAT' && contact.agent_activity_time) {
