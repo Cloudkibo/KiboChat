@@ -30,6 +30,8 @@ function callAction (action, data, provider) {
       return provider.verifyCredentials(data)
     case ActionTypes.SET_WEBHOOK:
       return provider.setWebhook(data)
+    case ActionTypes.PORT_NUMBER:
+      return provider.portNumber(data)
     default:
   }
 }
