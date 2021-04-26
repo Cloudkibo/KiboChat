@@ -4,6 +4,18 @@ const { callApi } = require('../../api/v1/utility')
 const logiclayer = require('./logiclayer')
 const async = require('async')
 
+exports.verifyCredentials = (body) => {
+  return new Promise((resolve, reject) => {
+    resolve()
+  })
+}
+
+exports.setWebhook = (body) => {
+  return new Promise((resolve, reject) => {
+    resolve()
+  })
+}
+
 exports.getCompany = (body) => {
   return new Promise((resolve, reject) => {
     callApi(`companyprofile/query`, 'post', {'sms.accountId': body.AccountSid})

@@ -7,6 +7,7 @@ const { facebookApiCaller } = require('../../global/facebookApiCaller')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const shopifyDataLayer = require('../../v1.1/shopify/shopify.datalayer.js')
 const bigCommerceDataLayer = require('../../v1.1/bigcommerce/bigcommerce.datalayer.js')
+const async = require('async')
 
 exports.index = function (req, res) {
   utility.callApi(`user`, 'get', {}, 'accounts', req.headers.authorization)
@@ -301,7 +302,7 @@ exports.disconnectFacebook = function (req, res) {
   utility.callApi(`companyProfile/query`, 'post', { ownerId: req.user._id })
     .then(companyProfile => {
       let updated = { connectFacebook: false }
-      if (companyProfile.twilio) {
+      if (companyProfile.sms) {
         updated.platform = 'sms'
       } else if (companyProfile.whatsApp && !(companyProfile.whatsApp.connected === false)) {
         updated.platform = 'whatsApp'
@@ -333,18 +334,63 @@ exports.disconnectFacebook = function (req, res) {
     })
 }
 exports.updatePlatform = function (req, res) {
-  utility.callApi('user/update', 'post', { query: { _id: req.user._id }, newPayload: { platform: req.body.platform }, options: {} })
-    .then(updated => {
+  async.parallelLimit([
+    function (callback) {
+      utility.callApi(`companyprofile/update`, 'put', {
+        query: {_id: req.user.companyId},
+        newPayload: {planId: req.user.purchasedPlans[req.body.platform] ? req.user.purchasedPlans[req.body.platform] : req.user.purchasedPlans['general']},
+        options: {}})
+        .then(updatedProfile => {
+          callback()
+        })
+        .catch(err => {
+          callback(err)
+        })
+    },
+    function (callback) {
+      utility.callApi('user/update', 'post', { query: { _id: req.user._id }, newPayload: { platform: req.body.platform }, options: {} })
+        .then(updated => {
+          callback()
+        })
+        .catch(err => {
+          callback(err)
+        })
+    }
+  ], 10, function (err, results) {
+    if (err) {
+      const message = err || 'Failed to update platform'
+      logger.serverLog(message, `${TAG}: exports.updatePlatform`, req.body, {user: req.user}, 'error')
+      sendErrorResponse(res, 500, err, 'Failed to update platform')
+    } else {
+      sendSuccessResponse(res, 200, 'Updated successfully')
+    }
+  })
+}
+
+exports.logout = function (req, res) {
+  utility.callApi(`users/receivelogout`, 'get', {}, 'kiboengage', req.headers.authorization)
+    .then(response => {
       return res.status(200).json({
         status: 'success',
-        payload: 'Updated Successfully!'
+        payload: 'send response successfully!'
       })
+    }).catch(err => {
+      console.log('error', err)
+      res.status(500).json({status: 'failed', payload: `failed to sendLogoutEvent ${err}`})
     })
-    .catch(err => {
-      const message = err || 'error in updating user'
-      logger.serverLog(message, `${TAG}: exports.updatePlatform`, {}, {user: req.user}, 'error')
-      res.status(500).json({ status: 'failed', payload: err })
-    })
+}
+
+exports.receivelogout = function (req, res) {
+  require('../../../config/socketio').sendMessageToClient({
+    room_id: req.user.companyId,
+    body: {
+      action: 'logout'
+    }
+  })
+  return res.status(200).json({
+    status: 'success',
+    payload: 'recieved logout event!'
+  })
 }
 
 function saveShopifyIntegration (shop, shopToken, userId, companyId) {

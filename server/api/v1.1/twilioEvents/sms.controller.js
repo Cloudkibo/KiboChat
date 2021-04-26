@@ -173,8 +173,8 @@ function saveBroadcastResponse (contact, MessageObject) {
 }
 
 function handleUnsub (user, company, contact, body) {
-  let accountSid = company.twilio.accountSID
-  let authToken = company.twilio.authToken
+  let accountSid = company.sms.accountSID
+  let authToken = company.sms.authToken
   let client = require('twilio')(accountSid, authToken)
   let unsubscribeMessage = 'You have unsubscribed from our broadcasts. Send "start" to subscribe again'
   client.messages
@@ -218,8 +218,8 @@ function handleUnsub (user, company, contact, body) {
     })
 }
 function handleSub (user, company, contact, body) {
-  let accountSid = company.twilio.accountSID
-  let authToken = company.twilio.authToken
+  let accountSid = company.sms.accountSID
+  let authToken = company.sms.authToken
   let client = require('twilio')(accountSid, authToken)
   let subscribeMessage = 'Thank you for subscribing again'
   client.messages

@@ -62,6 +62,7 @@ function isAuthenticated () {
             }
           })
           .catch(err => {
+            console.log('err1', err)
             if (err.statusCode && err.statusCode === 401) {
               return res.status(401)
                 .json({status: 'Unauthorized', description: 'jwt expired'})
@@ -187,6 +188,65 @@ function doesPlanPermitsThisAction (action) {
       })
   })
 }
+function isUserAllowedToPerformThisAction (action) {
+  if (!action) throw new Error('Action needs to be set')
+  return compose().use((req, res, next) => {
+    apiCaller.callApi(`permissions/query`, 'post', {userId: req.user._id})
+      .then(permissions => {
+        if (permissions.length > 0) {
+          const permission = permissions[0]
+          if (permission[action]) {
+            next()
+          } else {
+            return res.status(403).json({
+              status: 'failed',
+              description: 'You do not have the permission to perform this action. Please contact admin.'
+            })
+          }
+        } else {
+          return res.status(500).json({
+            status: 'failed',
+            description: 'Fatal Error. Permissions not set. Please contact support.'
+          })
+        }
+      })
+      .catch(err => {
+        const message = err || 'error in getting permissions'
+        logger.serverLog(message, `${TAG}: exports.isUserAllowedToPerformThisAction`, {}, {action, user: req.user}, 'error')
+        return res.status(500).json({status: 'failed', description: `Internal Server Error: ${err}`})
+      })
+  })
+}
+
+function isUserAllowedToPerformThisAction (action) {
+  if (!action) throw new Error('Action needs to be set')
+  return compose().use((req, res, next) => {
+    apiCaller.callApi(`permissions/query`, 'post', {userId: req.user._id})
+      .then(permissions => {
+        if (permissions.length > 0) {
+          const permission = permissions[0]
+          if (permission[action]) {
+            next()
+          } else {
+            return res.status(403).json({
+              status: 'failed',
+              description: 'You do not have the permission to perform this action. Please contact admin.'
+            })
+          }
+        } else {
+          return res.status(500).json({
+            status: 'failed',
+            description: 'Fatal Error. Permissions not set. Please contact support.'
+          })
+        }
+      })
+      .catch(err => {
+        const message = err || 'error in getting permissions'
+        logger.serverLog(message, `${TAG}: exports.isUserAllowedToPerformThisAction`, {}, {action, user: req.user}, 'error')
+        return res.status(500).json({status: 'failed', description: `Internal Server Error: ${err}`})
+      })
+  })
+}
 
 function doesRolePermitsThisAction (action) {
   if (!action) throw new Error('Action needs to be set')
@@ -274,6 +334,17 @@ const _updateUserPlatform = (req, res, userid) => {
               return companyUser.userId._id
             }
           })
+          apiCaller.callApi(`companyProfile/update`, 'put', {
+            query: {_id: companyProfile._id},
+            newPayload: {
+              planId: companyProfile.purchasedPlans['messenger'] ? companyProfile.purchasedPlans['messenger'] : companyProfile.purchasedPlans['general']},
+            options: {}})
+            .then(updatedProfile => {
+            })
+            .catch(err => {
+              const message = err || 'Internal server error'
+              logger.serverLog(message, `${TAG}: _updateUserPlatform`, req.body, {user: req.user}, 'error')
+            })
           apiCaller.callApi(`user/update`, 'post', {query: {_id: {$in: userIds}}, newPayload: { $set: {platform: 'messenger'} }, options: {multi: true}})
             .then(updatedProfile => {
             })
@@ -367,16 +438,16 @@ function fbConnectDone (req, res) {
 
 // eslint-disable-next-line no-unused-vars
 function isAuthorizedWebHookTrigger (req, res, next) {
-  const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
+  /*const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
     req.socket.remoteAddress || req.connection.socket.remoteAddress
   // We need to change it to based on the requestee app
   if (config.allowedIps.indexOf(ip) > -1) next()
-  else res.send(403)
+  else res.send(403)*/
 }
 
 function isItWebhookServer () {
   return compose().use((req, res, next) => {
-    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
+    /*const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
       req.socket.remoteAddress || req.connection.socket.remoteAddress
 
     if (config.env === 'development') {
@@ -384,7 +455,8 @@ function isItWebhookServer () {
     } else {
       if (ip === '::ffff:' + config.webhook_ip) next()
       else res.send(403)
-    }
+    }*/
+    next()
   })
 }
 
@@ -400,6 +472,7 @@ exports.hasRole = hasRole
 exports.hasRequiredPlan = hasRequiredPlan
 exports.doesPlanPermitsThisAction = doesPlanPermitsThisAction
 exports.doesRolePermitsThisAction = doesRolePermitsThisAction
+exports.isUserAllowedToPerformThisAction = isUserAllowedToPerformThisAction
 exports.fbConnectDone = fbConnectDone
 exports.fbConnectError = fbConnectError
 exports.fetchPages = fetchPages
@@ -448,7 +521,8 @@ function fetchPages (url, user, req, token) {
             }
             needle.get(options2.url, options2, (error, fanCount) => {
               if (error !== null) {
-                return logger.serverLog(TAG, `Error occurred ${error}`)
+                const message = err || 'effor from graph api of facebook, fan_count and username'
+                return logger.serverLog(message, `${TAG}: exports.fetchPages`, {}, {url, user}, 'error')
               } else {
                 // logger.serverLog(TAG, `Data by fb for page likes ${JSON.stringify(
                 //   fanCount.body.fan_count)}`)

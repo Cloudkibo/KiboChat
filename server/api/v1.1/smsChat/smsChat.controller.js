@@ -5,7 +5,7 @@ const { callApi } = require('../utility')
 const async = require('async')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const { record } = require('../../global/messageStatistics')
-const { sendOpAlert } = require('../../global/operationalAlert')
+const { incrementCompanyUsageMessage, fetchUsages } = require('../utility/miscApiCalls.controller')
 
 exports.index = function (req, res) {
   if (req.params.contactId) {
@@ -55,7 +55,7 @@ exports.index = function (req, res) {
 }
 
 const isUnverfiedTwilioNumber = function (err) {
-  if (err && err.message && err.message.includes('unverified numbers')) {
+  if (err && err.message && err.message.includes('unverified')) {
     return true
   } else {
     return false
@@ -68,78 +68,91 @@ exports.create = function (req, res) {
       if (!companyUser) {
         sendErrorResponse(res, 500, '', 'The user account does not belong to any company. Please contact support')
       }
-      let accountSid = companyUser.companyId.twilio.accountSID
-      let authToken = companyUser.companyId.twilio.authToken
-      let client = require('twilio')(accountSid, authToken)
-      record('smsChatOutGoing')
-      client.messages
-        .create({
-          body: req.body.payload.text,
-          from: req.body.senderNumber,
-          to: req.body.recipientNumber
-        })
-        .then(response => {
-          let MessageObject = logicLayer.prepareChat(req.body, companyUser)
-          async.parallelLimit([
-            function (callback) {
-              callApi(`smsChat`, 'post', MessageObject, 'kibochat')
-                .then(message => {
-                  callback(null)
-                })
-                .catch(error => {
-                  callback(error)
-                })
-            },
-            function (callback) {
-              let subscriberData = {
-                query: {_id: req.body.contactId},
-                newPayload: {
-                  $inc: { messagesCount: 1 },
-                  $set: {last_activity_time: Date.now(), hasChat: true, pendingResponse: false},
-                  $unset: {waitingForBroadcastResponse: 1}
-                },
-                options: {}
-              }
-              callApi(`contacts/update`, 'put', subscriberData)
-                .then(updated => {
-                  MessageObject.datetime = new Date()
-                  require('./../../../config/socketio').sendMessageToClient({
-                    room_id: req.user.companyId,
-                    body: {
-                      action: 'agent_replied_sms',
-                      payload: {
-                        subscriber_id: req.body.contactId,
-                        message: MessageObject,
-                        action: 'agent_replied_sms',
-                        user_id: req.user._id,
-                        user_name: req.user.name
-                      }
+      fetchUsages(req.user.companyId, req.user.purchasedPlans['sms'], 'sms', companyUser.companyId.sms)
+        .then(({companyUsage, planUsage}) => {
+          if (companyUsage.messages >= planUsage.messages) {
+            sendErrorResponse(res, 500, '', `You have consumed the resources for current billing cycle. So, you won't be able to send any more messages. Your resources will be reset starting next billing cycle`)
+          } else {
+            let accountSid = companyUser.companyId.sms.accountSID
+            let authToken = companyUser.companyId.sms.authToken
+            let client = require('twilio')(accountSid, authToken)
+            record('smsChatOutGoing')
+            client.messages
+              .create({
+                body: req.body.payload.text,
+                from: req.body.senderNumber,
+                to: req.body.recipientNumber
+              })
+              .then(response => {
+                incrementCompanyUsageMessage(req.user.companyId, 'sms', 1)
+                let MessageObject = logicLayer.prepareChat(req.body, companyUser)
+                async.parallelLimit([
+                  function (callback) {
+                    callApi(`smsChat`, 'post', MessageObject, 'kibochat')
+                      .then(message => {
+                        callback(null)
+                      })
+                      .catch(error => {
+                        callback(error)
+                      })
+                  },
+                  function (callback) {
+                    let subscriberData = {
+                      query: {_id: req.body.contactId},
+                      newPayload: {
+                        $inc: { messagesCount: 1 },
+                        $set: {last_activity_time: Date.now(), hasChat: true, pendingResponse: false},
+                        $unset: {waitingForBroadcastResponse: 1}
+                      },
+                      options: {}
                     }
-                  })
-                  callback(null)
+                    callApi(`contacts/update`, 'put', subscriberData)
+                      .then(updated => {
+                        MessageObject.datetime = new Date()
+                        require('./../../../config/socketio').sendMessageToClient({
+                          room_id: req.user.companyId,
+                          body: {
+                            action: 'agent_replied_sms',
+                            payload: {
+                              subscriber_id: req.body.contactId,
+                              message: MessageObject,
+                              action: 'agent_replied_sms',
+                              user_id: req.user._id,
+                              user_name: req.user.name
+                            }
+                          }
+                        })
+                        callback(null)
+                      })
+                      .catch(error => {
+                        callback(error)
+                      })
+                  }
+                ], 10, function (err, results) {
+                  if (err) {
+                    const message = err || 'Error in async calls while sending message'
+                    logger.serverLog(message, `${TAG}: exports.create`, req.body, {params: req.params, user: req.user}, 'error')
+                    sendErrorResponse(res, 500, `Failed to send message ${JSON.stringify(err)}`)
+                  } else {
+                    sendSuccessResponse(res, 200, results[0])
+                  }
                 })
-                .catch(error => {
-                  callback(error)
-                })
-            }
-          ], 10, function (err, results) {
-            if (err) {
-              const message = err || 'Error in async calls while sending message'
-              logger.serverLog(message, `${TAG}: exports.create`, req.body, {params: req.params, user: req.user}, 'error')
-              sendErrorResponse(res, 500, `Failed to send message ${JSON.stringify(err)}`)
-            } else {
-              sendSuccessResponse(res, 200, results[0])
-            }
-          })
+              })
+              .catch(err => {
+                const message = err || 'Failed to send twilio message'
+                if (!isUnverfiedTwilioNumber(err)) {
+                  logger.serverLog(message, `${TAG}: exports.create`, req.body, {params: req.params, user: req.user}, 'error')
+                  sendErrorResponse(res, 500, `Failed to send message ${JSON.stringify(err)}`)
+                } else {
+                  sendErrorResponse(res, 500, 'Please verify your number on Twilio Trail account before sending messages.')
+                }
+              })
+          }
         })
         .catch(err => {
-          const message = err || 'Failed to send twilio message'
-          if (!isUnverfiedTwilioNumber(err)) {
-            logger.serverLog(message, `${TAG}: exports.create`, req.body, {params: req.params, user: req.user}, 'error')
-            sendErrorResponse(res, 500, `Failed to send message ${JSON.stringify(err)}`)
-          } else {
-            sendErrorResponse(res, 500, 'Please verify your number on Twilio Trail account before sending messages.')
-          }
+          const message = err || 'Failed to fetch usages'
+          logger.serverLog(message, `${TAG}: exports.create`, req.body, {user: req.user}, 'error')
+          sendErrorResponse(res, 400, err, 'Failed to fetch usages')
         })
     })
     .catch(error => {
