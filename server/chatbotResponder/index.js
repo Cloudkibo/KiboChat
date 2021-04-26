@@ -9,141 +9,139 @@ const { pushTalkToAgentAlertInStack } = require('../api/global/messageAlerts')
 const { getDialogFlowClient } = require('../api/global/dialogflow')
 const { incrementCompanyUsageMessage, fetchUsages } = require('../api/v1.1/utility/miscApiCalls.controller')
 
-exports.respondUsingChatbot = (platform, provider, company, message, contact, isForTest) => {
+exports.respondUsingChatbot = async (platform, provider, company, message, contact, isForTest) => {
   return new Promise((resolve, reject) => {
     let chatBotPayload = {companyId: company._id, published: true, platform}
     if (isForTest) {
       chatBotPayload = {chatbotId: contact.activeChatbotId, published: true, platform}
     }
     chatbotDatalayer.fetchChatbotRecords(chatBotPayload)
-      .then(chatbots => {
+      .then(async chatbots => {
         const chatbot = chatbots[0]
         const userText = message.toLowerCase().trim()
+        let usageConsumed = false
         if (chatbot && chatbot.startingBlockId) {
-          fetchUsages(company._id, company.purchasedPlans['sms'], 'sms', company.sms)
-            .then(({companyUsage, planUsage}) => {
-              if (companyUsage.messages < planUsage.messages) {
-              // fetch blocks with matching trigger
-                _fetchChatbotBlocks({
-                  companyId: company._id,
-                  chatbotId: chatbot.chatbotId,
-                  '$contains': {
-                    type: 'array',
-                    field: 'triggers',
-                    value: userText
-                  }
-                })
-                  .then(async blocks => {
-                    let block = blocks[0]
-                    let blockFound = false
-                    if (block) {
-                      blockFound = true
-                    } else if (chatbot.dialogFlowAgentId) {
-                      const dialogflow = await getDialogFlowClient(chatbot.companyId)
-                      const result = await dialogflow.projects.agent.sessions.detectIntent({
-                        session: `${chatbot.dialogFlowAgentId}/agent/sessions/${contact._id}`,
-                        requestBody: {
-                          queryInput: {
-                            text: {
-                              languageCode: 'en',
-                              text: userText.length > 256 ? userText.substring(0, 256) : userText
-                            }
-                          }
-                        }
-                      })
-                      if (
-                        result.data && result.data.queryResult &&
-                        result.data.queryResult.intentDetectionConfidence >= 0.8 &&
-                        result.data.queryResult.intent
-                      ) {
-                        const intentId = result.data.queryResult.intent.name
-                        const blocks = await _fetchChatbotBlocks({dialogFlowIntentId: intentId})
-                        if (blocks.length > 0) {
-                          block = blocks[0]
-                          blockFound = true
-                        }
-                      }
-                    }
-                    if (blockFound) {
-                      // trigger matched
-                      _respond(platform, provider, company, contact, block)
-                      pushTalkToAgentAlertInStack(company, contact, platform, chatbot.title)
-                      resolve(block)
-                    } else {
-                    // trigger not matched. check chatbot context
-                      if (contact.chatbotContext) {
-                        _handleUserInput(userText, contact.chatbotContext)
-                          .then(result => {
-                            if (result.status === 'success') {
-                              if (result.payload === 'talk_to_agent') {
-                                let data = {
-                                  payload: [{componentType: 'text', text: 'Our support agents have been notified and someone will get back to you soon.'}],
-                                  options: []
-                                }
-                                _respond(platform, provider, company, contact, data)
-                                resolve(block)
-                              } else {
-                              // correct option, send next block
-                                _fetchChatbotBlocks({uniqueId: result.payload})
-                                  .then(result => {
-                                    block = result[0]
-                                    if (block) {
-                                      _respond(platform, provider, company, contact, block)
-                                      resolve(block)
-                                    }
-                                  })
-                                  .catch(err => {
-                                    const message = err || 'error in chat bot response'
-                                    logger.serverLog(message, `${TAG}: exports.respondUsingChatbot`, {}, {}, 'error')
-                                    reject(err)
-                                  })
-                              }
-                            } else {
-                            // incorrect option, send fallback reply
-                              _callMapperFunction(
-                                platform,
-                                provider,
-                                {
-                                  text: result.description,
-                                  subscriber: contact,
-                                  company
-                                },
-                                ActionTypes.SEND_TEXT_MESSAGE
-                              )
-                                .then(sent => {
-                                  resolve({
-                                    payload: {
-                                      text: result.description,
-                                      componentType: 'text'
-                                    }
-                                  })
-                                })
-                                .catch(err => {
-                                  const message = err || 'error in chat bot response'
-                                  logger.serverLog(message, `${TAG}: exports.respondUsingChatbot`, {}, {}, 'error')
-                                  reject(err)
-                                })
-                            }
-                          })
-                          .catch(err => {
-                            const message = err || 'error in chat bot response'
-                            logger.serverLog(message, `${TAG}: exports.respondUsingChatbot`, {}, {}, 'error')
-                            reject(err)
-                          })
-                      }
-                    }
-                  })
-                  .catch(err => {
-                    const message = err || 'error in chat bot response'
-                    logger.serverLog(message, `${TAG}: exports.respondUsingChatbot`, {}, {}, 'error')
-                    reject(err)
-                  })
+          if (platform === 'sms') {
+            const {companyUsage, planUsage} = await fetchUsages(company._id, company.purchasedPlans['sms'], 'sms', company.sms)
+            usageConsumed = companyUsage.messages >= planUsage.messages
+          }
+          if (!usageConsumed) {
+          // fetch blocks with matching trigger
+            _fetchChatbotBlocks({
+              companyId: company._id,
+              chatbotId: chatbot.chatbotId,
+              '$contains': {
+                type: 'array',
+                field: 'triggers',
+                value: userText
               }
             })
-            .catch(err => {
-              const message = err || 'error in chat bot response'
-              logger.serverLog(message, `${TAG}: exports.respondUsingChatbot`, {}, {}, 'error')
-            })
+              .then(async blocks => {
+                let block = blocks[0]
+                let blockFound = false
+                if (block) {
+                  blockFound = true
+                } else if (chatbot.dialogFlowAgentId) {
+                  const dialogflow = await getDialogFlowClient(chatbot.companyId)
+                  const result = await dialogflow.projects.agent.sessions.detectIntent({
+                    session: `${chatbot.dialogFlowAgentId}/agent/sessions/${contact._id}`,
+                    requestBody: {
+                      queryInput: {
+                        text: {
+                          languageCode: 'en',
+                          text: userText.length > 256 ? userText.substring(0, 256) : userText
+                        }
+                      }
+                    }
+                  })
+                  if (
+                    result.data && result.data.queryResult &&
+                    result.data.queryResult.intentDetectionConfidence >= 0.8 &&
+                    result.data.queryResult.intent
+                  ) {
+                    const intentId = result.data.queryResult.intent.name
+                    const blocks = await _fetchChatbotBlocks({dialogFlowIntentId: intentId})
+                    if (blocks.length > 0) {
+                      block = blocks[0]
+                      blockFound = true
+                    }
+                  }
+                }
+                if (blockFound) {
+                  // trigger matched
+                  _respond(platform, provider, company, contact, block)
+                  pushTalkToAgentAlertInStack(company, contact, platform, chatbot.title)
+                  resolve(block)
+                } else {
+                // trigger not matched. check chatbot context
+                  if (contact.chatbotContext) {
+                    _handleUserInput(userText, contact.chatbotContext)
+                      .then(result => {
+                        if (result.status === 'success') {
+                          if (result.payload === 'talk_to_agent') {
+                            let data = {
+                              payload: [{componentType: 'text', text: 'Our support agents have been notified and someone will get back to you soon.'}],
+                              options: []
+                            }
+                            _respond(platform, provider, company, contact, data)
+                            resolve(block)
+                          } else {
+                          // correct option, send next block
+                            _fetchChatbotBlocks({uniqueId: result.payload})
+                              .then(result => {
+                                block = result[0]
+                                if (block) {
+                                  _respond(platform, provider, company, contact, block)
+                                  resolve(block)
+                                }
+                              })
+                              .catch(err => {
+                                const message = err || 'error in chat bot response'
+                                logger.serverLog(message, `${TAG}: exports.respondUsingChatbot`, {}, {}, 'error')
+                                reject(err)
+                              })
+                          }
+                        } else {
+                        // incorrect option, send fallback reply
+                          _callMapperFunction(
+                            platform,
+                            provider,
+                            {
+                              text: result.description,
+                              subscriber: contact,
+                              company
+                            },
+                            ActionTypes.SEND_TEXT_MESSAGE
+                          )
+                            .then(sent => {
+                              resolve({
+                                payload: {
+                                  text: result.description,
+                                  componentType: 'text'
+                                }
+                              })
+                            })
+                            .catch(err => {
+                              const message = err || 'error in chat bot response'
+                              logger.serverLog(message, `${TAG}: exports.respondUsingChatbot`, {}, {}, 'error')
+                              reject(err)
+                            })
+                        }
+                      })
+                      .catch(err => {
+                        const message = err || 'error in chat bot response'
+                        logger.serverLog(message, `${TAG}: exports.respondUsingChatbot`, {}, {}, 'error')
+                        reject(err)
+                      })
+                  }
+                }
+              })
+              .catch(err => {
+                const message = err || 'error in chat bot response'
+                logger.serverLog(message, `${TAG}: exports.respondUsingChatbot`, {}, {}, 'error')
+                reject(err)
+              })
+          }
         } else {
           resolve(null)
         }
