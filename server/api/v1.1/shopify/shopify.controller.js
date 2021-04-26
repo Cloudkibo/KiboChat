@@ -450,7 +450,7 @@ exports.handleFulfillment = async function (req, res) {
 }
 
 exports.handleAppUninstall = async function (req, res) {
-  const shopUrl = req.header('X-Shopify-Shop-Domain')
+  const shopUrl = 'shopatkibo.myshopify.com'
   try {
     const shopifyIntegration = await dataLayer.findOneShopifyIntegration({ shopUrl: shopUrl })
     dataLayer.deleteShopifyIntegration({
@@ -459,7 +459,15 @@ exports.handleAppUninstall = async function (req, res) {
       userId: shopifyIntegration.userId,
       companyId: shopifyIntegration.companyId
     })
-
+    require('../../../config/socketio').sendMessageToClient({
+      room_id: shopifyIntegration.companyId,
+      body: {
+        action: 'shopify-uninstall',
+        payload: {
+          shopifyIntegration
+        }
+      }
+    })
     const messengerChatbots = await messengerChatbotDataLayer.findAllChatBots({
       type: 'automated',
       vertical: 'commerce',
