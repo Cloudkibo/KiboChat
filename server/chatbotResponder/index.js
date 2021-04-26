@@ -9,7 +9,7 @@ const { pushTalkToAgentAlertInStack } = require('../api/global/messageAlerts')
 const { getDialogFlowClient } = require('../api/global/dialogflow')
 const { incrementCompanyUsageMessage, fetchUsages } = require('../api/v1.1/utility/miscApiCalls.controller')
 
-exports.respondUsingChatbot = async (platform, provider, company, message, contact, isForTest) => {
+exports.respondUsingChatbot = (platform, provider, company, message, contact, isForTest) => {
   return new Promise((resolve, reject) => {
     let chatBotPayload = {companyId: company._id, published: true, platform}
     if (isForTest) {
