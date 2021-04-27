@@ -450,7 +450,7 @@ exports.handleFulfillment = async function (req, res) {
 }
 
 exports.handleAppUninstall = async function (req, res) {
-  const shopUrl = 'shopatkibo.myshopify.com'
+  const shopUrl = req.header('X-Shopify-Shop-Domain')
   try {
     const shopifyIntegration = await dataLayer.findOneShopifyIntegration({ shopUrl: shopUrl })
     dataLayer.deleteShopifyIntegration({
