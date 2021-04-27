@@ -33,3 +33,4 @@ const _convertToEmoji = (num) => {
   }
   return emoji
 }
+
