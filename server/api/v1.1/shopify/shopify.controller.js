@@ -465,7 +465,15 @@ exports.handleAppUninstall = async function (req, res) {
       userId: shopifyIntegration.userId,
       companyId: shopifyIntegration.companyId
     })
-
+    require('../../../config/socketio').sendMessageToClient({
+      room_id: shopifyIntegration.companyId,
+      body: {
+        action: 'shopify-uninstall',
+        payload: {
+          shopifyIntegration
+        }
+      }
+    })
     const messengerChatbots = await messengerChatbotDataLayer.findAllChatBots({
       type: 'automated',
       vertical: 'commerce',
