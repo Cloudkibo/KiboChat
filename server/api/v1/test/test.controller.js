@@ -24,13 +24,13 @@ exports.index = function (req, res) {
   //   .catch((err) => {
   //     console.log('err', err)
   //   })
-    needle.get(abc, function(error, response) {
-      console.log('response')
+  needle.get(abc, function (error, response) {
+    console.log('response')
     if (!error && response.statusCode == 200) {
-      console.log(response.body);
+      console.log(response.body)
     } else {
-      console.log('error',error)
+      console.log('error', error)
     }
-  });
+  })
   // res.status(200).json({status: 'success', payload: 'Hello World'})
 }

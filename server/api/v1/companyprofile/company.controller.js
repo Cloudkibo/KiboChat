@@ -818,3 +818,36 @@ exports.configureSMS = function (req, res) {
       sendErrorResponse(res, 500, err, 'Failed to configure sms')
     })
 }
+
+exports.configureFacebook = function (req, res) {
+  const setCard = utility.callApi('companyprofile/setCard', 'post', {stripeToken: req.body.stripeToken, companyId: req.user.companyId})
+  const getCompany = utility.callApi(`companyProfile/query`, 'post', { _id: req.user.companyId })
+  const companyUsers = utility.callApi(`companyUser/queryAll`, 'post', {companyId: req.user.companyId})
+
+  Promise.all([getCompany, setCard, companyUsers])
+    .then(result => {
+      const company = result[0]
+      const userIds = result[2].map((item) => item.userId._id)
+      const companyUsagePayload = logicLayer.prepareCompanyUsagePayloadForFb(company, req.body)
+
+      const setUserPlatform = utility.callApi(`user/update`, 'post', {query: {_id: {$in: userIds}}, newPayload: { $set: {platform: req.body.platform} }, options: {multi: true}})
+      const createCompanyUsage = utility.callApi('featureUsage/createCompanyUsage', 'post', companyUsagePayload)
+
+      let requests = [setUserPlatform, createCompanyUsage]
+
+      Promise.all(requests)
+        .then(done => {
+          sendSuccessResponse(res, 200, null, 'Information save successfully')
+        })
+        .catch(err => {
+          const message = err || 'Failed to configure facebook'
+          logger.serverLog(message, `${TAG}: exports.configureFacebook`, req.body, {user: req.user, companyUsagePayload}, 'error')
+          sendErrorResponse(res, 500, err, 'Failed to configure facebook')
+        })
+    })
+    .catch(err => {
+      const message = err || 'Failed to configure facebook'
+      logger.serverLog(message, `${TAG}: exports.configureFacebook`, req.body, {user: req.user}, 'error')
+      sendErrorResponse(res, 500, err, 'Failed to configure facebook')
+    })
+}

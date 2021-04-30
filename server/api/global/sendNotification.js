@@ -63,8 +63,7 @@ const sendMobileNotifications = (expoListToken, title, bodyMessage, data, user, 
         if (retryCount > 0 && message && (!message.code || message.code === 504 || message.code === 502)) {
           logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, {expoListToken, title, bodyMessage, data, user}, 'info')
           sendMobileNotifications(expoListToken, title, bodyMessage, data, user, retryCount - 1)
-        }
-        else if (message && message.code !== 'PUSH_TOO_MANY_EXPERIENCE_IDS') {
+        } else if (message && message.code !== 'PUSH_TOO_MANY_EXPERIENCE_IDS') {
           return logger.serverLog(message, `${TAG}: exports.saveNotification`, {}, {expoListToken, title, bodyMessage, data, user}, 'error')
         }
       }
