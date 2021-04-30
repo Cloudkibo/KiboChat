@@ -57,7 +57,7 @@ exports.index = function (req, res) {
 }
 
 const isUnverfiedTwilioNumber = function (err) {
-  if (err && err.message && err.message.includes('unverified numbers')) {
+  if (err && err.message && err.message.includes('unverified')) {
     return true
   } else {
     return false

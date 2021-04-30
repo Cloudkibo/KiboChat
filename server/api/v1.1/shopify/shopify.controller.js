@@ -16,6 +16,7 @@ const dataLayer = require('./shopify.datalayer')
 const messengerChatbotDataLayer = require('../chatbots/chatbots.datalayer')
 const whatsAppChatbotDataLayer = require('../whatsAppChatbot/whatsAppChatbot.datalayer')
 const messageBlockDataLayer = require('../messageBlock/messageBlock.datalayer')
+const messageLogsDataLayer = require('./../superNumber/superNumberMessageLogs.datalayer')
 const EcommerceProviders = require('./../ecommerceProvidersApiLayer/EcommerceProvidersApiLayer.js')
 const commerceConstants = require('./../ecommerceProvidersApiLayer/constants')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
@@ -150,6 +151,7 @@ function registerWebhooks (shop, token) {
     format: 'json'
   }).then((response) => {
   }).catch((err) => {
+    console.log('in catch1', err)
     const message = err || 'Error Creating Shopify Create Checkout Webhook'
     logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
   })
@@ -160,6 +162,7 @@ function registerWebhooks (shop, token) {
     format: 'json'
   }).then((response) => {
   }).catch((err) => {
+    console.log('in catch2', err)
     const message = err || 'Error Creating Shopify update Checkout Webhook'
     logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
   })
@@ -170,6 +173,7 @@ function registerWebhooks (shop, token) {
     format: 'json'
   }).then((response) => {
   }).catch((err) => {
+    console.log('in catch3', err)
     const message = err || 'Error Creating Shopify update fulfillment Webhook'
     logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
   })
@@ -180,6 +184,7 @@ function registerWebhooks (shop, token) {
     format: 'json'
   }).then((response) => {
   }).catch((err) => {
+    console.log('in catch4', err)
     const message = err || 'Error Creating Shopify create fulfillment Webhook'
     logger.serverLog(message, `${TAG}: exports.registerWebhooks`, {}, {shop}, 'error')
   })
@@ -187,7 +192,7 @@ function registerWebhooks (shop, token) {
 
 exports.handleCreateCheckout = async function (req, res) {
   try {
-    logger.serverLog('handleCreateCheckout', `${TAG}: exports.handleCreateCheckout`, req.body, {header: req.header})
+    console.log('handleCreateCheckout', JSON.stringify(req.body))
     sendSuccessResponse(res, 200, {status: 'success'})
     if (req.body.customer && req.body.phone) {
       const shopUrl = req.headers['x-shopify-shop-domain']
@@ -233,7 +238,7 @@ exports.handleCreateCheckout = async function (req, res) {
 
 exports.handleCompleteCheckout = async function (req, res) {
   try {
-    logger.serverLog('handleCompleteCheckout', `${TAG}: exports.handleCompleteCheckout`, req.body, {header: req.header})
+    console.log('handleCompleteCheckout', JSON.stringify(req.body))
     sendSuccessResponse(res, 200, {status: 'success'})
     if (req.body.customer) {
       const shopUrl = req.headers['x-shopify-shop-domain']
@@ -450,6 +455,7 @@ exports.handleFulfillment = async function (req, res) {
 }
 
 exports.handleAppUninstall = async function (req, res) {
+  console.log('shopify handleAppUninstall')
   const shopUrl = req.header('X-Shopify-Shop-Domain')
   try {
     const shopifyIntegration = await dataLayer.findOneShopifyIntegration({ shopUrl: shopUrl })
@@ -459,7 +465,15 @@ exports.handleAppUninstall = async function (req, res) {
       userId: shopifyIntegration.userId,
       companyId: shopifyIntegration.companyId
     })
-
+    require('../../../config/socketio').sendMessageToClient({
+      room_id: shopifyIntegration.companyId,
+      body: {
+        action: 'shopify-uninstall',
+        payload: {
+          shopifyIntegration
+        }
+      }
+    })
     const messengerChatbots = await messengerChatbotDataLayer.findAllChatBots({
       type: 'automated',
       vertical: 'commerce',
