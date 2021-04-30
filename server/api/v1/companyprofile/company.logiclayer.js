@@ -78,3 +78,49 @@ exports.prepareCompanyUsagePayload = function (company, body) {
   }
   return data
 }
+
+exports.prepareCompanyUsagePayloadForFb = function (company, body) {
+  let data = {
+    companyId: company._id,
+    platform: body.platform,
+    broadcasts: 0,
+    surveys: 0,
+    polls: 0,
+    broadcast_templates: 0,
+    survey_templates: 0,
+    polls_templates: 0,
+    chat_messages: 0,
+    facebook_pages: 0,
+    bots: 0,
+    subscribers: 0,
+    phone_invitation: 0,
+    facebook_autoposting: 0,
+    twitter_autoposting: 0,
+    wordpress_autoposting: 0,
+    broadcast_sequences: 0,
+    messages_per_sequence: 0,
+    messages: 0,
+    segmentation_lists: 0,
+    custom_fields: 0,
+    tags: 0,
+    tags_per_subscriber: 0,
+    template_categories: 0,
+    rss_feeds: 0,
+    news_integration_feeds: 0,
+    broadcast_levels: 0,
+    comment_capture_rules: 0,
+    messenger_codes: 0,
+    landing_pages: 0,
+    json_ads: 0,
+    messenger_ref_urls: 0,
+    overlay_widgets: 0,
+    members: 0,
+    teams: 0,
+    external_integrations: 0,
+    intents_per_bot: 0,
+    sponsored_broadcasts: 0,
+    chatbot_automation: 0,
+    chatbot_automation_levels: 0
+  }
+  return data
+}

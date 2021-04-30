@@ -69,6 +69,12 @@ router.post('/configureSMS',
   validate({body: validationSchema.configureSMS}),
   controller.configureSMS)
 
+router.post('/configureFacebook',
+  auth.isAuthenticated(),
+  auth.isSuperUserActingAsCustomer('write'),
+  validate({body: validationSchema.configureFacebook}),
+  controller.configureFacebook)
+
 router.post('/updatePlatformWhatsApp',
   auth.isAuthenticated(),
   auth.isSuperUserActingAsCustomer('write'),
