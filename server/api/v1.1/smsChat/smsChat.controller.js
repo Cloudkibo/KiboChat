@@ -6,6 +6,8 @@ const async = require('async')
 const { sendSuccessResponse, sendErrorResponse } = require('../../global/response')
 const { record } = require('../../global/messageStatistics')
 const { incrementCompanyUsageMessage, fetchUsages } = require('../utility/miscApiCalls.controller')
+const { smsMapper } = require('../../../smsMapper')
+const { ActionTypes } = require('../../../smsMapper/constants')
 
 exports.index = function (req, res) {
   if (req.params.contactId) {
@@ -73,17 +75,13 @@ exports.create = function (req, res) {
           if (companyUsage.messages >= planUsage.messages) {
             sendErrorResponse(res, 500, '', `You have consumed the resources for current billing cycle. So, you won't be able to send any more messages. Your resources will be reset starting next billing cycle`)
           } else {
-            let accountSid = companyUser.companyId.sms.accountSID
-            let authToken = companyUser.companyId.sms.authToken
-            let client = require('twilio')(accountSid, authToken)
-            record('smsChatOutGoing')
-            client.messages
-              .create({
-                body: req.body.payload.text,
-                from: req.body.senderNumber,
-                to: req.body.recipientNumber
-              })
+            smsMapper(companyUser.companyId.sms.provider, ActionTypes.SEND_TEXT_MESSAGE, {
+              text: req.body.payload.text,
+              company: companyUser.companyId,
+              subscriber: {number: req.body.recipientNumber}
+            })
               .then(response => {
+                record('smsChatOutGoing')
                 incrementCompanyUsageMessage(req.user.companyId, 'sms', 1)
                 let MessageObject = logicLayer.prepareChat(req.body, companyUser)
                 async.parallelLimit([

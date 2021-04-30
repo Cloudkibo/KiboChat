@@ -18,22 +18,40 @@ exports.invitePayload = {
 }
 exports.connectSMS = {
   'type': 'object',
-  'properties': {
-    twilio: {
-      type: 'object',
-      properties: {
-        provider: {
-          type: 'string',
-          required: true
-        },
-        businessNumber: {
-          type: 'string',
-          required: true
-        }
-      }
+  properties: {
+    provider: {
+      type: 'string',
+      required: true
+    },
+    businessNumber: {
+      type: 'string',
+      required: true
     }
   }
 }
+
+exports.configureSMS = {
+  'type': 'object',
+  'properties': {
+    'planId': { 'type': 'string' },
+    'planUniqueId': { 'type': 'string' },
+    'stripeToken': { 'type': 'string' },
+    'platform': { 'type': 'string' },
+    'numberDetails': {
+      'type': 'object',
+      'properties': {
+        'type': {
+          'type': 'string',
+          'enum': ['new', 'existing']
+        },
+        'number': { 'type': 'string' },
+        'siteId': { 'type': 'number' }
+      }
+    }
+  },
+  'required': ['planId', 'stripeToken', 'platform']
+}
+
 exports.fetchValidCallerIds = {
   'type': 'object',
   'properties': {

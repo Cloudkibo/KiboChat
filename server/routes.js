@@ -87,6 +87,8 @@ module.exports = function (app) {
   app.use('/api/dialogflow', require('./api/v1.1/dialogflow'))
   app.use('/api/plans', require('./api/v1.1/plans'))
   app.use('/api/featureUsage', require('./api/v1.1/featureUsage'))
+  app.use('/api/smsEvents', require('./api/v1.1/smsEvents'))
+
   // auth middleware go here if you authenticate on same server
 
   app.get('/invoices/:shopId/:fileName', (req, res) => {

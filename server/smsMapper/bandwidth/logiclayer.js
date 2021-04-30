@@ -2,7 +2,7 @@ const { _appendOptions } = require('../twilio/logiclayer')
 
 exports.prepareChatbotPayload = (company, subscriber, data, options) => {
   let message = {
-    applicationId: company.sms.appId,
+    applicationId: data.appId,
     to: [subscriber.number],
     from: company.sms.businessNumber
   }
@@ -16,4 +16,18 @@ exports.prepareChatbotPayload = (company, subscriber, data, options) => {
     }
     resolve(message)
   })
+}
+exports.preparePortinPayload = (body) => {
+  let data = {
+    siteId: body.siteId,
+    peerId: body.peerId,
+    billingTelephoneNumber: body.businessNumber,
+    subscriber: body.subscriber,
+    loaAuthorizingPerson: body.loaAuthorizingPerson,
+    listOfPhoneNumbers: {
+      phoneNumber: body.businessNumber
+    },
+    billingType: 'PORTIN'
+  }
+  return data
 }

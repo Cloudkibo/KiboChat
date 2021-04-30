@@ -88,7 +88,7 @@ exports.sendTextMessage = ({text, company, subscriber}) => {
     const client = twilioClient(company)
     client.messages.create({
       body: text,
-      from: company.number,
+      from: company.sms.businessNumber,
       to: subscriber.number
     })
       .then(res => {
@@ -115,6 +115,24 @@ exports.sendMediaMessage = ({text, mediaUrl, company, subscriber}) => {
       .catch(err => {
         reject(err)
       })
+  })
+}
+
+exports.createOrder = ({company, body}) => {
+  return new Promise(async (resolve, reject) => {
+    resolve()
+  })
+}
+
+exports.fetchAvailableNumbers = ({query}) => {
+  return new Promise(async (resolve, reject) => {
+    resolve([])
+  })
+}
+
+exports.portNumber = (body) => {
+  return new Promise(async (resolve, reject) => {
+    resolve()
   })
 }
 

@@ -1,6 +1,6 @@
 exports.prepareChatbotPayload = (company, subscriber, data, options) => {
   let message = {
-    from: company.number,
+    from: company.sms.businessNumber,
     to: subscriber.number
   }
   return new Promise((resolve, reject) => {

@@ -195,6 +195,8 @@ exports.connectSMS = async function (req, res) {
     if (!companyprofile[0]) {
       await smsMapper(req.body.provider, smsActionTypes.ActionTypes.VERIFY_CREDENTIALS, req.body)
       await smsMapper(req.body.provider, smsActionTypes.ActionTypes.SET_WEBHOOK, req.body)
+      req.body['accountStatus'] = 'pending'
+      req.body['accountType'] = 'user'
       await utility.callApi(`companyprofile/update`, 'put', {
         query: {_id: req.user.companyId},
         newPayload: {
@@ -764,27 +766,55 @@ exports.setBusinessHours = function (req, res) {
     })
 }
 exports.fetchAvailableNumbers = function (req, res) {
-  utility.callApi(`companyProfile/query`, 'post', { _id: req.user.companyId })
-    .then(companyProfile => {
-      if (companyProfile && companyProfile.sms) {
-        smsMapper(companyProfile.sms.provider, smsActionTypes.ActionTypes.FETCH_AVAILABLE_NUMBERS, {
-          company: companyProfile,
-          query: req.body})
-          .then(numbers => {
-            sendSuccessResponse(res, 200, numbers)
-          })
-          .catch(err => {
-            const message = err || 'Failed to fetch numbers'
-            logger.serverLog(message, `${TAG}: exports.fetchAvailableNumbers`, req.body, {user: req.user}, 'error')
-            sendErrorResponse(res, 500, err, 'Failed to fetch available numbers')
-          })
-      } else {
-        sendErrorResponse(res, 500, '', 'SMS platform not connected')
-      }
+  smsMapper('bandwidth', smsActionTypes.ActionTypes.FETCH_AVAILABLE_NUMBERS, {query: req.body})
+    .then(numbers => {
+      sendSuccessResponse(res, 200, numbers)
     })
     .catch(err => {
-      const message = err || 'Failed to fetch company'
+      const message = err || 'Failed to fetch numbers'
       logger.serverLog(message, `${TAG}: exports.fetchAvailableNumbers`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err, 'Failed to fetch available numbers')
+    })
+}
+
+exports.configureSMS = function (req, res) {
+  const setCard = utility.callApi('companyprofile/setCard', 'post', {stripeToken: req.body.stripeToken, companyId: req.user.companyId})
+  const getCompany = utility.callApi(`companyProfile/query`, 'post', { _id: req.user.companyId })
+  const companyUsers = utility.callApi(`companyUser/queryAll`, 'post', {companyId: req.user.companyId})
+
+  Promise.all([getCompany, setCard, companyUsers])
+    .then(result => {
+      const company = result[0]
+      const userIds = result[2].map((item) => item.userId._id)
+      const payload = logicLayer.prepareSmsConfigurationPayload(req.body, company)
+      const companyUsagePayload = logicLayer.prepareCompanyUsagePayload(company, req.body)
+
+      const configureSms = utility.callApi(`companyprofile/update`, 'put', {query: {_id: req.user.companyId}, newPayload: payload, options: {}})
+      const setUserPlatform = utility.callApi(`user/update`, 'post', {query: {_id: {$in: userIds}}, newPayload: { $set: {platform: req.body.platform} }, options: {multi: true}})
+      const createCompanyUsage = utility.callApi('featureUsage/createCompanyUsage', 'post', companyUsagePayload)
+
+      let requests = [configureSms, setUserPlatform, createCompanyUsage]
+
+      if (req.body.numberDetails && req.body.numberDetails.type === 'new') {
+        const purchaseNumber = smsMapper('bandwidth', smsActionTypes.CREATE_ORDER, {company, body: {siteId: req.body.siteId, number: req.body.numberDetails.number}})
+        requests.push(purchaseNumber)
+      } else if (req.body.numberDetails && req.body.numberDetails.type === 'existing') {
+        // call port routing mapper function
+      }
+
+      Promise.all(requests)
+        .then(done => {
+          sendSuccessResponse(res, 200, null, 'Information save successfully')
+        })
+        .catch(err => {
+          const message = err || 'Failed to configure sms'
+          logger.serverLog(message, `${TAG}: exports.configureSMS`, req.body, {user: req.user}, 'error')
+          sendErrorResponse(res, 500, err, 'Failed to configure SMS')
+        })
+    })
+    .catch(err => {
+      const message = err || 'Failed to configure sms'
+      logger.serverLog(message, `${TAG}: exports.configureSMS`, req.body, {user: req.user}, 'error')
+      sendErrorResponse(res, 500, err, 'Failed to configure sms')
     })
 }
