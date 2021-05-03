@@ -52,6 +52,17 @@ exports.configureSMS = {
   'required': ['planId', 'stripeToken', 'platform']
 }
 
+exports.configureFacebook = {
+  'type': 'object',
+  'properties': {
+    'planId': { 'type': 'string' },
+    'planUniqueId': { 'type': 'string' },
+    'stripeToken': { 'type': 'string' },
+    'platform': { 'type': 'string' }
+  },
+  'required': ['planId', 'stripeToken', 'platform']
+}
+
 exports.fetchValidCallerIds = {
   'type': 'object',
   'properties': {

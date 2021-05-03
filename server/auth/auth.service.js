@@ -438,16 +438,16 @@ function fbConnectDone (req, res) {
 
 // eslint-disable-next-line no-unused-vars
 function isAuthorizedWebHookTrigger (req, res, next) {
-  /*const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
+  /* const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
     req.socket.remoteAddress || req.connection.socket.remoteAddress
   // We need to change it to based on the requestee app
   if (config.allowedIps.indexOf(ip) > -1) next()
-  else res.send(403)*/
+  else res.send(403) */
 }
 
 function isItWebhookServer () {
   return compose().use((req, res, next) => {
-    /*const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
+    /* const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||
       req.socket.remoteAddress || req.connection.socket.remoteAddress
 
     if (config.env === 'development') {
@@ -455,7 +455,7 @@ function isItWebhookServer () {
     } else {
       if (ip === '::ffff:' + config.webhook_ip) next()
       else res.send(403)
-    }*/
+    } */
     next()
   })
 }
