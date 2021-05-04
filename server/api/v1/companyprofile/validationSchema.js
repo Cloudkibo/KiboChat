@@ -60,7 +60,7 @@ exports.configureFacebook = {
     'stripeToken': { 'type': 'string' },
     'platform': { 'type': 'string' }
   },
-  'required': ['planId', 'stripeToken', 'platform']
+  'required': ['planId', 'platform']
 }
 
 exports.fetchValidCallerIds = {
