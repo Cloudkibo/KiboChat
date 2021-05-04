@@ -820,20 +820,26 @@ exports.configureSMS = function (req, res) {
 }
 
 exports.configureFacebook = function (req, res) {
-  const setCard = utility.callApi('companyprofile/setCard', 'post', {stripeToken: req.body.stripeToken, companyId: req.user.companyId})
   const getCompany = utility.callApi(`companyProfile/query`, 'post', { _id: req.user.companyId })
   const companyUsers = utility.callApi(`companyUser/queryAll`, 'post', {companyId: req.user.companyId})
 
-  Promise.all([getCompany, setCard, companyUsers])
+  let requests = [getCompany, companyUsers]
+
+  if (req.body.stripeToken) {
+    const setCard = utility.callApi('companyprofile/setCard', 'post', {stripeToken: req.body.stripeToken, companyId: req.user.companyId})
+    requests.push(setCard)
+  }
+
+  Promise.all(requests)
     .then(result => {
       const company = result[0]
-      const userIds = result[2].map((item) => item.userId._id)
+      const userIds = result[1].map((item) => item.userId._id)
       const companyUsagePayload = logicLayer.prepareCompanyUsagePayloadForFb(company, req.body)
 
       const setUserPlatform = utility.callApi(`user/update`, 'post', {query: {_id: {$in: userIds}}, newPayload: { $set: {platform: req.body.platform} }, options: {multi: true}})
       const createCompanyUsage = utility.callApi('featureUsage/createCompanyUsage', 'post', companyUsagePayload)
 
-      let requests = [setUserPlatform, createCompanyUsage]
+      requests = [setUserPlatform, createCompanyUsage]
 
       Promise.all(requests)
         .then(done => {
