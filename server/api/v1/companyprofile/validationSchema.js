@@ -49,7 +49,19 @@ exports.configureSMS = {
       }
     }
   },
-  'required': ['planId', 'stripeToken', 'platform']
+  'required': ['planId', 'platform']
+}
+
+exports.configureWhatsApp = {
+  'type': 'object',
+  'properties': {
+    'planId': { 'type': 'string' },
+    'planUniqueId': { 'type': 'string' },
+    'stripeToken': { 'type': 'string' },
+    'platform': { 'type': 'string' },
+    'whatsApp': { 'type': 'object' }
+  },
+  'required': ['planId', 'planUniqueId', 'platform', 'whatsApp']
 }
 
 exports.configureFacebook = {

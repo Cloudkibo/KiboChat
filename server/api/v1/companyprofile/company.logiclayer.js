@@ -66,6 +66,17 @@ exports.prepareSmsConfigurationPayload = function (body, company) {
   return data
 }
 
+exports.prepareWhatsAppConfigurationPayload = function (body, company) {
+  let data = {}
+  data.purchasedPlans = company.purchasedPlans || {}
+  data.purchasedPlans[body.platform] = body.planId
+  data.planId = body.planId
+  if (body.whatsApp) {
+    data.whatsApp = body.whatsApp
+  }
+  return data
+}
+
 exports.prepareCompanyUsagePayload = function (company, body) {
   let data = {
     companyId: company._id,
