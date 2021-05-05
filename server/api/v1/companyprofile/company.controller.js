@@ -778,14 +778,20 @@ exports.fetchAvailableNumbers = function (req, res) {
 }
 
 exports.configureSMS = function (req, res) {
-  const setCard = utility.callApi('companyprofile/setCard', 'post', {stripeToken: req.body.stripeToken, companyId: req.user.companyId})
   const getCompany = utility.callApi(`companyProfile/query`, 'post', { _id: req.user.companyId })
   const companyUsers = utility.callApi(`companyUser/queryAll`, 'post', {companyId: req.user.companyId})
 
-  Promise.all([getCompany, setCard, companyUsers])
+  let requests = [getCompany, companyUsers]
+
+  if (req.body.stripeToken) {
+    const setCard = utility.callApi('companyprofile/setCard', 'post', {stripeToken: req.body.stripeToken, companyId: req.user.companyId})
+    requests.push(setCard)
+  }
+
+  Promise.all(requests)
     .then(result => {
       const company = result[0]
-      const userIds = result[2].map((item) => item.userId._id)
+      const userIds = result[1].map((item) => item.userId._id)
       const payload = logicLayer.prepareSmsConfigurationPayload(req.body, company)
       const companyUsagePayload = logicLayer.prepareCompanyUsagePayload(company, req.body)
 
@@ -793,7 +799,7 @@ exports.configureSMS = function (req, res) {
       const setUserPlatform = utility.callApi(`user/update`, 'post', {query: {_id: {$in: userIds}}, newPayload: { $set: {platform: req.body.platform} }, options: {multi: true}})
       const createCompanyUsage = utility.callApi('featureUsage/createCompanyUsage', 'post', companyUsagePayload)
 
-      let requests = [configureSms, setUserPlatform, createCompanyUsage]
+      requests = [configureSms, setUserPlatform, createCompanyUsage]
 
       if (req.body.numberDetails && req.body.numberDetails.type === 'new') {
         const purchaseNumber = smsMapper('bandwidth', smsActionTypes.CREATE_ORDER, {company, body: {siteId: req.body.siteId, number: req.body.numberDetails.number}})
@@ -816,6 +822,47 @@ exports.configureSMS = function (req, res) {
       const message = err || 'Failed to configure sms'
       logger.serverLog(message, `${TAG}: exports.configureSMS`, req.body, {user: req.user}, 'error')
       sendErrorResponse(res, 500, err, 'Failed to configure sms')
+    })
+}
+
+exports.configureWhatsApp = function (req, res) {
+  const getCompany = utility.callApi(`companyProfile/query`, 'post', { _id: req.user.companyId })
+  const companyUsers = utility.callApi(`companyUser/queryAll`, 'post', {companyId: req.user.companyId})
+
+  let requests = [getCompany, companyUsers]
+
+  if (req.body.stripeToken) {
+    const setCard = utility.callApi('companyprofile/setCard', 'post', {stripeToken: req.body.stripeToken, companyId: req.user.companyId})
+    requests.push(setCard)
+  }
+
+  Promise.all(requests)
+    .then(result => {
+      const company = result[0]
+      const userIds = result[1].map((item) => item.userId._id)
+      const payload = logicLayer.prepareWhatsAppConfigurationPayload(req.body, company)
+      const companyUsagePayload = logicLayer.prepareCompanyUsagePayload(company, req.body)
+
+      const configureWhatsApp = utility.callApi(`companyprofile/update`, 'put', {query: {_id: req.user.companyId}, newPayload: payload, options: {}})
+      const setUserPlatform = utility.callApi(`user/update`, 'post', {query: {_id: {$in: userIds}}, newPayload: { $set: {platform: req.body.platform} }, options: {multi: true}})
+      const createCompanyUsage = utility.callApi('featureUsage/createCompanyUsage', 'post', companyUsagePayload)
+
+      requests = [configureWhatsApp, setUserPlatform, createCompanyUsage]
+
+      Promise.all(requests)
+        .then(done => {
+          sendSuccessResponse(res, 200, null, 'Information save successfully')
+        })
+        .catch(err => {
+          const message = err || 'Failed to configure whatsapp'
+          logger.serverLog(message, `${TAG}: exports.configureWhatsApp`, req.body, {user: req.user}, 'error')
+          sendErrorResponse(res, 500, err, 'Failed to configure WhatsApp')
+        })
+    })
+    .catch(err => {
+      const message = err || 'Failed to configure whatsApp'
+      logger.serverLog(message, `${TAG}: exports.configureWhatsApp`, req.body, {user: req.user}, 'error')
+      sendErrorResponse(res, 500, err, 'Failed to configure WhatsApp')
     })
 }
 
