@@ -96,7 +96,11 @@ function isAuthenticated () {
             .then(companyProfileGot => {
               req.user.currentPlan = companyProfileGot.planId
               req.user.last4 = companyProfileGot.stripe.last4
-              return apiCaller.callApi('permissions_plan/query', 'post', {plan_id: companyProfileGot.planId._id})
+              if (companyProfileGot.planId) {
+                return apiCaller.callApi('permissions_plan/query', 'post', {plan_id: companyProfileGot.planId._id})
+              } else {
+                return null
+              }
             })
             .then(permissionsPlan => {
               req.user.plan = permissionsPlan
