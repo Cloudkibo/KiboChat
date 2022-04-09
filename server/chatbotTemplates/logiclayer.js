@@ -256,13 +256,78 @@ exports.findFaqTopics = function (automationResponse, chatbot) {
         code: `${i}`,
         label: topic,
         event: automationResponse.event,
-        id: topic
+        id: i
       }
     }
     automationResponse.options = options
   } else {
     automationResponse.text += `Please contact our support agents for any questions you have.`
   }
+  return automationResponse
+}
+
+exports.findFaqTopicQuestions = function (automationResponse, selectedOption, chatbot) {
+  let options = []
+  if (chatbot.faqs[selectedOption.code] && chatbot.faqs[selectedOption.code].questions) {
+    let questionsLength = chatbot.faqs[selectedOption.code].questions.length
+    if (selectedOption.viewMore) { // check this
+      let remainingQuestions = questionsLength - selectedOption.questionIndex
+      let length = remainingQuestions > 10 ? selectedOption.questionIndex + 9 : questionsLength
+      for (let i = selectedOption.questionIndex; i < length; i++) {
+        const question = chatbot.faqs[selectedOption.topicIndex].questions[i].question
+        options[i] = {
+          code: `${i}`,
+          label: question,
+          event: automationResponse.event,
+          id: question
+        }
+      }
+      if (remainingQuestions > 10) {
+        options[length] = {
+          code: `${length}`,
+          label: 'View More Questions',
+          event: automationResponse.event,
+          id: 'View More Questions'
+        }
+      }
+    } else {
+      automationResponse.text = `*${selectedOption.label}*\n\n${automationResponse.text}`
+      let length = questionsLength <= 10 ? questionsLength : 9
+      for (let i = 0; i < length; i++) {
+        const question = chatbot.faqs[selectedOption.code].questions[i].question
+        options[i] = {
+          code: `${i}`,
+          label: question,
+          event: automationResponse.event,
+          id: selectedOption.code
+        }
+      }
+      if (questionsLength > 10) {
+        options[length] = {
+          code: `${length}`,
+          label: 'View More Questions',
+          event: automationResponse.event,
+          id: 'View More Questions'
+        }
+      }
+    }
+    automationResponse.options = options
+  } else {
+    automationResponse.text += `Please contact our support agents for any questions you have.`
+  }
+  return automationResponse
+}
+
+exports.findFaqQuestionAnswer = async function (automationResponse, selectedOption, chatbot) {
+  const question = chatbot.faqs[selectedOption.id].questions[selectedOption.code].question
+  let answer = chatbot.faqs[selectedOption.id].questions[selectedOption.code].answer
+  if (answer.includes('{{storeName}}')) {
+    const Provider = await initializeProvider(chatbot)
+    const storeInfo = await Provider.fetchStoreInfo()
+    answer = answer.replace(/{{storeName}}/g, storeInfo.name)
+  }
+  automationResponse.text = `*${question}*`
+  automationResponse.text += `\n\n${answer}`
   return automationResponse
 }
 

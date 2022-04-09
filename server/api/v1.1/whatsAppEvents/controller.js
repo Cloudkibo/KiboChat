@@ -671,7 +671,6 @@ async function getAllChatbots (company) {
   sqlChatbots = sqlChatbots.map(chatbot => {
     return {botId: chatbot.chatbotId, built: 'custom', ...chatbot}
   })
-
   const allChatbots = [...sqlChatbots, ...chatbots]
   return allChatbots
 }

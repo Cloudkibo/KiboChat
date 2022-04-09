@@ -98,8 +98,6 @@ function prepareResponse (chatbot, subscriber, automationResponse, selectedOptio
 
     response[response.length - 1].quickReplies = quickReplies
 
-    console.log('final payload', response)
-
     resolve({payload: response})
   })
 }

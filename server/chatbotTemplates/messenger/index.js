@@ -64,7 +64,7 @@ function processEvent (event) {
     data = {
       type: 'quick_reply',
       selectedOption: {
-        label: quickReply.text,
+        label: event.message.text,
         ...JSON.parse(quickReply.payload)
       }
     }

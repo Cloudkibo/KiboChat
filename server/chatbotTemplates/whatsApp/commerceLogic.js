@@ -9,6 +9,8 @@ const {
   getValidateResponse,
   initializeProvider,
   findFaqTopics,
+  findFaqTopicQuestions,
+  findFaqQuestionAnswer,
   proceedToCheckout,
   getPdfInvoice,
   viewCatalog,
@@ -113,6 +115,12 @@ exports.callApi = function (automationResponse, selectedOption, chatbot, subscri
           break
         case 'GET_SHOW_FAQ_TOPICS':
           response = findFaqTopics(automationResponse, chatbot)
+          break
+        case 'GET_FAQ_TOPIC-QUESTIONS':
+          response = findFaqTopicQuestions(automationResponse, selectedOption, chatbot)
+          break
+        case 'GET_FAQ_QUESTION_ANSWER':
+          response = findFaqQuestionAnswer(automationResponse, selectedOption, chatbot)
           break
         case 'CANCEL_ORDER':
           response = await cancelOrder(Provider, automationResponse, selectedOption, chatbot)
